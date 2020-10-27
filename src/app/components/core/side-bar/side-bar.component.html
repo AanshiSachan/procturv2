@@ -125,13 +125,12 @@
                                 Password</span>
                         </div>
                     </div>
-                    <div style="font-size: 14px;">
+                    <div *ngIf="isMainBranch == 'Y' && checkAdmin" style="font-size: 14px;">
                         BRANCHES
                     </div>
                     <div *ngIf="isMainBranch == 'Y' && checkAdmin" style="border-bottom: 1px solid lightgrey;">
                         <div class="side-section-item" *ngFor="let data of branchesList">
-                            <span style="font-size: 13px;font-weight: 100;"
-                                (click)="onSubBranchClick(data)">{{data.institute_name}}</span>
+                            <span class="dropSize" (click)=" onSubBranchClick(data)">{{data.institute_name}}</span>
                         </div>
                     </div>
                     <div style="    
@@ -268,9 +267,11 @@
             <img src="./assets/images/sidebar/newSideMenu/institute.svg" style="height: 44px;" />
             <div class="institute-name-container">
                 <span>{{instituteName}}</span>
-                <span style="font-weight: 100;"><br> {{globalSearchForm.instituteId}}</span>
+                <span style="font-weight: 100;color: grey;font-size: 13px;"><br>
+                    ID- {{globalSearchForm.instituteId}}</span>
             </div>
         </section>
+        <hr>
         <ul>
             <li (click)="toggler('lizero')">
                 <img src="./assets/images/sidebar/newSideMenu/home.svg" alt="" class="sideBar_centerAlign"
@@ -290,8 +291,12 @@
                     <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
                         <a routerLink="/view/leads/add"><span>Add Enquiry</span></a>
                     </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
-                        <a routerLink="/view/leads/setup"><span>Add Closing Reason</span></a>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
+                        <a routerLink="/view/leads/enquiry"><span>Manage Enquiry</span></a>
+                    </li>
+
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                        <a routerLink="/view/leads/enquiryReport/counsellor"><span>Enquiry Report</span></a>
                     </li>
                     <li class="subMenu">
                         <a routerLink="/view/leads/campaign"><span>Add Campaign</span></a>
@@ -299,14 +304,12 @@
                     <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign ">
                         <a routerLink="/view/leads/manage-campaign"><span>Manage Campaign</span></a>
                     </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
-                        <a routerLink="/view/leads/enquiry"><span>Manage Enquiry</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
-                        <a routerLink="/view/leads/enquiryReport/counsellor"><span>Enquiry Report</span></a>
-                    </li>
+
                     <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
                         <a routerLink="/view/leads/campaign-reports/sms-report"><span>Campaign Report</span></a>
+                    </li>
+                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
+                        <a routerLink="/view/leads/setup"><span>Add Closing Reason</span></a>
                     </li>
                 </ul>
             </li>
@@ -381,7 +384,7 @@
                         <a routerLink="/view/batch/file-manager/drive"><span>File/Doc. Manager</span></a>
                     </li>
                     <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnslineAssignment ">
-                        <a routerLink=""><span>Online Assignment</span></a>
+                        <a routerLink="/view/course/online-assignment"><span>Online Assignment</span></a>
                     </li>
                     <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
                         <a routerLink="/view/batch/coursePlanner/class"><span>Class/Exam Planner</span></a>
@@ -411,15 +414,17 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 16%;">
+                    <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
+                        <a routerLink="/view/fee/monitoring-dashboard/home"><span>Monitoring Dashboard</span></a>
+                    </li>
                     <li class="subMenu">
                         <a routerLink="/view/fee/data-setup"><span>Data Setup</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
-                        <a routerLink="/view/fee/cheque"><span>Manage Cheque</span></a>
                     </li>
                     <li class="subMenu">
                         <a routerLink="/view/fee/allDueReport"><span>Fee Dues</span></a>
                     </li>
+
+
                     <li class="subMenu">
                         <a routerLink="/view/fee/moduleReport"><span>{{jsonFeesFlags.moduleState}} wise
                                 Report</span></a>
@@ -427,14 +432,15 @@
                     <li class="subMenu">
                         <a routerLink="/view/fee/paymentHistory"><span>Payment History</span></a>
                     </li>
-                    <li class="subMenu" *ngIf="is_tax_enabled=='1'">
-                        <a routerLink="/view/fee/gst"><span>{{tax_type_without_percentage}} Report</span></a>
+                    <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
+                        <a routerLink="/view/fee/cheque"><span>Manage Cheque</span></a>
                     </li>
+
                     <li class="subMenu" *ngIf="enable_online_payment == 1">
                         <a routerLink="/view/fee/onlinePayment"><span>Online Fee Collection</span></a>
                     </li>
-                    <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
-                        <a routerLink="/view/fee/monitoring-dashboard/home"><span>Monitoring Dashboard</span></a>
+                    <li class="subMenu" *ngIf="is_tax_enabled=='1'">
+                        <a routerLink="/view/fee/gst"><span>{{tax_type_without_percentage}} Report</span></a>
                     </li>
 
                     <li class="subMenu hide">
@@ -548,9 +554,9 @@
         <div class="proctur-info" style="    position: fixed;">
             <a href="https://www.proctur.com/" target="_blank"><img src="./assets/images/sidebar/sideMenu/logo.png"
                     alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
-                    style="font-size: 12px;margin-left: -11px;    font-weight: 100;">Powered
+                    style="font-size: 12px;margin-left: -11px;font-weight: 100;color: grey;">Powered
                     by
-                    <strong style="font-weight: bold;">Proctur 4.0</strong></span> </a>
+                    <strong style="font-weight: bold;color: #0084f6;">Proctur 4.0</strong></span> </a>
         </div>
     </div>
 

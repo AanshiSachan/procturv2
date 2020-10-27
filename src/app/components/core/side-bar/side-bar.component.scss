@@ -20,7 +20,7 @@
     width: 100%;
     justify-content: space-between;
     padding: 5px 10px;
-    border-bottom: 1px solid #b4b6bd;
+    // border-bottom: 1px solid #b4b6bd;
     // .institute-logo-container{
     //   width: 30%;
     // }
@@ -30,6 +30,8 @@
         color: black;
         line-height: 20px;
         font-size: 14px;
+        text-align: left !important;
+        margin-left: 9px;
         font-weight: bolder;
     }
 }
@@ -385,7 +387,7 @@
 }
 
 .dropSize{
-    font-weight: 100 !important;
+    font-weight: 400 !important;
     font-size: 13px !important;
 }
 @-webkit-keyframes slideInLeft {
@@ -516,7 +518,7 @@ sup {
         border-radius: 4px;
         padding: 5px;
         font-size: small;
-        background: #7777772e;
+        background: #f4f5f7;
         width: 61%;
     }
 }
@@ -575,7 +577,9 @@ input{
         outline-offset: none;
     }
     a:hover{
-        border-radius: 75%;
+        border-radius: 90%;
+        padding-left: 2px !important;
+        padding-bottom: 2px !important;
     }
 .hoverColor:hover{
     opacity: 1;
@@ -615,7 +619,8 @@ input{
   background-color:white; 
   overflow-x: hidden; 
   padding-top: 20px;
-  box-shadow: 0 3px 6px #6969
+//   box-shadow: 0 3px 6px #696969;
+  box-shadow: 0px -1px 5px 0px #6969697a;
 }
 .menu ul {
     list-style: none;
@@ -660,7 +665,7 @@ input{
 }
 a span{
     padding-left: 7px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
 
 }
@@ -688,7 +693,8 @@ a span{
 }
 
 .mattoolbar{
-    position: fixed;margin-left: -23px;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;box-shadow: 16px -1px 5px 0px #696969;
+    position: fixed;margin-left: -22px;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;
+    // box-shadow: 4px -1px 5px 0px #696969;
 }
 .mat-button img{
     width: 44%;
@@ -726,4 +732,13 @@ a span{
     color: white;
     border-radius: 4px;
     background: #ff5c33;
+}
+hr{
+        
+    border: 0;
+    border-top: 1px solid #C4C4C4;
+    margin-left: 6%;
+    margin-right: 6%;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }

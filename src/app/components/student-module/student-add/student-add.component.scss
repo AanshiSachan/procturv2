@@ -1684,7 +1684,7 @@ input[type=number]::-webkit-outer-spin-button {
         cursor: pointer;
         position: relative;
         z-index: 1;
-        background: transparent;
+        background: white;
       }
 
       &:after {
@@ -3056,7 +3056,8 @@ input[type=number]::-webkit-outer-spin-button {
   bottom: 0;
   width: 87%;
   left: 12%;
-  background: white;
+  // background: white;
+  background: #f4f5f7;
   padding: 10px;
   border-top: 1px solid rgba(10, 10, 10, 0.3);
   /* margin-top: 10px; */
