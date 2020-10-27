@@ -665,8 +665,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     let examDeskCheck = this.checkInstSetupType(sessionStorage.getItem('inst_set_up'), 4)
     if (examDeskCheck != 'false') {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
-    }
-    else {
+    } else if(sessionStorage.getItem('enable_eLearn_feature') == '1') {
+      window.location.href = this.baseUrl + "/member/dashboard.html#/ElearnDashboard";
+    } else {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Documents";
     }
 
