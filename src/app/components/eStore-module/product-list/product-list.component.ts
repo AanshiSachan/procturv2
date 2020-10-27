@@ -686,9 +686,7 @@ export class ProductListComponent implements OnInit {
       document.removeEventListener('copy', null);
     });
     document.execCommand('copy');
-    item.showMessage = true;
-    window.setTimeout(function () {
-      item.showMessage = false;
-    }, 1500);
+    this.msgService.showErrorMessage('success', 'Copied to Clipboard', '');
+
   }
 }

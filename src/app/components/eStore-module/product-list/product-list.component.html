@@ -152,10 +152,8 @@
                   title="{{item.title}}">
               </span>
             </div>
-            <i class="fa fa-link" *ngIf="!(item.product_sharable_link == null)" title="Copy Link" aria-hidden="true"
-              (click)="copyToClipboard(item)"></i>&nbsp;&nbsp;
+
             <div class="value-item td" style="text-align: left;width: 13%;">
-              <div class="mess" *ngIf="item.showMessage"><span>Copied</span></div>
               <span>
                 <label title=" {{item.title}}">
                   {{ (item.title.length > 20) ? (item.title | slice:0:20) + '...' : item.title }}
@@ -221,6 +219,8 @@
                   <a class="dropdown-item" (click)="showAssignStudentPopup(item)"
                     *ngIf="item.status == 30">Assign/Unassign
                     Student</a>
+                  <a class="dropdown-item" *ngIf="!(item.product_sharable_link == null)" title="Copy Link"
+                    (click)="copyToClipboard(item)">Copy Link</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
                 </div>
