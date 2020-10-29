@@ -64,6 +64,7 @@ export class BasicInfoComponent implements OnInit {
     duration: 0,
     publish_date: null,
     product_user_type: "-1",
+    country_id: 1,
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
@@ -80,7 +81,7 @@ export class BasicInfoComponent implements OnInit {
     forStudent: true,
     forOpenUser: true
   };
-
+  countryDetails: any = [];
   editorConf = {
     height: 150,
     menubar: false,
@@ -109,6 +110,19 @@ export class BasicInfoComponent implements OnInit {
     this.initDataEcourse();
     this.previewEvent.emit(this.prodForm);
     this.toggleLoader.emit(false);
+    let temp: any = JSON.parse(sessionStorage.getItem('country_data'));
+    console.log("temp", temp);
+    this.fetchDataForCountryDetails();
+  }
+
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      console.log("countryDetails", this.countryDetails);
+
+    }
   }
 
   /** get product item details in  */
@@ -259,6 +273,10 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'allowed description limit is 10000 characters', '');
       return;
     }
+    if (this.prodForm.country_id == 0) {
+      this.msgService.showErrorMessage('error', 'Currency is mandatory', '');
+      return;
+    }
     if (this.prodForm.purchase_limit == 0) {
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
@@ -350,7 +368,8 @@ export class BasicInfoComponent implements OnInit {
       "discount_percentage": this.prodForm.discount_percentage,
       "price_before_discount": this.prodForm.price_before_discount,
       "price": this.prodForm.price,
-      "tag": this.prodForm.tag
+      "tag": this.prodForm.tag,
+      "country_id": this.prodForm.country_id
 
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {

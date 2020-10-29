@@ -43,7 +43,8 @@ export class SalesReportsComponent implements OnInit {
     { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
     { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
     { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
-    { primaryKey: 'price', header: 'Price', priority: 6, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'price', header: 'Price', priority: 6, allowSortingFlag: true },
+
     {
       primaryKey: 'status', header: 'Status', priority: 7, allowSortingFlag: true, dataType: 'array',
       arrayValue: { '10': 'Ready', '20': 'Ready To Publish', '30': 'Published', '40': 'Unpublished', '50': 'Closed' }
@@ -156,7 +157,7 @@ export class SalesReportsComponent implements OnInit {
               "title": object.product.title,
               "name": object.name,
               "phone": object.phone,
-              "price": object.price,
+              "price": object.price + " " + object.product.country_details.currency_code,
               "publish_date": object.purchase_date,
               "status": object.product.status,
             }

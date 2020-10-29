@@ -56,7 +56,7 @@
               class="form-control form-control-sm">
           </div>
         </div>
-        <div class="col-md-6" style="padding-top: 4%;padding-left: 10%;">
+        <div class="col-md-3" style="padding-top: 4%;padding-left: 10%;">
           <span class="field-checkbox-wrapper">
             <input class="form-checkbox" type="checkbox" id="free_price" [disabled]="isAdvanceProductEdit"
               [(ngModel)]="prodForm.is_paid"
@@ -64,6 +64,18 @@
               name="free_price" name="is_paid">
             <label for="free_price">Free</label>
           </span>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="text-bold">Currency<span class="text-danger">*</span></label>
+            <select id="country_id" class="form-ctrl" [(ngModel)]="prodForm.country_id" name="country_id"
+              [disabled]="isAdvanceProductEdit" style="height: 29px;padding: 0">
+              <option value=""></option>
+              <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                {{data.currency_code}}
+              </option>
+            </select>
+          </div>
         </div>
 
       </div>
@@ -82,7 +94,7 @@
       <div class="col-md-12">
         <div class="col-md-4">
           <div class="form-group">
-            <label class="text-bold">Actual Price(Rs.)</label>
+            <label class="text-bold">Actual Price</label>
             <input type="text" value="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
               [(ngModel)]="prodForm.price_before_discount" [disabled]="prodForm.is_paid ||isAdvanceProductEdit "
               name="price" class="form-control form-control-sm" (ngModelChange)="calc()">
@@ -104,7 +116,7 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label class="text-bold">Final Price(Rs.)</label>
+            <label class="text-bold">Final Price</label>
             <span class="field-checkbox-wrapper">
               <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
                 (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_paid"
