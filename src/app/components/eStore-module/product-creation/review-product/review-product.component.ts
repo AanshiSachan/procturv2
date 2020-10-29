@@ -24,7 +24,6 @@ export class ReviewProductComponent implements OnInit {
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
   products_ecourse_maps: any[] = [];
-  country_id: any = [];
   ecourseList: any = [];
   mock_count: number = 0;
   online_count: number = 0;
