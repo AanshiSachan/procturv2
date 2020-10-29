@@ -58,22 +58,32 @@
                 style="padding-top: 15px;float: left;padding-left: 5px;" checked="checked">Percentage</label>
             </div>
           </div>
+          <div class="col-md-3 form-group">
+            <label class="text-bold">Currency<span class="text-danger">*</span>
+            </label>
+            <select id="country_id" class="form-control form-control-sm" [(ngModel)]="addCouponModel.country_id">
+              <option [value]="data.id" *ngFor='let data of countryDetails'>
+                {{data.currency_code}}
+              </option>
+            </select>
+          </div>
 
         </div>
 
         <div class="row m-0" style="width: 52.5%;padding-bottom: 0;margin-bottom: 0;">
           <div class="col-md-6 form-group" style="padding-left: 0;" *ngIf="addCouponModel.discount_type == 1">
             <div class="col-md-12 form-group" style="margin-bottom: 0;">
-              <label class="text-bold">Flat Discount Amount ({{ _commService.currency_default_symbol}})
+              <label class="text-bold">Flat Discount Amount
                 <span class="text-danger">*</span>
               </label>
               <input type="text" [(ngModel)]="addCouponModel.flat_discount_amount" class="form-control form-control-sm"
                 onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" style="width: 100%;">
             </div>
           </div>
-          <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;" [ngStyle]="{'width':addCouponModel.discount_type == 2 ? '100%' : '50%' }">
+          <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;"
+            [ngStyle]="{'width':addCouponModel.discount_type == 2 ? '100%' : '50%' }">
             <div class="col-md-12 form-group">
-              <label class="text-bold"> Minimum Amount in Cart ({{ _commService.currency_default_symbol}})
+              <label class="text-bold"> Minimum Amount in Cart
                 <span class="text-danger">*</span>
               </label>
               <input type="text" [(ngModel)]="addCouponModel.minimum_amount_in_cart"

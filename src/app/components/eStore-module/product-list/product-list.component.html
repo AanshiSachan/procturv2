@@ -194,9 +194,9 @@
               <span *ngIf="item.price > 0" class="text-bold paidProduct">
                 Paid</span>
             </div>
-            <div class="value-item td" style="width: 5%;display: flex;justify-content: flex-end;margin-top: 12px;">
+            <div class="value-item td" style="width: 6%;display: flex;justify-content: flex-end;margin-top: 12px;">
               <span class="text-bold">
-                <i class="fa fa-inr"></i> &nbsp;{{item.price}}
+                {{item.price}} &nbsp;{{item.country_details.currency_code}}
               </span>
             </div>
             <div class="value-item td" style="width: 8%;">

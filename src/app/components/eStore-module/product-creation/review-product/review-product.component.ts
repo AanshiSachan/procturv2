@@ -24,6 +24,7 @@ export class ReviewProductComponent implements OnInit {
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
   products_ecourse_maps: any[] = [];
+  country_id: any = [];
   ecourseList: any = [];
   mock_count: number = 0;
   online_count: number = 0;
@@ -38,6 +39,7 @@ export class ReviewProductComponent implements OnInit {
     forStudent: true,
     forOpenUser: true
   };
+  countryDetails: any = [];
   editorConf = {
     height: 150,
     menubar: false,
@@ -61,6 +63,7 @@ export class ReviewProductComponent implements OnInit {
 
 
   ngOnInit() {
+    this.fetchDataForCountryDetails();
     if (this.entity_id != 0) {
       this.initFormSequence();
     }
@@ -162,7 +165,15 @@ export class ReviewProductComponent implements OnInit {
         });
     }
   }
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      console.log("countryDetails", this.countryDetails);
 
+    }
+  }
   initFormSequence() {
     if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
       //Fetch Product Info
@@ -178,7 +189,13 @@ export class ReviewProductComponent implements OnInit {
               this.others = this.prodForm.tag;
               this.prodForm.tag = "Others";
             }
+            this.prodForm.country_id = this.prodForm.country_id;
+            this.countryDetails.forEach(element => {
+              if (element.id == this.prodForm.country_id) {
 
+                this.prodForm.country_id = element.id;
+              }
+            });
             this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
             this.prodForm.is_duration = this.prodForm.duration == 0 ? false : true;
             this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('DD-MMM-YYYY');
@@ -297,6 +314,10 @@ export class ReviewProductComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
     }
+    if (this.prodForm.country_id == 0) {
+      this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+      return;
+    }
 
     if (this.prodForm.duration <= 0 && this.prodForm.is_duration) {
       this.msgService.showErrorMessage('error', 'please enter product duration ', '');
@@ -358,7 +379,8 @@ export class ReviewProductComponent implements OnInit {
       "discount_percentage": this.prodForm.discount_percentage,
       "price_before_discount": this.prodForm.price_before_discount,
       "start_index_for_total_prod_purchase": this.prodForm.start_index_for_total_prod_purchase,
-      "tag": this.prodForm.tag
+      "tag": this.prodForm.tag,
+      "country_id": this.prodForm.country_id,
     }
     this.updateProduct(object);
 
