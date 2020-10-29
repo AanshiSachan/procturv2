@@ -64,7 +64,7 @@ export class BasicInfoComponent implements OnInit {
     duration: 0,
     publish_date: null,
     product_user_type: "-1",
-    country_id: 1,
+    country_id: "",
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
@@ -120,8 +120,14 @@ export class BasicInfoComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      console.log("countryDetails", this.countryDetails);
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
 
+      if (this.prodForm.country_id == "") {
+        this.prodForm.country_id = defacult_Country[0].id;
+
+      }
     }
   }
 

@@ -58,8 +58,14 @@ export class CouponAddEditComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      console.log("countryDetails", this.countryDetails);
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
 
+      if (this.addCouponModel.country_id == "") {
+        this.addCouponModel.country_id = defacult_Country[0].id;
+
+      }
     }
   }
   getProductList() {
