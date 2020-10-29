@@ -345,7 +345,7 @@
     padding: 10px 0px;
     position: initial;
     bottom: 0px;
-    left: 10px;
+    left: 17px;
 }
 
 .blur-background {
@@ -516,7 +516,7 @@ sup {
         color: black;
         margin-right: 40px;
         border-radius: 4px;
-        padding: 5px;
+        padding: 16px;
         font-size: small;
         background: #f4f5f7;
         width: 61%;
@@ -671,7 +671,7 @@ a span{
 }
 .fa-angle-right{
     float: right;
-    padding-top: 4px;
+    padding-top: 2px;
     font-size: 16px;
     font-weight: bold;
 }
@@ -693,8 +693,7 @@ a span{
 }
 
 .mattoolbar{
-    position: fixed;margin-left: -22px;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;
-    // box-shadow: 4px -1px 5px 0px #696969;
+    position: fixed;margin-left: -22px;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;    border-bottom: 2px solid lightgrey;
 }
 .mat-button img{
     width: 44%;

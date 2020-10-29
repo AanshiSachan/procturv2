@@ -26,7 +26,7 @@
                 </div>
                 <div class="side-section-item" (click)="showToDoList()">
 
-                    <span class="dropSize">TO DO List</span>
+                    <span class="dropSize">To Do List</span>
                 </div>
             </div>
         </div>
@@ -107,12 +107,13 @@
                 </div>
             </div>
         </div>
-        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}"
+            style="width: auto;  overflow-y: auto; max-height: 56%;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="account">
                     <div style="border-bottom: 1px solid lightgrey;">
                         <div class="accHead">
-                            MY ACCOUNT
+                            MY ACCOUNT (ID- {{globalSearchForm.instituteId}})
                         </div>
                         <div class="side-section-item" *ngIf="hideForUsers()">
                             <span class="dropSize" (click)="routerLink('/view/account','account')">
@@ -264,11 +265,11 @@
     <div class="menu">
 
         <section class="institute-logo-name-container">
-            <img src="./assets/images/sidebar/newSideMenu/institute.svg" style="height: 44px;" />
+            <!-- <img src="./assets/images/sidebar/newSideMenu/institute.svg" style="height: 44px;" /> -->
             <div class="institute-name-container">
                 <span>{{instituteName}}</span>
-                <span style="font-weight: 100;color: grey;font-size: 13px;"><br>
-                    ID- {{globalSearchForm.instituteId}}</span>
+                <!-- <span style="font-weight: 100;color: grey;font-size: 13px;"><br>
+                    ID- {{globalSearchForm.instituteId}}</span> -->
             </div>
         </section>
         <hr>
@@ -552,12 +553,16 @@
             <span data-toggle="modal" data-target="#releaseNote">What's New</span>
         </div>
         <div class="proctur-info" style="    position: fixed;">
-            <a href="https://www.proctur.com/" target="_blank"><img src="./assets/images/sidebar/sideMenu/logo.png"
-                    alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
-                    style="font-size: 12px;margin-left: -11px;font-weight: 100;color: grey;">Powered
-                    by
-                    <strong style="font-weight: bold;color: #0084f6;">Proctur 4.0</strong></span> </a>
+
+            <img src="https://proctur.com/assets/proctur_logo.png" alt="faqs" class="helpSection"
+                style="height: 50%;width: 37%;float: left;">
+            <!-- <a href="https://www.proctur.com/" target="_blank"><img src="https://proctur.com/assets/proctur_logo.png"
+                        alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
+                        style="font-size: 12px;margin-left: -11px;font-weight: 100;color: grey;">Powered
+                        by
+                        <strong style="font-weight: bold;color: #0084f6;">Proctur 4.0</strong></span> </a> -->
         </div>
+
     </div>
 
 </section>
