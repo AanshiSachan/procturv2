@@ -455,6 +455,7 @@ export class ExamReportMainComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.auth.hideLoader();
+              console.log("examSource", this.examSource);
               if (this.examSource[0].grade == "" || this.examSource[0].isBatchExamGrade == 0) {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
@@ -520,6 +521,7 @@ export class ExamReportMainComponent implements OnInit {
 
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
+                  console.log("1", store.detailExamReportList);
                   this.auth.hideLoader();
                   //   this.totalRecords = this.detailSource.length;
                   //  this.fetchTableDataByPagePopup(this.pageIndexPopup);
@@ -561,6 +563,7 @@ export class ExamReportMainComponent implements OnInit {
                 this.detailSource = res;
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
+                  console.log("2", store.detailExamReportList);
                   this.auth.hideLoader();
                   // this.totalRecords = this.detailSource.length;
                   //this.fetchTableDataByPagePopup(this.pageIndexPopup);

@@ -369,6 +369,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
 
 
   checkForEditMode() {
+
     let str = sessionStorage.getItem('editClass');
     if (str == "" || str == null || str == undefined) {
       return;
@@ -472,7 +473,9 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         for (let i = 0; i < keys.length; i++) {
           this.masterCourse.push(keys[i]);
         }
-
+        if (!this.isProfessional) {
+          this.checkForEditMode();
+        }
 
       },
       (error: any) => {
@@ -483,6 +486,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   }
   updateCourseList(ev) {
     this.courseList = [];
+    this.isClassFormFilled = false;
     let temp = this.fullResponse[this.fetchMasterCourseModule.master_course];
     for (let i = 0; i < temp.length; i++) {
       this.courseList.push(temp[i]);

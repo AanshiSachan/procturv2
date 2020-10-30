@@ -1123,8 +1123,8 @@ export class CourseExamComponent implements OnInit {
     this.showCourseStartEndDate = true;
     for (let i = 0; i < this.courseList.length; i++) {
       if (this.courseList[i].course_id == this.courseData.course_id) {
-        this.batchStartDate = this.courseList[i].sql_start_date;
-        this.batchEndDate = this.courseList[i].sql_end_date;
+        this.batchStartDate = this.courseList[i].start_date;
+        this.batchEndDate = this.courseList[i].end_date;
       }
     }
 
