@@ -131,8 +131,8 @@
                     </div>
                     <div class="row" *ngIf="courseStartDate" style="margin-top:5px;margin-left:0px;font-size: 12px;">
                       <span>Course Duration: </span>
-                      <span style="font-weight: 600;">{{courseStartDate}} - </span>
-                      <span style="font-weight: 600;">{{courseEndDate}}</span>
+                      <span style="font-weight: 600;">{{courseStartDate | date: 'dd-MMM-yyyy'}} - </span>
+                      <span style="font-weight: 600;">{{courseEndDate | date: 'dd-MMM-yyyy'}}</span>
                     </div>
                   </div>
                 </div>

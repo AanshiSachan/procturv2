@@ -132,6 +132,7 @@ export class BiometricComponent implements OnInit {
 
   fetchAbsentiesReport() {
     this.absentStudentPopUp = true;
+    this.getMasterCourses();
   }
   toggleCheckbox(value) {
     console.log(value);
@@ -270,7 +271,13 @@ export class BiometricComponent implements OnInit {
     this.PageIndex = 1;
     this.fetchTableDataByPage(this.PageIndex);
   }
-
+  updateCourseList(ev) {
+    this.courses = [];
+    let temp = this.fullResponse[this.getAbsentiesData.master_course_name];
+    for (let i = 0; i < temp.length; i++) {
+      this.courses.push(temp[i]);
+    }
+  }
   getCourses(i) {
     this.dataStatus = true;
     this.getData.name = "";

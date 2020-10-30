@@ -53,9 +53,9 @@
                 </div>
                 <div class="row" *ngIf="showCourseStartEndDate">
                     <div class="c-sm-6 c-md-6 c-lg-6">
-                        <span class="spanText">Course Start Date : {{batchStartDate}}</span>
+                        <span class="spanText">Course Start Date : {{batchStartDate | date: 'dd-MMM-yyyy'}}</span>
                         &emsp;
-                        <span class="spanText">Course End Date : {{batchEndDate}} </span>
+                        <span class="spanText">Course End Date : {{batchEndDate | date: 'dd-MMM-yyyy'}} </span>
                     </div>
                 </div>
             </div>
@@ -118,10 +118,10 @@
                 <div class="row" *ngIf="showCourseStartEndDate" style="margin-top: 5px;">
                     <div class="c-sm-6 c-md-6 c-lg-6">
                         <span class="spanText">Course Start Date : <span
-                                style="font-weight: 600;">{{batchStartDate}}</span></span>
+                                style="font-weight: 600;">{{batchStartDate | date: 'dd-MMM-yyyy'}}</span></span>
                         &emsp;
                         <span class="spanText">Course End Date : <span
-                                style="font-weight: 600;">{{batchEndDate}}</span></span>
+                                style="font-weight: 600;">{{batchEndDate | date: 'dd-MMM-yyyy'}}</span></span>
                     </div>
                 </div>
 

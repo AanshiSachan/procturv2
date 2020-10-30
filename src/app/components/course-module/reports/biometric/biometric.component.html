@@ -31,7 +31,7 @@
                         <label>Role</label>
                         <select class="form-ctrl" [(ngModel)]="getData.user_Type" (ngModelChange)="showMaster($event)">
                           <option selected [value]="1">Students</option>
-                          <option [value]="3">Teachers</option>
+                          <option [value]="3">Faculty</option>
                           <option [value]="0">Custom</option>
                           <option [value]="1000">Others</option>
                           <option [value]="100">Admin</option>
@@ -577,10 +577,10 @@
                 <label for="master">Master Course
                 </label>
                 <select class="form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name"
-                  (change)="getCourses($event.target.value)">
+                  (change)="updateCourseList($event)">
                   <option value="-1">Master Course</option>
-                  <option *ngFor="let i of masterCourse" [value]="i.master_course">
-                    {{i.master_course}}
+                  <option *ngFor="let i of masterCourse" [value]="i">
+                    {{i}}
                   </option>
                 </select>
               </div>
