@@ -6,7 +6,7 @@
             <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
                 [ngClass]="{'has-focus': isResultDisplayed}" (click)="triggerSearchBox($event)" autocomplete="off"
                 placeholder="Search here..." style="padding-left: 4%;"
-                class="search-input searchbox form-ctrl-head search-item searchBox ">
+                class="search-input searchbox form-ctrl-head search-item searchBox effect ">
 
         </form>
 
@@ -289,29 +289,42 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 16%;">
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
-                        <a routerLink="/view/leads/add"><span>Add Enquiry</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
-                        <a routerLink="/view/leads/enquiry"><span>Manage Enquiry</span></a>
-                    </li>
+                    <a routerLink="/view/leads/add">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
+                            <span>Add Enquiry</span>
 
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
-                        <a routerLink="/view/leads/enquiryReport/counsellor"><span>Enquiry Report</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/leads/campaign"><span>Add Campaign</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign ">
-                        <a routerLink="/view/leads/manage-campaign"><span>Manage Campaign</span></a>
-                    </li>
-
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                        <a routerLink="/view/leads/campaign-reports/sms-report"><span>Campaign Report</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
-                        <a routerLink="/view/leads/setup"><span>Add Closing Reason</span></a>
-                    </li>
+                        </li>
+                    </a>
+                    <a routerLink="/view/leads/enquiry">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
+                            <span>Manage Enquiry</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/leads/enquiryReport/counsellor">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                            <span>Enquiry Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/leads/campaign">
+                        <li class="subMenu">
+                            <span>Add Campaign</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/leads/manage-campaign">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign ">
+                            <span>Manage Campaign</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/leads/campaign-reports/sms-report">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                            <span>Campaign Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/leads/setup">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
+                            <span>Add Closing Reason</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li *ngIf="jsonFlags.isShowStudent" (click)="toggler('litwo')">
@@ -329,39 +342,61 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 16%;">
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
-                        <a routerLink="/view/course/setup"><span>Data Setup</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                        <a routerLink="/view/course/create/standardlist"><span>Manage Course</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
-                        <a routerLink="/view/course/file-manager/drive"><span>File/Doc. Manager</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnlineAssignment ">
-                        <a routerLink="/view/course/online-assignment"><span>Online Assignment</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
-                        <a routerLink="/view/course/coursePlanner/class"><span>Class/Exam Planner</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
-                        <a routerLink="/view/course/timeTable"><span>Timetable</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                        <a routerLink="/view/course/reports"><span>Reports</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/course/master-tag"><span>Manage Tags</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                        <a routerLink="/view/course/ecoursemapping"><span>eCourse Mapping</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
-                        <a routerLink="/view/course/archiving"><span>Data Archiving</span></a>
-                    </li>
+                    <a routerLink="/view/course/setup">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
+                            <span>Data Setup</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/create/standardlist">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
+                            <span>Manage Course</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/ecourse-file-manager/ecourses">
+                        <li class="subMenu">
+                            <span>Study Material</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/file-manager/drive">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
+                            <span>File/Doc. Manager</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/online-assignment">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnlineAssignment ">
+                            <span>Online Assignment</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/coursePlanner/class">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                            <span>Class/Exam Planner</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/timeTable">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                            <span>Timetable</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/reports">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                            <span>Reports</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/master-tag">
+                        <li class="subMenu">
+                            <span>Manage Tags</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/ecoursemapping">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                            <span>eCourse Mapping</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/archiving">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
+                            <span>Data Archiving</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li *ngIf="isLangInstitute" (click)="toggler('lithree')">
@@ -372,39 +407,61 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 16%;">
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
-                        <a routerLink="/view/batch/setup"><span>Data Setup</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                        <a routerLink="/view/batch/create/standardlist"><span>Manage Course</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/course/ecourse-file-manager/ecourses"><span>Study Material</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
-                        <a routerLink="/view/batch/file-manager/drive"><span>File/Doc. Manager</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnslineAssignment ">
-                        <a routerLink="/view/course/online-assignment"><span>Online Assignment</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
-                        <a routerLink="/view/batch/coursePlanner/class"><span>Class/Exam Planner</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
-                        <a routerLink="/view/batch/timeTable"><span>Timetable</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                        <a routerLink="/view/batch/reports"><span>Reports</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/batch/master-tag"><span>Manage Tags</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                        <a routerLink="/view/batch/ecoursemapping"><span>eCourse Mapping</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
-                        <a routerLink="/view/batch/archiving"><span>Data Archiving</span></a>
-                    </li>
+                    <a routerLink="/view/batch/setup">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
+                            <span>Data Setup</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/create/standardlist">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
+                            <span>Manage Course</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/ecourse-file-manager/ecourses">
+                        <li class="subMenu">
+                            <span>Study Material</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/file-manager/drive">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
+                            <span>File/Doc. Manager</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/online-assignment">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnslineAssignment ">
+                            <span>Online Assignment</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/coursePlanner/class">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                            <span>Class/Exam Planner</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/timeTable">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                            <span>Timetable</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/reports">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
+                            <span>Reports</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/master-tag">
+                        <li class="subMenu">
+                            <span>Manage Tags</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/ecoursemapping">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                            <span>eCourse Mapping</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/archiving">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
+                            <span>Data Archiving</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li *ngIf="jsonFlags.isShowFee" (click)="toggler('lifour')">
@@ -415,47 +472,67 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 16%;">
-                    <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
-                        <a routerLink="/view/fee/monitoring-dashboard/home"><span>Monitoring Dashboard</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/fee/data-setup"><span>Data Setup</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/fee/allDueReport"><span>Fee Dues</span></a>
-                    </li>
-
-
-                    <li class="subMenu">
-                        <a routerLink="/view/fee/moduleReport"><span>{{jsonFeesFlags.moduleState}} wise
-                                Report</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/fee/paymentHistory"><span>Payment History</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
-                        <a routerLink="/view/fee/cheque"><span>Manage Cheque</span></a>
-                    </li>
-
-                    <li class="subMenu" *ngIf="enable_online_payment == 1">
-                        <a routerLink="/view/fee/onlinePayment"><span>Online Fee Collection</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="is_tax_enabled=='1'">
-                        <a routerLink="/view/fee/gst"><span>{{tax_type_without_percentage}} Report</span></a>
-                    </li>
-
-                    <li class="subMenu hide">
-                        <a routerLink="/view/fee/cheque"><span>Cheque/PDC Report</span></a>
-                    </li>
-                    <li class="subMenu hide">
-                        <a routerLink="/view/fee/discount"><span>Discount Report</span></a>
-                    </li>
-                    <li class="subMenu hide">
-                        <a routerLink="/view/fee/feeType"><span>Reports Based on Fee Type</span></a>
-                    </li>
-                    <li class="subMenu hide" *ngIf="jsonFeesFlags.isProfitnloss">
-                        <a routerLink="/view/fee/profitNloss"><span>Profit and Loss</span></a>
-                    </li>
+                    <a routerLink="/view/fee/monitoring-dashboard/home">
+                        <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
+                            <span>Monitoring Dashboard</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/data-setup">
+                        <li class="subMenu">
+                            <span>Data Setup</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/allDueReport">
+                        <li class="subMenu">
+                            <span>Fee Dues</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/moduleReport">
+                        <li class="subMenu">
+                            <span>{{jsonFeesFlags.moduleState}} wise
+                                Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/paymentHistory">
+                        <li class="subMenu">
+                            <span>Payment History</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/cheque">
+                        <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
+                            <span>Manage Cheque</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/onlinePayment">
+                        <li class="subMenu" *ngIf="enable_online_payment == 1">
+                            <span>Online Fee Collection</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/gst">
+                        <li class="subMenu" *ngIf="is_tax_enabled=='1'">
+                            <span>{{tax_type_without_percentage}} Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/cheque">
+                        <li class="subMenu hide">
+                            <span>Cheque/PDC Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/discount">
+                        <li class="subMenu hide">
+                            <span>Discount Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/feeType">
+                        <li class="subMenu hide">
+                            <span>Reports Based on Fee Type</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/profitNloss">
+                        <li class="subMenu hide" *ngIf="jsonFeesFlags.isProfitnloss">
+                            <span>Profit and Loss</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li *ngIf="jsonFlags.isShowLiveclass" (click)="toggler('lifive')">
@@ -473,18 +550,26 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:39%">
-                    <li class="subMenu" *ngIf="showSMSReport">
-                        <a routerLink="/view/communicate/sms"><span>SMS Report</span></a>
-                    </li>
-                    <li class="subMenu" *ngIf="showEmailReport">
-                        <a routerLink="/view/communicate/email"><span>Email Report</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/communicate/ptm"><span>PTM Management</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/communicate/event"><span>Event Management</span></a>
-                    </li>
+                    <a routerLink="/view/communicate/sms">
+                        <li class="subMenu" *ngIf="showSMSReport">
+                            <span>SMS Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/communicate/email">
+                        <li class="subMenu" *ngIf="showEmailReport">
+                            <span>Email Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/communicate/ptm">
+                        <li class="subMenu">
+                            <span>PTM Management</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/communicate/event">
+                        <li class="subMenu">
+                            <span>Event Management</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li *ngIf="jsonFlags.isShowLibrabry" (click)="toggler('liseven')">
@@ -502,21 +587,31 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 52%;">
-                    <li class="subMenu">
-                        <a routerLink="/view/e-store/details"><span>Manage Product</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/e-store/registered-user"><span>Registered Users</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/e-store/sales-report"><span>Sales Report</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/e-store/manage-offers/coupon"><span>Manage Offers</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/e-store/offer-history"><span>Offer History</span></a>
-                    </li>
+                    <a routerLink="/view/e-store/details">
+                        <li class="subMenu">
+                            <span>Manage Product</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/e-store/registered-user">
+                        <li class="subMenu">
+                            <span>Registered Users</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/e-store/sales-report">
+                        <li class="subMenu">
+                            <span>Sales Report</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/e-store/manage-offers/coupon">
+                        <li class="subMenu">
+                            <span>Manage Offers</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/e-store/offer-history">
+                        <li class="subMenu">
+                            <span>Offer History</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
@@ -534,18 +629,26 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 57%;">
-                    <li class="subMenu">
-                        <a routerLink="/view/expense/setup"><span>Data Setup</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/expense/manage-expense"><span>Manage Expense</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/expense/manage-income"><span>Manage Income</span></a>
-                    </li>
-                    <li class="subMenu">
-                        <a routerLink="/view/expense/report"><span>Report</span></a>
-                    </li>
+                    <a routerLink="/view/expense/setup">
+                        <li class="subMenu">
+                            <span>Data Setup</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/expense/manage-expense">
+                        <li class="subMenu">
+                            <span>Manage Expense</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/expense/manage-income">
+                        <li class="subMenu">
+                            <span>Manage Income</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/expense/report">
+                        <li class="subMenu">
+                            <span>Report</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
         </ul>
