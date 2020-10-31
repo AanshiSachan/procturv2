@@ -187,7 +187,7 @@ export class LiveClassesComponent implements OnInit {
   vimeo_video_downlodable: any = false;
   vimeoDownloadLinks: any = [];
   selectedDownloadSize: any = {};
-  live_class_session_recording_id:any = 0;
+  live_class_session_recording_id: any = 0;
 
   constructor(
     private auth: AuthenticatorService,
@@ -262,6 +262,7 @@ export class LiveClassesComponent implements OnInit {
   getClassesList() {
     this.PageIndex = 1;
     this.auth.showLoader();
+    const userName = sessionStorage.getItem('username');
     this.obj = {
       institution_id: this.institution_id,
       live_future_past: 1
@@ -274,6 +275,16 @@ export class LiveClassesComponent implements OnInit {
       const userid: any = sessionStorage.getItem('userid');
       this.obj.user_id = userid;
     }
+    if (userType == 0 && userName != 'admin') {
+      this.obj = {
+        institution_id: this.institution_id,
+        live_future_past: 1,
+        user_id: sessionStorage.getItem('userid')
+      }
+      if (this.liveClassFor) {
+        this.obj.live_future_past = 2;
+      }
+    }
     const url = '/api/v1/meeting_manager/getMeeting/' + this.institution_id;
     this._http.postData(url, this.obj).subscribe(
       (data: any) => {
@@ -285,10 +296,10 @@ export class LiveClassesComponent implements OnInit {
         this.proctur_live_integration_with_vdoCipher = data.proctur_live_integration_with_vdoCipher;
         this.proctur_live_integration_with_vimeo = data.proctur_live_integration_with_vimeo;
         this.vimeo_video_downlodable = data.vimeo_video_downlodable;
-        if(!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
-          if(this.proctur_live_integration_with_vimeo == '1') {
+        if (!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
+          if (this.proctur_live_integration_with_vimeo == '1') {
             this.isVimeo = 'Vimeo';
-          } else if(this.proctur_live_integration_with_vimeo == '1') {
+          } else if (this.proctur_live_integration_with_vimeo == '1') {
             this.isVimeo = 'VDOCipher';
           }
         }
@@ -851,11 +862,11 @@ export class LiveClassesComponent implements OnInit {
     )
   }
 
-// developed by Nalini
-// To check whether to download vimeo or vdocipher file
+  // developed by Nalini
+  // To check whether to download vimeo or vdocipher file
   downloadFileCheck(object) {
     console.log(object);
-    if(object.vimeo_video_url == '' || object.vimeo_video_url == null) {
+    if (object.vimeo_video_url == '' || object.vimeo_video_url == null) {
       this.downloadFile(object);
     } else {
       this.getVimeoDownloadData(object);
@@ -905,11 +916,11 @@ export class LiveClassesComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.vimeoDownloadLinks = res.result;
-        if(this.vimeoDownloadLinks && this.vimeoDownloadLinks.length) {
+        if (this.vimeoDownloadLinks && this.vimeoDownloadLinks.length) {
           this.viewDownloadPopup = false;
           $('#downloadOption').modal('show');
         } else {
-          this.msgService.showErrorMessage('error','','No download links found')
+          this.msgService.showErrorMessage('error', '', 'No download links found')
         }
       },
       err => {
@@ -1030,7 +1041,7 @@ export class LiveClassesComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         if (res.statusCode == 200) {
-          if(!isAbort) {
+          if (!isAbort) {
             this.msgService.showErrorMessage('success', '', res.result);
             this.viewDownloadPopup = false;
             this.getClassesList();
@@ -1096,13 +1107,13 @@ export class LiveClassesComponent implements OnInit {
     let institute_id = sessionStorage.getItem("institute_id");
     let formData = new FormData();
 
-    if(this.isVimeo == 'VDOCipher') {
+    if (this.isVimeo == 'VDOCipher') {
       for (let i = 0; i < this.selectedFiles.length; i++) {
         formData.append("files", this.selectedFiles[i]);
       }
     }
 
-    if(this.isVimeo == 'Vimeo' && this.vimeo_title == '') {
+    if (this.isVimeo == 'Vimeo' && this.vimeo_title == '') {
       this.appC.popToast({ type: "error", body: "Please enter title" });
       return;
     }
@@ -1114,7 +1125,7 @@ export class LiveClassesComponent implements OnInit {
     }
     formData.append('fileJson', JSON.stringify(fileJson));
 
-    if(this.isVimeo == 'Vimeo') {
+    if (this.isVimeo == 'Vimeo') {
       this.auth.showLoader();
     }
     let isZoom = true;
@@ -1133,15 +1144,15 @@ export class LiveClassesComponent implements OnInit {
     newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     newxhr.setRequestHeader("Accept", "application/json, text/javascript");
 
-    if(this.isVimeo == 'VDOCipher') {
-    this.progressBar = true;
-    newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-      if (e.lengthComputable) {
-        this.progress = Math.round((e.loaded * 100) / e.total);
-        document.getElementById('progress-width').style.width = this.progress + '%';
-      }
-    }, false);
-  }
+    if (this.isVimeo == 'VDOCipher') {
+      this.progressBar = true;
+      newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+        if (e.lengthComputable) {
+          this.progress = Math.round((e.loaded * 100) / e.total);
+          document.getElementById('progress-width').style.width = this.progress + '%';
+        }
+      }, false);
+    }
 
     newxhr.onreadystatechange = () => {
       if (newxhr.readyState == 4) {
@@ -1149,7 +1160,7 @@ export class LiveClassesComponent implements OnInit {
         if (newxhr.status >= 200 && newxhr.status < 300) {
           this.auth.hideLoader();
           let data = JSON.parse((newxhr.response));
-          if(this.isVimeo == 'VDOCipher') {
+          if (this.isVimeo == 'VDOCipher') {
             if (data.statusCode >= 200 && data.statusCode < 300) {
               this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
               this.fileUploadInput = '';
@@ -1162,7 +1173,7 @@ export class LiveClassesComponent implements OnInit {
               this.msgService.showErrorMessage('error', '', data.message);
             }
           } else {
-            if(data.result.upload_link!='' && data.result.upload_link != null) {
+            if (data.result.upload_link != '' && data.result.upload_link != null) {
               this.live_class_session_recording_id = data.result.live_class_session_recording_id;
               this.patchRequest(data.result);
             } else {
@@ -1212,18 +1223,18 @@ export class LiveClassesComponent implements OnInit {
         if (this.fileUploadXHR.status >= 200 && this.fileUploadXHR.status < 300) {
           this.auth.hideLoader();
           this.updateVimeoStatus(obj.videoId);
-            this.isVimeo = 'VDOCipher';
-            this.vimeo_title = '';
-            this.isUploding = false;
-          }
-        }
-        else {
-          this.progress = 0;
-          this.progressBar = false;
+          this.isVimeo = 'VDOCipher';
+          this.vimeo_title = '';
           this.isUploding = false;
-          this.auth.hideLoader();
         }
       }
+      else {
+        this.progress = 0;
+        this.progressBar = false;
+        this.isUploding = false;
+        this.auth.hideLoader();
+      }
+    }
     this.fileUploadXHR.send(this.selectedFiles[0]);
   }
 
@@ -1232,7 +1243,7 @@ export class LiveClassesComponent implements OnInit {
       "videoID": videoId,
       "institute_id": this.institution_id,
       "video_status": "Queued",
-      "is_live_class_recording":"Y"  
+      "is_live_class_recording": "Y"
     }
     this._http.postData('/api/v1/instFileSystem/updateVideoStatus', obj).subscribe(
       (res: any) => {
@@ -1250,18 +1261,18 @@ export class LiveClassesComponent implements OnInit {
   // Developed by Nalini
   // To cancel vimeo file 
   closeUploadModal() {
-    if(this.isUploding) {
-      if(confirm('Are you sure, you want to cancel file upload')) {
+    if (this.isUploding) {
+      if (confirm('Are you sure, you want to cancel file upload')) {
         $('#uploadRec').modal('hide');
         this.fileUploadXHR.abort();
         this.deleteRecording(this.live_class_session_recording_id, true);
         this.progress = 0;
         this.fileUploadXHR = '';
         this.progressBar = false;
-        if(!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
-          if(this.proctur_live_integration_with_vimeo == '1') {
+        if (!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
+          if (this.proctur_live_integration_with_vimeo == '1') {
             this.isVimeo = 'Vimeo';
-          } else if(this.proctur_live_integration_with_vimeo == '1') {
+          } else if (this.proctur_live_integration_with_vimeo == '1') {
             this.isVimeo = 'VDOCipher';
           }
         }
