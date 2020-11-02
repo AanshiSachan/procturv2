@@ -344,6 +344,18 @@ export class LiveClassesComponent implements OnInit {
       }
     )
   }
+
+  copyToClipboard(item) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item.join_url));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this.msgService.showErrorMessage('success', 'Copied to Clipboard', '');
+
+  }
+
   // Added By Ashwini Gupta For search live class by date
   searchByDate(dateSearch) {
 
