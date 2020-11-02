@@ -3,6 +3,7 @@ import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { FileManagerService } from '../file-manager.service';
 import { HttpService } from '../../../../services/http.service';
+import { MessageShowService } from '../../../..';
 
 
 class fileObj {
@@ -11,7 +12,7 @@ class fileObj {
   private fileSize: any;
 
 
-  constructor(fileName: string, fileType: string, fileSize: any) {
+  constructor(fileName: string, fileType: string, fileSize: any,) {
     this.fileName = fileName;
     this.fileType = fileType;
     this.fileSize = this.getSizeMB(fileSize);
@@ -52,12 +53,14 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   @Output() uploadStatus = new EventEmitter<any>();
 
   progress: number = 0;
+  progressBar: boolean = false;
   type: string = "";
   customFileArr: fileObj[] = [];
   category_id: number | string = "-1";
   youtubeUrl: any = '';
-  is_readonly:any = '';
+  is_readonly: any = '';
   vimeo_category_id = '272';
+  fileUploadXHR: any = '';
 
   category_image = {
     png: "1",
@@ -108,7 +111,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       png: "10",
       pptx: "11",
       ppt: "12",
-      zip:'13'
+      zip: '13'
     },
     66: {
       pdf: "1",
@@ -123,7 +126,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       png: "10",
       pptx: "11",
       ppt: "12",
-      zip:'13',
+      zip: '13',
       mp3: "14",
       wav: "15",
     },
@@ -135,7 +138,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       xlsx: "5",
       txt: "6",
       rtf: "7",
-      zip:'8'
+      zip: '8'
     },
     182: {
       pdf: "1",
@@ -145,7 +148,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       xlsx: "5",
       txt: "6",
       rtf: "7",
-      zip:'8'
+      zip: '8'
     },
     272: {
       avi: '1',
@@ -153,7 +156,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       wmv: '3',
       mp4: '4',
       webm: '5',
-      mkv: '6' ,
+      mkv: '6',
       ogv: '7',
       vob: '8',
       gifv: '9',
@@ -218,13 +221,13 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     txt:"6",
     rtf:"7"
   } */
-
+  selectedFiles1: any;
   tempArr: any[] = [];
   inputFiles: any;
   isUploadingXls: boolean = false;
   @ViewChild('form') form: ElementRef;
   Vimeofile: any = {
-    files : []
+    files: []
   };
 
   constructor(
@@ -232,12 +235,13 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     private fileService: FileManagerService,
     private appC: AppComponent,
     private auth: AuthenticatorService,
-    private httpService: HttpService
-    ) { }
+    private httpService: HttpService,
+    private msgService: MessageShowService,
+  ) { }
 
   ngOnInit() {
     this.getCategories();
-    if(this.editView && this.editView.editView == true) {
+    if (this.editView && this.editView.editView == true) {
       this.category_id = this.editView.res.category_id;
       this.youtubeUrl = this.editView.res.file_name;
       this.is_readonly = this.editView.res.is_readonly;
@@ -325,146 +329,341 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
   uploadHandler() {
 
-    if(this.category_id!=230){
-    if (this.categoryCheck(this.category_id) == true) {
+    if (this.category_id != 230) {
+      if (this.categoryCheck(this.category_id) == true) {
 
-      if (this.selectedFiles.length == 0) {
-        this.appC.popToast({ type: "error", body: "No file selected" })
-        return
+        if (this.selectedFiles.length == 0) {
+          this.appC.popToast({ type: "error", body: "No file selected" })
+          return
+        }
+
+        if (this.duplicateFileCheck() == false) {
+          this.appC.popToast({ type: "error", body: "File already exists" })
+          return
+        }
+        if (this.category_id == this.vimeo_category_id) {
+          this.uploadVimeo();
+        }
+        else {
+          this.uploadFile();
+        }
+
       }
-
-      if (this.duplicateFileCheck() == false) {
-        this.appC.popToast({ type: "error", body: "File already exists" })
-        return
-      }
-
+    } else {
       this.uploadFile();
     }
-  } else {
-    this.uploadFile();
-  }
 
 
   }
 
-  uploadFile() {
-      let path: string = "";
-      let institute_id = sessionStorage.getItem("institute_id");
+  uploadVimeo() {
+    let path: string = "";
+    let institute_id = sessionStorage.getItem("institute_id");
 
-      path = this.pathArray.join('/') + '/'
+    path = this.pathArray.join('/') + '/'
 
-      let formData = new FormData();
-      // formData.append("file", this.selectedFiles[0]);
+    let formData = new FormData();
+    // formData.append("file", this.selectedFiles[0]);
 
-      let size = 0;
-      let fileJson = {
-        "size": '',
-        "title": '',
+    let size = 0;
+    let fileJson = {
+      "size": '',
+      "title": '',
+    }
+    if (this.category_id == this.vimeo_category_id) {
+      if (this.youtubeUrl == '') {
+        this.appC.popToast({ type: "error", body: "Please Enter title" })
+        return;
       }
-      if(this.category_id == this.vimeo_category_id) {
-        if(this.youtubeUrl == '') {
-          this.appC.popToast({ type: "error", body: "Please Enter title" })
-          return;
-        }
+      this.selectedFiles1 = this.Vimeofile.files[0];
       size = this.Vimeofile.files && this.Vimeofile.files[0] ? this.Vimeofile.files[0].size : 0;
-      fileJson.size = (size / (1024*1024)).toFixed(3);
+      fileJson.size = this.Vimeofile.files && this.Vimeofile.files[0] ? this.Vimeofile.files[0].size : 0;
       fileJson.title = this.youtubeUrl;
-      } else {
-        let arr = Array.from(this.selectedFiles)
-        arr.map((ele, index) => {
-          formData.append("file_" + index, ele);
-        })
-      }
-      formData.append('fileJson', JSON.stringify(fileJson));
-      this.uploadStatus.emit(true);
-      let base = this.auth.getBaseUrl();
-      let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
-      let newxhr = new XMLHttpRequest();
-      let auths: any = {
-        userid: sessionStorage.getItem('userid'),
-        userType: sessionStorage.getItem('userType'),
-        password: sessionStorage.getItem('password'),
-        institution_id: sessionStorage.getItem('institute_id'),
-        category_id: this.category_id,
-      }
-      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+    } else {
+      let arr = Array.from(this.selectedFiles)
+      arr.map((ele, index) => {
+        formData.append("file_" + index, ele);
+      })
+    }
+    formData.append('fileJson', JSON.stringify(fileJson));
 
-      newxhr.open("POST", urlPostXlsDocument, true);
+    this.uploadStatus.emit(true);
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
+    let newxhr = new XMLHttpRequest();
+    let auths: any = {
+      userid: sessionStorage.getItem('userid'),
+      userType: sessionStorage.getItem('userType'),
+      password: sessionStorage.getItem('password'),
+      institution_id: sessionStorage.getItem('institute_id'),
+      category_id: this.category_id,
+    }
+    let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
-      // newxhr.setRequestHeader("Pragma", "no-cache");
-      // newxhr.setRequestHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      // newxhr.setRequestHeader("processData", "false");
-      newxhr.setRequestHeader("category_id", this.category_id.toString());
-      newxhr.setRequestHeader("institute_id", institute_id);
-      if(this.category_id!=this.vimeo_category_id) {
-        newxhr.setRequestHeader("youtubeUrl", this.youtubeUrl);
-      }
-      newxhr.setRequestHeader("Authorization", Authorization);
-      newxhr.setRequestHeader("enctype", "multipart/form-data;");
-      newxhr.setRequestHeader("keyName", path);
-      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-      // newxhr.setRequestHeader("Access-Control-Allow-Headers", "*");
-      // newxhr.setRequestHeader("dataType", "json");
-      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    newxhr.open("POST", urlPostXlsDocument, true);
+
+    // newxhr.setRequestHeader("Pragma", "no-cache");
+    // newxhr.setRequestHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    // newxhr.setRequestHeader("processData", "false");
+    newxhr.setRequestHeader("category_id", this.category_id.toString());
+    newxhr.setRequestHeader("institute_id", institute_id);
+    if (this.category_id != this.vimeo_category_id) {
+      newxhr.setRequestHeader("youtubeUrl", this.youtubeUrl);
+    }
+    newxhr.setRequestHeader("Authorization", Authorization);
+    newxhr.setRequestHeader("enctype", "multipart/form-data;");
+    newxhr.setRequestHeader("keyName", path);
+    newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+    // newxhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+    // newxhr.setRequestHeader("dataType", "json");
+    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 
 
-      this.isUploadingXls = true;
-      for (let file of this.tempArr) {
-        newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-          if (e.lengthComputable) {
-            this.progress = Math.round((e.loaded * 100) / e.total);
-            document.getElementById('progress-width').style.width = this.progress + '%';
-            this.fileLoading = file.name;
-          }
-        }, false);
-      }
-      newxhr.onreadystatechange = () => {
-        if (newxhr.readyState == 4) {
-          this.progress = 0;
+    this.isUploadingXls = true;
+    for (let file of this.tempArr) {
+      newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+        if (e.lengthComputable) {
+          this.progress = Math.round((e.loaded * 100) / e.total);
+          document.getElementById('progress-width').style.width = this.progress + '%';
+          this.fileLoading = file.name;
+        }
+      }, false);
+    }
+    newxhr.onreadystatechange = () => {
+      if (newxhr.readyState == 4) {
+        this.progress = 0;
 
-          if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.isUploadingXls = false;
-            if(this.category_id!= this.vimeo_category_id) {
-              let data = {
-                type: 'success',
-                title: "File uploaded successfully",
-                body: newxhr.response.fileName
-              }
-              this.appC.popToast(data);
-            } else {
-              let payloadObject: any = JSON.parse(newxhr.response);	
-              let Vimeopayload = payloadObject;	
-              var res = Vimeopayload.upload_link.substring(0 , Vimeopayload.upload_link.lastIndexOf("="));	
-              let url = window.location.href;	
-              url = url.substring(0 , url.lastIndexOf("#"));	
-              res = res.concat('=' + url + '#/view/course/file-manager/drive?videoId=' + Vimeopayload.videoId);	
-              if(Vimeopayload.upload_link!='' && Vimeopayload.upload_link!=null) {	
-                (document.getElementById('form') as HTMLFormElement).action = res;	
-                this.form.nativeElement.submit();	
-              }
-            }
-            this.uploadStatus.emit(false);
-            this.manualUpload = false;
-            this.filePath.emit(path);
-            this.closePopupValue.emit(false);
-            this.getFilesAndFolder.emit(newxhr.status);
-
-          } else {
-            this.isUploadingXls = false;
-            this.uploadStatus.emit(false);
+        if (newxhr.status >= 200 && newxhr.status < 300) {
+          this.isUploadingXls = false;
+          if (this.category_id != this.vimeo_category_id) {
             let data = {
-              type: 'error',
-              title: "File uploaded failed",
+              type: 'success',
+              title: "File uploaded successfully",
               body: newxhr.response.fileName
             }
             this.appC.popToast(data);
-
+          } else {
+            let payloadObject: any = JSON.parse(newxhr.response);
+            let Vimeopayload = payloadObject;
+            var res = Vimeopayload.upload_link.substring(0, Vimeopayload.upload_link.lastIndexOf("="));
+            let url = window.location.href;
+            url = url.substring(0, url.lastIndexOf("#"));
+            res = res.concat('=' + url + '#/view/course/file-manager/drive?videoId=' + Vimeopayload.videoId);
+            if (Vimeopayload.upload_link != '' && Vimeopayload.upload_link != null) {
+              // (document.getElementById('form') as HTMLFormElement).action = res;	
+              // this.form.nativeElement.submit();	
+              this.patchRequest(Vimeopayload, path);
+            }
+            else {
+              this.getFilesAndFolder.emit(newxhr.status);
+              this.uploadStatus.emit(false);
+              this.manualUpload = false;
+              this.filePath.emit(path);
+              this.closePopupValue.emit(false);
+            }
           }
+          // this.uploadStatus.emit(false);
+          // this.manualUpload = false;
+          // this.filePath.emit(path);
+          // this.closePopupValue.emit(false);
+          // this.getFilesAndFolder.emit(newxhr.status);
+
+        } else {
+          this.isUploadingXls = false;
+          this.uploadStatus.emit(false);
+          let data = {
+            type: 'error',
+            title: "File uploaded failed",
+            body: newxhr.response.fileName
+          }
+          this.appC.popToast(data);
+
         }
       }
-      newxhr.send(formData);
+    }
+    newxhr.send(formData);
   }
+  uploadFile() {
+    let path: string = "";
+    let institute_id = sessionStorage.getItem("institute_id");
 
+    path = this.pathArray.join('/') + '/'
+
+    let formData = new FormData();
+    // formData.append("file", this.selectedFiles[0]);
+
+    let size = 0;
+    let fileJson = {
+      "size": '',
+      "title": '',
+    }
+    if (this.category_id == this.vimeo_category_id) {
+      if (this.youtubeUrl == '') {
+        this.appC.popToast({ type: "error", body: "Please Enter title" })
+        return;
+      }
+      size = this.Vimeofile.files && this.Vimeofile.files[0] ? this.Vimeofile.files[0].size : 0;
+      fileJson.size = this.Vimeofile.files && this.Vimeofile.files[0] ? this.Vimeofile.files[0].size : 0;
+      // fileJson.size = (size / (1024 * 1024)).toFixed(3);
+      fileJson.title = this.youtubeUrl;
+    } else {
+      let arr = Array.from(this.selectedFiles)
+      arr.map((ele, index) => {
+        formData.append("file_" + index, ele);
+      })
+    }
+    formData.append('fileJson', JSON.stringify(fileJson));
+    this.uploadStatus.emit(true);
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
+    let newxhr = new XMLHttpRequest();
+    let auths: any = {
+      userid: sessionStorage.getItem('userid'),
+      userType: sessionStorage.getItem('userType'),
+      password: sessionStorage.getItem('password'),
+      institution_id: sessionStorage.getItem('institute_id'),
+      category_id: this.category_id,
+    }
+    let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+
+    newxhr.open("POST", urlPostXlsDocument, true);
+
+    // newxhr.setRequestHeader("Pragma", "no-cache");
+    // newxhr.setRequestHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    // newxhr.setRequestHeader("processData", "false");
+    newxhr.setRequestHeader("category_id", this.category_id.toString());
+    newxhr.setRequestHeader("institute_id", institute_id);
+    if (this.category_id != this.vimeo_category_id) {
+      newxhr.setRequestHeader("youtubeUrl", this.youtubeUrl);
+    }
+    newxhr.setRequestHeader("Authorization", Authorization);
+    newxhr.setRequestHeader("enctype", "multipart/form-data;");
+    newxhr.setRequestHeader("keyName", path);
+    newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+    // newxhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+    // newxhr.setRequestHeader("dataType", "json");
+    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+
+    this.isUploadingXls = true;
+    for (let file of this.tempArr) {
+      newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+        if (e.lengthComputable) {
+          this.progress = Math.round((e.loaded * 100) / e.total);
+          document.getElementById('progress-width').style.width = this.progress + '%';
+          this.fileLoading = file.name;
+        }
+      }, false);
+    }
+    newxhr.onreadystatechange = () => {
+      if (newxhr.readyState == 4) {
+        this.progress = 0;
+
+        if (newxhr.status >= 200 && newxhr.status < 300) {
+          this.isUploadingXls = false;
+          if (this.category_id != this.vimeo_category_id) {
+            let data = {
+              type: 'success',
+              title: "File uploaded successfully",
+              body: newxhr.response.fileName
+            }
+            this.appC.popToast(data);
+          } else {
+            let payloadObject: any = JSON.parse(newxhr.response);
+            let Vimeopayload = payloadObject;
+            var res = Vimeopayload.upload_link.substring(0, Vimeopayload.upload_link.lastIndexOf("="));
+            let url = window.location.href;
+            url = url.substring(0, url.lastIndexOf("#"));
+            res = res.concat('=' + url + '#/view/course/file-manager/drive?videoId=' + Vimeopayload.videoId);
+            if (Vimeopayload.upload_link != '' && Vimeopayload.upload_link != null) {
+              (document.getElementById('form') as HTMLFormElement).action = res;
+              this.form.nativeElement.submit();
+            }
+          }
+          this.uploadStatus.emit(false);
+          this.manualUpload = false;
+          this.filePath.emit(path);
+          this.closePopupValue.emit(false);
+          this.getFilesAndFolder.emit(newxhr.status);
+
+        } else {
+          this.isUploadingXls = false;
+          this.uploadStatus.emit(false);
+          let data = {
+            type: 'error',
+            title: "File uploaded failed",
+            body: newxhr.response.fileName
+          }
+          this.appC.popToast(data);
+
+        }
+      }
+    }
+    newxhr.send(formData);
+  }
+  patchRequest(obj, path) {
+    // this.auth.showLoader();
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = obj.upload_link;
+    this.fileUploadXHR = new XMLHttpRequest();
+
+    this.fileUploadXHR.open("PATCH", urlPostXlsDocument, true);
+    this.fileUploadXHR.setRequestHeader("Tus-Resumable", '1.0.0');
+    this.fileUploadXHR.setRequestHeader("Upload-Offset", '0');
+    this.fileUploadXHR.setRequestHeader("Content-Type", "application/offset+octet-stream");
+    this.fileUploadXHR.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4");
+
+    this.progressBar = true;
+    this.isUploadingXls = true;
+    this.fileUploadXHR.upload.addEventListener('progress', (e: ProgressEvent) => {
+      if (e.lengthComputable) {
+        this.progress = Math.round((e.loaded * 100) / e.total);
+        document.getElementById('progress-width').style.width = this.progress + '%';
+      }
+    }, false);
+
+    this.fileUploadXHR.onreadystatechange = () => {
+      if (this.fileUploadXHR.readyState == 4) {
+
+        if (this.fileUploadXHR.status >= 200 && this.fileUploadXHR.status < 300) {
+          this.auth.hideLoader();
+          this.updateVimeoStatus(obj.videoId);
+          this.isUploadingXls = false;
+          this.getFilesAndFolder.emit(200);
+          this.uploadStatus.emit(false);
+          this.manualUpload = false;
+          this.filePath.emit(path);
+          this.closePopupValue.emit(false);
+        }
+      }
+      else {
+        this.progress = 0;
+        this.progressBar = false;
+        this.isUploadingXls = false;
+        this.auth.hideLoader();
+      }
+    }
+    console.log("this.selectedFiles[0]", this.selectedFiles1);
+    this.fileUploadXHR.send(this.selectedFiles1);
+  }
+  updateVimeoStatus(videoId) {
+    let obj = {
+      "videoID": videoId,
+      "institute_id": sessionStorage.getItem("institute_id"),
+      "video_status": "Queued",
+      "category_id": Number(this.vimeo_category_id)
+    }
+    this.httpService.postData('/api/v1/instFileSystem/updateVideoStatus', obj).subscribe(
+      (res: any) => {
+        this.msgService.showErrorMessage('success', '', 'File(s) uploaded successfully');
+        // $('#uploadRec').modal('hide');
+        this.fileUploadXHR = '';
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
   duplicateFileCheck() {
     for (let i = 0; i < this.selectedFiles.length; i++) {
       for (let j = 0; j < this.currentFilesArray.length; j++) {
@@ -484,18 +683,18 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       return false;
     }
     else {
-      if(this.category_id!=230){
-      this.type = Object.keys(this.acceptedFiles[this.category_id]).join()
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-        let type = this.getType(this.selectedFiles[i].name);
-        if (this.acceptedFiles[this.category_id].hasOwnProperty(type) == false) {
-          this.createErrorToast("File doesn\'t match with the selected category ");
-          return false;
-        } else if((new RegExp("[~#%\&'{}+\|]|\\.\\.|^\\.|\\.$")).test(this.selectedFiles[i].name)) {
+      if (this.category_id != 230) {
+        this.type = Object.keys(this.acceptedFiles[this.category_id]).join()
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          let type = this.getType(this.selectedFiles[i].name);
+          if (this.acceptedFiles[this.category_id].hasOwnProperty(type) == false) {
+            this.createErrorToast("File doesn\'t match with the selected category ");
+            return false;
+          } else if ((new RegExp("[~#%\&'{}+\|]|\\.\\.|^\\.|\\.$")).test(this.selectedFiles[i].name)) {
             this.createErrorToast("Special characters in file name are not allowed");
             return false;
+          }
         }
-      }
       }
       return true;
     }
@@ -520,14 +719,14 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
   updateYoutubeURL() {
     let obj = {
-        "title":this.youtubeUrl,
-        "institute_id": sessionStorage.getItem('institute_id'),
-        "category_id":this.category_id,
-        "is_readonly":this.is_readonly
+      "title": this.youtubeUrl,
+      "institute_id": sessionStorage.getItem('institute_id'),
+      "category_id": this.category_id,
+      "is_readonly": this.is_readonly
     }
     this.auth.showLoader();
-    this.httpService.putData('/api/v1/instFileSystem/update/'+this.editView.res.file_id, obj).subscribe(
-      (res:any) => {
+    this.httpService.putData('/api/v1/instFileSystem/update/' + this.editView.res.file_id, obj).subscribe(
+      (res: any) => {
         this.auth.hideLoader();
         this.manualUpload = false;
         let data = {
@@ -536,12 +735,12 @@ export class UploadPopupComponent implements OnInit, OnChanges {
           body: ''
         }
         this.appC.popToast(data);
-        if(this.category_id == 230 || this.category_id == this.vimeo_category_id){
-        let temp = this.editView.res.keyName.split('/https');
-        if(temp && temp.length) {
-        let newPath = temp[0].concat('/');
-        this.filePath.emit(newPath);
-        }
+        if (this.category_id == 230 || this.category_id == this.vimeo_category_id) {
+          let temp = this.editView.res.keyName.split('/https');
+          if (temp && temp.length) {
+            let newPath = temp[0].concat('/');
+            this.filePath.emit(newPath);
+          }
         } else {
           let path = this.editView.res.keyName.split('/');
           path.pop();
