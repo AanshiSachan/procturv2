@@ -179,7 +179,7 @@ export class ReportsComponent implements OnInit {
 
       obj["Received Date"] = data.payment_date;
       obj["Payee"] = data.party_name;
-      obj["Category"] = data.category;
+      obj["Item/Category"] = data.category;
       obj["Category_Description"] = data.category_description,
         obj["Amount(Rs)"] = data.amount;
       exportedArray.push(obj);
@@ -197,7 +197,7 @@ export class ReportsComponent implements OnInit {
 
       obj["Received Date"] = data.payment_date;
       obj["Payer"] = data.party_name;
-      obj["Category"] = data.category;
+      obj["Item/Category"] = data.category;
       obj["Category_Description"] = data.category_description,
         obj["Amount(Rs)"] = data.amount;
       exportedArray.push(obj);
