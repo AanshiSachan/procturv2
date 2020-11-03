@@ -481,7 +481,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.auth.changeAuthenticationKey(Authorization);
         }
       }
-      if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
+      if (res.data.permission_id_list == undefined || res.data.permission_id_list == undefined || res.data.permission_id_list == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
         this.Role_features.checkPermissions();

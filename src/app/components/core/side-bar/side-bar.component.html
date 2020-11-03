@@ -306,7 +306,7 @@
                         </li>
                     </a>
                     <a routerLink="/view/leads/campaign">
-                        <li class="subMenu">
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
                             <span>Add Campaign</span>
                         </li>
                     </a>
