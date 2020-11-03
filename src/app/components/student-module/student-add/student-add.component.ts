@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
+import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -299,6 +300,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   cityList: any[] = [];
   areaList: any[] = [];
   Payment_Modes: any = [];
+  role_feature = role.features;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -345,17 +347,17 @@ export class StudentAddComponent implements OnInit, OnDestroy {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('710')) { //fee reconfiguration
+      if (this.role_feature.FEE_MANAGE) { //fee reconfiguration
         this.checkBoxGroup.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (!permissions.includes('707')) {//1.	Fee Payment for Past Dates
+      if (!this.role_feature.FEE_MANAGE) {//1.	Fee Payment for Past Dates
         this.checkBoxGroup.showFeeSection = false;
       }
-      if (permissions.includes('713')) { //1.	Fee discount
+      if (this.role_feature.FEE_MANAGE) { //1.	Fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
-      if (permissions.includes('714')) { //update payment and manage cheque,pdc
+      if (this.role_feature.FEE_CHEQUE_MANAGE) { //update payment and manage cheque,pdc
         this.checkBoxGroup.manageCheque = true;
         this.checkBoxGroup.showFeeSection = false;
       }
@@ -1816,18 +1818,18 @@ export class StudentAddComponent implements OnInit, OnDestroy {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!permissions.includes('707')) {
+            if (!this.role_feature.FEE_MANAGE) {
               this.checkBoxGroup.hideReconfigure = false;
             }
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('714')) {
+            if (this.role_feature.FEE_CHEQUE_MANAGE) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if ((permissions.includes('710'))) {
+            if (this.role_feature.FEE_MANAGE) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
@@ -1835,7 +1837,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.hideReconfigure = false;
             }
 
-            if (permissions.includes('713')) {
+            if (this.role_feature.FEE_MANAGE) {
               this.checkBoxGroup.feeDiscouting = true;
             }
 

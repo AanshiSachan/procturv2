@@ -6,6 +6,7 @@ import { LoginService } from '../../../../services/login-services/login.service'
 import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { EnquiryReportService } from '../../services/counsellor-service.service';
+import { role } from '../../../../model/role_features';
 
 @Component({
   selector: 'app-counsellor-report',
@@ -37,6 +38,7 @@ export class CounsellorReportComponent implements OnInit {
   searchMyRecords: any[];
 
   popupDataEnquiries: any[];
+  role_feature = role.features;
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'source', header: 'Counsellor' },
@@ -78,7 +80,7 @@ export class CounsellorReportComponent implements OnInit {
     }
     else {
       if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
-        if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+        if (this.role_feature.REPORT_ENQUIRY_COUNSELLOR)
           this.permission = false;
       }
     }

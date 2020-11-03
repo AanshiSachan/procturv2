@@ -2252,7 +2252,7 @@ ul.customDropdown li:hover {
 }
 
 .visibiltyClass {
-  height: 70px !important;
+  min-height: 70px !important;
 
   .upload-icon {
     visibility: hidden;

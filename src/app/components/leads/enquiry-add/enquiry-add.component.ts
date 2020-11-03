@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
@@ -186,6 +187,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   areaList: any[] = [];
   addArea: boolean = false;
   convertEnquiry: boolean = false;
+  role_feature = role.features;
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -222,7 +224,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     }
     else {
       if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
-        if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+        if (this.role_feature.LEAD_MANAGE_ENQUIRY)
           this.permission = true;
       }
     }

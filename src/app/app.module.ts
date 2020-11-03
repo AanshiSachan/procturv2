@@ -17,6 +17,7 @@ import { SharedModule } from './components/shared/shared.module';
 /* Interceptors */
 // import { I1, I2 } from './interceptors/load-interceptor';
 import { AuthGuard } from './guards/auth.guard';
+import { role } from './model/role_features';
 import { AddBookService } from './services/library/add/add-book.service';
 import { IssueBookService } from './services/library/issue/issue-book.service';
 import { MastersService } from './services/library/master/masters.service';
@@ -73,7 +74,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     IssueBookService,
     ReturnBookService,
     ProductService,
-    MasterTagService
+    MasterTagService,
+    role
 
 
     //   {

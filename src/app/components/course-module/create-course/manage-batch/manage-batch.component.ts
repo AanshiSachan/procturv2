@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ManageBatchService } from '../../../../services/course-services/manage-batch.service';
 
@@ -61,6 +62,7 @@ export class ManageBatchComponent implements OnInit {
     academic_year_id:'-1',
     is_exam_grad_feature: false
   }
+  role_feature = role.features;
 
 
 
@@ -670,7 +672,7 @@ export class ManageBatchComponent implements OnInit {
       if (permissionArray == "" || permissionArray == null) {
         return false;
       }
-      else if (permissionArray.indexOf('401') != -1) {
+      else if (!this.role_feature.SETUP_MENU) {
         return false;
       }
       else {

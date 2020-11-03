@@ -7,6 +7,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { AppComponent } from '../../../app.component';
 import { ExpensesService } from '../../../services/expenses.service';
 import { ExcelService } from '../../../services/excel.service';
+import { role } from '../../../model/role_features';
 
 
 @Component({
@@ -63,6 +64,7 @@ export class ExpensesComponent implements OnInit {
     categoryIds: '',
     user_id: ''
   };
+  role_feature = role.features;
 
 
   constructor(
@@ -90,7 +92,7 @@ export class ExpensesComponent implements OnInit {
       }
     )
 
-    if (this.username == "admin" || this.permissionArray.includes("715")) {
+    if (this.username == "admin" || this.role_feature.EXPENSE_MENU) {
       this.expensesSearchFilter.user_id = 0;
       this.userid = 0;
     }
@@ -98,7 +100,7 @@ export class ExpensesComponent implements OnInit {
       this.expensesSearchFilter.user_id = this.userid;
     }
 
-    if (this.permissionArray.includes("715") || this.username == "admin") {
+    if (this.role_feature.EXPENSE_MENU || this.username == "admin") {
       this.limitedAccess = true;
     }
     else {

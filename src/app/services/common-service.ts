@@ -3,6 +3,7 @@ import { Toast, ToasterService } from 'angular2-toaster';
 import * as moment from 'moment';
 // import { BehaviorSubject } from '../../../node_modules/rxjs/BehaviorSubject';
 import { BehaviorSubject } from 'rxjs';
+import { role } from '../model/role_features';
 
 @Injectable()
 
@@ -10,6 +11,7 @@ export class CommonServiceFactory {
 
     currency_default_symbol: any = '₹​ ';
     show_loader = new BehaviorSubject('hide');
+    role_feature = role.features;
     constructor(private toasterService: ToasterService) { }
 
     // Check User Is Admin Or not return boolean
@@ -283,7 +285,7 @@ export class CommonServiceFactory {
         if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
             if (sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != '') {
                 var permissions = JSON.parse(sessionStorage.getItem('permissions'));
-                if (!permissions.includes('726')) {
+                if (!this.role_feature.MOBILE_NUMBER_VISIBILITY) {
                     list.forEach(el => {
                         var countryCode = el.phone.split('-')[0];
                         var phnNo = el.phone.split('-')[1];

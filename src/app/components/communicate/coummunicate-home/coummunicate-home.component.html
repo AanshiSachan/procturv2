@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="pull-right act-right-sec">
-      <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess('105')}"
+      <button class="btn hide add_send_noti" [ngClass]="{hide : !role_feature.COMMUNICATE_ADD_SEND}"
         (click)="addSendNotification()">
 
         <i class="fa fa-plus" aria-hidden="true"></i>

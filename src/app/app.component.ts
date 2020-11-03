@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Toast, ToasterConfig, ToasterService } from 'angular2-toaster';
+import { role } from './model/role_features';
 import { AuthenticatorService } from './services/authenticator.service';
 import { CommonServiceFactory } from './services/common-service';
 import { LoginService } from './services/login-services/login.service';
@@ -38,8 +39,10 @@ export class AppComponent implements OnInit,AfterViewChecked {
     private log: LoginService,
     public commonService: CommonServiceFactory,
     public auth:AuthenticatorService,
-    private cd :ChangeDetectorRef
+    private cd :ChangeDetectorRef,
+    private role_feature: role
   ) {
+    this.role_feature.checkPermissions();
   }
 
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RoleService } from '../../../../services/user-management/role.service';
 import { AppComponent } from '../../../../app.component';
+import { role } from '../../../../model/role_features';
 
 @Component({
   selector: 'app-add-edit-role',
@@ -21,6 +22,7 @@ export class AddEditRoleComponent implements OnInit {
   libraryRoleInstituteId: any;
   kakadeRoleInstituteId: any;
   selectedRoleLength: any = 0;
+  role_feature = role.features;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,7 +54,7 @@ export class AddEditRoleComponent implements OnInit {
         if (this.instituteId != this.libraryRoleInstituteId) {
           if (this.instituteId != 100127) {
             for (let t = 0; t < this.featuresArray.length; t++) {
-              if (this.featuresArray[t].feature_id == 721) {
+              if (this.featuresArray[t].feature_id == 5031) {
                 this.featuresArray.splice(t, 1);
               }
             }
@@ -61,7 +63,7 @@ export class AddEditRoleComponent implements OnInit {
         if (this.instituteId != this.kakadeRoleInstituteId || this.instituteId != 100127) {
           if (this.instituteId != 100767 && this.instituteId != 100127) {
             for (let t = 0; t < this.featuresArray.length; t++) {
-              if (this.featuresArray[t].feature_id == 718) {
+              if (this.featuresArray[t].feature_id == 5021) {
                 this.featuresArray.splice(t, 1);
               }
             }

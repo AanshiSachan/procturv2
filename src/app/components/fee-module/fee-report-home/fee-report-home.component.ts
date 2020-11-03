@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class FeeReportHomeComponent implements OnInit {
   }
   tax_type_without_percentage: String;
   is_tax_enabled: any;
+  role_feature = role.features;
   constructor(private auth: AuthenticatorService) { }
 
   ngOnInit() {
@@ -39,18 +41,14 @@ export class FeeReportHomeComponent implements OnInit {
     }
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('714')) { //update payment and manage cheque,pdc  hide download
+      if (this.role_feature.FEE_CHEQUE_MANAGE) { //update payment and manage cheque,pdc  hide download
         this.showChart = false;
       }
-      if (permissions.includes('709')) {
+      if (this.role_feature.FEE_MANAGE || this.role_feature.FEE_MENU) {
         this.showChart = true;
       }
-      if (permissions.indexOf('102') != -1) {
+      if (this.role_feature.FEE_CHEQUE_MANAGE) {
         this.jsonFlags.isFeeActivity = true;
-      }
-      /* profit and lodd */
-      if (permissions.indexOf('208') != -1) {
-        this.jsonFlags.isProfitnloss = true;
       }
 
     }
