@@ -122,11 +122,13 @@ export class CounsellorReportComponent implements OnInit {
     }
     else {
 
-      this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY');
-      this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY');
+      this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD');
+      this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD');
 
       this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
         (data: any) => {
+          this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY');
+          this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY');
           for (var prop in data) {
             if (data.hasOwnProperty(prop)) {
               let innerObj = {};

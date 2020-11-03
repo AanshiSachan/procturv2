@@ -147,7 +147,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_phone: "",
     student_curr_addr: "",
     dob: "",
-    doj: moment().format('MM-DD-YYYY'),
+    doj: "",
     expiry_date: "",
     school_name: "-1",
     student_class_key: "",
@@ -1335,6 +1335,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.auth.hideLoader();
         this.studentName = data.student_name;
         this.studentAddFormData = data;
+        this.studentAddFormData.doj = moment(this.studentAddFormData.doj).format('MM-DD-YYYY');
+        this.studentAddFormData.dob = moment(this.studentAddFormData.dob).format('MM-DD-YYYY');
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
