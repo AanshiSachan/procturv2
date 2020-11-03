@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { StudentFeeService } from '../student_fee.service';
+import { role } from '../../../model/role_features';
 
 @Component({
   selector: 'student-fee-table',
@@ -149,6 +150,7 @@ export class StudentFeeTableComponent implements OnInit {
     initial_fee_amount_before_disocunt_before_tax: 0,
     academic_year_id: '-1'
   }
+  role_feature = role.features;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -263,7 +265,7 @@ export class StudentFeeTableComponent implements OnInit {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
-      if ((!permissions.includes('707')) || (!permissions.includes('714'))) {
+      if ((!this.role_feature.FEE_MANAGE) || (this.role_feature.FEE_CHEQUE_MANAGE)) {
         let isError = false;
         for (let i = 0; i < customFees.length; i++) {
           if (customFees[i].temp_due_date) {

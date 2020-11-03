@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { LoginAuth } from '../../../model/login-auth';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -103,6 +104,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   single_login_login_check = false;
   multiWindowLogin: boolean = false;
   isKominaInstitute: boolean = false;
+  Role_features: role = new role();
   constructor(
     private login: LoginService,
     private route: Router,
@@ -483,6 +485,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.auth.changeAuthenticationKey(Authorization);
         }
       }
+      if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
+        sessionStorage.setItem('permissions', '');
+        this.login.changePermissions('');
+        this.Role_features.checkPermissions();
+      }
+      else {
+        sessionStorage.setItem('permissions', JSON.stringify(res.data.permission_id_list));
+        this.login.changePermissions(JSON.stringify(res.data.permission_id_list));
+        this.Role_features.checkPermissions();
+      }
       // this.auth.changeInstituteId(institute_data.institution_id);
       this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
       this.auth.course_flag.next(institute_data.course_structure_flag);
@@ -595,16 +607,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       // End
       sessionStorage.setItem('enable_online_assignment_feature', institute_data.enable_online_assignment_feature);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
-
-      if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
-        sessionStorage.setItem('permissions', '');
-        this.login.changePermissions('');
-      }
-      else {
-        sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
-        this.login.changePermissions(JSON.stringify(res.data.permissions.split(',')));
-      }
-
 
       if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
         this.createTablePreferences();

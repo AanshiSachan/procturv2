@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
 import { instituteInfo } from '../../../../model/instituteinfo';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
 import { FetchenquiryService } from '../../../../services/enquiry-services/fetchenquiry.service';
@@ -336,6 +337,7 @@ export class EnquiryHomeComponent implements OnInit {
     stateList: any[] = [];
     cityDetails: any[] = [];
     showBulkUpload: any = false;
+    role_feature = role.features;
 
     downloadReportFor = {
         enquiry: false,
@@ -413,7 +415,7 @@ export class EnquiryHomeComponent implements OnInit {
         }
         else {
             if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
-                if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+                if (this.role_feature.LEAD_MANAGE_ENQUIRY)
                     this.permission = false;
             }
         }
@@ -486,10 +488,10 @@ export class EnquiryHomeComponent implements OnInit {
 
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('714')) { ////update payment and manage cheque,pdc  hide download
+            if (this.role_feature.FEE_CHEQUE_MANAGE) { ////update payment and manage cheque,pdc  hide download
                 this.varJson.showDownloadSummary = false;
             }
-            if (permissions.includes('712')) { // show download summery
+            if (this.role_feature.REPORT_ENQUIRY_COURSE_WISE) { // show download summery
                 this.varJson.showDownloadSummary = true;
             }
         }
@@ -512,7 +514,7 @@ export class EnquiryHomeComponent implements OnInit {
         if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
             if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
                 let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-                this.showBulkUpload = permissions.includes('728') ? true : false;//sms visiblity
+                this.showBulkUpload = this.role_feature.LEAD_MANAGE_ENQUIRY ? true : false;//sms visiblity
             }
         } else {
             this.showBulkUpload = true;

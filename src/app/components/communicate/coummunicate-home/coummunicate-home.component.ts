@@ -7,6 +7,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { WidgetService } from '../../../services/widget.service';
 import { AppComponent } from '../../../app.component';
 import { ProductService } from '../../../services/products.service';
+import { role } from '../../../model/role_features';
 
 declare var $;
 
@@ -69,6 +70,7 @@ export class CoummunicateHomeComponent implements OnInit {
   allChecked: boolean = true;
   searchData: string = "";
   openAppUserSelected = false;
+  role_feature = role.features;
 
   constructor(
     private auth: AuthenticatorService,
@@ -92,8 +94,8 @@ export class CoummunicateHomeComponent implements OnInit {
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        this.showSMSReport = this.permissions.includes('206') ? true : false;//sms visiblity
-        this.showEmailReport = this.permissions.includes('207') ? true : false; //email visiblity
+        this.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
       }
     }
     else {

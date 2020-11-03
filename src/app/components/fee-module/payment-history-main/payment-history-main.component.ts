@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { ExcelService } from '../../../services/excel.service';
@@ -119,6 +120,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     cheque_no: "",
     cheque_status_id: "1"
   }
+  role_feature = role.features;
 
   constructor(
     private payment: PaymentHistoryMainService,
@@ -137,7 +139,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('708')) {//	Fee Transaction Change if enambled then edit button will show
+      if (this.role_feature.FEE_MANAGE) {//	Fee Transaction Change if enambled then edit button will show
         this.tableSetting.actionSetting =
           {
             showActionButton: true,

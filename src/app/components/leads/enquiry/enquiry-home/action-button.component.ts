@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, HostListener, ElementRef, Input, Output, 
 import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { role } from '../../../../model/role_features';
 
 @Component({
   selector: 'enquiry-actions',
@@ -22,6 +23,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
 
   @Output() eventSelected = new EventEmitter<string>();
   hasDeleteAccess: boolean = false;
+  role_feature = role.features;
 
   constructor(
     private pops: PopupHandlerService,
@@ -87,7 +89,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
     else {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('301')) {
+      if (this.role_feature.STUDENT_MENU_ITEM) {
         this.hasStudentAccess = true;
         this.hasDeleteAccess = false;
       }

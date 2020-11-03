@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { HttpService } from '../../../../../services/http.service';
 import { AppComponent } from '../../../../../app.component';
+import { role } from '../../../../../model/role_features';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 
@@ -95,6 +96,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     examSchldId: [],
     classSchldId: []
   };
+  role_feature = role.features;
 
   constructor
     (
@@ -131,7 +133,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       this.showManageClass = true;
     } else {
       if (permissionArray != "") {
-        if (permissionArray.indexOf('701') != -1 || permissionArray.indexOf('402') != -1) {
+        if (this.role_feature.CLASS_MENU) {
           this.showManageClass = true;
         } else {
           this.showManageClass = false;

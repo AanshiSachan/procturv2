@@ -5,6 +5,7 @@ import * as moment from 'moment';
 // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
+import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -313,6 +314,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   };
 
   assignTo: boolean = true;
+  role_feature = role.features;
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -360,16 +362,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
-      if (permissions.includes('714')) {
+      if (this.role_feature.FEE_CHEQUE_MANAGE) {
         this.checkBoxGroup.manageCheque = true;
         this.showFeeSection = false;
         this.checkBoxGroup.hideReconfigure = false;
       }
-      if (permissions.includes('710')) {
+      if (this.role_feature.FEE_MANAGE) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (permissions.includes('713')) {  //fee discount
+      if (this.role_feature.FEE_MANAGE) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
       if (sessionStorage.getItem('permissions') == undefined
@@ -1962,19 +1964,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('714')) {
+            if (this.role_feature.FEE_CHEQUE_MANAGE) {
               this.showFeeSection = true;
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if ((permissions.includes('710'))) {
+            if (this.role_feature.FEE_MANAGE) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (permissions.includes('713')) {  //fee discount
+            if (this.role_feature.FEE_MANAGE) {  //fee discount
               this.checkBoxGroup.feeDiscouting = true;
             }
             if (sessionStorage.getItem('permissions') == undefined

@@ -15,6 +15,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { WidgetService } from '../../../services/widget.service';
 import { ProductService } from '../../../services/products.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { role } from '../../../model/role_features';
 
 declare var $;
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
@@ -180,6 +181,7 @@ export class AdminHomeComponent implements OnInit {
 
   reminderRemarks: string = '';
   remarksLimit: number = 50;
+  role_feature = role.features;
 
 
   /* ===================================================================================== */
@@ -252,7 +254,7 @@ export class AdminHomeComponent implements OnInit {
     if (this.userType == 0 && username == "admin") {
       this.userTypeForExpenses = false;
     }
-    else if (this.permissionArray && (this.permissionArray.includes("715") || this.permissionArray.includes("716"))) {
+    else if (this.permissionArray && (this.role_feature.EXPENSE_MENU)) {
       this.userTypeForExpenses = false;
     }
     else {

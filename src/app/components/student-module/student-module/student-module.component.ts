@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { role } from '../../../model/role_features';
 
 @Component({
   selector: 'app-student-module',
@@ -6,6 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./student-module.component.scss']
 })
 export class StudentModuleComponent implements OnInit, OnDestroy {
+  role_feature = role.features;
 
   constructor() { }
 
@@ -20,8 +22,7 @@ export class StudentModuleComponent implements OnInit, OnDestroy {
   // to check user has permission to download any Student reports 
   // Nalini
   checkDownloadPermissionAccess() {
-      let temp = sessionStorage.getItem('permissions');
-      if(temp.includes('724') || (sessionStorage.getItem('username')=='admin')){
+      if(this.role_feature.DOWNLOAD_STUDENT_REPORT || (sessionStorage.getItem('username')=='admin')){
       sessionStorage.setItem('downloadStudentReportAccess',String(true));
     }
 }

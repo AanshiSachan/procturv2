@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { role } from '../../model/role_features';
 
 @Component({
   selector: 'app-fee',
@@ -6,6 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./fee-module.component.scss']
 })
 export class FeeComponent implements OnInit, OnDestroy {
+  role_feature = role.features;
   constructor() { }
 
   ngOnInit() {
@@ -18,8 +20,7 @@ export class FeeComponent implements OnInit, OnDestroy {
   // to check user has permission to download any Fee reports 
   // Nalini
   checkDownloadPermissionAccess() {
-      let temp = sessionStorage.getItem('permissions');
-      if(temp.includes('725') || (sessionStorage.getItem('username')=='admin')){
+      if(this.role_feature.DOWNLOAD_FEE_REPORT || (sessionStorage.getItem('username')=='admin')){
       sessionStorage.setItem('downloadFeeReportAccess',String(true));
     }
 }

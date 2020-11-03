@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { role } from '../../model/role_features';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
 
@@ -134,6 +135,7 @@ export class StudentFeeService {
         course_id_filter: '',
         master_course_name: ''
     };
+    role_feature = role.features;
 
 
     constructor(
@@ -431,13 +433,13 @@ export class StudentFeeService {
         }
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!permissions.includes('707')) {
+            if (!this.role_feature.FEE_MANAGE) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;
                 }
             }
-            if (!permissions.includes('707') && permissions.includes('714')) {
+            if (!this.role_feature.FEE_MANAGE && this.role_feature.FEE_CHEQUE_MANAGE) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;

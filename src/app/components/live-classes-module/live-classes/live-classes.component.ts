@@ -6,6 +6,7 @@ import { DomSanitizer } from '../../../../../node_modules/@angular/platform-brow
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
+import {role} from '../../../model/role_features';
 declare var window;
 declare var $;
 
@@ -235,7 +236,7 @@ export class LiveClassesComponent implements OnInit {
     this.videoLimitExceed = JSON.parse(limit);
     this.getClassesList();
     this.getAuthKey();
-    this.institution_id = sessionStorage.getItem('institution_id')
+    this.institution_id = sessionStorage.getItem('institution_id');
   }
 
   getAuthKey() {
