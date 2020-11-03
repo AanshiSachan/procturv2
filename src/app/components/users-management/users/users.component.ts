@@ -562,7 +562,7 @@ export class UsersComponent implements OnInit {
     this.auth.showLoader();
     let obj = {
       from_date: '',
-      to_date: moment().format("YYYY-MM-DD")
+      to_date: moment().format("MM-DD-YYYY")
     }
     this.httpService.postData('/api/v1/notification/message/' + sessionStorage.getItem('institute_id') + '/all', obj).subscribe(
       res => {

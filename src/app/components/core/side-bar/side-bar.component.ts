@@ -1,12 +1,21 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/Rx';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
+import { Router } from '@angular/router';
+import 'rxjs/Rx';
+
 
 @Component({
   selector: 'app-side-bar',
@@ -16,36 +25,43 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
 export class SideBarComponent implements OnInit, AfterViewInit {
 
 
-  @ViewChild('divAdminTag') divAdminTag: ElementRef;
-  @ViewChild('divMyAccountTag') divMyAccountTag: ElementRef;
-  @ViewChild('divMasterTag') divMasterTag: ElementRef;
-  @ViewChild('divProfileTag') divProfileTag: ElementRef;
-  @ViewChild('divTeacherTag') divTeacherTag: ElementRef;
-  @ViewChild('divSlotTag') divSlotTag: ElementRef;
-  @ViewChild('divClassRoomTag') divClassRoomTag: ElementRef;
-  @ViewChild('divManageTag') divManageTag: ElementRef;
-  @ViewChild('divAcademicTag') divAcademicTag: ElementRef;
-  @ViewChild('divGradesTag') divGradesTag: ElementRef;
-  @ViewChild('divManageUsers') divManageUsers: ElementRef;
-  @ViewChild('divSettingTag') divSettingTag: ElementRef;
-  @ViewChild('divGeneralSettingTag') divGeneralSettingTag: ElementRef;
-  @ViewChild('divManageFormTag') divManageFormTag: ElementRef;
-  @ViewChild('divAreaAndMap') divAreaAndMap: ElementRef;
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('seachResult') seachResult: ElementRef;
-  @ViewChild('form') form: any;
+  @ViewChild('divAdminTag', { static: true }) divAdminTag: ElementRef;
+  @ViewChild('divMyAccountTag', { static: true }) divMyAccountTag: ElementRef;
+  @ViewChild('divMasterTag', { static: true }) divMasterTag: ElementRef;
+  @ViewChild('divProfileTag', { static: true }) divProfileTag: ElementRef;
+  @ViewChild('divTeacherTag', { static: true }) divTeacherTag: ElementRef;
+  @ViewChild('divSlotTag', { static: true }) divSlotTag: ElementRef;
+  @ViewChild('divClassRoomTag', { static: true }) divClassRoomTag: ElementRef;
+  @ViewChild('divManageTag', { static: true }) divManageTag: ElementRef;
+  @ViewChild('divAcademicTag', { static: true }) divAcademicTag: ElementRef;
+  @ViewChild('divGradesTag', { static: true }) divGradesTag: ElementRef;
+  @ViewChild('divManageUsers', { static: true }) divManageUsers: ElementRef;
+  @ViewChild('divSettingTag', { static: true }) divSettingTag: ElementRef;
+  @ViewChild('divGeneralSettingTag', { static: true }) divGeneralSettingTag: ElementRef;
+  @ViewChild('divManageFormTag', { static: true }) divManageFormTag: ElementRef;
+  @ViewChild('divAreaAndMap', { static: true }) divAreaAndMap: ElementRef;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('seachResult', { static: true }) seachResult: ElementRef;
+  @ViewChild('form', { static: true }) form: any;
 
   @Output() searchViewMore = new EventEmitter<any>();
   @Output() enquiryUpdateAction = new EventEmitter<any>();
   @Output() hideSearchPopup = new EventEmitter<any>();
   @Output() changePassword = new EventEmitter<any>();
-
+  showSMSReport: boolean = false;
+  showEmailReport: boolean = false;
   permissionData: any[] = [];
   enquiryResult: any[] = [];
+  showExpenseToDo: boolean = false;
+  showToDo: boolean = false;
+  showExpenses: boolean = false;
+  isRippleLoad: boolean = false;
   studentResult: any[] = [];
   branchesList: any = [];
   userType: any = '';
   mainBranchId: any = "";
+  permissions: any;
+  permissionArray = sessionStorage.getItem('permissions');
   isMainBranch: any = "N";
   checkAdmin: any = "";
   instituteId: any;
@@ -68,7 +84,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   private userInput: string;
   videoplayer: boolean = false;
   privacy: any = false;
-
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -91,8 +106,35 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowPowerBy: false,
     isShowExpense: false
   }
+  jsonCourseFlags = {
+    isShowSetup: false,
+    isShowFileManager: false,
+    isShowArchiving: false,
+    isShowModel: false,
+    isShowClass: false,
+    isShowExam: false,
+    isShowClassPlanner: false,
+    isShowEcourseMapping: false,
+    isEcourseFileManager: false,
+    isShowOnlineAssignment: false
+  }
+  jsonRolesFlags = {
+    isShowManageEnquiry: false,
+    isShowDataSetup: false,
+    isShowCampaign: false,
+    isShowAddEnquiry: false,
+    isShowReport: false
+  }
+  is_tax_enabled: any;
+  jsonFeesFlags = {
+    moduleState: '',
+    isFeeActivity: false,
+    isAdmin: false,
+    isProfitnloss: false,
+  }
 
-
+  tax_type_without_percentage: String;
+  enable_online_payment: string = "";
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -118,14 +160,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     this.auth.institute_type.subscribe(
       res => {
-        if (res == 'LANG') {
+        if (res === 'LANG') {
           this.isProfessional = true;
         } else {
           this.isProfessional = false;
         }
       }
     )
-
+    console.log("isProfessional", this.isProfessional);
     this.log.currentPermissions.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -173,6 +215,152 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
+  checkpermissinForLeadDetails() {
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    let array = Object.keys(this.jsonRolesFlags);
+    if (sessionStorage.getItem('permissions') == '' && userType == '0' && username == 'admin') {// user role is admin
+      array.forEach((flag) => {
+        this.jsonRolesFlags[flag] = true;
+      });
+    }
+    else {
+      array.forEach((flag) => {
+        this.jsonRolesFlags[flag] = false;
+      });
+      // quick enquiry  --110
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
+        this.jsonRolesFlags.isShowManageEnquiry = true;
+        this.jsonRolesFlags.isShowAddEnquiry = true;
+        this.jsonRolesFlags.isShowReport = true;
+      }
+      // enquiry  admin --115
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+        this.jsonRolesFlags.isShowCampaign = true;
+        this.jsonRolesFlags.isShowManageEnquiry = true;
+        this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      // enquiry  report --722
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+        this.jsonRolesFlags.isShowReport = true;
+      }
+
+    }
+  }
+  checkCoursePermissions() {
+    let perm = sessionStorage.getItem('permissions');
+    let userType = sessionStorage.getItem('userType');
+    const permissionArray = sessionStorage.getItem('permissions');
+    const permittedRoles = sessionStorage.getItem('permitted_roles');
+    if ((userType == '0') && ((perm == null || perm == undefined || perm == ''))) {
+      let array = Object.keys(this.jsonCourseFlags);
+      array.forEach((flag) => {
+        this.jsonCourseFlags[flag] = true;
+      })
+    }
+    else if ((userType == '3')) {
+      this.jsonCourseFlags.isShowModel = false;
+      this.jsonCourseFlags.isShowArchiving = false;
+      let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
+
+      array.forEach((flag) => {
+        this.jsonCourseFlags[flag] = true;
+      });
+    }
+    else {
+      this.jsonCourseFlags.isShowModel = true;
+      if (perm.includes('114')) {
+        this.jsonCourseFlags.isShowFileManager = true;
+      }
+
+      if (perm.includes('701')) {
+        this.jsonCourseFlags.isShowClass = true;
+      }
+      if (perm.includes('702')) {
+        this.jsonCourseFlags.isShowExam = true;
+      }
+      if (perm.includes('704')) {
+        this.jsonCourseFlags.isShowClassPlanner = true;
+      }
+    }
+    if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
+      this.jsonCourseFlags.isShowEcourseMapping = true;
+    }
+
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
+      this.jsonCourseFlags.isShowEcourseMapping = true;
+    }
+
+    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature') == '1') {
+      this.jsonCourseFlags.isEcourseFileManager = true;
+    }
+
+    this.jsonCourseFlags.isShowOnlineAssignment = false;
+    if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
+      this.jsonCourseFlags.isShowOnlineAssignment = true;
+    }
+  }
+
+  checkpermissionOfCommunicate() {
+    this.userType = Number(sessionStorage.getItem('userType'));
+    this.permissionArray = sessionStorage.getItem('permissions');
+    if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+      if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+        this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
+        this.showSMSReport = this.permissions.includes('206') ? true : false;//sms visiblity
+        this.showEmailReport = this.permissions.includes('207') ? true : false; //email visiblity
+      }
+    }
+    else {
+      this.showSMSReport = true;
+      this.showEmailReport = true;
+    }
+  }
+  checkPermissionForFees() {
+    this.tax_type_without_percentage = sessionStorage.getItem('tax_type_without_percentage');
+    this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
+    const userType = sessionStorage.getItem('userType');
+    if (userType == '3') {
+      this.jsonFeesFlags.isAdmin = false;
+      this.jsonFeesFlags.isProfitnloss = false;
+    }
+    else if (userType == '0') {
+      if (sessionStorage.getItem('permissions') == "" || sessionStorage.getItem('permissions') == null) {
+        this.jsonFeesFlags.isAdmin = true;
+        this.jsonFeesFlags.isProfitnloss = true;
+      }
+    }
+    if (sessionStorage.getItem('permissions')) {
+      let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+
+      if (permissions.indexOf('102') != -1) {
+        this.jsonFeesFlags.isFeeActivity = true;
+      }
+      /* profit and lodd */
+      if (permissions.indexOf('208') != -1) {
+        this.jsonFeesFlags.isProfitnloss = true;
+      }
+
+    }
+
+    if (sessionStorage.getItem('userType') == '0') {
+      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+        this.jsonFeesFlags.isFeeActivity = true;
+        this.jsonFeesFlags.isProfitnloss = true;
+
+      }
+    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') { ///batch 
+          this.jsonFeesFlags.moduleState = 'Batch';
+        } else { ///course
+          this.jsonFeesFlags.moduleState = 'Course';
+        }
+      }
+    )
+  }
 
   hideForUsers() {
     if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
@@ -369,6 +557,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.multiBranchService.getAllBranches().subscribe(
       res => {
         this.branchesList = res;
+        console.log("this.branchesList", this.branchesList);
       },
       err => {
 
@@ -453,8 +642,47 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.isElearnAllow(this.permissionData);
     this.isLibraryFeatureAllow(permission); // check librabry feature
     this.isExpenseFeatureAllow();
+    this.checkpermissinForLeadDetails();
+    this.checkCoursePermissions();
+    this.checkPermissionForFees();
+    this.checkpermissionOfCommunicate();
   }
 
+  // checkPermissionsForCourse(){
+  //   let perm = sessionStorage.getItem('permissions');
+  //   let userType = sessionStorage.getItem('userType');
+  //    if ((userType=='0')&&((perm == null || perm == undefined || perm == ''))){
+  //      let array = Object.keys( this.jsonFlags);
+  //      array.forEach((flag)=>{
+  //        this.jsonFlags[flag]= true;
+  //      })
+  //    }
+  //    else if((userType=='3')){
+  //      this.jsonFlags.isShowModel = false;
+  //      this.jsonFlags.isShowArchiving = false;
+  //       let array = ['isShowFileManager','isShowExam','isShowClass','isShowClassPlanner'];
+
+  //        array.forEach((flag)=>{
+  //          this.jsonFlags[flag]=true;
+  //        });         
+  //    }
+  //    else{
+  //      this.jsonFlags.isShowModel = true;
+  //      if (perm.includes('114')) {
+  //        this.jsonFlags.isShowFileManager = true;
+  //      }
+
+  //      if (perm.includes('701')) {
+  //        this.jsonFlags.isShowClass = true;
+  //      }
+  //      if (perm.includes('702')) {
+  //        this.jsonFlags.isShowExam = true;
+  //      }
+  //      if (perm.includes('704')) {
+  //        this.jsonFlags.isShowClassPlanner = true;
+  //      }
+  //    }
+  //  }
   // check only default values
   checkDefaultData(p, e) {
     if (p == '' || p == null || p == undefined) {
@@ -481,30 +709,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  isExpenseFeatureAllow(){
-    // this.jsonFlags.isShowExpense = false;
-    // if (this.instituteId == 101238 ||
-    //     this.instituteId == 101242 ||
-    //     this.instituteId == 101008 ||
-    //     this.instituteId == 101243 ||
-    //     this.instituteId == 101244 ||
-    //     this.instituteId == 100058 ||
-    //     this.instituteId == 100127 ||
-    //     this.instituteId == 100126) {
-    //   this.jsonFlags.isShowExpense = true;
-    // }
-    // this senction is used for enable Expense feature
+  isExpenseFeatureAllow() {
     this.jsonFlags.isShowExpense = false;
     // developed by - Nalini 
     // Expenses option are showing in all user login so need to remove-Growth Academy - 101238
-    if ((this.instituteId == 101238 && (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin') ) ||
-        this.instituteId == 101242 ||
-        this.instituteId == 101008 ||
-        this.instituteId == 101243 ||
-        this.instituteId == 101244 ||
-        this.instituteId == 100058 ||
-        this.instituteId == 100127 ||
-        this.instituteId == 100126) {
+    if ((this.instituteId == 101238 && (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin')) ||
+      this.instituteId == 101242 ||
+      this.instituteId == 101008 ||
+      this.instituteId == 101243 ||
+      this.instituteId == 101244 ||
+      this.instituteId == 100058 ||
+      this.instituteId == 100127 ||
+      this.instituteId == 100126) {
       this.jsonFlags.isShowExpense = true;
     }
   }
@@ -515,7 +731,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
     // if zoom is enable then also show live class // added by Swapnil
     let zoom = sessionStorage.getItem('is_zoom_enable');
-    if(JSON.parse(zoom)){
+    if (JSON.parse(zoom)) {
       this.jsonFlags.isShowLiveclass = true;
     }
 
@@ -525,13 +741,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // this senction is used for enable elearn feature
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
-      if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin'){
-        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
-            this.jsonFlags.isShoweStore = permissions.includes('727') ? true : false;
+      if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+          this.jsonFlags.isShoweStore = permissions.includes('727') ? true : false;
         }
-        } else {
-          this.jsonFlags.isShoweStore = true;
-        }
+      } else {
+        this.jsonFlags.isShoweStore = true;
+      }
     }
   }
 
@@ -673,8 +889,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
     this.activeSession = id;
-  }
 
+  }
   checkInstituteType() {
     this.auth.institute_type.subscribe(
       res => {
@@ -706,6 +922,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
 
   showSubSection(id) {
+
     for (let i = 0; i < 6; i++) {
       if (document.getElementsByClassName("side-section")[i]) {
         document.getElementsByClassName("side-section") && document.getElementsByClassName("side-section")[i].classList.remove('active-current-menu');
@@ -728,12 +945,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   showHelpMenu() {
     this.helpMenu = (!this.helpMenu);
     this.sideBar = false;
+
     this.searchBar = false;
   }
 
   showMenu() {
     this.sideBar = true;
     this.helpMenu = false;
+
     this.searchBar = false;
     let totalExternalClasses = document.getElementsByClassName("external-menu").length;
     let externalMenu = document.getElementsByClassName("external-menu") as HTMLCollectionOf<HTMLElement>;
@@ -761,15 +980,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   logout() {
     this.clearSearch();
     this.log.logoutUser().subscribe(
-      (res:any)=> {
-      this.multiBranchService.subBranchSelected.next(false);
-      this.auth.clearStoredData();
-      this.auth.changeAuthenticationKey(null);
-      this.auth.changeInstituteId(null);
-      this.log.changeSidenavStatus('unauthorized');
-      sessionStorage.clear();
+      (res: any) => {
+        this.multiBranchService.subBranchSelected.next(false);
+        this.auth.clearStoredData();
+        this.auth.changeAuthenticationKey(null);
+        this.auth.changeInstituteId(null);
+        this.log.changeSidenavStatus('unauthorized');
+        sessionStorage.clear();
 
-      this.router.navigateByUrl('/authPage');
+        this.router.navigateByUrl('/authPage');
       },
       err => {
       }
@@ -783,6 +1002,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   changePasswordClick() {
     this.changePassword.emit('true');
+
     this.searchBar = false;
     this.sideBar = false;
     let totalExternalClasses = document.getElementsByClassName("external-menu").length;
@@ -995,7 +1215,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('open_enq_Visibility_feature', res.open_enq_Visibility_feature);
     sessionStorage.setItem('enable_fee_template_country_wise', res.enable_fee_template_country_wise);
     sessionStorage.setItem('tax_type_without_percentage', res.tax_type);
-    sessionStorage.setItem('tax_type_with_percentage', res.tax_type+"(%)");
+    sessionStorage.setItem('tax_type_with_percentage', res.tax_type + "(%)");
     sessionStorage.setItem('enable_elearn_course_mapping_feature', res.enable_elearn_course_mapping_feature);
   }
 
@@ -1009,17 +1229,32 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   // FOR Search
   showSearchBar() {
+
+    // window.setTimeout(function () {
+
+    //   document.getElementById('searchIcon').classList.remove('beforeSearchIcon');
+    //   document.getElementById('searchIcon').classList.add('afterSearchIcon');
+    //   document.getElementById('search_bar').classList.remove('afterHover');
+    //   document.getElementById('search_bar').classList.add('beforeHover');
+
+    // }, 20);
+    // window.setTimeout(function () {
+    //   document.getElementById("search_bar").focus();
+    // }, 550);
     this.searchBar = true;
-    window.setTimeout(function () {
-      document.getElementById("search_bar").focus();
-    }, 550);
   }
 
   closeSearchBar() {
     this.searchBar = false;
-  }
 
+
+  }
+  // removeClass() {
+  //   document.getElementById('searchIcon').classList.remove('afterSearchIcon');
+  //   document.getElementById('searchIcon').classList.add('beforeSearchIcon');
+  // }
   triggerSearchBox($event) {
+
     this.showSearchBar();
     $event.preventDefault();
     this.isResultDisplayed = true;
@@ -1089,12 +1324,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   selectedStudent(s) {
     this.closeSearch(false);
     this.router.navigate(['/view/students'], { queryParams: { id: s.id } });
+    // 
     this.searchBar = false;
   }
 
   selectedEnquiry(e) {
     this.closeSearch(false);
     this.router.navigate(['/view/leads'], { queryParams: { id: e.id } });
+    // 
     this.searchBar = false;
   }
 
@@ -1109,6 +1346,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
     this.closeSearch(false)
     this.searchViewMore.emit(obj);
+    // 
     this.searchBar = false;
   }
 
@@ -1116,15 +1354,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.closeSearch(false);
     if (d.data.source == "Student") {
       this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
+      // 
       this.searchBar = false;
     }
     else if (d.data.source == "Enquiry") {
       if (d.action == "enquiryUpdate") {
         this.enquiryUpdateAction.emit(d);
+        // 
         this.searchBar = false;
       }
       else
         this.router.navigate(['/view/leads/enquiry/edit/' + d.data.id]); {
+        // 
         // this.router.navigate(['/view/leads'], { queryParams: { id: d.data.id, action: d.action } });
         this.searchBar = false;
       }
@@ -1135,5 +1376,85 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     window.open(url, "_blank");
     this.closeMenu();
     this.helpMenu = false;
+  }
+
+  showExpensesList() {
+    if (this.showExpenses) {
+      this.showExpenses = false;
+    }
+    else {
+      this.showExpenses = true;
+    }
+  }
+
+
+  onOfLoaderFromTodoList(ev) {
+    this.isRippleLoad = ev;
+  }
+  closeShowList() {
+    this.showList();
+  }
+
+  showList() {
+    if (this.showExpenseToDo) {
+      this.showExpenseToDo = false;
+      if (this.showToDo) {
+        this.showToDo = false;
+        // Need to call to  to do list destroy function;
+      }
+      else if (this.showExpenses) {
+        this.showExpenses = false;
+      }
+    }
+    else {
+      this.showExpenseToDo = true;
+    }
+  }
+
+  showToDoList() {
+    if (this.showToDo) {
+      this.showToDo = false;
+      // Need to call to  to do list destroy function;
+    }
+    else {
+      this.showToDo = true;
+    }
+  }
+
+
+  showLead: any = 'leadhide';
+  showbatch: any = 'batchhide';
+  showcourse: any = 'coursehide';
+  showFee: any = "feeshide";
+  showComm: any = "comhide";
+  showeStore: any = "eStorehide";
+  showExp: any = "expensehide";
+  show(id) {
+    switch (id) {
+      case 'lead': this.showLead = 'lead'; break;
+      case 'course': this.showcourse = 'course';
+        this.showbatch = 'batch1'; break;
+      case 'batch': this.showbatch = 'batch';
+        this.showcourse = 'course1';
+        break;
+      case 'fees': this.showFee = 'fees'; break;
+      case 'communicate': this.showComm = 'com'; break;
+      case 'eStore': this.showeStore = 'eStore'; break;
+      case 'expense': this.showExp = 'expense'; break;
+    }
+  }
+  hide(id) {
+    switch (id) {
+      case 'lead': this.showLead = 'leadhide'; break;
+      case 'course': this.showcourse = 'coursehide';
+        this.showbatch = 'batchhide1'; break;
+      case 'batch': this.showbatch = 'batchhide';
+        this.showcourse = 'coursehide1'; break;
+      case 'fees': this.showFee = 'feeshide'; break;
+      case 'communicate': this.showComm = 'comhide'; break;
+      case 'eStore': this.showeStore = 'eStorehide'; break;
+      case 'expense': this.showExp = 'expensehide'; break;
+
+    }
   }
 }

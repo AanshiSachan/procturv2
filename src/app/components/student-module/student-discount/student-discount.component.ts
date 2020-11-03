@@ -49,11 +49,11 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
 
     @Output() closePopup = new EventEmitter<any>();
 
-    @ViewChild('btnApplyDiscount') btnApplyDiscount: ElementRef;
-    @ViewChild('btnRemoveDiscount') btnRemoveDiscount: ElementRef;
-    @ViewChild('addDiscountTab') addDiscountTab: ElementRef;
-    @ViewChild('removeDiscountTab') removeDiscountTab: ElementRef;
-    @ViewChild('discountHistoryTab') discountHistoryTab: ElementRef;
+    @ViewChild('btnApplyDiscount',{static: false}) btnApplyDiscount: ElementRef;
+    @ViewChild('btnRemoveDiscount',{static: false}) btnRemoveDiscount: ElementRef;
+    @ViewChild('addDiscountTab',{static: false}) addDiscountTab: ElementRef;
+    @ViewChild('removeDiscountTab',{static: false}) removeDiscountTab: ElementRef;
+    @ViewChild('discountHistoryTab',{static: false}) discountHistoryTab: ElementRef;
 
     constructor(
         private cd: ChangeDetectorRef,

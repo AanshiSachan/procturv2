@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
@@ -26,50 +28,50 @@ export class StandardServices {
 
     getAllStandardListFromServer() {
         let url = this.baseURL + "/api/v1/standards/all/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        );
+        ));
     }
 
     createNewStandard(data) {
         let url = this.baseURL + "/api/v1/standards";
         data.institution_id = this.institute_id;
-        return this.http.post(url, data, { headers: this.headers }).map(
+        return this.http.post(url, data, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            });
+            }));
     }
 
     updateStanadardRowData(data, standard_Id) {
         let url = this.baseURL + "/api/v1/standards/" + standard_Id;
-        return this.http.put(url, data, { headers: this.headers }).map(
+        return this.http.put(url, data, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     deleteStandard(id) {
         let url = this.baseURL + "/api/v1/standards/" + id;
-        return this.http.delete(url, { headers: this.headers }).map(
+        return this.http.delete(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
 }

@@ -29,8 +29,8 @@ export class ViewReportCardComponent implements OnInit {
   viewAttendancePayload: any = {
     batch_id: -1,
     standard_id: -1,
-    enddate: moment().format('YYYY-MM-DD'),
-    startdate: moment().format('YYYY-MM-DD'),
+    enddate: moment().format('MM-DD-YYYY'),
+    startdate: moment().format('MM-DD-YYYY'),
     student_id: -1,
     subject_id: -1,
     teacher_id: -1,
@@ -41,11 +41,11 @@ export class ViewReportCardComponent implements OnInit {
   liFeeView: boolean = false;
   liTableView: boolean = false;
   liPTMView: boolean = false;
-  @ViewChild('liAttendance') liAttendance: ElementRef;
-  @ViewChild('liExam') liExam: ElementRef;
-  @ViewChild('liFee') liFee: ElementRef;
-  @ViewChild('liTable') liTable: ElementRef;
-  @ViewChild('liPTM') liPTM: ElementRef;
+  @ViewChild('liAttendance',{static: false}) liAttendance: ElementRef;
+  @ViewChild('liExam',{static: false}) liExam: ElementRef;
+  @ViewChild('liFee',{static: false}) liFee: ElementRef;
+  @ViewChild('liTable',{static: false}) liTable: ElementRef;
+  @ViewChild('liPTM',{static: false}) liPTM: ElementRef;
   containerWidth: string = "75px";
   displayImage: any = '';
   attendanceList: any = [];
@@ -244,13 +244,13 @@ export class ViewReportCardComponent implements OnInit {
         this.messageNotifier('error', '', 'Please enter start date');
         return false;
       } else {
-        this.timetablePayLoad.startdate = moment(this.timetablePayLoad.startdate).format('YYYY-MM-DD');
+        this.timetablePayLoad.startdate = moment(this.timetablePayLoad.startdate).format('MM-DD-YYYY');
       }
       if (this.timetablePayLoad.enddate == "" || this.timetablePayLoad.enddate == null) {
         this.messageNotifier('error', '', 'Please enter end date');
         return false;
       } else {
-        this.timetablePayLoad.enddate = moment(this.timetablePayLoad.enddate).format('YYYY-MM-DD');
+        this.timetablePayLoad.enddate = moment(this.timetablePayLoad.enddate).format('MM-DD-YYYY');
       }
     } else {
       this.timetablePayLoad.startdate = "";
@@ -266,8 +266,8 @@ export class ViewReportCardComponent implements OnInit {
       this.getTimeTableDetails();
     } else {
       this.timeTableSchedule = [];
-      this.timetablePayLoad.startdate = moment().format('YYYY-MM-DD');
-      this.timetablePayLoad.enddate = moment().format('YYYY-MM-DD');
+      this.timetablePayLoad.startdate = moment().format('MM-DD-YYYY');
+      this.timetablePayLoad.enddate = moment().format('MM-DD-YYYY');
     }
   }
 
@@ -400,13 +400,13 @@ export class ViewReportCardComponent implements OnInit {
         this.messageNotifier('error', '', 'Please enter start date');
         return false;
       } else {
-        data.startdate = moment(data.startdate).format('YYYY-MM-DD');
+        data.startdate = moment(data.startdate).format('MM-DD-YYYY');
       }
       if (data.enddate == "" || data.enddate == null) {
         this.messageNotifier('error', '', 'Please enter end date');
         return false;
       } else {
-        data.enddate = moment(data.enddate).format('YYYY-MM-DD');
+        data.enddate = moment(data.enddate).format('MM-DD-YYYY');
       }
     } else {
       data.startdate = "";

@@ -1,4 +1,4 @@
-<section class="middle-section clearFix">
+<section class="clearFix" style="padding-right: 2%;">
   <!-- Header and Navigation -->
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
@@ -16,26 +16,30 @@
       <div class="filter-container">
         <div class="filter-item field-wrapper">
           <label for="filter">Filter</label>
-          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="incomeFilter.dateFilter" (ngModelChange)="getIncomeRecords()">
+          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="incomeFilter.dateFilter"
+            (ngModelChange)="getIncomeRecords()">
             <option value="month">Current Month</option>
             <option value="date">Till Date</option>
             <option value="range">Date Range</option>
           </select>
         </div>
-        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;" *ngIf="incomeFilter.dateFilter == 'range'">
+        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;"
+          *ngIf="incomeFilter.dateFilter == 'range'">
           <label for="date-range">Select Date Range</label>
-          <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
-          class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+          <input type="text" value="" id="date-range" [(ngModel)]="dateFilterRange"
+            (ngModelChange)="dateRangeChange($event)" class="form-ctrl widgetDatepicker bsDatepicker"
+            style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker />
         </div>
       </div>
 
       <div class="search-data-container">
         <div class="activity-item field-wrapper">
-          <input type="text" value="" id="search_bar" [(ngModel)]="incomeSearchInput" name="incomeSearchInput" (keyup)="searchDatabase(search)"
-             placeholder="Search here..." class="search-box" #search>
+          <input type="text" value="" id="search_bar" [(ngModel)]="incomeSearchInput" name="incomeSearchInput"
+            (keyup)="searchDatabase(search)" placeholder="Search here..." class="search-box" #search>
         </div>
         <div class="activity-item">
-          <button type="button" name="button" class="add-income-btn" [routerLink]="['/view/expense/add-income']">Add Income</button>
+          <button type="button" name="button" class="add-income-btn" [routerLink]="['/view/expense/add-income']">Add
+            Income</button>
         </div>
       </div>
 
@@ -53,7 +57,7 @@
           <span>Received Date</span>
         </div>
         <div class="list-header-item small-item">
-          <span>Reference No.	</span>
+          <span>Reference No. </span>
         </div>
         <div class="list-header-item medium-item">
           <span>Payer</span>
@@ -77,10 +81,12 @@
             <span>{{income.reference_no}}</span>
           </div>
           <div class="list-value-item medium-item">
-            <span title="{{income?.party_name}}" >{{ (!income.party_name) ? '-' : (income.party_name.length > 30) ? (income.party_name | slice:0:30) + '...' : income.party_name}}</span>
+            <span
+              title="{{income?.party_name}}">{{ (!income.party_name) ? '-' : (income.party_name.length > 30) ? (income.party_name | slice:0:30) + '...' : income.party_name}}</span>
           </div>
           <div class="list-value-item medium-item">
-            <span title="{{income?.category}}" >{{ (!income.category) ? '-' : (income.category.length > 30) ? (income.category | slice:0:30) + '...' : income.category}}</span>
+            <span
+              title="{{income?.category}}">{{ (!income.category) ? '-' : (income.category.length > 30) ? (income.category | slice:0:30) + '...' : income.category}}</span>
           </div>
           <div class="list-value-item small-item align-right" style="padding-right: 50px;">
             <span>{{income.amount}}</span>

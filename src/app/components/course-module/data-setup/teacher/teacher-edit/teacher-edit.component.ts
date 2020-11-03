@@ -19,9 +19,9 @@ export class TeacherEditComponent implements OnInit {
   editTeacherForm: FormGroup;
   studentImage: string = '';
   containerWidth: any = "200px";
-  @ViewChild('idCardUpload') idCardTeacher;
-  @ViewChild('uploadedImage') idCardImg;
-  @ViewChild('uploadImageAnchor') anchTag;
+  @ViewChild('idCardUpload', { static: false }) idCardTeacher;
+  @ViewChild('uploadedImage', { static: false }) idCardImg;
+  @ViewChild('uploadImageAnchor', { static: false }) anchTag;
   enableBiometric: any = 0;
   instituteCountryDetObj: any = {};
   countryDetails: any = [];
@@ -171,6 +171,7 @@ export class TeacherEditComponent implements OnInit {
         console.log("Dar", data);
         this.auth.hideLoader();
         this.selectedTeacherInfo = data;
+
         let setFormData = this.getFormFieldsdata(data);
         this.editTeacherForm.setValue(setFormData);
         this.studentImage = data.photo;
@@ -253,8 +254,8 @@ export class TeacherEditComponent implements OnInit {
     dataToBind.country_id = data.country_id;
     // dataToBind.dob = '1998-2-2';
     // dataToBind.date_of_joining = '1998-2-2'
-    dataToBind.dob = data.dob;
-    dataToBind.date_of_joining = data.date_of_joining;
+    dataToBind.dob = moment(data.dob).format("MM-DD-YYYY");
+    dataToBind.date_of_joining = moment(data.date_of_joining).format("MM-DD-YYYY");
     this.country_id = data.country_id;
     console.log(dataToBind)
     return dataToBind;
@@ -438,7 +439,7 @@ export class TeacherEditComponent implements OnInit {
       let reader = new FileReader();
       reader.readAsDataURL(fileBrowser.files[0]);
       reader.onload = () => {
-        sessionStorage.setItem('Id-card', reader.result.split(',')[1]);
+        sessionStorage.setItem('Id-card', (<string>reader.result).split(',')[1]);
       }
     }
   }

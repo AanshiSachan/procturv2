@@ -1,3 +1,7 @@
+
+import {timer as observableTimer} from 'rxjs';
+
+import {take, map} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '../../../../../node_modules/@angular/router';
 import { Observable } from '../../../../../node_modules/rxjs';
@@ -122,9 +126,9 @@ export class RegisterComponent implements OnInit {
                       this.isView = 'validateOTP';
                       this.counter = 30;
                       this.otpVerificationInfo.otp_code = "";
-                      this.countDown = Observable.timer(0, 1000)
-                        .take(this.counter)
-                        .map(() => --this.counter);
+                      this.countDown = observableTimer(0, 1000).pipe(
+                        take(this.counter),
+                        map(() => --this.counter),);
                     }
                   },
                   err => {
@@ -171,9 +175,9 @@ export class RegisterComponent implements OnInit {
           this.otpVerificationInfo.otp_code = "";
           this.isView = 'validateOTP';
           this.counter = 30;
-          this.countDown = Observable.timer(0, 1000)
-            .take(this.counter)
-            .map(() => --this.counter);
+          this.countDown = observableTimer(0, 1000).pipe(
+            take(this.counter),
+            map(() => --this.counter),);
         }
       },
       err => {
@@ -202,9 +206,9 @@ export class RegisterComponent implements OnInit {
           this.otpVerificationInfo.otp_code = "";
           this.isView = 'validateOTP';
           this.counter = 30;
-          this.countDown = Observable.timer(0, 1000)
-            .take(this.counter)
-            .map(() => --this.counter);
+          this.countDown = observableTimer(0, 1000).pipe(
+            take(this.counter),
+            map(() => --this.counter),);
         }
       },
       err => {

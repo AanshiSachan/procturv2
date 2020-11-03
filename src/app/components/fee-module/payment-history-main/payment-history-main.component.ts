@@ -18,7 +18,7 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: true}) private child: DataDisplayTableComponent;
   downloadFeeReportAccess:boolean = false;
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];
@@ -82,8 +82,8 @@ export class PaymentHistoryMainComponent implements OnInit {
   };
   sendPayload = {
     institute_id: this.payment.institute_id,
-    from_date: moment().format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD'),
+    from_date: moment().format('MM-DD-YYYY'),
+    to_date: moment().format('MM-DD-YYYY'),
     payment_history_student_category_option: 2,
     student_name: "",
     contact_no: "",
@@ -107,7 +107,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     financial_year: "",
     invoice_no: "",
     old_invoice_no: "",
-    paid_date: moment(new Date()).format("DD-MMM-YYYY"),
+    paid_date: moment(new Date()).format("DD-MM-YYYY"),
     paymentMode: "",
     reference_no: "",
     remarks: "",
@@ -268,7 +268,6 @@ export class PaymentHistoryMainComponent implements OnInit {
       } else {
         this.sendPayload.user_id = Number(sessionStorage.getItem('userid'));
       }
-
       this.payment.getPaymentData(this.sendPayload).subscribe(
         (data: any) => {
           if (data.length == 0) {
@@ -369,8 +368,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     if (moment(selectDate).diff(moment()) > 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', 'You cannot select future date');
       this.auth.hideLoader();
-      this.sendPayload.from_date = moment().format('YYYY-MM-DD');
-      this.sendPayload.to_date = moment().format('YYYY-MM-DD');
+      this.sendPayload.from_date = moment().format('MM-DD-YYYY');
+      this.sendPayload.to_date = moment().format('MM-DD-YYYY');
     }
   }
 
@@ -419,7 +418,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   optionSelected(e) {
     // console.log(e);
     this.personData = e.data;
-    this.updatedResult.paid_date = e.data.paid_date;
+    this.updatedResult.paid_date = moment(e.data.paid_date).format("MM-DD-YYYY");
     this.chequeDetailsJson = [];
     this.varJson.tempData = {};
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
@@ -516,7 +515,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             financial_year: this.personData.financial_year,
             invoice_no: this.personData.invoice_no,
             old_invoice_no: this.personData.invoice_no,
-            paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
+            paid_date: moment(this.updatedResult.paid_date).format("MM-DD-YYYY"),
             paymentMode: this.updatedResult.paymentMode,
             reference_no: this.updatedResult.reference_no,
             remarks: this.updatedResult.remarks,

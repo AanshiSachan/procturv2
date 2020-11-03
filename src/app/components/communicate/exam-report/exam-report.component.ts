@@ -39,8 +39,8 @@ export class ExamReportComponent implements OnInit {
   fetchApiData: any = [];
   dataExamIndex: any[] = [];
   typeDataForm: any[] = [];
-  @ViewChild('examTable') examTable: ElementRef;
-  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
+  @ViewChild('examTable',{static: false}) examTable: ElementRef;
+  @ViewChild('xlsDownloader',{static: false}) xlsDownloader: ElementRef;
 
   projectSettings: ColumnSetting[] = [
 

@@ -101,7 +101,7 @@ export class StudentFeeTableComponent implements OnInit {
     day_type: 0,
     days: 0,
     discount: 0,
-    due_date: moment().format("YYYY-MM-DD"),
+    due_date: moment().format("MM-DD-YYYY"),
     enquiry_counsellor_name: "",
     enquiry_id: 0,
     feeTypes: null,
@@ -314,7 +314,7 @@ export class StudentFeeTableComponent implements OnInit {
     obj.studentwise_fees_tax_applicable = this.feeTemplateData.studentwise_fees_tax_applicable;
     obj.studentwise_total_fees_amount = totalAmountDue.toString();
     obj.studentwise_total_fees_discount = this.feeTemplateData.studentwise_total_fees_discount;
-    obj.template_effective_date = moment(this.feeTemplateData.template_effective_date).format("YYYY-MM-DD");
+    obj.template_effective_date = moment(this.feeTemplateData.template_effective_date).format("MM-DD-YYYY");
     obj.template_id = this.feeTemplateData.template_id;
 
     this.feeService.allocateStudentFees(obj).subscribe(
@@ -349,11 +349,11 @@ export class StudentFeeTableComponent implements OnInit {
 
     fee.forEach(el => {
       if (el.due_date == null) {
-        el.due_date = moment().format("YYYY-MM-DD");
+        el.due_date = moment().format("MM-DD-YYYY");
       }
       el.student_fee_template_mapping_id = el.student_id == 0 && el.course_subject_name == null ? -1 : el.student_fee_template_mapping_id;
       let obj = {
-        fee_date: moment(el.due_date).format("YYYY-MM-DD"),
+        fee_date: moment(el.due_date).format("MM-DD-YYYY"),
         fee_type: el.fee_type_name === "INSTALLMENT" ? 0 : el.fee_type,
         fees_amount: el.fees_amount,
         initial_fee_amount: el.initial_fee_amount,
@@ -400,8 +400,8 @@ export class StudentFeeTableComponent implements OnInit {
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
         this.addFeeInstallment.service_tax_applicable = 'Y';
       }
-      this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
-      this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
+      this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("MM-DD-YYYY");
+      this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("MM-DD-YYYY");
       this.addFeeInstallment.fee_type = 0;
       if (this.addFeeInstallment.student_fee_template_mapping_id == '-1' && sessionStorage.getItem("enable_fee_template_country_wise")=='1') {
       return  this.msgToast.showErrorMessage('error', 'Select Course', 'Please select course');
@@ -430,7 +430,7 @@ export class StudentFeeTableComponent implements OnInit {
         day_type: 0,
         days: 0,
         discount: 0,
-        due_date: moment().format("YYYY-MM-DD"),
+        due_date: moment().format("MM-DD-YYYY"),
         enquiry_counsellor_name: "",
         enquiry_id: 0,
         feeTypes: null,
@@ -524,7 +524,7 @@ export class StudentFeeTableComponent implements OnInit {
 
   addNewOtherFee() {
     let otherFeesArr: any[] = this.additionalData;
-    this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format('YYYY-MM-DD');
+    this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format('MM-DD-YYYY');
     if (this.addFeeOther.fee_type == '' || this.addFeeOther.fee_type == null || this.addFeeOther.fee_type == undefined ||
       this.addFeeOther.due_date == '' || this.addFeeOther.due_date == null || this.addFeeOther.due_date == undefined ||
       this.addFeeOther.due_date == 'invalid date' ||
@@ -540,7 +540,7 @@ export class StudentFeeTableComponent implements OnInit {
       }
     }
     else {
-      this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format("YYYY-MM-DD");
+      this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format("MM-DD-YYYY");
       if (this.addFeeOther.service_tax > 0 && this.addFeeOther.fee_type_name != "INSTALLMENT") {
         this.addFeeInstallment.service_tax_applicable = 'Y';
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
@@ -571,7 +571,7 @@ export class StudentFeeTableComponent implements OnInit {
       day_type: 0,
       days: 0,
       discount: 0,
-      due_date: moment().format("YYYY-MM-DD"),
+      due_date: moment().format("MM-DD-YYYY"),
       enquiry_counsellor_name: "",
       enquiry_id: 0,
       feeTypes: null,

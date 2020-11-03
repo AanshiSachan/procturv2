@@ -20,8 +20,8 @@ export class InactiveStudentReportComponent implements OnInit {
 
   sendPayload = {
     institute_id: this.payment.institute_id,
-    from_date: moment().format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD'),
+    from_date: moment().format('MM-DD-YYYY'),
+    to_date: moment().format('MM-DD-YYYY'),
     payment_history_student_category_option: 1,
     student_name: "",
     contact_no: ""
@@ -240,8 +240,8 @@ export class InactiveStudentReportComponent implements OnInit {
       }
       this.appc.popToast(msg);
       this.auth.hideLoader();
-      this.sendPayload.from_date = moment().format('YYYY-MM-DD');
-      this.sendPayload.to_date = moment().format('YYYY-MM-DD');
+      this.sendPayload.from_date = moment().format('MM-DD-YYYY');
+      this.sendPayload.to_date = moment().format('MM-DD-YYYY');
     }
   }
 

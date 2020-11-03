@@ -90,7 +90,7 @@ export class StudentBulkComponent implements OnInit {
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
-          fileString = reader.result.split(',')[1];
+          fileString = (<string>reader.result).split(',')[1];
           this.uploader(fileString);
         }
         reader.onerror = function (error) {

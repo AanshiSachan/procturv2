@@ -235,8 +235,8 @@ export class ClassComponent implements OnInit {
       this.coursePlannerFilters.isUpcoming = "N";
     }
 
-    this.coursePlannerFilters.from_date = moment(this.sessionFiltersArr.from_date).format("YYYY-MM-DD");
-    this.coursePlannerFilters.to_date = moment(this.sessionFiltersArr.to_date).format("YYYY-MM-DD");
+    this.coursePlannerFilters.from_date = moment(this.sessionFiltersArr.from_date).format("MM-DD-YYYY");
+    this.coursePlannerFilters.to_date = moment(this.sessionFiltersArr.to_date).format("MM-DD-YYYY");
 
     sessionStorage.setItem('isFromCoursePlanner', String(false));
     sessionStorage.setItem('coursePlannerFilter', '');
@@ -449,9 +449,9 @@ export class ClassComponent implements OnInit {
       this.filterDateInputs.custom = true;
       e.currentTarget.checked = true;
     }
-    else if (inputDateFilter == 'lastWeek') {     // Last week
-      this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("YYYY-MM-DD");
-      this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
+    else if(inputDateFilter == 'lastWeek'){     // Last week
+      this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("MM-DD-YYYY");
+      this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("MM-DD-YYYY");
       this.filterDateInputs.lastWeek = true;
       e.currentTarget.checked = true;
     }
@@ -461,9 +461,9 @@ export class ClassComponent implements OnInit {
       this.filterDateInputs.thisMonth = true;
       e.currentTarget.checked = true;
     }
-    else if (inputDateFilter == 'thisWeek') {   // This Week
-      this.coursePlannerFilters.from_date = moment().isoWeekday("Monday").format("YYYY-MM-DD");
-      this.coursePlannerFilters.to_date = moment().weekday(7).format("YYYY-MM-DD");
+    else if(inputDateFilter == 'thisWeek'){   // This Week
+      this.coursePlannerFilters.from_date = moment().isoWeekday("Monday").format("MM-DD-YYYY");
+      this.coursePlannerFilters.to_date = moment().weekday(7).format("MM-DD-YYYY");
       this.filterDateInputs.thisWeek = true;
       e.currentTarget.checked = true;
     }
@@ -506,9 +506,9 @@ export class ClassComponent implements OnInit {
   }
 
   updateFilterDateRange(e) {
-    if (this.filterDateInputs.custom) {
-      this.coursePlannerFilters.from_date = moment(e[0]).format("YYYY-MM-DD");
-      this.coursePlannerFilters.to_date = moment(e[1]).format("YYYY-MM-DD");
+    if(this.filterDateInputs.custom){
+      this.coursePlannerFilters.from_date = moment(e[0]).format("MM-DD-YYYY");
+      this.coursePlannerFilters.to_date = moment(e[1]).format("MM-DD-YYYY");
     }
   }
 
@@ -625,8 +625,8 @@ export class ClassComponent implements OnInit {
   }
 
   getVisibility(c): boolean {  // hide upcoming activity
-    let d = moment(c.class_date).format("YYYY-MM-DD");
-    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
+    let d = moment(c.class_date).format("MM-DD-YYYY");
+    if (d >= moment(new Date()).format("MM-DD-YYYY")) {
       return true;
     }
     else {
@@ -677,7 +677,7 @@ export class ClassComponent implements OnInit {
       return;
     }
 
-    if (moment().format('YYYY-MM-DD') > moment(this.reschedDate).format('YYYY-MM-DD')) {
+    if (moment().format('MM-DD-YYYY') > moment(this.reschedDate).format('MM-DD-YYYY')) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter future reschedule date');
       return;
     }
@@ -705,7 +705,7 @@ export class ClassComponent implements OnInit {
         is_notified: this.resheduleNotified
       }
       let temp2 = {
-        class_date: moment(this.reschedDate).format("YYYY-MM-DD"),
+        class_date: moment(this.reschedDate).format("MM-DD-YYYY"),
         start_time: this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian,
         end_time: this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian,
         duration: this.getDifference()
@@ -845,7 +845,7 @@ export class ClassComponent implements OnInit {
       course_ids: this.classMarkedForAction.course_id,
       inst_id: this.jsonFlag.institute_id,
       master_course: this.classMarkedForAction.master_course_name,
-      requested_date: moment(this.classMarkedForAction.date).format("YYYY-MM-DD"),
+      requested_date: moment(this.classMarkedForAction.date).format("MM-DD-YYYY"),
       remarks: this.reminderRemarks
     }
     this.auth.showLoader();
@@ -920,7 +920,7 @@ export class ClassComponent implements OnInit {
       inst_id: this.jsonFlag.institute_id,
       is_cancel_notify: this.is_notified,
       master_course: this.classMarkedForAction.master_course_name,
-      requested_date: moment(this.classMarkedForAction.date).format("YYYY-MM-DD")
+      requested_date: moment(this.classMarkedForAction.date).format("MM-DD-YYYY")
     }
     // this.auth.showLoader();
     this.widgetService.cancelCourseSchedule(obj).subscribe(

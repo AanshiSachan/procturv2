@@ -7,7 +7,7 @@ import { CustomCommonRoutingModule } from './custom-common-routing.module';
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { SharedModule } from '../shared/shared.module'
 import { CheckBoxConverterPipe } from './check-box-converter.pipe';
 

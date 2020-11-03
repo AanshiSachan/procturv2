@@ -34,9 +34,9 @@ export class ScheduleHomeComponent implements OnInit {
   selectedRow: number;
   isLangInstitue: boolean = false;
   sortingDir: string = "asc";
-  activeList: boolean = false;
-  @ViewChild('#StdName') standard_name_label: ElementRef
 
+  @ViewChild('#StdName',{static: false}) standard_name_label: ElementRef
+  activeList: boolean = false;
   constructor(
     private apiService: StandardServices,
     private toastCtrl: AppComponent,

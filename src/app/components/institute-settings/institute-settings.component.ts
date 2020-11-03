@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
@@ -1119,11 +1119,13 @@ export class InstituteSettingsComponent implements OnInit {
     }
   }
   enableRankSpecifier() {
-    let data = document.getElementById('enableRank').checked;
+    let data = (document.getElementById('enableRank') as HTMLInputElement).checked;
     if (data) {
       document.getElementById('inputSpecifyRank').removeAttribute('readonly');
     } else {
-      document.getElementById('inputSpecifyRank').setAttribute('readonly', true);
+      let tru:boolean=true;
+      document.getElementById('inputSpecifyRank').setAttribute('readonly', new Boolean(tru).toString());
+      // document.getElementById('inputSpecifyRank').setAttribute('readonly', true);
     }
   }
 

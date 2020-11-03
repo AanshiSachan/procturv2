@@ -11,7 +11,7 @@ import { OverdueBookComponent } from './overdue-book/overdue-book.component';
 import { NeverIssuedComponent } from './never-issued/never-issued.component';
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import { SharedModule } from '../../shared/shared.module';

@@ -24,8 +24,8 @@ export class ExamReportHomeComponent implements OnInit {
     master_course_name: "",
     standard_id: "",
     subject_id: "",
-    from_date: moment().isoWeekday("Monday").format("YYYY-MM-DD"),
-    to_date: moment().weekday(7).format("YYYY-MM-DD")
+    from_date: moment().isoWeekday("Monday").format("MM-DD-YYYY"),
+    to_date: moment().weekday(7).format("MM-DD-YYYY")
   };
 
   masterCourseList: any;
@@ -104,10 +104,9 @@ export class ExamReportHomeComponent implements OnInit {
 
     this.auth.showLoader();
     this.courseList.getStandardListFromServer().subscribe(  // get standard
-      (res: any) => {
+      res => {
         this.auth.hideLoader();
-        console.log("response", res.result);
-        this.standardtList = res.result;
+        this.standardtList = res;
         let stand = sessionStorage.getItem('standaradForReport');
         if (stand != "" && stand != null && stand != undefined) {
           this.standard = stand;

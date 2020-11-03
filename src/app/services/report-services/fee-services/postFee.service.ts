@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import 'rxjs/Rx';
 import { AuthenticatorService } from "../../authenticator.service";
 
@@ -29,31 +31,31 @@ export class PostFeeService {
     sendBulkSMS(obj): Observable<any> {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + '/api/v1/studentWise/fee/students/sendSMS/' + this.institute_id;
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     sendBulkFineSMS(obj): Observable<any> {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + '/api/v1/studentWise/fee/students/sendFineSMS/' + this.institute_id;
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     sendPastDues(obj , student_id){
         let url=this.baseUrl + "/api/v1/studentWise/fee/feesReport/pastDues/" + this.institute_id + "/" + student_id;
-        return this.http.post(url , obj , {headers:this.headers}).map(
+        return this.http.post(url , obj , {headers:this.headers}).pipe(map(
             (data:any)=>{
                 return data;
             },
             (error:any)=>{
                 return error;
             }
-        )
+        ))
     }
 
 }

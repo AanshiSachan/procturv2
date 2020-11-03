@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { HttpService } from '../../../../services/http.service';
 import { ManageExamModule } from '../../../master/master.module';
 import { SharedModule } from '../../../shared/shared.module';

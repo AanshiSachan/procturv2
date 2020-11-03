@@ -12,7 +12,7 @@ import { GetFeeService } from '../../../services/report-services/fee-services/ge
 })
 export class FeeWidgetComponent implements OnInit {
 
-    @ViewChild('chartWrap') chartWrap: ElementRef;
+    @ViewChild('chartWrap',{static: false}) chartWrap: ElementRef;
     chartType: any = "1";
     default_symbol: any = "Rs";
     chartDate: any = {
@@ -148,7 +148,7 @@ export class FeeWidgetComponent implements OnInit {
 
     createCompareChart(fc: any[], fd: any[], up: any[], m: any[]) {
         var self = this;
-        Highcharts.chart('chartWrap', {
+        (Highcharts as any).chart('chartWrap', {
             chart: {
                 type: 'column'
             },

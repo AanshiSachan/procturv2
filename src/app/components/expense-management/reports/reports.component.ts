@@ -161,8 +161,8 @@ export class ReportsComponent implements OnInit {
 
 
   dateRangeChange(e) {
-    this.startDate = moment(e[0]).format("YYYY-MM-DD");
-    this.endDate = moment(e[1]).format("YYYY-MM-DD");
+    this.startDate = moment(e[0]).format("MM-DD-YYYY");
+    this.endDate = moment(e[1]).format("MM-DD-YYYY");
     let obj = {
       type: "2",
       institute_id: this.jsonFlag.institute_id,

@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthenticatorService } from "./authenticator.service";
@@ -27,55 +29,55 @@ export class ExpensesService {
 
    getAllCategory(){
      let url = this.baseUrl + "/api/v1/expense/category/all/" + this.institute_id;
-     return this.http.get(url, { headers: this.headers }).map(
+     return this.http.get(url, { headers: this.headers }).pipe(map(
        data => {
          return data;
        },
        err => {
          return err;
        }
-     )
+     ))
    }
 
    addCategory(obj){
      obj.institute_id = this.institute_id;
 
      let url = this.baseUrl + "/api/v1/expense/category/add";
-     return this.http.post(url, obj, { headers: this.headers }).map(
+     return this.http.post(url, obj, { headers: this.headers }).pipe(map(
        data => {
          return data;
        },
        err => {
          return err;
        }
-     )
+     ))
    }
 
    addExpense(obj){
      obj.institute_id = this.institute_id;
 
      let url = this.baseUrl + "/api/v1/expense/add";
-     return this.http.post(url, obj, { headers: this.headers }).map(
+     return this.http.post(url, obj, { headers: this.headers }).pipe(map(
        data => {
          return data;
        },
        err => {
          return err;
        }
-     )
+     ))
    }
 
    getAllExpenses(obj){
 
      let url = this.baseUrl + "/api/v1/expense/" + this.institute_id + "/all";
-     return this.http.post(url, obj, { headers: this.headers }).map(
+     return this.http.post(url, obj, { headers: this.headers }).pipe(map(
        data => {
          return data;
        },
        err => {
          return err;
        }
-     )
+     ))
 
    }
 
@@ -83,14 +85,14 @@ export class ExpensesService {
      obj.institute_id = this.institute_id;
 
      let url = this.baseUrl + "/api/v1/expense/update/" + expense_id;
-     return this.http.put(url, obj, { headers: this.headers }).map(
+     return this.http.put(url, obj, { headers: this.headers }).pipe(map(
        data => {
          return data;
        },
        err => {
          return err;
        }
-     )
+     ))
    }
 
    //

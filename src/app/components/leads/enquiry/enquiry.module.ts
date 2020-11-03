@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { ManageExamModule } from '../../master/master.module';
@@ -21,7 +21,6 @@ import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
 import { EnquiryComponent } from './enquiry.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
-
 
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { TreeTableModule } from 'primeng/treetable';
 import { CityAreaMapComponent } from '../../components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from '../../components/class-room/class-room.component';

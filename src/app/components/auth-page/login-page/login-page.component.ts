@@ -1,8 +1,11 @@
+
+import {timer as observableTimer,  Observable } from 'rxjs';
+
+import {map, take} from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { LoginAuth } from '../../../model/login-auth';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
@@ -11,6 +14,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+// import { setTimeout } from 'timers';
 declare var $;
 @Component({
   selector: 'app-login-page',
@@ -20,9 +24,9 @@ declare var $;
 export class LoginPageComponent implements OnInit, OnDestroy {
 
   /* Variable Declaration */
-  @ViewChild('viewChange') changeView: ElementRef;
-  @ViewChild('backgroundChange') backgroundChange: ElementRef;
-  @ViewChild('virtualStyle') virtualStyle: ElementRef;
+  @ViewChild('viewChange',{static: true}) changeView: ElementRef;
+  @ViewChild('backgroundChange',{static: true}) backgroundChange: ElementRef;
+  @ViewChild('virtualStyle',{static: true}) virtualStyle: ElementRef;
   loginDataForm: LoginAuth;
   selectedCourseNames = [];
   courses: any = [];
@@ -813,9 +817,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.otpVerificationInfo.userid = res.userid;
     this.isLoginView = false;
     this.showOTPValidationModal();
-    this.countDown = Observable.timer(0, 1000)
-      .take(this.counter)
-      .map(() => --this.counter);
+    this.countDown = observableTimer(0, 1000).pipe(
+      take(this.counter),
+      map(() => --this.counter),);
   }
   //END - 6
 
@@ -995,7 +999,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
       /* If Id Not set then recall the function as user has successfully logged in */
       else {
-        setTimeout(this.reCheckLogin(), 3000);
+        setTimeout(()=>{
+          this.reCheckLogin();
+        },1000);
       }
     });
   }

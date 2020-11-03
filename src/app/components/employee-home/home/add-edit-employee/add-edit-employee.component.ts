@@ -14,9 +14,9 @@ export class AddEditEmployeeComponent implements OnInit {
 
   employeeId: any = '';
   containerWidth: any = "200px";
-  @ViewChild('circle1') circle1: ElementRef;
-  @ViewChild('circle2') circle2: ElementRef;
-  @ViewChild('circle3') circle3: ElementRef;
+  @ViewChild('circle1',{static: false}) circle1: ElementRef;
+  @ViewChild('circle2',{static: false}) circle2: ElementRef;
+  @ViewChild('circle3',{static: false}) circle3: ElementRef;
   firstPage: boolean = true;
   secondPage: boolean = false;
   thirdPage: boolean = false;
@@ -30,7 +30,7 @@ export class AddEditEmployeeComponent implements OnInit {
     phone_pro: '',
     email_pri: '',
     address: '',
-    joining_date: moment().format('YYYY-MM-DD'),
+    joining_date: moment().format('MM-DD-YYYY'),
     year_of_experience: 0,
     designation_id: '-1',
     dob: '',
@@ -325,10 +325,10 @@ export class AddEditEmployeeComponent implements OnInit {
       phone_pro: data.phone_pro,
       email_pri: data.email_pri,
       address: data.address,
-      joining_date: moment(data.joining_date).format('YYYY-MM-DD'),
+      joining_date: moment(data.joining_date).format('MM-DD-YYYY'),
       year_of_experience: data.year_of_experience,
       designation_id: Number(data.designation_id),
-      dob: moment(data.dob).format('YYYY-MM-DD'),
+      dob: moment(data.dob).format('MM-DD-YYYY'),
       emp_manager_id: Number(data.emp_manager_id) == -1 ? null : Number(data.emp_manager_id),
       role_id: data.role_id,
       emp_type: Number(data.emp_type),
@@ -369,7 +369,7 @@ export class AddEditEmployeeComponent implements OnInit {
       phone_pro: '',
       email_pri: '',
       address: '',
-      joining_date: moment().format('YYYY-MM-DD'),
+      joining_date: moment().format('MM-DD-YYYY'),
       year_of_experience: 0,
       designation_id: '-1',
       dob: '',

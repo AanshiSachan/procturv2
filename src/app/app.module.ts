@@ -2,13 +2,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule } from '@angular/http';
+// import { HttpClientModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToasterModule } from 'angular2-toaster';
 import { Ng2OrderModule } from 'ng2-order-pipe';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
 import { AppMainLoaderComponent } from './app-loader/app-loader.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,7 +22,11 @@ import { IssueBookService } from './services/library/issue/issue-book.service';
 import { MastersService } from './services/library/master/masters.service';
 import { ReturnBookService } from './services/library/return/return-book.service';
 import { ProductService } from './services/products.service';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
   imports: [
     BrowserModule,
@@ -30,13 +34,18 @@ import { ProductService } from './services/products.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpModule,
+    // HttpClientModule,
     BrowserAnimationsModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SharedModule,
     Ng2OrderModule,
+    FontAwesomeModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatTabsModule
 
   ],
   declarations: [
@@ -58,7 +67,7 @@ import { ProductService } from './services/products.service';
     CommonServiceFactory,
     MessageShowService,
     HttpService,
-       ExpensesService,
+    ExpensesService,
     MastersService,
     AddBookService,
     IssueBookService,
@@ -66,7 +75,7 @@ import { ProductService } from './services/products.service';
     ProductService,
     MasterTagService
 
-    
+
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first

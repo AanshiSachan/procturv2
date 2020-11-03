@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthenticatorService } from "../../../../services/authenticator.service";
 
 
@@ -33,14 +35,14 @@ export class monitoringService {
 
         let url = this.baseUrl + "/api/v1/studentWise/fee/students/highCharts/" +this.institute_id;
 
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
 
@@ -48,14 +50,14 @@ export class monitoringService {
 
         let url = this.baseUrl + "/api/v1/studentWise/fee/students/highChartsRender";
 
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
             }
-        )
+        ))
 
     }
 

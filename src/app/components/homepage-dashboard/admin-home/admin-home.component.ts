@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import * as Muuri from 'muuri/muuri';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { SelectItem } from 'primeng/components/common/api';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
@@ -27,7 +27,7 @@ declare var $;
 })
 export class AdminHomeComponent implements OnInit {
 
-  @ViewChild('ref') private ref: ElementRef;
+  @ViewChild('ref', { static: false }) private ref: ElementRef;
   permissionArray = sessionStorage.getItem('permissions');
   public order: string[] = ['1', '2', '3', '4', '5'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
@@ -508,8 +508,8 @@ export class AdminHomeComponent implements OnInit {
 
 
   getVisibility(c): boolean {
-    let d = moment(c.class_date).format("YYYY-MM-DD");
-    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
+    let d = moment(c.class_date).format("MM-DD-YYYY");
+    if (d >= moment(new Date()).format("MM-DD-YYYY")) {
       return true;
     }
     else {
@@ -520,8 +520,8 @@ export class AdminHomeComponent implements OnInit {
 
 
   hideVisibilty() {
-    let d = moment(this.courseLevelSchedDate).format("YYYY-MM-DD");
-    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
+    let d = moment(this.courseLevelSchedDate).format("MM-DD-YYYY");
+    if (d >= moment(new Date()).format("MM-DD-YYYY")) {
       return true;
     }
     else {
@@ -764,7 +764,7 @@ export class AdminHomeComponent implements OnInit {
 
   getCustomCourseLevelAttendanceObject(d, detail): any {
     let obj = {
-      date: moment(new Date()).format("YYYY-MM-DD"),
+      date: moment(new Date()).format("MM-DD-YYYY"),
       home_work_status: detail.home_work_status,
       isStatusModified: "Y",
       is_home_work_status_changed: d.is_home_work_status_changed,
@@ -927,7 +927,7 @@ export class AdminHomeComponent implements OnInit {
       return;
     }
 
-    if (moment().format('YYYY-MM-DD') > moment(this.reschedDate).format('YYYY-MM-DD')) {
+    if (moment().format('MM-DD-YYYY') > moment(this.reschedDate).format('MM-DD-YYYY')) {
       let msg = {
         type: 'error',
         title: '',
@@ -960,7 +960,7 @@ export class AdminHomeComponent implements OnInit {
         is_notified: this.resheduleNotified
       }
       let temp2 = {
-        class_date: moment(this.reschedDate).format("YYYY-MM-DD"),
+        class_date: moment(this.reschedDate).format("MM-DD-YYYY"),
         start_time: this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian,
         end_time: this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian,
         duration: this.getDifference()
@@ -1114,7 +1114,7 @@ export class AdminHomeComponent implements OnInit {
     if (e == 'course') {
       // this.isSubjectView = false;
       sessionStorage.setItem('isSubjectView', String('false'));
-      // this.generateCourseLevelWidget();
+      this.generateCourseLevelWidget();
     }
     if (sessionStorage.getItem('isSubjectView') == 'false') {
       this.isSubjectView = false;
@@ -1128,7 +1128,7 @@ export class AdminHomeComponent implements OnInit {
     this.courseLevelSchedule = [];
     let obj = {
       inst_id: sessionStorage.getItem('institute_id'),
-      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+      requested_date: moment(this.courseLevelSchedDate).format("MM-DD-YYYY")
     }
     this.auth.showLoader();
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
@@ -1198,7 +1198,7 @@ export class AdminHomeComponent implements OnInit {
 
     let obj = {
       course_id: selected.course_ids,
-      startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+      startdate: moment(this.courseLevelSchedDate).format("MM-DD-YYYY"),
       batch_name: selected.coursee_names,
       forCourseWise: true,
       forSubjectWise: false,
@@ -1256,7 +1256,7 @@ export class AdminHomeComponent implements OnInit {
       inst_id: sessionStorage.getItem('institute_id'),
       is_cancel_notify: this.is_notified,
       master_course: this.classMarkedForAction.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+      requested_date: moment(this.courseLevelSchedDate).format("MM-DD-YYYY")
     }
     this.auth.showLoader();
     this.widgetService.cancelCourseSchedule(obj).subscribe(
@@ -1338,7 +1338,7 @@ export class AdminHomeComponent implements OnInit {
       course_ids: this.classMarkedForAction.course_ids,
       inst_id: sessionStorage.getItem('institute_id'),
       master_course: this.classMarkedForAction.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+      requested_date: moment(this.courseLevelSchedDate).format("MM-DD-YYYY"),
       remarks: this.reminderRemarks
     }
     this.auth.showLoader();
@@ -1394,7 +1394,7 @@ export class AdminHomeComponent implements OnInit {
         "student_id": element.student_id,
         "course_id": this.classMarkedForAction.course_ids,
         "dateLi": [{
-          "date": moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+          "date": moment(this.courseLevelSchedDate).format("MM-DD-YYYY"),
           "status": element.dateLi[0].status,
           "isStatusModified": element.dateLi[0].isStatusModified,
           "home_work_status": element.dateLi[0].home_work_status,
@@ -1472,7 +1472,7 @@ export class AdminHomeComponent implements OnInit {
     if (!time) {
       time = '';
     }
-    row = moment(row).format('YYYY-MM-DD');
+    row = moment(row).format('MM-DD-YYYY');
     if (moment(row + ' ' + time) > moment(new Date)) {
       return "hide";
     } else {
@@ -1620,11 +1620,16 @@ export class AdminHomeComponent implements OnInit {
 
   onMasterCourseChange(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
-      document.getElementById('chkBoxOpenAppSelection').checked = false;
+      (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
+      // document.getElementById('chkBoxActiveSelection').checked = false;
+      // document.getElementById('chkBoxTutorSelection').checked = false;
+      // document.getElementById('chkBoxInActiveSelection').checked = false;
+      // document.getElementById('chkBoxAluminiSelection').checked = false;
+      // document.getElementById('chkBoxOpenAppSelection').checked = false;
       this.openAppUserSelected = false;
     }
     this.flushData();
@@ -1692,8 +1697,10 @@ export class AdminHomeComponent implements OnInit {
   }
 
   addNewNotification() {
-    let sms = document.getElementById('chkbxSmsSend').checked;
-    let email = document.getElementById('chkbxEmailSend').checked;
+    let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
+    // let sms = document.getElementById('chkbxSmsSend').checked;
+    // let email = document.getElementById('chkbxEmailSend').checked;
 
     if (sms == true && email == true) {
       let msg = {
@@ -1734,8 +1741,10 @@ export class AdminHomeComponent implements OnInit {
   }
 
   saveNewMessage() {
-    let sms = document.getElementById('chkbxSmsSend').checked;
-    let email = document.getElementById('chkbxEmailSend').checked;
+    let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
+    // let sms = document.getElementById('chkbxSmsSend').checked;
+    // let email = document.getElementById('chkbxEmailSend').checked;
     let src: any;
     if (sms == true) {
       src = "SMS";
@@ -1794,10 +1803,10 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('sendToHead').classList.remove('hide');
     }
     if (document.getElementById('chkbxEmailSend')) {
-      document.getElementById('chkbxEmailSend').checked = false;
+      (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked = false;
     }
     if (document.getElementById('sendLoginChkbx')) {
-      document.getElementById('sendLoginChkbx').checked = false;
+      (document.getElementById("sendLoginChkbx") as HTMLInputElement).checked = false;
     }
     this.showEmailSubject = false;
     if (div == "divSendMessage") {
@@ -1808,8 +1817,10 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('divLoginMode').classList.remove('show');
       document.getElementById('divLoginMode').classList.add('hide');
       document.getElementById('liAdd').classList.remove('hide');
-      document.getElementById('chkbxEmailSend').checked = false;
-      if (document.getElementById('chkBoxTutorSelection').checked) {
+
+      (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked = false;
+
+      if ((document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked) {
         document.getElementById('divParentOrGaurdian').classList.add('hide');
         document.getElementById('sendToHead').classList.add('hide');
       } else {
@@ -1824,21 +1835,23 @@ export class AdminHomeComponent implements OnInit {
 
 
   whichCheckBoxSelected() {
-    if (document.getElementById('chkBoxActiveSelection').checked) {
+
+    if ((document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked) {
       this.selectedOption = "showTable";
       return;
     } else {
       this.selectedOption = "";
     }
 
-    if (document.getElementById('chkBoxTutorSelection').checked) {
+    if ((document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked) {
       this.selectedOption = "showTutor";
       return
     } else {
       this.selectedOption = "";
     }
 
-    if (document.getElementById('chkBoxInActiveSelection').checked || document.getElementById('chkBoxAluminiSelection').checked) {
+
+    if ((document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked || (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked) {
       this.selectedOption = "showTextBox";
       return
     } else {
@@ -1861,11 +1874,15 @@ export class AdminHomeComponent implements OnInit {
 
   onMasterCourseSelection(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
-      document.getElementById('chkBoxOpenAppSelection').checked = false;
+
+
+
+
+      (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
+      (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
     }
     this.batchList = [];
     this.courseList = [];
@@ -1878,11 +1895,16 @@ export class AdminHomeComponent implements OnInit {
 
   onCourseSelection(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
-      document.getElementById('chkBoxOpenAppSelection').checked = false;
+
+      (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
     }
     this.showTableFlag = false;
     this.batchList = [];
@@ -1892,11 +1914,16 @@ export class AdminHomeComponent implements OnInit {
 
   fetchDataOnBatchBasis(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
-      document.getElementById('chkBoxOpenAppSelection').checked = false;
+
+      (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
+
+      (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
     }
     if (this.sendNotification.batch_id == "-1") {
       this.showTableFlag = false;
@@ -1948,12 +1975,18 @@ export class AdminHomeComponent implements OnInit {
 
   clearCheckBoxSelction(id) {
     this.searchData = "";
-    document.getElementById('chkBoxActiveSelection').checked = false;
-    document.getElementById('chkBoxTutorSelection').checked = false;
-    document.getElementById('chkBoxInActiveSelection').checked = false;
-    document.getElementById('chkBoxAluminiSelection').checked = false;
-    document.getElementById('chkBoxOpenAppSelection').checked = false;
-    document.getElementById(id).checked = true;
+    (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
+    // document.getElementById('chkBoxActiveSelection').checked = false;
+    // document.getElementById('chkBoxTutorSelection').checked = false;
+    // document.getElementById('chkBoxInActiveSelection').checked = false;
+    // document.getElementById('chkBoxAluminiSelection').checked = false;
+    // document.getElementById('chkBoxOpenAppSelection').checked = false;
+
+    (document.getElementById(id) as HTMLInputElement).checked = true;
     this.openAppUserSelected = false;
     this.whichCheckBoxSelected();
   }
@@ -1969,7 +2002,8 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxActiveSelection').checked) {
+
+          if ((document.getElementById('chkBoxActiveSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -1996,7 +2030,8 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllTeacherList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxTutorSelection').checked) {
+
+          if ((document.getElementById('chkBoxTutorSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -2024,7 +2059,8 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllInActiveList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxInActiveSelection').checked) {
+
+          if ((document.getElementById('chkBoxInActiveSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -2067,7 +2103,8 @@ export class AdminHomeComponent implements OnInit {
           this.openAppUserSelected = true;
           this.auth.hideLoader();
           let response = res['body'];
-          if (document.getElementById('chkBoxOpenAppSelection').checked) {
+
+          if ((document.getElementById('chkBoxOpenAppSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(response.result, true);
           }
@@ -2095,7 +2132,8 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllAluminiList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxAluminiSelection').checked) {
+
+          if ((document.getElementById('chkBoxAluminiSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -2130,21 +2168,24 @@ export class AdminHomeComponent implements OnInit {
   emailCheckBoxClick(event) {
     if (event.target.checked) {
       this.showEmailSubject = true;
-      document.getElementById('chkbxSmsSend').checked = false; //Added By AKG to check only one checkbox at a time
+
+      (document.getElementById('chkbxSmsSend') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
       this.showEmailSubject = false;
-      document.getElementById('chkbxSmsSend').checked = true; //Added By AKG to check only one checkbox at a time
+
+      (document.getElementById('chkbxSmsSend') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
   smsCheckBoxClick(event) {
     if (event.target.checked) {
       this.showEmailSubject = false;
-      document.getElementById('chkbxEmailSend').checked = false; //Added By AKG to check only one checkbox at a time
+
+      (document.getElementById('chkbxEmailSend') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
       this.showEmailSubject = true;
-      document.getElementById('chkbxEmailSend').checked = true; //Added By AKG to check only one checkbox at a time
+      (document.getElementById('chkbxEmailSend') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
 
@@ -2270,8 +2311,9 @@ export class AdminHomeComponent implements OnInit {
   getNotificationMessage() {
     console.log("getNotificationMessage");
     let count = 0;
-    let sms = document.getElementById('chkbxSmsSend').checked;
-    let email = document.getElementById('chkbxEmailSend').checked;
+
+    let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
     if (sms === true) {
       for (let t = 0; t < this.messageList.length; t++) {
         if (this.messageList[t].assigned == true) {
@@ -2317,8 +2359,10 @@ export class AdminHomeComponent implements OnInit {
   // End
   getDeliveryModeValue() {
     console.log("getDeliveryModeValue");
-    let sms = document.getElementById('chkbxSmsSend').checked;
-    let email = document.getElementById('chkbxEmailSend').checked;
+
+
+    let sms = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
     if (sms == true && email == true) {
       return 2;
     } else if (sms == true && email == false) {
@@ -2339,8 +2383,10 @@ export class AdminHomeComponent implements OnInit {
 
   getDestinationValue() {
     console.log("getDestinationValue");
-    let student = document.getElementById('chkBoxStudent').checked;
-    let parent = document.getElementById('chkBoxParent').checked;
+
+
+    let student = (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
+    let parent = (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
     // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
     // if (student == true && parent == false && gaurdian == false) {
     if (student == true && parent == false) {
@@ -2428,7 +2474,8 @@ export class AdminHomeComponent implements OnInit {
       }
     }
     let isAlumini = 0;
-    if (document.getElementById('chkBoxAluminiSelection').checked) {
+
+    if ((document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked) {
       isAlumini = 1;
     }
 
@@ -2643,7 +2690,7 @@ export class AdminHomeComponent implements OnInit {
     let obj = {
       course_id: data.course_ids,
       master_course: data.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+      requested_date: moment(this.courseLevelSchedDate).format("MM-DD-YYYY"),
     }
     this.widgetService.getMasterCourseDetails(obj).subscribe(
       (res: any) => {
@@ -2827,11 +2874,11 @@ export class AdminHomeComponent implements OnInit {
       let min = element.start_time.split(':')[1].split(' ')[0];
       let t: any;
       if (element.isExam) {
-        t = moment(element.exam_date).format('YYYY-MM-DD') + " " + this.convertToFullTimeFormat(hr, min);
+        t = moment(element.exam_date).format('MM-DD-YYYY') + " " + this.convertToFullTimeFormat(hr, min);
       } else {
-        t = moment(element.class_date).format('YYYY-MM-DD') + " " + this.convertToFullTimeFormat(hr, min);
+        t = moment(element.class_date).format('MM-DD-YYYY') + " " + this.convertToFullTimeFormat(hr, min);
       }
-      element.timeStamp = moment(t, "YYYY-MM-DD HH:mm");
+      element.timeStamp = moment(t, "MM-DD-YYYY HH:mm");
     });
     arr.sort(function (a, b) {
       return moment(a.timeStamp).unix() - moment(b.timeStamp).unix();
@@ -3129,7 +3176,7 @@ export class AdminHomeComponent implements OnInit {
       let obj = {
         course_exam_schedule_id: data.course_exam_schedule_id,
         course_id: data.course_id,
-        requested_date: moment(data.course_exam_date).format('YYYY-MM-DD')
+        requested_date: moment(data.course_exam_date).format('MM-DD-YYYY')
       }
       this.auth.showLoader();
       this.widgetService.sendReminder(obj).subscribe(
@@ -3308,8 +3355,8 @@ export class AdminHomeComponent implements OnInit {
 
   generateCourseLevelExam() {
     let obj = {
-      start_date: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
-      end_date: moment(this.courseLevelSchedDate).format('YYYY-MM-DD')
+      start_date: moment(this.courseLevelSchedDate).format('MM-DD-YYYY'),
+      end_date: moment(this.courseLevelSchedDate).format('MM-DD-YYYY')
     }
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       (res: any) => {
@@ -3340,7 +3387,7 @@ export class AdminHomeComponent implements OnInit {
       forCourseWise: true,
       forSubjectWise: false,
       isExam: true,
-      schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
+      schedDate: moment(this.courseLevelSchedDate).format('MM-DD-YYYY'),
       is_attendance_marked: exam.is_attendance_marked
     }
     let batch_info = JSON.stringify(obj);
@@ -3726,7 +3773,7 @@ export class AdminHomeComponent implements OnInit {
       course_exam_schedule_id: this.tempData.course_exam_schedule_id,
       course_id: this.tempData.course_id,
       is_cancel_notify: notify,
-      requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
+      requested_date: moment(this.tempData.course_exam_date).format('MM-DD-YYYY')
     }
     this.auth.showLoader();
     this.widgetService.cancelExamScheduleCourse(obj).subscribe(

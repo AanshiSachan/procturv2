@@ -197,8 +197,12 @@ export class ReviewProductComponent implements OnInit {
             });
             this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
             this.prodForm.is_duration = this.prodForm.duration == 0 ? false : true;
-            this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('DD-MMM-YYYY');
-            this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format('DD-MMM-YYYY');
+            // alert(this.prodForm.valid_from_date);
+            this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('MM-DD-YYYY');
+            // alert(this.prodForm.valid_to_date);
+            this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format('MM-DD-YYYY');
+            this.prodForm.sales_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
+            this.prodForm.sales_to_date = moment(this.prodForm.sales_to_date).format('MM-DD-YYYY');
             this.prodForm.product_item_stats = {};
             this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             // -- added by laxmi
@@ -365,8 +369,8 @@ export class ReviewProductComponent implements OnInit {
       "price": this.prodForm.price,
       "valid_from_date": this.prodForm.valid_from_date,
       "valid_to_date": this.prodForm.valid_to_date,
-      "sales_from_date": moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
-      "sales_to_date": moment(this.prodForm.sales_to_date).format('YYYY-MM-DD'),
+      "sales_from_date":moment(this.prodForm.sales_from_date),
+      "sales_to_date": moment(this.prodForm.sales_to_date),
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "duration": this.prodForm.duration,

@@ -282,10 +282,10 @@ export class ManageBatchComponent implements OnInit {
             if (this.addNewBatch.batch_code.length < 5) {
 
               if (this.addNewBatch.start_date != "" && this.addNewBatch.start_date != null) {
-                this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("YYYY-MM-DD");
+                this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("MM-DD-YYYY");
 
                 if (this.addNewBatch.end_date != "" && this.addNewBatch.end_date != null) {
-                  this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
+                  this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("MM-DD-YYYY");
 
                   if (this.addNewBatch.start_date < this.addNewBatch.end_date) {
 
@@ -355,8 +355,8 @@ export class ManageBatchComponent implements OnInit {
     let dataToSend: any = {
       batch_code: rowDetails.batch_code,
       batch_name: rowDetails.batch_name,
-      start_date: moment(rowDetails.start_date).format("YYYY-MM-DD"),
-      end_date: moment(rowDetails.end_date).format("YYYY-MM-DD"),
+      start_date: moment(rowDetails.start_date).format("MM-DD-YYYY"),
+      end_date: moment(rowDetails.end_date).format("MM-DD-YYYY"),
       subject_id: this.editRowDetails.subject_id,
       teacher_id: Number(rowDetails.teacher_id),
       is_active: rowDetails.is_active,
@@ -368,7 +368,7 @@ export class ManageBatchComponent implements OnInit {
       this.messageToast('error', '', 'Provide valid dates.');
       return;
     }
-    let endDate = moment(this.editRowDetails.end_date).format("YYYY-MM-DD");
+    let endDate = moment(this.editRowDetails.end_date).format("MM-DD-YYYY");
     if (!(dataToSend.end_date >= endDate)) {
       this.messageToast('error', '', 'Batch end date can only be extended.');
       return;

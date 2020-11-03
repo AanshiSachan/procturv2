@@ -1,8 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../../authenticator.service";
-import { forkJoin } from "rxjs/observable/forkJoin";
-import { Observable } from 'rxjs/Observable';
+import { forkJoin ,  Observable } from "rxjs";
 
 @Injectable()
 export class ReturnBookService {
@@ -44,62 +45,62 @@ export class ReturnBookService {
 
   getSearchedBooksOrStudents(searchInput){
     let url = this.baseUrl + "/library/book/fetchStudentAndBooks?name="+searchInput;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
   getIssuedBooksByBook(book_id){
     let url = this.baseUrl + "/library/book/fetchIssuedBooksByBookId/"+book_id;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
   getIssuedBooksByStudent(student_id){
     let url = this.baseUrl + "/library/book/fetchIssuedBooksToStudent/"+student_id;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
   returnBook(obj){
     let url = this.baseUrl + "/library/book/return";
-    return this.http.post(url, obj, { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
   downloadReceipt(issueBookId){
     let url = this.baseUrl + "/library/book/download?issueBookId="+issueBookId;
-    return this.http.get(url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).pipe(map(
       response => {
         return response;
       },
       errorResponse => {
         return errorResponse;
       }
-    )
+    ))
   }
 
 }

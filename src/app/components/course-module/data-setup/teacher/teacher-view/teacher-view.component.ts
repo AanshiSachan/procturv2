@@ -3,9 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule, Form, FormControl, FormGroup } from '@angular/forms';
 import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 import { isNumber } from 'util';
-import { window } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { window } from 'ngx-bootstrap/utils/facade/browser';
+// import { window } from 'ngx-bootstrap/windows';
 import * as moment from 'moment';
 import { AppComponent } from '../../../../../app.component';
+// import { windows } from 'fontawesome';
 
 @Component({
   selector: 'app-teacher-view',
@@ -89,8 +91,8 @@ export class TeacherViewComponent implements OnInit {
     }
     let data: any = {};
     data.batch_id = this.selectedBatch;
-    data.from_date = moment(this.selectedFromDate).format('YYYY-MM-DD');
-    data.to_date = moment(this.selectedToDate).format('YYYY-MM-DD');
+    data.from_date = moment(this.selectedFromDate).format('MM-DD-YYYY');
+    data.to_date = moment(this.selectedToDate).format('MM-DD-YYYY');
     this.getInfoFromDashBoard(data);
     this.getInfoFromGuest(data);
   }

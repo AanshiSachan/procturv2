@@ -132,7 +132,7 @@
           </tr>
         </thead>
         <tbody *ngIf="(subjectList.length != 0)"
-          [ngStyle]="{'max-height':createNewSubject == true ? '52vh' : '65vh','min-height':createNewSubject == true ? '52vh' : '65vh' }">
+          [ngStyle]="{'max-height':createNewSubject == true ? '40vh' : '55vh','min-height':createNewSubject == true ? '40vh' : '55vh' }">
           <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}"
             *ngFor="let row of subjectList; let i = index; trackBy: i;">
             <td>

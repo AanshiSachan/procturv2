@@ -90,7 +90,7 @@ export class ToDoListComponent implements OnInit {
 
 
   changeDate(date, index, task_id) {
-    let d = moment(date).format("YYYY-MM-DD");
+    let d = moment(date).format("MM-DD-YYYY");
 
     if (date != null && date != "") {
       let currentDate = new Date();
@@ -141,7 +141,7 @@ export class ToDoListComponent implements OnInit {
   }
 
   sortByDate() {
-    let d = moment(this.sortDate).format("DD-MMM-YYYY");
+    let d = moment(this.sortDate).format("DD-MM-YYYY");
     if (this.sortDate != "" && this.sortDate != null) {
       document.getElementById("sortDateSpan").innerHTML = "&nbsp;&nbsp;" + d + "&nbsp;&nbsp;&nbsp;";
       document.getElementById("refresh-icon").style.color = "#1283f4";
@@ -303,7 +303,7 @@ export class ToDoListComponent implements OnInit {
         is_completed: "N",
         task_id: toDo.task_id,
         task_squence: toDo.task_squence,
-        task_date: moment(toDo.task_date).format("YYYY-MM-DD"),
+        task_date: moment(toDo.task_date).format("MM-DD-YYYY"),
         userid: sessionStorage.getItem('userid'),
         institute_id: this.institute_id
       }
@@ -347,11 +347,11 @@ export class ToDoListComponent implements OnInit {
       // this.loaderOn.emit(true);
       let date;
       if (this.sortDate != "" && this.sortDate != null) {
-        date = moment(this.sortDate).format("YYYY-MM-DD");
+        date = moment(this.sortDate).format("MM-DD-YYYY");
       }
       else {
         date = new Date();
-        date = moment(date).format("YYYY-MM-DD")
+        date = moment(date).format("MM-DD-YYYY")
       }
 
       let maxValue;
@@ -449,7 +449,7 @@ export class ToDoListComponent implements OnInit {
       is_completed: "Y",
       task_id: task_id,
       task_squence: '',
-      task_date: moment(selectedTaskDate).format("YYYY-MM-DD"),
+      task_date: moment(selectedTaskDate).format("MM-DD-YYYY"),
       institute_id: this.institute_id,
       userid: sessionStorage.getItem('userid')
     }

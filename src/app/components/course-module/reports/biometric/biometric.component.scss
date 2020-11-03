@@ -122,7 +122,10 @@ p {
         float: right;
     }
 }
-
+.field-wrapper.datePickerBox .form-ctrl {
+   
+    background: transparent;
+}
 .form-date {
     .field-wrapper {
         position: relative;
@@ -284,7 +287,7 @@ p {
 }
 
 .filterSectionWrapper {
-    background: white;
+    // background: white;
     border-radius: 4px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ccc;

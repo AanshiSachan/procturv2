@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -24,109 +26,109 @@ export class CoursesServiceService {
 
   getCoursesList(){
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/all"
-    return this.http.get(url ,{headers:this.headers}).map(
+    return this.http.get(url ,{headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   courses(obj){
     let url= this.baseUrl + "/api/v1/archive/course"
-    return this.http.post(url , obj , {headers:this.headers}).map(
+    return this.http.post(url , obj , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   batches(obj){
     let url= this.baseUrl + "/api/v1/archive/batch"
-    return this.http.post(url , obj , {headers:this.headers}).map(
+    return this.http.post(url , obj , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
   getBatches(){
     let url = this.baseUrl + "/api/v1/batches/all/" + this.institute_id;
-    return this.http.get(url , {headers:this.headers}).map(
+    return this.http.get(url , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   courseArchiveStatus(){
     let url = this.baseUrl + "/api/v1/archive/course/report/" + this.institute_id;
-    return this.http.get(url , {headers:this.headers}).map(
+    return this.http.get(url , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   batchArchiveStatus(){
     let url = this.baseUrl + "/api/v1/archive/batch/report/" + this.institute_id;
-    return this.http.get(url , {headers:this.headers}).map(
+    return this.http.get(url , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   studentsArchiveData(){
     let url = this.baseUrl + "/api/v1/archive/students/" + this.institute_id;
-    return this.http.get(url , {headers:this.headers}).map(
+    return this.http.get(url , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   archiveStudents(obj){
     let url = this.baseUrl + "/api/v1/archive/students"
-    return this.http.post(url , obj , {headers:this.headers}).map(
+    return this.http.post(url , obj , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
   archivedStudents(){
     let url = this.baseUrl + "/api/v1/archive/students/report/" + this.institute_id
-    return this.http.get(url , {headers:this.headers}).map(
+    return this.http.get(url , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
 }

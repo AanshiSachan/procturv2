@@ -37,7 +37,7 @@ export class LeadsHomeComponent implements OnInit {
     private enquire: FetchenquiryService,
     private prefill: FetchprefilldataService,
   ) {
-    this.enquiryDate[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.enquiryDate[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
     this.enquiryDate[1] = new Date();
   }
 
@@ -52,6 +52,7 @@ export class LeadsHomeComponent implements OnInit {
       }
     )
     this.checkpermissinDetails();
+    this.fetchenquiry();
   }
 
   checkpermissinDetails() {
@@ -89,8 +90,8 @@ export class LeadsHomeComponent implements OnInit {
 
   fetchenquiry() {
     let obj = {
-      updateDateFrom: moment().date(1).format("YYYY-MM-DD"),
-      updateDateTo: moment().format("YYYY-MM-DD")
+      updateDateFrom: moment().date(1).format("MM-DD-YYYY"),
+      updateDateTo: moment().format("MM-DD-YYYY")
     }
     this.auth.showLoader();
     this.enquire.fetchEnquiryWidgetView(obj).subscribe(
@@ -110,7 +111,7 @@ export class LeadsHomeComponent implements OnInit {
 
   getEnqStartDate() {
     this.cd.markForCheck();
-    let date = moment().date(1).format("YYYY-MM-DD");
+    let date = moment().date(1).format("MM-DD-YYYY");
     return this.enquiryDate[0];
   }
 
@@ -122,8 +123,8 @@ export class LeadsHomeComponent implements OnInit {
   updateEnqChartByDate(e) {
     this.cd.markForCheck();
     let obj = {
-      updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
-      updateDateTo: moment(e[1]).format("YYYY-MM-DD")
+      updateDateFrom: moment(e[0]).format("MM-DD-YYYY"),
+      updateDateTo: moment(e[1]).format("MM-DD-YYYY")
     }
     this.auth.showLoader();
     this.enquire.fetchEnquiryWidgetView(obj).subscribe(

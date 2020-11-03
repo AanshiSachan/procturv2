@@ -17,8 +17,8 @@ export class ReferredByComponent implements OnInit {
     reportType: "Referred",
     referred_by: -1,
     assigned_to: this.userId,
-    updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-    updateDateTo: moment().format('YYYY-MM-DD')
+    updateDateFrom: moment().startOf('month').format('MM-DD-YYYY'),
+    updateDateTo: moment().format('MM-DD-YYYY')
   }
 
   getreferredByData: any = [];

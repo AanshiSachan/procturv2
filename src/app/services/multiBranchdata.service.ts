@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from './authenticator.service';
@@ -34,10 +36,10 @@ export class MultiBranchDataService {
 
     getAllBranches() {
         let url = this.baseUrl + '/api/v1/institutes/all/subBranches/' + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => { return data; },
             error => { return error; }
-        )
+        ))
     }
 
     setSelectedBranchData(data) {
@@ -57,18 +59,18 @@ export class MultiBranchDataService {
 
     getSubBranchLoginInfo(id) {
         let url = this.baseUrl + "/api/v1/institutes/login/subBranch/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => { return data; },
             error => { return error; }
-        )
+        ))
     }
 
     loginToMainBranch(id) {
         let url = this.baseUrl + "/api/v1/institutes/login/mainBranch/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             data => { return data; },
             error => { return error; }
-        )
+        ))
     }
 }
 

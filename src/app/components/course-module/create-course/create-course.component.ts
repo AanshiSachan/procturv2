@@ -10,12 +10,12 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 export class CreateCourseComponent implements OnInit {
 
   isLangInstitue: boolean = false;
-  @ViewChild('liStandard') liStandard: ElementRef;
-  @ViewChild('liSubject') liSubject: ElementRef;
-  @ViewChild('liManageBatch') liManageBatch: ElementRef;
-  @ViewChild('liClass') liClass: ElementRef;
-  @ViewChild('liExam') liExam: ElementRef;
-  @ViewChild('liTopic') liTopic: ElementRef;
+  @ViewChild('liStandard',{static: false}) liStandard: ElementRef;
+  @ViewChild('liSubject',{static: false}) liSubject: ElementRef;
+  @ViewChild('liManageBatch',{static: false}) liManageBatch: ElementRef;
+  @ViewChild('liClass',{static: false}) liClass: ElementRef;
+  @ViewChild('liExam',{static: false}) liExam: ElementRef;
+  @ViewChild('liTopic',{static: false}) liTopic: ElementRef;
 
   constructor(
     private router: Router,

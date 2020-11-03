@@ -62,7 +62,7 @@ export class EnquiryEditComponent implements OnInit {
     school_id: "-1",
     qualification: "",
     grade: "",
-    enquiry_date: moment().format('YYYY-MM-DD'),
+    enquiry_date: moment().format('MM-DD-YYYY'),
     standard_id: "-1",
     subject_id: "-1",
     subjectIdArray: null,
@@ -127,7 +127,7 @@ export class EnquiryEditComponent implements OnInit {
     priority: "",
     follow_type: "",
     followUpDate: "",
-    commentDate: moment().format('YYYY-MM-DD'),
+    commentDate: moment().format('MM-DD-YYYY'),
     followUpTime: "",
     isEnquiryV2Update: "N",
     isRegisterFeeUpdate: "N",
@@ -420,6 +420,9 @@ export class EnquiryEditComponent implements OnInit {
       data => {
         this.editEnqData = data;
         console.log(data);
+        this.editEnqData.enquiry_date = moment(data.enquiry_date).format("MM-DD-YYYY");
+        this.editEnqData.followUpDate = moment(data.followUpDate).format("MM-DD-YYYY");
+        this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("MM-DD-YYYY");
         // this.editEnqData.country_id = this.instituteCountryDetObj.country_id;
         this.countryDetails.forEach(element => {
           if (element.id == this.editEnqData.country_id) {
@@ -440,7 +443,7 @@ export class EnquiryEditComponent implements OnInit {
         this.actualAssignee = data.assigned_to;
         this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
         if (data.followUpTime != '' && data.followUpTime != null && data.followUpTime != " :") {
-          let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
+          let followUpDateTime = moment(data.followUpDate).format('MM-DD-YYYY') + " " + data.followUpTime;
           this.hour = moment(followUpDateTime).format('h');
           this.followUpTime = moment(followUpDateTime).format('h') + " " + moment(followUpDateTime).format('a').toString().toUpperCase();
           this.minute = moment(followUpDateTime).format('mm');
@@ -448,7 +451,7 @@ export class EnquiryEditComponent implements OnInit {
         }
 
         if (data.walkin_followUpDate != "" && data.walkin_followUpDate != "Invalid date" && data.walkin_followUpDate != null) {
-          this.editEnqData.walkin_followUpDate = data.walkin_followUpDate;
+          this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("MM-DD-YYYY");
         }
 
         if (data.walkin_followUpTime != "" && data.walkin_followUpTime != null && data.walkin_followUpTime != ": ") {
@@ -493,12 +496,12 @@ export class EnquiryEditComponent implements OnInit {
     this.customComponents.forEach(e => {
       if (e.type == 5) {
         if (e.hasOwnProperty('value')) {
-          let dd = moment(e.value).format("YYYY-MM-DD");
+          let dd = moment(e.value).format("MM-DD-YYYY");
           if (dd != '' && dd != "Invalid date" && dd != null) {
             let obj: any = {};
             obj.component_id = e.id;
             obj.enq_custom_id = e.data.enq_custom_id;
-            obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
+            obj.enq_custom_value = moment(e.value).format("MM-DD-YYYY");
             obj.comp_length = e.comp_length;
             tempArr.push(obj);
           }
@@ -601,63 +604,66 @@ export class EnquiryEditComponent implements OnInit {
   FetchEnquiryPrefilledData() {
 
     this.prefill.getEnqStatus().subscribe(
-      data => { this.enqstatus = data; },
+      data => {
+        this.enqstatus = data;
+        console.log("data", data);
+      },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getEnqPriority().subscribe(
-      data => { this.enqPriority = data; },
+      data => { this.enqPriority = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getFollowupType().subscribe(
-      data => { this.enqFollowType = data },
+      data => { this.enqFollowType = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getAssignTo().subscribe(
-      data => { this.enqAssignTo = data; },
+      data => { this.enqAssignTo = data; console.log("data", data); },
       err => {
         // console.log(err);
       }
     );
 
     this.prefill.getEnqStardards().subscribe(
-      data => { this.enqStd = data; },
+      data => { this.enqStd = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getSchoolDetails().subscribe(
-      data => { this.school = data; },
+      data => { this.school = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getLeadSource().subscribe(
-      data => { this.sourceLead = data; },
+      data => { this.sourceLead = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getLeadReffered().subscribe(
-      data => { this.refferedBy = data; },
+      data => { this.refferedBy = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getOccupation().subscribe(
-      data => { this.occupation = data; },
+      data => { this.occupation = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
@@ -666,6 +672,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(
       data => {
         this.lastDetail = data;
+        console.log("data", data);
         let createTime = new Date(data.enquiry_creation_datetime);
         this.lastUpdated = moment(createTime).fromNow();
       },
@@ -677,6 +684,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.getCityList().subscribe(
       data => {
         this.cityListDataSource = data;
+        console.log("data", data);
       },
       err => {
         //console.log(err);
@@ -924,7 +932,7 @@ export class EnquiryEditComponent implements OnInit {
   submitRegisterForm() {
     this.isConvertToStudent = true;
     this.editEnqData.follow_type = "Walkin"
-    this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.editEnqData.walkin_followUpDate = moment(new Date()).format('MM-DD-YYYY');
     this.editEnqData.walkin_followUpTime = this.getFollowupTime();
     this.submitForm();
   }
@@ -990,7 +998,7 @@ export class EnquiryEditComponent implements OnInit {
           if (this.editEnqData.walkin_followUpDate == "" || this.editEnqData.walkin_followUpDate == "Invalid date") {
             this.editEnqData.walkin_followUpDate = "";
           } else {
-            this.editEnqData.walkin_followUpDate = moment(this.editEnqData.walkin_followUpDate).format('YYYY-MM-DD');
+            this.editEnqData.walkin_followUpDate = moment(this.editEnqData.walkin_followUpDate).format('MM-DD-YYYY');
           }
 
           if (this.walkintime.hour == "" || this.walkintime.minute == "") {
@@ -1110,7 +1118,7 @@ export class EnquiryEditComponent implements OnInit {
       return '';
     }
     else {
-      return moment(e).format('YYYY-MM-DD');
+      return moment(e).format('MM-DD-YYYY');
     }
   }
 
@@ -1151,6 +1159,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
+    // this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format("YYYY-MM-DD");
     let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength, this.country_id);
     if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Please enter name', '');
@@ -1159,9 +1168,11 @@ export class EnquiryEditComponent implements OnInit {
     } else if (phoneFlag == false) {
       let msg = 'Enter '.concat(this.maxlength).concat(' Digit Contact Number');
       return this.showErrorMessage('error', msg, '');
-    } else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
-      return this.showErrorMessage('error', 'Please select enquiry date ', '');
-    } else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
+    }
+    // } else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
+    //   return this.showErrorMessage('error', 'Please select enquiry date ', '');
+    // } 
+    else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
       return this.showErrorMessage('error', 'Please select enquiry source', '');
     } else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null) {
       let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength, this.country_id);
@@ -1235,7 +1246,7 @@ export class EnquiryEditComponent implements OnInit {
       master_course_name: "",
       qualification: "",
       grade: "",
-      enquiry_date: moment().format('YYYY-MM-DD'),
+      enquiry_date: moment().format('MM-DD-YYYY'),
       dob: '',
       standard_id: "-1",
       subject_id: "-1",
@@ -1302,7 +1313,7 @@ export class EnquiryEditComponent implements OnInit {
       priority: "",
       follow_type: "",
       followUpDate: "",
-      commentDate: moment().format('YYYY-MM-DD'),
+      commentDate: moment().format('MM-DD-YYYY'),
       followUpTime: "",
       isEnquiryV2Update: "N",
       isRegisterFeeUpdate: "N",
@@ -1320,7 +1331,7 @@ export class EnquiryEditComponent implements OnInit {
       this.updateFormData.statusValue = res.statusValue;
       this.updateFormData.status = res.status;
       this.updateFormData.followUpDate = res.followUpDate;
-      this.updateFormData.commentDate = moment().format('YYYY-MM-DD');
+      this.updateFormData.commentDate = moment(res.commentDate).format('MM-DD-YYYY');
       if (res.comments != null) {
         this.updateFormComments = res.comments;
       }

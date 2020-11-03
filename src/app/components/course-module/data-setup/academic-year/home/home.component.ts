@@ -116,6 +116,9 @@ export class HomeComponent implements OnInit {
 
   editRowTable(row, index) {
     this.addOrRemoveClass("row" + index, 'editComp', 'displayComp');
+    row.created_date = moment(row.created_date).format("MM-DD-YYYY");
+    row.end_date = moment(row.end_date).format("MM-DD-YYYY");
+    row.start_date = moment(row.start_date).format("MM-DD-YYYY");
   }
 
   cancelEditRow(index) {
@@ -142,7 +145,7 @@ export class HomeComponent implements OnInit {
       this.showErrorMessage(this.msgService.toastTypes.error, '', "Start year should be greater than end year");
     }
     else {
-      let data = {
+         let data = {
         inst_acad_year: row2.inst_acad_year,
         desc: row2.desc,
         start_date: moment(row2.start_date).format("YYYY-MM-DD"),

@@ -18,7 +18,7 @@ import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.m
 })
 export class FeeCourseReportComponent implements OnInit {
 
-  @ViewChild('form') form: any;
+  @ViewChild('form',{static: true}) form: any;
   feeDataSource1: any[] = [];
   feeDataSource2: any[] = [];
   standardList: any[] = [];
@@ -335,8 +335,8 @@ export class FeeCourseReportComponent implements OnInit {
             standard_id: this.courseFetchForm.standard_id,
             batch_id: this.courseFetchForm.batch_id,
             type: this.courseFetchForm.type,
-            from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-            to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+            from_date: moment(this.courseFetchForm.from_date).format('MM-DD-YYYY'),
+            to_date: moment(this.courseFetchForm.to_date).format('MM-DD-YYYY'),
             installment_id: this.courseFetchForm.installment_id,
             subject_id: this.courseFetchForm.subject_id,
             master_course_name: this.courseFetchForm.master_course_name,
@@ -355,8 +355,8 @@ export class FeeCourseReportComponent implements OnInit {
             standard_id: this.courseFetchForm.master_course_name,
             batch_id: this.courseFetchForm.batch_id,
             type: this.courseFetchForm.type,
-            from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-            to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+            from_date: moment(this.courseFetchForm.from_date).format('MM-DD-YYYY'),
+            to_date: moment(this.courseFetchForm.to_date).format('MM-DD-YYYY'),
             installment_id: this.courseFetchForm.installment_id,
             subject_id: this.courseFetchForm.course_id,
             master_course_name: this.courseFetchForm.standard_id,
@@ -410,10 +410,10 @@ export class FeeCourseReportComponent implements OnInit {
       obj.to_date = '';
     }
     if (obj.from_date != 'Invalid date' && obj.from_date != '') {
-      moment(obj.from_date).format('YYYY-MM-DD');
+      moment(obj.from_date).format('MM-DD-YYYY');
     }
     if (obj.to_date != 'Invalid date' && obj.to_date != '') {
-      moment(obj.to_date).format('YYYY-MM-DD');
+      moment(obj.to_date).format('MM-DD-YYYY');
     }
     //console.log(obj);
     this.auth.showLoader();
@@ -616,7 +616,7 @@ export class FeeCourseReportComponent implements OnInit {
       let v = today.diff(selected, 'days');
       if (v < 0) {
         this._msgService.showErrorMessage("info", '', "Future date cannot be selected");
-        this.courseFetchForm.from_date = moment(new Date()).format('DD-MMM-YYYY');
+        this.courseFetchForm.from_date = moment(new Date()).format('DD-MM-YYYY');
       }
     }
     else if (id == 'to') {
@@ -624,7 +624,7 @@ export class FeeCourseReportComponent implements OnInit {
       let v = today.diff(selected, 'days');
       if (v < 0) {
         this._msgService.showErrorMessage("info", '', "Future date cannot be selected");
-        this.courseFetchForm.to_date = moment(new Date()).format('DD-MMM-YYYY');
+        this.courseFetchForm.to_date = moment(new Date()).format('DD-MM-YYYY');
       }
     }
 
@@ -693,8 +693,8 @@ export class FeeCourseReportComponent implements OnInit {
   //   }
 
   //   else if (this.due_type == 'current_dues') {
-  //     this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
-  //     this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
+  //     this.courseFetchForm.from_date = moment(new Date()).format("MM-DD-YYYY");
+  //     this.courseFetchForm.to_date = moment(new Date()).format("MM-DD-YYYY");
   //     this.courseFetchForm.type = "1";
   //   }
   //   else if (this.due_type == 'custom') {
@@ -752,7 +752,7 @@ export class FeeCourseReportComponent implements OnInit {
             "Balance Amount": ele.amount_still_payable,
             "Master Course": ele.standard_name,
             "Batch": ele.batch_name,
-            "Date of report generation": moment().format('YYYY-MM-DD')
+            "Date of report generation": moment().format('MM-DD-YYYY')
           }
           arr.push(json);
         }
@@ -774,7 +774,7 @@ export class FeeCourseReportComponent implements OnInit {
             "Balance Amount": ele.amount_still_payable,
             "Standard Name": ele.standard_name,
             "Course": ele.course_name,
-            "Date of report generation": moment().format('YYYY-MM-DD')
+            "Date of report generation": moment().format('MM-DD-YYYY')
           }
           arr.push(json);
         }

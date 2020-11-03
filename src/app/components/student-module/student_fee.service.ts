@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -174,22 +176,22 @@ export class StudentFeeService {
         }
 
         // let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             (res: FeeModel) => {
                 return res;
             },
             err => {
                 return err
             }
-        );
+        ));
     }
 
     getReasonsForDiscount() {
         let url = this.baseUrl + "/api/v1/discount/reason/master/all/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
     public uniqueConvertFeeJson(res: CustomFeeSchedule[]): CustomFeeSchedule[] {
@@ -493,7 +495,7 @@ export class StudentFeeService {
             for (let t = 0; t < courseWiseArray[i].installmentArray.length; t++) {
                 let installment = courseWiseArray[i].installmentArray[t];
                 if (installment.uiSelected) {
-                    if (moment(installment.due_date).format('YYYY-MM-DD') <= moment('2018-03-31').format('YYYY-MM-DD')) {
+                    if (moment(installment.due_date).format('MM-DD-YYYY') <= moment('2018-03-31').format('MM-DD-YYYY')) {
                         acadYearFoundConfirmation = true;
                         break;
                     }
@@ -533,7 +535,7 @@ export class StudentFeeService {
         };
 
         if (paymentPopUpJson.payment_mode == "Cheque/PDC/DD No." && paymentPopUpJson.pdcSelectedForm != '') {
-            paymentPopUpJson.pdcSelectedForm.cheque_date = moment(paymentPopUpJson.pdcSelectedForm.cheque_date).format('YYYY-MM-DD');
+            paymentPopUpJson.pdcSelectedForm.cheque_date = moment(paymentPopUpJson.pdcSelectedForm.cheque_date).format('MM-DD-YYYY');
             // console.log("pdc id : "+paymentPopUpJson.pdcSelectedForm.pdc_cheque_id);
             paymentPopUpJson.pdcSelectedForm.pdc_cheque_id = paymentPopUpJson.pdcSelectedForm.pdc_cheque_id;
 
@@ -541,7 +543,7 @@ export class StudentFeeService {
         } else {
             obj.chequeDetailsJson = {};
         }
-        obj.paid_date = moment(paymentPopUpJson.paid_date).format('YYYY-MM-DD');
+        obj.paid_date = moment(paymentPopUpJson.paid_date).format('MM-DD-YYYY');
         obj.paymentMode = paymentPopUpJson.payment_mode;
         obj.reference_no = paymentPopUpJson.reference_no;
         obj.remarks = paymentPopUpJson.remarks;
@@ -622,7 +624,7 @@ export class StudentFeeService {
 
 
                 }
-                obj.due_date = moment(element.due_date).format('YYYY-MM-DD');
+                obj.due_date = moment(element.due_date).format('MM-DD-YYYY');
                 obj.fee_schedule_id = element.schedule_id;
                 install.push(obj);
             }
@@ -777,7 +779,7 @@ export class StudentFeeService {
                 obj.fee_schedule_id = Number(element.schedule_id);
                 obj.installment_no = Number(element.installment_no);
                 obj.reason_id = Number(popUpFormObj.reason);
-                obj.discount_date = moment().format('YYYY-MM-DD');
+                obj.discount_date = moment().format('MM-DD-YYYY');
                 if (i == selectedInstallment.length - 1) {
                     perInstallmentDiscount = mutableDiscount;
                 }
@@ -856,10 +858,10 @@ export class StudentFeeService {
     addDiscountToStudent(jsonObject) {
         jsonObject.institute_id = Number(this.institute_id);
         let url = this.baseUrl + "/api/v1/discount";
-        return this.http.post(url, jsonObject, { headers: this.headers }).map(
+        return this.http.post(url, jsonObject, { headers: this.headers }).pipe(map(
             res => { return res },
             err => { return err }
-        )
+        ))
     }
 
     // Remove discount applied to the installment
@@ -894,7 +896,7 @@ export class StudentFeeService {
                 obj.fee_schedule_id = Number(element.schedule_id);
                 obj.installment_no = Number(element.installment_no);
                 obj.reason_id = Number(popUpFormObj.reason);
-                obj.discount_date = moment().format('YYYY-MM-DD');
+                obj.discount_date = moment().format('MM-DD-YYYY');
 
                 if (i == installment.length - 1) {
                     // last Installment
@@ -934,36 +936,36 @@ export class StudentFeeService {
 
     getDiscountHistory(id) {
         let url = this.baseUrl + "/api/v1/discount/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res },
             err => { return err }
-        )
+        ))
     }
 
 
     getFeeDetailsById(i): Observable<any> {
         let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";
-        return this.http.get(urlFeebyId, { headers: this.headers }).map(
+        return this.http.get(urlFeebyId, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            });
+            }));
     }
 
     allocateStudentFees(obj) {
         if (obj.hasOwnProperty('paid_date')) {
-            obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
+            obj.paid_date = moment(obj.paid_date).format("MM-DD-YYYY");
         }
         let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
-        return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).map(
+        return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            });
+            }));
     }
 
     precisionRound(number, precision) {
@@ -992,29 +994,29 @@ export class StudentFeeService {
 
     getAllDiscountReasons(): Observable<any> {
         let url = this.baseUrl + "/api/v1/discount/reason/master/all/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
 
     createDiscountReason(obj): Observable<any> {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/discount/reason/master";
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
     updateDiscountReasons(obj: any, id: string | number): Observable<any> {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/discount/reason/master/" + id;
-        return this.http.put(url, obj, { headers: this.headers }).map(
+        return this.http.put(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
 

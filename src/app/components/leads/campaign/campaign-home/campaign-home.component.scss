@@ -220,7 +220,7 @@ tbody tr {
             }
             th{
               background: #e0eaec;
-              padding: 10px 10px;
+              padding: 0px 0px;
             }
         }
         .empty-table-wrapper {
@@ -295,7 +295,15 @@ tbody tr {
         height: 7px;
     }
 }
+.sendHeader{
+    background-color: #e0eaec;
+    text-align: center;
+    padding: 7px;
+    
+    border-radius: 3px;
+    font-weight: bold;
 
+}
 .normal-field {
     padding: 7px 10px;
     border: 1px solid #ccc;
@@ -881,7 +889,7 @@ table {
 }
 
 .tooltip-box-field {
-    width: 355px;
+    width: fit-content;
     white-space: nowrap;
     min-height: 41px;
     line-height: 18px;

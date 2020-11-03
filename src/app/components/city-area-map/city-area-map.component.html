@@ -24,12 +24,13 @@
           </div>
           <div class="edit-item field-wrapper">
             <span class="edit-title">Area Name </span>
-            <input type="text" name="" value="" [(ngModel)]="editAreaName" placeholder="Enter area name" class="edit-area-item form-ctrl">
+            <input type="text" name="" value="" [(ngModel)]="editAreaName" placeholder="Enter area name"
+              class="edit-area-item form-ctrl">
           </div>
           <div class="edit-item field-checkbox-wrapper" style="width: 100px !important">
             <span class="edit-title" style="width: 100%;">Is Active</span>
             <input type="checkbox" id="active" value="" name="" class="form-checkbox" [(ngModel)]="editIsActiveStatus">
-              <label for="active"></label>
+            <label for="active"></label>
           </div>
         </div>
       </div>
@@ -68,7 +69,7 @@
   </div>
 </div>
 
-<div class="middle-section clearFix">
+<div class="clearFix">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
       State/City/Area Mapping
@@ -82,19 +83,23 @@
         <div class="filter-item field-wrapper" style="margin-left: 0px;">
           <select class="form-ctrl" name="" [(ngModel)]="filter.country_ids" (ngModelChange)="getStateList()">
             <option value="-1">Select Country</option>
-            <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">{{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}</option>
+            <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">
+              {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
+            </option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filter.state_ids" (ngModelChange)="getCityList()">
             <option value="-1">Select State</option>
-            <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">{{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+            <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
+              {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
           </select>
         </div>
         <div class="filter-item field-wrapper">
           <select class="form-ctrl" name="" [(ngModel)]="filter.city_ids">
             <option value="-1">Select City</option>
-            <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">{{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+            <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">
+              {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
           </select>
         </div>
         <div class="filter-item field-checkbox-wrapper" style="width: 100px !important; margin-top: 15px;">
@@ -105,7 +110,8 @@
         <div class="filter-item" style="width: 8%;" id="searchBtn1">
           <button type="button" class="search-btn fullBlue" name="button" (click)="searchArea()">Search</button>
         </div>
-        <div class="create-btn-container field-wrapper filter-item" style="margin-left: 29%;width: 8%;margin-right: 0px;">
+        <div class="create-btn-container field-wrapper filter-item"
+          style="margin-left: 29%;width: 8%;margin-right: 0px;">
           <button type="button" name="button" class="add-student-btn" (click)="toggleAddArea()">Add Area</button>
         </div>
       </div>
@@ -115,8 +121,8 @@
     <section>
       <div class="search-and-create-filter-container">
         <div class="search-container field-wrapper">
-          <input type="text" value="" id="search_bar" [(ngModel)]="areaSearchInput" name="areaSearchInput" (keyup)="searchDatabase(search)"
-             placeholder="Search here..." class="search-box" #search>
+          <input type="text" value="" id="search_bar" [(ngModel)]="areaSearchInput" name="areaSearchInput"
+            (keyup)="searchDatabase(search)" placeholder="Search here..." class="search-box" #search>
         </div>
       </div>
     </section>
@@ -144,21 +150,26 @@
         <div class="table-value-outer-container">
           <div class="table-value-container" *ngFor="let record of countryStateAreaList">
             <div class="table-value-item small">
-              <span title="{{record?.state_name}}">{{ (!record.state_name) ? '-' : (record.state_name.length > 20) ? (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
+              <span
+                title="{{record?.state_name}}">{{ (!record.state_name) ? '-' : (record.state_name.length > 20) ? (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
             </div>
             <div class="table-value-item small">
-              <span title="{{record?.city}}" >{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
+              <span
+                title="{{record?.city}}">{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
             </div>
             <div class="table-value-item large">
-              <span title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 50) ? (record.area | slice:0:50) + '...' : record.area }}</span>
+              <span
+                title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 50) ? (record.area | slice:0:50) + '...' : record.area }}</span>
             </div>
             <div class="table-value-item align-center medium">
               <span *ngIf="record?.is_active == 'Y'">Active</span>
               <span *ngIf="record?.is_active == 'N'" style="color: red;">In-Active</span>
             </div>
             <div class="table-value-item align-center medium">
-              <i class="fa fa-pencil edit-lead" title="Edit Area" aria-hidden="true" (click)="editArea(record)" data-toggle="modal" data-target="#editCityArea"></i>
-              <i class="fa fa-trash delete-lead" title="Delete Area" aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteAreaId(record.id)"></i>
+              <i class="fa fa-pencil edit-lead" title="Edit Area" aria-hidden="true" (click)="editArea(record)"
+                data-toggle="modal" data-target="#editCityArea"></i>
+              <i class="fa fa-trash delete-lead" title="Delete Area" aria-hidden="true" data-toggle="modal"
+                data-target="#deleteModal" (click)="setDeleteAreaId(record.id)"></i>
             </div>
           </div>
           <div class="no-records" *ngIf="!countryStateAreaList.length && !jsonFlag.isRippleLoad">

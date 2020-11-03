@@ -12,16 +12,19 @@ import { CustomPreloadingStrategy } from './custom-preloading-strategy.service';
                  },
                 {
                     path: 'authPage',
-                    loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule',
+                    loadChildren: () => import('app/components/auth-page/auth-page.module').then(m => m.AuthPageModule),
+                    // loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule',
                     data:{preload: true}
                 },
                 {
                     path: 'guest',
-                    loadChildren: 'app/components/guest-user/guest-user.module#GuestUserModule'
+                    loadChildren: () => import('app/components/guest-user/guest-user.module').then(m => m.GuestUserModule)
+                    // loadChildren: 'app/components/guest-user/guest-user.module#GuestUserModule'
                 },
                 {
                     path: 'view',
-                    loadChildren: 'app/components/component.module#ComponentModule',
+                    loadChildren: () => import('app/components/component.module').then(m => m.ComponentModule)
+                    // loadChildren: 'app/components/component.module#ComponentModule',
 
                 },
                 { path: '**',  redirectTo: '/authPage', pathMatch: 'full' }

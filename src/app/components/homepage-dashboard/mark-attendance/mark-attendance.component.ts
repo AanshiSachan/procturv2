@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { TopicListingService } from '../../../services/course-services/topic-listing.service';
@@ -566,8 +566,8 @@ closeTopicModal(){
 
   generateCourseLevelExam() {
     let obj = {
-      start_date: moment(this.batch_info.schedDate).format('YYYY-MM-DD'),
-      end_date: moment(this.batch_info.schedDate).format('YYYY-MM-DD')
+      start_date: moment(this.batch_info.schedDate).format('MM-DD-YYYY'),
+      end_date: moment(this.batch_info.schedDate).format('MM-DD-YYYY')
     }
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       (res: any) => {
@@ -988,7 +988,7 @@ closeTopicModal(){
 
   getCustomCourseLevelAttendanceObject(d, detail): any {
     let obj = {
-      date: moment(new Date()).format("YYYY-MM-DD"),
+      date: moment(new Date()).format("MM-DD-YYYY"),
       home_work_status: detail.home_work_status,
       isStatusModified: "Y",
       is_home_work_status_changed: d.is_home_work_status_changed,
@@ -1067,7 +1067,7 @@ closeTopicModal(){
         "student_id": element.student_id,
         "course_id": this.batch_info.course_id,
         "dateLi": [{
-          "date": moment(this.batch_info.startdate).format("YYYY-MM-DD"),
+          "date": moment(this.batch_info.startdate).format("MM-DD-YYYY"),
           "status": element.dateLi[0].status,
           "isStatusModified": element.dateLi[0].isStatusModified,
           "home_work_status": element.dateLi[0].home_work_status,

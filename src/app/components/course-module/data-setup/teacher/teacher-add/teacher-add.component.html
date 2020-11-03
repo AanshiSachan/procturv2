@@ -1,4 +1,4 @@
-<div class="clearfix">
+<div class="clearfix" style="padding: 2%;">
   <div class="row">
     <h2 class="pull-left" style="margin-left:15px">Add Faculty</h2>
   </div>
@@ -11,7 +11,8 @@
           </label>
           <input type="text" class="form-ctrl" formControlName="teacher_name" name="name">
 
-          <div *ngIf="addTeacherForm.controls['teacher_name'].invalid && (addTeacherForm.controls['teacher_name'].dirty || addTeacherForm.controls['teacher_name'].touched)"
+          <div
+            *ngIf="addTeacherForm.controls['teacher_name'].invalid && (addTeacherForm.controls['teacher_name'].dirty || addTeacherForm.controls['teacher_name'].touched)"
             class="alert alert-danger">
             <div *ngIf="addTeacherForm.controls['teacher_name'].hasError('required')">
               Faculty Name is required.
@@ -24,7 +25,8 @@
           </label>
           <input type="text" maxlength="10" class="form-ctrl" formControlName="teacher_phone" name="contNumber">
 
-          <div *ngIf="addTeacherForm.controls['teacher_phone'].invalid && (addTeacherForm.controls['teacher_phone'].dirty || addTeacherForm.controls['teacher_phone'].touched)"
+          <div
+            *ngIf="addTeacherForm.controls['teacher_phone'].invalid && (addTeacherForm.controls['teacher_phone'].dirty || addTeacherForm.controls['teacher_phone'].touched)"
             class="alert alert-danger">
             <div *ngIf="addTeacherForm.controls['teacher_phone'].hasError('required')">
               Contact Number is required.
@@ -40,7 +42,8 @@
         <div class="row field-wrapper">
           <label for="emailID">Email Id
           </label>
-          <input type="email" class="form-ctrl" name="emailID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" formControlName="teacher_email">
+          <input type="email" class="form-ctrl" name="emailID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
+            formControlName="teacher_email">
         </div>
         <div class="row field-wrapper">
           <label for="CurrentAddress">Current Address
@@ -102,7 +105,8 @@
         <div class="row">
           <div class="pull-right" style="margin-top: 10px;">
             <button routerLink="/view/course/setup/teacher" class="btn">Cancel</button>
-            <button [disabled]='!addTeacherForm.valid' class="btn fullBlue" style="font-size: 16px;" type="submit">Save</button>
+            <button [disabled]='!addTeacherForm.valid' class="btn fullBlue" style="font-size: 16px;"
+              type="submit">Save</button>
           </div>
         </div>
       </form>

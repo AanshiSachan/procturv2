@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   dataStatus: number = 3;
   totalRow: number = 0;
   selectedRow: number = null;
-  @ViewChild('tableContent') tableContent: ElementRef;
-  @ViewChild('sideNav') sideNav: ElementRef;
+  @ViewChild('tableContent',{static: false}) tableContent: ElementRef;
+  @ViewChild('sideNav',{static: false}) sideNav: ElementRef;
   selectedEmpData: any = '';
   bulkActionItems: MenuItem[];
   searchTextEntered: any = "";

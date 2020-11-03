@@ -18,8 +18,8 @@ export class CampaignLeadSmsComponent implements OnInit {
   };
 
   dateFilter = {
-    from_date: moment(new Date()).format('YYYY-MM-DD'),
-    to_date: moment(new Date()).format('YYYY-MM-DD'),
+    from_date: moment(new Date()).format('MM-DD-YYYY'),
+    to_date: moment(new Date()).format('MM-DD-YYYY'),
     institution_id: "",
     start_index: 0,
     batch_size: 50
@@ -32,6 +32,8 @@ export class CampaignLeadSmsComponent implements OnInit {
   leadSmsSearchInput: any = "";
   leadSmsList: any;
   tempLeadSmslist: any;
+  from_date: any;
+  to_date: any;
   leadsmsSource: any = [];
   // FOR PAGINATION
   pageIndex: number = 1;
@@ -103,7 +105,7 @@ export class CampaignLeadSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "48vh"
+      height: "43vh"
     }
 
     this.rowColumns = [
@@ -135,13 +137,19 @@ export class CampaignLeadSmsComponent implements OnInit {
     ]
   }
   getSmsReport(obj) {
+    let tempObj = {
+      from_date: moment(obj.from_date).format('YYYY-MM-DD'),
+      to_date: moment(obj.to_date).format('YYYY-MM-DD'),
+      institution_id: obj.institution_id,
+      start_index: 0,
+      batch_size: 50
+    }
     this.auth.showLoader();
-    obj.from_date = moment(obj.from_date).format("YYYY-MM-DD");
-    if (obj.to_date != null && obj.to_date != "") {
-      obj.to_date = moment(obj.to_date).format("YYYY-MM-DD");
+    if (tempObj.to_date != null && tempObj.to_date != "") {
+      tempObj.to_date = moment(tempObj.to_date).format("YYYY-MM-DD");
     }
     if (obj.start_index == 0) {
-      return this.campaignService.fetchSmsReport(obj).subscribe(
+      return this.campaignService.fetchSmsReport(tempObj).subscribe(
         (res: any) => {
           this.auth.hideLoader();
           this.leadsmsSource = res;
@@ -188,25 +196,25 @@ export class CampaignLeadSmsComponent implements OnInit {
       let checkToDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
       let checkFromDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
       if (checkToDate) {
-        var tempToDate = moment(this.dateFilter.to_date).format("YYYY-MM-DD");
+        var tempToDate = moment(this.dateFilter.to_date).format("MM-DD-YYYY");
         if (checkFromDate) {
-          var tempFromDate = moment(this.dateFilter.from_date).format("YYYY-MM-DD");
+          var tempFromDate = moment(this.dateFilter.from_date).format("MM-DD-YYYY");
         }
         else {
           this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "From date can not be greater than To date");
-          this.dateFilter.from_date = moment(tempFromDate).format("YYYY-MM-DD");
+          this.dateFilter.from_date = moment(tempFromDate).format("MM-DD-YYYY");
           return;
         }
       }
       else {
         this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "To date can not be lesser than From date");
-        this.dateFilter.to_date = moment(tempToDate).format("YYYY-MM-DD");
+        this.dateFilter.to_date = moment(tempToDate).format("MM-DD-YYYY");
         return;
       }
     }
     else {
-      this.dateFilter.to_date = moment(new Date).format('YYYY-MM-DD');
-      this.dateFilter.from_date = moment(new Date).format('YYYY-MM-DD');
+      this.dateFilter.to_date = moment(new Date).format('MM-DD-YYYY');
+      this.dateFilter.from_date = moment(new Date).format('MM-DD-YYYY');
       this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "Future date is not allowed");
     }
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { HttpService  } from '../../../../services/http.service';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 
@@ -34,7 +34,7 @@ export class AddEditIncomeComponent implements OnInit {
   paymentDetails = {
     payerName: '-1',
     accountName: '-1',
-    receivedDate: moment(new Date()).format('YYYY-MM-DD'),
+    receivedDate: moment(new Date()).format('MM-DD-YYYY'),
     paymentmode: '-1'
   }
 
@@ -209,7 +209,7 @@ export class AddEditIncomeComponent implements OnInit {
               // "title": this.category_id,
               "fileName": preview.name,
               "file_desc": this.docDescription,
-              "encodedFile": myReader.result.split(',')[1],
+              "encodedFile": (<string>myReader.result).split(',')[1],
               "file_extn": extension,
               "file_id": 0
             }
@@ -260,7 +260,7 @@ export class AddEditIncomeComponent implements OnInit {
             let obj = {
               party_id: this.paymentDetails.payerName,
               account_id: this.paymentDetails.accountName,
-              payment_date: moment(this.paymentDetails.receivedDate).format('YYYY-MM-DD'),
+              payment_date: moment(this.paymentDetails.receivedDate).format('MM-DD-YYYY'),
               paying_mode: this.paymentDetails.paymentmode,
               itemList: itemlist,
               attachmentList: attachList,
@@ -349,7 +349,7 @@ export class AddEditIncomeComponent implements OnInit {
     let diff = moment(selectedDate.diff(today))['_i'];
     if(diff > 0){
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
-      this.paymentDetails.receivedDate = moment(new Date).format('YYYY-MM-DD');
+      this.paymentDetails.receivedDate = moment(new Date).format('MM-DD-YYYY');
     }
   }
 

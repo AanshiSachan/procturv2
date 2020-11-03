@@ -8,10 +8,10 @@ export class CustomizingPipe implements PipeTransform {
         let encryptedData = sessionStorage.getItem('country_data');
         let countryDetails = JSON.parse(encryptedData);
         if (typeHead != '') {
-            /* date detected converting to format DD-MMM-YYYY using moment and returning data */
+            /* date detected converting to format DD-MM-YYYY using moment and returning data */
             if (typeHead.toLowerCase().includes('date')) {
                 if (value != '' && value != null && value != undefined) {
-                    return moment(value).format("DD-MMM-YYYY");
+                    return moment(value).format("DD-MM-YYYY");
                 }
                 else {
                     return value;
@@ -23,7 +23,7 @@ export class CustomizingPipe implements PipeTransform {
                 /* Check for date here */
                 if (this.detectDate(typeHead.toLowerCase())) {
                     if (value != '' && value != null && value != undefined) {
-                        return moment(value).format("DD-MMM-YYYY");
+                        return moment(value).format("DD-MM-YYYY");
                     }
                     else {
                         return value;
@@ -46,7 +46,7 @@ export class CustomizingPipe implements PipeTransform {
                 /* Check for date here */
                 if (this.detectDate(typeHead.toLowerCase())) {
                     if (value != '' && value != null && value != undefined) {
-                        return moment(value).format("DD-MMM-YYYY");
+                        return moment(value).format("DD-MM-YYYY");
                     }
                     else {
                         return value;
@@ -68,7 +68,7 @@ export class CustomizingPipe implements PipeTransform {
                 /* Check for date here */
                 if (this.detectDate(typeHead.toLowerCase())) {
                     if (value != '' && value != null && value != undefined) {
-                        return moment(value).format("DD-MMM-YYYY");
+                        return moment(value).format("DD-MM-YYYY");
                     }
                     else {
                         return value;

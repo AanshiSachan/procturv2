@@ -23,8 +23,8 @@ export class CounsellorReportComponent implements OnInit {
     institution_id: this.counsellor.institute_id,
     reportType: "assigned",
     assigned_to: (this.username === "admin" || (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) ? -1 : this.userId),
-    updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-    updateDateTo: moment().format('YYYY-MM-DD'),
+    updateDateFrom: moment().startOf('month').format('MM-DD-YYYY'),
+    updateDateTo: moment().format('MM-DD-YYYY'),
   }
 
   permission: boolean = true;
@@ -120,8 +120,8 @@ export class CounsellorReportComponent implements OnInit {
     }
     else {
 
-      this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD');
-      this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD');
+      this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY');
+      this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY');
 
       this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
         (data: any) => {
@@ -220,8 +220,8 @@ export class CounsellorReportComponent implements OnInit {
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD'),
-          enquireDateTo: moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD')
+          enquireDateFrom: moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY'),
+          enquireDateTo: moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY')
         }
         this.popupDataEnquiries = [];
         this.counsellor.enquiryCategorySearch(payload).subscribe(

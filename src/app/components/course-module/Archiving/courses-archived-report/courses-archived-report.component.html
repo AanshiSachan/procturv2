@@ -1,4 +1,4 @@
-<div class="middle-section clear-fix" style="padding-left: 15px; padding-right: 30px; padding-top: 20px;">
+<div class="clear-fix" style="padding-right: 2%;">
   <section class="middle-top clearFix bulk-header"
     style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgrey;">
 
@@ -21,12 +21,12 @@
         (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
     </div>
   </section>
-  <section>
+  <section style="    margin-top: -17px;">
     <div class="table table-responsive" style="margin-top:1vh;">
       <app-basic-table [headers]="headerSetting" [displayData]="newPaginated" [tableSetting]="tableSetting"
         [rowColumnSetting]="rowColumns"></app-basic-table>
     </div>
-    <div class="row filter-res pagination" style="width: 100%;">
+    <div class="row filter-res pagination" style="width: 100%;margin-top: -4px;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
           [pagesToShow]="10" [page]="PageIndex" [perPage]="pagedisplaysize" [sizeArr]="sizeArr"

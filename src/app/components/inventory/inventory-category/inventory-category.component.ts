@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AddCategory } from '../../../model/inventory-category';
 import { InventoryCategoryService } from '../../../services/inventory-services/inventory-category.service';
-import { retry } from 'rxjs/operator/retry';
+
 import { AppComponent } from '../../../app.component';
 
 @Component({
@@ -52,8 +52,8 @@ export class InventoryCategoryComponent implements OnInit {
     this.categoryService.setNewCategory(data).subscribe(
       data => {
         this.getAllCategoryList();
-        document.getElementById('ctgryName').value = "";
-        document.getElementById('ctgrydesc').value = "";
+        (document.getElementById('ctgryName') as HTMLInputElement).value = "";
+        (document.getElementById('ctgrydesc') as HTMLInputElement).value = "";
         let msg = {
           type: 'success',
           title: "",

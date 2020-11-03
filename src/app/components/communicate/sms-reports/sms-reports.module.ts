@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome';
+// import { BsDatepickerModule } from 'ngx-bootstrap-custome';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { SmsReportsRoutingModule } from './sms-reports-routing.module';
 import { SmsReportsComponent } from './sms-reports.component';
 import { TransctionalSmsComponent } from './transctional-sms/transctional-sms.component';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
@@ -185,7 +185,7 @@ export class TemplateHomeComponent implements OnInit {
         // if (res.studentwise_fees_tax_applicable == "Y") {
           if (this.enableTax == "1" &&
             document.getElementById('checkBoxtaxes')) {
-            document.getElementById('checkBoxtaxes').checked = true;
+            (document.getElementById('checkBoxtaxes') as HTMLInputElement).checked = true;
             this.showTaxFields();
           }
         
@@ -238,7 +238,7 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   updateFeeTemplate() {
-    let taxApplicable = document.getElementById('checkBoxtaxes').checked;
+    let taxApplicable:any  = (document.getElementById('checkBoxtaxes') as HTMLInputElement).checked;
     if (taxApplicable == true) {
       taxApplicable = "Y";
     } else {
@@ -463,7 +463,7 @@ export class TemplateHomeComponent implements OnInit {
     if (Number(this.AddInstallment.initial_fee_amount) > 0 && this.AddInstallment.days != null) {
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         this.AddInstallment.service_tax = Number(this.feeStructure.registeredServiceTax);
-        if (document.getElementById('checkBoxtaxes').checked) {
+        if ((document.getElementById('checkBoxtaxes') as HTMLInputElement).checked) {
           this.AddInstallment.service_tax_applicable = "Y";
           this.AddInstallment.tax = Math.floor(this.AddInstallment.initial_fee_amount * Number(this.feeStructure.registeredServiceTax) * 0.01);
           this.AddInstallment.taxAmount = Number(this.AddInstallment.tax);

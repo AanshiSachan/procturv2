@@ -1,3 +1,5 @@
+
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -47,79 +49,79 @@ export class FetchenquiryService {
     /* Admin has requested for enquiry */
 
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
-      obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-      obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-      obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-      obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-      obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-      obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-      obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+      obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('MM-DD-YYYY');
+      obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('MM-DD-YYYY');
+      obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('MM-DD-YYYY');
+      obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('MM-DD-YYYY');
+      obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('MM-DD-YYYY');
+      obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('MM-DD-YYYY');
+      obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('MM-DD-YYYY');
       this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
-      return this.http.post(this.urlCampaign, obj, { headers: this.headers })
-        .map(res => {
+      return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
+        map(res => {
           this.row = res;
           return this.row;
-        });
+        }));
     }
     else {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
       if (permissions.includes('115') || (permissions.includes('110') && sessionStorage.getItem('open_enq_Visibility_feature') == '1')) {
-        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('MM-DD-YYYY');
+        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('MM-DD-YYYY');
+        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('MM-DD-YYYY');
+        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('MM-DD-YYYY');
+        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('MM-DD-YYYY');
+        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('MM-DD-YYYY');
+        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('MM-DD-YYYY');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
-        return this.http.post(this.urlCampaign, obj, { headers: this.headers })
-          .map(res => {
+        return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
+          map(res => {
             this.row = res;
             return this.row;
-          });
+          }));
       }
       /* User is not authorized as enquiry admin and see only enquiry assigned to him */
       else {
-        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('MM-DD-YYYY');
+        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('MM-DD-YYYY');
+        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('MM-DD-YYYY');
+        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('MM-DD-YYYY');
+        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('MM-DD-YYYY');
+        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('MM-DD-YYYY');
+        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('MM-DD-YYYY');
         obj.assigned_to = sessionStorage.getItem('userid');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
-        return this.http.post(this.urlCampaign, obj, { headers: this.headers })
-          .map(res => {
+        return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
+          map(res => {
             this.row = res;
             return this.row;
-          });
+          }));
       }
     }
   }
 
-    /* return the template user has to edit */
-    fetchEnquiryStudentData(instituteID,id) {
-      this.urlDownloadTemplate = this.baseUrl + "/api/v1/enquiry/"+instituteID+"/"+id;
+  /* return the template user has to edit */
+  fetchEnquiryStudentData(instituteID, id) {
+    this.urlDownloadTemplate = this.baseUrl + "/api/v1/enquiry/" + instituteID + "/" + id;
 
-      return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
-        data => { return data },
-        err => { return err; }
-      );
-    }
+    return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).pipe(map(
+      data => { return data },
+      err => { return err; }
+    ));
+  }
 
   /* return the template user has to edit */
   fetchDownloadTemplate() {
     this.urlDownloadTemplate = this.baseUrl + "/api/v2/enquiry_manager/download/bulkUploadEnquiriesTemplate";
 
-    return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
+    return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).pipe(map(
       data => { return data },
       err => { return err; }
-    );
+    ));
   }
 
 
@@ -134,12 +136,12 @@ export class FetchenquiryService {
     obj.followUpDate = obj.followUpDate == 'Invalid date' ? "" : obj.followUpDate;
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/enquiry/all/download/" + this.institute_id;
 
-    return this.http.post(this.urlDownloadAllEnquiry, obj, { headers: this.headers }).map(
+    return this.http.post(this.urlDownloadAllEnquiry, obj, { headers: this.headers }).pipe(map(
       data => { return data },
       err => {
         return err;
       }
-    );
+    ));
   }
 
 
@@ -149,9 +151,9 @@ export class FetchenquiryService {
       feature_type: 2,
       sms_type: "Transactional"
     }
-    return this.http.post(this.urlFetchAllSms, data, { headers: this.headers }).map(
+    return this.http.post(this.urlFetchAllSms, data, { headers: this.headers }).pipe(map(
       res => { return res }
-    );
+    ));
 
   }
 
@@ -160,11 +162,11 @@ export class FetchenquiryService {
   fetchBulkReport(id) {
     let urlEnquiryBulkReport = this.baseUrl + "/api/v1/bulkUpload/" + this.institute_id + "/download/" + id;
 
-    return this.http.get(urlEnquiryBulkReport, { headers: this.headers }).map(
+    return this.http.get(urlEnquiryBulkReport, { headers: this.headers }).pipe(map(
       res => {
         return res;
       }
-    )
+    ))
   }
 
 
@@ -173,67 +175,68 @@ export class FetchenquiryService {
 
     let urlPdf = this.baseUrl + "/api/v2/enquiry_manager/downloadRegistrationFeesReceipt/" + num;
 
-    return this.http.get(urlPdf, { headers: this.headers }).map(
+    return this.http.get(urlPdf, { headers: this.headers }).pipe(map(
       res => {
         return res;
       }
-    )
+    ))
   }
 
 
   fetchEnquiryWidgetView(obj) {
-
+    obj.updateDateFrom = moment(obj.updateDateFrom).format("YYYY-MM-DD");
+    obj.updateDateTo = moment(obj.updateDateTo).format("YYYY-MM-DD");
     let url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
     return this.http.post(
       url, obj, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
 
   // Download Report Summary
 
   getSummaryReportOfThisMonth(reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
   getPreviousMSummary(reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
 
   getSummaryReportOfLastTwoMonth(reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
   getSummaryReportFromDates(obj, reportFor) {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date+"?download_type="+reportFor;
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date + "?download_type=" + reportFor;
     return this.http.post(
       url, {}, { headers: this.headers }
-    ).map(
+    ).pipe(map(
       res => { return res; },
       err => { return err; }
-    )
+    ))
   }
 
 }

@@ -28,7 +28,7 @@ export class GeneralWidgetComponent implements OnInit {
     public genralStats: any = {
         sms: 0,
         download: 0,
-        expiry: moment().format('DD-MMM-YYYY'),
+        expiry: moment().format('DD-MM-YYYY'),
         total: 0
     }
 

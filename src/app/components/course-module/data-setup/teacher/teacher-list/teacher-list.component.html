@@ -1,5 +1,5 @@
-<div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="border-bottom: 1px solid lightgrey;padding-bottom: 11px;">
+<div class="middle-section clearFix" style="padding-right: 2%;margin-top: -6px;">
+  <section class="middle-top mb0 clearFix">
     <div class="pull-left" style="margin-top:20px;">
       <div class="header-title">
         <h2>
@@ -76,7 +76,7 @@
               </td>
               <td>
                 <span *ngIf="row.date_of_joining==''"> - </span>
-                <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining | date:'dd-MMM-yyyy'}}</span>
+                <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining}}</span>
               </td>
               <td>&nbsp;&nbsp;
                 {{row.is_active}}

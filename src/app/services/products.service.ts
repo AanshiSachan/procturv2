@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { AuthenticatorService } from './authenticator.service';
@@ -62,14 +64,14 @@ export class ProductService {
 
     // for search method 
     getData(url, plateform = 'web') {
-        return this._http.get(url, { headers: this.header }).map(
+        return this._http.get(url, { headers: this.header }).pipe(map(
             data => {
                 return data;
             },
             err => {
                 return err;
             }
-        )
+        ))
     }
 
     callMethods(method, url, body, params, plateform) {
@@ -219,14 +221,14 @@ getMethod(url, params, plateform = 'web') {
             "x-prod-inst-id": sessionStorage.getItem('institute_id'),
             "x-prod-user-id": sessionStorage.getItem('userid')
         }
-    }).map(
+    }).pipe(map(
         data => {
             return data;
         },
         err => {
             return err;
         }
-    )
+    ))
 
 }
 
@@ -272,14 +274,14 @@ getCertificateData(objecturl) {
             "x-proc-inst-id": sessionStorage.getItem('institute_id'),
             "x-prod-user-id": sessionStorage.getItem('userid')
         }
-    }).map(
+    }).pipe(map(
         data => {
             return data;
         },
         err => {
             return err;
         }
-    )
+    ))
 
 }
 
@@ -293,14 +295,14 @@ getUploadFileData(Objecturl) {
             "x-proc-inst-id": sessionStorage.getItem('institute_id'),
             "x-proc-user-id": sessionStorage.getItem('userid')
         }
-    }).map(
+    }).pipe(map(
         data => {
             return data;
         },
         err => {
             return err;
         }
-    )
+    ))
 
 }
 
@@ -314,14 +316,14 @@ deleteFile(Objecturl) {
             "x-proc-inst-id": sessionStorage.getItem('institute_id'),
             "x-proc-user-id": sessionStorage.getItem('userid')
         }
-    }).map(
+    }).pipe(map(
         data => {
             return data;
         },
         err => {
             return err;
         }
-    )
+    ))
 
 }
 

@@ -259,14 +259,14 @@ export class CourseEditComponent implements OnInit {
       test.academic_year_id = this.mainTableDataSource[i].academic_year_id;
 
       if (this.mainTableDataSource[i].start_date != "" && this.mainTableDataSource[i].start_date != null && this.mainTableDataSource[i].start_date != "Invalid date") {
-        test.start_date = moment(this.mainTableDataSource[i].start_date).format("YYYY-MM-DD");
+        test.start_date = moment(this.mainTableDataSource[i].start_date).format("MM-DD-YYYY");
       } else {
         this.messageToast('error', '', 'Please Provide start date');
         return false;
       }
 
       if (this.mainTableDataSource[i].end_date != "" && this.mainTableDataSource[i].end_date != null && this.mainTableDataSource[i].end_date != "Invalid date") {
-        test.end_date = moment(this.mainTableDataSource[i].end_date).format("YYYY-MM-DD");
+        test.end_date = moment(this.mainTableDataSource[i].end_date).format("MM-DD-YYYY");
       } else {
         this.messageToast('error', '', 'Please Provide end date');
         return false;
@@ -378,7 +378,7 @@ export class CourseEditComponent implements OnInit {
   }
 
   parseDateFormat(date) {
-    return moment(date).format("YYYY-MM-DD")
+    return moment(date).format("MM-DD-YYYY")
   }
 
 

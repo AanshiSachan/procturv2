@@ -1,4 +1,4 @@
-<div class="middle-section clearFix">
+<div class="middle-section clearFix" style="padding: 2%;">
   <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
     <h1 class="pull-left">
       Faculty Profile
@@ -8,8 +8,8 @@
   <section class="middle-main clearFix">
     <div class="c-sm-12">
       <div class="c-sm-3">
-        <proctur-image [containerHeight]="containerHeight" [readonly]="readonly" [serverImg]="studentImage" [containerWidth]="containerWidth"
-          (setImage)="setImage($event)">
+        <proctur-image [containerHeight]="containerHeight" [readonly]="readonly" [serverImg]="studentImage"
+          [containerWidth]="containerWidth" (setImage)="setImage($event)">
 
         </proctur-image>
       </div>
@@ -68,14 +68,15 @@
         <div class="c-sm-8 ">
           <div class="field-wrapper datePickerBox c-sm-3 madeDate">
             <label for="fromDate">From Date</label>
-            <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate" [(ngModel)]="selectedFromDate" bsDatepicker/>
+            <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate"
+              [(ngModel)]="selectedFromDate" bsDatepicker />
 
             <!-- <span class="date-clear" name="fromDate" (click)="clearDate($event)">Clear</span> -->
           </div>
           <div class="field-wrapper datePickerBox c-sm-3 madeDate">
             <label for="createdDate">To Date</label>
-            <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate" [(ngModel)]="selectedToDate" bsDatepicker
-            />
+            <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate"
+              [(ngModel)]="selectedToDate" bsDatepicker />
 
             <!-- <span class="date-clear" name="createdDate" (click)="clearDate($event)">Clear</span> -->
           </div>
@@ -275,11 +276,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>

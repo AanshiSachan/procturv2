@@ -1,8 +1,8 @@
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { TooltipModule } from 'ngx-bootstrap-custome/tooltip';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { EnquiryUpdatePopupComponent } from '../leads/enquiry-update-popup/enquiry-update-popup.component';
 import { FormatCellPipe } from './custom-table/format-cell.pipe';
 import { StyleCellDirective } from './custom-table/style-cell.directive';
