@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
@@ -133,7 +133,7 @@ export class ManageBatchService {
 
     getFeeTemplate(batch_id) {
         // https://test999.proctur.com/StdMgmtWebAPI/api/v1/studentWise/fee/fee_template_country_wise/100135?course_id=-1&subject_id=1372
-        let url = this.baseURL + "/api/v1/studentWise/fee/fee_template_country_wise/" + this.institute_id + "?course_id=-1&subject_id=" + batch_id ;
+        let url = this.baseURL + "/api/v1/studentWise/fee/fee_template_country_wise/" + this.institute_id + "?course_id=-1&subject_id=" + batch_id;
         return this.http.get(url, { headers: this.headers }).pipe(map(
             res => {
                 return res;

@@ -29,9 +29,9 @@ import { FeeModel, StudentFeeService } from '../student_fee.service';
 })
 export class StudentEditComponent implements OnInit, OnDestroy {
 
-  @ViewChild('saveAndContinue',{static: false}) btnSaveAndContinue: ElementRef;
-  @ViewChild('btnPdcPopUpAdd',{static: false}) btnPdcPopUpAdd: ElementRef;
-  @ViewChild('btnPayment',{static: false}) btnPayment: ElementRef;
+  @ViewChild('saveAndContinue', { static: false }) btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPdcPopUpAdd', { static: false }) btnPdcPopUpAdd: ElementRef;
+  @ViewChild('btnPayment', { static: false }) btnPayment: ElementRef;
 
   JsonFlags = {
     isDisabled: false,
@@ -1353,6 +1353,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
+        this.studentAddFormData.doj = moment(data.doj).format("MM-DD-YYYY");
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
@@ -2596,7 +2597,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   updatePDC(el) {
     if (this.validPdc(el)) {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("MM-DD-YYYY"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("MM-DD-YYYY"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
-       this.auth.showLoader();
+      this.auth.showLoader();
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           this.auth.hideLoader()

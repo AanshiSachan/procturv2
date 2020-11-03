@@ -334,8 +334,8 @@ export class ReviewProductComponent implements OnInit {
 
     if (!this.prodForm.is_duration) {
       this.prodForm.duration = 0;
-      this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date);
-      this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date);
+      this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format("YYYY-MM-DD");
+      this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format("YYYY-MM-DD");
     } else {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
@@ -367,10 +367,10 @@ export class ReviewProductComponent implements OnInit {
       "is_paid": this.prodForm.is_paid,
       "is_advance_product": this.prodForm.is_advance_product,
       "price": this.prodForm.price,
-      "valid_from_date": this.prodForm.valid_from_date,
-      "valid_to_date": this.prodForm.valid_to_date,
-      "sales_from_date":moment(this.prodForm.sales_from_date),
-      "sales_to_date": moment(this.prodForm.sales_to_date),
+      "valid_from_date": moment(this.prodForm.valid_from_date).format("YYYY-MM-DD"),
+      "valid_to_date": moment(this.prodForm.valid_to_date).format("YYYY-MM-DD"),
+      "sales_from_date": moment(this.prodForm.sales_from_date).format("YYYY-MM-DD"),
+      "sales_to_date": moment(this.prodForm.sales_to_date).format("YYYY-MM-DD"),
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "duration": this.prodForm.duration,

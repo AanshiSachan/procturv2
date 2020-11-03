@@ -161,11 +161,13 @@ export class ClassScheduleService {
     }
 
     getAllActiveTeachersList(): Observable<any> {
-        let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
-        return this.http.get(url, { headers: this.headers }).pipe(map(
+        // let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        let url = this.baseURL + "/api/v1/teachers/teacher-list/" + this.institute_id + '?active=Y';
+
+        return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
-        ));
+        )
     }
 
 

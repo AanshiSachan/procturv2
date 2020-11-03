@@ -57,7 +57,7 @@ export class BasicInfoComponent implements OnInit {
     valid_from_date: moment().format('MM-DD-YYYY'),
     valid_to_date: '',
     sales_from_date: moment().format('MM-DD-YYYY'),
-    sales_to_date:  moment().format('MM-DD-YYYY'),
+    sales_to_date: moment().format('MM-DD-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -176,7 +176,7 @@ export class BasicInfoComponent implements OnInit {
       (resp: any) => {
         this.auth.hideLoader();
         let response = resp.result;
-        console.log("REsult",response);
+        console.log("REsult", response);
         if (resp.validate) {
           this.prodForm = response;
           if (!(this.prodForm.tag === 'Featured' || this.prodForm.tag === 'Recommended' || this.prodForm.tag === 'Popular' || this.prodForm.tag === 'Others' || this.prodForm.tag == null)) {
@@ -337,8 +337,8 @@ export class BasicInfoComponent implements OnInit {
 
     if (!this.prodForm.is_duration) {
       this.prodForm.duration = 0;
-      this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date);
-      this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date);
+      this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format("YYYY-MM-DD");
+      this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format("YYYY-MM-DD");
     } else {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
@@ -364,8 +364,9 @@ export class BasicInfoComponent implements OnInit {
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
       "is_advance_product": is_advance_product,
-      "valid_from_date": this.prodForm.valid_from_date,
-      "valid_to_date": this.prodForm.valid_to_date,
+      "price": this.prodForm.price,
+      "valid_from_date": moment(this.prodForm.valid_from_date).format("YYYY-MM-DD"),
+      "valid_to_date": moment(this.prodForm.valid_to_date).format("YYYY-MM-DD"),
       "duration": this.prodForm.duration,
       "sales_from_date": moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
       "sales_to_date": moment(this.prodForm.sales_to_date).format('YYYY-MM-DD'),
@@ -378,7 +379,6 @@ export class BasicInfoComponent implements OnInit {
       "publish_date": this.prodForm.publish_date,
       "discount_percentage": this.prodForm.discount_percentage,
       "price_before_discount": this.prodForm.price_before_discount,
-      "price": this.prodForm.price,
       "tag": this.prodForm.tag,
       "country_id": this.prodForm.country_id
 
@@ -453,7 +453,7 @@ export class BasicInfoComponent implements OnInit {
 
     // newDate.setHours(hours - offset);
     return moment(date_s).format('MM-DD-YYYY');
-}
+  }
 
 
   calc_days() {

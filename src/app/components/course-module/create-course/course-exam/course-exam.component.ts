@@ -3,12 +3,11 @@ import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treev
 import * as moment from 'moment';
 import { SelectItem } from 'primeng/components/common/api';
 import { of } from 'rxjs';
-import { HttpService } from '../../../..';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
-
+import { HttpService } from '../../../../services/http.service';
 
 
 @Component({

@@ -449,7 +449,7 @@ export class ClassComponent implements OnInit {
       this.filterDateInputs.custom = true;
       e.currentTarget.checked = true;
     }
-    else if(inputDateFilter == 'lastWeek'){     // Last week
+    else if (inputDateFilter == 'lastWeek') {     // Last week
       this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("MM-DD-YYYY");
       this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("MM-DD-YYYY");
       this.filterDateInputs.lastWeek = true;
@@ -461,7 +461,7 @@ export class ClassComponent implements OnInit {
       this.filterDateInputs.thisMonth = true;
       e.currentTarget.checked = true;
     }
-    else if(inputDateFilter == 'thisWeek'){   // This Week
+    else if (inputDateFilter == 'thisWeek') {   // This Week
       this.coursePlannerFilters.from_date = moment().isoWeekday("Monday").format("MM-DD-YYYY");
       this.coursePlannerFilters.to_date = moment().weekday(7).format("MM-DD-YYYY");
       this.filterDateInputs.thisWeek = true;
@@ -506,7 +506,7 @@ export class ClassComponent implements OnInit {
   }
 
   updateFilterDateRange(e) {
-    if(this.filterDateInputs.custom){
+    if (this.filterDateInputs.custom) {
       this.coursePlannerFilters.from_date = moment(e[0]).format("MM-DD-YYYY");
       this.coursePlannerFilters.to_date = moment(e[1]).format("MM-DD-YYYY");
     }

@@ -98,8 +98,8 @@ export class AttendanceReportComponent implements OnInit {
   searchData: any = [];
 
 
-  @ViewChild('attendanceTable',{static: false}) attendanceTable: ElementRef;
-  @ViewChild('xlsDownloader',{static: false}) xlsDownloader: ElementRef;
+  @ViewChild('attendanceTable', { static: false }) attendanceTable: ElementRef;
+  @ViewChild('xlsDownloader', { static: false }) xlsDownloader: ElementRef;
 
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
@@ -754,7 +754,7 @@ export class AttendanceReportComponent implements OnInit {
       }
 
       file_name = file_name + '(' + moment(this.queryParams.from_date).format('DD-MM-YYYY') + " to "
-      +  moment(this.queryParams.to_date).format('DD-MM-YYYY')  + ')';
+        + moment(this.queryParams.to_date).format('DD-MM-YYYY') + ')';
 
     } else {
 
@@ -765,7 +765,7 @@ export class AttendanceReportComponent implements OnInit {
         }
       }
       file_name = file_name + '(' + moment(this.attendanceFetchForm.from_date).format('DD-MM-YYYY') + " to "
-      +  moment(this.attendanceFetchForm.to_date).format('DD-MM-YYYY')  + ')';
+        + moment(this.attendanceFetchForm.to_date).format('DD-MM-YYYY') + ')';
     }
     link.setAttribute('href', data_type + ',' + outer);
     link.setAttribute('download', file_name + '.xls');
@@ -852,17 +852,17 @@ export class AttendanceReportComponent implements OnInit {
 
   downloadReport() {
     this.auth.showLoader();
-      let obj:any;
-      if(this.isProfessional){
-        this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
-        this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
-        obj = this.queryParams;
-      } else{
-        this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
-        this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
-        obj = this.attendanceFetchForm;
-      }
-    let url='/api/v1/reports/attendance/downloadAttendanceReport';   
+    let obj: any;
+    if (this.isProfessional) {
+      this.queryParams.from_date = moment(this.queryParams.from_date).format('MM-DD-YYYY');
+      this.queryParams.to_date = moment(this.queryParams.to_date).format('MM-DD-YYYY');
+      obj = this.queryParams;
+    } else {
+      this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('MM-DD-YYYY');
+      this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('MM-DD-YYYY');
+      obj = this.attendanceFetchForm;
+    }
+    let url = '/api/v1/reports/attendance/downloadAttendanceReport';
     this._httpService.postData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
