@@ -365,8 +365,8 @@ export class BasicInfoComponent implements OnInit {
       "is_paid": this.prodForm.is_paid,
       "is_advance_product": is_advance_product,
       "price": this.prodForm.price,
-      "valid_from_date": moment(this.prodForm.valid_from_date).format("YYYY-MM-DD"),
-      "valid_to_date": moment(this.prodForm.valid_to_date).format("YYYY-MM-DD"),
+      "valid_from_date": this.prodForm.valid_from_date,
+      "valid_to_date": this.prodForm.valid_to_date,
       "duration": this.prodForm.duration,
       "sales_from_date": moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
       "sales_to_date": moment(this.prodForm.sales_to_date).format('YYYY-MM-DD'),
@@ -457,9 +457,9 @@ export class BasicInfoComponent implements OnInit {
 
 
   calc_days() {
-    this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
-    this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('MM-DD-YYYY');
-    // return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
+    // this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
+    // this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('MM-DD-YYYY');
+    return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   }
 
 

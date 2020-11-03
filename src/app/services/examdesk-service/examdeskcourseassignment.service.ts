@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -39,6 +39,14 @@ export class ExamDeskCourseAssignmentService {
         ))
     }
 
+    getCoursesListExamDesk(): Observable<any> {
+        let url = `${this.baseUrl}/api/v1/institute/courseMapping/${this.institute_id}?isOnline=N`;
+        return this.http.get(url, { headers: this.headers }).pipe(map(
+            res => { return res },
+            err => { return err }
+        ))
+    }
+
     getStandard(): Observable<any> {
         let url = `${this.baseUrl}/api/v1/standards/all/${this.institute_id}/?active=Y`;
         return this.http.get(url, { headers: this.headers }).pipe(map(
@@ -57,7 +65,7 @@ export class ExamDeskCourseAssignmentService {
     }
 
     batchData(obj): Observable<any> {
-        let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id ;
+        let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id;
         return this.http.get(url, { headers: this.headers }).pipe(map(
             res => {
                 return res;

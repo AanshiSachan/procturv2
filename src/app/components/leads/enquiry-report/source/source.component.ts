@@ -102,6 +102,8 @@ export class SourceComponent implements OnInit {
     }
 
     else {
+      this.sourceInfoDetails.updateDateFrom = moment(this.sourceInfoDetails.updateDateFrom).format("YYYY-MM-DD");
+      this.sourceInfoDetails.updateDateTo = moment(this.sourceInfoDetails.updateDateTo).format("YYYY-MM-DD");
       this.service.counsellorDetails(this.sourceInfoDetails).subscribe(
         (data: any) => {
 
@@ -122,7 +124,8 @@ export class SourceComponent implements OnInit {
             }
             this.newArray.push(this.newObject);
           }
-
+          this.sourceInfoDetails.updateDateFrom = moment(this.sourceInfoDetails.updateDateFrom).format("MM-DD-YYYY");
+          this.sourceInfoDetails.updateDateTo = moment(this.sourceInfoDetails.updateDateTo).format("MM-DD-YYYY");
           this.getSourceDetails = this.newArray;
           this.getSourceDetails.map(
             (ele: any) => {
@@ -182,8 +185,8 @@ export class SourceComponent implements OnInit {
         institution_id: this.service.institute_id,
         isRport: "Y",
         status: this.statusKeys[dataObj.key],
-        enquireDateFrom: this.sourceInfoDetails.updateDateFrom,
-        enquireDateTo: this.sourceInfoDetails.updateDateTo
+        enquireDateFrom: moment(this.sourceInfoDetails.updateDateFrom).format("YYYY-MM-DD"),
+        enquireDateTo: moment(this.sourceInfoDetails.updateDateTo).format("YYYY-MM-DD")
       }
       console.log(payload);
       this.popupDataEnquiries = [];
@@ -202,8 +205,8 @@ export class SourceComponent implements OnInit {
         institution_id: this.service.institute_id,
         isRport: "Y",
         status: this.statusKeys[dataObj.key],
-        updateDateFrom: this.sourceInfoDetails.updateDateFrom,
-        updateDateTo: this.sourceInfoDetails.updateDateTo
+        updateDateFrom: moment(this.sourceInfoDetails.updateDateFrom).format("YYYY-MM-DD"),
+        updateDateTo: moment(this.sourceInfoDetails.updateDateTo).format("YYYY-MM-DD")
       }
       this.popupDataEnquiries = [];
       this.service.enquiryCategorySearch(payload).subscribe(
