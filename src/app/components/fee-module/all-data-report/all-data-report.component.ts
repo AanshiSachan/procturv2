@@ -22,8 +22,8 @@ import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.mode
 })
 export class AllDataReportComponent implements OnInit {
 
-  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
-  @ViewChild('form',{static: true}) form: any;
+  @ViewChild('child', { static: true }) private child: DataDisplayTableComponent;
+  @ViewChild('form', { static: true }) form: any;
 
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];
@@ -54,7 +54,7 @@ export class AllDataReportComponent implements OnInit {
     isCustomDate: false,
     isFilterReversed: true,
     isProfessional: false,
-    downloadFeeReportAccess:false
+    downloadFeeReportAccess: false
   };
 
   searchBy: string = 'check';
@@ -133,14 +133,14 @@ export class AllDataReportComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private pdf: ExportToPdfService,
     private _msgService: MessageShowService,
-    private _commService:CommonServiceFactory
+    private _commService: CommonServiceFactory
   ) {
     this.excelService = excelService;
     // this.switchActiveView('fee');
   }
 
   ngOnInit() {
-    window.scroll(0,0);
+    window.scroll(0, 0);
     this.due_type = "seven_days_dues";
     this.dateRangeChanges(event);
     this.getAcademicYear();
@@ -177,10 +177,10 @@ export class AllDataReportComponent implements OnInit {
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
-        this.showPopupKeys.downloadFeeReportAccess = true;
+    if (sessionStorage.getItem('downloadFeeReportAccess') == 'true') {
+      this.showPopupKeys.downloadFeeReportAccess = true;
     }
-}
+  }
 
   setDefaultValues() {
     this.tableSetting.keys = [
@@ -462,7 +462,7 @@ export class AllDataReportComponent implements OnInit {
     classArray.forEach((classname) => {
       if (document.getElementById(classname)) { document.getElementById(classname).classList.remove('active'); }
     });
-    if(document.getElementById(id)){
+    if (document.getElementById(id)) {
       document.getElementById(id).classList.add('active');
     }
   }

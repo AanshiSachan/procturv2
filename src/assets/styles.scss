@@ -17,4 +17,9 @@ body {
 .theme-green .bs-datepicker-head {
     color: #0084f6 !important;
 }
-
+.bs-datepicker-container{
+    .bs-daterangepicker-container {
+        z-index: 99999999999;
+    }
+    
+}

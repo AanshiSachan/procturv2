@@ -82,19 +82,19 @@ export class ReviewProductComponent implements OnInit {
             let productData = response;
             this.prodForm = response;
             this.prodForm.product_item_stats = {};
-            if(this.prodForm.product_user_type == 8){
+            if (this.prodForm.product_user_type == 8) {
               this.advanceProduct.forStudent = true;
               this.advanceProduct.forOpenUser = true;
             }
-            else if(this.prodForm.product_user_type == 16){
+            else if (this.prodForm.product_user_type == 16) {
               this.advanceProduct.forStudent = false;
               this.advanceProduct.forOpenUser = false;
             }
-            else if(this.prodForm.product_user_type == 2){
+            else if (this.prodForm.product_user_type == 2) {
               this.advanceProduct.forStudent = true;
               this.advanceProduct.forOpenUser = false;
             }
-            else if(this.prodForm.product_user_type == 4){
+            else if (this.prodForm.product_user_type == 4) {
               this.advanceProduct.forStudent = false;
               this.advanceProduct.forOpenUser = true;
             }
@@ -173,7 +173,7 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.sales_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
             this.prodForm.sales_to_date = moment(this.prodForm.sales_to_date).format('MM-DD-YYYY');
             this.prodForm.product_item_stats = {};
-            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status== 30) ?true:false;
+            this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             // -- added by laxmi
             // this code is used to laod image url dynamically not save in locally dont remove it
             this.image_url = response.photo_url ? response.photo_url + "?t=" + new Date().getTime() : null;
@@ -182,19 +182,19 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
-            if(this.prodForm.product_user_type == 8){
+            if (this.prodForm.product_user_type == 8) {
               this.advanceProduct.forStudent = true;
               this.advanceProduct.forOpenUser = true;
             }
-            else if(this.prodForm.product_user_type == 16){
+            else if (this.prodForm.product_user_type == 16) {
               this.advanceProduct.forStudent = false;
               this.advanceProduct.forOpenUser = false;
             }
-            else if(this.prodForm.product_user_type == 2){
+            else if (this.prodForm.product_user_type == 2) {
               this.advanceProduct.forStudent = true;
               this.advanceProduct.forOpenUser = false;
             }
-            else if(this.prodForm.product_user_type == 4){
+            else if (this.prodForm.product_user_type == 4) {
               this.advanceProduct.forStudent = false;
               this.advanceProduct.forOpenUser = true;
             }
@@ -299,21 +299,21 @@ export class ReviewProductComponent implements OnInit {
 
     if (!this.prodForm.is_duration) {
       this.prodForm.duration = 0;
-      this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date);
-      this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date);
+      this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format("YYYY-MM-DD");
+      this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format("YYYY-MM-DD");
     } else {
       this.prodForm.valid_from_date = null;
       this.prodForm.valid_to_date = null;
     }
 
     let productFor = 16;
-    if(this.advanceProduct.forStudent && this.advanceProduct.forOpenUser){
+    if (this.advanceProduct.forStudent && this.advanceProduct.forOpenUser) {
       productFor = 8;
     }
-    else if(this.advanceProduct.forStudent){
+    else if (this.advanceProduct.forStudent) {
       productFor = 2;
     }
-    else if(this.advanceProduct.forOpenUser){
+    else if (this.advanceProduct.forOpenUser) {
       productFor = 4;
     }
     this.prodForm.product_user_type = productFor;
@@ -328,12 +328,12 @@ export class ReviewProductComponent implements OnInit {
       "photo_url": this.prodForm.photo_url,
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
-      "is_advance_product":this.prodForm.is_advance_product,
+      "is_advance_product": this.prodForm.is_advance_product,
       "price": this.prodForm.price,
-      "valid_from_date": this.prodForm.valid_from_date,
-      "valid_to_date": this.prodForm.valid_to_date,
-      "sales_from_date":moment(this.prodForm.sales_from_date),
-      "sales_to_date": moment(this.prodForm.sales_to_date),
+      "valid_from_date": moment(this.prodForm.valid_from_date).format("YYYY-MM-DD"),
+      "valid_to_date": moment(this.prodForm.valid_to_date).format("YYYY-MM-DD"),
+      "sales_from_date": moment(this.prodForm.sales_from_date).format("YYYY-MM-DD"),
+      "sales_to_date": moment(this.prodForm.sales_to_date).format("YYYY-MM-DD"),
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "duration": this.prodForm.duration,
@@ -354,7 +354,7 @@ export class ReviewProductComponent implements OnInit {
     if (!this.auth.isRippleLoad.getValue()) {
       this.auth.showLoader();
       this.http.postMethod('product/update', body).then(
-        (resp:any) => {
+        (resp: any) => {
           this.auth.hideLoader();
           let data = resp['body'];
           if (data.validate) {
