@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
 import { of } from 'rxjs';
-import { AuthenticatorService, LoginService, MessageShowService } from '../../../../..';
+import { AuthenticatorService, LoginService, HttpService, MessageShowService } from '../../../../..';
 import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { TopicListingService } from '../../../../../services/course-services/topic-listing.service';
 
@@ -18,6 +18,7 @@ import { TopicListingService } from '../../../../../services/course-services/top
 export class ClassAddComponent implements OnInit, OnDestroy {
   public checkedKeys: any[] = [];
   customTable: any = [];
+  institute_id: any = sessionStorage.getItem('institution_id');
   courseModelStdList: any[] = [];
   courseModelSubList: any[] = [];
   courseModelBatchList: any[] = [];
@@ -205,12 +206,13 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   public children;
   public hasChildren;
   public isExpanded;
-
+  fullResponse: any = [];
   multiClickDisabled: boolean = false;
   coursePlannerStatus: any;
 
   constructor(
     private router: Router,
+    private _http: HttpService,
     private login: LoginService,
     private classService: ClassScheduleService,
     private topicService: TopicListingService,
@@ -367,6 +369,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
 
 
   checkForEditMode() {
+
     let str = sessionStorage.getItem('editClass');
     if (str == "" || str == null || str == undefined) {
       return;
@@ -427,12 +430,13 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         err => { }
       );
       /* Get in class schedule || course planner || Time Table*/
-      this.classService.getAllMasterCourse().subscribe(
-        res => {
-          this.masterCourse = res;
-        },
-        err => { }
-      );
+      // this.classService.getAllMasterCourse().subscribe(
+      //   res => {
+      //     this.masterCourse = res;
+      //   },
+      //   err => { }
+      // );
+      this.getMasterCourseKey();
       /* Get in class schedule || Time Table*/
       this.classService.getAllTeachers().subscribe(
         res => {
@@ -453,28 +457,41 @@ export class ClassAddComponent implements OnInit, OnDestroy {
 
   }
 
+  getMasterCourseKey() {
+    let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
 
-  updateCourseList(ev) {
+    let keys;
     this.auth.showLoader();
-    this.isClassFormFilled = false;
-    this.classService.getCourseFromMasterById(ev).subscribe(
-      res => {
-        if (res.coursesList) {
-          this.courseList = res.coursesList;
-          this.auth.hideLoader();
-        }
-        else {
-          this.courseList = [];
-          this.auth.hideLoader();
-        }
-      },
-      err => {
-        this.courseList = [];
+    this._http.getData(url).subscribe(
+      (data: any) => {
         this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        console.log("keys", keys);
+
+        for (let i = 0; i < keys.length; i++) {
+          this.masterCourse.push(keys[i]);
+        }
+        if (!this.isProfessional) {
+          this.checkForEditMode();
+        }
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
       }
     )
   }
-
+  updateCourseList(ev) {
+    this.courseList = [];
+    this.isClassFormFilled = false;
+    let temp = this.fullResponse[this.fetchMasterCourseModule.master_course];
+    for (let i = 0; i < temp.length; i++) {
+      this.courseList.push(temp[i]);
+    }
+  }
 
   submitMasterCourse() {
     if (this.fetchMasterCourseModule.master_course == '-1' || this.fetchMasterCourseModule.course_id == '-1' ||
@@ -828,7 +845,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     this.classService.getAllActiveTeachersList().subscribe(
       res => {
         this.auth.hideLoader();
-        this.teacherListDataSource = res;
+        this.teacherListDataSource = res.result;
       },
       err => {
         //console.log(err);
@@ -1292,7 +1309,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     startTime = this.convertIntoFullClock(this.addClassDetails.start_hour, this.addClassDetails.start_minute, this.addClassDetails.start_meridian);
     endTime = this.convertIntoFullClock(this.addClassDetails.end_hour, this.addClassDetails.end_minute, this.addClassDetails.end_meridian);
     obj.duration = this.getDifference(startTime, endTime);
-    obj.subject_name = this.getValueFromArray(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
+    obj.subject_name = this.getValueFromArraySubject(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
     if (this.addClassDetails.teacher_id == "" || this.addClassDetails.teacher_id == '-1') {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter correct teacher name');
       this.convertTimeToBindableFormat();
@@ -1381,13 +1398,22 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   getValueFromArray(data, key, compareVal, getKey) {
     let result: any = '';
     for (let i = 0; i < data.length; i++) {
+      if (data[i] === compareVal) {
+        result = data[i];
+      }
+    }
+    return result;
+  }
+
+  getValueFromArraySubject(data, key, compareVal, getKey) {
+    let result: any = '';
+    for (let i = 0; i < data.length; i++) {
       if (data[i][key] == compareVal) {
         result = data[i][getKey];
       }
     }
     return result;
   }
-
   onCourseListSelection(event) {
     if (event != '-1') {
       for (let i = 0; i < this.courseList.length; i++) {

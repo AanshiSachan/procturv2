@@ -30,8 +30,7 @@
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name"
                                 (ngModelChange)="getCourseData($event)" name="masterCourse">
                                 <option value=-1></option>
-                                <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}
-                                </option>
+                                <option *ngFor="let i of masterCourses" [value]="i">{{i}}</option>
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf=isProfessional>

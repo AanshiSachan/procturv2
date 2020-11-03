@@ -16,7 +16,7 @@ export class CourseEditComponent implements OnInit {
   activeTeachers: any;
   selectedCourseDetails: any = [];
   mainTableDataSource: any = [];
-  academicList:any=[];
+  academicList: any = [];
   dummyArray: any = [];
   standardNameList: any;
   nestedTableDataSource: any;
@@ -26,7 +26,7 @@ export class CourseEditComponent implements OnInit {
     callApi: true,
     isallowGrading: false,
     message: '',
-    tempObject:{}
+    tempObject: {}
   };
 
   constructor(
@@ -34,7 +34,7 @@ export class CourseEditComponent implements OnInit {
     private toastCtrl: AppComponent,
     private route: ActivatedRoute,
     private router: Router,
-    private auth:AuthenticatorService
+    private auth: AuthenticatorService
   ) {
     this.route.params.subscribe(
       params => {
@@ -99,7 +99,7 @@ export class CourseEditComponent implements OnInit {
   getAllStandardNameList() {
     this.apiService.getStandardListFromServer().subscribe(
       (data: any) => {
-        this.standardNameList = data;
+        this.standardNameList = data.result;
       },
       error => {
         //console.log(error);
@@ -140,7 +140,7 @@ export class CourseEditComponent implements OnInit {
     )
   }
 
-  openPopup(flag,data) {
+  openPopup(flag, data) {
     // object.course_id
     data.is_exam_grad_feature = (!flag);
     this.jsonVar.tempObject = data;
@@ -153,7 +153,7 @@ export class CourseEditComponent implements OnInit {
     }
   }
 
-  allowMarksORGrades(){
+  allowMarksORGrades() {
     this.jsonVar.tempObject.is_exam_grad_feature = (!this.jsonVar.tempObject.is_exam_grad_feature);
     this.closePopup();
   }
@@ -200,12 +200,12 @@ export class CourseEditComponent implements OnInit {
       }
     });
     let msg = "Are you sure you want to delete?";
-    if(count == 1){
+    if (count == 1) {
       msg = "Are you sure you want to delete? Course will be deleted as you are deleting last subject under this course";
     }
     if (confirm(msg)) {
       if (row.hasOwnProperty('otherDetails')) {
-      this.auth.showLoader();
+        this.auth.showLoader();
         this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
           data => {
             row.isAssigned = 'Y';
@@ -243,7 +243,7 @@ export class CourseEditComponent implements OnInit {
     obj.course_name = '';
     obj.is_exam_grad_feature = 0;
     obj.course_id = "0";
-    obj.academic_year_id='-1';
+    obj.academic_year_id = '-1';
     obj.batchesList = this.keepCloning(this.subjectList);
     this.mainTableDataSource.push(obj);
   }
@@ -260,7 +260,7 @@ export class CourseEditComponent implements OnInit {
         return false;
       }
       test.course_name = this.mainTableDataSource[i].course_name;
-      test.academic_year_id =this.mainTableDataSource[i].academic_year_id;
+      test.academic_year_id = this.mainTableDataSource[i].academic_year_id;
 
       if (this.mainTableDataSource[i].start_date != "" && this.mainTableDataSource[i].start_date != null && this.mainTableDataSource[i].start_date != "Invalid date") {
         test.start_date = moment(this.mainTableDataSource[i].start_date).format("MM-DD-YYYY");

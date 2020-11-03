@@ -1,10 +1,10 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { instituteInfo } from '../model/instituteinfo';
 import { EnquiryCampaign } from '../model/enquirycampaign';
-import { Observable ,  Observer ,  Subscription } from 'rxjs';
+import { Observable, Observer, Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as moment from 'moment';
 import { AuthenticatorService } from './authenticator.service';

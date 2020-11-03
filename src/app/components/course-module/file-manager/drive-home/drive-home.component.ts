@@ -112,6 +112,7 @@ export class DriveHomeComponent implements OnInit {
     if (url.indexOf("?") > -1) {
       let arr = url.split('?');
       if (url.length > 1 && arr[1] !== '') {
+        window.location.href = url.substring(0, arr[0].length);
         this.activatedRoute.queryParams.subscribe(params => {
           let videoId = params['videoId'];
           if (videoId != '' && videoId != null) {
@@ -144,6 +145,7 @@ export class DriveHomeComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.children = res;
+        console.log("children", this.children);
         this.getPath = obj.keyName;
         this.pathArray = this.getPath.split('/');
         this.pathArray.pop();

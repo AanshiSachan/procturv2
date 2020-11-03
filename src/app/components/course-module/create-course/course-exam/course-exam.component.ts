@@ -7,7 +7,7 @@ import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
-
+import { HttpService } from '../../../../services/http.service';
 
 
 @Component({
@@ -21,6 +21,7 @@ export class CourseExamComponent implements OnInit {
   masterCourseList: any = [];
   courseList: any = [];
   batchesList: any = [];
+  fullResponse: any = [];
   examScheduleData: any = [];
   cancelledSchedule: any = [];
   studentList: any = [];
@@ -43,6 +44,7 @@ export class CourseExamComponent implements OnInit {
   absentCount: number = 0;
   presentCount: number = 0;
   leaveCount: number = 0;
+  institute_id: any;
   attendanceNote: string = "";
   batchAdderData = {
     exam_date: moment().format("MM-DD-YYYY"),
@@ -151,7 +153,8 @@ export class CourseExamComponent implements OnInit {
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
     private topicService: TopicListingService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _http: HttpService,
   ) { }
 
   public get checkableSettings(): CheckableSettings {
@@ -165,6 +168,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.institute_id = sessionStorage.getItem('institute_id');
     this.checkInstituteType();
     this.fetchPrefillData();
     this.checkForCoursePlannerRoute();
@@ -176,9 +180,11 @@ export class CourseExamComponent implements OnInit {
 
   fetchPrefillData() {
     if (this.isLangInstitute) {
-      this.getMasterCourseBatchData();
+      // this.getMasterCourseBatchData();
+      this.getMasterCourseBatchDataNew();
     } else {
-      this.getMasterCourseList();
+      // this.getMasterCourseList();
+      this.getMasterCourse();
     }
   }
 
@@ -205,7 +211,42 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
+  getMasterCourseBatchDataNew() {
+    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + '?is_active=Y&is_subject_required=true';
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.masterCourseList = data.result;
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
 
+  getCourse() {
+    for (let i = 0; i < this.masterCourseList.length; i++) {
+      if (this.batchData.standard_id == this.masterCourseList[i].standard_id) {
+        this.courseList = this.masterCourseList[i].subject_list;
+      }
+    }
+  }
+  getBatchList() {
+    this.auth.showLoader();
+    let url = '/api/v1/batches/batch-list/' + this.institute_id + '/' + this.batchData.subject_id + '?is_active_not_expire=A&sorted_by=batch_name';
+    this._http.getData(url).subscribe((data: any) => {
+      this.auth.hideLoader();
+      this.batchesList = data.result;
+      // this.batchPro = data.batchLi;
+    },
+      (error: any) => {
+        this.auth.hideLoader();
+        return error;
+      }
+    )
+  }
   fetchTopics() {
     this.auth.showLoader();
     this.totalTopicsList = [];
@@ -433,14 +474,17 @@ export class CourseExamComponent implements OnInit {
     this.batchData.batch_id = -1;
     this.courseList = [];
     this.batchesList = [];
-    this.getMasterCourseBatchData();
+    // this.getMasterCourseBatchData();
+    this.getCourse();
   }
 
   onBatchCourseSelection(event) {
     this.batchData.batch_id = -1;
     if (this.batchData.subject_id != -1) {
       this.batchesList = [];
-      this.getMasterCourseBatchData();
+      // this.getMasterCourseBatchData();
+      this.getBatchList();
+      // this.getMasterCourseBatchDataNew();
     }
     this.getCourseName(event)
   }
@@ -1027,32 +1071,60 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
+  getMasterCourse() {
+    let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
 
+    let keys;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        console.log("keys", keys);
+
+        for (let i = 0; i < keys.length; i++) {
+          this.masterCourseList.push(keys[i]);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
   getCourseList(event) {
     this.courseList = [];
-    this.courseData.course_id = -1;
-    if (event != -1) {
-      this.auth.showLoader();
-      this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
-        res => {
-          this.auth.hideLoader();
-          this.courseList = res;
-        },
-        err => {
-          console.log(err);
-          this.auth.hideLoader();
-        }
-      )
+    let temp = this.fullResponse[this.courseData.master_course];
+    for (let i = 0; i < temp.length; i++) {
+      this.courseList.push(temp[i]);
     }
+    // this.courseData.course_id = -1;
+    // if (event != -1) {
+    //   this.auth.showLoader();
+    //   this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
+    //     res => {
+    //       this.auth.hideLoader();
+    //       this.courseList = res;
+    //     },
+    //     err => {
+    //       console.log(err);
+    //       this.auth.hideLoader();
+    //     }
+    //   )
+    // }
   }
 
   displayCourseDate() {
     console.log(this.courseData.course_id)
     this.showCourseStartEndDate = true;
-    for (let i = 0; i < this.courseList.coursesList.length; i++) {
-      if (this.courseList.coursesList[i].course_id == this.courseData.course_id) {
-        this.batchStartDate = this.courseList.coursesList[i].start_date;
-        this.batchEndDate = this.courseList.coursesList[i].end_date;
+    for (let i = 0; i < this.courseList.length; i++) {
+      if (this.courseList[i].course_id == this.courseData.course_id) {
+        this.batchStartDate = this.courseList[i].start_date;
+        this.batchEndDate = this.courseList[i].end_date;
       }
     }
 
@@ -1061,8 +1133,8 @@ export class CourseExamComponent implements OnInit {
   validateDateRange() {
     let selectedCourse: any = {};
     let check = true;
-    if (this.courseList.coursesList.length > 0) {
-      selectedCourse = this.courseList.coursesList.filter(
+    if (this.courseList.length > 0) {
+      selectedCourse = this.courseList.filter(
         el => el.course_id == this.courseData.course_id
       )
       if (moment(selectedCourse[0].start_date).format('MM-DD-YYYY') <= moment(this.courseData.requested_date).format('MM-DD-YYYY') && moment(this.courseData.requested_date).format('MM-DD-YYYY') <= moment(selectedCourse[0].end_date).format('MM-DD-YYYY')) {

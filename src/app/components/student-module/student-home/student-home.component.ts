@@ -66,7 +66,6 @@ export class StudentHomeComponent implements OnInit {
   studentbatchList: any[] = [];
   studentByIdcustomComponents: any[] = [];
   filterCustomComponent: any[] = []
-
   private studentdisplaysize: number = 100;
   perPage: number = 10;
   PageIndex: number = 1;

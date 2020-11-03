@@ -658,7 +658,7 @@ export class AddClassComponent implements OnInit {
         (data: any) => {
 
           this.batches = data;
-          if(this.batches && !this.batches.length) {
+          if (this.batches && !this.batches.length) {
             this.appC.popToast({ type: "error", body: "Please check batches are active or not." });
           }
           console.log(this.batches)
@@ -681,7 +681,7 @@ export class AddClassComponent implements OnInit {
         (data: any) => {
 
           this.masters = data;
-          if(this.masters && !this.masters.length) {
+          if (this.masters && !this.masters.length) {
             this.appC.popToast({ type: "error", body: "Please check courses are active or not." });
           }
           this.auth.hideLoader();

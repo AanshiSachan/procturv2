@@ -27,8 +27,7 @@
                         <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.standard_id"
                             (ngModelChange)="getCourseData($event)" name="masterCourse">
                             <option></option>
-                            <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}
-                            </option>
+                            <option *ngFor="let i of masterCourses" [value]="i">{{i}}</option>
                         </select>
                     </div>
 

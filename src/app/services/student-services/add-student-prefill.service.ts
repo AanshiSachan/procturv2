@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -77,8 +77,8 @@ export class AddStudentPrefillService {
   }
 
   /* return the list of custom component for the selected institute ID */
-  fetchCustomComponentById(id,en_id,page_id): Observable<any> {
-    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&student_enq_id="+en_id+"&page="+page_id//2";
+  fetchCustomComponentById(id, en_id, page_id): Observable<any> {
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&student_enq_id=" + en_id + "&page=" + page_id//2";
     return this.http.get(this.urlCustomComponent, { headers: this.headers }).pipe(
       map(
         data => {
@@ -296,9 +296,9 @@ export class AddStudentPrefillService {
     ))
   }
 
-  fetchStudentCourseDetails(id, stndrid,country_id='-1'): Observable<any> {
+  fetchStudentCourseDetails(id, stndrid, country_id = '-1'): Observable<any> {
     stndrid = stndrid == 0 ? -1 : stndrid;
-    let urlCourseById = this.baseUrl + "/api/v1/courseMaster/fetchAssignedCoursesForStudent/" + id + "?standard_id=" + stndrid+'&country_id='+country_id;
+    let urlCourseById = this.baseUrl + "/api/v1/courseMaster/fetchAssignedCoursesForStudent/" + id + "?standard_id=" + stndrid + '&country_id=' + country_id;
     return this.http.get(urlCourseById, { headers: this.headers }).pipe(map(
       res => {
         if (res != null) {

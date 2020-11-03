@@ -104,9 +104,10 @@ export class ExamReportHomeComponent implements OnInit {
 
     this.auth.showLoader();
     this.courseList.getStandardListFromServer().subscribe(  // get standard
-      res => {
+      (res: any) => {
         this.auth.hideLoader();
-        this.standardtList = res;
+        console.log("response", res.result);
+        this.standardtList = res.result;
         let stand = sessionStorage.getItem('standaradForReport');
         if (stand != "" && stand != null && stand != undefined) {
           this.standard = stand;

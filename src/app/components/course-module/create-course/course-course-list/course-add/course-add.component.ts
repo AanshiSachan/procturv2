@@ -52,7 +52,7 @@ export class CourseAddComponent implements OnInit {
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private route: Router
   ) { }
 
@@ -64,36 +64,42 @@ export class CourseAddComponent implements OnInit {
   }
 
   btnGoClickCreateCourse() {
+    console.log("standardNameList", this.standardNameList);
     if (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) {
-      this.apiService.getSubjectListOfStandard(this.newCourseAdd.standard_id).subscribe(
-        (data: any) => {
-          //console.log(data);
-          if (data.length == 0) {
-            let msg = {
-              type: "error",
-              title: "",
-              body: 'No Subjects configured for selected standard'
-            }
-            this.toastCtrl.popToast(msg);
-          } else {
-            this.subjectListDataSource = data;
-            let rawData = this.addKeyInData(data);
-            this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
-            this.StandardName.nativeElement.disabled = true;
-            this.subjectList = rawData;
-            this.getActiveTeacherList();
-          }
-        },
-        error => {
-          //console.log(error);
-          let data = {
-            type: "error",
-            title: "",
-            body: error.error.message
-          }
-          this.toastCtrl.popToast(data);
+      for (let i = 0; i < this.standardNameList.length; i++) {
+        if (this.standardNameList[i].standard_id == this.newCourseAdd.standard_id) {
+          this.subjectListDataSource = this.standardNameList[i].subject_list;
         }
-      )
+      }
+      // this.apiService.getSubjectListOfStandard(this.newCourseAdd.standard_id).subscribe(
+      //   (data: any) => {
+      //console.log(data);
+      if (this.subjectListDataSource.length == 0) {
+        let msg = {
+          type: "error",
+          title: "",
+          body: 'No Subjects configured for selected standard'
+        }
+        this.toastCtrl.popToast(msg);
+      } else {
+        this.subjectListDataSource = this.subjectListDataSource;
+        let rawData = this.addKeyInData(this.subjectListDataSource);
+        this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
+        this.StandardName.nativeElement.disabled = true;
+        this.subjectList = rawData;
+        this.getActiveTeacherList();
+      }
+      // },
+      error => {
+        //console.log(error);
+        let data = {
+          type: "error",
+          title: "",
+          body: error.error.message
+        }
+        this.toastCtrl.popToast(data);
+      }
+      // )
     } else {
       let data = {
         type: "error",
@@ -118,7 +124,7 @@ export class CourseAddComponent implements OnInit {
   getAllStandardNameList() {
     this.apiService.getStandardListFromServer().subscribe(
       (data: any) => {
-        this.standardNameList = data;
+        this.standardNameList = data.result;
       },
       error => {
         //console.log(error);
@@ -273,7 +279,7 @@ export class CourseAddComponent implements OnInit {
     obj.coursesList = [];
     for (let i = 0; i < this.mainArrayForTable.length; i++) {
       let test: any = {};
-      test.academic_year_id =this.mainArrayForTable[i].academic_year_id;
+      test.academic_year_id = this.mainArrayForTable[i].academic_year_id;
       test.course_name = this.mainArrayForTable[i].course_name;
 
       if (this.mainArrayForTable[i].start_Date != "" && this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "Invalid date") {

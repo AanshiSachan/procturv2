@@ -53,9 +53,9 @@
                 </div>
                 <div class="row" *ngIf="showCourseStartEndDate">
                     <div class="c-sm-6 c-md-6 c-lg-6">
-                        <span class="spanText">Course Start Date : {{batchStartDate}}</span>
+                        <span class="spanText">Course Start Date : {{batchStartDate | date: 'dd-MMM-yyyy'}}</span>
                         &emsp;
-                        <span class="spanText">Course End Date : {{batchEndDate}} </span>
+                        <span class="spanText">Course End Date : {{batchEndDate | date: 'dd-MMM-yyyy'}} </span>
                     </div>
                 </div>
             </div>
@@ -72,8 +72,8 @@
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
                                 <option value="-1">Select Master Course</option>
-                                <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
-                                    {{master.master_course}}
+                                <option [value]="master" *ngFor="let  master of masterCourseList">
+                                    {{master}}
                                 </option>
                             </select>
 
@@ -88,7 +88,7 @@
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.course_id" (ngModelChange)="displayCourseDate()">
                                 <option value="-1">Select Course</option>
-                                <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
+                                <option [value]="master.course_id" *ngFor="let  master of courseList">
                                     {{master.course_name}}
                                 </option>
                             </select>
@@ -118,10 +118,10 @@
                 <div class="row" *ngIf="showCourseStartEndDate" style="margin-top: 5px;">
                     <div class="c-sm-6 c-md-6 c-lg-6">
                         <span class="spanText">Course Start Date : <span
-                                style="font-weight: 600;">{{batchStartDate}}</span></span>
+                                style="font-weight: 600;">{{batchStartDate | date: 'dd-MMM-yyyy'}}</span></span>
                         &emsp;
                         <span class="spanText">Course End Date : <span
-                                style="font-weight: 600;">{{batchEndDate}}</span></span>
+                                style="font-weight: 600;">{{batchEndDate | date: 'dd-MMM-yyyy'}}</span></span>
                     </div>
                 </div>
 

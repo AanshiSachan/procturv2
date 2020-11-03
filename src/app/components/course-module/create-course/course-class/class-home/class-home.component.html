@@ -126,8 +126,8 @@
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
                           (ngModelChange)="updateCourseList($event)">
                           <option value="-1"></option>
-                          <option [value]="master.master_course" *ngFor="let  master of masterCourse">
-                            {{master.master_course}}
+                          <option [value]="master" *ngFor="let  master of masterCourse">
+                            {{master}}
                           </option>
                         </select>
                       </div>
@@ -138,7 +138,7 @@
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                           (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
-                          <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
+                          <option [value]="course.course_id" *ngFor="let course of courseList">
                             {{course.course_name}}
                           </option>
                         </select>
@@ -196,8 +196,8 @@
                       <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
                         (ngModelChange)="updateCourseList($event)">
                         <option value="-1"></option>
-                        <option [value]="master.master_course" *ngFor="let  master of masterCourse">
-                          {{master.master_course}}
+                        <option [value]="master" *ngFor="let  master of masterCourse">
+                          {{master}}
                         </option>
                       </select>
                     </div>
@@ -211,7 +211,7 @@
                       <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                         (ngModelChange)="updateSubjectList($event)">
                         <option value="-1"></option>
-                        <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
+                        <option [value]="course.course_id" *ngFor="let course of courseList">
                           {{course.course_name}}
                         </option>
                       </select>
