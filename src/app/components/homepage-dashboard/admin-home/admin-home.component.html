@@ -17,7 +17,7 @@
                     <h1 class="pull-left"> Dashboard</h1>
 
           <div class="pull-right act-right-sec">
-            <button class="btn hide add_send_noti" [ngClass]="{hide : !role_feature.COMMUNICATE_ADD_SEND}" (click)="addSendNotification()">
+            <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess(role_feature.COMMUNICATE_ADD_SEND)}" (click)="addSendNotification()">
 
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             &nbsp;
@@ -38,7 +38,7 @@
                             </li>
 
                             <li class="fees-state item" style="width:41%"
-                                [ngClass]="{'hide' : checkRoleMAnagement('709')}" data-id="3">
+                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_FEE_STATS)}" data-id="3">
                                 <div class="item-content">
                                     <fee-widget></fee-widget>
                                 </div>
@@ -384,7 +384,7 @@
                                                         </li>
                                                         <li class="action">
                                                             <div *ngIf="class.isExam" class="che-action pull-right"
-                                                                [ngClass]="{hide : checkIfUserHadAccess('112')}">
+                                                                [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}">
                                                                 <img src="./assets/images/att.svg"
                                                                     alt="Mark Exam Attendance"
                                                                     title="Mark Exam Attendance" style="cursor:pointer"
@@ -416,7 +416,7 @@
                                                                     (click)="onCancelExamClick(class)"></i>
                                                             </div>
                                                             <div *ngIf="!class.isExam" class="che-action pull-right"
-                                                                [ngClass]="{hide : checkIfUserHadAccess('101')}">
+                                                                [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}">
                                                                 <img src="./assets/images/att.svg" alt="Mark Attendance"
                                                                     title="Mark Attendance"
                                                                     *ngIf="class.is_attendance_marked != 'Y'"
