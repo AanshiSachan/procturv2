@@ -42,6 +42,7 @@ export class PostStudentDataService {
         let urlQuickEdit = this.baseUrl + "/api/v1/students/" + id;
         form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null) ? '' : moment(form.dob).format('YYYY-MM-DD');
         form.doj = moment(form.doj).format('YYYY-MM-DD');
+        form.expiry_date = moment(form.expiry_date).format("YYYY-MM-DD");
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
         return this.http.put(urlQuickEdit, form, { headers: this.headers }).pipe(map(
