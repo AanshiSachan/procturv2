@@ -126,8 +126,15 @@ export class ExamService {
 
     //   New Exam Report APIs
     getAllExamReport(obj) {
+        console.log("obj", obj);
+        let url: any;
+        if (obj.from_date == null || obj.from_date == "") {
+            url = this.baseUrl + "/api/v1/reports/StdExam/examReport/" + this.institute_id + "?master_course_name=" + obj.master_course_name + "&standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id + "&from_date=" + obj.from_date + "&to_date=" + obj.to_date;
+        }
+        else {
+            url = this.baseUrl + "/api/v1/reports/StdExam/examReport/" + this.institute_id + "?master_course_name=" + obj.master_course_name + "&standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id + "&from_date=" + moment(obj.from_date).format("YYYY-MM-DD") + "&to_date=" + moment(obj.to_date).format("YYYY-MM-DD");
+        }
 
-        let url = this.baseUrl + "/api/v1/reports/StdExam/examReport/" + this.institute_id + "?master_course_name=" + obj.master_course_name + "&standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id + "&from_date=" + obj.from_date + "&to_date=" + obj.to_date
         // let url = this.baseUrl + "/api/v1/reports/StdExam/examReport/" + this.institute_id + "?from_date="+obj.from_date+"&to_date="+obj.to_date
         return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
