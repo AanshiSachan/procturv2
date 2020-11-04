@@ -1354,6 +1354,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
         this.studentAddFormData.doj = moment(data.doj).format("MM-DD-YYYY");
+        this.studentAddFormData.dob = moment(data.dob).format("MM-DD-YYYY");
+        this.studentAddFormData.expiry_date = moment(data.expiry_date).format("MM-DD-YYYY");
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {

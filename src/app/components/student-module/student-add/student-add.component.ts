@@ -303,7 +303,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   selectedData = {
     country: '',
     state: '',
-    city:''
+    city: ''
   };
   Payment_Modes: any = [];
   role_feature = role.features;
@@ -418,7 +418,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.studentAddFormData.city_id = "";
       this.studentAddFormData.area_id = "";
     }
-    if(this.studentAddFormData.country_id != ""){
+    if (this.studentAddFormData.country_id != "") {
       const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -476,7 +476,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     if (this.checkStatusofStudent) {
       this.areaList = [];
     }
-    if(this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != ""){
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
       const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -1306,7 +1306,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
 
-      this.studentAddFormData.expiry_date = this.studentAddFormData.expiry_date;
+      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD");
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
