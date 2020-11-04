@@ -92,6 +92,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     examSchldId: [],
     classSchldId: []
   };
+  schoolModel: boolean = false;
 
   constructor
     (
@@ -422,6 +423,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   gotoPreviousWeek() {

@@ -2,12 +2,13 @@
 
   <section class="middle-top mb0 clearFix" style="margin-top: -50px;">
     <h1 class="pull-left">
-      Add Course
+      <!-- changes by Nalini - to handle school model conditions -->
+      {{schoolModel ? 'Add Section': 'Add Course'}}
     </h1>
   </section>
 
   <section class="middle-main clearFix">
-    <div class="clearFix add-edit">
+    <div class="clearFix add-edit" *ngIf="!schoolModel">
       <a (click)="toggleCreateNewSlot()">
         <i id="showAddBtn" class="addBtnClass">+</i>
         <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
@@ -16,7 +17,7 @@
     </div>
     <div *ngIf="divCreateNewCourse" class="create-standard-form wrapperForm">
       <div class="row">
-        <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!schoolModel">
           <div class="field-wrapper">
             <label for="idMasterCourse">Master Course
               <span class="text-danger">*</span>
@@ -51,8 +52,9 @@
     <div class="row name-section">
       <div class="c-sm-3 c-md-3 c-lg-3">
         <div class="field-wrapper">
-          <label for="masterCourse">Course Name
-            <span class="text-danger">*</span>
+          <!-- changes by Nalini - to handle school model conditions -->
+          <label for="masterCourse">{{schoolModel ? 'Section' : 'Course'}} Name
+           <span class="text-danger">*</span>
           </label>
           <input type="text" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name"
             class="form-ctrl" />
@@ -153,7 +155,8 @@
       <thead>
         <tr>
           <th style="width:20%">
-            Course Name
+            <!-- changes by Nalini - to handle school model conditions -->
+            {{schoolModel ? 'Section': 'Course'}} Name
           </th>
           <th style="width:10%">
             Start Date
@@ -224,8 +227,8 @@
             <div id="show{{i}}" class="nestedTable nestedTableHide">
               <div class="row name-section">
                 <div class="field-wrapper c-sm-3 c-md-3 c-lg-3">
-                  <label for="masterCourse">Course Name
-                    <span class="text-danger">*</span>
+                  <label for="masterCourse">{{schoolModel ? 'Section' : 'Course'}} Name
+                   <span class="text-danger">*</span>
                   </label>
                   <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="row.course_name"
                     id="masterCourse" class="form-ctrl" />

@@ -85,6 +85,7 @@ export class PtmManagementComponent implements OnInit {
 
   queryStatus: any;
   illustration: boolean = true;
+  schoolModel: boolean = false;
 
   constructor(
     private router: Router,
@@ -103,6 +104,8 @@ export class PtmManagementComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.ptmScheduledDate = this.today;
     if(this.jsonFlag.isProfessional){
       this.fetchBatchesList();

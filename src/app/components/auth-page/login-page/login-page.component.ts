@@ -480,6 +480,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         }
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
+      // Developed by Nalini - to add session for school model
+      sessionStorage.setItem('is_institute_type_school', institute_data.is_institute_type_school);
       this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);

@@ -78,7 +78,8 @@
           </div>
           <div class="row nonProFilterForm" *ngIf="!isProfessional">
             <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
-              <label>Master Course
+              <!-- changes by Nalini - to handle school model conditions -->
+              <label>{{schoolModel ? 'Standard' : 'Master Course'}}
                 <span class="text-danger">*</span>
               </label>
               <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.master_course"
@@ -89,9 +90,9 @@
             </div>
 
             <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
-              <label>Course</label>
-              <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.course_id"
-                (ngModelChange)="getSubjects($event)">
+              <!-- changes by Nalini - to handle school model conditions -->
+              <label>{{schoolModel ? 'Section' : 'Course'}}</label>
+              <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.course_id" (ngModelChange)="getSubjects($event)">
                 <option value="-1"></option>
                 <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
               </select>

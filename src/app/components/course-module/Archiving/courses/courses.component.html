@@ -52,7 +52,8 @@
           <tr>
             <th style="text-align: left;" *ngIf="!isProfessional" (click)="sortedData('course_name') "
               style="width: 14%;">
-              # &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Course &nbsp;
+              <!-- changes by Nalini - to handle school model conditions -->
+              # &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{schoolModel ? 'Section' : 'Course'}} &nbsp;
               <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('course_name') && direction == 1"></i>
               <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('course_name') && direction != 1"></i>
             </th>
@@ -68,11 +69,12 @@
               <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('standard_name') && direction != 1"></i>
             </th>
             <th (click)="sortedData('master_course') " *ngIf="!isProfessional" style="width: 10%;padding: 10px 0px;">
-              Master Course &nbsp;
+              <!-- changes by Nalini - to handle school model conditions -->
+              {{schoolModel ? 'Standard' : 'Master Course'}} &nbsp;
               <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('master_course') && direction == 1"></i>
               <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('master_course') && direction != 1"></i>
             </th>
-            <th *ngIf="!isProfessional" (click)="sortedData('standard_name') " style="width: 10%;">
+            <th *ngIf="!isProfessional && !schoolModel" (click)="sortedData('standard_name') " style="width: 10%;">
               Standard &nbsp;
               <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('standard_name') && direction == 1"></i>
               <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('standard_name') && direction != 1"></i>
@@ -125,7 +127,7 @@
             <td *ngIf="isProfessional" style="width: 10%;padding: 10px 0px;width: 10%;">
               {{i.standard_name}}
             </td>
-            <td *ngIf="!isProfessional" style="width: 10%;">
+            <td *ngIf="!isProfessional && !schoolModel" style="width: 10%;">
               {{i.standard_name}}
             </td>
             <td *ngIf="!isProfessional">

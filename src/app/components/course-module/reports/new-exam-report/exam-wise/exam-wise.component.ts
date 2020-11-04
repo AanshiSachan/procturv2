@@ -26,6 +26,7 @@ export class ExamWiseComponent implements OnInit {
   studentWiseData: any = [];
   examSchdlType: boolean = false;
   is_exam_grad_feature: string;
+  schoolModel: boolean = false;
 
   constructor(
     private router: Router,
@@ -49,6 +50,8 @@ export class ExamWiseComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     let examschd = sessionStorage.getItem('examSchdType');
     if(examschd){
       this.examSchdlType = JSON.parse(examschd);

@@ -299,6 +299,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   cityList: any[] = [];
   areaList: any[] = [];
   Payment_Modes: any = [];
+  schoolModel: boolean = false;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -546,6 +547,8 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
 

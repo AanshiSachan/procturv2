@@ -105,6 +105,7 @@ export class BiometricComponent implements OnInit {
     to_date: "",
     user_id: ""
   }
+  schoolModel: boolean = false;
 
   constructor(
     private appc: AppComponent,
@@ -114,6 +115,8 @@ export class BiometricComponent implements OnInit {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   ngOnInit() {

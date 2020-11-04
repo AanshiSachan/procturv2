@@ -102,6 +102,7 @@ export class FeeCourseReportComponent implements OnInit {
   }
 
   helpMsg: string = "Active Student fee details are based on Master Course/Course and academic year filter applied."
+  schoolModel: boolean = false;
 
   constructor(
     private excelService: ExcelService,
@@ -129,6 +130,8 @@ export class FeeCourseReportComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.fetchPrefillDetails();
 
     this.form.valueChanges

@@ -60,8 +60,9 @@
                                             </span>
                                             <div class="schedSwitcher" *ngIf="!isProfessional">
                                                 <ul>
+                                                    <!-- changes by Nalini - to handle school model conditions -->
                                                     <li (click)="onChanged('course')" id="courseSelectButton"
-                                                        [ngClass]="{active : !isSubjectView}">Course</li>
+                                                        [ngClass]="{active : !isSubjectView}">{{schoolModel ? 'Section' : 'Course'}}</li>
                                                     <li (click)="onChanged('subject')" id="subjectSelectButton"
                                                         [ngClass]="{active : isSubjectView}">Subject</li>
                                                 </ul>
@@ -137,15 +138,17 @@
                                         <div class="schedule-bottom">
                                             <ul class="subjectViewHead" *ngIf="!isProfessional && isSubjectView">
                                                 <li class="timings" style="width: 16%;">Timings</li>
-                                                <li class="course-name" style="width: 21%;">Course</li>
+                                                <!-- changes by Nalini - to handle school model conditions -->
+                                                <li class="course-name" style="width: 21%;">{{schoolModel? 'Section' : 'Course'}}</li>
                                                 <li class="subject">Subject</li>
                                                 <li class="faculty-name">Faculty</li>
                                                 <li class="topic-link">Linked Topic</li>
                                                 <li class="action pull-right" style="text-align: center;">Action</li>
                                             </ul>
                                             <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
-                                                <li class="batch">Master Course</li>
-                                                <li class="cls-type batch">Courses</li>
+                                                <!-- changes by Nalini - to handle school model conditions -->
+                                                <li class="batch">{{schoolModel? 'Standard' : 'Master Course'}}</li>
+                                                <li class="cls-type batch">{{schoolModel? 'Section' : 'Courses'}}</li>
                                                 <li class="batch cls-type">Timings</li>
                                                 <li class="batch">Type</li>
                                                 <li class="action" style="text-align: center;">Action</li>
@@ -176,7 +179,9 @@
                                                                 </span>
                                                             </div>
                                                         </li>
-
+                                                        <!-- <li class="exam">
+                              <div title="{{class.course_name}}">{{class.course_name}}</div>
+                            </li> -->
                                                         <li class="subject">
                                                             <div title="{{class.subject_name}}">
                                                                 {{(class.subject_name?.length > 10)? (class.subject_name | slice:0:10)+'..':(class.subject_name) }}
@@ -1217,7 +1222,7 @@
                             <div class="row filter-section" *ngIf="!isProfessional">
 
                                 <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
-                                    <label for="masterCourse">Master Course</label>
+                                    <label for="masterCourse">{{schoolModel? 'Standard' : 'Master Course'}}</label>
                                     <div class="" style="padding: 0px;">
                                         <select id="walkintime" class="side-form-ctrl"
                                             [(ngModel)]="sendNotificationCourse.master_course"
@@ -1231,11 +1236,10 @@
                                 </div>
 
                                 <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
-                                    <label for="course">Course</label>
+                                    <label for="course">{{schoolModel? 'Section' : 'Course'}}</label>
                                     <div class="" style="padding: 0px;">
                                         <select id="walkintime" class="side-form-ctrl"
-                                            [(ngModel)]="sendNotificationCourse.course_id" (ngModelChange)="($event)"
-                                            name="course">
+                                            [(ngModel)]="sendNotificationCourse.course_id" (ngModelChange)="($event)" name="course">
                                             <option value="-1"></option>
                                             <option *ngFor="let opt of courseList" [value]="opt.course_id">
                                                 {{opt.course_name}}

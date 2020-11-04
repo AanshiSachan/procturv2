@@ -103,6 +103,7 @@ export class AddClassComponent implements OnInit {
   live_class_for: any = "1";
   singleSelectionOfFaculty: boolean = false;
   zoom_enable: boolean = false;
+  schoolModel: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -125,6 +126,8 @@ export class AddClassComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
     if (this.is_zoom_integration_enable && this.live_class_for == "2") {

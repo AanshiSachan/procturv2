@@ -32,14 +32,15 @@ export class ExamReportHomeComponent implements OnInit {
   standardtList: any;
   subjectList: any;
 
-  examReport: any;
-  weeklyExamReportData: any = [];
-  masterCourseExamReportData: any = [];
-  standardExamReportData: any = [];
-  mastercourse: string = "-1";
-  standard: string = "-1";
-  subject: string = "-1";
-  addDate: any = moment().isoWeekday("Monday").format("DD MMM YYYY") + " - " + moment().weekday(7).format("DD MMM YYYY");
+    examReport: any;
+    weeklyExamReportData: any = [];
+    masterCourseExamReportData: any = [];
+    standardExamReportData: any = [];
+    mastercourse: string = "-1";
+    standard: string = "-1";
+    subject: string = "-1";
+    addDate: any = moment().isoWeekday("Monday").format("DD MMM YYYY") +" - "+moment().weekday(7).format("DD MMM YYYY");
+    schoolModel: boolean = false;
 
   constructor(
     private router: Router,
@@ -61,12 +62,14 @@ export class ExamReportHomeComponent implements OnInit {
           this.jsonFlag.type = 'course';
         }
       }
-    )
-    this.addDate = this.reportJSON.from_date + " - " + this.reportJSON.to_date;   // this will fetch exam report for current week
-    this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
-    this.getPreRequiredData();
-    this.getExamReport();
-  }
+      )
+      // changes by Nalini - to handle school model conditions
+      this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+      this.addDate = this.reportJSON.from_date +" - "+ this.reportJSON.to_date;   // this will fetch exam report for current week
+      this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
+      this.getPreRequiredData();
+      this.getExamReport();
+    }
 
   getExamReport() {
     this.examReport = [];

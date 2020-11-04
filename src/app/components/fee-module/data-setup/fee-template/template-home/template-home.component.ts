@@ -69,6 +69,7 @@ export class TemplateHomeComponent implements OnInit {
   searchDataFlag: boolean = false;
   tax_type_without_percentage : String;
   is_tax_enabled: boolean = false;
+  schoolModel:boolean = false;
 
   constructor(
     private router: Router,
@@ -96,6 +97,8 @@ export class TemplateHomeComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.fetchPrefill();
   }
 

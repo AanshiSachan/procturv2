@@ -147,6 +147,7 @@ export class ClassComponent implements OnInit {
   totalTopicsList: any = [];
   selectedTopics: any = '' //join ids by '|'
   selectedTopicsNames: any = '';
+  schoolModel: any = false;
 
   constructor(
     private router: Router,
@@ -168,6 +169,8 @@ export class ClassComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
     this.coursePlannerFilters.isMarksUpdate =  "N";
     this.showHideColForModel();

@@ -66,12 +66,13 @@
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
-                            <label for="ddnMAsterCourse">Master Course
+                            <!-- changes by Nalini - to handle school model conditions -->
+                            <label for="ddnMAsterCourse">{{schoolModel ? 'Standard' : 'Master Course'}}
                                 <span class="text-danger">*</span>
                             </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
-                                <option value="-1">Select Master Course</option>
+                                <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
                                 <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
                                     {{master.master_course}}
                                 </option>
@@ -82,12 +83,12 @@
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.course_id != -1}">
-                            <label for="ddnMAsterCourse">Course
+                            <label for="ddnMAsterCourse">{{schoolModel ? 'Section' : 'Course'}}
                                 <span class="text-danger">*</span>
                             </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.course_id" (ngModelChange)="displayCourseDate()">
-                                <option value="-1">Select Course</option>
+                                <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
                                 <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
                                     {{master.course_name}}
                                 </option>

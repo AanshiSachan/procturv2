@@ -48,9 +48,9 @@
               </option>
             </select>
           </div>
-
+<!-- changes by Nalini - to handle school model conditions -->
           <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
-            <label for="masterCourse">Master Course
+            <label for="masterCourse">{{schoolModel ? 'Standard' : 'Master Course'}}
               <span class="text-danger">*</span>
             </label>
             <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name"
@@ -63,7 +63,7 @@
           </div>
 
           <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
-            <label for="CourseDdn">Course
+            <label for="CourseDdn">{{schoolModel ? 'Section' : 'Course'}}
               <span class="text-danger">*</span>
             </label>
             <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">

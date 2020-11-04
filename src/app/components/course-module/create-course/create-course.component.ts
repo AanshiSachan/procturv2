@@ -17,6 +17,7 @@ export class CreateCourseComponent implements OnInit {
   @ViewChild('liExam',{static: false}) liExam: ElementRef;
   @ViewChild('liTopic',{static: false}) liTopic: ElementRef;
 
+  schoolModel: boolean = false;
   constructor(
     private router: Router,
     private auth: AuthenticatorService
@@ -32,6 +33,8 @@ export class CreateCourseComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.checkInstituteType();
   }
 

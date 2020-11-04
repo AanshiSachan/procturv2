@@ -127,6 +127,7 @@ export class ExamComponent implements OnInit {
   selectedTopicsNames: any = '';
   examList: any;
   currentEditExam: any;
+  schoolModel: boolean = false;
 
   constructor(
     private router: Router,
@@ -149,6 +150,8 @@ export class ExamComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
 
     this.showHideColForModel();

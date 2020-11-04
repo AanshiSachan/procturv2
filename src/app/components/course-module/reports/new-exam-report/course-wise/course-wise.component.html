@@ -29,9 +29,9 @@
         <span style="font-weight: 600;">{{masterCourse}} </span>
       </div>
       <div class="name-item">
-        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()"
-          *ngIf="!jsonFlag.isProfessional">
-          <option value="-1">Select Course</option>
+        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()" *ngIf="!jsonFlag.isProfessional">
+          <!-- changes by Nalini - to handle school model conditions -->
+          <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
           <option [value]="course.course_id" *ngFor="let course of coursesList">{{course.course_name}}</option>
         </select>
         <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()"

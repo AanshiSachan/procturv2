@@ -80,6 +80,7 @@ export class TimeTableComponent implements OnInit {
     teacher_id: "-1",
     type: 2
   }
+  schoolModel: boolean = false;
 
   constructor(
     private timeTableServ: timeTableService,
@@ -98,6 +99,8 @@ export class TimeTableComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   ngOnInit() {
@@ -270,7 +273,8 @@ export class TimeTableComponent implements OnInit {
   fetchTimeTableReport(flag) {
     this.auth.showLoader();
     if (this.fetchFieldData.master_course == "-1" && this.fetchFieldData.teacher_id == "-1") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", " Please Select a Master Course or Teacher");
+      let msg = this.schoolModel ? 'Please Select a Standard or Teacher' : 'Please Select a Master Course or Teacher';
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", msg);
       this.auth.hideLoader();
       return;
     }

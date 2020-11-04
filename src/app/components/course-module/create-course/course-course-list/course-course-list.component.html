@@ -17,7 +17,8 @@
             <li class="btn" routerLink='add' *ngIf="jsonFlags.isShowAddCourse">
               <i class="fa fa-plus" aria-hidden="true"></i>
               &nbsp;
-              Add Course
+              <!-- changes by Nalini - to handle school model conditions -->
+              {{schoolModel ? 'Add Section' :'Add Course'}}
             </li>
           </ul>
         </aside>
@@ -29,10 +30,10 @@
             <thead>
               <tr>
                 <th style="width:25%; text-align: left">
-                  <label style="cursor:pointer;" (click)="sortTable('master_course')">Master Course Name</label>
+                  <label style="cursor:pointer;" (click)="sortTable('master_course')">{{schoolModel ? 'Standard' : 'Master Course Name'}}</label>
                 </th>
                 <th style="width:20%">
-                  <label style="cursor:pointer;" (click)="sortTable('coursee_names')">Course(s)</label>
+                  <label style="cursor:pointer;" (click)="sortTable('coursee_names')">{{schoolModel ? 'Section' : ' Course(s)'}}</label>
                 </th>
                 <th style="width: 10%;font-size: 14px !important;">
                   Course End Date
@@ -40,7 +41,7 @@
                 <th style="width:15%">
                   <label style="cursor:pointer;">Academic Year </label>
                 </th>
-                <th style="width:15%">
+                <th style="width:15%" *ngIf="!schoolModel">
                   <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
                 </th>
                 <th style="width: 5%;">
@@ -86,7 +87,7 @@
                             </option>
                           </select>
                         </td>
-                        <td style="width:15%">{{row.standard_name}}</td>
+                        <td style="width:15%" *ngIf="!schoolModel">{{row.standard_name}}</td>
                         <td style="width: 5%;">{{sc.total_students}}</td>
                         <td style="width:10%">
                           <div class="action-box ">

@@ -99,6 +99,7 @@ export class ShareFileComponent implements OnInit {
   }
 
   getFileType: string = "";
+  schoolModel: boolean = false;
 
   constructor(private fileService: FileManagerService, private appC: AppComponent, private auth: AuthenticatorService, private services: MessageShowService) { }
 
@@ -114,6 +115,8 @@ export class ShareFileComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   ngOnChanges() {

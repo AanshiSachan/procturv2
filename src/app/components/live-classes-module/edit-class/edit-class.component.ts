@@ -111,6 +111,7 @@ export class EditClassComponent implements OnInit {
 
   editSessionId: any;
   repeat_session: number;
+  schoolModel: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -135,6 +136,8 @@ export class EditClassComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);

@@ -48,13 +48,17 @@ export class CourseAddComponent implements OnInit {
   nestedTableDataSource: any;
   examGradeFeature: any;
   divCreateNewCourse: boolean = false;
+  schoolModel: boolean = false;
 
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
     private auth:AuthenticatorService,
     private route: Router
-  ) { }
+  ) { 
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+  }
 
   ngOnInit() {
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
@@ -63,8 +67,14 @@ export class CourseAddComponent implements OnInit {
     this.getAcademicYearDetails();
   }
 
+  // changes by Nalini - to check validation for add course/section
+  checkAddCourseValidation() {
+   let result = this.schoolModel ? (this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) : (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1);
+   return result;
+  }
+
   btnGoClickCreateCourse() {
-    if (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) {
+    if (this.checkAddCourseValidation()) {
       this.apiService.getSubjectListOfStandard(this.newCourseAdd.standard_id).subscribe(
         (data: any) => {
           //console.log(data);
@@ -78,7 +88,9 @@ export class CourseAddComponent implements OnInit {
           } else {
             this.subjectListDataSource = data;
             let rawData = this.addKeyInData(data);
-            this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
+            if(!this.schoolModel) {
+              this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
+            }
             this.StandardName.nativeElement.disabled = true;
             this.subjectList = rawData;
             this.getActiveTeacherList();
@@ -352,12 +364,18 @@ export class CourseAddComponent implements OnInit {
   toggleCreateNewSlot() {
     if (this.divCreateNewCourse == false) {
       this.divCreateNewCourse = true;
-      document.getElementById('showCloseBtn').style.display = '';
-      document.getElementById('showAddBtn').style.display = 'none';
+      // changes by Nalini - to handle school model conditions
+      if(!this.schoolModel) {
+        document.getElementById('showCloseBtn').style.display = '';
+        document.getElementById('showAddBtn').style.display = 'none';
+      }
     } else {
       this.divCreateNewCourse = false;
-      document.getElementById('showCloseBtn').style.display = 'none';
-      document.getElementById('showAddBtn').style.display = '';
+      // changes by Nalini - to handle school model conditions
+      if(!this.schoolModel) {
+        document.getElementById('showCloseBtn').style.display = 'none';
+        document.getElementById('showAddBtn').style.display = '';
+      }
     }
   }
 

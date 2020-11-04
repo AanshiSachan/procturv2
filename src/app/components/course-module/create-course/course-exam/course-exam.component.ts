@@ -145,6 +145,7 @@ export class CourseExamComponent implements OnInit {
   public hasChildren;
   public isExpanded;
   coursePlannerStatus: any = false;
+  schoolModel: boolean = false;
 
   constructor(
     private apiService: ExamCourseService,
@@ -168,6 +169,8 @@ export class CourseExamComponent implements OnInit {
     this.checkInstituteType();
     this.fetchPrefillData();
     this.checkForCoursePlannerRoute();
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   checkForCoursePlannerRoute() {

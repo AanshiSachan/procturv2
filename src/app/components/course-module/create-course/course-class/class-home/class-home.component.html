@@ -122,7 +122,8 @@
                   <div class="row">
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper">
-                        <label for="smc">Select Master Course</label>
+                        <!-- changes by Nalini - to handle school model conditions -->
+                        <label for="smc">{{schoolModel ? 'Select Standard' : 'Select Master Course'}}</label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
                           (ngModelChange)="updateCourseList($event)">
                           <option value="-1"></option>
@@ -134,7 +135,7 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper">
-                        <label for="sc">Select Course</label>
+                        <label for="sc">{{schoolModel ? 'Select Section' : 'Select Course'}}</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                           (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>

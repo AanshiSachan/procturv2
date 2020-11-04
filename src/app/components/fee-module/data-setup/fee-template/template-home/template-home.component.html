@@ -37,8 +37,9 @@
             <thead>
               <tr>
                 <th>Fee Structure</th>
-                <th>Master Course</th>
-                <th>Course</th>
+                <!-- changes by Nalini - to handle school model conditions -->
+                <th>{{schoolModel ? 'Standard' : 'Master Course'}}</th>
+                <th>{{schoolModel ? 'Section' : 'Course'}}</th>
                 <th>Country</th>
                 <th>Students assigned</th>
                 <th>Action</th>

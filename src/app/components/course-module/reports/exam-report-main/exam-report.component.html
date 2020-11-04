@@ -22,10 +22,10 @@
             </section>
             <section class="filter-form">
                 <div class="row">
+                    <!-- changes by Nalini - to handle school model conditions -->
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
-                        <label>Master Course</label>
-                        <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.standard_id"
-                            (ngModelChange)="getCourseData($event)" name="masterCourse">
+                        <label>{{schoolModel ? 'Standard' : 'Master Course'}}</label>
+                        <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
                             <option></option>
                             <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}
                             </option>
@@ -42,9 +42,8 @@
                     </div>
 
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
-                        <label> Course</label>
-                        <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.subject_id"
-                            (ngModelChange)="getSubData($event)">
+                        <label> {{schoolModel ? 'Section' : 'Course'}}</label>
+                        <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
                             <option></option>
                             <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}
                             </option>
