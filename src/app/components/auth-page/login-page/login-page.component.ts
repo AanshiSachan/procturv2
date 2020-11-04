@@ -317,6 +317,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.alternateLoginFailure(res.login_error_message);
         break;
       case 3:
+        // Developed by Nalini - to add session for school model
+        sessionStorage.setItem('is_institute_type_school', res.data.is_institute_type_school);
         this.setAuthToken(res.data, res.device_id);
         this.alternateLoginSuccess(res);
         break;
@@ -460,6 +462,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+      // Developed by Nalini - to add session for school model
+      sessionStorage.setItem('is_institute_type_school', institute_data.is_institute_type_school);
       let type = sessionStorage.getItem('source');
       if (institute_data.userType != '1' && institute_data.userType != '99') {
         let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
@@ -480,8 +484,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         }
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
-      // Developed by Nalini - to add session for school model
-      sessionStorage.setItem('is_institute_type_school', institute_data.is_institute_type_school);
       this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
