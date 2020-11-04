@@ -331,6 +331,8 @@ export class CourseEditComponent implements OnInit {
 
   getMetaDataForTable(data) {
     for (let i = 0; i < data.coursesList.length; i++) {
+      data.coursesList[i].end_date = moment(data.coursesList[i].end_date).format('MM-DD-YYYY');
+      data.coursesList[i].start_date = moment(data.coursesList[i].start_date).format('MM-DD-YYYY');
       this.mainTableDataSource.push(data.coursesList[i]);
     }
   }

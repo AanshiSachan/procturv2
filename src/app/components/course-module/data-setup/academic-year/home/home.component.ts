@@ -92,8 +92,10 @@ export class HomeComponent implements OnInit {
     }
     else {
       let obj = this.addAcademicYearTemplate;
-      obj.start_date = moment(this.addAcademicYearTemplate.start_date).format("YYYY-MM-DD");
-      obj.end_date = moment(this.addAcademicYearTemplate.end_date).format("YYYY-MM-DD");
+      let start_date = this.addAcademicYearTemplate.start_date;
+      let end_date = this.addAcademicYearTemplate.end_date;
+      obj.start_date = moment(start_date).format("YYYY-MM-DD");
+      obj.end_date = moment(end_date).format("YYYY-MM-DD");
       let url = "/api/v1/academicYear";
       this._http.postData(url, obj).subscribe((res) => {
         this.showErrorMessage(this.msgService.toastTypes.success, '', "Academic year created successfully!");

@@ -91,8 +91,8 @@ export class TeacherViewComponent implements OnInit {
     }
     let data: any = {};
     data.batch_id = this.selectedBatch;
-    data.from_date = moment(this.selectedFromDate).format('MM-DD-YYYY');
-    data.to_date = moment(this.selectedToDate).format('MM-DD-YYYY');
+    data.from_date = this.selectedFromDate ? moment(this.selectedFromDate).format('MM-DD-YYYY') : '';
+    data.to_date = this.selectedFromDate ? moment(this.selectedToDate).format('MM-DD-YYYY') : '';
     this.getInfoFromDashBoard(data);
     this.getInfoFromGuest(data);
   }
@@ -120,6 +120,7 @@ export class TeacherViewComponent implements OnInit {
         this.visitingTotalHour = this.getPerticularKeyValue(data, 'total_hours', ' ');
       },
       error => {
+        this.messageNotifier('error', '', error.error.message)
         //console.log(error)
       }
     )

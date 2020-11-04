@@ -386,12 +386,12 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 
   getEndDate(): string {
     let currentDate = moment(this.currentDate).format("MM-DD-YYYY");
-    return moment(currentDate).weekday(7).format("MM-DD-YYYY");
+    return moment(currentDate).weekday(7).format("YYYY-MM-DD");
   }
 
   getStartDate(): string {
     let currentDate = moment(this.currentDate).format("MM-DD-YYYY");
-    return moment(currentDate).weekday(1).format("MM-DD-YYYY");
+    return moment(currentDate).weekday(1).format("YYYY-MM-DD");
   }
 
   getValueOfStandardID(data, key, value, ) {
