@@ -901,8 +901,12 @@ export class StudentAddComponent implements OnInit, OnDestroy {
 
   /* align the user selected batch into input and update the data into array to be updated to server */
   getassignedBatchList(e) {
+    let temp = [];
+    e.batchJoiningDates.forEach(el => {
+          temp.push(moment(el).format('YYYY-MM-DD'));
+    });
     this.studentAddFormData.assignedBatches = e.assignedBatches;
-    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.batchJoiningDates = temp;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
     this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = false;
