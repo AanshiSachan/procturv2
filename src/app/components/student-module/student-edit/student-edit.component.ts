@@ -662,14 +662,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (el.isSelected) {
         if (this.isProfessional) {
           temp.push(el.data.batch_id.toString());
-          tempDate.push(moment(el.assignDate).format('MM-DD-YYYY'));
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.batch_name);
           this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
         }
         else {
           temp.push(el.data.course_id.toString());
-          tempDate.push(moment(el.assignDate).format('MM-DD-YYYY'));
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.course_name);
           this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
