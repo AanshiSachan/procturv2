@@ -484,9 +484,10 @@ export class ClassAddComponent implements OnInit, OnDestroy {
       return;
     }
     else {
-      if (moment(this.courseStartDate).format("MM-DD-YYYY") <= moment(this.fetchMasterCourseModule.requested_date).format("MM-DD-YYYY") && moment(this.fetchMasterCourseModule.requested_date).format("MM-DD-YYYY") <= moment(this.courseEndDate).format("MM-DD-YYYY")) {
-        this.isClassFormFilled = true;
+     let requested_date = this.fetchMasterCourseModule.requested_date;
+      if (moment(this.courseStartDate).format("YYYY-MM-DD") <= moment(requested_date).format("YYYY-MM-DD") && moment(requested_date).format("YYYY-MM-DD") <= moment(this.courseEndDate).format("YYYY-MM-DD")) {
         this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("MM-DD-YYYY");
+        this.isClassFormFilled = true;
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         this.getCustomList();
         this.getTeacherList();
@@ -1506,7 +1507,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   makeJsonForCourseSave() {
     let obj: any = {};
     obj.master_course = this.getValueFromArray(this.masterCourse, 'master_course', this.fetchMasterCourseModule.master_course, 'master_course');
-    obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("MM-DD-YYYY");
+    obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
     obj.course_id = this.fetchMasterCourseModule.course_id;
     obj.coursesList = [];
     let temp: any = {};

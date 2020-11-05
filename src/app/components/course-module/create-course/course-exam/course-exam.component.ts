@@ -1065,7 +1065,8 @@ export class CourseExamComponent implements OnInit {
       selectedCourse = this.courseList.coursesList.filter(
         el => el.course_id == this.courseData.course_id
       )
-      if (moment(selectedCourse[0].start_date).format('MM-DD-YYYY') <= moment(this.courseData.requested_date).format('MM-DD-YYYY') && moment(this.courseData.requested_date).format('MM-DD-YYYY') <= moment(selectedCourse[0].end_date).format('MM-DD-YYYY')) {
+      let requested_date = this.courseData.requested_date;
+      if (moment(selectedCourse[0].start_date).format('YYYY-MM-DD') <= moment(requested_date).format('YYYY-MM-DD') && moment(requested_date).format('YYYY-MM-DD') <= moment(selectedCourse[0].end_date).format('YYYY-MM-DD')) {
         check = true;
       } else {
         this.messageNotifier('error', 'Date Out Of Range', 'You have selected date out of course start date ' + selectedCourse[0].start_date + " and course end date " + selectedCourse[0].end_date);
@@ -1086,10 +1087,10 @@ export class CourseExamComponent implements OnInit {
       this.courseData.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
+          this.courseData.requested_date = moment(this.examScheduleData.requested_date).format('MM-DD-YYYY');
           this.auth.hideLoader();
           this.multiClickDisabled = false;
           this.examScheduleData = res;
-          this.courseData.requested_date = moment(this.examScheduleData.requested_date).format('MM-DD-YYYY');
           this.calculateDataAsPerSelection(res);
           // console.log(this.subjectListData);
           this.showContentSection = true;
@@ -1789,7 +1790,7 @@ export class CourseExamComponent implements OnInit {
     let data: any = {};
     let total = 0;
     data.master_course = this.courseData.master_course;
-    data.requested_date = moment(this.courseData.requested_date).format('MM-DD-YYYY');
+    data.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
     data.coursesList = [];
 
     // FOR ALREADY PRESENT EXAM

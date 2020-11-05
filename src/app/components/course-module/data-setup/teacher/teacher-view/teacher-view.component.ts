@@ -91,8 +91,8 @@ export class TeacherViewComponent implements OnInit {
     }
     let data: any = {};
     data.batch_id = this.selectedBatch;
-    data.from_date = this.selectedFromDate ? moment(this.selectedFromDate).format('MM-DD-YYYY') : '';
-    data.to_date = this.selectedFromDate ? moment(this.selectedToDate).format('MM-DD-YYYY') : '';
+    data.from_date = this.selectedFromDate ? moment(this.selectedFromDate).format('YYYY-MM-DD') : '';
+    data.to_date = this.selectedFromDate ? moment(this.selectedToDate).format('YYYY-MM-DD') : '';
     this.getInfoFromDashBoard(data);
     this.getInfoFromGuest(data);
   }
