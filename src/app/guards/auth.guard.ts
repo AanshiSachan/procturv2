@@ -180,14 +180,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (this.role_feature.ONLINE_TESTS_MENU ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('105') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('114')) {
-                return true;
-            }
-            else {
                 return false;
-            }
         }
     }
 
@@ -272,11 +265,8 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (this.role_feature.ONLINE_TESTS_MENU ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('206') ||
-                this.role_feature.EXAMS_MENU ||
-                this.role_feature.CLASS_MENU ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('706')) {
+            if (this.role_feature.EXAMS_MENU ||
+                this.role_feature.CLASS_MENU) {
                 return true;
             }
             else {

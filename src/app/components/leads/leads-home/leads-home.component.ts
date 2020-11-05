@@ -24,6 +24,8 @@ export class LeadsHomeComponent implements OnInit {
     isShowManageEnquiry: false,
     isShowDataSetup: false,
     isShowCampaign: false,
+    isShowCampaignReport: false,
+    isShowAddCampaign: false,
     isShowAddEnquiry: false,
     isShowReport: false
   }
@@ -74,16 +76,19 @@ export class LeadsHomeComponent implements OnInit {
       if (this.role_feature.LEAD_MANAGE_ENQUIRY) {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
-        this.jsonRolesFlags.isShowReport = true;
       }
       // enquiry  admin --115
-      if (this.role_feature.LEAD_MANAGE_CAMPAIGN || this.role_feature.LEAD_ADD_CAMPAIGN) {
+      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
+        this.jsonRolesFlags.isShowAddCampaign = true;
+      }
+      if(this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
-        // this.jsonRolesFlags.isShowManageEnquiry = true;
-        // this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      if(this.role_feature.REPORTS_ENQUIRY_CAMPAIGN) {
+        this.jsonRolesFlags.isShowCampaignReport = true;
       }
       // enquiry  report --722
-      if (this.role_feature.REPORTS_ENQUIRY_CAMPAIGN || this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
+      if (this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
         || this.role_feature.REPORTS_ENQUIRY_SOURCE || this.role_feature.REPORT_ENQUIRY_COUNSELLOR) {
         this.jsonRolesFlags.isShowReport = true;
       }

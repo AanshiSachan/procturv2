@@ -51,25 +51,14 @@ export class AddEditRoleComponent implements OnInit {
     this.apiService.getAllFeature().subscribe(
       res => {
         this.featuresArray = res;
-        if (this.instituteId != this.libraryRoleInstituteId) {
-          if (this.instituteId != 100127) {
-            for (let t = 0; t < this.featuresArray.length; t++) {
-              if (this.featuresArray[t].feature_id == 5031) {
-                this.featuresArray.splice(t, 1);
-              }
+        // Changes by Nalini - libarary role will be visible only if enabled from super admin and study material role will be visible for all users
+        if (sessionStorage.getItem('enable_library_feature') != '1') {
+          for (let t = 0; t < this.featuresArray.length; t++) {
+            if (this.featuresArray[t].feature_id == 5031) {
+              this.featuresArray.splice(t, 1);
             }
           }
         }
-        if (this.instituteId != this.kakadeRoleInstituteId || this.instituteId != 100127) {
-          if (this.instituteId != 100767 && this.instituteId != 100127) {
-            for (let t = 0; t < this.featuresArray.length; t++) {
-              if (this.featuresArray[t].feature_id == 5021) {
-                this.featuresArray.splice(t, 1);
-              }
-            }
-          }
-        }
-
         this.cloneFeatureArray = this.keepCloning(res);
         this.cloneFeatureArray.filter(x => x.isChecked = false);
         if (this.roleId != "-1") {

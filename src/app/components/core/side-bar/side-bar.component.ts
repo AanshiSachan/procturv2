@@ -123,6 +123,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowManageEnquiry: false,
     isShowDataSetup: false,
     isShowCampaign: false,
+    isShowCampaignReport: false,
+    isShowAddCampaign: false,
     isShowAddEnquiry: false,
     isShowReport: false
   }
@@ -235,16 +237,19 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       if (this.role_feature.LEAD_MANAGE_ENQUIRY) {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
-        this.jsonRolesFlags.isShowReport = true;
       }
       // enquiry  admin --115
-      if (this.role_feature.LEAD_MANAGE_CAMPAIGN || this.role_feature.LEAD_ADD_CAMPAIGN) {
+      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
+        this.jsonRolesFlags.isShowAddCampaign = true;
+      }
+      if(this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
-        // this.jsonRolesFlags.isShowManageEnquiry = true;
-        // this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      if(this.role_feature.REPORTS_ENQUIRY_CAMPAIGN) {
+        this.jsonRolesFlags.isShowCampaignReport = true;
       }
       // enquiry  report --722
-      if (this.role_feature.REPORTS_ENQUIRY_CAMPAIGN || this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
+      if (this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
         || this.role_feature.REPORTS_ENQUIRY_SOURCE || this.role_feature.REPORT_ENQUIRY_COUNSELLOR) {
         this.jsonRolesFlags.isShowReport = true;
       }
@@ -705,9 +710,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   isLibraryFeatureAllow(permission) {
     this.jsonFlags.isShowLibrabry = false;
-    if ((sessionStorage.getItem('enable_library_feature')) == '1') {
-      this.jsonFlags.isShowLibrabry = true;
-    }
+    if (sessionStorage.getItem('enable_library_feature') == '1') {
+      if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin'){
+        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+            this.jsonFlags.isShowLibrabry = this.role_feature.LIBRARY_MENU ? true : false;
+        }
+        } else {
+          this.jsonFlags.isShowLibrabry = true;
+        }
+      }
   }
 
   isExpenseFeatureAllow() {
@@ -723,6 +734,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.instituteId == 100127 ||
       this.instituteId == 100126) {
       this.jsonFlags.isShowExpense = true;
+      if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin'){
+        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+            this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
+        }
+        } else {
+          this.jsonFlags.isShowExpense = true;
+        }
     }
   }
 
@@ -850,7 +868,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   hasCourse(permissions) {
     this.jsonFlags.isShowModel = false;
     if (this.role_feature.EXAMS_MENU ||
-      this.role_feature.CLASS_MENU || this.role_feature.ONLINE_TESTS_MENU ||
+      this.role_feature.CLASS_MENU ||
       this.role_feature.SETUP_MENU) {
       this.jsonFlags.isShowModel = true;
     }
@@ -860,7 +878,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   hasProducts(permissions) {
     this.jsonFlags.isShoweStore = false;
     if (this.isProfessional) {
-      if (this.role_feature.CLASS_MENU || this.role_feature.ONLINE_TESTS_MENU ||
+      if (this.role_feature.CLASS_MENU ||
         this.role_feature.SETUP_MENU || this.role_feature.CLASS_MENU ||
         this.role_feature.EXAMS_MENU) {
         this.jsonFlags.isShoweStore = true;
