@@ -215,6 +215,7 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    this.schedDate[0] = moment(this.schedDate[0]).format('MM-DD-YYYY');
 
     // added for account expiry popup notification
     var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))
@@ -492,6 +493,11 @@ export class AdminHomeComponent implements OnInit {
     return this.schedDate[0];
   }
 
+  getSchedDateForCourse() {
+    let date = this.courseLevelSchedDate;
+    return date;
+  }
+
   getSchedEndDate() {
     return this.schedDate[1];
   }
@@ -526,8 +532,8 @@ export class AdminHomeComponent implements OnInit {
 
 
   hideVisibilty() {
-    let d = moment(this.courseLevelSchedDate).format("MM-DD-YYYY");
-    if (d >= moment(new Date()).format("MM-DD-YYYY")) {
+    let d = moment(this.courseLevelSchedDate).format("YYYY-MM-DD");
+    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
       return true;
     }
     else {
@@ -1262,7 +1268,7 @@ export class AdminHomeComponent implements OnInit {
       inst_id: sessionStorage.getItem('institute_id'),
       is_cancel_notify: this.is_notified,
       master_course: this.classMarkedForAction.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("MM-DD-YYYY")
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
     this.auth.showLoader();
     this.widgetService.cancelCourseSchedule(obj).subscribe(
@@ -1344,7 +1350,7 @@ export class AdminHomeComponent implements OnInit {
       course_ids: this.classMarkedForAction.course_ids,
       inst_id: sessionStorage.getItem('institute_id'),
       master_course: this.classMarkedForAction.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("MM-DD-YYYY"),
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
       remarks: this.reminderRemarks
     }
     this.auth.showLoader();
@@ -1400,7 +1406,7 @@ export class AdminHomeComponent implements OnInit {
         "student_id": element.student_id,
         "course_id": this.classMarkedForAction.course_ids,
         "dateLi": [{
-          "date": moment(this.courseLevelSchedDate).format("MM-DD-YYYY"),
+          "date": moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
           "status": element.dateLi[0].status,
           "isStatusModified": element.dateLi[0].isStatusModified,
           "home_work_status": element.dateLi[0].home_work_status,
@@ -2696,7 +2702,7 @@ export class AdminHomeComponent implements OnInit {
     let obj = {
       course_id: data.course_ids,
       master_course: data.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("MM-DD-YYYY"),
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
     }
     this.widgetService.getMasterCourseDetails(obj).subscribe(
       (res: any) => {
@@ -3361,8 +3367,8 @@ export class AdminHomeComponent implements OnInit {
 
   generateCourseLevelExam() {
     let obj = {
-      start_date: moment(this.courseLevelSchedDate).format('MM-DD-YYYY'),
-      end_date: moment(this.courseLevelSchedDate).format('MM-DD-YYYY')
+      start_date: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
+      end_date: moment(this.courseLevelSchedDate).format('YYYY-MM-DD')
     }
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       (res: any) => {
