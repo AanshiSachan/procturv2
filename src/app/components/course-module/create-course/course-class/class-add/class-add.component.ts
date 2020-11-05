@@ -1946,14 +1946,14 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     }
 
     if (this.custom.date == '') {
-      data.request_date = moment(this.batchDetails.batch_start_date).format("MM-DD-YYYY");
+      data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
     }
     else {
       if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MM-YYYY"));
         return;
       } else {
-        data.request_date = moment(this.custom.date).format("MM-DD-YYYY");
+        data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
       }
     }
 
@@ -2133,8 +2133,8 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     if (this.customTable.length > 0) {
       for (let i = 0; i < this.customTable.length; i++) {
         let t: any = {};
-        t.class_date = moment(this.customTable[i].class_date).format('MM-DD-YYYY');
-        t.request_date = moment(this.customTable[i].class_date).format('MM-DD-YYYY');
+        t.class_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
@@ -2274,8 +2274,8 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     if (this.extraClassTable.length > 0) {
       for (let i = 0; i < this.extraClassTable.length; i++) {
         let t: any = {};
-        t.class_date = moment(this.extraClassTable[i].class_date).format('MM-DD-YYYY');
-        t.request_date = moment(this.extraClassTable[i].class_date).format('MM-DD-YYYY');
+        t.class_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.extraClassTable[i].start_time;
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;

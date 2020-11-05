@@ -104,10 +104,12 @@ export class ManageBatchComponent implements OnInit {
     this.auth.showLoader();
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
+    rowDetails.end_date = moment(rowDetails.end_date).format('MM-DD-YYYY');
     this.apiService.getBatchDetailsForEdit(rowDetails.batch_id).subscribe(
       data => {
         //console.log(data);
         this.editRowDetails = data;
+        this.editRowDetails.end_date = moment(this.editRowDetails.end_date).format('MM-DD-YYYY');
         this.onMasterCourseSelection(data.standard_id);
         this.auth.hideLoader();
       },
@@ -241,10 +243,10 @@ export class ManageBatchComponent implements OnInit {
             if (this.addNewBatch.batch_code.length < 5) {
 
               if (this.addNewBatch.start_date != "" && this.addNewBatch.start_date != null) {
-                this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("MM-DD-YYYY");
+                this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("YYYY-MM-DD");
 
                 if (this.addNewBatch.end_date != "" && this.addNewBatch.end_date != null) {
-                  this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("MM-DD-YYYY");
+                  this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
 
                   if (this.addNewBatch.start_date < this.addNewBatch.end_date) {
 
@@ -272,6 +274,8 @@ export class ManageBatchComponent implements OnInit {
                     )
                   }
                   else {
+                    this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("MM-DD-YYYY");
+                    this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("MM-DD-YYYY");
                     this.messageToast('error', '', 'Provide valid details of Start Date');
                     return;
                   }
@@ -314,8 +318,8 @@ export class ManageBatchComponent implements OnInit {
     let dataToSend: any = {
       batch_code: rowDetails.batch_code,
       batch_name: rowDetails.batch_name,
-      start_date: moment(rowDetails.start_date).format("MM-DD-YYYY"),
-      end_date: moment(rowDetails.end_date).format("MM-DD-YYYY"),
+      start_date: moment(rowDetails.start_date).format("YYYY-MM-DD"),
+      end_date: moment(rowDetails.end_date).format("YYYY-MM-DD"),
       subject_id: this.editRowDetails.subject_id,
       teacher_id: Number(rowDetails.teacher_id),
       is_active: rowDetails.is_active,
@@ -327,7 +331,7 @@ export class ManageBatchComponent implements OnInit {
       this.messageToast('error', '', 'Provide valid dates.');
       return;
     }
-    let endDate = moment(this.editRowDetails.end_date).format("MM-DD-YYYY");
+    let endDate = moment(this.editRowDetails.end_date).format("YYYY-MM-DD");
     if (!(dataToSend.end_date >= endDate)) {
       this.messageToast('error', '', 'Batch end date can only be extended.');
       return;

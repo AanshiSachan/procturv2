@@ -463,7 +463,7 @@ export class CourseExamComponent implements OnInit {
           console.log("this.examScheduleData", this.examScheduleData);
           this.batchStartDate = this.examScheduleData.batch_start_date;
           this.batchEndDate = this.examScheduleData.batch_end_date;
-          if (moment(this.batchEndDate).format("MM-DD-YYYY") < moment().format("MM-DD-YYYY")) {
+          if (moment(this.batchEndDate).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
             this.jsonVar.isSheduleBatch = false;
           }
           else {
@@ -586,7 +586,7 @@ export class CourseExamComponent implements OnInit {
     if (this.examSchedule.length > 0) {
       for (let i = 0; i < this.examSchedule.length; i++) {
         let test: any = {};
-        test.exam_date = moment(this.examSchedule[i].exam_date).format('MM-DD-YYYY'),
+        test.exam_date = moment(this.examSchedule[i].exam_date).format('YYYY-MM-DD'),
           test.start_time = this.examSchedule[i].start_time;
         test.end_time = this.examSchedule[i].end_time;
         test.total_marks = this.examSchedule[i].total_marks;
