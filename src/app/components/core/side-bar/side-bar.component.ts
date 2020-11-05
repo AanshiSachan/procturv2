@@ -240,8 +240,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       // enquiry  admin --115
       if (this.role_feature.LEAD_MANAGE_CAMPAIGN || this.role_feature.LEAD_ADD_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
-        this.jsonRolesFlags.isShowManageEnquiry = true;
-        this.jsonRolesFlags.isShowAddEnquiry = true;
+        // this.jsonRolesFlags.isShowManageEnquiry = true;
+        // this.jsonRolesFlags.isShowAddEnquiry = true;
       }
       // enquiry  report --722
       if (this.role_feature.REPORTS_ENQUIRY_CAMPAIGN || this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
