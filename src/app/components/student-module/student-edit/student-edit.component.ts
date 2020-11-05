@@ -1047,8 +1047,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   getassignedBatchList(e) {
     this.auth.showLoader();
+    let temp = [];
+    if(e.batchJoiningDates && e.batchJoiningDates.length) {
+      e.batchJoiningDates.forEach(el => {
+            temp.push(moment(el).format('YYYY-MM-DD'));
+      });
+    }
     this.studentAddFormData.assignedBatches = e.assignedBatches;
-    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.batchJoiningDates = temp;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
     this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = e.deleteCourse_SubjectUnPaidFeeSchedules;
