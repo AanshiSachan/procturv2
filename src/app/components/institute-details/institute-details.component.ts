@@ -18,7 +18,7 @@ export class InstituteDetailsComponent implements OnInit {
   instituteOptionDataSource: any = [];
   planDetail: any = [];
   planDetailDataSource: any = [];
-  @ViewChild('idUploadDoc',{static: false}) uploadDoc;
+  @ViewChild('idUploadDoc', { static: false }) uploadDoc;
   instDetails: any = {};
   showAllocationPopup: boolean = false;
   openPopUpName: any = '';
@@ -38,7 +38,8 @@ export class InstituteDetailsComponent implements OnInit {
     jwt_access_token: '',
     jwt_api_key: '',
     jwt_api_secret: '',
-    user_limit: ''
+    user_limit: '',
+    enable_recording: ''
   }
   dividersObj = {
     0: true,
@@ -323,7 +324,7 @@ export class InstituteDetailsComponent implements OnInit {
     }
     obj.logo_url = this.instDetails.logo_url;
     obj.institute_logo = this.institute_logo;
-    if((this.instDetails.announcement_image_url == this.announcement_image_url) && this.instDetails.announcement_image_status == 2) {
+    if ((this.instDetails.announcement_image_url == this.announcement_image_url) && this.instDetails.announcement_image_status == 2) {
       this.announcement_image_url = '';
     }
     obj.announcement_image_status = this.instDetails.announcement_image_status;
@@ -601,7 +602,8 @@ export class InstituteDetailsComponent implements OnInit {
       jwt_access_token: '',
       jwt_api_key: '',
       jwt_api_secret: '',
-      user_limit: ''
+      user_limit: '',
+      enable_recording: ''
     };
   }
 
@@ -622,7 +624,8 @@ export class InstituteDetailsComponent implements OnInit {
             jwt_access_token: '',
             jwt_api_key: '',
             jwt_api_secret: '',
-            user_limit: ''
+            user_limit: '',
+            enable_recording: ''
           };
         },
         err => {
@@ -709,7 +712,7 @@ export class InstituteDetailsComponent implements OnInit {
     }
   }
 
-  file(event){
+  file(event) {
     const file = event.target.files[0];
     const fileData = this.readFile(file);
   }
@@ -721,8 +724,8 @@ export class InstituteDetailsComponent implements OnInit {
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        this.announcement_image_url  = (<string>reader.result).split(',')[1];
-        if((this.instDetails.announcement_image_url == null ||this.instDetails.announcement_image_url == '') && this.announcement_image_url!='') {
+        this.announcement_image_url = (<string>reader.result).split(',')[1];
+        if ((this.instDetails.announcement_image_url == null || this.instDetails.announcement_image_url == '') && this.announcement_image_url != '') {
           this.instDetails.announcement_image_status = 1;
         }
         return (<string>reader.result).split(',')[1];
