@@ -1197,6 +1197,18 @@
           </div>
         </div>
         <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">Zoom Enable
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper">
+              <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="zoomOBJ.enable_recording"
+                name="enable_recording" id="enable_recording">
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="c-sm-3 c-md-3 c-lg-3" style="float: right;">
             <button class="btn" (click)="ClearZoomJSON()">Cancel</button>
             <button class="btn fullBlue" (click)="saveZoomDetails()"
@@ -1236,6 +1248,9 @@
                   </th>
                   <th>
                     User Limit
+                  </th>
+                  <th>
+                    Zoom Enable
                   </th>
                   <th>
                     Action
@@ -1326,6 +1341,20 @@
                       </div>
                     </span>
                   </td>
+                  <!-- <td>
+                    <input type="checkbox" [(ngModel)]="data.enable_recording" class="form-ctrl"
+                      id="data.enable_recording">
+                  </td> -->
+                  <td>
+                    <span class="view-comp" title="{{data.enable_recording}}">
+                      {{data.enable_recording}}
+                    </span>
+                    <span class="edit-comp">
+                      <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="data.enable_recording"
+                        name="data.enable_recording" id="data.enable_recording">
+                    </span>
+
+                  </td>
                   <td>
                     <span class="view-comp">
                       <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
@@ -1355,21 +1384,21 @@
       </div>
     </div>
 
-<div style="padding-bottom: 10%;"></div>
-<section class="row setting-footer">
-  <button class="btn" routerLink="/view/home/admin">Cancel</button>
-  <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
-</section>
-</section>
+    <div style="padding-bottom: 10%;"></div>
+    <section class="row setting-footer">
+      <button class="btn" routerLink="/view/home/admin">Cancel</button>
+      <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
+    </section>
+  </section>
 
-<!-- <section id="divPlanOption">
+  <!-- <section id="divPlanOption">
 
       </section>
 
       <section id="divAccount" class="general-wrapper"></section>
       <section id="divAppDetail" class="general-wrapper"></section> -->
 
-<!-- <aside class="pull-right setting-right" style="width:80%;">
+  <!-- <aside class="pull-right setting-right" style="width:80%;">
 
       <section id="divGeneral" class="general-wrapper">
 
