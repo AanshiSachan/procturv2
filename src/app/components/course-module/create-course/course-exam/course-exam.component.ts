@@ -1162,7 +1162,7 @@ export class CourseExamComponent implements OnInit {
       this.courseData.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
-          this.courseData.requested_date = moment(this.examScheduleData.requested_date).format('YYYY-MM-DD');
+          // this.courseData.requested_date = moment(this.examScheduleData.requested_date).format('YYYY-MM-DD');
           this.auth.hideLoader();
           this.multiClickDisabled = false;
           this.examScheduleData = res;

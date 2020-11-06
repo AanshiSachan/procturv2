@@ -94,7 +94,9 @@ export class CourseAddComponent implements OnInit {
       } else {
         this.subjectListDataSource = this.subjectListDataSource;
         let rawData = this.addKeyInData(this.subjectListDataSource);
-        this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
+        if(!this.schoolModel) {
+          this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
+        }
         this.StandardName.nativeElement.disabled = true;
         this.subjectList = rawData;
         this.getActiveTeacherList();

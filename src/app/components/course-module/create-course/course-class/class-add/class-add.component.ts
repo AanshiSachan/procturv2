@@ -772,7 +772,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
-        this.fetchMasterCourseModule.requested_date = moment(res.requested_data).format("YYYY-MM-DD");
+        // this.fetchMasterCourseModule.requested_date = moment(res.requested_data).format("YYYY-MM-DD");
         this.auth.hideLoader();
         this.subjectListDataSource = this.getSubjectList(res);
         this.classScheduleArray = this.constructJSONForTable(res);
