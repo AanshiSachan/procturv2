@@ -8,7 +8,7 @@
                     <h1 class="pull-left">
                         Add New Enquiry
                     </h1>
-                    <aside class="pull-right" *ngIf="permission != true">
+                    <aside class="pull-right" *ngIf="permission != true && BulkEnqHide">
                         <input type="button" value="Upload Enquiry" routerLink="/view/leads/enquiry/upload"
                             class="uploadBtn" id="btnUpload">
                     </aside>
@@ -875,7 +875,7 @@
                         <div class="pull-right add-form-btns">
                             <a style="cursor:pointer" (click)="reloadEnquiryForm()" id="reloadEnquiryAnch12">Add new
                                 enquiry</a>
-                            <a style="cursor:pointer" *ngIf="permission != true" routerLink="/view/leads/enquiry/upload"
+                            <a style="cursor:pointer" *ngIf="permission != true && BulkEnqHide" routerLink="/view/leads/enquiry/upload"
                                 id="uploadAnch13">Add Bulk enquiry</a>
                         </div>
                     </div>
