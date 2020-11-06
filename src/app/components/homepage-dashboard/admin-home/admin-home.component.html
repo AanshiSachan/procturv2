@@ -126,7 +126,7 @@
                                                     </span>
                                                     <span class="enquiry-state-date pull-right"
                                                         *ngIf="!isProfessional && !isSubjectView">
-                                                        {{courseLevelSchedDate| date: 'dd MMM yyyy'}}
+                                                        {{getSchedDateForCourse()| date: 'dd MMM yyyy'}}
                                                     </span>
                                                     <span class="enquiry-state-date pull-right" *ngIf="isProfessional">
                                                         {{getSchedStartDate()| date: 'dd MMM yyyy'}}

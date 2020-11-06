@@ -33,7 +33,7 @@
   <!-- breadcrumb -->
   <section class="middle-top clearFix bulk-header">
     <div>
-      <h1 class="pull-left">
+      <h1 class="pull-left" style="margin-bottom: 0;">
         <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
           Course
         </a>
@@ -62,7 +62,7 @@
         </div>
         <div class="assignment-details-item" style="flex-direction: column;">
           <label for="tags" style="font-size: 12px; margin-top:10px; margin-right: 10px;">Description</label>
-          <textarea name="name" class="assignment-textarea" rows="5" [(ngModel)]="assignmentDetails.description"
+          <textarea name="name" class="assignment-textarea" style="height: 85px;" rows="5" [(ngModel)]="assignmentDetails.description"
             placeholder="Description" cols="78"></textarea>
         </div>
         <!-- <div class="assignment-details-item field-wrapper tags">

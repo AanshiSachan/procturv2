@@ -407,8 +407,12 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData = data;
         console.log(data);
         this.editEnqData.enquiry_date = moment(data.enquiry_date).format("MM-DD-YYYY");
+        if(data.followUpDate) {
         this.editEnqData.followUpDate = moment(data.followUpDate).format("MM-DD-YYYY");
+        }
+        if(data.walkin_followUpDate) {
         this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("MM-DD-YYYY");
+        }
         // this.editEnqData.country_id = this.instituteCountryDetObj.country_id;
         this.countryDetails.forEach(element => {
           if (element.id == this.editEnqData.country_id) {

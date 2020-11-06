@@ -74,10 +74,13 @@ export class ExamReportHomeComponent implements OnInit {
   getExamReport() {
     this.examReport = [];
     this.auth.showLoader();
+    this.reportJSON.from_date = moment(this.reportJSON.from_date).format("YYYY-MM-DD");
+    this.reportJSON.to_date = moment(this.reportJSON.to_date).format("YYYY-MM-DD");
     this.examdata.getAllExamReport(this.reportJSON).subscribe(
       res => {
         this.auth.hideLoader();
         this.examReport = res;
+        this.weeklyExamReportData = this.examReport;
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', err.error.message);

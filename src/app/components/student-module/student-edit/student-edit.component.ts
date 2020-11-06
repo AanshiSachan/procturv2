@@ -664,14 +664,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (el.isSelected) {
         if (this.isProfessional) {
           temp.push(el.data.batch_id.toString());
-          tempDate.push(moment(el.assignDate).format('MM-DD-YYYY'));
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.batch_name);
           this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
         }
         else {
           temp.push(el.data.course_id.toString());
-          tempDate.push(moment(el.assignDate).format('MM-DD-YYYY'));
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.course_name);
           this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
@@ -1049,8 +1049,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   getassignedBatchList(e) {
     this.auth.showLoader();
+    let temp = [];
+    if(e.batchJoiningDates && e.batchJoiningDates.length) {
+      e.batchJoiningDates.forEach(el => {
+            temp.push(moment(el).format('YYYY-MM-DD'));
+      });
+    }
     this.studentAddFormData.assignedBatches = e.assignedBatches;
-    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.batchJoiningDates = temp;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
     this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = e.deleteCourse_SubjectUnPaidFeeSchedules;
