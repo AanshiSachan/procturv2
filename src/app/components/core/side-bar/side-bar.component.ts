@@ -154,7 +154,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
     this.instituteId = sessionStorage.getItem('institute_id');
-
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -366,7 +365,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       }
     )
   }
-
 
   hideForUsers() {
     if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {

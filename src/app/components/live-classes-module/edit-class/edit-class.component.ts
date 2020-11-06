@@ -90,6 +90,7 @@ export class EditClassComponent implements OnInit {
     eLearnCustUserIDs: [],
     private_access: false,
     access_enable_lobby: false,
+    access_enable_breakout_rooms: false,
     access_before_start: 0,
     batch_list: null,
     course_list: null,
@@ -298,22 +299,22 @@ export class EditClassComponent implements OnInit {
         console.log(data)
         this.editData = data;
         this.getBatchesCourses();
-        setTimeout (() => {
+        setTimeout(() => {
           this.topicName = this.editData.session_name;
 
-        if (this.editData.sent_notification_flag == 1) {
-          this.editData.sent_notification_flag = true;
-        }
-        else {
-          this.editData.sent_notification_flag = false;
-        }
+          if (this.editData.sent_notification_flag == 1) {
+            this.editData.sent_notification_flag = true;
+          }
+          else {
+            this.editData.sent_notification_flag = false;
+          }
 
-        if (this.editData.auto_recording == "none") {
-          this.auto_recording = false;
-        }
-        else if (this.editData.auto_recording == "local") {
-          this.auto_recording = true;
-        }
+          if (this.editData.auto_recording == "none") {
+            this.auto_recording = false;
+          }
+          else if (this.editData.auto_recording == "local") {
+            this.auto_recording = true;
+          }
 
 
         if (this.editData.access_before_start == 1) {
@@ -341,26 +342,26 @@ export class EditClassComponent implements OnInit {
           this.minuteTo = endTime.split(' ')[0].split(':')[1];
         }
 
-        this.batchesIds = this.editData.batch_list;
-        if (this.editData.course_list != null && this.editData.course_list.length > 0) {
-          this.courseValue = this.editData.course_list[0].master_course_name;
-        }
+          this.batchesIds = this.editData.batch_list;
+          if (this.editData.course_list != null && this.editData.course_list.length > 0) {
+            this.courseValue = this.editData.course_list[0].master_course_name;
+          }
           this.getCourses(this.courseValue);
-        this.courseIds = this.editData.course_list;
-        if (this.editData.course_list != null && this.editData.course_list.length > 0) {
-          this.getCoursepreFillData();
-        }
-        this.getTeachers();
-        if (!this.zoom_enable) {
-          this.getCustomUsers();
-        }
+          this.courseIds = this.editData.course_list;
+          if (this.editData.course_list != null && this.editData.course_list.length > 0) {
+            this.getCoursepreFillData();
+          }
+          this.getTeachers();
+          if (!this.zoom_enable) {
+            this.getCustomUsers();
+          }
 
-        if (this.editData.product_id != null) {
-          this.product_id = this.editData.product_id;
-          this.onChangeProduct(this.product_id);
-          this.getUserpreFillData();
-        }
-       }, 5000);
+          if (this.editData.product_id != null) {
+            this.product_id = this.editData.product_id;
+            this.onChangeProduct(this.product_id);
+            this.getUserpreFillData();
+          }
+        }, 5000);
         // this.getStudentpreFillData();
       },
       (error: any) => {
@@ -523,19 +524,19 @@ export class EditClassComponent implements OnInit {
 
   getStudentpreFillData() {
     let temp: any[] = [];
-    if(this.editData.studentIDS!=null) {
-    let studentIDS = this.editData.studentIDS.split(',')
-    let studentName = this.editData.studentName.split(',')
+    if (this.editData.studentIDS != null) {
+      let studentIDS = this.editData.studentIDS.split(',')
+      let studentName = this.editData.studentName.split(',')
 
-    for (var i = 0; i < studentIDS.length; i++) {
-      let x = {
-        student_id: '',
-        student_name: ''
-      };
-      x.student_id = studentIDS[i];
-      x.student_name = studentName[i]
-      temp.push(x)
-    }
+      for (var i = 0; i < studentIDS.length; i++) {
+        let x = {
+          student_id: '',
+          student_name: ''
+        };
+        x.student_id = studentIDS[i];
+        x.student_name = studentName[i]
+        temp.push(x)
+      }
     }
 
     // this.studentList = temp;
@@ -670,6 +671,7 @@ export class EditClassComponent implements OnInit {
 
       this.updateOnlineClass.private_access = this.editData.private_access;
       this.updateOnlineClass.access_enable_lobby = this.editData.access_enable_lobby;
+      this.updateOnlineClass.access_enable_breakout_rooms = this.editData.access_enable_breakout_rooms;
       if (this.editData.access_before_start) {
         this.updateOnlineClass.access_before_start = 1;
       }
@@ -879,7 +881,7 @@ export class EditClassComponent implements OnInit {
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.batches = data;
-          if(this.batches && !this.batches.length) {
+          if (this.batches && !this.batches.length) {
             this.appC.popToast({ type: "error", body: "Please check batches are active or not." });
           }
           console.log(this.batches)
@@ -901,7 +903,7 @@ export class EditClassComponent implements OnInit {
       this.http_service.getData(url).subscribe(
         (data: any) => {
           this.masters = data;
-          if(this.masters && !this.masters.length) {
+          if (this.masters && !this.masters.length) {
             this.appC.popToast({ type: "error", body: "Please check courses are active or not." });
           }
           console.log(this.masters)
@@ -959,24 +961,24 @@ export class EditClassComponent implements OnInit {
         // Added by - Nalini Walunj
         // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
         let temp: any[] = [];
-        if(this.editData.studentIDS!=null) {
+        if (this.editData.studentIDS != null) {
           let studentIDS = this.editData.studentIDS.split(',')
           let studentName = this.editData.studentName.split(',')
           for (var i = 0; i < this.studentList.length; i++) {
-            for(var j = 0; j < studentIDS.length; j++){
-            if(this.studentList[i].student_id == studentIDS[j]){
-            let x = {
-              student_id: '',
-              student_name: ''
-            };
-            x.student_id = studentIDS[j];
-            x.student_name = studentName[j]
-            temp.push(x)
-            }
+            for (var j = 0; j < studentIDS.length; j++) {
+              if (this.studentList[i].student_id == studentIDS[j]) {
+                let x = {
+                  student_id: '',
+                  student_name: ''
+                };
+                x.student_id = studentIDS[j];
+                x.student_name = studentName[j]
+                temp.push(x)
+              }
             }
           }
-          }
-            this.selectedStudentList = temp;
+        }
+        this.selectedStudentList = temp;
         // this.getCheckedBox(this.studentsAssigned);
         this.auth.hideLoader();
       },

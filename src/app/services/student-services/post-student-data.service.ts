@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -30,8 +30,8 @@ export class PostStudentDataService {
 
     quickAddStudent(form) {
         let urlQuickAdd = this.baseUrl + "/api/v1/students"
-        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null) ? '' : moment(form.dob).format('MM-DD-YYYY');
-        form.doj = moment(form.doj).format('MM-DD-YYYY');
+        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null) ? '' : moment(form.dob).format('YYYY-MM-DD');
+        form.doj = moment(form.doj).format('YYYY-MM-DD');
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
         return this.postData(urlQuickAdd, form);
@@ -40,8 +40,9 @@ export class PostStudentDataService {
 
     quickEditStudent(form, id) {
         let urlQuickEdit = this.baseUrl + "/api/v1/students/" + id;
-        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null) ? '' : moment(form.dob).format('MM-DD-YYYY');
-        form.doj = moment(form.doj).format('MM-DD-YYYY');
+        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null) ? '' : moment(form.dob).format('YYYY-MM-DD');
+        form.doj = moment(form.doj).format('YYYY-MM-DD');
+        form.expiry_date = moment(form.expiry_date).format("YYYY-MM-DD");
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
         return this.http.put(urlQuickEdit, form, { headers: this.headers }).pipe(map(
@@ -217,7 +218,7 @@ export class PostStudentDataService {
             "x-proc-inst-id": sessionStorage.getItem('institute_id'),
             "x-proc-user-id": sessionStorage.getItem('userid')
         });
-        let url = this.baseUrl +attchUrl
+        let url = this.baseUrl + attchUrl
         return this.http.post(url, obj, { headers: headers }).pipe(map(
             res => {
                 return res;
@@ -239,8 +240,8 @@ export class PostStudentDataService {
             "x-proc-inst-id": sessionStorage.getItem('institute_id'),
             "x-proc-user-id": sessionStorage.getItem('userid')
         });
-        let url = this.baseUrl +attchUrl
-        return this.http.get(url,  { headers: headers }).pipe(map(
+        let url = this.baseUrl + attchUrl
+        return this.http.get(url, { headers: headers }).pipe(map(
             res => {
                 return res;
             },

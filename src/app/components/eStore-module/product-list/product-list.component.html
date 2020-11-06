@@ -14,6 +14,10 @@
       </section>
     </div>
     <div class="col-md-4 col-sm-4 text-right m-auto">
+      <div style="float: right;margin-right: 30px;margin-left: 11px;margin-top: 7px;">
+        <span data-toggle="modal" data-target="#helpFAQ"> <i class="fa fa-question-circle"
+            style="cursor: pointer; font-size: 20px;" title="FAQ’S & Help Descriptions" aria-hidden="true"></i></span>
+      </div>
       <button class="btn btn-product pr-btn" routerLink="/view/e-store/create">
         <i class="fa fa-plus" style="color: white;" aria-hidden="true"></i>
         New Product</button>
@@ -31,7 +35,7 @@
 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Status</label>
-        <select [(ngModel)]="filter.by.status" class="form-ctrl" style="border-radius: 4px;">
+        <select [(ngModel)]="filter.by.status" class="form-ctrl" style="border-radius: 4px; width: 69%;">
           <option value=10>Draft</option>
           <option value=20>Ready </option>
           <option value=30>Published</option>
@@ -42,7 +46,7 @@
 
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Is Paid</label>
-        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl" style="border-radius: 4px;">
+        <select [(ngModel)]="filter.by.isPaid" class="form-ctrl" style="border-radius: 4px; width: 69%;">
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
@@ -62,20 +66,25 @@
       <div class="form-group field-wrapper form-el-width datePickerBox">
         <label class="text-bold">Publish Date</label>
         <input type="text" value="" id="publishDate" class="form-ctrl bsDatepicker dateFormat"
-          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" />
+          [(ngModel)]="filter.by.publishDate" name="FD" bsDatepicker readonly="true" style="border-radius: 4px;" />
       </div>
 
       <button class="btn pr-btn btn-product btn_go" [disabled]="isRippleLoad" (click)="filterData()"
-        style="height: 35px;margin-top: 25px;">GO</button>
+        style="height: 35px;margin-top: 25px;margin-left: -18px;">GO</button>
       <!-- <button class="btn pr-btn btn-product btn_go" >Clear Filter</button> -->
       <!-- <button type="button" name="button" (click)="Clearfilter()" style="color: red; cursor: pointer;">Clear Filter</button> -->
       <span (click)="Clearfilter()" style="color: red;cursor: pointer;margin-top: 35px;margin-left: 1em;">Clear
         Filter</span>
-      <i class="fa fa-square" style="font-family: FontAwesome; color: #27c24c;margin-left: 19px;margin-top: 34px;"
-        aria-hidden="true"></i>
-      <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'"
-        style="margin-top: 22px;">
-      </rob-tooltip>
+
+    </div>
+    <div class="col-lg-3" style="margin-left: -24rem;margin-top: 2rem;"><i class="fa fa-square"
+        style="font-family: FontAwesome; color: #27c24c;" aria-hidden="true"></i>
+      <div style="margin-left: 1rem;margin-top: -1.5rem;">
+        <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+        </rob-tooltip>
+      </div>
+
+      <!-- </span> -->
     </div>
   </div>
 
@@ -147,9 +156,10 @@
                   title="{{item.title}}">
               </span>
             </div>
+
             <div class="value-item td" style="text-align: left;width: 13%;">
               <span>
-                <label title="{{item.title}}">
+                <label title=" {{item.title}}">
                   {{ (item.title.length > 20) ? (item.title | slice:0:20) + '...' : item.title }}
                   <span *ngIf="item.product_user_type == '2'">(For Student)</span>
                   <span *ngIf="item.product_user_type == '4'">(For Open User)</span>
@@ -157,6 +167,7 @@
                   <span *ngIf="item.product_user_type == '16'">(For Offline)</span>
                 </label>
               </span>
+
             </div>
             <div class="value-item td" style="width: 20%;text-align: left;">
               <span class="ecourse-list" *ngFor="let  ecourse of item.product_ecourse_maps">
@@ -187,9 +198,9 @@
               <span *ngIf="item.price > 0" class="text-bold paidProduct">
                 Paid</span>
             </div>
-            <div class="value-item td" style="width: 5%;display: flex;justify-content: flex-end;margin-top: 12px;">
+            <div class="value-item td" style="width: 6%;display: flex;justify-content: flex-end;margin-top: 12px;">
               <span class="text-bold">
-                <i class="fa fa-inr"></i> &nbsp;{{item.price}}
+                {{item.price}} &nbsp;{{item.country_details.currency_code}}
               </span>
             </div>
             <div class="value-item td" style="width: 8%;">
@@ -209,8 +220,11 @@
                     *ngIf="item.status == 20">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
                     style="border: none;" *ngIf="item.status == 30">Unpublished</a>
-                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)" *ngIf="item.status == 30">Assign
+                  <a class="dropdown-item" (click)="showAssignStudentPopup(item)"
+                    *ngIf="item.status == 30">Assign/Unassign
                     Student</a>
+                  <a class="dropdown-item" *ngIf="!(item.product_sharable_link == null)" title="Copy Link"
+                    (click)="copyToClipboard(item)">Copy Link</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
                 </div>
@@ -374,8 +388,13 @@
               <div class="value-container" *ngFor="let data of studentDetails;let i= index">
                 <div class="value-item" style="width: 10%;">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased"
-                      [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
+
+                    <!-- <input type="checkbox" class="form-checkbox" [disabled]="data.is_product_already_purchased"
+                    [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i"> -->
+                    <!-- Removed disable for de-selecting the  assigned student - Ashwini Kumar Gupta -->
+                    <input type="checkbox" class="form-checkbox" [checked]="data.isSelected"
+                      [(ngModel)]="data.isSelected" [id]="'checkbox-'+i">
+                    <!-- End -->
                     <label [for]="'checkbox-'+i"></label>
                   </div>
                 </div>
@@ -404,11 +423,202 @@
             </div>
             <div class="c-lg-2 c-md-2 c-sm-2" style="padding-right: 0;">
               <button class="btn btn-primary btn-product btn_go" style="margin-bottom: 0;float: right;"
-                [disabled]="isRippleLoad" (click)="assignStudentToProduct()">Assign</button>
+                [disabled]="isRippleLoad" (click)="assignStudentToProduct()">Assign/Unassign</button>
             </div>
           </div>
         </section>
       </div>
     </div>
+  </div>
+</div>
+<div id="helpFAQ" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="top: 5%;">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #c5dcf87a;border-radius: 6px;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title">FAQ’S & Help Descriptions.</h2>
+      </div>
+      <div class="modal-body">
+        <div class="new-modules-list">
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Add Product</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">Before creating any product, make sure e-course should be created
+              from Course > E-Courses mapping.</div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">E-courses</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li>Admin can link multiple ecourses with a single product</li>
+                <li>Product items from all the above selected ecourses will be fetched below.</li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Description</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li> It describes about the particular product which will be visible to end users.</li>
+                <li>Keep the description as short as possible, single liner is preferred.</li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Product sell Limit</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li>If admin wants to sell that particular product on limited end users then they have to give limit.
+                </li>
+                <li>Number of products which can be sold from the web/app will be as per the defined product sell limit
+                </li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Actual Price</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">It is MRP of the product.</div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Discount</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">If want to show some %age off on product to students then admin can
+              give discount value.</div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Final Price</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">Total amount of the product which student has to pay after discount
+              if applied.</div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">GST</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li>If Products to be sold with GST then request proctur team to enable this. </li>
+                <li>If GST applied then Final price will be considered as incl of GST only.</li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Total user purchased product</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li>This option is only to show end users that how many products has been purchased.</li>
+                <li>Admin can give any value and it will be visible to end users. This is introduced only for marketing
+                  purpose. </li>
+                <li>Eg: If admin give 100 value, then on end users side it will be visible as 100 users have purchased
+                  the products and will increase the count as an when student purchase the product.</li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Tags</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">If admin want to highlight any product they can select through
+              dropdown.</div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Is advanced product(Put default enabled)</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li>Enabling this feature published product will be available for editing.</li>
+                <li>While editing admin can add the product items in published product or change the description, no
+                  access for edit the previous content.</li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Product for- Student</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">If admin want to show any products to the enrolled students only
+              then he/she has to select students. </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Product for- Open user</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li> If admin wants to show any product to the open app users then he/she has to select open app users.
+                </li>
+                <li> Open app user - Who registered through estore on web portal or white labelled app.</li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Product items</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">These are the items which can be added to the product whose data
+              will be fetched on the basis of selected e-course.
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Sales date range</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">This is the date range in which the product can be sold.</div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Visibility date range</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+              <ol style="list-style-type: decimal;">
+                <li>This is the product validity date range. The student can access the product in the defined date
+                  range only. </li>
+                <li>Product visibility start date cannot be prior or same day to sales start date.</li>
+              </ol>
+            </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Show Duration</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">This is the product validity duration. The student can access the
+              product in the defined duration only, starting from the purchase date. Duration can be set in number of
+              days. </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+
+
+          <div class="row">
+            <div class="leftCol col-md-3 col-sm-3 col-lg-3">Copy link</div>
+            <div class="col-md-9 col-sm-9 col-lg-9">If admin wants to share any particular products then they can share
+              link of that products to end users. </div>
+          </div>
+          <hr style="border-top: 1px solid #ccc;">
+          <div class="row">
+            <span class="leftCol" style="margin-left: 2%;">Please note- </span>Admin can't be able to change the product
+            sales date range after
+            publish any product.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
   </div>
 </div>

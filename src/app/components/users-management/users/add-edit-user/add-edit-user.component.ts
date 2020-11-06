@@ -39,7 +39,7 @@ export class AddEditUserComponent implements OnInit {
     private apiService: UserService,
     private toastCtrl: AppComponent,
     private commonService: CommonServiceFactory,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
   ) { }
 
   ngOnInit() {
@@ -223,7 +223,7 @@ export class AddEditUserComponent implements OnInit {
   }
 
   validateUserDetails(obj) {
-    let check:any = false;
+    let check: any = false;
     if (obj.name.trim() == "") {
       this.messageNotifier('error', '', 'Please enter name');
       return false;
@@ -234,7 +234,7 @@ export class AddEditUserComponent implements OnInit {
       this.messageNotifier('error', '', 'Please check the number you have provided');
       return false;
     }
-    if(check == 'noNumber'){
+    if (check == 'noNumber') {
       this.messageNotifier('error', '', 'Please enter valid contact no.');
       return false;
     }

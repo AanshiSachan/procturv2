@@ -1094,6 +1094,7 @@
         </div>
       </div>
     </div>
+
     <div *ngIf="instituteDetailsAll?.zoom_enabled && instituteDetailsAll?.zoom_account_type == 'CLIENT'">
       <h2 class="heading-setting-main">Zoom details &nbsp;<span *ngIf="instituteDetailsAll?.no_of_zoom_hosts"
           style="font-weight: normal;">(You can add upto {{instituteDetailsAll?.no_of_zoom_hosts}} hosts.)</span></h2>
@@ -1353,21 +1354,22 @@
         </div>
       </div>
     </div>
-    <div style="padding-bottom: 10%;"></div>
-    <section class="row setting-footer">
-      <button class="btn" routerLink="/view/home/admin">Cancel</button>
-      <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
-    </section>
-  </section>
 
-  <!-- <section id="divPlanOption">
+<div style="padding-bottom: 10%;"></div>
+<section class="row setting-footer">
+  <button class="btn" routerLink="/view/home/admin">Cancel</button>
+  <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
+</section>
+</section>
+
+<!-- <section id="divPlanOption">
 
       </section>
 
       <section id="divAccount" class="general-wrapper"></section>
       <section id="divAppDetail" class="general-wrapper"></section> -->
 
-  <!-- <aside class="pull-right setting-right" style="width:80%;">
+<!-- <aside class="pull-right setting-right" style="width:80%;">
 
       <section id="divGeneral" class="general-wrapper">
 

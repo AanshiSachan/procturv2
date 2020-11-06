@@ -7,6 +7,7 @@ import { FileManagerService } from '../file-manager.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpService } from '../../../../services/http.service';
 import { ActivatedRoute } from '@angular/router';
+import { ProductService } from '../../../../services/products.service';
 declare var $;
 
 @Component({
@@ -82,6 +83,9 @@ export class DriveHomeComponent implements OnInit {
   deletePopup: boolean = false;
   deleteConfirmation: boolean = false;
   SelectedFilesArray: any[] = [];
+  vimeo_video_downlodable: any = false;
+  vimeoDownloadLinks: any = [];
+  selectedDownloadSize: any = {};
 
   constructor(private zone: NgZone,
     private fileService: FileManagerService,
@@ -89,7 +93,8 @@ export class DriveHomeComponent implements OnInit {
     private msgService: MessageShowService,
     private sanitizer: DomSanitizer,
     private http: HttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private productService: ProductService
   ) { }
 
 
@@ -149,6 +154,7 @@ export class DriveHomeComponent implements OnInit {
         this.getPath = obj.keyName;
         this.pathArray = this.getPath.split('/');
         this.pathArray.pop();
+        this.vimeo_video_downlodable = res.vimeo_video_downlodable;
         // for End Empty Character
         if (backLoad) {
           this.generateTreeNodes(res, obj.keyName, true);
@@ -720,7 +726,7 @@ export class DriveHomeComponent implements OnInit {
   deleteFile() {
     let fileArray: any = [];
     if (this.SelectedFilesArray && this.SelectedFilesArray.length) {
-      if (this.SelectedFilesArray[0].category_id == 230 || this.SelectedFilesArray[0].category_id == 305) {
+      if (this.SelectedFilesArray[0].category_id == 230 || this.SelectedFilesArray[0].category_id == 272) {
         let key = this.SelectedFilesArray[0].keyName.split('/https');
         if (key && key.length) {
           let newPath = key[0].concat('/');
@@ -789,5 +795,35 @@ export class DriveHomeComponent implements OnInit {
   playVimeoVideo(obj) {
     this.videoplayer = true;
     this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(obj.res.video_url);
+  }
+
+  // Developed by Nalini
+  // To download vimeo file
+  getVimeoDownloadData(obj) {
+    this.auth.showLoader();
+    this.productService.getMethod('vimeo/download-links/' + obj.res.video_id, null).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.vimeoDownloadLinks = res.result;
+        if (this.vimeoDownloadLinks && this.vimeoDownloadLinks.length) {
+          $('#downloadOption').modal('show');
+        } else {
+          this.msgService.showErrorMessage('error', '', 'No download links found')
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        console.log(err);
+      }
+    )
+  }
+
+  changeSelectedSize(obj) {
+    this.selectedDownloadSize = obj;
+  }
+
+  downloadVimeoVdo() {
+    window.open(this.selectedDownloadSize.link, "_blank");
+    $('#downloadOption').modal('hide');
   }
 }

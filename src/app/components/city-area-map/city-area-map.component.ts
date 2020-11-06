@@ -37,6 +37,12 @@ export class CityAreaMapComponent implements OnInit {
   addArea: boolean = false;
   deleteAreaId: any = '';
 
+  selectedData = {
+    country: '',
+    state: '',
+    city:''
+  };
+
   // FOR PAGINATION
   pageIndex: number = 1;
   displayBatchSize: number = 100;
@@ -209,6 +215,9 @@ export class CityAreaMapComponent implements OnInit {
     }
     else{
       this.addArea = true;
+      this.selectedData.country = this.filter.country_ids;
+      this.selectedData.state = this.filter.state_ids;
+      this.selectedData.city = this.filter.city_ids;
     }
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
-import {CommonServiceFactory} from '../../../services/common-service'
+import { CommonServiceFactory } from '../../../services/common-service';
+
 @Component({
   selector: 'payment-history',
   templateUrl: './payment-history.component.html',

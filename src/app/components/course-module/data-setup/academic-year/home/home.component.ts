@@ -99,6 +99,8 @@ export class HomeComponent implements OnInit {
       let url = "/api/v1/academicYear";
       this._http.postData(url, obj).subscribe((res) => {
         this.showErrorMessage(this.msgService.toastTypes.success, '', "Academic year created successfully!");
+        obj.start_date = moment(this.addAcademicYearTemplate.start_date).format("MM-DD-YYYY");
+        obj.end_date = moment(this.addAcademicYearTemplate.end_date).format("MM-DD-YYYY");
         this.addAcademicYearTemplate = {
           inst_acad_year: "",
           desc: "",
@@ -112,6 +114,8 @@ export class HomeComponent implements OnInit {
         this.getAllAcademicFromServer();
       }, err => {
         this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        obj.start_date = moment(this.addAcademicYearTemplate.start_date).format("MM-DD-YYYY");
+        obj.end_date = moment(this.addAcademicYearTemplate.end_date).format("MM-DD-YYYY");
       });
     }
   }
@@ -147,7 +151,7 @@ export class HomeComponent implements OnInit {
       this.showErrorMessage(this.msgService.toastTypes.error, '', "Start year should be greater than end year");
     }
     else {
-         let data = {
+      let data = {
         inst_acad_year: row2.inst_acad_year,
         desc: row2.desc,
         start_date: moment(row2.start_date).format("YYYY-MM-DD"),

@@ -13,6 +13,7 @@ import { ProductService } from '../../../../services/products.service';
 })
 export class ReviewProductComponent implements OnInit {
   prod_free: any;
+  others: any;
   selectedPeople1: any;
   people: any;
   isAdvanceProductEdit: boolean = false;
@@ -37,6 +38,7 @@ export class ReviewProductComponent implements OnInit {
     forStudent: true,
     forOpenUser: true
   };
+  countryDetails: any = [];
   editorConf = {
     height: 150,
     menubar: false,
@@ -60,6 +62,7 @@ export class ReviewProductComponent implements OnInit {
 
 
   ngOnInit() {
+    this.fetchDataForCountryDetails();
     if (this.entity_id != 0) {
       this.initFormSequence();
     }
@@ -126,7 +129,16 @@ export class ReviewProductComponent implements OnInit {
 
 
   }
+  calc() {
+    if (this.prodForm.discount_percentage < 0 || this.prodForm.discount_percentage > 100) {
 
+      this.msgService.showErrorMessage('error', 'Discount should be greater than 0 and less than 100', '');
+    }
+    else {
+      this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100)));
+    }
+
+  }
   // calc_days() {
   //   return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   // }
@@ -152,7 +164,15 @@ export class ReviewProductComponent implements OnInit {
         });
     }
   }
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      console.log("countryDetails", this.countryDetails);
 
+    }
+  }
   initFormSequence() {
     if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
       //Fetch Product Info
@@ -164,6 +184,17 @@ export class ReviewProductComponent implements OnInit {
           if (resp.validate) {
             let productData = response;
             this.prodForm = productData;
+            if (!(this.prodForm.tag === 'Featured' || this.prodForm.tag === 'Recommended' || this.prodForm.tag === 'Popular' || this.prodForm.tag === 'Others' || this.prodForm.tag == null)) {
+              this.others = this.prodForm.tag;
+              this.prodForm.tag = "Others";
+            }
+            this.prodForm.country_id = this.prodForm.country_id;
+            this.countryDetails.forEach(element => {
+              if (element.id == this.prodForm.country_id) {
+
+                this.prodForm.country_id = element.id;
+              }
+            });
             this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
             this.prodForm.is_duration = this.prodForm.duration == 0 ? false : true;
             // alert(this.prodForm.valid_from_date);
@@ -286,6 +317,10 @@ export class ReviewProductComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
     }
+    if (this.prodForm.country_id == 0) {
+      this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+      return;
+    }
 
     if (this.prodForm.duration <= 0 && this.prodForm.is_duration) {
       this.msgService.showErrorMessage('error', 'please enter product duration ', '');
@@ -317,9 +352,11 @@ export class ReviewProductComponent implements OnInit {
       productFor = 4;
     }
     this.prodForm.product_user_type = productFor;
-
-    this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
-    this.prodForm.price = this.prodForm.price ? this.prodForm.price : 0;
+    if (this.prodForm.tag === "Others") {
+      this.prodForm.tag = this.others;
+    }
+    this.prodForm.is_paid = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? 'Y' : 'N';
+    this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) : 0;
     let object = {
       "entity_id": this.prodForm.entity_id,
       "title": this.prodForm.title,
@@ -330,8 +367,8 @@ export class ReviewProductComponent implements OnInit {
       "is_paid": this.prodForm.is_paid,
       "is_advance_product": this.prodForm.is_advance_product,
       "price": this.prodForm.price,
-      "valid_from_date": moment(this.prodForm.valid_from_date).format("YYYY-MM-DD"),
-      "valid_to_date": moment(this.prodForm.valid_to_date).format("YYYY-MM-DD"),
+      "valid_from_date": this.prodForm.valid_from_date,
+      "valid_to_date": this.prodForm.valid_to_date,
       "sales_from_date": moment(this.prodForm.sales_from_date).format("YYYY-MM-DD"),
       "sales_to_date": moment(this.prodForm.sales_to_date).format("YYYY-MM-DD"),
       "purchase_limit": this.prodForm.purchase_limit,
@@ -341,7 +378,12 @@ export class ReviewProductComponent implements OnInit {
       "product_items_types": this.prodForm.product_items_types,
       "product_item_list": this.prodForm.product_item_list,
       "publish_date": this.prodForm.publish_date,
-      "product_user_type": this.prodForm.product_user_type
+      "product_user_type": this.prodForm.product_user_type,
+      "discount_percentage": this.prodForm.discount_percentage,
+      "price_before_discount": this.prodForm.price_before_discount,
+      "start_index_for_total_prod_purchase": this.prodForm.start_index_for_total_prod_purchase,
+      "tag": this.prodForm.tag,
+      "country_id": this.prodForm.country_id,
     }
     this.updateProduct(object);
 

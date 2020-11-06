@@ -105,35 +105,27 @@
                 <a id="downloadFile" class="hide"></a>
               </div>
             </div>
-            <div class="faculty-container">
-              <div class="name-status-container">
-                <div class="status-container field-wrapper" *ngIf="editStatus?.teacher_status != null"
-                  style="flex-direction: column;">
-                  <label for="state-date">Faculty Status</label>
-                  <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.teacher_status"
-                    style="width:78%; margin-top: 5px;">
-                    <!-- <option value="">Status</option> -->
-                    <option value="Open">Open</option>
-                    <option value="Inreview">Under Evaluation</option>
-                    <option value="Reviewed">Evaluated</option>
-                  </select>
-                </div>
-                <div class="marks-container field-wrapper"
-                  *ngIf="editStatus?.evaluation_required == 'Y' && !assignmentDetails.enable_grade">
-                  <label for="state-date" style="font-size: 12px;">Faculty Marks</label>
-                  <input type="text" name="" value="" class="form-ctrl marks-input" placeholder="Faculty Marks"
-                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                    [(ngModel)]="editStatus.evaluation_marks">
-                </div>
-                <div class="marks-container field-wrapper"
-                  *ngIf="editStatus?.evaluation_required == 'Y' && assignmentDetails.enable_grade">
-                  <label for="state-date" style="font-size: 12px;">Faculty Grade</label>
-                  <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.grade_id"
-                    style="width:78%; margin-top: 5px;">
-                    <option value="">Select</option>
-                    <option value="{{data.grade_id}}" *ngFor="let data of gradeDetails">{{data.grade}}</option>
-                  </select>
-                </div>
+          </div>
+          <div class="faculty-container">
+            <div class="name-status-container">
+              <!-- <div class="status-container field-wrapper" *ngIf="editStatus?.teacher_status != null" style="flex-direction: column;">
+                <label for="state-date">Faculty Status</label>
+                <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.teacher_status" style="width:78%; margin-top: 5px;">
+                  <option value="Open">Open</option>
+                  <option value="Inreview">Under Evaluation</option>
+                  <option value="Reviewed">Evaluated</option>
+                </select>
+              </div> -->
+              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && !assignmentDetails.enable_grade">
+                <label for="state-date" style="font-size: 12px;">Faculty Marks</label>
+                <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Faculty Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
+              </div>
+              <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && assignmentDetails.enable_grade">
+                <label for="state-date" style="font-size: 12px;">Faculty Grade</label>
+                <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.grade_id" style="width:78%; margin-top: 5px;">
+                  <option value="">Select</option>
+                  <option value="{{data.grade_id}}" *ngFor="let data of gradeDetails">{{data.grade}}</option>
+                </select>
               </div>
 
               <div class="marks-remarks-container">
@@ -308,10 +300,8 @@
               title="{{student?.student_status}}">{{ (!student.student_status) ? '-' : (student.student_status.length > 25) ? (student.student_status | slice:0:25) + '...' : student.student_status}}</span>
           </div>
           <div class="list-value-item small-item align-center" style="display: flex;justify-content: center;">
-            <button type="button" name="button" class="status-btn"
-              [disabled]="student.student_status!='Done' || student.teacher_status == 'Reviewed'"
-              (click)="updateStatus(student)">
-              {{student.teacher_status == 'Reviewed' ? 'Evaluated' : 'Evaluate'}}
+            <button type="button" name="button" class="status-btn" [disabled]="(student.student_status!='Submitted' || student.teacher_status == 'Evaluated') || !assignmentDetails?.show_evaluate" (click)="updateStatus(student)">
+              {{student.teacher_status == 'Evaluated' ? 'Evaluated' : 'Evaluate'}}
             </button>
           </div>
         </div>

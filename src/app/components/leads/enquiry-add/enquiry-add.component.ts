@@ -181,11 +181,17 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     }
   };
 
+  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
   addArea: boolean = false;
+  selectedData = {
+    country: '',
+    state: '',
+    city:''
+  };
   convertEnquiry: boolean = false;
   role_feature = role.features;
   schoolModel: boolean = false;
@@ -457,6 +463,10 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     }
     else {
       this.addArea = true;
+      this.selectedData.country = this.newEnqData.country_id;
+      this.selectedData.state = this.newEnqData.state_id;
+      this.selectedData.city = this.newEnqData.city_id;
+
     }
   }
 

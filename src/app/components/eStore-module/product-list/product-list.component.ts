@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
 declare var $;
 
 @Component({
@@ -37,6 +37,7 @@ export class ProductListComponent implements OnInit {
     displayBatchSize: 25,
     total_items: 0
   };
+  showMessage: boolean = false;
   productList: any = [];
   productDetails: any = [];
   ecourseList: any = [];
@@ -60,7 +61,7 @@ export class ProductListComponent implements OnInit {
   };
 
   jsonKeys = {
-    selectAll: true,
+    selectAll: false,
     institute_id: ''
   }
 
@@ -238,6 +239,7 @@ export class ProductListComponent implements OnInit {
     this.course_id = '';
     this.batch_id = '';
     this.product_details_for_student = data;
+    this.courseDetails = [];
     this.getStudentDetails();
     this.getMasterCourseData();
     $("#assignStudent").modal({
@@ -248,7 +250,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getStudentDetails() {
-    this.jsonKeys.selectAll = true;
+    this.jsonKeys.selectAll = false;
     this.studentDetails = [];
     let ecourse = Array.prototype.map.call(this.product_details_for_student.product_ecourse_maps, ecourse => ecourse.course_type_id);
     let object = {};
@@ -275,6 +277,12 @@ export class ProductListComponent implements OnInit {
         'batch_id': ""
       }
       if (this.batch_id != "") {
+        object = {
+          "ecourse_ids": ecourse,
+          "master_course_name": this.master_course_name,
+          "course_id": this.course_id
+        };
+      } else if (this.master_course_name != "" && this.course_id != "" && this.batch_id != "") {
         object = {
           "ecourse_ids": [],
           'standard_id': "",
@@ -394,9 +402,13 @@ export class ProductListComponent implements OnInit {
 
   assignStudentToProduct() {
     const user_id_list = [];
+    const user_id_list_deAssigned = [];
     this.studentDetails.forEach(stu => {
       if (stu.isSelected && !stu.is_product_already_purchased) {
         user_id_list.push(stu.user_id);
+      }
+      if (!stu.isSelected && stu.is_product_already_purchased) {
+        user_id_list_deAssigned.push(stu.user_id);
       }
     });
     let is_send_sms = 'N';
@@ -406,6 +418,7 @@ export class ProductListComponent implements OnInit {
     let object = {
       "product_id": this.product_details_for_student.entity_id,
       "user_id_list": user_id_list,
+      "product_unassigned_user_ids": user_id_list_deAssigned,
       'is_send_sms': is_send_sms
     };
     console.log(object);
@@ -416,7 +429,7 @@ export class ProductListComponent implements OnInit {
         if (resp) {
           let data = resp['body'];
           if (resp && data.validate) {
-            this.msgService.showErrorMessage('success', data.result, '');
+            this.msgService.showErrorMessage('success', 'Students Assigned/Unassigned Successfully!', '');
             this.closePopup();
           } else {
             this.msgService.showErrorMessage('error', data.error[0].error_message, '');
@@ -482,7 +495,6 @@ export class ProductListComponent implements OnInit {
           });
         break;
       }
-
       case 'ready': {
         object.status = 20;
         this.tempFucntion(id, item, object, operation);
@@ -643,7 +655,7 @@ export class ProductListComponent implements OnInit {
     // this.varJson.PageIndex=1;
     //   this.fectchTableDataByPage(this.varJson.PageIndex);
   }
-
+  // Removed IF Conditon for de-selecting the  assigned student -Ashwini Kumar Gupta
   toggleAllCheckBox($event) {
     console.log('toggleAllCheckBox');
     this.studentDetails.forEach(element => {
@@ -653,7 +665,7 @@ export class ProductListComponent implements OnInit {
       }
     });
   }
-
+  // End
   isAllSelected($event, item) {
     console.log($event, item);
   }
@@ -667,4 +679,14 @@ export class ProductListComponent implements OnInit {
     // event.target.nextElementSibling.classList.toggle('d-flex');
   }
 
+  copyToClipboard(item) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item.product_sharable_link));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this.msgService.showErrorMessage('success', 'Copied to Clipboard', '');
+
+  }
 }

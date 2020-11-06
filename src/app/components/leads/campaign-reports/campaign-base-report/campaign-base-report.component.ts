@@ -55,7 +55,7 @@ export class CampaignBaseReportComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
-        let objectData = atob(params['data']);
+        let objectData = (params['data']);
         this.msgObject = JSON.parse(objectData) ;
         console.log(this.msgObject);
       });

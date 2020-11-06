@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
-import { HttpService  } from '../../../services/http.service';
+import { HttpService } from '../../../services/http.service';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ExcelService } from '../../../services/excel.service';
@@ -35,35 +35,35 @@ export class ManageIncomeComponent implements OnInit {
     private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private excelService: ExcelService,
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-   }
+  }
 
   ngOnInit() {
     this.getIncomeRecords();
   }
 
-  getIncomeRecords(){
+  getIncomeRecords() {
     let obj = {
       type: "0",
       institute_id: this.jsonFlag.institute_id
     }
-    if(this.incomeFilter.dateFilter == "date"){
+    if (this.incomeFilter.dateFilter == "date") {
       obj.type = "1",
-      obj["startdate"] = "";
+        obj["startdate"] = "";
       obj["enddate"] = "";
     }
-    if(this.incomeFilter.dateFilter != "range"){
+    if (this.incomeFilter.dateFilter != "range") {
       this.getIncomeList(obj)
     }
-    else{
+    else {
       this.dateFilterRange = "";
     }
   }
 
-  getIncomeList(obj){
+  getIncomeList(obj) {
     const url = `/api/v1/income/all/${this.jsonFlag.institute_id}`
     this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
@@ -79,7 +79,7 @@ export class ManageIncomeComponent implements OnInit {
     )
   }
 
-  searchDatabase(){
+  searchDatabase() {
     this.incomeRecordList = this.tempIncomelist;
     if (this.incomeSearchInput == undefined || this.incomeSearchInput == null) {
       this.incomeSearchInput = "";
@@ -105,8 +105,8 @@ export class ManageIncomeComponent implements OnInit {
     this.getIncomeList(obj)
   }
 
-  editIncome(id){
-    this.router.navigate(['/view/expense/edit-income/'+id]);
+  editIncome(id) {
+    this.router.navigate(['/view/expense/edit-income/' + id]);
   }
 
   exportToExcel(event) {
@@ -115,8 +115,9 @@ export class ManageIncomeComponent implements OnInit {
       let obj: any = {
         Payment_Date: e.payment_date,
         Reference_No: e.reference_no,
-        Payee: e.party_name,
+        Payer: e.party_name,
         Category: e.category,
+        Category_Description: e.category_description,
         Total: e.amount,
       }
       return obj;

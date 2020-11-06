@@ -27,6 +27,7 @@ export class ExamWiseComponent implements OnInit {
   examSchdlType: boolean = false;
   is_exam_grad_feature: string;
   schoolModel: boolean = false;
+  course_marks_update_level: string;
 
   constructor(
     private router: Router,
@@ -69,6 +70,7 @@ export class ExamWiseComponent implements OnInit {
         this.exam_wise_data = reports.courseWise;
         this.subjectWiseData = reports.courseWise.subjectWise_marks;
         this.is_exam_grad_feature = reports.courseWise.is_exam_grad_feature;
+        this.course_marks_update_level = reports.courseWise.course_marks_update_level;
         if(reports.courseWise.studentWise_report != null){
           this.studentWiseData = reports.courseWise.studentWise_report;
         }
@@ -97,7 +99,7 @@ export class ExamWiseComponent implements OnInit {
             dwldLink.setAttribute("href", url);
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
-            dwldLink.click();          
+            dwldLink.click();
           }
           else{
             this.msgService.showErrorMessage('info', 'Info', "Document does not have any data.");
@@ -107,7 +109,7 @@ export class ExamWiseComponent implements OnInit {
         }
       },
       err => {
-        // info type msg will be displayed as it will be displayed if no. of subjects are more than 5 
+        // info type msg will be displayed as it will be displayed if no. of subjects are more than 5
         this.msgService.showErrorMessage('info', '', err.error.message);
       }
     )

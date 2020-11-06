@@ -6,6 +6,7 @@ import { MessageShowService } from '../../../../services/message-show.service';
 import { UploadFileComponent } from '../core/upload-file/upload-file.component';
 import { Create_Topic } from '../../create-course/topic/topic.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ProductService } from '../../../../services/products.service';
 declare var window, $;
 @Component({
   selector: 'app-ecourse-subject-list',
@@ -42,7 +43,10 @@ export class EcourseSubjectListComponent implements OnInit {
   Confirm_deleteFile: any = false;
   selectedRowCount: any = 0;
   viewUserList: boolean = false;
-  video_watch_history_det = []
+  video_watch_history_det = [];
+  vimeo_video_downlodable: any = false;
+  vimeoDownloadLinks: any = [];
+  selectedDownloadSize: any = {};
 
   constructor(
     private _http: HttpService,
@@ -50,7 +54,8 @@ export class EcourseSubjectListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private msgService: MessageShowService,
-    public sanitizer: DomSanitizer
+    public sanitizer:DomSanitizer,
+    private productService: ProductService
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -69,6 +74,7 @@ export class EcourseSubjectListComponent implements OnInit {
           this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
           this._http.routeList.splice(1, this._http.routeList.length);
           let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + this.ecourse_id + '/subjects', data: { data: params['data'] }, name: name };
+          console.log("updated date "+obj)
           this._http.routeList.push(obj);
           sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
         }
@@ -76,22 +82,21 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
   decodeEntities(encodedString) {
-    var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
-    var translate = {
-      "nbsp": " ",
-      "amp": "&",
-      "quot": "\"",
-      "lt": "<",
-      "gt": ">"
-    };
-    return encodedString.replace(translate_re, function (match, entity) {
-      return translate[entity];
-    }).replace(/&#(\d+);/gi, function (match, numStr) {
-      var num = parseInt(numStr, 10);
-      return String.fromCharCode(num);
-    });
+      var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+      var translate = {
+          "nbsp":" ",
+          "amp" : "&",
+          "quot": "\"",
+          "lt"  : "<",
+          "gt"  : ">"
+      };
+      return encodedString.replace(translate_re, function(match, entity) {
+          return translate[entity];
+      }).replace(/&#(\d+);/gi, function(match, numStr) {
+          var num = parseInt(numStr, 10);
+          return String.fromCharCode(num);
+      });
   }
-
 
   ngOnInit() {
     this.getSubjectList();
@@ -249,6 +254,7 @@ export class EcourseSubjectListComponent implements OnInit {
           }
 
         });
+        this.vimeo_video_downlodable = this.subjectList[0].vimeo_video_downlodable;
 
       }
       this.subjectList = array;
@@ -532,33 +538,6 @@ export class EcourseSubjectListComponent implements OnInit {
     this.videoplayer = false;
   }
 
-  editFile(obj) {
-    this.editObj = obj;
-    this.editObj.is_readonly = (this.editObj.is_readonly == 'Y') ? true : false;
-    this.showEditModal = true;
-  }
-
-  updateFile() {
-    let obj = {
-      "title": this.editObj.title,
-      "institute_id": sessionStorage.getItem('institute_id'),
-      "category_id": this.editObj.category_id,
-      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N'
-    }
-    this.auth.showLoader();
-    this._http.putData('/api/v1/instFileSystem/update/' + this.editObj.file_id, obj).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'File updated successfully');
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
-    this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
-    this.showEditModal = false;
-  }
-
   gotoAddTopic() {
     $('#addTopic').modal('show');
     this.getAllStandards();
@@ -568,7 +547,7 @@ export class EcourseSubjectListComponent implements OnInit {
     let userType: any = sessionStorage.getItem('userType');
     let teacher_id: any = -1;
     if (userType == 3) {
-      teacher_id = sessionStorage.getItem('login_teacher_id');
+     teacher_id = sessionStorage.getItem('login_teacher_id');
     }
     let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + teacher_id;
     this.auth.showLoader();
@@ -576,7 +555,7 @@ export class EcourseSubjectListComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.standardData = data;
-        // console.log(data);	
+        // console.log(data);
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -619,15 +598,43 @@ export class EcourseSubjectListComponent implements OnInit {
     );
   }
 
+  editFile(obj) {
+    this.editObj = obj;
+    this.editObj.is_readonly = (this.editObj.is_readonly == 'Y') ? true : false;
+    this.showEditModal = true;
+  }
+
+  updateFile() {
+    let obj = {
+      "title": this.editObj.title,
+      "institute_id": sessionStorage.getItem('institute_id'),
+      "category_id": this.editObj.category_id,
+      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N'
+    }
+    this.auth.showLoader();
+    this._http.putData('/api/v1/instFileSystem/update/' + this.editObj.file_id, obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('success', '', 'File updated successfully');
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
+    this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
+    this.showEditModal = false;
+  }
+
   clearObject() {
     this.addTopic = {
-      name: '',
-      standard_id: '-1',
-      subject_id: '-1',
-      parent_topic_id: '-1',
-      description: '',
-      estimated_time: 0,
-      institute_topic_id: '-1'
+    name : '',
+    standard_id : '-1',
+    subject_id: '-1',
+    parent_topic_id: '-1',
+    description: '',
+    estimated_time:  0,
+    institute_topic_id: '-1',
+    priority_order: 0
     };
   }
 
@@ -660,5 +667,35 @@ export class EcourseSubjectListComponent implements OnInit {
         this.auth.hideLoader();
       }
     );
+  }
+
+  // Developed by Nalini
+  // To download vimeo file
+  getVimeoDownloadData(obj) {
+    this.auth.showLoader();
+    this.productService.getMethod('vimeo/download-links/' + obj.videoID, null).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.vimeoDownloadLinks = res.result;
+        if(this.vimeoDownloadLinks && this.vimeoDownloadLinks.length) {
+          $('#downloadOption').modal('show');
+        } else {
+          this.msgService.showErrorMessage('error','','No download links found')
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        console.log(err);
+      }
+    )
+  }
+
+  changeSelectedSize(obj) {
+    this.selectedDownloadSize = obj;
+  }
+
+  downloadVimeoVdo() {
+    window.open(this.selectedDownloadSize.link, "_blank");
+    $('#downloadOption').modal('hide');
   }
 }

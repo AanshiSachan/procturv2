@@ -44,7 +44,17 @@
               [(ngModel)]="addVoucherModel.offer_description" style="width: 75%;"></textarea>
           </div>
         </div>
-
+        <div class="row m-0">
+          <div class="col-md-4 form-group">
+            <label class="text-bold">Currency<span class="text-danger">*</span>
+            </label>
+            <select id="country_id" class="form-control form-control-sm" [(ngModel)]="addVoucherModel.country_id">
+              <option [value]="data.id" *ngFor='let data of countryDetails'>
+                {{data.currency_code}}
+              </option>
+            </select>
+          </div>
+        </div>
         <div class="row m-0" style="width: 52.5%;padding-bottom: 0;margin-bottom: 0;">
           <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;">
             <div class="col-md-12 form-group">

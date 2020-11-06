@@ -14,12 +14,14 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
 
   subjectList: any[] = [];
   topicList: any[] = [];
+  progressBar: boolean = false;
   subtopicList: any[] = [];
   categiesList: any[] = [];
   categiesTypeList: any[] = [];
   existVideos: any[] = [];
   institute_id: any;
   showModal: boolean = false;
+  fileUploadXHR: any = '';
   dragoverflag: boolean = false;
   addCategoryPopup: boolean = false;
   material_dataShow: boolean = false;
@@ -649,6 +651,7 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
       let is_private = this.varJson.is_private == false ? 'Y' : 'N';
       let enable_watermark = this.varJson.enable_watermark == true ? 'Y' : 'N';
       let size = 0;
+      this.selectedFiles = $event.files[0];
       size = $event.files && $event.files[0] ? $event.files[0].size : 0;
       let fileJson = {
         "institute_id": this.institute_id,
@@ -663,7 +666,8 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
         "is_private": is_private,                                                 // if user wants to make file as private
         "title": this.varJson.title,
         "enable_watermark": enable_watermark,
-        "size": (size / (1024 * 1024)).toFixed(3)
+        // "size": (size / (1024 * 1024)).toFixed(3)
+        "size": (this.varJson.category_id == 272) ? size : (size / (1024 * 1024)).toFixed(3)
       }
       if (!this.showModal) {
         fileJson.sub_topic_id = Number(this.jsonData.mainTopicId),
@@ -690,18 +694,18 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
       if (!this.auth.isRippleLoad.getValue()) {
         this.auth.showLoader();
 
-        // this.isUploadingXls = true;
-        // newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-        //   if (e.lengthComputable) {
-        //     this.progress = Math.round((e.loaded * 100) / e.total);
-        //     document.getElementById('progress-width').style.width = this.progress + '%';
-        //   }
-        // }, false);
+        this.isUploadingXls = true;
+        newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+          if (e.lengthComputable) {
+            this.progress = Math.round((e.loaded * 100) / e.total);
+            document.getElementById('progress-width').style.width = this.progress + '%';
+          }
+        }, false);
 
         newxhr.onreadystatechange = () => {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
-            // this.progress = 0;
+            this.progress = 0;
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.auth.hideLoader();
               // this.isUploadingXls = false;
@@ -719,8 +723,9 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
                 url = url.substring(0, url.lastIndexOf("#"));
                 res = res.concat('=' + url + '#/view/course/ecourse-file-manager/ecourses?videoId=' + this.Vimeopayload.videoId);
                 if (this.Vimeopayload.upload_link != '' && this.Vimeopayload.upload_link != null) {
-                  (document.getElementById('form') as HTMLFormElement).action = res;
-                  this.form.nativeElement.submit();
+                  // (document.getElementById('form') as HTMLFormElement).action = res;
+                  // this.form.nativeElement.submit();
+                  this.patchRequest(this.Vimeopayload);
                 }
               }
             } else {
@@ -738,7 +743,48 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
     // console.log(this.file);
     // this.upload();
   }
+  selectedFiles: any[] = [];
+  patchRequest(obj) {
+    // this.auth.showLoader();
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = obj.upload_link;
+    this.fileUploadXHR = new XMLHttpRequest();
 
+    this.fileUploadXHR.open("PATCH", urlPostXlsDocument, true);
+    this.fileUploadXHR.setRequestHeader("Tus-Resumable", '1.0.0');
+    this.fileUploadXHR.setRequestHeader("Upload-Offset", '0');
+    this.fileUploadXHR.setRequestHeader("Content-Type", "application/offset+octet-stream");
+    this.fileUploadXHR.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4");
+
+    this.progressBar = true;
+    this.isUploadingXls = true;
+    this.fileUploadXHR.upload.addEventListener('progress', (e: ProgressEvent) => {
+      if (e.lengthComputable) {
+        this.progress = Math.round((e.loaded * 100) / e.total);
+        document.getElementById('progress-width').style.width = this.progress + '%';
+      }
+    }, false);
+
+    this.fileUploadXHR.onreadystatechange = () => {
+      if (this.fileUploadXHR.readyState == 4) {
+
+        if (this.fileUploadXHR.status >= 200 && this.fileUploadXHR.status < 300) {
+          this.auth.hideLoader();
+          this.updateVideoStatus(obj.videoId);
+          this.isUploadingXls = false;
+        }
+      }
+      else {
+        this.progress = 0;
+        this.progressBar = false;
+        this.isUploadingXls = false;
+        this.auth.hideLoader();
+      }
+      console.log("this.selectedFiles[0]", this.selectedFiles);
+    }
+
+    this.fileUploadXHR.send(this.selectedFiles);
+  }
   onFileChange($event) {
     this.Vimeofile = $event.target;
   }

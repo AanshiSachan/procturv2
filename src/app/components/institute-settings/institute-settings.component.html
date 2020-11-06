@@ -38,9 +38,16 @@
             <i class="fas fa-money" style="font-family: FontAwesome"></i>
           </span>
         </li>
-
-        <li id="liBio" class="menu-item" style="cursor: pointer" (click)="changeView('liBio','divBioMetricContent')"
-          [ngClass]="{hide : biometricSetting != 1}">
+        <!-- Enquiry setting
+        Developed by Nalini -->
+        <li id="liEnquiry" class="menu-item" style="cursor: pointer" (click)="changeView('liEnquiry','divEnquiryContent')">
+          <span>
+            <a class="">Enquiry Setting</a>
+            <i class="fas fa-random" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
+        
+        <li id="liBio" class="menu-item" style="cursor: pointer" (click)="changeView('liBio','divBioMetricContent')" [ngClass]="{hide : biometricSetting != 1}">
           <span>
             <a class="">Biometric</a>
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
@@ -70,6 +77,14 @@
         <li id="lieStore" class="menu-item" style="cursor: pointer" (click)="changeView('lieStore','diveStoreContent')">
           <span>
             <a class="">eStore</a>
+            <i class="fas fa-line-chart" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
+        <!--  End -->
+        <!-- Added By Nalini -->
+        <li id="liVdo" class="menu-item" style="cursor: pointer" *ngIf="vimeo_account_plan" (click)="changeView('liVdo','divVdoContent')">
+          <span>
+            <a class="">Vimeo/ VDOCipher</a>
             <i class="fas fa-line-chart" style="font-family: FontAwesome"></i>
           </span>
         </li>
@@ -574,18 +589,9 @@
                       <td>
                       </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td>
                         New Enquiry Message
-                        <!--<div class="questionInfo inline-relative">
-                          <span class="qInfoIcon i-class">i</span>
-                          <div class="tooltip-box-field lg">
-
-                            Enable to send SMS
-                            <br>to enquirer for newly
-                            <br>added enquiry
-                          </div>
-                        </div>-->
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -607,7 +613,7 @@
                           <label for="ch27"></label>
                         </div>
                       </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                       <td>
                         Exam Schedule Notification
@@ -1513,20 +1519,10 @@
                     </tr>
                     <tr>
                       <td>
-                        <div class="row m-0 webkitBox">
+                        <!-- <div class="row m-0 webkitBox">
                           <div class="c-lg-5">
-                            <div class="field-wrapper"
-                              [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
-                              <label for="pre_enquiry_follow_up_reminder_time">Enquiry Follow up reminder (pre) to
-                                assignee
-                                <!--<div class="questionInfo inline-relative">
-                                  <span class="qInfoIcon i-class">i</span>
-                                  <div class="tooltip-box-field lg">
-                                    Enable this to send
-                                    <br> SMS for Enquiry
-                                    <br>Follow Up Reminder
-                                  </div>
-                                </div>-->
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
+                              <label for="pre_enquiry_follow_up_reminder_time">Enquiry Follow up reminder (pre) to assignee
                               </label>
                               <select id="pre_enquiry_follow_up_reminder_time" class="form-ctrl"
                                 name="pre_enquiry_follow_up_reminder_time"
@@ -1557,7 +1553,7 @@
                               </select>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                         <div class="row m-0 webkitBox ">
                           <div class="c-lg-5" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
@@ -1574,11 +1570,9 @@
                               </label>
                             </div>
                           </div>
-                          <div class="c-lg-5" style="margin-left: 15px;"
-                            *ngIf="instituteSettingDet.daily_account_summary == '1' || instituteSettingDet.daily_account_summary == true">
-                            <div class="field-wrapper"
-                              [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
-                              <label for="dailyConatctID">Email-ids to receive DSR (comman seperated)
+                          <div class="c-lg-5" style="margin-left: 15px;" *ngIf="instituteSettingDet.daily_account_summary == '1' || instituteSettingDet.daily_account_summary == true">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
+                              <label for="dailyConatctID">Email-ids to receive DSR (comma seperated)
                                 <!--<div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
@@ -1631,25 +1625,14 @@
                               </label>
                             </div>
                           </div>
-                          <div class="c-lg-5" style="margin-left: 15px;"
-                            *ngIf="instituteSettingDet.teacher_monthly_report == '1' || instituteSettingDet.teacher_monthly_report == true">
-                            <div class="field-wrapper"
-                              [ngClass]="{'has-value' : instituteSettingDet.emailid_for_teacher_report != ''}">
+                          <!-- <div class="c-lg-5" style="margin-left: 15px;" *ngIf="instituteSettingDet.teacher_monthly_report == '1' || instituteSettingDet.teacher_monthly_report == true">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailid_for_teacher_report != ''}">
                               <label for="monthlyConatctID">Email-ids to receive report (comman seperated)
-                                <!-- <div class="questionInfo inline-relative">
-                                  <span class="qInfoIcon i-class">i</span>
-                                  <div class="tooltip-box-field md">
-                                    Specify Emails Id's
-                                    <br>on which you
-                                    <br>want to receive
-                                    <br>monthly summary report
-                                  </div>
-                                </div>-->
                               </label>
                               <input type="text" [(ngModel)]="instituteSettingDet.emailid_for_teacher_report"
                                 class="form-ctrl" name="monthlyConatctID" id="monthlyConatctID">
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                         <div class="row m-0 webkitBox" style="margin-top: 10px !important;">
 
@@ -1671,7 +1654,7 @@
                           </div>
                         </div>
                         <br>
-                        <div class="row m-0">
+                        <!-- <div class="row m-0">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%;margin-top: 0;">
                               <input type="checkbox" value="" name="dailyEnq"
@@ -1697,7 +1680,7 @@
                               </label>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                         <div class="row m-0">
                           <div class="c-sm-5 c-md-5 c-lg-5 field-wrapper"
                             [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
@@ -2418,8 +2401,281 @@
 
       </section>
 
-      <!-- REPORT SETTING -->
-      <!--  NIHSANT - 16.8.2020: THIS SECTION IS MOVED TO FACITY ADMIN REPORTˇ
+      <!-- ENQUIRY SETTING -->
+      <!-- Developed by Nalini -->
+      <section id="divEnquiryContent" class="fee-content-wrapper sectionDevideContainer">
+        <div class="row m-0">
+          <div class="sms-setting-wrapper">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <tbody>
+                    <tr style="height: 45px; background-color: #efefef">
+                      <td class="tableHeader" colspan="6">
+                        ENQUIRY SETTING
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6">
+                      <div class="row m-0">
+                        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
+                          <div class="field-checkbox-wrapper" style="width: 100%;margin-top: 0;font-weight: 600;">
+                            <input type="checkbox" value="" name="enable_enquiry_notification" [(ngModel)]="instituteSettingDet.enable_enquiry_notification" class="form-checkbox"
+                              id="enable_enquiry_notification">
+                            <label for="enable_enquiry_notification">Master Enquiry Notification</label>
+                          </div>
+                        </div>
+                      </div>
+                      </td>
+                    </tr>
+                    <tr class="sec-row">
+                      <td>
+                        FEATURE
+                      </td>
+                      <td>
+                        FACEBOOK
+                      </td>
+                      <td>
+                        JUSTDIAL
+                      </td>
+                      <td>
+                        SULEKHA
+                      </td>
+                      <td>
+                        URBAN PRO
+                      </td>
+                      <td>
+                        WEBSITE
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <label style="font-size: 14px;font-weight: 600;">External Lead Notification (Admin)</label>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_admin.admin"
+                            id="external_lead_notification_admin_1">
+                          <label for="external_lead_notification_admin_1"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_admin.student"
+                            id="external_lead_notification_admin_2">
+                          <label for="external_lead_notification_admin_2"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_admin.parent"
+                            id="external_lead_notification_admin_3">
+                          <label for="external_lead_notification_admin_3"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_admin.teacher"
+                            id="external_lead_notification_admin_4">
+                          <label for="external_lead_notification_admin_4"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_admin.gaurdian"
+                            id="external_lead_notification_admin_5">
+                          <label for="external_lead_notification_admin_5"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label style="font-size: 14px;font-weight: 600;">External Lead Notification (Enquirer)</label>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_enquirer.admin"
+                            id="external_lead_notification_enquirer_1">
+                          <label for="external_lead_notification_enquirer_1"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_enquirer.student"
+                            id="external_lead_notification_enquirer_2">
+                          <label for="external_lead_notification_enquirer_2"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_enquirer.parent"
+                            id="external_lead_notification_enquirer_3">
+                          <label for="external_lead_notification_enquirer_3"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_enquirer.teacher"
+                            id="external_lead_notification_enquirer_4">
+                          <label for="external_lead_notification_enquirer_4"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.external_lead_notification_enquirer.gaurdian"
+                            id="external_lead_notification_enquirer_5">
+                          <label for="external_lead_notification_enquirer_5"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6">
+                        <div class="row c-md-12" style="padding: 0;margin: 0;font-weight: 600;">
+                          <div class="c-md-3" style="padding: 0;">
+                            <h3>New Enquiry Message</h3>
+                          </div>
+                          <div class="c-md-8" style="font-weight: normal;">
+                            <div class="c-md-4 field-checkbox-wrapper" style="width: 20%;">
+                              <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enquiry_notification.student"
+                                id="ch26">
+                              <label for="ch26">Student</label>
+                            </div>
+                            <div class="c-md-4 field-checkbox-wrapper">
+                              <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enquiry_notification.admin"
+                                id="ch27">
+                              <label for="ch27">Admin</label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6">
+                      <div class="row m-0">
+                        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
+                          <div class="field-checkbox-wrapper" style="width: 100%;margin-top: 0;font-weight: 600;">
+                            <input type="checkbox" value="" name="dailyEnq" [(ngModel)]="instituteSettingDet.enable_justDial_routing_report" class="form-checkbox"
+                              id="dailyEnq">
+                            <label for="dailyEnq">Enable Daily Enquiry Routing Report of External Leads
+                              <div class="questionInfo inline-relative">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field lg">
+                                  Applicable when Enquiry Routing
+                                  <br>feature is enabled for Institute
+                                  <br>and its branches. This Report is
+                                  <br>sent on daily basis for the Enquiry
+                                  <br>received previous day.
+                                  <br>Report consist of Enquiries
+                                  <br>and corrosponding branch
+                                  <br>information along with routing
+                                  <br>status, for all enabled external
+                                  <br>lead sources i.e. JustDial,
+                                  <br>UrbanPro, Sulekha.
+                                </div>
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6">
+                      <div class="row webkitBox">
+                        <div class="c-lg-6 field-checkbox-wrapper" style="width: 50%;margin-top: 10px;font-weight: 600;">
+                          <input type="checkbox" id="enquiryInSMS" [(ngModel)]="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms" class="form-checkbox"
+                          />
+                          <label for="enquiryInSMS">Send councellor no. to enquirers in SMS on enquiry addition</label>
+                        </div>
+                        <div class="c-lg-6" style="padding-left: 0;font-weight: 600;" *ngIf="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms">
+                          <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
+                            <label for="instenquiry">Contact No. of councellor(s) for SMS                                
+                            </label>
+                            <input type="number" min="0" max="9999999999" id="instenquiry" [(ngModel)]="instituteSettingDet.inst_enquiry_handler_no"
+                              class="form-ctrl">
+                          </div>
+                        </div>
+                     </div>
+                    </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6">
+                      <div class="row">
+                      <div class="c-lg-6" style="padding: 0;font-weight: 600;">
+                        <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
+                          <label style="font-size:14px" for="pre_enquiry_follow_up_reminder_time">Enquiry Follow up reminder (pre) to assignee
+                            <!--<div class="questionInfo inline-relative">
+                              <span class="qInfoIcon i-class">i</span>
+                              <div class="tooltip-box-field lg">
+                                Enable this to send
+                                <br> SMS for Enquiry
+                                <br>Follow Up Reminder
+                              </div>
+                            </div>-->
+                          </label>
+                          <select id="pre_enquiry_follow_up_reminder_time" class="form-ctrl" style="width: 75%;" name="pre_enquiry_follow_up_reminder_time" [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
+                            <option value="-1">---select---</option>
+                            <option value="00:15">15 minutes before</option>
+                            <option value="00:30">30 minutes before</option>
+                            <option value="01:00">1 hour before</option>
+                            <option value="02:00">2 hour before</option>
+                            <option value="24:00">1 day before</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="c-lg-6" style="font-weight: 600;">
+                        <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.post_enquiry_follow_up_reminder_time != ''}">
+                          <label style="font-size:14px" for="post_enquiry_follow_up_reminder_time">Enquiry Follow up reminder (post) to assignee</label>
+                          <select id="post_enquiry_follow_up_reminder_time" style="width: 75%;" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time"
+                            [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
+                            <option value="-1">---select---</option>
+                            <option value="00:15">After 15 minutes</option>
+                            <option value="00:30">After 30 minutes</option>
+                            <option value="01:00">After 1 hour</option>
+                            <option value="02:00">After 2 hour</option>
+                            <option value="24:00">After 1 day</option>
+                          </select>
+                        </div>
+                      </div>
+                      </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" style="padding-bottom: 15px;">
+                      <div class="row">
+                      <div class="c-lg-5" style="padding: 0;font-weight: 600;" *ngIf="instituteSettingDet.teacher_monthly_report == '1' || instituteSettingDet.teacher_monthly_report == true">
+                        <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailid_for_teacher_report != ''}">
+                          <label style="font-size:14px" for="monthlyConatctID">Email-ids to receive report (comma seperated)
+                           <!-- <div class="questionInfo inline-relative">
+                              <span class="qInfoIcon i-class">i</span>
+                              <div class="tooltip-box-field md">
+                                Specify Emails Id's
+                                <br>on which you
+                                <br>want to receive
+                                <br>monthly summary report
+                              </div>
+                            </div>-->
+                          </label>
+                          <input type="text" style="width: 75%;" [(ngModel)]="instituteSettingDet.emailid_for_teacher_report" class="form-ctrl" name="monthlyConatctID"
+                            id="monthlyConatctID">
+                        </div>
+                      </div>
+                      </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </section>
+
+<!-- REPORT SETTING -->
+<!--  NIHSANT - 16.8.2020: THIS SECTION IS MOVED TO FACITY ADMIN REPORTˇ
 
 
       <section id="divReportContent" class="fee-content-wrapper sectionDevideContainer">
@@ -3353,6 +3609,117 @@
       </section>
       <!-- End -->
 
+<!-- Added by Nalini -->
+<section id="divVdoContent" class="fee-content-wrapper sectionDevideContainer" *ngIf="vimeo_account_plan">
+  <div class="row m-0">
+    <div class="fee-table-wrapper">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table>
+            <tbody>
+              <tr style="height: 45px; background-color: #efefef">
+                <td class="tableHeader" colspan="6">
+                  VIMEO/ VDOCIPHER SETTING
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row webkitBox" style="margin-top: 0;">
+                    <h3>Vimeo</h3>
+                  </div>
+                  <div class="row webkitBox">
+                    <div class="c-sm-4 c-md-4 c-lg-4">Video download visibility (File Manager)
+                      <label for="vimeo_video_download_visibility_filemanager" style="font-size: 14px;padding-left: 5px;">
+                      </label>
+                    </div>
+                    <div class="c-sm-8 c-md-8 c-lg-8">
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.student != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.student" 
+                          name="filemanager_student" id="filemanager_student">
+                          <label for="filemanager_student" style="transform: none;">Student</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.teacher != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.teacher" 
+                          name="filemanager_teacher" id="filemanager_teacher">
+                          <label for="filemanager_teacher"style="transform: none;">Faculty</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.admin != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.admin" 
+                          name="filemanager_admin" id="filemanager_admin">
+                          <label for="filemanager_admin" style="transform: none;">Admin</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.openApp != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.openApp" 
+                          name="filemanager_openApp" id="filemanager_openApp">
+                          <label for="filemanager_openApp" style="transform: none;">Open App</label>
+                    </div>
+                  </div>
+                 </div>
+
+                  <div class="row webkitBox">
+                    <div class="c-sm-4 c-md-4 c-lg-4">Video download visibility (Study Material)
+                      <label for="vimeo_video_download_visibility_studymaterial" style="font-size: 14px;padding-left: 5px;">
+                      </label>
+                    </div>
+                    <div class="c-sm-8 c-md-8 c-lg-8">
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.student != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.student" 
+                          name="study_student" id="study_student">
+                          <label for="study_student" style="transform: none;">Student</label>
+                    </div>
+                    <!-- <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.teacher != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.teacher" 
+                          name="study_teacehr" id="study_teacehr">
+                          <label for="study_teacehr" style="transform: none;">Faculty</label>
+                    </div> -->
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.admin != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.admin" 
+                          name="study_admin" id="study_admin">
+                          <label for="study_admin" style="transform: none;">Admin</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-md-2" style="width: 20%;" [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_studymaterial.openApp != ''}">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_studymaterial.openApp" 
+                          name="study_openApp" id="study_openApp">
+                          <label for="study_openApp" style="transform: none;">Open App</label>
+                    </div>
+                  </div>
+                 </div>
+
+               <div class="row webkitBox">
+                <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
+                  <div class="field-wrapper" style="padding-top: 0;">
+                    <label style="font-size: 14px;" for="storge_thr">Storage capacity threshold alert
+                      <div class="questionInfo inline-relative pointOfComtact">
+                        <span class="qInfoIcon i-class">i</span>
+                        <div class="tooltip-box-field">
+                          Set limits (in percentage) for 
+                          <br>storage utilization to receive
+                          <br> the alerts in SMS
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;">
+                  <input type="range" min="1" max="100" id="storge_thr" [(ngModel)]="instituteSettingDet.vimeo_storage_capacity_threshold" />
+                </div>
+                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px;">
+                  {{instituteSettingDet.vimeo_storage_capacity_threshold}} %
+                </div>
+                </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+<!-- End -->
+
       <!-- MISCELLANEOUS SETTING -->
 
       <section id="divMiscContent" class="fee-content-wrapper sectionDevideContainer">
@@ -3538,14 +3905,32 @@
                               within App (Not accessible outside and exipres at course / product end date)
                             </label>
                           </div>
-                        </div>
+                        </div>   
+                        <div class="row m-0 webkitBox" style="padding-top: 10px;" *ngIf="show_vdocipher_video_ready_sms_to_admin">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-5px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox" [(ngModel)]="instituteSettingDet.vdocipher_video_ready_sms_to_admin"
+                                id="vdocipher_video_ready_sms_to_admin">
+                              <label for="vdocipher_video_ready_sms_to_admin">
+                                Video Ready Notification (Admin)
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+                                    Admin will get Notification once <br>
+                                    video will get ready for Students
+                                  </div>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                        </div>                  
                       </td>
                     </tr>
 
                     <tr>
                       <td>
                         <h3>Enquiry Setting</h3>
-                        <div class="row webkitBox">
+                        <!-- <div class="row webkitBox">
                           <div class="c-sm-6 c-md-6 c-lg-6 field-checkbox-wrapper" style="width: 50%;">
                             <input type="checkbox" id="enquiryInSMS"
                               [(ngModel)]="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms"
@@ -3563,7 +3948,7 @@
                                 [(ngModel)]="instituteSettingDet.inst_enquiry_handler_no" class="form-ctrl">
                             </div>
                           </div>
-                        </div>
+                       </div> -->
 
                       </td>
                     </tr>
@@ -3703,16 +4088,14 @@
                             </div>
                           </div>
                         </div>
-                        <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
-                          <div class="field-wrapper"
-                            [ngClass]="{'has-value' : instituteSettingDet.feedback_email_ids  != ''}">
-                            <label for="ch106">Email-ids to receive students feedback on
-                            </label>
-                            <input type="text" [(ngModel)]="instituteSettingDet.feedback_email_ids " class="form-ctrl"
-                              id="ch106">
-                            <p>Comman seperated Email-ids</p>
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.feedback_email_ids  != ''}">
+                              <label for="ch106">Email-ids to receive students feedback on                                
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.feedback_email_ids " class="form-ctrl" id="ch106">
+                              <p>Comma seperated Email-ids</p>
+                            </div>
                           </div>
-                        </div>
                       </td>
                     </tr>
                   </tbody>

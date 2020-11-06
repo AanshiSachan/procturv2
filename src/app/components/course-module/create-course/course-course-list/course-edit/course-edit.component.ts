@@ -193,14 +193,9 @@ export class CourseEditComponent implements OnInit {
   }
 
   deleteSubjectRow(row, mainTableIndex, nestedTableIndex) {
-    let count = 0;
-    this.mainTableDataSource[mainTableIndex].batchesList.map(course => {
-      if (course.uiSelected) {
-        count++;
-      }
-    });
+    let count = this.mainTableDataSource[mainTableIndex].batchesList.filter(course => course.uiSelected);
     let msg = "Are you sure you want to delete?";
-    if (count == 1) {
+    if (count.length == 1) {
       msg = "Are you sure you want to delete? Course will be deleted as you are deleting last subject under this course";
     }
     if (confirm(msg)) {
@@ -229,6 +224,7 @@ export class CourseEditComponent implements OnInit {
     for (let i = 0; i < data.batchesList.length; i++) {
       if (data.batchesList[i].uiSelected) {
         uiSelctedData = true;
+        break;
       }
     }
     if (uiSelctedData == false) {

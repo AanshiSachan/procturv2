@@ -20,13 +20,13 @@ export class CouponAddEditComponent implements OnInit {
   productList: any[] = [];
   productSetting: {} = {};
   offerStatus: any = false;
-
+  countryDetails: any = [];
   constructor(private _productService: ProductService,
     private _msgService: MessageShowService,
     private router: Router,
     private routeParam: ActivatedRoute,
     public _commService: CommonServiceFactory,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
   ) {
     this.routeParam.params.subscribe(params => {
       this.selectedCouponId = params['offer_id'];
@@ -37,7 +37,8 @@ export class CouponAddEditComponent implements OnInit {
   ngOnInit() {
     let tempDate = new Date();
     this.addCouponModel.start_date = new Date();
-    this.addCouponModel.end_date = new Date(tempDate.setMonth( tempDate.getMonth() + 1 ));
+    this.addCouponModel.end_date = new Date(tempDate.setMonth(tempDate.getMonth() + 1));
+    this.fetchDataForCountryDetails();
     this.getProductList();
     this.productSetting = {
       singleSelection: false,
@@ -52,7 +53,21 @@ export class CouponAddEditComponent implements OnInit {
       this.getCouponById();
     }
   }
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
 
+      if (this.addCouponModel.country_id == "") {
+        this.addCouponModel.country_id = defacult_Country[0].id;
+
+      }
+    }
+  }
   getProductList() {
     this.auth.showLoader();
     this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
@@ -77,11 +92,11 @@ export class CouponAddEditComponent implements OnInit {
 
   validateForm() {
     if (((this.addCouponModel.discount_type === '1' && (this.addCouponModel.flat_discount_amount === ''))
-    || (this.addCouponModel.discount_type === '2' && (this.addCouponModel.discount_percentage === ''
-    || this.addCouponModel.maximum_percentage_discount === '')) || this.addCouponModel.minimum_amount_in_cart === '' ||
-    this.addCouponModel.maximum_coupons_per_user === '' || this.addCouponModel.total_coupons_created === ''
-    || this.addCouponModel.product_id_list.length === 0 || this.addCouponModel.offer_code === '' || this.addCouponModel.end_date === null
-    || this.addCouponModel.start_date === null )) {
+      || (this.addCouponModel.discount_type === '2' && (this.addCouponModel.discount_percentage === ''
+        || this.addCouponModel.maximum_percentage_discount === '')) || this.addCouponModel.minimum_amount_in_cart === '' ||
+      this.addCouponModel.maximum_coupons_per_user === '' || this.addCouponModel.total_coupons_created === ''
+      || this.addCouponModel.product_id_list.length === 0 || this.addCouponModel.offer_code === '' || this.addCouponModel.country_id === 0 || this.addCouponModel.end_date === null
+      || this.addCouponModel.start_date === null)) {
       this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
       return false;
     } else {
@@ -102,23 +117,23 @@ export class CouponAddEditComponent implements OnInit {
     this.addCouponModel.start_date = moment(this.addCouponModel.start_date).format("YYYY-MM-DD");
     this.addCouponModel.end_date = moment(this.addCouponModel.end_date).format("YYYY-MM-DD");
     if (this.validateForm()) {
-    this.auth.showLoader();
-    this._productService.postMethod('offer/create', this.addCouponModel).then(
-      (result: any) => {
-        this.auth.hideLoader();
-        const response = result['body'];
-        if (response.validate) {
-          this._msgService.showErrorMessage('success', '', response.result);
-          this.router.navigate(['view/e-store/manage-offers/coupon']);
-        } else {
-          this._msgService.showErrorMessage('error', response.error[0].error_message, '');
+      this.auth.showLoader();
+      this._productService.postMethod('offer/create', this.addCouponModel).then(
+        (result: any) => {
+          this.auth.hideLoader();
+          const response = result['body'];
+          if (response.validate) {
+            this._msgService.showErrorMessage('success', '', response.result);
+            this.router.navigate(['view/e-store/manage-offers/coupon']);
+          } else {
+            this._msgService.showErrorMessage('error', response.error[0].error_message, '');
+          }
+        },
+        (err) => {
+          this.auth.hideLoader();
+          console.log(err);
         }
-      },
-      (err) => {
-        this.auth.hideLoader();
-        console.log(err);
-      }
-    );
+      );
     }
   }
 
@@ -140,6 +155,7 @@ export class CouponAddEditComponent implements OnInit {
         this.addCouponModel.product_id_list = data.result.product_details_list;
         this.selected_products = this.addCouponModel.product_id_list;
         this.addCouponModel.offer_status === 2 ? this.offerStatus = true : this.offerStatus = false;
+        this.addCouponModel.country_id = this.addCouponModel.country_id;
       },
       err => {
         this.auth.hideLoader();
@@ -155,7 +171,7 @@ export class CouponAddEditComponent implements OnInit {
     this.addCouponModel.start_date = moment(this.addCouponModel.start_date).format("YYYY-MM-DD");
     this.addCouponModel.end_date = moment(this.addCouponModel.end_date).format("YYYY-MM-DD");
     this.offerStatus === true ? this.addCouponModel.offer_status = 2 : this.addCouponModel.offer_status = 1;
-    this.addCouponModel.end_date =  moment(this.addCouponModel.end_date).format('YYYY-MM-DD');
+    this.addCouponModel.end_date = moment(this.addCouponModel.end_date).format('YYYY-MM-DD');
     this.auth.showLoader();
     this._productService.postMethod('offer/update', this.addCouponModel).then(
       (result: any) => {

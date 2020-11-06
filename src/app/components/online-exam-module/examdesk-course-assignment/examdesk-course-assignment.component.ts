@@ -48,7 +48,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
 
   constructor(
     private apiService: ExamDeskCourseAssignmentService,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private toastCtrl: AppComponent
   ) { }
 
@@ -80,7 +80,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   fetchCoursesList() {
     this.auth.showLoader();
     this.dataStatus = 1;
-    this.apiService.getCoursesList().subscribe(
+    this.apiService.getCoursesListExamDesk().subscribe(
       res => {
         this.auth.hideLoader();
         this.dataStatus = 2;
@@ -174,7 +174,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.isCourse = false;
     switch (this.filterOption) {
       case '0': {
-        
+
         this.isCourse = false;
         this.tableData = [];
         this.studentList = [];
@@ -217,7 +217,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
         this.tableData = this.studentList.filter(
           el => el.assigned == true
         );
-        if(this.tableData.length>0){
+        if (this.tableData.length > 0) {
           this.headerChecked = true;
         }
       } else {
@@ -337,23 +337,23 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.apiService.batchData(this.examAssignmentData).subscribe(
       res => {
         console.log(res);
-        if (name=='first') {
+        if (name == 'first') {
           this.tempBatchList = res.batchLi;
           this.batchList = this.tempBatchList;
           return;
         }
-        if (this.examAssignmentData.subject_id == -1 ) {
+        if (this.examAssignmentData.subject_id == -1) {
           this.examAssignmentData.batch_id = -1;
-          this.subjectList = res.subjectLi;        
+          this.subjectList = res.subjectLi;
           return;
         }
-        if (this.examAssignmentData.batch_id == -1 ) {
+        if (this.examAssignmentData.batch_id == -1) {
           this.batchList = res.batchLi;
           if (this.batchList.length == 0) {
             this.batchList = this.tempBatchList;
           }
         }
-    
+
       },
       err => {
         this.messageNotifier('error', '', err.error.message);

@@ -847,8 +847,8 @@
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
-              <span class="tooltip-content">{{tax_type_without_percentage}} component in Summary card and total tax in
-                individual Instalments may differ due to rounding off decimal
+              <span class="tooltip-content">{{tax_type_without_percentage}} component in Summary card and total
+                {{tax_type_without_percentage}} in individual Instalments may differ due to rounding off decimal
                 values.
               </span>
             </div>
@@ -1612,7 +1612,7 @@
     </div>
 
   </proctur-popup> -->
-  <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+  <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
   </app-add-city-area>
 
   <!-- ======================================================== -->

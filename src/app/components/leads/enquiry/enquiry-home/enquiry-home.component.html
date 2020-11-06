@@ -1342,427 +1342,319 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sms-form sms-popup-content"
-                        *ngIf="flagJSON.notificationType=='Email'|| flagJSON.notificationType=='SMS'">
-                        <div class="sms-update">
+                </div>
 
-                            <aside class="pull-left sms-table">
-                                <div class="sms-top-section">
-                                    <!-- Create New SMS Toggler -->
-                                    <div class="row">
-                                        <div class="c-lg-12">
-                                            <div class="clearFix add-edit">
-                                                <a class="expend-box" (click)="addNewMessage()">
-                                                    <i class="add-sms" id="sms-toggler-icon">+</i>
-                                                    <span>Create New Sms</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+            </div>
 
-                                    <!-- Message TextArea Here -->
-                                    <div class="row" *ngIf="flagJSON.isMessageAddOpen">
-                                        <section class="clearFix new-sms-form">
-                                            <div class="row">
-                                                <div class="c-lg-8 pull-left new-sms-wrapper">
-                                                    <textarea cols="1" rows="5" *ngIf="flagJSON.notificationType=='SMS'"
-                                                        class="new-sms-textarea" autocomplete="off" role="textbox"
-                                                        aria-autocomplete="list" placeholder="Enter your SMS here"
-                                                        [(ngModel)]="newSmsString.data" aria-haspopup="true" value=""
-                                                        id="listTxt"
-                                                        (ngModelChange)="countNumberOfMessage()"></textarea>
-                                                    <!-- Added editor for email formatting ashwini kumar gupta -->
-                                                    <editor [init]="editorConf"
-                                                        *ngIf="flagJSON.notificationType=='Email'"
-                                                        apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
-                                                        (ngModelChange)="countNumberOfMessage()"
-                                                        [(ngModel)]="newSmsString.data"
-                                                        placeholder="Enter your SMS here">
-                                                    </editor>
-                                                    <!-- End -->
-                                                    <div
-                                                        style="width:100%; display:flex; justify-content:space-between;">
-                                                        <span>Character Count : {{newSmsString.data.length}}</span>
-                                                        <span>Message Count :
-                                                            <span
-                                                                [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="c-lg-4 pull-right" style="margin-top: 16px;">
-                                                    <aside class="pull-left create-cancel-small">
-                                                        <input type="button" value="Cancel" class="btn cancle"
-                                                            (click)="addNewMessage()">
-                                                        <input type="button" class="btn fullBlue" value="Save SMS"
-                                                            (click)="addNewSmsTemplate()">
-                                                    </aside>
-                                                </div>
-
-                                            </div>
-                                        </section>
-                                    </div>
-
-                                    <!-- Message Header -->
-
-                                    <h3>Message List</h3>
-
-
-                                    <!-- Length of SMS Total and SearchBar -->
-                                    <div class="row sms-table-head">
-                                        <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
-                                            <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;"
-                                                (click)="switchSmsTab('approvedSms')">
-                                                <label style="cursor: pointer">Approved</label>
-                                            </div>
-                                            <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
-                                                <label style="cursor: pointer">Open</label>
-                                            </div>
-                                        </div>
-                                        <div class="c-lg-5 c-md-5 c-sm-5 align-right">
-                                            <!-- <div class="search-filter-wrapper">
-                          <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
-                            (keyup.enter)="onSearch(smssearch.value)">
-                        </div> -->
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="sms-middle-section">
-                                    <div class="table table-responsive table-container table-data-overflow">
-                                        <table class="tableBodyScroll">
-                                            <thead>
-                                                <tr>
-                                                    <!-- <th></th> -->
-                                                    <th>
-                                                        <label>
-                                                            <a class="cursor-icon"
-                                                                id="cursorAnch11">{{smsHeader.message.title}}</a>
-                                                        </label>
-                                                    </th>
-                                                    <th style="width: 18%;">
-                                                        <label>
-                                                            <a class="cursor-icon"
-                                                                id="cursorAnch12">{{smsHeader.date.title}}</a>
-                                                        </label>
-                                                    </th>
-                                                    <th style="text-align: center;">
-                                                        <label>
-                                                            <a class="cursor-icon"
-                                                                id="cursorAnch13">{{smsHeader.action.title}}</a>
-                                                        </label>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <!-- Added conditon for SMS and email  Ashwini kumar gupta -->
-                                            <!-- SMS -->
-                                            <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='SMS'">
-                                                <tr *ngFor="let row of smsSourceApproved; let i = index;"
-                                                    (click)="appSmsSelected(row, i)">
-                                                    <!-- <td>
+            <div class="sms-middle-section">
+                <div class="table table-responsive table-container table-data-overflow">
+                    <table class="tableBodyScroll">
+                        <thead>
+                            <tr>
+                                <!-- <th></th> -->
+                                <th>
+                                    <label>
+                                        <a class="cursor-icon" id="cursorAnch11">{{smsHeader.message.title}}</a>
+                                    </label>
+                                </th>
+                                <th style="width: 18%;">
+                                    <label style="margin-left: -28%">
+                                        <a class="cursor-icon" id="cursorAnch12">{{smsHeader.date.title}}</a>
+                                    </label>
+                                </th>
+                                <th style="text-align: center;">
+                                    <label>
+                                        <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
+                                    </label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <!-- Added conditon for SMS and email  Ashwini kumar gupta -->
+                        <!-- SMS -->
+                        <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='SMS'">
+                            <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                                <!-- <td>
                             <div class="field-radio-wrapper">
                               <label for="appradiosms{{i}}"></label>
                               <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
                             </div>
                           </td> -->
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td>
-                                                        <enquiry-sms-action style="text-align: center;">
-                                                        </enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                                <tr *ngIf=" smsSourceApproved.length ==0">
-                                                    <td colspan="3">
-                                                        No Message List Found
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='SMS'">
-                                                <tr *ngFor="let row of smsSourceOpen; let i = index;"
-                                                    (click)="opSmsSelected(row, i)">
-                                                    <!-- <td>
+                                <td>
+                                    <span [innerHTML]="row.message"></span>
+                                </td>
+                                <td style="width: 18%;">
+                                    {{row.date}}
+                                </td>
+                                <td>
+                                    <enquiry-sms-action style="text-align: center;">
+                                    </enquiry-sms-action>
+                                </td>
+                            </tr>
+                            <tr *ngIf=" smsSourceApproved.length ==0">
+                                <td colspan="3">
+                                    No Message List Found
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='SMS'">
+                            <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                                <!-- <td>
                             <div class="field-radio-wrapper">
                               <label for="oppradiosms{{i}}"></label>
                               <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
                             </div>
                           </td> -->
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td class="sms-Action-td" style="display:block">
-                                                        <span class="change-status"
-                                                            [ngClass]="{hideElement : (!showApproveButtons(row))}"
-                                                            style="display: inline-block">
-                                                            <i class="fas fa-check"
-                                                                (click)="approveRejectSms(row , '1')"
-                                                                style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
-                                                            <i class="fa fa-times" (click)="approveRejectSms(row,'2')"
-                                                                style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
-                                                        </span>
-                                                        <enquiry-sms-action style="display: inline-block">
-                                                        </enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                                <tr *ngIf=" smsSourceOpen.length ==0">
-                                                    <td colspan="3">
-                                                        No Message List Found
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <!-- Email -->
-                                            <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
-                                                <tr *ngFor="let row of emailSourceApproved; let i = index;"
-                                                    (click)="appSmsSelected(row, i)">
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td>
-                                                        <enquiry-sms-action>
-                                                        </enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                                <tr *ngIf=" emailSourceApproved.length ==0">
-                                                    <td colspan="3">
-                                                        No Message List Found
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
-                                                <tr *ngFor="let row of emailSourceOpen; let i = index;"
-                                                    (click)="opSmsSelected(row, i)">
-                                                    <td>
-                                                        <span [innerHTML]="row.message"></span>
-                                                    </td>
-                                                    <td style="width: 18%;">
-                                                        {{row.date}}
-                                                    </td>
-                                                    <td class="sms-Action-td" style="display:block;text-align: center;">
-                                                        <span class="change-status"
-                                                            [ngClass]="{hideElement : (!showApproveButtons(row))}"
-                                                            style="display: inline-block">
-                                                            <i class="fas fa-check"
-                                                                (click)="approveRejectSms(row , '1')" title="Approve"
-                                                                style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
-                                                            <i class="fa fa-times" (click)="approveRejectSms(row,'2')"
-                                                                title="Reject"
-                                                                style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
-                                                        </span>
-                                                        <enquiry-sms-action style="display: inline-block;">
-                                                        </enquiry-sms-action>
-                                                    </td>
-                                                </tr>
-                                                <tr *ngIf=" emailSourceOpen.length ==0">
-                                                    <td colspan="3">
-                                                        No Message List Found
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                <td>
+                                    <span [innerHTML]="row.message"></span>
+                                </td>
+                                <td style="width: 18%;">
+                                    {{row.date}}
+                                </td>
+                                <td class="sms-Action-td" style="display:block">
+                                    <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}"
+                                        style="display: inline-block">
+                                        <i class="fas fa-check" (click)="approveRejectSms(row , '1')"
+                                            style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                                        <i class="fa fa-times" (click)="approveRejectSms(row,'2')"
+                                            style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
+                                    </span>
+                                    <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
+                                </td>
+                            </tr>
+                            <tr *ngIf=" smsSourceOpen.length ==0">
+                                <td colspan="3">
+                                    No Message List Found
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!-- Email -->
+                        <tbody *ngIf="flagJSON.isApprovedTab && flagJSON.notificationType=='Email'">
+                            <tr *ngFor="let row of emailSourceApproved; let i = index;"
+                                (click)="appSmsSelected(row, i)">
+                                <td>
+                                    <span [innerHTML]="row.message"></span>
+                                </td>
+                                <td style="width: 18%;">
+                                    {{row.date}}
+                                </td>
+                                <td>
+                                    <enquiry-sms-action>
+                                    </enquiry-sms-action>
+                                </td>
+                            </tr>
+                            <tr *ngIf=" emailSourceApproved.length ==0">
+                                <td colspan="3">
+                                    No Message List Found
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="flagJSON.isAllSelected && flagJSON.notificationType=='Email'">
+                            <tr *ngFor="let row of emailSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                                <td>
+                                    <span [innerHTML]="row.message"></span>
+                                </td>
+                                <td style="width: 18%;">
+                                    {{row.date}}
+                                </td>
+                                <td class="sms-Action-td" style="display:block">
+                                    <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}"
+                                        style="display: inline-block">
+                                        <i class="fas fa-check" (click)="approveRejectSms(row , '1')"
+                                            style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                                        <i class="fa fa-times" (click)="approveRejectSms(row,'2')"
+                                            style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
+                                    </span>
+                                    <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
+                                </td>
+                            </tr>
+                            <tr *ngIf=" emailSourceOpen.length ==0">
+                                <td colspan="3">
+                                    No Message List Found
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                            </aside>
+            <!-- </aside> -->
 
 
-                            <aside class="pull-right sms-preview">
-                                <div style="    margin-bottom: 5px;">
-                                    <div class="row">
-                                        <div class="c-lg-6 c-md-6 c-sm-6">
-                                            <h4>{{smsSelectedRowsLength}} Users Selected</h4>
-                                        </div>
-                                        <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
-                                            <a style="cursor:pointer;" (click)="closeBulkSms()"
-                                                id="closeBulkAnch4">Change</a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="c-lg-12 c-md-12 c-sm-12">
-                                            Available SMS Quota: {{varJson.availableSMS}}
-                                        </div>
-                                    </div>
-                                    <div class="row" style="padding: 10px 0px; "
-                                        *ngIf="flagJSON.notificationType=='Email'">
-                                        <div class="c-lg-12 c-md-12 c-sm-12" style="padding-bottom: 5px">
-                                            <label>Subject
-                                                <span class="danger">*</span>
-                                            </label>
-                                        </div>
-                                        <div class="c-lg-12 c-md-12 c-sm-12">
-                                            <input type="text" placeholder="Email Subject" [(ngModel)]="emailSubject"
-                                                name="searchEmailData">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sms-preview-content">
-                                    <div class="field-sms-wrapper">
-                                        <!-- Added Editor for email formatting  By Ashwini kumar gupta-->
-                                        <textarea placeholder="Edit Message Here" rows="20" cols="1"
-                                            *ngIf="flagJSON.notificationType=='SMS'" autocomplete="off" role="textbox"
-                                            aria-autocomplete="list" aria-haspopup="true" id="sms-content" value=""
-                                            [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"
-                                            (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
-                                        <editor [init]="editorConf" id="email-content"
-                                            *ngIf="flagJSON.notificationType=='Email'"
-                                            [disabled]="!flagJSON.smsBtnToggle"
-                                            apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
-                                            [(ngModel)]="selectedSMS.message"
-                                            (ngModelChange)="countNumberOfMessageForEdit()"></editor>
-                                        <!-- End -->
-                                        <div
-                                            style="width:100%; display:flex; justify-content:space-between;font-size:12px">
-                                            <span>Character Count : {{selectedSMS.message.length}}</span>
-                                            <span>Message Count :
-                                                <span
-                                                    [ngClass]="{'red' : messageCountForEdit >= 2}">{{messageCountForEdit}}</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sms-preview-footer">
-                                    <div class="">
-                                        <div class="clearfix">
-                                            <aside class="popup-btn">
-                                                <input type="button" value="Cancel" class="btn"
-                                                    *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()"
-                                                    id="BtncancelEditSms">
-                                                <input type="button" value="Save" class="fullBlue btn"
-                                                    *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()"
-                                                    id="BtnsaveSmsEdited">
-                                                <input type="button" value="Cancel" class="btn"
-                                                    *ngIf="!flagJSON.smsBtnToggle" (click)="closeBulkSms()"
-                                                    id="Btncancel0">
-                                                <input type="button" value="Send SMS" class="fullBlue btn"
-                                                    *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='SMS')"
-                                                    (click)="sendSmsTemplate()" id="btn0">
-                                                <input type="button" value="Send Email" class="btn fullBlue"
-                                                    *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='Email')"
-                                                    (click)="addNewEmailTemplate()">
-                                            </aside>
-                                        </div>
-                                    </div>
-                                </div>
-                            </aside>
-
+            <aside class="pull-right sms-preview">
+                <div style="    margin-bottom: 5px;">
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            <h4>{{smsSelectedRowsLength}} Users Selected</h4>
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
+                            <a style="cursor:pointer;" (click)="closeBulkSms()" id="closeBulkAnch4">Change</a>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="c-lg-12 c-md-12 c-sm-12">
+                            Available SMS Quota: {{varJson.availableSMS}}
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 10px 0px; " *ngIf="flagJSON.notificationType=='Email'">
+                        <div class="c-lg-12 c-md-12 c-sm-12" style="padding-bottom: 5px">
+                            <label>Subject
+                                <span class="danger">*</span>
+                            </label>
+                        </div>
+                        <div class="c-lg-12 c-md-12 c-sm-12">
+                            <input type="text" placeholder="Email Subject" [(ngModel)]="emailSubject"
+                                name="searchEmailData">
+                        </div>
+                    </div>
+                </div>
+                <div class="sms-preview-content">
+                    <div class="field-sms-wrapper">
+                        <!-- Added Editor for email formatting  By Ashwini kumar gupta-->
+                        <textarea placeholder="Edit Message Here" rows="20" cols="1"
+                            *ngIf="flagJSON.notificationType=='SMS'" autocomplete="off" role="textbox"
+                            aria-autocomplete="list" aria-haspopup="true" id="sms-content" value=""
+                            [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle"
+                            (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
+                        <editor [init]="editorConf" id="email-content" *ngIf="flagJSON.notificationType=='Email'"
+                            [disabled]="!flagJSON.smsBtnToggle"
+                            apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t" [(ngModel)]="selectedSMS.message"
+                            (ngModelChange)="countNumberOfMessageForEdit()"></editor>
+                        <!-- End -->
+                        <div style="width:100%; display:flex; justify-content:space-between;font-size:12px">
+                            <span>Character Count : {{selectedSMS.message.length}}</span>
+                            <span>Message Count :
+                                <span [ngClass]="{'red' : messageCountForEdit >= 2}">{{messageCountForEdit}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sms-preview-footer">
+                    <div class="">
+                        <div class="clearfix">
+                            <aside class="popup-btn">
+                                <input type="button" value="Cancel" class="btn" *ngIf="flagJSON.smsBtnToggle"
+                                    (click)="cancelSmsEdit()" id="BtncancelEditSms">
+                                <input type="button" value="Save" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle"
+                                    (click)="saveEditedSms()" id="BtnsaveSmsEdited">
+                                <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle"
+                                    (click)="closeBulkSms()" id="Btncancel0">
+                                <input type="button" value="Send SMS" class="fullBlue btn"
+                                    *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='SMS')"
+                                    (click)="sendSmsTemplate()" id="btn0">
+                                <input type="button" value="Send Email" class="btn fullBlue"
+                                    *ngIf="(!flagJSON.smsBtnToggle)&&(flagJSON.notificationType=='Email')"
+                                    (click)="addNewEmailTemplate()">
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </aside>
 
-                    <div *ngIf="flagJSON.notificationType=='sendGrid'">
-                        <div class="sms-form sms-popup-content">
-                            <div class="sms-update">
+        </div>
+        <!-- </div> -->
 
-                                <aside class="pull-left sms-grid-table">
-                                    <div class="sms-top-section">
-                                        <h3 style="margin-top: 15px;margin-bottom: 15px;">Template List</h3>
-                                    </div>
+        <div *ngIf="flagJSON.notificationType=='sendGrid'">
+            <div class="sms-form sms-popup-content">
+                <div class="sms-update">
 
-                                    <div class="sms-middle-section">
-                                        <div class="table table-responsive table-container table-data-overflow">
-                                            <table>
-                                                <tr>
-                                                    <th>
+                    <aside class="pull-left sms-grid-table">
+                        <div class="sms-top-section">
+                            <h3 style="margin-top: 15px;margin-bottom: 15px;">Template List</h3>
+                        </div>
 
-                                                    </th>
-                                                    <th style="width: 30%;">
-                                                        <label>
-                                                            <a class="cursor-icon" id="cursorAnch11">Template Name</a>
-                                                        </label>
-                                                    </th>
-                                                    <th style="width: 30%;">
-                                                        <label>
-                                                            <a class="cursor-icon" id="cursorAnch12">Version Name</a>
-                                                        </label>
-                                                    </th>
-                                                    <th style="width: 25%;">
-                                                        <label>
-                                                            <a class="cursor-icon" id="cursorAnch12">Updated Date</a>
-                                                        </label>
-                                                    </th>
-                                                    <th style="width: 15%;">
-                                                        <label>
-                                                            <a class="cursor-icon" id="cursorAnch13">Preview</a>
-                                                        </label>
-                                                    </th>
-                                                </tr>
-                                                <tr id="row{{i}}" *ngFor="let row of emailGridData; let i = index;"
-                                                    (click)="opEmailGridSelected(row,i)"
-                                                    [class.selected]="i == selectedTableRow">
-                                                    <td>
-                                                        <!-- <div class="c-sm-1 c-md-1 c-lg-1"> -->
-                                                        <!-- <div class="field-radio-wrapper"> -->
-                                                        <input type="radio" name="bothRadio" [id]="'bothRadio-'+i"
-                                                            class="form-radio" [value]="i"
-                                                            [(ngModel)]="selectedTableRow">
-                                                        <!-- <label [for]="'bothRadio-'+i">{{smsDetails.total_sms}}</label> -->
-                                                        <!-- </div> -->
-                                                        <!-- </div> -->
-                                                    </td>
-                                                    <td style="width: 30%;">
-                                                        <span title="{{row.template_name}}">{{ (row.template_name.length > 20) ? (row.template_name | slice:0:20) + '...' : row.template_name
+                        <div class="sms-middle-section">
+                            <div class="table table-responsive table-container table-data-overflow">
+                                <table>
+                                    <tr>
+                                        <th>
+
+                                        </th>
+                                        <th style="width: 30%;">
+                                            <label>
+                                                <a class="cursor-icon" id="cursorAnch11">Template Name</a>
+                                            </label>
+                                        </th>
+                                        <th style="width: 30%;">
+                                            <label>
+                                                <a class="cursor-icon" id="cursorAnch12">Version Name</a>
+                                            </label>
+                                        </th>
+                                        <th style="width: 25%;">
+                                            <label>
+                                                <a class="cursor-icon" id="cursorAnch12">Updated Date</a>
+                                            </label>
+                                        </th>
+                                        <th style="width: 15%;">
+                                            <label>
+                                                <a class="cursor-icon" id="cursorAnch13">Preview</a>
+                                            </label>
+                                        </th>
+                                    </tr>
+                                    <tr id="row{{i}}" *ngFor="let row of emailGridData; let i = index;"
+                                        (click)="opEmailGridSelected(row,i)" [class.selected]="i == selectedTableRow">
+                                        <td>
+                                            <!-- <div class="c-sm-1 c-md-1 c-lg-1"> -->
+                                            <!-- <div class="field-radio-wrapper"> -->
+                                            <input type="radio" name="bothRadio" [id]="'bothRadio-'+i"
+                                                class="form-radio" [value]="i" [(ngModel)]="selectedTableRow">
+                                            <!-- <label [for]="'bothRadio-'+i">{{smsDetails.total_sms}}</label> -->
+                                            <!-- </div> -->
+                                            <!-- </div> -->
+                                        </td>
+                                        <td style="width: 30%;">
+                                            <span title="{{row.template_name}}">{{ (row.template_name.length > 20) ? (row.template_name | slice:0:20) + '...' : row.template_name
                             }}
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 30%;">
-                                                        <span title="{{row.version_name}}">{{ (row.version_name.length > 20) ? (row.version_name | slice:0:20) + '...' : row.version_name
+                                            </span>
+                                        </td>
+                                        <td style="width: 30%;">
+                                            <span title="{{row.version_name}}">{{ (row.version_name.length > 20) ? (row.version_name | slice:0:20) + '...' : row.version_name
                             }}
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 25%;">
-                                                        <span
-                                                            title="{{row.template_updated_date}}">{{row.template_updated_date}}</span>
-                                                    </td>
-                                                    <td style="width: 15%;"
-                                                        (click)="viewThumbnailUrl(row.template_subject_thumbnail_url)">
-                                                        <a class="cursor">View</a>
-                                                    </td>
-                                                </tr>
-                                                <tr *ngIf="emailGridData?.length==0">
-                                                    <td colspan="5"
-                                                        style="padding: 10px;text-align: center;font-weight: 600;">
-                                                        No Data Found
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </aside>
-
-
-                                <aside class="pull-right sms-grid-preview">
-                                    <div class="sms-preview-footer" style="float: right;">
-                                        <div class="">
-                                            <div class="clearfix">
-                                                <aside class="popup-btn">
-                                                    <input type="button" value="Cancel" class="btn"
-                                                        (click)="closeBulkSms()" id="Btncancel0">
-                                                    <input type="button" value="Send" class="fullBlue btn"
-                                                        (click)="sendEmailGrid()" id="btn0">
-                                                </aside>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </aside>
-
+                                            </span>
+                                        </td>
+                                        <td style="width: 25%;">
+                                            <span
+                                                title="{{row.template_updated_date}}">{{row.template_updated_date}}</span>
+                                        </td>
+                                        <td style="width: 15%;"
+                                            (click)="viewThumbnailUrl(row.template_subject_thumbnail_url)">
+                                            <a class="cursor">View</a>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="emailGridData?.length==0">
+                                        <td colspan="5" style="padding: 10px;text-align: center;font-weight: 600;">
+                                            No Data Found
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
-                    </div>
+
+                    </aside>
+
+
+                    <aside class="pull-right sms-grid-preview">
+                        <div class="sms-preview-footer" style="float: right;">
+                            <div class="">
+                                <div class="clearfix">
+                                    <aside class="popup-btn">
+                                        <input type="button" value="Cancel" class="btn" (click)="closeBulkSms()"
+                                            id="Btncancel0">
+                                        <input type="button" value="Send" class="fullBlue btn" (click)="sendEmailGrid()"
+                                            id="btn0">
+                                    </aside>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
 
                 </div>
-
             </div>
         </div>
+
+        <!-- </div> -->
+
+        <!-- </div>
+</div> -->
 
     </section>
 

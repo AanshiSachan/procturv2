@@ -33,7 +33,7 @@ export class BasicInfoComponent implements OnInit {
     enableCheckAll: false
   };
 
-
+  others: any;
   // prodForm = new product_details();
   prodForm: any = {
     entity_id: 0,
@@ -48,7 +48,10 @@ export class BasicInfoComponent implements OnInit {
     about: '',
     is_paid: true,
     is_advance_product: true,
+    tag: null,
     price: 0,
+    price_before_discount: 0,
+    discount_percentage: 0,
     cateory: 0,
     itemStates: [],
     valid_from_date: moment().format('MM-DD-YYYY'),
@@ -61,6 +64,7 @@ export class BasicInfoComponent implements OnInit {
     duration: 0,
     publish_date: null,
     product_user_type: "-1",
+    country_id: "",
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
@@ -77,7 +81,7 @@ export class BasicInfoComponent implements OnInit {
     forStudent: true,
     forOpenUser: true
   };
-
+  countryDetails: any = [];
   editorConf = {
     height: 150,
     menubar: false,
@@ -106,6 +110,25 @@ export class BasicInfoComponent implements OnInit {
     this.initDataEcourse();
     this.previewEvent.emit(this.prodForm);
     this.toggleLoader.emit(false);
+    let temp: any = JSON.parse(sessionStorage.getItem('country_data'));
+    console.log("temp", temp);
+    this.fetchDataForCountryDetails();
+  }
+
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
+
+      if (this.prodForm.country_id == "") {
+        this.prodForm.country_id = defacult_Country[0].id;
+
+      }
+    }
   }
 
   /** get product item details in  */
@@ -136,7 +159,16 @@ export class BasicInfoComponent implements OnInit {
       });
 
   }
+  calc() {
+    if (this.prodForm.discount_percentage < 0 || this.prodForm.discount_percentage > 100) {
 
+      this.msgService.showErrorMessage('error', 'Discount should be greater than 0 and less than 100', '');
+    }
+    else {
+      this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100)));
+    }
+
+  }
   initForm() {
     //Fetch Product Info
     this.auth.showLoader();
@@ -147,6 +179,10 @@ export class BasicInfoComponent implements OnInit {
         console.log("REsult", response);
         if (resp.validate) {
           this.prodForm = response;
+          if (!(this.prodForm.tag === 'Featured' || this.prodForm.tag === 'Recommended' || this.prodForm.tag === 'Popular' || this.prodForm.tag === 'Others' || this.prodForm.tag == null)) {
+            this.others = this.prodForm.tag;
+            this.prodForm.tag = "Others";
+          }
           this.prodForm.sales_from_date = moment(response.sales_from_date).format('MM-DD-YYYY');
           this.prodForm.sales_to_date = moment(response.sales_to_date).format('MM-DD-YYYY');
           this.prodForm.valid_from_date = moment(response.valid_from_date).format('MM-DD-YYYY');
@@ -248,6 +284,10 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'allowed description limit is 10000 characters', '');
       return;
     }
+    if (this.prodForm.country_id == 0) {
+      this.msgService.showErrorMessage('error', 'Currency is mandatory', '');
+      return;
+    }
     if (this.prodForm.purchase_limit == 0) {
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
@@ -272,6 +312,9 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'Product visibility start date cannot be prior to sales start date', '');
       return;
     }
+    if (this.prodForm.tag === "Others") {
+      this.prodForm.tag = this.others;
+    }
 
     let keys = Object.keys(this.prodItems);
     let notselectedItem = keys.filter(key => this.prodItems[key] == false);
@@ -280,8 +323,8 @@ export class BasicInfoComponent implements OnInit {
       return;
     }
 
-    this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
-    this.prodForm.price = this.prodForm.price ? this.prodForm.price : 0;
+    this.prodForm.is_paid = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? 'Y' : 'N';
+    this.prodForm.price = Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) ? Math.round(((this.prodForm.price_before_discount) - ((this.prodForm.price_before_discount * this.prodForm.discount_percentage) / 100))) : 0;
     this.productItems.forEach(element => {
       this.prodForm.product_item_stats[element.slug] = (this.prodItems[element.slug]) ? this.prodForm.product_item_stats[element.slug] : 0;
       if (this.prodForm.product_item_stats[element.slug]) {
@@ -322,17 +365,23 @@ export class BasicInfoComponent implements OnInit {
       "is_paid": this.prodForm.is_paid,
       "is_advance_product": is_advance_product,
       "price": this.prodForm.price,
-      "valid_from_date": moment(this.prodForm.valid_from_date).format("YYYY-MM-DD"),
-      "valid_to_date": moment(this.prodForm.valid_to_date).format("YYYY-MM-DD"),
+      "valid_from_date": this.prodForm.valid_from_date,
+      "valid_to_date": this.prodForm.valid_to_date,
       "duration": this.prodForm.duration,
       "sales_from_date": moment(this.prodForm.sales_from_date).format('YYYY-MM-DD'),
       "sales_to_date": moment(this.prodForm.sales_to_date).format('YYYY-MM-DD'),
       "purchase_limit": this.prodForm.purchase_limit,
+      "start_index_for_total_prod_purchase": this.prodForm.start_index_for_total_prod_purchase,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
       "product_user_type": this.prodForm.product_user_type,
-      "publish_date": this.prodForm.publish_date
+      "publish_date": this.prodForm.publish_date,
+      "discount_percentage": this.prodForm.discount_percentage,
+      "price_before_discount": this.prodForm.price_before_discount,
+      "tag": this.prodForm.tag,
+      "country_id": this.prodForm.country_id
+
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);
@@ -408,9 +457,9 @@ export class BasicInfoComponent implements OnInit {
 
 
   calc_days() {
-    this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
-    this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('MM-DD-YYYY');
-    // return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
+    // this.prodForm.valid_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
+    // this.prodForm.valid_to_date = moment(this.prodForm.sales_from_date).add(this.prodForm.duration, 'd').format('MM-DD-YYYY');
+    return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   }
 
 

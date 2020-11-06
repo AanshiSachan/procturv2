@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
 import * as moment from 'moment';
 import { of } from 'rxjs';
-import { AuthenticatorService, LoginService, HttpService, MessageShowService } from '../../../../..';
+import { AuthenticatorService, HttpService, LoginService, MessageShowService } from '../../../../..';
 import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 import { TopicListingService } from '../../../../../services/course-services/topic-listing.service';
 

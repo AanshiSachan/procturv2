@@ -116,7 +116,7 @@ export class PtmManagementComponent implements OnInit {
   }
 
   fetchPreFillData(){
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     //get master course - course - subject data  for course model
     const url = `/api/v1/courseMaster/fetch/${this.jsonFlag.institute_id}/all?isActiveNotExpire=Y`;
     this._http.getData(url).subscribe(
@@ -219,7 +219,7 @@ export class PtmManagementComponent implements OnInit {
       }
     }
     if(validation){
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       const url = `/api/v1/ptm/${this.inputElements.ptmId}/details`;
       this._http.getData(url).subscribe(
         (data: any) => {
@@ -263,11 +263,11 @@ export class PtmManagementComponent implements OnInit {
           ptm_reminder: true,
           ptm_id: this.inputElements.ptmId
         }
-        this.jsonFlag.isRippleLoad = true;
+        this.auth.showLoader();
         const url = `/api/v1/ptm/cancel/${obj.ptm_id}`;
         this._http.putData(url, obj).subscribe(
           res => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Cancelled Successfully');
             this.inputElements.ptmId = "-1";
             this.viewStudents = [];
@@ -277,7 +277,7 @@ export class PtmManagementComponent implements OnInit {
             this.illustration = true;
           },
           err => {
-            this.jsonFlag.isRippleLoad = false;
+            this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
         )
@@ -324,31 +324,32 @@ export class PtmManagementComponent implements OnInit {
     }
     else{
       this.scheduledPTMList = [];
-      this.jsonFlag.isRippleLoad = true;
+      // document.getElementById("updatedScheDate").innerHTML = moment(this.ptmScheduledDate).format("DD MMM YYYY");
+      this.auth.showLoader();
       const url = `/api/v1/ptm/ptm-schedule-details/${this.jsonFlag.institute_id}/${scheDate}`;
       this._http.getData(url).subscribe(
         (data: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
           this.scheduledPTMList = data.response;
         },
         (error: any) => {
-          this.jsonFlag.isRippleLoad = false;
+          this.auth.hideLoader();
         }
       )
     }
   }
 
   sendPTMScheduleNotification(ptmId){
-    this.jsonFlag.isRippleLoad = true;
+    this.auth.showLoader();
     const url = `/api/v1/ptm/ptmAlert/${ptmId}/alerts`;
     let obj = {}
     this._http.postData(url, obj).subscribe(
       (data: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Notification has been sent successfully');
       },
       (error: any) => {
-        this.jsonFlag.isRippleLoad = false;
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', error);
       }
     )
@@ -442,7 +443,7 @@ export class PtmManagementComponent implements OnInit {
     }
 
     if(validation){
-      this.jsonFlag.isRippleLoad = true;
+      this.auth.showLoader();
       const url = `/api/v1/ptm/create/${this.jsonFlag.institute_id}`;
       this._http.postData(url, this.createPTM).subscribe(
         res => {

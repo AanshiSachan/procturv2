@@ -510,6 +510,24 @@
                         </div>
                       </div>
                     </span>
+                    <span class="dropdown-item" (click)="copyToClipboard(class)"
+                      *ngIf="(!liveClassFor && !timeLeft(today, class.start_datetime)) && class.live_meeting_with == 'Zoom'">
+                      <div class="questionInfo inline-relative">
+                        <span class=" i-class">
+                          <button style="background: none;" type="button" name="button"
+                            [disabled]="proctur_live_expiry_date_check"
+                            [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                            <i class="fa fa-clipboard" aria-hidden="true"></i> Copy URL
+                          </button>
+                        </span>
+                        <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                          Your Proctur Live
+                          <br> subscription is over.
+                          <br> Please pay quickly
+                          <br> to continue using it.
+                        </div>
+                      </div>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -586,7 +604,7 @@
                       (click)="viewAttandance(class.session_id)">View Attendance</span>
                     <span class="dropdown-item"
                       *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'"
-                      data-toggle="modal" data-target="#uploadRec"
+                      data-toggle="modal" data-target="#uploadRec" data-backdrop="static"
                       (click)="upload(class.session_id, class.live_meeting_with)">Upload Recording&nbsp;
                     </span>
                     <span class="dropdown-item">
@@ -605,9 +623,9 @@
                         </div>
                       </div>
                     </span>
-                    <span class="dropdown-item"
+                    <span class="dropdown-item" (click)="viewdownload_links(class)"
                       *ngIf="proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
-                      <button style="background: none;" title="download/view" (click)="viewdownload_links(class)"
+                      <button style="background: none;" title="download/view"
                         [ngClass]="{'disabledButton': class.download_links?.length==0}">
                         View Recording
                       </button>
@@ -725,15 +743,34 @@
 </div>
 
 <!-- Upload record pop up -->
-<div id="uploadRec" class="modal fade" role="dialog">
+<div id="uploadRec" style="z-index: 1112;" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content" style="margin-top: 17%;">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" (click)="closeUploadModal()">&times;</button>
         <h4 class="modal-title">Upload Recording</h4>
       </div>
       <div class="modal-body">
+        <div class="row" style="margin: 0;"
+          *ngIf="proctur_live_integration_with_vdoCipher == 1 && proctur_live_integration_with_vimeo == 1">
+          <div class="c-lg-4 field-radio-wrapper" style="width: 25%;">
+            <input type="radio" [value]="'VDOCipher'" class="form-radio" [(ngModel)]="isVimeo" name="isVimeo"
+              id="VDOCipher">
+            <label for="VDOCipher">VDOCipher</label>
+          </div>
+          <div class="c-lg-4 field-radio-wrapper" style="width: 25%;">
+            <input type="radio" [value]="'Vimeo'" class="form-radio" [(ngModel)]="isVimeo" name="isVimeo" id="Vimeo">
+            <label for="Vimeo">Vimeo</label>
+          </div>
+        </div>
+        <div class="row"
+          *ngIf="(proctur_live_integration_with_vimeo == 1 || isVimeo == 'Vimeo') && isVimeo!='VDOCipher'">
+          <div class="c-lg-8 field-wrapper">
+            <label for="vimeo_title">Title</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="vimeo_title" name="vimeo_title" id="vimeo_title">
+          </div>
+        </div>
         <div class="row">
           <div class="c-lg-8 field-wrapper">
             <label>Choose File To Upload</label>
@@ -830,25 +867,34 @@
               <span *ngIf="data.video_duration==null">-</span>
             </div>
             <div class="value-item" style="width: 20%; display: flex; justify-content: space-around;">
-              <div *ngIf="proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3">
+              <div
+                *ngIf="((proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3) && (data.vimeo_video_url=='' || data.vimeo_video_url== null)) || ((data.vimeo_video_url!='' || data.vimeo_video_url!= null) && vimeo_video_downlodable)">
                 <button class="fa fa-download" style="font-size: 14px; color: #0084f6;background: none;"
-                  title="Download" (click)="downloadFile(data);" id="downloadFile"
+                  title="Download" (click)="downloadFileCheck(data);" id="downloadFile"
                   [disabled]="data.download_id==null || auth.isRippleLoad.getValue()"
                   [ngClass]="{'disabledButton': data.download_id==null || auth.isRippleLoad.getValue()}"></button>
                 <a id="downloadFileClick" [href]="fileUrl" class="hide"></a>
               </div>
               <div (click)="getVdocipherVideoOtp(data)"
-                *ngIf="(JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3)">
+                *ngIf="((JsonVars.view_proctur_live_recorded_session==2||JsonVars.view_proctur_live_recorded_session==3 ||JsonVars.view_proctur_live_recorded_session==6 ||JsonVars.view_proctur_live_recorded_session==7) && (proctur_live_view_or_download_visibility==2 || proctur_live_view_or_download_visibility==3))">
                 <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;" title="Play"
                   [disabled]="data.video_id==null" [ngStyle]="{'opacity':data.video_id==null ? '0.5' : '1' }">
                 </button>
               </div>
               <div (click)="getVdoLink(data)"
-                *ngIf="(JsonVars.view_proctur_live_recorded_session==1||JsonVars.view_proctur_live_recorded_session==3) && (proctur_live_view_or_download_visibility==3 || proctur_live_view_or_download_visibility==2)">
+                *ngIf="((JsonVars.view_proctur_live_recorded_session==1 ||JsonVars.view_proctur_live_recorded_session==3 ||JsonVars.view_proctur_live_recorded_session==5 ||JsonVars.view_proctur_live_recorded_session==7) && (proctur_live_view_or_download_visibility==3 || proctur_live_view_or_download_visibility==2))">
                 <button class="fa fa-play" style="font-size: 15px; color: #0084F6;background: none;" title="Play">
                 </button>
               </div>
-              <div (click)="deleteRecording(data.id)">
+              <div (click)="playVimeoVideo(data)"
+                *ngIf="(JsonVars.view_proctur_live_recorded_session==4 || JsonVars.view_proctur_live_recorded_session==5 || JsonVars.view_proctur_live_recorded_session==6 || JsonVars.view_proctur_live_recorded_session==7)">
+                <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;"
+                  title="{{data.video_status!='ready' ? 'Video is in processing state. Kindly wait for an hour.' : 'Play'}}"
+                  [disabled]="(data.video_status!='ready' || data.vimeo_video_url == '' || data.vimeo_video_url == null)"
+                  [ngStyle]="{'opacity':(data.video_status!='ready' || data.vimeo_video_url=='' || data.vimeo_video_url== null) ? '0.5' : '1' }">
+                </button>
+              </div>
+              <div (click)="deleteRecording(data.id, false)">
                 <button class="fa fa-trash" style="font-size: 15px; color: red; background: none;"
                   title="Delete recoding">
                 </button>
@@ -955,3 +1001,68 @@
 
   </div>
 </div>
+
+<div class="videoplayer" *ngIf="videoplayer">
+  <iframe width="650" height="400" [src]="currentProjectUrl" frameborder="0" style="border-radius: 10px;"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>
+</div>
+
+<div class="black-bg" id="black-bg" *ngIf="videoplayer" (click)="this.videoplayer = false"></div>
+
+<!-- Download option pop up 
+  Developed by Nalini-->
+<div id="downloadOption" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please select the size for downloading</h4>
+      </div>
+      <div class="modal-body">
+        <section>
+          <div class="table-container">
+            <div class="heading-container">
+              <div class="heading-item" style="text-align: left;width: 10%;">
+                <span></span>
+              </div>
+              <div class="heading-item" style="width: 45%;text-align: left;">
+                <span>Dimension (Width x Height)</span>
+              </div>
+              <!-- <div class="heading-item" style="width: 30%;">
+                <span>Height</span>
+              </div> -->
+              <div class="heading-item" style="width: 45%;">
+                <span>Size</span>
+              </div>
+            </div>
+            <div class="value-outer-container">
+              <div class="value-container" *ngFor="let data of vimeoDownloadLinks; let i = index;">
+                <div class="value-item" style="text-align: left;width: 10%;">
+                  <div class="field-radio-wrapper" style="width: 25%;">
+                    <input type="radio" [value]="i" [id]="'bothRadio-'+i" class="form-radio" [(ngModel)]="data.selected"
+                      (ngModelChange)="changeSelectedSize(data)" name="select" id="select">
+                    <label></label>
+                  </div>
+                </div>
+                <div class="value-item" style="text-align: left;width: 45%;">
+                  <span title="{{data.width}}">{{data.width}} x {{data.height}}</span>
+                </div>
+                <!-- <div class="value-item" style="width: 30%;">
+                  <span title="{{data.height}}">{{data.height}}</span>
+                </div> -->
+                <div class="value-item" style="width: 45%;">
+                  <span title="{{data.size_short}}">{{data.size_short}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" (click)="downloadVimeoVdo()">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>

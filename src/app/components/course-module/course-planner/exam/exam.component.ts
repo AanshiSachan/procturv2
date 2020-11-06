@@ -706,7 +706,19 @@ export class ExamComponent implements OnInit {
       is_cancel_notify: notify,
       requested_date: moment(this.tempData.date).format('MM-DD-YYYY')
     }
-
+    // this.auth.showLoader();
+    this.widgetService.cancelExamScheduleCourse(obj).subscribe(
+      res => {
+        // this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled', 'Exam Cancelled Successfully');
+        this.closePopUpCommon();
+        this.getData();
+      },
+      err => {
+        // this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      }
+    )
   }
 
   closePopUpCommon() {

@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
 import { SubscriptionLike as ISubscription } from "rxjs";
@@ -228,6 +227,7 @@ export class StudentHomeComponent implements OnInit {
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
   assignedStandard = "-1";
+  isRippleLoad: boolean;
   labelForAssignStandard = '';
   countryList: any[] = [];
   stateList: any[] = [];

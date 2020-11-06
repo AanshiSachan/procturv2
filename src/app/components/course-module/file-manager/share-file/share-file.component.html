@@ -66,7 +66,7 @@
           <div class="c-lg-4 field-wrapper">
             <label class="forms" *ngIf="isProfessional">Course</label>
             <label class="forms" *ngIf="!isProfessional">Subjects</label>
-            <select class="form-ctrl" [(ngModel)]="subjectId" (ngModelChange)="getBatches()">
+            <select class="form-ctrl" [(ngModel)]="subjectId" (ngModelChange)="getBatches(1)">
               <option></option>
               <option *ngFor="let i of getSubjects" [value]="i.subject_id">
                 {{(i.subject_name.length > 30) ? (i.subject_name | slice:0:30) + '...' : i.subject_name}}

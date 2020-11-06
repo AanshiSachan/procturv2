@@ -294,11 +294,17 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   tax_type_without_percentage: String;
   isTaxEnable: boolean = false;
 
+  isRippleLoad: boolean = false;
   // state and city list
   addArea: boolean = false;
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
+  selectedData = {
+    country: '',
+    state: '',
+    city: ''
+  };
   Payment_Modes: any = [];
   role_feature = role.features;
   schoolModel: boolean = false;
@@ -401,7 +407,6 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         }
       }
 
-      console.log(this.instituteCountryDetObj);
     }
   }
 
@@ -414,25 +419,27 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.studentAddFormData.city_id = "";
       this.studentAddFormData.area_id = "";
     }
-    const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.statusCode == 200) {
-          if (res.result && res.result.length > 0) {
-            this.stateList = res.result[0].stateList;
+    if (this.studentAddFormData.country_id != "") {
+      const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.statusCode == 200) {
+            if (res.result && res.result.length > 0) {
+              this.stateList = res.result[0].stateList;
+            }
+            if (!this.checkStatusofStudent) {
+              this.getCityList();
+            }
           }
-          if (!this.checkStatusofStudent) {
-            this.getCityList();
-          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   // get city list as per state selection
@@ -443,7 +450,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.studentAddFormData.city_id = "";
       this.studentAddFormData.area_id = "";
     }
-    if (!!this.studentAddFormData.state_id) {
+    if (!!this.studentAddFormData.state_id && this.studentAddFormData.state_id != "") {
       const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -464,31 +471,31 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         }
       )
     }
-
   }
 
   getAreaList() {
     if (this.checkStatusofStudent) {
       this.areaList = [];
     }
-    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.statusCode == 200 && res.result && res.result.length > 0) {
-          this.areaList = res.result[0].areaList;
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
+      const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.statusCode == 200 && res.result && res.result.length > 0) {
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   onChangeObj(event) {
-    console.log(event);
     this.fetchDataForCountryDetails();
     this.countryDetails.forEach(element => {
       if (element.id == event) {
@@ -508,6 +515,9 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     }
     else {
       this.addArea = true;
+      this.selectedData.country = this.studentAddFormData.country_id;
+      this.selectedData.state = this.studentAddFormData.state_id;
+      this.selectedData.city = this.studentAddFormData.city_id;
     }
   }
 
@@ -744,6 +754,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     //      this.auth.hideLoader();
     //   }
     // )
+
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
@@ -1304,7 +1315,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
 
-      this.studentAddFormData.expiry_date = this.studentAddFormData.expiry_date;
+      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD");
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
       console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;

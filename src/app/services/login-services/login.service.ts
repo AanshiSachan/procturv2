@@ -160,7 +160,7 @@ export class LoginService {
         let result: any = res;
         this.poweredBy.next(result.show_powered_by_proctur);
         return res;
-       },
+      },
       err => { return err; }
     ));
   }

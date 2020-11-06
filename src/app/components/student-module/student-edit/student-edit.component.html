@@ -660,7 +660,7 @@
     <!-- ======================================================== -->
     <!-- ======================================================== -->
 
-    <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)">
+    <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
     </app-add-city-area>
 
     <proctur-popup [sizeWidth]="'small'" *ngIf="isShareDetails">
@@ -788,7 +788,7 @@
 
         <!--====================================middle <Main> section==========================-->
 
-        <section *ngIf="showFeeSection" style="padding: 0px 10px;">
+        <section *ngIf="(!auth.isRippleLoad.getValue()) && showFeeSection" style="padding: 0px 10px;">
 
           <div class="card-layout">
 

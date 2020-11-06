@@ -6,7 +6,6 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 
 
-
 const routes: Routes = [
     {
         path: 'home',

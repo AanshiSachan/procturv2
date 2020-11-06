@@ -146,6 +146,8 @@ export class CounsellorReportComponent implements OnInit {
             }
             this.newArray.push(this.newObject);
           }
+          this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY');
+          this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY');
           this.getCounsellorDetails = this.newArray;
           this.getCounsellorDetails.map(
             (ele: any) => {
@@ -204,8 +206,8 @@ export class CounsellorReportComponent implements OnInit {
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: this.counsellorInfoDetails.updateDateFrom,
-          enquireDateTo: this.counsellorInfoDetails.updateDateTo
+          enquireDateFrom: moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD'),
+          enquireDateTo: moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD')
         }
 
         this.popupDataEnquiries = [];
@@ -224,8 +226,8 @@ export class CounsellorReportComponent implements OnInit {
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY'),
-          enquireDateTo: moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY')
+          enquireDateFrom: moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD'),
+          enquireDateTo: moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD')
         }
         this.popupDataEnquiries = [];
         this.counsellor.enquiryCategorySearch(payload).subscribe(

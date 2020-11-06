@@ -73,7 +73,6 @@ export class SalesReportsComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private _msgService: MessageShowService,
     private _http: HttpService,
-    private _excelService: ExcelService,
     private excelService: ExcelService,
     private http: ProductService,) { }
 
@@ -156,7 +155,7 @@ export class SalesReportsComponent implements OnInit {
               "title": object.product.title,
               "name": object.name,
               "phone": object.phone,
-              "price": object.price,
+              "price": object.price + " " + object.product.country_details.currency_code,
               "publish_date": object.purchase_date,
               "status": object.product.status,
             }
