@@ -168,7 +168,7 @@
                                 <div class="yourInstitute">
                                     Your Institute
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="showSMSSetting">
                                     <div class="c-lg-12">
                                         <div class="side-section-item">
                                             <span class="dropSize"
@@ -178,7 +178,7 @@
                                     </div>
 
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="showManageRole">
                                     <div class="c-lg-12">
                                         <div class="side-section-item">
                                             <span class="dropSize"

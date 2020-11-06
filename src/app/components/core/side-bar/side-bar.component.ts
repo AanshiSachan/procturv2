@@ -135,6 +135,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isAdmin: false,
     isProfitnloss: false,
   }
+  showSMSSetting: boolean = false;
+  showManageRole: boolean = false;
   role_feature = role.features;
 
   tax_type_without_percentage: String;
@@ -384,6 +386,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (permissionArray == null || permissionArray == "") {
       if (usertype == '0') {
         this.jsonFlags.isAdmin = true;
+        this.showSMSSetting = true;
+        this.showManageRole = true;
         this.showAllFields();       // Swapnil
       }
       else if (usertype == '3') {
@@ -392,10 +396,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
         this.setNativeElementValue(['divMyAccountTag'], '');
+        this.showManageRole = true;
+        this.showSMSSetting = true;
       }
     } else {
       if (permissionArray != undefined) {
         this.setNativeElementValue(['divMasterTag'], 'none');
+        if(this.role_feature.SETTINGS_MENU) {
+          this.showSMSSetting = true;
+        }
+        if(this.role_feature.USERS_MENU) {
+          this.showManageRole = true;
+        }
 
         if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
