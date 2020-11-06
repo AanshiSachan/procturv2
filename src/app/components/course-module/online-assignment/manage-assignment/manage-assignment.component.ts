@@ -249,7 +249,7 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignmentDetails.topic = this.editAssignmentDetails.topic_id;
     this.assignmentDetails.subtopic = this.editAssignmentDetails.sub_topic_id;
     this.assignmentDetails.enable_grade = this.editAssignmentDetails.enable_grade.toString();
-    if(this.assignmentDetails.assignment_late_submission_date!= null && this.assignmentDetails.assignment_late_submission_date!='') {
+    if(this.editAssignmentDetails.assignment_late_submission_date!= null && this.editAssignmentDetails.assignment_late_submission_date!='') {
       this.assignmentDetails.assignment_late_submission_date = moment(this.editAssignmentDetails.assignment_late_submission_date).format('YYYY-MM-DD');;
     }
     this.assignmentDetails.evaluation_date = moment(this.editAssignmentDetails.evaluation_date).format('YYYY-MM-DD');
