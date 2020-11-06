@@ -701,7 +701,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 //  Developed by Nalini
 // To check is exam desk is enable for student or not
   checkInstSetupType(value, role){
-    if (value && value != 0) {
+    if (value && value != 0 && value!='undefined') {
       var start = 2;
       var count = 1;
       while (start != value) {
