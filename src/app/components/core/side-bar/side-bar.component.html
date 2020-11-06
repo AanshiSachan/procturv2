@@ -15,7 +15,7 @@
         <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
             <div class="side-section" id="quick">
                 <div class="side-section-item">
-                    <span class="dropSize" routerLink="/view/students/add">
+                    <span class="dropSize" (click)="routerLink('/view/students/add','setting');activeSession=null">
                         Add Student
                     </span>
                 </div>
