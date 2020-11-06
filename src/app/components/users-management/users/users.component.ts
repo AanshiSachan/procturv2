@@ -6,6 +6,7 @@ import { UserService } from '../../../services/user-management/user.service';
 import { HttpService } from '../../../services/http.service';
 import * as moment from 'moment';
 import { ExcelService } from '../../../services/excel.service';
+import { role } from '../../../model/role_features';
 
 @Component({
   selector: 'app-users',
@@ -81,6 +82,7 @@ export class UsersComponent implements OnInit {
   };
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   user_role: any = '';
+  role_feature = role.features;
 
   constructor(
     private apiService: UserService,
@@ -97,7 +99,7 @@ export class UsersComponent implements OnInit {
     this.getAllUserList(this.PageIndex);
     if (sessionStorage.getItem('permitted_roles')) {
       let permissions = Object.keys(JSON.parse(sessionStorage.getItem('permitted_roles')));
-      if (permissions.includes('720')) {
+      if (this.role_feature.USERS_MENU) {
         this.dataFilter.is_show_credentials = true;
       }
     }

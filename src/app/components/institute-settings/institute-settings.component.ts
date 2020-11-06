@@ -5,6 +5,7 @@ import { CommonServiceFactory } from '../../services/common-service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { MessageShowService } from '../../services/message-show.service';
 import { HttpService } from '../../services/http.service';
+import { role } from '../../model/role_features';
 @Component({
   selector: 'app-institute-settings',
   templateUrl: './institute-settings.component.html',
@@ -394,6 +395,7 @@ export class InstituteSettingsComponent implements OnInit {
     admissions: false,
     fees: false,
   };
+  role_feature = role.features;
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
@@ -430,7 +432,7 @@ export class InstituteSettingsComponent implements OnInit {
     if (((username == "admin" && this.instituteId == 100127) ||
       (username == "admin" && this.instituteId == 100058) ||
       (username == "admin" && this.instituteId == 101077)) ||
-      permissionArray.indexOf('721') != -1) {
+      this.role_feature.LIBRARY_MENU) {
       this.libraryRole = true;
     }
   }

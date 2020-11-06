@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { HttpService } from '../../../..';
 import { AppComponent } from '../../../../app.component';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ManageBatchService } from '../../../../services/course-services/manage-batch.service';
 
@@ -64,6 +65,7 @@ export class ManageBatchComponent implements OnInit {
     is_exam_grad_feature: false
   }
   fullResponse: any = [];
+  role_feature = role.features;
 
 
 
@@ -711,7 +713,7 @@ export class ManageBatchComponent implements OnInit {
       if (permissionArray == "" || permissionArray == null) {
         return false;
       }
-      else if (permissionArray.indexOf('401') != -1) {
+      else if (!this.role_feature.SETUP_MENU) {
         return false;
       }
       else {

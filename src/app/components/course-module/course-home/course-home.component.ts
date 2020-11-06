@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class CourseHomeComponent implements OnInit {
     isEcourseFileManager: false,
     isShowOnlineAssignment : false
   }
+  role_feature = role.features;
 
   constructor(   private auth: AuthenticatorService) { }
 
@@ -47,7 +49,7 @@ export class CourseHomeComponent implements OnInit {
       this.jsonFlags.isShowEcourseMapping = true;
     }
 
-    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature') == '1') {
+    if (this.role_feature.STUDY_MATERIAL_MENU && sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonFlags.isEcourseFileManager = true;
     }
 
@@ -77,17 +79,17 @@ export class CourseHomeComponent implements OnInit {
     }
     else{
       this.jsonFlags.isShowModel = true;
-      if (perm.includes('114')) {
+      if (this.role_feature.STUDY_MATERIAL_MENU) {
         this.jsonFlags.isShowFileManager = true;
       }
 
-      if (perm.includes('701')) {
+      if (this.role_feature.CLASS_MENU) {
         this.jsonFlags.isShowClass = true;
       }
-      if (perm.includes('702')) {
+      if (this.role_feature.EXAMS_MENU) {
         this.jsonFlags.isShowExam = true;
       }
-      if (perm.includes('704')) {
+      if (this.role_feature.CLASS_MENU) {
         this.jsonFlags.isShowClassPlanner = true;
       }
     }

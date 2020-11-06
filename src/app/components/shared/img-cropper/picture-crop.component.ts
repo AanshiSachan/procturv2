@@ -10,9 +10,9 @@ declare var Croppie: any;
 
 export class PictureCropComponent implements OnInit, OnChanges {
 
-  @ViewChild('imgContainer',{static: false}) imgContainer: ElementRef;
+  @ViewChild('imgContainer',{static: true}) imgContainer: ElementRef;
   @ViewChild('uploadImage',{static: false}) uploadImage: ElementRef;
-  @ViewChild('uploadedImage',{static: false}) uploadedImage: ElementRef;
+  @ViewChild('uploadedImage',{static: true}) uploadedImage: ElementRef;
   @ViewChild('overlay',{static: false}) overlay: ElementRef;
   @ViewChild('modalButton',{static: false}) modalButton: ElementRef;
   @ViewChild('cropper',{static: false}) cropper: ElementRef;

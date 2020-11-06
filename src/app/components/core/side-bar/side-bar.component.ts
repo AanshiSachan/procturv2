@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
@@ -122,6 +123,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowManageEnquiry: false,
     isShowDataSetup: false,
     isShowCampaign: false,
+    isShowCampaignReport: false,
+    isShowAddCampaign: false,
     isShowAddEnquiry: false,
     isShowReport: false
   }
@@ -132,6 +135,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isAdmin: false,
     isProfitnloss: false,
   }
+  role_feature = role.features;
 
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
@@ -230,19 +234,23 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.jsonRolesFlags[flag] = false;
       });
       // quick enquiry  --110
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
+      if (this.role_feature.LEAD_MANAGE_ENQUIRY) {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
-        this.jsonRolesFlags.isShowReport = true;
       }
       // enquiry  admin --115
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
+        this.jsonRolesFlags.isShowAddCampaign = true;
+      }
+      if(this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
-        this.jsonRolesFlags.isShowManageEnquiry = true;
-        this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      if(this.role_feature.REPORTS_ENQUIRY_CAMPAIGN) {
+        this.jsonRolesFlags.isShowCampaignReport = true;
       }
       // enquiry  report --722
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+      if (this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
+        || this.role_feature.REPORTS_ENQUIRY_SOURCE || this.role_feature.REPORT_ENQUIRY_COUNSELLOR) {
         this.jsonRolesFlags.isShowReport = true;
       }
 
@@ -270,17 +278,17 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
     else {
       this.jsonCourseFlags.isShowModel = true;
-      if (perm.includes('114')) {
+      if (this.role_feature.STUDY_MATERIAL_MENU) {
         this.jsonCourseFlags.isShowFileManager = true;
       }
 
-      if (perm.includes('701')) {
+      if (this.role_feature.CLASS_MENU) {
         this.jsonCourseFlags.isShowClass = true;
       }
-      if (perm.includes('702')) {
+      if (this.role_feature.EXAMS_MENU) {
         this.jsonCourseFlags.isShowExam = true;
       }
-      if (perm.includes('704')) {
+      if (this.role_feature.CLASS_MENU) {
         this.jsonCourseFlags.isShowClassPlanner = true;
       }
     }
@@ -292,7 +300,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.jsonCourseFlags.isShowEcourseMapping = true;
     }
 
-    if (permittedRoles['718'] != undefined && sessionStorage.getItem('enable_eLearn_feature') == '1') {
+    if (this.role_feature.STUDY_MATERIAL_MENU && sessionStorage.getItem('enable_eLearn_feature') == '1') {
       this.jsonCourseFlags.isEcourseFileManager = true;
     }
 
@@ -308,8 +316,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        this.showSMSReport = this.permissions.includes('206') ? true : false;//sms visiblity
-        this.showEmailReport = this.permissions.includes('207') ? true : false; //email visiblity
+        this.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
       }
     }
     else {
@@ -335,12 +343,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
-      if (permissions.indexOf('102') != -1) {
+      if (this.role_feature.FEE_CHEQUE_MANAGE) {
         this.jsonFeesFlags.isFeeActivity = true;
-      }
-      /* profit and lodd */
-      if (permissions.indexOf('208') != -1) {
-        this.jsonFeesFlags.isProfitnloss = true;
       }
 
     }
@@ -393,34 +397,34 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       if (permissionArray != undefined) {
         this.setNativeElementValue(['divMasterTag'], 'none');
 
-        if (permissionArray.indexOf('503') != -1) {
+        if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divTeacherTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divTeacherTag'], '');      // Swapnil
           this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
         }
-        if (permissionArray.indexOf('506') != -1) {
+        if (this.role_feature.FEE_MENU) {
           this.jsonFlags.isShowFee = true;
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
-        if (permissionArray.indexOf('507') != -1 && this.isProfessional) {
+        if (this.role_feature.SETUP_MENU && this.isProfessional) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divSlotTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divSlotTag'], '');       // Swapnil
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
-        if (permissionArray.indexOf('509') != -1) {
+        if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divAcademicTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divAcademicTag'], '');      // Swapnil
           this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
         }
-        if (permissionArray.indexOf('602') != -1) {
+        if (this.role_feature.MY_ACCOUNTS_MENU) {
           // this.divSettingTag.nativeElement.style.display = '';
           // this.divMyAccountTag.nativeElement.style.display = '';
           this.setNativeElementValue(['divSettingTag', 'divMyAccountTag'], '');      // Swapnil
         }
-        if (permissionArray.indexOf('603') != -1) {
+        if (this.role_feature.SETTINGS_MENU) {
           // this.divSettingTag.nativeElement.style.display = '';
           // this.divGeneralSettingTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divSettingTag', 'divGeneralSettingTag'], '');      // Swapnil
@@ -431,18 +435,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
           this.setNativeElementValue(['divSettingTag'], 'none');
         }
 
-        if (permissionArray.indexOf('115') != -1) {
+        // if (permissionArray.indexOf('115') != -1) {
           // this.divManageFormTag.nativeElement.style.display = '';
           // this.divAreaAndMap.nativeElement.style.display = '';
           // this.setNativeElementValue(['divAreaAndMap'], '');       // Swapnil
-        }
-        if (permissionArray.indexOf('601') != -1) {
+        // }
+        if (this.role_feature.USERS_MENU) {
           // this.divManageUsers.nativeElement.style.display = '';
           this.setNativeElementValue(['divManageUsers'], '');       // Swapnil
         } else {
           this.setNativeElementValue(['divManageUsers'], 'none');
         }
-        if (permissionArray.indexOf('508') != -1) {
+        if (this.role_feature.SETUP_MENU) {
           // this.setNativeElementValue(['divClassRoomTag'], '');          // Swapnil
           // this.divClassRoomTag.nativeElement.style.display = '';
         }
@@ -706,9 +710,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   isLibraryFeatureAllow(permission) {
     this.jsonFlags.isShowLibrabry = false;
-    if ((sessionStorage.getItem('enable_library_feature')) == '1') {
-      this.jsonFlags.isShowLibrabry = true;
-    }
+    if (sessionStorage.getItem('enable_library_feature') == '1') {
+      if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin'){
+        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+            this.jsonFlags.isShowLibrabry = this.role_feature.LIBRARY_MENU ? true : false;
+        }
+        } else {
+          this.jsonFlags.isShowLibrabry = true;
+        }
+      }
   }
 
   isExpenseFeatureAllow() {
@@ -724,6 +734,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.instituteId == 100127 ||
       this.instituteId == 100126) {
       this.jsonFlags.isShowExpense = true;
+      if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin'){
+        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+            this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
+        }
+        } else {
+          this.jsonFlags.isShowExpense = true;
+        }
     }
   }
 
@@ -743,15 +760,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // this senction is used for enable elearn feature
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
-      if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
-        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
-          this.jsonFlags.isShoweStore = permissions.includes('727') ? true : false;
+      if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin'){
+        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
+            this.jsonFlags.isShoweStore = this.role_feature.ESTORE_MENU ? true : false;
         }
-      } else {
-        this.jsonFlags.isShoweStore = true;
+        } else {
+          this.jsonFlags.isShoweStore = true;
+        }
       }
     }
-  }
 
   isOnlineExamAllow(type) {
     if (this.jsonFlags.isAdmin) {// if user is admin
@@ -834,7 +851,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   hasLead(permissions) {
     this.jsonFlags.isShowLead = false;
-    if (permissions.includes('110') || permissions.includes('115') || permissions.includes('722')) {
+    if (this.role_feature.LEAD_MENU_ITEM) {
       this.jsonFlags.isShowLead = true;
     }
 
@@ -842,21 +859,17 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   hasStudent(permissions) {
     this.jsonFlags.isShowStudent = false;
-    if (permissions.includes('301') ||
-      permissions.includes('302') ||
-      permissions.includes('303')) {
+    if (this.role_feature.STUDENT_MANAGE ||
+      this.role_feature.STUDENT_MENU_ITEM) {
       this.jsonFlags.isShowStudent = true;
     }
   }
 
   hasCourse(permissions) {
     this.jsonFlags.isShowModel = false;
-    if (permissions.includes('401') || permissions.includes('402')
-      || permissions.includes('403') || permissions.includes('404') ||
-      permissions.includes('405') || permissions.includes('406') ||
-      permissions.includes('501') || permissions.includes('502') ||
-      permissions.includes('505') || permissions.includes('701') ||
-      permissions.includes('704') || permissions.includes('702')) {
+    if (this.role_feature.EXAMS_MENU ||
+      this.role_feature.CLASS_MENU ||
+      this.role_feature.SETUP_MENU) {
       this.jsonFlags.isShowModel = true;
     }
   }
@@ -865,12 +878,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   hasProducts(permissions) {
     this.jsonFlags.isShoweStore = false;
     if (this.isProfessional) {
-      if (permissions.includes('401') || permissions.includes('402')
-        || permissions.includes('403') || permissions.includes('404') ||
-        permissions.includes('405') || permissions.includes('406') ||
-        permissions.includes('501') || permissions.includes('502') ||
-        permissions.includes('505') || permissions.includes('701') ||
-        permissions.includes('704') || permissions.includes('702')) {
+      if (this.role_feature.CLASS_MENU ||
+        this.role_feature.SETUP_MENU || this.role_feature.CLASS_MENU ||
+        this.role_feature.EXAMS_MENU) {
         this.jsonFlags.isShoweStore = true;
       }
     }
@@ -878,7 +888,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
 
   hasExam(permissions) {
-    if (permissions.includes('103') || permissions.includes('112') || permissions.includes('203') || permissions.includes('404')) {
+    if (permissions.includes('103') || this.role_feature.EXAMS_MENU || permissions.includes('203') || this.role_feature.EXAMS_MENU) {
       //document.getElementById('liten').classList.remove('hide');
     }
     else { }
@@ -1127,7 +1137,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('permissions') == '' && sessionStorage.getItem('userType') != '3') {
       return true;
     }
-    else if ((sessionStorage.getItem('permissions')).includes('301')) {
+    else if (this.role_feature.STUDENT_MANAGE) {
       if (sessionStorage.getItem('userType') != '3') {
         return false;
       } else {

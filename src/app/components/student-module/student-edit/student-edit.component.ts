@@ -5,6 +5,7 @@ import * as moment from 'moment';
 // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
+import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -146,7 +147,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_phone: "",
     student_curr_addr: "",
     dob: "",
-    doj: moment().format('MM-DD-YYYY'),
+    doj: "",
     expiry_date: "",
     school_name: "-1",
     student_class_key: "",
@@ -307,6 +308,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   addArea: boolean = false;
   studdentEdit = true;
   assignTo: boolean = true;
+  role_feature = role.features;
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -354,16 +356,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
-      if (permissions.includes('714')) {
+      if (this.role_feature.FEE_CHEQUE_MANAGE) {
         this.checkBoxGroup.manageCheque = true;
         this.showFeeSection = false;
         this.checkBoxGroup.hideReconfigure = false;
       }
-      if (permissions.includes('710')) {
+      if (this.role_feature.FEE_MANAGE) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (permissions.includes('713')) {  //fee discount
+      if (this.role_feature.FEE_MANAGE) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
       if (sessionStorage.getItem('permissions') == undefined
@@ -1333,6 +1335,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.auth.hideLoader();
         this.studentName = data.student_name;
         this.studentAddFormData = data;
+        this.studentAddFormData.doj = moment(this.studentAddFormData.doj).format('MM-DD-YYYY');
+        this.studentAddFormData.dob = moment(this.studentAddFormData.dob).format('MM-DD-YYYY');
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
@@ -1948,19 +1952,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('714')) {
+            if (this.role_feature.FEE_CHEQUE_MANAGE) {
               this.showFeeSection = true;
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if ((permissions.includes('710'))) {
+            if (this.role_feature.FEE_MANAGE) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (permissions.includes('713')) {  //fee discount
+            if (this.role_feature.FEE_MANAGE) {  //fee discount
               this.checkBoxGroup.feeDiscouting = true;
             }
             if (sessionStorage.getItem('permissions') == undefined

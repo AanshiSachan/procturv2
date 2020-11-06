@@ -18,6 +18,7 @@ import { FetchStudentService } from '../../../services/student-services/fetch-st
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { WidgetService } from '../../../services/widget.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import { role } from '../../../model/role_features';
 var jsPDF = require('jspdf');
 declare var $;
 
@@ -31,7 +32,7 @@ export class StudentHomeComponent implements OnInit {
   private subscriptionStudent: ISubscription;
   private subscriptionCustomComp: ISubscription;
   @ViewChild('studentPage', { static: false }) studentPage: ElementRef;
-  @ViewChild('mySidenav', { static: false }) mySidenav: ElementRef;
+  @ViewChild('mySidenav', { static: true }) mySidenav: ElementRef;
   @ViewChild('optMenu', { static: true }) optMenu: ElementRef;
 
   sizeArr: any[] = [50, 100, 250, 500, 1000];
@@ -151,6 +152,7 @@ export class StudentHomeComponent implements OnInit {
   };
 
   enqAssignTo: any = [];
+  role_feature = role.features;
 
   applyLeave = {
     student_id: '',
@@ -514,7 +516,7 @@ export class StudentHomeComponent implements OnInit {
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
       if (sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != '') {
         var permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        if (!permissions.includes('726')) {
+        if (!this.role_feature.MOBILE_NUMBER_VISIBILITY) {
           list.forEach(el => {
             var countryCode = el.student_phone.split('-')[0];
             var phnNo = el.student_phone.split('-')[1];

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { role } from '../../model/role_features';
 
 @Component({
   selector: 'app-leads',
@@ -6,6 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./leads.component.scss']
 })
 export class LeadsComponent implements OnInit, OnDestroy {
+  role_feature = role.features;
 
   constructor() { }
 
@@ -20,8 +22,7 @@ export class LeadsComponent implements OnInit, OnDestroy {
   // to check user has permission to download any Enquiry reports 
   // Nalini
   checkDownloadPermissionAccess() {
-      let temp = sessionStorage.getItem('permissions'); 
-      if(temp.includes('723') || (sessionStorage.getItem('username')=='admin')){
+      if(this.role_feature.DOWNLOAD_ENQUIRY_REPORT || (sessionStorage.getItem('username')=='admin')){
       sessionStorage.setItem('downloadEnquiryReportAccess',String(true));
     }
 }

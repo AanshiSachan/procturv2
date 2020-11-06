@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Route, Router, CanActivate, CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { role } from '../model/role_features';
 // import { tr } from 'ngx-bootstrap/bs-moment/i18n/tr';
 
 /* For future purpose when routing will be allowed only if router is activated */
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanLoad {
+    role_feature = role.features;
 
     constructor(private router: Router) { }
 
@@ -127,7 +129,8 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('110') ||
+            if (this.role_feature.LEAD_MANAGE_ENQUIRY ||
+                this.role_feature.LEAD_MENU_ITEM ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('115') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
                 return true;
@@ -143,7 +146,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('301') || JSON.parse(sessionStorage.getItem('permissions')).includes('302') || JSON.parse(sessionStorage.getItem('permissions')).includes('303')) {
+            if (this.role_feature.STUDENT_MANAGE || this.role_feature.STUDENT_MENU_ITEM) {
                 return true;
             }
             else {
@@ -157,26 +160,10 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('401') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('402') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('403') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('404') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('405') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('406') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('501') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('505') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('502') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('701') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('702') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('704') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('201') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('202') ||
+            if (this.role_feature.SETUP_MENU ||
+                this.role_feature.EXAMS_MENU ||
+                this.role_feature.CLASS_MENU ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('203') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('204') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('205') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('206') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('207') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('208') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
 
 
@@ -193,21 +180,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('101') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('102') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('103') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('104') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('105') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('110') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('112') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('113') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('114') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('121')) {
-                return true;
-            }
-            else {
                 return false;
-            }
         }
     }
 
@@ -232,14 +205,9 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('201') ||
+            if (this.role_feature.REPORT_COURSE_ATTENDANCE ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('202') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('203') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('204') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('205') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('206') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('207') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('208') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
                 return true;
             }
@@ -254,7 +222,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('301')) {
+            if (this.role_feature.STUDENT_MANAGE || this.role_feature.STUDENT_MENU_ITEM) {
                 return true;
             }
             else {
@@ -269,7 +237,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
         else {
             if (JSON.parse(sessionStorage.getItem('permissions')).includes('108') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('109')) {
+                this.role_feature.EXPENSE_MENU) {
                 return true;
             }
             else {
@@ -297,15 +265,8 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('103') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('112') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('404') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('405') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('406') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('206') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('702') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('704') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('706')) {
+            if (this.role_feature.EXAMS_MENU ||
+                this.role_feature.CLASS_MENU) {
                 return true;
             }
             else {
@@ -320,10 +281,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
         else {
             if (
-                JSON.parse(sessionStorage.getItem('permissions')).includes('503') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('507') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('508') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('506')) {
+                this.role_feature.SETUP_MENU) {
                 return true;
             }
             else {
@@ -337,7 +295,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('503')) {
+            if (this.role_feature.SETUP_MENU) {
                 return true;
             }
             else {
@@ -351,7 +309,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('202')) {
+            if (this.role_feature.FEE_MENU || this.role_feature.FEE_MANAGE) {
                 return true;
             }
             else {
@@ -365,7 +323,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('507')) {
+            if (this.role_feature.SETUP_MENU) {
                 return true;
             }
             else {
@@ -379,7 +337,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('508')) {
+            if (this.role_feature.SETUP_MENU) {
                 return true;
             }
             else {
