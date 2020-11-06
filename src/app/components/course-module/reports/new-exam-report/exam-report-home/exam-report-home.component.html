@@ -27,18 +27,17 @@
       <div class="left-container">
         <div class="left-outer-container" *ngIf="!jsonFlag.isProfessional">
           <div class="left-item">
-            <select class="header-select-box" name="" [(ngModel)]="mastercourse"
-              (ngModelChange)="getExamReportForMasterCourse()">
-              <option value="-1">Select Master Course</option>
-              <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">
-                {{masterCourse.master_course}}</option>
+            <select class="header-select-box" name="" [(ngModel)]="mastercourse" (ngModelChange)="getExamReportForMasterCourse()">
+              <!-- changes by Nalini - to handle school model conditions -->
+              <option value="-1">Select {{schoolModel ? '' : 'Master Course'}}</option>
+              <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
             </select>
           </div>
           <div class="left-item">
             <div class="table-container">
               <div class="table-header-container">
                 <div class="header-item medium-item">
-                  <span>Course</span>
+                  <span>{{schoolModel ? 'Section' : 'Course'}}</span>
                 </div>
                 <div class="header-item large-item">
                   <span>Subject</span>
@@ -181,10 +180,11 @@
                 <span>Exam Date</span>
               </div>
               <div class="header-item custom-item">
-                <span>Mastercourse</span>
+                <!-- changes by Nalini - to handle school model conditions -->
+                <span>{{schoolModel ? 'Standard' : 'Mastercourse'}}</span>
               </div>
               <div class="header-item custom-item">
-                <span>Course</span>
+                <span>{{schoolModel ? 'Section' : 'Course'}}</span>
               </div>
               <div class="header-item custom-item">
                 <span>Status</span>

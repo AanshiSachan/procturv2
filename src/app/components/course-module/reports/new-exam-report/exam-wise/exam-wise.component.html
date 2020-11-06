@@ -35,7 +35,8 @@
           <div class="course-info">
             <div class="course-info-item course">
               <div class="course-info-title-container">
-                <span>Course</span>
+                <!-- changes by Nalini - to handle school model conditions -->
+                <span>{{schoolModel ? 'Section' : 'Course'}}</span>
               </div>
               <div class="course-info-details" *ngIf="!jsonFlag.isProfessional">
                 <span>{{exam_wise_data?.course_name}}</span>

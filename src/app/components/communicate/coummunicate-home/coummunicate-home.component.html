@@ -216,7 +216,8 @@
             <div class="row filter-section" *ngIf="!isProfessional">
 
               <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
-                <label for="masterCourse">Master Course</label>
+                <!-- changes by Nalini - to handle school model conditions -->
+                <label for="masterCourse">{{schoolModel ? 'Standard' : 'Master Course'}}</label>
                 <div class="" style="padding: 0px;">
                   <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.master_course"
                     (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
@@ -229,7 +230,8 @@
               </div>
 
               <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
-                <label for="course">Course</label>
+                <!-- changes by Nalini - to handle school model conditions -->
+                <label for="course">{{schoolModel ? 'Section' : 'Course'}}</label>
                 <div class="" style="padding: 0px;">
                   <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.course_id"
                     (ngModelChange)="($event)" name="course">

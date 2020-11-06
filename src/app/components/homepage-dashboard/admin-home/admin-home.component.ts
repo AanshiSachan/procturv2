@@ -179,6 +179,7 @@ export class AdminHomeComponent implements OnInit {
   reminderRemarks: string = '';
   remarksLimit: number = 50;
   role_feature = role.features;
+  schoolModel: boolean = false;
 
 
   /* ===================================================================================== */
@@ -217,6 +218,8 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
     // added for account expiry popup notification
     var institute_info = JSON.parse(sessionStorage.getItem('institute_info'))

@@ -68,6 +68,7 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
   Vimeofile: any = {
     files: []
   };
+  schoolModel: boolean = false;
 
   constructor(
     private _http: HttpService,
@@ -80,6 +81,8 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   ngOnInit() {

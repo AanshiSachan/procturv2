@@ -466,10 +466,11 @@
                 <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto;margin-top: -28px;"
                   *ngIf="!isProfessional" (click)="openAssignBatch()">
                   <label for="assignCourses"> </label>
+                  <!-- changes by Nalini - to handle school model conditions -->
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px"
-                    name="assignCoursesParent" [ngModel]="assignedBatchString" placeholder="Assign Courses"
+                    name="assignCoursesParent" [ngModel]="assignedBatchString" placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}"
                     id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
-                  <a style="cursor:pointer" (click)="openAssignBatch()">Assign Courses</a>
+                  <a style="cursor:pointer" (click)="openAssignBatch()">{{schoolModel ? 'Assign Section' : 'Assign Courses'}}</a>
                 </div>
 
                 <!-- ================================================================= -->

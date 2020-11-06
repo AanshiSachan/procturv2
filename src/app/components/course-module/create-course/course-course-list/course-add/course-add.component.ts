@@ -48,19 +48,29 @@ export class CourseAddComponent implements OnInit {
   nestedTableDataSource: any;
   examGradeFeature: any;
   divCreateNewCourse: boolean = false;
+  schoolModel: boolean = false;
 
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
     private route: Router
-  ) { }
+  ) { 
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+  }
 
   ngOnInit() {
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.getAllStandardNameList();
     this.toggleCreateNewSlot();
     this.getAcademicYearDetails();
+  }
+
+  // changes by Nalini - to check validation for add course/section
+  checkAddCourseValidation() {
+   let result = this.schoolModel ? (this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) : (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1);
+   return result;
   }
 
   btnGoClickCreateCourse() {
@@ -358,12 +368,18 @@ export class CourseAddComponent implements OnInit {
   toggleCreateNewSlot() {
     if (this.divCreateNewCourse == false) {
       this.divCreateNewCourse = true;
-      document.getElementById('showCloseBtn').style.display = '';
-      document.getElementById('showAddBtn').style.display = 'none';
+      // changes by Nalini - to handle school model conditions
+      if(!this.schoolModel) {
+        document.getElementById('showCloseBtn').style.display = '';
+        document.getElementById('showAddBtn').style.display = 'none';
+      }
     } else {
       this.divCreateNewCourse = false;
-      document.getElementById('showCloseBtn').style.display = 'none';
-      document.getElementById('showAddBtn').style.display = '';
+      // changes by Nalini - to handle school model conditions
+      if(!this.schoolModel) {
+        document.getElementById('showCloseBtn').style.display = 'none';
+        document.getElementById('showAddBtn').style.display = '';
+      }
     }
   }
 

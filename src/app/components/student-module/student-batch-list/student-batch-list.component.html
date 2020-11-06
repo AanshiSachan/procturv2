@@ -81,8 +81,9 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th class="mcourse" *ngIf="!isProfessional">Master Course</th>
-                        <th class="courseN" *ngIf="!isProfessional">Course</th>
+                        <!-- changes by Nalini - to handle school model conditions -->
+                        <th class="mcourse" *ngIf="!isProfessional">{{schoolModel ? 'Standard' : 'Master Course'}}</th>
+                        <th class="courseN" *ngIf="!isProfessional">{{schoolModel ? 'Section' : 'Course'}}</th>
                         <th class="mcourse" *ngIf="isProfessional">Batch Name</th>
                         <th>Start Date</th>
                         <th>End Date</th>

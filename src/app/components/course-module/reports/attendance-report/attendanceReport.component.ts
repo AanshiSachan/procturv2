@@ -96,6 +96,7 @@ export class AttendanceReportComponent implements OnInit {
   searchflag: boolean = false;
   showDownloadReport: boolean = false;
   searchData: any = [];
+  schoolModel: boolean = false;
 
 
   @ViewChild('attendanceTable', { static: false }) attendanceTable: ElementRef;
@@ -128,6 +129,8 @@ export class AttendanceReportComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.getMasterCourseData();
   }
 

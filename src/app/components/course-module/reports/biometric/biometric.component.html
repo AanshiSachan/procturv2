@@ -69,9 +69,9 @@
               <div class="c-lg-12">
                 <div class="c-lg-3" style="padding-left: 0px;" *ngIf="masterCourseNames  && !isProfessional">
                   <div class="field-wrapper">
-                    <label>Master Course</label>
-                    <select class="form-ctrl" [(ngModel)]="getData.master_course_name"
-                      (ngModelChange)="getCourses($event)">
+                    <!--changes by Nalini - to handle school model conditions  -->
+                    <label>{{schoolModel ? 'Standard' : 'Master Course'}}</label>
+                    <select class="form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)">
                       <option value="-1"></option>
                       <option *ngFor="let i of masterCourse" [value]="i">
                         {{i}}
@@ -82,7 +82,7 @@
                 </div>
                 <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames  && !isProfessional">
                   <div class="field-wrapper">
-                    <label> Course</label>
+                    <label> {{schoolModel ? 'Section' : 'Course'}}</label>
                     <select class="form-ctrl" (click)="courseChange()" [(ngModel)]="getData.course_id">
                       <option value="-1"></option>
                       <option *ngFor="let i of courses" [value]="i.course_id">

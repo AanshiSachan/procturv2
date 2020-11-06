@@ -23,6 +23,8 @@ export class AuthenticatorService {
     institute_type = new BehaviorSubject('LANG');
     course_flag = new BehaviorSubject('0');
     instituteType_name = new BehaviorSubject('LANG');
+    // changes by Nalini - to handle school model conditions
+    schoolModel:any = sessionStorage.getItem('is_institute_type_school');
 
     public baseUrl: string = "";
     public baseUrlStudent: string = window.location.origin;
@@ -90,6 +92,7 @@ export class AuthenticatorService {
             this.course_flag.next(courseflag);
         }
         this.makeInstituteType(type, courseflag);
+        this.schoolModel = sessionStorage.getItem('is_institute_type_school');
     }
 
     getInstituteId() {

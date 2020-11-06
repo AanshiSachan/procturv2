@@ -54,9 +54,8 @@
                         <div class="row" style="margin: 0;">
                             <div class="c-lg-4 c-sm-4 c-md-4">
                                 <div class="field-wrapper" [ngClass]="{'has-value': true }">
-                                    <label for="mc">Master Course </label>
-                                    <select [(ngModel)]="courseFetchForm.standard_id"
-                                        (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
+                                    <label for="mc">{{schoolModel ? 'Standard' : 'Master Course'}} </label>
+                                    <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
                                         <option value="-1"></option>
                                         <ng-container *ngIf="isProfessional; else masterCourse">
                                             <option *ngFor="let master of standardList" [value]="master.standard_id">
@@ -72,9 +71,10 @@
 
                             <div class="c-lg-4 c-sm-4 c-md-4">
                                 <div class="field-wrapper">
-                                    <label for="cc">Course </label>
-                                    <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id"
-                                        (ngModelChange)="fetchBatchList($event)" class="form-ctrl" name="cc" id="cc">
+                                    <!-- changes by Nalini - to handle school model conditions -->
+                                    <label for="cc">{{schoolModel ? 'Section' : 'Course'}} </label>
+                                    <select *ngIf="isProfessional"  [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList($event)" class="form-ctrl"
+                                        name="cc" id="cc">
                                         <option value="-1"></option>
                                         <option *ngFor="let course of subjectList" [value]="course.subject_id">
                                             {{course.subject_name}}</option>

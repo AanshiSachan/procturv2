@@ -33,6 +33,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     alertBox: boolean = true;
     delete_unpaid_fee: boolean = false;
     unselected_checkbox_id: number;
+    schoolModel: boolean = false;
 
     @Input() dataList: any[] = [];
     @Input() academicYear: any[] = [];
@@ -60,6 +61,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 }
             }
         );
+        // changes by Nalini - to handle school model conditions
+        this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
         this.countryList = JSON.parse(sessionStorage.getItem('country_data'));
     }

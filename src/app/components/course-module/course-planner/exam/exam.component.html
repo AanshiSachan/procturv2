@@ -45,18 +45,17 @@
           <!-- FOR COURSE MODEL -->
           <div class="header-item" *ngIf="!jsonFlag.isProfessional">
             <span>Master Course <span class="danger">*</span></span>
-            <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse"
-              (ngModelChange)="updateCoursesList()">
-              <option value="-1">Select Master Course</option>
-              <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">
-                {{masterCourse.master_course}}</option>
+            <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse" (ngModelChange)="updateCoursesList()">
+              <!-- changes by Nalini - to handle school model conditions -->
+              <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
+              <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
             </select>
           </div>
           <div class="header-item" *ngIf="!jsonFlag.isProfessional" style="width: 19%;">
             <span>Course</span>
-            <select class="header-select-box" name="" [(ngModel)]="inputElements.course"
-              (ngModelChange)="updateSubjectsList()">
-              <option value="-1">Select Course</option>
+            <!-- changes by Nalini - to handle school model conditions -->
+            <select class="header-select-box" name="" [(ngModel)]="inputElements.course" (ngModelChange)="updateSubjectsList()">
+              <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
               <option [value]="course.course_id" *ngFor="let course of courseList">{{course.course_name}}</option>
             </select>
             <span *ngIf="inputElements.course != '-1' && !jsonFlag.isProfessional" style="font-size: 10px;">Duration:
@@ -573,7 +572,7 @@
 
           <div class="details row">
             <div class="c-sm-6 c-md-6 c-lg-6">
-              <h5>Master Course : {{courseTempData.master_course_name}} </h5>
+              <h5>{{schoolModel ? 'Standard' : 'Master Course'}} : {{courseTempData.master_course_name}} </h5>
             </div>
             <div class="c-sm-6 c-md-6 c-lg-6" style="text-align: right;">
               <h5>Exam Schedule Date : {{courseTempData.date | date: 'dd-MMM-yyyy'}} </h5>
@@ -583,7 +582,7 @@
           <div class="content-wraper">
             <div class="row button-Section" style="margin-bottom: 10px;margin-top: 10px;">
               <div class="c-sm-6 c-md-6 c-lg-6">
-                <h4>Course : {{courseTempData.course_name}}</h4>
+                <h4>{{schoolModel ? 'Section' : 'Course'}} : {{courseTempData.course_name}}</h4>
               </div>
               <!-- <div class="c-sm-6 c-md-6 c-lg-6">
                 <div class="pull-right" *ngIf="showReasonSection == ''">

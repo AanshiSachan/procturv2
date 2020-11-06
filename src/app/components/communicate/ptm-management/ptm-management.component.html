@@ -170,19 +170,18 @@
       <div class="left-container">
         <!-- FOR COURSE MODEL -->
         <div class="header-item" *ngIf="!jsonFlag.isProfessional">
-          <span>Master Course <span class="danger">*</span></span>
-          <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse"
-            (ngModelChange)="updateCoursesList()">
-            <option value="-1">Select Master Course</option>
-            <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">
-              {{masterCourse.master_course}}</option>
+          <!-- changes by Nalini - to handle school model conditions -->
+          <span>{{schoolModel ? 'Standard' : 'Master Course'}} <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse" (ngModelChange)="updateCoursesList()">
+            <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
+            <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
           </select>
         </div>
         <div class="header-item" *ngIf="!jsonFlag.isProfessional">
-          <span>Course <span class="danger">*</span></span>
-          <select class="header-select-box" name="" [(ngModel)]="inputElements.course"
-            (ngModelChange)="updateSubjectsList()">
-            <option value="-1">Select Course</option>
+          <!-- changes by Nalini - to handle school model conditions -->
+          <span>{{schoolModel ? 'Section' : 'Course'}} <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.course" (ngModelChange)="updateSubjectsList()">
+            <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
             <option [value]="course.course_id" *ngFor="let course of courseList">{{course.course_name}}</option>
           </select>
         </div>

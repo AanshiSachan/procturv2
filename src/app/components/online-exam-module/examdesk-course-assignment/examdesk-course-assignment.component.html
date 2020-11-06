@@ -19,7 +19,8 @@
     <table>
       <thead>
         <tr>
-          <th>Course Name</th>
+          <!-- changes by Nalini - to handle school model conditions -->
+          <th>{{schoolModel ? 'Section' : 'Course'}} Name</th>
           <th>Total Assigned Student</th>
           <th></th>
         </tr>
@@ -74,8 +75,8 @@
         style="fill: currentColor"></path>
     </svg>
   </span>
-
-  <h2 popup-header>Course Name : {{tempData.course_type}}</h2>
+<!-- changes by Nalini - to handle school model conditions -->
+  <h2 popup-header>{{schoolModel ? 'Section' : 'Course'}} Name : {{tempData.course_type}}</h2>
 
   <div popup-content class="student-assign-popup">
     <div class=" filter-section">
@@ -105,9 +106,8 @@
             <label for="standardRadio">Standard</label>
           </div>
           <div class="field-radio-wrapper" *ngIf="isCourseModule">
-            <input type="radio" name="courseStudent" id="courseStudent" value="1" class="form-radio"
-              [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
-            <label for="courseStudent">Course</label>
+            <input type="radio" name="courseStudent" id="courseStudent" value="1" class="form-radio" [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
+            <label for="courseStudent">{{schoolModel ? 'Section' : 'Course'}}</label>
           </div>
         </div>
         <div class="c-sm-4 c-md-4 c-lg-4 ">
@@ -138,13 +138,13 @@
         </div>
       </div>
       <div class="row extraMargin" *ngIf="isCourse&&isCourseModule">
+        <!-- changes by Nalini - to handle school model conditions -->
         <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
           <div class="field-wrapper">
-            <label for="master">Master Course
+            <label for="master">{{schoolModel ? 'Standard' : 'Master Course'}}
             </label>
-            <select class="form-ctrl" [(ngModel)]="examAssignmentData.master_course_name"
-              (change)="getCourses($event.target.value)">
-              <option value="">Master Course</option>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.master_course_name" (change)="getCourses($event.target.value)">
+              <option value="">{{schoolModel ? 'Standard' : 'Master Course'}}</option>
               <option *ngFor="let i of masterCourse" [value]="i.master_course">
                 {{i.master_course}}
               </option>
@@ -154,10 +154,10 @@
 
         <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
           <div class="field-wrapper">
-            <label for="course">Course
+            <label for="course">{{schoolModel ? 'Section' : 'Course'}}
             </label>
             <select class="form-ctrl" [(ngModel)]="examAssignmentData.course_id">
-              <option value="-1">Course</option>
+              <option value="-1">{{schoolModel ? 'Section' : 'Course'}}</option>
               <option *ngFor="let i of courses" [value]="i.course_id">
                 {{i.course_name}}
               </option>>

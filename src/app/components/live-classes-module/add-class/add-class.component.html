@@ -161,11 +161,11 @@
 
       <section id="assignStudent" *ngIf="isOtherActive">
         <div class="add_student_container" style="margin-right: 0;float: left;">
-          <div class="field-wrapper" *ngIf="!isProfessional">
-            <label for="master_course">Master Course<span class="text-danger">*</span> </label>
-            <select class="form-ctrl" name="master_course" id="master_course" [(ngModel)]="courseValue"
-              (ngModelChange)="getCourses($event)">
-              <option value="" disabled selected="selected" hidden>Select Master Course</option>
+          <!-- changes by Nalini - to handle school model conditions -->
+          <div class="field-wrapper"  *ngIf="!isProfessional">
+            <label for="master_course">{{schoolModel ? 'Standard' : 'Master Course'}}<span class="text-danger">*</span> </label>
+            <select class="form-ctrl" name="master_course" id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
+              <option value="" disabled  selected="selected" hidden>Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
               <option *ngFor="let i of masters" [value]="i.master_course">
                 {{i.master_course}}
               </option>
@@ -201,9 +201,13 @@
           </div>
 
           <div class="field-wrapper student_list_container" *ngIf="!isProfessional">
-            <label for="students">Course(s)<span class="text-danger">*</span> </label>
-            <ng-multiselect-dropdown class="container" [placeholder]="'Select Course'" [data]="courses"
-              [settings]="courseListSetting" [(ngModel)]="selectedCourseList"
+            <!-- changes by Nalini - to handle school model conditions -->
+            <label for="students">{{schoolModel ? 'Section(s)' : 'Course(s)'}}<span class="text-danger">*</span> </label>
+            <ng-multiselect-dropdown class="container"
+              placeholder="{{schoolModel ? 'Select Section' : 'Select Course'}}"
+              [data]="courses"
+              [settings]="courseListSetting"
+              [(ngModel)]="selectedCourseList"
               (ngModelChange)="getBatchesCoursesIds($event)">
             </ng-multiselect-dropdown>
           </div>

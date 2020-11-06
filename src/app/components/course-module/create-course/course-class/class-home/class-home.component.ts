@@ -97,6 +97,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     classSchldId: []
   };
   role_feature = role.features;
+  schoolModel: boolean = false;
 
   constructor
     (
@@ -473,6 +474,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   gotoPreviousWeek() {

@@ -188,6 +188,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   addArea: boolean = false;
   convertEnquiry: boolean = false;
   role_feature = role.features;
+  schoolModel: boolean = false;
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -208,6 +209,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }

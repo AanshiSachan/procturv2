@@ -384,7 +384,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                    <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="!schoolModel">
                                         <!-- standard Course-->
                                         <div *ngIf="!isProfessional" class="field-wrapper">
                                             <label for="editStandard">Standard</label>
@@ -398,9 +398,10 @@
                                         </div>
                                     </div>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
-                                        <!-- masterCourse course -->
-                                        <div *ngIf="!isProfessional" class="field-wrapper">
-                                            <label for="editMc">Master Course</label>
+                                      <!-- masterCourse course -->
+                                      <div *ngIf="!isProfessional" class="field-wrapper">
+                                          <!-- changes by Nalini - to handle school model conditions -->
+                                        <label for="editMc">{{schoolModel ? 'Standard' : 'Master Course'}}</label>
                                             <select id="editMc" class="form-ctrl" name="editMc"
                                                 [(ngModel)]="course_mastercourse_id"
                                                 (ngModelChange)="courseMasterChange($event)"

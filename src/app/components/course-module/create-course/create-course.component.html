@@ -21,7 +21,8 @@
                 </li>
                 <li id="liManageBatch" #liManageBatch (click)="switchActiveView('liManageBatch')" class="">
                     <a *ngIf="(isLangInstitue)" routerLink="/view/batch/create/managebatch">Batch</a>
-                    <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/courselist">Courses</a>
+                    <!-- changes by Nalini - to handle school model conditions -->
+                    <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/courselist">{{schoolModel ? 'Section' : 'Courses'}}</a>
                 </li>
                 <li id="liClass" #liClass (click)="switchActiveView('liClass')" class="" style="width:16%;">
                     <a routerLink="/view/batch/create/class" *ngIf="(isLangInstitue)">Class</a>

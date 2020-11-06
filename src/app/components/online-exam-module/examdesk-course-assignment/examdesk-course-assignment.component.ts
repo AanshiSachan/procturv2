@@ -35,6 +35,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   headerChecked: boolean = false;
   isCourse: boolean = false;
   isCourseModule: boolean = false;
+  schoolModel: boolean = false;
 
   examAssignmentData = {
     "institute_id": 0,
@@ -61,6 +62,8 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     } else {
       this.isCourseModule = false;
     }
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
   }
 

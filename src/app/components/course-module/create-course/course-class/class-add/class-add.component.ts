@@ -209,6 +209,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   fullResponse: any = [];
   multiClickDisabled: boolean = false;
   coursePlannerStatus: any;
+  schoolModel: boolean = false;
 
   constructor(
     private router: Router,
@@ -237,6 +238,8 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     /* fetching prefilled data */
     this.fetchPrefillData();
     if (!this.isProfessional) {

@@ -71,6 +71,7 @@ export class CoummunicateHomeComponent implements OnInit {
   searchData: string = "";
   openAppUserSelected = false;
   role_feature = role.features;
+  schoolModel: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -89,6 +90,8 @@ export class CoummunicateHomeComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.userType = Number(sessionStorage.getItem('userType'));
     this.permissionArray = sessionStorage.getItem('permissions');
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {

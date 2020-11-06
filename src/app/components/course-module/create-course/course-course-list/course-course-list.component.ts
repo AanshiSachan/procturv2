@@ -43,13 +43,15 @@ export class CourseCourseListComponent implements OnInit {
     isShowAddStudent: false,
     isShowAddCourse: false
   }
+  schoolModel: boolean = false;
 
   constructor(
     private apiService: CourseListService,
     private auth: AuthenticatorService,
     private toastCtrl: AppComponent,
   ) {
-
+// changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
   }
 

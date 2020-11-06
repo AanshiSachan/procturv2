@@ -26,9 +26,10 @@
                     <!-- Master Course / Standard  -->
                     <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
-                            <label>Master Course</label>
-                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name"
-                                (ngModelChange)="getCourseData($event)" name="masterCourse">
+                            <!-- changes by Nalini - to handle school model conditions -->
+                            <label>{{schoolModel ? 'Standard' : 'Master Course'}}</label>
+                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name" (ngModelChange)="getCourseData($event)"
+                                name="masterCourse">
                                 <option value=-1></option>
                                 <option *ngFor="let i of masterCourses" [value]="i">{{i}}</option>
                             </select>
@@ -47,9 +48,8 @@
                     <!-- Standard/ Subject -->
                     <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
-                            <label> Course</label>
-                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.course_id"
-                                (ngModelChange)="getSubjectData($event)">
+                            <label> {{schoolModel ? 'Section' : 'Course'}}</label>
+                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.course_id" (ngModelChange)="getSubjectData($event)">
                                 <option value=-1></option>
                                 <option *ngFor="let i of courses" [value]="i.course_id" name="subjectCourse">
                                     {{i.course_name}}</option>

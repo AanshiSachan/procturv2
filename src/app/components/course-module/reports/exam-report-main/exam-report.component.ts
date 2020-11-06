@@ -78,6 +78,7 @@ export class ExamReportMainComponent implements OnInit {
   property = "";
   direction = 0;
   sortingEnabled: boolean = true;
+  schoolModel: boolean = false;
   constructor(
     private examdata: ExamService,
     private appC: AppComponent,
@@ -97,6 +98,8 @@ export class ExamReportMainComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   ngOnInit() {
