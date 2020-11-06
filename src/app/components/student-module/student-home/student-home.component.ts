@@ -123,8 +123,8 @@ export class StudentHomeComponent implements OnInit {
     batch_size: this.studentdisplaysize,
     sorted_by: '',
     order_by: '',
-    doa_from_date: moment().format('MM-DD-YYYY'),
-    doa_to_date: moment().format('MM-DD-YYYY')
+    doa_from_date: moment().format('YYYY-MM-DD'),
+    doa_to_date: moment().format('YYYY-MM-DD')
   };
 
   advancedFilterForm: instituteInfo = {
@@ -142,8 +142,8 @@ export class StudentHomeComponent implements OnInit {
     batch_size: this.studentdisplaysize,
     sorted_by: '',
     order_by: '',
-    doa_from_date: moment().format('MM-DD-YYYY'),
-    doa_to_date: moment().format('MM-DD-YYYY'),
+    doa_from_date: moment().format('YYYY-MM-DD'),
+    doa_to_date: moment().format('YYYY-MM-DD'),
     country_id: '-1',
     state_id: '-1',
     city_id: '-1',
@@ -155,8 +155,8 @@ export class StudentHomeComponent implements OnInit {
 
   applyLeave = {
     student_id: '',
-    start_date: moment().format("MM-DD-YYYY"),
-    end_date: moment().format("MM-DD-YYYY"),
+    start_date: moment().format("YYYY-MM-DD"),
+    end_date: moment().format("YYYY-MM-DD"),
     reason: ''
   };
 
@@ -194,7 +194,7 @@ export class StudentHomeComponent implements OnInit {
     student_phone: "",
     student_curr_addr: "",
     dob: "",
-    doj: moment().format('MM-DD-YYYY'),
+    doj: moment().format('YYYY-MM-DD'),
     school_name: "-1",
     student_class_key: "",
     parent_name: "",
@@ -812,7 +812,7 @@ export class StudentHomeComponent implements OnInit {
           enq_custom_value: ''
         }
         if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
-          obj.enq_custom_value = moment(el.value).format("MM-DD-YYYY");
+          obj.enq_custom_value = moment(el.value).format("YYYY-MM-DD");
         } else if (el.type == '2') {
           obj.enq_custom_value = el.value ? 'Y' : 'N';
         }
@@ -827,13 +827,13 @@ export class StudentHomeComponent implements OnInit {
       this.advancedFilterForm.stuCustomLi = tempCustomArr;
     }
 
-    if (moment(this.advancedFilterForm.doa_from_date).format('MM-DD-YYYY') > moment(this.advancedFilterForm.doa_to_date).format('MM-DD-YYYY')) {
+    if (moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD') > moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD')) {
       this.appC.popToast({ type: "error", title: "", body: "From date cannot be greater than to date" })
       return false;
     }
     else {
-      this.advancedFilterForm.doa_from_date = this._commService.sourceValueCheck(this.advancedFilterForm.doa_from_date) ? '' : moment(this.advancedFilterForm.doa_from_date).format('MM-DD-YYYY');
-      this.advancedFilterForm.doa_to_date = this._commService.sourceValueCheck(this.advancedFilterForm.doa_to_date) ? '' : moment(this.advancedFilterForm.doa_to_date).format('MM-DD-YYYY');
+      this.advancedFilterForm.doa_from_date = this._commService.sourceValueCheck(this.advancedFilterForm.doa_from_date) ? '' : moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD');
+      this.advancedFilterForm.doa_to_date = this._commService.sourceValueCheck(this.advancedFilterForm.doa_to_date) ? '' : moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD');
     }
 
 
@@ -1490,7 +1490,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   userRowSelect(ev) {
     if (ev != null) {
-      this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('MM-DD-YYYY'), school_name: "-1", student_class_key: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], assignedCourse_Subject_FeeTemplateArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: "admitted", stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
+      this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class_key: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], assignedCourse_Subject_FeeTemplateArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: "admitted", stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
       this.openSideBar(ev);
       this.selectedRow = ev;
     }
@@ -1645,10 +1645,10 @@ export class StudentHomeComponent implements OnInit {
   /* ============================================================================================================================ */
   getAssignDate(e): string {
     if (e == '' || e == null) {
-      return moment().format('MM-DD-YYYY')
+      return moment().format('YYYY-MM-DD')
     }
     else {
-      return moment(e).format('MM-DD-YYYY')
+      return moment(e).format('YYYY-MM-DD')
     }
   }
 
@@ -1666,14 +1666,14 @@ export class StudentHomeComponent implements OnInit {
       if (el.isSelected) {
         if (this.isProfessional) {
           temp.push(el.data.batch_id.toString());
-          tempDate.push(moment(el.assignDate).format('MM-DD-YYYY'));
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.batch_name);
           this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
         }
         else {
           temp.push(el.data.course_id.toString());
-          tempDate.push(moment(el.assignDate).format('MM-DD-YYYY'));
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.course_name);
           this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
@@ -1842,8 +1842,8 @@ export class StudentHomeComponent implements OnInit {
     this.isMarkLeave = false;
     this.applyLeave = {
       student_id: '',
-      start_date: moment().format("MM-DD-YYYY"),
-      end_date: moment().format("MM-DD-YYYY"),
+      start_date: moment().format("YYYY-MM-DD"),
+      end_date: moment().format("YYYY-MM-DD"),
       reason: ''
     }
   }
@@ -1879,8 +1879,8 @@ export class StudentHomeComponent implements OnInit {
     }
     let obj = {
       student_id: this.applyLeave.student_id,
-      start_date: moment(this.applyLeave.start_date).format("MM-DD-YYYY"),
-      end_date: moment(this.applyLeave.end_date).format("MM-DD-YYYY"),
+      start_date: moment(this.applyLeave.start_date).format("YYYY-MM-DD"),
+      end_date: moment(this.applyLeave.end_date).format("YYYY-MM-DD"),
       reason: this.applyLeave.reason
     }
     this.auth.showLoader();
@@ -1990,9 +1990,9 @@ export class StudentHomeComponent implements OnInit {
     let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
-      from_date: moment().subtract(1, 'months').format("MM-DD-YYYY"),
+      from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
       status: 1,
-      to_date: moment().format("MM-DD-YYYY")
+      to_date: moment().format("YYYY-MM-DD")
     }
     this.widgetService.getMessageList(obj).subscribe(
       res => {
@@ -2414,7 +2414,7 @@ export class StudentHomeComponent implements OnInit {
         let obj = {
           component_id: el.id,
           enq_custom_id: el.data.enq_custom_id,
-          enq_custom_value: moment(el.value).format("MM-DD-YYYY"),
+          enq_custom_value: moment(el.value).format("YYYY-MM-DD"),
           type: el.type,
           label: el.label,
           comp_length: max_length

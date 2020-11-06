@@ -27,7 +27,7 @@ export interface updateEnquiryForm {
     //<payment Mode ,valid if isRegisterFeeUpdate=Y>
 
     paymentDate?: any,
-    //<payment Date in MM-DD-YYYY format ,valid if isRegisterFeeUpdate=Y>
+    //<payment Date in YYYY-MM-DD format ,valid if isRegisterFeeUpdate=Y>
 
     reference?: any,
     //<reference no  ,valid if isRegisterFeeUpdate=Y>

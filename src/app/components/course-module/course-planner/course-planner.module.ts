@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import 'moment';
 import { SharedModule } from "../../shared/shared.module";
 
@@ -18,7 +18,7 @@ import { ExamCourseService } from '../../../services/course-services/exam-schedu
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     CommonModule,
     SharedModule,
     CoursePlannerRoutingModule

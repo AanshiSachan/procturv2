@@ -1,7 +1,7 @@
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { EnquiryUpdatePopupComponent } from '../leads/enquiry-update-popup/enquiry-update-popup.component';
 import { FormatCellPipe } from './custom-table/format-cell.pipe';
@@ -26,7 +26,11 @@ import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
 import { BasicTableComponent } from './basic-table/basic-table.component';
 
-
+export function getDatepickerConfig(): BsDatepickerConfig {
+    return Object.assign(new BsDatepickerConfig(), {
+      dateInputFormat: 'YYYY-MM-DD'
+    });
+  }
 
 
 @NgModule({
@@ -34,7 +38,7 @@ import { BasicTableComponent } from './basic-table/basic-table.component';
         CommonModule,
         FormsModule,
         TooltipModule.forRoot(),
-        BsDatepickerModule
+        // BsDatepickerModule
     ],
     declarations: [
         TableLayoutComponent,
@@ -88,6 +92,7 @@ import { BasicTableComponent } from './basic-table/basic-table.component';
         DropMenuComponent,
     ],
     providers: [
+        { provide: BsDatepickerConfig, useFactory: getDatepickerConfig },
         CurrencyPipe, DecimalPipe
     ]
 })

@@ -37,7 +37,7 @@ export class FineCollectionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.fineCollectionRange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
+    this.fineCollectionRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.fineCollectionRange[1] = new Date();
 
     this.getFineCollectionReport(this.fineCollectionRange[0], this.fineCollectionRange[1]);
@@ -90,7 +90,7 @@ export class FineCollectionComponent implements OnInit {
 
   getStartDate() {
       this.cd.markForCheck();
-      let date = moment().date(1).format("MM-DD-YYYY");
+      let date = moment().date(1).format("YYYY-MM-DD");
       return this.fineCollectionRange[0];
   }
 
@@ -101,7 +101,7 @@ export class FineCollectionComponent implements OnInit {
 
   updateDateRange(e) {
     this.cd.markForCheck();
-    this.getFineCollectionReport(moment(e[0]).format("MM-DD-YYYY"),moment(e[1]).format("MM-DD-YYYY"));
+    this.getFineCollectionReport(moment(e[0]).format("YYYY-MM-DD"),moment(e[1]).format("YYYY-MM-DD"));
 
   }
 
@@ -111,10 +111,10 @@ export class FineCollectionComponent implements OnInit {
 
   sortTable(obj) {
     this.sort = ! this.sort;
-    // this.fineCollectionRange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
+    // this.fineCollectionRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     // this.fineCollectionRange[1] = new Date();
     // console.log(this.fineCollectionRange)
-    this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("MM-DD-YYYY"),moment(this.fineCollectionRange[1]).format("MM-DD-YYYY"));
+    this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("YYYY-MM-DD"),moment(this.fineCollectionRange[1]).format("YYYY-MM-DD"));
   }
 
   /*** pagination functions */
@@ -134,13 +134,13 @@ fetchPrevious() {
 fectchTableDataByPage(index) {
   this.pageIndex = index;
   let startindex = this.displayBatchSize * (index - 1);
-  this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("MM-DD-YYYY"),moment(this.fineCollectionRange[1]).format("MM-DD-YYYY"));
+  this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("YYYY-MM-DD"),moment(this.fineCollectionRange[1]).format("YYYY-MM-DD"));
 }
 
 /* Fetches Data as per the user selected batch size */
 updateTableBatchSize(num) {
   this.pageIndex = 1;
   this.displayBatchSize = parseInt(num);
-  this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("MM-DD-YYYY"),moment(this.fineCollectionRange[1]).format("MM-DD-YYYY"));
+  this.getFineCollectionReport(moment(this.fineCollectionRange[0]).format("YYYY-MM-DD"),moment(this.fineCollectionRange[1]).format("YYYY-MM-DD"));
 }
 }

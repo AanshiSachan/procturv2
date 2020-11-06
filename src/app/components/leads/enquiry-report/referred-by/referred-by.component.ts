@@ -17,8 +17,8 @@ export class ReferredByComponent implements OnInit {
     reportType: "Referred",
     referred_by: -1,
     assigned_to: this.userId,
-    updateDateFrom: moment().startOf('month').format('MM-DD-YYYY'),
-    updateDateTo: moment().format('MM-DD-YYYY')
+    updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+    updateDateTo: moment().format('YYYY-MM-DD')
   }
 
   getreferredByData: any = [];
@@ -133,8 +133,8 @@ export class ReferredByComponent implements OnInit {
             }
             this.newArray.push(this.newObject);
           }
-          this.referredByInfoDetails.updateDateFrom = moment(this.referredByInfoDetails.updateDateFrom).format("MM-DD-YYYY");
-          this.referredByInfoDetails.updateDateTo = moment(this.referredByInfoDetails.updateDateTo).format("MM-DD-YYYY");
+          this.referredByInfoDetails.updateDateFrom = moment(this.referredByInfoDetails.updateDateFrom).format("YYYY-MM-DD");
+          this.referredByInfoDetails.updateDateTo = moment(this.referredByInfoDetails.updateDateTo).format("YYYY-MM-DD");
           this.getreferredByDetails = this.newArray;
           this.getreferredByDetails.map(
             (ele: any) => {

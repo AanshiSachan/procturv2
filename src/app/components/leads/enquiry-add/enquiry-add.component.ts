@@ -66,7 +66,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       school_id: "-1",
       qualification: "",
       grade: "",
-      enquiry_date: moment().format('MM-DD-YYYY'),
+      enquiry_date: moment().format('YYYY-MM-DD'),
       standard_id: "-1",
       subject_id: "-1",
       referred_by: "-1",
@@ -76,7 +76,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       priority: "cold_call",
       enquiry: "",
       follow_type: "call",
-      followUpDate: moment().format('MM-DD-YYYY'),
+      followUpDate: moment().format('YYYY-MM-DD'),
       religion: null,
       link: "",
       slot_id: null,
@@ -263,7 +263,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       qualification: "",
       grade: "",
       master_course_name: "",
-      enquiry_date: moment().format('MM-DD-YYYY'),
+      enquiry_date: moment().format('YYYY-MM-DD'),
       standard_id: "-1",
       subject_id: "-1",
       subjectIdArray: null,
@@ -274,7 +274,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       priority: "cold_call",
       enquiry: "",
       follow_type: "call",
-      followUpDate: moment().format('MM-DD-YYYY'),
+      followUpDate: moment().format('YYYY-MM-DD'),
       religion: null,
       link: "",
       slot_id: null,
@@ -360,7 +360,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       city_id: data.city_id,
       state_id: data.state_id,
       source_id: data.source,
-      enquiry_date: moment().format('MM-DD-YYYY'),
+      enquiry_date: moment().format('YYYY-MM-DD'),
       status: '0'
     }
     this.course_mastercourse_id = data.master_course;
@@ -872,7 +872,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       qualification: "",
       grade: "",
       master_course_name: "",
-      enquiry_date: moment().format('MM-DD-YYYY'),
+      enquiry_date: moment().format('YYYY-MM-DD'),
       standard_id: "-1",
       subject_id: "-1",
       subjectIdArray: null,
@@ -883,7 +883,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       priority: "cold_call",
       enquiry: "",
       follow_type: "call",
-      followUpDate: moment().format('MM-DD-YYYY'),
+      followUpDate: moment().format('YYYY-MM-DD'),
       religion: null,
       link: "",
       slot_id: null,
@@ -940,12 +940,12 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     this.customComponents.forEach(e => {
       if (e.type == 5) {
         if (e.hasOwnProperty('value')) {
-          let dd = moment(e.value).format("MM-DD-YYYY");
+          let dd = moment(e.value).format("YYYY-MM-DD");
           if (dd != '' && dd != "Invalid date" && dd != null) {
             let obj: any = {};
             obj.component_id = e.id;
             obj.enq_custom_id = 0;
-            obj.enq_custom_value = moment(e.value).format("MM-DD-YYYY");
+            obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
             tempArr.push(obj);
           }
         }
@@ -987,7 +987,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   submitRegisterForm(form: NgForm) {
     this.isRegisterStudent = true;
     this.newEnqData.follow_type = "Walkin";
-    this.newEnqData.walkin_followUpDate = moment(new Date()).format('MM-DD-YYYY');
+    this.newEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
     this.newEnqData.walkin_followUpTime = this.getFollowupTime();
     this.submitForm(form);
   }
@@ -1039,7 +1039,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
           if (this.newEnqData.walkin_followUpDate == "" || this.newEnqData.walkin_followUpDate == "Invalid date") {
             this.newEnqData.walkin_followUpDate = ""
           } else {
-            this.newEnqData.walkin_followUpDate = moment(this.newEnqData.walkin_followUpDate).format('MM-DD-YYYY');
+            this.newEnqData.walkin_followUpDate = moment(this.newEnqData.walkin_followUpDate).format('YYYY-MM-DD');
           }
 
           if (this.walkinTime.hour == "" || this.walkinTime.minute == "") {
@@ -1227,7 +1227,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       phone: this.newEnqData.phone,
       email: this.newEnqData.email,
       gender: this.newEnqData.gender,
-      dob: moment(this.newEnqData.dob).format("MM-DD-YYYY"),
+      dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
       parent_email: this.newEnqData.parent_email,
       school_name: this.newEnqData.school_id,
       standard_id: this.newEnqData.standard_id,
@@ -1284,7 +1284,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       return '';
     }
     else {
-      return moment(e).format('MM-DD-YYYY');
+      return moment(e).format('YYYY-MM-DD');
     }
   }
 

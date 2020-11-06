@@ -35,7 +35,7 @@ export class StudentsArchivedReportComponent implements OnInit {
   arr: any = [];
   stdetchForm: any = {
     from_date: moment().format("YYYY-MM-") + moment().daysInMonth(),
-    to_date: moment(new Date()).format('MM-DD-YYYY')
+    to_date: moment(new Date()).format('YYYY-MM-DD')
   }
   downloadStudentReportAccess: boolean = false;
 
@@ -208,8 +208,8 @@ export class StudentsArchivedReportComponent implements OnInit {
 
   showDownloadDetails() {
     this.stdetchForm = {
-      from_date: moment().format("MM-DD-YYYY"),
-      to_date: moment(new Date()).format('MM-DD-YYYY')
+      from_date: moment().format("YYYY-MM-DD"),
+      to_date: moment(new Date()).format('YYYY-MM-DD')
     }
     $("#actionProductModal").modal({
       backdrop: 'static',

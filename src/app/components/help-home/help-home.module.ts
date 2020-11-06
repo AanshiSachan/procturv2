@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'hammerjs';
 import 'moment';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';
 import { SharedModule } from '../shared/shared.module';
 import { HelpHomeRoutingModule } from "./help-home-routing.module";
@@ -15,7 +15,7 @@ import { HelpHomeComponent } from './help-home.component';
         ReactiveFormsModule,
         CommonModule,
         HelpHomeRoutingModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         FileUploadModule,
         SplitButtonModule,
         MenuModule,

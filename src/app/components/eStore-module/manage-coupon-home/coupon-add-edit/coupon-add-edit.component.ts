@@ -149,8 +149,8 @@ export class CouponAddEditComponent implements OnInit {
         this.auth.hideLoader();
         this.addCouponModel = data.result;
         console.log("this.addCouponModel",this.addCouponModel);
-        this.addCouponModel.start_date = moment(data.result.start_date).format("MM-DD-YYYY");
-        this.addCouponModel.end_date = moment(data.result.end_date).format("MM-DD-YYYY");
+        this.addCouponModel.start_date = moment(data.result.start_date).format("YYYY-MM-DD");
+        this.addCouponModel.end_date = moment(data.result.end_date).format("YYYY-MM-DD");
         this.addCouponModel.discount_type = String(this.addCouponModel.discount_type);
         this.addCouponModel.product_id_list = data.result.product_details_list;
         this.selected_products = this.addCouponModel.product_id_list;

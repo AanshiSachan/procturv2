@@ -27,8 +27,8 @@ export class LostBookComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.lostbookrange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
-    this.lostbookrange[1] = new Date(moment().format("MM-DD-YYYY"));
+    this.lostbookrange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.lostbookrange[1] = new Date(moment().format("YYYY-MM-DD"));
     // this.getLostBookReport(this.lostbookrange[0],this.lostbookrange[1]);
   }
 
@@ -80,7 +80,7 @@ export class LostBookComponent implements OnInit {
 
     getStartDate() {
         this.cd.markForCheck();
-        let date = moment().date(1).format("MM-DD-YYYY");
+        let date = moment().date(1).format("YYYY-MM-DD");
         return this.lostbookrange[0];
     }
 
@@ -92,7 +92,7 @@ export class LostBookComponent implements OnInit {
     updateEnqChartByDate(e) {
       this.cd.markForCheck();
 
-      this.getLostBookReport(moment(e[0]).format("MM-DD-YYYY"),moment(e[1]).format("MM-DD-YYYY"));
+      this.getLostBookReport(moment(e[0]).format("YYYY-MM-DD"),moment(e[1]).format("YYYY-MM-DD"));
 
     }
 

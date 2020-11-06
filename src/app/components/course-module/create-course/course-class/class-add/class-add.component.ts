@@ -99,7 +99,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   }
   fetchMasterCourseModule: any = {
     master_course: "-1",
-    requested_date: moment().format("MM-DD-YYYY"),
+    requested_date: moment().format("YYYY-MM-DD"),
     inst_id: sessionStorage.getItem('institute_id'),
     course_id: "-1"
   }
@@ -112,7 +112,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   }
 
   custom = {
-    date: moment().format("MM-DD-YYYY"),
+    date: moment().format("YYYY-MM-DD"),
     start_hour: '12 PM',
     start_minute: '00',
     end_hour: '1 PM',
@@ -121,7 +121,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     topics_covered: '',
   }
   addExtraClass = {
-    date: moment().format("MM-DD-YYYY"),
+    date: moment().format("YYYY-MM-DD"),
     start_hour: '12 PM',
     start_minute: '00',
     end_hour: '1 PM',
@@ -179,7 +179,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   showCustomEditModal: boolean = false;
   getSubjectObject: any = '';
   weeklyScheduleCan = {
-    date: moment().format("MM-DD-YYYY"),
+    date: moment().format("YYYY-MM-DD"),
     cancel_note: '',
     is_notified: true
   }
@@ -383,7 +383,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     } else {
       this.fetchMasterCourseModule = {
         master_course: data.master_course,
-        requested_date: moment(data.date).format("MM-DD-YYYY"),
+        requested_date: moment(data.date).format("YYYY-MM-DD"),
         inst_id: sessionStorage.getItem('institute_id'),
         course_id: data.course_id
       }
@@ -506,7 +506,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     else {
      let requested_date = this.fetchMasterCourseModule.requested_date;
       if (moment(this.courseStartDate).format("YYYY-MM-DD") <= moment(requested_date).format("YYYY-MM-DD") && moment(requested_date).format("YYYY-MM-DD") <= moment(this.courseEndDate).format("YYYY-MM-DD")) {
-        this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("MM-DD-YYYY");
+        this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
         this.isClassFormFilled = true;
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         this.getCustomList();
@@ -768,11 +768,11 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   getAllSubjectListFromServer(data) {
     this.isClassFormFilled = true;
     this.auth.showLoader();
-    this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format('MM-DD-YYYY');
+    this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD');
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
-        this.fetchMasterCourseModule.requested_date = moment(res.requested_data).format("MM-DD-YYYY");
+        this.fetchMasterCourseModule.requested_date = moment(res.requested_data).format("YYYY-MM-DD");
         this.auth.hideLoader();
         this.subjectListDataSource = this.getSubjectList(res);
         this.classScheduleArray = this.constructJSONForTable(res);
@@ -808,8 +808,8 @@ export class ClassAddComponent implements OnInit, OnDestroy {
             obj.class_desc = courseScheduleList[i].class_desc;
             obj.room_no = courseScheduleList[i].room_no;
             obj.course_id = data.coursesList[0].course_id;
-            obj.start_date = moment(data.coursesList[0].start_date).format('MM-DD-YYYY');
-            obj.end_date = moment(data.coursesList[0].end_date).format('MM-DD-YYYY');
+            obj.start_date = moment(data.coursesList[0].start_date).format('YYYY-MM-DD');
+            obj.end_date = moment(data.coursesList[0].end_date).format('YYYY-MM-DD');
             obj.is_attendance_marked = courseScheduleList[i].is_attendance_marked;
             obj.topics_covered = courseScheduleList[i].topics_covered;
             arr.push(obj);
@@ -1490,7 +1490,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     if (confirm("Are you sure, You want to notify?")) {
       let obj: any = {};
       obj.course_id = this.fetchedCourseData.coursesList[0].course_id;
-      obj.requested_date = moment(this.fetchedCourseData.requested_date).format('MM-DD-YYYY');
+      obj.requested_date = moment(this.fetchedCourseData.requested_date).format('YYYY-MM-DD');
       this.classService.sendReminderToServer(obj).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Reminder Notification sent successfully');
@@ -1692,7 +1692,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   addDateToArray() {
     if (this.addDates.selectedDate != "" && this.addDates.selectedDate != undefined && this.addDates.selectedDate != null) {
       let obj: any = new Object;
-      obj.selectedDate = moment(this.addDates.selectedDate).format("MM-DD-YYYY");
+      obj.selectedDate = moment(this.addDates.selectedDate).format("YYYY-MM-DD");
       obj.error = '';
       this.selectedDateArray.push(obj);
       this.addDates.selectedDate = '';
@@ -1860,9 +1860,9 @@ export class ClassAddComponent implements OnInit, OnDestroy {
       }
 
       obj.course_id = this.selctedScheduledClass.course_id;
-      obj.start_date = moment(this.selctedScheduledClass.start_date).format("MM-DD-YYYY");
-      obj.end_date = moment(this.selctedScheduledClass.end_date).format("MM-DD-YYYY");
-      obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("MM-DD-YYYY");
+      obj.start_date = moment(this.selctedScheduledClass.start_date).format("YYYY-MM-DD");
+      obj.end_date = moment(this.selctedScheduledClass.end_date).format("YYYY-MM-DD");
+      obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
       obj.courseClassSchdList = [{
         class_schedule_id: this.selctedScheduledClass.class_schedule_id
       }]
@@ -1930,7 +1930,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
 
   scheduleSelection(event) {
     this.batchFrequency = event;
-    this.custom.date = moment().format("MM-DD-YYYY");
+    this.custom.date = moment().format("YYYY-MM-DD");
   }
 
 
@@ -2073,7 +2073,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
       requested_date: '',
       cancelSchd: [{
         cancel_note: this.weeklyScheduleCan.cancel_note,
-        class_date: moment(this.weeklyScheduleCan.date).format('MM-DD-YYYY'),
+        class_date: moment(this.weeklyScheduleCan.date).format('YYYY-MM-DD'),
         schd_id: 0,
         is_notified: notify,
       }]
@@ -2097,7 +2097,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
 
   addNewCustomClass() {
     let obj: any = {};
-    obj.class_date = moment(this.custom.date).format("MM-DD-YYYY");
+    obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
     if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter valid date');
       return
@@ -2120,7 +2120,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     obj.topicName = this.selectedTopicsNames;
     this.customTable.push(obj);
     this.custom = {
-      date: moment().format("MM-DD-YYYY"),
+      date: moment().format("YYYY-MM-DD"),
       start_hour: '12 PM',
       start_minute: '00',
       end_hour: '1 PM',
@@ -2249,7 +2249,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   ///// Extra Class Section //////////////
   addNewExtraClass() {
     let obj: any = {};
-    obj.class_date = moment(this.addExtraClass.date).format("MM-DD-YYYY");
+    obj.class_date = moment(this.addExtraClass.date).format("YYYY-MM-DD");
     let startTime = moment(this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
@@ -2266,7 +2266,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     obj.topics_covered = this.selectedTopics;
     this.extraClassTable.push(obj);
     this.addExtraClass = {
-      date: moment().format("MM-DD-YYYY"),
+      date: moment().format("YYYY-MM-DD"),
       start_hour: '12 PM',
       start_minute: '00',
       end_hour: '1 PM',
@@ -2541,7 +2541,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
 
 
   hidePastClass() {
-    if (moment().format('MM-DD-YYYY') <= moment(this.fetchMasterCourseModule.requested_date).format('MM-DD-YYYY')) {
+    if (moment().format('YYYY-MM-DD') <= moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD')) {
       return true;
     } else {
       return false;

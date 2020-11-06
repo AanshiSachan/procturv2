@@ -82,10 +82,10 @@ export class ManageAssignmentComponent implements OnInit {
    subtopic: "-1",
    students: [],
    teacher: "-1",
-   startDate: moment(new Date).format('MM-DD-YYYY'),
+   startDate: moment(new Date).format('YYYY-MM-DD'),
    startHr: "12 AM",
    startMin: "00",
-   endDate: moment(new Date).add(1,'days').format('MM-DD-YYYY'),
+   endDate: moment(new Date).add(1,'days').format('YYYY-MM-DD'),
    endHr: "12 AM",
    endMin: "00",
    urlLists: [],
@@ -255,8 +255,8 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignmentDetails.students = [];
     this.assignmentDetails.teacher = this.editAssignmentDetails.teacher_id;
 
-    this.assignmentDetails.startDate = moment(this.editAssignmentDetails.start_date).format('MM-DD-YYYY');
-    this.assignmentDetails.endDate = moment(this.editAssignmentDetails.end_date).format('MM-DD-YYYY');
+    this.assignmentDetails.startDate = moment(this.editAssignmentDetails.start_date).format('YYYY-MM-DD');
+    this.assignmentDetails.endDate = moment(this.editAssignmentDetails.end_date).format('YYYY-MM-DD');
 
     if(this.editAssignmentDetails.start_time != null){
       let start = this.editAssignmentDetails.start_time.split(' ')[0]
@@ -1010,10 +1010,10 @@ export class ManageAssignmentComponent implements OnInit {
 
   getEventHourTo() {
 
-    let fromTime = moment(this.assignmentDetails.startDate).format('MM-DD-YYYY') + " " + this.assignmentDetails.startHr.split(' ')[0] + ":" + this.assignmentDetails.startMin + " " + this.assignmentDetails.startHr.split(' ')[1];
-    let toTime = moment(this.assignmentDetails.endDate).format('MM-DD-YYYY') + " " + this.assignmentDetails.endHr.split(' ')[0] + ":" + this.assignmentDetails.endMin + " " + this.assignmentDetails.endHr.split(' ')[1];
-    let fromTimeT = moment(fromTime).format('MM-DD-YYYY hh:mm a');
-    let toTimeT = moment(toTime).format('MM-DD-YYYY hh:mm a');
+    let fromTime = moment(this.assignmentDetails.startDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.startHr.split(' ')[0] + ":" + this.assignmentDetails.startMin + " " + this.assignmentDetails.startHr.split(' ')[1];
+    let toTime = moment(this.assignmentDetails.endDate).format('YYYY-MM-DD') + " " + this.assignmentDetails.endHr.split(' ')[0] + ":" + this.assignmentDetails.endMin + " " + this.assignmentDetails.endHr.split(' ')[1];
+    let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
+    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
 
     if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
       this.msgService.showErrorMessage('error', '', "From time cannot be greater than to time");

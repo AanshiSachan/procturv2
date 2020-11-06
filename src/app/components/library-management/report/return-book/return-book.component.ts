@@ -27,8 +27,8 @@ export class ReturnBookComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.returnbookrange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
-    this.returnbookrange[1] = new Date(moment().format("MM-DD-YYYY"));
+    this.returnbookrange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.returnbookrange[1] = new Date(moment().format("YYYY-MM-DD"));
     // this.getReturnBookReport(this.returnbookrange[0],this.returnbookrange[1]);
   }
 
@@ -82,7 +82,7 @@ export class ReturnBookComponent implements OnInit {
 
     getStartDate() {
         this.cd.markForCheck();
-        let date = moment().date(1).format("MM-DD-YYYY");
+        let date = moment().date(1).format("YYYY-MM-DD");
         return this.returnbookrange[0];
     }
 
@@ -94,7 +94,7 @@ export class ReturnBookComponent implements OnInit {
     updateEnqChartByDate(e) {
       this.cd.markForCheck();
 
-      this.getReturnBookReport(moment(e[0]).format("MM-DD-YYYY"),moment(e[1]).format("MM-DD-YYYY"));
+      this.getReturnBookReport(moment(e[0]).format("YYYY-MM-DD"),moment(e[1]).format("YYYY-MM-DD"));
 
     }
 

@@ -449,7 +449,7 @@ export class HomeComponent implements OnInit {
       standardDet: [''],
       subjectDet: [''],
       unit_cost: [''],
-      created_date: [moment().format("MM-DD-YYYY")],
+      created_date: [moment().format("YYYY-MM-DD")],
       out_of_stock_indicator_units: [''],
       is_offline_or_online:['']
     })

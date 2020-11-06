@@ -419,10 +419,10 @@ export class AllDataReportComponent implements OnInit {
       obj.to_date = '';
     }
     if (obj.from_date != 'Invalid date' && obj.from_date != '') {
-      moment(obj.from_date).format('MM-DD-YYYY');
+      moment(obj.from_date).format('YYYY-MM-DD');
     }
     if (obj.to_date != 'Invalid date' && obj.to_date != '') {
-      moment(obj.to_date).format('MM-DD-YYYY');
+      moment(obj.to_date).format('YYYY-MM-DD');
     }
     //console.log(obj);
     this.auth.showLoader();
@@ -550,8 +550,8 @@ export class AllDataReportComponent implements OnInit {
     }
 
     else if (this.due_type == 'seven_days_dues') {
-      let begin = moment().format('MM-DD-YYYY');
-      let end = moment().subtract('days', 7).format('MM-DD-YYYY');
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('days', 7).format('YYYY-MM-DD');
 
       this.courseFetchForm.from_date = end;
       this.courseFetchForm.to_date = begin;
@@ -561,8 +561,8 @@ export class AllDataReportComponent implements OnInit {
     }
 
     else if (this.due_type == 'thirty_days_dues') {
-      let begin = moment().format('MM-DD-YYYY');
-      let end = moment().subtract('months', 1).format('MM-DD-YYYY');
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('months', 1).format('YYYY-MM-DD');
 
       this.courseFetchForm.from_date = end;
       this.courseFetchForm.to_date = begin;
@@ -570,8 +570,8 @@ export class AllDataReportComponent implements OnInit {
     }
 
     else if (this.due_type == 'ninty_days_dues') {
-      let begin = moment().format('MM-DD-YYYY');
-      let end = moment().subtract('months', 3).format('MM-DD-YYYY');
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('months', 3).format('YYYY-MM-DD');
 
       this.courseFetchForm.from_date = end;
       this.courseFetchForm.to_date = begin;
@@ -587,13 +587,13 @@ export class AllDataReportComponent implements OnInit {
     }
 
     else if (this.due_type == 'current_dues') {
-      this.courseFetchForm.from_date = moment(new Date()).format("MM-DD-YYYY");
-      this.courseFetchForm.to_date = moment(new Date()).format("MM-DD-YYYY");
+      this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
+      this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
       this.courseFetchForm.type = "1";
     }
     else if (this.due_type == 'custom') {
-      this.courseFetchForm.from_date = moment().format('MM-DD-YYYY');
-      this.courseFetchForm.to_date = moment().format('MM-DD-YYYY');
+      this.courseFetchForm.from_date = moment().format('YYYY-MM-DD');
+      this.courseFetchForm.to_date = moment().format('YYYY-MM-DD');
 
       this.courseFetchForm.type = "1";
       this.showPopupKeys.isCustomDate = true;

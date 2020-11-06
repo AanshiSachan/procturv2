@@ -28,8 +28,8 @@ export class SalesReportsComponent implements OnInit {
   private selectedSlotsString: string = '';
   private selectedSlotsID: string = '';
   filterDataKeys = {
-    to_date: moment().format("MM-DD-YYYY"),
-    from_date: moment().format("MM-DD-YYYY")
+    to_date: moment().format("YYYY-MM-DD"),
+    from_date: moment().format("YYYY-MM-DD")
   }
 
   showPopupKeys: any = {

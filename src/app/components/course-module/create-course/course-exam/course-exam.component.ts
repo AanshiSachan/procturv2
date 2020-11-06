@@ -47,7 +47,7 @@ export class CourseExamComponent implements OnInit {
   institute_id: any;
   attendanceNote: string = "";
   batchAdderData = {
-    exam_date: moment().format("MM-DD-YYYY"),
+    exam_date: moment().format("YYYY-MM-DD"),
     exam_desc: "",
     start_time: {
       hour: "12 PM",
@@ -75,7 +75,7 @@ export class CourseExamComponent implements OnInit {
   courseData = {
     master_course: '-1',
     course_id: -1,
-    requested_date: moment().format("MM-DD-YYYY")
+    requested_date: moment().format("YYYY-MM-DD")
   }
   types: SelectItem[] = [
     { label: 'Course', value: 'course' },
@@ -88,7 +88,7 @@ export class CourseExamComponent implements OnInit {
   times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   selectedType: string = "course";
-  currentDate: any = moment().format("MM-DD-YYYY");
+  currentDate: any = moment().format("YYYY-MM-DD");
   jsonVar = {
     isSheduleBatch: true,
     cancelCourseLevel: false
@@ -556,7 +556,7 @@ export class CourseExamComponent implements OnInit {
     }
     let obj: any = {};
     obj.total_marks = this.batchAdderData.total_marks;
-    obj.exam_date = moment(this.batchAdderData.exam_date).format('MM-DD-YYYY');
+    obj.exam_date = moment(this.batchAdderData.exam_date).format('YYYY-MM-DD');
     let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
     let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
@@ -573,7 +573,7 @@ export class CourseExamComponent implements OnInit {
     obj.isReferenced = "Y";
     this.examSchedule.push(obj);
     this.batchAdderData = {
-      exam_date: moment().format("MM-DD-YYYY"),
+      exam_date: moment().format("YYYY-MM-DD"),
       exam_desc: "",
       start_time: {
         hour: "12 PM",
@@ -1162,7 +1162,7 @@ export class CourseExamComponent implements OnInit {
       this.courseData.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
-          this.courseData.requested_date = moment(this.examScheduleData.requested_date).format('MM-DD-YYYY');
+          this.courseData.requested_date = moment(this.examScheduleData.requested_date).format('YYYY-MM-DD');
           this.auth.hideLoader();
           this.multiClickDisabled = false;
           this.examScheduleData = res;
@@ -2144,7 +2144,7 @@ export class CourseExamComponent implements OnInit {
         course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
         course_id: this.courseData.course_id,
         is_cancel_notify: notify,
-        requested_date: moment(this.courseData.requested_date).format('MM-DD-YYYY')
+        requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
       }
       this.apiService.cancelExamScheduleCourse(obj).subscribe(
         res => {
@@ -2178,7 +2178,7 @@ export class CourseExamComponent implements OnInit {
       let obj = {
         course_exam_schedule_id: data.selectedCourseList.course_exam_schedule_id,
         course_id: this.courseData.course_id,
-        requested_date: moment(this.courseData.requested_date).format('MM-DD-YYYY')
+        requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
       }
       this.apiService.sendReminder(obj).subscribe(
         res => {

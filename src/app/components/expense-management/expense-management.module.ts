@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 
@@ -24,7 +24,7 @@ import { AddEditAccountComponent } from './data-setup/add-edit-account/add-edit-
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     FileUploadModule,
     SplitButtonModule,
     CommonModule,

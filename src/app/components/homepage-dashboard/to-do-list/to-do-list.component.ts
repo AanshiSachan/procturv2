@@ -90,7 +90,7 @@ export class ToDoListComponent implements OnInit {
 
 
   changeDate(date, index, task_id) {
-    let d = moment(date).format("MM-DD-YYYY");
+    let d = moment(date).format("YYYY-MM-DD");
 
     if (date != null && date != "") {
       let currentDate = new Date();
@@ -303,7 +303,7 @@ export class ToDoListComponent implements OnInit {
         is_completed: "N",
         task_id: toDo.task_id,
         task_squence: toDo.task_squence,
-        task_date: moment(toDo.task_date).format("MM-DD-YYYY"),
+        task_date: moment(toDo.task_date).format("YYYY-MM-DD"),
         userid: sessionStorage.getItem('userid'),
         institute_id: this.institute_id
       }
@@ -347,11 +347,11 @@ export class ToDoListComponent implements OnInit {
       // this.loaderOn.emit(true);
       let date;
       if (this.sortDate != "" && this.sortDate != null) {
-        date = moment(this.sortDate).format("MM-DD-YYYY");
+        date = moment(this.sortDate).format("YYYY-MM-DD");
       }
       else {
         date = new Date();
-        date = moment(date).format("MM-DD-YYYY")
+        date = moment(date).format("YYYY-MM-DD")
       }
 
       let maxValue;
@@ -449,7 +449,7 @@ export class ToDoListComponent implements OnInit {
       is_completed: "Y",
       task_id: task_id,
       task_squence: '',
-      task_date: moment(selectedTaskDate).format("MM-DD-YYYY"),
+      task_date: moment(selectedTaskDate).format("YYYY-MM-DD"),
       institute_id: this.institute_id,
       userid: sessionStorage.getItem('userid')
     }

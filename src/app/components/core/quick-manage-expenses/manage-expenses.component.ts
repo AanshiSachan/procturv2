@@ -16,7 +16,7 @@ import { ExcelService } from '../../../services/excel.service';
 export class ManageExpensesComponent implements OnInit {
   permissionArray = sessionStorage.getItem('permissions');
   today: any = Date.now();
-  todayDateForEdit: any = moment(Date.now()).format("MM-DD-YYYY");
+  todayDateForEdit: any = moment(Date.now()).format("YYYY-MM-DD");
   addDate: any;
   editDate: any;
   expenseFor: boolean = false;
@@ -215,7 +215,7 @@ export class ManageExpensesComponent implements OnInit {
   addExpense() {
 
     if (this.addDate != undefined && this.addDate != "") {
-      this.expenses.added_date = moment(this.addDate).format("MM-DD-YYYY");
+      this.expenses.added_date = moment(this.addDate).format("YYYY-MM-DD");
     }
     if (this.expenseFor) {
       this.expenses.expense_type = 1;
@@ -359,8 +359,8 @@ export class ManageExpensesComponent implements OnInit {
       }
     }
     else if (this.sortDate == "last_week") {
-      let begin = moment().format('MM-DD-YYYY');
-      let end = moment().subtract('week', 1).format('MM-DD-YYYY');
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('week', 1).format('YYYY-MM-DD');
       this.expensesSearchFilter = {
         from_date: end,
         to_date: begin,
@@ -381,7 +381,7 @@ export class ManageExpensesComponent implements OnInit {
     }
     else if (this.sortDate == "last_month") {
       let begin = moment().subtract('months', 1).format('YYYY-MM-01');
-      let end = moment().date(0).format("MM-DD-YYYY");
+      let end = moment().date(0).format("YYYY-MM-DD");
       this.expensesSearchFilter = {
         from_date: begin,
         to_date: end,
@@ -390,8 +390,8 @@ export class ManageExpensesComponent implements OnInit {
       }
     }
     else if (this.sortDate == "last_three_month") {
-      let begin = moment().format('MM-DD-YYYY');
-      let end = moment().subtract('months', 3).format('MM-DD-YYYY');
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('months', 3).format('YYYY-MM-DD');
       this.expensesSearchFilter = {
         from_date: end,
         to_date: begin,
@@ -432,16 +432,16 @@ export class ManageExpensesComponent implements OnInit {
 
       if (this.filterCategory != null && this.filterCategory != "" && this.filterCategory != "-1") {
         this.expensesSearchFilter = {
-          from_date: moment(this.filterDateRange[0]).format("MM-DD-YYYY"),
-          to_date: moment(this.filterDateRange[1]).format("MM-DD-YYYY"),
+          from_date: moment(this.filterDateRange[0]).format("YYYY-MM-DD"),
+          to_date: moment(this.filterDateRange[1]).format("YYYY-MM-DD"),
           categoryIds: this.filterCategory,
           user_id: this.userid
         }
       }
       else {
         this.expensesSearchFilter = {
-          from_date: moment(this.filterDateRange[0]).format("MM-DD-YYYY"),
-          to_date: moment(this.filterDateRange[1]).format("MM-DD-YYYY"),
+          from_date: moment(this.filterDateRange[0]).format("YYYY-MM-DD"),
+          to_date: moment(this.filterDateRange[1]).format("YYYY-MM-DD"),
           categoryIds: '',
           user_id: this.userid
         }
@@ -479,7 +479,7 @@ export class ManageExpensesComponent implements OnInit {
   }
 
   updateRow(expense_id) {
-    this.editExpense.added_date = moment(this.editDate).format("MM-DD-YYYY");
+    this.editExpense.added_date = moment(this.editDate).format("YYYY-MM-DD");
 
     this.expensesService.updateExpense(this.editExpense, expense_id).subscribe(
       res => {

@@ -34,7 +34,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     assigned_to: '-1',
     closedReason: null,
     comment: "",
-    commentDate: moment().format('MM-DD-YYYY'),
+    commentDate: moment().format('YYYY-MM-DD'),
     demo_account_end_date: "",
     demo_account_password: "",
     demo_account_status: "",
@@ -58,7 +58,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     followUpDateTime: '',
     isEnquiryV2Update: "N",
     isRegisterFeeUpdate: "N",
-    walkin_followUpDate: moment().format('MM-DD-YYYY'),
+    walkin_followUpDate: moment().format('YYYY-MM-DD'),
     walkin_followUpTime: "",
     amount: null,
     paymentMode: null,
@@ -154,10 +154,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       this.rowData.parent_name = res.parent_name;
       this.rowData.parent_email = res.parent_email;
       this.rowData.parent_phone = res.parent_phone;
-      this.updateFormData.followUpDate = moment(res.followUpDate).format("MM-DD-YYYY");
+      this.updateFormData.followUpDate = moment(res.followUpDate).format("YYYY-MM-DD");
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
-      this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("MM-DD-YYYY");
+      this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("YYYY-MM-DD");
       if (res.followUpTime != '' && res.followUpTime != null) {
         this.followUpTime = this.breakTimeInToHrAndMin(res.followUpTime);
       }
@@ -327,7 +327,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
           this.appC.popToast({ type: 'error', title: '', body: 'Please enter walkin date for follow up type walkin' });
           return;
         } else {
-          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('MM-DD-YYYY');
+          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
         }
         if (this.walkin_followUpTime.hour == "" || this.walkin_followUpTime.minute == "") {
           this.appC.popToast({ type: 'error', title: '', body: 'Please enter walkin time for follow up type walkin' });
@@ -342,7 +342,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
         if (this.updateFormData.walkin_followUpDate == "" || this.updateFormData.walkin_followUpDate == null || this.updateFormData.walkin_followUpDate == "Invalid Date") {
           this.updateFormData.walkin_followUpDate = "";
         } else {
-          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('MM-DD-YYYY');
+          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
         }
 
         if (this.walkin_followUpTime.hour == "" || this.walkin_followUpTime.minute == "") {
@@ -357,7 +357,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
       this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
       if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid Date") {
-        this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('MM-DD-YYYY');
+        this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
       } else {
         this.updateFormData.followUpDate = "";
       }

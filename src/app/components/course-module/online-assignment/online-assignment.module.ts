@@ -5,7 +5,7 @@ import { OnlineAssignmentRoutingModule } from './online-assignment-routing.modul
 
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 // online assignmetn components used
 import { ListAssignmentComponent } from './list-assignment/list-assignment.component';
@@ -21,7 +21,7 @@ import { SharedModule } from "../../shared/shared.module";
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     FileUploadModule,
     SplitButtonModule,
     OnlineAssignmentRoutingModule,

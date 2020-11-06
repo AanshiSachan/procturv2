@@ -35,8 +35,8 @@ export class EmailReportComponent {
 
   emailFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: moment(new Date()).format('MM-DD-YYYY'),
-    to_date: moment(new Date()).format('MM-DD-YYYY'),
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD'),
   }
 
   constructor(
@@ -215,8 +215,8 @@ export class EmailReportComponent {
 
     }
     else {
-      this.emailFetchForm.to_date = moment(new Date).format('MM-DD-YYYY');
-      this.emailFetchForm.from_date = moment(new Date).format('MM-DD-YYYY');
+      this.emailFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
+      this.emailFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
 
       let msg = {
         type: "info",

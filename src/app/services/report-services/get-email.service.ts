@@ -43,8 +43,8 @@ export class getEmailService {
 
     /*    fetchSmsReport(obj) {
     
-            obj.from_date = obj.from_date == '' ? moment().format('MM-DD-YYYY') : moment(obj.from_date).format('MM-DD-YYYY');
-            obj.to_date = obj.to_date == '' ? '' : moment(obj.to_date).format('MM-DD-YYYY');
+            obj.from_date = obj.from_date == '' ? moment().format('YYYY-MM-DD') : moment(obj.from_date).format('YYYY-MM-DD');
+            obj.to_date = obj.to_date == '' ? '' : moment(obj.to_date).format('YYYY-MM-DD');
     
             let urlSmsReport = this.baseUrl + "/api/v1/alerts/config/smsReport";
     

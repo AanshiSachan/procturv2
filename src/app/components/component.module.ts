@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentRoutingModule } from './component-routing.module';
 import { ComponentsComponent } from './components.component';
 import { SharedModule } from '../components/shared/shared.module';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+// import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { OverlayMenuComponent } from './overlay-menu/overlay-menu.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SearchBoxComponent } from './core/search-box/search-box.component';
@@ -24,7 +24,7 @@ import { ToDoListComponent } from './homepage-dashboard/to-do-list/to-do-list.co
     imports: [
         CommonModule,
         ComponentRoutingModule,
-        BsDatepickerModule.forRoot(),
+        // BsDatepickerModule.forRoot(),
         SharedModule,
         FormsModule,
         MatToolbarModule,

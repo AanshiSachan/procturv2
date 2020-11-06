@@ -18,8 +18,8 @@ export class CampaignLeadSmsComponent implements OnInit {
   };
 
   dateFilter = {
-    from_date: moment(new Date()).format('MM-DD-YYYY'),
-    to_date: moment(new Date()).format('MM-DD-YYYY'),
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD'),
     institution_id: "",
     start_index: 0,
     batch_size: 50
@@ -196,25 +196,25 @@ export class CampaignLeadSmsComponent implements OnInit {
       let checkToDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
       let checkFromDate = this.dateGreaterThanCheck(this.dateFilter.from_date, this.dateFilter.to_date);
       if (checkToDate) {
-        var tempToDate = moment(this.dateFilter.to_date).format("MM-DD-YYYY");
+        var tempToDate = moment(this.dateFilter.to_date).format("YYYY-MM-DD");
         if (checkFromDate) {
-          var tempFromDate = moment(this.dateFilter.from_date).format("MM-DD-YYYY");
+          var tempFromDate = moment(this.dateFilter.from_date).format("YYYY-MM-DD");
         }
         else {
           this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "From date can not be greater than To date");
-          this.dateFilter.from_date = moment(tempFromDate).format("MM-DD-YYYY");
+          this.dateFilter.from_date = moment(tempFromDate).format("YYYY-MM-DD");
           return;
         }
       }
       else {
         this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "To date can not be lesser than From date");
-        this.dateFilter.to_date = moment(tempToDate).format("MM-DD-YYYY");
+        this.dateFilter.to_date = moment(tempToDate).format("YYYY-MM-DD");
         return;
       }
     }
     else {
-      this.dateFilter.to_date = moment(new Date).format('MM-DD-YYYY');
-      this.dateFilter.from_date = moment(new Date).format('MM-DD-YYYY');
+      this.dateFilter.to_date = moment(new Date).format('YYYY-MM-DD');
+      this.dateFilter.from_date = moment(new Date).format('YYYY-MM-DD');
       this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "Future date is not allowed");
     }
   }

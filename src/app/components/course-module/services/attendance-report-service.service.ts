@@ -72,8 +72,8 @@ export class AttendanceReportServiceService {
 
   postDataToTable(obj) {
 
-    obj.from_date = moment(obj.from_date).format('MM-DD-YYYY');
-    obj.to_date = moment(obj.to_date).format('MM-DD-YYYY');
+    obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
+    obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
     if (obj.from_date == "Invalid date") {
       obj.from_date = "";
     }
@@ -93,8 +93,8 @@ export class AttendanceReportServiceService {
 
   postDataToTablePro(obj) {
 
-    obj.from_date = moment(obj.from_date).format('MM-DD-YYYY');
-    obj.to_date = moment(obj.to_date).format('MM-DD-YYYY');
+    obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
+    obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
     if (obj.from_date == "Invalid date") {
       obj.from_date = "";
     }

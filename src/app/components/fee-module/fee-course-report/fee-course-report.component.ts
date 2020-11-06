@@ -338,8 +338,8 @@ export class FeeCourseReportComponent implements OnInit {
             standard_id: this.courseFetchForm.standard_id,
             batch_id: this.courseFetchForm.batch_id,
             type: this.courseFetchForm.type,
-            from_date: moment(this.courseFetchForm.from_date).format('MM-DD-YYYY'),
-            to_date: moment(this.courseFetchForm.to_date).format('MM-DD-YYYY'),
+            from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+            to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
             installment_id: this.courseFetchForm.installment_id,
             subject_id: this.courseFetchForm.subject_id,
             master_course_name: this.courseFetchForm.master_course_name,
@@ -358,8 +358,8 @@ export class FeeCourseReportComponent implements OnInit {
             standard_id: this.courseFetchForm.master_course_name,
             batch_id: this.courseFetchForm.batch_id,
             type: this.courseFetchForm.type,
-            from_date: moment(this.courseFetchForm.from_date).format('MM-DD-YYYY'),
-            to_date: moment(this.courseFetchForm.to_date).format('MM-DD-YYYY'),
+            from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+            to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
             installment_id: this.courseFetchForm.installment_id,
             subject_id: this.courseFetchForm.course_id,
             master_course_name: this.courseFetchForm.standard_id,
@@ -413,10 +413,10 @@ export class FeeCourseReportComponent implements OnInit {
       obj.to_date = '';
     }
     if (obj.from_date != 'Invalid date' && obj.from_date != '') {
-      moment(obj.from_date).format('MM-DD-YYYY');
+      moment(obj.from_date).format('YYYY-MM-DD');
     }
     if (obj.to_date != 'Invalid date' && obj.to_date != '') {
-      moment(obj.to_date).format('MM-DD-YYYY');
+      moment(obj.to_date).format('YYYY-MM-DD');
     }
     //console.log(obj);
     this.auth.showLoader();
@@ -696,8 +696,8 @@ export class FeeCourseReportComponent implements OnInit {
   //   }
 
   //   else if (this.due_type == 'current_dues') {
-  //     this.courseFetchForm.from_date = moment(new Date()).format("MM-DD-YYYY");
-  //     this.courseFetchForm.to_date = moment(new Date()).format("MM-DD-YYYY");
+  //     this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
+  //     this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
   //     this.courseFetchForm.type = "1";
   //   }
   //   else if (this.due_type == 'custom') {
@@ -755,7 +755,7 @@ export class FeeCourseReportComponent implements OnInit {
             "Balance Amount": ele.amount_still_payable,
             "Master Course": ele.standard_name,
             "Batch": ele.batch_name,
-            "Date of report generation": moment().format('MM-DD-YYYY')
+            "Date of report generation": moment().format('YYYY-MM-DD')
           }
           arr.push(json);
         }
@@ -777,7 +777,7 @@ export class FeeCourseReportComponent implements OnInit {
             "Balance Amount": ele.amount_still_payable,
             "Standard Name": ele.standard_name,
             "Course": ele.course_name,
-            "Date of report generation": moment().format('MM-DD-YYYY')
+            "Date of report generation": moment().format('YYYY-MM-DD')
           }
           arr.push(json);
         }

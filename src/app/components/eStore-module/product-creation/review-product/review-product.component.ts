@@ -198,11 +198,11 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
             this.prodForm.is_duration = this.prodForm.duration == 0 ? false : true;
             // alert(this.prodForm.valid_from_date);
-            this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('MM-DD-YYYY');
+            this.prodForm.valid_from_date = moment(this.prodForm.valid_from_date).format('YYYY-MM-DD');
             // alert(this.prodForm.valid_to_date);
-            this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format('MM-DD-YYYY');
-            this.prodForm.sales_from_date = moment(this.prodForm.sales_from_date).format('MM-DD-YYYY');
-            this.prodForm.sales_to_date = moment(this.prodForm.sales_to_date).format('MM-DD-YYYY');
+            this.prodForm.valid_to_date = moment(this.prodForm.valid_to_date).format('YYYY-MM-DD');
+            this.prodForm.sales_from_date = moment(this.prodForm.sales_from_date).format('YYYY-MM-DD');
+            this.prodForm.sales_to_date = moment(this.prodForm.sales_to_date).format('YYYY-MM-DD');
             this.prodForm.product_item_stats = {};
             this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             // -- added by laxmi

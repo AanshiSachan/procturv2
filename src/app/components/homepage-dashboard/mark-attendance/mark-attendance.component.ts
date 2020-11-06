@@ -566,8 +566,8 @@ closeTopicModal(){
 
   generateCourseLevelExam() {
     let obj = {
-      start_date: moment(this.batch_info.schedDate).format('MM-DD-YYYY'),
-      end_date: moment(this.batch_info.schedDate).format('MM-DD-YYYY')
+      start_date: moment(this.batch_info.schedDate).format('YYYY-MM-DD'),
+      end_date: moment(this.batch_info.schedDate).format('YYYY-MM-DD')
     }
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       (res: any) => {
@@ -988,7 +988,7 @@ closeTopicModal(){
 
   getCustomCourseLevelAttendanceObject(d, detail): any {
     let obj = {
-      date: moment(new Date()).format("MM-DD-YYYY"),
+      date: moment(new Date()).format("YYYY-MM-DD"),
       home_work_status: detail.home_work_status,
       isStatusModified: "Y",
       is_home_work_status_changed: d.is_home_work_status_changed,
@@ -1067,7 +1067,7 @@ closeTopicModal(){
         "student_id": element.student_id,
         "course_id": this.batch_info.course_id,
         "dateLi": [{
-          "date": moment(this.batch_info.startdate).format("MM-DD-YYYY"),
+          "date": moment(this.batch_info.startdate).format("YYYY-MM-DD"),
           "status": element.dateLi[0].status,
           "isStatusModified": element.dateLi[0].isStatusModified,
           "home_work_status": element.dateLi[0].home_work_status,

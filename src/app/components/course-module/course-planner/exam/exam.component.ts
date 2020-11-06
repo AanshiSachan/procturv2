@@ -217,8 +217,8 @@ export class ExamComponent implements OnInit {
       this.coursePlannerFilters.isCancelled = "N";
     }
 
-    this.coursePlannerFilters.from_date = moment(this.sessionFiltersArr.from_date).format("MM-DD-YYYY");
-    this.coursePlannerFilters.to_date = moment(this.sessionFiltersArr.to_date).format("MM-DD-YYYY");
+    this.coursePlannerFilters.from_date = moment(this.sessionFiltersArr.from_date).format("YYYY-MM-DD");
+    this.coursePlannerFilters.to_date = moment(this.sessionFiltersArr.to_date).format("YYYY-MM-DD");
 
     if (this.sessionFiltersArr.masterCourse != "-1") {
       this.updateCoursesList()
@@ -444,8 +444,8 @@ export class ExamComponent implements OnInit {
       e.currentTarget.checked = true;
     }
     else if (inputDateFilter == 'lastWeek') {     // Last week
-      this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("MM-DD-YYYY");
-      this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("MM-DD-YYYY");
+      this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("YYYY-MM-DD");
+      this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
       this.filterDateInputs.lastWeek = true;
       e.currentTarget.checked = true;
     }
@@ -456,8 +456,8 @@ export class ExamComponent implements OnInit {
       e.currentTarget.checked = true;
     }
     else if (inputDateFilter == 'thisWeek') {   // This Week
-      this.coursePlannerFilters.from_date = moment().isoWeekday("Monday").format("MM-DD-YYYY");
-      this.coursePlannerFilters.to_date = moment().weekday(7).format("MM-DD-YYYY");
+      this.coursePlannerFilters.from_date = moment().isoWeekday("Monday").format("YYYY-MM-DD");
+      this.coursePlannerFilters.to_date = moment().weekday(7).format("YYYY-MM-DD");
       this.filterDateInputs.thisWeek = true;
       e.currentTarget.checked = true;
     }
@@ -507,8 +507,8 @@ export class ExamComponent implements OnInit {
 
   updateFilterDateRange(e) {
     if (this.filterDateInputs.custom) {
-      this.coursePlannerFilters.from_date = moment(e[0]).format("MM-DD-YYYY");
-      this.coursePlannerFilters.to_date = moment(e[1]).format("MM-DD-YYYY");
+      this.coursePlannerFilters.from_date = moment(e[0]).format("YYYY-MM-DD");
+      this.coursePlannerFilters.to_date = moment(e[1]).format("YYYY-MM-DD");
     }
   }
 
@@ -603,8 +603,8 @@ export class ExamComponent implements OnInit {
 
 
   getVisibility(c): boolean {
-    let d = moment(c.class_date).format("MM-DD-YYYY");
-    if (d >= moment(new Date()).format("MM-DD-YYYY")) {
+    let d = moment(c.class_date).format("YYYY-MM-DD");
+    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
       return true;
     }
     else {
@@ -624,7 +624,7 @@ export class ExamComponent implements OnInit {
       let obj = {
         course_exam_schedule_id: data.schedule_id,
         course_id: data.course_id,
-        requested_date: moment(data.date).format('MM-DD-YYYY')
+        requested_date: moment(data.date).format('YYYY-MM-DD')
       }
       this.auth.showLoader();
       this.widgetService.sendReminder(obj).subscribe(
@@ -704,7 +704,7 @@ export class ExamComponent implements OnInit {
       course_exam_schedule_id: this.tempData.schedule_id,
       course_id: this.tempData.course_id,
       is_cancel_notify: notify,
-      requested_date: moment(this.tempData.date).format('MM-DD-YYYY')
+      requested_date: moment(this.tempData.date).format('YYYY-MM-DD')
     }
     // this.auth.showLoader();
     this.widgetService.cancelExamScheduleCourse(obj).subscribe(
@@ -848,7 +848,7 @@ export class ExamComponent implements OnInit {
         forCourseWise: true,
         forSubjectWise: false,
         isExam: true,
-        schedDate: moment(exam.date).format('MM-DD-YYYY'),
+        schedDate: moment(exam.date).format('YYYY-MM-DD'),
         is_attendance_marked: exam.is_attendance_marked
       }
     }

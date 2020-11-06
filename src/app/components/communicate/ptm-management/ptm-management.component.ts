@@ -61,7 +61,7 @@ export class PtmManagementComponent implements OnInit {
     batchArray: [],
     startTimeArray: [],
     endTimeArray: [],
-    ptm_date: moment().format("MM-DD-YYYY")
+    ptm_date: moment().format("YYYY-MM-DD")
   };
 
   // All Array list

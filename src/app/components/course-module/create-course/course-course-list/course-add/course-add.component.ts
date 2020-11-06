@@ -183,8 +183,8 @@ export class CourseAddComponent implements OnInit {
         }
         let obj: any = {};
         obj.course_name = this.courseDetails.course_name;
-        obj.start_Date = moment(this.courseDetails.start_Date).format("MM-DD-YYYY");
-        obj.end_Date = moment(this.courseDetails.end_Date).format("MM-DD-YYYY");
+        obj.start_Date = moment(this.courseDetails.start_Date).format("YYYY-MM-DD");
+        obj.end_Date = moment(this.courseDetails.end_Date).format("YYYY-MM-DD");
         obj.academic_year_id = this.courseDetails.academic_year_id;
         obj.allow_exam_grades = this.courseDetails.allow_exam_grades;
         obj.subjectListArray = this.keepCloning(this.subjectList);
@@ -417,8 +417,8 @@ export class CourseAddComponent implements OnInit {
         }
         let obj: any = {};
         obj.course_name = row.course_name;
-        obj.start_Date = moment(row.start_Date).format("MM-DD-YYYY");
-        obj.end_Date = moment(row.end_Date).format("MM-DD-YYYY");
+        obj.start_Date = moment(row.start_Date).format("YYYY-MM-DD");
+        obj.end_Date = moment(row.end_Date).format("YYYY-MM-DD");
         obj.allow_exam_grades = row.allow_exam_grades;
         obj.subjectListArray = row.subjectListArray;
         this.mainArrayForTable[index] = obj;

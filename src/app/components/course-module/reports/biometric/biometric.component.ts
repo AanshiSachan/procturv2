@@ -87,13 +87,13 @@ export class BiometricComponent implements OnInit {
     course_id: -1,
     subject_id: -1,
     user_Type: 1,
-    biometric_attendance_date: moment().format('MM-DD-YYYY')
+    biometric_attendance_date: moment().format('YYYY-MM-DD')
   }
 
   getAbsentiesData = {
     batch_id: -1,
     course_id: -1,
-    from_date: moment().format('MM-DD-YYYY'),
+    from_date: moment().format('YYYY-MM-DD'),
     institution_id: this.institute_id,
     master_course_name: -1,
     standard_id: -1,
@@ -153,7 +153,7 @@ export class BiometricComponent implements OnInit {
     if (confirm("Are u sure, you want to send sms to Absent students?")) {
       this.auth.showLoader();
       let obj = {
-        "from_date": moment(this.getAbsentiesData.from_date).format('MM-DD-YYYY'),
+        "from_date": moment(this.getAbsentiesData.from_date).format('YYYY-MM-DD'),
         "institution_id": sessionStorage.getItem('institute_id'),
         "studentArray": this.studentArray
       }
@@ -188,7 +188,7 @@ export class BiometricComponent implements OnInit {
   }
 
   getMasterCourses() {
-    this.getData.biometric_attendance_date = moment().format('MM-DD-YYYY');
+    this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
     this.dataStatus = true;
     this.batchPro = [];
     this.masterCoursePro = [];
@@ -399,7 +399,7 @@ export class BiometricComponent implements OnInit {
       this.showTeachersTable = true;
       this.showStudentTable = false;
       this.showCustomTable = false;
-      this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('MM-DD-YYYY');
+      this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
       const url = "/api/v1/teachers/manage/" + this.institute_id;
       this._http.postData(url, this.getData).subscribe(
         (data: any) => {
@@ -422,7 +422,7 @@ export class BiometricComponent implements OnInit {
       this.showStudentTable = false;
       this.showTeachersTable = false;
       this.showCustomTable = true;
-      this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('MM-DD-YYYY');
+      this.getData.biometric_attendance_date = moment(this.getData.biometric_attendance_date).format('YYYY-MM-DD');
       let isActive = this.getData.is_active_status == 1 ? "Y" : "N";
       const url = "/api/v1/profiles/all/" + this.institute_id + "?active=" + isActive;
       this._http.postData(url, this.getData).subscribe(
@@ -504,7 +504,7 @@ export class BiometricComponent implements OnInit {
 
   fetchAbsentsStudentsData() {
     this.auth.showLoader();
-    this.getAbsentiesData.from_date = moment(this.getAbsentiesData.from_date).format('MM-DD-YYYY');
+    this.getAbsentiesData.from_date = moment(this.getAbsentiesData.from_date).format('YYYY-MM-DD');
     this.getAbsentiesData.institution_id = this.institute_id;
     let url = "/api/v1/attendance/fetchAbsentsStudentsData";
     this._http.postData(url, this.getAbsentiesData).subscribe(
@@ -533,8 +533,8 @@ export class BiometricComponent implements OnInit {
       }
       this.appc.popToast(msg);
       this.auth.hideLoader();
-      this.getData.biometric_attendance_date = moment().format('MM-DD-YYYY');
-      this.getAllData.from_date = moment().format('MM-DD-YYYY');
+      this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
+      this.getAllData.from_date = moment().format('YYYY-MM-DD');
     }
   }
 
@@ -652,9 +652,9 @@ export class BiometricComponent implements OnInit {
 
     }
     else {
-      this.getData.biometric_attendance_date = moment(new Date).format('MM-DD-YYYY');
-      this.getAllData.to_date = moment(new Date).format('MM-DD-YYYY');
-      this.getAllData.from_date = moment(new Date).format('MM-DD-YYYY');
+      this.getData.biometric_attendance_date = moment(new Date).format('YYYY-MM-DD');
+      this.getAllData.to_date = moment(new Date).format('YYYY-MM-DD');
+      this.getAllData.from_date = moment(new Date).format('YYYY-MM-DD');
       let msg = {
         type: "info",
         body: "Future date is not allowed"
@@ -716,14 +716,14 @@ export class BiometricComponent implements OnInit {
 
   popupCtrlChange(event) {
     if (event == 0) {
-      this.getAllData.from_date = moment().subtract('months', 1).format('MM-DD-YYYY')
-      this.getAllData.to_date = moment().format('MM-DD-YYYY')
+      this.getAllData.from_date = moment().subtract('months', 1).format('YYYY-MM-DD')
+      this.getAllData.to_date = moment().format('YYYY-MM-DD')
       this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
       this.showRangeValue = false;
     }
     else if (event == 1) {
-      this.getAllData.from_date = moment().subtract('days', 7).format('MM-DD-YYYY')
-      this.getAllData.to_date = moment().format('MM-DD-YYYY');
+      this.getAllData.from_date = moment().subtract('days', 7).format('YYYY-MM-DD')
+      this.getAllData.to_date = moment().format('YYYY-MM-DD');
       this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
       this.showRangeValue = false;
     }

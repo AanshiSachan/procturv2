@@ -7,7 +7,7 @@ import { CampaignLeadSmsComponent } from './campaign-lead-sms/campaign-lead-sms.
 import { CampaignReportsComponent } from './campaign-reports.component';
 import { SharedModule } from '../../shared/shared.module';
 // import { BsDatepickerModule } from 'ngx-bootstrap-custome';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { CampaignReportsHomeComponent } from './campaign-reports-home/campaign-reports-home.component';
 
 import { getSMSService } from '../../../services/report-services/get-sms.service';
@@ -19,7 +19,7 @@ import { ExcelService } from '../../../services/excel.service';
     CommonModule,
     CampaignReportsRoutingModule,
     SharedModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
   ],
   declarations: [
     CampaignSmsComponent,

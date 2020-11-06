@@ -38,7 +38,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     priority: "",
     follow_type: "",
     followUpDate: "",
-    commentDate: moment().format('MM-DD-YYYY'),
+    commentDate: moment().format('YYYY-MM-DD'),
     followUpTime: {
       hour: "",
       minute: ""
@@ -186,13 +186,13 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         }
 
         if (res.followUpDate != "" && res.followUpDate != null && res.followUpDate != "Invalid date") {
-          this.updateFormData.followUpDate = moment(res.followUpDate).format("MM-DD-YYYY");
+          this.updateFormData.followUpDate = moment(res.followUpDate).format("YYYY-MM-DD");
         }
 
         // Walkin Date And Time Validation
 
         if (res.walkin_followUpDate != "" && res.walkin_followUpDate != "Invalid date" && res.walkin_followUpDate != null) {
-          this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("MM-DD-YYYY");
+          this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("YYYY-MM-DD");
         }
 
         if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null && res.walkin_followUpTime != ": ") {
@@ -461,7 +461,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       phone: this.enquiryDet.phone,
       email: this.enquiryDet.email,
       gender: this.enquiryDet.gender,
-      dob: moment(this.enquiryDet.dob).format("MM-DD-YYYY"),
+      dob: moment(this.enquiryDet.dob).format("YYYY-MM-DD"),
       parent_email: this.enquiryDet.parent_email,
       parent_name: this.enquiryDet.parent_name,
       parent_phone: this.enquiryDet.parent_phone,
@@ -485,7 +485,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       priority: "",
       follow_type: "",
       followUpDate: "",
-      commentDate: moment().format('MM-DD-YYYY'),
+      commentDate: moment().format('YYYY-MM-DD'),
       followUpTime: {
         hour: "",
         minute: ""

@@ -74,8 +74,8 @@ export class FeeWidgetComponent implements OnInit {
             master_course_name: '-1',
             course_id: -1,
             is_fee_report_view: 1,
-            from_date: moment(this.feeDate[0]).format('MM-DD-YYYY'),
-            to_date: moment(this.feeDate[1]).format('MM-DD-YYYY')
+            from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
+            to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
         }
         this.widgetService.fetchFeeWidgetData(obj).subscribe(
             res => {
@@ -121,8 +121,8 @@ export class FeeWidgetComponent implements OnInit {
 
         let obj = {
             institute_id: '',
-            from_date: moment(this.feeDate[0]).format('MM-DD-YYYY'),
-            to_date: moment(this.feeDate[1]).format('MM-DD-YYYY')
+            from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
+            to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
         }
 
         this.isOptionVisible = false;

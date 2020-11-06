@@ -35,7 +35,7 @@ export class AddEditExpenseComponent implements OnInit {
   paymentDetails = {
     payeeName: '-1',
     accountName: '-1',
-    paymentDate: moment(new Date()).format('MM-DD-YYYY'),
+    paymentDate: moment(new Date()).format('YYYY-MM-DD'),
     paymentmode: '-1'
   }
 
@@ -266,7 +266,7 @@ export class AddEditExpenseComponent implements OnInit {
             let obj = {
               party_id: this.paymentDetails.payeeName,
               account_id: this.paymentDetails.accountName,
-              payment_date: moment(this.paymentDetails.paymentDate).format('MM-DD-YYYY'),
+              payment_date: moment(this.paymentDetails.paymentDate).format('YYYY-MM-DD'),
               paying_mode: this.paymentDetails.paymentmode,
               itemList: itemlist,
               attachmentList: attachList,
@@ -382,7 +382,7 @@ export class AddEditExpenseComponent implements OnInit {
     let diff = moment(selectedDate.diff(today))['_i'];
     if(diff > 0){
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
-      this.paymentDetails.paymentDate = moment(new Date).format('MM-DD-YYYY');
+      this.paymentDetails.paymentDate = moment(new Date).format('YYYY-MM-DD');
     }
   }
 

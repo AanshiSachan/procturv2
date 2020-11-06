@@ -112,12 +112,12 @@ export class ManageBatchComponent implements OnInit {
     this.auth.showLoader();
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
-    rowDetails.end_date = moment(rowDetails.end_date).format('MM-DD-YYYY');
+    rowDetails.end_date = moment(rowDetails.end_date).format('YYYY-MM-DD');
     this.apiService.getBatchDetailsForEdit(rowDetails.batch_id).subscribe(
       data => {
         //console.log(data);
         this.editRowDetails = data;
-        this.editRowDetails.end_date = moment(this.editRowDetails.end_date).format('MM-DD-YYYY');
+        this.editRowDetails.end_date = moment(this.editRowDetails.end_date).format('YYYY-MM-DD');
         this.onMasterCourseSelection(data.standard_id);
         this.auth.hideLoader();
       },
@@ -317,8 +317,8 @@ export class ManageBatchComponent implements OnInit {
                     )
                   }
                   else {
-                    this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("MM-DD-YYYY");
-                    this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("MM-DD-YYYY");
+                    this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("YYYY-MM-DD");
+                    this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
                     this.messageToast('error', '', 'Provide valid details of Start Date');
                     return;
                   }

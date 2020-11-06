@@ -24,8 +24,8 @@ export class CounsellorReportComponent implements OnInit {
     institution_id: this.counsellor.institute_id,
     reportType: "assigned",
     assigned_to: (this.username === "admin" || (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) ? -1 : this.userId),
-    updateDateFrom: moment().startOf('month').format('MM-DD-YYYY'),
-    updateDateTo: moment().format('MM-DD-YYYY'),
+    updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+    updateDateTo: moment().format('YYYY-MM-DD'),
   }
 
   permission: boolean = true;
@@ -127,8 +127,8 @@ export class CounsellorReportComponent implements OnInit {
 
       this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
         (data: any) => {
-          this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY');
-          this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY');
+          this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD');
+          this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD');
           for (var prop in data) {
             if (data.hasOwnProperty(prop)) {
               let innerObj = {};
@@ -146,8 +146,8 @@ export class CounsellorReportComponent implements OnInit {
             }
             this.newArray.push(this.newObject);
           }
-          this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('MM-DD-YYYY');
-          this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('MM-DD-YYYY');
+          this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD');
+          this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD');
           this.getCounsellorDetails = this.newArray;
           this.getCounsellorDetails.map(
             (ele: any) => {

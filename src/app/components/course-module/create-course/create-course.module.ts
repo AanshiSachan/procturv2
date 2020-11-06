@@ -6,7 +6,7 @@ import { CreateCourseRoutingModule } from './create-course-routing.module';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CourseInput } from './course-directives/course-directives.directive';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({

@@ -11,8 +11,8 @@ export class product_details {
     about: string = "";
     is_paid: any = true;
     price: number = 0.00;
-    valid_from_date: string = moment().format('MM-DD-YYYY');
-    valid_to_date: string = moment().format('MM-DD-YYYY');
+    valid_from_date: string = moment().format('YYYY-MM-DD');
+    valid_to_date: string = moment().format('YYYY-MM-DD');
     status: number = 10;
     purchase_limit: number = 0;
     product_ecourse_maps: any[] = [];

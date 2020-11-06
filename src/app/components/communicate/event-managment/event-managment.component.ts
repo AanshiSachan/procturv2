@@ -44,7 +44,7 @@ export class EventManagmentComponent implements OnInit {
   saveDataObj = {
     event_end_date: "",
     event_type: "1",
-    holiday_date: moment().format("MM-DD-YYYY"),
+    holiday_date: moment().format("YYYY-MM-DD"),
     holiday_desc: "",
     holiday_long_desc: "",
     holiday_name: "",
@@ -57,7 +57,7 @@ export class EventManagmentComponent implements OnInit {
   newUpdateObj = {
     event_end_date: "",
     event_type: "",
-    holiday_date: moment().format("MM-DD-YYYY"),
+    holiday_date: moment().format("YYYY-MM-DD"),
     holiday_desc: "",
     holiday_long_desc: "",
     holidayId: "",
@@ -320,7 +320,7 @@ export class EventManagmentComponent implements OnInit {
         this.auth.hideLoader();
         this.updateListObj = res;
         this.newUpdateObj.event_type = res.event_type;
-        this.newUpdateObj.holiday_date = moment(res.holiday_date).format("MM-DD-YYYY");
+        this.newUpdateObj.holiday_date = moment(res.holiday_date).format("YYYY-MM-DD");
         this.newUpdateObj.holiday_desc = res.holiday_desc;
         this.newUpdateObj.holiday_long_desc = res.holiday_long_desc;
         this.newUpdateObj.holiday_name = res.holiday_name;
@@ -389,7 +389,7 @@ export class EventManagmentComponent implements OnInit {
     this.saveDataObj = {
       event_end_date: "",
       event_type: "1",
-      holiday_date: moment().format("MM-DD-YYYY"),
+      holiday_date: moment().format("YYYY-MM-DD"),
       holiday_desc: "",
       holiday_long_desc: "",
       holiday_name: "",

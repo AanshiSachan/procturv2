@@ -87,8 +87,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     batch_id: -1,
   }
   advanceFilter: any = {
-    startdate: moment().subtract(30, 'days').format('MM-DD-YYYY'),
-    enddate: moment().format('MM-DD-YYYY'),
+    startdate: moment().subtract(30, 'days').format('YYYY-MM-DD'),
+    enddate: moment().format('YYYY-MM-DD'),
     type: '3',
     isExamIncludedInTimeTable: 'Y'
   }
@@ -437,12 +437,12 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   getEndDate(): string {
-    let currentDate = moment(this.currentDate).format("MM-DD-YYYY");
+    let currentDate = moment(this.currentDate).format("YYYY-MM-DD");
     return moment(currentDate).weekday(7).format("YYYY-MM-DD");
   }
 
   getStartDate(): string {
-    let currentDate = moment(this.currentDate).format("MM-DD-YYYY");
+    let currentDate = moment(this.currentDate).format("YYYY-MM-DD");
     return moment(currentDate).weekday(1).format("YYYY-MM-DD");
   }
 
@@ -479,7 +479,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   gotoPreviousWeek() {
-    this.currentDate = new Date(moment(this.currentDate).subtract(7, 'd').format("MM-DD-YYYY"));
+    this.currentDate = new Date(moment(this.currentDate).subtract(7, 'd').format("YYYY-MM-DD"));
     this.weekStart = moment(this.currentDate).isoWeekday("Monday").format("DD MMMM YYYY");
     this.weekEnd = moment(this.currentDate).isoWeekday("Sunday").format("DD MMMM YYYY");
     this.submitMasterCourse();
@@ -487,7 +487,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   /* ============================================================================================ */
   /* ============================================================================================ */
   gotoNextWeek() {
-    this.currentDate = new Date(moment(this.currentDate).add(7, 'd').format("MM-DD-YYYY"));
+    this.currentDate = new Date(moment(this.currentDate).add(7, 'd').format("YYYY-MM-DD"));
     this.weekStart = moment(this.currentDate).isoWeekday("Monday").format("DD MMMM YYYY");
     this.weekEnd = moment(this.currentDate).isoWeekday("Sunday").format("DD MMMM YYYY");
     this.submitMasterCourse();
@@ -511,7 +511,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         course_ids: this.fetchMasterCourseModule.course_id,
         inst_id: sessionStorage.getItem('institute_id'),
         master_course: this.fetchMasterCourseModule.master_course,
-        requested_date: moment(notify.id).format("MM-DD-YYYY")
+        requested_date: moment(notify.id).format("YYYY-MM-DD")
       }
       this.classService.remindCourseLevel(obj).subscribe(
         res => {
@@ -640,7 +640,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         is_notified: this.resheduleNotified
       }
       let temp2 = {
-        class_date: moment(this.reschedDate).format("MM-DD-YYYY"),
+        class_date: moment(this.reschedDate).format("YYYY-MM-DD"),
         start_time: this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian,
         end_time: this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian,
         duration: this.getDifference()
@@ -947,8 +947,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       this.messageToast('error', '', 'Please enter date range of 30 days only');
       return false;
     } else {
-      this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('MM-DD-YYYY');
-      this.advanceFilter.enddate = moment(this.advanceFilter.enddate).format('MM-DD-YYYY');
+      this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('YYYY-MM-DD');
+      this.advanceFilter.enddate = moment(this.advanceFilter.enddate).format('YYYY-MM-DD');
     }
     if (this.isLangInstitute) {
       if (this.batchData.standard_id == -1) {
@@ -1187,7 +1187,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   // Hide Past Schedules
   hidePastClassAction(data) {
     let date = data.id.split('(');
-    if (moment(date[0]).format('MM-DD-YYYY') >= moment().format('MM-DD-YYYY')) {
+    if (moment(date[0]).format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD')) {
       return true;
     } else {
       return false;

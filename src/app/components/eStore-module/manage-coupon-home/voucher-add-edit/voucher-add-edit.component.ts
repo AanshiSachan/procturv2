@@ -148,8 +148,8 @@ export class VoucherAddEditComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.addVoucherModel = data.result;
-        this.addVoucherModel.start_date = moment(data.result.start_date).format("MM-DD-YYYY");
-        this.addVoucherModel.end_date = moment(data.result.end_date).format("MM-DD-YYYY");
+        this.addVoucherModel.start_date = moment(data.result.start_date).format("YYYY-MM-DD");
+        this.addVoucherModel.end_date = moment(data.result.end_date).format("YYYY-MM-DD");
         this.addVoucherModel.discount_type = String(this.addVoucherModel.discount_type);
         this.addVoucherModel.product_id_list = data.result.product_details_list;
         this.selected_products = this.addVoucherModel.product_id_list;

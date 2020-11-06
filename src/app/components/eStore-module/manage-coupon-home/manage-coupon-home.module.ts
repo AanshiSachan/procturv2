@@ -8,7 +8,7 @@ import { VoucherListComponent } from './voucher-list/voucher-list.component';
 import { VoucherAddEditComponent } from './voucher-add-edit/voucher-add-edit.component';
 import { CouponAddEditComponent } from './coupon-add-edit/coupon-add-edit.component';
 import { FormsModule } from '@angular/forms';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SharedModule } from '../../shared/shared.module';
 import { HomeComponent } from './home/home.component';
@@ -18,7 +18,7 @@ import { HomeComponent } from './home/home.component';
     CommonModule,
     ManageCouponHomeRoutingModule,
     FormsModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     NgMultiSelectDropDownModule.forRoot(),
     SharedModule
   ],

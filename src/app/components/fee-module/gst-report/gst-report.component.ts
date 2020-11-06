@@ -89,8 +89,8 @@ export class GstReportComponent implements OnInit {
 
   sendPayload = {
     institute_id: this.gst.institute_id,
-    from_date: moment().format('MM-DD-YYYY'),
-    to_date: moment().format('MM-DD-YYYY'),
+    from_date: moment().format('YYYY-MM-DD'),
+    to_date: moment().format('YYYY-MM-DD'),
     payment_history_student_category_option: 2,
     student_name: "",
     contact_no: "",
@@ -98,8 +98,8 @@ export class GstReportComponent implements OnInit {
   getPaymentRecords: any[] = [];
 
   downloadService = {
-    from_date: moment().format('MM-DD-YYYY'),
-    to_date: moment().format('MM-DD-YYYY'),
+    from_date: moment().format('YYYY-MM-DD'),
+    to_date: moment().format('YYYY-MM-DD'),
     payment_history_student_category_option: 2,
     student_name: "",
     contact_no: "",
@@ -155,8 +155,8 @@ export class GstReportComponent implements OnInit {
 
     let data = {
       institute_id: this.sendPayload.institute_id,
-      from_date: moment(firstDay).format('MM-DD-YYYY'),
-      to_date: moment(lastDay).format('MM-DD-YYYY'),
+      from_date: moment(firstDay).format('YYYY-MM-DD'),
+      to_date: moment(lastDay).format('YYYY-MM-DD'),
       payment_history_student_category_option: this.sendPayload.payment_history_student_category_option,
       student_name: this.sendPayload.student_name,
       contact_no: this.sendPayload.contact_no,
@@ -186,8 +186,8 @@ export class GstReportComponent implements OnInit {
     let date = new Date();
 
     this.downloadService = {
-      from_date: moment(new Date(this.year, this.downloadFormatted, 1)).format('MM-DD-YYYY'),
-      to_date: moment(new Date(this.year, this.downloadFormatted + 1, 0)).format('MM-DD-YYYY'),
+      from_date: moment(new Date(this.year, this.downloadFormatted, 1)).format('YYYY-MM-DD'),
+      to_date: moment(new Date(this.year, this.downloadFormatted + 1, 0)).format('YYYY-MM-DD'),
       payment_history_student_category_option: 2,
       student_name: "",
       contact_no: "",

@@ -36,8 +36,8 @@ export class TimeTableComponent implements OnInit {
   flag: boolean = false;
   showFilters: boolean = true;
   maxEntries = 0;
-  startdateweek = moment().isoWeekday("Monday").format("MM-DD-YYYY");
-  enddateweek = moment().isoWeekday("Sunday").format("MM-DD-YYYY");
+  startdateweek = moment().isoWeekday("Monday").format("YYYY-MM-DD");
+  enddateweek = moment().isoWeekday("Sunday").format("YYYY-MM-DD");
 
   fetchFieldData = {
     batch_id: "-1",
@@ -279,16 +279,16 @@ export class TimeTableComponent implements OnInit {
       return;
     }
     if (flag == '-1') {
-      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('MM-DD-YYYY');
-      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('MM-DD-YYYY');
+      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('YYYY-MM-DD');
     }
     else if (flag == '1') {
-      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('MM-DD-YYYY');
-      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('MM-DD-YYYY');
+      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('YYYY-MM-DD');
     }
     this.showFilters = false;
-    this.fetchFieldData.enddate = moment(this.enddateweek).format('MM-DD-YYYY');
-    this.fetchFieldData.startdate = moment(this.startdateweek).format('MM-DD-YYYY');
+    this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
+    this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
     if (this.fetchFieldData.course_id == "-1" && this.fetchFieldData.teacher_id == '-1') {
       this.onlyMasterData = true;
     } else { this.onlyMasterData = false; }
@@ -371,20 +371,20 @@ export class TimeTableComponent implements OnInit {
       }
     }
     if (data == '-1') {
-      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('MM-DD-YYYY');
-      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('MM-DD-YYYY');
+      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('YYYY-MM-DD');
     }
     else if (data == '1') {
-      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('MM-DD-YYYY');
-      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('MM-DD-YYYY');
+      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('YYYY-MM-DD');
     }
     // else {
-    //   this.startdateweek = moment().isoWeekday("Monday").format("MM-DD-YYYY");
-    //   this.enddateweek = moment().isoWeekday("Sunday").format("MM-DD-YYYY");
+    //   this.startdateweek = moment().isoWeekday("Monday").format("YYYY-MM-DD");
+    //   this.enddateweek = moment().isoWeekday("Sunday").format("YYYY-MM-DD");
     // }
     this.showFilters = false;
-    this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('MM-DD-YYYY');
-    this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('MM-DD-YYYY');
+    this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
+    this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
     this.forDownloadPDF = this.fetchFieldDataPro;
     this.timeTableServ.getTimeTable(this.fetchFieldDataPro).subscribe
       (
@@ -411,9 +411,9 @@ export class TimeTableComponent implements OnInit {
     for (var i = 0; i < 7; i++) {
       this.flag = false;
       for (let prop in this.timeTableObj) {
-        if (moment(this.startdateweek).add(i, 'day').format("MM-DD-YYYY") == moment(prop).format("MM-DD-YYYY") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
+        if (moment(this.startdateweek).add(i, 'day').format("YYYY-MM-DD") == moment(prop).format("YYYY-MM-DD") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
           let obj = {
-            headerDate: moment(prop).format("MM-DD-YYYY"),
+            headerDate: moment(prop).format("YYYY-MM-DD"),
             headerDays: moment(prop).format("dddd"),
             data: this.timeTableObj[prop],
           }
@@ -424,7 +424,7 @@ export class TimeTableComponent implements OnInit {
       }
       if (this.flag == false) {
         let obj = {
-          headerDate: (moment(this.startdateweek).add(i, 'day').format("MM-DD-YYYY")),
+          headerDate: (moment(this.startdateweek).add(i, 'day').format("YYYY-MM-DD")),
           headerDays: (moment(this.startdateweek).add(i, 'day').format("dddd")),
           data: [],
         }

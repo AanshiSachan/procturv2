@@ -27,8 +27,8 @@ export class ScrapBookComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.scrapbookrange[0] = new Date(moment().date(1).format("MM-DD-YYYY"));
-    this.scrapbookrange[1] = new Date(moment().format("MM-DD-YYYY"));
+    this.scrapbookrange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.scrapbookrange[1] = new Date(moment().format("YYYY-MM-DD"));
 
     // this.getScrapBookReport(this.scrapbookrange[0],this.scrapbookrange[1]);
 
@@ -84,7 +84,7 @@ export class ScrapBookComponent implements OnInit {
 
     getStartDate() {
         this.cd.markForCheck();
-        let date = moment().date(1).format("MM-DD-YYYY");
+        let date = moment().date(1).format("YYYY-MM-DD");
         return this.scrapbookrange[0];
     }
 
@@ -96,7 +96,7 @@ export class ScrapBookComponent implements OnInit {
     updateEnqChartByDate(e) {
       this.cd.markForCheck();
 
-      this.getScrapBookReport(moment(e[0]).format("MM-DD-YYYY"),moment(e[1]).format("MM-DD-YYYY"));
+      this.getScrapBookReport(moment(e[0]).format("YYYY-MM-DD"),moment(e[1]).format("YYYY-MM-DD"));
 
     }
 

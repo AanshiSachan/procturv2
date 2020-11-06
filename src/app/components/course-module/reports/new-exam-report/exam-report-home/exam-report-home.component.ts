@@ -24,8 +24,8 @@ export class ExamReportHomeComponent implements OnInit {
     master_course_name: "",
     standard_id: "",
     subject_id: "",
-    from_date: moment().isoWeekday("Monday").format("MM-DD-YYYY"),
-    to_date: moment().weekday(7).format("MM-DD-YYYY")
+    from_date: moment().isoWeekday("Monday").format("YYYY-MM-DD"),
+    to_date: moment().weekday(7).format("YYYY-MM-DD")
   };
 
   masterCourseList: any;

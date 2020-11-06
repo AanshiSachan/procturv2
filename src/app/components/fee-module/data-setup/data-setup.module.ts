@@ -7,7 +7,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuComponent } from './menu/menu.component';
 import { SharedModule } from '../../shared/shared.module';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+// import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule } from 'primeng/primeng';
 import { FeeStrucService } from '../../../services/feeStruc.service';
 
@@ -18,7 +18,7 @@ import { FeeStrucService } from '../../../services/feeStruc.service';
     ReactiveFormsModule,
     DataSetupRoutingModule,
     CommonModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     FileUploadModule,
     SplitButtonModule,
     MenuModule,

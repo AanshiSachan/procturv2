@@ -17,8 +17,8 @@ export class SourceComponent implements OnInit {
     reportType: "source",
     source_id: -1,
     assigned_to: this.userId,
-    updateDateFrom: moment().startOf('month').format('MM-DD-YYYY'),
-    updateDateTo: moment().format('MM-DD-YYYY')
+    updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+    updateDateTo: moment().format('YYYY-MM-DD')
   }
 
   getSourceData: any = [];
@@ -124,8 +124,8 @@ export class SourceComponent implements OnInit {
             }
             this.newArray.push(this.newObject);
           }
-          this.sourceInfoDetails.updateDateFrom = moment(this.sourceInfoDetails.updateDateFrom).format("MM-DD-YYYY");
-          this.sourceInfoDetails.updateDateTo = moment(this.sourceInfoDetails.updateDateTo).format("MM-DD-YYYY");
+          this.sourceInfoDetails.updateDateFrom = moment(this.sourceInfoDetails.updateDateFrom).format("YYYY-MM-DD");
+          this.sourceInfoDetails.updateDateTo = moment(this.sourceInfoDetails.updateDateTo).format("YYYY-MM-DD");
           this.getSourceDetails = this.newArray;
           this.getSourceDetails.map(
             (ele: any) => {

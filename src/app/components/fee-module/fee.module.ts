@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, Tooltip } from 'primeng/primeng';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {TimepickerModule} from 'ngx-bootstrap/timepicker';
 import {TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -30,7 +30,7 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
         MenuModule,
         SharedModule,
         TooltipModule.forRoot(),
-        BsDatepickerModule,
+        // BsDatepickerModule,
         TimepickerModule
     ],
     declarations: [

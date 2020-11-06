@@ -23,8 +23,8 @@ export class ListAssignmentComponent implements OnInit {
   assignmentList: any[] = [];
   tempAssignmnetList: any[] = [];
   allData: any = [];  // used for pagination purpose
-  startDate: any = new Date(moment().date(1).format("MM-DD-YYYY"));
-  endDate: any = moment(new Date).format("MM-DD-YYYY");
+  startDate: any = new Date(moment().date(1).format("YYYY-MM-DD"));
+  endDate: any = moment(new Date).format("YYYY-MM-DD");
 
   // FOR PAGINATION
   pageIndex: number = 1;

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployeeHomeComponent } from './employee-home.component';
 import { EmployeeHomeRoutingModule } from "./employee-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { SplitButtonModule } from 'primeng/primeng';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
@@ -19,7 +19,7 @@ import { IntegerInputDirective } from './intergerOnly.directive';
         ReactiveFormsModule,
         CommonModule,
         EmployeeHomeRoutingModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         SplitButtonModule,
         SharedModule,
         SplitButtonModule,
