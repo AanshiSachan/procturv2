@@ -19,6 +19,7 @@ import { AddEditIncomeComponent } from './manage-income/add-edit-income/add-edit
 import { AddEditPayeeComponent } from './data-setup/add-edit-payee/add-edit-payee.component';
 import { AddEditPayerComponent } from './data-setup/add-edit-payer/add-edit-payer.component';
 import { AddEditAccountComponent } from './data-setup/add-edit-account/add-edit-account.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { AddEditAccountComponent } from './data-setup/add-edit-account/add-edit-
     FileUploadModule,
     SplitButtonModule,
     CommonModule,
-    ExpenseManagementRoutingModule
+    ExpenseManagementRoutingModule,
+    SharedModule
   ],
   declarations: [
     ExpenseManagementComponent,

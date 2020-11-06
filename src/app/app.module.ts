@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToasterModule } from 'angular2-toaster';
 import { Ng2OrderModule } from 'ng2-order-pipe';
-import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig, BsDatepickerModule, BsDaterangepickerConfig } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
 import { AppMainLoaderComponent } from './app-loader/app-loader.component';
@@ -31,7 +31,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 export function getDatepickerConfig(): BsDatepickerConfig {
   return Object.assign(new BsDatepickerConfig(), {
-    dateInputFormat: 'YYYY-MM-DD'
+    dateInputFormat: 'YYYY-MM-DD',
+    showWeekNumbers: false
+  });
+}
+export function getRangePickerConfig(): BsDatepickerConfig {
+  return Object.assign(new BsDatepickerConfig(), {
+    rangeInputFormat: 'YYYY-MM-DD',
+    showWeekNumbers: false
   });
 }
 @NgModule({
@@ -63,6 +70,7 @@ export function getDatepickerConfig(): BsDatepickerConfig {
   ],
   providers: [
     { provide: BsDatepickerConfig, useFactory: getDatepickerConfig },
+    {provide: BsDaterangepickerConfig, useFactory: getRangePickerConfig },
     FetchenquiryService,
     FetchprefilldataService,
     PostEnquiryDataService,
