@@ -18,6 +18,8 @@ export class CouponAddEditComponent implements OnInit {
   selected_products: any[] = [];
   productIds = [];
   productList: any[] = [];
+  country: any = [];
+  disableAll: boolean = false;
   productSetting: {} = {};
   offerStatus: any = false;
   countryDetails: any = [];
@@ -47,11 +49,33 @@ export class CouponAddEditComponent implements OnInit {
       itemsShowLimit: 4,
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      enableCheckAll: true
+      enableCheckAll: false
     };
     if (this.selectedCouponId) {
       this.getCouponById();
     }
+  }
+
+
+  checkProduct(e) {
+    this.country = [];
+    for (let i = 0; i < this.productList.length; i++) {
+      for (let j = 0; j < e.length; j++) {
+        if (this.productList[i].id == e[j].id) {
+          this.country.push(this.productList[i].country_id);
+        }
+      }
+    }
+    for (let i = 0; i < this.country.length; i++) {
+      if (this.country[0] != this.country[i]) {
+        this._msgService.showErrorMessage('error', '', "Add product of same country");
+        this.disableAll = true;
+      }
+      else {
+        this.disableAll = false;
+      }
+    }
+    this.addCouponModel.country_id = this.country[0];
   }
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
@@ -83,11 +107,17 @@ export class CouponAddEditComponent implements OnInit {
   }
 
   saveData() {
-    if (this.selectedCouponId) {
-      this.updateCoupon();
-    } else {
-      this.createCoupon();
+    if (this.disableAll) {
+      this._msgService.showErrorMessage('error', '', "Add product of same country");
     }
+    else {
+      if (this.selectedCouponId) {
+        this.updateCoupon();
+      } else {
+        this.createCoupon();
+      }
+    }
+
   }
 
   validateForm() {
@@ -148,7 +178,7 @@ export class CouponAddEditComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.addCouponModel = data.result;
-        console.log("this.addCouponModel",this.addCouponModel);
+        console.log("this.addCouponModel", this.addCouponModel);
         this.addCouponModel.start_date = moment(data.result.start_date).format("MM-DD-YYYY");
         this.addCouponModel.end_date = moment(data.result.end_date).format("MM-DD-YYYY");
         this.addCouponModel.discount_type = String(this.addCouponModel.discount_type);
