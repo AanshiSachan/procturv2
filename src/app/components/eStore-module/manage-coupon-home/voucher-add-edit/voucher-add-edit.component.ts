@@ -16,11 +16,13 @@ export class VoucherAddEditComponent implements OnInit {
 
   addVoucherModel: addCouponForm = new addCouponForm();
   productList: any[] = [];
+  disableAll: boolean = false;
   productSetting: {} = {};
   productIds = [];
   selectedCouponId: any = null;
   offerStatus: any = false;
   selected_products: any[] = [];
+  country: any = [];
   countryDetails: any = [];
   constructor(private _productService: ProductService,
     private _msgService: MessageShowService,
@@ -55,6 +57,26 @@ export class VoucherAddEditComponent implements OnInit {
       this.getVoucherById();
     }
   }
+  checkProduct(e) {
+    this.country = [];
+    for (let i = 0; i < this.productList.length; i++) {
+      for (let j = 0; j < e.length; j++) {
+        if (this.productList[i].id == e[j].id) {
+          this.country.push(this.productList[i].country_id);
+        }
+      }
+    }
+    for (let i = 0; i < this.country.length; i++) {
+      if (this.country[0] != this.country[i]) {
+        this._msgService.showErrorMessage('error', '', "Add product of same country");
+        this.disableAll = true;
+      }
+      else {
+        this.disableAll = false;
+      }
+    }
+    this.addVoucherModel.country_id = this.country[0];
+  }
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
@@ -85,10 +107,15 @@ export class VoucherAddEditComponent implements OnInit {
   }
 
   saveData() {
-    if (this.selectedCouponId) {
-      this.updateCoupon();
-    } else {
-      this.createCoupon();
+    if (this.disableAll) {
+      this._msgService.showErrorMessage('error', '', "Add product of same country");
+    }
+    else {
+      if (this.selectedCouponId) {
+        this.updateCoupon();
+      } else {
+        this.createCoupon();
+      }
     }
   }
 
