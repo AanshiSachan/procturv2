@@ -75,7 +75,11 @@ export class CouponAddEditComponent implements OnInit {
         this.disableAll = false;
       }
     }
-    this.addCouponModel.country_id = this.country[0];
+    let index = (this.country.length = 1 ? (this.country.length) - 1 : this.country.length);
+    for (let i = 0; i < this.countryDetails.length; i++) {
+      if (this.countryDetails[i].id == this.country[index])
+        this.addCouponModel.country_id = this.countryDetails[i].id;
+    }
   }
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
