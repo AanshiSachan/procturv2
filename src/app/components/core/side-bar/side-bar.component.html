@@ -134,6 +134,16 @@
                             <span class="dropSize" (click)=" onSubBranchClick(data)">{{data.institute_name}}</span>
                         </div>
                     </div>
+                    <div class="setting-item" (click)="showSubMenu('branches')"
+                        style="font-size: 14px;cursor: pointer;margin-left: 28%;" *ngIf="(showMainBranchBackBtn)"><span
+                            (click)="loginToMainBranch()">
+
+                            Back
+                            To
+                            Main Branch </span>
+                        <!-- <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt=""
+                            > -->
+                    </div>
                     <div style="    
                     padding: 10px;border-bottom: 1px solid lightgrey;">
                         <input type="button" class="logout" (click)="logout()" value="Logout">
