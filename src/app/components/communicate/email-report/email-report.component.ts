@@ -111,7 +111,7 @@ export class EmailReportComponent {
 
     this.tableSetting = {
       width: "100%",
-      height: "67vh"
+      height: "58vh"
     }
 
     this.rowColumns = [
@@ -152,8 +152,13 @@ export class EmailReportComponent {
     this.dataStatus = true;
     this.emailSource = [];
     this.auth.showLoader();
+    let tempObj = {
+      institution_id: parseInt(sessionStorage.getItem('institute_id')),
+      from_date: moment(this.emailFetchForm.from_date).format('YYYY-MM-DD'),
+      to_date: moment(this.emailFetchForm.to_date).format('YYYY-MM-DD'),
+    }
 
-    this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+    this.apiService.getEmailMessages(tempObj).subscribe(
       res => {
         this.auth.hideLoader();
         this.emailDataSource = res;
@@ -276,7 +281,13 @@ export class EmailReportComponent {
     }
     else {
       this.auth.showLoader();
-      this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+      let tempObj = {
+        institution_id: parseInt(sessionStorage.getItem('institute_id')),
+        from_date: moment(this.emailFetchForm.from_date).format('YYYY-MM-DD'),
+        to_date: moment(this.emailFetchForm.to_date).format('YYYY-MM-DD'),
+      }
+
+      this.apiService.getEmailMessages(tempObj).subscribe(
         res => {
           this.auth.hideLoader();
           this.emailSource = res;
@@ -289,3 +300,5 @@ export class EmailReportComponent {
     }
   }
 }
+
+

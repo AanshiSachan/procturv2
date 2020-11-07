@@ -121,12 +121,13 @@ export class ExamComponent implements OnInit {
     course_exam_schedule_id: "",
     room_no: ""
   };
-  topicsList : any = [];
+  topicsList: any = [];
   totalTopicsList: any = [];
   selectedTopics: any = '' //join ids by '|'
   selectedTopicsNames: any = '';
   examList: any;
   currentEditExam: any;
+  schoolModel: boolean = false;
 
   constructor(
     private router: Router,
@@ -149,36 +150,38 @@ export class ExamComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
 
     this.showHideColForModel();
     this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.fetchPreFillData();
     let filters = sessionStorage.getItem('coursePlannerFilter');
-    if(filters){  // if session filters are not blank
+    if (filters) {  // if session filters are not blank
       this.sessionFilters(filters);
     }
   }
 
-  showHideColForModel(){
-    if(this.jsonFlag.isProfessional){
+  showHideColForModel() {
+    if (this.jsonFlag.isProfessional) {
       this.showHideColumns.description = true;
       this.showHideColumns.topic = false;
       // this.jsonFlag.setting = false;
     }
   }
 
-  sessionFilters(filters){
+  sessionFilters(filters) {
     this.sessionFiltersArr = JSON.parse(filters);
     this.inputElements.masterCourse = this.sessionFiltersArr.masterCourse;
     this.inputElements.course = this.sessionFiltersArr.courseId;
     this.inputElements.standard_id = this.sessionFiltersArr.standardId;
     this.inputElements.subject_id = this.sessionFiltersArr.subjectId;
     this.inputElements.faculty = this.sessionFiltersArr.facultyId;
-    if(!this.jsonFlag.isProfessional){
+    if (!this.jsonFlag.isProfessional) {
       this.inputElements.subject = this.sessionFiltersArr.batchId;
     }
-    else{
+    else {
       this.inputElements.batch_id = this.sessionFiltersArr.batchId;
     }
 
@@ -198,38 +201,38 @@ export class ExamComponent implements OnInit {
     this.coursePlannerFilters.batch_id = this.sessionFiltersArr.batchId;
     this.coursePlannerFilters.teacher_id = this.sessionFiltersArr.facultyId;
 
-    if(!this.filterStatusInputs.upcoming){
+    if (!this.filterStatusInputs.upcoming) {
       this.coursePlannerFilters.isUpcoming = "N";
     }
-    else if(!this.filterStatusInputs.attendancePending){
+    else if (!this.filterStatusInputs.attendancePending) {
       this.coursePlannerFilters.isPending = "N";
     }
-    else if(!this.filterStatusInputs.marksUpdated){
-      this.coursePlannerFilters.isCompleted =  "N";
+    else if (!this.filterStatusInputs.marksUpdated) {
+      this.coursePlannerFilters.isCompleted = "N";
     }
-    else if(!this.filterStatusInputs.marksPending){
-      this.coursePlannerFilters.isMarksUpdate =  "N";
+    else if (!this.filterStatusInputs.marksPending) {
+      this.coursePlannerFilters.isMarksUpdate = "N";
     }
-    else if(!this.filterStatusInputs.cancelled){
+    else if (!this.filterStatusInputs.cancelled) {
       this.coursePlannerFilters.isCancelled = "N";
     }
 
     this.coursePlannerFilters.from_date = moment(this.sessionFiltersArr.from_date).format("YYYY-MM-DD");
     this.coursePlannerFilters.to_date = moment(this.sessionFiltersArr.to_date).format("YYYY-MM-DD");
 
-    if(this.sessionFiltersArr.masterCourse != "-1"){
+    if (this.sessionFiltersArr.masterCourse != "-1") {
       this.updateCoursesList()
     }
 
     sessionStorage.setItem('isFromCoursePlanner', String(false));
     sessionStorage.setItem('coursePlannerFilter', '');
-    setTimeout (() => {
-       this.getData();
+    setTimeout(() => {
+      this.getData();
     }, 2000);
   }
 
 
-  clearFilters(){
+  clearFilters() {
     sessionStorage.setItem('batch_info', '');
     sessionStorage.setItem('isSubjectView', '');
     sessionStorage.setItem('isFromCoursePlanner', '');
@@ -237,15 +240,15 @@ export class ExamComponent implements OnInit {
     this.sessionFiltersArr = new SessionFilter();
   }
 
-  fetchPreFillData(){
+  fetchPreFillData() {
 
     // get master course - course - subject data  for course model
-    if(!this.jsonFlag.isProfessional){
+    if (!this.jsonFlag.isProfessional) {
       this.auth.showLoader();
       this.classService.getAllMasterCourse().subscribe(
         res => {
           this.masterCourseList = res;
-          if(this.sessionFiltersArr.masterCourse != "-1"){
+          if (this.sessionFiltersArr.masterCourse != "-1") {
             this.updateCoursesList();
           }
           this.auth.hideLoader();
@@ -253,17 +256,17 @@ export class ExamComponent implements OnInit {
         err => {
           this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-         }
+        }
       );
     }
-    else{
+    else {
       // get master course - course - subject data  for Batch model
       this.auth.showLoader();
       this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
         res => {
           this.masterCourseList = res.standardLi;
           this.batchList = res.batchLi;
-          if(this.sessionFiltersArr.standardId != "-1"){
+          if (this.sessionFiltersArr.standardId != "-1") {
             this.updateCoursesList();
           }
           this.auth.hideLoader();
@@ -271,13 +274,13 @@ export class ExamComponent implements OnInit {
         err => {
           this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
-         }
+        }
       );
     }
 
 
     // get active faculty list
-    this.classService.getAllTeachersList().subscribe(
+    this.classService.getAllTeachersListOld().subscribe(
       res => {
         this.facultyList = res;
       },
@@ -288,30 +291,30 @@ export class ExamComponent implements OnInit {
   }
 
   updateCoursesList() {
-    if(!this.jsonFlag.isProfessional){
+    if (!this.jsonFlag.isProfessional) {
       this.coursePlannerFilters.master_course_name = this.inputElements.masterCourse;
-      if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){
+      if (this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != "") {
         this.inputElements.course = this.sessionFiltersArr.courseId;
       }
-      else{
+      else {
         this.inputElements.course = "-1";
         this.inputElements.subject = "-1";
         this.coursePlannerFilters.course_id = "-1";
         this.coursePlannerFilters.batch_id = "-1";
       }
 
-      if(this.inputElements.masterCourse == ""){
+      if (this.inputElements.masterCourse == "") {
         this.courseList = [];
         this.subjectList = [];
       }
-      else{
+      else {
         for (var i = 0; i < this.masterCourseList.length; i++) {
-          if(this.masterCourseList[i].master_course == this.inputElements.masterCourse){
+          if (this.masterCourseList[i].master_course == this.inputElements.masterCourse) {
             this.courseList = this.masterCourseList[i].coursesList;
-            if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){
+            if (this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != "") {
               this.updateSubjectsList();
             }
-            else{
+            else {
               this.subjectList = [];
               return;
             }
@@ -319,15 +322,15 @@ export class ExamComponent implements OnInit {
         }
       }
     }
-    else{
+    else {
       this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
       this.inputElements.subject_id = "-1";
-      this.coursePlannerFilters.subject_id =  "-1";
+      this.coursePlannerFilters.subject_id = "-1";
       this.inputElements.batch_id = '-1';
-      if(this.inputElements.standard_id == "-1"){
+      if (this.inputElements.standard_id == "-1") {
         this.courseList = [];
       }
-      else{
+      else {
         this.auth.showLoader();
         this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
           res => {
@@ -336,10 +339,10 @@ export class ExamComponent implements OnInit {
             this.batchList = res.batchLi;
             this.auth.hideLoader();
             for (var i = 0; i < this.masterCourseList.length; i++) {
-              if(this.masterCourseList[i].standard_id == this.inputElements.standard_id){
+              if (this.masterCourseList[i].standard_id == this.inputElements.standard_id) {
                 this.courseStartDate = this.masterCourseList[i].start_date;
                 this.courseEndDate = this.masterCourseList[i].end_date;
-                if(this.sessionFiltersArr.subjectId != "-1" && this.sessionFiltersArr.subjectId != ""){   // check subject id null to fetch course according to it.
+                if (this.sessionFiltersArr.subjectId != "-1" && this.sessionFiltersArr.subjectId != "") {   // check subject id null to fetch course according to it.
                   this.inputElements.subject_id = this.sessionFiltersArr.subjectId;
                   this.updateSubjectsList();
                 }
@@ -351,27 +354,27 @@ export class ExamComponent implements OnInit {
           err => {
             this.auth.hideLoader();
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
-           }
+          }
         );
       }
     }
   }
 
-  updateSubjectsList(){
-    if(!this.jsonFlag.isProfessional){
+  updateSubjectsList() {
+    if (!this.jsonFlag.isProfessional) {
       this.coursePlannerFilters.course_id = this.inputElements.course;
-      if(this.inputElements.course == "" || this.inputElements.course == "-1"){
+      if (this.inputElements.course == "" || this.inputElements.course == "-1") {
         this.subjectList = [];
         this.inputElements.subject = "-1";
         this.coursePlannerFilters.batch_id = this.inputElements.subject;
       }
-      else{
+      else {
         for (var i = 0; i < this.courseList.length; i++) {
-          if(this.courseList[i].course_id == this.inputElements.course){
+          if (this.courseList[i].course_id == this.inputElements.course) {
             this.subjectList = this.courseList[i].batchesList;
             this.courseStartDate = this.courseList[i].start_date;
             this.courseEndDate = this.courseList[i].end_date;
-            if(this.sessionFiltersArr.standardId != "-1" && this.sessionFiltersArr.standardId != ""){
+            if (this.sessionFiltersArr.standardId != "-1" && this.sessionFiltersArr.standardId != "") {
               this.inputElements.subject = this.sessionFiltersArr.batchId;
             }
             this.clearFilters();
@@ -380,7 +383,7 @@ export class ExamComponent implements OnInit {
         }
       }
     }
-    else{
+    else {
       this.auth.showLoader();
       this.coursePlannerFilters.subject_id = this.inputElements.subject_id;
       this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
@@ -393,66 +396,66 @@ export class ExamComponent implements OnInit {
           this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
           this.clearFilters();
-         }
+        }
       );
     }
 
   }
 
-  updateSubject(){
-    if(!this.jsonFlag.isProfessional){
+  updateSubject() {
+    if (!this.jsonFlag.isProfessional) {
       this.coursePlannerFilters.batch_id = this.inputElements.subject;
     }
-    else{
+    else {
       this.coursePlannerFilters.batch_id = this.inputElements.batch_id;
-      let temp = this.batchList.filter(x=>x.batch_id == this.inputElements.batch_id);
+      let temp = this.batchList.filter(x => x.batch_id == this.inputElements.batch_id);
       this.courseStartDate = '';
       this.courseEndDate = '';
-      if(temp){
-      this.courseStartDate = temp[0].start_date;
-      this.courseEndDate = temp[0].end_date;
+      if (temp) {
+        this.courseStartDate = temp[0].start_date;
+        this.courseEndDate = temp[0].end_date;
       }
     }
   }
 
-  updateFacultyInFilter(){
+  updateFacultyInFilter() {
     this.coursePlannerFilters.teacher_id = this.inputElements.faculty;
   }
 
-  toggleFilter(){
-    if(this.filterShow){
+  toggleFilter() {
+    if (this.filterShow) {
       this.filterShow = false;
     }
-    else{
+    else {
       this.filterShow = true;
     }
   }
 
-  updateDateFilter(inputDateFilter, e){
+  updateDateFilter(inputDateFilter, e) {
 
     this.filterDateInputs.thisWeek = false;
     this.filterDateInputs.lastWeek = false;
     this.filterDateInputs.thisMonth = false;
     this.filterDateInputs.custom = false;
 
-    if(inputDateFilter == 'custom'){   //  Custom
+    if (inputDateFilter == 'custom') {   //  Custom
       this.openCalendar('customeDate');
       this.filterDateInputs.custom = true;
       e.currentTarget.checked = true;
     }
-    else if(inputDateFilter == 'lastWeek'){     // Last week
+    else if (inputDateFilter == 'lastWeek') {     // Last week
       this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("YYYY-MM-DD");
       this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
       this.filterDateInputs.lastWeek = true;
       e.currentTarget.checked = true;
     }
-    else if(inputDateFilter == 'thisMonth'){     // This month
+    else if (inputDateFilter == 'thisMonth') {     // This month
       this.coursePlannerFilters.from_date = moment().format("YYYY-MM-01");
       this.coursePlannerFilters.to_date = moment().format("YYYY-MM-") + moment().daysInMonth();
       this.filterDateInputs.thisMonth = true;
       e.currentTarget.checked = true;
     }
-    else if(inputDateFilter == 'thisWeek'){   // This Week
+    else if (inputDateFilter == 'thisWeek') {   // This Week
       this.coursePlannerFilters.from_date = moment().isoWeekday("Monday").format("YYYY-MM-DD");
       this.coursePlannerFilters.to_date = moment().weekday(7).format("YYYY-MM-DD");
       this.filterDateInputs.thisWeek = true;
@@ -461,38 +464,38 @@ export class ExamComponent implements OnInit {
 
   }
 
-  updateStatusFilter(e, statusFilter){
-    if(!e.currentTarget.checked){
-      if(statusFilter == 'upcoming'){
+  updateStatusFilter(e, statusFilter) {
+    if (!e.currentTarget.checked) {
+      if (statusFilter == 'upcoming') {
         this.coursePlannerFilters.isUpcoming = "N";
       }
-      else if(statusFilter == 'pending'){
+      else if (statusFilter == 'pending') {
         this.coursePlannerFilters.isPending = "N";
       }
-      else if(statusFilter == 'marksUpdated'){
-        this.coursePlannerFilters.isCompleted =  "N";
+      else if (statusFilter == 'marksUpdated') {
+        this.coursePlannerFilters.isCompleted = "N";
       }
-      else if(statusFilter == 'marksPending'){
-        this.coursePlannerFilters.isMarksUpdate =  "N";
+      else if (statusFilter == 'marksPending') {
+        this.coursePlannerFilters.isMarksUpdate = "N";
       }
-      else if(statusFilter == 'cancelled'){
+      else if (statusFilter == 'cancelled') {
         this.coursePlannerFilters.isCancelled = "N";
       }
     }
-    else if(e.currentTarget.checked){
-      if(statusFilter == 'upcoming'){
+    else if (e.currentTarget.checked) {
+      if (statusFilter == 'upcoming') {
         this.coursePlannerFilters.isUpcoming = "Y";
       }
-      else if(statusFilter == 'pending'){
+      else if (statusFilter == 'pending') {
         this.coursePlannerFilters.isPending = "Y";
       }
-      else if(statusFilter == 'marksUpdated'){
-        this.coursePlannerFilters.isCompleted =  "Y";
+      else if (statusFilter == 'marksUpdated') {
+        this.coursePlannerFilters.isCompleted = "Y";
       }
-      else if(statusFilter == 'marksPending'){
-        this.coursePlannerFilters.isMarksUpdate =  "Y";
+      else if (statusFilter == 'marksPending') {
+        this.coursePlannerFilters.isMarksUpdate = "Y";
       }
-      else if(statusFilter == 'cancelled'){
+      else if (statusFilter == 'cancelled') {
         this.coursePlannerFilters.isCancelled = "Y";
       }
     }
@@ -503,33 +506,33 @@ export class ExamComponent implements OnInit {
   }
 
   updateFilterDateRange(e) {
-    if(this.filterDateInputs.custom){
+    if (this.filterDateInputs.custom) {
       this.coursePlannerFilters.from_date = moment(e[0]).format("YYYY-MM-DD");
       this.coursePlannerFilters.to_date = moment(e[1]).format("YYYY-MM-DD");
     }
   }
 
-  getData(){
+  getData() {
     this.filterShow = false;
     this.jsonFlag.showHideColumn = false;
     this.auth.showLoader();
     // Course/bacth model and master course is selected check
-    if((!this.jsonFlag.isProfessional && this.coursePlannerFilters.master_course_name == "-1") ||
-       (this.jsonFlag.isProfessional && this.coursePlannerFilters.standard_id == "-1")) {
+    if ((!this.jsonFlag.isProfessional && this.coursePlannerFilters.master_course_name == "-1") ||
+      (this.jsonFlag.isProfessional && this.coursePlannerFilters.standard_id == "-1")) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select master course');
       this.auth.hideLoader();
       return;
     }
-    else{   // Get Course Planner Data
+    else {   // Get Course Planner Data
       this.classService.getCoursePlannerData(this.coursePlannerFilters, this.coursePlannerFor).subscribe(
         res => {
           console.log(res)
           this.auth.hideLoader();
           this.allData = res;
-          if(this.allData.length == 0){
+          if (this.allData.length == 0) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No result found");
           }
-          else{
+          else {
             this.totalCount = this.allData.length;
             this.pageIndex = 1;
             this.fectchTableDataByPage(this.pageIndex);
@@ -543,25 +546,25 @@ export class ExamComponent implements OnInit {
     }
   }
 
-  showHideCol(){   // toggle function to show and hide menu/pop up
-    if(this.jsonFlag.showHideColumn){
+  showHideCol() {   // toggle function to show and hide menu/pop up
+    if (this.jsonFlag.showHideColumn) {
       this.jsonFlag.showHideColumn = false;
     }
-    else{
+    else {
       this.jsonFlag.showHideColumn = true;
     }
   }
 
-  hideCol(e){   //  change column of column to show and hide
-    if(!e.currentTarget.checked){
+  hideCol(e) {   //  change column of column to show and hide
+    if (!e.currentTarget.checked) {
       this.checkedColCounter++;
     }
-    else{
+    else {
       this.checkedColCounter--;
     }
   }
 
-  hideShowHideMenu(){
+  hideShowHideMenu() {
     this.jsonFlag.showHideColumn = false;
   }
 
@@ -609,7 +612,7 @@ export class ExamComponent implements OnInit {
     }
   }
 
-  closeAll(){
+  closeAll() {
     this.filterShow = false;
   }
 
@@ -696,26 +699,26 @@ export class ExamComponent implements OnInit {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter reason');
       return false;
     }
-      let obj = {
-        cancel_reason: this.cancelPopUpData.reason,
-        course_exam_schedule_id: this.tempData.schedule_id,
-        course_id: this.tempData.course_id,
-        is_cancel_notify: notify,
-        requested_date: moment(this.tempData.date).format('YYYY-MM-DD')
+    let obj = {
+      cancel_reason: this.cancelPopUpData.reason,
+      course_exam_schedule_id: this.tempData.schedule_id,
+      course_id: this.tempData.course_id,
+      is_cancel_notify: notify,
+      requested_date: moment(this.tempData.date).format('YYYY-MM-DD')
+    }
+    // this.auth.showLoader();
+    this.widgetService.cancelExamScheduleCourse(obj).subscribe(
+      res => {
+        // this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled', 'Exam Cancelled Successfully');
+        this.closePopUpCommon();
+        this.getData();
+      },
+      err => {
+        // this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
-      // this.auth.showLoader();
-      this.widgetService.cancelExamScheduleCourse(obj).subscribe(
-        res => {
-          // this.auth.hideLoader();
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled', 'Exam Cancelled Successfully');
-          this.closePopUpCommon();
-          this.getData();
-        },
-        err => {
-          // this.auth.hideLoader();
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-        }
-      )
+    )
   }
 
   closePopUpCommon() {
@@ -783,45 +786,45 @@ export class ExamComponent implements OnInit {
 
 
   //  Notify to Cancel Class
-    notifyCancelClass(selected){
-      if (confirm('Are you sure you want to notify?')) {
-        let obj = {};
-        if(!this.jsonFlag.isProfessional){
-          obj = {
-            "institute_id": this.jsonFlag.institute_id,
-            "schedule_id": selected.schedule_id,
-            "to_date": selected.date,
-            "course_id": selected.course_id
-          }
+  notifyCancelClass(selected) {
+    if (confirm('Are you sure you want to notify?')) {
+      let obj = {};
+      if (!this.jsonFlag.isProfessional) {
+        obj = {
+          "institute_id": this.jsonFlag.institute_id,
+          "schedule_id": selected.schedule_id,
+          "to_date": selected.date,
+          "course_id": selected.course_id
         }
-        else{
-          obj = {
-            "institute_id": this.jsonFlag.institute_id,
-            "schedule_id": selected.schedule_id,
-            "to_date": selected.date,
-            "batch_id": selected.batch_id
-          }
-        }
-
-        this.auth.showLoader();
-        this.classService.notifyCancelClass(obj, 'exam').subscribe(
-          res => {
-            this.auth.hideLoader();
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled schedule notification', 'Notification has been sent successfully');
-          },
-          err => {
-            this.auth.hideLoader();
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-          }
-        )
       }
+      else {
+        obj = {
+          "institute_id": this.jsonFlag.institute_id,
+          "schedule_id": selected.schedule_id,
+          "to_date": selected.date,
+          "batch_id": selected.batch_id
+        }
+      }
+
+      this.auth.showLoader();
+      this.classService.notifyCancelClass(obj, 'exam').subscribe(
+        res => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled schedule notification', 'Notification has been sent successfully');
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        }
+      )
     }
+  }
 
 
   // Update Attendance
   markAttendanceExamCourse(exam) {
-    let obj  = {};
-    if(this.jsonFlag.isProfessional){
+    let obj = {};
+    if (this.jsonFlag.isProfessional) {
       obj = {
         batch_id: exam.batch_id,
         schd_id: exam.schedule_id,
@@ -836,18 +839,18 @@ export class ExamComponent implements OnInit {
         is_attendance_marked: exam.is_attendance_marked
       }
     }
-    else{
-       obj = {
-          course_exam_schedule_id: exam.schedule_id,
-          course_name: exam.course_name,
-          master_course_name: exam.master_course_name,
-          batch_name: exam.course_name,
-          forCourseWise: true,
-          forSubjectWise: false,
-          isExam: true,
-          schedDate: moment(exam.date).format('YYYY-MM-DD'),
-          is_attendance_marked: exam.is_attendance_marked
-        }
+    else {
+      obj = {
+        course_exam_schedule_id: exam.schedule_id,
+        course_name: exam.course_name,
+        master_course_name: exam.master_course_name,
+        batch_name: exam.course_name,
+        forCourseWise: true,
+        forSubjectWise: false,
+        isExam: true,
+        schedDate: moment(exam.date).format('YYYY-MM-DD'),
+        is_attendance_marked: exam.is_attendance_marked
+      }
     }
     let batch_info = JSON.stringify(obj);
     this.storeSession();
@@ -864,12 +867,12 @@ export class ExamComponent implements OnInit {
       "course_exam_schedule_id": data.schedule_id,
       "course_marks_update_level": data.course_mark_level_level,
       "is_exam_grad_feature": "",
-      "batch_name": data.master_course_name+"-"+data.course_name+"-"+data.subject_name
+      "batch_name": data.master_course_name + "-" + data.course_name + "-" + data.subject_name
     };
 
     let obj = {
-        data: examInfoObj
-      }
+      data: examInfoObj
+    }
     let exam_info = JSON.stringify(obj);
     this.storeSession();
     sessionStorage.setItem('exam_info', btoa(exam_info));
@@ -886,8 +889,8 @@ export class ExamComponent implements OnInit {
     };
 
     let obj = {
-        data: examInfoObj
-      }
+      data: examInfoObj
+    }
     let exam_info = JSON.stringify(obj)
     this.storeSession();
     sessionStorage.setItem('exam_info', btoa(exam_info));
@@ -896,7 +899,7 @@ export class ExamComponent implements OnInit {
   }
 
 
-  storeSession(){
+  storeSession() {
 
     this.sessionFiltersArr.isCompleted = this.filterStatusInputs.marksUpdated;
     this.sessionFiltersArr.isPending = this.filterStatusInputs.attendancePending;
@@ -912,10 +915,10 @@ export class ExamComponent implements OnInit {
 
     this.sessionFiltersArr.standardId = this.inputElements.standard_id;
     this.sessionFiltersArr.subjectId = this.inputElements.subject_id;
-    if(!this.jsonFlag.isProfessional){
+    if (!this.jsonFlag.isProfessional) {
       this.sessionFiltersArr.batchId = this.inputElements.subject;
     }
-    else{
+    else {
       this.sessionFiltersArr.batchId = this.inputElements.batch_id;
     }
 
@@ -931,32 +934,32 @@ export class ExamComponent implements OnInit {
     sessionStorage.setItem('coursePlannerFilter', filter_info);
   }
 
-  redirect(){
+  redirect() {
     this.storeSession();
     this.router.navigate(['/view/course/create/exam']);
   }
 
 
-// Edit Exam functions
-  editCourseExam(course){
-    if(!this.jsonFlag.isProfessional){
+  // Edit Exam functions
+  editCourseExam(course) {
+    if (!this.jsonFlag.isProfessional) {
       const url = `/api/v1/courseExamSchedule/fetch-exam-details?course_exam_schedule_id=${course.schedule_id}&exam_date=${course.date}`
-       this.auth.showLoader();
+      this.auth.showLoader();
       this.httpService.getData(url).subscribe(
         (res: any) => {
-           this.auth.hideLoader();
+          this.auth.hideLoader();
           console.log(res)
           let result: any = res.result;
           this.examList = result;
           $('#editExamForCourse').modal('show');
         },
         err => {
-           this.auth.hideLoader();
+          this.auth.hideLoader();
           //console.log(err);
         }
       )
     }
-    else{
+    else {
       $('#editExam').modal('show');
       this.editClass.description = course.description;
       this.editClass.topic_covered_ids = course.topic_covered_ids;
@@ -975,190 +978,190 @@ export class ExamComponent implements OnInit {
     }
   }
 
-  toggleArrow(topic){
+  toggleArrow(topic) {
     topic.isExpand = !(topic.isExpand);
   }
 
-  fetchTopics(){
+  fetchTopics() {
     this.auth.showLoader();
     let subject_id = '';
     subject_id = this.editClass.subject_id;
-    this.topicService.getAllTopicsSubTopics(subject_id).subscribe((resp)=>{
+    this.topicService.getAllTopicsSubTopics(subject_id).subscribe((resp) => {
       this.auth.hideLoader();
       this.topicsList = [];
       this.totalTopicsList = [];
       this.topicsList = resp;
-      if(!!this.topicsList && this.topicsList.length > 0){
+      if (!!this.topicsList && this.topicsList.length > 0) {
         $('#topicModel').modal('show');
         $('#editExam').modal('hide');
-        this.topicsList.forEach(tpc =>{
+        this.topicsList.forEach(tpc => {
           this.totalTopicsList.push(tpc);
           tpc.checked = false;
-          if(tpc.subTopic.length){
+          if (tpc.subTopic.length) {
             this.getAllTopics(tpc.subTopic)
           }
         })
 
         let topicIds = this.editClass.topic_covered_ids.split('|');
-        topicIds.forEach(tpc =>{
-            this.topicsList.forEach(tp =>{
-              if(tp.topicId == tpc){
-                tp.checked = true;
-              }
-            })
+        topicIds.forEach(tpc => {
+          this.topicsList.forEach(tp => {
+            if (tp.topicId == tpc) {
+              tp.checked = true;
+            }
+          })
         })
       }
       else {
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
       }
-    },err =>{
-       this.auth.hideLoader();
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-    })
-  }
-
-  fetchTopicForSubject(exam){
-    this.currentEditExam = exam;
-    this.topicService.getAllTopicsSubTopics(exam.subject_id).subscribe((resp)=>{
-       this.auth.hideLoader();
-      this.topicsList = [];
-      this.totalTopicsList = [];
-      this.topicsList = resp;
-      if(!!this.topicsList && this.topicsList.length > 0){
-        $('#topicModel').modal('show');
-        $('#editExamForCourse').modal('hide');
-        this.topicsList.forEach(tpc =>{
-          this.totalTopicsList.push(tpc);
-          tpc.checked = false;
-          if(tpc.subTopic.length){
-            this.getAllTopics(tpc.subTopic)
-          }
-        })
-        let topicIds = exam.topics_covered.split('|');
-        topicIds.forEach(tpc =>{
-            this.topicsList.forEach(tp =>{
-              if(tp.topicId == tpc){
-                tp.checked = true;
-              }
-            })
-        })
-      }
-      else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
-      }
-    },err =>{
+    }, err => {
       this.auth.hideLoader();
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     })
   }
 
-  getAllTopics(topic){
-    topic.forEach(obj =>{
+  fetchTopicForSubject(exam) {
+    this.currentEditExam = exam;
+    this.topicService.getAllTopicsSubTopics(exam.subject_id).subscribe((resp) => {
+      this.auth.hideLoader();
+      this.topicsList = [];
+      this.totalTopicsList = [];
+      this.topicsList = resp;
+      if (!!this.topicsList && this.topicsList.length > 0) {
+        $('#topicModel').modal('show');
+        $('#editExamForCourse').modal('hide');
+        this.topicsList.forEach(tpc => {
+          this.totalTopicsList.push(tpc);
+          tpc.checked = false;
+          if (tpc.subTopic.length) {
+            this.getAllTopics(tpc.subTopic)
+          }
+        })
+        let topicIds = exam.topics_covered.split('|');
+        topicIds.forEach(tpc => {
+          this.topicsList.forEach(tp => {
+            if (tp.topicId == tpc) {
+              tp.checked = true;
+            }
+          })
+        })
+      }
+      else {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to link");
+      }
+    }, err => {
+      this.auth.hideLoader();
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+    })
+  }
+
+  getAllTopics(topic) {
+    topic.forEach(obj => {
       this.totalTopicsList.push(obj);
       obj.checked = false;
-      if(obj.subTopic.length){
+      if (obj.subTopic.length) {
         this.getAllTopics(obj.subTopic)
       }
     })
   }
 
-  selectTopics(topic,event){
+  selectTopics(topic, event) {
     topic.checked = !topic.checked;
-      if(topic.subTopic.length){
-        this.checkAllSubTopics(topic.subTopic, event.target.checked);
+    if (topic.subTopic.length) {
+      this.checkAllSubTopics(topic.subTopic, event.target.checked);
+    }
+    if (!event.target.checked) {
+      if (topic.parentTopicId != 0) {
+        this.uncheckParent(topic);
       }
-      if(!event.target.checked){
-        if(topic.parentTopicId != 0){
-          this.uncheckParent(topic);
-        }
-      }
-      this.checkParents(topic);
+    }
+    this.checkParents(topic);
   }
 
-  checkAllSubTopics(topic,param){
-    topic.forEach(obj =>{
-      if(param){
-      obj.checked = true;
+  checkAllSubTopics(topic, param) {
+    topic.forEach(obj => {
+      if (param) {
+        obj.checked = true;
       }
-      else{
+      else {
         obj.checked = false
       }
-      if(obj.subTopic.length){
-        this.checkAllSubTopics(obj.subTopic,param);
+      if (obj.subTopic.length) {
+        this.checkAllSubTopics(obj.subTopic, param);
       }
     })
   }
 
   //uncheck parent if any of the child is deselected
-  uncheckParent(topic){
+  uncheckParent(topic) {
     var getParentTopic = this.totalTopicsList.find(obj => obj.topicId == topic.parentTopicId);
-    if(!!getParentTopic){
+    if (!!getParentTopic) {
       getParentTopic.checked = false;
-      if(getParentTopic.parentTopicId != 0){
+      if (getParentTopic.parentTopicId != 0) {
         this.uncheckParent(getParentTopic)
       }
     }
   }
   //check parent if all subtopics are checked
-  checkParents(topic){
+  checkParents(topic) {
     var checkAll: boolean = true;
-    if(this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined){
+    if (this.totalTopicsList.find(el => el.topicId == topic.topicId) != undefined) {
       var parentTopic = this.totalTopicsList.find(ele => ele.topicId == topic.parentTopicId);
-      if(parentTopic != undefined){
-      if(parentTopic.subTopic.length){
-        parentTopic.subTopic.forEach(subTpc =>{
-          if(!subTpc.checked){
-            checkAll = false;
-          }
-        });
-        if(checkAll){
-          parentTopic.checked = true;
-          if(parentTopic.parentTopicId != 0){
-            this.checkParents(parentTopic)
+      if (parentTopic != undefined) {
+        if (parentTopic.subTopic.length) {
+          parentTopic.subTopic.forEach(subTpc => {
+            if (!subTpc.checked) {
+              checkAll = false;
+            }
+          });
+          if (checkAll) {
+            parentTopic.checked = true;
+            if (parentTopic.parentTopicId != 0) {
+              this.checkParents(parentTopic)
+            }
           }
         }
       }
     }
-    }
   }
 
-  showEditOption(){
-    if(!this.jsonFlag.isProfessional){
+  showEditOption() {
+    if (!this.jsonFlag.isProfessional) {
       $('#topicModel').modal('hide');
       $('#editExamForCourse').modal('show');
     }
-    else{
+    else {
       $('#topicModel').modal('hide');
       $('#editExam').modal('show');
     }
 
   }
 
-  saveTopics(){
+  saveTopics() {
     var getSelectedTopics = this.totalTopicsList.filter(el => el.checked == true);
     var getTopicIds;
-    if(getSelectedTopics != undefined){
-      getTopicIds = getSelectedTopics.map(obj =>{
+    if (getSelectedTopics != undefined) {
+      getTopicIds = getSelectedTopics.map(obj => {
         return obj.topicId;
       })
-      let getTopicNames = getSelectedTopics.map(obj =>{
+      let getTopicNames = getSelectedTopics.map(obj => {
         return obj.topicName;
       })
-      if(!this.jsonFlag.isProfessional){
+      if (!this.jsonFlag.isProfessional) {
 
         getTopicIds = getTopicIds.join('|')
         this.currentEditExam.topics_covered = getTopicIds;
         this.currentEditExam.topic_name = getTopicNames.join('|');
         $('#topicModel').modal('hide');
         $('#editExamForCourse').modal('show');
-        for(let index = 0; index < this.examList.length; index++){
-          if(this.examList[index].exam_schedule_id == this.currentEditExam.exam_schedule_id){
+        for (let index = 0; index < this.examList.length; index++) {
+          if (this.examList[index].exam_schedule_id == this.currentEditExam.exam_schedule_id) {
             this.examList[index].topics_covered = this.currentEditExam.topics_covered;
             this.examList[index].topic_name = this.currentEditExam.topic_name;
           }
         }
       }
-      else{
+      else {
         this.editClass.topic_covered_ids = getTopicIds;
         this.editClass.topic_covered_names = getTopicNames.join('|');
         $('#topicModel').modal('hide');
@@ -1167,40 +1170,40 @@ export class ExamComponent implements OnInit {
     }
   }
 
-  updateExam(){
-    if(!this.jsonFlag.isProfessional){ // for course model
+  updateExam() {
+    if (!this.jsonFlag.isProfessional) { // for course model
       let obj = {
-                "course_exam_schedule_id": this.examList[0].course_exam_schedule_id,
-                "batch_id": this.examList[0].batch_id,
-                "exam_detail_list": this.examList.map(exam => {
-                    let subject = {
-                        "exam_schedule_id": exam.exam_schedule_id,
-                        "topics_covered": exam.topics_covered,
-                        "exam_description": exam.exam_description,
-                        "subject_id": exam.subject_id
-                      }
-                    return subject;
-                  })
-                }
+        "course_exam_schedule_id": this.examList[0].course_exam_schedule_id,
+        "batch_id": this.examList[0].batch_id,
+        "exam_detail_list": this.examList.map(exam => {
+          let subject = {
+            "exam_schedule_id": exam.exam_schedule_id,
+            "topics_covered": exam.topics_covered,
+            "exam_description": exam.exam_description,
+            "subject_id": exam.subject_id
+          }
+          return subject;
+        })
+      }
 
-    	this.examService.updateExamSubjectWise(obj).subscribe(
+      this.examService.updateExamSubjectWise(obj).subscribe(
         res => {
-           this.auth.hideLoader();
+          this.auth.hideLoader();
           let result: any = res;
           $('#editExamForCourse').modal('hide');
-          if(result.statusCode == 200){
+          if (result.statusCode == 200) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Exam updated successfully');
             this.getData();
           }
         },
         err => {
           $('#editExamForCourse').modal('hide');
-           this.auth.hideLoader();
+          this.auth.hideLoader();
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       )
     }
-    else{
+    else {
       let obj = {
         "batch_id": this.editClass.batch_id,
         "is_exam_schedule": "Y",
@@ -1214,7 +1217,7 @@ export class ExamComponent implements OnInit {
           this.auth.hideLoader();
           let result: any = res;
           $('#editExam').modal('hide');
-          if(result.statusCode == 200){
+          if (result.statusCode == 200) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Exam updated successfully');
             this.clearEditValues();
             this.getData();
@@ -1231,19 +1234,19 @@ export class ExamComponent implements OnInit {
     }
   }
 
-  clearEditValues(){
-      this.editClass.description = "";
-      this.editClass.topic_covered_ids = "";
-      this.editClass.topic_covered_names = "";
-      this.editClass.subject_id = "";
-      this.editClass.course_id = "";
-      this.editClass.class_sche_date = "";
-      this.editClass.class_schedule_id = "";
-      this.editClass.batch_id = "";
-      this.editClass.start_time = "";
-      this.editClass.end_time = "";
-      this.editClass.total_marks = "";
-      this.editClass.duration = "";
+  clearEditValues() {
+    this.editClass.description = "";
+    this.editClass.topic_covered_ids = "";
+    this.editClass.topic_covered_names = "";
+    this.editClass.subject_id = "";
+    this.editClass.course_id = "";
+    this.editClass.class_sche_date = "";
+    this.editClass.class_schedule_id = "";
+    this.editClass.batch_id = "";
+    this.editClass.start_time = "";
+    this.editClass.end_time = "";
+    this.editClass.total_marks = "";
+    this.editClass.duration = "";
   }
 
 }

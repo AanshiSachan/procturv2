@@ -17,8 +17,8 @@ import { ExcelService } from '../../../services/excel.service';
 })
 export class SalesReportsComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
-  @ViewChild('form') form: any;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
+  @ViewChild('form',{static: false}) form: any;
   feeDataSource: any[] = [];
   displayKeys: any = [];//need for selected keys
   private slotIdArr: any[] = [];
@@ -42,7 +42,7 @@ export class SalesReportsComponent implements OnInit {
     { primaryKey: 'title', header: 'Product Name', priority: 2, allowSortingFlag: true },
     { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
     { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
-    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
+    { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MM-YYYY' },
     { primaryKey: 'price', header: 'Price', priority: 6, amountValue: true, allowSortingFlag: true },
     {
       primaryKey: 'status', header: 'Status', priority: 7, allowSortingFlag: true, dataType: 'array',
@@ -55,7 +55,7 @@ export class SalesReportsComponent implements OnInit {
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
     selectAll: { showSelectAll: false, option: 'single', title: 'Sales report', checked: true, key: 'title' },
-    defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' },
+    defaultSort: { primaryKey: 'publish_date', sortingType: 'asc', header: 'Purchase Date', priority: 4, allowSortingFlag: true, dataType: 'Date', format: 'DD-MM-YYYY' },
     actionSetting:
     {
       showActionButton: false
@@ -73,7 +73,6 @@ export class SalesReportsComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private _msgService: MessageShowService,
     private _http: HttpService,
-    private _excelService: ExcelService,
     private excelService: ExcelService,
     private http: ProductService,) { }
 
@@ -129,8 +128,8 @@ export class SalesReportsComponent implements OnInit {
   getProductDetails() {
     let object = {
       "between": {
-        "from": this.filterDataKeys.from_date,
-        "to": this.filterDataKeys.to_date
+        "from":moment(this.filterDataKeys.from_date).format("YYYY-MM-DD"), 
+        "to": moment(this.filterDataKeys.to_date).format("YYYY-MM-DD")
       },
 
       "in": [
@@ -156,7 +155,7 @@ export class SalesReportsComponent implements OnInit {
               "title": object.product.title,
               "name": object.name,
               "phone": object.phone,
-              "price": object.price,
+              "price": object.price + " " + object.product.country_details.currency_code,
               "publish_date": object.purchase_date,
               "status": object.product.status,
             }
@@ -235,7 +234,7 @@ export class SalesReportsComponent implements OnInit {
       { primaryKey: 'title', header: 'Product Name', priority: 2, allowSortingFlag: true },
       { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
       { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
-      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MMM-YYYY' }
+      { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MM-YYYY' }
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);

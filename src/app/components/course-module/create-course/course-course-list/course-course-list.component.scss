@@ -232,7 +232,7 @@ th{
         height: auto;
         left: 0;
         right: 0;
-        top: 5%;
+        top: 11%;
         bottom: 0;
         margin: auto; // transform: translateY(-50%);
     }
@@ -437,7 +437,7 @@ $color-highlight: lighten($color-base,
         display: block;
     }
     .tableCourseInn {
-        max-height: 68vh;
+        max-height: 61vh;
         overflow-x: hidden;
         overflow-y: auto;
     }

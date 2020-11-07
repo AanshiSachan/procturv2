@@ -15,9 +15,10 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
   styleUrls: ['./attendanceReport.component.scss']
 })
 export class AttendanceReportComponent implements OnInit {
-
+  institute_id: any = sessionStorage.getItem('institution_id');
   attendanceDataSource: any;
   masterCourses: any[] = [];
+  fullResponse: any = [];
   postData: any[] = [];
   pagedPostData: any[] = [];
   courses: any[] = [];
@@ -95,16 +96,18 @@ export class AttendanceReportComponent implements OnInit {
   searchflag: boolean = false;
   showDownloadReport: boolean = false;
   searchData: any = [];
+  schoolModel: boolean = false;
 
 
-  @ViewChild('attendanceTable') attendanceTable: ElementRef;
-  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
+  @ViewChild('attendanceTable', { static: false }) attendanceTable: ElementRef;
+  @ViewChild('xlsDownloader', { static: false }) xlsDownloader: ElementRef;
 
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   constructor(
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
+    private _http: HttpService,
     private auth: AuthenticatorService,
     private _httpService: HttpService,
     private msgService: MessageShowService,
@@ -126,6 +129,8 @@ export class AttendanceReportComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.getMasterCourseData();
   }
 
@@ -155,40 +160,48 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
-      this.reportService.getMasterCourse().subscribe(
-        (data: any) => {
-          this.dataStatus = false;
-          this.auth.hideLoader();
-          this.masterCourses = data;
-        },
-        error => {
-          this.dataStatus = false;
-          this.auth.hideLoader();
-          let msg = {
-            type: "error",
-            body: error.error.message
-          }
-          this.appc.popToast(msg);
-          return error;
-        }
-      )
+      this.getMasterCourseKeys();
     }
   }
+  getMasterCourseKeys() {
+    let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
 
+    let keys;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        console.log("keys", keys);
+
+        for (let i = 0; i < keys.length; i++) {
+          this.masterCourses.push(keys[i]);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   getCourseData(i) {
     this.attendanceFetchForm.batch_id = "-1";
-    this.queryParams.batch_id="-1";
+    this.queryParams.batch_id = "-1";
     this.isShowDownloadReport();
-    this.auth.showLoader();
+    // 
     this.dataStatus = true;
     this.queryParams.standard_id = i;
     this.queryParams.subject_id = "-1";
     this.queryParams.batch_id = "-1";
 
     if (this.isProfessional) {
-
+      this.auth.showLoader();
 
       this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
@@ -213,33 +226,40 @@ export class AttendanceReportComponent implements OnInit {
     }
     else {
       this.dataStatus = true;
-      this.auth.showLoader();
       this.attendanceFetchForm.batch_id = "-1";
       this.attendanceFetchForm.course_id = "";
-      this.reportService.getCourses(i).subscribe(
-        (data: any) => {
-          this.dataStatus = false;
-          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
-          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
-          this.auth.hideLoader();
-          this.courses = data.coursesList;
-        }
-        ,
-        (error: any) => {
-          this.dataStatus = false;
-          this.auth.hideLoader();
-          let msg = {
-            type: "error",
-            body: error.error.message
-          }
-          this.appc.popToast(msg);
-          return error;
-        }
-      )
       this.courses = [];
-      this.batchCourses = [];
+      let temp = this.fullResponse[this.attendanceFetchForm.master_course_name];
+      for (let i = 0; i < temp.length; i++) {
+        this.courses.push(temp[i]);
+      }
+      // this.auth.showLoader();
+      // this.attendanceFetchForm.batch_id = "-1";
+      // this.attendanceFetchForm.course_id = "";
+      // this.reportService.getCourses(i).subscribe(
+      //   (data: any) => {
+      //     this.dataStatus = false;
+      //     this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+      //     this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+      //     this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+      //     this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+      //     this.auth.hideLoader();
+      //     this.courses = data.coursesList;
+      //   }
+      //   ,
+      //   (error: any) => {
+      //     this.dataStatus = false;
+      //     this.auth.hideLoader();
+      //     let msg = {
+      //       type: "error",
+      //       body: error.error.message
+      //     }
+      //     this.appc.popToast(msg);
+      //     return error;
+      //   }
+      // )
+      // this.courses = [];
+      // this.batchCourses = [];
 
     }
 
@@ -736,8 +756,8 @@ export class AttendanceReportComponent implements OnInit {
         }
       }
 
-      file_name = file_name + '(' + moment(this.queryParams.from_date).format('DD-MMM-YYYY') + " to "
-      +  moment(this.queryParams.to_date).format('DD-MMM-YYYY')  + ')';
+      file_name = file_name + '(' + moment(this.queryParams.from_date).format('DD-MM-YYYY') + " to "
+        + moment(this.queryParams.to_date).format('DD-MM-YYYY') + ')';
 
     } else {
 
@@ -747,8 +767,8 @@ export class AttendanceReportComponent implements OnInit {
           break;
         }
       }
-      file_name = file_name + '(' + moment(this.attendanceFetchForm.from_date).format('DD-MMM-YYYY') + " to "
-      +  moment(this.attendanceFetchForm.to_date).format('DD-MMM-YYYY')  + ')';
+      file_name = file_name + '(' + moment(this.attendanceFetchForm.from_date).format('DD-MM-YYYY') + " to "
+        + moment(this.attendanceFetchForm.to_date).format('DD-MM-YYYY') + ')';
     }
     link.setAttribute('href', data_type + ',' + outer);
     link.setAttribute('download', file_name + '.xls');
@@ -820,14 +840,14 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams.to_date = "";
   }
 
-  isShowDownloadReport(){
+  isShowDownloadReport() {
     this.showDownloadReport = false;
-    if(this.isProfessional){
-      if((this.queryParams.standard_id!='-1' && this.queryParams.subject_id!='-1') || (this.queryParams.batch_id!='-1')){
+    if (this.isProfessional) {
+      if ((this.queryParams.standard_id != '-1' && this.queryParams.subject_id != '-1') || (this.queryParams.batch_id != '-1')) {
         this.showDownloadReport = true;
       }
-    } else{
-      if((this.attendanceFetchForm.master_course_name!='-1' && this.attendanceFetchForm.course_id!='-1')||(this.attendanceFetchForm.batch_id!='-1' && this.attendanceFetchForm.batch_id!="")){
+    } else {
+      if ((this.attendanceFetchForm.master_course_name != '-1' && this.attendanceFetchForm.course_id != '-1') || (this.attendanceFetchForm.batch_id != '-1' && this.attendanceFetchForm.batch_id != "")) {
         this.showDownloadReport = true;
       }
     }
@@ -835,23 +855,23 @@ export class AttendanceReportComponent implements OnInit {
 
   downloadReport() {
     this.auth.showLoader();
-      let obj:any;
-      if(this.isProfessional){
-        this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
-        this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
-        obj = this.queryParams;
-      } else{
-        this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
-        this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
-        obj = this.attendanceFetchForm;
-      }
-    let url='/api/v1/reports/attendance/downloadAttendanceReport';   
+    let obj: any;
+    if (this.isProfessional) {
+      this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+      this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+      obj = this.queryParams;
+    } else {
+      this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+      this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+      obj = this.attendanceFetchForm;
+    }
+    let url = '/api/v1/reports/attendance/downloadAttendanceReport';
     this._httpService.postData(url, obj).subscribe(
-      (res:any) => {
+      (res: any) => {
         this.auth.hideLoader();
-        if(res){
+        if (res) {
           let resp = res;
-          if(resp.document!=""){
+          if (resp.document != "") {
             let byteArr = this.commonService.convertBase64ToArray(resp.document);
             let fileName = res.docTitle; //res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
@@ -860,12 +880,12 @@ export class AttendanceReportComponent implements OnInit {
             dwldLink.setAttribute("href", url);
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
-            dwldLink.click();          
+            dwldLink.click();
           }
-          else{
+          else {
             this.msgService.showErrorMessage('info', '', "Document does not have any data!");
           }
-        }else{
+        } else {
           this.msgService.showErrorMessage('info', '', "Document does not have any data!");
         }
       },
@@ -874,5 +894,5 @@ export class AttendanceReportComponent implements OnInit {
         this.auth.hideLoader();
       }
     )
-   }
+  }
 }

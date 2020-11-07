@@ -1,4 +1,4 @@
-<section class="middle-section">
+<section style="padding-right: 2%;;">
   <div class="status-wise-container">
     <div class="status-wise-header-container">
       <div class="header-title">
@@ -104,7 +104,7 @@
           <span>Set up sources of leads and enquiry closing reasons.</span>
         </div>
       </div> -->
-      <div class="leads-menu-item" routerLink="/view/leads/campaign" *ngIf="jsonRolesFlags.isShowCampaign">
+      <div class="leads-menu-item" routerLink="/view/leads/campaign" *ngIf="jsonRolesFlags.isShowAddCampaign">
         <div class="menu-title">
           <img src="./assets/images/leads/add-campaign.svg" alt="campaign">
           <span>Add Campaign</span>
@@ -150,7 +150,7 @@
         </div>
       </div>
 
-      <div class="leads-menu-item" routerLink="/view/leads/campaign-reports" *ngIf="jsonRolesFlags.isShowCampaign">
+      <div class="leads-menu-item" routerLink="/view/leads/campaign-reports" *ngIf="jsonRolesFlags.isShowCampaignReport">
         <div class="menu-title">
           <img src="./assets/images/fee/campaign_sms_report.svg" alt="reports">
           <span>Campaign Report</span>

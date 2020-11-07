@@ -2,7 +2,7 @@ import {
     Component, EventEmitter, Input, Output, ElementRef,
     Renderer2, ViewChild, OnChanges, SimpleChanges, HostListener
 } from '@angular/core';
-import { TooltipConfig } from 'ngx-bootstrap-custome/tooltip';
+import { TooltipConfig } from 'ngx-bootstrap/tooltip';
 
 @Component({
     selector: 'rob-tooltip',

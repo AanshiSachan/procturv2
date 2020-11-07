@@ -1,7 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { HttpService } from '../../../../../services/http.service';
 import { AppComponent } from '../../../../../app.component';
+import { role } from '../../../../../model/role_features';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { ClassScheduleService } from '../../../../../services/course-services/class-schedule.service';
 
@@ -17,6 +20,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   masterCourse: any = [];
   courseList: any = [];
   subjectList: any = [];
+  fullResponse: any = [];
   teacherList: any = [];
   timeTableResponse: any = [];
   weekScheduleList: any[] = [];
@@ -28,7 +32,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   batchMasterCourse: any = [];
   subjectListBatch: any = [];
   batchList: any = [];
-
+  institute_id: any = sessionStorage.getItem('institution_id');
   showContent: boolean = false;
   isLangInstitute: boolean = false;
   reschedulePopUp: boolean = false;
@@ -36,7 +40,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   showManageClass: boolean = false;
   showAdvanceFilter: boolean = false;
   isChecked: boolean = false;
-  isExpand:boolean = true;
+  isExpand: boolean = true;
 
   currentDate: Date = new Date();
   reschedDate: any = new Date();
@@ -92,14 +96,17 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     examSchldId: [],
     classSchldId: []
   };
+  role_feature = role.features;
+  schoolModel: boolean = false;
 
   constructor
     (
-    private router: Router,
-    private classService: ClassScheduleService,
-    private toastCtrl: AppComponent,
-    private auth: AuthenticatorService
-    ) {
+      private router: Router,
+      private classService: ClassScheduleService,
+      private toastCtrl: AppComponent,
+      private auth: AuthenticatorService,
+      private _http: HttpService,
+  ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -117,7 +124,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('isFromCoursePlanner', String(false));
   }
 
-  checkForCoursePlannerRoute(){
+  checkForCoursePlannerRoute() {
     let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner');
   }
 
@@ -127,7 +134,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       this.showManageClass = true;
     } else {
       if (permissionArray != "") {
-        if (permissionArray.indexOf('701') != -1 || permissionArray.indexOf('402') != -1) {
+        if (this.role_feature.CLASS_MENU) {
           this.showManageClass = true;
         } else {
           this.showManageClass = false;
@@ -141,7 +148,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       this.submitMasterCourse();
       this.getCombinedData();
     } else {
-      this.getMasterCourseList();
+      // this.getMasterCourseList();
+      this.getMasterCourse();
     }
     this.getTeachers();
   }
@@ -186,16 +194,55 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
       }
     )
   }
+  getMasterCourse() {
+    let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
 
+    let keys;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        console.log("keys", keys);
+        // this.masterCourse = keys;
+        for (let i = 0; i < keys.length; i++) {
+          this.masterCourse.push(keys[i]);
+        }
+        // this.standardData = data.result;
+        // console.log(data.result);
+        // map = data.result;
+        // var array = [];
+        // var i = 0;
+        // for (var mission in data.result) {
+        //   array[i] = array.concat(data.result[mission]);
+
+        //   i++;
+
+        // }
+        // console.log("Stringfy          ", JSON.stringify(array));
+        // console.log("ar", array.length);
+        // for(let i=0;i< array.length; i++){
+        //   console.log("asd",array[i]);
+        // }
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
   getTeachers() {
     this.auth.showLoader();
     this.classService.getAllTeachersList().subscribe(
       res => {
         // console.log('teacher', res);
         this.auth.hideLoader();
-        this.teacherList = res;
-
-        this.teacherList.sort(function(a, b) {
+        this.teacherList = res.result;
+        console.log(this.teacherList);
+        this.teacherList.sort(function (a, b) {
           var textA = a.teacher_name.toUpperCase();
           var textB = b.teacher_name.toUpperCase();
           return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
@@ -210,26 +257,31 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 
   updateCourseList(ev) {
     this.showContent = false;
-    this.auth.showLoader();
-    this.classService.getCourseFromMasterById(ev).subscribe(
-      res => {
-        if (res.coursesList) {
-          //console.log("course", res);
-          this.courseList = res;
-          this.auth.hideLoader();
-        }
-        else {
-          this.courseList = [];
-          this.auth.hideLoader();
-        }
-      },
-      err => {
-        //console.log(err);
-        this.courseList = [];
-        this.auth.hideLoader();
-        this.messageToast('error', '', err.error.message);
-      }
-    )
+    this.courseList = [];
+    // this.auth.showLoader();
+    let temp = this.fullResponse[this.fetchMasterCourseModule.master_course];
+    for (let i = 0; i < temp.length; i++) {
+      this.courseList.push(temp[i]);
+    }
+    // this.classService.getCourseFromMasterById(ev).subscribe(
+    //   res => {
+    //     if (res.coursesList) {
+    //       //console.log("course", res);
+    //       this.courseList = res;
+    //       this.auth.hideLoader();
+    //     }
+    //     else {
+    //       this.courseList = [];
+    //       this.auth.hideLoader();
+    //     }
+    //   },
+    //   err => {
+    //     //console.log(err);
+    //     this.courseList = [];
+    //     this.auth.hideLoader();
+    //     this.messageToast('error', '', err.error.message);
+    //   }
+    // )
   }
 
   updateSubjectList(event) {
@@ -302,13 +354,13 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   }
 
   // it expands all rows for show child records
-  expandAll(i){
+  expandAll(i) {
     document.getElementById('tbodyItem' + i).classList.add("active");
     document.getElementById('tbodyView' + i).classList.remove("hide");
   }
 
   // it collapes all rows for hide child records
-  collapesAll(i){
+  collapesAll(i) {
     document.getElementById('tbodyItem' + i).classList.remove("active");
     document.getElementById('tbodyView' + i).classList.add("hide");
   }
@@ -394,7 +446,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     return moment(currentDate).weekday(1).format("YYYY-MM-DD");
   }
 
-  getValueOfStandardID(data, key, value, ) {
+  getValueOfStandardID(data, key, value,) {
     for (let t = 0; t < data.length; t++) {
       if (data[t][key] == value) {
         return data[t].standard_id;
@@ -422,6 +474,8 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   gotoPreviousWeek() {
@@ -926,11 +980,13 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     this.weekScheduleList = [];
     if (key == '0') {
       this.showAdvanceFilter = false;
-      let obj ={target:{
-        value:this.selectedRadioButton
-      }}
+      let obj = {
+        target: {
+          value: this.selectedRadioButton
+        }
+      }
       this.checkInputType(obj);
-      if(this.userType == '3'){
+      if (this.userType == '3') {
         this.showAdvanceFilter = true;
       }
     } else {
@@ -1083,11 +1139,11 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   expandAllRows() {
     let count = this.weekScheduleList.length;
     for (let i = 0; i < count; i++) {
-        if(this.isExpand){
-          this.expandAll(i);
-        }else{
-          this.collapesAll(i)
-        }
+      if (this.isExpand) {
+        this.expandAll(i);
+      } else {
+        this.collapesAll(i)
+      }
     }
     this.isExpand = (!this.isExpand);
   }
@@ -1146,7 +1202,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
 export class DateFormat implements PipeTransform {
   public transform(value) {
     if (value != "" && value != null && value != undefined) {
-      return moment(value).format('DD-MMM-YYYY');
+      return moment(value).format('DD-MM-YYYY');
     } else {
       return value
     }

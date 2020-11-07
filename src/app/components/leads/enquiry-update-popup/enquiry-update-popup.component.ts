@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
-import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
-import * as moment from 'moment';
-import { CommonServiceFactory } from '../../../services/common-service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 @Component({
   selector: 'app-enquiry-update-popup',
@@ -160,7 +160,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     this.fetchService.fetchEnquiryByInstituteID(id).subscribe(
       res => {
 
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.cd.markForCheck();
 
         // Name ,Number And Status
@@ -186,13 +186,13 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         }
 
         if (res.followUpDate != "" && res.followUpDate != null && res.followUpDate != "Invalid date") {
-          this.updateFormData.followUpDate = res.followUpDate;
+          this.updateFormData.followUpDate = moment(res.followUpDate).format("YYYY-MM-DD");
         }
 
         // Walkin Date And Time Validation
 
         if (res.walkin_followUpDate != "" && res.walkin_followUpDate != "Invalid date" && res.walkin_followUpDate != null) {
-          this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+          this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("YYYY-MM-DD");
         }
 
         if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null && res.walkin_followUpTime != ": ") {
@@ -203,7 +203,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
 
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.messageNotifier("error", "Error Fetching Enquiry Data", err.error.message);
       }
 
@@ -270,14 +270,14 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   // Update Enquiry Assignee List on selection of Institute
   branchUpdated(e) {
     this.enqAssignTo = [];
-    this.isRippleLoad = true;
+    this.auth.showLoader();
     this.fetchService.fetchAssignedToData(e).subscribe(
       res => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         this.enqAssignTo = res;
       },
       err => {
-        this.isRippleLoad = false;
+        this.auth.hideLoader();
         console.log(err);
       }
     );

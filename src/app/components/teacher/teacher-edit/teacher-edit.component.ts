@@ -20,9 +20,9 @@ export class TeacherEditComponent implements OnInit {
   editTeacherForm: FormGroup;
   studentImage: string = '';
   containerWidth: any = "200px";
-  @ViewChild('idCardUpload') idCardTeacher;
-  @ViewChild('uploadedImage') idCardImg;
-  @ViewChild('uploadImageAnchor') anchTag;
+  @ViewChild('idCardUpload',{static: false}) idCardTeacher;
+  @ViewChild('uploadedImage',{static: false}) idCardImg;
+  @ViewChild('uploadImageAnchor',{static: false}) anchTag;
   enableBiometric: any = 0;
   instituteCountryDetObj: any = {};
   countryDetails: any = [];
@@ -320,7 +320,7 @@ export class TeacherEditComponent implements OnInit {
       let reader = new FileReader();
       reader.readAsDataURL(fileBrowser.files[0]);
       reader.onload = () => {
-        sessionStorage.setItem('Id-card', reader.result.split(',')[1]);
+        sessionStorage.setItem('Id-card', (<string>reader.result).split(',')[1]);
       }
     }
   }

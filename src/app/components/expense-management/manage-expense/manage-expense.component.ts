@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
-import { HttpService  } from '../../../services/http.service';
+import { HttpService } from '../../../services/http.service';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ExcelService } from '../../../services/excel.service';
@@ -35,35 +35,35 @@ export class ManageExpenseComponent implements OnInit {
     private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private excelService: ExcelService,
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-   }
+  }
 
   ngOnInit() {
     this.getExpenseRecords();
   }
 
-  getExpenseRecords(){
+  getExpenseRecords() {
     let obj = {
       type: "0",
       institute_id: this.jsonFlag.institute_id
     }
-    if(this.expenseFilter.dateFilter == "date"){
+    if (this.expenseFilter.dateFilter == "date") {
       obj.type = "1",
-      obj["startdate"] = "";
+        obj["startdate"] = "";
       obj["enddate"] = "";
     }
-    if(this.expenseFilter.dateFilter != "range"){
+    if (this.expenseFilter.dateFilter != "range") {
       this.getExpenseList(obj)
     }
-    else{
+    else {
       this.dateFilterRange = "";
     }
   }
 
-  getExpenseList(obj){
+  getExpenseList(obj) {
     const url = `/api/v1/expense/all/${this.jsonFlag.institute_id}`
     this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
@@ -79,7 +79,7 @@ export class ManageExpenseComponent implements OnInit {
     )
   }
 
-  searchDatabase(){
+  searchDatabase() {
     this.expenseRecordList = this.tempExpenselist;
     if (this.expenseSearchInput == undefined || this.expenseSearchInput == null) {
       this.expenseSearchInput = "";
@@ -105,8 +105,8 @@ export class ManageExpenseComponent implements OnInit {
     this.getExpenseList(obj)
   }
 
-  editExpense(id){
-    this.router.navigate(['/view/expense/edit-expense/'+id]);
+  editExpense(id) {
+    this.router.navigate(['/view/expense/edit-expense/' + id]);
   }
 
   exportToExcel(event) {
@@ -117,6 +117,7 @@ export class ManageExpenseComponent implements OnInit {
         Reference_No: e.reference_no,
         Payee: e.party_name,
         Category: e.category,
+        Category_Description: e.category_description,
         Total: e.amount,
       }
       return obj;

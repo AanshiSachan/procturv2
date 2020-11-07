@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+// import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { SharedModule } from '../../shared/shared.module'
 
 import { FAQRoutingModule } from './faq-routing.module';
@@ -19,7 +19,7 @@ import { FAQHeadComponent } from './faq-head/faq-head.component';
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         SharedModule,
         FAQRoutingModule
     ],

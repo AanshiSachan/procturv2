@@ -18,7 +18,7 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 })
 export class ChequeManageComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
   dataStatus: number = 1;
   searchValue: any = '';
   dishonouredReason:any='';
@@ -63,7 +63,7 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'dishonoured_reason', header: 'Reason', priority: 13, allowSortingFlag: true }
   ];
   chequePaymentModel: any = {
-    paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
+    paymentDate: moment(new Date()).format("DD-MM-YYYY"),
     paymentMode: 'Cheque/PDC/DD No.',
     remarks: "",
     refNum: "",
@@ -316,7 +316,7 @@ tax_type_without_percentage : String;
     this.studentFeeDues = {};
     this.studentUnpaid = [];
     this.chequePaymentModel = {
-      paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
+      paymentDate: moment(new Date()).format("DD-MM-YYYY"),
       paymentMode: 'Cheque/PDC/DD No.',
       remarks: "",
       refNum: "",

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../../shared/shared.module';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker/bs-datepicker.module';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScheduleHomeComponent } from './schedule-home.component';
@@ -13,7 +13,7 @@ import { CourseHomeRouting } from './course-home.routing.module';
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         SharedModule,
         CourseHomeRouting
     ],

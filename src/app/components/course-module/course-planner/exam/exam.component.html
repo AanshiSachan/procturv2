@@ -1,23 +1,23 @@
-<div class="middle-section clear-fix">
+<div class="clear-fix" style="padding-right: 2%;">
 
   <section class="middle-top clearFix bulk-header">
 
     <div>
       <h1 class="pull-left">
-        <a routerLink="/view/course"  *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
           Course
         </a>
         <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
           Batch
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-         <span>Exam Planner</span>
+        <span>Exam Planner</span>
       </h1>
     </div>
 
   </section>
 
-  <section>
+  <section style="margin-top: -25px;">
     <div class="header-section">
       <div class="header-item non-active" id="class" routerLink="/view/course/coursePlanner/class">
         <div class="img-container">
@@ -46,21 +46,25 @@
           <div class="header-item" *ngIf="!jsonFlag.isProfessional">
             <span>Master Course <span class="danger">*</span></span>
             <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse" (ngModelChange)="updateCoursesList()">
-              <option value="-1">Select Master Course</option>
+              <!-- changes by Nalini - to handle school model conditions -->
+              <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
               <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
             </select>
           </div>
-          <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <div class="header-item" *ngIf="!jsonFlag.isProfessional" style="width: 19%;">
             <span>Course</span>
+            <!-- changes by Nalini - to handle school model conditions -->
             <select class="header-select-box" name="" [(ngModel)]="inputElements.course" (ngModelChange)="updateSubjectsList()">
-              <option value="-1">Select Course</option>
+              <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
               <option [value]="course.course_id" *ngFor="let course of courseList">{{course.course_name}}</option>
             </select>
-            <span *ngIf="inputElements.course != '-1' && !jsonFlag.isProfessional" style="font-size: 10px;">Duration: {{courseStartDate}} {{courseEndDate}}</span>
+            <span *ngIf="inputElements.course != '-1' && !jsonFlag.isProfessional" style="font-size: 10px;">Duration:
+              {{courseStartDate}} {{courseEndDate}}</span>
           </div>
           <div class="header-item" *ngIf="!jsonFlag.isProfessional">
             <span>Subject</span>
-            <select class="header-select-box" name="" [(ngModel)]="inputElements.subject" (ngModelChange)="updateSubject()">
+            <select class="header-select-box" name="" [(ngModel)]="inputElements.subject"
+              (ngModelChange)="updateSubject()">
               <option value="-1">Select Subject</option>
               <option [value]="subject.batch_id" *ngFor="let subject of subjectList">{{subject.subject_name}}</option>
             </select>
@@ -69,25 +73,30 @@
           <!-- FOR BATCH MODEL -->
           <div class="header-item" *ngIf="jsonFlag.isProfessional">
             <span>Master Course <span class="danger">*</span></span>
-            <select class="header-select-box" name="" [(ngModel)]="inputElements.standard_id" (ngModelChange)="updateCoursesList()">
+            <select class="header-select-box" name="" [(ngModel)]="inputElements.standard_id"
+              (ngModelChange)="updateCoursesList()">
               <option value="-1">Select Master Course</option>
-              <option [value]="standard.standard_id" *ngFor="let standard of masterCourseList">{{standard.standard_name}}</option>
+              <option [value]="standard.standard_id" *ngFor="let standard of masterCourseList">
+                {{standard.standard_name}}</option>
             </select>
           </div>
           <div class="header-item" *ngIf="jsonFlag.isProfessional">
             <span>Course</span>
-            <select class="header-select-box" name="" [(ngModel)]="inputElements.subject_id" (ngModelChange)="updateSubjectsList()">
+            <select class="header-select-box" name="" [(ngModel)]="inputElements.subject_id"
+              (ngModelChange)="updateSubjectsList()">
               <option value="-1">Select Course</option>
               <option [value]="subject.subject_id" *ngFor="let subject of courseList">{{subject.subject_name}}</option>
             </select>
           </div>
           <div class="header-item" *ngIf="jsonFlag.isProfessional">
             <span>Batch</span>
-            <select class="header-select-box" name="" [(ngModel)]="inputElements.batch_id" (ngModelChange)="updateSubject()">
+            <select class="header-select-box" name="" [(ngModel)]="inputElements.batch_id"
+              (ngModelChange)="updateSubject()">
               <option value="-1">Select Batch</option>
               <option [value]="batch.batch_id" *ngFor="let batch of batchList">{{batch.batch_name}}</option>
             </select>
-            <span *ngIf="inputElements.batch_id != '-1' && jsonFlag.isProfessional" style="font-size: 10px;">Duration: {{courseStartDate | date: 'dd-MMM-yyyy'}} -  {{courseEndDate | date: 'dd-MMM-yyyy'}}</span>
+            <span *ngIf="inputElements.batch_id != '-1' && jsonFlag.isProfessional" style="font-size: 10px;">Duration:
+              {{courseStartDate | date: 'dd-MMM-yyyy'}} - {{courseEndDate | date: 'dd-MMM-yyyy'}}</span>
           </div>
 
           <div class="header-item" style="width: 25%;">
@@ -98,7 +107,8 @@
               <i class="fa fa-caret-down" aria-hidden="true" (click)="toggleFilter()" *ngIf="!filterShow"></i>
               <i class="fa fa-caret-up" aria-hidden="true" (click)="toggleFilter()" *ngIf="filterShow"></i>
             </div>
-            <span style="font-size: 10px;">From: {{coursePlannerFilters.from_date | date: 'dd-MMM-yyyy'}} &nbsp; To: {{coursePlannerFilters.to_date | date: 'dd-MMM-yyyy'}}</span>
+            <span style="font-size: 10px;">From: {{coursePlannerFilters.from_date | date: 'dd-MMM-yyyy'}} &nbsp; To:
+              {{coursePlannerFilters.to_date | date: 'dd-MMM-yyyy'}}</span>
             <div class="filter-container" *ngIf="filterShow">
 
               <div class="date-container">
@@ -108,25 +118,26 @@
                 <div class="date-values-container">
                   <div class="field-checkbox-wrapper date-value-item">
                     <input type="checkbox" id="thisWeek" name="thisWeek" [(ngModel)]="filterDateInputs.thisWeek"
-                        class="form-checkbox" (change)="updateDateFilter('thisWeek', $event)">
+                      class="form-checkbox" (change)="updateDateFilter('thisWeek', $event)">
                     <label for="thisWeek">This Week</label>
                   </div>
                   <div class="field-checkbox-wrapper date-value-item">
                     <input type="checkbox" id="lastWeek" name="lastWeek" [(ngModel)]="filterDateInputs.lastWeek"
-                        class="form-checkbox" (change)="updateDateFilter('lastWeek', $event)">
+                      class="form-checkbox" (change)="updateDateFilter('lastWeek', $event)">
                     <label for="lastWeek">Last Week</label>
                   </div>
                   <div class="field-checkbox-wrapper date-value-item">
                     <input type="checkbox" id="thisMonth" name="thisMonth" [(ngModel)]="filterDateInputs.thisMonth"
-                        class="form-checkbox" (change)="updateDateFilter('thisMonth', $event)">
+                      class="form-checkbox" (change)="updateDateFilter('thisMonth', $event)">
                     <label for="thisMonth">This Month</label>
                   </div>
                   <div class="field-checkbox-wrapper date-value-item">
                     <input type="checkbox" id="custom" name="custom" [(ngModel)]="filterDateInputs.custom"
-                        class="form-checkbox" (change)="updateDateFilter('custom', $event)">
+                      class="form-checkbox" (change)="updateDateFilter('custom', $event)">
                     <label for="custom">Custom</label>
-                    <input style="margin-left:10%;visibility:hidden;" type="text" value="" id="customeDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
-                      [(ngModel)]="filterDateRange" (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker/>
+                    <input style="margin-left:10%;visibility:hidden;" type="text" value="" id="customeDate"
+                      class="widgetDatepicker bsDatepicker" name="schedWidDate" [(ngModel)]="filterDateRange"
+                      (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker />
                   </div>
                 </div>
               </div>
@@ -138,27 +149,28 @@
                 <div class="status-values-container">
                   <div class="field-checkbox-wrapper status-value-item">
                     <input type="checkbox" id="upcoming" name="" [(ngModel)]="filterStatusInputs.upcoming"
-                        class="form-checkbox" (change)="updateStatusFilter($event, 'upcoming')">
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'upcoming')">
                     <label for="upcoming" style="color: #ff6c24;">Upcoming</label>
                   </div>
                   <div class="field-checkbox-wrapper status-value-item">
-                    <input type="checkbox" id="attendancePending" name="" [(ngModel)]="filterStatusInputs.attendancePending"
-                        class="form-checkbox" (change)="updateStatusFilter($event, 'pending')">
+                    <input type="checkbox" id="attendancePending" name=""
+                      [(ngModel)]="filterStatusInputs.attendancePending" class="form-checkbox"
+                      (change)="updateStatusFilter($event, 'pending')">
                     <label for="attendancePending" style="color: #8d8d8d;">Attendance Pending</label>
                   </div>
                   <div class="field-checkbox-wrapper status-value-item">
                     <input type="checkbox" id="completed" name="" [(ngModel)]="filterStatusInputs.marksUpdated"
-                        class="form-checkbox" (change)="updateStatusFilter($event, 'marksUpdated')">
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'marksUpdated')">
                     <label for="completed" style="color: #00b55a;">Marks Updated</label>
                   </div>
                   <div class="field-checkbox-wrapper status-value-item">
                     <input type="checkbox" id="marksPending" name="" [(ngModel)]="filterStatusInputs.marksPending"
-                        class="form-checkbox" (change)="updateStatusFilter($event, 'marksPending')">
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'marksPending')">
                     <label for="marksPending" style="color: #8771FF;">Marks Pending</label>
                   </div>
                   <div class="field-checkbox-wrapper status-value-item">
                     <input type="checkbox" id="cancelled" name="" [(ngModel)]="filterStatusInputs.cancelled"
-                        class="form-checkbox" (change)="updateStatusFilter($event, 'cancelled')">
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'cancelled')">
                     <label for="cancelled" style="color: #df0d2f;">Cancelled</label>
                   </div>
                 </div>
@@ -235,15 +247,16 @@
                 <i class="fa fa-times" aria-hidden="true" (click)="hideShowHideMenu()"></i>
               </div>
               <div class="show-hide-value-container">
-                  <div class="field-checkbox-wrapper show-hide-item">
+                <div class="field-checkbox-wrapper show-hide-item">
                   <input type="checkbox" id="subject" name="" [(ngModel)]="showHideColumns.subject"
-                      class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == 1">
-                  <label for="subject"  *ngIf="!jsonFlag.isProfessional">Subject</label>
-                  <label for="subject"  *ngIf="jsonFlag.isProfessional">Batch</label>
+                    class="form-checkbox" (change)="hideCol($event)"
+                    [disabled]="!showHideColumns.subject && checkedColCounter == 1">
+                  <label for="subject" *ngIf="!jsonFlag.isProfessional">Subject</label>
+                  <label for="subject" *ngIf="jsonFlag.isProfessional">Batch</label>
                 </div>
                 <div class="field-checkbox-wrapper show-hide-item">
-                  <input type="checkbox" id="topic" name="" [(ngModel)]="showHideColumns.topic"
-                      class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 1">
+                  <input type="checkbox" id="topic" name="" [(ngModel)]="showHideColumns.topic" class="form-checkbox"
+                    (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 1">
                   <label for="topic">Topic</label>
                 </div>
               </div>
@@ -251,11 +264,13 @@
               <div class="show-hide-value-container">
                 <div class="show-hide-item" style="margin-bottom: 10px;">
                   <span style="font-weight: 600;color:#585574;">NOTE : </span>
-                  <span style="font-weight: 400;color:#585574;">To selct the below option(s) please unselect above option(s)</span>
+                  <span style="font-weight: 400;color:#585574;">To selct the below option(s) please unselect above
+                    option(s)</span>
                 </div>
                 <div class="field-checkbox-wrapper show-hide-item">
                   <input type="checkbox" id="description" name="" [(ngModel)]="showHideColumns.description"
-                      class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == 1">
+                    class="form-checkbox" (change)="hideCol($event)"
+                    [disabled]="!showHideColumns.description && checkedColCounter == 1">
                   <label for="description">Description</label>
                 </div>
                 <!-- <div class="field-checkbox-wrapper show-hide-item">
@@ -273,8 +288,7 @@
           </div>
         </div>
         <div class="table-value-outer-container">
-          <div class="table-value-container"
-            [ngClass]="{'border-cancelled-class': course.status == 'Cancelled' || course.status == 'Cancel(Class)',
+          <div class="table-value-container" [ngClass]="{'border-cancelled-class': course.status == 'Cancelled' || course.status == 'Cancel(Class)',
                         'border-completed-class': course.status == 'Mks. Updated',
                         'border-marksPending-class': course.status == 'Mks. pending',
                         'border-pending-class': course.status == 'Att. Pending',
@@ -291,19 +305,24 @@
               <span>{{course.end_time}}</span>
             </div>
             <div class="table-value-item medium">
-              <span title="{{course.course_name}}">{{ (course.course_name.length > 50) ? (course.course_name | slice:0:50) + '...' : course.course_name }}</span>
+              <span
+                title="{{course.course_name}}">{{ (course.course_name.length > 50) ? (course.course_name | slice:0:50) + '...' : course.course_name }}</span>
             </div>
-            <div class="table-value-item medium"  *ngIf="showHideColumns.subject">
-              <span *ngIf="!jsonFlag.isProfessional" title="{{course.subject_name}}">{{ (course.subject_name.length > 50) ? (course.subject_name | slice:0:50) + '...' : course.subject_name }}</span>
-              <span *ngIf="jsonFlag.isProfessional" title="{{course.batch_name}}">{{ (course.batch_name.length > 50) ? (course.batch_name | slice:0:50) + '...' : course.batch_name }}</span>
+            <div class="table-value-item medium" *ngIf="showHideColumns.subject">
+              <span *ngIf="!jsonFlag.isProfessional"
+                title="{{course.subject_name}}">{{ (course.subject_name.length > 50) ? (course.subject_name | slice:0:50) + '...' : course.subject_name }}</span>
+              <span *ngIf="jsonFlag.isProfessional"
+                title="{{course.batch_name}}">{{ (course.batch_name.length > 50) ? (course.batch_name | slice:0:50) + '...' : course.batch_name }}</span>
             </div>
-            <div class="table-value-item medium"  *ngIf="showHideColumns.topic">
+            <div class="table-value-item medium" *ngIf="showHideColumns.topic">
               <span *ngIf="course?.topics_covered.length == 0">-</span>
-              <span title="{{course.topics_covered}}" *ngIf="course?.topics_covered.length != 0">{{ (course.topics_covered.length > 50) ? (course.topics_covered | slice:0:50) + '...' : course.topics_covered }}</span>
+              <span title="{{course.topics_covered}}"
+                *ngIf="course?.topics_covered.length != 0">{{ (course.topics_covered.length > 50) ? (course.topics_covered | slice:0:50) + '...' : course.topics_covered }}</span>
             </div>
             <div class="table-value-item medium" *ngIf="showHideColumns.description">
               <span *ngIf="course?.description.length == 0">-</span>
-              <span title="{{course.description}}" *ngIf="course?.description.length != 0">{{ (course.description.length > 50) ? (course.description | slice:0:50) + '...' : course.description }}</span>
+              <span title="{{course.description}}"
+                *ngIf="course?.description.length != 0">{{ (course.description.length > 50) ? (course.description | slice:0:50) + '...' : course.description }}</span>
             </div>
             <div class="table-value-item small">
               <span>{{course.total_marks}}</span>
@@ -316,44 +335,76 @@
               <span *ngIf="course?.room_no.length != 0">{{course.room_no}}</span>
             </div>
             <div class="table-value-item small align-center">
-              <button type="button" name="button" class="upcoming-btn" *ngIf="course.status == 'Upcoming'">Upcoming</button>
-              <button type="button" name="button" class="pending-btn" *ngIf="course.status == 'Att. Pending'">Att. Pending</button>
-              <button type="button" name="button" class="cancelled-btn" *ngIf="course.status == 'Cancelled' || course.status == 'Cancel(Class)'">Cancelled</button>
-              <button type="button" name="button" class="completed-btn" *ngIf="course.status == 'Mks. Updated'">Mks. Updated</button>
-              <button type="button" name="button" class="marksPending-btn" *ngIf="course.status == 'Mks. pending'">Mks. Pending</button>
+              <button type="button" name="button" class="upcoming-btn"
+                *ngIf="course.status == 'Upcoming'">Upcoming</button>
+              <button type="button" name="button" class="pending-btn" *ngIf="course.status == 'Att. Pending'">Att.
+                Pending</button>
+              <button type="button" name="button" class="cancelled-btn"
+                *ngIf="course.status == 'Cancelled' || course.status == 'Cancel(Class)'">Cancelled</button>
+              <button type="button" name="button" class="completed-btn" *ngIf="course.status == 'Mks. Updated'">Mks.
+                Updated</button>
+              <button type="button" name="button" class="marksPending-btn" *ngIf="course.status == 'Mks. pending'">Mks.
+                Pending</button>
             </div>
             <div class="table-value-item medium align-center action ">
-              <div class="action-container" *ngIf="course.status == 'Upcoming'">  <!--  upcoming exam action -->
-                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
-                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
-                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" (click)="editCourseExam(course)"></i>
-                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional" (click)="onCancelExamClickCourse(course)"></i>
-                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional" (click)="onCancelExamClick(course)"></i>
+              <div class="action-container" *ngIf="course.status == 'Upcoming'">
+                <!--  upcoming exam action -->
+                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify"
+                  *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
+                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify"
+                  *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
+                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"
+                  (click)="editCourseExam(course)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal"
+                  data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional"
+                  (click)="onCancelExamClickCourse(course)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal"
+                  data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional"
+                  (click)="onCancelExamClick(course)"></i>
               </div>
-              <div class="action-container" *ngIf="course.status == 'Att. Pending'">  <!--  pending exam action -->
-                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" (click)="markAttendanceExamCourse(course)">
-                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
-                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
-                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" (click)="editCourseExam(course)"></i>
-                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional" (click)="onCancelExamClickCourse(course)"></i>
-                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional" (click)="onCancelExamClick(course)"></i>
+              <div class="action-container" *ngIf="course.status == 'Att. Pending'">
+                <!--  pending exam action -->
+                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance"
+                  (click)="markAttendanceExamCourse(course)">
+                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify"
+                  *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
+                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify"
+                  *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
+                <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"
+                  (click)="editCourseExam(course)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal"
+                  data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional"
+                  (click)="onCancelExamClickCourse(course)"></i>
+                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal"
+                  data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional"
+                  (click)="onCancelExamClick(course)"></i>
               </div>
-              <div class="action-container" *ngIf="course.status == 'Cancelled' || course.status == 'Cancel(Class)'">  <!--  cancelled exam action -->
-                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" (click)="notifyCancelClass(course)"></i>
+              <div class="action-container" *ngIf="course.status == 'Cancelled' || course.status == 'Cancel(Class)'">
+                <!--  cancelled exam action -->
+                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify"
+                  (click)="notifyCancelClass(course)"></i>
               </div>
-              <div class="action-container" *ngIf="course.status == 'Mks. Updated'">  <!--  marks updated exam action -->
-                <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance" (click)="markAttendanceExamCourse(course)">
-                <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="!jsonFlag.isProfessional" (click)="examMarksUpdateCourse(course)">
-                <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
+              <div class="action-container" *ngIf="course.status == 'Mks. Updated'">
+                <!--  marks updated exam action -->
+                <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance"
+                  (click)="markAttendanceExamCourse(course)">
+                <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks"
+                  style="cursor:pointer" *ngIf="!jsonFlag.isProfessional" (click)="examMarksUpdateCourse(course)">
+                <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks"
+                  style="cursor:pointer" *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
                 <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
                 <!-- Edit option removed bcoz we dont have notification send option after exam attendance update  --- Swapnil -->
                 <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit" (click)="editCourseExam(course)"></i> -->
               </div>
-              <div class="action-container" *ngIf="course.status == 'Mks. pending'">  <!--  marks pending exam action -->
-                <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance" (click)="markAttendanceExamCourse(course)">
-                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="!jsonFlag.isProfessional" (click)="examMarksUpdateCourse(course)">
-                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
+              <div class="action-container" *ngIf="course.status == 'Mks. pending'">
+                <!--  marks pending exam action -->
+                <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance"
+                  (click)="markAttendanceExamCourse(course)">
+                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"
+                  *ngIf="!jsonFlag.isProfessional" (click)="examMarksUpdateCourse(course)">
+                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"
+                  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
                 <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
                 <!-- Edit option removed bcoz we dont have notification send option after exam attendance update  --- Swapnil -->
@@ -402,12 +453,17 @@
             <div class="edit-container">
               <div class="edit-input-container field-wrapper">
                 <label for="">Description</label>
-                <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description" [(ngModel)]="exam.exam_description">
+                <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description"
+                  [(ngModel)]="exam.exam_description">
               </div>
               <div class="edit-input-container field-wrapper">
                 <label for="">Topic</label>
-                <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="exam.topic_name" (click)="fetchTopicForSubject(exam)" placeholder="Link" [ngClass]="(exam.topic_name != '')? 'topic-linked' : 'no-topic-linked'">
-                <i class="fa fa-link" aria-hidden="true" (click)="fetchTopicForSubject(exam)" style="cursor: pointer;font-size: 15px;position: absolute; top: 35px; right: 32%; background: white;" [ngClass]="(exam.topic_name != '')? 'topic-linked-fa' : 'no-topic-linked-fa'"></i>
+                <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="exam.topic_name"
+                  (click)="fetchTopicForSubject(exam)" placeholder="Link"
+                  [ngClass]="(exam.topic_name != '')? 'topic-linked' : 'no-topic-linked'">
+                <i class="fa fa-link" aria-hidden="true" (click)="fetchTopicForSubject(exam)"
+                  style="cursor: pointer;font-size: 15px;position: absolute; top: 35px; right: 32%; background: white;"
+                  [ngClass]="(exam.topic_name != '')? 'topic-linked-fa' : 'no-topic-linked-fa'"></i>
               </div>
             </div>
           </div>
@@ -435,11 +491,13 @@
         <div class="modal-body">
           <div class="edit-input-container field-wrapper">
             <label for="">Description</label>
-            <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description" [(ngModel)]="editClass.description">
+            <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description"
+              [(ngModel)]="editClass.description">
           </div>
           <div class="edit-input-container field-wrapper">
             <label for="">Topic</label>
-            <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="editClass.topic_covered_names" (click)="fetchTopics()">
+            <input type="text" class="form-ctrl topic-input" name="" value="" readonly
+              [(ngModel)]="editClass.topic_covered_names" (click)="fetchTopics()">
           </div>
         </div>
         <div class="modal-footer">
@@ -461,7 +519,8 @@
           <h4 class="modal-title">Link Topic</h4>
         </div>
         <div class="modal-body">
-          <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }"></ng-container>
+          <ng-container *ngTemplateOutlet="topicsRecursiveList; context:{$implicit: topicsList, level: 1 }">
+          </ng-container>
 
         </div>
         <div class="modal-footer">
@@ -477,22 +536,26 @@
   <ng-template #topicsRecursiveList let-topicsList let-level="level">
     <div style="margin:2px !important" *ngFor="let topic of topicsList">
       <div class="topic-container" [ngClass]="level == 1 ? 'level1Topic': 'subTopicLevel'">
-        <div class="arrow-icon"  [style.visibility]="topic.subTopic.length ? 'visible':'hidden'" (click)="toggleArrow(topic)">
-          <i [ngClass]="topic.isExpand ? 'fa fa-caret-down': 'fa fa-caret-right'" style="font-size: 15px!important;"></i>
+        <div class="arrow-icon" [style.visibility]="topic.subTopic.length ? 'visible':'hidden'"
+          (click)="toggleArrow(topic)">
+          <i [ngClass]="topic.isExpand ? 'fa fa-caret-down': 'fa fa-caret-right'"
+            style="font-size: 15px!important;"></i>
         </div>
         <div class="field-checkbox-wrapper" style="margin-bottom: 5px !important;padding-left:0px !important">
-         <input type="checkbox" [(ngModel)]="topic.checked"  class="form-checkbox" value="{{topic.checked}}" (click)="selectTopics(topic,$event)" id="topic-{{topic.topicId}}" />
+          <input type="checkbox" [(ngModel)]="topic.checked" class="form-checkbox" value="{{topic.checked}}"
+            (click)="selectTopics(topic,$event)" id="topic-{{topic.topicId}}" />
 
           <label for="topic-{{topic.topicId}}" style="margin-left:25px !important">{{topic.topicName}}</label>
 
           <div *ngIf="topic.isExpand">
-            <ng-container  *ngTemplateOutlet="topicsRecursiveList; context:{ $implicit: topic.subTopic, level: level + 1  }">
+            <ng-container
+              *ngTemplateOutlet="topicsRecursiveList; context:{ $implicit: topic.subTopic, level: level + 1  }">
             </ng-container>
           </div>
         </div>
 
       </div>
-    </div >
+    </div>
   </ng-template>
 
   <!-- CANCEL EXAM POP UP Course Model -->
@@ -509,7 +572,7 @@
 
           <div class="details row">
             <div class="c-sm-6 c-md-6 c-lg-6">
-              <h5>Master Course : {{courseTempData.master_course_name}} </h5>
+              <h5>{{schoolModel ? 'Standard' : 'Master Course'}} : {{courseTempData.master_course_name}} </h5>
             </div>
             <div class="c-sm-6 c-md-6 c-lg-6" style="text-align: right;">
               <h5>Exam Schedule Date : {{courseTempData.date | date: 'dd-MMM-yyyy'}} </h5>
@@ -519,7 +582,7 @@
           <div class="content-wraper">
             <div class="row button-Section" style="margin-bottom: 10px;margin-top: 10px;">
               <div class="c-sm-6 c-md-6 c-lg-6">
-                <h4>Course : {{courseTempData.course_name}}</h4>
+                <h4>{{schoolModel ? 'Section' : 'Course'}} : {{courseTempData.course_name}}</h4>
               </div>
               <!-- <div class="c-sm-6 c-md-6 c-lg-6">
                 <div class="pull-right" *ngIf="showReasonSection == ''">
@@ -531,7 +594,8 @@
 
           <div class="cancel-reason-container">
             <label for="cancelTxtBx">Cancellation Reason<span class="text-danger">*</span></label>
-            <textarea class="cancel-input" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+            <textarea class="cancel-input" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx"
+              name="cancelTxtBx"></textarea>
           </div>
         </div>
 
@@ -542,13 +606,15 @@
               <div class="clearfix" style="padding-top: 10px;">
                 <aside class="pull-left" style="display: flex; flex-direction: row;">
                   <div class="field-checkbox-wrapper" style="margin-top: 10px;">
-                    <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+                    <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent"
+                      class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
                     <label for="chkBxNotifyStudent">Notify Students</label>
                   </div>
                 </aside>
                 <aside class="pull-right popup-btn">
                   <input type="button" value="Close" class="btn" data-dismiss="modal" (click)="closePopUpCommon()">
-                  <input type="button" value="Cancel Exam" data-dismiss="modal" (click)="cancelExamCall()" class="fullBlue btn" [disabled]=jsonFlag.isRippleLoad>
+                  <input type="button" value="Cancel Exam" data-dismiss="modal" (click)="cancelExamCall()"
+                    class="fullBlue btn" [disabled]=jsonFlag.isRippleLoad>
                 </aside>
               </div>
             </div>
@@ -577,7 +643,8 @@
             <div class="row attendance-Note" style="margin-left:0px; margin-right: 0px;">
               <div class="cancel-reason-container">
                 <label for="cancelTxtBx">Cancellation Reason<span class="text-danger">*</span></label>
-                <textarea class="cancel-input" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+                <textarea class="cancel-input" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx"
+                  name="cancelTxtBx"></textarea>
               </div>
             </div>
           </div>
@@ -586,13 +653,15 @@
           <div class="clearfix" style="margin-top: 10px">
             <aside class="pull-left" style="margin-top: 10px">
               <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox"
+                  [(ngModel)]="cancelPopUpData.notify">
                 <label for="chkBxNotifyStudent">Notify Students</label>
               </div>
             </aside>
             <aside class="pull-right popup-btn">
               <input type="button" value="Close" class="btn" data-dismiss="modal" (click)="closeExamPopup()">
-              <input type="button" value="Cancel Class" data-dismiss="modal" (click)="cancelExamClassSchedule()" class="fullBlue btn" [disabled]="jsonFlag.isRippleLoad">
+              <input type="button" value="Cancel Class" data-dismiss="modal" (click)="cancelExamClassSchedule()"
+                class="fullBlue btn" [disabled]="jsonFlag.isRippleLoad">
             </aside>
           </div>
         </div>

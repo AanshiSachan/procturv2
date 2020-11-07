@@ -21,7 +21,7 @@
         cursor: pointer;
         text-align: left;
         margin: 1%;
-        box-shadow: 0px 03px 6px rgba(0,0,0,0.24);
+        box-shadow: 0px 3px 6px #696969;
         .img_name_container{
           display: flex;
           flex-direction: row;
@@ -79,8 +79,8 @@
       cursor: pointer;
       text-align: left;
       margin: 1%;
-      -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
-      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+      -webkit-box-shadow: 0px 3px 6px #696969;
+      box-shadow: 0px 3px 6px #696969;
       .menu-title{
         width: 100%;
         justify-content: flex-start;

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../../app.component';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { StandardServices } from '../../../../services/course-services/standard.service';
 
@@ -34,9 +35,9 @@ export class ScheduleHomeComponent implements OnInit {
   selectedRow: number;
   isLangInstitue: boolean = false;
   sortingDir: string = "asc";
+  role_feature = role.features;
+  @ViewChild('#StdName',{static: false}) standard_name_label: ElementRef
   activeList: boolean = false;
-  @ViewChild('#StdName') standard_name_label: ElementRef
-
   constructor(
     private apiService: StandardServices,
     private toastCtrl: AppComponent,
@@ -366,27 +367,27 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   routeToSubTabsForLang(data) {
-    if (data.indexOf('501') != -1) {
+    // if (this.role_feature.SETUP_MENU) {
       this.route.navigateByUrl('/view/course/create/standardlist');
-    } else if (data.indexOf('502') != -1) {
-      this.route.navigateByUrl('/view/course/create/subject');
-    } else if (data.indexOf('401') != -1) {
-      this.route.navigateByUrl('/view/course/create/managebatch');
-    } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
-      this.route.navigateByUrl('/view/course/create/class');
-    }
+    // } else if (data.indexOf('502') != -1) {
+      // this.route.navigateByUrl('/view/course/create/subject');
+    // } else if (data.indexOf('401') != -1) {
+      // this.route.navigateByUrl('/view/course/create/managebatch');
+    // } else if (data.indexOf('402') >= 0 || this.role_feature.CLASS_MENU) {
+      // this.route.navigateByUrl('/view/course/create/class');
+    // }
   }
 
   routeToSubTabsForNotLang(data) {
-    if (data.indexOf('501') != -1) {
+    // if (this.role_feature.SETUP_MENU) {
       this.route.navigateByUrl('/view/course/create/standardlist');
-    } else if (data.indexOf('502') != -1) {
-      this.route.navigateByUrl('/view/course/create/subject');
-    } else if (data.indexOf('505') != -1) {
-      this.route.navigateByUrl('/view/course/create/courselist');
-    } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
-      this.route.navigateByUrl('/view/course/create/class');
-    }
+    // } else if (data.indexOf('502') != -1) {
+      // this.route.navigateByUrl('/view/course/create/subject');
+    // } else if (data.indexOf('505') != -1) {
+      // this.route.navigateByUrl('/view/course/create/courselist');
+    // } else if (data.indexOf('701') >= 0 || this.role_feature.CLASS_MENU) {
+      // this.route.navigateByUrl('/view/course/create/class');
+    // }
   }
 
   teacherLoginFound() {

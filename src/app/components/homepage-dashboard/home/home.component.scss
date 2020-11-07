@@ -5,7 +5,10 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
-
+.bs-datepicker-container, .bs-daterangepicker-container {
+    z-index: 1080;
+    left: 0 !important;
+}
 .activity-left {
     // max-width: 72%;
     width: 100%;
@@ -339,7 +342,7 @@
     ul {
         display: flex;
         li {
-            padding: 26px 24px 18px;
+            padding: 26px 21px 18px;
             label {
                 display: block;
                 color: rgba(102, 102, 102, 0.6);
@@ -748,4 +751,11 @@
             }
         }
     }
+}
+
+.grid-container{
+    width: 82vw !important;
+}
+.act-top{
+    width: 80.5vw !important;
 }

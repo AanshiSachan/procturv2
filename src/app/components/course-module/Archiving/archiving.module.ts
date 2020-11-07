@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { BsDatepickerModule } from "ngx-bootstrap-custome";
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { SharedModule } from "../../shared/shared.module";
 import { NgModule } from "@angular/core";
 import { ArchivingRoutingModule } from "./archiving-routing.module";
@@ -19,7 +19,7 @@ import { CoursesArchivedReportComponent } from './courses-archived-report/course
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         SharedModule,
         ArchivingRoutingModule
     ],

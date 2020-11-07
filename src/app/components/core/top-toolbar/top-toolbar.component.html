@@ -1,0 +1,26 @@
+<mat-toolbar style="position: fixed;width: 100%;z-index: 567890;margin-left: -150px;background: #2e3345;" class="tool">
+    <span>{{instituteName}} - {{instituteId}}</span>
+    <div class="spacer"></div>
+    <form autocomplete="off" #form="ngForm">
+        <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
+            [ngClass]="{'has-focus': isResultDisplayed}" (focus)="triggerSearchBox($event)" autocomplete="off"
+            placeholder="Search here..." class="search-input searchbox form-ctrl-head search-item searchBox">
+    </form>
+
+    <a mat-button>New</a>
+    <a mat-button>Help</a>
+    <a mat-button>Settings</a>
+    <a mat-button>Photo</a>
+
+
+</mat-toolbar>
+<section class="search-dropdown search-item" #seachResult>
+    <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
+        [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)"
+        (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
+        (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
+    </search-box>
+</section>
+<!-- <div style="background: lightblue;height: 50px;width: 100%;">
+    <span>My Application</span>
+</div> -->

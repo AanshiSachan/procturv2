@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { HttpService } from '../../../..';
 import { AppComponent } from '../../../../app.component';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ManageBatchService } from '../../../../services/course-services/manage-batch.service';
 
@@ -15,11 +17,12 @@ export class ManageBatchComponent implements OnInit {
   batchesListDataSource: any = [];
   tableData: any = [];
   courseList: any = [];
+  institute_id: any = sessionStorage.getItem('institution_id');
   studentListDataSource: any = [];
   studentList: any = [];
   searchedData: any = [];
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5,0];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0];
   academicList: any = [];
   feeTemplateDataSource: any = [];
   dataTable: any = [];
@@ -58,25 +61,30 @@ export class ManageBatchComponent implements OnInit {
     start_date: '',
     end_date: '',
     is_active: true,
-    academic_year_id:'-1',
+    academic_year_id: '-1',
     is_exam_grad_feature: false
   }
+  fullResponse: any = [];
+  role_feature = role.features;
 
 
 
   constructor(
     private apiService: ManageBatchService,
     private toastCtrl: AppComponent,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
+    private _http: HttpService
   ) { }
 
   ngOnInit() {
     this.checkTabSelection();
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.getAllBatchesList()
-    this.getMasterCourseList();
+    // this.getMasterCourseList();
+    this.getMasterCourseKey();
     this.getAllClassRoom();
-    this.getAllTeacherList();
+    // this.getAllTeacherList();
+    this.getAllTeacherListNew();
     this.getAcademicYearDetails();
   }
 
@@ -104,10 +112,12 @@ export class ManageBatchComponent implements OnInit {
     this.auth.showLoader();
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
+    rowDetails.end_date = moment(rowDetails.end_date).format('YYYY-MM-DD');
     this.apiService.getBatchDetailsForEdit(rowDetails.batch_id).subscribe(
       data => {
         //console.log(data);
         this.editRowDetails = data;
+        this.editRowDetails.end_date = moment(this.editRowDetails.end_date).format('YYYY-MM-DD');
         this.onMasterCourseSelection(data.standard_id);
         this.auth.hideLoader();
       },
@@ -149,15 +159,15 @@ export class ManageBatchComponent implements OnInit {
     }
   }
 
- // set default template and set 
- setDefaultTemplate(country_id, templates, data) {
-  templates[country_id] && templates[country_id].forEach(object => {
-    if (object.is_default == 'Y'&& data.assigned_fee_template_id == -1) {
-      data.assigned_fee_template_id = object.template_id;
-    }
-  });
-  return templates[country_id];
-}
+  // set default template and set 
+  setDefaultTemplate(country_id, templates, data) {
+    templates[country_id] && templates[country_id].forEach(object => {
+      if (object.is_default == 'Y' && data.assigned_fee_template_id == -1) {
+        data.assigned_fee_template_id = object.template_id;
+      }
+    });
+    return templates[country_id];
+  }
 
   getAllClassRoom() {
     this.auth.showLoader();
@@ -188,6 +198,20 @@ export class ManageBatchComponent implements OnInit {
       }
     )
   }
+  getAllTeacherListNew() {
+    let url = "/api/v1/teachers/teacher-list/" + this.institute_id + '?is_active=Y';
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.teacherList = data.result;
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
 
   getMasterCourseList() {
     this.auth.showLoader();
@@ -204,6 +228,20 @@ export class ManageBatchComponent implements OnInit {
     )
   }
 
+  getMasterCourseKey() {
+    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + '?is_active=Y&is_subject_required=true';
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.courseList = data.result;
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
   onMasterCourseSelection(data) {
     this.auth.showLoader();
     this.addNewBatch.subject_id = '-1';
@@ -228,7 +266,14 @@ export class ManageBatchComponent implements OnInit {
       return;
     }
   }
+  onMasterCourseSelectionNew(data) {
+    for (let i = 0; i < this.courseList.length; i++) {
+      if (data == this.courseList[i].standard_id) {
+        this.subjectList = this.courseList[i].subject_list;
+      }
+    }
 
+  }
 
   addNewBatchToList() {
     if (this.addNewBatch.standard_id != '-1') {
@@ -272,6 +317,8 @@ export class ManageBatchComponent implements OnInit {
                     )
                   }
                   else {
+                    this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("YYYY-MM-DD");
+                    this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
                     this.messageToast('error', '', 'Provide valid details of Start Date');
                     return;
                   }
@@ -321,7 +368,7 @@ export class ManageBatchComponent implements OnInit {
       is_active: rowDetails.is_active,
       isStudentToBeInactivated: this.editRowDetails.isStudentToBeInactivated,
       class_room_id: this.editRowDetails.class_room_id,
-      academic_year_id:this.editRowDetails.academic_year_id
+      academic_year_id: this.editRowDetails.academic_year_id
     };
     if (dataToSend.start_date > dataToSend.end_date) {
       this.messageToast('error', '', 'Provide valid dates.');
@@ -373,7 +420,7 @@ export class ManageBatchComponent implements OnInit {
       start_date: '',
       end_date: '',
       is_active: true,
-      academic_year_id:'-1',
+      academic_year_id: '-1',
       is_exam_grad_feature: false
     }
 
@@ -670,7 +717,7 @@ export class ManageBatchComponent implements OnInit {
       if (permissionArray == "" || permissionArray == null) {
         return false;
       }
-      else if (permissionArray.indexOf('401') != -1) {
+      else if (!this.role_feature.SETUP_MENU) {
         return false;
       }
       else {

@@ -1,16 +1,21 @@
+
+import {timer as observableTimer,  Observable } from 'rxjs';
+
+import {map, take} from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { LoginAuth } from '../../../model/login-auth';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+// import { setTimeout } from 'timers';
 declare var $;
 @Component({
   selector: 'app-login-page',
@@ -20,9 +25,9 @@ declare var $;
 export class LoginPageComponent implements OnInit, OnDestroy {
 
   /* Variable Declaration */
-  @ViewChild('viewChange') changeView: ElementRef;
-  @ViewChild('backgroundChange') backgroundChange: ElementRef;
-  @ViewChild('virtualStyle') virtualStyle: ElementRef;
+  @ViewChild('viewChange',{static: true}) changeView: ElementRef;
+  @ViewChild('backgroundChange',{static: true}) backgroundChange: ElementRef;
+  @ViewChild('virtualStyle',{static: true}) virtualStyle: ElementRef;
   loginDataForm: LoginAuth;
   selectedCourseNames = [];
   courses: any = [];
@@ -99,6 +104,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   single_login_login_check = false;
   multiWindowLogin: boolean = false;
   isKominaInstitute: boolean = false;
+  Role_features: role = new role();
   constructor(
     private login: LoginService,
     private route: Router,
@@ -313,6 +319,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.alternateLoginFailure(res.login_error_message);
         break;
       case 3:
+        // Developed by Nalini - to add session for school model
+        sessionStorage.setItem('is_institute_type_school', res.data.is_institute_type_school);
         this.setAuthToken(res.data, res.device_id);
         this.alternateLoginSuccess(res);
         break;
@@ -330,6 +338,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         break;
       case 11:
         this.registeredDeviceNotFount(res);
+        break;
+      case 12:
+        this.setAuthToken(res.data, res.device_id);
+        this.alternateLoginSuccess(res);
         break;
     }
   }
@@ -456,6 +468,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+      // Developed by Nalini - to add session for school model
+      sessionStorage.setItem('is_institute_type_school', institute_data.is_institute_type_school);
       let type = sessionStorage.getItem('source');
       if (institute_data.userType != '1' && institute_data.userType != '99') {
         let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
@@ -474,6 +488,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
           this.auth.changeAuthenticationKey(Authorization);
         }
+      }
+      if (res.data.permission_id_list == undefined || res.data.permission_id_list == undefined || res.data.permission_id_list == null) {
+        sessionStorage.setItem('permissions', '');
+        this.login.changePermissions('');
+        this.Role_features.checkPermissions();
+      }
+      else {
+        sessionStorage.setItem('permissions', JSON.stringify(res.data.permission_id_list));
+        this.login.changePermissions(JSON.stringify(res.data.permission_id_list));
+        this.Role_features.checkPermissions();
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
       this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
@@ -550,6 +574,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('institute_setup_type', institute_data.institute_setup_type);
       sessionStorage.setItem('enable_elearn_course_mapping_feature', institute_data.enable_elearn_course_mapping_feature);
       sessionStorage.setItem('enable_eLearn_feature', institute_data.enable_eLearn_feature);
+      sessionStorage.setItem('enable_expense_management', institute_data.enable_expense_management);
       sessionStorage.setItem('website_url', institute_data.website_url);
       sessionStorage.setItem('enable_fee_template_country_wise', institute_data.enable_fee_template_country_wise);
       sessionStorage.setItem('tax_type_without_percentage', institute_data.tax_type);
@@ -570,21 +595,22 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('terms_and_condition_url', institute_data.terms_and_condition_url);
       sessionStorage.setItem('privacy_policy_url', institute_data.privacy_policy_url);
       sessionStorage.setItem('deviceId', this.serverUserData.device_id);
+      sessionStorage.setItem('login_option', res.login_option);
+      sessionStorage.setItem('payment_amount', res.payment_amount);
+      sessionStorage.setItem('payment_due_date', res.payment_due_date);
       sessionStorage.setItem('distinct_device_login', institute_data.distinct_device_login);
       sessionStorage.setItem('single_device', institute_data.single_device_login);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
-      sessionStorage.setItem('enable_online_assignment_feature', institute_data.enable_online_assignment_feature);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
 
-      if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
-        sessionStorage.setItem('permissions', '');
-        this.login.changePermissions('');
-      }
-      else {
-        sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
-        this.login.changePermissions(JSON.stringify(res.data.permissions.split(',')));
-      }
-
+      //Storing the session value 
+      // Added by Ashwini Kumar Gupta
+      sessionStorage.setItem('login_option', res.login_option);
+      sessionStorage.setItem('payment_amount', res.payment_amount);
+      sessionStorage.setItem('payment_due_date', res.payment_due_date);
+      // End
+      sessionStorage.setItem('enable_online_assignment_feature', institute_data.enable_online_assignment_feature);
+      sessionStorage.setItem('teacherIDs', res.data.teacherId);
 
       if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
         this.createTablePreferences();
@@ -597,7 +623,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        this.gotoStudentPortal();
       }
       else if (sessionStorage.getItem('userType') == '5') {
         sessionStorage.setItem('student_id', res.data.parentStudentList[0].student_id);
@@ -606,7 +633,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+        this.gotoStudentPortal();
       }
       else if (sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
         && institute_data.courseType == "") {
@@ -660,13 +688,79 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   gotoStudentPortal() {
-    if (sessionStorage.getItem('testprepEnabled') != 'false') {
+    let examDeskCheck = this.checkInstSetupType(sessionStorage.getItem('institute_setup_type'), 4)
+    if (examDeskCheck != 'false') {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
-    }
-    else {
+    } else if(sessionStorage.getItem('enable_eLearn_feature') == '1') {
+      window.location.href = this.baseUrl + "/sPortal/dashboard.html#/ElearnDashboard";
+    } else {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Documents";
     }
 
+  }
+//  Developed by Nalini
+// To check is exam desk is enable for student or not
+  checkInstSetupType(value, role){
+    if (value && value != 0 && value!='undefined') {
+      var start = 2;
+      var count = 1;
+      while (start != value) {
+        count++;
+        start = start + 2;
+      }
+      var arr = [0, 0, 0, 0, 0, 0, 0, 0];
+      var s = count.toString(2);
+      var k = 0;
+      for (var i = s.length - 1; i >= 0; i--) {
+        arr[k] = parseInt(s.charAt(i));
+        k++;
+      }
+
+      switch (role) {
+        case 2:
+          if (arr[0] == 1)
+            return 'true';
+          break;
+
+        case 4:
+          if (arr[1] == 1)
+            return 'true';
+          break;
+
+        case 8:
+          if (arr[2] == 1)
+            return 'true';
+          break;
+
+        case 16:
+          if (arr[3] == 1)
+            return 'true';
+          break;
+        case 32:
+          if (arr[4] == 1)
+            return 'true';
+          break;
+        case 64:
+          if (arr[5] == 1)
+            return 'true';
+          break;
+
+        case 128:
+          if (arr[6] == 1)
+            return 'true';
+          break;
+        case 256:
+          if (arr[7] == 1)
+            return 'true';
+          break;
+        default: return 'false';
+      }
+      return 'false';
+
+    }
+    else {
+      return 'false';
+    }
   }
 
   toggleCheckbox(course, data) {
@@ -729,9 +823,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.otpVerificationInfo.userid = res.userid;
     this.isLoginView = false;
     this.showOTPValidationModal();
-    this.countDown = Observable.timer(0, 1000)
-      .take(this.counter)
-      .map(() => --this.counter);
+    this.countDown = observableTimer(0, 1000).pipe(
+      take(this.counter),
+      map(() => --this.counter),);
   }
   //END - 6
 
@@ -892,7 +986,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-          window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          this.gotoStudentPortal();
         }
         else if (sessionStorage.getItem('userType') == '5' && this.serverUserData) {
           // sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
@@ -904,12 +999,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-          window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          // window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+          this.gotoStudentPortal();
         }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
       else {
-        setTimeout(this.reCheckLogin(), 3000);
+        setTimeout(()=>{
+          this.reCheckLogin();
+        },1000);
       }
     });
   }

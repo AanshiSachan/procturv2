@@ -35,8 +35,9 @@
 }
 
 .action-bar {
-  border-bottom: 1pt solid #ddd;
-  padding: 0.5em 0;
+  border-bottom: 1px solid lightgrey;
+  // padding: 0.5em 0;
+  padding-bottom: 12px;
   // background: #fafafa;
 
   .container {
@@ -351,8 +352,8 @@
   }
 }
 
-::ng-deep bs-datepicker-container,
-bs-daterangepicker-container {
+::ng-deep .bs-datepicker-container,
+.bs-daterangepicker-container {
   margin-left: 5% !important;
 }
 
@@ -369,6 +370,9 @@ bs-daterangepicker-container {
     text-align: left;
     padding: 7px;
     border: 1px solid #ccc;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    margin-bottom: 5px;
+    margin-top: 5px;
     border-radius: 6px;
     border-left: 5px solid #e0eaec;
     .heading-item {
@@ -381,8 +385,8 @@ bs-daterangepicker-container {
   .value-outer-container {
     display: flex;
     flex-direction: column;
-    min-height: 60vh;
-    max-height: 60vh;
+    min-height: 47vh;
+    max-height: 47vh;
     overflow-x: hidden;
     overflow-y: auto;
     border: 1px solid #ccc;
@@ -437,3 +441,65 @@ bs-daterangepicker-container {
   color: white;
   background: #0084f6;
 }
+.fa-link{
+  display: block;
+        cursor: pointer;
+}
+
+.mess{
+  position: absolute;
+  margin-top: -25px;
+  border: 1px solid lightgrey;
+  background: lightgrey;
+  border-radius: 4px;
+  padding: 2px;
+}
+#helpFAQ{
+  .modal-dialog{
+     width: 800px;
+   }
+   .modal-body{
+     height: 450px;
+     overflow-y: auto;
+   }
+   ul, ol {
+     list-style-type: decimal;
+     padding-left: 20px;
+     margin-top: 0px;
+     font-size: 14px;
+    //  font-weight: 600;
+     margin-bottom: 10px;
+     li{
+       margin-bottom: 5px;
+     }
+   }
+   ul{
+     color: gray;
+     list-style-type: disc;
+   }
+   .new-modules-list{
+     margin-bottom: 20px;
+   }
+   .module-title{
+     text-transform: uppercase;
+     width: 100%;
+     font-size: 14px;
+     font-weight: 600;
+     padding-bottom: 10px;
+     margin-bottom: 10px;
+     span{
+       background: #00b55a;
+       padding: 5px 20px;
+       color: white;
+       border-radius: 4px;
+       font-size: 12px;
+     }
+   }
+   .old span{
+     background: #ff6c24;
+   }
+ }
+
+ .leftCol{
+  font-weight: 600;
+ }

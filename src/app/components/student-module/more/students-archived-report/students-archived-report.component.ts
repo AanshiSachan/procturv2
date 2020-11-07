@@ -131,7 +131,7 @@ export class StudentsArchivedReportComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "69vh"
+      height: "60vh"
     }
 
     this.rowColumns = [
@@ -208,7 +208,7 @@ export class StudentsArchivedReportComponent implements OnInit {
 
   showDownloadDetails() {
     this.stdetchForm = {
-      from_date: moment().format("YYYY-MM-01"),
+      from_date: moment().format("YYYY-MM-DD"),
       to_date: moment(new Date()).format('YYYY-MM-DD')
     }
     $("#actionProductModal").modal({
@@ -224,10 +224,12 @@ export class StudentsArchivedReportComponent implements OnInit {
 
 
   fetchArchivedListDetails() {
+    let from_date = this.stdetchForm.from_date;
+    let to_date = this.stdetchForm.to_date;
     let url = "/api/v1/reports/StdFee/archived_inactive?institute_id=" + sessionStorage.getItem('institute_id');
     if ((this.stdetchForm.to_date != '' && this.stdetchForm.from_date != '')) {
-      url = url + '&&from_date=' + moment(this.stdetchForm.from_date).format('YYYY-MM-DD');
-      url = url + '&&to_date=' + moment(this.stdetchForm.to_date).format('YYYY-MM-DD');
+      url = url + '&&from_date=' + moment(from_date).format('YYYY-MM-DD');
+      url = url + '&&to_date=' + moment(to_date).format('YYYY-MM-DD');
     }
     this.auth.showLoader();
     this._http.getData(url).subscribe((res: any) => {

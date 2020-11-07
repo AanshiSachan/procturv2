@@ -8,7 +8,9 @@ import { TeacherPerformanceComponent } from './teacher-performance/teacher-perfo
 
 import { ExamReportRoutingModule } from './exam-report-routing.module';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { BsDatepickerModule, TimepickerModule, TooltipModule } from 'ngx-bootstrap-custome';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import {TimepickerModule} from 'ngx-bootstrap/timepicker';
+import {TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
@@ -28,7 +30,7 @@ import { ClassScheduleService } from '../../../../services/course-services/class
     MenuModule,
     SharedModule,
     TooltipModule.forRoot(),
-    BsDatepickerModule,
+    // BsDatepickerModule,
     TimepickerModule
   ],
   declarations: [

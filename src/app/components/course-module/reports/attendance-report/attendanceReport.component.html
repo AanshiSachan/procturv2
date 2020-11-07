@@ -1,20 +1,20 @@
-<div class="clear-fix">
+<div class="clear-fix" style="padding-right: 2%;">
     <aside class="middle-full">
         <section class="middle-main clearFix attendance-container">
 
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
-                  <a routerLink="/view/course" *ngIf="!isProfessional">
-                      Course
-                  </a>
-                  <a routerLink="/view/batch" *ngIf="isProfessional">
-                    Batch
-                </a>
-                  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-                  <a routerLink="/view/course/reports">
-                      Reports
-                  </a>
-                  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Attendance Report
+                    <a routerLink="/view/course" *ngIf="!isProfessional">
+                        Course
+                    </a>
+                    <a routerLink="/view/batch" *ngIf="isProfessional">
+                        Batch
+                    </a>
+                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                    <a routerLink="/view/course/reports">
+                        Reports
+                    </a>
+                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Attendance Report
                 </h2>
                 <aside class="pull-right">
                 </aside>
@@ -26,18 +26,21 @@
                     <!-- Master Course / Standard  -->
                     <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
-                            <label>Master Course</label>
+                            <!-- changes by Nalini - to handle school model conditions -->
+                            <label>{{schoolModel ? 'Standard' : 'Master Course'}}</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name" (ngModelChange)="getCourseData($event)"
                                 name="masterCourse">
                                 <option value=-1></option>
-                                <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
+                                <option *ngFor="let i of masterCourses" [value]="i">{{i}}</option>
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf=isProfessional>
                             <label>Master Course</label>
-                            <select class="side-form-ctrl" [(ngModel)]="queryParams.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+                            <select class="side-form-ctrl" [(ngModel)]="queryParams.standard_id"
+                                (ngModelChange)="getCourseData($event)" name="masterCourse">
                                 <option value=-1></option>
-                                <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">{{i.standard_name}}</option>
+                                <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">{{i.standard_name}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -45,18 +48,21 @@
                     <!-- Standard/ Subject -->
                     <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
-                            <label> Course</label>
+                            <label> {{schoolModel ? 'Section' : 'Course'}}</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.course_id" (ngModelChange)="getSubjectData($event)">
                                 <option value=-1></option>
-                                <option *ngFor="let i of courses" [value]="i.course_id" name="subjectCourse">{{i.course_name}}</option>
+                                <option *ngFor="let i of courses" [value]="i.course_id" name="subjectCourse">
+                                    {{i.course_name}}</option>
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf="isProfessional">
                             <label> Course</label>
 
-                            <select class="side-form-ctrl" [(ngModel)]="queryParams.subject_id" (ngModelChange)="getSubjectData($event)">
+                            <select class="side-form-ctrl" [(ngModel)]="queryParams.subject_id"
+                                (ngModelChange)="getSubjectData($event)">
                                 <option value=-1></option>
-                                <option *ngFor="let i of subjectPro" [value]="i.subject_id" name="subjectCourse">{{i.subject_name}}</option>
+                                <option *ngFor="let i of subjectPro" [value]="i.subject_id" name="subjectCourse">
+                                    {{i.subject_name}}</option>
                             </select>
                         </div>
 
@@ -65,16 +71,20 @@
                     <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label>Subject</label>
-                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.batch_id" (ngModelChange)="getBatchData($event)">
+                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.batch_id"
+                                (ngModelChange)="getBatchData($event)">
                                 <option value=-1></option>
-                                <option *ngFor="let i of batchCourses" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
+                                <option *ngFor="let i of batchCourses" [value]="i.batch_id" name="batchCourse">
+                                    {{i.batch_name}}</option>
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf=isProfessional>
                             <label>Batch Name</label>
-                            <select class="side-form-ctrl" [(ngModel)]="queryParams.batch_id" (ngModelChange)="isShowDownloadReport()">
+                            <select class="side-form-ctrl" [(ngModel)]="queryParams.batch_id"
+                                (ngModelChange)="isShowDownloadReport()">
                                 <option value=-1></option>
-                                <option *ngFor="let i of batchPro" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
+                                <option *ngFor="let i of batchPro" [value]="i.batch_id" name="batchCourse">
+                                    {{i.batch_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -86,15 +96,16 @@
                     <div class="c-lg-4">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.from_date" (ngModelChange)="futureDateValid($event)"
-                                bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker"
+                                [(ngModel)]="attendanceFetchForm.from_date" (ngModelChange)="futureDateValid($event)"
+                                bsDatepicker />
                             <i style="float:right; color:blue;" (click)="clearFromDate()" class="showCursor">Clear</i>
                         </div>
 
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" (ngModelChange)="futureDateValid($event)"
-                                bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date"
+                                (ngModelChange)="futureDateValid($event)" bsDatepicker />
                             <i style="float:right; color:blue;" (click)="clearFromDate()" class="showCursor">Clear</i>
                         </div>
                     </div>
@@ -102,15 +113,16 @@
                     <div class="c-lg-4">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.to_date" (ngModelChange)="futureDateValid($event)"
-                                bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker"
+                                [(ngModel)]="attendanceFetchForm.to_date" (ngModelChange)="futureDateValid($event)"
+                                bsDatepicker />
                             <i style="float:right;  color:blue;" (click)="clearToDate()" class="showCursor">Clear</i>
                         </div>
 
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" (ngModelChange)="futureDateValid($event)"
-                                bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date"
+                                (ngModelChange)="futureDateValid($event)" bsDatepicker />
                             <i style="float:right;  color:blue;" (click)="clearToDate()" class="showCursor">Clear</i>
                         </div>
                     </div>
@@ -135,10 +147,12 @@
                                 <div class="c-lg-6 outer-btn">
                                     <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
                                 </div>
-                            </div>
+                            </div>                            
                             <div *ngIf="showDownloadReport">
                                 <div class="c-lg-6 outer-btn" style="padding-right: 0;">
-                                    <button class="btn fullBlue" (click)="downloadReport()" style="background: #fff;color: #0084f6;"><i class="fa fa-download"> </i> PDF</button>
+                                    <button class="btn fullBlue" (click)="downloadReport()"
+                                        style="background: #fff;color: #0084f6;"><i class="fa fa-download"> </i>
+                                        PDF</button>
                                     <a id="downloadFileClick"></a>
                                 </div>
                             </div>
@@ -152,25 +166,30 @@
             <div class="table-body" *ngIf="SummaryReports">
                 <div class="filter-box clearFix" *ngIf="isProfessional">
                     <div id="basic-search" class="search-filter-wrapper">
-                        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
+                            name="searchData" (keyup)="searchDatabase()">
                     </div>
                 </div>
                 <div class="filter-box clearFix" *ngIf="!isProfessional">
                     <div id="basic-search" class="search-filter-wrapper">
-                        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
+                            name="searchData" (keyup)="searchDatabase()">
                     </div>
                 </div>
                 <div class="table-content">
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
-                            <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings"
-                                [dataStatus]="dataStatus" [sortingEnabled]="sortingEnabled" [columnMap]="columnMaps" [dummyArr]="dummyArr"
-                                [direction]="direction" [loaderState]="auth.isRippleLoad.getValue()">
+                            <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'"
+                                [settings]="projectSettings" [dataStatus]="dataStatus" [sortingEnabled]="sortingEnabled"
+                                [columnMap]="columnMaps" [dummyArr]="dummyArr" [direction]="direction"
+                                [loaderState]="auth.isRippleLoad.getValue()">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
-                            <proctur-table [records]="pagedPostDataPro" [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
-                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction" [sortingEnabled]="sortingEnabled" [loaderState]="auth.isRippleLoad.getValue()">
+                            <proctur-table [records]="pagedPostDataPro" [tableName]="'sms'" [settings]="projectSettings"
+                                [dataStatus]="dataStatus" [columnMap]="columnMaps" (sortData)="sortedData($event)"
+                                [dummyArr]="dummyArr" [direction]="direction" [sortingEnabled]="sortingEnabled"
+                                [loaderState]="auth.isRippleLoad.getValue()">
                             </proctur-table>
 
                         </div>
@@ -178,8 +197,9 @@
                     <!-- Paginator Here -->
                     <div class="row filter-res pagination" style="width: 100%;">
                         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                                [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+                                (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex"
+                                [perPage]="pagedisplaysize" [count]="totalRow">
                             </pagination>
                         </div>
                     </div>
@@ -197,11 +217,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                 <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                     <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                            transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                            transform="translate(978.81 305.77) rotate(45)" />
                     </g>
-                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                    />
+                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16"
+                        height="16" transform="translate(1012 297)" />
                 </g>
             </svg>
         </span>
@@ -215,7 +237,8 @@
             <h5>({{attendanceIndex0Pro.class_date}} to {{attendanceIndexiOfPro.class_date}})</h5>
         </div>
         <div popup-content class="main-student-table" *ngIf=!isProfessional>
-            <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
+            <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;"
+                (click)="DownloadJsonToCsv()"></a>
             <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table madeAttendance">
@@ -377,15 +400,17 @@
             </div>
             <div class="row filter-res pagination" style="width: 100%;" *ngIf=!isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()" (goPrev)="fetchPreviousPopup()"
-                        [pagesToShow]="10" [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
+                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()"
+                        (goPrev)="fetchPreviousPopup()" [pagesToShow]="10" [page]="PageIndexPopup"
+                        [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
                     </pagination>
                 </div>
             </div>
         </div>
 
         <div popup-content class="main-student-table" *ngIf=isProfessional>
-            <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
+            <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;"
+                (click)="DownloadJsonToCsv()"></a>
             <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table madeAttendance">
@@ -540,8 +565,9 @@
             </div>
             <div class="row filter-res pagination" style="width: 100%;" *ngIf=isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()" (goPrev)="fetchPreviousPopup()"
-                        [pagesToShow]="10" [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
+                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()"
+                        (goPrev)="fetchPreviousPopup()" [pagesToShow]="10" [page]="PageIndexPopup"
+                        [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
                     </pagination>
                 </div>
             </div>

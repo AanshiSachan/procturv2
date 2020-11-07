@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+// import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import { SharedModule } from '../shared/shared.module';
@@ -26,7 +26,7 @@ import { MastersService } from '../../services/library/master/masters.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     FileUploadModule,
     SplitButtonModule,
     CommonModule,

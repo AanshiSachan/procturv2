@@ -2,11 +2,12 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { WidgetService } from '../../../services/widget.service';
 import { AppComponent } from '../../../app.component';
 import { ProductService } from '../../../services/products.service';
+import { role } from '../../../model/role_features';
 
 declare var $;
 
@@ -17,7 +18,7 @@ declare var $;
 })
 export class CoummunicateHomeComponent implements OnInit {
 
-  @ViewChild('ref') private ref: ElementRef;
+  @ViewChild('ref',{static: false}) private ref: ElementRef;
 
   permissions: any;
   showSMSReport: boolean = false;
@@ -69,6 +70,8 @@ export class CoummunicateHomeComponent implements OnInit {
   allChecked: boolean = true;
   searchData: string = "";
   openAppUserSelected = false;
+  role_feature = role.features;
+  schoolModel: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -87,13 +90,15 @@ export class CoummunicateHomeComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.userType = Number(sessionStorage.getItem('userType'));
     this.permissionArray = sessionStorage.getItem('permissions');
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        this.showSMSReport = this.permissions.includes('206') ? true : false;//sms visiblity
-        this.showEmailReport = this.permissions.includes('207') ? true : false; //email visiblity
+        this.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
       }
     }
     else {
@@ -147,10 +152,18 @@ export class CoummunicateHomeComponent implements OnInit {
   }
   fetchDataOnBatchBasis(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
+      let ele:any = document.getElementById("chkBoxActiveSelection") as HTMLInputElement;
+      ele.checked = false;
+      let ele1:any = document.getElementById("chkBoxTutorSelection") as HTMLInputElement;
+      ele1.checked = false;
+      let ele2:any = document.getElementById("chkBoxInActiveSelection") as HTMLInputElement;
+      ele2.checked = false;
+      let ele3:any = document.getElementById("chkBoxAluminiSelection") as HTMLInputElement;
+      ele3.checked = false;
+      // document.getElementById('chkBoxActiveSelection').checked = false;
+      // document.getElementById('chkBoxTutorSelection').checked = false;
+      // document.getElementById('chkBoxInActiveSelection').checked = false;
+      // document.getElementById('chkBoxAluminiSelection').checked = false;
     }
     if (this.sendNotification.batch_id == "-1") {
       this.showTableFlag = false;
@@ -170,11 +183,22 @@ export class CoummunicateHomeComponent implements OnInit {
 
   onMasterCourseChange(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
-      document.getElementById('chkBoxOpenAppSelection').checked = false;
+      
+      let ele:any = document.getElementById("chkBoxActiveSelection") as HTMLInputElement;
+      ele.checked = false;
+      let ele1:any = document.getElementById("chkBoxTutorSelection") as HTMLInputElement;
+      ele1.checked = false;
+      let ele2:any = document.getElementById("chkBoxInActiveSelection") as HTMLInputElement;
+      ele2.checked = false;
+      let ele3:any = document.getElementById("chkBoxAluminiSelection") as HTMLInputElement;
+      ele3.checked = false;
+      let ele4:any = document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement;
+      ele4.checked = false;
+      // document.getElementById('chkBoxActiveSelection').checked = false;
+      // document.getElementById('chkBoxTutorSelection').checked = false;
+      // document.getElementById('chkBoxInActiveSelection').checked = false;
+      // document.getElementById('chkBoxAluminiSelection').checked = false;
+      // document.getElementById('chkBoxOpenAppSelection').checked = false;
       this.openAppUserSelected = false;
     }
     this.flushData();
@@ -196,10 +220,18 @@ export class CoummunicateHomeComponent implements OnInit {
 
   onMasterCourseSelection(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
+      let ele:any = document.getElementById("chkBoxActiveSelection") as HTMLInputElement;
+      ele.checked = false;
+      let ele1:any = document.getElementById("chkBoxTutorSelection") as HTMLInputElement;
+      ele1.checked = false;
+      let ele2:any = document.getElementById("chkBoxInActiveSelection") as HTMLInputElement;
+      ele2.checked = false;
+      let ele3:any = document.getElementById("chkBoxAluminiSelection") as HTMLInputElement;
+      ele3.checked = false;
+      // document.getElementById('chkBoxActiveSelection').checked = false;
+      // document.getElementById('chkBoxTutorSelection').checked = false;
+      // document.getElementById('chkBoxInActiveSelection').checked = false;
+      // document.getElementById('chkBoxAluminiSelection').checked = false;
     }
     this.batchList = [];
     this.courseList = [];
@@ -212,10 +244,18 @@ export class CoummunicateHomeComponent implements OnInit {
 
   onCourseSelection(event) {
     if (this.userType != 3) {
-      document.getElementById('chkBoxActiveSelection').checked = false;
-      document.getElementById('chkBoxTutorSelection').checked = false;
-      document.getElementById('chkBoxInActiveSelection').checked = false;
-      document.getElementById('chkBoxAluminiSelection').checked = false;
+      let ele:any = document.getElementById("chkBoxActiveSelection") as HTMLInputElement;
+      ele.checked = false;
+      let ele1:any = document.getElementById("chkBoxTutorSelection") as HTMLInputElement;
+      ele1.checked = false;
+      let ele2:any = document.getElementById("chkBoxInActiveSelection") as HTMLInputElement;
+      ele2.checked = false;
+      let ele3:any = document.getElementById("chkBoxAluminiSelection") as HTMLInputElement;
+      ele3.checked = false;
+      // document.getElementById('chkBoxActiveSelection').checked = false;
+      // document.getElementById('chkBoxTutorSelection').checked = false;
+      // document.getElementById('chkBoxInActiveSelection').checked = false;
+      // document.getElementById('chkBoxAluminiSelection').checked = false;
     }
     this.showTableFlag = false;
     this.batchList = [];
@@ -323,8 +363,10 @@ export class CoummunicateHomeComponent implements OnInit {
   //Done changes in getNotificationMessage function for differeniating sms and email message type
   getNotificationMessage() {
     let count = 0;
-    let sms = document.getElementById('chkbxSmsSend').checked;
-    let email = document.getElementById('chkbxEmailSend').checked;
+    let sms:any = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let email:any =(document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
+    // let sms = document.getElementById('chkbxSmsSend').checked;
+    // let email = document.getElementById('chkbxEmailSend').checked;
     if (sms === true) {
       for (let t = 0; t < this.messageList.length; t++) {
         if (this.messageList[t].assigned == true) {
@@ -370,8 +412,10 @@ export class CoummunicateHomeComponent implements OnInit {
   // End
 
   getDeliveryModeValue() {
-    let sms = document.getElementById('chkbxSmsSend').checked;
-    let email = document.getElementById('chkbxEmailSend').checked;
+    let sms:any = (document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let email:any =(document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
+    // let sms = document.getElementById('chkbxSmsSend').checked;
+    // let email = document.getElementById('chkbxEmailSend').checked;
     if (sms == true && email == true) {
       return 2;
     } else if (sms == true && email == false) {
@@ -391,8 +435,11 @@ export class CoummunicateHomeComponent implements OnInit {
   }
 
   getDestinationValue() {
-    let student = document.getElementById('chkBoxStudent').checked;
-    let parent = document.getElementById('chkBoxParent').checked;
+    let student:any = (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
+    let parent:any =(document.getElementById("chkBoxParent") as HTMLInputElement).checked;
+    
+    // let student = document.getElementById('chkBoxStudent').checked;
+    // let parent = document.getElementById('chkBoxParent').checked;
     // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
     if (student == true && parent == false) {
       return 0;
@@ -439,10 +486,10 @@ export class CoummunicateHomeComponent implements OnInit {
       document.getElementById('sendToHead').classList.remove('hide');
     }
     if (document.getElementById('chkbxEmailSend')) {
-      document.getElementById('chkbxEmailSend').checked = false;
+      (document.getElementById('chkbxEmailSend') as HTMLInputElement).checked = false;
     }
     if (document.getElementById('sendLoginChkbx')) {
-      document.getElementById('sendLoginChkbx').checked = false;
+      (document.getElementById('sendLoginChkbx') as HTMLInputElement).checked = false;
     }
     this.showEmailSubject = false;
     if (div == "divSendMessage") {
@@ -453,8 +500,8 @@ export class CoummunicateHomeComponent implements OnInit {
       document.getElementById('divLoginMode').classList.remove('show');
       document.getElementById('divLoginMode').classList.add('hide');
       document.getElementById('liAdd').classList.remove('hide');
-      document.getElementById('chkbxEmailSend').checked = false;
-      if (document.getElementById('chkBoxTutorSelection').checked) {
+      (document.getElementById('chkbxEmailSend') as HTMLInputElement).checked = false;
+      if ((document.getElementById('chkBoxTutorSelection') as HTMLInputElement).checked) {
         document.getElementById('divParentOrGaurdian').classList.add('hide');
         document.getElementById('sendToHead').classList.add('hide');
       } else {
@@ -468,21 +515,21 @@ export class CoummunicateHomeComponent implements OnInit {
   }
 
   whichCheckBoxSelected() {
-    if (document.getElementById('chkBoxActiveSelection').checked) {
+    if ((document.getElementById('chkBoxActiveSelection') as HTMLInputElement).checked) {
       this.selectedOption = "showTable";
       return;
     } else {
       this.selectedOption = "";
     }
 
-    if (document.getElementById('chkBoxTutorSelection').checked) {
+    if ((document.getElementById('chkBoxTutorSelection') as HTMLInputElement).checked) {
       this.selectedOption = "showTutor";
       return
     } else {
       this.selectedOption = "";
     }
 
-    if (document.getElementById('chkBoxInActiveSelection').checked || document.getElementById('chkBoxAluminiSelection').checked || document.getElementById('chkBoxOpenAppSelection').checked) {
+    if ((document.getElementById('chkBoxInActiveSelection') as HTMLInputElement) .checked || (document.getElementById('chkBoxAluminiSelection') as HTMLInputElement).checked ||( document.getElementById('chkBoxOpenAppSelection') as HTMLInputElement).checked) {
       this.selectedOption = "showTextBox";
       return
     } else {
@@ -622,7 +669,7 @@ export class CoummunicateHomeComponent implements OnInit {
       }
     }
     let isAlumini = 0;
-    if (document.getElementById('chkBoxAluminiSelection').checked) {
+    if ((document.getElementById('chkBoxAluminiSelection') as HTMLInputElement).checked) {
       isAlumini = 1;
     }
 
@@ -797,8 +844,10 @@ export class CoummunicateHomeComponent implements OnInit {
     this.addNotification = true;
   }
   saveNewMessage() {
-    let sms = document.getElementById('chkbxSmsSend').checked;
-    let email = document.getElementById('chkbxEmailSend').checked;
+    let sms =(document.getElementById("chkbxSmsSend") as HTMLInputElement).checked;
+    let email = (document.getElementById("chkbxEmailSend") as HTMLInputElement).checked;
+    // let sms = document.getElementById('chkbxSmsSend').checked;
+    // let email = document.getElementById('chkbxEmailSend').checked;
     let src: any;
     if (sms == true) {
       src = "SMS";
@@ -1105,12 +1154,12 @@ export class CoummunicateHomeComponent implements OnInit {
 
   clearCheckBoxSelction(id) {
     this.searchData = "";
-    document.getElementById('chkBoxActiveSelection').checked = false;
-    document.getElementById('chkBoxTutorSelection').checked = false;
-    document.getElementById('chkBoxInActiveSelection').checked = false;
-    document.getElementById('chkBoxAluminiSelection').checked = false;
-    document.getElementById('chkBoxOpenAppSelection').checked = false;
-    document.getElementById(id).checked = true;
+    (document.getElementById("chkBoxActiveSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxTutorSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxInActiveSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxAluminiSelection") as HTMLInputElement).checked = false;
+    (document.getElementById("chkBoxOpenAppSelection") as HTMLInputElement).checked = false;
+    (document.getElementById(id) as HTMLInputElement).checked = true;
     this.openAppUserSelected = false;
   }
 
@@ -1125,7 +1174,7 @@ export class CoummunicateHomeComponent implements OnInit {
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxActiveSelection').checked) {
+          if ((document.getElementById('chkBoxActiveSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -1152,7 +1201,7 @@ export class CoummunicateHomeComponent implements OnInit {
       this.widgetService.getAllTeacherList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxTutorSelection').checked) {
+          if ((document.getElementById('chkBoxTutorSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -1180,7 +1229,7 @@ export class CoummunicateHomeComponent implements OnInit {
       this.widgetService.getAllInActiveList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxInActiveSelection').checked) {
+          if ((document.getElementById('chkBoxInActiveSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -1223,7 +1272,7 @@ export class CoummunicateHomeComponent implements OnInit {
           this.openAppUserSelected = true;
           this.auth.hideLoader();
           let response = res['body'];
-          if (document.getElementById('chkBoxOpenAppSelection').checked) {
+          if ((document.getElementById('chkBoxOpenAppSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(response.result, true);
           }
@@ -1251,7 +1300,7 @@ export class CoummunicateHomeComponent implements OnInit {
       this.widgetService.getAllAluminiList().subscribe(
         res => {
           this.auth.hideLoader();
-          if (document.getElementById('chkBoxAluminiSelection').checked) {
+          if ((document.getElementById('chkBoxAluminiSelection') as HTMLInputElement).checked) {
             this.showTableFlag = true;
             this.studentList = this.addKeys(res, true);
           }
@@ -1271,21 +1320,25 @@ export class CoummunicateHomeComponent implements OnInit {
   emailCheckBoxClick(event) {
     if (event.target.checked) {
       this.showEmailSubject = true;
-      document.getElementById('chkbxSmsSend').checked = false; //Added By AKG to check only one checkbox at a time
+     
+      (document.getElementById('chkbxSmsSend') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
       this.showEmailSubject = false;
-      document.getElementById('chkbxSmsSend').checked = true; //Added By AKG to check only one checkbox at a time
+      
+      (document.getElementById('chkbxSmsSend') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
   smsCheckBoxClick(event) {
     if (event.target.checked) {
       this.showEmailSubject = false;
-      document.getElementById('chkbxEmailSend').checked = false; //Added By AKG to check only one checkbox at a time
+      
+      (document.getElementById('chkbxEmailSend') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
       this.showEmailSubject = true;
-      document.getElementById('chkbxEmailSend').checked = true; //Added By AKG to check only one checkbox at a time
+      
+      (document.getElementById('chkbxEmailSend') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
 }

@@ -177,13 +177,18 @@ export class EnquiryEditComponent implements OnInit {
   maxlength: any = 10;
   country_id: any = null;
 
-  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
   addArea: boolean = false;
+  selectedData = {
+    country: '',
+    state: '',
+    city:''
+  };
 
+  permission: boolean = false;
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
@@ -266,63 +271,69 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
-  getStateList() {
-    const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
-    this.isRippleLoad = true;
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if (res.result.length > 0) {
-          this.stateList = res.result[0].stateList;
+  getStateList(){
+    if(this.editEnqData.country_id != ""){
+      const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.stateList = res.result[0].stateList;
+          }
+          if(this.editEnqData.state_id != ""){
+            this.getCityList();
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-        if (this.editEnqData.state_id != "") {
-          this.getCityList();
-        }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   // get city list as per state selection
-  getCityList() {
-    const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
-    this.isRippleLoad = true;
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if (res.result.length > 0) {
-          this.cityList = res.result[0].cityList;
-          if (this.editEnqData.city_id != "") {
-            this.getAreaList();
+  getCityList(){
+    if(this.editEnqData.state_id != "" && this.editEnqData.state_id != "-1"){
+      const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result.length > 0){
+            this.cityList = res.result[0].cityList;
+            if(this.editEnqData.city_id != ""){
+              this.getAreaList();
+            }
           }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   getAreaList() {
     // this.areaList = [];
-    this.isRippleLoad = true;
-    const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.isRippleLoad = false;
-        if (res.result && res.result.length > 0) {
-          this.areaList = res.result[0].areaList;
+    if(this.editEnqData.city_id != "" && this.editEnqData.city_id != "-1"){
+      this.auth.showLoader();
+      const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if(res.result&&res.result.length > 0){
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.showErrorMessage('error', '', err);
         }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.showErrorMessage('error', '', err);
-      }
-    )
+      )
+    }
   }
 
   toggleAddArea() {
@@ -331,6 +342,9 @@ export class EnquiryEditComponent implements OnInit {
     }
     else {
       this.addArea = true;
+      this.selectedData.country = this.editEnqData.country_id;
+      this.selectedData.state = this.editEnqData.state_id;
+      this.selectedData.city = this.editEnqData.city_id;
     }
   }
 
@@ -406,6 +420,13 @@ export class EnquiryEditComponent implements OnInit {
       data => {
         this.editEnqData = data;
         console.log(data);
+        this.editEnqData.enquiry_date = moment(data.enquiry_date).format("YYYY-MM-DD");
+        if(data.followUpDate) {
+        this.editEnqData.followUpDate = moment(data.followUpDate).format("YYYY-MM-DD");
+        }
+        if(data.walkin_followUpDate) {
+        this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("YYYY-MM-DD");
+        }
         // this.editEnqData.country_id = this.instituteCountryDetObj.country_id;
         this.countryDetails.forEach(element => {
           if (element.id == this.editEnqData.country_id) {
@@ -434,7 +455,7 @@ export class EnquiryEditComponent implements OnInit {
         }
 
         if (data.walkin_followUpDate != "" && data.walkin_followUpDate != "Invalid date" && data.walkin_followUpDate != null) {
-          this.editEnqData.walkin_followUpDate = data.walkin_followUpDate;
+          this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("YYYY-MM-DD");
         }
 
         if (data.walkin_followUpTime != "" && data.walkin_followUpTime != null && data.walkin_followUpTime != ": ") {
@@ -587,63 +608,66 @@ export class EnquiryEditComponent implements OnInit {
   FetchEnquiryPrefilledData() {
 
     this.prefill.getEnqStatus().subscribe(
-      data => { this.enqstatus = data; },
+      data => {
+        this.enqstatus = data;
+        console.log("data", data);
+      },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getEnqPriority().subscribe(
-      data => { this.enqPriority = data; },
+      data => { this.enqPriority = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getFollowupType().subscribe(
-      data => { this.enqFollowType = data },
+      data => { this.enqFollowType = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getAssignTo().subscribe(
-      data => { this.enqAssignTo = data; },
+      data => { this.enqAssignTo = data; console.log("data", data); },
       err => {
         // console.log(err);
       }
     );
 
     this.prefill.getEnqStardards().subscribe(
-      data => { this.enqStd = data; },
+      data => { this.enqStd = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getSchoolDetails().subscribe(
-      data => { this.school = data; },
+      data => { this.school = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getLeadSource().subscribe(
-      data => { this.sourceLead = data; },
+      data => { this.sourceLead = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getLeadReffered().subscribe(
-      data => { this.refferedBy = data; },
+      data => { this.refferedBy = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
     );
 
     this.prefill.getOccupation().subscribe(
-      data => { this.occupation = data; },
+      data => { this.occupation = data; console.log("data", data); },
       err => {
         //  console.log(err);
       }
@@ -652,6 +676,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(
       data => {
         this.lastDetail = data;
+        console.log("data", data);
         let createTime = new Date(data.enquiry_creation_datetime);
         this.lastUpdated = moment(createTime).fromNow();
       },
@@ -663,6 +688,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.getCityList().subscribe(
       data => {
         this.cityListDataSource = data;
+        console.log("data", data);
       },
       err => {
         //console.log(err);
@@ -1137,6 +1163,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
+    // this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format("YYYY-MM-DD");
     let phoneFlag = this.commonServiceFactory.phonenumberCheck(this.editEnqData.phone, this.maxlength, this.country_id);
     if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Please enter name', '');
@@ -1145,9 +1172,11 @@ export class EnquiryEditComponent implements OnInit {
     } else if (phoneFlag == false) {
       let msg = 'Enter '.concat(this.maxlength).concat(' Digit Contact Number');
       return this.showErrorMessage('error', msg, '');
-    } else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
-      return this.showErrorMessage('error', 'Please select enquiry date ', '');
-    } else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
+    }
+    // } else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
+    //   return this.showErrorMessage('error', 'Please select enquiry date ', '');
+    // } 
+    else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
       return this.showErrorMessage('error', 'Please select enquiry source', '');
     } else if (this.editEnqData.parent_phone != "" || this.editEnqData.parent_phone != null) {
       let parentPhoneCheck = this.commonServiceFactory.phonenumberCheck(this.editEnqData.parent_phone, this.maxlength, this.country_id);
@@ -1306,7 +1335,7 @@ export class EnquiryEditComponent implements OnInit {
       this.updateFormData.statusValue = res.statusValue;
       this.updateFormData.status = res.status;
       this.updateFormData.followUpDate = res.followUpDate;
-      this.updateFormData.commentDate = moment().format('YYYY-MM-DD');
+      this.updateFormData.commentDate = moment(res.commentDate).format('YYYY-MM-DD');
       if (res.comments != null) {
         this.updateFormComments = res.comments;
       }

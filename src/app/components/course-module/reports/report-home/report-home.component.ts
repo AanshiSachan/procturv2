@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class ReportHomeComponent implements OnInit {
     isShowExamReport: false
 
   }
+  role_feature = role.features;
   constructor(private auth: AuthenticatorService) { }
 
   ngOnInit() {
@@ -49,14 +51,14 @@ export class ReportHomeComponent implements OnInit {
       let perm: any[] = JSON.parse(permissions);
 
       /* attendance */
-      if (perm.indexOf('201') != -1 || perm.indexOf('101') != -1) {
-        this.JsonFlags.isShowAttendanceReport = true;        
+      if (this.role_feature.REPORT_COURSE_ATTENDANCE) {
+        this.JsonFlags.isShowAttendanceReport = true;
       }
 
-      if (perm.indexOf('203') != -1) {
+      if (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_COURSE_EXAM_DASHBOARD) {
         this.JsonFlags.isShowExamReport = true;
       }
-     
+
     }
   }
 

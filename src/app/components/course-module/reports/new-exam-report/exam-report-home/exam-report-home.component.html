@@ -1,4 +1,4 @@
-<div class="middle-section clear-fix">
+<div class="clear-fix" style="padding-right: 2%;">
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
       <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
@@ -28,7 +28,8 @@
         <div class="left-outer-container" *ngIf="!jsonFlag.isProfessional">
           <div class="left-item">
             <select class="header-select-box" name="" [(ngModel)]="mastercourse" (ngModelChange)="getExamReportForMasterCourse()">
-              <option value="-1">Select Master Course</option>
+              <!-- changes by Nalini - to handle school model conditions -->
+              <option value="-1">Select {{schoolModel ? '' : 'Master Course'}}</option>
               <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
             </select>
           </div>
@@ -36,7 +37,7 @@
             <div class="table-container">
               <div class="table-header-container">
                 <div class="header-item medium-item">
-                  <span>Course</span>
+                  <span>{{schoolModel ? 'Section' : 'Course'}}</span>
                 </div>
                 <div class="header-item large-item">
                   <span>Subject</span>
@@ -74,11 +75,13 @@
                     <span>{{report.total_marks_updated}}</span>
                   </div>
                   <div class="value-item small-item align-center">
-                    <button type="button" name="button" class="view-result-btn" (click)="routeTo(report.course_id)">View Result</button>
+                    <button type="button" name="button" class="view-result-btn" (click)="routeTo(report.course_id)">View
+                      Result</button>
                     <!-- routerLink='./courseWise/{{report.course_id}}' -->
                   </div>
                 </div>
-                <div class="table-value-container" *ngIf="masterCourseExamReportData?.length == 0" style="justify-content: flex-start; font-size: 14px; font-weight: 600;">
+                <div class="table-value-container" *ngIf="masterCourseExamReportData?.length == 0"
+                  style="justify-content: flex-start; font-size: 14px; font-weight: 600;">
                   <img src="./assets/images/blank.svg" alt="illustration">
                 </div>
               </div>
@@ -88,13 +91,15 @@
         <br>
         <div class="left-outer-container">
           <div class="left-item">
-            <select class="header-select-box" name="" [(ngModel)]="standard" (ngModelChange)="getExamReportForStandard()" id="standard">
+            <select class="header-select-box" name="" [(ngModel)]="standard"
+              (ngModelChange)="getExamReportForStandard()" id="standard">
               <option value="-1" *ngIf="!jsonFlag.isProfessional">Select Standard</option>
               <option value="-1" *ngIf="jsonFlag.isProfessional">Select Master Course</option>
-              <option [value]="standard.standard_id" *ngFor="let standard of standardtList">{{standard.standard_name}}</option>
+              <option [value]="standard.standard_id" *ngFor="let standard of standardtList">{{standard.standard_name}}
+              </option>
             </select>
-            <select class="header-select-box" style="margin-left: 10px;" name="" [(ngModel)]="subject" *ngIf="jsonFlag.isProfessional"
-              (ngModelChange)="getExamReportForStandardAndSubject()">
+            <select class="header-select-box" style="margin-left: 10px;" name="" [(ngModel)]="subject"
+              *ngIf="jsonFlag.isProfessional" (ngModelChange)="getExamReportForStandardAndSubject()">
               <option value="-1">Select Course</option>
               <option [value]="subject.subject_id" *ngFor="let subject of subjectList">{{subject.subject_name}}</option>
             </select>
@@ -122,12 +127,14 @@
                   <span>Actions</span>
                 </div>
               </div>
-              <div class="table-outer-container" [ngStyle]="jsonFlag.isProfessional ? {'min-height': '72vh'} : {'min-height': '30vh'}">
+              <div class="table-outer-container"
+                [ngStyle]="jsonFlag.isProfessional ? {'min-height': '72vh'} : {'min-height': '30vh'}">
                 <div class="table-value-container" *ngFor="let report of standardExamReportData">
                   <div class="value-item large-item1">
                     <span *ngIf="!jsonFlag.isProfessional" title="{{report.subject_name}}">{{ (report.subject_name.length > 15) ? (report.subject_name | slice:0:15) + '...' : report.subject_name
                       }}</span>
-                    <span *ngIf="jsonFlag.isProfessional" title="{{report.batch_name}}">{{ (report.batch_name.length > 15) ? (report.batch_name | slice:0:15) + '...' : report.batch_name }}</span>
+                    <span *ngIf="jsonFlag.isProfessional"
+                      title="{{report.batch_name}}">{{ (report.batch_name.length > 15) ? (report.batch_name | slice:0:15) + '...' : report.batch_name }}</span>
                   </div>
                   <!-- <div class="value-item small-item align-center">
                     <span>{{report.total_student}}</span>
@@ -142,11 +149,15 @@
                     <span>{{report.total_marks_updated}}</span>
                   </div>
                   <div class="value-item small-item align-center">
-                    <button type="button" name="button" class="view-result-btn" (click)="routeForStandard(report.subject_id, report.subject_name)" *ngIf="!jsonFlag.isProfessional">View Result</button>
-                    <button type="button" name="button" class="view-result-btn" (click)="routeTo(report.batch_id)" *ngIf="jsonFlag.isProfessional">View Result</button>
+                    <button type="button" name="button" class="view-result-btn"
+                      (click)="routeForStandard(report.subject_id, report.subject_name)"
+                      *ngIf="!jsonFlag.isProfessional">View Result</button>
+                    <button type="button" name="button" class="view-result-btn" (click)="routeTo(report.batch_id)"
+                      *ngIf="jsonFlag.isProfessional">View Result</button>
                   </div>
                 </div>
-                <div class="table-value-container" *ngIf="standardExamReportData?.length == 0" style="justify-content: flex-start; font-size: 14px; font-weight: 600;">
+                <div class="table-value-container" *ngIf="standardExamReportData?.length == 0"
+                  style="justify-content: flex-start; font-size: 14px; font-weight: 600;">
                   <img src="./assets/images/blank.svg" alt="illustration">
                 </div>
               </div>
@@ -157,8 +168,9 @@
       </div>
       <div class="right-container">
         <div class="right-item">
-          <input type="text" placeholder="Choose filter from dropdown" id="addDate" class="filter-input widgetDatepicker bsDatepicker"
-            name="addDate" [(ngModel)]="addDate" (ngModelChange)="addNewDate($event)" readonly="true" bsDaterangepicker style="cursor: pointer;">
+          <input type="text" placeholder="Choose filter from dropdown" id="addDate"
+            class="filter-input widgetDatepicker bsDatepicker" name="addDate" [(ngModel)]="addDate"
+            (ngModelChange)="addNewDate($event)" readonly="true" bsDaterangepicker style="cursor: pointer;">
           <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('addDate')"></i>
         </div>
         <div class="right-item">
@@ -168,10 +180,11 @@
                 <span>Exam Date</span>
               </div>
               <div class="header-item custom-item">
-                <span>Mastercourse</span>
+                <!-- changes by Nalini - to handle school model conditions -->
+                <span>{{schoolModel ? 'Standard' : 'Mastercourse'}}</span>
               </div>
               <div class="header-item custom-item">
-                <span>Course</span>
+                <span>{{schoolModel ? 'Section' : 'Course'}}</span>
               </div>
               <div class="header-item custom-item">
                 <span>Status</span>
@@ -181,7 +194,8 @@
               </div>
             </div>
             <div class="table-outer-container" style="min-height: 73vh; max-height: 73vh;">
-              <div class="table-value-container" *ngFor="let report of weeklyExamReportData" [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated', 'border-class': report.exam_status != 'Mks. Updated'}">
+              <div class="table-value-container" *ngFor="let report of weeklyExamReportData"
+                [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated', 'border-class': report.exam_status != 'Mks. Updated'}">
                 <div class="value-item custom-item">
                   <span>{{report?.exam_date | date: 'dd-MMM-yyyy'}}</span>
                 </div>
@@ -190,7 +204,8 @@
                     }}</span>
                 </div>
                 <div class="value-item custom-item">
-                  <span title="{{report.course_name}}">{{ (report?.course_name.length > 12) ? (report.course_name | slice:0:12) + '...' : report.course_name }}</span>
+                  <span
+                    title="{{report.course_name}}">{{ (report?.course_name.length > 12) ? (report.course_name | slice:0:12) + '...' : report.course_name }}</span>
                 </div>
                 <div class="value-item custom-item">
                   <span [ngClass]="{'completed-class': report.exam_status == 'Mks. Updated',
@@ -203,10 +218,15 @@
                 </div>
                 <div class="value-item custom-item align-center">
                   <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
-                  <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button" class="view-result-btn" routerLink='/view/{{jsonFlag.type}}/reports/exam-dashboard/examWise/{{report.exam_schd_id}}'>View Result</button>
+                  <button *ngIf="report.exam_status == 'Mks. Updated'" type="button" name="button"
+                    class="view-result-btn"
+                    routerLink='/view/{{jsonFlag.type}}/reports/exam-dashboard/examWise/{{report.exam_schd_id}}'>View
+                    Result</button>
                 </div>
               </div>
-              <div class="table-value-container" *ngIf="weeklyExamReportData?.length == 0 && (!auth.isRippleLoad.getValue())" style="justify-content: center; font-weight: 600;">
+              <div class="table-value-container"
+                *ngIf="weeklyExamReportData?.length == 0 && (!auth.isRippleLoad.getValue())"
+                style="justify-content: center; font-weight: 600;">
                 <span>No schedule found</span>
               </div>
             </div>

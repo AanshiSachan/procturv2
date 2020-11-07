@@ -24,12 +24,14 @@ import { ClassRoomComponent } from './class-room/class-room.component';
                 },
                 {
                     path: 'academic',
-                    loadChildren: 'app/components/course-module/data-setup/academic-year/academic-year.module#AcademicYearModule',
+                    loadChildren: () => import('app/components/course-module/data-setup/academic-year/academic-year.module').then(m => m.AcademicYearModule)
+                    // loadChildren: 'app/components/course-module/data-setup/academic-year/academic-year.module#AcademicYearModule',
                     // canLoad: [AuthGuard]
                 },
                 {
                     path: 'teacher',
-                    loadChildren: 'app/components/course-module/data-setup/teacher/teacher.module#TeacherModule',
+                    loadChildren: () => import('app/components/course-module/data-setup/teacher/teacher.module').then(m => m.TeacherModule)
+                    // loadChildren: 'app/components/course-module/data-setup/teacher/teacher.module#TeacherModule',
                     // canLoad: [AuthGuard]
                 },
                 {

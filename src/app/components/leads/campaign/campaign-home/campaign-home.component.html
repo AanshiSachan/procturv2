@@ -1,6 +1,6 @@
-<div class="clearFix sms-view-wrapper" style="padding-left: 15px; padding-right: 15px; padding-top: 2px;">
+<div class="clearFix sms-view-wrapper" style="padding-left: 15px; padding-right: 15px; ">
   <!-- Header and Navigation -->
-  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; padding-bottom: 10px;">
+  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; ">
     <h1 class="pull-left">
       <a routerLink="/view/leads" style="padding:0px;">
         Lead
@@ -27,7 +27,7 @@
     </div>
   </section>
 </div>
-<section class="middle-section clearFix">
+<section class="clearFix">
 
 
   <!-- <section class="middle-top mb0 clearFix">
@@ -59,7 +59,7 @@
     <div class="c-lg-12 c-md-12 c-sm-12 table-wrapper">
       <div class="table-scroll-wrapper">
         <div class="table table-responsive enquiry-table">
-          <table class="tableBodyScroll">
+          <table class="tableBodyScroll" style="width: 97%;margin-left: 21px;">
             <thead>
               <tr>
                 <th style="text-align: left;">
@@ -129,12 +129,14 @@
                 (click)="rowClickEvent(i)" [class.selected]="i == selectedRow">
                 <td style="text-align: left;" (click)="rowClicked(row)">
                   <span *ngIf="(row.data.list_name).length == 0">-</span>
-                  <span *ngIf="(row.data.list_name).length > 0">{{row.data.list_name}}</span>
+                  <span *ngIf="(row.data.list_name).length > 0" title="{{row.data.list_name}}">{{ (row.data.list_name.length > 10) ?
+                    (row.data.list_name | slice:0:10) + '...' : row.data.list_name }}</span>
                 </td>
 
                 <td style="text-align: left;">
                   <span *ngIf="(row.data.referred_by).length == 0">-</span>
-                  <span *ngIf="(row.data.referred_by).length > 0">{{row.data.referred_by}}</span>
+                  <span *ngIf="(row.data.referred_by).length > 0" title="{{row.data.referred_by}}">{{ (row.data.referred_by.length > 10) ?
+                    (row.data.referred_by | slice:0:10) + '...' : row.data.referred_by }}</span>
                 </td>
 
                 <td style="text-align: left;">
@@ -228,8 +230,9 @@
 <!-- SMS PopUp Single-->
 <section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="message === 'sms'">
   <!-- tab 1 for sms-->
-  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === false" style="width: 63%;">
-    <div class="popup-wrapper pos-rel">
+  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === false"
+    style="width: 63%;top: 22% !important;">
+    <div class="popup-wrapper pos-rel" style="height: 70vh !important;">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -311,8 +314,8 @@
                   <div class="questionInfo inline-relative">
                     <span class="qInfoIcon i-class" style="border: 1px solid #0084f6;  color:#0084f6">i</span>
                     <div class="tooltip-box-field md">
-                      Promotional SMS are sent between 9 AM to 9 PM
-                      <br>only and cannot be sent on DND numbers
+                      Promotional SMS are sent <br> between 9 AM to 9 PM
+                      <br>only and cannot be <br> sent on DND numbers
                     </div>
                   </div>
                   <!-- <p style="padding-top: 5px;"><strong style="color: red;">Note*:</strong> Please specify the time
@@ -327,14 +330,11 @@
               <div class="row campaign-message-wrapper">
                 <div class="c-lg-12 c-md-12 c-sm-12 campaign-message-table">
                   <div class="table table-responsive enquiry-table">
+                    <div class="sendHeader">
+                      Campaign Message
+                    </div>
+
                     <table style="width:100%" class="camp-table">
-                      <th>
-                        Campaign Message
-                      </th>
-                      <!-- <tr>
-                        <th></th>
-                        <th></th>
-                      </tr> -->
                       <tr id="message{{i}}" *ngFor="let message of messageList; let i = index; trackBy: i;">
                         <td class="c-lg-12 c-md-12 c-sm-12" style="width: 12%;">
                           <div class="field-checkbox-wrapper">
@@ -377,7 +377,7 @@
 
   <!--Tab 2 for sms  -->
   <!-- -->
-  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === true">
+  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === true" style="width: 50%;">
     <div class="popup-wrapper pos-rel">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -472,7 +472,7 @@
 <!-- Add Edit PRomotional SMS -->
 <!-- SMS PopUp Single-->
 <section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="addEditPromotional">
-  <div class="popup pos-abs popup-body-container" style="width: 76%;">
+  <div class="popup pos-abs popup-body-container" style="width: 76%;height: 654px;">
     <div class="popup-wrapper pos-rel">
 
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">

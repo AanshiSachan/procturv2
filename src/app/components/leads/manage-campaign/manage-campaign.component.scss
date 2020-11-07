@@ -31,7 +31,7 @@
     margin-top: 10px;
   }
   .advance-filter-btn{
-    background: white;
+    background: #f4f5f7;
     color: #0084f6;
     border: none;
     margin-top: 20px;
@@ -101,7 +101,9 @@
     border-radius: 4px;
   }
 }
-
+.modal-title {
+  margin: 0px !important;
+}
 .student-list-table-container{
   display: flex;
   flex-direction: column;
@@ -127,8 +129,8 @@
     flex-direction: column;
     // border: 1px solid #ccc;
     border-top: none;
-    min-height: 58vh;
-    max-height: 58vh;
+    min-height: 47vh;
+    max-height: 47vh;
     overflow-y: auto;
     
     .list-value-container{

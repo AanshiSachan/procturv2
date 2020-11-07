@@ -1,4 +1,4 @@
-<div class="middle-section clear-fix">
+<div class="clear-fix" style="padding-right: 2%;;">
 
   <section class="middle-top clearFix bulk-header">
     <div>
@@ -15,77 +15,82 @@
   <div class="filter-section">
     <div class="row" style="display: -webkit-box;-webkit-box-align: center;">
       <div class="c-md-7" style="padding: 0;">
-      <div class="searchbox2 c-md-2">
-        <div style="padding-right: 1%">
-          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
-            <label for="slug"style="width: 100%">eCourse</label>
-            <select [(ngModel)]="filter.course_type_id" [disabled]="filter.product_id!=''" class="form-ctrl form-class">
-              <option value="0" selected>Select eCourse</option>
-              <option *ngFor="let item of EcourseData" [value]="item.course_type_id" title="{{item.course_type}}">
+        <div class="searchbox2 c-md-2">
+          <div style="padding-right: 1%">
+            <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+              <label for="slug" style="width: 100%">eCourse</label>
+              <select [(ngModel)]="filter.course_type_id" [disabled]="filter.product_id!=''"
+                class="form-ctrl form-class">
+                <option value="0" selected>Select eCourse</option>
+                <option *ngFor="let item of EcourseData" [value]="item.course_type_id" title="{{item.course_type}}">
                   {{ (item.course_type.length > 30) ? (item.course_type | slice:0:30) + '...' : item.course_type }}
-              </option>
-            </select>
-            <span class="clearButton" (click)="filter.course_type_id ='0'">Clear</span>
+                </option>
+              </select>
+              <span class="clearButton" (click)="filter.course_type_id ='0'">Clear</span>
+            </div>
+          </div>
+        </div>
+        <div class="c-md-1" style="margin-top: 25px;width: 5%;">
+          <span style="margin-left: 15px;">OR</span>
+        </div>
+        <div class="searchbox2 c-md-2">
+          <div style="padding-left: 1%">
+            <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
+              <label for="product_id" style="width: 100%">Product</label>
+              <select [(ngModel)]="filter.product_id" [disabled]="filter.course_type_id!=0"
+                class="form-ctrl form-class">
+                <option value="" selected>Select Product</option>
+                <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
+                  {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
+                </option>
+              </select>
+              <span class="clearButton" (click)="filter.product_id =''">Clear</span>
+            </div>
+          </div>
+        </div>
+        <div class="searchbox2 c-md-1"
+          style="padding-left: 0;padding-right: 0;margin-top: 20px;width: 20%;margin-left: 10px;">
+          <div class="c-lg-1 btn-wrap" style="width: 100%;padding: 0;">
+            <button class="btn fullBlue" style="margin-left: 50px;" (click)="filterData('1')">Search</button>
           </div>
         </div>
       </div>
-      <div class="c-md-1" style="margin-top: 25px;width: 5%;">
-        <span style="margin-left: 15px;">OR</span>
-      </div>
-      <div class="searchbox2 c-md-2">
-        <div style="padding-left: 1%">
-          <div class="search-filter-wrapper" style="font-size: 12px;padding-left: 10px;padding-right: 10px;">
-            <label for="product_id" style="width: 100%">Product</label>
-            <select [(ngModel)]="filter.product_id" [disabled]="filter.course_type_id!=0" class="form-ctrl form-class">
-              <option value="" selected>Select Product</option>
-              <option *ngFor="let product of productList" [value]="product.id" title="{{product.title}}">
-                {{ (product.title.length > 30) ? (product.title | slice:0:30) + '...' : product.title }}
-              </option>
-            </select>
-            <span class="clearButton" (click)="filter.product_id =''">Clear</span>
+      <div class="c-md-5" style="float: right;margin-top: 10px;">
+        <div class="searchbox2 c-md-1" style="width: 8%;float: right;margin-top: 10px;">
+          <section class="login-tube pull-right">
+            <!-- <span title="Export as Excel" style="cursor: pointer;" > -->
+            <i class="fa fa-file-excel-o" (click)="exportToExcel()"
+              style="font-family: 'FontAwesome'; display: inline-block;cursor: pointer;color: green;font-size: 27px;margin-top: 6px;"></i>
+            <!-- </span> -->
+          </section>
+        </div>
+        <div class="searchbox1" style="width: 40%;padding-right: 0;float: right;">
+          <div style="margin-top: 8px;">
+            <div class="search-filter-wrapper">
+              <input type="text" class="normal-field form-class" placeholder="Search" name="searchData"
+                [(ngModel)]="searchText" (keyup)="searchInList()" style="width: 100%;">
+            </div>
           </div>
         </div>
-      </div> 
-      <div class="searchbox2 c-md-1" style="padding-left: 0;padding-right: 0;margin-top: 20px;width: 20%;margin-left: 10px;">
-        <div class="c-lg-1 btn-wrap" style="width: 100%;padding: 0;">
-          <button class="btn fullBlue" style="margin-left: 20px;" (click)="filterData('1')">Search</button>
-        </div>
-      </div>
-    </div>
-    <div class="c-md-5" style="float: right;margin-top: 10px;">
-      <div class="searchbox2 c-md-1" style="width: 8%;float: right;margin-top: 10px;">
-        <section class="login-tube pull-right user-detail">
-          <span title="Export as Excel" style="cursor: pointer;" (click)="exportToExcel()">
-            <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;cursor: pointer;color: #0084f6;"></i>
-          </span>
-        </section>
-      </div>
-      <div class="searchbox1" style="width: 40%;padding-right: 0;float: right;">
-        <div style="margin-top: 8px;">
-          <div class="search-filter-wrapper">
-            <input type="text" class="normal-field form-class" placeholder="Search" name="searchData" [(ngModel)]="searchText"
-              (keyup)="searchInList()"
-              style="width: 100%;">
-          </div>
-        </div>
-      </div>
-      <div class="searchbox2 c-md-3" style="float: right;width: 40%;margin-top: 10px;">
-        <div class="btn-container" style="float: right;margin-right: 3%;">
-          <div class="btn-item">
-            <button type="button" style="padding: 4px 10px;margin-top: 3px;" *ngIf="selectedRowCount != 0" class="btn pull-right" name="button" (click)="isOptions = !isOptions">
+        <div class="searchbox2 c-md-3" style="float: right;width: 40%;margin-top: 10px;">
+          <div class="btn-container" style="float: right;margin-right: 3%;">
+            <div class="btn-item">
+              <button type="button" style="padding: 4px 10px;margin-top: 3px;" *ngIf="selectedRowCount != 0"
+                class="btn pull-right" name="button" (click)="isOptions = !isOptions">
                 {{selectedRowCount}} Students Selected &nbsp;
                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-            </button>
-            <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
-      
+              </button>
+              <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
+
                 <div class="more-info-item hand_icon">
-                    <span style="cursor: pointer;" (click)="getAllMessageFromServer()"><i class="fa fa-bell"></i> Send Notification</span>
+                  <span style="cursor: pointer;" (click)="getAllMessageFromServer()"><i class="fa fa-bell"></i> Send
+                    Notification</span>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-        </div>
-        </div>
-    </div>
+      </div>
       <!-- <div class="searchbox2" style="text-align: right;width: 50%;" *ngIf="!AdvanceFilter">
         <span (click)="AdvanceFilter = true" class="advance-filter-text" style="color: #0084f6;">Advance Filter </span>
       </div> -->
@@ -178,8 +183,8 @@
         <div class="table_header_item" style="width: 5%;">
           <span>
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()"
-                [(ngModel)]="selectAll" (change)="toggleAllCheckBox()" id="ch2">
+              <input type="checkbox" class="form-checkbox" [checked]="isAllChecked()" [(ngModel)]="selectAll"
+                (change)="toggleAllCheckBox()" id="ch2">
               <label for="ch2"></label>
             </div>
           </span>
@@ -207,14 +212,13 @@
         </div>
       </div>
       <div class="table-value-outer-container" *ngIf="searchedData?.length!=0">
-        <div class="table_value"
-        [ngClass]="{'student-class': data.open_user_status == 'Student',
+        <div class="table_value" [ngClass]="{'student-class': data.open_user_status == 'Student',
                       'enquiry-class': data.open_user_status == 'Enquiry',
                       'open-class': data.open_user_status == '-'}" *ngFor="let data of searchedData;let i= index">
           <div class="table_value_item" style="width: 5%;">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" class="form-checkbox"
-                [checked]="data.isSelected" [(ngModel)]="data.isSelected" [id]="'checkbox-'+i" (ngModelChange)="rowCheckboxChange(data)">
+              <input type="checkbox" class="form-checkbox" [checked]="data.isSelected" [(ngModel)]="data.isSelected"
+                [id]="'checkbox-'+i" (ngModelChange)="rowCheckboxChange(data)">
               <label [for]="'checkbox-'+i"></label>
             </div>
           </div>
@@ -243,20 +247,22 @@
             {{(data.open_user_status != '-') ? (data.open_user_status) : '-'}}
           </div>
           <div class="table_value_item" style="width: 15%;">
-              <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == '-'" [info]="data" [menuOptions]="menuOptions"
-                (selectedRecord)="optionSelected($event)"></drop-menu>
-                <span *ngIf="data.open_user_status != '-'">
-                  <button aria-expanded="true" style="cursor: no-drop;opacity: 0.5;" class="d-item dropdown-trigger">
-                    <span class="d-item svg-icon-wrap">
-                        <span class="visually-hidden"></span>
-                        <div aria-hidden="true" type="ellipsis-horizontal-icon">
-                            <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-                                <path class="large-icon" d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" style="fill: currentColor"></path>
-                            </svg>
-                        </div>
-                    </span>
-                </button>
+            <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == '-'" [info]="data"
+              [menuOptions]="menuOptions" (selectedRecord)="optionSelected($event)"></drop-menu>
+            <span *ngIf="data.open_user_status != '-'">
+              <button aria-expanded="true" style="cursor: no-drop;opacity: 0.5;" class="d-item dropdown-trigger">
+                <span class="d-item svg-icon-wrap">
+                  <span class="visually-hidden"></span>
+                  <div aria-hidden="true" type="ellipsis-horizontal-icon">
+                    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+                      viewBox="0 0 24 24" width="24px" x="0" y="0">
+                      <path class="large-icon" d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z"
+                        style="fill: currentColor"></path>
+                    </svg>
+                  </div>
                 </span>
+              </button>
+            </span>
           </div>
         </div>
       </div>
@@ -271,8 +277,8 @@
   <div class="row filter-res pagination" #pager id="pager" style="width: 100%;margin: 0;">
     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
       <pagination (goPage)="filterData($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-        [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)"
-        [count]="varJson.total_items">
+        [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr"
+        (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
       </pagination>
     </div>
   </div>
@@ -282,7 +288,7 @@
 <div *ngIf="notificationPopup" class="notification_popup">
   <div class="row c-md-12" style="padding:0;">
     <span style="width: 100%;text-align: right;">
-       <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="closeNotificationPopup()"> X </span>
+      <span style="cursor: pointer;font-size: 16px;font-weight: 600;" (click)="closeNotificationPopup()"> X </span>
     </span>
   </div>
   <div class="row c-md-12" style="padding: 0;margin-bottom: 5px;">
@@ -296,40 +302,43 @@
         </div>
         <div class="c-md-6" style="padding:0;width: 40%;">
           <input style="-webkit-appearance:checkbox" type="checkbox" id="transactional" name="transactional"
-          class="form-checkbox" [checked]="smsNotification" [(ngModel)]="smsNotification">
+            class="form-checkbox" [checked]="smsNotification" [(ngModel)]="smsNotification">
           <label for="transactional">SMS</label>
         </div>
         <div class="c-md-6" style="padding:0">
           <input style="-webkit-appearance:checkbox" type="checkbox" id="promotional" name="promotional"
-          class="form-checkbox" [checked]="pushNotification" [(ngModel)]="pushNotification">
+            class="form-checkbox" [checked]="pushNotification" [(ngModel)]="pushNotification">
           <label for="promotional">App Notification</label>
         </div>
-      </div>      
-     </div>
-    <div class="c-md-12" *ngIf="addSMS" style="margin-left: 15px;background: #efefef;">
-      <div>
-      <textarea placeholder="Write your message here..." [(ngModel)]="message" (ngModelChange)="countNumberOfMessage()" name="message">
-      </textarea>
-      <div style="font-size: 12px;display: -webkit-box;-webkit-box-align: center;margin-top: 5px;margin-bottom: 10px;"
-        class="row c-md-12">
-        <div class="c-md-2" style="padding:0;">Character Count</div>
-        <div class="c-md-4" style="padding-right: 0;">
-          <div class="msgCount">{{message?.length}}</div>
-        </div>
-        <div class="c-md-7" style="text-align: right;">Message Count: {{messageCount}}</div>
       </div>
     </div>
+    <div class="c-md-12" *ngIf="addSMS" style="margin-left: 15px;background: #efefef;">
+      <div>
+        <textarea placeholder="Write your message here..." [(ngModel)]="message"
+          (ngModelChange)="countNumberOfMessage()" name="message">
+      </textarea>
+        <div style="font-size: 12px;display: -webkit-box;-webkit-box-align: center;margin-top: 5px;margin-bottom: 10px;"
+          class="row c-md-12">
+          <div class="c-md-2" style="padding:0;">Character Count</div>
+          <div class="c-md-4" style="padding-right: 0;">
+            <div class="msgCount">{{message?.length}}</div>
+          </div>
+          <div class="c-md-7" style="text-align: right;">Message Count: {{messageCount}}</div>
+        </div>
+      </div>
     </div>
     <div class="c-md-3" [ngClass]="addSMS ? 'addSmsSection' : 'addSectionHide'">
       <!-- <div class="c-md-12"> -->
-        <span *ngIf="!addSMS" (click)="addSMS=!addSMS" style="border: 1px solid #0084f6;cursor: pointer;color: #0084f6;border-radius: 4px;padding: 3px;">
-          <i *ngIf="!addSMS" class="fa fa-plus"></i>
-          <i *ngIf="addSMS" class="fa fa-minus"></i>
-            Add SMS</span>
+      <span *ngIf="!addSMS" (click)="addSMS=!addSMS"
+        style="border: 1px solid #0084f6;cursor: pointer;color: #0084f6;border-radius: 4px;padding: 3px;">
+        <i *ngIf="!addSMS" class="fa fa-plus"></i>
+        <i *ngIf="addSMS" class="fa fa-minus"></i>
+        Add SMS</span>
       <!-- </div> -->
       <div class="c-md-12" style="margin-top: 45px;">
         <div *ngIf="addSMS">
-          <button class="btn fullBlue" style="background: no-repeat;color: #0084f6;" (click)="addSMS = false">Cancel</button>
+          <button class="btn fullBlue" style="background: no-repeat;color: #0084f6;"
+            (click)="addSMS = false">Cancel</button>
           <button class="btn fullBlue" (click)="saveMSG()">Save SMS</button>
         </div>
       </div>
@@ -366,9 +375,9 @@
         <div class="heading-item" style="width: 5%">
           <!-- <input type="radio" class="form-ctrl" name="selected" [(ngModel)]="data.selected" [id]="'selected-'+i" [value]="data.selected" [checked]="data.selected"> -->
           <!-- <div class="field-radio-wrapper"> -->
-          <input style="-webkit-appearance:radio" type="radio" name="bothRadio" [id]="'bothRadio-'+i"
-            class="form-radio" [value]="i" [checked]="data.selected" [(ngModel)]="data.selected"
-            (ngModelChange)="changeSelectedMsg(data)" [disabled]="data.statusValue == 'Open'">
+          <input style="-webkit-appearance:radio" type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio"
+            [value]="i" [checked]="data.selected" [(ngModel)]="data.selected" (ngModelChange)="changeSelectedMsg(data)"
+            [disabled]="data.statusValue == 'Open'">
           <!-- </div> -->
         </div>
         <div class="value-item" style="text-align: left;">
@@ -386,7 +395,7 @@
               style="font-size: 14px;color: #01DF01;"></i> </span>
           <span title="Edit" (click)="editSMS(data)" style="padding:10px;cursor: pointer;"><i
               class="fa fa-pencil edit-icon-pencil" style="font-size: 14px;color: #0084f6;"></i></span>
-          <span *ngIf="data.statusValue == 'Open'"  title="Delete" (click)="DeleteMsg(data.message_id)"
+          <span *ngIf="data.statusValue == 'Open'" title="Delete" (click)="DeleteMsg(data.message_id)"
             style="padding:10px;cursor: pointer;"><i class="fa fa-times-circle"
               style="color: red;font-size: 14px;"></i></span>
         </div>
@@ -398,7 +407,7 @@
     </div>
   </div>
   <div class="c-md-12" style="margin-top: 10px;text-align: right;">
-      <button class="btn fullBlue" (click)="sendNotification()">Send Notification</button>
+    <button class="btn fullBlue" (click)="sendNotification()">Send Notification</button>
   </div>
 </div>
 <div *ngIf="notificationPopup" class="black-bg" (click)="notificationPopup = false"></div>

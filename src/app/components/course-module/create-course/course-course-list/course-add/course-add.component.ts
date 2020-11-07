@@ -12,8 +12,8 @@ import { AuthenticatorService } from './../../../../../services/authenticator.se
 })
 export class CourseAddComponent implements OnInit {
 
-  @ViewChild('standardNameDDn') StandardName: ElementRef;
-  @ViewChild('masterCourseInput') MasterCourseDDn: ElementRef;
+  @ViewChild('standardNameDDn',{static: false}) StandardName: ElementRef;
+  @ViewChild('masterCourseInput',{static: false}) MasterCourseDDn: ElementRef;
 
   newCourseAdd: any = {
     master_course_name: '',
@@ -48,13 +48,17 @@ export class CourseAddComponent implements OnInit {
   nestedTableDataSource: any;
   examGradeFeature: any;
   divCreateNewCourse: boolean = false;
+  schoolModel: boolean = false;
 
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private route: Router
-  ) { }
+  ) { 
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+  }
 
   ngOnInit() {
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
@@ -63,37 +67,51 @@ export class CourseAddComponent implements OnInit {
     this.getAcademicYearDetails();
   }
 
+  // changes by Nalini - to check validation for add course/section
+  checkAddCourseValidation() {
+   let result = this.schoolModel ? (this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) : (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1);
+   return result;
+  }
+
   btnGoClickCreateCourse() {
+    console.log("standardNameList", this.standardNameList);
     if (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) {
-      this.apiService.getSubjectListOfStandard(this.newCourseAdd.standard_id).subscribe(
-        (data: any) => {
-          //console.log(data);
-          if (data.length == 0) {
-            let msg = {
-              type: "error",
-              title: "",
-              body: 'No Subjects configured for selected standard'
-            }
-            this.toastCtrl.popToast(msg);
-          } else {
-            this.subjectListDataSource = data;
-            let rawData = this.addKeyInData(data);
-            this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
-            this.StandardName.nativeElement.disabled = true;
-            this.subjectList = rawData;
-            this.getActiveTeacherList();
-          }
-        },
-        error => {
-          //console.log(error);
-          let data = {
-            type: "error",
-            title: "",
-            body: error.error.message
-          }
-          this.toastCtrl.popToast(data);
+      for (let i = 0; i < this.standardNameList.length; i++) {
+        if (this.standardNameList[i].standard_id == this.newCourseAdd.standard_id) {
+          this.subjectListDataSource = this.standardNameList[i].subject_list;
         }
-      )
+      }
+      // this.apiService.getSubjectListOfStandard(this.newCourseAdd.standard_id).subscribe(
+      //   (data: any) => {
+      //console.log(data);
+      if (this.subjectListDataSource.length == 0) {
+        let msg = {
+          type: "error",
+          title: "",
+          body: 'No Subjects configured for selected standard'
+        }
+        this.toastCtrl.popToast(msg);
+      } else {
+        this.subjectListDataSource = this.subjectListDataSource;
+        let rawData = this.addKeyInData(this.subjectListDataSource);
+        if(!this.schoolModel) {
+          this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
+        }
+        this.StandardName.nativeElement.disabled = true;
+        this.subjectList = rawData;
+        this.getActiveTeacherList();
+      }
+      // },
+      error => {
+        //console.log(error);
+        let data = {
+          type: "error",
+          title: "",
+          body: error.error.message
+        }
+        this.toastCtrl.popToast(data);
+      }
+      // )
     } else {
       let data = {
         type: "error",
@@ -118,7 +136,7 @@ export class CourseAddComponent implements OnInit {
   getAllStandardNameList() {
     this.apiService.getStandardListFromServer().subscribe(
       (data: any) => {
-        this.standardNameList = data;
+        this.standardNameList = data.result;
       },
       error => {
         //console.log(error);
@@ -273,7 +291,7 @@ export class CourseAddComponent implements OnInit {
     obj.coursesList = [];
     for (let i = 0; i < this.mainArrayForTable.length; i++) {
       let test: any = {};
-      test.academic_year_id =this.mainArrayForTable[i].academic_year_id;
+      test.academic_year_id = this.mainArrayForTable[i].academic_year_id;
       test.course_name = this.mainArrayForTable[i].course_name;
 
       if (this.mainArrayForTable[i].start_Date != "" && this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "Invalid date") {
@@ -352,12 +370,18 @@ export class CourseAddComponent implements OnInit {
   toggleCreateNewSlot() {
     if (this.divCreateNewCourse == false) {
       this.divCreateNewCourse = true;
-      document.getElementById('showCloseBtn').style.display = '';
-      document.getElementById('showAddBtn').style.display = 'none';
+      // changes by Nalini - to handle school model conditions
+      if(!this.schoolModel) {
+        document.getElementById('showCloseBtn').style.display = '';
+        document.getElementById('showAddBtn').style.display = 'none';
+      }
     } else {
       this.divCreateNewCourse = false;
-      document.getElementById('showCloseBtn').style.display = 'none';
-      document.getElementById('showAddBtn').style.display = '';
+      // changes by Nalini - to handle school model conditions
+      if(!this.schoolModel) {
+        document.getElementById('showCloseBtn').style.display = 'none';
+        document.getElementById('showAddBtn').style.display = '';
+      }
     }
   }
 
@@ -434,7 +458,7 @@ export class CourseAddComponent implements OnInit {
 export class DateMonthFormatter implements PipeTransform {
   public transform(value) {
     if (value != "" && value != null && value != undefined) {
-      return moment(value).format('DD-MMM-YYYY');
+      return moment(value).format('DD-MM-YYYY');
     } else {
       return value
     }

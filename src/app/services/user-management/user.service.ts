@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -28,85 +30,85 @@ export class UserService {
 
     getUserList(obj, active) {
         let url = this.baseUrl + "/api/v1/profiles/all/" + this.institute_id + "?active=" + active;
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     getRoles() {
         let url = this.baseUrl + "/api/v1/roleApi/allRoles/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     fetchUserDetails(id) {
         let url = this.baseUrl + "/api/v1/profiles/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     sendSmS(obj) {
         let url = this.baseUrl + "/api/v1/profiles/sendAPPSMS/" + this.institute_id;
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     getItemList(id) {
         let url = this.baseUrl + "/api/v1/inventory/item/fetchForUserAllocation/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     getAllotedHistroy(id) {
         let url = this.baseUrl + "/api/v1/inventory/item/user/txHistory/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     allocateItem(obj) {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/inventory/item/user/allocate";
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     deleteInventory(id) {
         let url = this.baseUrl + "/api/v1/inventory/item/txHistory/" + id;
-        return this.http.delete(url, { headers: this.headers }).map(
+        return this.http.delete(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     createUser(obj) {
         obj.institute_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/profiles";
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
     updateUserDetails(obj , id){
         obj.institute_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/profiles/" + id;
-        return this.http.put(url, obj, { headers: this.headers }).map(
+        return this.http.put(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        )
+        ))
     }
 
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { ExcelService } from '../../../services/excel.service';
@@ -18,7 +19,7 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child',{static: true}) private child: DataDisplayTableComponent;
   downloadFeeReportAccess:boolean = false;
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];
@@ -107,7 +108,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     financial_year: "",
     invoice_no: "",
     old_invoice_no: "",
-    paid_date: moment(new Date()).format("DD-MMM-YYYY"),
+    paid_date: moment(new Date()).format("DD-MM-YYYY"),
     paymentMode: "",
     reference_no: "",
     remarks: "",
@@ -119,6 +120,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     cheque_no: "",
     cheque_status_id: "1"
   }
+  role_feature = role.features;
 
   constructor(
     private payment: PaymentHistoryMainService,
@@ -137,7 +139,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('708')) {//	Fee Transaction Change if enambled then edit button will show
+      if (this.role_feature.FEE_MANAGE) {//	Fee Transaction Change if enambled then edit button will show
         this.tableSetting.actionSetting =
           {
             showActionButton: true,
@@ -268,7 +270,6 @@ export class PaymentHistoryMainComponent implements OnInit {
       } else {
         this.sendPayload.user_id = Number(sessionStorage.getItem('userid'));
       }
-
       this.payment.getPaymentData(this.sendPayload).subscribe(
         (data: any) => {
           if (data.length == 0) {
@@ -419,7 +420,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   optionSelected(e) {
     // console.log(e);
     this.personData = e.data;
-    this.updatedResult.paid_date = e.data.paid_date;
+    this.updatedResult.paid_date = moment(e.data.paid_date).format("YYYY-MM-DD");
     this.chequeDetailsJson = [];
     this.varJson.tempData = {};
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(

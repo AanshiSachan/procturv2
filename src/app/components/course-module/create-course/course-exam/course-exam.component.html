@@ -53,27 +53,28 @@
                 </div>
                 <div class="row" *ngIf="showCourseStartEndDate">
                     <div class="c-sm-6 c-md-6 c-lg-6">
-                        <span class="spanText">Course Start Date : {{batchStartDate}}</span>
+                        <span class="spanText">Course Start Date : {{batchStartDate | date: 'dd-MMM-yyyy'}}</span>
                         &emsp;
-                        <span class="spanText">Course End Date : {{batchEndDate}} </span>
+                        <span class="spanText">Course End Date : {{batchEndDate | date: 'dd-MMM-yyyy'}} </span>
                     </div>
                 </div>
             </div>
 
             <div *ngIf="!isLangInstitute">
 
-                <div class="row">
+                <div class="row" style="margin-top: -50px;">
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
-                            <label for="ddnMAsterCourse">Master Course
+                            <!-- changes by Nalini - to handle school model conditions -->
+                            <label for="ddnMAsterCourse">{{schoolModel ? 'Standard' : 'Master Course'}}
                                 <span class="text-danger">*</span>
                             </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
-                                <option value="-1">Select Master Course</option>
-                                <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
-                                    {{master.master_course}}
+                                <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
+                                <option [value]="master" *ngFor="let  master of masterCourseList">
+                                    {{master}}
                                 </option>
                             </select>
 
@@ -82,13 +83,13 @@
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.course_id != -1}">
-                            <label for="ddnMAsterCourse">Course
+                            <label for="ddnMAsterCourse">{{schoolModel ? 'Section' : 'Course'}}
                                 <span class="text-danger">*</span>
                             </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl"
                                 [(ngModel)]="courseData.course_id" (ngModelChange)="displayCourseDate()">
-                                <option value="-1">Select Course</option>
-                                <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
+                                <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
+                                <option [value]="master.course_id" *ngFor="let  master of courseList">
                                     {{master.course_name}}
                                 </option>
                             </select>
@@ -118,10 +119,10 @@
                 <div class="row" *ngIf="showCourseStartEndDate" style="margin-top: 5px;">
                     <div class="c-sm-6 c-md-6 c-lg-6">
                         <span class="spanText">Course Start Date : <span
-                                style="font-weight: 600;">{{batchStartDate}}</span></span>
+                                style="font-weight: 600;">{{batchStartDate | date: 'dd-MMM-yyyy'}}</span></span>
                         &emsp;
                         <span class="spanText">Course End Date : <span
-                                style="font-weight: 600;">{{batchEndDate}}</span></span>
+                                style="font-weight: 600;">{{batchEndDate | date: 'dd-MMM-yyyy'}}</span></span>
                     </div>
                 </div>
 
@@ -913,7 +914,7 @@
                         </div>
                     </div>
                     <div class="row" style="padding-right:25px;" class="save_btn_container">
-                        <div class="pull-left" style="margin-left: 7%">
+                        <div class="pull-left" style="margin-left: 11%">
                             <button type="button" class="btn" Style="margin-left: 0px;" name="button"
                                 routerLink="/view/course/coursePlanner/exam"
                                 *ngIf="coursePlannerStatus=='true'">Back</button>

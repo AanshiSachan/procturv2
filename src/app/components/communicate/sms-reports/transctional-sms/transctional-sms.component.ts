@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -17,7 +17,7 @@ import { DataDisplayTableComponent } from '../../../shared/data-display-table/da
 })
 export class TransctionalSmsComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child', { static: false }) private child: DataDisplayTableComponent;
   busy: Subscription;
   projectSettings: any[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
@@ -145,7 +145,7 @@ export class TransctionalSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "67vh"
+      height: "58vh"
     }
 
     this.rowColumns = [

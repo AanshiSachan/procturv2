@@ -189,10 +189,11 @@
         <div class="row upload-box">
           <div class="col-md-12 file-form">
             <div class="form-group">
-              <label class="title">Course</label>
+              <!-- changes by Nalini - to handle school model conditions -->
+              <label class="title">{{schoolModel ? 'Section' : 'Course'}}</label>
               <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types"
                 (change)="getSubjectsList($event.target.value)">
-                <option value=""> Select course</option>
+                <option value=""> Select {{schoolModel ? 'Section' : 'course'}}</option>
                 <option *ngFor="let exam of categiesList; " title="{{exam.course_type}}" [value]="exam.course_type_id">
                   {{(exam.course_type?.length>30)?(exam.course_type | slice:0:30) + '...':(exam.course_type)}}
                 </option>

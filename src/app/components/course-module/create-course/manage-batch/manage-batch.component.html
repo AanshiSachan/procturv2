@@ -11,8 +11,8 @@
       </div>
       <div class="pull-right">
         <div class="search-filter-wrapper ">
-          <input #search type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px;margin-right: 15px;"
-            id="search" name="searchData " (keyup)="searchDatabase(search) ">
+          <input #search type="text" class="normal-field pull-right" placeholder="Search"
+            style="font-size:12px;margin-right: 15px;" id="search" name="searchData " (keyup)="searchDatabase(search) ">
         </div>
       </div>
     </div>
@@ -24,7 +24,8 @@
             <label>Master Course
               <span class="text-danger">*</span>
             </label>
-            <select id="" class="form-ctrl halfwidth" name="row.standard_id" [(ngModel)]="addNewBatch.standard_id" (change)="onMasterCourseSelection(addNewBatch.standard_id)">
+            <select id="" class="form-ctrl halfwidth" name="row.standard_id" [(ngModel)]="addNewBatch.standard_id"
+              (change)="onMasterCourseSelectionNew(addNewBatch.standard_id)">
               <option value="-1"></option>
               <option *ngFor="let opt of courseList" [value]="opt.standard_id">
                 {{opt.standard_name}}
@@ -103,8 +104,8 @@
             <label for="endDate">Start Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.start_date"
-              name="endDate" bsDatepicker>
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth"
+              [(ngModel)]="addNewBatch.start_date" name="endDate" bsDatepicker>
           </div>
         </div>
 
@@ -113,15 +114,16 @@
             <label for="endDate">End Date
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.end_date" name="endDate"
-              bsDatepicker>
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth"
+              [(ngModel)]="addNewBatch.end_date" name="endDate" bsDatepicker>
           </div>
         </div>
 
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-wrapper">
             <label>Academic Year </label>
-            <select id="" class="form-ctrl halfwidth" name="row.class_room_id" [(ngModel)]="addNewBatch.academic_year_id">
+            <select id="" class="form-ctrl halfwidth" name="row.class_room_id"
+              [(ngModel)]="addNewBatch.academic_year_id">
               <option value="-1">Select</option>
               <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                 {{opt.inst_acad_year}}
@@ -136,14 +138,16 @@
 
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" id="isActiveCH" name="isActiveCH" class="form-checkbox" [(ngModel)]="addNewBatch.is_active">
+            <input type="checkbox" id="isActiveCH" name="isActiveCH" class="form-checkbox"
+              [(ngModel)]="addNewBatch.is_active">
             <label for="isActiveCH">Is Active</label>
           </div>
         </div>
 
         <div class="c-lg-4 c-sm-4 c-md-4" *ngIf="examGradeFeature == '1'">
           <div class="field-checkbox-wrapper">
-            <input id="enableChkBX" name="enableChkBX" type="checkbox" class="form-checkbox" [(ngModel)]="addNewBatch.is_exam_grad_feature">
+            <input id="enableChkBX" name="enableChkBX" type="checkbox" class="form-checkbox"
+              [(ngModel)]="addNewBatch.is_exam_grad_feature">
             <label for="enableChkBX">Enable Exam Grading System</label>
           </div>
         </div>
@@ -207,9 +211,11 @@
               </tr>
             </thead>
             <tbody *ngIf="(tableData.length != 0)">
-              <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" *ngFor="let row of tableData; let i=index; trackBy: i; ">
+              <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp"
+                *ngFor="let row of tableData; let i=index; trackBy: i; ">
                 <td class="view-comp">
-                  <span title="{{row.batch_name}}">{{row.batch_name.length>20?(row.batch_name | slice:0:20):row.batch_name}}</span>
+                  <span
+                    title="{{row.batch_name}}">{{row.batch_name.length>20?(row.batch_name | slice:0:20):row.batch_name}}</span>
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper editCellAllignment">
@@ -231,7 +237,9 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper editCellAllignment">
-                    <select id="" class="form-ctrl" name="row.category_id" (change)="onMasterCourseSelection(editRowDetails.standard_id)" [(ngModel)]="editRowDetails.standard_id">
+                    <select id="" class="form-ctrl" name="row.category_id"
+                      (change)="onMasterCourseSelection(editRowDetails.standard_id)"
+                      [(ngModel)]="editRowDetails.standard_id">
                       <option *ngFor="let opt of courseList" [value]="opt.standard_id">
                         {{opt.standard_name}}
                       </option>
@@ -278,13 +286,14 @@
                   <div class="field-wrapper">
                     <label for="endDate">
                     </label>
-                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_date" name="endDate" bsDatepicker
-                      id="endDate">
+                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker"
+                      [(ngModel)]="row.end_date" name="endDate" bsDatepicker id="endDate">
 
                   </div>
                 </td>
                 <td class="view-comp">
-                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
+                  <select class="form-ctrl" [disabled]="true"
+                    [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
                     [(ngModel)]="row.academic_year_id" style="background: transparent">
                     <option value="-1">Select</option>
                     <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
@@ -298,7 +307,8 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
-                    <select id="" class="form-ctrl " name="row.academic_year_id" [(ngModel)]="editRowDetails.academic_year_id">
+                    <select id="" class="form-ctrl " name="row.academic_year_id"
+                      [(ngModel)]="editRowDetails.academic_year_id">
                       <option value="-1">Select</option>
                       <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                         {{opt.inst_acad_year}}
@@ -376,8 +386,8 @@
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
         </pagination>
       </div>
     </div>
@@ -396,11 +406,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -412,21 +424,25 @@
         <div class="row filter-section">
           <div class="c-sm-6 c-md-6 c-lg-6 radio-button">
             <div class="field-radio-wrapper">
-              <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+              <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption"
+                (ngModelChange)="onRadioButtonChange()">
               <label for="bothRadio">Both</label>
             </div>
             <div class="field-radio-wrapper">
-              <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+              <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio"
+                [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
               <label for="assignRadio">Assigned</label>
             </div>
             <div class="field-radio-wrapper">
-              <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+              <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio"
+                [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
               <label for="unassignStudent">UnAssigned</label>
             </div>
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="search-filter-wrapper">
-              <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
+              <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent"
+                name="searchData" [(ngModel)]="searchData">
             </div>
           </div>
         </div>
@@ -437,7 +453,8 @@
               <tr>
                 <th>
                   <div class="field-checkbox-wrapper">
-                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
+                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked"
+                      (click)="selectAllCheckBox(idSelectAll)">
                     <label></label>
                   </div>
                 </th>
@@ -471,7 +488,8 @@
               <tr id="row{{i}}" *ngFor="let row of (dataTable | searchPipe:searchData); let i = index; trackBy: i;">
                 <td>
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox" [(ngModel)]="row.assigned">
+                    <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox"
+                      [(ngModel)]="row.assigned">
                     <!--  [disabled]="row.immutableKey"  -->
                     <label></label>
                   </div>
@@ -496,7 +514,8 @@
                 </td>
                 <td>
                   <div class="field-wrapper">
-                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
+                    <select class="form-ctrl" [disabled]="true"
+                      [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}"
                       [(ngModel)]="batchDetails.academic_year_id" style="background: transparent">
                       <option value="-1">Select</option>
                       <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
@@ -507,9 +526,11 @@
                 </td>
                 <td>
                   <div class="field-wrapper">
-                    <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
+                    <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"
+                      style="background: transparent">
                       <option value="-1">Select</option>
-                      <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row) " [value]="opt.template_id">
+                      <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row) "
+                        [value]="opt.template_id">
                         {{opt.template_name}}
                       </option>
                     </select>

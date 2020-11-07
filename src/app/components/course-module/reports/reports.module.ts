@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 /* Modules */
 import { FormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';
 import { ExcelService } from '../../../services/excel.service';
 // import { ExamReportComponent } from './exam-report/exam-report.component';
@@ -27,7 +27,7 @@ import { ReportsComponent } from './reports.component';
     CommonModule,
     ReportsRoutingModule,
     FormsModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     TimepickerModule,
     FileUploadModule,
     SplitButtonModule,

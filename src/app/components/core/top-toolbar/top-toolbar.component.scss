@@ -1,0 +1,58 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+.mat-toolbar.mat-primary {
+    background: #3f51b5;
+    color: #fff;
+}
+
+a,
+span {
+    font-size: 22px;
+    color: white;
+}
+
+a:hover {
+    border: 2px solid #528ff0;
+    ;
+}
+
+input {
+    color: black;
+    margin-right: 40px;
+    border-radius: 4px;
+    padding: 5px;
+}
+@media only screen and (max-width: 960px) and (min-width: 768px) {
+    // search css for header
+    .search-dropdown {
+        width: 245px;
+        left: 171px;
+        margin-top: 10px;
+    }
+    .searchbox {
+        width: 122px;
+        transition: 0.5s ease;
+        border-radius: 5px;
+        &.has-focus {
+            width: 244px;
+        }
+    }
+    .searchbox:hover {
+        &.searchbox {
+            width: 244px;
+            transition: 0.5s;
+            border-radius: 5px;
+        }
+    }
+    .searchbox {
+        &:focus {
+            .search-dropdown {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+        }
+    }
+}

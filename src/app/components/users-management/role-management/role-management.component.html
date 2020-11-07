@@ -1,16 +1,15 @@
+<div class="common-tab" style="padding: 2%;padding-top: 2px">
+  <ul>
+    <li id="liUser" (click)="switchActiveView('liUser')" class="">
+      <a routerLink="/view/manage">User</a>
+    </li>
+    <li id="liRole" (click)="switchActiveView('liRole')" class="active">
+      <a routerLink="/view/manage/role">Role</a>
+    </li>
+  </ul>
+</div>
 
-<div class="common-tab">
-      <ul>
-        <li id="liUser" (click)="switchActiveView('liUser')" class="">
-          <a routerLink="/view/manage">User</a>
-        </li>
-        <li id="liRole" (click)="switchActiveView('liRole')" class="active">
-          <a routerLink="/view/manage/role">Role</a>
-        </li>
-      </ul>
-  </div>
-
-<section class="middle-section clearFix">
+<section class="clearFix" style="padding: 2%;padding-top: 2px;">
   <div class="content-contaioner">
 
     <div class="head">
@@ -55,14 +54,17 @@
             {{i+1}}
           </div>
           <div class="value-item" style="width: 25%;text-align: left;">
-            <span title="{{data.role_name}}">{{(data.role_name > 30) ? (data.role_name | slice:0:30) + '...' : data.role_name}}</span>
-           </div>
-           <div class="value-item" style="width: 30%;">
-            <span title="{{data.role_desc}}" *ngIf="data.role_desc!=null || data.role_desc!=''">{{(data.role_desc > 30) ? (data.role_desc | slice:0:30) + '...' : data.role_desc}}</span>
+            <span
+              title="{{data.role_name}}">{{(data.role_name > 30) ? (data.role_name | slice:0:30) + '...' : data.role_name}}</span>
+          </div>
+          <div class="value-item" style="width: 30%;">
+            <span title="{{data.role_desc}}"
+              *ngIf="data.role_desc!=null || data.role_desc!=''">{{(data.role_desc > 30) ? (data.role_desc | slice:0:30) + '...' : data.role_desc}}</span>
             <span *ngIf="data.role_desc==null || data.role_desc==''">-</span>
           </div>
           <div class="value-item" style="width: 19%;">
-            <a class="viewTag" (click)="showAssignedUserList(data)" style="cursor:pointer" title="Click here to see assigned user list">{{data.total_user_count}}</a>
+            <a class="viewTag" (click)="showAssignedUserList(data)" style="cursor:pointer"
+              title="Click here to see assigned user list">{{data.total_user_count}}</a>
           </div>
           <div class="value-item">
             <div class="action-menu" style="font-size: 14px;">
@@ -70,18 +72,20 @@
               <a (click)="deleteRole(data)" title="Delete" style="color: red;"><i class="fa fa-trash"></i> </a>
             </div>
           </div>
+        </div>
       </div>
-    </div>
-    <div class="value-outer-container" *ngIf="rolesList?.length == 0" style="text-align: center;padding: 10%;font-weight: 600;">
-      No data found
-    </div>
+      <div class="value-outer-container" *ngIf="rolesList?.length == 0"
+        style="text-align: center;padding: 10%;font-weight: 600;">
+        No data found
+      </div>
     </div>
 
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRow" (sizeChange)="updateTableBatchSize($event)">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRow"
+          (sizeChange)="updateTableBatchSize($event)">
         </pagination>
       </div>
     </div>

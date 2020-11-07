@@ -4,7 +4,7 @@ import 'moment';
 import 'hammerjs';
 import { FeeTemplateRoutingModule } from "./fee-template-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+// import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { FeeTemplateHomeComponent } from './fee-template.component'
 import { TemplatePopUpComponent } from './template-popup/template-popup.component';
@@ -19,7 +19,7 @@ import { FeeStrucService } from '../../../../services/feeStruc.service';
         ReactiveFormsModule,
         CommonModule,
         FeeTemplateRoutingModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         FileUploadModule,
         SplitButtonModule,
         MenuModule,

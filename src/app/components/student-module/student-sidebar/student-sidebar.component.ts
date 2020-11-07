@@ -1,11 +1,11 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild, ElementRef,  HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild, ElementRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
- 
+
 @Component({
   selector: 'student-sidebar',
   templateUrl: './student-sidebar.component.html',
@@ -32,18 +32,18 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() openCourseAssigned = new EventEmitter<boolean>();
 
   //@ViewChild('acc') acc: ElementRef;
-  @ViewChild('one') one: ElementRef;
-  @ViewChild('two') two: ElementRef;
+  @ViewChild('one', { static: true }) one: ElementRef;
+  @ViewChild('two', { static: true }) two: ElementRef;
 
 
-  @ViewChild('imgDisp') im: ElementRef;
+  @ViewChild('imgDisp', { static: true }) im: ElementRef;
   private showMenu: boolean = false;
-  certificate:boolean = false;
+  certificate: boolean = false;
   containerWidth: string = "50px";
   studentServerImage: any = '';
   readonly: boolean = true;
-  institute_id:any;
-  downloadStudentReportAccess:boolean = false;
+  institute_id: any;
+  downloadStudentReportAccess: boolean = false;
   studdentEdit = true;
   isSubAdmin = false;
 
@@ -62,16 +62,16 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     course_id: -1,
   };
 
- 
+
   constructor(
-    private eRef: ElementRef, 
+    private eRef: ElementRef,
     private auth: AuthenticatorService,
-     private cd: ChangeDetectorRef,
-     private router: Router,
-     private _http: HttpService,
-     private _commService: CommonServiceFactory,
-     private PostStudService:PostStudentDataService
-    ) {
+    private cd: ChangeDetectorRef,
+    private router: Router,
+    private _http: HttpService,
+    private _commService: CommonServiceFactory,
+    private PostStudService: PostStudentDataService
+  ) {
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -107,10 +107,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadStudentReportAccess')=='true'){
-        this.downloadStudentReportAccess = true;
+    if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
+      this.downloadStudentReportAccess = true;
     }
-}
+  }
 
 
   emitEdit() {
@@ -119,8 +119,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
 
-  gotoStudentReportcard(){
-    this.router.navigateByUrl("/view/students/reportcard/"+this.rowData.student_id)
+  gotoStudentReportcard() {
+    this.router.navigateByUrl("/view/students/reportcard/" + this.rowData.student_id)
   }
 
   gotodownloadCertificate() {
@@ -130,15 +130,15 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     // this.closeMenu();
   }
 
-    downloadStudentReportCard(){
-    this.showToggleLoader.emit(true);  
-    let url='/api/v1/reports/Student/downloadReportCard/'+sessionStorage.getItem('institute_id') + '/'+this.rowData.student_id;
+  downloadStudentReportCard() {
+    this.showToggleLoader.emit(true);
+    let url = '/api/v1/reports/Student/downloadReportCard/' + sessionStorage.getItem('institute_id') + '/' + this.rowData.student_id;
     this.PostStudService.stdGetData(url).subscribe(
-      (res:any) => {
+      (res: any) => {
         console.log(res);
         this.showToggleLoader.emit(false);
-        if(res){
-          if(res.document!=""){
+        if (res) {
+          if (res.document != "") {
             let byteArr = this._commService.convertBase64ToArray(res.document);
             let fileName = res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
@@ -147,31 +147,31 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
             dwldLink.setAttribute("href", url);
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
-            dwldLink.click();          
+            dwldLink.click();
           }
-          else{
+          else {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
         }
-        else{ this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");}
+        else { this._commService.showErrorMessage('info', 'Info', "Document does not have any data."); }
       },
       err => {
         console.log(err);
         this._commService.showErrorMessage('info', 'Info', err.error.message);
         this.showToggleLoader.emit(false);
       })
-}
+  }
 
-downloadStudentIDCard() {
+  downloadStudentIDCard() {
     this.showToggleLoader.emit(true);
-    let url='/admit-card/download';   
-    this.PostStudService.stdPostData(url,[this.rowData.student_id]).subscribe(
-      (res:any) => {
+    let url = '/admit-card/download';
+    this.PostStudService.stdPostData(url, [this.rowData.student_id]).subscribe(
+      (res: any) => {
         console.log(res);
         this.showToggleLoader.emit(false);
-        if(res){
+        if (res) {
           let resp = res.response;
-          if(resp.document!=""){
+          if (resp.document != "") {
             let byteArr = this._commService.convertBase64ToArray(resp.document);
             let fileName = 'card.pdf'; //res.docTitle;
             let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
@@ -180,12 +180,12 @@ downloadStudentIDCard() {
             dwldLink.setAttribute("href", url);
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
-            dwldLink.click();          
+            dwldLink.click();
           }
-          else{
+          else {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
           }
-        }else{
+        } else {
           this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
         }
       },
@@ -194,8 +194,8 @@ downloadStudentIDCard() {
         this.showToggleLoader.emit(false);
       }
     )
-  
-   }
+
+  }
 
 
   emitDelete() {

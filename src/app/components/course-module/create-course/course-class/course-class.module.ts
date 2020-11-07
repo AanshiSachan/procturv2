@@ -10,8 +10,8 @@ import { ClassHomeComponent, DateFormat } from './class-home/class-home.componen
 import { ClassAddComponent } from './class-add/class-add.component';
 import 'moment';
 import 'hammerjs';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import {TimepickerModule} from 'ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, ButtonModule } from 'primeng/primeng';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 // import { TreeviewModule } from 'ngx-treeview';
@@ -23,7 +23,7 @@ import { TopicListingService } from '../../../../services/course-services/topic-
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         TimepickerModule,
         FileUploadModule,
         SplitButtonModule,

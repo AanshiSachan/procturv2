@@ -1,59 +1,69 @@
-<div class="report-wrapper clearFix">
+<div class="report-wrapper clearFix" style="padding-right: 2%;margin-top: -2px;">
     <aside class="middle-full">
         <section class="middle-main clearFix">
             <div class="middle-top mb0 clearFix header">
                 <div class="report-header" style="padding-bottom:1%">
                     <h2>
-                       <a routerLink="/view/fee">
-                            Fees                         </a>
+                        <a routerLink="/view/fee">
+                            Fees </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Online Payment History
-                        <a (click)="searchByName()" class="showFilter" style="float:right; font-size:15px; font-weight: 100;" *ngIf="removeSearchByName">Show Name Filter</a>
+                        <a (click)="searchByName()" class="showFilter"
+                            style="float:right; font-size:15px; font-weight: 100;" *ngIf="removeSearchByName">Show Name
+                            Filter</a>
 
                     </h2>
-                   
+
                     <div class="row" style="margin: 0;">
                         <div class="c-lg-12">
                             <div class="c-lg-8" *ngIf="removeSearchByName">
                                 <div class="c-lg-12">
                                     <div class="c-lg-6 field-wrapper datePickerBox">
                                         <label for="from">From Date</label>
-                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+                                        <input type="text" class="form-ctrl" id="from" bsDatepicker
+                                            [(ngModel)]="sendPayload.from_date"
+                                            (ngModelChange)="futureDateValid($event)">
 
                                     </div>
                                     <div class="c-lg-6 field-wrapper datePickerBox">
                                         <label for="from">To Date</label>
-                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+                                        <input type="text" class="form-ctrl" id="from" bsDatepicker
+                                            [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
 
                                     </div>
                                 </div>
                                 <div class="c-lg-12" style="margin-top:3%;">
                                     <div class="c-lg-8" style="margin-top:1%;margin-left:2%;">
                                         <div class="c-lg-3 field-radio-wrapper makeAdjust" style="text-align: left;">
-                                            <input type="radio" class="form-radio" name="active" id="active" [(ngModel)]="sendPayload.payment_history_student_category_option"
+                                            <input type="radio" class="form-radio" name="active" id="active"
+                                                [(ngModel)]="sendPayload.payment_history_student_category_option"
                                                 [value]="0" checked="true">
                                             <label for="active">Active</label>
                                         </div>
                                         <div class="c-lg-3 field-radio-wrapper makeAdjust" style="text-align: left;">
-                                            <input type="radio" class="form-radio" name="active" id="allStudents" [(ngModel)]="sendPayload.payment_history_student_category_option"
+                                            <input type="radio" class="form-radio" name="active" id="allStudents"
+                                                [(ngModel)]="sendPayload.payment_history_student_category_option"
                                                 [value]="2">
                                             <label for="allStudents">All Students</label>
                                         </div>
                                         <div class="c-lg-3 field-radio-wrapper makeAdjust">
                                             <div>
-                                                <input type="radio" class="form-radio" name="active" id="others" [(ngModel)]="sendPayload.payment_history_student_category_option"
+                                                <input type="radio" class="form-radio" name="active" id="others"
+                                                    [(ngModel)]="sendPayload.payment_history_student_category_option"
                                                     [value]="1">
                                                 <label for="others">Others</label>
                                             </div>
 
                                             <div style="position: relative;top: -25px;left:42px;right:0px;">
                                                 <aside class="pull-left">
-                                                    <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                                                    <rob-tooltip [textMessage]="'?'" [message]="helpMsg"
+                                                        [placement]="'left'" [customClass]="'left'">
                                                     </rob-tooltip>
                                                 </aside>
                                             </div>
                                         </div>
                                         <div class="c-lg-3" style="text-align: left;">
-                                            <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentRecords()">
+                                            <input type="button" class="btn fullBlue" value="GO"
+                                                (click)="getAllPaymentRecords()">
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +76,8 @@
                                     </div>
                                     <div class="c-lg-6">
                                         <aside class="pull-left">
-                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'"
+                                                [customClass]="'left'">
                                             </rob-tooltip>
                                         </aside>
                                     </div>
@@ -77,7 +88,8 @@
                                     </div>
                                     <div class="c-lg-6">
                                         <aside class="pull-left">
-                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'"
+                                                [customClass]="'left'">
                                             </rob-tooltip>
                                         </aside>
                                     </div>
@@ -88,7 +100,8 @@
                                     </div>
                                     <div class="c-lg-6">
                                         <aside class="pull-left">
-                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'"
+                                                [customClass]="'left'">
                                             </rob-tooltip>
                                         </aside>
                                     </div>
@@ -99,14 +112,16 @@
                                     </div>
                                     <div class="c-lg-6">
                                         <aside class="pull-left">
-                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'"
+                                                [customClass]="'left'">
                                             </rob-tooltip>
                                         </aside>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="row" style="padding-top:16px;margin: 0;margin-top:16px;" *ngIf="searchByNameVisible">
+                            <div class="row" style="padding-top:16px;margin: 0;margin-top:16px;"
+                                *ngIf="searchByNameVisible">
                                 <div class="c-lg-3 field-wrapper">
                                     <label for=from>Student Name/Contact No/Reciept No</label>
                                     <input type="text" class="form-ctrl" id="from" [(ngModel)]="searchName">
@@ -114,7 +129,8 @@
 
                                 <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
 
-                                    <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentRecords()">
+                                    <input type="button" class="btn fullBlue" value="GO"
+                                        (click)="getAllPaymentRecords()">
 
                                     <a (click)="searchByDate()" class="showFilter">Remove Search By Name Filter</a>
                                 </div>
@@ -123,19 +139,22 @@
                     </div>
                 </div>
                 <div id="basic-search" style="margin:5px; float:right;">
-                    <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                        (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+                    <input #search type="text" class="search-field searchName" placeholder="Search"
+                        [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
+                        style="padding:7px 10px; width:200px; height:35px;">
                 </div>
 
                 <div class="table-content">
                     <div style="margin: 10px;" *ngIf="downloadFeeReportAccess">
 
-                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;" class="showFilter" >Download To Excel</a>
+                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;"
+                            class="showFilter">Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>
-                    <rob-table [isMulti]='false' [hasMenu]="false" (multiOptionSelected)="optionSelected($event)" [records]="dataGetPayload"
-                        [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
+                    <rob-table [isMulti]='false' [hasMenu]="false" (multiOptionSelected)="optionSelected($event)"
+                        [records]="dataGetPayload" [dataStatus]="dataStatus" [tableName]="'feereport'"
+                        [settings]="feeSettings1">
                     </rob-table>
                 </div>
 

@@ -104,6 +104,7 @@ export class AddClassComponent implements OnInit {
   live_class_for: any = "1";
   singleSelectionOfFaculty: boolean = false;
   zoom_enable: boolean = false;
+  schoolModel: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -126,6 +127,8 @@ export class AddClassComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
     if (this.is_zoom_integration_enable && this.live_class_for == "2") {
@@ -279,7 +282,7 @@ export class AddClassComponent implements OnInit {
     event.setHours(0, 0, 0, 0);
     proctur_live_expiry_date.setHours(0, 0, 0, 0);
     if (proctur_live_expiry_date < event && proctur_live_expiry_date != event) {
-      const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MMM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
+      const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
       this.msgService.showErrorMessage('info', '', tempMsg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }

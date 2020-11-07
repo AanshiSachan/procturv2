@@ -35,7 +35,7 @@ export class TopicBulkUploadComponent implements OnInit {
   templateSubjectData: any[] = [];
 
   bulkUploadRecords: any[] = [];
-  @ViewChild('fileUpload') fileUpload: any;
+  @ViewChild('fileUpload',{static: false}) fileUpload: any;
 
 
   constructor(
@@ -57,7 +57,7 @@ export class TopicBulkUploadComponent implements OnInit {
           this.isProfessional = false;
         }
       })
-   }
+  }
 
   ngOnInit() {
     this.getAllStandards();
@@ -66,12 +66,12 @@ export class TopicBulkUploadComponent implements OnInit {
 
   // get standard
   getAllStandards() {
-    let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y";
+    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + "?is_active=Y" + '&is_subject_required=true';
     this.auth.showLoader();
     this._http.getData(url).subscribe(
       (data: any) => {
         this.auth.hideLoader();
-        this.standardData = data;
+        this.standardData = data.result;
         // console.log(data);
       },
       (error: any) => {
@@ -81,25 +81,30 @@ export class TopicBulkUploadComponent implements OnInit {
     )
   }
 
-  getAllSubjectListFromServer(standards_id){
+  getAllSubjectListFromServer(standards_id) {
     this.subjectData = [];
     this.filterData.subject_id = -1;
-    this.auth.showLoader();
-    let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
-    this._http.getData(url).subscribe(
-      (data: any) => {
-        this.auth.hideLoader();
-        this.subjectData = data;
-        console.log(data);
-      },
-      error => {
-        this.auth.hideLoader();
-        console.log(error);
+    for (let i = 0; i < this.standardData.length; i++) {
+      if (this.standardData[i].standard_id == this.filterData.standard_id) {
+        this.subjectData = this.standardData[i].subject_list;
       }
-    );
+    }
+    // this.auth.showLoader();
+    // let url = "/api/v1/subjects/standards/" + standards_id + '?active=Y';
+    // this._http.getData(url).subscribe(
+    //   (data: any) => {
+    //     this.auth.hideLoader();
+    //     this.subjectData = data;
+    //     console.log(data);
+    //   },
+    //   error => {
+    //     this.auth.hideLoader();
+    //     console.log(error);
+    //   }
+    // );
   }
 
-  getAllSubjectListForDownloadTemp(standards_id){
+  getAllSubjectListForDownloadTemp(standards_id) {
     this.templateSubjectData = [];
     this.downloadTempData.subject_id = -1;
     this.auth.showLoader();
@@ -119,33 +124,33 @@ export class TopicBulkUploadComponent implements OnInit {
 
   /* base64 data to be converted to xls file */
   downloadBulkTemplate() {
-    if((this.filterData.standard_id!=-1) && (this.filterData.subject_id!=-1)){
-    this.auth.showLoader();
-    let url = "/api/v1/topic_manager/"+this.filterData.subject_id+'/download-template';
-    this._http.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        var result = res.result;
-        let byteArr = this.commonService.convertBase64ToArray(result.document);
-        let format = result.format;
-        let fileName = result.docTitle;
-        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
-        let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById('template_link');
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
-        dwldLink.click();
-        this.downloadTempData.standard_id = -1;
-        this.downloadTempData.subject_id = -1;
-        $("#downloadTemplate").modal("hide");
-      },
-      error => {
-        this.auth.hideLoader();
-        console.log(error);
-      }
-    );
-    }  else {
-      if(!this.isProfessional){
+    if ((this.filterData.standard_id != -1) && (this.filterData.subject_id != -1)) {
+      this.auth.showLoader();
+      let url = "/api/v1/topic_manager/" + this.filterData.subject_id + '/download-template';
+      this._http.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          var result = res.result;
+          let byteArr = this.commonService.convertBase64ToArray(result.document);
+          let format = result.format;
+          let fileName = result.docTitle;
+          let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+          let url = URL.createObjectURL(file);
+          let dwldLink = document.getElementById('template_link');
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          dwldLink.click();
+          this.downloadTempData.standard_id = -1;
+          this.downloadTempData.subject_id = -1;
+          $("#downloadTemplate").modal("hide");
+        },
+        error => {
+          this.auth.hideLoader();
+          console.log(error);
+        }
+      );
+    } else {
+      if (!this.isProfessional) {
         this.msgService.showErrorMessage('error', 'Please Select standard and subject', '');
       } else {
         this.msgService.showErrorMessage('error', 'Please Select Master course and course', '');
@@ -157,20 +162,20 @@ export class TopicBulkUploadComponent implements OnInit {
   /* fetch the status of the data updated to server */
   fetchBulkUploadStatusData() {
     this.auth.showLoader();
-    let obj = {"func_type":"TopicBulkUpload"};
-    let url = "/api/v1/bulkUpload/"+this.institute_id;
+    let obj = { "func_type": "TopicBulkUpload" };
+    let url = "/api/v1/bulkUpload/" + this.institute_id;
     this._http.postData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.bulkUploadRecords = res;
-        if(this.bulkUploadRecords.length){
+        if (this.bulkUploadRecords.length) {
           $("#uploadReport").modal("show");
         }
-        else{
+        else {
 
         }
       },
-      err =>{
+      err => {
         this.auth.hideLoader();
       }
     )
@@ -178,10 +183,10 @@ export class TopicBulkUploadComponent implements OnInit {
   /* download the xls status report for a particular file uploaded */
   downloadSuccess(el) {
     this.auth.showLoader();
-    let url = "/api/v1/bulkUpload/"+this.institute_id+"/success/download/"+el.list_id;
+    let url = "/api/v1/bulkUpload/" + this.institute_id + "/success/download/" + el.list_id;
     this._http.getData(url).subscribe(
       res => {
-        var result:any = res;
+        var result: any = res;
         let byteArr = this.commonService.convertBase64ToArray(result.document);
         let format = result.format;
         let fileName = result.docTitle;
@@ -206,11 +211,11 @@ export class TopicBulkUploadComponent implements OnInit {
 
   downloadFailure(el) {
     this.auth.showLoader();
-    let url = "/api/v1/bulkUpload/"+this.institute_id+"/download/"+el.list_id;
+    let url = "/api/v1/bulkUpload/" + this.institute_id + "/download/" + el.list_id;
     this._http.getData(url).subscribe(
       res => {
         this.auth.hideLoader();
-        var result:any = res;
+        var result: any = res;
         let byteArr = this.commonService.convertBase64ToArray(result.document);
         let format = result.format;
         let fileName = result.docTitle;
@@ -235,65 +240,65 @@ export class TopicBulkUploadComponent implements OnInit {
 
   /* function to upload the xls file as formdata */
   uploadHandler(event, fileUpload) {
-    if((this.filterData.standard_id!=-1) && (this.filterData.subject_id!=-1)){
-    let formData = new FormData();
+    if ((this.filterData.standard_id != -1) && (this.filterData.subject_id != -1)) {
+      let formData = new FormData();
 
-    let arr: any = Array.from(event.files)
-    arr.map((ele, index) => {
-      formData.append("file_" + index, ele);
-    })
+      let arr: any = Array.from(event.files)
+      arr.map((ele, index) => {
+        formData.append("file_" + index, ele);
+      })
 
-    let base = this.auth.getBaseUrl();
-    let urlPostXlsDocument = base + "/api/v1/topic_manager/bulkUpload";
-    let newxhr = new XMLHttpRequest();
-    let auths: any = {
-      userid: sessionStorage.getItem('userid'),
-      userType: sessionStorage.getItem('userType'),
-      password: sessionStorage.getItem('password'),
-      institution_id: sessionStorage.getItem('institute_id'),
-    }
-    let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
-
-    newxhr.open("POST", urlPostXlsDocument, true);
-    newxhr.setRequestHeader("Authorization", Authorization);
-    newxhr.setRequestHeader("subject_id", this.filterData.subject_id.toString());
-    newxhr.setRequestHeader("enctype", "multipart/form-data;");
-    newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    this.isUploadingXls = true;
-
-    newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-      if (e.lengthComputable) {
-        this.progress = Math.round((e.loaded * 100) / e.total);
-        document.getElementById('progress-width').style.width = this.progress + '%';
-        this.fileLoading = "Topic Data Upload";
+      let base = this.auth.getBaseUrl();
+      let urlPostXlsDocument = base + "/api/v1/topic_manager/bulkUpload";
+      let newxhr = new XMLHttpRequest();
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
       }
-    }, false);
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
-    newxhr.onreadystatechange = () => {
-      if (newxhr.readyState == 4) {
-        this.progress = 0;
+      newxhr.open("POST", urlPostXlsDocument, true);
+      newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("subject_id", this.filterData.subject_id.toString());
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      this.isUploadingXls = true;
 
-        if (newxhr.status >= 200 && newxhr.status < 300) {
-          this.isUploadingXls = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'File uploaded Successfully', newxhr.response.fileName);
-          this.filterData.standard_id = -1;
-          this.filterData.subject_id = -1;
-          fileUpload.clear(); // this will clear your selected file
-        } else {
-          this.isUploadingXls = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Unable to upload file', newxhr.response.fileName);
+      newxhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+        if (e.lengthComputable) {
+          this.progress = Math.round((e.loaded * 100) / e.total);
+          document.getElementById('progress-width').style.width = this.progress + '%';
+          this.fileLoading = "Topic Data Upload";
+        }
+      }, false);
+
+      newxhr.onreadystatechange = () => {
+        if (newxhr.readyState == 4) {
+          this.progress = 0;
+
+          if (newxhr.status >= 200 && newxhr.status < 300) {
+            this.isUploadingXls = false;
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'File uploaded Successfully', newxhr.response.fileName);
+            this.filterData.standard_id = -1;
+            this.filterData.subject_id = -1;
+            fileUpload.clear(); // this will clear your selected file
+          } else {
+            this.isUploadingXls = false;
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Unable to upload file', newxhr.response.fileName);
+          }
         }
       }
-    }
-    newxhr.send(formData);
-  } else {
-    if(!this.isProfessional){
-      this.msgService.showErrorMessage('error', 'Please Select standard and subject', '');
+      newxhr.send(formData);
     } else {
-      this.msgService.showErrorMessage('error', 'Please Select Master course and course', '');
+      if (!this.isProfessional) {
+        this.msgService.showErrorMessage('error', 'Please Select standard and subject', '');
+      } else {
+        this.msgService.showErrorMessage('error', 'Please Select Master course and course', '');
+      }
     }
-  }
 
   }
 
@@ -351,7 +356,7 @@ export class TopicBulkUploadComponent implements OnInit {
   }
 
   genrateReport(obj) {
-    if(obj.failure_path != '') {
+    if (obj.failure_path != '') {
       this.downloadFailure(obj);
     } else if (obj.success_path != '') {
       this.downloadSuccess(obj);

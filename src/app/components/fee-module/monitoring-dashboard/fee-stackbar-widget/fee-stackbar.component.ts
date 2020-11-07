@@ -46,7 +46,7 @@ export class FeeStackbarComponent implements OnInit {
   }
 
   createChart(fd, n, pd, p) {
-    Highcharts.chart('feestackbar', {
+    (Highcharts as any).chart('feestackbar', {
       chart: {
         type: 'column',
         options3d: {

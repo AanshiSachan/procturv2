@@ -6,7 +6,6 @@ import { ProductCreationComponent } from './product-creation/product-creation.co
 import { RegisteredStudentComponent } from './product-registered-student/product-registered-student.component';
 
 
-
 const routes: Routes = [
     {
         path: 'home',
@@ -38,7 +37,8 @@ const routes: Routes = [
     },
     {
         path: 'manage-offers',
-        loadChildren: 'app/components/eStore-module/manage-coupon-home/manage-coupon-home.module#ManageCouponHomeModule',
+        loadChildren: () => import('app/components/eStore-module/manage-coupon-home/manage-coupon-home.module').then(m => m.ManageCouponHomeModule),
+        // loadChildren: 'app/components/eStore-module/manage-coupon-home/manage-coupon-home.module#ManageCouponHomeModule',
         pathMatch: 'prefix'
     },
     {

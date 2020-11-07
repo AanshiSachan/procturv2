@@ -2,8 +2,9 @@ import { Component, ElementRef, OnInit, Pipe, ViewChild, OnDestroy } from '@angu
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
+import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -27,8 +28,8 @@ export class StudentAddComponent implements OnInit, OnDestroy {
 
   /* Local Variable and scope declaration */
   /* ========================================================================================================== */
-  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-  @ViewChild('btnPayment') btnPayment: ElementRef;
+  @ViewChild('saveAndContinue', { static: false }) btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPayment', { static: false }) btnPayment: ElementRef;
   allocatedItem: any = [];
   newPdcArr: any[] = [];
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
@@ -197,7 +198,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     guardian_email: "",
     guardian_phone: "",
     is_active: "Y",
-    expiry_date: "",
+    expiry_date: moment().format('YYYY-MM-DD'),
     institution_id: sessionStorage.getItem('institute_id'),
     assignedBatches: [],
     assignedBatchescademicYearArray: [""],
@@ -293,12 +294,20 @@ export class StudentAddComponent implements OnInit, OnDestroy {
   tax_type_without_percentage: String;
   isTaxEnable: boolean = false;
 
+  isRippleLoad: boolean = false;
   // state and city list
   addArea: boolean = false;
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
+  selectedData = {
+    country: '',
+    state: '',
+    city: ''
+  };
   Payment_Modes: any = [];
+  role_feature = role.features;
+  schoolModel: boolean = false;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -345,17 +354,17 @@ export class StudentAddComponent implements OnInit, OnDestroy {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('710')) { //fee reconfiguration
+      if (this.role_feature.FEE_MANAGE) { //fee reconfiguration
         this.checkBoxGroup.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (!permissions.includes('707')) {//1.	Fee Payment for Past Dates
+      if (!this.role_feature.FEE_MANAGE) {//1.	Fee Payment for Past Dates
         this.checkBoxGroup.showFeeSection = false;
       }
-      if (permissions.includes('713')) { //1.	Fee discount
+      if (this.role_feature.FEE_MANAGE) { //1.	Fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
-      if (permissions.includes('714')) { //update payment and manage cheque,pdc
+      if (this.role_feature.FEE_CHEQUE_MANAGE) { //update payment and manage cheque,pdc
         this.checkBoxGroup.manageCheque = true;
         this.checkBoxGroup.showFeeSection = false;
       }
@@ -398,7 +407,6 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         }
       }
 
-      console.log(this.instituteCountryDetObj);
     }
   }
 
@@ -411,25 +419,27 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.studentAddFormData.city_id = "";
       this.studentAddFormData.area_id = "";
     }
-    const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.statusCode == 200) {
-          if (res.result && res.result.length > 0) {
-            this.stateList = res.result[0].stateList;
+    if (this.studentAddFormData.country_id != "") {
+      const url = `/api/v1/country/state?country_ids=${this.studentAddFormData.country_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.statusCode == 200) {
+            if (res.result && res.result.length > 0) {
+              this.stateList = res.result[0].stateList;
+            }
+            if (!this.checkStatusofStudent) {
+              this.getCityList();
+            }
           }
-          if (!this.checkStatusofStudent) {
-            this.getCityList();
-          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   // get city list as per state selection
@@ -440,7 +450,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.studentAddFormData.city_id = "";
       this.studentAddFormData.area_id = "";
     }
-    if (!!this.studentAddFormData.state_id) {
+    if (!!this.studentAddFormData.state_id && this.studentAddFormData.state_id != "") {
       const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -461,31 +471,31 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         }
       )
     }
-
   }
 
   getAreaList() {
     if (this.checkStatusofStudent) {
       this.areaList = [];
     }
-    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.statusCode == 200 && res.result && res.result.length > 0) {
-          this.areaList = res.result[0].areaList;
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
+      const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.statusCode == 200 && res.result && res.result.length > 0) {
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   onChangeObj(event) {
-    console.log(event);
     this.fetchDataForCountryDetails();
     this.countryDetails.forEach(element => {
       if (element.id == event) {
@@ -505,6 +515,9 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     }
     else {
       this.addArea = true;
+      this.selectedData.country = this.studentAddFormData.country_id;
+      this.selectedData.state = this.studentAddFormData.state_id;
+      this.selectedData.city = this.studentAddFormData.city_id;
     }
   }
 
@@ -546,6 +559,8 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
 
@@ -739,6 +754,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     //      this.auth.hideLoader();
     //   }
     // )
+
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
@@ -901,8 +917,14 @@ export class StudentAddComponent implements OnInit, OnDestroy {
 
   /* align the user selected batch into input and update the data into array to be updated to server */
   getassignedBatchList(e) {
+    let temp = [];
+    if(e.batchJoiningDates && e.batchJoiningDates.length) {
+      e.batchJoiningDates.forEach(el => {
+            temp.push(moment(el).format('YYYY-MM-DD'));
+      });
+    }
     this.studentAddFormData.assignedBatches = e.assignedBatches;
-    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.batchJoiningDates = temp;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
     this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = false;
@@ -1815,18 +1837,18 @@ export class StudentAddComponent implements OnInit, OnDestroy {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!permissions.includes('707')) {
+            if (!this.role_feature.FEE_MANAGE) {
               this.checkBoxGroup.hideReconfigure = false;
             }
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('714')) {
+            if (this.role_feature.FEE_CHEQUE_MANAGE) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if ((permissions.includes('710'))) {
+            if (this.role_feature.FEE_MANAGE) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
@@ -1834,7 +1856,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.hideReconfigure = false;
             }
 
-            if (permissions.includes('713')) {
+            if (this.role_feature.FEE_MANAGE) {
               this.checkBoxGroup.feeDiscouting = true;
             }
 
@@ -2637,7 +2659,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
           temp = {
             "title": this.category_id,
             "fileName": preview.name,
-            "encodedFile": myReader.result.split(',')[1]
+            "encodedFile": (<string>myReader.result).split(',')[1]
           }
           this.selectedFiles.push(temp);
           this.msgToast.showErrorMessage('success', '', "File uploaded successfully");

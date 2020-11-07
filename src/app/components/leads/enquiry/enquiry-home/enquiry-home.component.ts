@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnIn
 import { ActivatedRoute, Router } from '@angular/router';
 /* Third party imports */
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
 import { instituteInfo } from '../../../../model/instituteinfo';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
 import { FetchenquiryService } from '../../../../services/enquiry-services/fetchenquiry.service';
@@ -27,12 +28,12 @@ import { ColumnSetting } from '../../../shared/custom-table/layout.model';
 })
 export class EnquiryHomeComponent implements OnInit {
     /* Variable Declaration */
-    @ViewChild('skelton') skel: ElementRef;
-    @ViewChild('mySidenav') mySidenav: ElementRef;
-    @ViewChild('enqPage') enqPage: ElementRef;
-    @ViewChild('tablemain') tablemain: ElementRef;
-    @ViewChild('pager') pager: ElementRef;
-    @ViewChild('optMenu') optMenu: ElementRef;
+    @ViewChild('skelton',{static: true}) skel: ElementRef;
+    @ViewChild('mySidenav',{static: true}) mySidenav: ElementRef;
+    @ViewChild('enqPage',{static: true}) enqPage: ElementRef;
+    @ViewChild('tablemain',{static: true}) tablemain: ElementRef;
+    @ViewChild('pager',{static: true}) pager: ElementRef;
+    @ViewChild('optMenu',{static: true}) optMenu: ElementRef;
 
     sourceEnquiry: any[] = [];
     smsSourceApproved: any[] = [];
@@ -336,12 +337,16 @@ export class EnquiryHomeComponent implements OnInit {
     stateList: any[] = [];
     cityDetails: any[] = [];
     showBulkUpload: any = false;
+    role_feature = role.features;
 
     downloadReportFor = {
         enquiry: false,
         admissions: false,
         fees: false
     }
+    // pre fill data flag
+    preFill: boolean = false;
+
 
     /*Declaration Fin*/
     constructor(
@@ -410,12 +415,12 @@ export class EnquiryHomeComponent implements OnInit {
         }
         else {
             if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
-                if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+                if (this.role_feature.LEAD_MANAGE_ENQUIRY)
                     this.permission = false;
             }
         }
         this.isEnquiryAdministrator();
-        this.FetchEnquiryPrefilledData();
+        // this.FetchEnquiryPrefilledData();
         //this.prefill.getLeadSource().subscribe( (data)=>{ console.log(data)})
         /* Fetch prefill data after table data load completes */
 
@@ -466,7 +471,7 @@ export class EnquiryHomeComponent implements OnInit {
             }
         });
         sessionStorage.setItem('varJson.displayBatchSize', this.varJson.displayBatchSize.toString());
-        this.checkMultiBranchStatus();
+        // this.checkMultiBranchStatus();
 
         // Customizable Table
         this.tableSetting.keys = this.enquirySettings;
@@ -483,10 +488,10 @@ export class EnquiryHomeComponent implements OnInit {
 
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('714')) { ////update payment and manage cheque,pdc  hide download
+            if (this.role_feature.FEE_CHEQUE_MANAGE) { ////update payment and manage cheque,pdc  hide download
                 this.varJson.showDownloadSummary = false;
             }
-            if (permissions.includes('712')) { // show download summery
+            if (this.role_feature.REPORT_ENQUIRY_COURSE_WISE) { // show download summery
                 this.varJson.showDownloadSummary = true;
             }
         }
@@ -509,7 +514,7 @@ export class EnquiryHomeComponent implements OnInit {
         if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
             if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
                 let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-                this.showBulkUpload = permissions.includes('728') ? true : false;//sms visiblity
+                this.showBulkUpload = this.role_feature.LEAD_MANAGE_ENQUIRY ? true : false;//sms visiblity
             }
         } else {
             this.showBulkUpload = true;
@@ -520,7 +525,6 @@ export class EnquiryHomeComponent implements OnInit {
     getSearchableCustomeComponents(array) {
 
         this.filterCustomComponent = array.filter((object) => object.is_searchable == 'Y');
-        console.log(this.filterCustomComponent);
     }
 
     timeChanges(ev) {
@@ -618,63 +622,126 @@ export class EnquiryHomeComponent implements OnInit {
     }
     /* Function to fetch prefill data for advanced filter */
     FetchEnquiryPrefilledData() {
-        /* Status */
-        this.prefill.getEnqStatus().subscribe(data => { this.enqstatus = data; });
-
+      this.auth.showLoader();
+      /* Status */
+      const getEnqStatus = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getEnqStatus().subscribe(data => { this.enqstatus = data;  resolve()});
+        })
+      }
         /* Campaigns */
-        this.prefill.getCampaignsList().subscribe((data: any) => { this.campaignList = data; });
+      const getCampaignsList = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getCampaignsList().subscribe((data: any) => { this.campaignList = data; resolve()});
+        })
+      }
+      /* Priority */
+      const getEnqPriority = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getEnqPriority().subscribe(data => { this.enqPriority = data; resolve()});
+        })
+      }
+      /* FollowUp Type */
+      const getFollowupType = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getFollowupType().subscribe(data => { this.enqFollowType = data; resolve()});
+        })
+      }
+      /* Assign To */
+      const getAssignTo = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getAssignTo().subscribe(data => { this.enqAssignTo = data; resolve()});
+        })
+      }
+      /* Sources */
+      const getLeadSource = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getLeadSource().subscribe(data => { this.sources = data; resolve() });
+        })
+      }
+      /* Schools */
+      const getSchoolDetails = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getSchoolDetails().subscribe(data => { this.schools = data; resolve() });
+        })
+      }
+      /* Standard */
+      const getEnqStardards = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getEnqStardards().subscribe(data => { this.enqStd = data; resolve()});
+        })
+      }
+      /* Slots */
+      const getEnquirySlots = () => {
+        return new Promise((resolve, reject) => {
+          if (this.flagJSON.isProfessional) {
+             this.prefill.getEnquirySlots().subscribe((res: any) => { res.forEach(el => {
+               let obj = { label: el.slot_name, value: el, status: false };
+                this.slots.push(obj);
+               });
+             })
+          }
+          resolve();
+        })
+      }
+      /* Payment Modes */
+      const fetchPaymentModes = () => {
+        return new Promise((resolve, reject) => {
+            this.prefill.fetchPaymentModes().subscribe((data: any) => { this.paymentMode = data; resolve() });
+        })
+      }
+      // City Area Fetch //
+      const getCityList = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getCityList().subscribe(res => { this.cityList = res; resolve()});
+        })
+      }
+      // Closing Reason //
+      const getClosingReasons = () => {
+        return new Promise((resolve, reject) => {
+          this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; resolve()})
+        })
+      }
 
-        /* Priority */
-        let priority = this.prefill.getEnqPriority().subscribe(data => { this.enqPriority = data; });
+      const promises = [];
+      let arr = [getEnqStatus(),getCampaignsList(),getEnqPriority(),getFollowupType(), getAssignTo(), getLeadSource(), getSchoolDetails(), getEnqStardards(), getEnquirySlots(), fetchPaymentModes(), getCityList(), getClosingReasons() ];
 
-        /* FollowUp Type */
-        this.prefill.getFollowupType().subscribe(data => { this.enqFollowType = data });
+      for(let i = 0; i < arr.length; i++ ){
+         promises.push(arr[i]);
+      }
 
-        /* Assign To */
-        this.prefill.getAssignTo().subscribe(data => { this.enqAssignTo = data; });
 
-        /* Sources */
-        this.prefill.getLeadSource().subscribe(data => { this.sources = data });
-
-        /* Schools */
-        this.prefill.getSchoolDetails().subscribe(data => { this.schools = data });
-
-        /* Standard */
-        this.prefill.getEnqStardards().subscribe(data => { this.enqStd = data; });
-
-        /* Slots */
-        if (this.flagJSON.isProfessional) { this.prefill.getEnquirySlots().subscribe((res: any) => { res.forEach(el => { let obj = { label: el.slot_name, value: el, status: false }; this.slots.push(obj); }); }) }
-
-        /* Payment Modes */
-        this.prefill.fetchPaymentModes().subscribe((data: any) => { this.paymentMode = data; });
+      Promise.all(promises)
+      .then(response => {
 
         /* Custom Components */
         this.fetchCustomComponentData();
 
         /* Master Course / Standard */
-        if (!this.flagJSON.isProfessional) { this.fetchMasterCourseDetails(); };
-
-        // City Area Fetch //
-
-        this.prefill.getCityList().subscribe(res => { this.cityList = res; });
-
-        // Closing Reason //
-
-        this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; })
+        if (!this.flagJSON.isProfessional) { this.prefill.getMasterCourseData().subscribe((res: any) => { this.masterCourseData = res; }) };
 
         //  Referred By //
-
         this.fetchReferredByData();
+
+        this.checkMultiBranchStatus();
+
+        this.preFill = true;
+        this.auth.hideLoader()
+      })
+
     }
 
     fetchReferredByData() {
         let url = '/api/v1/enquiry_campaign/master/lead_referred_by/' + sessionStorage.getItem('institute_id') + '/all'
+        // this.auth.showLoader();
         this.httpService.getData(url).subscribe(
             (res: any) => {
-                this.referredByData = res;
+              // this.auth.hideLoader();
+              this.referredByData = res;
             },
             err => {
-                console.log(err);
+              this.auth.hideLoader();
+              console.log(err);
             }
         )
 
@@ -837,6 +904,9 @@ export class EnquiryHomeComponent implements OnInit {
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter')
         //console.log(this.advancedFilterForm);
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+        if(!this.preFill){
+          this.FetchEnquiryPrefilledData();
+        }
         this.closeEnquiryFullDetails();
         this.flagJSON.isSideBar = false;
         let classArray = ['adFilterOpen', 'adFilterExitVisible', 'qfilt', 'customizableTableSection'];
@@ -881,7 +951,7 @@ export class EnquiryHomeComponent implements OnInit {
         )
         this.emailGridData.forEach(element => {
             if (element.template_updated_date != null || element.template_updated_date != '') {
-                element.template_updated_date = moment(element.template_updated_date).format('DD-MMM-YYYY');
+                element.template_updated_date = moment(element.template_updated_date).format('DD-MM-YYYY');
             }
         });
     }
@@ -1496,8 +1566,12 @@ export class EnquiryHomeComponent implements OnInit {
                 this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.failSMS, 'Please check your internet connection or try again later')
             }
         )
-        document.getElementByID("sms-content").value = "";
-        document.getElementByID("email-content").value = "";
+        // document.getElementByID("sms-content").value = "";
+        let ele=(document.getElementById("sms-content") as HTMLInputElement);
+        ele.value ="";
+        let ele1=(document.getElementById("email-content") as HTMLInputElement);
+        ele1.value ="";
+        // document.getElementByID("email-content").value = "";
     }
 
     /* Approved SMS template send */
@@ -1703,6 +1777,9 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Bulk Assign popup open */
     bulkAssignEnquiriesOpen() {
+      if(!this.preFill){
+        this.FetchEnquiryPrefilledData();
+      }
         this.cd.markForCheck();
         /* If Admin */
         if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == '') {
@@ -2106,17 +2183,17 @@ export class EnquiryHomeComponent implements OnInit {
     toggleDateSection() {
         if (this.flagJSON.showDateRange == false) {
             this.flagJSON.showDateRange = true;
-            document.getElementById('anchTagToggle').text = "Hide";
+            (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Hide";
         } else {
             this.flagJSON.showDateRange = false;
-            document.getElementById('anchTagToggle').text = "Download By Date Range";
+            (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Download By Date Range";
         }
     }
 
     downloadSummaryReport() {
         this.flagJSON.summaryOptions = true;
         setTimeout(() => {
-            document.getElementById('anchTagToggle').text = "Download By Date Range";
+            (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Download By Date Range";
         }, 100);
     }
 
@@ -2399,6 +2476,9 @@ export class EnquiryHomeComponent implements OnInit {
                 this.cd.markForCheck();
                 if (res != null) {
                     this.customCompid = res;
+                }
+                if(!this.preFill){
+                  this.FetchEnquiryPrefilledData();
                 }
                 this.flagJSON.isSideBar = true;
             },

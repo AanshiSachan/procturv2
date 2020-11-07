@@ -1,4 +1,4 @@
-<div class="middle-section">
+<div style="padding-right: 2%;margin-top: 4px;">
   <aside class="middle-full">
     <section class="middle-main clearFix activity-wrapper">
       <section class="middle-top clearFix bulk-header" style="border-bottom: 1px solid lightgrey;padding-bottom: 6px;">
@@ -7,13 +7,13 @@
             <span>Live Class</span>
           </h1>
         </div>
-        <div style="float: right;margin-right: 30px;">
+        <div style="float: right;margin-right: 30px;margin-top: 7px;">
           <span data-toggle="modal" data-target="#helpFAQ"> <i class="fa fa-question-circle"
               style="cursor: pointer; font-size: 20px;" title="FAQ’S & Help Descriptions" aria-hidden="true"></i></span>
         </div>
 
         <div id="helpFAQ" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+          <div class="modal-dialog" style="    top: 5%;">
             <div class="modal-content">
               <div class="modal-header" style="background-color: #c5dcf87a;border-radius: 6px;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -352,7 +352,7 @@
       </section>
       <section>
         <div class="live-class-list">
-          <div class="live-class-container" style="width:50%;">
+          <div class="live-class-container" style="width:61%;">
             <div class="field-radio-wrapper" style="width: 25%;">
               <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor"
                 (ngModelChange)="getClassesList()" name="liveClasses" id="liveClasses1">
@@ -500,6 +500,24 @@
                             [disabled]="proctur_live_expiry_date_check"
                             [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                             <i class="fa fa-times" aria-hidden="true"></i> Cancel
+                          </button>
+                        </span>
+                        <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                          Your Proctur Live
+                          <br> subscription is over.
+                          <br> Please pay quickly
+                          <br> to continue using it.
+                        </div>
+                      </div>
+                    </span>
+                    <span class="dropdown-item" (click)="copyToClipboard(class)"
+                      *ngIf="(!liveClassFor && !timeLeft(today, class.start_datetime)) && class.live_meeting_with == 'Zoom'">
+                      <div class="questionInfo inline-relative">
+                        <span class=" i-class">
+                          <button style="background: none;" type="button" name="button"
+                            [disabled]="proctur_live_expiry_date_check"
+                            [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                            <i class="fa fa-clipboard" aria-hidden="true"></i> Copy URL
                           </button>
                         </span>
                         <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
@@ -728,29 +746,29 @@
 <div id="uploadRec" style="z-index: 1112;" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
-    <div class="modal-content">
+    <div class="modal-content" style="margin-top: 17%;">
       <div class="modal-header">
         <button type="button" class="close" (click)="closeUploadModal()">&times;</button>
         <h4 class="modal-title">Upload Recording</h4>
       </div>
       <div class="modal-body">
-        <div class="row" style="margin: 0;" *ngIf="proctur_live_integration_with_vdoCipher == 1 && proctur_live_integration_with_vimeo == 1">
+        <div class="row" style="margin: 0;"
+          *ngIf="proctur_live_integration_with_vdoCipher == 1 && proctur_live_integration_with_vimeo == 1">
           <div class="c-lg-4 field-radio-wrapper" style="width: 25%;">
-            <input type="radio" [value]="'VDOCipher'" class="form-radio" [(ngModel)]="isVimeo"
-               name="isVimeo" id="VDOCipher">
+            <input type="radio" [value]="'VDOCipher'" class="form-radio" [(ngModel)]="isVimeo" name="isVimeo"
+              id="VDOCipher">
             <label for="VDOCipher">VDOCipher</label>
           </div>
           <div class="c-lg-4 field-radio-wrapper" style="width: 25%;">
-            <input type="radio" [value]="'Vimeo'" class="form-radio" [(ngModel)]="isVimeo"
-              name="isVimeo" id="Vimeo">
+            <input type="radio" [value]="'Vimeo'" class="form-radio" [(ngModel)]="isVimeo" name="isVimeo" id="Vimeo">
             <label for="Vimeo">Vimeo</label>
           </div>
         </div>
-        <div class="row" *ngIf="(proctur_live_integration_with_vimeo == 1 || isVimeo == 'Vimeo') && isVimeo!='VDOCipher'">
+        <div class="row"
+          *ngIf="(proctur_live_integration_with_vimeo == 1 || isVimeo == 'Vimeo') && isVimeo!='VDOCipher'">
           <div class="c-lg-8 field-wrapper">
             <label for="vimeo_title">Title</label>
-            <input type="text" class="form-ctrl" [(ngModel)]="vimeo_title"
-              name="vimeo_title" id="vimeo_title">
+            <input type="text" class="form-ctrl" [(ngModel)]="vimeo_title" name="vimeo_title" id="vimeo_title">
           </div>
         </div>
         <div class="row">
@@ -849,7 +867,8 @@
               <span *ngIf="data.video_duration==null">-</span>
             </div>
             <div class="value-item" style="width: 20%; display: flex; justify-content: space-around;">
-              <div *ngIf="((proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3) && (data.vimeo_video_url=='' || data.vimeo_video_url== null)) || ((data.vimeo_video_url!='' || data.vimeo_video_url!= null) && vimeo_video_downlodable)">
+              <div
+                *ngIf="((proctur_live_view_or_download_visibility==1 || proctur_live_view_or_download_visibility==3) && (data.vimeo_video_url=='' || data.vimeo_video_url== null)) || ((data.vimeo_video_url!='' || data.vimeo_video_url!= null) && vimeo_video_downlodable)">
                 <button class="fa fa-download" style="font-size: 14px; color: #0084f6;background: none;"
                   title="Download" (click)="downloadFileCheck(data);" id="downloadFile"
                   [disabled]="data.download_id==null || auth.isRippleLoad.getValue()"
@@ -869,8 +888,10 @@
               </div>
               <div (click)="playVimeoVideo(data)"
                 *ngIf="(JsonVars.view_proctur_live_recorded_session==4 || JsonVars.view_proctur_live_recorded_session==5 || JsonVars.view_proctur_live_recorded_session==6 || JsonVars.view_proctur_live_recorded_session==7)">
-                <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;" title="{{data.video_status!='ready' ? 'Video is in processing state. Kindly wait for an hour.' : 'Play'}}"
-                  [disabled]="(data.video_status!='ready' || data.vimeo_video_url == '' || data.vimeo_video_url == null)" [ngStyle]="{'opacity':(data.video_status!='ready' || data.vimeo_video_url=='' || data.vimeo_video_url== null) ? '0.5' : '1' }">
+                <button class="fa fa-play" style="font-size: 15px; color: #0084f6; background: none;"
+                  title="{{data.video_status!='ready' ? 'Video is in processing state. Kindly wait for an hour.' : 'Play'}}"
+                  [disabled]="(data.video_status!='ready' || data.vimeo_video_url == '' || data.vimeo_video_url == null)"
+                  [ngStyle]="{'opacity':(data.video_status!='ready' || data.vimeo_video_url=='' || data.vimeo_video_url== null) ? '0.5' : '1' }">
                 </button>
               </div>
               <div (click)="deleteRecording(data.id, false)">
@@ -919,7 +940,7 @@
 <!-- <div id="black-bg" (click)="stopVideo()"  [hidden]="showVideo"></div> -->
 
 <div class="modal fade" id="liveClassExpiry" role="dialog" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="top: 8%;">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title">Dear Partner, your Live class subscription is due for
@@ -982,9 +1003,7 @@
 </div>
 
 <div class="videoplayer" *ngIf="videoplayer">
-  <iframe width="650" height="400"
-    [src]="currentProjectUrl"
-    frameborder="0" style="border-radius: 10px;"
+  <iframe width="650" height="400" [src]="currentProjectUrl" frameborder="0" style="border-radius: 10px;"
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
   </iframe>
 </div>
@@ -1023,8 +1042,8 @@
                 <div class="value-item" style="text-align: left;width: 10%;">
                   <div class="field-radio-wrapper" style="width: 25%;">
                     <input type="radio" [value]="i" [id]="'bothRadio-'+i" class="form-radio" [(ngModel)]="data.selected"
-                    (ngModelChange)="changeSelectedSize(data)" name="select" id="select">
-                      <label></label>
+                      (ngModelChange)="changeSelectedSize(data)" name="select" id="select">
+                    <label></label>
                   </div>
                 </div>
                 <div class="value-item" style="text-align: left;width: 45%;">
@@ -1040,10 +1059,10 @@
             </div>
           </div>
         </section>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-default" (click)="downloadVimeoVdo()">Download</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" (click)="downloadVimeoVdo()">Download</button>
+        </div>
       </div>
     </div>
   </div>
-</div>

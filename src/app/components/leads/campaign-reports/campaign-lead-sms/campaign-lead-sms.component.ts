@@ -32,6 +32,8 @@ export class CampaignLeadSmsComponent implements OnInit {
   leadSmsSearchInput: any = "";
   leadSmsList: any;
   tempLeadSmslist: any;
+  from_date: any;
+  to_date: any;
   leadsmsSource: any = [];
   // FOR PAGINATION
   pageIndex: number = 1;
@@ -103,7 +105,7 @@ export class CampaignLeadSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "48vh"
+      height: "43vh"
     }
 
     this.rowColumns = [
@@ -135,13 +137,19 @@ export class CampaignLeadSmsComponent implements OnInit {
     ]
   }
   getSmsReport(obj) {
+    let tempObj = {
+      from_date: moment(obj.from_date).format('YYYY-MM-DD'),
+      to_date: moment(obj.to_date).format('YYYY-MM-DD'),
+      institution_id: obj.institution_id,
+      start_index: 0,
+      batch_size: 50
+    }
     this.auth.showLoader();
-    obj.from_date = moment(obj.from_date).format("YYYY-MM-DD");
-    if (obj.to_date != null && obj.to_date != "") {
-      obj.to_date = moment(obj.to_date).format("YYYY-MM-DD");
+    if (tempObj.to_date != null && tempObj.to_date != "") {
+      tempObj.to_date = moment(tempObj.to_date).format("YYYY-MM-DD");
     }
     if (obj.start_index == 0) {
-      return this.campaignService.fetchSmsReport(obj).subscribe(
+      return this.campaignService.fetchSmsReport(tempObj).subscribe(
         (res: any) => {
           this.auth.hideLoader();
           this.leadsmsSource = res;

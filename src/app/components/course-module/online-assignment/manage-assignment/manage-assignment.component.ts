@@ -4,7 +4,7 @@ import { HttpService  } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { MasterTagService } from '../../master-tag/master-tag.component.service';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 declare var $;
@@ -249,8 +249,10 @@ export class ManageAssignmentComponent implements OnInit {
     this.assignmentDetails.topic = this.editAssignmentDetails.topic_id;
     this.assignmentDetails.subtopic = this.editAssignmentDetails.sub_topic_id;
     this.assignmentDetails.enable_grade = this.editAssignmentDetails.enable_grade.toString();
-    this.assignmentDetails.assignment_late_submission_date = this.editAssignmentDetails.assignment_late_submission_date;
-    this.assignmentDetails.evaluation_date = this.editAssignmentDetails.evaluation_date;
+    if(this.editAssignmentDetails.assignment_late_submission_date!= null && this.editAssignmentDetails.assignment_late_submission_date!='') {
+      this.assignmentDetails.assignment_late_submission_date = moment(this.editAssignmentDetails.assignment_late_submission_date).format('YYYY-MM-DD');;
+    }
+    this.assignmentDetails.evaluation_date = moment(this.editAssignmentDetails.evaluation_date).format('YYYY-MM-DD');
 
     this.assignmentDetails.students = [];
     this.assignmentDetails.teacher = this.editAssignmentDetails.teacher_id;

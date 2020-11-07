@@ -17,7 +17,7 @@ import { EnquiryWidgetComponent } from "./enquiry-widget/enquiry-widget.componen
 import { GeneralWidgetComponent } from './general-widget/general-widget.component';
 import { BiometricWidgetComponent } from './biometric-widget/biometric-widget.component';
 import { BiometricStatusServiceService } from '../../services/biometric-status/biometric-status-service.service';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome';
+// import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToDoListComponent } from './to-do-list/to-do-list.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { ExcelService } from '../../services/excel.service';
@@ -39,7 +39,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
         ReactiveFormsModule,
         CommonModule,
         HomepageDashboardRoutingModule,
-        BsDatepickerModule,
+        // BsDatepickerModule,
         SharedModule,
         ChartModule,
         FileUploadModule,
@@ -55,7 +55,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
         EnquiryWidgetComponent,
         GeneralWidgetComponent,
         BiometricWidgetComponent,
-        ToDoListComponent,
+        // ToDoListComponent,
         ExpensesComponent,
         MarkAttendanceComponent,
         ExamMarkUpdateComponent,

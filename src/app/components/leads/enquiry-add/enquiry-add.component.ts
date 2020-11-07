@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
@@ -180,12 +181,20 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     }
   };
 
+  isRippleLoad: boolean = false;
   // state and city list
   stateList: any[] = [];
   cityList: any[] = [];
   areaList: any[] = [];
   addArea: boolean = false;
+  selectedData = {
+    country: '',
+    state: '',
+    city:''
+  };
   convertEnquiry: boolean = false;
+  role_feature = role.features;
+  schoolModel: boolean = false;
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -206,6 +215,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -222,7 +233,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     }
     else {
       if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
-        if (JSON.parse(sessionStorage.getItem('permissions')).includes('110'))
+        if (this.role_feature.LEAD_MANAGE_ENQUIRY)
           this.permission = true;
       }
     }
@@ -452,6 +463,10 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     }
     else {
       this.addArea = true;
+      this.selectedData.country = this.newEnqData.country_id;
+      this.selectedData.state = this.newEnqData.state_id;
+      this.selectedData.city = this.newEnqData.city_id;
+
     }
   }
 
@@ -980,6 +995,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
+    console.log("Form", form);
 
     //Validates if the custom component required fields are selected or not
 
@@ -1353,9 +1369,9 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         return this.showErrorMessage('error', msg, '');
       }
     }
-    else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
-      return this.showErrorMessage('error', '', 'Please select enquiry date ');
-    }
+    // else if (this.commonServiceFactory.checkValueType(moment(this.newEnqData.enquiry_date).format("YYYY-MM-DD"))) {
+    //   return this.showErrorMessage('error', '', 'Please select enquiry date ');
+    // }
     else if (this.commonServiceFactory.sourceValueCheck(this.newEnqData.source_id)) {
       return this.showErrorMessage('error', '', 'Please select enquiry source');
     }

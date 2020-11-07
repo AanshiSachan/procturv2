@@ -25,7 +25,8 @@ import { ManageCampaignComponent } from './manage-campaign/manage-campaign.compo
               },
               {
                   path: 'campaign',
-                  loadChildren: 'app/components/leads/campaign/campaign.module#CampaignModule',
+                  loadChildren: () => import('app/components/leads/campaign/campaign.module').then(m => m.CampaignModule),
+                //   loadChildren: 'app/components/leads/campaign/campaign.module#CampaignModule',
                   pathMatch: 'prefix'
               },
               {
@@ -40,12 +41,14 @@ import { ManageCampaignComponent } from './manage-campaign/manage-campaign.compo
               },
               {
                   path: 'enquiry',
-                  loadChildren: 'app/components/leads/enquiry/enquiry.module#EnquiryModule',
+                  loadChildren: () => import('app/components/leads/enquiry/enquiry.module').then(m => m.EnquiryModule),
+                //   loadChildren: 'app/components/leads/enquiry/enquiry.module#EnquiryModule',
                   pathMatch: 'prefix'
               },
               {
                   path: 'enquiryReport',
-                  loadChildren: 'app/components/leads/enquiry-report/enquiry-report.module#EnquiryReportModule',
+                  loadChildren: () => import('app/components/leads/enquiry-report/enquiry-report.module').then(m => m.EnquiryReportModule),
+                //   loadChildren: 'app/components/leads/enquiry-report/enquiry-report.module#EnquiryReportModule',
                   pathMatch: 'prefix'
               },
               {
@@ -55,7 +58,8 @@ import { ManageCampaignComponent } from './manage-campaign/manage-campaign.compo
               },
               {
                   path: 'campaign-reports',
-                  loadChildren: 'app/components/leads/campaign-reports/campaign-reports.module#CampaignReportsModule',
+                  loadChildren: () => import('app/components/leads/campaign-reports/campaign-reports.module').then(m => m.CampaignReportsModule),
+                //   loadChildren: 'app/components/leads/campaign-reports/campaign-reports.module#CampaignReportsModule',
                   pathMatch: 'prefix'
               },
           ]

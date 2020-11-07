@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
@@ -30,14 +32,14 @@ export class BiometricStatusServiceService {
 
   biometricStatus(){
     let url =this.baseUrl +  "/api/v1/biometricAttendance/deviceStatuses/" + this.institute_id;
-    return this.http.get(url , {headers:this.headers}).map(
+    return this.http.get(url , {headers:this.headers}).pipe(map(
       (data:any)=>{
         return data;
       },
       (error:any)=>{
         return error;
       }
-    )
+    ))
   }
 
 }

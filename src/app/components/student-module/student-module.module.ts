@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StudentModuleRoutingModule } from './student-module-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, MenuModule, SplitButtonModule } from 'primeng/primeng';;
 
 import { AddStudentPrefillService } from '../../services/student-services/add-student-prefill.service';
@@ -25,7 +25,6 @@ import { HttpService } from '../../services/http.service';
 import { ManageExamModule } from '../master/master.module';
 import { EditorModule } from '@tinymce/tinymce-angular';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +32,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     FileUploadModule,
     SplitButtonModule,
     MenuModule,

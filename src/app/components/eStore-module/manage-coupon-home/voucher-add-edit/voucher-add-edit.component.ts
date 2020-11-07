@@ -13,7 +13,7 @@ import { ProductService } from '../../../../services/products.service';
   styleUrls: ['./voucher-add-edit.component.scss']
 })
 export class VoucherAddEditComponent implements OnInit {
-  
+
   addVoucherModel: addCouponForm = new addCouponForm();
   productList: any[] = [];
   productSetting: {} = {};
@@ -21,12 +21,12 @@ export class VoucherAddEditComponent implements OnInit {
   selectedCouponId: any = null;
   offerStatus: any = false;
   selected_products: any[] = [];
-
+  countryDetails: any = [];
   constructor(private _productService: ProductService,
     private _msgService: MessageShowService,
     private router: Router,
     private routeParam: ActivatedRoute,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private _commService: CommonServiceFactory) {
     this.routeParam.params.subscribe(params => {
       this.selectedCouponId = params['offer_id'];
@@ -35,11 +35,12 @@ export class VoucherAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchDataForCountryDetails();
     this.addVoucherModel.offer_type = 2;
     this.addVoucherModel.total_coupons_created = 1;
     let tempDate = new Date();
     this.addVoucherModel.start_date = new Date();
-    this.addVoucherModel.end_date = new Date(tempDate.setMonth( tempDate.getMonth() + 1 ));
+    this.addVoucherModel.end_date = new Date(tempDate.setMonth(tempDate.getMonth() + 1));
     this.getProductList();
     this.productSetting = {
       singleSelection: false,
@@ -54,7 +55,21 @@ export class VoucherAddEditComponent implements OnInit {
       this.getVoucherById();
     }
   }
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
 
+      if (this.addVoucherModel.country_id == "") {
+        this.addVoucherModel.country_id = defacult_Country[0].id;
+
+      }
+    }
+  }
   getProductList() {
     this.auth.showLoader();
     this._productService.getMethod('product/get-product-list?status=30', null).subscribe(
@@ -79,8 +94,8 @@ export class VoucherAddEditComponent implements OnInit {
 
   validateForm() {
     if (this.addVoucherModel.flat_discount_amount === ''
-    || this.addVoucherModel.product_id_list.length === 0 || this.addVoucherModel.offer_code === ''
-     || this.addVoucherModel.start_date === null || this.addVoucherModel.end_date === null) {
+      || this.addVoucherModel.product_id_list.length === 0 || this.addVoucherModel.offer_code === ''
+      || this.addVoucherModel.start_date === null || this.addVoucherModel.end_date === null) {
       this._msgService.showErrorMessage('info', '', 'Please fill mandatory fields');
       return false;
     } else {
@@ -98,7 +113,9 @@ export class VoucherAddEditComponent implements OnInit {
     this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addVoucherModel.product_id_list = this.productIds;
-    this.addVoucherModel.end_date =  moment(this.addVoucherModel.end_date).format('YYYY-MM-DD');
+    this.addVoucherModel.product_id_list = this.productIds;
+    this.addVoucherModel.start_date = moment(this.addVoucherModel.start_date).format("YYYY-MM-DD");
+    this.addVoucherModel.end_date = moment(this.addVoucherModel.end_date).format("YYYY-MM-DD");
     if (this.validateForm()) {
       this.auth.showLoader();
       this._productService.postMethod('offer/create', this.addVoucherModel).then(
@@ -131,10 +148,13 @@ export class VoucherAddEditComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.addVoucherModel = data.result;
+        this.addVoucherModel.start_date = moment(data.result.start_date).format("YYYY-MM-DD");
+        this.addVoucherModel.end_date = moment(data.result.end_date).format("YYYY-MM-DD");
         this.addVoucherModel.discount_type = String(this.addVoucherModel.discount_type);
         this.addVoucherModel.product_id_list = data.result.product_details_list;
         this.selected_products = this.addVoucherModel.product_id_list;
         this.addVoucherModel.offer_status === 2 ? this.offerStatus = true : this.offerStatus = false;
+        this.addVoucherModel.country_id = this.addVoucherModel.country_id;
       },
       err => {
         this.auth.hideLoader();
@@ -144,11 +164,13 @@ export class VoucherAddEditComponent implements OnInit {
   }
 
   updateCoupon() {
-      this.productIds = [];
+    this.productIds = [];
     this.productIds = Array.prototype.map.call(this.selected_products, product => product.id);
     this.addVoucherModel.product_id_list = this.productIds;
+    this.addVoucherModel.start_date = moment(this.addVoucherModel.start_date).format("YYYY-MM-DD");
+    this.addVoucherModel.end_date = moment(this.addVoucherModel.end_date).format("YYYY-MM-DD");
     this.offerStatus === true ? this.addVoucherModel.offer_status = 2 : this.addVoucherModel.offer_status = 1;
-    this.addVoucherModel.end_date =  moment(this.addVoucherModel.end_date).format('YYYY-MM-DD');
+    this.addVoucherModel.end_date = moment(this.addVoucherModel.end_date).format('YYYY-MM-DD');
     if (this.validateForm()) {
       this.auth.showLoader();
       this._productService.postMethod('offer/update', this.addVoucherModel).then(

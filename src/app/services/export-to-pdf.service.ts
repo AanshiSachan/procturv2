@@ -17,12 +17,12 @@ export class ExportToPdfService {
       margin:10,
       padding:20,
       styles: {
-        cellWidth: 20,
+        // cellWidth: 20,
         overflow: 'linebreak',
         cellPadding: 10,
         valign: 'middle',
       },
-      columnStyles: columnStyles,
+      // columnStyles: columnStyles,
     });
     pdf.save(fileName + '_export_' + new Date().getTime() + '.pdf');
 

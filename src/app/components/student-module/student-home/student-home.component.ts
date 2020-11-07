@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { MenuItem } from 'primeng/primeng';
 import 'rxjs/Rx';
-import { ISubscription } from "rxjs/Subscription";
+import { SubscriptionLike as ISubscription } from "rxjs";
 import { AppComponent } from '../../../app.component';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { StudentForm } from '../../../model/student-add-form';
@@ -18,6 +17,7 @@ import { FetchStudentService } from '../../../services/student-services/fetch-st
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { WidgetService } from '../../../services/widget.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import { role } from '../../../model/role_features';
 var jsPDF = require('jspdf');
 declare var $;
 
@@ -30,9 +30,9 @@ export class StudentHomeComponent implements OnInit {
 
   private subscriptionStudent: ISubscription;
   private subscriptionCustomComp: ISubscription;
-  @ViewChild('studentPage') studentPage: ElementRef;
-  @ViewChild('mySidenav') mySidenav: ElementRef;
-  @ViewChild('optMenu') optMenu: ElementRef;
+  @ViewChild('studentPage', { static: false }) studentPage: ElementRef;
+  @ViewChild('mySidenav', { static: true }) mySidenav: ElementRef;
+  @ViewChild('optMenu', { static: true }) optMenu: ElementRef;
 
   sizeArr: any[] = [50, 100, 250, 500, 1000];
   private enqstatus: any = [];
@@ -66,7 +66,6 @@ export class StudentHomeComponent implements OnInit {
   studentbatchList: any[] = [];
   studentByIdcustomComponents: any[] = [];
   filterCustomComponent: any[] = []
-
   private studentdisplaysize: number = 100;
   perPage: number = 10;
   PageIndex: number = 1;
@@ -152,6 +151,7 @@ export class StudentHomeComponent implements OnInit {
   };
 
   enqAssignTo: any = [];
+  role_feature = role.features;
 
   applyLeave = {
     student_id: '',
@@ -185,7 +185,7 @@ export class StudentHomeComponent implements OnInit {
   };
   studentCustomField: any = {};
 
-  @ViewChild('content') content: ElementRef;
+  @ViewChild('content', { static: false }) content: ElementRef;
 
   private studentAddFormData: StudentForm = {
     student_name: "",
@@ -227,6 +227,7 @@ export class StudentHomeComponent implements OnInit {
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
   assignedStandard = "-1";
+  isRippleLoad: boolean;
   labelForAssignStandard = '';
   countryList: any[] = [];
   stateList: any[] = [];
@@ -515,7 +516,7 @@ export class StudentHomeComponent implements OnInit {
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') { // if user is admin
       if (sessionStorage.getItem('permissions') != null && sessionStorage.getItem('permissions') != '') {
         var permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        if (!permissions.includes('726')) {
+        if (!this.role_feature.MOBILE_NUMBER_VISIBILITY) {
           list.forEach(el => {
             var countryCode = el.student_phone.split('-')[0];
             var phnNo = el.student_phone.split('-')[1];
@@ -606,34 +607,34 @@ export class StudentHomeComponent implements OnInit {
       master_course_name: this.advancedFilterForm.master_course_name,
       course_id: this.advancedFilterForm.course_id,
       standard_id: this.advancedFilterForm.standard_id
-   }
-   if(this.advancedFilterForm.master_course_name == '-1') {
-    obj.master_course_name = '';
-  }
-    if(this.showQuickFilter && !this.isProfessional) {
-     this.loadTableDataSource(obj);
-   }else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined && !this.isProfessional) {
-    this.searchBarData = this.searchBarData.trim();
-    /* If input is of type string then validate string validity*/
-    if (isNaN(this.searchBarData)) {
-      obj.name = this.searchBarData;
-    }/* If not string then use the data as a number*/
-    else {
-      obj.mobile = this.searchBarData;
     }
     if (this.advancedFilterForm.master_course_name == '-1') {
       obj.master_course_name = '';
     }
-    obj.master_course_name = '';
-    obj.course_id = '-1';
-    obj.standard_id = '-1';
-    this.loadTableDataSource(obj);
-  } else if((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional){
-    this.loadTableDataSource(obj);
-   } else {
-    this.loadTableDataSource(this.instituteData);
-   }
-}
+    if (this.showQuickFilter && !this.isProfessional) {
+      this.loadTableDataSource(obj);
+    } else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined && !this.isProfessional) {
+      this.searchBarData = this.searchBarData.trim();
+      /* If input is of type string then validate string validity*/
+      if (isNaN(this.searchBarData)) {
+        obj.name = this.searchBarData;
+      }/* If not string then use the data as a number*/
+      else {
+        obj.mobile = this.searchBarData;
+      }
+      if (this.advancedFilterForm.master_course_name == '-1') {
+        obj.master_course_name = '';
+      }
+      obj.master_course_name = '';
+      obj.course_id = '-1';
+      obj.standard_id = '-1';
+      this.loadTableDataSource(obj);
+    } else if ((this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) && !this.isAdvFilter && !this.isProfessional) {
+      this.loadTableDataSource(obj);
+    } else {
+      this.loadTableDataSource(this.instituteData);
+    }
+  }
 
   /* Fetch next set of data from server and update table */
   /* =================================================================================================== */
@@ -1286,11 +1287,11 @@ export class StudentHomeComponent implements OnInit {
       obj.master_course_name = '';
     }
 
-      if(!this.isProfessional) {
+    if (!this.isProfessional) {
       if (this.searchBarData == '' || this.searchBarData == null || this.searchBarData == undefined) {
         obj.name = '';
         obj.mobile = '';
-        if(!this.showQuickFilter) {
+        if (!this.showQuickFilter) {
           obj.master_course_name = '';
           obj.course_id = '-1';
           obj.standard_id = '-1';
@@ -1299,40 +1300,40 @@ export class StudentHomeComponent implements OnInit {
           this.advancedFilterForm.standard_id = '-1';
         }
       } else {
-      this.searchBarData = this.searchBarData.trim();
-      /* If input is of type string then validate string validity*/
-      if (isNaN(this.searchBarData)) {
-        obj.name = this.searchBarData;
-      }/* If not string then use the data as a number*/
-      else {
-        obj.mobile = this.searchBarData;
+        this.searchBarData = this.searchBarData.trim();
+        /* If input is of type string then validate string validity*/
+        if (isNaN(this.searchBarData)) {
+          obj.name = this.searchBarData;
+        }/* If not string then use the data as a number*/
+        else {
+          obj.mobile = this.searchBarData;
+        }
+        obj.master_course_name = '';
+        obj.course_id = '-1';
+        obj.standard_id = '-1';
       }
-      obj.master_course_name = '';
-      obj.course_id = '-1';
-      obj.standard_id = '-1';
-    }
-    this.loadTableDataSource(obj);
+      this.loadTableDataSource(obj);
     } else {
-     /* If User has entered an empty value needs to be informed */
-    if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
-      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-      this.loadTableDataSource(this.instituteData);
-    }
-    /* valid input detected, check for type of input */
-    else {
-      this.searchBarData = this.searchBarData.trim();
-      /* If input is of type string then validate string validity*/
-      if (isNaN(this.searchBarData)) {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
-        this.loadTableDataSource(this.instituteData);
-      }/* If not string then use the data as a number*/
-      else {
-        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+      /* If User has entered an empty value needs to be informed */
+      if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
         this.loadTableDataSource(this.instituteData);
       }
+      /* valid input detected, check for type of input */
+      else {
+        this.searchBarData = this.searchBarData.trim();
+        /* If input is of type string then validate string validity*/
+        if (isNaN(this.searchBarData)) {
+          this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+          this.loadTableDataSource(this.instituteData);
+        }/* If not string then use the data as a number*/
+        else {
+          this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: -1, course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+          this.loadTableDataSource(this.instituteData);
+        }
 
+      }
     }
-  }
   }
 
   /* update the latest comment for the selected student */
@@ -2094,8 +2095,8 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getNotificationMessage() {
-    let sms = document.getElementById('smsC').checked;
-    let email = document.getElementById('mailC').checked;
+    let sms = (document.getElementById('smsC') as HTMLInputElement).checked;
+    let email = (document.getElementById('mailC') as HTMLInputElement).checked;
     let count = 0;
     if (sms === true) {
       for (let t = 0; t < this.messageList.length; t++) {
@@ -2739,26 +2740,26 @@ export class StudentHomeComponent implements OnInit {
   emailCheckBoxClick(event) {
     if (event.target.checked) {
       this.sendNotification.emailChkbx = true;
-      document.getElementById('smsC').checked = false; //Added By AKG to check only one checkbox at a time
+      (document.getElementById('smsC') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
       this.sendNotification.emailChkbx = false;
-      document.getElementById('smsC').checked = true; //Added By AKG to check only one checkbox at a time
+      (document.getElementById('smsC') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
   smsCheckBoxClick(event) {
     if (event.target.checked) {
       this.sendNotification.emailChkbx = false;
-      document.getElementById('mailC').checked = false; //Added By AKG to check only one checkbox at a time
+      (document.getElementById('mailC') as HTMLInputElement).checked = false; //Added By AKG to check only one checkbox at a time
 
     } else {
       this.sendNotification.emailChkbx = true;
-      document.getElementById('mailC').checked = true; //Added By AKG to check only one checkbox at a time
+      (document.getElementById('mailC') as HTMLInputElement).checked = true; //Added By AKG to check only one checkbox at a time
     }
   }
   onCheckBoxSelection(index, data) {
-    let sms = document.getElementById('smsC').checked;
-    let email = document.getElementById('mailC').checked;
+    let sms = (document.getElementById('smsC') as HTMLInputElement).checked;
+    let email = (document.getElementById('mailC') as HTMLInputElement).checked;
     if (sms === true) {
       this.messageList.map(ele => {
         if (ele.message_id == data.message_id) {

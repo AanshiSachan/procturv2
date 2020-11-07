@@ -1,17 +1,17 @@
-<section class="middle-section clearFix">
+<section class="clearFix" style="padding: 2%;padding-top: 2px;">
   <div class="content-container">
     <section class="middle-top mb0 clearFix ">
-    <div class="header">
-      <h2 class="pull-left">
-        <a routerLink="/view/manage/role">
-          Role
-        </a>
-        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+      <div class="header">
+        <h2 class="pull-left">
+          <a routerLink="/view/manage/role">
+            Role
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
           <span *ngIf="roleId == '-1'">Add Role</span>
           <span *ngIf="roleId != '-1'">Edit Role</span>
-      </h2>
-    </div>
-  </section>
+        </h2>
+      </div>
+    </section>
 
     <div class="addEditRole">
       <div class="row" *ngIf="roleId == '-1'">
@@ -54,15 +54,16 @@
       </p-pickList>
     </div> -->
 
-    <div style="margin-top: 20px;" class="role-container">
+    <div class="role-container">
       <div style="margin-bottom: 10px;">
-      <span style="font-weight: 600;">Role List</span>
-      <span style="float: right;margin-right: 1%;">Selected Roles : {{selectedRoleLength}} </span>
+        <span style="font-weight: 600;">Role List</span>
+        <span style="float: right;margin-right: 1%;">Selected Roles : {{selectedRoleLength}} </span>
       </div>
       <div class="role-list-container">
         <div *ngFor="let item of cloneFeatureArray;let i=index" class="role-data-container">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" [(ngModel)]="item.isChecked" (change)="checkLengthofRole($event.target.checked)" [checked]="item.isChecked" class="form-checkbox" [id]="'checkbox-'+i">
+            <input type="checkbox" [(ngModel)]="item.isChecked" (change)="checkLengthofRole($event.target.checked)"
+              [checked]="item.isChecked" class="form-checkbox" [id]="'checkbox-'+i">
             <label [for]="'checkbox-'+i">{{item.feature_name}}</label>
           </div>
         </div>

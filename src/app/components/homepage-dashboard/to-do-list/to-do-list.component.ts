@@ -141,7 +141,7 @@ export class ToDoListComponent implements OnInit {
   }
 
   sortByDate() {
-    let d = moment(this.sortDate).format("DD-MMM-YYYY");
+    let d = moment(this.sortDate).format("DD-MM-YYYY");
     if (this.sortDate != "" && this.sortDate != null) {
       document.getElementById("sortDateSpan").innerHTML = "&nbsp;&nbsp;" + d + "&nbsp;&nbsp;&nbsp;";
       document.getElementById("refresh-icon").style.color = "#1283f4";

@@ -110,8 +110,11 @@ export class ReferredByComponent implements OnInit {
     }
 
     else {
+      this.referredByInfoDetails.updateDateFrom = moment(this.referredByInfoDetails.updateDateFrom).format("YYYY-MM-DD");
+      this.referredByInfoDetails.updateDateTo = moment(this.referredByInfoDetails.updateDateTo).format("YYYY-MM-DD");
       this.service.counsellorDetails(this.referredByInfoDetails).subscribe(
         (data: any) => {
+
 
           for (var prop in data) {
             if (data.hasOwnProperty(prop)) {
@@ -130,7 +133,8 @@ export class ReferredByComponent implements OnInit {
             }
             this.newArray.push(this.newObject);
           }
-
+          this.referredByInfoDetails.updateDateFrom = moment(this.referredByInfoDetails.updateDateFrom).format("YYYY-MM-DD");
+          this.referredByInfoDetails.updateDateTo = moment(this.referredByInfoDetails.updateDateTo).format("YYYY-MM-DD");
           this.getreferredByDetails = this.newArray;
           this.getreferredByDetails.map(
             (ele: any) => {
@@ -193,8 +197,8 @@ export class ReferredByComponent implements OnInit {
           institution_id: this.service.institute_id,
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: this.referredByInfoDetails.updateDateFrom,
-          enquireDateTo: this.referredByInfoDetails.updateDateTo
+          enquireDateFrom: moment(this.referredByInfoDetails.updateDateFrom).format("YYYY-MM-DD"),
+          enquireDateTo: moment(this.referredByInfoDetails.updateDateTo).format("YYYY-MM-DD")
         }
         this.popupDataEnquiries = [];
         this.service.enquiryCategorySearch(payload).subscribe(
@@ -212,8 +216,8 @@ export class ReferredByComponent implements OnInit {
           institution_id: this.service.institute_id,
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          updateDateFrom: this.referredByInfoDetails.updateDateFrom,
-          updateDateTo: this.referredByInfoDetails.updateDateTo
+          updateDateFrom: moment(this.referredByInfoDetails.updateDateFrom).format("YYYY-MM-DD"),
+          updateDateTo: moment(this.referredByInfoDetails.updateDateTo).format("YYYY-MM-DD")
         }
         this.popupDataEnquiries = [];
         this.service.enquiryCategorySearch(payload).subscribe(

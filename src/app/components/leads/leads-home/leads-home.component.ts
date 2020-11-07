@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
@@ -23,12 +24,15 @@ export class LeadsHomeComponent implements OnInit {
     isShowManageEnquiry: false,
     isShowDataSetup: false,
     isShowCampaign: false,
+    isShowCampaignReport: false,
+    isShowAddCampaign: false,
     isShowAddEnquiry: false,
     isShowReport: false
   }
 
   enquiryStatus: any[] = [];
   totalEnquiryCount: number;
+  role_feature = role.features;
 
   constructor(
     private router: Router,
@@ -52,6 +56,7 @@ export class LeadsHomeComponent implements OnInit {
       }
     )
     this.checkpermissinDetails();
+    this.fetchenquiry();
   }
 
   checkpermissinDetails() {
@@ -68,19 +73,23 @@ export class LeadsHomeComponent implements OnInit {
         this.jsonRolesFlags[flag] = false;
       });
       // quick enquiry  --110
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('110')) {
+      if (this.role_feature.LEAD_MANAGE_ENQUIRY) {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
-        this.jsonRolesFlags.isShowReport = true;
       }
       // enquiry  admin --115
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
+        this.jsonRolesFlags.isShowAddCampaign = true;
+      }
+      if(this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
-        this.jsonRolesFlags.isShowManageEnquiry = true;
-        this.jsonRolesFlags.isShowAddEnquiry = true;
+      }
+      if(this.role_feature.REPORTS_ENQUIRY_CAMPAIGN) {
+        this.jsonRolesFlags.isShowCampaignReport = true;
       }
       // enquiry  report --722
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+      if (this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
+        || this.role_feature.REPORTS_ENQUIRY_SOURCE || this.role_feature.REPORT_ENQUIRY_COUNSELLOR) {
         this.jsonRolesFlags.isShowReport = true;
       }
 

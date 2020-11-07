@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
-import { HttpService  } from '../../../services/http.service';
+import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { ExcelService } from '../../../services/excel.service';
 
 @Component({
   selector: 'app-reports',
@@ -30,7 +31,7 @@ export class ReportsComponent implements OnInit {
   feeCollectionList: any[] = [];
 
   expenseTotal: any;
-  incomeTotal:any;
+  incomeTotal: any;
   expenseInventoryTotal: any;
 
   totalFeeCollection: any;
@@ -42,36 +43,37 @@ export class ReportsComponent implements OnInit {
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
-    private auth:AuthenticatorService
+    private auth: AuthenticatorService,
+    private _excelService: ExcelService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-   }
+  }
 
   ngOnInit() {
     this.getAllRecords();
   }
 
-  getAllRecords(){
+  getAllRecords() {
     let obj = {
       type: "0",
       institute_id: this.jsonFlag.institute_id
     }
-    if(this.recordFilter.dateFilter == "date"){
+    if (this.recordFilter.dateFilter == "date") {
       obj.type = "1",
-      obj["startdate"] = "";
+        obj["startdate"] = "";
       obj["enddate"] = "";
     }
-    if(this.recordFilter.dateFilter != "range"){
+    if (this.recordFilter.dateFilter != "range") {
       this.getExpenseList(obj);
     }
-    else{
+    else {
       this.dateFilterRange = "";
     }
   }
 
 
 
-  getExpenseList(obj){
+  getExpenseList(obj) {
     this.expenseTotal = 0;
     const url = `/api/v1/expense/all/${this.jsonFlag.institute_id}`
     this.auth.showLoader();
@@ -79,7 +81,7 @@ export class ReportsComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.expenseRecordList = res;
-        if(this.expenseRecordList.length > 0){
+        if (this.expenseRecordList.length > 0) {
           for (let index = 0; index < this.expenseRecordList.length; index++) {
             this.expenseTotal = Number(this.expenseTotal) + Number(this.expenseRecordList[index].amount);
           }
@@ -93,7 +95,7 @@ export class ReportsComponent implements OnInit {
     )
   }
 
-  getIncomeList(obj){
+  getIncomeList(obj) {
     this.incomeTotal = 0;
     const url = `/api/v1/income/all/${this.jsonFlag.institute_id}`
     this.auth.showLoader();
@@ -101,7 +103,7 @@ export class ReportsComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.incomeRecordList = res;
-        if(this.incomeRecordList.length > 0){
+        if (this.incomeRecordList.length > 0) {
           for (let index = 0; index < this.incomeRecordList.length; index++) {
             this.incomeTotal = Number(this.incomeTotal) + Number(this.incomeRecordList[index].amount);
           }
@@ -115,7 +117,7 @@ export class ReportsComponent implements OnInit {
     )
   }
 
-  getProfitLossList(obj){
+  getProfitLossList(obj) {
     const url = `/api/v1/inventory/item/getProfit_Lost/${this.jsonFlag.institute_id}`
     this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
@@ -123,7 +125,7 @@ export class ReportsComponent implements OnInit {
         this.auth.hideLoader();
         this.profitLostList = res;
         this.expenseInventoryTotal = res.expense_inventory;
-        this.expenseTotal =  Number(this.expenseTotal) + Number(this.expenseInventoryTotal)
+        this.expenseTotal = Number(this.expenseTotal) + Number(this.expenseInventoryTotal)
         this.getFeeCollection(obj);
       },
       err => {
@@ -133,7 +135,7 @@ export class ReportsComponent implements OnInit {
     )
   }
 
-  getFeeCollection(obj){
+  getFeeCollection(obj) {
     const url = `/api/v1/income/feesCollection/${this.jsonFlag.institute_id}`
     this.auth.showLoader();
     this.httpService.postData(url, obj).subscribe(
@@ -170,5 +172,39 @@ export class ReportsComponent implements OnInit {
     this.getExpenseList(obj);
   }
 
+  exportToExcel() {
+    let exportedArray: any[] = [];
+    this.expenseRecordList.map((data: any) => {
+      let obj = {};
 
+      obj["Received Date"] = data.payment_date;
+      obj["Payee"] = data.party_name;
+      obj["Item/Category"] = data.category;
+      obj["Category_Description"] = data.category_description,
+        obj["Amount(Rs)"] = data.amount;
+      exportedArray.push(obj);
+    })
+    this._excelService.exportAsExcelFile(
+      exportedArray,
+      'Expense Details Report'
+    )
+  }
+
+  exportToExcel1() {
+    let exportedArray: any[] = [];
+    this.incomeRecordList.map((data: any) => {
+      let obj = {};
+
+      obj["Received Date"] = data.payment_date;
+      obj["Payer"] = data.party_name;
+      obj["Item/Category"] = data.category;
+      obj["Category_Description"] = data.category_description,
+        obj["Amount(Rs)"] = data.amount;
+      exportedArray.push(obj);
+    })
+    this._excelService.exportAsExcelFile(
+      exportedArray,
+      'Income Details Report'
+    )
+  }
 }

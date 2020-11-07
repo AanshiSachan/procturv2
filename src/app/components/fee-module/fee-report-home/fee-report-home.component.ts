@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
@@ -17,16 +18,17 @@ export class FeeReportHomeComponent implements OnInit {
     isAdmin: false,
     isProfitnloss: false,
   }
-  tax_type_without_percentage :String;
+  tax_type_without_percentage: String;
   is_tax_enabled: any;
+  role_feature = role.features;
   constructor(private auth: AuthenticatorService) { }
 
   ngOnInit() {
 
     const userType = sessionStorage.getItem('userType');
     this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
-    this.tax_type_without_percentage=sessionStorage.getItem('tax_type_without_percentage');
-    this.is_tax_enabled=sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.tax_type_without_percentage = sessionStorage.getItem('tax_type_without_percentage');
+    this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     if (userType == '3') {
       this.jsonFlags.isAdmin = false;
       this.jsonFlags.isProfitnloss = false;
@@ -39,18 +41,14 @@ export class FeeReportHomeComponent implements OnInit {
     }
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('714')) { //update payment and manage cheque,pdc  hide download
+      if (this.role_feature.FEE_CHEQUE_MANAGE) { //update payment and manage cheque,pdc  hide download
         this.showChart = false;
       }
-      if (permissions.includes('709')) {
+      if (this.role_feature.FEE_MANAGE || this.role_feature.FEE_MENU) {
         this.showChart = true;
       }
-      if (permissions.indexOf('102') != -1) {
+      if (this.role_feature.FEE_CHEQUE_MANAGE) {
         this.jsonFlags.isFeeActivity = true;
-      }
-      /* profit and lodd */
-      if (permissions.indexOf('208') != -1) {
-        this.jsonFlags.isProfitnloss = true;
       }
 
     }

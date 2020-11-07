@@ -29,6 +29,7 @@ export class CoursesArchivedReportComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
+  schoolModel: boolean = false;
 
   constructor(private course: CoursesServiceService,
     private auth: AuthenticatorService,
@@ -44,6 +45,8 @@ export class CoursesArchivedReportComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
     this.getCoursesArchived();
     this.setTableData();
@@ -57,65 +60,68 @@ export class CoursesArchivedReportComponent implements OnInit {
     this.headerSetting = [
       {
         primary_key: 'course_name',
-        value: "Course",
+        value: this.schoolModel ? 'Section' : 'Course',
         charactLimit: 15,
         sorting: false,
         visibility: true
       },
       {
         primary_key: 'master_course',
-        value: "Master Course",
+        value: this.schoolModel ? 'Standard' : 'Master Course',
         charactLimit: 25,
         sorting: false,
         visibility: true
       },
-      {
+    ]
+    // changes by Nalini - to remove standard column for school model
+    if(!this.schoolModel) {
+      this.headerSetting.push({
         primary_key: 'standard_name',
         value: "Standard",
         charactLimit: 15,
         sorting: false,
         visibility: true
-      },
-      {
-        primary_key: 'subjects',
-        value: "Subjects",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'start_date',
-        value: "Start Date",
-        charactLimit: 20,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'end_date',
-        value: "End Date",
-        charactLimit: 20,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'status',
-        value: "Status",
-        charactLimit: 10,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'archived_date',
-        value: "Archived Date Time",
-        charactLimit: 20,
-        sorting: false,
-        visibility: true
-      },
+      });
+    }
+    this.headerSetting.push( {
+      primary_key: 'subjects',
+      value: "Subjects",
+      charactLimit: 25,
+      sorting: false,
+      visibility: true
+    },
+    {
+      primary_key: 'start_date',
+      value: "Start Date",
+      charactLimit: 20,
+      sorting: false,
+      visibility: true
+    },
+    {
+      primary_key: 'end_date',
+      value: "End Date",
+      charactLimit: 20,
+      sorting: false,
+      visibility: true
+    },
+    {
+      primary_key: 'status',
+      value: "Status",
+      charactLimit: 10,
+      sorting: false,
+      visibility: true
+    },
+    {
+      primary_key: 'archived_date',
+      value: "Archived Date Time",
+      charactLimit: 20,
+      sorting: false,
+      visibility: true
+    });
 
-    ]
     this.tableSetting = {
       width: "100%",
-      height: "69vh"
+      height: "62vh"
     }
 
     this.rowColumns = [

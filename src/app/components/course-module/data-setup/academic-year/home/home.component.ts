@@ -92,11 +92,15 @@ export class HomeComponent implements OnInit {
     }
     else {
       let obj = this.addAcademicYearTemplate;
-      obj.start_date = moment(this.addAcademicYearTemplate.start_date).format("YYYY-MM-DD");
-      obj.end_date = moment(this.addAcademicYearTemplate.end_date).format("YYYY-MM-DD");
+      let start_date = this.addAcademicYearTemplate.start_date;
+      let end_date = this.addAcademicYearTemplate.end_date;
+      obj.start_date = moment(start_date).format("YYYY-MM-DD");
+      obj.end_date = moment(end_date).format("YYYY-MM-DD");
       let url = "/api/v1/academicYear";
       this._http.postData(url, obj).subscribe((res) => {
         this.showErrorMessage(this.msgService.toastTypes.success, '', "Academic year created successfully!");
+        obj.start_date = moment(this.addAcademicYearTemplate.start_date).format("YYYY-MM-DD");
+        obj.end_date = moment(this.addAcademicYearTemplate.end_date).format("YYYY-MM-DD");
         this.addAcademicYearTemplate = {
           inst_acad_year: "",
           desc: "",
@@ -110,12 +114,17 @@ export class HomeComponent implements OnInit {
         this.getAllAcademicFromServer();
       }, err => {
         this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+        obj.start_date = moment(this.addAcademicYearTemplate.start_date).format("YYYY-MM-DD");
+        obj.end_date = moment(this.addAcademicYearTemplate.end_date).format("YYYY-MM-DD");
       });
     }
   }
 
   editRowTable(row, index) {
     this.addOrRemoveClass("row" + index, 'editComp', 'displayComp');
+    row.created_date = moment(row.created_date).format("YYYY-MM-DD");
+    row.end_date = moment(row.end_date).format("YYYY-MM-DD");
+    row.start_date = moment(row.start_date).format("YYYY-MM-DD");
   }
 
   cancelEditRow(index) {

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AppComponent, AuthenticatorService } from '../../../..';
+import { AppComponent, AuthenticatorService, HttpService } from '../../../..';
 import { ExamService } from '../../../../services/report-services/exam.service';
 import { ColumnSetting } from '../../../shared/custom-table/layout.model';
 
@@ -18,6 +18,8 @@ export class ExamReportMainComponent implements OnInit {
   getSubjectData: any[] = [];
   batchExamRepo: any[] = [];
   totalRecords: number = 0;
+  institute_id: any = sessionStorage.getItem('institution_id');
+  fullResponse: any = [];
   dateSource: any[] = [];
   dateStore: any[] = [];
   displayBatchSize: number = 10;
@@ -40,8 +42,8 @@ export class ExamReportMainComponent implements OnInit {
   fetchApiData: any = [];
   dataExamIndex: any[] = [];
   typeDataForm: any[] = [];
-  @ViewChild('examTable') examTable: ElementRef;
-  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
+  @ViewChild('examTable',{static: false}) examTable: ElementRef;
+  @ViewChild('xlsDownloader',{static: false}) xlsDownloader: ElementRef;
 
   projectSettings: ColumnSetting[] = [
 
@@ -76,9 +78,11 @@ export class ExamReportMainComponent implements OnInit {
   property = "";
   direction = 0;
   sortingEnabled: boolean = true;
+  schoolModel: boolean = false;
   constructor(
     private examdata: ExamService,
     private appC: AppComponent,
+    private _http: HttpService,
     private auth: AuthenticatorService
   ) {
     this.switchActiveView('exam');
@@ -94,6 +98,8 @@ export class ExamReportMainComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   ngOnInit() {
@@ -152,11 +158,34 @@ export class ExamReportMainComponent implements OnInit {
       })
     }
     else {
-      this.examdata.ExamReport().subscribe(
+      // this.examdata.ExamReport().subscribe(
+      //   (data: any) => {
+      //     this.auth.hideLoader();
+      //     this.masterCourses = data;
+      //     console.log(this.masterCourses);
+      //   }
+      // )
+      let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
+
+      let keys;
+      this.auth.showLoader();
+      this._http.getData(url).subscribe(
         (data: any) => {
           this.auth.hideLoader();
-          this.masterCourses = data;
-          console.log(this.masterCourses);
+          this.fullResponse = data.result;
+          keys = Object.keys(data.result);
+
+          console.log("keys", keys);
+
+          for (let i = 0; i < keys.length; i++) {
+            this.masterCourses.push(keys[i]);
+          }
+
+
+        },
+        (error: any) => {
+          this.auth.hideLoader();
+          console.log(error);
         }
       )
     }
@@ -167,9 +196,8 @@ export class ExamReportMainComponent implements OnInit {
   getCourseData(i) {
 
 
-    this.auth.showLoader();
     if (this.isProfessional) {
-
+      this.auth.showLoader();
       this.batchCourseData = [];
 
       this.fetchFieldData.exam_schd_id = "";
@@ -204,34 +232,38 @@ export class ExamReportMainComponent implements OnInit {
       this.fetchFieldData.exam_schd_id = "";
       this.fetchFieldData.batch_id = "";
       this.fetchFieldData.subject_id = "";
+      this.courseData = [];
+      let temp = this.fullResponse[this.fetchFieldData.standard_id];
+      for (let i = 0; i < temp.length; i++) {
+        this.courseData.push(temp[i]);
+      }
+      // this.examdata.getCourses(i).subscribe(
+      //   (data: any) => {
+      //     this.auth.hideLoader();
+      //     this.courseData = data.coursesList;
 
-      this.examdata.getCourses(i).subscribe(
-        (data: any) => {
-          this.auth.hideLoader();
-          this.courseData = data.coursesList;
+      //     if (this.courseData == null) {
+      //       let obj = {
+      //         type: "info",
+      //         title: "No exam schedule found",
+      //         body: ""
+      //       }
+      //       this.appC.popToast(obj);
+      //       this.auth.hideLoader();
+      //     }
+      //   },
+      //   (error: any) => {
 
-          if (this.courseData == null) {
-            let obj = {
-              type: "info",
-              title: "No exam schedule found",
-              body: ""
-            }
-            this.appC.popToast(obj);
-            this.auth.hideLoader();
-          }
-        },
-        (error: any) => {
+      //     this.auth.hideLoader();
 
-          this.auth.hideLoader();
-
-          let obj = {
-            type: "error",
-            title: "",
-            body: "Please check your internet connection and if the issue persist contact support@proctur.com"
-          }
-          this.appC.popToast(obj);
-        }
-      )
+      //     let obj = {
+      //       type: "error",
+      //       title: "",
+      //       body: "Please check your internet connection and if the issue persist contact support@proctur.com"
+      //     }
+      //     this.appC.popToast(obj);
+      //   }
+      // )
     }
   }
   /*==================================================================================================
@@ -426,6 +458,7 @@ export class ExamReportMainComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.auth.hideLoader();
+              console.log("examSource", this.examSource);
               if (this.examSource[0].grade == "" || this.examSource[0].isBatchExamGrade == 0) {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
@@ -491,6 +524,7 @@ export class ExamReportMainComponent implements OnInit {
 
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
+                  console.log("1", store.detailExamReportList);
                   this.auth.hideLoader();
                   //   this.totalRecords = this.detailSource.length;
                   //  this.fetchTableDataByPagePopup(this.pageIndexPopup);
@@ -532,6 +566,7 @@ export class ExamReportMainComponent implements OnInit {
                 this.detailSource = res;
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
+                  console.log("2", store.detailExamReportList);
                   this.auth.hideLoader();
                   // this.totalRecords = this.detailSource.length;
                   //this.fetchTableDataByPagePopup(this.pageIndexPopup);

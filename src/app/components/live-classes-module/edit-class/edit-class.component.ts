@@ -68,7 +68,7 @@ export class EditClassComponent implements OnInit {
   hoursTo: string = '';
   minuteTo: string = '';
   scheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
-  institution_id: any = sessionStorage.getItem('institution_id');
+  institution_id:any=sessionStorage.getItem('institution_id');
   userType: any;
   username: any = '';
   getPayloadBatch = {
@@ -112,6 +112,7 @@ export class EditClassComponent implements OnInit {
 
   editSessionId: any;
   repeat_session: number;
+  schoolModel: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -136,6 +137,8 @@ export class EditClassComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
@@ -314,31 +317,30 @@ export class EditClassComponent implements OnInit {
           }
 
 
-          if (this.editData.access_before_start == 1) {
-            this.editData.access_before_start = true;
-          }
-          else {
-            this.editData.access_before_start = false;
-          }
-          this.editData.access_enable_lobby = data.access_enable_lobby;
-          this.editData.access_enable_breakout_rooms = data.access_enable_breakout_rooms;
-          this.editData.private_access = data.private_access;
-          this.editData.host_video = data.host_video;
-          this.editData.participant_video = data.participant_video;
-          this.editData.join_before_host = data.join_before_host;
-          this.editData.mute_upon_entry = data.mute_upon_entry;
+        if (this.editData.access_before_start == 1) {
+          this.editData.access_before_start = true;
+        }
+        else {
+          this.editData.access_before_start = false;
+        }
+        this.editData.access_enable_lobby = data.access_enable_lobby;
+        this.editData.private_access = data.private_access;
+        this.editData.host_video = data.host_video;
+        this.editData.participant_video = data.participant_video;
+        this.editData.join_before_host = data.join_before_host;
+        this.editData.mute_upon_entry = data.mute_upon_entry;
 
-          if (this.repeat_session == 0) {
-            this.scheduledateFrom = moment(this.editData.start_datetime).format('YYYY-MM-DD');
+        if (this.repeat_session == 0) {
+          this.scheduledateFrom = moment(this.editData.start_datetime).format('YYYY-MM-DD');
 
-            let startTime = moment(this.editData.start_datetime).format('hh:mm A');
-            let endTime = moment(this.editData.end_datetime).format('hh:mm A');
+          let startTime = moment(this.editData.start_datetime).format('hh:mm A');
+          let endTime = moment(this.editData.end_datetime).format('hh:mm A');
 
-            this.hoursFrom = startTime.split(':')[0] + " " + startTime.split(' ')[1];
-            this.minuteFrom = startTime.split(' ')[0].split(':')[1];
-            this.hoursTo = endTime.split(':')[0] + " " + endTime.split(' ')[1];
-            this.minuteTo = endTime.split(' ')[0].split(':')[1];
-          }
+          this.hoursFrom = startTime.split(':')[0] + " " + startTime.split(' ')[1];
+          this.minuteFrom = startTime.split(' ')[0].split(':')[1];
+          this.hoursTo = endTime.split(':')[0] + " " + endTime.split(' ')[1];
+          this.minuteTo = endTime.split(' ')[0].split(':')[1];
+        }
 
           this.batchesIds = this.editData.batch_list;
           if (this.editData.course_list != null && this.editData.course_list.length > 0) {
@@ -382,11 +384,11 @@ export class EditClassComponent implements OnInit {
     }
     event = (new Date(event));
     proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
-    event.setHours(0, 0, 0, 0);
-    proctur_live_expiry_date.setHours(0, 0, 0, 0);
-    if (proctur_live_expiry_date < event && proctur_live_expiry_date != event) {
-      const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MMM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
-      this.msgService.showErrorMessage('info', '', tempMsg);
+    event.setHours(0,0,0,0);
+    proctur_live_expiry_date.setHours(0,0,0,0);
+    if(proctur_live_expiry_date< event && proctur_live_expiry_date!=event){
+      const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
+      this.msgService.showErrorMessage('info','' , tempMsg);
       this.scheduledateFrom = moment().format('YYYY-MM-DD')
     }
   }

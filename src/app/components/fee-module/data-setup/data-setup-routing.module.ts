@@ -19,7 +19,8 @@ const routes: Routes = [
           },
           {
             path: 'fee-template',
-            loadChildren: 'app/components/fee-module/data-setup/fee-template/fee-template.module#FeeTemplateModule',
+            loadChildren: () => import('app/components/fee-module/data-setup/fee-template/fee-template.module').then(m => m.FeeTemplateModule),
+            // loadChildren: 'app/components/fee-module/data-setup/fee-template/fee-template.module#FeeTemplateModule',
             canLoad: [AuthGuard]
           },
           {

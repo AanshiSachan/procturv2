@@ -36,8 +36,8 @@ export class TimeTableComponent implements OnInit {
   flag: boolean = false;
   showFilters: boolean = true;
   maxEntries = 0;
-  startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
-  enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
+  startdateweek = moment().isoWeekday("Monday").format("YYYY-MM-DD");
+  enddateweek = moment().isoWeekday("Sunday").format("YYYY-MM-DD");
 
   fetchFieldData = {
     batch_id: "-1",
@@ -80,6 +80,7 @@ export class TimeTableComponent implements OnInit {
     teacher_id: "-1",
     type: 2
   }
+  schoolModel: boolean = false;
 
   constructor(
     private timeTableServ: timeTableService,
@@ -98,6 +99,8 @@ export class TimeTableComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
   }
 
   ngOnInit() {
@@ -121,31 +124,31 @@ export class TimeTableComponent implements OnInit {
       this.fetchFieldDataPro.batch_id = "-1";
       this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
         (
-        res => {
-          this.masterPro = res.standardLi;
-          this.batchPro = res.batchLi;
-          this.auth.hideLoader();
-        },
-        err => {
-          this.auth.hideLoader();
-          console.log(err);
-        }
+          res => {
+            this.masterPro = res.standardLi;
+            this.batchPro = res.batchLi;
+            this.auth.hideLoader();
+          },
+          err => {
+            this.auth.hideLoader();
+            console.log(err);
+          }
         )
     }
     else {
       this.auth.showLoader();
       this.timeTableServ.getMasterCourses().subscribe
         (
-        res => {
-          this.auth.hideLoader();
-          this.masterCoursesData = res;
-          // console.log(this.masterCoursesData);
-          this.auth.hideLoader();
-        },
-        err => {
-          this.auth.hideLoader();
-          console.log(err);
-        }
+          res => {
+            this.auth.hideLoader();
+            this.masterCoursesData = res;
+            // console.log(this.masterCoursesData);
+            this.auth.hideLoader();
+          },
+          err => {
+            this.auth.hideLoader();
+            console.log(err);
+          }
         )
     }
   }
@@ -159,15 +162,15 @@ export class TimeTableComponent implements OnInit {
         this.fetchFieldDataPro.subject_id = "-1";
         this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
           (
-          res => {
-            this.auth.hideLoader();
-            this.coursePro = res.subjectLi;
-            this.batchPro = res.batchLi;
-          },
-          err => {
-            this.auth.hideLoader();
-            console.log(err);
-          }
+            res => {
+              this.auth.hideLoader();
+              this.coursePro = res.subjectLi;
+              this.batchPro = res.batchLi;
+            },
+            err => {
+              this.auth.hideLoader();
+              console.log(err);
+            }
           )
       }
       else {
@@ -181,15 +184,15 @@ export class TimeTableComponent implements OnInit {
         this.onlyMasterData = true;
         this.timeTableServ.getCoursesData(i).subscribe
           (
-          res => {
-            this.auth.hideLoader();
-            this.courseData = res.coursesList;
+            res => {
+              this.auth.hideLoader();
+              this.courseData = res.coursesList;
 
-          },
-          err => {
-            this.auth.hideLoader();
-            console.log(err);
-          }
+            },
+            err => {
+              this.auth.hideLoader();
+              console.log(err);
+            }
           )
       }
     } else {
@@ -205,14 +208,14 @@ export class TimeTableComponent implements OnInit {
         this.fetchFieldDataPro.batch_id = "-1";
         this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
           (
-          res => {
-            this.auth.hideLoader();
-            this.batchPro = res.batchLi;
-          },
-          err => {
-            this.auth.hideLoader();
-            console.log(err);
-          }
+            res => {
+              this.auth.hideLoader();
+              this.batchPro = res.batchLi;
+            },
+            err => {
+              this.auth.hideLoader();
+              console.log(err);
+            }
           )
       }
       else {
@@ -223,15 +226,15 @@ export class TimeTableComponent implements OnInit {
         this.fetchFieldData.batch_id = "-1";
         this.timeTableServ.getSubjectData(i).subscribe
           (
-          res => {
-            this.auth.hideLoader();
-            this.subjectData = res.batchesList;
-            console.log(this.subjectData);
-          },
-          err => {
-            this.auth.hideLoader();
-            console.log(err);
-          }
+            res => {
+              this.auth.hideLoader();
+              this.subjectData = res.batchesList;
+              console.log(this.subjectData);
+            },
+            err => {
+              this.auth.hideLoader();
+              console.log(err);
+            }
           )
       }
     } else {
@@ -270,57 +273,58 @@ export class TimeTableComponent implements OnInit {
   fetchTimeTableReport(flag) {
     this.auth.showLoader();
     if (this.fetchFieldData.master_course == "-1" && this.fetchFieldData.teacher_id == "-1") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", " Please Select a Master Course or Teacher");
+      let msg = this.schoolModel ? 'Please Select a Standard or Teacher' : 'Please Select a Master Course or Teacher';
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", msg);
       this.auth.hideLoader();
       return;
     }
     if (flag == '-1') {
-      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('YYYY-MM-DD');
     }
     else if (flag == '1') {
-      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('YYYY-MM-DD');
     }
     this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-    if (this.fetchFieldData.course_id == "-1" && this.fetchFieldData.teacher_id =='-1') {
+    if (this.fetchFieldData.course_id == "-1" && this.fetchFieldData.teacher_id == '-1') {
       this.onlyMasterData = true;
-    }else{this.onlyMasterData =false;}
+    } else { this.onlyMasterData = false; }
     this.forDownloadPDF = this.fetchFieldData;
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
       (
-      res => {
-        this.auth.hideLoader();
-        this.notProTimeTable = [];
-        this.namesArr = [];
-        if (res && res.length != 0 && this.onlyMasterData) {
+        res => {
+          this.auth.hideLoader();
+          this.notProTimeTable = [];
+          this.namesArr = [];
+          if (res && res.length != 0 && this.onlyMasterData) {
 
-          res.map((element) => {
+            res.map((element) => {
 
-            this.namesArr.push(element.course_name);
-            this.timeTableObj = element.batchTimeTableList;
+              this.namesArr.push(element.course_name);
+              this.timeTableObj = element.batchTimeTableList;
+              this.maxEntries = 0;
+              this.maxDataLengthCount();
+              this.timetableDataConstructor();
+            })
+          }
+          else {
+            this.auth.hideLoader();
+            this.timeTableObj = res.batchTimeTableList;
+            this.namesArr.push(res.course_name);
             this.maxEntries = 0;
             this.maxDataLengthCount();
             this.timetableDataConstructor();
-          })
-        }
-        else {
-          this.auth.hideLoader();
-          this.timeTableObj = res.batchTimeTableList;
-          this.namesArr.push(res.course_name);
-          this.maxEntries = 0;
-          this.maxDataLengthCount();
-          this.timetableDataConstructor();
-        }
-        this.showtable = true;
-      },
-      err => {
+          }
+          this.showtable = true;
+        },
+        err => {
 
-        this.auth.hideLoader();
-        console.log(err);
-      }
+          this.auth.hideLoader();
+          console.log(err);
+        }
       )
   }
   /* for changing radio buttons in professional Model */
@@ -367,16 +371,16 @@ export class TimeTableComponent implements OnInit {
       }
     }
     if (data == '-1') {
-      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('YYYY-MM-DD');
     }
     else if (data == '1') {
-      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
-      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
+      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('YYYY-MM-DD');
+      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('YYYY-MM-DD');
     }
     // else {
-    //   this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
-    //   this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
+    //   this.startdateweek = moment().isoWeekday("Monday").format("YYYY-MM-DD");
+    //   this.enddateweek = moment().isoWeekday("Sunday").format("YYYY-MM-DD");
     // }
     this.showFilters = false;
     this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
@@ -384,20 +388,20 @@ export class TimeTableComponent implements OnInit {
     this.forDownloadPDF = this.fetchFieldDataPro;
     this.timeTableServ.getTimeTable(this.fetchFieldDataPro).subscribe
       (
-      res => {
-        this.auth.hideLoader();
-        if (res.length != 0) {
-          this.timeTableObj = res.batchTimeTableList;
+        res => {
+          this.auth.hideLoader();
+          if (res.length != 0) {
+            this.timeTableObj = res.batchTimeTableList;
+          }
+          this.maxEntries = 0;
+          this.maxDataLengthCount();
+          this.timetableDataConstructor();
+          this.showtable = true;
+        },
+        err => {
+          this.auth.hideLoader();
+          console.log(err);
         }
-        this.maxEntries = 0;
-        this.maxDataLengthCount();
-        this.timetableDataConstructor();
-        this.showtable = true;
-      },
-      err => {
-        this.auth.hideLoader();
-        console.log(err);
-      }
       )
   }
   /*==============================This is used to create custom json for the table =====================================*/
@@ -407,9 +411,9 @@ export class TimeTableComponent implements OnInit {
     for (var i = 0; i < 7; i++) {
       this.flag = false;
       for (let prop in this.timeTableObj) {
-        if (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY") == moment(prop).format("DD-MM-YYYY") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
+        if (moment(this.startdateweek).add(i, 'day').format("YYYY-MM-DD") == moment(prop).format("YYYY-MM-DD") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
           let obj = {
-            headerDate: moment(prop).format("DD-MM-YYYY"),
+            headerDate: moment(prop).format("YYYY-MM-DD"),
             headerDays: moment(prop).format("dddd"),
             data: this.timeTableObj[prop],
           }
@@ -420,7 +424,7 @@ export class TimeTableComponent implements OnInit {
       }
       if (this.flag == false) {
         let obj = {
-          headerDate: (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY")),
+          headerDate: (moment(this.startdateweek).add(i, 'day').format("YYYY-MM-DD")),
           headerDays: (moment(this.startdateweek).add(i, 'day').format("dddd")),
           data: [],
         }

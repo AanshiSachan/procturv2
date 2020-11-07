@@ -1,7 +1,10 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { role } from '../../model/role_features';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
 
@@ -132,6 +135,7 @@ export class StudentFeeService {
         course_id_filter: '',
         master_course_name: ''
     };
+    role_feature = role.features;
 
 
     constructor(
@@ -174,22 +178,22 @@ export class StudentFeeService {
         }
 
         // let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             (res: FeeModel) => {
                 return res;
             },
             err => {
                 return err
             }
-        );
+        ));
     }
 
     getReasonsForDiscount() {
         let url = this.baseUrl + "/api/v1/discount/reason/master/all/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
     public uniqueConvertFeeJson(res: CustomFeeSchedule[]): CustomFeeSchedule[] {
@@ -429,13 +433,13 @@ export class StudentFeeService {
         }
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!permissions.includes('707')) {
+            if (!this.role_feature.FEE_MANAGE) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;
                 }
             }
-            if (!permissions.includes('707') && permissions.includes('714')) {
+            if (!this.role_feature.FEE_MANAGE && this.role_feature.FEE_CHEQUE_MANAGE) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;
@@ -856,10 +860,10 @@ export class StudentFeeService {
     addDiscountToStudent(jsonObject) {
         jsonObject.institute_id = Number(this.institute_id);
         let url = this.baseUrl + "/api/v1/discount";
-        return this.http.post(url, jsonObject, { headers: this.headers }).map(
+        return this.http.post(url, jsonObject, { headers: this.headers }).pipe(map(
             res => { return res },
             err => { return err }
-        )
+        ))
     }
 
     // Remove discount applied to the installment
@@ -934,22 +938,22 @@ export class StudentFeeService {
 
     getDiscountHistory(id) {
         let url = this.baseUrl + "/api/v1/discount/" + id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res },
             err => { return err }
-        )
+        ))
     }
 
 
     getFeeDetailsById(i): Observable<any> {
         let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";
-        return this.http.get(urlFeebyId, { headers: this.headers }).map(
+        return this.http.get(urlFeebyId, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            });
+            }));
     }
 
     allocateStudentFees(obj) {
@@ -957,13 +961,13 @@ export class StudentFeeService {
             obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
         }
         let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
-        return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).map(
+        return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            });
+            }));
     }
 
     precisionRound(number, precision) {
@@ -992,29 +996,29 @@ export class StudentFeeService {
 
     getAllDiscountReasons(): Observable<any> {
         let url = this.baseUrl + "/api/v1/discount/reason/master/all/" + this.institute_id;
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
 
     createDiscountReason(obj): Observable<any> {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/discount/reason/master";
-        return this.http.post(url, obj, { headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
     updateDiscountReasons(obj: any, id: string | number): Observable<any> {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/discount/reason/master/" + id;
-        return this.http.put(url, obj, { headers: this.headers }).map(
+        return this.http.put(url, obj, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }
-        );
+        ));
     }
 
 

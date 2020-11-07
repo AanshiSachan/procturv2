@@ -1,4 +1,4 @@
-<section class="middle-section">
+<section style="padding-left: 2%;">
   <section class="header-section">
     <div>
       <div class="header-title">
@@ -12,7 +12,8 @@
     </div>
   </section>
   <div class="course-menu-section-container">
-    <div class="course-menu-item" *ngIf="JsonFlags.isShowAttendanceReport" routerLink="/view/{{type}}/reports/attendance">
+    <div class="course-menu-item" *ngIf="JsonFlags.isShowAttendanceReport"
+      routerLink="/view/{{type}}/reports/attendance">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
         <span>Attendance Report </span>
@@ -39,7 +40,7 @@
         <span>In-depth exam report of students.</span>
       </div>
     </div>
-    <div class="course-menu-item"   routerLink="/view/{{type}}/reports/biometric">
+    <div class="course-menu-item" routerLink="/view/{{type}}/reports/biometric">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
         <span>Biometric Attendance</span>

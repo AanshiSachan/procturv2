@@ -9,13 +9,18 @@
     box-shadow: 0px 1px 1px 0.5px#777;
 }
 
-
-.edit-icon-pencil{
+.edit-icon-pencil {
     font-family: FontAwesome;
     font-size: 14px;
     color: #0084f6;
 }
-
+.firstDiv{
+    height: 48%;width: 47%;
+    margin-left: 32%;
+    margin-top: 19%;
+    border: 1px solid black;
+     border-radius: 4px;
+}
 .dueDate {
     .field-wrapper {
         position: relative;
@@ -167,7 +172,6 @@ fieldset {
             width: 100px;
         }
     }
-
 }
 
 .rescheduleWrapper {
@@ -250,7 +254,7 @@ fieldset {
 }
 
 .mainHomePage {
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
         width: 9px;
     }
@@ -266,8 +270,9 @@ fieldset {
         padding: 10px;
     }
 }
-.red{
-  color: red;
+
+.red {
+    color: red;
 }
 
 .closePopup {
@@ -650,7 +655,7 @@ fieldset {
             max-height: 300px;
             overflow: auto;
         }
-        ::-webkit-scrollbar {
+         ::-webkit-scrollbar {
             display: block;
         }
     }
@@ -723,7 +728,13 @@ fieldset {
         }
     }
 }
-
+.firstDiv{
+    height: 48%;width: 47%;
+    margin-left: 32%;
+    margin-top: 19%;
+    border: 1px solid black;
+     border-radius: 4px;
+}
 @media only screen and (max-width:640px) {
     .HomePopupWrapper {
         position: absolute;
@@ -796,7 +807,7 @@ fieldset {
 }
 
 .grid-container {
-    width: 93vw;
+    width:  82vw;
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -853,10 +864,15 @@ div#enqChart {
 
 .item-content {
     position: relative;
-    width: 100%;
+    width: 96%;
     height: 100%;
 }
-
+.bs-datepicker-container{
+    .bs-daterangepicker-container {
+        z-index: 1080;
+        left: 0% !important;
+    }  
+}
 .biometric-content {
     position: relative;
     width: auto;
@@ -869,7 +885,7 @@ div#enqChart {
     // max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
     }
 }
@@ -877,8 +893,7 @@ div#enqChart {
 .activity-left {
     // max-width: 72%;
     width: 100%;
-    padding: 15px 15px 24px 42px;
-    padding-bottom: 70px;
+    padding-left: 25px;
 }
 
 .activity-right {
@@ -890,7 +905,7 @@ div#enqChart {
 }
 
 .act-top {
-    width: 84.5vw;
+    width: 80.5vw;
     padding-bottom: 10px;
     border-bottom: 1px solid #d3d4d5;
     margin-bottom: 10px;
@@ -908,10 +923,10 @@ div#enqChart {
             vertical-align: middle;
         }
     }
-    .add_send_noti{
-      background: #0084f6;
-      color: white;
-      padding: 6px 10px;
+    .add_send_noti {
+        background: #0084f6;
+        color: white;
+        padding: 6px 10px;
     }
     .search-filter-wrapper {
         float: right;
@@ -977,7 +992,7 @@ div#enqChart {
     justify-content: space-between;
     flex-wrap: wrap;
     &>li {
-        box-shadow: 0px 3px 10px rgba(0,0,0,0.16);
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.16);
         background: #fff;
         margin-bottom: 16px;
         width: 90%;
@@ -1164,7 +1179,7 @@ div#enqChart {
     min-height: 350px;
     max-height: 350px;
     overflow: hidden;
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
     }
 }
@@ -1222,7 +1237,6 @@ div#enqChart {
             &.timings {
                 // width: 20% !important;
             }
-
             &.class_room {
                 width: 15% !important;
             }
@@ -1236,11 +1250,12 @@ div#enqChart {
             &.action {
                 width: 15%;
                 justify-content: center;
-                i, img{
-                  margin: 0px 5px;
-                  max-width: 14px;
-                  height: 14px;
-                  cursor: pointer;
+                i,
+                img {
+                    margin: 0px 5px;
+                    max-width: 14px;
+                    height: 14px;
+                    cursor: pointer;
                 }
             }
             div {
@@ -1971,10 +1986,10 @@ div#enqChart {
                 font-size: 15px;
                 font-weight: 400;
             }
-            .note-section{
-              span{
-                font-size: 12px;
-              }
+            .note-section {
+                span {
+                    font-size: 12px;
+                }
             }
             .btn-Group {
                 padding-top: 50px;
@@ -2106,7 +2121,7 @@ div#enqChart {
                         }
                     }
                 }
-                ::-webkit-scrollbar {
+                 ::-webkit-scrollbar {
                     display: block;
                     width: 7px;
                     height: 7px;
@@ -2146,7 +2161,7 @@ div#enqChart {
                             }
                         }
                     }
-                    ::-webkit-scrollbar {
+                     ::-webkit-scrollbar {
                         display: block;
                         width: 7px;
                         height: 7px;
@@ -2335,7 +2350,7 @@ div#enqChart {
         width: 30%;
         float: left !important;
         .form-ctrl {
-            font: 400 12px 'Open sans',sans-serif;
+            font: 400 12px 'Open sans', sans-serif;
             border-top: none !important;
             border-right: none !important;
             border-left: none !important;
@@ -2460,9 +2475,9 @@ div#enqChart {
             .faculty-name {
                 width: 12%;
             }
-            .topic-link{
-              width: 18%;
-              border: none;
+            .topic-link {
+                width: 18%;
+                border: none;
             }
         }
     }
@@ -2492,170 +2507,172 @@ div#enqChart {
             .action {
                 width: 15%;
                 justify-content: center;
-                i, img{
-                  margin: 0px 5px;
-                  max-width: 14px;
-                  height: 14px;
-                  cursor: pointer;
+                i,
+                img {
+                    margin: 0px 5px;
+                    max-width: 14px;
+                    height: 14px;
+                    cursor: pointer;
                 }
             }
             .faculty-name {
                 width: 12%;
             }
-            .topic-link{
-              width: 18%;
-              border: none;
-              div {
-
-              }
+            .topic-link {
+                width: 18%;
+                border: none;
+                div {}
             }
-
         }
     }
 }
 
 // LIMIT button
-.button_type{
-  padding: 0px 10px;
-  border: 1px solid #d4d4d4;
-  border-radius: 11px;
+.button_type {
+    padding: 0px 10px;
+    border: 1px solid #d4d4d4;
+    border-radius: 11px;
 }
 
-.black-bg{
-  background: rgba(10,10,10,0.3);
-  position: fixed;
-  top: 0px;
-  height: 100%;
-  left: 0px;
-  z-index: 1;
-  width: 100%;
+.black-bg {
+    background: rgba(10, 10, 10, 0.3);
+    position: fixed;
+    top: 0px;
+    height: 100%;
+    left: 0px;
+    z-index: 1;
+    width: 100%;
 }
-
 
 // TO Do LIST style
-.toDoList-container{
-  position: fixed;
-  bottom: 10%;
-  right: 4.5%;
-  z-index: 100;
+.toDoList-container {
+    position: fixed;
+    bottom: 10%;
+    right: 4.5%;
+    z-index: 100;
 }
 
-.plus-icon-container{
-  position: fixed;
-  bottom: 10%;
-  right: 4.5%;
-  z-index: 100;
+.plus-icon-container {
+    position: fixed;
+    bottom: 10%;
+    right: 4.5%;
+    z-index: 100;
 }
 
-.plus-button{
-  text-align: center;
-  background: #1283f4;
-  color: #ffffff;
-  width: 50px;
-  height: 50px;
-  font-size: 30px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 100;
-  position: fixed;
-  bottom: 8%;
-  right: 4.5%;
-  line-height: unset;
-}
-.more-about-plus-icon{
-  z-index: 100;
-  position: fixed;
-  bottom: 20%;
-  right: 5.3%;
-  animation-name: slideInUp;
-  animation-duration: 0.5s;
-  .to-do{
-    display: flex;
-    justify-content: flex-end;
-    margin: 10px 3px;
+.plus-button {
+    text-align: center;
+    background: #1283f4;
+    color: #ffffff;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
     cursor: pointer;
-    span{
-      text-align: right;
-      margin-top: 5px;
-      margin-bottom: 6px;
-      margin-right: 10px;
-      background: #ffffff;
-      padding: 3px 15px;
-      border-radius: 10px;
-      -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-      color: #3e3d4a;
-    }
-    .toDo{
-      padding: 10px;
-      background: #1283f4;
-      color: #ffffff;
-      border-radius: 50%;
-    }
-  }
-
+    border-radius: 50%;
+    z-index: 100;
+    position: fixed;
+    bottom: 8%;
+    right: 4.5%;
+    line-height: unset;
 }
 
-.close_button{
-  background: white;
-  color: rgba(102, 102, 102, 0.6);
-  border-radius: 50%;
-  height: 35px;
-  width: 35px;
-  /* padding: 16px; */
-  font-weight: bold;
-  border: none;
-  outline: none;
-  text-align: center;
-  position: fixed;
-  top: 17%;
-  right: 2.5%;
-  z-index: 100;
+.more-about-plus-icon {
+    z-index: 100;
+    position: fixed;
+    bottom: 20%;
+    right: 5.3%;
+    animation-name: slideInUp;
+    animation-duration: 0.5s;
+    .to-do {
+        display: flex;
+        justify-content: flex-end;
+        margin: 10px 3px;
+        cursor: pointer;
+        span {
+            text-align: right;
+            margin-top: 5px;
+            margin-bottom: 6px;
+            margin-right: 10px;
+            background: #ffffff;
+            padding: 3px 15px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            color: #3e3d4a;
+        }
+        .toDo {
+            padding: 10px;
+            background: #1283f4;
+            color: #ffffff;
+            border-radius: 50%;
+        }
+    }
+}
+
+.close_button {
+    background: white;
+    color: rgba(102, 102, 102, 0.6);
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    /* padding: 16px; */
+    font-weight: bold;
+    border: none;
+    outline: none;
+    text-align: center;
+    position: fixed;
+    top: 17%;
+    right: 2.5%;
+    z-index: 100;
 }
 
 @-webkit-keyframes slideInUp {
-  from {
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+    from {
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 @keyframes slideInUp {
-  from {
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+    from {
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
 }
-.text-bold{
+
+.text-bold {
     font-weight: bold;
 }
-::ng-deep bs-datepicker-container, bs-daterangepicker-container{
-    margin-left:1% !important;
-  }
 
-  .modal-list{
+::ng-deep .bs-datepicker-container,
+.bs-daterangepicker-container {
+    margin-left: 1% !important;
+}
+
+.modal-list {
     // font-size:12px;
     list-style-type: disc;
     padding-left: 2em;
-  }
-  .privacy{
+}
+
+.privacy {
     font-size: 14px;
-    p{
-      font-size: 14px;
-      b{
-          font-weight: 600;
-      }
+    p {
+        font-size: 14px;
+        b {
+            font-weight: 600;
+        }
     }
+}
+::ng-deep bs-datepicker-container {
+    margin-left: 5% !important;
   }

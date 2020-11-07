@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { Router } from '../../../../../../node_modules/@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -20,7 +20,7 @@ import * as moment from 'moment';
 })
 export class CampaignSmsComponent implements OnInit {
 
-  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('child', { static: false }) private child: DataDisplayTableComponent;
   projectSettings: any[] = [
     { primaryKey: 'campaign_list_name', header: 'List Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'message', header: 'Message', priority: 2, allowSortingFlag: true },
@@ -40,24 +40,6 @@ export class CampaignSmsComponent implements OnInit {
   dataStatus: boolean = true;
   isRippleLoad: boolean = false;
 
-  // tableSetting: any = {//inventory.item
-  //   tableDetails: {
-  //     title: 'Campaign SMS Report', key: 'reports.fee.campaignReport', showTitle: false,
-  //   },
-  //   search: { title: 'Search', showSearch: false },
-  //   defaultSort: { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true ,sortingType:'desc'},
-  //   keys: this.projectSettings,
-  //   selectAll: { showSelectAll: false, option:'single',title: 'Send Due SMS', checked: true, key: 'name' },
-  //   actionSetting:
-  //   {
-  //     showActionButton: true,
-  //     editOption: 'icon',//or button
-  //     options: [
-  //       { viewName: 'delete', key: 'statusValue', condition: '==', value: 'Pending' },
-  //       { viewName: 'view', key: 'statusValue', condition: '==', value: 'Completed' }]
-  //   },
-  //   displayMessage: "Campaign details does not exist"
-  // };
 
   constructor(
     private _msgService: MessageShowService,
@@ -129,7 +111,7 @@ export class CampaignSmsComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "59vh"
+      height: "50vh"
     }
 
     this.rowColumns = [

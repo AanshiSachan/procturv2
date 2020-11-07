@@ -1,21 +1,21 @@
-import { Component, Input, ViewChild, ElementRef, OnChanges} from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'proctur-popup',
   templateUrl: './proctur-popup.component.html',
   styleUrls: ['./proctur-popup.component.scss']
 })
-export class ProcturPopUpComponent implements OnChanges{
+export class ProcturPopUpComponent implements OnChanges {
 
-  @Input() sizeWidth:string = "";
+  @Input() sizeWidth: string = "";
 
-  @ViewChild('popupContainer') pc: ElementRef;
+  @ViewChild('popupContainer', { static: true }) pc: ElementRef;
 
   constructor() { }
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.sizeWidth;
     this.pc.nativeElement.classList.add(this.sizeWidth);
   }
-  
+
 }

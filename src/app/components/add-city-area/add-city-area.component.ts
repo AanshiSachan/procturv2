@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { HttpService } from '../../services/http.service';
 import { MessageShowService } from '../../services/message-show.service';
 import { AuthenticatorService } from './../../services/authenticator.service';
@@ -12,6 +12,7 @@ declare var $;
 export class AddCityAreaComponent implements OnInit {
 
   @Output() closePopup = new EventEmitter<boolean>();
+  @Input() selectedData: any;
 
   // global variables
   jsonFlag = {
@@ -40,12 +41,17 @@ export class AddCityAreaComponent implements OnInit {
 
   ngOnInit() {
     $('#addAreaModal').modal('show');
-    this.getCountryList()
+    this.getCountryList();
+    let data = this.selectedData;
   }
 
   getCountryList(){
     let defaultCountryList = sessionStorage.getItem('country_data')
     this.countryList = JSON.parse(defaultCountryList);
+    this.addArea.country_id = this.selectedData.country;
+    if(this.selectedData.country != "-1"){
+      this.getStateList()
+    }
   }
 
   getStateList(){
@@ -60,6 +66,12 @@ export class AddCityAreaComponent implements OnInit {
         this.auth.hideLoader();
         if(res.result.length > 0){
           this.stateList = res.result[0].stateList;
+          if(this.selectedData.state != "" && this.selectedData.state != null){
+            this.addArea.state_id = this.selectedData.state;
+            if(this.selectedData.state != "-1"){
+              this.getCityList()
+            }
+          }
         }
       },
       err => {
@@ -77,6 +89,9 @@ export class AddCityAreaComponent implements OnInit {
         this.auth.hideLoader();
         if(res.result.length > 0){
           this.cityList = res.result[0].cityList;
+          if(this.selectedData.city != "" && this.selectedData.city != "-1" && this.selectedData.city != null){
+            this.addArea.city_id = this.selectedData.city;
+          }
         }
       },
       err => {

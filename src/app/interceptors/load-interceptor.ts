@@ -1,14 +1,9 @@
+
+import {throwError as observableThrowError, of as observableOf,  Observable } from 'rxjs';
+
+import {catchError, retryWhen, mergeMap, take, delay, concat} from 'rxjs/operators';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/take';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class I1 implements HttpInterceptor {
@@ -17,12 +12,12 @@ export class I1 implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(req)
-            .retryWhen(error => {
-                return error
-                    .flatMap((err) => {
+        return next.handle(req).pipe(
+            retryWhen(error => {
+                return error.pipe(
+                    mergeMap((err) => {
                         if (err instanceof HttpErrorResponse && err.status === 504) { // timeout and retry after 60 seconds
-                            return Observable.of(err.status).delay(60000);
+                            return observableOf(err.status).pipe(delay(60000));
                         }
                         /* Bad Request */
                         else if (err instanceof HttpErrorResponse && err.status === 400) {
@@ -33,7 +28,7 @@ export class I1 implements HttpInterceptor {
                             };
                             //To generate a toaster error uncomment below line
                             //this.alert.changeErrorObject(JSON.stringify(obj));
-                            return Observable.throw(err);
+                            return observableThrowError(err);
                         }
                         /* Not Found */
                         else if (err instanceof HttpErrorResponse && err.status === 404) {
@@ -45,7 +40,7 @@ export class I1 implements HttpInterceptor {
                         }
                         /* Internal Server Error */
                         else if (err instanceof HttpErrorResponse && err.status === 500) {
-                            return Observable.throw(err);
+                            return observableThrowError(err);
                         }
                         /* Bad Gateway */
                         else if (err instanceof HttpErrorResponse && err.status === 502) {
@@ -60,21 +55,21 @@ export class I1 implements HttpInterceptor {
 
                         }
 
-                        return Observable.throw({ error: 'No retry' });
-                    })
-                    .take(1)
+                        return observableThrowError({ error: 'No retry' });
+                    }),
+                    take(1),
                     //.concat(next.handle(req));
-                    .concat(Observable.throw({ error: 'Sorry, there was an error (after 1 retries)' }));
-            });
+                    concat(observableThrowError({ error: 'Sorry, there was an error (after 1 retries)' })),);
+            }));
     }
 }
 
 @Injectable()
 export class I2 implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(req)
-            .catch(err => {
-                return Observable.throw(err);
-            });
+        return next.handle(req).pipe(
+            catchError(err => {
+                return observableThrowError(err);
+            }));
     }
 }

@@ -31,7 +31,7 @@ export class CampaignHomeComponent implements OnInit {
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
   today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
-  displayBatchSize: number = 25; incrementFlag: boolean = true; updateFormComments: any = [];
+  displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
   maxPageSize: number = 0; totalVisibleEnquiry: number = 0; totalCampaign: number = 0; isProfessional: boolean = false;
   isActionDisabled: boolean = false; isMessageAddOpen: boolean = false; isMultiSms: boolean = false;

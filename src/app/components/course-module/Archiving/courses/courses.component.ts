@@ -42,6 +42,7 @@ export class CoursesComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
+  schoolModel: boolean = false;
 
   constructor(private auth: AuthenticatorService,
     private batch: CoursesServiceService,
@@ -58,6 +59,8 @@ export class CoursesComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.getCoursesList();
   }
 
@@ -161,9 +164,11 @@ export class CoursesComponent implements OnInit {
 
     if (!this.isProfessional) {
       if (this.sendPayload.courseIds == "" || this.sendPayload.courseIds == null) {
+        // changes by Nalini - to handle school model conditions
+        let temp = this.schoolModel ? 'section' : 'course';
         let msg = {
           type: "error",
-          body: "At least one course should be selected"
+          body: 'At least one ' + temp + " should be selected"
         }
         this.appc.popToast(msg);
       }

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
@@ -10,13 +11,15 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 export class CreateCourseComponent implements OnInit {
 
   isLangInstitue: boolean = false;
-  @ViewChild('liStandard') liStandard: ElementRef;
-  @ViewChild('liSubject') liSubject: ElementRef;
-  @ViewChild('liManageBatch') liManageBatch: ElementRef;
-  @ViewChild('liClass') liClass: ElementRef;
-  @ViewChild('liExam') liExam: ElementRef;
-  @ViewChild('liTopic') liTopic: ElementRef;
+  @ViewChild('liStandard',{static: false}) liStandard: ElementRef;
+  @ViewChild('liSubject',{static: false}) liSubject: ElementRef;
+  @ViewChild('liManageBatch',{static: false}) liManageBatch: ElementRef;
+  @ViewChild('liClass',{static: false}) liClass: ElementRef;
+  @ViewChild('liExam',{static: false}) liExam: ElementRef;
+  @ViewChild('liTopic',{static: false}) liTopic: ElementRef;
+  role_feature = role.features;
 
+  schoolModel: boolean = false;
   constructor(
     private router: Router,
     private auth: AuthenticatorService
@@ -32,6 +35,8 @@ export class CreateCourseComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.checkInstituteType();
   }
 
@@ -86,22 +91,18 @@ export class CreateCourseComponent implements OnInit {
         this.checkWhichTabIsOpen();
       } else {
         this.hideAllTabs();
-        if (permissionArray != null && permissionArray != "") {
-          if (permissionArray.indexOf('501') != -1) {
+        // if (permissionArray != null && permissionArray != "") {
+          if (this.role_feature.SETUP_MENU) {
             this.liStandard.nativeElement.classList.remove('hide');
-          }
-          if (permissionArray.indexOf('502') != -1) {
             this.liSubject.nativeElement.classList.remove('hide');
-          }
-          if (permissionArray.indexOf('505') != -1) {
             this.liManageBatch.nativeElement.classList.remove('hide');
           }
-          if (permissionArray.indexOf('701') >= 0 || permissionArray.indexOf('704') >= 0) {
+          if (this.role_feature.CLASS_MENU) {
             this.liClass.nativeElement.classList.remove('hide');
           }
-          if (permissionArray.indexOf('702') >= 0) {
+          if (this.role_feature.EXAMS_MENU) {
             this.liExam.nativeElement.classList.remove('hide');
-          }
+          // }
           this.routeToSubTabs(permissionArray);
         }
       }
@@ -111,22 +112,22 @@ export class CreateCourseComponent implements OnInit {
   }
 
   routeToSubTabs(data) {
-    if (data.indexOf('501') != -1) {
+    // if (this.role_feature.SETUP_MENU) {
       this.router.navigateByUrl('/view/course/create/standardlist');
       this.switchActiveView('liStandard');
-    } else if (data.indexOf('502') != -1) {
-      this.router.navigateByUrl('/view/course/create/subject');
-      this.switchActiveView('liSubject');
-    } else if (data.indexOf('505') != -1) {
-      this.router.navigateByUrl('/view/course/create/courselist');
-      this.switchActiveView('liManageBatch');
-    } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
-      this.router.navigateByUrl('/view/course/create/class/home');
-      this.switchActiveView('liClass');
-    } else if (data.indexOf('702') >= 0) {
-      this.router.navigateByUrl('/view/course/create/exam');
-      this.switchActiveView('liExam');
-    }
+    // } else if (data.indexOf('502') != -1) {
+    //   this.router.navigateByUrl('/view/course/create/subject');
+    //   this.switchActiveView('liSubject');
+    // } else if (data.indexOf('505') != -1) {
+    //   this.router.navigateByUrl('/view/course/create/courselist');
+    //   this.switchActiveView('liManageBatch');
+    // } else if (data.indexOf('701') >= 0 || this.role_feature.CLASS_MENU) {
+    //   this.router.navigateByUrl('/view/course/create/class/home');
+    //   this.switchActiveView('liClass');
+    // } else if (data.indexOf('702') >= 0) {
+    //   this.router.navigateByUrl('/view/course/create/exam');
+    //   this.switchActiveView('liExam');
+    // }
   }
 
   checkUserAcessForLang() {
@@ -138,24 +139,22 @@ export class CreateCourseComponent implements OnInit {
         this.checkWhichTabIsOpen();
       } else {
         this.hideAllTabs();
-        if (permissionArray != null && permissionArray != "") {
-          if (permissionArray.indexOf('501') != -1) {
+        // if (permissionArray != null && permissionArray != "") {
+          if (this.role_feature.SETUP_MENU) {
             this.liStandard.nativeElement.classList.remove('hide');
+            this.liManageBatch.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('502') != -1) {
             this.liSubject.nativeElement.classList.remove('hide');
           }
-          if (permissionArray.indexOf('401') != -1) {
-            this.liManageBatch.nativeElement.classList.remove('hide');
-          }
-          if (permissionArray.indexOf('402') >= 0 || permissionArray.indexOf('704') >= 0) {
+          if (this.role_feature.SETUP_MENU || this.role_feature.CLASS_MENU) {
             this.liClass.nativeElement.classList.remove('hide');
           }
-          if (permissionArray.indexOf('404') >= 0) {
+          if (this.role_feature.EXAMS_MENU) {
             this.liExam.nativeElement.classList.remove('hide');
           }
           // this.routeToSubTabsForLang(permissionArray);
-        }
+        // }
       }
     } else {
       this.teacherLoginFound();
@@ -172,7 +171,7 @@ export class CreateCourseComponent implements OnInit {
   //   } else if (data.indexOf('401') != -1) {
   //     this.router.navigateByUrl('/view/batch/create/managebatch');
   //     this.switchActiveView('liManageBatch');
-  //   } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
+  //   } else if (data.indexOf('402') >= 0 || this.role_feature.CLASS_MENU) {
   //     this.router.navigateByUrl('view/batch/create/class/home');
   //     this.switchActiveView('liClass');
   //   } else if (data.indexOf('404') >= 0) {

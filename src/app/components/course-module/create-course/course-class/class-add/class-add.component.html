@@ -1,5 +1,5 @@
 <section class="middle-section clearFix" style="padding: 10px 10px;">
-  <div class="heading-section">
+  <div class="heading-section" style="margin-top: -30px;">
     <h1>
       Class Schedule Details
     </h1>
@@ -83,14 +83,16 @@
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper"
                           [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
-                          <label for="smc">Select Master Course
+                          <!-- changes by Nalini - to handle school model conditions -->
+                          <label for="smc">Select {{schoolModel ? 'Standard' : 'Master Course'}}
                             <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
                             (ngModelChange)="updateCourseList($event)">
-                            <option value="-1">Select Master Course</option>
-                            <option [value]="master.master_course" *ngFor="let  master of masterCourse">
-                              {{master.master_course}}
+                             <!-- changes by Nalini - to handle school model conditions -->
+                             <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
+                            <option [value]="master" *ngFor="let  master of masterCourse">
+                              {{master}}
                             </option>
                           </select>
 
@@ -98,12 +100,12 @@
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
-                          <label for="sc">Select Course
+                          <label for="sc">Select {{schoolModel ? 'Section' : 'Course'}} Course
                             <span class="text-danger">*</span>
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                             (ngModelChange)="onCourseListSelection($event)">
-                            <option value="-1">Select Course</option>
+                            <option value="-1">Select {{schoolModel ? 'Standard' : 'Course'}}</option>
                             <option [value]="course.course_id" *ngFor="let course of courseList">
                               {{course.course_name}}
                             </option>
@@ -131,8 +133,8 @@
                     </div>
                     <div class="row" *ngIf="courseStartDate" style="margin-top:5px;margin-left:0px;font-size: 12px;">
                       <span>Course Duration: </span>
-                      <span style="font-weight: 600;">{{courseStartDate}} - </span>
-                      <span style="font-weight: 600;">{{courseEndDate}}</span>
+                      <span style="font-weight: 600;">{{courseStartDate | date: 'dd-MMM-yyyy'}} - </span>
+                      <span style="font-weight: 600;">{{courseEndDate | date: 'dd-MMM-yyyy'}}</span>
                     </div>
                   </div>
                 </div>
@@ -821,8 +823,7 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                         {{row.note}}
                       </td>
                       <td>
-                        <a *ngIf="checkCurrentDate(row,row.class_date) || row.schd_id == 0"
-                          style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , i)"
+                        <a *ngIf="row.schd_id == 0" style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , i)"
                           id="deleteAnch1">Delete</a>
                         <a style="cursor:pointer; margin-right: 5px"
                           *ngIf="row.schd_id !='0' && row.is_attendance_marked=='N' && checkNotifyDate(row)"

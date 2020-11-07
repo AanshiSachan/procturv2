@@ -10,11 +10,11 @@ import { TeacherAddComponent } from './teacher-add/teacher-add.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 import { TeacherViewComponent } from './teacher-view/teacher-view.component';
-import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+// import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
-    BsDatepickerModule,
+    // BsDatepickerModule,
     SharedModule,
     TeacherRoutingModule,
     ReactiveFormsModule,

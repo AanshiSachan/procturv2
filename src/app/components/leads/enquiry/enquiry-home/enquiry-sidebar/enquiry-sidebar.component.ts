@@ -96,11 +96,11 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   @Output() getUserList = new EventEmitter<any>();
   @Output() fullEnquiryDetails = new EventEmitter<any>();
 
-  @ViewChild('acc') acc: ElementRef;
-  @ViewChild('one') one: ElementRef;
-  @ViewChild('two') two: ElementRef;
-  @ViewChild('three') three: ElementRef;
-  @ViewChild('four') four: ElementRef;
+  @ViewChild('acc',{static: false}) acc: ElementRef;
+  @ViewChild('one',{static: false}) one: ElementRef;
+  @ViewChild('two',{static: false}) two: ElementRef;
+  @ViewChild('three',{static: false}) three: ElementRef;
+  @ViewChild('four',{static: false}) four: ElementRef;
 
   constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent, private auth: AuthenticatorService) {
     this.isEnquiryAdministrator();
@@ -154,10 +154,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       this.rowData.parent_name = res.parent_name;
       this.rowData.parent_email = res.parent_email;
       this.rowData.parent_phone = res.parent_phone;
-      this.updateFormData.followUpDate = res.followUpDate;
+      this.updateFormData.followUpDate = moment(res.followUpDate).format("YYYY-MM-DD");
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
-      this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+      this.updateFormData.walkin_followUpDate = moment(res.walkin_followUpDate).format("YYYY-MM-DD");
       if (res.followUpTime != '' && res.followUpTime != null) {
         this.followUpTime = this.breakTimeInToHrAndMin(res.followUpTime);
       }

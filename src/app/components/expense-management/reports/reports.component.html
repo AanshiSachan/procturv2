@@ -1,4 +1,4 @@
-<section class="middle-section clearFix">
+<section class="clearFix" style="padding-right: 2%;">
   <!-- Header and Navigation -->
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
@@ -16,24 +16,31 @@
       <div class="filter-container">
         <div class="filter-item field-wrapper">
           <label for="filter">Filter</label>
-          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="recordFilter.dateFilter" (ngModelChange)="getAllRecords()">
+          <select class="form-ctrl" name="filter" id="filter" [(ngModel)]="recordFilter.dateFilter"
+            (ngModelChange)="getAllRecords()">
             <option value="month">Current Month</option>
             <option value="date">Till Date</option>
             <option value="range">Date Range</option>
           </select>
         </div>
-        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;" *ngIf="recordFilter.dateFilter == 'range'">
+        <div class="filter-item field-wrapper datePickerBox" style="margin-left: 10px;"
+          *ngIf="recordFilter.dateFilter == 'range'">
           <label for="date-range">Select Date Range</label>
-          <input type="text" value="" id="date-range"  [(ngModel)]="dateFilterRange"  (ngModelChange)="dateRangeChange($event)"
-          class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker/>
+          <input type="text" value="" id="date-range" [(ngModel)]="dateFilterRange"
+            (ngModelChange)="dateRangeChange($event)" class="form-ctrl widgetDatepicker bsDatepicker"
+            style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker />
         </div>
+
+
       </div>
+
       <div class="net-worth-container">
         <span class="heading">Net Income:</span>
         <span>₹{{netIncome?.toLocaleString('en-IN')}}</span>
       </div>
 
     </div>
+
   </section>
 
   <!-- Expense & Income Outer container -->
@@ -42,16 +49,22 @@
 
       <div class="section-container">
         <div class="title-container">
-          <span>Expenses Details</span>
+          <span>Expenses Details <span style="float: right;"><i class="fa fa-file-excel-o"
+                style="font-size: 24px;color: green;cursor: pointer;" aria-hidden="true" title="Export Expenses Details"
+                (click)="exportToExcel()"></i></span> </span>
         </div>
 
         <div class="section-table-container">
           <div class="table-header-container">
+
             <div class="header-item">
-              <span>Payment Date	</span>
+              <span>Payment Date </span>
             </div>
             <div class="header-item">
-              <span>Category</span>
+              <span>Payee</span>
+            </div>
+            <div class="header-item">
+              <span>Item/Category</span>
             </div>
             <div class="header-item align-center">
               <span>Amount(Rs)</span>
@@ -59,11 +72,16 @@
           </div>
           <div class="table-value-outer-container" style="padding-bottom: 60px;">
             <div class="table-value-container" *ngFor="let expense of expenseRecordList">
+
               <div class="value-item">
                 <span>{{expense.payment_date}}</span>
               </div>
               <div class="value-item">
-                <span title="{{expense?.category}}" >{{ (!expense.category) ? '-' : (expense.category.length > 25) ? (expense.category | slice:0:25) + '...' : expense.category}}</span>
+                <span>{{expense.party_name}}</span>
+              </div>
+              <div class="value-item">
+                <span
+                  title="{{expense?.category}}">{{ (!expense.category) ? '-' : (expense.category.length > 25) ? (expense.category | slice:0:25) + '...' : expense.category}}</span>
               </div>
               <div class="value-item align-right" style="padding-right: 55px;">
                 <span>₹{{expense?.amount.toLocaleString('en-IN')}}</span>
@@ -98,16 +116,22 @@
 
       <div class="section-container">
         <div class="title-container">
-          <span>Income Details</span>
+          <span>Income Details<span style="float: right;"><i class="fa fa-file-excel-o"
+                style="font-size: 24px;color: green;cursor: pointer;" aria-hidden="true" title="Export Income Details"
+                (click)="exportToExcel1()"></i></span></span>
         </div>
 
         <div class="section-table-container">
           <div class="table-header-container">
+
             <div class="header-item">
-              <span>Received Date	</span>
+              <span>Received Date </span>
             </div>
             <div class="header-item">
-              <span>Category</span>
+              <span>Payer</span>
+            </div>
+            <div class="header-item">
+              <span>Item/Category</span>
             </div>
             <div class="header-item align-center">
               <span>Amount(Rs)</span>
@@ -115,11 +139,16 @@
           </div>
           <div class="table-value-outer-container" style="padding-bottom: 55px;">
             <div class="table-value-container" *ngFor="let income of incomeRecordList">
+
               <div class="value-item">
                 <span>{{income.payment_date}}</span>
               </div>
               <div class="value-item">
-                <span title="{{income?.category}}" >{{ (!income.category) ? '-' : (income.category.length > 25) ? (income.category | slice:0:25) + '...' : income.category}}</span>
+                <span>{{income.party_name}}</span>
+              </div>
+              <div class="value-item">
+                <span
+                  title="{{income?.category}}">{{ (!income.category) ? '-' : (income.category.length > 25) ? (income.category | slice:0:25) + '...' : income.category}}</span>
               </div>
               <div class="value-item align-right" style="padding-right: 55px;">
                 <span>₹{{income.amount.toLocaleString('en-IN')}}</span>
@@ -130,7 +159,7 @@
 
         <div class="section-total-container">
           <div class="section-total-item">
-            <span class="total-header">Total Fees Collection	</span>
+            <span class="total-header">Total Fees Collection </span>
             <span>₹{{totalFeeCollection?.toLocaleString('en-IN')}}</span>
           </div>
           <!-- <div class="section-total-item">

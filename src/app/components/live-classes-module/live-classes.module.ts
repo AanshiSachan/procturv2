@@ -8,7 +8,8 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LiveClassesComponent } from './live-classes/live-classes.component';
-import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+// import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { ProductService } from '../../services/products.service';
 import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
 import { ExcelService } from '../../services/excel.service';
@@ -21,7 +22,7 @@ import { ExcelService } from '../../services/excel.service';
     SharedModule,
     FormsModule,
     SharedModule,
-    BsDatepickerModule,
+    // BsDatepickerModule,
     TimepickerModule,
     NgMultiSelectDropDownModule.forRoot()
   ],

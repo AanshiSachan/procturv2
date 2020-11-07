@@ -1,7 +1,9 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
-import 'rxjs/add/operator/debounceTime';
-import { Subject } from 'rxjs/Subject';
+
+import { Subject } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
@@ -31,6 +33,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     alertBox: boolean = true;
     delete_unpaid_fee: boolean = false;
     unselected_checkbox_id: number;
+    schoolModel: boolean = false;
 
     @Input() dataList: any[] = [];
     @Input() academicYear: any[] = [];
@@ -58,15 +61,17 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 }
             }
         );
+        // changes by Nalini - to handle school model conditions
+        this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
 
         this.countryList = JSON.parse(sessionStorage.getItem('country_data'));
     }
 
     ngOnInit() {
         this.cd.markForCheck();
-        this.modelChanged
-            .debounceTime(1000)
-            .distinctUntilChanged()
+        this.modelChanged.pipe(
+            debounceTime(1000),
+            distinctUntilChanged(),)
             .subscribe(model => {
                 this.model = model;
                 this.cd.markForCheck();

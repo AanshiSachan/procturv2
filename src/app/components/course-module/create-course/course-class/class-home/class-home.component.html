@@ -1,4 +1,4 @@
-<section class="middle-section clearFix" style="padding: 5px 0px">
+<section class=" clearFix">
   <section class="cal-view">
     <aside class="boxPadding15">
       <!-- ==================================================================================== -->
@@ -122,23 +122,24 @@
                   <div class="row">
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper">
-                        <label for="smc">Select Master Course</label>
+                        <!-- changes by Nalini - to handle school model conditions -->
+                        <label for="smc">{{schoolModel ? 'Select Standard' : 'Select Master Course'}}</label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
                           (ngModelChange)="updateCourseList($event)">
                           <option value="-1"></option>
-                          <option [value]="master.master_course" *ngFor="let  master of masterCourse">
-                            {{master.master_course}}
+                          <option [value]="master" *ngFor="let  master of masterCourse">
+                            {{master}}
                           </option>
                         </select>
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper">
-                        <label for="sc">Select Course</label>
+                        <label for="sc">{{schoolModel ? 'Select Section' : 'Select Course'}}</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                           (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
-                          <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
+                          <option [value]="course.course_id" *ngFor="let course of courseList">
                             {{course.course_name}}
                           </option>
                         </select>
@@ -196,8 +197,8 @@
                       <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
                         (ngModelChange)="updateCourseList($event)">
                         <option value="-1"></option>
-                        <option [value]="master.master_course" *ngFor="let  master of masterCourse">
-                          {{master.master_course}}
+                        <option [value]="master" *ngFor="let  master of masterCourse">
+                          {{master}}
                         </option>
                       </select>
                     </div>
@@ -211,7 +212,7 @@
                       <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                         (ngModelChange)="updateSubjectList($event)">
                         <option value="-1"></option>
-                        <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
+                        <option [value]="course.course_id" *ngFor="let course of courseList">
                           {{course.course_name}}
                         </option>
                       </select>

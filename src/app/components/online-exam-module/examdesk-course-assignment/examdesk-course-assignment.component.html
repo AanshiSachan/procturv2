@@ -1,10 +1,10 @@
-<section class="clearfix middle-section">
+<section class="clearfix ">
 
 
   <div class="row head-section">
     <h2 class="pull-left">
-        <a routerLink="/view/online-exam/">
-          Online Exam
+      <a routerLink="/view/online-exam/">
+        Online Exam
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>ExamDesk Course Assignment</h2>
     <div class="pull-right">
@@ -19,7 +19,8 @@
     <table>
       <thead>
         <tr>
-          <th>Course Name</th>
+          <!-- changes by Nalini - to handle school model conditions -->
+          <th>{{schoolModel ? 'Section' : 'Course'}} Name</th>
           <th>Total Assigned Student</th>
           <th></th>
         </tr>
@@ -64,49 +65,57 @@
 </section>
 
 
-<proctur-popup  [sizeWidth]="'medium'" *ngIf="assignPopUp">
+<proctur-popup [sizeWidth]="'medium'" *ngIf="assignPopUp">
 
   <span class="closePopup pos-abs fbold show" (click)="closePopup()" close-button>
-    <svg  class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
-      <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+      width="24px" x="0" y="0">
+      <path class="large-icon"
+        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+        style="fill: currentColor"></path>
     </svg>
   </span>
-
-  <h2 popup-header>Course Name : {{tempData.course_type}}</h2>
+<!-- changes by Nalini - to handle school model conditions -->
+  <h2 popup-header>{{schoolModel ? 'Section' : 'Course'}} Name : {{tempData.course_type}}</h2>
 
   <div popup-content class="student-assign-popup">
     <div class=" filter-section">
       <div class="row">
         <div class="c-sm-5 c-md-5 c-lg-5 radio-button">
           <div class="field-radio-wrapper">
-            <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+            <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption"
+              (ngModelChange)="onRadioButtonChange()">
             <label for="bothRadio">Both</label>
           </div>
           <div class="field-radio-wrapper">
-            <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+            <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio"
+              [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
             <label for="assignRadio">Assigned</label>
           </div>
           <div class="field-radio-wrapper">
-            <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+            <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio"
+              [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
             <label for="unassignStudent">UnAssigned</label>
           </div>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3 radio-button" >
+        <div class="c-sm-3 c-md-3 c-lg-3 radio-button">
 
-          <div class="field-radio-wrapper"  *ngIf="isCourseModule">
-            <input type="radio" name="standardRadio" id="standardRadio" value="0" class="form-radio" [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
+          <div class="field-radio-wrapper" *ngIf="isCourseModule">
+            <input type="radio" name="standardRadio" id="standardRadio" value="0" class="form-radio"
+              [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
             <label for="standardRadio">Standard</label>
           </div>
           <div class="field-radio-wrapper" *ngIf="isCourseModule">
             <input type="radio" name="courseStudent" id="courseStudent" value="1" class="form-radio" [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
-            <label for="courseStudent">Course</label>
+            <label for="courseStudent">{{schoolModel ? 'Section' : 'Course'}}</label>
           </div>
         </div>
         <div class="c-sm-4 c-md-4 c-lg-4 ">
           <div class="c-sm-12 c-md-12 c-lg-12">
             <div class="c-sm-4 c-md-4 c-lg-4">
               <div class="search-filter-wrapper">
-                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
+                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent"
+                  name="searchData" [(ngModel)]="searchData">
               </div>
             </div>
 
@@ -129,12 +138,13 @@
         </div>
       </div>
       <div class="row extraMargin" *ngIf="isCourse&&isCourseModule">
+        <!-- changes by Nalini - to handle school model conditions -->
         <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
           <div class="field-wrapper">
-            <label for="master">Master Course
+            <label for="master">{{schoolModel ? 'Standard' : 'Master Course'}}
             </label>
             <select class="form-ctrl" [(ngModel)]="examAssignmentData.master_course_name" (change)="getCourses($event.target.value)">
-              <option value="">Master Course</option>
+              <option value="">{{schoolModel ? 'Standard' : 'Master Course'}}</option>
               <option *ngFor="let i of masterCourse" [value]="i.master_course">
                 {{i.master_course}}
               </option>
@@ -144,10 +154,10 @@
 
         <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
           <div class="field-wrapper">
-            <label for="course">Course
+            <label for="course">{{schoolModel ? 'Section' : 'Course'}}
             </label>
             <select class="form-ctrl" [(ngModel)]="examAssignmentData.course_id">
-              <option value="-1">Course</option>
+              <option value="-1">{{schoolModel ? 'Section' : 'Course'}}</option>
               <option *ngFor="let i of courses" [value]="i.course_id">
                 {{i.course_name}}
               </option>>
@@ -157,55 +167,59 @@
         </div>
 
         <div class="c-lg-2 c-md-2 c-sm-2 c-xs-2 text-center">
-          <button id="btnSave" class="btn fullBlue" style="margin-top: 1rem;" type="submit" (click)="getExamAssignmentData()"> Go </button>
+          <button id="btnSave" class="btn fullBlue" style="margin-top: 1rem;" type="submit"
+            (click)="getExamAssignmentData()"> Go </button>
 
         </div>
       </div>
       <div class="row extraMargin" *ngIf="(!isCourseModule)">
-          <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
-            <div class="field-wrapper">
-              <label for="master">Master Course
-              </label>
-              <select class="form-ctrl" [(ngModel)]="examAssignmentData.standard_id" (change)="clearData(1);getData($event.target.value)">
-                <option value="-1">Master Course</option>
-                <option *ngFor="let i of standardList" [value]="i.standard_id">
-                  {{i.standard_name}}
-                </option>
-              </select>
-            </div>
+        <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+          <div class="field-wrapper">
+            <label for="master">Master Course
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.standard_id"
+              (change)="clearData(1);getData($event.target.value)">
+              <option value="-1">Master Course</option>
+              <option *ngFor="let i of standardList" [value]="i.standard_id">
+                {{i.standard_name}}
+              </option>
+            </select>
           </div>
+        </div>
 
-          <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
-            <div class="field-wrapper">
-              <label for="course">Course
-              </label>
-              <select class="form-ctrl" [(ngModel)]="examAssignmentData.subject_id"  (change)="clearData(2);getData($event.target.value)">
-                <option value="-1">Course</option>
-                <option *ngFor="let i of subjectList" [value]="i.subject_id">
-                  {{i.subject_name}}
-                </option>>
-              </select>
-
-            </div>
-          </div>
-          <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
-              <div class="field-wrapper">
-                <label for="course">Batch
-                </label>
-                <select class="form-ctrl" [(ngModel)]="examAssignmentData.batch_id">
-                  <option value="-1">Batch</option>
-                  <option *ngFor="let i of batchList" [value]="i.batch_id">
-                    {{i.batch_name}}
-                  </option>>
-                </select>
-
-              </div>
-            </div>
-          <div class="c-lg-2 c-md-2 c-sm-2 c-xs-2 text-center">
-            <button id="btnSave" class="btn fullBlue" style="margin-top: 1rem;" type="submit" (click)="getExamAssignmentData()"> Go </button>
+        <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+          <div class="field-wrapper">
+            <label for="course">Course
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.subject_id"
+              (change)="clearData(2);getData($event.target.value)">
+              <option value="-1">Course</option>
+              <option *ngFor="let i of subjectList" [value]="i.subject_id">
+                {{i.subject_name}}
+              </option>>
+            </select>
 
           </div>
         </div>
+        <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+          <div class="field-wrapper">
+            <label for="course">Batch
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.batch_id">
+              <option value="-1">Batch</option>
+              <option *ngFor="let i of batchList" [value]="i.batch_id">
+                {{i.batch_name}}
+              </option>>
+            </select>
+
+          </div>
+        </div>
+        <div class="c-lg-2 c-md-2 c-sm-2 c-xs-2 text-center">
+          <button id="btnSave" class="btn fullBlue" style="margin-top: 1rem;" type="submit"
+            (click)="getExamAssignmentData()"> Go </button>
+
+        </div>
+      </div>
     </div>
 
     <div class="table-wrapper">
@@ -214,7 +228,8 @@
           <tr>
             <th>
               <div class="field-checkbox-wrapper">
-                <input type="checkbox" class="form-checkbox" [(ngModel)]="headerChecked" (ngModelChange)="onHeaderCheckBox($event)">
+                <input type="checkbox" class="form-checkbox" [(ngModel)]="headerChecked"
+                  (ngModelChange)="onHeaderCheckBox($event)">
                 <label></label>
               </div>
             </th>
@@ -229,7 +244,8 @@
           <tr *ngFor="let data of (tableData | searchPipe:searchData)">
             <td style="text-align: left">
               <div class="field-checkbox-wrapper">
-                <input [disabled]="data.user_type == '99'" type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
+                <input [disabled]="data.user_type == '99'" type="checkbox" class="form-checkbox"
+                  [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
                 <label></label>
               </div>
             </td>

@@ -18,7 +18,7 @@ import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.m
 })
 export class FeeCourseReportComponent implements OnInit {
 
-  @ViewChild('form') form: any;
+  @ViewChild('form',{static: true}) form: any;
   feeDataSource1: any[] = [];
   feeDataSource2: any[] = [];
   standardList: any[] = [];
@@ -102,6 +102,7 @@ export class FeeCourseReportComponent implements OnInit {
   }
 
   helpMsg: string = "Active Student fee details are based on Master Course/Course and academic year filter applied."
+  schoolModel: boolean = false;
 
   constructor(
     private excelService: ExcelService,
@@ -129,6 +130,8 @@ export class FeeCourseReportComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.fetchPrefillDetails();
 
     this.form.valueChanges
@@ -616,7 +619,7 @@ export class FeeCourseReportComponent implements OnInit {
       let v = today.diff(selected, 'days');
       if (v < 0) {
         this._msgService.showErrorMessage("info", '', "Future date cannot be selected");
-        this.courseFetchForm.from_date = moment(new Date()).format('DD-MMM-YYYY');
+        this.courseFetchForm.from_date = moment(new Date()).format('DD-MM-YYYY');
       }
     }
     else if (id == 'to') {
@@ -624,7 +627,7 @@ export class FeeCourseReportComponent implements OnInit {
       let v = today.diff(selected, 'days');
       if (v < 0) {
         this._msgService.showErrorMessage("info", '', "Future date cannot be selected");
-        this.courseFetchForm.to_date = moment(new Date()).format('DD-MMM-YYYY');
+        this.courseFetchForm.to_date = moment(new Date()).format('DD-MM-YYYY');
       }
     }
 

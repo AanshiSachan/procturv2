@@ -37,6 +37,7 @@ export class CourseWiseComponent implements OnInit {
     from_date: "",
     to_date: ""
   };
+  schoolModel: boolean = false;
 
   constructor(
     private router: Router,
@@ -59,6 +60,8 @@ export class CourseWiseComponent implements OnInit {
         }
       }
     )
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     if(this.jsonFlag.isProfessional){
       this.preRequiredDataForBatchModel();
     }

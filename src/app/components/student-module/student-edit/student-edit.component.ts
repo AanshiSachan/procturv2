@@ -2,9 +2,10 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
+// import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
+import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -28,9 +29,9 @@ import { FeeModel, StudentFeeService } from '../student_fee.service';
 })
 export class StudentEditComponent implements OnInit, OnDestroy {
 
-  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-  @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
-  @ViewChild('btnPayment') btnPayment: ElementRef;
+  @ViewChild('saveAndContinue', { static: false }) btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPdcPopUpAdd', { static: false }) btnPdcPopUpAdd: ElementRef;
+  @ViewChild('btnPayment', { static: false }) btnPayment: ElementRef;
 
   JsonFlags = {
     isDisabled: false,
@@ -146,7 +147,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_phone: "",
     student_curr_addr: "",
     dob: "",
-    doj: moment().format('YYYY-MM-DD'),
+    doj: "",
     expiry_date: "",
     school_name: "-1",
     student_class_key: "",
@@ -306,7 +307,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   areaList: any[] = [];
   addArea: boolean = false;
   studdentEdit = true;
+  selectedData = {
+    country: '',
+    state: '',
+    city: ''
+  };
+
   assignTo: boolean = true;
+  role_feature = role.features;
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -354,16 +362,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
-      if (permissions.includes('714')) {
+      if (this.role_feature.FEE_CHEQUE_MANAGE) {
         this.checkBoxGroup.manageCheque = true;
         this.showFeeSection = false;
         this.checkBoxGroup.hideReconfigure = false;
       }
-      if (permissions.includes('710')) {
+      if (this.role_feature.FEE_MANAGE) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (permissions.includes('713')) {  //fee discount
+      if (this.role_feature.FEE_MANAGE) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
       if (sessionStorage.getItem('permissions') == undefined
@@ -398,61 +406,67 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getStateList() {
-    const url = `/api/v1/country/state?country_ids=${this.country_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.result.length > 0) {
-          this.stateList = res.result[0].stateList;
-          if (this.studentAddFormData.state_id != "") {
-            this.getCityList();
+    if (this.studentAddFormData.country_id != "") {
+      const url = `/api/v1/country/state?country_ids=${this.country_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.result.length > 0) {
+            this.stateList = res.result[0].stateList;
+            if (this.studentAddFormData.state_id != "") {
+              this.getCityList();
+            }
           }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   // get city list as per state selection
   getCityList() {
-    const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.result.length > 0) {
-          this.cityList = res.result[0].cityList;
-          if (this.studentAddFormData.city_id != "") {
-            this.getAreaList();
+    if (this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != "") {
+      const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.result.length > 0) {
+            this.cityList = res.result[0].cityList;
+            if (this.studentAddFormData.city_id != "") {
+              this.getAreaList();
+            }
           }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   getAreaList() {
-    const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
-    this.auth.showLoader();
-    this.httpService.getData(url).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        if (res.result && res.result.length > 0) {
-          this.areaList = res.result[0].areaList;
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
+      const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
+      this.auth.showLoader();
+      this.httpService.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          if (res.result && res.result.length > 0) {
+            this.areaList = res.result[0].areaList;
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+          this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
         }
-      },
-      err => {
-        this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
-      }
-    )
+      )
+    }
   }
 
   toggleAddArea() {
@@ -461,6 +475,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     else {
       this.addArea = true;
+      this.selectedData.country = this.studentAddFormData.country_id;
+      this.selectedData.state = this.studentAddFormData.state_id;
+      this.selectedData.city = this.studentAddFormData.city_id;
     }
   }
 
@@ -570,11 +587,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.auth.showLoader();
     this.fetchService.getStudentCourseDetails(id).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.courseDropdown = res;
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -590,9 +607,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (userType == 1) {
       object['user_role'] = this.paymentMode;
     }
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
-      this.auth.hideLoader();
+      this.auth.hideLoader()
       if (userType == -1) {
         let byteArr = this.commonServiceFactory.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
@@ -614,7 +631,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     },
       (err: any) => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         // this.commonService.showErrorMessage('error', '', err.error.message);
         let obj = {
           type: 'error',
@@ -650,7 +667,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* we need to update the batch array on the updating student object manually as this data is received empty from server */
   /* ============================================================================================================================ */
   updateAssignedBatches(arr: any[]) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     let batchString: any[] = [];
     this.studentAddFormData.assignedBatches = [];
     this.studentAddFormData.batchJoiningDates = [];
@@ -680,7 +697,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.batchJoiningDates = tempDate;
     this.assignedBatchString = batchString.join(',');
     this.JsonFlags.isDisabled = false;
-    this.auth.hideLoader();
+    this.auth.hideLoader()
   }
 
   getSlotName(e): string {
@@ -730,7 +747,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       data => { this.instituteList = data; },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -752,7 +769,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     //   },
     //   err => {
     //     let msg = err.error.message;
-    //     this.auth.hideLoader();
+    //     this.auth.hideLoader()
     //     let obj = {
     //       type: 'error',
     //       title: msg,
@@ -822,7 +839,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.auth.showLoader();
     this.studentPrefillService.fetchCustomComponentById(this.student_id, undefined, 2).subscribe(
       data => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         if (data != null) {
           data.forEach(el => {
             let max_length = el.comp_length == 0 ? 100 : el.comp_length;
@@ -905,7 +922,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -1047,19 +1064,25 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   getassignedBatchList(e) {
     this.auth.showLoader();
+    let temp = [];
+    if(e.batchJoiningDates && e.batchJoiningDates.length) {
+      e.batchJoiningDates.forEach(el => {
+            temp.push(moment(el).format('YYYY-MM-DD'));
+      });
+    }
     this.studentAddFormData.assignedBatches = e.assignedBatches;
-    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.batchJoiningDates = temp;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
     this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = e.deleteCourse_SubjectUnPaidFeeSchedules;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
-    this.auth.hideLoader();
+    this.auth.hideLoader()
   }
 
   getSlots() {
     this.slots = [];
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.studentPrefillService.fetchSlots().subscribe(
       res => {
         this.auth.hideLoader();
@@ -1077,7 +1100,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -1218,7 +1241,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 this.batchList.push(obj);
               });
               this.updateAssignedBatches(this.batchList);
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               // console.log(this.batchList);
             } else {
               this.JsonFlags.isDisabled = false;
@@ -1226,7 +1249,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           },
           err => {
             let msg = err.error.message;
-            this.auth.hideLoader();
+            this.auth.hideLoader()
             let obj = {
               type: 'error',
               title: msg,
@@ -1244,10 +1267,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   registerDuplicateStudent(form: NgForm) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
       (res: any) => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let statusCode = res.statusCode;
         if (statusCode == 200) {
           let alert = {
@@ -1272,7 +1295,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         let msg = err.error.message;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let obj = {
           type: 'error',
           title: msg,
@@ -1325,7 +1348,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   updateStudentForm(id) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(
       (data: any) => {
@@ -1333,9 +1356,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.auth.hideLoader();
         this.studentName = data.student_name;
         this.studentAddFormData = data;
+        this.studentAddFormData.doj = moment(this.studentAddFormData.doj).format('YYYY-MM-DD');
+        this.studentAddFormData.dob = moment(this.studentAddFormData.dob).format('YYYY-MM-DD');
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
+        this.studentAddFormData.doj = moment(data.doj).format("YYYY-MM-DD");
+        this.studentAddFormData.dob = moment(data.dob).format("YYYY-MM-DD");
+        this.studentAddFormData.expiry_date = moment(data.expiry_date).format("YYYY-MM-DD");
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
@@ -1371,7 +1399,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (this.isProfessional) {
           /* Fetching the student Slots */
           this.getSlots();
-          this.auth.showLoader();
+          this.auth.showLoader()
           this.JsonFlags.isDisabled = true;
           this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
             data => {
@@ -1396,12 +1424,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 this.batchList.push(obj);
               });
               this.updateAssignedBatches(this.batchList);
-              this.auth.hideLoader();
+              this.auth.hideLoader()
             },
             err => {
               this.JsonFlags.isDisabled = false;
               let msg = err.error.message;
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               let obj = {
                 type: 'error',
                 title: msg,
@@ -1444,7 +1472,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //     err => {
         //
         //       let msg = err.error.message;
-        //       this.auth.hideLoader();
+        //       this.auth.hideLoader()
         //       let obj = {
         //         type: 'error',
         //         title: msg,
@@ -1456,7 +1484,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         // }
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let al = {
           type: "error",
           title: err.error.message,
@@ -1626,11 +1654,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
       this.btnSaveAndContinue.nativeElement.disabled = true;
-      this.auth.showLoader();
+      this.auth.showLoader()
       // console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           this.btnSaveAndContinue.nativeElement.disabled = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -1665,7 +1693,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         err => {
           this.btnSaveAndContinue.nativeElement.disabled = false;
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -1932,10 +1960,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       is_archived = "Y";
     }
     // console.log(is_archived);
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.feeService.fetchStudentFeeSchedule(this.student_id, is_archived).subscribe(
       (res: FeeModel) => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.feeObject = res;
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
@@ -1947,19 +1975,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('714')) {
+            if (this.role_feature.FEE_CHEQUE_MANAGE) {
               this.showFeeSection = true;
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if ((permissions.includes('710'))) {
+            if (this.role_feature.FEE_MANAGE) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (permissions.includes('713')) {  //fee discount
+            if (this.role_feature.FEE_MANAGE) {  //fee discount
               this.checkBoxGroup.feeDiscouting = true;
             }
             if (sessionStorage.getItem('permissions') == undefined
@@ -1987,7 +2015,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -2183,12 +2211,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let JsonToSendOnServer = this.feeService.makePaymentFinalJson(this.subjectWiseInstallmentArray, this.paymentPopUpJson);
     JsonToSendOnServer.student_id = this.student_id;
     // console.log(JsonToSendOnServer);
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.btnPayment.nativeElement.disabled = true;
     this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
       res => {
         this.btnPayment.nativeElement.disabled = false;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.commonServiceFactory.showErrorMessage('success', '', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
           this.generateFeeRecipt(res);
@@ -2201,7 +2229,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
       err => {
         this.btnPayment.nativeElement.disabled = false;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -2385,10 +2413,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
       this.feeStructureForm.template_effective_date = dd;
-      this.auth.showLoader();
+      this.auth.showLoader()
       this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm).subscribe(
         res => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           this.feeTemplateById = res;
           this.feeTemplateById.template_effective_date = this.feeStructureForm.template_effective_date;
           this.feeTemplateById.template_id = this.feeTempSelected;
@@ -2417,7 +2445,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         },
         err => {
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -2496,7 +2524,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let temp: any[] = [];
         res.forEach(el => {
           let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false, country_id: el.country_id };
@@ -2504,7 +2532,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         });
         this.chequePdcList = temp;
       }, error => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -2528,10 +2556,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.genPdcAck = false;
     this.sendPdcAck = false;
     this.btnPdcPopUpAdd.nativeElement.disabled = true;
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.addChequePdc(temp).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
@@ -2539,7 +2567,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.getPdcChequeList();
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
@@ -2556,15 +2584,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   deletePDC(data, i) {
     if (confirm("Are you sure,you want to delete the Cheque?")) {
-      this.auth.showLoader();
+      this.auth.showLoader()
       this.postService.deletePdcById(data.cheque_id).subscribe(
         res => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           this.chequePdcList.splice(i, 1);
         },
         err => {
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -2582,7 +2610,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.auth.showLoader();
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
           this.getPdcChequeList();
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
@@ -2590,7 +2618,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         },
         err => {
           let msg = err.error.message;
-          this.auth.hideLoader();
+          this.auth.hideLoader()
           let obj = {
             type: 'error',
             title: msg,
@@ -2651,10 +2679,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   generateAcknowledgeAPi(chequeId, student_id, key) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.postService.generateAcknowledge(chequeId, student_id, key).subscribe(
       res => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         if (key == 'Y') {
           // this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
           this.commonServiceFactory.showErrorMessage('success', '', 'Acknowledgement receipt sent to ' + this.studentAddFormData.student_email);
@@ -2663,7 +2691,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
       }
     )
@@ -2711,14 +2739,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchInventoryList() {
-    this.auth.showLoader();
+    this.auth.showLoader()
     this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
       data => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         this.inventoryItemsArr = data;
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         let msg = err.error.message;
         let obj = { type: 'error', title: msg, body: "" };
         this.appC.popToast(obj);
@@ -2756,10 +2784,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             docket_id: this.addInventory.docket_id,
             date_of_delivery_of_sm: this.addInventory.date_of_delivery_of_sm,
           };
-          this.auth.showLoader();
+          this.auth.showLoader()
           this.postService.allocateInventory(obj).subscribe(
             res => {
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               this.appC.popToast({ type: "success", title: "", body: "Inventory Item Allocated Successfully" });
               this.addInventory = {
                 alloted_units: 0,
@@ -2774,7 +2802,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.fetchInventoryList();
             },
             err => {
-              this.auth.hideLoader();
+              this.auth.hideLoader()
               this.appC.popToast({ type: "error", title: '', body: err.error.message });
             }
           )
@@ -2874,9 +2902,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("x-proc-inst-id", sessionStorage.getItem('institute_id'));
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      this.auth.showLoader();
+      this.auth.showLoader()
       newxhr.onreadystatechange = () => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
             let data = {
@@ -2914,10 +2942,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
         this.uploadedFileData = res;
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
@@ -2933,14 +2961,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   updateDownloadCount(object) {
-    this.auth.showLoader();
+    this.auth.showLoader()
     const url = `/users-file/update-File-download-count/?studentId=${this.student_id}&id=${object.id}`;
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
       },
       err => {
-        this.auth.hideLoader();
+        this.auth.hideLoader()
       }
     )
   }
