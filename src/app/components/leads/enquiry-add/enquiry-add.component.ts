@@ -195,6 +195,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   convertEnquiry: boolean = false;
   role_feature = role.features;
   schoolModel: boolean = false;
+  // Changes by - Nalini to hide Add bulk Enquiry and Upload Enq for custom user (As discussed with Nitin)
+  BulkEnqHide : boolean = false;
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -230,8 +232,10 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     this.isStateMandatory = sessionStorage.getItem('enable_routing');
     if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
       this.permission = false;
+      this.BulkEnqHide = true;
     }
     else {
+      this.BulkEnqHide = false;
       if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
         if (this.role_feature.LEAD_MANAGE_ENQUIRY)
           this.permission = true;
