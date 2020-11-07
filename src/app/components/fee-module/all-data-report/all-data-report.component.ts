@@ -12,6 +12,8 @@ import { TablePreferencesService } from '../../../services/table-preference/tabl
 import { DataDisplayTableComponent } from '../../shared/data-display-table/data-display-table.component';
 import { ColumnData2 } from '../../shared/data-display-table/data-display-table.model';
 import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 /**  models imports*/
 
 

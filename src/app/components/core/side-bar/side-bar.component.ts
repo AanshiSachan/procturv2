@@ -16,6 +16,8 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { Router } from '@angular/router';
 import 'rxjs/Rx';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 
 @Component({
@@ -1418,6 +1420,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     else {
       this.showExpenses = true;
     }
+    this.closeMenu();
   }
 
 
@@ -1442,6 +1445,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     else {
       this.showExpenseToDo = true;
     }
+    this.closeMenu();
   }
 
   showToDoList() {

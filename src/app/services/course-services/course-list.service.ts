@@ -42,14 +42,14 @@ export class CourseListService {
     getStandardListFromServer() {
         // let url = this.baseURL + "/api/v1/standards/all/" + this.institute_id + '?active=Y';
         let url = this.baseURL + "/api/v1/standards/standard-subject-list/" + this.institute_id + "?is_active=Y" + '&is_subject_required=true';
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.get(url, { headers: this.headers }).pipe(map(
             res => {
                 return res;
             },
             error => {
                 return error;
             }
-        )
+        ))
     }
 
     getSubjectListOfStandard(data) {
