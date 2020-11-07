@@ -377,6 +377,7 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   updateTableBatchSize(event) {
+    this.PageIndex = 1;
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.PageIndex);
   }

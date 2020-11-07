@@ -148,6 +148,7 @@ export class CourseCourseListComponent implements OnInit {
     return t;
   }
   updateTableBatchSize(event) {
+    this.PageIndex = 1;
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.PageIndex);
   }

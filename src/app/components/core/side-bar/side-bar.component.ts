@@ -1239,6 +1239,17 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('tax_type_without_percentage', res.tax_type);
     sessionStorage.setItem('tax_type_with_percentage', res.tax_type + "(%)");
     sessionStorage.setItem('enable_elearn_course_mapping_feature', res.enable_elearn_course_mapping_feature);
+    //Storing the session value 
+      // Added by Nalini
+      sessionStorage.setItem('login_option', res.login_option);
+      sessionStorage.setItem('payment_amount', res.payment_amount);
+      sessionStorage.setItem('payment_due_date', res.payment_due_date);
+      sessionStorage.setItem('enable_online_assignment_feature', res.enable_online_assignment_feature);
+      sessionStorage.setItem('teacherIDs', res.teacherId);
+      sessionStorage.setItem('enable_library_feature', res.enable_library_feature);
+      sessionStorage.setItem('enable_vdoCipher_feature', res.enable_vdoCipher_feature);
+      sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
+
   }
 
   // closeSubMenu(){

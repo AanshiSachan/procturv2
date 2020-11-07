@@ -317,6 +317,7 @@ export class CourseSubjectComponent implements OnInit {
     return data;
   }
   updateTableBatchSize(event) {
+    this.PageIndex = 1;
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.PageIndex);
   }

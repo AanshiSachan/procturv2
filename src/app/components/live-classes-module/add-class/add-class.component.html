@@ -3,7 +3,7 @@
     <section class="middle-main clearFix activity-wrapper">
       <section class="row header" style="margin-right: 0px; margin-left: 0px;margin-bottom: 5px;">
         <div class="row" style="margin-left: 0px;margin-right: 0px;">
-          <h2 class="pull-left" style="margin-bottom: 0;">
+         <h2 class="pull-left" style="margin-bottom: 0;">
             <a routerLink="/view/live-classes">
               Live class
             </a>
@@ -110,7 +110,7 @@
           </div>
           <!-- Added the conditon for only for faculty -->
           <div class="field-wrapper faculty_container" *ngIf="userType != 3">
-            <!-- <div class="field-wrapper faculty_container"> -->
+          <!-- <div class="field-wrapper faculty_container"> -->
             <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
             <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
             <ng-multiselect-dropdown [placeholder]="'Select Faculty'" [data]="teachersAssigned"
@@ -220,153 +220,9 @@
           </div>
 
 
-          <div>
-            <div class="AdvanceSetting">
-              <span style="font-weight: 600;">Advance settings</span>
-            </div>
-            <div class="AdvanceSettingDiv">
-              <div class="field-checkbox-wrapper advance-setting-item">
-                <input type="checkbox" name="expenses" [(ngModel)]="addOnlineClass.sent_notification_flag" [value]="0"
-                  class="form-checkbox" id="qun">
-                <label for="qun">Send Notification</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    All the members in
-                    <br>meeting will recieve
-                    <br>sms notification for
-                    <br>the session.
-                  </div>
-                </div>
-                <!-- <i class="fa fa-commenting" aria-hidden="true" style="color: #1283f4;margin-left: 5px;"></i> -->
-              </div>
-
-              <!-- Private Access -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                <input type="checkbox" name="private_access" [(ngModel)]="addOnlineClass.private_access" [value]="0"
-                  class="form-checkbox" id="private_access">
-                <label for="private_access">Private Access</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Only the users invited
-                    <br> using e-mail ID would
-                    <br> be able to join. Direct
-                    <br> link sharing of session
-                    <br>won't work.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Enable lobby -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                <input type="checkbox" name="access_enable_lobby" [(ngModel)]="addOnlineClass.access_enable_lobby"
-                  [value]="0" class="form-checkbox" id="access_enable_lobby">
-                <label for="access_enable_lobby">Access Enable Lobby</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    All the students will
-                    <br>wait in waiting room
-                    <br> after joining the
-                    <br> session. Teachers will
-                    <br> have access to allow
-                    <br> students in the
-                    <br>meeting.
-                  </div>
-                </div>
-              </div>
-
-              <!-- hide all notification -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                <input type="checkbox" name="hide_recording_notifications"
-                  [(ngModel)]="addOnlineClass.hide_recording_notifications" [value]="0" class="form-checkbox"
-                  id="hide_recording_notifications">
-                <label for="hide_recording_notifications">Hide all notifications in recordings </label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Remove all UI
-                    <br>notifications
-                    <br>from recordings.
-                    <br>The MP4 files will
-                    <br>not contain
-                    <br>notifications.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Hide user count -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                <input type="checkbox" name="prevent_user_count" [(ngModel)]="addOnlineClass.prevent_user_count"
-                  [value]="0" class="form-checkbox" id="prevent_user_count">
-                <label for="prevent_user_count">Hide user count </label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Do not show
-                    <br>how many users
-                    <br>are participating
-                    <br>to participants
-                    <br>and observers.
-                    <br>Moderators can
-                    <br>always see this.
-                    <br>This will also
-                    <br>disable join
-                    <br>meeting and leave
-                    <br>meeting messages.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Enable Host -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                <input type="checkbox" name="host_video" [(ngModel)]="addOnlineClass.host_video" [value]="0"
-                  class="form-checkbox" id="host_video">
-                <label for="host_video">Host Video</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Automatically video
-                    <br> will be started
-                    <br>once the host
-                    <br>(teacher) starts
-                    <br>the meeting.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Enable Participant -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                <input type="checkbox" name="participant_video" [(ngModel)]="addOnlineClass.participant_video"
-                  [value]="0" class="form-checkbox" id="participant_video">
-                <label for="participant_video">Participant Video</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Automatically video
-                    <br>will be started
-                    <br>once the participant
-                    <br>(student) joins
-                    <br>the meeting.
-                  </div>
-                </div>
-              </div>
-
-
-              <!-- Enable Join before Host -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                <input type="checkbox" name="join_before_host" [(ngModel)]="addOnlineClass.join_before_host" [value]="0"
-                  class="form-checkbox" id="join_before_host">
-                <label for="join_before_host">Join Before Host</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Allow
-                    <br>participants(students)
-                    <br>to join the meeting
-                    <br> before the host starts
-                    <br> the meeting.
+              <div>
+                  <div class="AdvanceSetting">
+                      <span style="font-weight: 600;">Advance settings</span>
                   </div>
                       <div class="AdvanceSettingDiv">
                               <div class="field-checkbox-wrapper advance-setting-item">
@@ -554,11 +410,6 @@
 
                       </div>
                   </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
 
 
           <div class="action-button-container">
@@ -572,7 +423,7 @@
             </div>
           </div>
 
-        <!-- </div> -->
+        </div>
       </section>
       <div class="class_details_container zoomMsgSection"
         style="color: white;background: #1283f4;width: 8%;border-radius: 4px;padding: 7px;margin-top: -3%;"

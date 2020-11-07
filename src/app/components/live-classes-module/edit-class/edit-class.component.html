@@ -229,76 +229,6 @@
             </div>
             <div class="AdvanceSettingDiv">
               <div class="field-checkbox-wrapper advance-setting-item">
-                <input type="checkbox" name="expenses" [(ngModel)]="editData.sent_notification_flag" [value]="0"
-                  class="form-checkbox" id="qun">
-                <label for="qun">Send Notification</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    All the members in
-                    <br>meeting will recieve
-                    <br>sms notification for
-                    <br>the session.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Private Access -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                <input type="checkbox" name="private_access" [(ngModel)]="editData.private_access" [value]="0"
-                  class="form-checkbox" id="private_access">
-                <label for="private_access">Private Access</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Only the users invited
-                    <br> using e-mail ID would
-                    <br> be able to join. Direct
-                    <br> link sharing of session
-                    <br>won't work.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Enable lobby -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                <input type="checkbox" name="access_enable_lobby" [(ngModel)]="editData.access_enable_lobby" [value]="0"
-                  class="form-checkbox" id="access_enable_lobby">
-                <label for="access_enable_lobby">Access Enable Lobby</label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    All the students will
-                    <br>wait in waiting room
-                    <br> after joining the
-                    <br> session. Teachers will
-                    <br> have access to allow
-                    <br> students in the
-                    <br>meeting.
-                  </div>
-                </div>
-              </div>
-
-              <!-- hide all notification -->
-              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                <input type="checkbox" name="hide_recording_notifications"
-                  [(ngModel)]="editData.hide_recording_notifications" [value]="0" class="form-checkbox"
-                  id="hide_recording_notifications">
-                <label for="hide_recording_notifications">Hide all notifications in recordings </label>
-                <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field">
-                    Remove all UI
-                    <br>notifications
-                    <br>from recordings.
-                    <br>The MP4 files will
-                    <br>not contain
-                    <br>notifications.
-                  </div>
-                </div>
-              </div>
-                  <div class="AdvanceSettingDiv">
-                          <div class="field-checkbox-wrapper advance-setting-item">
                               <input type="checkbox" name="expenses" [(ngModel)]="editData.sent_notification_flag" [value]="0" class="form-checkbox" id="qun">
                               <label for="qun">Send Notification</label>
                               <div class="questionInfo inline-relative">
@@ -481,114 +411,112 @@
                         </div>
                   </div>
                 </div>
-              </div>
-          </div>
 
           <div class="action-button-container">
             <div class="action-btn-item-1">
               <button type="button" name="button" class="back-btn" (click)="navigateTo('classDetails')">Back</button>
             </div>
-            <div class="action-btn-item-2">
-              <button type="button" name="button" class="cancel-btn"
-                (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="button" name="button" class="next-btn" (click)="scheduleClass()">Submit</button>
+                <div class="action-btn-item-2">
+                  <button type="button" name="button" class="cancel-btn"
+                    (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="button" name="button" class="next-btn" (click)="scheduleClass()">Submit</button>
+                </div>
+              </div>
+            </div>
+          </section>
+    
+          <div class="class_details_container zoomMsgSection"
+            style="color: white;background: #1283f4;width: 8%;border-radius: 4px;padding: 7px;margin-top: -3%;"
+            *ngIf="live_class_for=='2'">
+            <span data-toggle="modal" style="cursor: pointer;" data-target="#zoomFAQ">Zoom FAQs</span>
+          </div>
+          <div class="class_details_container zoomMsgSection" *ngIf="live_class_for=='2'">
+            <span style="font-weight: 600;">Note : </span> While scheduling class with zoom, please do not schedule class
+            more than two hours in advance to avoid getting an error message. We are working on this with zoom and will get
+            a solution soon.
+          </div>
+    
+        </section>
+      </aside>
+    </div>
+    
+    
+    <div id="zoomFAQ" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2 class="modal-title">Zoom FAQs</h2>
+          </div>
+          <div class="modal-body">
+            <div class="new-modules-list">
+              <ol>
+                <li>If you see error "Error in scheduling Meeting"?
+                  <ul style="font-weight: 400; margin-top: 5px;">
+                    <li>In Proctur "My Account" -
+                      <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
+                        <li>Check JWT token should be mentioned correctly, verify from ZOOM Account as well.
+                        </li>
+                        <li>Check there should not be any blank space before email id field
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+    
+                <li>Asking for a password when a student joins the class?
+                  <ul style="font-weight: 400; margin-top: 5px;">
+                    <li>This usually happens when the password setting is on in ZOOM Account. Go to Zoom Account Settings in
+                      your zoom account and turn off the password for joiners. Please note this is available only in PAID
+                      Zoom accounts.
+                    </li>
+                  </ul>
+                </li>
+    
+                <li>Facing issue in scheduling multiple classes at the same time?
+                  <ul style="font-weight: 400; margin-top: 5px;">
+                    <li>Make sure you have a multiple host plan with zoom and check in Proctur My Accounts whether no of
+                      hosts is mentioned correctly.
+                    </li>
+                  </ul>
+                </li>
+    
+                <li>Seeing message when you start class “You cannot start a meeting because it is hosted by another user”?
+                  <ul style="font-weight: 400; margin-top: 5px;">
+                    <li>It could be because of one of the below reasons
+                      <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
+                        <li>Another faculty meeting is still going on from different systems.
+                        </li>
+                        <li>Check the number of hosts purchased. There should be a host available to start the meeting.
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+    
+                <li>Zoom meeting issue on Apple device (Chrome & Safari Browser)?
+                  <ul style="font-weight: 400; margin-top: 5px;">
+                    <li>Go to browser setting > Content setting > Block Pop Up.
+                    </li>
+                  </ul>
+                </li>
+    
+                <li>When students click on join class and ask for a download zoom app in a customized app?
+                  <ul style="font-weight: 400; margin-top: 5px;">
+                    <li>Ask student to update the app, in case this doesn't resolve, your app may need updation. Connect
+                      with Proctur support team.
+                    </li>
+                  </ul>
+                </li>
+              </ol>
             </div>
           </div>
-
-      </section>
-
-      <div class="class_details_container zoomMsgSection"
-        style="color: white;background: #1283f4;width: 8%;border-radius: 4px;padding: 7px;margin-top: -3%;"
-        *ngIf="live_class_for=='2'">
-        <span data-toggle="modal" style="cursor: pointer;" data-target="#zoomFAQ">Zoom FAQs</span>
-      </div>
-      <div class="class_details_container zoomMsgSection" *ngIf="live_class_for=='2'">
-        <span style="font-weight: 600;">Note : </span> While scheduling class with zoom, please do not schedule class
-        more than two hours in advance to avoid getting an error message. We are working on this with zoom and will get
-        a solution soon.
-      </div>
-
-    </section>
-  </aside>
-</div>
-
-
-<div id="zoomFAQ" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 class="modal-title">Zoom FAQs</h2>
-      </div>
-      <div class="modal-body">
-        <div class="new-modules-list">
-          <ol>
-            <li>If you see error "Error in scheduling Meeting"?
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>In Proctur "My Account" -
-                  <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
-                    <li>Check JWT token should be mentioned correctly, verify from ZOOM Account as well.
-                    </li>
-                    <li>Check there should not be any blank space before email id field
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-
-            <li>Asking for a password when a student joins the class?
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>This usually happens when the password setting is on in ZOOM Account. Go to Zoom Account Settings in
-                  your zoom account and turn off the password for joiners. Please note this is available only in PAID
-                  Zoom accounts.
-                </li>
-              </ul>
-            </li>
-
-            <li>Facing issue in scheduling multiple classes at the same time?
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Make sure you have a multiple host plan with zoom and check in Proctur My Accounts whether no of
-                  hosts is mentioned correctly.
-                </li>
-              </ul>
-            </li>
-
-            <li>Seeing message when you start class “You cannot start a meeting because it is hosted by another user”?
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>It could be because of one of the below reasons
-                  <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
-                    <li>Another faculty meeting is still going on from different systems.
-                    </li>
-                    <li>Check the number of hosts purchased. There should be a host available to start the meeting.
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-
-            <li>Zoom meeting issue on Apple device (Chrome & Safari Browser)?
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Go to browser setting > Content setting > Block Pop Up.
-                </li>
-              </ul>
-            </li>
-
-            <li>When students click on join class and ask for a download zoom app in a customized app?
-              <ul style="font-weight: 400; margin-top: 5px;">
-                <li>Ask student to update the app, in case this doesn't resolve, your app may need updation. Connect
-                  with Proctur support team.
-                </li>
-              </ul>
-            </li>
-          </ol>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    
       </div>
     </div>
-
-  </div>
-</div>

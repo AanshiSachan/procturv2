@@ -258,6 +258,7 @@ export class EmailReportComponent {
     return t;
   }
   updateTableBatchSize(event) {
+    this.pageIndex = 1;
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.pageIndex);
   }
