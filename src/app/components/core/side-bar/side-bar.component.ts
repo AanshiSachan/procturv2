@@ -241,14 +241,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       if (this.role_feature.LEAD_ADD_CAMPAIGN) {
         this.jsonRolesFlags.isShowAddCampaign = true;
       }
-      if(this.role_feature.LEAD_MANAGE_CAMPAIGN) {
+      if (this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
       }
-      if(this.role_feature.REPORTS_ENQUIRY_CAMPAIGN) {
+      if (this.role_feature.REPORTS_ENQUIRY_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaignReport = true;
       }
       // enquiry  report --722
-      if (this.role_feature.REPORTS_ENQUIRY_REFFER_BY 
+      if (this.role_feature.REPORTS_ENQUIRY_REFFER_BY
         || this.role_feature.REPORTS_ENQUIRY_SOURCE || this.role_feature.REPORT_ENQUIRY_COUNSELLOR) {
         this.jsonRolesFlags.isShowReport = true;
       }
@@ -434,9 +434,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
 
         // if (permissionArray.indexOf('115') != -1) {
-          // this.divManageFormTag.nativeElement.style.display = '';
-          // this.divAreaAndMap.nativeElement.style.display = '';
-          // this.setNativeElementValue(['divAreaAndMap'], '');       // Swapnil
+        // this.divManageFormTag.nativeElement.style.display = '';
+        // this.divAreaAndMap.nativeElement.style.display = '';
+        // this.setNativeElementValue(['divAreaAndMap'], '');       // Swapnil
         // }
         if (this.role_feature.USERS_MENU) {
           // this.divManageUsers.nativeElement.style.display = '';
@@ -709,14 +709,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   isLibraryFeatureAllow(permission) {
     this.jsonFlags.isShowLibrabry = false;
     if (sessionStorage.getItem('enable_library_feature') == '1') {
-      if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin'){
-        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
-            this.jsonFlags.isShowLibrabry = this.role_feature.LIBRARY_MENU ? true : false;
+      if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+          this.jsonFlags.isShowLibrabry = this.role_feature.LIBRARY_MENU ? true : false;
         }
-        } else {
-          this.jsonFlags.isShowLibrabry = true;
-        }
+      } else {
+        this.jsonFlags.isShowLibrabry = true;
       }
+    }
   }
 
   isExpenseFeatureAllow() {
@@ -732,13 +732,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.instituteId == 100127 ||
       this.instituteId == 100126) {
       this.jsonFlags.isShowExpense = true;
-      if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin'){
-        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
-            this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
+      if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+          this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
         }
-        } else {
-          this.jsonFlags.isShowExpense = true;
-        }
+      } else {
+        this.jsonFlags.isShowExpense = true;
+      }
     }
   }
 
@@ -758,15 +758,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // this senction is used for enable elearn feature
     this.jsonFlags.isShoweStore = false;
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
-      if(sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin'){
-        if(sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null){
-            this.jsonFlags.isShoweStore = this.role_feature.ESTORE_MENU ? true : false;
+      if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+          this.jsonFlags.isShoweStore = this.role_feature.ESTORE_MENU ? true : false;
         }
-        } else {
-          this.jsonFlags.isShoweStore = true;
-        }
+      } else {
+        this.jsonFlags.isShoweStore = true;
       }
     }
+  }
 
   isOnlineExamAllow(type) {
     if (this.jsonFlags.isAdmin) {// if user is admin

@@ -449,7 +449,7 @@
                 </div>
 
                 <!-- Assign To -->
-                <div class="field-wrapper" *ngIf="!isProfessional ">
+                <div class="field-wrapper" *ngIf="!isProfessional " style="margin-bottom: 18px;">
                   <div *ngIf="assignTo">
                     <label for="assignTo">Assign To</label>
                     <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="standard"
@@ -463,14 +463,16 @@
 
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto;margin-top: -28px;"
+                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto;margin-top: -20px;"
                   *ngIf="!isProfessional" (click)="openAssignBatch()">
                   <label for="assignCourses"> </label>
                   <!-- changes by Nalini - to handle school model conditions -->
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px"
-                    name="assignCoursesParent" [ngModel]="assignedBatchString" placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}"
-                    id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
-                  <a style="cursor:pointer" (click)="openAssignBatch()">{{schoolModel ? 'Assign Section' : 'Assign Courses'}}</a>
+                    name="assignCoursesParent" [ngModel]="assignedBatchString"
+                    placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}" id="assignCourses"
+                    class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
+                  <a style="cursor:pointer"
+                    (click)="openAssignBatch()">{{schoolModel ? 'Assign Section' : 'Assign Courses'}}</a>
                 </div>
 
                 <!-- ================================================================= -->

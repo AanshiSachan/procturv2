@@ -367,7 +367,7 @@ export class AdminHomeComponent implements OnInit {
 
     this.fetchScheduleWidgetData();
     this.getStorageData();
-
+    this.generateCourseLevelWidget();
   }
 
   getStorageData() {
@@ -2767,10 +2767,10 @@ export class AdminHomeComponent implements OnInit {
     if (this.permissionArray == "" || this.permissionArray == null || !this.permissionArray) {
       return false;
     } else {
-      if(id) {
+      if (id) {
         return false;
       } else {
-       return true;
+        return true;
       }
     }
   }
