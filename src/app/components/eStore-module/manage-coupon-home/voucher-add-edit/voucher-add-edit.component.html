@@ -32,8 +32,8 @@
           <label class="text-bold">Product
             <span class="text-danger">*</span>
           </label>
-          <ng-multiselect-dropdown [placeholder]="'Select Product'" [(ngModel)]="selected_products" [data]="productList"
-            [settings]="productSetting">
+          <ng-multiselect-dropdown [placeholder]="'Select Product'" (ngModelChange)="checkProduct($event)"
+            [(ngModel)]="selected_products" [data]="productList" [settings]="productSetting">
           </ng-multiselect-dropdown>
         </div>
 
@@ -48,7 +48,8 @@
           <div class="col-md-4 form-group">
             <label class="text-bold">Currency<span class="text-danger">*</span>
             </label>
-            <select id="country_id" class="form-control form-control-sm" [(ngModel)]="addVoucherModel.country_id">
+            <select id="country_id" class="form-control form-control-sm" disabled
+              [(ngModel)]="addVoucherModel.country_id">
               <option [value]="data.id" *ngFor='let data of countryDetails'>
                 {{data.currency_code}}
               </option>
