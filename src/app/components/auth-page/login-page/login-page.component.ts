@@ -688,7 +688,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   gotoStudentPortal() {
-    let examDeskCheck = this.checkInstSetupType(sessionStorage.getItem('inst_set_up'), 4)
+    let examDeskCheck = this.checkInstSetupType(sessionStorage.getItem('institute_setup_type'), 4)
     if (examDeskCheck != 'false') {
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
     } else if(sessionStorage.getItem('enable_eLearn_feature') == '1') {
