@@ -17,8 +17,8 @@ import { ExcelService } from '../../../services/excel.service';
 })
 export class SalesReportsComponent implements OnInit {
 
-  @ViewChild('child',{static: false}) private child: DataDisplayTableComponent;
-  @ViewChild('form',{static: false}) form: any;
+  @ViewChild('child', { static: false }) private child: DataDisplayTableComponent;
+  @ViewChild('form', { static: false }) form: any;
   feeDataSource: any[] = [];
   displayKeys: any = [];//need for selected keys
   private slotIdArr: any[] = [];
@@ -43,7 +43,7 @@ export class SalesReportsComponent implements OnInit {
     { primaryKey: 'name', header: 'Student Name', priority: 3, allowSortingFlag: true },
     { primaryKey: 'phone', header: 'Phone No', priority: 4, allowSortingFlag: true },
     { primaryKey: 'publish_date', header: 'Purchase Date', priority: 5, allowSortingFlag: true, dataType: 'Date', format: 'DD-MM-YYYY' },
-    { primaryKey: 'price', header: 'Price', priority: 6, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'price', header: 'Price', priority: 6, allowSortingFlag: true },
     {
       primaryKey: 'status', header: 'Status', priority: 7, allowSortingFlag: true, dataType: 'array',
       arrayValue: { '10': 'Ready', '20': 'Ready To Publish', '30': 'Published', '40': 'Unpublished', '50': 'Closed' }
@@ -128,7 +128,7 @@ export class SalesReportsComponent implements OnInit {
   getProductDetails() {
     let object = {
       "between": {
-        "from":moment(this.filterDataKeys.from_date).format("YYYY-MM-DD"), 
+        "from": moment(this.filterDataKeys.from_date).format("YYYY-MM-DD"),
         "to": moment(this.filterDataKeys.to_date).format("YYYY-MM-DD")
       },
 
