@@ -355,7 +355,7 @@
                         </li>
                     </a>
                     <a routerLink="/view/course/ecourse-file-manager/ecourses">
-                        <li class="subMenu">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowFileManager">
                             <span>Study Material</span>
                         </li>
                     </a>
