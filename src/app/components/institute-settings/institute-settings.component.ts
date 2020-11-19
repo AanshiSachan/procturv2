@@ -353,7 +353,10 @@ export class InstituteSettingsComponent implements OnInit {
 
     product_purchase_multiple_email: '',
     product_purchase_multiple_mobile: '',
-
+    vdocipher_watch_multiplier: '',
+    vdocipher_live_class_watch_multiplier: '',
+    vdocipher_update_video_watch_time_mode: '',
+    vdocipher_live_class_update_video_watch_time_mode: '',
     class_attendance_not_marked_notification_contact_number: '',
     class_attendance_not_marked_daily_notification_contact_number: '',
     exam_attendance_not_marked_notification_contact_number: '',
@@ -417,7 +420,7 @@ export class InstituteSettingsComponent implements OnInit {
   // Library Role
   libraryRole: boolean = false;
   instituteId: any;
-  instituteTaxType : String;
+  instituteTaxType: String;
   show_vdocipher_video_ready_sms_to_admin: boolean = false;
   reportFor = {
     enquiry: false,
@@ -595,6 +598,10 @@ export class InstituteSettingsComponent implements OnInit {
     }
     obj.product_purchase_multiple_mobile = this.instituteSettingDet.product_purchase_multiple_mobile;
     obj.product_purchase_multiple_email = this.instituteSettingDet.product_purchase_multiple_email;
+    obj.vdocipher_watch_multiplier = this.instituteSettingDet.vdocipher_watch_multiplier;
+    obj.vdocipher_live_class_watch_multiplier = this.instituteSettingDet.vdocipher_live_class_watch_multiplier;
+    obj.vdocipher_update_video_watch_time_mode = this.convertBoolenToNumber(this.instituteSettingDet.vdocipher_update_video_watch_time_mode);
+    obj.vdocipher_live_class_update_video_watch_time_mode = this.convertBoolenToNumber(this.instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode);
 
 
     obj.enable_assign_to_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_assign_to_feature);
@@ -896,6 +903,13 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.teacher_monthly_report = data.teacher_monthly_report;
     this.instituteSettingDet.emailids_for_report = data.emailids_for_report;
     this.instituteSettingDet.product_purchase_multiple_email = data.product_purchase_multiple_email;
+
+    this.instituteSettingDet.vdocipher_watch_multiplier = data.vdocipher_watch_multiplier;
+    this.instituteSettingDet.vdocipher_live_class_watch_multiplier = data.vdocipher_live_class_watch_multiplier;
+    this.instituteSettingDet.vdocipher_update_video_watch_time_mode = data.vdocipher_update_video_watch_time_mode;
+    this.instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode = data.vdocipher_live_class_update_video_watch_time_mode;
+
+
     this.instituteSettingDet.product_purchase_multiple_mobile = data.product_purchase_multiple_mobile;
     this.instituteSettingDet.emailid_for_teacher_report = data.emailid_for_teacher_report;
     this.instituteSettingDet.enable_online_payment_email_notification = data.enable_online_payment_email_notification;
@@ -999,7 +1013,7 @@ export class InstituteSettingsComponent implements OnInit {
       this.instituteSettingDet.virtual_host_url = 'web.proctur.com';
     }
     // Developed by Nalini to add vimeo setting keys
-    if(data.vimeo_account_plan == 'Pro' || data.vimeo_account_plan == 'Business' || data.vimeo_account_plan == 'Premium') {
+    if (data.vimeo_account_plan == 'Pro' || data.vimeo_account_plan == 'Business' || data.vimeo_account_plan == 'Premium') {
       this.vimeo_account_plan = true;
     }
     this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_filemanager, data.vimeo_video_download_visibility_filemanager);
@@ -1125,7 +1139,7 @@ export class InstituteSettingsComponent implements OnInit {
     if (data) {
       document.getElementById('inputSpecifyRank').removeAttribute('readonly');
     } else {
-      let tru:boolean=true;
+      let tru: boolean = true;
       document.getElementById('inputSpecifyRank').setAttribute('readonly', new Boolean(tru).toString());
       // document.getElementById('inputSpecifyRank').setAttribute('readonly', true);
     }
@@ -1244,7 +1258,7 @@ export class InstituteSettingsComponent implements OnInit {
       data.cgst = Math.floor(this.instituteSettingDet.vat_percentage / 2);
       data.sgst = this.instituteSettingDet.vat_percentage - data.cgst;
     }
-    }
+  }
 
   saveIPDetails() {
     if (this.validateIp()) {

@@ -13,7 +13,7 @@ import { MessageShowService } from '../../../services/message-show.service';
 })
 export class EcourseFileManagerComponent implements OnInit {
 
-  @ViewChild(UploadFileComponent,{static: false}) uploadFile: UploadFileComponent;
+  @ViewChild(UploadFileComponent, { static: false }) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
   isLangInstitue: any;
@@ -117,7 +117,6 @@ export class EcourseFileManagerComponent implements OnInit {
       this._fservice.storageData.width = Math.round(width);
     });
   }
-
   getSettingDetails() {
     // <base_url>/instFileSystem/getStudyMaterialSetting/{institute_id}
     let url = "/api/v1/instFileSystem/getStudyMaterialSetting/" + this.institute_id;

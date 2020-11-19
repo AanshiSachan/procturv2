@@ -1,12 +1,13 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import * as moment from 'moment';
 import { HttpService, MessageShowService } from '../../..';
 import { DomSanitizer } from '../../../../../node_modules/@angular/platform-browser';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
-import {role} from '../../../model/role_features';
+import { role } from '../../../model/role_features';
+import { Event } from '@angular/router';
 declare var window;
 declare var $;
 
@@ -181,6 +182,7 @@ export class LiveClassesComponent implements OnInit {
   proctur_live_integration_with_vdoCipher: any = 0;
   isVimeo: any = 'VDOCipher';
   vimeo_title: any = '';
+  watch_duration: any = 0;
   videoplayer: boolean = false;
   currentProjectUrl: any;
   isUploding: any = false;
@@ -199,8 +201,21 @@ export class LiveClassesComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private productService: ProductService
   ) {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        console.log(event.url);
+        if (event.url != '/view/live-classes') {
+          this.watchHistory();
+        }
+      }
+    });
   }
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event) {
+    this.watchHistory();
 
+    return false;
+  }
   ngOnInit() {
     this.auth.institute_type.subscribe(
       res => {
@@ -972,6 +987,7 @@ export class LiveClassesComponent implements OnInit {
 
   // Live class integration with VDOCipher
   getVdocipherVideoOtp(obj) {
+    sessionStorage.setItem("VideoIdWatchHistor", obj.video_id);
     this.viewDownloadPopup = false;
     let url = "/api/v1/instFileSystem/videoOTP";
     let data = {
@@ -1010,8 +1026,27 @@ export class LiveClassesComponent implements OnInit {
     this.videoplayer = true;
     this.currentProjectUrl = this.sanitizer.bypassSecurityTrustResourceUrl(obj.vimeo_video_url);
   }
+  watchHistory() {
+    console.log("totalPlayed", this.videoObject.totalPlayed);
 
+    let url = '/api/v1/instFileSystem/allocateWatchHistory';
+    let obj = {
+      "video_id": sessionStorage.getItem("VideoIdWatchHistor"),
+      "watch_duration": this.videoObject.totalPlayed
+    }
+    this._http.postData(url, obj).subscribe((response) => {
+      this.auth.hideLoader();
+      console.log(response);
+
+    },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', '', err.error.message);
+      });
+
+  }
   ShowVideo(otpString, playbackInfoString) {
+
     this.isVDOCipherVDO = true;
     this.showVideo = false;
     this.isVDOCipherVDO = true;
@@ -1035,6 +1070,7 @@ export class LiveClassesComponent implements OnInit {
     if (this.videoObject) {
       this.videoObject.pause(); // removes video
     }
+    this.watchHistory();
   }
 
   viewdownload_links(obj) {
@@ -1208,7 +1244,19 @@ export class LiveClassesComponent implements OnInit {
     newxhr.send(formData);
 
   }
+  // watchDuration(payloadObject) {
+  //   let obj = {
+  //     "video_id": payloadObject.videoId,
+  //     "watch_duration": this.watch_duration
+  //   }
+  //   let url = "/api/v1/instFileSystem/allocateWatchHistory";
+  //   this._http.postData(url, obj).subscribe((res: any) => {
 
+  //   }, (err) => {
+  //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "some problem arise please check with support ");
+  //   }
+  //   )
+  // }
   patchRequest(obj) {
     // this.auth.showLoader();
     let base = this.auth.getBaseUrl();

@@ -764,13 +764,18 @@
             <label for="Vimeo">Vimeo</label>
           </div>
         </div>
-        <div class="row"
+        <div class="row" *ngIf="(proctur_live_integration_with_vimeo == 1 || isVimeo == 'VDOCipher') ">
+          <label>Multiplier</label>
+          <input type="number" style="margin-bottom: 0.8em;" class="form-ctrl video-input" placeholder="Multiplier"
+            [(ngModel)]="watch_duration">
+        </div>
+        <!-- <div class="row"
           *ngIf="(proctur_live_integration_with_vimeo == 1 || isVimeo == 'Vimeo') && isVimeo!='VDOCipher'">
           <div class="c-lg-8 field-wrapper">
             <label for="vimeo_title">Title</label>
             <input type="text" class="form-ctrl" [(ngModel)]="vimeo_title" name="vimeo_title" id="vimeo_title">
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <div class="c-lg-8 field-wrapper">
             <label>Choose File To Upload</label>

@@ -16,6 +16,8 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
   topicList: any[] = [];
   progressBar: boolean = false;
   subtopicList: any[] = [];
+  manual_multiplier_update: boolean = false;
+  watch_multiplier: any = 0;
   categiesList: any[] = [];
   categiesTypeList: any[] = [];
   existVideos: any[] = [];
@@ -60,13 +62,14 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
     title: '',
     is_private: false,
     enable_watermark: true,
-    description: ''
+    description: '',
+    // watch_duration: 0,
   }
   progress: number = 0;
   isUploadingXls: boolean = false;
   Existing_video_category_id: any = 0;
   Vimeopayload: any = {};
-  @ViewChild('form',{static: false}) form: ElementRef;
+  @ViewChild('form', { static: false }) form: ElementRef;
   Vimeofile: any = {
     files: []
   };
@@ -278,7 +281,8 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
       title: '',
       is_private: false,
       enable_watermark: true,
-      description: ''
+      description: '',
+      // watch_duration: 0
     }
     this.varJson.name = '';
   }
@@ -646,14 +650,14 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
 
     // console.log(this.material_dataFlag);
     let flag = this.uploadDatavalidation();
-
+    let fileJson: any;
     if (flag && this.checkCategoriesType($event.files)) {
       let is_private = this.varJson.is_private == false ? 'Y' : 'N';
       let enable_watermark = this.varJson.enable_watermark == true ? 'Y' : 'N';
       let size = 0;
       this.selectedFiles = $event.files[0];
       size = $event.files && $event.files[0] ? $event.files[0].size : 0;
-      let fileJson = {
+      fileJson = {
         "institute_id": this.institute_id,
         "category_id": this.varJson.category_id,
         "topic_id": this.varJson.topic_id,
@@ -667,7 +671,27 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
         "title": this.varJson.title,
         "enable_watermark": enable_watermark,
         // "size": (size / (1024 * 1024)).toFixed(3)
-        "size": (this.varJson.category_id == 305) ? size : (size / (1024 * 1024)).toFixed(3)
+        "size": (this.varJson.category_id == 272) ? size : (size / (1024 * 1024)).toFixed(3)
+
+      }
+      if (this.varJson.category_id == 235) {
+        fileJson = {
+          "institute_id": this.institute_id,
+          "category_id": this.varJson.category_id,
+          "topic_id": this.varJson.topic_id,
+          "course_types": this.varJson.course_types,
+          "video_url": null,
+          "sub_topic_id": this.varJson.sub_topic_id,
+          "subject_id": this.varJson.subject_id,
+          "is_raw_data": "Y",                                             //if send only video title then this key value should be 'Y' ; else set 'N'
+          "is_url": "N",                                                        //if send video url & title then this key value should be 'Y' ; else set 'N'
+          "is_private": is_private,                                                 // if user wants to make file as private
+          "title": this.varJson.title,
+          "enable_watermark": enable_watermark,
+          "size": (size / (1024 * 1024)).toFixed(3),
+          "manual_multiplier_update": this.manual_multiplier_update,
+          "watch_multiplier": this.watch_multiplier
+        }
 
       }
       if (!this.showModal) {
@@ -715,6 +739,7 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
                 this.file = files[0];
                 let payloadObject: any = JSON.parse(newxhr.response);
                 this.payload = payloadObject;
+                // this.watchDuration(this.payload);
                 this.upload();
               } else {
                 let payloadObject: any = JSON.parse(newxhr.response);
@@ -841,4 +866,18 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "some problem arise please check with support ");
     });
   }
+
+  // watchDuration(payloadObject) {
+  //   let obj = {
+  //     "video_id": payloadObject.videoId,
+  //     "watch_duration": this.varJson.watch_duration
+  //   }
+  //   let url = "/api/v1/instFileSystem/allocateWatchHistory";
+  //   this._http.postData(url, obj).subscribe((res: any) => {
+
+  //   }, (err) => {
+  //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "some problem arise please check with support ");
+  //   }
+  //   )
+  // }
 }

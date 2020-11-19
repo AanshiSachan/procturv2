@@ -11,7 +11,9 @@ import { tableComponent } from './time-table/table/table.component';
 import { SharedModule } from '../shared/shared.module';
 import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
-
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { DateWiseComponent } from './analytics/date-wise/date-wise.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
     CourseModuleRoutingModule,
     SharedModule,
     FormsModule,
+    MatPaginatorModule
   ],
   declarations: [
     CourseModuleComponent,
@@ -26,14 +29,15 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
     TimeTableComponent,
     tableComponent,
     MasterTagComponent,
-    EcourseMappingComponent
+    EcourseMappingComponent,
+    AnalyticsComponent,
   ],
   entryComponents: [
-      CourseModuleComponent,
-      tableComponent
+    CourseModuleComponent,
+    tableComponent
   ],
   providers: [
-    timeTableService    
+    timeTableService
   ],
   exports: []
 })

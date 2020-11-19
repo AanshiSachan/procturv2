@@ -1,0 +1,187 @@
+<div class="row head">
+    <span> <a (click)="home()" style="color: #0084f6;font-weight: 600;">Analytics > </a> </span><span
+        *ngIf="dateWiseSelection">Datewise</span>
+    <span *ngIf="videoWiseSelection">Videowise</span>
+    <span *ngIf="userWiseSelection">Userwise > <span> {{title}}</span></span>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+        <input type="text" class="search" *ngIf="videoWiseSelection" placeholder="Search" (keyup)="searchDatabase()"
+            style="background:transparent;border: 1px solid lightgrey;" [(ngModel)]="searchText" #search>
+        <input type="text" class="search" *ngIf="userWiseSelection" placeholder="Search" (keyup)="searchDatabaseUser()"
+            style="background:transparent;border: 1px solid lightgrey;" [(ngModel)]="searchText1" #search>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6" style="float: right;">
+
+        <div style="float: right;">
+
+            <div class="row" style="display: flex;">
+                <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                    <button id="datewise" [ngClass]="selectType == 'date'? 'btnside' : 'grey'"
+                        style="cursor: auto;">Datewise</button>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                    <button id="videowise" [ngClass]="selectType == 'video'? 'btnside' : 'grey'"
+                        style="cursor: auto;">Videowise</button>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                    <button id="userwise" [ngClass]="selectType == 'user'? 'btnside' : 'grey'"
+                        style="cursor: auto;">Userwise</button>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="dateWiseSelection">
+                    <button [ngClass]="selectType == 'date'? 'btnside' : 'grey'" (click)="filter('date')">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="videoWiseSelection">
+                    <button [ngClass]="selectType == 'video'? 'btnside' : 'grey'" (click)="filter('video')">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="userWiseSelection">
+                    <button [ngClass]="selectType == 'date'? 'grey' : 'grey'" (click)="filter('user')">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+</div>
+
+
+<!-- <div class="row" style="margin-top: 18px;"
+    *ngIf="(dropDownFilter && dateWiseSelection) || (dropDownFilerVideo && videoWiseSelection)"> -->
+<div class="row" style="margin-top: 18px;" *ngIf="dropDownFilter && dateWiseSelection">
+    <div class="col-lg-10 col-md-10 col-sm-10">
+        <div class="row" style="float: right;" *ngIf="showDateSelection">
+
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="field-wrapper datePickerBox has-value">
+                    <input type="text" value="" id="updateDate" readonly="true" class="form-ctrl bsDatepicker"
+                        style="border: 1px solid #0084f6;float: right;border-radius: 4px;" name="toDate"
+                        placeholder="Select Date" bsDatepicker (ngModelChange)="dateValidationForFuture($event)"
+                        [(ngModel)]="from_date" />
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="field-wrapper datePickerBox has-value">
+                    <input type="text" value="" id="updateDate" readonly="true" class="form-ctrl bsDatepicker"
+                        style="border: 1px solid #0084f6;float: right;border-radius: 4px;" name="toDate"
+                        placeholder="Select Date" bsDatepicker (ngModelChange)="dateValidationForFuture($event)"
+                        [(ngModel)]="to_date" />
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4" style="margin-top: 8px;">
+                <button id="videowise" class="go btnside" (click)="custom()">GO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-2">
+        <select name="filter" id="filter" class="selectFilter " (change)="select($event.target.value)">
+            <option value="daily">Select</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yealy</option>
+            <option value="custom">Custom</option>
+        </select>
+    </div>
+</div>
+<div #chartWrap id="chartWrap" style="margin-top: 10px;margin-bottom: 10px;" *ngIf="dateWiseSelection">
+</div>
+<div *ngIf="dateWiseSelection">
+    <table class="tableBodyScroll">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Bandwidth</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data  of weekData; let i =index">
+                <td>
+                    <a (click)="videoWise(data.date,10,0)"> {{data.date}}</a>
+                </td>
+                <td>
+                    {{data.consumed_bandwidth}}
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+<pagination *ngIf="dateWiseSelection" (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+    (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+    [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+</pagination>
+
+
+<div *ngIf="videoWiseSelection">
+    <table class="tableBodyScroll" style="margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>Video Title</th>
+                <th>Size</th>
+                <th>Consumed Bandwidth</th>
+                <th>Viewed</th>
+            </tr>
+        </thead>
+        <tbody style="max-height: 60vh;min-height: 60vh;">
+            <tr *ngFor="let data  of videoData; let i =index">
+                <td>
+                    {{data.video_title}}
+                </td>
+                <td>
+                    {{data.total_consumed_storage}}
+                </td>
+                <td>
+                    {{data.total_consumed_bandwidth}}
+                </td>
+                <td>
+                    <a (click)="userwise(data.video_id, data.video_title, 10,1)">{{data.watch_count}}</a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+    </pagination>
+    <!-- <mat-paginator [length]="totalElements" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="onPageChange($event)">
+    </mat-paginator> -->
+</div>
+<div *ngIf="userWiseSelection">
+    <table class="tableBodyScroll" style="margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Watch Duration</th>
+                <th>Played Date Time</th>
+            </tr>
+        </thead>
+        <tbody style="max-height: 60vh;min-height: 60vh;">
+            <tr *ngFor="let data of userwiseDetail;let i =index">
+                <td>
+                    {{data.name}}
+                </td>
+                <td>
+                    {{data.watch_duration}}
+                </td>
+                <td>
+                    {{data.created_date}}
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+    </pagination>
+</div>

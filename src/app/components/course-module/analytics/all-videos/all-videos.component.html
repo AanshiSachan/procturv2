@@ -1,0 +1,72 @@
+<div *ngIf="allVideo">
+    <div>Total number of Videos: {{totalRecords}}</div>
+
+    <table class="tableBodyScroll" style="margin-top: 20px;">
+        <thead>
+            <tr>
+                <!-- <th>Date</th> -->
+                <th>Video Title</th>
+                <th>Storage</th>
+                <th>Consumed Bandwidth</th>
+                <th>Viewed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data  of allVideoData; let i =index">
+                <td *ngIf="data.video_title == null">
+                    -
+                </td>
+                <td *ngIf="data.video_title != null">
+                    {{data.video_title}}
+                </td>
+                <td>
+                    {{data.total_consumed_storage}}
+                </td>
+                <td>
+                    {{data.total_consumed_bandwidth}}
+                </td>
+                <td>
+                    <a (click)="totalVideoTitle(data.video_id,data.video_title,10,0)">{{data.watch_count}}</a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+    </pagination>
+</div>
+
+<div *ngIf="title">
+    <div>Video Title: {{videoTitle}}</div>
+
+    <table class="tableBodyScroll" style="margin-top: 20px;">
+        <thead>
+            <tr>
+                <!-- <th>Date</th> -->
+                <th>Username</th>
+                <th>Watch Duration</th>
+                <th>Played Date Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of userwiseDetail;let i =index">
+                <td>
+                    {{data.name}}
+                </td>
+                <td>
+                    {{data.watch_duration}}
+                </td>
+                <td>
+                    {{data.created_date}}
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+    </pagination>
+</div>

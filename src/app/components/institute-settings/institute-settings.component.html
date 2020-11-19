@@ -3707,6 +3707,58 @@
                   {{instituteSettingDet.vimeo_storage_capacity_threshold}} %
                 </div>
                 </div>
+<!-- Start VDO Cipher Multiplier -->
+
+                <div class="row webkitBox">
+                  <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
+                    <div class="field-wrapper" style="padding-top: 0;">
+                      <label style="font-size: 14px;" for="vdocipher_watch_multiplier">VDO Cipher Multipler
+                      </label>
+                   
+                    </div>
+                  
+                  </div>
+                  <div class="c-sm-5 c-md-5 c-lg-5" >
+                    <div class="field-wrapper" >
+                    <input type="number" id="vdocipher_watch_multiplier" class="form-ctrl" [(ngModel)]="instituteSettingDet.vdocipher_watch_multiplier" />
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="row webkitBox">
+                    <div class="c-sm-5 c-md-5 c-lg-5 field-checkbox-wrapper" style="margin-left: 15px;" >
+                        <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vdocipher_update_video_watch_time_mode" 
+                        name="vdocipher_update_video_watch_time_mode" id="vdocipher_update_video_watch_time_mode">
+                        <label for="study_student" style="transform: none;"> &nbsp;&nbsp; VDO Cipher Time Mode</label>
+                    </div>
+                  </div>
+<!-- End VDO Cipher Multiplier -->
+                  <div class="row webkitBox">
+                    <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
+                      <div class="field-wrapper" style="padding-top: 0;">
+                        <label style="font-size: 14px;" for="vdocipher_live_class_watch_multiplier">VDO Cipher Live Class Multipler
+                        </label>
+                     
+                      </div>
+                    
+                    </div>
+                    <div class="c-sm-5 c-md-5 c-lg-5" >
+                      <div class="field-wrapper" >
+                      <input type="number" id="vdocipher_live_class_watch_multiplier" class="form-ctrl" [(ngModel)]="instituteSettingDet.vdocipher_live_class_watch_multiplier" />
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="row webkitBox">
+                      <div class="c-sm-5 c-md-5 c-lg-5 field-checkbox-wrapper" style="margin-left: 15px;" >
+                          <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode" 
+                          name="vdocipher_live_class_update_video_watch_time_mode" id="vdocipher_live_class_update_video_watch_time_mode">
+                          <label for="study_student" style="transform: none;"> &nbsp;&nbsp; VDO Cipher Live Class Time Mode</label>
+                      </div>
+                    </div>
+
+
+
                 </td>
               </tr>
             </tbody>
