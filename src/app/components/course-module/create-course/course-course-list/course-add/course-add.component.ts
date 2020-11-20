@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { HttpService } from '../../../../../services/http.service';
 import { AppComponent } from '../../../../../app.component';
 import { CourseListService } from '../../../../../services/course-services/course-list.service';
 import { AuthenticatorService } from './../../../../../services/authenticator.service';
@@ -54,7 +55,8 @@ export class CourseAddComponent implements OnInit {
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
-    private route: Router
+    private route: Router,
+    private httpService: HttpService
   ) { 
     // changes by Nalini - to handle school model conditions
     this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
@@ -73,9 +75,18 @@ export class CourseAddComponent implements OnInit {
    return result;
   }
 
+  setStartAdEndDate(row) {
+    let obj = this.academicList.filter(acad => {
+      if(acad.inst_acad_year_id == row.academic_year_id){
+        row.start_Date = moment(acad.start_date).format('YYYY-MM-DD');
+        row.end_Date = moment(acad.end_date).format('YYYY-MM-DD');
+      }
+    })
+  }
+
   btnGoClickCreateCourse() {
     console.log("standardNameList", this.standardNameList);
-    if (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) {
+    if (this.checkAddCourseValidation()) {
       for (let i = 0; i < this.standardNameList.length; i++) {
         if (this.standardNameList[i].standard_id == this.newCourseAdd.standard_id) {
           this.subjectListDataSource = this.standardNameList[i].subject_list;
@@ -99,7 +110,7 @@ export class CourseAddComponent implements OnInit {
         }
         this.StandardName.nativeElement.disabled = true;
         this.subjectList = rawData;
-        this.getActiveTeacherList();
+        this.getActiveTeacherList(this.newCourseAdd.standard_id);
       }
       // },
       error => {
@@ -144,28 +155,39 @@ export class CourseAddComponent implements OnInit {
     )
   }
 
-  getActiveTeacherList() {
-    this.apiService.getTeacherListFromServer().subscribe(
-      data => {
-        this.activeTeachers = data;
-        this.activeTeachers.sort(function (a, b) {
-          var textA = a.teacher_name.toUpperCase();
-          var textB = b.teacher_name.toUpperCase();
-          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-        });
-      },
-      error => {
-        //console.log(error);
-        let data = {
-          type: "error",
-          title: "",
-          body: "Please refresh the page."
+  getActiveTeacherList(standard_id) {
+    this.auth.showLoader();
+    this.httpService.getData('/api/v1/teachers/fetch-teacher/'+sessionStorage.getItem('institute_id') +"?standard_id=" + standard_id + "&subject_id=&is_active=Y&is_std_sub_required=true").subscribe(
+      (res:any) => {
+        this.auth.hideLoader();
+        this.activeTeachers = res.result;
+        for(let i = 0; i < this.subjectList.length; i++) {
+          this.subjectList[i].allowedTeacher = [];
+          this.activeTeachers.filter(teacher=>{
+            if(teacher.standard_subject_list && teacher.standard_subject_list.length) {
+              this.subjectList[i].allowedTeacher.push(teacher);
+              this.subjectList[i].allowedTeacher.push({
+                "is_active": "Y",
+                "standard_subject_list": [],
+                "teacher_email": null,
+                "teacher_id": "more",
+                "teacher_name": "More",
+                "teacher_phone": "7503959545"
+            })
+            }
+          })
         }
-        this.toastCtrl.popToast(data);
+      },
+      err => {
+        this.auth.hideLoader();
+        console.log(err);
       }
     )
   }
 
+  checkMoreOption(obj) {
+    obj.selected_teacher == 'more' ? (obj.allowedTeacher = this.activeTeachers) : '';
+  }
   addDataToTable() {
     if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != ""
       && this.courseDetails.start_Date != null && this.courseDetails.end_Date != ''

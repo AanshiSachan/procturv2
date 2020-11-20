@@ -11,6 +11,7 @@ import { tableComponent } from './time-table/table/table.component';
 import { SharedModule } from '../shared/shared.module';
 import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
+import { HttpService } from '../../services/http.service';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
       tableComponent
   ],
   providers: [
-    timeTableService    
+    timeTableService,
+    HttpService
   ],
   exports: []
 })

@@ -191,7 +191,7 @@
                 <div class="c-sm-9 c-md-9 c-lg-9">
                   <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isLangInstitute">
                     <div class="field-wrapper">
-                      <label for="smc">Select Master Course
+                      <label for="smc">{{schoolModel ? 'Select Standard' : 'Select Master Course'}}
                         <span style="color:red">*</span>
                       </label>
                       <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
@@ -206,7 +206,7 @@
 
                   <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isLangInstitute">
                     <div class="field-wrapper">
-                      <label for="sc">Select Course
+                      <label for="sc">{{schoolModel ? 'Select Section' : 'Select Course'}}
                         <span class="text-danger">*</span>
                       </label>
                       <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"

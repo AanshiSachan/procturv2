@@ -100,6 +100,7 @@ export class StudentHomeComponent implements OnInit {
   downloadStudentReportAccess: boolean = false;
   showQuickFilter = false;
   isAdvFilter = false;
+  schoolModel: boolean = false;
 
 
   private editForm: any = {
@@ -247,7 +248,8 @@ export class StudentHomeComponent implements OnInit {
     private http: ProductService,
     private http_service: HttpService
   ) {
-
+    // changes by Nalini - to handle school model conditions
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -313,7 +315,7 @@ export class StudentHomeComponent implements OnInit {
             { primaryKey: 'student_name', header: 'Name' },
             { primaryKey: 'student_phone', header: 'Contact No' },
             { primaryKey: 'student_class', header: 'Standard' },
-            { primaryKey: 'batchesAssigned', header: 'Course Assigned' }
+            { primaryKey: 'batchesAssigned', header: this.schoolModel ? 'Section Assigned' : 'Course Assigned' }
           ];
         }
       }

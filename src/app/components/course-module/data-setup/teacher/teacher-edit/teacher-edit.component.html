@@ -10,7 +10,7 @@
 
     <section class="middle-main clearFix">
 
-        <aside class="c-lg-6 c-md-6 c-sm-6">
+        <aside class="c-lg-6 c-md-6 c-sm-6" style="width: 30%;margin-right: 5%;">
             <div class="pull-left">
                 <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="addOrEditFun()">
                     <div class="row field-wrapper">
@@ -103,18 +103,74 @@
                             formControlName="teacher_alt_phone">
 
                     </div>
-                    <div class="row field-wrapper">
-                        <label for="standard">Standard
-                        </label>
-                        <input type="text" class="form-ctrl" name="standard" formControlName="teacher_standards">
+                    <div class="field-wrapper row student_list_container">
+                        <!-- changes by Nalini - to handle school model conditions -->
+                        <label for="students">Standard</label>
+                        <ng-multiselect-dropdown class="container"
+                          placeholder="Select standard"
+                          [settings]="standardSetting"
+                          [data]="StandardData"
+                          formControlName ="selectedStandardList"
+                          (ngModelChange)="getSubjects($event)">
+                        </ng-multiselect-dropdown>
+                      </div>
+                      <div class="field-wrapper row student_list_container" style="padding-top: 0;">
+                        <!-- changes by Nalini - to handle school model conditions -->
+                        <label for="students">Subject</label>
+                        <ng-multiselect-dropdown class="container"
+                          placeholder="Select Subject"
+                          [settings]="subjectSetting"
+                          [data]="subjectData"
+                          formControlName ="selectedSubjectList">
+                        </ng-multiselect-dropdown>
+                      </div>
 
-                    </div>
-                    <div class="row field-wrapper">
-                        <label for="subject">Subjects
-                        </label>
-                        <input type="text" class="form-ctrl" name="subject" formControlName="teacher_subjects">
+                      <div class="documentUploadDiv">
+                        <div class="row" style="padding-bottom:5px;padding-top: 5px;">
+                          <div class="field-wrapper">
+                            <label>Document Title</label>
+                            <input type="text" id="title" formControlName="title" class="form-ctrl" name="title"
+                              [maxlength]="30" />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="field-wrapper">
+                            <label>Choose File(Ctrl + ) To Upload</label>
+                            <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox"
+                              style="width: 75%;float: left;" />
+                            <a class="btn fullBlue" style="float: left;margin-left:10px ;"
+                              (click)="uploadHandler();">Upload</a>
+                          </div>
+                        </div>
+                      </div>
 
-                    </div>
+                      <div *ngIf="selectedFiles?.length || uploadedFileData?.length" style="padding: 0;" class="row box-shadow-lite">
+                        <div class="document_header">
+                          <div class="uploadedData">File Name</div>
+                          <div style="width: 25%;float: left;"></div>
+                        </div>
+                        <div class="document_data" *ngFor='let data of selectedFiles;let i = index'
+                          style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+                          <div style="padding-top: 10px;" class="uploadedData">{{data.title}} </div>
+                          <div style="width: 25%;float: left;text-align: right;padding-top: 10px;">
+                            <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                              title="Delete File" (click)="deletefile(data,i)"></i>
+                          </div>
+                        </div>
+                        <div class="document_data" *ngFor='let data of uploadedFileData;let i = index'
+                          style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+                          <div style="padding-top: 10px;" class="uploadedData">{{data.title}} </div>
+                          <div style="width: 25%;float: left;text-align: right;padding-top: 10px;">
+                            <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                              title="Delete File" (click)="deleteExistingUploadedfileAPI(data.id)"></i>
+                              <a class="fa fa-download" id="downloadFile"
+                            style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File"
+                            (click)="downloadFile(data)"></a>
+                            <a id="downloadFileClick" class="hide"></a>
+                          </div>
+                        </div>
+                      </div>
+
                     <div class="row field-wrapper">
                         <label for="salary">Salary (Per Hour)
                         </label>

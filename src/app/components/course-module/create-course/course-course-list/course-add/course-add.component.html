@@ -86,7 +86,7 @@
       <div class="c-sm-2 c-md-2 c-lg-2">
         <div class="field-wrapper">
           <label for="endDate">Academic Year </label>
-          <select class="form-ctrl" [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
+          <select class="form-ctrl" [(ngModel)]="courseDetails.academic_year_id" (ngModelChange)="setStartAdEndDate(courseDetails)" style="background: transparent">
             <option value="-1">Select</option>
             <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
               {{opt.inst_acad_year}}
@@ -132,9 +132,9 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <select class="form-ctrl" [(ngModel)]="row.selected_teacher">
+                <select class="form-ctrl" [(ngModel)]="row.selected_teacher" (ngModelChange)="checkMoreOption(row)">
                   <option value="-1"></option>
-                  <option *ngFor="let opt of activeTeachers" [value]="opt.teacher_id">
+                  <option *ngFor="let opt of row.allowedTeacher" [value]="opt.teacher_id">
                     {{opt.teacher_name}}
                   </option>
                 </select>

@@ -350,7 +350,7 @@
                 <img src="./assets/images/sidebar/newSideMenu/course.svg" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/course">
-                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Course</span><i
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">{{schoolModel ? 'Class' : 'Course'}}</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 16%;">
@@ -361,7 +361,7 @@
                     </a>
                     <a routerLink="/view/course/create/standardlist">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                            <span>Manage Course</span>
+                            <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
                         </li>
                     </a>
                     <a routerLink="/view/course/ecourse-file-manager/ecourses">
@@ -426,7 +426,7 @@
                     </a>
                     <a routerLink="/view/batch/create/standardlist">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                            <span>Manage Course</span>
+                            <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
                         </li>
                     </a>
                     <a routerLink="/view/course/ecourse-file-manager/ecourses">

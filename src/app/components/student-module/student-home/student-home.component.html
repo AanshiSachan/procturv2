@@ -147,7 +147,7 @@
                         </div>
 
                         <div style="margin: 0;" class="row" *ngIf="!isProfessional">
-                            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
+                            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional && !schoolModel">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                     <label for="standard">Standard</label>
@@ -167,7 +167,7 @@
                             <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
-                                    <label for="masterCourse">Master Courses</label>
+                                    <label for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label>
                                     <select id="masterCourse" name="masterCourse"
                                         [(ngModel)]="advancedFilterForm.master_course_name"
                                         (ngModelChange)="updateSubCourse($event)" class="form-ctrl"
@@ -185,7 +185,7 @@
                             <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
-                                    <label for="course">Course</label>
+                                    <label for="course">{{schoolModel ? 'Section' : 'Course'}}</label>
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
                                         class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
@@ -323,7 +323,7 @@
 
                             <!-- non professional/ academic -->
                             <div class="row" *ngIf="!isProfessional">
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional && !schoolModel">
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                         <label for="standard">Standard</label>
@@ -344,7 +344,7 @@
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
-                                        <label for="masterCourse">Master Courses</label>
+                                        <label for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label>
                                         <select id="masterCourse" name="masterCourse"
                                             [(ngModel)]="advancedFilterForm.master_course_name"
                                             (ngModelChange)="updateSubCourse($event)" class="form-ctrl"
@@ -362,7 +362,7 @@
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
-                                        <label for="course">Course</label>
+                                        <label for="course">{{schoolModel ? 'Section' : 'Course'}}</label>
                                         <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
                                             class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1"
                                             [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">

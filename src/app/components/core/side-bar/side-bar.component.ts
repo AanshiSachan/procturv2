@@ -143,6 +143,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
+  schoolModel: boolean = false;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -151,7 +152,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
     private cd: ChangeDetectorRef
-  ) { }
+  ) { 
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+  }
 
   ngOnInit() {
     this.settings = sessionStorage.getItem('is_exam_grad_feature');
