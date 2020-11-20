@@ -1310,7 +1310,7 @@
     <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isMultiSms">
         <!--  -->
         <div class="popup pos-abs popup-body-container" style="top: 10% !important;">
-            <div class="popup-wrapper pos-rel" style="height: 86%;">
+            <div class="popup-wrapper pos-rel" style="height: 90%;">
 
                 <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBulkSms()">
                     <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
@@ -1321,7 +1321,7 @@
                     </svg>
                 </span>
 
-                <div class="popup-content">
+                <div class="popup-content" style="height: auto;">
                     <h2>Send Notification </h2>
                     <div class="common-tab">
                         <div class="row">
@@ -1344,9 +1344,9 @@
                     </div>
                 </div>
 
-            </div>
+            
 
-            <div class="sms-middle-section">
+            <div class="sms-middle-section" style="width: 70%;float: left;">
                 <div class="table table-responsive table-container table-data-overflow">
                     <table class="tableBodyScroll">
                         <thead>
@@ -1549,6 +1549,7 @@
                     </div>
                 </div>
             </aside>
+        </div>
 
         </div>
         <!-- </div> -->
