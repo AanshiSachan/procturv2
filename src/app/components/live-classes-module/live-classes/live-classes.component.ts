@@ -182,7 +182,7 @@ export class LiveClassesComponent implements OnInit {
   proctur_live_integration_with_vdoCipher: any = 0;
   isVimeo: any = 'VDOCipher';
   vimeo_title: any = '';
-  watch_duration: any = 0;
+  // watch_duration: any = 0;
   videoplayer: boolean = false;
   currentProjectUrl: any;
   isUploding: any = false;
