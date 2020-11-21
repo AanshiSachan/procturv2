@@ -35,7 +35,6 @@ export class AllVideosComponent implements OnInit {
     this.allvideo(10, 0);
   }
   allvideo(batch, page) {
-    alert('Here');
     let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=totalConsumedBandwidth ASC';
     this._http.getData(url).subscribe(
       (resp: any) => {
