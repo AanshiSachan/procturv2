@@ -202,7 +202,7 @@ export class DateWiseComponent implements OnInit {
     this.videoWiseSelection = true;
     this.dateWiseSelection = false;
     this.videoData = [];
-    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=totalConsumedBandwidth ASC&from=' + moment(val).format("DD-MM-YYYY") + '&to=' + moment(val).format("DD-MM-YYYY");
+    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&from=' + moment(val).format("DD-MM-YYYY") + '&to=' + moment(val).format("DD-MM-YYYY");
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.videoData = resp.result.response;

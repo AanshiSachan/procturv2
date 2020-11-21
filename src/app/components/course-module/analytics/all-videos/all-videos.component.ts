@@ -35,10 +35,11 @@ export class AllVideosComponent implements OnInit {
     this.allvideo(10, 0);
   }
   allvideo(batch, page) {
-    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=totalConsumedBandwidth ASC';
+    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page;
     this._http.getData(url).subscribe(
       (resp: any) => {
         // this.pageSize = resp.result.pageSize;
+        this.allVideoData = resp.result.response;
         this.totalRecords = resp.result.totalElements;
         console.log(this.allVideoData);
       },
