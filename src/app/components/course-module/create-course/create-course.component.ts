@@ -104,18 +104,6 @@ export class CreateCourseComponent implements OnInit {
         this.hideAllTabs();
         // if (permissionArray != null && permissionArray != "") {
           // Changes done by Nalini - To handle role based conditions
-          if(this.role_feature.CLASS_MENU) {
-            this.jsonFlags.classMenu = true;
-              this.router.navigateByUrl('/view/course/create/class/home');
-              this.switchActiveView('liClass');
-          }
-          if(this.role_feature.EXAMS_MENU) {
-            this.jsonFlags.examMenu = true;
-            if(!this.role_feature.CLASS_MENU) {
-              this.router.navigateByUrl('/view/course/create/exam');
-              this.switchActiveView('liExam');
-            }
-          }
           if (this.role_feature.SETUP_MENU) {
             this.jsonFlags.liManageBatch = true;
             this.jsonFlags.liStandard = true;
@@ -123,6 +111,20 @@ export class CreateCourseComponent implements OnInit {
             this.router.navigateByUrl('/view/course/create/standardlist');
             this.switchActiveView('liStandard');
             }
+          if(this.role_feature.CLASS_MENU) {
+            this.jsonFlags.classMenu = true;
+            if(!this.role_feature.SETUP_MENU) {
+              this.router.navigateByUrl('/view/course/create/class/home');
+              this.switchActiveView('liClass');
+            }
+          }
+          if(this.role_feature.EXAMS_MENU) {
+            this.jsonFlags.examMenu = true;
+            if(!this.role_feature.CLASS_MENU && !this.role_feature.SETUP_MENU) {
+              this.router.navigateByUrl('/view/course/create/exam');
+              this.switchActiveView('liExam');
+            }
+          }
             if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU && !this.role_feature.SETUP_MENU) {
               this.switchActiveView('liTopic');
               this.router.navigateByUrl('/view/course/create/topic/home');
@@ -166,18 +168,6 @@ export class CreateCourseComponent implements OnInit {
         this.hideAllTabs();
         // if (permissionArray != null && permissionArray != "") {
           // Changes done by Nalini - To handle role based conditions
-          if (this.role_feature.EXAMS_MENU) {
-            this.jsonFlags.examMenu = true;
-            this.router.navigateByUrl('/view/course/create/exam');
-            this.switchActiveView('liExam');
-          }
-          if(this.role_feature.CLASS_MENU) {
-            this.jsonFlags.classMenu = true;
-            if(!this.role_feature.EXAMS_MENU) {
-              this.router.navigateByUrl('/view/course/create/class/home');
-              this.switchActiveView('liClass');
-            }
-          }
           if (this.role_feature.SETUP_MENU) {
             this.jsonFlags.liSubject = true;
             this.jsonFlags.liStandard = true;
@@ -185,6 +175,20 @@ export class CreateCourseComponent implements OnInit {
             this.router.navigateByUrl('/view/course/create/standardlist');
             this.switchActiveView('liStandard');
             }
+            if(this.role_feature.CLASS_MENU) {
+              this.jsonFlags.classMenu = true;
+              if(!this.role_feature.SETUP_MENU) {
+                this.router.navigateByUrl('/view/course/create/class/home');
+                this.switchActiveView('liClass');
+              }
+            }
+          if (this.role_feature.EXAMS_MENU) {
+            this.jsonFlags.examMenu = true;
+            if(!this.role_feature.SETUP_MENU && !this.role_feature.CLASS_MENU) {
+              this.router.navigateByUrl('/view/course/create/exam');
+              this.switchActiveView('liExam');
+            }
+          }
             if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU && !this.role_feature.SETUP_MENU) {
               this.switchActiveView('liTopic');
               this.router.navigateByUrl('/view/course/create/topic/home');
