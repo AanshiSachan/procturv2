@@ -717,7 +717,7 @@ export class ManageBatchComponent implements OnInit {
       if (permissionArray == "" || permissionArray == null) {
         return false;
       }
-      else if (!this.role_feature.SETUP_MENU) {
+      else if (this.role_feature.SETUP_MENU) {
         return false;
       }
       else {
