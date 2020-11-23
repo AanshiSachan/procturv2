@@ -21,11 +21,9 @@ export class CoummunicateHomeComponent implements OnInit {
   @ViewChild('ref',{static: false}) private ref: ElementRef;
 
   permissions: any;
-  showSMSReport: boolean = false;
   previowBox: boolean = false;
   subject: any;
   previewedMessage: any;
-  showEmailReport: boolean = false;
   permissionArray = sessionStorage.getItem('permissions');
   notificationPopUp: boolean = false;
   isProfessional: boolean = false;
@@ -72,6 +70,13 @@ export class CoummunicateHomeComponent implements OnInit {
   openAppUserSelected = false;
   role_feature = role.features;
   schoolModel: boolean = false;
+  jsonCommunicateFlags = {
+    communicateMenu: false,
+    showSMSReport: false,
+    showEmailReport: false,
+    showPTM: false,
+    showEvents: false
+  }
 
   constructor(
     private auth: AuthenticatorService,
@@ -97,13 +102,20 @@ export class CoummunicateHomeComponent implements OnInit {
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        this.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
-        this.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        // Changes done by Nalini - To handle role based conditions
+        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
+        this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
+        this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
       }
     }
     else {
-      this.showSMSReport = true;
-      this.showEmailReport = true;
+      // Changes done by Nalini - To show all menus
+      let array = Object.keys(this.jsonCommunicateFlags);
+      array.forEach((flag) => {
+        this.jsonCommunicateFlags[flag] = true;
+      });
     }
   }
 

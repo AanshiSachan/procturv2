@@ -14,9 +14,15 @@ export class FeeReportHomeComponent implements OnInit {
   showChart: boolean = false;
   jsonFlags = {
     moduleState: '',
-    isFeeActivity: false,
+    isFeeManageCheque: false,
     isAdmin: false,
     isProfitnloss: false,
+    isFeeDues: false,
+    isPaymentHistory: false,
+    isCourseWise: false,
+    isGstReport: false,
+    isMonitoringDash: false,
+    isOnlineFees: false
   }
   tax_type_without_percentage: String;
   is_tax_enabled: any;
@@ -35,8 +41,11 @@ export class FeeReportHomeComponent implements OnInit {
     }
     else if (userType == '0') {
       if (sessionStorage.getItem('permissions') == "" || sessionStorage.getItem('permissions') == null) {
-        this.jsonFlags.isAdmin = true;
-        this.jsonFlags.isProfitnloss = true;
+        // Changes done by Nalini - To handle role based conditions
+        let array = Object.keys(this.jsonFlags);
+        array.forEach((flag) => {
+        this.jsonFlags[flag] = true;
+      });
       }
     }
     if (sessionStorage.getItem('permissions')) {
@@ -47,15 +56,20 @@ export class FeeReportHomeComponent implements OnInit {
       if (this.role_feature.FEE_MANAGE || this.role_feature.FEE_MENU) {
         this.showChart = true;
       }
-      if (this.role_feature.FEE_CHEQUE_MANAGE) {
-        this.jsonFlags.isFeeActivity = true;
-      }
+      // Changes done by Nalini - To handle role based conditions
+      this.jsonFlags.isFeeManageCheque = this.role_feature.FEE_CHEQUE_MANAGE;
+     this.jsonFlags.isFeeDues = this.role_feature.FEE_DUE_DETAILS;
+      this.jsonFlags.isPaymentHistory = this.role_feature.FEE_PAYMENT_HISTORY;
+      this.jsonFlags.isCourseWise = this.role_feature.REPORT_ENQUIRY_COURSE_WISE;
+      this.jsonFlags.isMonitoringDash = this.role_feature.REPORT_FEE_MONITORING_DASHBOARD;
+      this.jsonFlags.isGstReport = this.role_feature.REPORT_FEE_GST_REPORT;
+      this.jsonFlags.isOnlineFees = this.role_feature.REPORT_FEES_ONLINE_FEES;
 
     }
 
     if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
-        this.jsonFlags.isFeeActivity = true;
+        this.jsonFlags.isFeeManageCheque = true;
         this.jsonFlags.isProfitnloss = true;
 
       }

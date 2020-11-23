@@ -31,7 +31,7 @@
                         <ul class="actb-wrapper grid" style="height: 1473px;">
 
                             <li class="enquiry-state item" style="width: 45%;"
-                                [ngClass]="{'hide' : checkRoleMAnagement()}" data-id="2">
+                            [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_LEAD_STATS)}" data-id="2">
                                 <div class="item-content">
                                     <enquiry-widget></enquiry-widget>
                                 </div>
@@ -44,13 +44,14 @@
                                 </div>
                             </li>
 
-                            <li class="fees-state item" style="width:45%" data-id="4">
+                            <li class="fees-state item" style="width:45%"
+                            [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_BIRTHDAY)}" data-id="4">
                                 <div class="item-content">
                                     <app-student-birthday></app-student-birthday>
                                 </div>
                             </li>
 
-                            <li class="schedule-state item" data-id="1">
+                            <li class="schedule-state item" [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}" data-id="1">
                                 <div class="item-content">
                                     <div>
                                         <div class="actb-top-header clearfix">
@@ -458,7 +459,7 @@
                                 </div>
                             </li>
 
-                            <li [ngClass]="{'hide' : checkRoleMAnagement() }" class="general-state item"
+                            <li [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_ACCOUNT_STATS) }" class="general-state item"
                                 style="height: 150px;" data-id="4">
                                 <div class="item-content">
                                     <general-widget [storageData]="storageData"></general-widget>
@@ -1541,7 +1542,7 @@
                                 <div class="row"
                                     *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor' || openAppUserSelected)">
 
-                                    <div class="schedSwitcher row" [ngClass]="{'hide' : checkRoleMAnagement() }">
+                                    <div class="schedSwitcher row">
                                         <ul>
                                             <li (click)="onTabChange('approved')" id="approvedSMSTab" class="active">
                                                 Approved</li>

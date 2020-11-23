@@ -13,7 +13,9 @@ export class ReportHomeComponent implements OnInit {
   JsonFlags = {
     biometricAttendanceEnable: false,
     isShowAttendanceReport: false,
-    isShowExamReport: false
+    isShowExamReport: false,
+    isShowExamDash: false,
+    showBiomentricR: false
 
   }
   role_feature = role.features;
@@ -41,6 +43,9 @@ export class ReportHomeComponent implements OnInit {
       if (sessionStorage.getItem('userType') == '0') {
         this.JsonFlags.isShowExamReport = true;
         this.JsonFlags.isShowAttendanceReport = true;
+        // Changes done by Nalini - To handle role based conditions
+        this.JsonFlags.isShowExamDash = true;
+        this.JsonFlags.showBiomentricR = true;
       }
       else if (sessionStorage.getItem('userType') == '3') { // reaport 
         this.JsonFlags.isShowExamReport = true;
@@ -51,13 +56,16 @@ export class ReportHomeComponent implements OnInit {
       let perm: any[] = JSON.parse(permissions);
 
       /* attendance */
-      if (this.role_feature.REPORT_COURSE_ATTENDANCE) {
-        this.JsonFlags.isShowAttendanceReport = true;
-      }
+      // Changes done by Nalini - To handle role based conditions
+      this.JsonFlags.isShowAttendanceReport = this.role_feature.REPORT_COURSE_ATTENDANCE;
 
-      if (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_COURSE_EXAM_DASHBOARD) {
+      if (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_COURSE_EXAM_R) {
         this.JsonFlags.isShowExamReport = true;
       }
+      if (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_COURSE_EXAM_DASHBOARD) {
+        this.JsonFlags.isShowExamDash = true;
+      }
+      this.JsonFlags.showBiomentricR = this.role_feature.REPORT_COURSE_BIOMETRIC;
 
     }
   }

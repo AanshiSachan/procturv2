@@ -18,6 +18,13 @@ export class CreateCourseComponent implements OnInit {
   @ViewChild('liExam',{static: false}) liExam: ElementRef;
   @ViewChild('liTopic',{static: false}) liTopic: ElementRef;
   role_feature = role.features;
+  jsonFlags = {
+    classMenu: false,
+    examMenu: false,
+    liStandard: false,
+    liSubject: false,
+    liManageBatch: false
+  }
 
   schoolModel: boolean = false;
   constructor(
@@ -70,14 +77,16 @@ export class CreateCourseComponent implements OnInit {
   switchActiveView(showId) {
     let lists =['liStandard','liSubject','liManageBatch','liExam','liClass'];
     lists.forEach((object)=>{
-      this[object].nativeElement.classList.remove('active');
+      if(this[object]) {
+        this[object].nativeElement.classList.remove('active');
+      }
     })
     if(!this.isLangInstitue &&this.liTopic){
       this.liTopic.nativeElement.classList.remove('active');
     }
     setTimeout(() => {
-      if(document.getElementById(showId)){
-        document.getElementById(showId).classList.add('active');
+      if(document.getElementById(showId) && document.getElementById(showId).classList){
+          document.getElementById(showId).classList.add('active');
       }
     }, 500);
   }
@@ -87,25 +96,39 @@ export class CreateCourseComponent implements OnInit {
     const permissionArray = sessionStorage.getItem('permissions');
     if (userType != 3) {
       if (permissionArray == "" || permissionArray == null) {
+        this.router.navigateByUrl('/view/course/create/standardlist');
+        this.switchActiveView('liStandard');
         this.showAllTabs();
         this.checkWhichTabIsOpen();
       } else {
         this.hideAllTabs();
         // if (permissionArray != null && permissionArray != "") {
+          // Changes done by Nalini - To handle role based conditions
+          if(this.role_feature.CLASS_MENU) {
+            this.jsonFlags.classMenu = true;
+              this.router.navigateByUrl('/view/course/create/class/home');
+              this.switchActiveView('liClass');
+          }
+          if(this.role_feature.EXAMS_MENU) {
+            this.jsonFlags.examMenu = true;
+            if(!this.role_feature.CLASS_MENU) {
+              this.router.navigateByUrl('/view/course/create/exam');
+              this.switchActiveView('liExam');
+            }
+          }
           if (this.role_feature.SETUP_MENU) {
-            this.liStandard.nativeElement.classList.remove('hide');
-            this.liSubject.nativeElement.classList.remove('hide');
-            this.liManageBatch.nativeElement.classList.remove('hide');
-          }
-          if (this.role_feature.CLASS_MENU) {
-            this.liClass.nativeElement.classList.remove('hide');
-          }
-          if (this.role_feature.EXAMS_MENU) {
-            this.liExam.nativeElement.classList.remove('hide');
-          // }
-          this.routeToSubTabs(permissionArray);
+            this.jsonFlags.liManageBatch = true;
+            this.jsonFlags.liStandard = true;
+            this.jsonFlags.liSubject = true;
+            this.router.navigateByUrl('/view/course/create/standardlist');
+            this.switchActiveView('liStandard');
+            }
+            if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU && !this.role_feature.SETUP_MENU) {
+              this.switchActiveView('liTopic');
+              this.router.navigateByUrl('/view/course/create/topic/home');
+            }
+          // this.routeToSubTabs(permissionArray);
         }
-      }
     } else {
       this.teacherLoginFound();
     }
@@ -113,8 +136,8 @@ export class CreateCourseComponent implements OnInit {
 
   routeToSubTabs(data) {
     // if (this.role_feature.SETUP_MENU) {
-      this.router.navigateByUrl('/view/course/create/standardlist');
-      this.switchActiveView('liStandard');
+    //   this.router.navigateByUrl('/view/course/create/standardlist');
+    //   this.switchActiveView('liStandard');
     // } else if (data.indexOf('502') != -1) {
     //   this.router.navigateByUrl('/view/course/create/subject');
     //   this.switchActiveView('liSubject');
@@ -135,24 +158,37 @@ export class CreateCourseComponent implements OnInit {
     const permissionArray = sessionStorage.getItem('permissions');
     if (userType != 3) {
       if (permissionArray == "" || permissionArray == null) {
+        this.router.navigateByUrl('/view/course/create/standardlist');
+        this.switchActiveView('liStandard');
         this.showAllTabs();
         this.checkWhichTabIsOpen();
       } else {
         this.hideAllTabs();
         // if (permissionArray != null && permissionArray != "") {
-          if (this.role_feature.SETUP_MENU) {
-            this.liStandard.nativeElement.classList.remove('hide');
-            this.liManageBatch.nativeElement.classList.remove('hide');
-          }
-          if (permissionArray.indexOf('502') != -1) {
-            this.liSubject.nativeElement.classList.remove('hide');
-          }
-          if (this.role_feature.SETUP_MENU || this.role_feature.CLASS_MENU) {
-            this.liClass.nativeElement.classList.remove('hide');
-          }
+          // Changes done by Nalini - To handle role based conditions
           if (this.role_feature.EXAMS_MENU) {
-            this.liExam.nativeElement.classList.remove('hide');
+            this.jsonFlags.examMenu = true;
+            this.router.navigateByUrl('/view/course/create/exam');
+            this.switchActiveView('liExam');
           }
+          if(this.role_feature.CLASS_MENU) {
+            this.jsonFlags.classMenu = true;
+            if(!this.role_feature.EXAMS_MENU) {
+              this.router.navigateByUrl('/view/course/create/class/home');
+              this.switchActiveView('liClass');
+            }
+          }
+          if (this.role_feature.SETUP_MENU) {
+            this.jsonFlags.liSubject = true;
+            this.jsonFlags.liStandard = true;
+            this.jsonFlags.liManageBatch = true;
+            this.router.navigateByUrl('/view/course/create/standardlist');
+            this.switchActiveView('liStandard');
+            }
+            if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU && !this.role_feature.SETUP_MENU) {
+              this.switchActiveView('liTopic');
+              this.router.navigateByUrl('/view/course/create/topic/home');
+            }
           // this.routeToSubTabsForLang(permissionArray);
         // }
       }
@@ -181,34 +217,35 @@ export class CreateCourseComponent implements OnInit {
   // }
 
   showAllTabs() {
-    this.liStandard.nativeElement.classList.remove('hide');
-    this.liSubject.nativeElement.classList.remove('hide');
-    this.liManageBatch.nativeElement.classList.remove('hide');
-    this.liExam.nativeElement.classList.remove('hide');
-    this.liClass.nativeElement.classList.remove('hide');
+    // Changes done by Nalini - To show all tabs
+    let array = Object.keys(this.jsonFlags);
+      array.forEach((flag) => {
+        this.jsonFlags[flag] = true;
+      });
   }
 
   hideAllTabs() {
-    this.liStandard.nativeElement.classList.add('hide');
-    this.liSubject.nativeElement.classList.add('hide');
-    this.liManageBatch.nativeElement.classList.add('hide');
-    this.liExam.nativeElement.classList.add('hide');
-    this.liClass.nativeElement.classList.add('hide');
+    // Changes done by Nalini - To hide all tabs
+    let array = Object.keys(this.jsonFlags);
+      array.forEach((flag) => {
+        this.jsonFlags[flag] = false;
+      });
   }
 
   teacherLoginFound() {
     this.hideAllTabs();
-    this.liManageBatch.nativeElement.classList.remove('hide');
-    this.liClass.nativeElement.classList.remove('hide');
-    this.liExam.nativeElement.classList.remove('hide');
+    // Changes done by Nalini - To handle role based conditions
+    this.jsonFlags.liManageBatch = true;
+    this.jsonFlags.classMenu = true;
+    this.jsonFlags.examMenu = true;
     this.checkWhichTabIsOpen();
-    // if (this.isLangInstitue) {
-    //   this.router.navigateByUrl('/view/batch/create/managebatch');
-    //   this.switchActiveView('liManageBatch');
-    // } else {
-    //   this.router.navigateByUrl('/view/course/create/courselist');
-    //   this.switchActiveView('liManageBatch');
-    // }
+    if (this.isLangInstitue) {
+      this.router.navigateByUrl('/view/batch/create/managebatch');
+      this.switchActiveView('liManageBatch');
+    } else {
+      this.router.navigateByUrl('/view/course/create/courselist');
+      this.switchActiveView('liManageBatch');
+    }
   }
 
 }

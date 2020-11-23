@@ -412,7 +412,9 @@ export class ScheduleHomeComponent implements OnInit {
   checkWhichTabIsOpen() {
     setTimeout(() => {
       this.hideAllTabs();
-      document.getElementById('liStandard').classList.add('active');
+      if(document.getElementById('liStandard')) {
+        document.getElementById('liStandard').classList.add('active');
+      }
     }, 200)
   }
 
