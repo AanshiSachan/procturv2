@@ -412,7 +412,7 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
       case "EBook":
       case "Previous Year Questions Paper": {
         for (let i = 0; i < files.length; i++) {//
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx|.doc|.docx|.pdf|.gif|.png|.jpg|.jpeg|.ppt|.pptx|.epub|.mp3|.wav|.aac|.wma )$/i;
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx|.doc|.docx|.pdf|.gif|.png|.jpg|.jpeg|.ppt|.pptx|.epub)$/i;
           // console.log(pattern.test(files[i].name));
           if (!pattern.test(files[i].name)) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in pdf, doc, docx ,gif, png, jpg , xls, xlsx  form");
