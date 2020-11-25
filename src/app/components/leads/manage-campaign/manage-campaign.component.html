@@ -12,10 +12,24 @@
         <div class="form-container">
 
           <div class="form-item field-wrapper">
-            <label for="mobile_no">Mobile
+            <!-- // changes done by Nalini - To add country calling code -->
+            <label style="width: 100%;" for="mobile_no">Mobile
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" id="mobile_no"
+            <span class="countryCallingCode" style="width: 22%">
+              <select id="country_id" class="form-ctrl"
+                  [(ngModel)]="editLead.country_id" name="country_id"
+                  [disabled]="countryDetails.length<=1"
+                  (change)="onChangeObj($event.target.value)"
+                  style="height: 29px;padding: 0;border-radius: 4px;width: 25%;float: left;">
+                  <option value=""></option>
+                  <option [value]="data.id" selected
+                      *ngFor='let data of countryDetails'>
+                      {{data.country_code}} +{{data.country_calling_code}}
+                  </option>
+              </select>
+          </span>
+            <input type="text" style="width: 75%;" value="" id="mobile_no"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
               [(ngModel)]="editLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
           </div>
@@ -94,10 +108,24 @@
         <div class="form-container">
 
           <div class="form-item field-wrapper">
-            <label for="mobile_no">Mobile
+            <label for="mobile_no" style="width: 100%;">Mobile
               <span class="text-danger">*</span>
             </label>
-            <input type="text" value="" id="mobile_no"
+            <!-- // changes done by Nalini - To add country calling code -->
+            <span class="countryCallingCode" style="width: 22%">
+              <select id="country_id" class="form-ctrl"
+                  [(ngModel)]="addLead.country_id" name="country_id"
+                  [disabled]="countryDetails.length<=1"
+                  (change)="onChangeObj($event.target.value)"
+                  style="height: 29px;padding: 0;border-radius: 4px;width: 25%;float: left;">
+                  <option value=""></option>
+                  <option [value]="data.id" selected
+                      *ngFor='let data of countryDetails'>
+                      {{data.country_code}} +{{data.country_calling_code}}
+                  </option>
+              </select>
+          </span>
+            <input type="text" style="width: 75%;" value="" id="mobile_no"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
               [(ngModel)]="addLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
           </div>

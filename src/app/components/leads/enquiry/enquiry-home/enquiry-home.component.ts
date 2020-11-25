@@ -867,25 +867,20 @@ export class EnquiryHomeComponent implements OnInit {
 
         /* Searchbar filled */
         else if (!this._commService.valueCheck(this.varJson.searchBarData)) {
-            if (isNaN(this.varJson.searchBarData)) {
-                this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
-                this.loadTableDatatoSource(this.instituteData);
-            }
-            /* In Case of Number */
-            else {
                 /* mobile number detected */
                 if (this.validateNumber(this.varJson.searchBarData)) {
                     this.instituteData = { name: "", phone: this.varJson.searchBarData, email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
                     this.loadTableDatatoSource(this.instituteData);
+                } else if (isNaN(this.varJson.searchBarData)) {
+                    this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+                    this.loadTableDatatoSource(this.instituteData);
                 }
-
                 /* send data as enquiry number */
                 else {
                     this.instituteData = { name: "", phone: "", email: "", enquiry_no: this.varJson.searchBarData, commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
                     this.loadTableDatatoSource(this.instituteData);
 
                 }
-            }
         }
     }
 
@@ -896,7 +891,9 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Custom validation suited only for indian mobile numbers*/
     validateNumber(data) {
-        return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[123456789]\d{9}$/.test(data);;
+        // changes done by Nalini - To check phone no with country calling code
+        return /^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(data);
+        // return /^(?:(?:\+|[0]?)?[123456789]\d[0,9]?(\s*[\-]\s*)?|[0]?)?[123456789]\d[0,9]$/.test(data);;
     }
 
     /* Function to open advanced filter */
