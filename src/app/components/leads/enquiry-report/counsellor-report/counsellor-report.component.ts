@@ -26,6 +26,7 @@ export class CounsellorReportComponent implements OnInit {
     assigned_to: (this.username === "admin" || (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) ? -1 : this.userId),
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD'),
+    is_admin_role_access: false
   }
 
   permission: boolean = true;
@@ -124,6 +125,9 @@ export class CounsellorReportComponent implements OnInit {
 
       this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD');
       this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD');
+      if(this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
+        this.counsellorInfoDetails.is_admin_role_access = true;
+      }
 
       this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
         (data: any) => {

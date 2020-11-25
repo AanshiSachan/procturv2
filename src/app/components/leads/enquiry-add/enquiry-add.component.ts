@@ -1989,7 +1989,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
 
-      if (permissions.includes('115')) {
+      if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
         this.isEnquiryAdmin = true;
       }
 

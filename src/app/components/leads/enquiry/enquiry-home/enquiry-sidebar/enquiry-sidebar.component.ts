@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { FetchprefilldataService } from '../../../../../services/fetchprefilldata.service';
 import { AppComponent } from '../../../../../app.component';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
+import { role } from '../../../../../model/role_features';
 
 @Component({
   selector: 'enquiry-sidebar',
@@ -74,6 +75,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   courseIdArray: any;
   openEnquiryFeature: string = '0';
   minuteArr: any[] = ['', '00', '15', '30', '45'];
+  role_feature = role.features;
 
   @Input() enquiryRow: any;
   @Input() priorityArr: any;
@@ -485,7 +487,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
-      if (permissions.includes('115')) {
+      if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
         this.isEnquiryAdmin = true;
       }
       /* User is not authorized as enquiry admin and see only enquiry assigned to him */

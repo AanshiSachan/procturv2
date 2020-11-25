@@ -4,6 +4,7 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { CampaignService } from '../services/campaign.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { role } from '../../../model/role_features';
 declare var $;
 
 @Component({
@@ -78,6 +79,7 @@ export class ManageCampaignComponent implements OnInit {
   totalCount: number = 0;
   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
   startindex: number = 0;
+  role_feature = role.features;
 
   constructor(
     private campaignService: CampaignService,
@@ -150,7 +152,7 @@ export class ManageCampaignComponent implements OnInit {
     }
     this.checkedIds = [];
     this.auth.showLoader();
-    let obj = {
+    let obj: any = {
       "assigned_to": this.filters.assignedTo,
       "name": this.filters.stundetName,
       "mobile": this.filters.contactNumber,
@@ -159,6 +161,9 @@ export class ManageCampaignComponent implements OnInit {
       "referred_by": this.filters.referredBy,
       "start_index": index,
       "batch_size": 100
+    }
+    if(this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
+      obj.is_admin_role_access = true;
     }
     this.campaignService.searchLeads(obj).subscribe(
       res => {

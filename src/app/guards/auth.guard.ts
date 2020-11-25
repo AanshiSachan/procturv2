@@ -131,7 +131,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         else {
             if (this.role_feature.LEAD_MANAGE_ENQUIRY ||
                 this.role_feature.LEAD_MENU_ITEM ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('115') ||
+                this.role_feature.LEAD_ENQUIRY_FULL_ACCESS ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
                 return true;
             }
@@ -251,7 +251,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+            if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
                 return true;
             }
             else {

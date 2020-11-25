@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import 'rxjs/Rx';
 import { instituteInfo } from '../../model/instituteinfo';
 import { AuthenticatorService } from '../authenticator.service';
+import { role } from '../../model/role_features';
 
 @Injectable()
 export class FetchenquiryService {
@@ -25,6 +26,7 @@ export class FetchenquiryService {
   urlDownloadAllEnquiry: string;
   urlFetchAllSms: string;
   baseUrl: string = "";
+  role_feature = role.features;
 
   /* initialize the value of variables on service call */
   constructor(private http: HttpClient, private auth: AuthenticatorService) {
@@ -67,7 +69,7 @@ export class FetchenquiryService {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
-      if (permissions.includes('115') || (permissions.includes('110') && sessionStorage.getItem('open_enq_Visibility_feature') == '1')) {
+      if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS || (permissions.includes('110') && sessionStorage.getItem('open_enq_Visibility_feature') == '1')) {
         obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
         obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
         obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
@@ -75,6 +77,9 @@ export class FetchenquiryService {
         obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
         obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
         obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+        if(this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
+          obj.is_admin_role_access = true;
+        }
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
         return this.http.post(this.urlCampaign, obj, { headers: this.headers }).pipe(
@@ -134,6 +139,9 @@ export class FetchenquiryService {
     obj.updateDateTo = obj.updateDateTo == 'Invalid date' ? "" : obj.updateDateTo;
     obj.updateDate = obj.updateDate == 'Invalid date' ? "" : obj.updateDate;
     obj.followUpDate = obj.followUpDate == 'Invalid date' ? "" : obj.followUpDate;
+    if(this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
+      obj.is_admin_role_access = true;
+    }
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/enquiry/all/download/" + this.institute_id;
 
     return this.http.post(this.urlDownloadAllEnquiry, obj, { headers: this.headers }).pipe(map(

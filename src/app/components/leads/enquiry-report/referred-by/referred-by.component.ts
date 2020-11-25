@@ -3,6 +3,7 @@ import { EnquiryReportService } from '../../services/counsellor-service.service'
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { role } from '../../../../model/role_features';
 
 @Component({
   selector: 'app-referred-by',
@@ -18,7 +19,8 @@ export class ReferredByComponent implements OnInit {
     referred_by: -1,
     assigned_to: this.userId,
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-    updateDateTo: moment().format('YYYY-MM-DD')
+    updateDateTo: moment().format('YYYY-MM-DD'),
+    is_admin_role_access: false
   }
 
   getreferredByData: any = [];
@@ -60,6 +62,7 @@ export class ReferredByComponent implements OnInit {
   }
 
   popupDataEnquiries: any[] = [];
+  role_feature = role.features;
 
 
 
@@ -112,6 +115,9 @@ export class ReferredByComponent implements OnInit {
     else {
       this.referredByInfoDetails.updateDateFrom = moment(this.referredByInfoDetails.updateDateFrom).format("YYYY-MM-DD");
       this.referredByInfoDetails.updateDateTo = moment(this.referredByInfoDetails.updateDateTo).format("YYYY-MM-DD");
+      if(this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
+        this.referredByInfoDetails.is_admin_role_access = true;
+      }
       this.service.counsellorDetails(this.referredByInfoDetails).subscribe(
         (data: any) => {
 
