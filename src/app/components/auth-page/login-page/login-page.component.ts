@@ -260,9 +260,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.auth.hideLoader();
-          sessionStorage.setItem('login-response', JSON.stringify(res));
-          this.single_login_login_check = res.single_device_login;
-          this.checkForAuthOptions(res);
+          if (!this.validInstituteCheck(res)) {
+            this.route.navigateByUrl('/authPage');
+            //console.log('Institute ID Not Found');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+            sessionStorage.clear();
+            localStorage.clear();
+            return
+          } else {
+            sessionStorage.setItem('login-response', JSON.stringify(res));
+            this.single_login_login_check = res.single_device_login;
+            this.checkForAuthOptions(res);
+          }
         },
         err => {
           this.auth.hideLoader();
@@ -885,6 +894,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (this.otpVerificationInfo.otp_code.trim() == null || this.otpVerificationInfo.otp_code.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.notFound.title, this.messages.loginMsg.opt.notFound.body);
     } else {
+      this.otpVerificationInfo.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.otpVerificationInfo.device_id = localStorage.getItem('deviceId');
+      }
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {
         //console.log(el);
         if (el.otp_status == 1) {
