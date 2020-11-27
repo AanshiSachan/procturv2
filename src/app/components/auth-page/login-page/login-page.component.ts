@@ -251,6 +251,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.invalidPass.title, this.messages.loginMsg.invalidPass.body);
     }
     else {
+      this.loginDataForm.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.loginDataForm.device_id = localStorage.getItem('deviceId');
+      }
       this.auth.showLoader();
       this.login.postLoginDetails(this.loginDataForm).subscribe(
         res => {
@@ -412,6 +416,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('institute_id', institute_data.institution_id);
     if (institute_data.userType == '1' || institute_data.userType == '99') {
       sessionStorage.setItem('deviceId', device_id);
+      if(localStorage.getItem('deviceId')==null) {
+        localStorage.setItem('deviceId', device_id);
+      }
       sessionStorage.setItem('source', 'WEB');
       if (this.single_login_login_check) {
         this.auth.getAuthToken(true);
@@ -500,6 +507,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.Role_features.checkPermissions();
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
+      if (institute_data.userType == '1' || institute_data.userType == '99') {
+        if(localStorage.getItem('deviceId')==null) {
+          localStorage.setItem('deviceId', res.device_id);
+        }
+      }
       this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
