@@ -260,7 +260,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         res => {
           console.log(res);
           this.auth.hideLoader();
-          if (!this.validInstituteCheck(res)) {
+          if (res.data && !this.validInstituteCheck(res)) {
             this.route.navigateByUrl('/authPage');
             //console.log('Institute ID Not Found');
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
@@ -823,6 +823,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.multiInstituteLoginInfo.institution_id = inst_id;
     this.multiInstituteLoginInfo.alternate_email_id = this.loginDataForm.alternate_email_id;
     this.multiInstituteLoginInfo.password = this.loginDataForm.password;
+    this.multiInstituteLoginInfo.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.multiInstituteLoginInfo.device_id = localStorage.getItem('deviceId');
+      }
     //console.log(this.multiInstituteLoginInfo);
     this.closeInstituteList();
     this.login.postLoginDetails(this.multiInstituteLoginInfo).subscribe(el => {
@@ -877,6 +881,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.multiUserLoginInfo.institution_id = inst_id;
     this.multiUserLoginInfo.alternate_email_id = this.loginDataForm.alternate_email_id;
     this.multiUserLoginInfo.password = this.loginDataForm.password;
+    this.multiUserLoginInfo.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.multiUserLoginInfo.device_id = localStorage.getItem('deviceId');
+      }
     this.closeUserList();
     this.login.postLoginDetails(this.multiUserLoginInfo).subscribe(el => {
       //console.log(el);
