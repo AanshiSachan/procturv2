@@ -498,6 +498,7 @@ export class ManageCampaignComponent implements OnInit {
     this.editLead.referredBy = row.referred_by;
     this.editLead.list_id = row.list_id;
     this.editLead.base_id = row.base_id;
+    this.editLead.country_id = row.country_id;
   }
 
   updateLead() {
