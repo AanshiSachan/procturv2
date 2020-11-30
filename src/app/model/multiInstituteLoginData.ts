@@ -4,4 +4,5 @@ export interface InstituteLoginInfo {
     userid:any,
     institution_id:any,
     source?: string
+    device_id?: string;
 }

@@ -251,14 +251,27 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.invalidPass.title, this.messages.loginMsg.invalidPass.body);
     }
     else {
+      this.loginDataForm.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.loginDataForm.device_id = localStorage.getItem('deviceId');
+      }
       this.auth.showLoader();
       this.login.postLoginDetails(this.loginDataForm).subscribe(
         res => {
           console.log(res);
           this.auth.hideLoader();
-          sessionStorage.setItem('login-response', JSON.stringify(res));
-          this.single_login_login_check = res.single_device_login;
-          this.checkForAuthOptions(res);
+          if (res.data && !this.validInstituteCheck(res)) {
+            this.route.navigateByUrl('/authPage');
+            //console.log('Institute ID Not Found');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+            sessionStorage.clear();
+            localStorage.clear();
+            return
+          } else {
+            sessionStorage.setItem('login-response', JSON.stringify(res));
+            this.single_login_login_check = res.single_device_login;
+            this.checkForAuthOptions(res);
+          }
         },
         err => {
           this.auth.hideLoader();
@@ -412,6 +425,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('institute_id', institute_data.institution_id);
     if (institute_data.userType == '1' || institute_data.userType == '99') {
       sessionStorage.setItem('deviceId', device_id);
+      if(localStorage.getItem('deviceId')==null) {
+        localStorage.setItem('deviceId', device_id);
+      }
       sessionStorage.setItem('source', 'WEB');
       if (this.single_login_login_check) {
         this.auth.getAuthToken(true);
@@ -500,6 +516,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.Role_features.checkPermissions();
       }
       // this.auth.changeInstituteId(institute_data.institution_id);
+      if (institute_data.userType == '1' || institute_data.userType == '99') {
+        if(localStorage.getItem('deviceId')==null) {
+          localStorage.setItem('deviceId', res.device_id);
+        }
+      }
       this.zoom_enable = JSON.stringify(institute_data.is_zoom_integration_enable)
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
@@ -802,6 +823,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.multiInstituteLoginInfo.institution_id = inst_id;
     this.multiInstituteLoginInfo.alternate_email_id = this.loginDataForm.alternate_email_id;
     this.multiInstituteLoginInfo.password = this.loginDataForm.password;
+    this.multiInstituteLoginInfo.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.multiInstituteLoginInfo.device_id = localStorage.getItem('deviceId');
+      }
     //console.log(this.multiInstituteLoginInfo);
     this.closeInstituteList();
     this.login.postLoginDetails(this.multiInstituteLoginInfo).subscribe(el => {
@@ -856,6 +881,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.multiUserLoginInfo.institution_id = inst_id;
     this.multiUserLoginInfo.alternate_email_id = this.loginDataForm.alternate_email_id;
     this.multiUserLoginInfo.password = this.loginDataForm.password;
+    this.multiUserLoginInfo.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.multiUserLoginInfo.device_id = localStorage.getItem('deviceId');
+      }
     this.closeUserList();
     this.login.postLoginDetails(this.multiUserLoginInfo).subscribe(el => {
       //console.log(el);
@@ -873,6 +902,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (this.otpVerificationInfo.otp_code.trim() == null || this.otpVerificationInfo.otp_code.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.notFound.title, this.messages.loginMsg.opt.notFound.body);
     } else {
+      this.otpVerificationInfo.device_id = null;
+      if(localStorage.getItem('deviceId')!=null) {
+        this.otpVerificationInfo.device_id = localStorage.getItem('deviceId');
+      }
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {
         //console.log(el);
         if (el.otp_status == 1) {
