@@ -34,9 +34,9 @@
                     </button>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="videoWiseSelection">
-                    <button [ngClass]="selectType == 'video'? 'btnside' : 'grey'" (click)="filter('video')">
+                    <!-- <button [ngClass]="selectType == 'video'? 'btnside' : 'grey'" (click)="filter('video')">
                         <i class="fa fa-filter" aria-hidden="true"></i>
-                    </button>
+                    </button> -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="userWiseSelection">
                     <button [ngClass]="selectType == 'date'? 'grey' : 'grey'" (click)="filter('user')">
@@ -98,7 +98,7 @@
         <thead>
             <tr>
                 <th>Date</th>
-                <th>Bandwidth</th>
+                <th>Bandwidth (MB)</th>
             </tr>
         </thead>
         <tbody>
@@ -126,7 +126,7 @@
             <tr>
                 <th>Video Title</th>
                 <th>Size</th>
-                <th>Consumed Bandwidth</th>
+                <th>Consumed Bandwidth (MB)</th>
                 <th>Viewed</th>
             </tr>
         </thead>
@@ -161,7 +161,7 @@
         <thead>
             <tr>
                 <th>Username</th>
-                <th>Watch Duration</th>
+                <th>Watch Duration (min)</th>
                 <th>Played Date Time</th>
             </tr>
         </thead>

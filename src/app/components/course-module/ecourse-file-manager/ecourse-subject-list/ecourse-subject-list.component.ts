@@ -648,7 +648,9 @@ export class EcourseSubjectListComponent implements OnInit {
       "title": this.editObj.title,
       "institute_id": sessionStorage.getItem('institute_id'),
       "category_id": this.editObj.category_id,
-      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N'
+      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N',
+      "manual_multiplier_update": true,
+      "watch_multiplier": this.editObj.watch_multiplier
     }
     this.auth.showLoader();
     this._http.putData('/api/v1/instFileSystem/update/' + this.editObj.file_id, obj).subscribe(

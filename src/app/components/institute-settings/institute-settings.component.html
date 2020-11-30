@@ -3624,7 +3624,7 @@
               </tr>
               <tr>
                 <td>
-                  <div class="row webkitBox" style="margin-top: 0;">
+                  <div class="row webkitBox" style="margin-top: 0;height: 25px;">
                     <h3>Vimeo</h3>
                   </div>
                   <div class="row webkitBox">
@@ -3708,11 +3708,17 @@
                 </div>
                 </div>
 <!-- Start VDO Cipher Multiplier -->
-
+                <hr>
+                <div class="row webkitBox" style="margin-top: 0;height: 25px;">
+                  <h3>VDOCipher Watch Multiplier Setting</h3>
+                </div>
+                <div class="row webkitBox" style="margin-top: 0;height: 25px;">
+                  <h3>Study Material</h3>
+                </div>
                 <div class="row webkitBox">
                   <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
                     <div class="field-wrapper" style="padding-top: 0;">
-                      <label style="font-size: 14px;" for="vdocipher_watch_multiplier">VDO Cipher Multipler
+                      <label style="font-size: 14px;" for="vdocipher_watch_multiplier">VDOCipher Multipler
                       </label>
                    
                     </div>
@@ -3725,18 +3731,31 @@
                   </div>
                   </div>
 
-                  <div class="row webkitBox">
-                    <div class="c-sm-5 c-md-5 c-lg-5 field-checkbox-wrapper" style="margin-left: 15px;" >
-                        <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vdocipher_update_video_watch_time_mode" 
-                        name="vdocipher_update_video_watch_time_mode" id="vdocipher_update_video_watch_time_mode">
-                        <label for="study_student" style="transform: none;"> &nbsp;&nbsp; VDO Cipher Time Mode</label>
-                    </div>
+                  <div class="row webkitBox" *ngIf="vdocipher_watch_multiplier!=instituteSettingDet.vdocipher_watch_multiplier">
+                    <div class="c-sm-3 c-md-3 c-lg-3 field-radio-wrapper" style="margin-left: 15px;" >
+                      <input type="radio" [value]="0" class="form-radio" [(ngModel)]="instituteSettingDet.vdocipher_update_video_watch_time_mode" 
+                      name="vdocipher_update_video_watch_time_mode" id="vdocipher_update_video_watch_time_mode_new">
+                      <label for="vdocipher_update_video_watch_time_mode_new" style="transform: none;"> &nbsp;&nbsp; Update for New Videos</label>
+                  </div>
+                  <div class="c-sm-3 c-md-3 c-lg-3 field-radio-wrapper" style="margin-left: 15px;" >
+                    <input type="radio" [value]="1" class="form-radio" [(ngModel)]="instituteSettingDet.vdocipher_update_video_watch_time_mode" 
+                    name="vdocipher_update_video_watch_time_mode" id="vdocipher_update_video_watch_time_mode_all">
+                    <label for="vdocipher_update_video_watch_time_mode_all" style="transform: none;"> &nbsp;&nbsp; Update all Videos</label>
+                </div>
+                <div class="c-sm-5 c-md-5 c-lg-5 field-radio-wrapper" style="margin-left: 15px;" >
+                  <input type="radio" [value]="2" class="form-radio" [(ngModel)]="instituteSettingDet.vdocipher_update_video_watch_time_mode" 
+                  name="vdocipher_update_video_watch_time_mode" id="vdocipher_update_video_watch_time_mode_all_ex">
+                  <label for="vdocipher_update_video_watch_time_mode_all_ex" style="transform: none;"> &nbsp;&nbsp; Update all Videos except custom multiplier</label>
+              </div>
                   </div>
 <!-- End VDO Cipher Multiplier -->
+              <div class="row webkitBox" style="margin-top: 0;height: 25px;">
+                <h3>Live class</h3>
+              </div>
                   <div class="row webkitBox">
                     <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
                       <div class="field-wrapper" style="padding-top: 0;">
-                        <label style="font-size: 14px;" for="vdocipher_live_class_watch_multiplier">VDO Cipher Live Class Multipler
+                        <label style="font-size: 14px;" for="vdocipher_live_class_watch_multiplier">VDOCipher Live Class Multipler
                         </label>
                      
                       </div>
@@ -3749,12 +3768,22 @@
                     </div>
                     </div>
 
-                    <div class="row webkitBox">
-                      <div class="c-sm-5 c-md-5 c-lg-5 field-checkbox-wrapper" style="margin-left: 15px;" >
-                          <input type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode" 
-                          name="vdocipher_live_class_update_video_watch_time_mode" id="vdocipher_live_class_update_video_watch_time_mode">
-                          <label for="study_student" style="transform: none;"> &nbsp;&nbsp; VDO Cipher Live Class Time Mode</label>
+                    <div class="row webkitBox" *ngIf="vdocipher_live_class_watch_multiplier!=instituteSettingDet.vdocipher_live_class_watch_multiplier">
+                      <div class="c-sm-3 c-md-3 c-lg-3 field-radio-wrapper" style="margin-left: 15px;" >
+                          <input type="radio" [value]="0" class="form-radio" [(ngModel)]="instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode" 
+                          name="vdocipher_live_class_update_video_watch_time_mode" id="vdocipher_live_class_update_video_watch_time_mode_new">
+                          <label for="vdocipher_live_class_update_video_watch_time_mode_new" style="transform: none;"> &nbsp;&nbsp; Update for New Videos</label>
                       </div>
+                      <div class="c-sm-3 c-md-3 c-lg-3 field-radio-wrapper" style="margin-left: 15px;" >
+                        <input type="radio" [value]="1" class="form-radio" [(ngModel)]="instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode" 
+                        name="vdocipher_live_class_update_video_watch_time_mode" id="vdocipher_live_class_update_video_watch_time_mode_all">
+                        <label for="vdocipher_live_class_update_video_watch_time_mode_all" style="transform: none;"> &nbsp;&nbsp; Update all Videos</label>
+                    </div>
+                    <div class="c-sm-5 c-md-5 c-lg-5 field-radio-wrapper" style="margin-left: 15px;" >
+                      <input type="radio" [value]="2" class="form-radio" [(ngModel)]="instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode" 
+                      name="vdocipher_live_class_update_video_watch_time_mode" id="vdocipher_live_class_update_video_watch_time_mode_ex">
+                      <label for="vdocipher_live_class_update_video_watch_time_mode_ex" style="transform: none;"> &nbsp;&nbsp; Update all Videos except custom multiplier</label>
+                  </div>
                     </div>
 
 

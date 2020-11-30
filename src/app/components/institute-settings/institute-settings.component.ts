@@ -428,6 +428,8 @@ export class InstituteSettingsComponent implements OnInit {
     fees: false,
   };
   role_feature = role.features;
+  vdocipher_watch_multiplier: any = '';
+  vdocipher_live_class_watch_multiplier: any = '';
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
@@ -598,10 +600,10 @@ export class InstituteSettingsComponent implements OnInit {
     }
     obj.product_purchase_multiple_mobile = this.instituteSettingDet.product_purchase_multiple_mobile;
     obj.product_purchase_multiple_email = this.instituteSettingDet.product_purchase_multiple_email;
-    obj.vdocipher_watch_multiplier = this.instituteSettingDet.vdocipher_watch_multiplier;
-    obj.vdocipher_live_class_watch_multiplier = this.instituteSettingDet.vdocipher_live_class_watch_multiplier;
-    obj.vdocipher_update_video_watch_time_mode = this.convertBoolenToNumber(this.instituteSettingDet.vdocipher_update_video_watch_time_mode);
-    obj.vdocipher_live_class_update_video_watch_time_mode = this.convertBoolenToNumber(this.instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode);
+    obj.vdocipher_watch_multiplier = this.instituteSettingDet.vdocipher_watch_multiplier ? this.instituteSettingDet.vdocipher_watch_multiplier : 0;
+    obj.vdocipher_live_class_watch_multiplier = this.instituteSettingDet.vdocipher_live_class_watch_multiplier ? this.instituteSettingDet.vdocipher_live_class_watch_multiplier : 0;
+    obj.vdocipher_update_video_watch_time_mode = this.instituteSettingDet.vdocipher_update_video_watch_time_mode;
+    obj.vdocipher_live_class_update_video_watch_time_mode = this.instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode;
 
 
     obj.enable_assign_to_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_assign_to_feature);
@@ -905,6 +907,8 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.product_purchase_multiple_email = data.product_purchase_multiple_email;
 
     this.instituteSettingDet.vdocipher_watch_multiplier = data.vdocipher_watch_multiplier;
+    this.vdocipher_watch_multiplier = data.vdocipher_watch_multiplier;
+    this.vdocipher_live_class_watch_multiplier = data.vdocipher_live_class_watch_multiplier;
     this.instituteSettingDet.vdocipher_live_class_watch_multiplier = data.vdocipher_live_class_watch_multiplier;
     this.instituteSettingDet.vdocipher_update_video_watch_time_mode = data.vdocipher_update_video_watch_time_mode;
     this.instituteSettingDet.vdocipher_live_class_update_video_watch_time_mode = data.vdocipher_live_class_update_video_watch_time_mode;
