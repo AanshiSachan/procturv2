@@ -61,7 +61,8 @@ export class role {
         MOBILE_NUMBER_VISIBILITY: true,
         DOWNLOAD_FEE_REPORT: true,
         DOWNLOAD_STUDENT_REPORT: true,
-        DOWNLOAD_ENQUIRY_REPORT: true
+        DOWNLOAD_ENQUIRY_REPORT: true,
+        LEAD_ENQUIRY_FULL_ACCESS: true
         };
     // customPermissions : {
     // Old features
@@ -210,5 +211,6 @@ export class role {
         role.features.DOWNLOAD_FEE_REPORT = permissions.includes(5058) ? true : false;
         role.features.DOWNLOAD_STUDENT_REPORT = permissions.includes(5059) ? true : false;
         role.features.DOWNLOAD_ENQUIRY_REPORT = permissions.includes(5060) ? true : false;
+        role.features.LEAD_ENQUIRY_FULL_ACCESS = permissions.includes(5061) ? true : false;
     }
 }

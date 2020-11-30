@@ -547,7 +547,7 @@ export class EnquiryHomeComponent implements OnInit {
         if (this._commService.checkUserIsAdmin()) {
             this.flagJSON.isEnquiryAdmin = true;
         } else {
-            if (this._commService.checkUserHadPermission('115')) {
+            if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
                 this.flagJSON.isEnquiryAdmin = true;
             } else {
                 this.flagJSON.isEnquiryAdmin = false;
@@ -1716,7 +1716,7 @@ export class EnquiryHomeComponent implements OnInit {
         /* Role based access verification */
         else {
             /* If User is Authorized to assign Enquiries */
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+            if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
 
                 /* Multi rows selected */
                 if (this.selectedRowGroup.length != 0) {
@@ -1794,7 +1794,7 @@ export class EnquiryHomeComponent implements OnInit {
         }
         else {
             /* If User is Authorized to assign Enquiries */
-            if (JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+            if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
                 /* Multi rows selected */
                 if (this.selectedRowGroup.length != 0) {
                     this.flagJSON.isAssignEnquiry = true;
@@ -2587,7 +2587,7 @@ export class EnquiryHomeComponent implements OnInit {
 
             if (permissionArray != undefined) {
 
-                if (permissionArray.indexOf('115') != -1) {
+                if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
                     this.giveFullPermisionOfBulfAction();
                 }
                 else {

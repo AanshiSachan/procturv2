@@ -3,6 +3,7 @@ import { EnquiryReportService } from '../../services/counsellor-service.service'
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { role } from '../../../../model/role_features';
 
 @Component({
   selector: 'app-source',
@@ -18,7 +19,8 @@ export class SourceComponent implements OnInit {
     source_id: -1,
     assigned_to: this.userId,
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-    updateDateTo: moment().format('YYYY-MM-DD')
+    updateDateTo: moment().format('YYYY-MM-DD'),
+    is_admin_role_access: false
   }
 
   getSourceData: any = [];
@@ -60,6 +62,7 @@ export class SourceComponent implements OnInit {
   }
 
   newArray: any[] = [];
+  role_feature = role.features;
 
   constructor(private service: EnquiryReportService,
     private appc: AppComponent) { }
@@ -104,6 +107,9 @@ export class SourceComponent implements OnInit {
     else {
       this.sourceInfoDetails.updateDateFrom = moment(this.sourceInfoDetails.updateDateFrom).format("YYYY-MM-DD");
       this.sourceInfoDetails.updateDateTo = moment(this.sourceInfoDetails.updateDateTo).format("YYYY-MM-DD");
+      if(this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
+        this.sourceInfoDetails.is_admin_role_access = true;
+      }
       this.service.counsellorDetails(this.sourceInfoDetails).subscribe(
         (data: any) => {
 

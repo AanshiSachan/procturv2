@@ -93,7 +93,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
         this.hasStudentAccess = true;
         this.hasDeleteAccess = false;
       }
-      else if (permissions.includes('115')) {
+      else if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
         this.hasStudentAccess = false;
         // this.hasDeleteAccess = true;
       }

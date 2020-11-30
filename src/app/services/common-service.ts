@@ -287,15 +287,19 @@ export class CommonServiceFactory {
                 var permissions = JSON.parse(sessionStorage.getItem('permissions'));
                 if (!this.role_feature.MOBILE_NUMBER_VISIBILITY) {
                     list.forEach(el => {
-                        var countryCode = el.phone.split('-')[0];
-                        var phnNo = el.phone.split('-')[1];
-                        if (phnNo.length > 4) {
-                            var result = phnNo.replace(/\d{4}$/, 'XXXX');
+                        var countryCode = '';
+                        var phnNo = '';
+                        if(el.phone) {
+                            countryCode = el.phone.split('-')[0];
+                            phnNo = el.phone.split('-')[1];
+                            if (phnNo.length > 4) {
+                                var result = phnNo.replace(/\d{4}$/, 'XXXX');
+                            }
+                            else {
+                                var result = phnNo.replace(/\d{1}$/, 'X');
+                            }
+                            el.phone = countryCode + '-' + result;
                         }
-                        else {
-                            var result = phnNo.replace(/\d{1}$/, 'X');
-                        }
-                        el.phone = countryCode + '-' + result;
                     })
                 }
             }

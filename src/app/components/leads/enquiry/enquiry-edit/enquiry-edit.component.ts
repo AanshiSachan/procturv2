@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
 import { addEnquiryForm } from '../../../../model/add-enquiry-form';
+import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
 import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
@@ -189,6 +190,7 @@ export class EnquiryEditComponent implements OnInit {
   };
 
   permission: boolean = false;
+  role_feature = role.features;
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
@@ -1382,7 +1384,7 @@ export class EnquiryEditComponent implements OnInit {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       /* User has permission to view all enquiries */
-      if (permissions.includes('115')) {
+      if (this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
         this.isEnquiryAdmin = true;
       }
       /* User is not authorized as enquiry admin and see only enquiry assigned to him */
