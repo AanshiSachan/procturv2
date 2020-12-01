@@ -760,6 +760,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowLiveclass = false;
     // if user is not admin
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
+    // changes by Nalini - to enable live class for custom user
+    if (this.jsonFlags.isShowLiveclass) {
+      if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+          this.jsonFlags.isShowLiveclass = this.role_feature.LIVE_CLASS_MENU ? true : false;
+        }
+      } else {
+        this.jsonFlags.isShowLiveclass = true;
+      }
+    }
     // if zoom is enable then also show live class // added by Swapnil
     let zoom = sessionStorage.getItem('is_zoom_enable');
     if (JSON.parse(zoom)) {
