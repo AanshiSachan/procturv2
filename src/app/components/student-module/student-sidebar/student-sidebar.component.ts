@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { role } from '../../../model/role_features';
 
 @Component({
   selector: 'student-sidebar',
@@ -46,6 +47,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   downloadStudentReportAccess: boolean = false;
   studdentEdit = true;
   isSubAdmin = false;
+  role_feature = role.features;
+  studentReport: boolean = false;
 
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
@@ -90,6 +93,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
     if (userType == '0' && (permissionArray != "" && permissionArray != null)) {
       this.isSubAdmin = true;
+      this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
+    } else {
+      this.studentReport = true;
     }
 
   }
