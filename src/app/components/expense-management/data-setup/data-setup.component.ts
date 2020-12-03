@@ -22,18 +22,22 @@ export class DataSetupComponent implements OnInit {
   payeeHeader: any[] = [];
   payerHeader: any[] = [];
   accountHeader: any[] = [];
+  categoryHeader: any[] = [];
 
   payeeVisibilty: boolean = false;
   payerVisibilty: boolean = false;
   accountVisibilty: boolean = false;
+  categoryVisibilty: boolean = false;
 
   editPayeeId = '';
   editPayerId = '';
   editAccountId = '';
+  editCategory = {};
 
   isEditPayee:boolean = false;
   isEditPayer: boolean = false;
   isEditAccount: boolean = false;
+  isEditCategory: boolean = false;
 
   tableValueData: any[] = [];
   selectedSection: string = '';
@@ -72,21 +76,20 @@ export class DataSetupComponent implements OnInit {
       { header: 'Edit', class: 'small-item'}
     ];
 
+    this.categoryHeader = [
+      { header: 'Category Name', class: 'large-item'},
+      { header: 'Description	', class: 'large-item'},
+      { header: 'Edit', class: 'small-item'}
+    ];
+
     this.switchActiveView('payee');
   }
 
   switchActiveView(showId) {
-    let lists = ['payee','payer','account'];
-    lists.forEach((object)=>{
-      document.getElementById(object).classList.remove('active');
-    })
-    setTimeout(() => {
-      if(document.getElementById(showId)){
-        document.getElementById(showId).classList.add('active');
-        this.selectedSection = showId;
-        this.getTableData(showId)
-      }
-    }, 500);
+    // changes done by - Nalini
+    // code refactoring
+    this.selectedSection = showId;
+    this.getTableData(showId)
   }
 
   getTableData(showId){
@@ -102,6 +105,11 @@ export class DataSetupComponent implements OnInit {
     if(showId == 'account'){
       this.headerList = this.accountHeader;
       url = `/api/v1/account/all/${this.jsonFlag.institute_id}`;
+    }
+    // Category changes added
+    if(showId == 'category') {
+      this.headerList = this.categoryHeader;
+      url = `/api/v1/expense/category/all/${this.jsonFlag.institute_id}?expense_category_type=2`;
     }
 
     this.auth.showLoader();
@@ -134,6 +142,26 @@ export class DataSetupComponent implements OnInit {
     this.editAccountId = account_id;
     this.accountVisibilty = true;
   }
+
+  // changes done by Nalini - to handle manage category changes
+  editCategoryFun(obj) {
+    this.isEditCategory = true;
+    this.editCategory = obj;
+    this.categoryVisibilty = true;
+  }
+
+  toggleCategory() {
+    if(this.categoryVisibilty){
+      this.categoryVisibilty = false;
+      this.getTableData(this.selectedSection);
+    }
+    else{
+      this.editCategory = {};
+      this.isEditCategory = false;
+      this.categoryVisibilty = true;
+    }
+  }
+
 
   togglePayee(){
     if(this.payeeVisibilty){

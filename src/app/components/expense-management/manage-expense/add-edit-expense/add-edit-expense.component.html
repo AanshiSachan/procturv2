@@ -58,10 +58,7 @@
     <div class="account-details-container">
       <div class="account-details-heading-container">
         <div class="account-heading-item">
-          <span>Item/Category <span class="danger">*</span></span>
-        </div>
-        <div class="account-heading-item">
-          <span>Category Description</span>
+          <div>Item/Category<span class="danger">*</span> <span style="right: auto;margin-left: 3%;" class="customeAdd" (click)="toggleCategory()">Add Category</span></div>
         </div>
         <div class="account-heading-item">
           <span>Quantity</span>
@@ -72,20 +69,19 @@
       </div>
 
       <div class="account-details-input-container">
-        <div class="account-input-item field-wrapper">
-          <input type="text" value="" id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.itemName"
-            style="padding: 6px;" name="item-name" placeholder="Item Name">
+        <!-- changes done by Nalini - To select category by dropdown -->
+        <div class="payment-details-item field-wrapper" style="width: 18%;float: left;margin-right: 20px;padding-top: 0;">
+          <select class="form-ctrl" name="payee" id="payee" [(ngModel)]="accountDetails.itemName">
+            <option value="-1">Select Category</option>
+            <option [value]="payee.category_id" *ngFor="let payee of categoryList">{{payee.category_name}}</option>
+          </select>
         </div>
-        <div class="account-input-item field-wrapper">
-          <input type="text" value="" id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.description"
-          style="padding: 6px;" name="item-name" placeholder="Category Description">
-        </div>
-        <div class="account-input-item field-wrapper">
+        <div class="account-input-item field-wrapper" style="padding-top: 0;margin-left: 0;">
           <input type="text" value="" id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.quantity"
             style="padding: 6px;" name="item-name" placeholder="Item Quantity"
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
-        <div class="account-input-item field-wrapper">
+        <div class="account-input-item field-wrapper" style="padding-top: 0;">
           <input type="text" value="" id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.amount"
             style="padding: 6px;" name="item-name" placeholder="Item Amount"
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
@@ -181,3 +177,6 @@
 
 <app-add-edit-account *ngIf=accountVisibilty (closePopup)="toggleAccount($event)">
 </app-add-edit-account>
+
+<app-add-edit-category *ngIf=categoryVisibility (closePopup)="toggleCategory($event)">
+</app-add-edit-category>
