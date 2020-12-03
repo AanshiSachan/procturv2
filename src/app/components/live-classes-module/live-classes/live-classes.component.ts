@@ -417,7 +417,12 @@ export class LiveClassesComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         if (res.result.allow_start_session) {
-          window.open(link, "_blank");
+          // changes done by Nalini - to remove zoom 2hr restriction
+          if(zoom_enable == 1) {
+            window.open(res.result.start_url, "_blank");
+          } else {
+            window.open(link, "_blank");
+          }
         } else {
           this.msgService.showErrorMessage('info', '', res.result.allow_start_session_message);
         }
