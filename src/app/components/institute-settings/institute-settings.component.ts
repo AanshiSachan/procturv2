@@ -395,6 +395,7 @@ export class InstituteSettingsComponent implements OnInit {
       admin: '',
     },
     enable_enquiry_notification: '',
+    enable_topic_sorting_priority_based_study_material: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -757,6 +758,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.external_lead_notification_admin = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_admin);
     obj.external_lead_notification_enquirer = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_enquirer);
     obj.enable_enquiry_notification = this.instituteSettingDet.enable_enquiry_notification;
+    obj.enable_topic_sorting_priority_based_study_material = this.convertBoolenToNumber(this.instituteSettingDet.enable_topic_sorting_priority_based_study_material);
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
@@ -992,6 +994,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.notification_for_studymaterial_upload = data.notification_for_studymaterial_upload;
     this.instituteSettingDet.enable_student_app_offline_video_download = data.enable_student_app_offline_video_download;
     this.instituteSettingDet.vdocipher_video_ready_sms_to_admin = data.vdocipher_video_ready_sms_to_admin;
+    this.instituteSettingDet.enable_topic_sorting_priority_based_study_material = data.enable_topic_sorting_priority_based_study_material;
     this.fillTableCheckboxValue(this.instituteSettingDet.external_lead_notification_enquirer, data.external_lead_notification_enquirer);
     this.fillTableCheckboxValue(this.instituteSettingDet.external_lead_notification_admin, data.external_lead_notification_admin);
     this.instituteSettingDet.enable_enquiry_notification = data.enable_enquiry_notification;
