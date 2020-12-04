@@ -47,7 +47,7 @@
                 <div class="dd-list-inner">
                     <ul class="actions-menu">
 
-                        <li class="action-item" (click)="emitEdit($event)">
+                        <li class="action-item" *ngIf="allowEdit" (click)="emitEdit($event)">
                             <a class="">
                                 <img src="../../../../assets/images/students/Edit.svg" alt="">Edit Student
                             </a>

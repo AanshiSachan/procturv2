@@ -47,6 +47,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   downloadStudentReportAccess: boolean = false;
   studdentEdit = true;
   isSubAdmin = false;
+  allowEdit = false;
   role_feature = role.features;
   studentReport: boolean = false;
 
@@ -94,8 +95,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     if (userType == '0' && (permissionArray != "" && permissionArray != null)) {
       this.isSubAdmin = true;
       this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
+      this.allowEdit = this.role_feature.STUDENT_MANAGE;
     } else {
       this.studentReport = true;
+      this.allowEdit = true;
     }
 
   }
