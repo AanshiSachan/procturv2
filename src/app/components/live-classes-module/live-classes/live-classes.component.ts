@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import * as moment from 'moment';
 import { HttpService, MessageShowService } from '../../..';
@@ -34,7 +34,7 @@ class fileObj {
   styleUrls: ['./live-classes.component.scss']
 })
 
-export class LiveClassesComponent implements OnInit {
+export class LiveClassesComponent implements OnInit, OnDestroy {
 
 
   activeIndex: number = 1;
@@ -201,20 +201,6 @@ export class LiveClassesComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private productService: ProductService
   ) {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        console.log(event.url);
-        if (event.url != '/view/live-classes') {
-          this.watchHistory();
-        }
-      }
-    });
-  }
-  @HostListener('window:beforeunload', ['$event'])
-  beforeunloadHandler(event) {
-    this.watchHistory();
-
-    return false;
   }
   ngOnInit() {
     this.auth.institute_type.subscribe(
@@ -252,6 +238,12 @@ export class LiveClassesComponent implements OnInit {
     this.getClassesList();
     this.getAuthKey();
     this.institution_id = sessionStorage.getItem('institution_id');
+  }
+
+  ngOnDestroy() {
+    if(!this.showVideo) {
+      this.watchHistory();
+    }
   }
 
   getAuthKey() {
