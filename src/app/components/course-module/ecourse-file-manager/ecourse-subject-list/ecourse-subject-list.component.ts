@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 // import { ActivatedRoute, Router } from '../../../../../../node_modules/@angular/router';
 import { NavigationEnd, ActivatedRoute, Route, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -15,7 +15,7 @@ declare var window, $;
   templateUrl: './ecourse-subject-list.component.html',
   styleUrls: ['./ecourse-subject-list.component.scss']
 })
-export class EcourseSubjectListComponent implements OnInit {
+export class EcourseSubjectListComponent implements OnInit, OnDestroy {
 
   @ViewChild(UploadFileComponent, { static: false }) uploadFile: UploadFileComponent;
   subjectList: any = [];
@@ -49,12 +49,7 @@ export class EcourseSubjectListComponent implements OnInit {
   vimeo_video_downlodable: any = false;
   vimeoDownloadLinks: any = [];
   selectedDownloadSize: any = {};
-  @HostListener('window:beforeunload', ['$event'])
-  beforeunloadHandler(event) {
-    this.watchHistory();
 
-    return false;
-  }
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
@@ -64,16 +59,6 @@ export class EcourseSubjectListComponent implements OnInit {
     public sanitizer: DomSanitizer,
     private productService: ProductService
   ) {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        console.log(event.url);
-        if (!(event.url.includes('/view/course/ecourse-file-manager/ecourses/')))
-
-          this.watchHistory();
-
-      }
-    });
-
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
@@ -146,6 +131,11 @@ export class EcourseSubjectListComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if(!this.showVideo) {
+      this.watchHistory();
+    }
+  }
   uploadPopupOpen(topic) {
     // console.log(topic);
     this.uploadFile.showParentTopicModel = (this.uploadFile.showParentTopicModel) ? false : true;

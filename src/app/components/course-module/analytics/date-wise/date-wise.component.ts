@@ -39,6 +39,7 @@ export class DateWiseComponent implements OnInit {
   instituteId: any = sessionStorage.getItem('institute_id');
   datelineRange: any[] = [];
   weekData: any = [];
+  chartFormat: any ='';
   constructor(private _http: HttpService,
     private msgService: MessageShowService,
     private auth: AuthenticatorService) { }
@@ -64,14 +65,17 @@ export class DateWiseComponent implements OnInit {
       case 'daily': this.showDateSelection = false;
         this.datelineRange[1] = moment(new Date()).format('DD-MM-YYYY');
         this.datelineRange[0] = moment(new Date()).subtract(10, 'days').format('DD-MM-YYYY');
+        this.chartFormat = 'DD-MMM-YYYY';
         url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?from=' + this.datelineRange[0] + '&to=' + this.datelineRange[1] + '&reportType=0&sortBy=bandWidth DESC';
         this.dailyReport(url);
         break;
       case 'monthly': this.showDateSelection = false;
+        this.chartFormat = 'MMM';
         url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?reportType=1&sortBy=bandWidth DESC';//monthly
         this.dailyReport(url);
         break;
       case 'yearly': this.showDateSelection = false;
+        this.chartFormat = 'YYYY';
         url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?reportType=2&sortBy=bandWidth DESC' //Year
         this.dailyReport(url);
         break;
@@ -82,23 +86,27 @@ export class DateWiseComponent implements OnInit {
   }
   custom() {
     let url = '/api/v1/instFileSystem//videoReport/report/' + sessionStorage.getItem('institute_id') + '?from=' + moment(this.from_date).format('DD-MM-YYYY') + '&to=' + moment(this.to_date).format('DD-MM-YYYY') + '&reportType=0&sortBy=bandWidth DESC';
+    this.chartFormat = 'DD-MMM-YYYY';
     this.dailyReport(url);
   }
 
   dailyReport(url) {
     this.selectType = "date";
     this.weekData = [];
+    this.auth.showLoader();
     this._http.getData(url).subscribe(
       (resp: any) => {
+        this.auth.hideLoader();
         this.weekDataSource = resp.result;
-        console.log(this.weekData);
         this.weekData = this.getDataFromDataSource(0);
+        console.log('week' ,this.weekData);
         this.totalRecords = this.weekData.length;
 
         this.generateChartData(this.weekData);
 
       },
       (err) => {
+        this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       });
   }
@@ -108,7 +116,7 @@ export class DateWiseComponent implements OnInit {
 
 
     res.map(e => {
-      dateMap.push(moment(e.date).format('DD-MMM-YYYY'));
+      dateMap.push(moment(e.date).format(this.chartFormat));
       band.push(e.consumed_bandwidth);
     });
 
