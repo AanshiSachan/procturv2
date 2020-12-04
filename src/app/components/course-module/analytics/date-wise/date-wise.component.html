@@ -5,12 +5,12 @@
     <span *ngIf="userWiseSelection">Userwise > <span> {{title}}</span></span>
 </div>
 <div class="row">
-    <div class="col-sm-6 col-md-6 col-lg-6">
+    <!-- <div class="col-sm-6 col-md-6 col-lg-6">
         <input type="text" class="search" *ngIf="videoWiseSelection" placeholder="Search" (keyup)="searchDatabase()"
             style="background:transparent;border: 1px solid lightgrey;" [(ngModel)]="searchText" #search>
         <input type="text" class="search" *ngIf="userWiseSelection" placeholder="Search" (keyup)="searchDatabaseUser()"
             style="background:transparent;border: 1px solid lightgrey;" [(ngModel)]="searchText1" #search>
-    </div>
+    </div> -->
     <div class="col-sm-6 col-md-6 col-lg-6" style="float: right;">
 
         <div style="float: right;">
@@ -20,7 +20,7 @@
                     <button id="datewise" [ngClass]="selectType == 'date'? 'btnside' : 'grey'"
                         style="cursor: auto;">Datewise</button>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                <div class="col-lg-3 col-md-3 col-sm-3 wise" style="width: 31%;">
                     <button id="videowise" [ngClass]="selectType == 'video'? 'btnside' : 'grey'"
                         style="cursor: auto;">Videowise</button>
                 </div>
@@ -104,7 +104,7 @@
         <tbody>
             <tr *ngFor="let data  of weekData; let i =index">
                 <td>
-                    <a (click)="videoWise(data.date,10,0)"> {{data.date}}</a>
+                    <a style="color:#0084f6" (click)="videoWise(data.date,10,0)"> {{data.date}}</a>
                 </td>
                 <td>
                     {{data.consumed_bandwidth}}
@@ -142,7 +142,7 @@
                     {{data.total_consumed_bandwidth}}
                 </td>
                 <td>
-                    <a (click)="userwise(data.video_id, data.video_title, 10,1)">{{data.watch_count}}</a>
+                    <a style="color: #0084f6;" (click)="userwise(data.video_id, data.video_title, 10,1)">{{data.watch_count}}</a>
                 </td>
             </tr>
         </tbody>
