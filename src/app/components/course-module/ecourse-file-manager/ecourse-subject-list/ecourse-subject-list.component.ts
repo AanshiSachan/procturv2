@@ -7,6 +7,7 @@ import { UploadFileComponent } from '../core/upload-file/upload-file.component';
 import { Create_Topic } from '../../create-course/topic/topic.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProductService } from '../../../../services/products.service';
+import * as moment from 'moment';
 declare var window, $;
 @Component({
   selector: 'app-ecourse-subject-list',
@@ -154,7 +155,8 @@ export class EcourseSubjectListComponent implements OnInit {
       let data = {
         "videoID": video.videoID,
         "institute_id": sessionStorage.getItem("institute_id"),
-        "user_id": sessionStorage.getItem("userid")
+        "user_id": sessionStorage.getItem("userid"),
+        "file_id": video.file_id
       }
       this.tempData = video;
 
@@ -601,6 +603,8 @@ export class EcourseSubjectListComponent implements OnInit {
   editFile(obj) {
     this.editObj = obj;
     this.editObj.is_readonly = (this.editObj.is_readonly == 'Y') ? true : false;
+    this.editObj.is_hide = (this.editObj.is_hide == 'Y') ? true : false;
+    this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
     this.showEditModal = true;
   }
 
@@ -609,7 +613,9 @@ export class EcourseSubjectListComponent implements OnInit {
       "title": this.editObj.title,
       "institute_id": sessionStorage.getItem('institute_id'),
       "category_id": this.editObj.category_id,
-      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N'
+      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N',
+      "is_hide": this.editObj.is_hide ? 'Y': 'N',
+      "file_visibility_till_date": this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : ''
     }
     this.auth.showLoader();
     this._http.putData('/api/v1/instFileSystem/update/' + this.editObj.file_id, obj).subscribe(
@@ -622,6 +628,8 @@ export class EcourseSubjectListComponent implements OnInit {
       }
     );
     this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
+    this.editObj.is_hide = (this.editObj.is_hide) ? 'Y' : 'N';
+    this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
     this.showEditModal = false;
   }
 
