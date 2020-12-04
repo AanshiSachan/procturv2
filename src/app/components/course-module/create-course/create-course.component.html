@@ -20,7 +20,7 @@
 
                 </li>
                 <li id="liManageBatch" *ngIf="jsonFlags.liManageBatch" #liManageBatch (click)="switchActiveView('liManageBatch')" class="">
-                    <a *ngIf="(isLangInstitue)" routerLink="/view/batch/create/managebatch">Batch</a>
+                    <a *ngIf="(isLangInstitue)" routerLink="/view/course/create/managebatch">Batch</a>
                     <!-- changes by Nalini - to handle school model conditions -->
                     <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/courselist">{{schoolModel ? 'Section' : 'Courses'}}</a>
                 </li>
