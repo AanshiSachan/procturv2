@@ -8,7 +8,7 @@
                     <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create">Standard</a>
                 </li>
                 <li id="liSubject" *ngIf="jsonFlags.liSubject" #liSubject (click)="switchActiveView('liSubject')" class="">
-                    <a *ngIf="(isLangInstitue)" routerLink="/view/batch/create/subject">Course</a>
+                    <a *ngIf="(isLangInstitue)" routerLink="/view/course/create/subject">Course</a>
                     <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/subject">Subject</a>
                 </li>
                 <!-- <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
@@ -25,12 +25,12 @@
                     <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/courselist">{{schoolModel ? 'Section' : 'Courses'}}</a>
                 </li>
                 <li id="liClass" #liClass (click)="switchActiveView('liClass')" *ngIf="jsonFlags.classMenu" class="" style="width:16%;">
-                    <a routerLink="/view/batch/create/class" *ngIf="(isLangInstitue)">Class</a>
+                    <a routerLink="/view/course/create/class" *ngIf="(isLangInstitue)">Class</a>
                     <a routerLink="/view/course/create/class" *ngIf="(!isLangInstitue)">Class Scheduling</a>
                 </li>
                 <li id="liExam" #liExam *ngIf="jsonFlags.examMenu" (click)="switchActiveView('liExam')" class="">
                     <a routerLink="/view/course/create/exam" *ngIf="(!isLangInstitue)">Exam</a>
-                    <a routerLink="/view/batch/create/exam" *ngIf="(isLangInstitue)">Exam</a>
+                    <a routerLink="/view/course/create/exam" *ngIf="(isLangInstitue)">Exam</a>
                 </li>
             </ul>
         </div>
