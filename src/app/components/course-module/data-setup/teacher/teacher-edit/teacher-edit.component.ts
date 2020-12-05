@@ -214,7 +214,7 @@ export class TeacherEditComponent implements OnInit {
     if (data.teacher_alt_phone == "" || data.teacher_alt_phone == null) {
       dataToBind.teacher_alt_phone = '';
     } else {
-      dataToBind.teacher_alt_phone = data.teacher_alt_phone;
+      dataToBind.teacher_alt_phone = (data.teacher_alt_phone.substring(data.teacher_alt_phone.lastIndexOf("-")+1, data.teacher_alt_phone.length));
     }
     dataToBind.teacher_standards = data.teacher_standards;
     dataToBind.teacher_email = data.teacher_email;
