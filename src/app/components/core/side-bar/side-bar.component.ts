@@ -293,6 +293,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
     else if ((userType == '3')) {
       this.jsonCourseFlags.isShowModel = false;
+      this.jsonFlags.isShowCourse = true;
       this.jsonCourseFlags.isShowArchiving = false;
       let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
 
@@ -340,7 +341,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   checkpermissionOfCommunicate() {
     this.userType = Number(sessionStorage.getItem('userType'));
     this.permissionArray = sessionStorage.getItem('permissions');
-    if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+    if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
         // Changes done by Nalini - To handle role based commuicate menu conditions
