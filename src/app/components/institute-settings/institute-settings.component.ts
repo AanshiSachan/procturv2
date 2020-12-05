@@ -671,6 +671,21 @@ export class InstituteSettingsComponent implements OnInit {
         return false;
       }
     }
+    if (this.instituteSettingDet.online_payment_notify_mobiles != null && this.instituteSettingDet.online_payment_notify_mobiles != '') {
+      if (!this.checkContactNoPattern(this.instituteSettingDet.online_payment_notify_mobiles)) {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
+    if (this.instituteSettingDet.inst_enquiry_handler_no != null && this.instituteSettingDet.inst_enquiry_handler_no != '') {
+      var regExPattern = /^[0-9]*$/;
+      if (!regExPattern.test(this.instituteSettingDet.inst_enquiry_handler_no)) {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', 'Please enter numbers only');
+        return false;
+      }
+    }
     // if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
     //   this.auth.hideLoader();
     //   return;
@@ -701,10 +716,8 @@ export class InstituteSettingsComponent implements OnInit {
     obj.live_class_attendance_absent_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_absent_notification);
     obj.live_class_attendance_partial_present_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_partial_present_notification);
     obj.live_class_attendance_stat_notification = this.getSumOfTableField(this.instituteSettingDet.live_class_attendance_stat_notification);
-
-
-    if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
-      if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
+    if (this.instituteSettingDet.phone_no_fee_receipt != "" && this.instituteSettingDet.phone_no_fee_receipt != null) {
+      if (!this.checkContactNoPattern(this.instituteSettingDet.phone_no_fee_receipt)) {
         this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
         return;
