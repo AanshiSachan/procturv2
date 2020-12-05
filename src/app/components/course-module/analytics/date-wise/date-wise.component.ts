@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -10,7 +10,7 @@ import { MessageShowService } from '../../../../services/message-show.service';
   templateUrl: './date-wise.component.html',
   styleUrls: ['./date-wise.component.scss']
 })
-export class DateWiseComponent implements OnInit {
+export class DateWiseComponent implements OnInit, OnDestroy {
 
   dateWiseSelection: boolean = false;
   sizeArr: any[] = [10, 15, 25, 50, 100, 150, 200, 500, 1000];
@@ -47,6 +47,10 @@ export class DateWiseComponent implements OnInit {
   ngOnInit() {
     this.dateWiseSelection = true;
     this.select('daily');
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('fromDate');
   }
 
   filter(val) {
@@ -214,6 +218,7 @@ export class DateWiseComponent implements OnInit {
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.videoData = resp.result.response;
+        sessionStorage.setItem('fromDate', val);
         // this.videoData = this.getDataFromDataSource(0);
         // if (this.videoWiseSelection) {
         // this.totalElements = resp.result.totalElements;
@@ -235,7 +240,12 @@ export class DateWiseComponent implements OnInit {
     // this.totalElements = 
     this.userWiseSelection = true;
     this.videoWiseSelection = false;
+    let date = sessionStorage.getItem('fromDate');
     let url = '/api/v1/instFileSystem/videoReport/video/' + val + '?pageSize=' + batch + '&pageOffser=' + page + '&sortBy=createdDate ASC';
+    if(date!='' && date != null) {
+      url = url.concat('&from=' + moment(date).format("DD-MM-YYYY") + '&to=' + moment(date).format("DD-MM-YYYY"));
+    }
+    alert(url);
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.userwiseDetail = resp.result.video_list.response;
