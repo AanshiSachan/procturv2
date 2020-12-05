@@ -210,7 +210,7 @@ export class TeacherEditComponent implements OnInit {
     let dataToBind: any = {};
     dataToBind.teacher_name = data.teacher_name;
     dataToBind.teacher_curr_addr = data.teacher_curr_addr;
-    dataToBind.teacher_phone = data.teacher_phone;
+    dataToBind.teacher_phone = (data.teacher_phone.substring(data.teacher_phone.lastIndexOf("-")+1, data.teacher_phone.length))
     if (data.teacher_alt_phone == "" || data.teacher_alt_phone == null) {
       dataToBind.teacher_alt_phone = '';
     } else {
