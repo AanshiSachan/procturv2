@@ -245,7 +245,6 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     if(date!='' && date != null) {
       url = url.concat('&from=' + moment(date).format("DD-MM-YYYY") + '&to=' + moment(date).format("DD-MM-YYYY"));
     }
-    alert(url);
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.userwiseDetail = resp.result.video_list.response;
