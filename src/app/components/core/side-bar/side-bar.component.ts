@@ -1412,16 +1412,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   getSearchObject(e): any {
     let obj = this.globalSearchForm;
-    /* Name detected */
-    if (isNaN(e)) {
-      this.globalSearchForm.name = e;
-      this.globalSearchForm.phone = '';
-      return this.globalSearchForm;
-    }
-    /* Nmber detected */
-    else {
+    if(/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(e)) {
+      /* Nmber detected */
       this.globalSearchForm.phone = e;
       this.globalSearchForm.name = '';
+      return this.globalSearchForm;
+    }else if (isNaN(e)) {
+      /* Name detected */
+      this.globalSearchForm.name = e;
+      this.globalSearchForm.phone = '';
       return this.globalSearchForm;
     }
   }

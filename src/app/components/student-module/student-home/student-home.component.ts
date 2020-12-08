@@ -616,12 +616,11 @@ export class StudentHomeComponent implements OnInit {
     } else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined && !this.isProfessional) {
       this.searchBarData = this.searchBarData.trim();
       /* If input is of type string then validate string validity*/
-      if (isNaN(this.searchBarData)) {
-        obj.name = this.searchBarData;
-      }/* If not string then use the data as a number*/
-      else {
+      if(/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(this.searchBarData)) {
         obj.mobile = this.searchBarData;
-      }
+      } else if (isNaN(this.searchBarData)) {
+          obj.name = this.searchBarData;
+        }
       if (this.advancedFilterForm.master_course_name == '-1') {
         obj.master_course_name = '';
       }
@@ -1302,12 +1301,14 @@ export class StudentHomeComponent implements OnInit {
       } else {
         this.searchBarData = this.searchBarData.trim();
         /* If input is of type string then validate string validity*/
-        if (isNaN(this.searchBarData)) {
-          obj.name = this.searchBarData;
-        }/* If not string then use the data as a number*/
-        else {
+        // if (isNaN(this.searchBarData)) {
+        //   obj.name = this.searchBarData;
+        // }/* If not string then use the data as a number*/
+        if(/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(this.searchBarData)) {
           obj.mobile = this.searchBarData;
-        }
+        } else if (isNaN(this.searchBarData)) {
+            obj.name = this.searchBarData;
+          }
         obj.master_course_name = '';
         obj.course_id = '-1';
         obj.standard_id = '-1';

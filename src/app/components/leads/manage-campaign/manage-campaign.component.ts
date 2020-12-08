@@ -5,6 +5,7 @@ import { CampaignService } from '../services/campaign.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { role } from '../../../model/role_features';
+import { CommonServiceFactory } from '../../../services/common-service';
 declare var $;
 
 @Component({
@@ -54,7 +55,8 @@ export class ManageCampaignComponent implements OnInit {
     address: "",
     city: "",
     referredBy: "-1",
-    source: "-1"
+    source: "-1",
+    country_id: ""
   };
   // Edit lead
   editLead = {
@@ -67,7 +69,8 @@ export class ManageCampaignComponent implements OnInit {
     referredBy: "-1",
     source: "-1",
     list_id: "",
-    base_id: ""
+    base_id: "",
+    country_id: ""
   };
 
   checkAll: boolean = false;
@@ -80,12 +83,16 @@ export class ManageCampaignComponent implements OnInit {
   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
   startindex: number = 0;
   role_feature = role.features;
+  countryDetails: any = [];
+  maxlength: any = 10;
+  country_id: any = null;
 
   constructor(
     private campaignService: CampaignService,
     private msgService: MessageShowService,
     private auth: AuthenticatorService,
-    private _pdfService: ExportToPdfService
+    private _pdfService: ExportToPdfService,
+    private commonServiceFactory: CommonServiceFactory
   ) { }
 
 
@@ -93,12 +100,37 @@ export class ManageCampaignComponent implements OnInit {
   ngOnInit() {
     this.fetchPreFillData();
     this.checkRoleAccess();
+    this.fetchDataForCountryDetails();
   }
 
   checkRoleAccess() {
     if (sessionStorage.getItem('downloadEnquiryReportAccess') == 'true') {
       this.downloadEnquiryReportAccess = true;
     }
+  }
+
+    // created by: Nalini Walunj
+  // Below three functions are written to fetch country details from the session stored at the time of login of institute
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      this.addLead.country_id = this.countryDetails[0].id;
+      this.maxlength = this.countryDetails[0].country_phone_number_length;
+      this.country_id = this.countryDetails[0].id;
+    }
+  }
+
+  onChangeObj(event) {
+    console.log(event);
+    this.countryDetails.forEach(element => {
+      if (element.id == event) {
+        this.editLead.country_id = element.id;
+        this.maxlength = element.country_phone_number_length;
+        this.country_id = element.id;
+      }
+    });
   }
 
   fetchPreFillData() {
@@ -397,20 +429,34 @@ export class ManageCampaignComponent implements OnInit {
       );
     }
   }
+// changes done by Nalini - To validate phone numbers
+  validateNum(phone) {
+    let msg = 'Enter '.concat(this.maxlength).concat(' Digit Contact Number');
+    let phoneFlag = this.commonServiceFactory.phonenumberCheck(phone, this.maxlength, this.country_id)
+    if (phoneFlag == false || phoneFlag == 'noNumber') {
+      if (phoneFlag == 'noNumber') {
+        this.msgService.showErrorMessage('error', 'Please enter valid contact no.', '');
+        return false;
+      }
+      else {
+        this.msgService.showErrorMessage('error', msg, '');
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
 
   // CRUD operation on leads
   saveNewLead() {   // validation
     if (this.addLead.phone != null && this.addLead.phone != "") {
-      if (this.addLead.phone.length == 10) {
+      if (this.validateNum(this.addLead.phone)) {
         if (this.addLead.source != "-1") {
           this.addNewLead()
         }
         else {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
         }
-      }
-      else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
       }
     }
     else {
@@ -427,7 +473,8 @@ export class ManageCampaignComponent implements OnInit {
       "gender": this.addLead.gender,
       "city": this.addLead.city,
       "source_id": this.addLead.source,
-      "referred_by": this.addLead.referredBy
+      "referred_by": this.addLead.referredBy,
+      "country_id": this.country_id
     };
     this.auth.showLoader();
     this.campaignService.createLead(obj).subscribe(
@@ -447,7 +494,7 @@ export class ManageCampaignComponent implements OnInit {
 
   editLeadRow(row) {
     this.editLead.name = row.name;
-    this.editLead.phone = row.mobile;
+    this.editLead.phone = (row.mobile.substring(row.mobile.lastIndexOf("-")+1, row.mobile.length));
     this.editLead.address = row.address;
     this.editLead.emailId = row.email;
     this.editLead.gender = row.gender;
@@ -456,20 +503,18 @@ export class ManageCampaignComponent implements OnInit {
     this.editLead.referredBy = row.referred_by;
     this.editLead.list_id = row.list_id;
     this.editLead.base_id = row.base_id;
+    this.editLead.country_id = row.country_id;
   }
 
   updateLead() {
     if (this.editLead.phone != null && this.editLead.phone != "") {
-      if (this.editLead.phone.length == 10) {
+      if (this.validateNum(this.editLead.phone)) {
         if (this.editLead.source != "-1") {
           this.modifyLead();
         }
         else {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
         }
-      }
-      else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Enter valid phone number');
       }
     }
     else {
@@ -487,7 +532,8 @@ export class ManageCampaignComponent implements OnInit {
       "city": this.editLead.city,
       "source_id": this.editLead.source,
       "referred_by": this.editLead.referredBy,
-      "is_active": "Y"
+      "is_active": "Y",
+      "country_id": this.country_id
     };
     this.auth.showLoader();
     this.campaignService.updateLead(obj, this.editLead.list_id, this.editLead.base_id).subscribe(
