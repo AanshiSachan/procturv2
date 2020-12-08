@@ -116,8 +116,8 @@ export class CourseCourseListComponent implements OnInit {
 
   getStandardList() {
     this.apiService.getStandardListFromServer().subscribe(
-      res => {
-        this.standardList = res;
+      (res: any) => {
+        this.standardList = res.result;
       },
       err => {
       }

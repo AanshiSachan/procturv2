@@ -9,6 +9,7 @@ import { Create_Topic } from '../../create-course/topic/topic.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProductService } from '../../../../services/products.service';
 import { Event } from '@angular/router';
+import * as moment from 'moment';
 declare var window, $;
 @Component({
   selector: 'app-ecourse-subject-list',
@@ -181,7 +182,8 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
       let data = {
         "videoID": video.videoID,
         "institute_id": sessionStorage.getItem("institute_id"),
-        "user_id": sessionStorage.getItem("userid")
+        "user_id": sessionStorage.getItem("userid"),
+        "file_id": video.file_id
       }
       this.tempData = video;
 
@@ -630,6 +632,8 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
   editFile(obj) {
     this.editObj = obj;
     this.editObj.is_readonly = (this.editObj.is_readonly == 'Y') ? true : false;
+    this.editObj.is_hide = (this.editObj.is_hide == 'Y') ? true : false;
+    this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
     this.showEditModal = true;
   }
 
@@ -640,7 +644,9 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
       "category_id": this.editObj.category_id,
       "is_readonly": this.editObj.is_readonly ? 'Y' : 'N',
       "manual_multiplier_update": true,
-      "watch_multiplier": (this.editObj.watch_multiplier!=null && this.editObj.watch_multiplier!='') ? this.editObj.watch_multiplier : 0
+      "watch_multiplier": (this.editObj.watch_multiplier!=null && this.editObj.watch_multiplier!='') ? this.editObj.watch_multiplier : 0,
+      "is_hide": this.editObj.is_hide ? 'Y': 'N',
+      "file_visibility_till_date": this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : ''
     }
     this.auth.showLoader();
     this._http.putData('/api/v1/instFileSystem/update/' + this.editObj.file_id, obj).subscribe(
@@ -653,6 +659,8 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
       }
     );
     this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
+    this.editObj.is_hide = (this.editObj.is_hide) ? 'Y' : 'N';
+    this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
     this.showEditModal = false;
   }
 

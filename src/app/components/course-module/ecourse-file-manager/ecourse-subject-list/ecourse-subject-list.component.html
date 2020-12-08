@@ -499,7 +499,7 @@
 
 <div class="ga-modal-wrapper" *ngIf="showEditModal">
   <div class="ga-modal-container">
-    <div class="ga-modal" style="max-width: 50%;">
+    <div class="ga-modal" style="max-width: 50%;margin-top: 10%;">
       <div class="ga-modal-head">
         <span>Edit File</span>
       </div>
@@ -518,6 +518,28 @@
           <div class="col-md-12 file-form field-wrapper" style="display: -webkit-box;-webkit-box-align: center;" *ngIf="editObj.category_id == 235" style="margin-top: 10px;">
               <label>Watch Multiplier</label>
               <input type="text" class="form-ctrl" style="margin-top: 5px;" placeholder="Please enter watch multiplier" id="manual_multiplier_update" name="manual_multiplier_update" [(ngModel)]="editObj.watch_multiplier">
+          </div>
+          <div class="c-lg-12 field-wrapper" style="display: -webkit-box;-webkit-box-align: center;">
+            <div class="c-lg-6" style="padding-left: 0;">
+            <div class="c-md-4 main-setting" style="padding-left: 0;">
+              <label for="ch18">File Hide</label>
+            </div>
+            <div class="c-md-5">
+              <label class="switch switch-n">
+                <input type="checkbox" [checked]="(editObj.is_hide)"
+                  [(ngModel)]="editObj.is_hide" name="sFilter" class="form-radio" value="is_hide"
+                  id="is_hide">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <div class="c-lg-4" style="padding-left: 0;">
+            <div class="field-wrapper datePickerBox has-value" style="padding-top: 8px;">
+              <label for="fromDate" style="font-size: 13px; padding: 1px;">End Date</label>
+              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" style="border: solid 1px #e2ebee;
+              border-radius: 4px;" readonly="true" name="fromDate" [(ngModel)]="editObj.file_visibility_till_date" bsDatepicker />
+            </div>
+          </div>
           </div>
           <div class="col-md-12 file-form" style="text-align: right;margin-top: 10px;">
             <button class="btn btn-xs btn-ga-white btn-border btn-type" style="border: 1px solid #07f;background: #07f;color: white;" (click)="updateFile()">Update</button>
