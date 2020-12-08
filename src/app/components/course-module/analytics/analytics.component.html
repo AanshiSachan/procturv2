@@ -1,0 +1,55 @@
+<div>
+
+</div>
+<div class="row" style="width: 97%;">
+
+    <div class="col-sm-2 col-md-2 col-lg-2 sidePanel">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <button id="analytics" [ngClass]="show == 'Analytics'? 'btnside' : 'btndisable'"
+                    routerLink="/view/course/analytics/datewise" (click)="optionClicked('Analytics')">Analytics</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <button id="allVideo" [ngClass]="show == 'All'? 'btnside' : 'btndisable'"
+                    routerLink="/view/course/analytics/allvideos" (click)="optionClicked('All')">All Videos</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+        </div>
+    </div>
+    <div class="col-sm-10 col-md-10 col-lg-10" style="left: 23px;float: right;">
+        <router-outlet></router-outlet>
+        <!-- <div *ngIf="analytics">
+
+            <div style="float: right;">
+
+                <div class="row" style="display: flex;">
+                    <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                        <button id="datewise" class="btnside" routeLink="/datewise">Datewise</button>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                        <button id="videowise" class="btnside" (click)="videoWise()">Videowise</button>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                        <button id="userwise" class="btnside" (click)="userWise">Userwise</button>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <button class="btnside">
+                            <i class="fa fa-filter" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <router-outlet></router-outlet>
+            </div>
+        </div> -->
+
+    </div>

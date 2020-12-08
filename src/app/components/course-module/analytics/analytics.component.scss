@@ -1,0 +1,47 @@
+.btnside{
+    border: 1px solid #0084f6;
+    background: white;
+    border-radius: 4px;
+    width: 100%;
+    padding: 5px;
+    color: #0084f6;
+    font-weight: 600;
+}
+
+.btndisable{
+    border: 1px solid grey;
+    background: white;
+    border-radius: 4px;
+    width: 100%;
+    padding: 5px;
+    color: grey;
+    font-weight: 600;
+}
+.wise{
+    width: 29%;
+}
+.field-wrapper.datePickerBox:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 17px;
+    top: 12px;
+    width: 21px;
+    height: 21px;
+    z-index: 0;
+}
+::placeholder { 
+    color:  #0084f6;
+    opacity: 1; 
+    font-weight: 600;
+  }
+
+  .sidePanel{
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 48px;
+    left: 175px;
+    background-color: #d3e3f2;
+    overflow-x: hidden;
+  }

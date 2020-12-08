@@ -1031,3 +1031,16 @@ html {
   left: 30%;
   z-index: 10;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.video-input {
+  border: 1pt solid #ddd;
+  width: 100%;
+  border-radius: 3px;
+  padding: 1em;
+  color: #334e4c;
+  -webkit-box-shadow: inset 0 0 2pt #f1f1f1;
+}

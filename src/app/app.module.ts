@@ -28,7 +28,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 export function getDatepickerConfig(): BsDatepickerConfig {
   return Object.assign(new BsDatepickerConfig(), {
     dateInputFormat: 'YYYY-MM-DD',
@@ -59,7 +59,8 @@ export function getRangePickerConfig(): BsDatepickerConfig {
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,
-    MatTabsModule
+    MatTabsModule,
+    MatPaginatorModule,
 
   ],
   declarations: [
@@ -70,7 +71,7 @@ export function getRangePickerConfig(): BsDatepickerConfig {
   ],
   providers: [
     { provide: BsDatepickerConfig, useFactory: getDatepickerConfig },
-    {provide: BsDaterangepickerConfig, useFactory: getRangePickerConfig },
+    { provide: BsDaterangepickerConfig, useFactory: getRangePickerConfig },
     FetchenquiryService,
     FetchprefilldataService,
     PostEnquiryDataService,

@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '../../../../../../node_modules/@angular/router';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+// import { ActivatedRoute, Router } from '../../../../../../node_modules/@angular/router';
+import { NavigationEnd, ActivatedRoute, Route, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
@@ -7,15 +8,16 @@ import { UploadFileComponent } from '../core/upload-file/upload-file.component';
 import { Create_Topic } from '../../create-course/topic/topic.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProductService } from '../../../../services/products.service';
+import { Event } from '@angular/router';
 declare var window, $;
 @Component({
   selector: 'app-ecourse-subject-list',
   templateUrl: './ecourse-subject-list.component.html',
   styleUrls: ['./ecourse-subject-list.component.scss']
 })
-export class EcourseSubjectListComponent implements OnInit {
+export class EcourseSubjectListComponent implements OnInit, OnDestroy {
 
-  @ViewChild(UploadFileComponent,{static: false}) uploadFile: UploadFileComponent;
+  @ViewChild(UploadFileComponent, { static: false }) uploadFile: UploadFileComponent;
   subjectList: any = [];
   existVideos: any = [];
   institute_id: any;
@@ -54,7 +56,7 @@ export class EcourseSubjectListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private msgService: MessageShowService,
-    public sanitizer:DomSanitizer,
+    public sanitizer: DomSanitizer,
     private productService: ProductService
   ) {
     this.auth.currentInstituteId.subscribe(id => {
@@ -74,7 +76,7 @@ export class EcourseSubjectListComponent implements OnInit {
           this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
           this._http.routeList.splice(1, this._http.routeList.length);
           let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + this.ecourse_id + '/subjects', data: { data: params['data'] }, name: name };
-          console.log("updated date "+obj)
+          console.log("updated date " + obj)
           this._http.routeList.push(obj);
           sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
         }
@@ -82,22 +84,41 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
   decodeEntities(encodedString) {
-      var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
-      var translate = {
-          "nbsp":" ",
-          "amp" : "&",
-          "quot": "\"",
-          "lt"  : "<",
-          "gt"  : ">"
-      };
-      return encodedString.replace(translate_re, function(match, entity) {
-          return translate[entity];
-      }).replace(/&#(\d+);/gi, function(match, numStr) {
-          var num = parseInt(numStr, 10);
-          return String.fromCharCode(num);
-      });
+    var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+    var translate = {
+      "nbsp": " ",
+      "amp": "&",
+      "quot": "\"",
+      "lt": "<",
+      "gt": ">"
+    };
+    return encodedString.replace(translate_re, function (match, entity) {
+      return translate[entity];
+    }).replace(/&#(\d+);/gi, function (match, numStr) {
+      var num = parseInt(numStr, 10);
+      return String.fromCharCode(num);
+    });
   }
+  watchHistory() {
+    console.log("totalPlayed", this.videoObject.totalPlayed);
 
+    let url = '/api/v1/instFileSystem/allocateWatchHistory';
+    let obj = {
+      "video_id": sessionStorage.getItem("VideoIdWatchHistor"),
+      "watch_duration": this.videoObject.totalPlayed
+    }
+    this._http.postData(url, obj).subscribe((response) => {
+      this.auth.hideLoader();
+      console.log(response);
+
+
+    },
+      (err) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', '', err.error.message);
+      });
+
+  }
   ngOnInit() {
     this.getSubjectList();
     this._http.routeList.splice(2, this._http.routeList.length);
@@ -110,6 +131,11 @@ export class EcourseSubjectListComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if(!this.showVideo) {
+      this.watchHistory();
+    }
+  }
   uploadPopupOpen(topic) {
     // console.log(topic);
     this.uploadFile.showParentTopicModel = (this.uploadFile.showParentTopicModel) ? false : true;
@@ -149,6 +175,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   // get otp details to show video
   getVdocipherVideoOtp(video) {
+    sessionStorage.setItem("VideoIdWatchHistor", video.videoID);
     if (video.category_name == 'VDOCipher') {
       let url = "/api/v1/instFileSystem/videoOTP";
       let data = {
@@ -194,6 +221,7 @@ export class EcourseSubjectListComponent implements OnInit {
     if (this.videoObject) {
       this.videoObject.pause(); // removes video
     }
+    this.watchHistory();
   }
 
   // vdocipher start video
@@ -206,6 +234,7 @@ export class EcourseSubjectListComponent implements OnInit {
       container: document.querySelector("#embedBox"),
     });
     this.videoObject = video;
+    console.log("totalPlayed", this.videoObject.totalPlayed);
     // video.addEventListener(`mpmlLoad`, (data) => {
     //   video.play();
     // });
@@ -547,7 +576,7 @@ export class EcourseSubjectListComponent implements OnInit {
     let userType: any = sessionStorage.getItem('userType');
     let teacher_id: any = -1;
     if (userType == 3) {
-     teacher_id = sessionStorage.getItem('login_teacher_id');
+      teacher_id = sessionStorage.getItem('login_teacher_id');
     }
     let url = "/api/v1/standards/all/" + this.institute_id + "?active=Y" + '&teacher_id=' + teacher_id;
     this.auth.showLoader();
@@ -609,7 +638,9 @@ export class EcourseSubjectListComponent implements OnInit {
       "title": this.editObj.title,
       "institute_id": sessionStorage.getItem('institute_id'),
       "category_id": this.editObj.category_id,
-      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N'
+      "is_readonly": this.editObj.is_readonly ? 'Y' : 'N',
+      "manual_multiplier_update": true,
+      "watch_multiplier": (this.editObj.watch_multiplier!=null && this.editObj.watch_multiplier!='') ? this.editObj.watch_multiplier : 0
     }
     this.auth.showLoader();
     this._http.putData('/api/v1/instFileSystem/update/' + this.editObj.file_id, obj).subscribe(
@@ -627,14 +658,14 @@ export class EcourseSubjectListComponent implements OnInit {
 
   clearObject() {
     this.addTopic = {
-    name : '',
-    standard_id : '-1',
-    subject_id: '-1',
-    parent_topic_id: '-1',
-    description: '',
-    estimated_time:  0,
-    institute_topic_id: '-1',
-    priority_order: 0
+      name: '',
+      standard_id: '-1',
+      subject_id: '-1',
+      parent_topic_id: '-1',
+      description: '',
+      estimated_time: 0,
+      institute_topic_id: '-1',
+      priority_order: 0
     };
   }
 
@@ -677,10 +708,10 @@ export class EcourseSubjectListComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.vimeoDownloadLinks = res.result;
-        if(this.vimeoDownloadLinks && this.vimeoDownloadLinks.length) {
+        if (this.vimeoDownloadLinks && this.vimeoDownloadLinks.length) {
           $('#downloadOption').modal('show');
         } else {
-          this.msgService.showErrorMessage('error','','No download links found')
+          this.msgService.showErrorMessage('error', '', 'No download links found')
         }
       },
       err => {

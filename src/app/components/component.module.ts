@@ -20,6 +20,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ManageExpensesComponent } from './core/quick-manage-expenses/manage-expenses.component';
 import { ExcelService } from '../services/excel.service';
 import { ToDoListComponent } from './homepage-dashboard/to-do-list/to-do-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
     imports: [
         CommonModule,
@@ -30,7 +31,8 @@ import { ToDoListComponent } from './homepage-dashboard/to-do-list/to-do-list.co
         MatToolbarModule,
         MatButtonModule,
         MatMenuModule,
-        MatTabsModule
+        MatTabsModule,
+        MatPaginatorModule
 
     ],
     declarations: [

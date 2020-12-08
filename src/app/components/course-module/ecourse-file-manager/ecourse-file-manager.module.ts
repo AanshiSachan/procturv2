@@ -28,6 +28,7 @@ import { ProductService } from '../../../services/products.service';
     EcourseListComponent,
     UploadFileComponent,
     EcourseSubjectListComponent,
+
   ],
   providers: [
     FileService,
