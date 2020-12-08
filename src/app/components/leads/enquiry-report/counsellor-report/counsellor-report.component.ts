@@ -20,10 +20,11 @@ export class CounsellorReportComponent implements OnInit {
   }
   userId: any = sessionStorage.getItem("userid");
   username: any = sessionStorage.getItem("username");
+  role_feature = role.features;
   counsellorInfoDetails = {
     institution_id: this.counsellor.institute_id,
     reportType: "assigned",
-    assigned_to: (this.username === "admin" || (JSON.parse(sessionStorage.getItem('permissions')).includes('722')) ? -1 : this.userId),
+    assigned_to: (this.username === "admin" || (this.role_feature.REPORT_ENQUIRY_COUNSELLOR) ? -1 : this.userId),
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD'),
     is_admin_role_access: false
@@ -39,7 +40,6 @@ export class CounsellorReportComponent implements OnInit {
   searchMyRecords: any[];
 
   popupDataEnquiries: any[];
-  role_feature = role.features;
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'source', header: 'Counsellor' },
@@ -76,7 +76,7 @@ export class CounsellorReportComponent implements OnInit {
     private login: LoginService) { }
 
   ngOnInit() {
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('permissions') == null || (this.role_feature.REPORT_ENQUIRY_COUNSELLOR)) {
       this.fetchAllCounsellorData();
     }
     else {
