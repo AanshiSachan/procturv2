@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import 'rxjs/Rx';
 import { role } from '../../../../model/role_features';
 import { addEnquiryForm } from '../../../../model/add-enquiry-form';
-import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
 import { PopupHandlerService } from '../../../../services/enquiry-services/popup-handler.service';
