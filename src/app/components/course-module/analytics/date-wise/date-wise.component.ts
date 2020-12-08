@@ -70,17 +70,17 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         this.datelineRange[1] = moment(new Date()).format('DD-MM-YYYY');
         this.datelineRange[0] = moment(new Date()).subtract(10, 'days').format('DD-MM-YYYY');
         this.chartFormat = 'DD-MMM-YYYY';
-        url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?from=' + this.datelineRange[0] + '&to=' + this.datelineRange[1] + '&reportType=0&sortBy=bandWidth DESC';
+        url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?from=' + this.datelineRange[0] + '&to=' + this.datelineRange[1] + '&reportType=0';
         this.dailyReport(url);
         break;
       case 'monthly': this.showDateSelection = false;
         this.chartFormat = 'MMM';
-        url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?reportType=1&sortBy=bandWidth DESC';//monthly
+        url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?reportType=1';//monthly
         this.dailyReport(url);
         break;
       case 'yearly': this.showDateSelection = false;
         this.chartFormat = 'YYYY';
-        url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?reportType=2&sortBy=bandWidth DESC' //Year
+        url = '/api/v1/instFileSystem/videoReport/report/' + sessionStorage.getItem('institute_id') + '?reportType=2' //Year
         this.dailyReport(url);
         break;
       case 'custom': this.showDateSelection = true;
@@ -89,7 +89,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
 
   }
   custom() {
-    let url = '/api/v1/instFileSystem//videoReport/report/' + sessionStorage.getItem('institute_id') + '?from=' + moment(this.from_date).format('DD-MM-YYYY') + '&to=' + moment(this.to_date).format('DD-MM-YYYY') + '&reportType=0&sortBy=bandWidth DESC';
+    let url = '/api/v1/instFileSystem//videoReport/report/' + sessionStorage.getItem('institute_id') + '?from=' + moment(this.from_date).format('DD-MM-YYYY') + '&to=' + moment(this.to_date).format('DD-MM-YYYY') + '&reportType=0';
     this.chartFormat = 'DD-MMM-YYYY';
     this.dailyReport(url);
   }
