@@ -2801,4 +2801,19 @@ export class StudentHomeComponent implements OnInit {
     }
   }
 
+// Changes done by Nalini - To handle role based conditions
+    //  Role Based Access
+    checkIfUserHadAccess(id) {
+      let permissionArray = sessionStorage.getItem('permissions');
+      if (permissionArray == "" || permissionArray == null || !permissionArray) {
+        return true;
+      } else {
+        if (id) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
 }

@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" *ngIf="jsonFlags.isFeeActivity" routerLink="/view/fee/cheque">
+        <div class="course-menu-item" *ngIf="jsonFlags.isFeeManageCheque" routerLink="/view/fee/cheque">
           <div class="menu-title">
             <img src="./assets/images/fee/Mange_cheque.svg" alt="manage cheque">
             <span>Manage Cheque</span>
@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" routerLink="/view/fee/allDueReport">
+        <div class="course-menu-item" *ngIf="jsonFlags.isFeeDues" routerLink="/view/fee/allDueReport">
           <div class="menu-title">
             <img src="./assets/images/fee/Due_fees_report.svg" alt="all due fee report">
             <span>Fee Dues</span>
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" routerLink="/view/fee/moduleReport">
+        <div class="course-menu-item" *ngIf="jsonFlags.isCourseWise" routerLink="/view/fee/moduleReport">
           <div class="menu-title">
             <img src="./assets/images/fee/course_wise_report.svg" alt="{{jsonFlags.moduleState}} wise">
             <span>{{jsonFlags.moduleState}} Wise Report</span>
@@ -47,7 +47,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" routerLink="/view/fee/paymentHistory">
+        <div class="course-menu-item" *ngIf="jsonFlags.isPaymentHistory" routerLink="/view/fee/paymentHistory">
           <div class="menu-title">
             <img src="./assets/images/fee/payment_history.svg" alt="payment history">
             <span>Payment History</span>
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" routerLink="/view/fee/gst" *ngIf="is_tax_enabled=='1'">
+        <div class="course-menu-item" routerLink="/view/fee/gst" *ngIf="is_tax_enabled=='1' && jsonFlags.isGstReport">
           <div class="menu-title">
             <img src="./assets/images/fee/gst_report.svg" alt="gst report">
             <span>{{tax_type_without_percentage}} Report</span>
@@ -67,7 +67,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" routerLink="/view/fee/onlinePayment" *ngIf="enable_online_payment == 1">
+        <div class="course-menu-item" routerLink="/view/fee/onlinePayment" *ngIf="enable_online_payment == 1 && jsonFlags.isOnlineFees">
           <div class="menu-title">
             <img src="./assets/images/fee/online_paymen_history.svg" alt="online payment history">
             <span>Online Fee Collection</span>
@@ -77,7 +77,7 @@
           </div>
         </div>
 
-        <div class="course-menu-item" *ngIf="jsonFlags.isAdmin" routerLink="/view/fee/monitoring-dashboard">
+        <div class="course-menu-item" *ngIf="jsonFlags.isAdmin || jsonFlags.isMonitoringDash" routerLink="/view/fee/monitoring-dashboard">
           <div class="menu-title">
             <img src="./assets/images/activity/dashboard.svg" alt="monitoring dashboard">
             <span>Monitoring Dashboard</span>

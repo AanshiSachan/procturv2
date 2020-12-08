@@ -18,7 +18,7 @@
                             *ngIf="selectedRowCount != 0"></p-splitButton>
                     </div>
                     <div class="btn-item">
-                        <button type="button" class="btn pull-right" name="button" routerLink='./add'>
+                        <button type="button" class="btn pull-right" name="button" routerLink='./add' *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             &nbsp; Add Student
                         </button>
@@ -30,7 +30,7 @@
                         </button>
                         <div class="more-info-container" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
 
-                            <div class="more-info-item hand_icon" routerLink='/view/students/bulk'>
+                            <div class="more-info-item hand_icon" *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'>
                                 <a>
                                     <img src="../../../../assets/images/students/Student_upload.svg" alt=""> Upload
                                     Student

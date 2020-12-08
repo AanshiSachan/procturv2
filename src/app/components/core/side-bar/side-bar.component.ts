@@ -51,8 +51,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   @Output() enquiryUpdateAction = new EventEmitter<any>();
   @Output() hideSearchPopup = new EventEmitter<any>();
   @Output() changePassword = new EventEmitter<any>();
-  showSMSReport: boolean = false;
-  showEmailReport: boolean = false;
   permissionData: any[] = [];
   enquiryResult: any[] = [];
   showExpenseToDo: boolean = false;
@@ -101,13 +99,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowModel: false,
     isShowFee: false,
     isShowLiveclass: false,
-    isShowCommunicate: true,
     isShowLibrabry: false,
     isShoweStore: false,
     isShoweOnlineExam: false,
     isAdmin: false,
     isShowPowerBy: false,
-    isShowExpense: false
+    isShowExpense: false,
+    isShowCourse: false
   }
   jsonCourseFlags = {
     isShowSetup: false,
@@ -131,11 +129,33 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isShowReport: false
   }
   is_tax_enabled: any;
+  // Changes done by Nalini - To handle role based conditions
   jsonFeesFlags = {
     moduleState: '',
-    isFeeActivity: false,
+    isFeeManageCheque: false,
     isAdmin: false,
     isProfitnloss: false,
+    isFeeDues: false,
+    isPaymentHistory: false,
+    isCourseWise: false,
+    isGstReport: false,
+    isMonitoringDash: false,
+    isOnlineFees: false
+  }
+  jsonCommunicateFlags = {
+    communicateMenu: false,
+    showSMSReport: false,
+    showEmailReport: false,
+    showPTM: false,
+    showEvents: false
+  }
+  jsonEstoreFlags = {
+    isEstoreMenu: false,
+    isManageProduct: false,
+    isManageOffer: false,
+    isRegisterUser: false,
+    isSalesReport: false,
+    isCouponReport: false
   }
   showSMSSetting: boolean = false;
   showManageRole: boolean = false;
@@ -265,6 +285,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     const permissionArray = sessionStorage.getItem('permissions');
     const permittedRoles = sessionStorage.getItem('permitted_roles');
     if ((userType == '0') && ((perm == null || perm == undefined || perm == ''))) {
+      this.jsonFlags.isShowCourse = true;
       let array = Object.keys(this.jsonCourseFlags);
       array.forEach((flag) => {
         this.jsonCourseFlags[flag] = true;
@@ -272,6 +293,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
     else if ((userType == '3')) {
       this.jsonCourseFlags.isShowModel = false;
+      this.jsonFlags.isShowCourse = true;
       this.jsonCourseFlags.isShowArchiving = false;
       let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
 
@@ -284,15 +306,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       if (this.role_feature.STUDY_MATERIAL_MENU) {
         this.jsonCourseFlags.isShowFileManager = true;
       }
-
+// Changes done by Nalini - To handle role based conditions
       if (this.role_feature.CLASS_MENU) {
         this.jsonCourseFlags.isShowClass = true;
+        this.jsonFlags.isShowCourse = true;
+        this.jsonCourseFlags.isShowClassPlanner = true;
       }
       if (this.role_feature.EXAMS_MENU) {
         this.jsonCourseFlags.isShowExam = true;
-      }
-      if (this.role_feature.CLASS_MENU) {
-        this.jsonCourseFlags.isShowClassPlanner = true;
+        this.jsonFlags.isShowCourse = true;
       }
     }
     if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
@@ -311,21 +333,30 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
       this.jsonCourseFlags.isShowOnlineAssignment = true;
     }
+    if (this.role_feature.SETUP_MENU) {
+      this.jsonFlags.isShowCourse = true;
+    }
   }
 
   checkpermissionOfCommunicate() {
     this.userType = Number(sessionStorage.getItem('userType'));
     this.permissionArray = sessionStorage.getItem('permissions');
-    if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+    if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
-        this.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
-        this.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        // Changes done by Nalini - To handle role based commuicate menu conditions
+        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
+        this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
+        this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
       }
     }
     else {
-      this.showSMSReport = true;
-      this.showEmailReport = true;
+      let array = Object.keys(this.jsonCommunicateFlags);
+      array.forEach((flag) => {
+        this.jsonCommunicateFlags[flag] = true;
+      });
     }
   }
   checkPermissionForFees() {
@@ -341,20 +372,31 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       if (sessionStorage.getItem('permissions') == "" || sessionStorage.getItem('permissions') == null) {
         this.jsonFeesFlags.isAdmin = true;
         this.jsonFeesFlags.isProfitnloss = true;
+        let array = Object.keys(this.jsonFeesFlags);
+        array.forEach((flag) => {
+        this.jsonFeesFlags[flag] = true;
+      });
       }
     }
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
       if (this.role_feature.FEE_CHEQUE_MANAGE) {
-        this.jsonFeesFlags.isFeeActivity = true;
+        this.jsonFeesFlags.isFeeManageCheque = true;
       }
+      // Changes done by Nalini - To handle role based fee menu conditions
+      this.jsonFeesFlags.isFeeDues = this.role_feature.FEE_DUE_DETAILS;
+      this.jsonFeesFlags.isPaymentHistory = this.role_feature.FEE_PAYMENT_HISTORY
+      this.jsonFeesFlags.isCourseWise = this.role_feature.REPORT_ENQUIRY_COURSE_WISE;
+      this.jsonFeesFlags.isMonitoringDash = this.role_feature.REPORT_FEE_MONITORING_DASHBOARD;
+      this.jsonFeesFlags.isGstReport = this.role_feature.REPORT_FEE_GST_REPORT;
+      this.jsonFeesFlags.isOnlineFees = this.role_feature.REPORT_FEES_ONLINE_FEES;
 
     }
 
     if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
-        this.jsonFeesFlags.isFeeActivity = true;
+        this.jsonFeesFlags.isFeeManageCheque = true;
         this.jsonFeesFlags.isProfitnloss = true;
 
       }
@@ -371,8 +413,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   hideForUsers() {
-    if (sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('userType') == '0') {
-      return true;
+    if (sessionStorage.getItem('userType') == '0') {
+      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+        return true;
+      } else if(this.role_feature.MY_ACCOUNTS_MENU) {
+        return true;
+      }
     }
     else {
       return false;
@@ -405,9 +451,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         if(this.role_feature.SETTINGS_MENU) {
           this.showSMSSetting = true;
         }
-        if(this.role_feature.USERS_MENU) {
-          this.showManageRole = true;
-        }
+        this.showManageRole = this.role_feature.USERS_MENU;
 
         if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
@@ -471,13 +515,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowModel = false;
     this.jsonFlags.isShowFee = false;
     this.jsonFlags.isShowLiveclass = false;
-    this.jsonFlags.isShowCommunicate = false;
+    this.jsonCommunicateFlags.communicateMenu = false;
     this.jsonFlags.isShowLibrabry = false;
     this.jsonFlags.isShoweStore = false;
     this.jsonFlags.isShoweOnlineExam = false;
     this.jsonFlags.isAdmin = false;
     this.jsonFlags.isShowPowerBy = false;
     this.jsonFlags.isShowLead = true;
+    this.jsonFlags.isShowCourse = false;
   }
 
   setActiveClassOnSideNav() {
@@ -593,6 +638,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
             this.checkAdmin = true;
           } else {
             this.checkAdmin = false;
+            this.checkAdmin = this.role_feature.MANAGE_BRANCHES_MENU;
           }
         }
       }
@@ -760,34 +806,45 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowLiveclass = false;
     // if user is not admin
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
-    // changes by Nalini - to enable live class for custom user
     if (this.jsonFlags.isShowLiveclass) {
-      if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
+      if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
           this.jsonFlags.isShowLiveclass = this.role_feature.LIVE_CLASS_MENU ? true : false;
         }
       } else {
         this.jsonFlags.isShowLiveclass = true;
+        // if zoom is enable then also show live class // added by Swapnil
+        let zoom = sessionStorage.getItem('is_zoom_enable');
+        if (JSON.parse(zoom)) {
+          this.jsonFlags.isShowLiveclass = true;
+        }
       }
-    }
-    // if zoom is enable then also show live class // added by Swapnil
-    let zoom = sessionStorage.getItem('is_zoom_enable');
-    if (JSON.parse(zoom)) {
-      this.jsonFlags.isShowLiveclass = true;
     }
 
   }
 
   isElearnAllow(permissions) {
     // this senction is used for enable elearn feature
-    this.jsonFlags.isShoweStore = false;
+    let array = Object.keys(this.jsonEstoreFlags);
+        array.forEach((flag) => {
+          this.jsonEstoreFlags[flag] = false;
+        });
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
       if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
-          this.jsonFlags.isShoweStore = this.role_feature.ESTORE_MENU ? true : false;
+          // Changes done by Nalini - To handle role based estore conditions
+          this.jsonEstoreFlags.isEstoreMenu = this.role_feature.ESTORE_MENU;
+          this.jsonEstoreFlags.isManageOffer = this.role_feature.ESTORE_MANAGE_OFFER;
+          this.jsonEstoreFlags.isManageProduct = this.role_feature.ESTORE_MANAGE_PRODUCT;
+          this.jsonEstoreFlags.isRegisterUser = this.role_feature.ESTORE_REGISTER_USER;
+          this.jsonEstoreFlags.isSalesReport = this.role_feature.REPORT_PRODUCT_SALES;
+          this.jsonEstoreFlags.isCouponReport = this.role_feature.REPORT_PRODUCT_COUPON;
         }
       } else {
-        this.jsonFlags.isShoweStore = true;
+        let array = Object.keys(this.jsonEstoreFlags);
+        array.forEach((flag) => {
+          this.jsonEstoreFlags[flag] = true;
+        });
       }
     }
   }
@@ -795,6 +852,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   isOnlineExamAllow(type) {
     if (this.jsonFlags.isAdmin) {// if user is admin
       this.jsonFlags.isShoweOnlineExam = this.checkInstSetupType(type, 4);
+    } else if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+      this.jsonFlags.isShoweOnlineExam = this.role_feature.ONLINE_TESTS_MENU;
     }
   }
 
@@ -881,18 +940,19 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   hasStudent(permissions) {
     this.jsonFlags.isShowStudent = false;
-    if (this.role_feature.STUDENT_MANAGE ||
-      this.role_feature.STUDENT_MENU_ITEM) {
+    if (this.role_feature.STUDENT_MENU_ITEM) {
       this.jsonFlags.isShowStudent = true;
     }
   }
 
   hasCourse(permissions) {
     this.jsonFlags.isShowModel = false;
+    this.jsonFlags.isShowCourse = false;
     if (this.role_feature.EXAMS_MENU ||
       this.role_feature.CLASS_MENU ||
       this.role_feature.SETUP_MENU) {
       this.jsonFlags.isShowModel = true;
+      this.jsonFlags.isShowCourse = true;
     }
   }
 

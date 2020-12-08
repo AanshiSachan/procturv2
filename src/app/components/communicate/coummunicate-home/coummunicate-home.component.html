@@ -35,7 +35,7 @@
         <span> </span>
       </div>
     </div> -->
-    <div class="course-menu-item" routerLink="../sms" *ngIf="showSMSReport">
+    <div class="course-menu-item" routerLink="../sms" *ngIf="jsonCommunicateFlags.showSMSReport">
       <div class="menu-title">
         <img src="./assets/images/communicate/send_sms.svg" alt="sms report">
         <span>SMS Report </span>
@@ -45,7 +45,7 @@
         <span>Report of all the SMS sent from the system.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="../email" *ngIf="showEmailReport">
+    <div class="course-menu-item" routerLink="../email" *ngIf="jsonCommunicateFlags.showEmailReport">
       <div class="menu-title">
         <img src="./assets/images/communicate/email_report.svg" alt="email report">
         <span>Email Report </span>
@@ -54,7 +54,7 @@
         <span>Report of all the Emails sent from the system.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="../ptm">
+    <div class="course-menu-item" routerLink="../ptm" *ngIf="jsonCommunicateFlags.showPTM">
       <div class="menu-title">
         <img src="./assets/images/communicate/ptm.svg" alt="ptm management">
         <span>PTM Management</span>
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div class="course-menu-item" routerLink="../event">
+    <div class="course-menu-item" routerLink="../event" *ngIf="jsonCommunicateFlags.showEvents">
       <div class="menu-title">
         <img src="./assets/images/communicate/event_management.svg" alt="event management">
         <span>Event Management</span>
@@ -522,7 +522,7 @@
               <div class="row"
                 *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor' || openAppUserSelected)">
 
-                <div class="schedSwitcher row" [ngClass]="{'hide' : checkRoleMAnagement() }">
+                <div class="schedSwitcher row">
                   <ul>
                     <li (click)="onTabChange('approved')" id="approvedSMSTab" class="active">Approved</li>
                     <li (click)="onTabChange('open')" id="openSMSTab" class="">Open</li>

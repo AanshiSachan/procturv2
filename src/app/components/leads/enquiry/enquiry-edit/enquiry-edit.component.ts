@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
+import { role } from '../../../../model/role_features';
 import { addEnquiryForm } from '../../../../model/add-enquiry-form';
 import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';

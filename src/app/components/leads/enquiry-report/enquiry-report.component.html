@@ -11,13 +11,13 @@
     <section class="middle-main clearFix">
         <div class="common-tab">
             <ul>
-                <li id="liCounsellor" (click)="switchActiveView('liCounsellor')" class="unactive">
+                <li id="liCounsellor" *ngIf="jsonReportFlags.isCounsellor" [ngClass]="{'active': activeView == 'liCounsellor'}" (click)="switchActiveView('liCounsellor')" class="unactive">
                     <a routerLink="/view/leads/enquiryReport/counsellor">Counsellor</a>
                 </li>
-                <li id="liSource" (click)="switchActiveView('liSource')" class="unactive">
+                <li id="liSource" *ngIf="jsonReportFlags.isSource" [ngClass]="{'active': activeView == 'liSource'}" (click)="switchActiveView('liSource')" class="unactive">
                     <a routerLink="/view/leads/enquiryReport/source">Source</a>
                 </li>
-                <li id="liReferredBy" (click)="switchActiveView('liReferredBy')" class="unactive">
+                <li id="liReferredBy" *ngIf="jsonReportFlags.isRefferBy" [ngClass]="{'active': activeView == 'liReferredBy'}" (click)="switchActiveView('liReferredBy')" class="unactive">
                     <a routerLink="/view/leads/enquiryReport/referredBy">Referred By</a>
 
                 </li>

@@ -47,7 +47,7 @@
                 <div class="dd-list-inner">
                     <ul class="actions-menu">
 
-                        <li class="action-item" (click)="emitEdit($event)">
+                        <li class="action-item" *ngIf="allowEdit" (click)="emitEdit($event)">
                             <a class="">
                                 <img src="../../../../assets/images/students/Edit.svg" alt="">Edit Student
                             </a>
@@ -84,7 +84,7 @@
                                 <i class="fa fa-eye" aria-hidden="true" style="font-size: 16px;"></i>   View Report
                             </a>
                         </li>
-                        <li class="action-item" (click)="downloadStudentReportCard()" *ngIf="downloadStudentReportAccess">
+                        <li class="action-item" (click)="downloadStudentReportCard()" *ngIf="downloadStudentReportAccess && studentReport">
                             <a id="downloadFileClick1"></a>
                             <a class="">
                                 <img src="../../../../assets/images/students/download_report_card.svg" alt="">
