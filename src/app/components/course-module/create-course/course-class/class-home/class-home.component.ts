@@ -32,7 +32,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
   batchMasterCourse: any = [];
   subjectListBatch: any = [];
   batchList: any = [];
-  institute_id: any = sessionStorage.getItem('institution_id');
+  institute_id: any = sessionStorage.getItem('institute_id');
   showContent: boolean = false;
   isLangInstitute: boolean = false;
   reschedulePopUp: boolean = false;
