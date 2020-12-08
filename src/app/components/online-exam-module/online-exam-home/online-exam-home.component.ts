@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
+import {role} from '../../../model/role_features'
 
 @Component({
   selector: 'app-online-exam-home',
@@ -16,6 +17,7 @@ export class OnlineExamHomeComponent implements OnInit {
     institute_id:'',
     isShowEcourseMapping:false
   }
+  role_feature = role.features;
 
   constructor(
     private router: Router,
@@ -38,7 +40,7 @@ export class OnlineExamHomeComponent implements OnInit {
     )
     this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.checkUserAccess();
-    if (this.jsonFlag.isAdmin) {
+    if (this.jsonFlag.isAdmin || this.role_feature.ONLINE_TESTS_MENU) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
       this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
     }  

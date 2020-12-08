@@ -180,7 +180,11 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
+            if(this.role_feature.ONLINE_TESTS_MENU) {
+                return true;
+            } else {
                 return false;
+            }
         }
     }
 
