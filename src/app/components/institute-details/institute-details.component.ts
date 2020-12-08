@@ -503,11 +503,11 @@ export class InstituteDetailsComponent implements OnInit {
     var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
     if (obj.account_name.trim() != '') {
       if (obj.email_id.trim() != '' && reg.test(obj.email_id)) {
-        if (obj.sdk_api_key.trim() != '') {
-          if (obj.sdk_api_secret.trim() != '') {
-            if (obj.jwt_access_token.trim() != '') {
-              if (obj.jwt_api_key.trim() != '') {
-                if (obj.jwt_api_secret.trim() != '') {
+        if (obj.sdk_api_key!= '' && obj.sdk_api_key.trim() != '') {
+          if (obj.sdk_api_secret != '' && obj.sdk_api_secret.trim() != '') {
+            if (obj.jwt_access_token !='' && obj.jwt_access_token!=null && obj.jwt_access_token.trim() != '') {
+              if (obj.jwt_api_key !='' && obj.jwt_api_key != null && obj.jwt_api_key.trim() != '') {
+                if (obj.jwt_api_secret !='' && obj.jwt_api_secret != null && obj.jwt_api_secret.trim() != '') {
                   if (obj.user_limit != '' && obj.user_limit > 0) {
                     return true;
                   } else {
