@@ -6,6 +6,7 @@ import { HttpService  } from '../../../../services/http.service';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+declare var $;
 
 @Component({
   selector: 'app-add-edit-expense',
@@ -26,7 +27,7 @@ export class AddEditExpenseComponent implements OnInit {
 
   addedItemList: any[] = [];
   accountDetails = {
-    itemName: '',
+    itemName: -1,
     description: '',
     quantity: 1,
     amount: 0
@@ -51,6 +52,12 @@ export class AddEditExpenseComponent implements OnInit {
 
   payeeVisibilty: boolean = false;
   accountVisibilty: boolean = false;
+  categoryVisibility: boolean = false;
+  categoryList: any[] = [];
+  addCategory = {
+    Name: '',
+    Description: ''
+  }
 
   constructor(
     private msgService: MessageShowService,
@@ -66,6 +73,7 @@ export class AddEditExpenseComponent implements OnInit {
     this.getPayeeDetails();
     this.getAccountDetails();
     this.getPaymentMode();
+    this.getCategoryDetails();
     let currentURL = window.location.href;
     if(currentURL.includes('add-expense')){
       this.sectionName = 'Add';
@@ -76,6 +84,22 @@ export class AddEditExpenseComponent implements OnInit {
       this.editExpenseId = splitURL[splitURL.length - 1];
       this.getEditExpenseDetails();
     }
+  }
+
+  // changes done by Nalini - To fetch category details
+  getCategoryDetails() {
+    this.auth.showLoader();
+    const url1 = `/api/v1/expense/category/all/${this.jsonFlag.institute_id}?expense_category_type=2&is_active=Y`
+    this.httpService.getData(url1).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.categoryList = res;
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      }
+    )
   }
 
   getPayeeDetails(){
@@ -143,7 +167,9 @@ export class AddEditExpenseComponent implements OnInit {
             description: this.editExpenseDetails.itemList[index].item_desc,
             quantity: this.editExpenseDetails.itemList[index].item_quantity,
             amount: this.editExpenseDetails.itemList[index].item_amount,
-            id: this.editExpenseDetails.itemList[index].item_id
+            id: this.editExpenseDetails.itemList[index].item_id,
+            category_id: this.editExpenseDetails.itemList[index].category_id,
+            item_id: this.editExpenseDetails.itemList[index].item_id,
           }
           this.addedItemList.push(obj)
         }
@@ -172,18 +198,27 @@ export class AddEditExpenseComponent implements OnInit {
   }
 
   addItem(){
-    if(this.accountDetails.itemName.trim().length > 0){
+    if(this.accountDetails.itemName != -1){
       if(this.accountDetails.amount != 0){
+        let categoryName = '';
+        if(this.categoryList && this.categoryList.length) {
+          let categoryObj =this.categoryList.filter(category=>{
+            if((category.category_id == this.accountDetails.itemName)) {
+              categoryName = category.category_name;
+            }
+          })
+        }
         let obj = {
-          itemName: this.accountDetails.itemName,
+          itemName: categoryName,
           description: this.accountDetails.description,
           quantity: this.accountDetails.quantity,
           amount: this.accountDetails.amount,
-          item_id: 0
+          item_id: 0,
+          category_id: this.accountDetails.itemName
         };
         this.totalAmount = this.totalAmount + Number(obj.amount)
         this.addedItemList.push(obj);
-        this.accountDetails.itemName = '';
+        this.accountDetails.itemName = -1;
         this.accountDetails.description = '';
         this.accountDetails.quantity = 1;
         this.accountDetails.amount = 0;
@@ -193,7 +228,7 @@ export class AddEditExpenseComponent implements OnInit {
       }
     }
     else{
-        this.msgService.showErrorMessage('error', '', "Enter Item Name");
+        this.msgService.showErrorMessage('error', '', "Select Item Name");
     }
 
     console.log(this.addedItemList);
@@ -242,8 +277,7 @@ export class AddEditExpenseComponent implements OnInit {
             let itemlist = [];
             for (let index = 0; index < this.addedItemList.length; index++) {
               let item = {
-                 "item_account": this.addedItemList[index].itemName,
-                 "item_desc": this.addedItemList[index].description,
+                 "category_id": this.addedItemList[index].category_id,
                  "item_quantity": this.addedItemList[index].quantity,
                  "item_amount": this.addedItemList[index].amount,
                  "item_id": this.addedItemList[index].item_id
@@ -402,6 +436,16 @@ export class AddEditExpenseComponent implements OnInit {
     }
     else{
       this.accountVisibilty = true;
+    }
+  }
+
+  toggleCategory(){
+    if(this.categoryVisibility){
+      this.categoryVisibility = false;
+      this.getCategoryDetails();
+    }
+    else{
+      this.categoryVisibility = true;
     }
   }
 

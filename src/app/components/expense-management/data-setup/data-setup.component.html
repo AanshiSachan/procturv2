@@ -13,14 +13,18 @@
 
   <div class="common-tab">
     <ul>
-      <li id="payee" (click)="switchActiveView('payee')" class="">
+      <!-- changes done by Nalini - Manage category and code refactoring changes -->
+      <li id="payee" [ngClass]="{'active': selectedSection == 'payee'}" (click)="switchActiveView('payee')" class="">
         <span>Manage Payee</span>
       </li>
-      <li id="payer" (click)="switchActiveView('payer')" class="">
+      <li id="payer" [ngClass]="{'active': selectedSection == 'payer'}" (click)="switchActiveView('payer')" class="">
         <span>Manage Payer</span>
       </li>
-      <li id="account" (click)="switchActiveView('account')" class="">
+      <li id="account" [ngClass]="{'active': selectedSection == 'account'}" (click)="switchActiveView('account')" class="">
         <span>Manage Account</span>
+      </li>
+      <li id="account" [ngClass]="{'active': selectedSection == 'category'}" (click)="switchActiveView('category')" class="">
+        <span>Manage Category</span>
       </li>
     </ul>
   </div>
@@ -32,6 +36,8 @@
       Payer</button>
     <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'account'"
       (click)="toggleAccount()">Add Account</button>
+    <button type="button" name="button" class="add-btn" *ngIf="selectedSection == 'category'"
+      (click)="toggleCategory()">Add Category</button>
   </div>
 
   <div class="table-container" *ngIf="headerList?.length > 0">
@@ -57,6 +63,22 @@
         </div>
         <div class="table-value-item">
           <i class="fa fa-pencil" aria-hidden="true" title="Edit Account" (click)="editAccount(detail.account_id)"></i>
+        </div>
+      </div>
+    </div>
+    <!-- changes done by Nalini - category table data -->
+    <div class="table-value-outer-container" *ngIf="selectedSection == 'category'">
+      <div class="table-value-container" *ngFor="let detail of tableValueData">
+        <div class="table-value-item">
+          <span
+            title="{{detail?.category_name}}">{{ (!detail.category_name) ? '-' : (detail.category_name.length > 20) ? (detail.category_name | slice:0:20) + '...' : detail.category_name}}</span>
+        </div>
+        <div class="table-value-item">
+          <span
+            title="{{detail?.category_desc}}">{{ (!detail.category_desc) ? '-' : (detail.category_desc.length > 20) ? (detail.category_desc | slice:0:20) + '...' : detail.category_desc}}</span>
+        </div>
+        <div class="table-value-item">
+          <i class="fa fa-pencil" aria-hidden="true" title="Edit Account" (click)="editCategoryFun(detail)"></i>
         </div>
       </div>
     </div>
@@ -106,3 +128,7 @@
 <app-add-edit-account *ngIf=accountVisibilty (closePopup)="toggleAccount($event)" [isEditAccount]="isEditAccount"
   [editAccountId]="editAccountId">
 </app-add-edit-account>
+
+<app-add-edit-category *ngIf=categoryVisibilty (closePopup)="toggleCategory($event)" [isEditCategory]="isEditCategory"
+  [editCategory]="editCategory">
+</app-add-edit-category>

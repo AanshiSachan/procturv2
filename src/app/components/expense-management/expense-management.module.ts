@@ -20,6 +20,7 @@ import { AddEditPayeeComponent } from './data-setup/add-edit-payee/add-edit-paye
 import { AddEditPayerComponent } from './data-setup/add-edit-payer/add-edit-payer.component';
 import { AddEditAccountComponent } from './data-setup/add-edit-account/add-edit-account.component';
 import { SharedModule } from '../shared/shared.module';
+import { AddEditCategoryComponent } from './data-setup/add-edit-category/add-edit-category.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { SharedModule } from '../shared/shared.module';
     AddEditIncomeComponent,
     AddEditPayeeComponent,
     AddEditPayerComponent,
-    AddEditAccountComponent
+    AddEditAccountComponent,
+    AddEditCategoryComponent
   ],
   providers: [
     ExcelService

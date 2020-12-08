@@ -1,0 +1,35 @@
+<div id="addCategory" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="margin-top: 10%;">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="closePopups()">&times;</button>
+        <h3 class="modal-title">{{isEditCategory ? 'Update Category Details' : 'Create Category'}}</h3>
+      </div>
+      <div class="modal-body">
+        <div class="payee-container">
+          <div class="payee-item field-wrapper">
+            <label for="">Category Name<span class="danger">*</span></label>
+            <input type="text" name="" value="" [(ngModel)]="addCategory.Name" placeholder="Enter Category Name"
+              class="form-ctrl">
+          </div>
+          <div class="payee-item field-wrapper">
+            <label for="">Description</label>
+            <input type="text" name="" value="" [(ngModel)]="addCategory.Description"
+              placeholder="Enter Category Description" class="form-ctrl">
+          </div>
+          <div *ngIf="isEditCategory" class="payee-item field-checkbox-wrapper" style="margin-top: 10px;font-size: 12px;padding-left: 0;">
+            <input style="appearance: checkbox;" type="checkbox" id="isActive" name="isActive" [(ngModel)]="addCategory.isActive" class="form-ctrl">
+            <label for="isActive" style="padding-left: 5px">Is Active</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-default" (click)="closePopups()">Close</button> -->
+        <button type="button" class="btn btn-default add-area-btn" (click)="saveCategoryDetails()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
