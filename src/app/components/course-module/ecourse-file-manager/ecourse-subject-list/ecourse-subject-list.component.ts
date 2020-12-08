@@ -74,7 +74,7 @@ export class EcourseSubjectListComponent implements OnInit {
         if (sessionStorage.getItem('routeListForEcourse')) {
           this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
           this._http.routeList.splice(1, this._http.routeList.length);
-          let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + this.ecourse_id + '/subjects', data: { data: params['data'] }, name: name };
+          let obj = { routeLink: '/view/course/ecourse-file-manager/ecourses/' + this.ecourse_id + '/subjects', data: { data: params['data'] }, name: name };
           console.log("updated date "+obj)
           this._http.routeList.push(obj);
           sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
