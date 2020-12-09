@@ -185,6 +185,8 @@ export class EcourseSubjectListComponent implements OnInit {
           this.msgService.showErrorMessage('error', '', err.error.message);
         });
     }
+  } else {
+    this.msgService.showErrorMessage('error', '', 'Video is not ready yet, try again after sometime.');
   }
 
   }
