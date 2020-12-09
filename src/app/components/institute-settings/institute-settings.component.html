@@ -82,7 +82,7 @@
         </li>
         <!--  End -->
         <!-- Added By Nalini -->
-        <li id="liVdo" class="menu-item" style="cursor: pointer" *ngIf="vimeo_account_plan" (click)="changeView('liVdo','divVdoContent')">
+        <li id="liVdo" class="menu-item" style="cursor: pointer" *ngIf="vimeo_account_plan || enable_vdoCipher_feature == '1'" (click)="changeView('liVdo','divVdoContent')">
           <span>
             <a class="">Vimeo/ VDOCipher</a>
             <i class="fas fa-line-chart" style="font-family: FontAwesome"></i>
@@ -3610,7 +3610,7 @@
       <!-- End -->
 
 <!-- Added by Nalini -->
-<section id="divVdoContent" class="fee-content-wrapper sectionDevideContainer" *ngIf="vimeo_account_plan">
+<section id="divVdoContent" class="fee-content-wrapper sectionDevideContainer" *ngIf="vimeo_account_plan || enable_vdoCipher_feature == '1'">
   <div class="row m-0">
     <div class="fee-table-wrapper">
       <div class="table-scroll-wrapper">
@@ -3624,6 +3624,7 @@
               </tr>
               <tr>
                 <td>
+                  <div *ngIf="vimeo_account_plan">
                   <div class="row webkitBox" style="margin-top: 0;height: 25px;">
                     <h3>Vimeo</h3>
                   </div>
@@ -3707,7 +3708,9 @@
                   {{instituteSettingDet.vimeo_storage_capacity_threshold}} %
                 </div>
                 </div>
+              </div>
 <!-- Start VDO Cipher Multiplier -->
+                <div *ngIf="enable_vdoCipher_feature == '1'">
                 <hr>
                 <div class="row webkitBox" style="margin-top: 0;height: 25px;">
                   <h3>VDOCipher Watch Multiplier Setting</h3>
@@ -3785,7 +3788,7 @@
                       <label for="vdocipher_live_class_update_video_watch_time_mode_ex" style="transform: none;"> &nbsp;&nbsp; Update all Videos except custom multiplier</label>
                   </div> -->
                     </div>
-
+                  </div>
 
 
                 </td>
