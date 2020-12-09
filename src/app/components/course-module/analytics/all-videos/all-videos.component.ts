@@ -32,7 +32,7 @@ export class AllVideosComponent implements OnInit {
   ngOnInit() {
     this.allVideo = true;
     // let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=15&pageOffset=0&sortBy=totalConsumedBandwidth ASC';
-    this.allvideo(10, 0);
+    this.allvideo(10, 1);
   }
   allvideo(batch, page) {
     let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page;
@@ -55,8 +55,8 @@ export class AllVideosComponent implements OnInit {
     this.title = true;
     this.allVideo = false;
     this.userwiseDetail = [];
-    let url = '/api/v1/instFileSystem/videoReport/video/' + val + '?pageSize=' + batch + '&pageOffser=' + page + '&sortBy=createdDate ASC';
-    // let url = '/api/v1/instFileSystem/videoReport/17841/' + val + '?pageSize=' + batch + '&pageOffser=' + page + '&sortBy=createdDate ASC';
+    let url = '/api/v1/instFileSystem/videoReport/video/' + val + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=createdDate ASC';
+    // let url = '/api/v1/instFileSystem/videoReport/17841/' + val + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=createdDate ASC';
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.userwiseDetail = resp.result.video_list.response;

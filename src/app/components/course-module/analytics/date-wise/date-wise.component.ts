@@ -241,7 +241,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     this.userWiseSelection = true;
     this.videoWiseSelection = false;
     let date = sessionStorage.getItem('fromDate');
-    let url = '/api/v1/instFileSystem/videoReport/video/' + val + '?pageSize=' + batch + '&pageOffser=' + page + '&sortBy=createdDate ASC';
+    let url = '/api/v1/instFileSystem/videoReport/video/' + val + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=createdDate ASC';
     if(date!='' && date != null) {
       url = url.concat('&from=' + moment(date).format("DD-MM-YYYY") + '&to=' + moment(date).format("DD-MM-YYYY"));
     }
