@@ -62,7 +62,9 @@ export class TopicTreeComponent implements OnInit {
 
   getAllSubjectList(standards_id) {
     this.subjectTempData = [];
-    this.filterData.subject_id = -1;
+    if(this.option_type!='Edit') {
+      this.filterData.subject_id = -1;
+    }
     for (let i = 0; i < this.standardData.length; i++) {
       if (this.standardData[i].standard_id == this.addTopic.standard_id) {
         this.subjectTempData = this.standardData[i].subject_list;
@@ -228,8 +230,9 @@ export class TopicTreeComponent implements OnInit {
         if (data) {
           this.addTopic = new Create_Topic();
           this.addTopic = data;
-          this.getAllSubjectList(data.standard_id);
+          console.log(this.addTopic);
           this.option_type = 'Edit';
+          this.getAllSubjectList(data.standard_id);
           $('#addTopic').modal('show');
         } else {
           this._toastPopup.showErrorMessage('error', '', "something went wrong please try again");
