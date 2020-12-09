@@ -176,6 +176,7 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
 
   // get otp details to show video
   getVdocipherVideoOtp(video) {
+    if(video.video_status == 'ready') {
     sessionStorage.setItem("VideoIdWatchHistor", video.videoID);
     if (video.category_name == 'VDOCipher') {
       let url = "/api/v1/instFileSystem/videoOTP";
@@ -213,6 +214,9 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
           this.msgService.showErrorMessage('error', '', err.error.message);
         });
     }
+  } else {
+    this.msgService.showErrorMessage('error', '', 'Video is not ready yet, try again after sometime.');
+  }
 
   }
 
