@@ -62,9 +62,9 @@ export class TopicTreeComponent implements OnInit {
 
   getAllSubjectList(standards_id) {
     this.subjectTempData = [];
-    if(this.option_type!='Edit') {
-      this.filterData.subject_id = -1;
-    }
+    // if(this.option_type!='Edit') {
+    //   this.filterData.subject_id = -1;
+    // }
     for (let i = 0; i < this.standardData.length; i++) {
       if (this.standardData[i].standard_id == this.addTopic.standard_id) {
         this.subjectTempData = this.standardData[i].subject_list;

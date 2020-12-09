@@ -149,6 +149,7 @@ export class EcourseSubjectListComponent implements OnInit {
 
   // get otp details to show video
   getVdocipherVideoOtp(video) {
+    if(video.video_status == 'ready') {
     if (video.category_name == 'VDOCipher') {
       let url = "/api/v1/instFileSystem/videoOTP";
       let data = {
@@ -184,6 +185,7 @@ export class EcourseSubjectListComponent implements OnInit {
           this.msgService.showErrorMessage('error', '', err.error.message);
         });
     }
+  }
 
   }
 
