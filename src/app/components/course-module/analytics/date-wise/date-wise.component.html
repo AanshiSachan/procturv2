@@ -4,31 +4,31 @@
     <span *ngIf="videoWiseSelection">Videowise</span>
     <span *ngIf="userWiseSelection">Userwise > <span> {{title}}</span></span>
 </div>
-<div class="row">
+<div class="row" style="margin: 0">
     <!-- <div class="col-sm-6 col-md-6 col-lg-6">
         <input type="text" class="search" *ngIf="videoWiseSelection" placeholder="Search" (keyup)="searchDatabase()"
             style="background:transparent;border: 1px solid lightgrey;" [(ngModel)]="searchText" #search>
         <input type="text" class="search" *ngIf="userWiseSelection" placeholder="Search" (keyup)="searchDatabaseUser()"
             style="background:transparent;border: 1px solid lightgrey;" [(ngModel)]="searchText1" #search>
     </div> -->
-    <div class="col-sm-6 col-md-6 col-lg-6" style="float: right;">
+    <div class="col-sm-2 col-md-2 col-lg-2" style="float: right;">
 
-        <div style="float: right;">
+        <!-- <div style="float: right;"> -->
 
-            <div class="row" style="display: flex;">
-                <div class="col-lg-3 col-md-3 col-sm-3 wise">
+            <div class="row" style="display: flex;justify-content: flex-end;">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3 wise">
                     <button id="datewise" [ngClass]="selectType == 'date'? 'btnside' : 'grey'"
                         style="cursor: auto;">Datewise</button>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 wise" style="width: 31%;">
+                </div> -->
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3 wise" style="width: 31%;">
                     <button id="videowise" [ngClass]="selectType == 'video'? 'btnside' : 'grey'"
                         style="cursor: auto;">Videowise</button>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 wise">
+                </div> -->
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3 wise">
                     <button id="userwise" [ngClass]="selectType == 'user'? 'btnside' : 'grey'"
                         style="cursor: auto;">Userwise</button>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="dateWiseSelection">
+                </div> -->
+                <div class="col-lg-4 col-md-4 col-sm-4" *ngIf="dateWiseSelection">
                     <button [ngClass]="selectType == 'date'? 'btnside' : 'grey'" (click)="filter('date')">
                         <i class="fa fa-filter" aria-hidden="true"></i>
                     </button>
@@ -39,16 +39,56 @@
                     </button> -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="userWiseSelection">
-                    <button [ngClass]="selectType == 'date'? 'grey' : 'grey'" (click)="filter('user')">
+                    <!-- <button [ngClass]="selectType == 'date'? 'grey' : 'grey'" (click)="filter('user')">
                         <i class="fa fa-filter" aria-hidden="true"></i>
-                    </button>
+                    </button> -->
                 </div>
                 <div style="float: right;margin-right: 30px;margin-top: 7px;">
                     <span data-toggle="modal" data-target="#helpFAQ"> <i class="fa fa-question-circle"
                         style="cursor: pointer; font-size: 20px;" title="FAQ’S &Help" aria-hidden="true"></i></span>
                   </div>
         </div>
-    </div>
+    <!-- </div> -->
+</div>
+<div class="col-sm-10 col-md-10 col-lg-10" style="display: flex;justify-content: flex-end;" *ngIf="dropDownFilter && dateWiseSelection">
+    <!-- <div class="row" style="justify-content: flex-end;" > -->
+        <div class="col-lg-10 col-md-10 col-sm-10" style="justify-content: flex-end;display: flex;" *ngIf="showDateSelection">
+            <!-- <div class="row" style="float: right;" *ngIf="showDateSelection"> -->
+    
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="field-wrapper datePickerBox has-value" style="padding-top: 0;">
+                        <input type="text" value="" id="updateDate" readonly="true" class="form-ctrl bsDatepicker"
+                            style="border: 1px solid #0084f6;float: right;border-radius: 4px;" name="toDate"
+                            placeholder="Select Date" bsDatepicker (ngModelChange)="dateValidationForFuture($event)"
+                            [(ngModel)]="from_date" />
+                    </div>
+                </div>
+    
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="field-wrapper datePickerBox has-value" style="padding-top: 0;">
+                        <input type="text" value="" id="updateDate" readonly="true" class="form-ctrl bsDatepicker"
+                            style="border: 1px solid #0084f6;float: right;border-radius: 4px;" name="toDate"
+                            placeholder="Select Date" bsDatepicker (ngModelChange)="dateValidationForFuture($event)"
+                            [(ngModel)]="to_date" />
+                    </div>
+    
+                </div>
+    
+                <div class="col-lg-1 col-md-1 col-sm-1">
+                    <button id="videowise" class="go btnside" (click)="custom()">GO</button>
+                </div>
+            <!-- </div> -->
+        </div>
+    
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <select name="filter" id="filter" class="selectFilter " (change)="select($event.target.value)">
+                <option value="daily">Select</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yealy</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+    <!-- </div> -->
 </div>
 <div class="row">
 </div>
@@ -56,58 +96,22 @@
 
 <!-- <div class="row" style="margin-top: 18px;"
     *ngIf="(dropDownFilter && dateWiseSelection) || (dropDownFilerVideo && videoWiseSelection)"> -->
-<div class="row" style="margin-top: 18px;" *ngIf="dropDownFilter && dateWiseSelection">
-    <div class="col-lg-10 col-md-10 col-sm-10">
-        <div class="row" style="float: right;" *ngIf="showDateSelection">
-
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="field-wrapper datePickerBox has-value">
-                    <input type="text" value="" id="updateDate" readonly="true" class="form-ctrl bsDatepicker"
-                        style="border: 1px solid #0084f6;float: right;border-radius: 4px;" name="toDate"
-                        placeholder="Select Date" bsDatepicker (ngModelChange)="dateValidationForFuture($event)"
-                        [(ngModel)]="from_date" />
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="field-wrapper datePickerBox has-value">
-                    <input type="text" value="" id="updateDate" readonly="true" class="form-ctrl bsDatepicker"
-                        style="border: 1px solid #0084f6;float: right;border-radius: 4px;" name="toDate"
-                        placeholder="Select Date" bsDatepicker (ngModelChange)="dateValidationForFuture($event)"
-                        [(ngModel)]="to_date" />
-                </div>
-
-            </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-4" style="margin-top: 8px;">
-                <button id="videowise" class="go btnside" (click)="custom()">GO</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-2 col-md-2 col-sm-2">
-        <select name="filter" id="filter" class="selectFilter " (change)="select($event.target.value)">
-            <option value="daily">Select</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yealy</option>
-            <option value="custom">Custom</option>
-        </select>
-    </div>
-</div>
 <div #chartWrap id="chartWrap" style="margin-top: 10px;margin-bottom: 10px;" *ngIf="dateWiseSelection">
 </div>
 <div *ngIf="dateWiseSelection">
     <table class="tableBodyScroll">
         <thead>
             <tr>
+                <th style="width: 10%;">Sr. No.</th>
                 <th>Date</th>
                 <th>Bandwidth (MB)</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let data  of weekData; let i =index">
+                <td style="width: 10%;">{{i+1}}</td>
                 <td>
-                    <a style="color:#0084f6" (click)="videoWise(data.date,10,1)"> {{data.date}}</a>
+                    <a style="color:#0084f6" (click)="videoWise(data.date,10,1)"> {{data.date | date: 'dd-MMM-yyyy'}}</a>
                 </td>
                 <td>
                     {{data.consumed_bandwidth}}
