@@ -201,6 +201,7 @@ export class ClassHomeComponent implements OnInit, OnDestroy {
     this.auth.showLoader();
     this._http.getData(url).subscribe(
       (data: any) => {
+        this.masterCourse = [];
         this.auth.hideLoader();
         this.fullResponse = data.result;
         keys = Object.keys(data.result);

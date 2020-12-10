@@ -104,7 +104,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         this.weekDataSource = resp.result;
         this.weekData = this.getDataFromDataSource(0);
         console.log('week' ,this.weekData);
-        this.totalRecords = this.weekData.length;
+        this.totalRecords = this.weekDataSource.length;
 
         this.generateChartData(this.weekData);
 

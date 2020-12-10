@@ -461,7 +461,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   }
 
   getMasterCourseKey() {
-    let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
+    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem('institute_id') + '?is_active_not_expire=Y&sorted_by=course_name';
 
     let keys;
     this.auth.showLoader();

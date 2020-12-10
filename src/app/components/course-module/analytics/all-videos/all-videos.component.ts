@@ -49,6 +49,7 @@ export class AllVideosComponent implements OnInit {
   }
 
   totalVideoTitle(val, t, batch, page) {
+    this.PageIndex = page;
     sessionStorage.setItem('totalVideoTitle', val);
     sessionStorage.setItem('Title', t);
     this.videoTitle = t;
@@ -60,7 +61,7 @@ export class AllVideosComponent implements OnInit {
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.userwiseDetail = resp.result.video_list.response;
-        this.totalRecords = resp.result.video_list.totalElements;
+        this.totalRecords = resp.result.video_list.totalElements;        
         console.log(this.userwiseDetail);
       },
       (err) => {
