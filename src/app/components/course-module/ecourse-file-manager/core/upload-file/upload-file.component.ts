@@ -671,7 +671,7 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
         "title": this.varJson.title,
         "enable_watermark": enable_watermark,
         // "size": (size / (1024 * 1024)).toFixed(3)
-        "size": (this.varJson.category_id == 272) ? size : (size / (1024 * 1024)).toFixed(3)
+        "size": (this.varJson.category_id == 305) ? size : (size / (1024 * 1024)).toFixed(3)
 
       }
       if (this.varJson.category_id == 235) {
