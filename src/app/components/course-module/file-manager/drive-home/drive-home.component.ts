@@ -726,7 +726,7 @@ export class DriveHomeComponent implements OnInit {
   deleteFile() {
     let fileArray: any = [];
     if (this.SelectedFilesArray && this.SelectedFilesArray.length) {
-      if (this.SelectedFilesArray[0].category_id == 230 || this.SelectedFilesArray[0].category_id == 272) {
+      if (this.SelectedFilesArray[0].category_id == 230 || this.SelectedFilesArray[0].category_id == 305) {
         let key = this.SelectedFilesArray[0].keyName.split('/https');
         if (key && key.length) {
           let newPath = key[0].concat('/');
