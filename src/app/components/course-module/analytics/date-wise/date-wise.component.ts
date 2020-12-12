@@ -181,7 +181,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
       },
       yAxis: {
         title: {
-          text: 'Bandwidth'
+          text: 'Bandwidth (MB)'
         },
         min: 0,
         max: 600
@@ -192,7 +192,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         formatter: function () {
           var point = this.point
           let tool = '';
-          tool += 'Bandwidth ' + band[point.index] + '';
+          tool += 'Bandwidth ' + band[point.index] + '(MB)';
           tool += '<br>' + 'Date ' + d[point.index];
           return tool;
         },
