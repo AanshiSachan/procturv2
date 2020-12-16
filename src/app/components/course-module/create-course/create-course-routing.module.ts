@@ -10,10 +10,10 @@ import { CreateCourseComponent } from './create-course.component';
             component: CreateCourseComponent,
             pathMatch: 'prefix',
             children: [
-                // {
-                //     path: '',
-                //     redirectTo: 'standardlist'
-                // },
+                {
+                    path: '',
+                    redirectTo: 'standardlist'
+                },
                 {
                     path: 'standardlist',
                     loadChildren: () => import('app/components/course-module/create-course/course-home/course-home.module').then(m => m.CourseHomeModule),
