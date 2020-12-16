@@ -641,6 +641,13 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
     this.showEditModal = true;
   }
 
+  cancelEditFile() {
+    this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
+    this.editObj.is_hide = (this.editObj.is_hide) ? 'Y' : 'N';
+    this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
+    this.showEditModal = false;
+  }
+
   updateFile() {
     let obj = {
       "title": this.editObj.title,
@@ -662,10 +669,7 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
         this.auth.hideLoader();
       }
     );
-    this.editObj.is_readonly = (this.editObj.is_readonly) ? 'Y' : 'N';
-    this.editObj.is_hide = (this.editObj.is_hide) ? 'Y' : 'N';
-    this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
-    this.showEditModal = false;
+    this.cancelEditFile();
   }
 
   clearObject() {
