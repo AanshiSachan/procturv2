@@ -1,0 +1,103 @@
+<div class="container-fluid product-wrapper p-0" style="padding-top: 0px;">
+    <div class="row m-0 pt-3 pb-3" style="margin-bottom: 10px;">
+        <div class="col-md-8" style="padding-left: 0;">
+            <section class="middle-top clearFix bulk-header">
+                <div>
+                    <h1 class="pull-left">
+                        <a routerLink="/view/e-store/home" style="padding:0px; ">
+                            eStore
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                        <a routerLink="/view/e-store/website-configuration/images" style="padding:0px; ">
+                            Website Configuration
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                        <span>Manage Content</span>
+                    </h1>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="text-bold">Terms and Conditions
+                        </label>
+                        <!-- <textarea [(ngModel)]="pageModel.terms_and_condition_page" name="description"
+                            class="form-control form-control-sm" placeholder="Write Terms and conditions page content"
+                            maxLength="1500"></textarea> -->
+                        <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                            [(ngModel)]="pageModel.terms_and_condition_page"
+                            placeholder="Write a short description about this product">
+                        </editor>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="text-bold">Privacy Policy
+                        </label>
+                        <!-- <textarea [(ngModel)]="pageModel.privacy_policy_page" name="description"
+                            class="form-control form-control-sm" placeholder="Write Privacy Policy page content"
+                            maxLength="1500"></textarea> -->
+                        <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                            [(ngModel)]="pageModel.privacy_policy_page"
+                            placeholder="Write a short description about this product">
+                        </editor>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="text-bold">Refund Policy
+                        </label>
+                        <!-- <textarea [(ngModel)]="pageModel.refund_policy_page" name="description"
+                            class="form-control form-control-sm" placeholder="Write Refund Policy page content"
+                            maxLength="1500"></textarea> -->
+                        <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                            [(ngModel)]="pageModel.refund_policy_page"
+                            placeholder="Write a short description about this product">
+                        </editor>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="text-bold">About Us
+                        </label>
+                        <!-- <textarea [(ngModel)]="pageModel.about_us_page" name="description"
+                            class="form-control form-control-sm" placeholder="Write About Us page content"
+                            maxLength="1500"></textarea> -->
+                        <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                            [(ngModel)]="pageModel.about_us_page"
+                            placeholder="Write a short description about this product">
+                        </editor>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="text-bold">Thank you
+                        </label>
+                        <!-- <textarea [(ngModel)]="pageModel.thank_you_page" name="description"
+                            class="form-control form-control-sm"
+                            placeholder="Write a short description about this product" maxLength="1500"></textarea> -->
+                        <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                            [(ngModel)]="pageModel.thank_you_page"
+                            placeholder="Write a short description about this product">
+                        </editor>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="go-btn-container">
+        <button type="button" name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
+        <button type="button" name="button" class="fullBlue gobtn" (click)="saveData()"
+            [disabled]="auth.isRippleLoad.getValue()">Save</button>
+    </div>
+</div>

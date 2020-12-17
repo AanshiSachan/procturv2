@@ -1,0 +1,19 @@
+.sms-table-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+.filter-item-2 {
+    display: flex;
+    justify-content: flex-end;
+    .add-class-btn {
+      border: 1px solid #3a66fa;
+      border-radius: 4px;
+      box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+      padding: 4px 10px;
+      background: white;
+      color: #1283f4;
+      font-size: 14px;
+      font-weight: 600;
+      height: 30px;
+    }
+  }

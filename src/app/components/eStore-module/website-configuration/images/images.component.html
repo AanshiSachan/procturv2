@@ -1,0 +1,66 @@
+<mat-toolbar class="tool mattoolbar" id="topMenu">
+    <div>
+        <div class="buttonDiv" (click)="toggler('logoImage')" [ngClass]="activeSession === 'logoImage' ? ' activeSession' : ' '">
+          <div>
+            <a mat-button>
+                <span>Logo</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('faviconImage')" [ngClass]="activeSession === 'faviconImage' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>Favicon</span>
+            </a>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('aboutUsImage')" [ngClass]="activeSession === 'aboutUsImage' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>About Us Image</span>
+            </a>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('bannerImage')" [ngClass]="activeSession === 'bannerImage' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>Banner</span>
+            </a>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('popUpImage')" [ngClass]="activeSession === 'popUpImage' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>Popup Image</span>
+            </a>
+        </div>
+    </div>
+</mat-toolbar>
+
+
+<section class="middle-main clearFix" id="bulkEnquiryMain">
+    <div class="file-upload-box">
+      <div class="select-file-upload">
+        <h5 style="margin-left: 1%;">Upload your {{activeSession === 'logoImage' ? 'Logo' : activeSession === 'faviconImage' ? 'Favicon' : activeSession === 'aboutUsImage' ? 'About Us' : activeSession === 'bannerImage' ? 'Banner' : 'Popup'}} image here</h5>
+        <div class="">
+          <ul>
+            <li>
+              <!-- accept="application/vnd.ms-excel" -->
+              <p-fileUpload #fileUpload customUpload="true" (uploadHandler)="uploadHandler($event, fileUpload)" [showCancelButton]="false">
+              </p-fileUpload>
+
+              <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+                <div class="file-uploaded">
+                  {{fileLoading}}
+                </div>
+                <div class="progress-bar-wrapper">
+                  <div class="upload-bar">
+                    <div id="progress-width"></div>
+                  </div>
+                  <span>{{progress}} %</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>

@@ -1,0 +1,65 @@
+.menu{
+    height: 100%;
+    width: 174px;
+    position: fixed;
+    z-index: 9999999;
+    top: 0;
+    left: 0;
+    background-color: lightgray;
+    overflow-x: hidden;
+    padding-top: 20px;
+    box-shadow: 0px -1px 5px 0px #6969697a;
+    margin-left: 175px;
+    margin-top: 43px;
+}
+.menu ul {
+    list-style: none;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.menu ul li {
+    padding: 15px;
+    position: relative;
+    width: 174px;;
+    padding-bottom: 2px;
+}
+
+ .NavLink {
+    // background-color: rgb(244, 245, 247);
+    // border-left: 4px solid rgb(244, 245, 247);
+    color: black;
+    font-weight: 600;
+    // line-height: 36px;
+    // padding: 0 12px;
+    // width: 100%;
+    // cursor: pointer;
+    // .fa {
+    //     margin-right: 10px;
+    //         width: 16px;
+    //     text-align: center;
+    // }
+}
+
+.abc{
+    color: #528ff0;
+    font-weight: 600;
+    cursor: pointer;
+}
+ .NavLink:hover {
+    border-color: #528ff0;
+    color: black;
+    font-weight: 200;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+ul{
+    a :hover{
+        color: #528ff0;
+        padding-left: 2px;
+    }
+}
+.router{
+    margin-left: 155px;
+}

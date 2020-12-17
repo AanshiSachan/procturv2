@@ -1,0 +1,12 @@
+<div class="menu">
+    <ul>
+        <li (click)="toggler(menu.title)" *ngFor="let menu of menus">
+            <a (click)="navigateToLink(menu.routerLink)" style="font-size: 12px;">
+                <span [ngClass]="activeSession === menu.title ? ' abc' : ' NavLink'">{{menu.title}}</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="router">
+<router-outlet></router-outlet>
+</div>
