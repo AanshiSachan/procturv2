@@ -680,12 +680,17 @@ export class ProductListComponent implements OnInit {
   }
 
   copyToClipboard(item) {
-    document.addEventListener('copy', (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', (item.product_sharable_link));
-      e.preventDefault();
-      document.removeEventListener('copy', null);
-    });
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = item.product_sharable_link;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
     document.execCommand('copy');
+    document.body.removeChild(selBox);
     this.msgService.showErrorMessage('success', 'Copied to Clipboard', '');
 
   }
