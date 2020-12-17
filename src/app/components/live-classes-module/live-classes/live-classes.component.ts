@@ -354,12 +354,17 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   }
 
   copyToClipboard(item) {
-    document.addEventListener('copy', (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', (item.join_url));
-      e.preventDefault();
-      document.removeEventListener('copy', null);
-    });
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = item.join_url;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
     document.execCommand('copy');
+    document.body.removeChild(selBox);
     this.msgService.showErrorMessage('success', 'Copied to Clipboard', '');
 
   }
