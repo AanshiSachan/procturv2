@@ -39,7 +39,8 @@ export class InstituteDetailsComponent implements OnInit {
     jwt_api_key: '',
     jwt_api_secret: '',
     user_limit: '',
-    enable_recording: ''
+    enable_recording: '',
+    enable_attendance: ''
   }
   dividersObj = {
     0: true,
@@ -603,7 +604,8 @@ export class InstituteDetailsComponent implements OnInit {
       jwt_api_key: '',
       jwt_api_secret: '',
       user_limit: '',
-      enable_recording: ''
+      enable_recording: '',
+      enable_attendance: ''
     };
   }
 
@@ -625,7 +627,8 @@ export class InstituteDetailsComponent implements OnInit {
             jwt_api_key: '',
             jwt_api_secret: '',
             user_limit: '',
-            enable_recording: ''
+            enable_recording: '',
+            enable_attendance: ''
           };
         },
         err => {
