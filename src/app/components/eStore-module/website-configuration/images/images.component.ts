@@ -10,7 +10,7 @@ import { MessageShowService } from '../../../../services/message-show.service';
 })
 export class ImagesComponent implements OnInit {
   activeSession: any = '';
-  Id: any = '';
+  pageModel: any = '';
   @ViewChild('fileUpload', { static: false }) fileUpload: any;
 
   constructor(
@@ -30,7 +30,7 @@ export class ImagesComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         if (res.result) {
-          this.Id = res.result.id;
+          this.pageModel = res.result;
         }
       },
       err => {
@@ -59,10 +59,7 @@ export class ImagesComponent implements OnInit {
     if (this.checkValidation($event.files)) {
       // console.log(this.material_dataFlag);
       const formData = new FormData();
-      let data = {
-        institute_id: sessionStorage.getItem('institute_id'),
-        id: this.Id
-      }
+      let data = this.pageModel;
       formData.append('data', JSON.stringify(data));
       if ($event.files && $event.files.length) {
         $event.files.forEach(file => {
@@ -102,7 +99,7 @@ export class ImagesComponent implements OnInit {
               msg = msg.concat(' image uploaded successfully');
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               fileUpload.clear();
-
+              this.getData();
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }

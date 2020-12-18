@@ -65,15 +65,7 @@ export class ManageContentComponent implements OnInit {
       
     } else {
       const formData = new FormData();
-      let data = {
-        institute_id: sessionStorage.getItem('institute_id'),
-        about_us_page: this.pageModel.about_us_page,
-        terms_and_condition_page: this.pageModel.terms_and_condition_page,
-        privacy_policy_page: this.pageModel.privacy_policy_page,
-        refund_policy_page: this.pageModel.refund_policy_page,
-        thank_you_page: this.pageModel.thank_you_page,
-        id: this.pageModel.id
-      }
+      let data = this.pageModel;
       formData.append('data', JSON.stringify(data));
 
       let base = this.auth.getBaseUrl();
@@ -103,8 +95,8 @@ export class ManageContentComponent implements OnInit {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               // this.clearuploadObject();
               // this.refreshList();
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
-
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Manage content updated successfully");
+              this.getData();
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }

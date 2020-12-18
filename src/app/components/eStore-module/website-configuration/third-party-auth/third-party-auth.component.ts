@@ -52,14 +52,7 @@ export class ThirdPartyAuthComponent implements OnInit {
     } else {
       // console.log(this.material_dataFlag);
       const formData = new FormData();
-      let data = {
-        institute_id: sessionStorage.getItem('institute_id'),
-        chat_key: this.pageModel.chat_key,
-        google_analytics_key: this.pageModel.google_analytics_key,
-        pixel_key: this.pageModel.pixel_key,
-        google_verfication_key: this.pageModel.google_verfication_key,
-        id: this.pageModel.id
-      }
+      let data = this.pageModel;
       formData.append('data', JSON.stringify(data));
 
       let base = this.auth.getBaseUrl();
@@ -90,6 +83,7 @@ export class ThirdPartyAuthComponent implements OnInit {
               // this.clearuploadObject();
               // this.refreshList();
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Third party authorization updated successfully");
+              this.getData();
 
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);

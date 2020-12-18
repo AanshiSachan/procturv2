@@ -53,14 +53,7 @@ export class ContactInfoComponent implements OnInit {
       var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
       if (this.pageModel.email_id == ''|| this.pageModel.email_id == null || reg.test(this.pageModel.email_id)) {
         const formData = new FormData();
-        let data = {
-          institute_id: sessionStorage.getItem('institute_id'),
-          id: this.pageModel.id,
-          contact: this.pageModel.contact,
-          email_id: this.pageModel.email_id,
-          whatsapp: this.pageModel.whatsapp,
-          address: this.pageModel.address
-        }
+        let data = this.pageModel;
         formData.append('data', JSON.stringify(data));
 
         let base = this.auth.getBaseUrl();
@@ -91,7 +84,7 @@ export class ContactInfoComponent implements OnInit {
                 // this.clearuploadObject();
                 // this.refreshList();
                 this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Contact info updated successfully");
-
+                this.getData();
               } else {
                 this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
               }

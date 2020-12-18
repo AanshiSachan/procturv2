@@ -79,18 +79,7 @@ export class ThemeComponent implements OnInit {
     } else {
       // console.log(this.material_dataFlag);
       const formData = new FormData();
-      let data = {
-        institute_id: sessionStorage.getItem('institute_id'),
-        background_color: this.pageModel.background_color,
-        font_family_heading: this.pageModel.font_family_heading,
-        font_family_content: this.pageModel.font_family_content,
-        text_heading_color: this.pageModel.text_heading_color,
-        text_content_color: this.pageModel.text_content_color,
-        border_color: this.pageModel.border_color,
-        id: this.pageModel.id,
-        font_family_content_id: this.pageModel.font_family_content_id,
-        font_family_heading_id: this.pageModel.font_family_heading_id
-      }
+      let data = this.pageModel;
       formData.append('data', JSON.stringify(data));
 
       let base = this.auth.getBaseUrl();
@@ -121,6 +110,7 @@ export class ThemeComponent implements OnInit {
               // this.clearuploadObject();
               // this.refreshList();
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+              this.getData();
 
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
