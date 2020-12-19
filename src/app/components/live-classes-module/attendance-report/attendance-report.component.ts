@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { MessageShowService } from '../../..';
@@ -12,7 +12,7 @@ import { ExcelService } from '../../../services/excel.service';
   templateUrl: './attendance-report.component.html',
   styleUrls: ['./attendance-report.component.scss']
 })
-export class AttendanceReportComponent implements OnInit {
+export class AttendanceReportComponent implements OnInit, OnDestroy {
 
   isProfessional: boolean = false;
   institution_id: any = sessionStorage.getItem('institution_id');
@@ -59,13 +59,18 @@ export class AttendanceReportComponent implements OnInit {
     // this.setDemoData()
     this.getLiveClassAttendanceReport();
   }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('live_meeting_with');
+  }
+  
   back() {
     sessionStorage.setItem('pastClass', 'true');
     this.router.navigateByUrl("/view/live-classes");
   }
 
   getLiveClassAttendanceReport() {
-    let obj = {
+    let obj: any = {
       "session_id": this.session_id, // If want data by session Id
       "sort_by": "name", // available parameters: name, duration
       "order": "ASC", // ASC or DESC
@@ -74,6 +79,9 @@ export class AttendanceReportComponent implements OnInit {
       // "student": false, // default true set false if do not need student data
       // "teacher": false, // default true set false if do not need teachers data
       // "guest": false // default true set false if do not need guests data
+    }
+    if(sessionStorage.getItem('live_meeting_with') == 'Zoom') {
+      obj.zoom_live_class = true;
     }
     this.auth.showLoader();
 
