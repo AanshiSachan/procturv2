@@ -1209,7 +1209,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf="instituteDetailsAll?.zoom_attendance_enable">
           <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
             <label for="enable_attendance">Enable zoom Attendance 
             </label>
@@ -1265,7 +1265,7 @@
                   <th>
                     Zoom Recording Enable
                   </th>
-                  <th>
+                  <th *ngIf="instituteDetailsAll?.zoom_attendance_enable">
                     Enable zoom Attendance
                   </th>
                   <th>
@@ -1371,7 +1371,7 @@
                     </span>
 
                   </td>
-                  <td>
+                  <td *ngIf="instituteDetailsAll?.zoom_attendance_enable">
                     <span class="view-comp" title="{{data.enable_attendance}}">
                       {{data.enable_attendance}}
                     </span>
@@ -1400,7 +1400,7 @@
               </tbody>
               <tbody *ngIf="zoomDetails.length == 0">
                 <tr>
-                  <td colspan="9"> No Data Found</td>
+                  <td colspan="10"> No Data Found</td>
                 </tr>
               </tbody>
             </table>
