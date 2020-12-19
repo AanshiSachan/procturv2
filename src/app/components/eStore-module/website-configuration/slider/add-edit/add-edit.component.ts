@@ -62,7 +62,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
   checkValidation(event) {
     if (event) {
       return true;
-    } else if (this.selectedPageId) {
+    } else if (this.selectedPageId && this.pageModel.image_url != '') {
       return true;
     } else {
       this.msgService.showErrorMessage('error', '', 'Please select Image')

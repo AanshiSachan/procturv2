@@ -1,9 +1,9 @@
 <div class="container-fluid product-wrapper p-0" style="padding-top: 0px;">
-  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 10px;">
+  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
     <div class="col-md-8" style="padding-left: 0;">
       <section class="middle-top clearFix bulk-header">
         <div>
-          <h1 class="pull-left">
+          <h1 class="pull-left" style="margin-bottom: 10px;">
             <a routerLink="/view/e-store/home" style="padding:0px; ">
               eStore
             </a>
@@ -24,30 +24,26 @@
       <div class="row">
         <div class="col-md-12 form-group">
           <label class="text-bold"> Phone
-            <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="number" [(ngModel)]="pageModel.contact" class="form-control form-control-sm">
+          <input type="text" placeholder="Phone" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="pageModel.contact" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Email
-            <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" [(ngModel)]="pageModel.email_id" class="form-control form-control-sm">
+          <input type="text" placeholder="Email" [(ngModel)]="pageModel.email_id" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Whatsapp
-            <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" [(ngModel)]="pageModel.whatsapp" class="form-control form-control-sm">
+          <input type="text" placeholder="Whatsapp" [(ngModel)]="pageModel.whatsapp" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Address
-            <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" [(ngModel)]="pageModel.address" class="form-control form-control-sm">
+          <input type="text" placeholder="Address" [(ngModel)]="pageModel.address" class="form-control form-control-sm">
         </div>
 
       </div>

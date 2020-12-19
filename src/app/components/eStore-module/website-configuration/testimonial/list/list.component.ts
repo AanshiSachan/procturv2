@@ -157,6 +157,7 @@ export class ListComponent implements OnInit {
 
   editRow(object) {
     console.log(object);
+    sessionStorage.setItem('testnomialObj', JSON.stringify(object.data));
     this.router.navigate(['view/e-store/website-configuration/testimonial/edit/' + object.data.id])
   }
 

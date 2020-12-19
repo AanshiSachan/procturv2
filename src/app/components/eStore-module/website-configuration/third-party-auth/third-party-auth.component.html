@@ -1,9 +1,9 @@
 <div class="container-fluid product-wrapper p-0" style="padding-top: 0;">
-  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 10px;">
+  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
     <div class="col-md-8" style="padding-left: 0;">
       <section class="middle-top clearFix bulk-header">
         <div>
-          <h1 class="pull-left">
+          <h1 class="pull-left" style="margin-bottom: 10px;">
             <a routerLink="/view/e-store/home" style="padding:0px; ">
               eStore
             </a>
@@ -26,28 +26,28 @@
           <label class="text-bold"> Chat
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" [(ngModel)]="pageModel.chat_key" class="form-control form-control-sm">
+          <input type="text" placeholder="Chat" [(ngModel)]="pageModel.chat_key" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Google Analytics
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" [(ngModel)]="pageModel.google_analytics_key" class="form-control form-control-sm">
+          <input type="text" placeholder="Google Analytics" [(ngModel)]="pageModel.google_analytics_key" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Pixel
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" [(ngModel)]="pageModel.pixel_key" class="form-control form-control-sm">
+          <input type="text" placeholder="Pixel" [(ngModel)]="pageModel.pixel_key" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Google Verification
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" [(ngModel)]="pageModel.google_verfication_key" class="form-control form-control-sm">
+          <input type="text" placeholder="Google Verification" [(ngModel)]="pageModel.google_verfication_key" class="form-control form-control-sm">
         </div>
 
       </div>

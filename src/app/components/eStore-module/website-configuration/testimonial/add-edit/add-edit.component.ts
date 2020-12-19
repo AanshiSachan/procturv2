@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../../services/message-show.service';
@@ -9,7 +9,7 @@ import { ProductService } from '../../../../../services/products.service';
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.scss']
 })
-export class AddEditComponent implements OnInit {
+export class AddEditComponent implements OnInit, OnDestroy {
 
   selectedPageId: any = '';
   pageModel: any = {
@@ -34,32 +34,18 @@ export class AddEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.selectedPageId) {
-      this.getPageDataById();
+      this.pageModel = JSON.parse(sessionStorage.getItem('testnomialObj'));
     }
   }
 
-  getPageDataById() {
-    this.auth.showLoader();
-    this.productService.getMethod('/api/v2/website/page/' + this.selectedPageId, null).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.pageModel = res.result;
-        //this.fetchTableDataByPage(this.pageIndex);
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
+  ngOnDestroy() {
+    sessionStorage.removeItem('testnomialObj');
   }
-
-  // saveData() {
-  //   this.selectedPageId ? this.updatePage() : this.AddPage();
-  // }
 
   checkValidation(event) {
     if (event) {
       return true;
-    } else if (this.selectedPageId) {
+    } else if (this.selectedPageId && this.pageModel.image_url!='') {
       return true;
     } else {
       this.msgService.showErrorMessage('error', '', 'Please select Image')
@@ -72,7 +58,7 @@ export class AddEditComponent implements OnInit {
   }
 
   saveData() {
-    let file = this.selectedPageId ? undefined : (<HTMLFormElement>document.getElementById('uploadFileControl')).files[0];
+    let file = (<HTMLFormElement>document.getElementById('uploadFileControl')).files[0];
     console.log(file);
     if (this.checkValidation(file)) {
       if (this.pageModel.name != '' && this.pageModel.name != null) {
@@ -87,9 +73,10 @@ export class AddEditComponent implements OnInit {
           }
           if (this.selectedPageId) {
             data.id = this.selectedPageId;
+            data.image_url = this.pageModel.image_url;
           }
           formData.append('data', JSON.stringify(data));
-          if (file && !this.selectedPageId) {
+          if (file) {
             formData.append('file', file);
           }
 
@@ -138,6 +125,10 @@ export class AddEditComponent implements OnInit {
         this.msgService.showErrorMessage('error', '', 'Please enter name');
       }
     }
+  }
+
+  clearFile() {
+    this.pageModel.image_url = '';
   }
 
 }

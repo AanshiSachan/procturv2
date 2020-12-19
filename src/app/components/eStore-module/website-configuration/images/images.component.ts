@@ -9,7 +9,11 @@ import { MessageShowService } from '../../../../services/message-show.service';
   styleUrls: ['./images.component.scss']
 })
 export class ImagesComponent implements OnInit {
-  activeSession: any = '';
+  activeSession: any = {
+    id: '',
+    name: '',
+    size: ''
+  };
   pageModel: any = '';
   @ViewChild('fileUpload', { static: false }) fileUpload: any;
 
@@ -20,7 +24,7 @@ export class ImagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.toggler('logoImage');
+    this.toggler('logoImage', '200 * 50 / 50 * 50', 'Logo');
     this.getData();
   }
 
@@ -39,8 +43,10 @@ export class ImagesComponent implements OnInit {
     );
   }
 
-  toggler(id) {
-    this.activeSession = id;
+  toggler(id, size, name) {
+    this.activeSession.id = id;
+    this.activeSession.size = size;
+    this.activeSession.name = name;
   }
 
   checkValidation(files) {
@@ -63,7 +69,7 @@ export class ImagesComponent implements OnInit {
       formData.append('data', JSON.stringify(data));
       if ($event.files && $event.files.length) {
         $event.files.forEach(file => {
-          formData.append(this.activeSession, file);
+          formData.append(this.activeSession.id, file);
         });
         // formData.append('files', $event.files);
       }
@@ -95,8 +101,7 @@ export class ImagesComponent implements OnInit {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               // this.clearuploadObject();
               // this.refreshList();
-              let msg = this.activeSession === 'logoImage' ? 'Logo' : this.activeSession === 'faviconImage' ? 'Favicon' : this.activeSession === 'aboutUsImage' ? 'About Us' : this.activeSession === 'bannerImage' ? 'Banner' : 'Popup';
-              msg = msg.concat(' image uploaded successfully');
+              let msg = this.activeSession.name.concat(' image uploaded successfully');
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               fileUpload.clear();
               this.getData();

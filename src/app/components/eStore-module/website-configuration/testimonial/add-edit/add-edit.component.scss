@@ -9,17 +9,17 @@
     padding-bottom: 20px;
   
     .form-control {
+      border: 1px solid #e0e0e0;
+      padding: 6px;
+      border-radius: 4px;
       display: block;
       width: 50%;
       box-sizing: border-box;
-      padding: 5px;
       outline: none;
-      border: solid 1px #ccc;
       background: #fff;
       font: 400 12px "Open sans", sans-serif;
       -webkit-box-shadow: none;
       box-shadow: none;
-      border-radius: 0;
       color: #000;
     }
 
@@ -69,6 +69,13 @@
       overflow-y: hidden;
     }
   }
-  .form-group {
-    margin-bottom: 0px !important;
-  }
+  .clearFile{
+    padding: 5px;
+    width: 2%;
+    margin-top: 6px;
+    color: white;
+    cursor: pointer;
+    border: 1px solid;
+    font-weight: 600;
+    background: red;
+}

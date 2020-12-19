@@ -35,8 +35,8 @@ export class ListComponent implements OnInit {
   setTableData() {
     this.headerSetting = [
       {
-        primary_key: 'id',
-        value: "Id",
+        primary_key: 'order_number',
+        value: "Order Number",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -75,11 +75,11 @@ export class ListComponent implements OnInit {
 
     this.rowColumns = [
       {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
-        width: "30%",
+        width: "25%",
         textAlign: "left"
       },
       {

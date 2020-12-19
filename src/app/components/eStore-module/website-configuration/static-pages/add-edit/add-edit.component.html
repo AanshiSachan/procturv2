@@ -1,4 +1,4 @@
-<div class="container-fluid product-wrapper p-0" style="padding-top: 2px;padding: 2%;">
+<div class="container-fluid product-wrapper p-0" style="padding-top: 2px;padding: 1%;">
 
   <div class="row">
     <div class="col-md-12">
@@ -7,13 +7,13 @@
           <label class="text-bold"> Title
             <span class="text-danger">*</span>
           </label>
-          <input type="text" [(ngModel)]="pageModel.page_title" class="form-control form-control-sm">
+          <input type="text" placeholder="Title" [(ngModel)]="pageModel.page_title" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12">
           <div class="col-md-8 form-group" style="padding-right: 0px;padding-left: 0px;">
             <label class="text-bold">Description</label>
-            <textarea rows="3" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="pageModel.page_data"
+            <textarea rows="3" placeholder="Description" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="pageModel.page_data"
               style="width: 75%;"></textarea>
           </div>
         </div>
@@ -22,13 +22,14 @@
           <label class="text-bold"> Route
             <span class="text-danger">*</span>
           </label>
-          <input type="text" [(ngModel)]="pageModel.page_route" class="form-control form-control-sm">
+          <input type="text" placeholder="Route" [(ngModel)]="pageModel.page_route" class="form-control form-control-sm">
         </div>
         <div class="row m-0">
-          <div class="col-md-4 form-group">
+          <div class="col-md-12 form-group">
             <label class="text-bold">Status
             </label>
             <select id="country_id" class="form-control form-control-sm" [(ngModel)]="pageModel.page_status">
+              <option value="">Select Status</option>
               <option [value]="data.Title" *ngFor='let data of statusData'>
                 {{data.Title | titlecase}}
               </option>
@@ -36,7 +37,7 @@
           </div>
         </div>
 
-        <div class="col-md-12" *ngIf="selectedPageId && pageModel.banner_image_url!='' && pageModel.banner_image_url!=null">
+        <div class="col-md-12" style="margin-bottom: 15px;" *ngIf="selectedPageId && pageModel.banner_image_url!='' && pageModel.banner_image_url!=null">
           <div class="c-md-3" style="padding: 0;margin-top: 1%;margin-right: 5px;">
             <label class="text-bold"> Uploaded Image</label>
             <img style="width: 20%;vertical-align: middle;margin-left: 25px;" src="{{pageModel.banner_image_url}}">
@@ -52,11 +53,11 @@
             [(ngModel)]="pageModel.image" />
         </div>
 
-        <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;margin-top: 15px;">
+        <div class="col-md-6 form-group" style="padding-left: 0;margin-bottom: 0;margin-top: 10px;">
           <div class="col-md-12 form-group">
             <input type="checkbox" id="inactive" class="form-ctrl" [(ngModel)]="pageModel.in_navbar"
               style="-webkit-appearance: checkbox !important;">&nbsp;
-            <label for="inactive">Show In Navbar</label>
+            <label for="inactive">Show In Navigation Bar</label>
           </div>
         </div>
       </div>
