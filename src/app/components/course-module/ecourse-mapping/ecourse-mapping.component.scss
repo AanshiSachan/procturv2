@@ -1,5 +1,8 @@
 .btnAdd{
-    margin-top: 2%;     
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 10px;   
     display: inline-block;
     position: absolute;
     right: 3rem;
@@ -85,3 +88,22 @@
   .online_offline_label{
     padding-left: 10px;;
   }
+
+  .student-assign-popup {
+    label {
+      min-width: 120px;
+      font-size: 12px;
+    }
+  }
+input {
+  border: 1px solid #e0e0e0;
+    padding: 6px;
+    border-radius: 4px;
+    width: 60%;
+    box-sizing: border-box;
+    outline: none;
+    background: #fff;
+    font: 400 12px "Open sans", sans-serif;
+    box-shadow: none;
+    color: #000;
+}

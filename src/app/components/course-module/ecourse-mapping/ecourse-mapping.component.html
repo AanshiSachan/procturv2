@@ -1,8 +1,7 @@
 <div class="clearFix" style="padding-right: 2%;">
   <aside class="middle-full">
     <section class="middle-main clearFix">
-      <div class="middle-top mb0 clearFix header" style="width: 100%;
-            padding-bottom: 20px;    background:#f4f5f7;">
+      <div class="middle-top mb0 clearFix header" style="width: 100%;background:#f4f5f7;">
         <div class="row" style="margin-left: 0;margin-right: 0">
           <h2 style="padding: 16px 0px 3px 10px;" class="pull-left">
             <a routerLink="/view/course">
@@ -10,12 +9,13 @@
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> E-course Mapping
           </h2>
-          <!-- <a (click)="clearObjects()" *ngIf="jsonflag.isUpadted" class="form btnAdd">Add E-Course
-          </a> -->
+          <a (click)="showAddEcourse()" style="background: white;cursor: pointer;" class="form btnAdd">
+            <i class="fa fa-plus"></i> Add E-Course
+          </a>
 
         </div>
 
-        <div class="row" style="margin-left: 0;margin-right: 0">
+        <!-- <div class="row" style="margin-left: 0;margin-right: 0">
           <div class="c-lg-12 field-made">
             <div class="c-lg-3 field-wrapper">
               <label for="from">E-course Name<span class="text-danger">*</span></label>
@@ -42,8 +42,6 @@
             </div>
 
             <div class="c-lg-3 field-wrapper" *ngIf="jsonflag.allowMapping=='1'" style="width: 20%;">
-              <!-- <div class="field-wrapper"> -->
-              <!-- <br> -->
               <div class="c-lg-2" style="width: 50%;">
                 <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Y"
                   id="is_offline_or_online" [(ngModel)]="ecourseObject.is_online"><label
@@ -54,19 +52,17 @@
                   id="is_offline_or_online" style="-webkit-appearance: radio;"
                   [(ngModel)]="ecourseObject.is_online"><label>Offline</label>
               </div>
-              <!-- </div> -->
             </div>
 
             <div class="c-lg-2" style="margin-top:2%;">
               <input type="button" class="btn fullBlue" value="Add" (click)="addEcourseMapping()">
-              <!-- <input type="button" class="btn fullBlue" *ngIf="jsonflag.isUpadted" value="Update" (click)="updateCourseMapping()"> -->
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
 
-      <div class="table table-responsive" style="margin-top: 30px;">
+      <div class="table table-responsive">
         <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="ecourseData"
           (editView)='optionSelected($event)'>
         </data-display-table>
@@ -135,7 +131,7 @@
 </proctur-popup>
 
 
-<proctur-popup [sizeWidth]="'large'" *ngIf="statusOption">
+<proctur-popup [sizeWidth]="''" *ngIf="statusOption">
 
   <span class="closePopup pos-abs fbold show" (click)="clearObjects()" close-button>
     <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
@@ -146,33 +142,87 @@
     </svg>
   </span>
 
-  <h2 popup-header>Edit E-course</h2>
+  <h2 popup-header>
+     {{jsonflag.isUpadted ? 'Edit' : 'Add'}} E-course
+  </h2>
   <!-- <h2 popup-header>Select Standards</h2> -->
 
   <div popup-content class="student-assign-popup">
     <div class=" filter-section">
       <div class="batch-table row">
         <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
-          <div class="c-lg-6" style="margin-top: 10px;">
-            <label class="course_type" style="margin-right: 10px;font-weight: 600;">E-course Name</label>
+          <div class="c-lg-9" style="margin-top: 10px;">
+            <label class="course_type" style="margin-right: 10px;">E-course Name</label>
             <input type="text" class="form-ctrl" name="course_type" id="course_type"
               [(ngModel)]="updateEcourseObject.course_type"
               style="border-radius: 4px;border: 1px solid #ccc;padding: 5px;">
           </div>
+          </div>
+          <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
           <div class="c-lg-6" style="margin-top: 10px;" *ngIf="jsonflag.allowMapping=='1'">
-            <label class="course_type" style="margin-right: 10px;float: left;font-weight: 600;">Status</label>
+            <label class="course_type" style="margin-right: 10px;float: left;">Status</label>
             <div class="c-lg-3" style="padding: 0;">
               <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Online"
-                id="is_offline_or_online" [(ngModel)]="ecourseObject.status"><label
+                id="is_offline_or_online" [(ngModel)]="ecourseObject.status"><label style="min-width: 0"
                 class="online_offline_label">Online</label>
             </div>
             <div class="c-lg-3" style="padding: 0;padding-bottom: 15px;">
               <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Offline"
-                id="is_offline_or_online" style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.status"><label
+                id="is_offline_or_online" style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.status"><label style="min-width: 0"
                 class="online_offline_label">Offline</label>
             </div>
           </div>
         </div>
+        <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+          <div class="c-lg-9" style="margin-top: 10px;">
+            <label class="course_type" style="margin-right: 10px;">Short Description</label>
+            <input type="text" class="form-ctrl" name="short_description" id="short_description"
+              [(ngModel)]="updateEcourseObject.short_description"
+              style="border-radius: 4px;border: 1px solid #ccc;padding: 5px;">
+          </div>
+          </div>
+          <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+            <div class="c-lg-9" style="margin-top: 10px;">
+              <label class="course_type" style="margin-right: 10px;vertical-align: top;float: left;">Long Description</label>
+              <editor style="width: 60%;float: left;" [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+              [(ngModel)]="updateEcourseObject.long_description"></editor>
+            </div>
+            </div>
+            <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+              <div class="c-lg-6" style="margin-top: 10px;">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" name="is_popular" id="is_popular" name="is_popular"
+                    [(ngModel)]="updateEcourseObject.is_popular" class="form-checkbox">
+                  <label for="is_popular">Set as Popular</label>
+                </div>
+              </div>
+              </div>
+              <div class="col-md-12" style="margin-bottom: 15px;" *ngIf="updateEcourseObject.thumbnail_url!='' && updateEcourseObject.thumbnail_url!=null && jsonflag.isUpadted">
+                <div class="c-md-12" style="padding: 0;margin-top: 1%;margin-right: 5px;">
+                  <label class="text-bold" style="font-size: 12px;"> Uploaded Image</label>
+                  <img style="width: 120px;vertical-align: middle;margin-left: 25px;height: 80px;" src="{{updateEcourseObject.thumbnail_url}}">
+                </div>                
+              </div>
+              <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+                <div style="margin-left:15px;font-size: 12px;">Select Default Thumbnail
+                  <span style="float: right;color: red;margin-right: 15px;cursor: pointer;" (click)="clearSelection()">Clear Selection</span></div>
+                <div class="c-lg-3" style="margin-top: 10px;" *ngFor="let data of thumbnailData; let i=index">
+                  <div class="field-radio-wrapper">
+                    <input type="radio" name="thumbnail_url{{i}}" id="thumbnail_url{{i}}" name="thumbnail_url"
+                      [(ngModel)]="data.isSelected" class="form-radio" (ngModelChange)="setThumbnailUrl(data)">
+                    <label for="thumbnail_url{{i}}">
+                      <img src="{{data.data_value}}" (click)="setThumbnailUrl(data)" >
+                    </label>
+                  </div>
+                </div>
+                </div>
+                <div style="margin-left:15px;font-weight:600;text-align: center;">OR</div>
+                <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;margin-top: 10px;">
+                <label style="margin-bottom: 10px;" class="course_type" for="fileupload">Upload Image</label>
+                <input type="file" id="fileAdd" [disabled]="updateEcourseObject.thumbnail_url!='' && updateEcourseObject.thumbnail_url!=null" class="side-form-ctrl" (change)="fileUpload('imgAdd')" name="fileupload"
+                  accept="image/*">
+                <p style="margin-left: 20px">File Format : jpg/jpeg/bmp/gif/png</p>
+                </div>
         <h2 popup-header *ngIf="!jsonflag.isProfessional && jsonflag.allowMapping=='1'" style="padding-left: 15px;">
           Select Courses</h2>
         <h2 popup-header *ngIf="jsonflag.isProfessional && jsonflag.allowMapping=='1'" style="padding-left: 15px;">
@@ -205,9 +255,9 @@
 
   <div class="" popup-footer>
     <div class="clearfix" style="margin-top :10px">
-      <aside class="pull-right popup-btn">
-        <input type="button" value="Cancel" class="btn" (click)="clearObjects()">
-        <input type="button" value="Update" class="fullBlue btn" (click)="addCourseOrStandard()">
+      <aside class="pull-right popup-btn" style="width: 100%;">
+        <input type="button" style="width: 10%;float: right;" value="Save" class="fullBlue btn" (click)="addCourseOrStandard()">
+        <input type="button" style="width: 10%;float: right;" value="Cancel" class="btn" (click)="clearObjects()">
       </aside>
     </div>
   </div>
