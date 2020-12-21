@@ -24,9 +24,6 @@ export class AddEditComponent implements OnInit {
       Title: 'DRAFT'
     },
     {
-      Title: 'READY'
-    },
-    {
       Title: 'PUBLISHED'
     }
   ]

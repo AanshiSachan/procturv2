@@ -15,6 +15,7 @@ export class ImagesComponent implements OnInit {
     size: ''
   };
   pageModel: any = '';
+  uploadedImg: any = '';
   @ViewChild('fileUpload', { static: false }) fileUpload: any;
 
   constructor(
@@ -24,7 +25,6 @@ export class ImagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.toggler('logoImage', '200 * 50 / 50 * 50', 'Logo');
     this.getData();
   }
 
@@ -36,6 +36,7 @@ export class ImagesComponent implements OnInit {
         if (res.result) {
           this.pageModel = res.result;
         }
+        this.toggler('logoImage', '200 * 50 / 50 * 50', 'Logo', this.pageModel.logo_url);
       },
       err => {
         this.auth.hideLoader();
@@ -43,10 +44,14 @@ export class ImagesComponent implements OnInit {
     );
   }
 
-  toggler(id, size, name) {
+  toggler(id, size, name, img) {
     this.activeSession.id = id;
     this.activeSession.size = size;
     this.activeSession.name = name;
+    this.uploadedImg = img;
+    if(this.uploadedImg != '' && this.uploadedImg != null) {
+      this.uploadedImg = this.uploadedImg + '?' + Math.random().toFixed(2);
+    }
   }
 
   checkValidation(files) {

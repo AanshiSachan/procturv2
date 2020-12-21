@@ -1,6 +1,6 @@
 <mat-toolbar class="tool mattoolbar" id="topMenu">
   <div>
-    <div class="buttonDiv" (click)="toggler('logoImage', '200 * 50 / 50 * 50', 'Logo')"
+    <div class="buttonDiv" (click)="toggler('logoImage', '200 * 50 / 50 * 50', 'Logo', pageModel.logo_url)"
       [ngClass]="activeSession.id === 'logoImage' ? ' activeSession' : ' '">
       <div>
         <a mat-button>
@@ -9,28 +9,28 @@
       </div>
     </div>
 
-    <div class="buttonDiv" (click)="toggler('faviconImage', '16 * 16', 'Favicon')"
+    <div class="buttonDiv" (click)="toggler('faviconImage', '16 * 16', 'Favicon', pageModel.favicon_url)"
       [ngClass]="activeSession.id === 'faviconImage' ? ' activeSession' : ' '">
       <a mat-button>
         <span>Favicon</span>
       </a>
     </div>
 
-    <div class="buttonDiv" (click)="toggler('aboutUsImage', '1800 * 900', 'About Us')"
+    <div class="buttonDiv" (click)="toggler('aboutUsImage', '1800 * 900', 'About Us', pageModel.about_us_url)"
       [ngClass]="activeSession.id === 'aboutUsImage' ? ' activeSession' : ' '">
       <a mat-button>
         <span>About Us Image</span>
       </a>
     </div>
 
-    <div class="buttonDiv" (click)="toggler('bannerImage', '1800 * 900', 'Banner')"
+    <div class="buttonDiv" (click)="toggler('bannerImage', '1800 * 900', 'Banner', pageModel.banner_url)"
       [ngClass]="activeSession.id === 'bannerImage' ? ' activeSession' : ' '">
       <a mat-button>
         <span>Banner</span>
       </a>
     </div>
 
-    <div class="buttonDiv" (click)="toggler('popUpImage', '1800 * 900', 'Popup')"
+    <div class="buttonDiv" (click)="toggler('popUpImage', '1800 * 900', 'Popup', pageModel.pop_up_image_url)"
       [ngClass]="activeSession.id === 'popUpImage' ? ' activeSession' : ' '">
       <a mat-button>
         <span>Popup Image</span>
@@ -71,5 +71,12 @@
       </div>
     </div>
 
+  </div>
+
+  <div class="col-md-12" style="margin-bottom: 15px;" *ngIf="uploadedImg!='' && uploadedImg!=null">
+    <div class="c-md-12" style="padding: 0;margin-top: 1%;margin-right: 5px;">
+      <label class="text-bold" style="font-weight: 600;font-size: 12px;margin-left: 15px;"> Uploaded Image</label>
+      <img style="width: 120px;vertical-align: middle;margin-left: 25px;height: 80px;" src="{{uploadedImg}}">
+    </div>
   </div>
 </section>

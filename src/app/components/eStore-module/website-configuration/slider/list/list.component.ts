@@ -51,7 +51,7 @@ export class ListComponent implements OnInit {
       {
         primary_key: 'content',
         value: "Content",
-        charactLimit: 25,
+        charactLimit: 5,
         sorting: false,
         visibility: true
       },
