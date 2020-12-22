@@ -103,6 +103,7 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
   watchHistory() {
     console.log("totalPlayed", this.videoObject.totalPlayed);
 
+    if(this.videoObject.totalPlayed != 0) {
     let url = '/api/v1/instFileSystem/allocateWatchHistory';
     let obj = {
       "video_id": sessionStorage.getItem("VideoIdWatchHistor"),
@@ -118,6 +119,7 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('error', '', err.error.message);
       });
+    }
 
   }
   ngOnInit() {

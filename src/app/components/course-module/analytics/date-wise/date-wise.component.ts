@@ -55,7 +55,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
 
   filter(val) {
     switch (val) {
-      case 'date': this.dropDownFilter = true;
+      case 'date': this.dropDownFilter = !this.dropDownFilter;
         break;
       case 'video': this.dropDownFilerVideo = true;
         break;
@@ -209,6 +209,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     })
   }
   videoWise(val, batch, page) {
+    this.PageIndex = page;
     this.selectType = "video";
     sessionStorage.setItem('videWise', val);
     this.videoWiseSelection = true;
@@ -352,7 +353,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
       return t;
     }
     else if (this.videoWiseSelection) {
-      this.videoWise(sessionStorage.getItem('videoWise'), this.displayBatchSize, this.PageIndex);
+      this.videoWise(sessionStorage.getItem('videWise'), this.displayBatchSize, this.PageIndex);
       // let t = this.videoDataSource.slice(startindex, startindex + this.displayBatchSize);
       // return t;
     }

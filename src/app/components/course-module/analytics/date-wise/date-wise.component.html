@@ -11,7 +11,7 @@
         <input type="text" class="search" *ngIf="userWiseSelection" placeholder="Search" (keyup)="searchDatabaseUser()"
             style="background:transparent;border: 1px solid lightgrey;" [(ngModel)]="searchText1" #search>
     </div> -->
-    <div class="col-sm-2 col-md-2 col-lg-2" style="float: right;">
+    <div class="col-sm-2 col-md-2 col-lg-2" style="float: right;width: 10%;">
 
         <!-- <div style="float: right;"> -->
 
@@ -28,7 +28,7 @@
                     <button id="userwise" [ngClass]="selectType == 'user'? 'btnside' : 'grey'"
                         style="cursor: auto;">Userwise</button>
                 </div> -->
-                <div class="col-lg-4 col-md-4 col-sm-4" *ngIf="dateWiseSelection">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="width: 55%;" *ngIf="dateWiseSelection">
                     <button [ngClass]="selectType == 'date'? 'btnside' : 'grey'" (click)="filter('date')">
                         <i class="fa fa-filter" aria-hidden="true"></i>
                     </button>
@@ -50,7 +50,7 @@
         </div>
     <!-- </div> -->
 </div>
-<div class="col-sm-10 col-md-10 col-lg-10" style="display: flex;justify-content: flex-end;" *ngIf="dropDownFilter && dateWiseSelection">
+<div class="col-sm-10 col-md-10 col-lg-10" style="display: flex;justify-content: flex-end;width: 90%;" *ngIf="dropDownFilter && dateWiseSelection">
     <!-- <div class="row" style="justify-content: flex-end;" > -->
         <div class="col-lg-10 col-md-10 col-sm-10" style="justify-content: flex-end;display: flex;" *ngIf="showDateSelection">
             <!-- <div class="row" style="float: right;" *ngIf="showDateSelection"> -->
@@ -111,7 +111,8 @@
             <tr *ngFor="let data  of weekData; let i =index">
                 <td style="width: 10%;">{{i+1}}</td>
                 <td>
-                    <a style="color:#0084f6" (click)="videoWise(data.date,10,1)"> {{data.date | date: 'dd-MMM-yyyy'}}</a>
+                    <a style="color:#0084f6" *ngIf="chartFormat == 'DD-MMM-YYYY'" (click)="videoWise(data.date,10,1)"> {{data.date | date: 'dd-MMM-yyyy'}}</a>
+                    <a style="color:#0084f6" *ngIf="chartFormat != 'DD-MMM-YYYY'" (click)="videoWise(data.date,10,1)"> {{data.date}}</a>
                 </td>
                 <td>
                     {{data.consumed_bandwidth}}
