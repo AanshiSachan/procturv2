@@ -235,7 +235,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       this.BulkEnqHide = true;
     }
     else {
-      this.BulkEnqHide = false;
+      this.BulkEnqHide = this.role_feature.LEAD_ENQUIRY_FULL_ACCESS;
       if (JSON.parse(sessionStorage.getItem('permissions')).length == 1) {
         if (this.role_feature.LEAD_MANAGE_ENQUIRY)
           this.permission = true;
