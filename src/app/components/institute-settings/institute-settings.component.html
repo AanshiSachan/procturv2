@@ -3687,6 +3687,18 @@
                   {{instituteSettingDet.vimeo_storage_capacity_threshold}} %
                 </div>
                 </div>
+                <div class="row webkitbox">
+                  <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;padding-top: 10px;">
+                  <div class="field-checkbox-wrapper" style="width: 100%">
+                    <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox"
+                      [(ngModel)]="instituteSettingDet.enable_stud_app_vimeo_offline_downloaded_video_visibility"
+                      id="enable_stud_app_vimeo_offline_downloaded_video_visibility">
+                    <label for="enable_stud_app_vimeo_offline_downloaded_video_visibility">
+                      Allow students to download Vimeo videos within App
+                    </label>
+                  </div>
+                </div> 
+                </div>
               </div>
 <!-- Start VDO Cipher Multiplier -->
                 <div *ngIf="enable_vdoCipher_feature == '1'">
@@ -3997,32 +4009,6 @@
                             </div>
                           </div>
                         </div>                
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <h3>Enquiry Setting</h3>
-                        <!-- <div class="row webkitBox">
-                          <div class="c-sm-6 c-md-6 c-lg-6 field-checkbox-wrapper" style="width: 50%;">
-                            <input type="checkbox" id="enquiryInSMS"
-                              [(ngModel)]="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms"
-                              class="form-checkbox" />
-                            <label for="enquiryInSMS">Send councellor no. to enquirers in SMS on enquiry
-                              addition</label>
-                          </div>
-                          <div class="c-sm-6 c-md-6 c-lg-6" style="padding-left: 0;"
-                            *ngIf="instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms">
-                            <div class="field-wrapper"
-                              [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
-                              <label for="instenquiry">Contact No. of councellor(s) for SMS
-                              </label>
-                              <input type="number" min="0" max="9999999999" id="instenquiry"
-                                [(ngModel)]="instituteSettingDet.inst_enquiry_handler_no" class="form-ctrl">
-                            </div>
-                          </div>
-                       </div> -->
-
                       </td>
                     </tr>
 

@@ -371,6 +371,7 @@ export class InstituteSettingsComponent implements OnInit {
     enable_assign_to_feature: '',
     feedback_email_ids: '',
     vimeo_storage_capacity_threshold: '',
+    enable_stud_app_vimeo_offline_downloaded_video_visibility: '',
     vimeo_video_download_visibility_filemanager: {
       student: '',
       teacher: '',
@@ -777,6 +778,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.vimeo_video_download_visibility_filemanager = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_filemanager);
     obj.vimeo_video_download_visibility_studymaterial = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial);
     obj.vimeo_storage_capacity_threshold = this.instituteSettingDet.vimeo_storage_capacity_threshold;
+    obj.enable_stud_app_vimeo_offline_downloaded_video_visibility = this.convertBoolenToNumber(this.instituteSettingDet.enable_stud_app_vimeo_offline_downloaded_video_visibility);
     obj.external_lead_notification_admin = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_admin);
     obj.external_lead_notification_enquirer = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_enquirer);
     obj.enable_enquiry_notification = this.instituteSettingDet.enable_enquiry_notification;
@@ -1039,6 +1041,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_filemanager, data.vimeo_video_download_visibility_filemanager);
     this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial, data.vimeo_video_download_visibility_studymaterial);
     this.instituteSettingDet.vimeo_storage_capacity_threshold = data.vimeo_storage_capacity_threshold;
+    this.instituteSettingDet.enable_stud_app_vimeo_offline_downloaded_video_visibility = data.enable_stud_app_vimeo_offline_downloaded_video_visibility;
   }
 
 
