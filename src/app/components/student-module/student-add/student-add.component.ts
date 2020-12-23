@@ -198,7 +198,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     guardian_email: "",
     guardian_phone: "",
     is_active: "Y",
-    expiry_date: moment().format('YYYY-MM-DD'),
+    expiry_date: '',
     institution_id: sessionStorage.getItem('institute_id'),
     assignedBatches: [],
     assignedBatchescademicYearArray: [""],
