@@ -21,6 +21,10 @@
       border-radius: .2em;
       box-shadow: 0 2pt 3pt #999;
       min-width: 50%;
+      min-height: 80vh;
+      max-height: 82vh;
+      overflow-y: auto;
+      overflow-x: hidden;
 
       .ga-modal-head {
         padding: .5em 1em;
