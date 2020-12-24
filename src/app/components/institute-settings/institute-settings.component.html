@@ -3687,18 +3687,6 @@
                   {{instituteSettingDet.vimeo_storage_capacity_threshold}} %
                 </div>
                 </div>
-                <div class="row webkitbox">
-                  <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;padding-top: 10px;">
-                  <div class="field-checkbox-wrapper" style="width: 100%">
-                    <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox"
-                      [(ngModel)]="instituteSettingDet.enable_stud_app_vimeo_offline_downloaded_video_visibility"
-                      id="enable_stud_app_vimeo_offline_downloaded_video_visibility">
-                    <label for="enable_stud_app_vimeo_offline_downloaded_video_visibility">
-                      Allow students to download Vimeo videos within App
-                    </label>
-                  </div>
-                </div> 
-                </div>
               </div>
 <!-- Start VDO Cipher Multiplier -->
                 <div *ngIf="enable_vdoCipher_feature == '1'">
@@ -3971,10 +3959,10 @@
                           </div>
                         </div>
                         <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;padding-top: 10px;"
-                          *ngIf="enable_vdoCipher_feature == '1'">
+                          *ngIf="enable_vdoCipher_feature == '1' || enable_vimeo_feature == '1'">
                           <div class="field-checkbox-wrapper" style="width: 100%">
                             <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox"
-                              [(ngModel)]="instituteSettingDet.enable_student_app_offline_video_download"
+                              [(ngModel)]="showOfflineVideoSetting"
                               id="enable_student_app_offline_video_download">
                             <label for=" enable_student_app_offline_video_download">Allow Students to download Videos
                               within App (Not accessible outside and exipres at course / product end date)

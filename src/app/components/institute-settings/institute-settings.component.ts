@@ -14,6 +14,8 @@ import { role } from '../../model/role_features';
 export class InstituteSettingsComponent implements OnInit {
 
   enable_vdoCipher_feature: any = '0';
+  enable_vimeo_feature: any = 0;
+  showOfflineVideoSetting: any = false;
   isLangInst: boolean = false;
   student_expiry_notifctn: boolean;
   others_expiry_notifctn: boolean;
@@ -450,6 +452,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteTaxType = sessionStorage.getItem("tax_type_without_percentage") == 'Vat' ? 'Vat' : 'GST';
     this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
     this.enable_vdoCipher_feature = sessionStorage.getItem('enable_vdoCipher_feature');
+    this.enable_vimeo_feature = sessionStorage.getItem('enable_vimeo_feature');
     console.log(this.enable_ip_lock_feature);
 
     this.checkInstitutionType();
@@ -773,12 +776,12 @@ export class InstituteSettingsComponent implements OnInit {
     obj.enable_send__website_url_in_student_credentail = this.convertBoolenToNumber(this.instituteSettingDet.enable_send__website_url_in_student_credentail);
     obj.student_study_material_visibility = this.convertBoolenToNumber(this.instituteSettingDet.student_study_material_visibility);
     obj.notification_for_studymaterial_upload = this.convertBoolenToNumber(this.instituteSettingDet.notification_for_studymaterial_upload);
-    obj.enable_student_app_offline_video_download = this.convertBoolenToNumber(this.instituteSettingDet.enable_student_app_offline_video_download);
+    obj.enable_student_app_offline_video_download = this.convertBoolenToNumber(this.showOfflineVideoSetting);
     obj.vdocipher_video_ready_sms_to_admin = this.convertBoolenToNumber(this.instituteSettingDet.vdocipher_video_ready_sms_to_admin);
     obj.vimeo_video_download_visibility_filemanager = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_filemanager);
     obj.vimeo_video_download_visibility_studymaterial = this.getSumOfTableField(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial);
     obj.vimeo_storage_capacity_threshold = this.instituteSettingDet.vimeo_storage_capacity_threshold;
-    obj.enable_stud_app_vimeo_offline_downloaded_video_visibility = this.convertBoolenToNumber(this.instituteSettingDet.enable_stud_app_vimeo_offline_downloaded_video_visibility);
+    obj.enable_stud_app_vimeo_offline_downloaded_video_visibility = this.convertBoolenToNumber(this.showOfflineVideoSetting);
     obj.external_lead_notification_admin = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_admin);
     obj.external_lead_notification_enquirer = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_enquirer);
     obj.enable_enquiry_notification = this.instituteSettingDet.enable_enquiry_notification;
@@ -1025,7 +1028,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.enable_send__website_url_in_student_credentail = data.enable_send__website_url_in_student_credentail;
     this.instituteSettingDet.student_study_material_visibility = data.student_study_material_visibility;
     this.instituteSettingDet.notification_for_studymaterial_upload = data.notification_for_studymaterial_upload;
-    this.instituteSettingDet.enable_student_app_offline_video_download = data.enable_student_app_offline_video_download;
+    this.showOfflineVideoSetting = (data.enable_student_app_offline_video_download == 1 || data.enable_stud_app_vimeo_offline_downloaded_video_visibility == 1) ? true : false;
     this.instituteSettingDet.vdocipher_video_ready_sms_to_admin = data.vdocipher_video_ready_sms_to_admin;
     this.instituteSettingDet.enable_topic_sorting_priority_based_study_material = data.enable_topic_sorting_priority_based_study_material;
     this.fillTableCheckboxValue(this.instituteSettingDet.external_lead_notification_enquirer, data.external_lead_notification_enquirer);
@@ -1041,7 +1044,6 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_filemanager, data.vimeo_video_download_visibility_filemanager);
     this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial, data.vimeo_video_download_visibility_studymaterial);
     this.instituteSettingDet.vimeo_storage_capacity_threshold = data.vimeo_storage_capacity_threshold;
-    this.instituteSettingDet.enable_stud_app_vimeo_offline_downloaded_video_visibility = data.enable_stud_app_vimeo_offline_downloaded_video_visibility;
   }
 
 
