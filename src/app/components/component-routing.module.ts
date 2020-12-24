@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { ComponentsComponent } from './components.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { TrainingVideoComponent } from './training-video/training-video.component';
+import{ReportsComponent} from './reports/reports.component';
 
 @NgModule({
     imports: [
@@ -148,6 +149,10 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
                             loadChildren: () => import('app/components/student-module/student-module.module').then(m => m.StudentModule2),
                             // loadChildren:'app/components/student-module/student-module.module#StudentModule2',
                             canLoad:[AuthGuard]
+                        },
+                        {
+                         path: 'reports',
+                         loadChildren: () => import('../components/reports/reports.module').then(m => m.ReportsModule)
                         }
                     ]
                 },

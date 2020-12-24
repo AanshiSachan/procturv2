@@ -662,6 +662,13 @@
                         </li>
                     </a>
                 </ul>
+            </li>        
+            <li (click)="toggler('lieleven')">
+                <img src="./assets/images/course/reports.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/reports/list">
+                <span [ngClass]="activeSession === 'lieleven' ? ' abc' : ' NavLink'">Reports</span>
+                </a>
             </li>
         </ul>
         <div class="whatsNew">
@@ -815,7 +822,7 @@
                         <li>
                             Pop up message is coming if students not logged in on any system.
                         </li>
-                        <li>
+                         <li>
                             Common error is shown in My Account page.
                         </li>
                         <li>
