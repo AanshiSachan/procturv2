@@ -1347,8 +1347,9 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     }
   }
 
-  viewAttandance(session_id) {
-    this.router.navigate(['/view/live-classes/report/' + session_id]);
+  viewAttandance(obj) {
+    sessionStorage.setItem('live_meeting_with', obj.live_meeting_with);
+    this.router.navigate(['/view/live-classes/report/' + obj.session_id]);
   }
 
   changeSelectedSize(obj) {
@@ -1358,6 +1359,18 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   downloadVimeoVdo() {
     window.open(this.selectedDownloadSize.link, "_blank");
     $('#downloadOption').modal('hide');
+  }
+
+  RefreshSession(obj) {
+    console.log(obj);
+    this._http.getData('/api/v1/meeting_manager/refresh/' + sessionStorage.getItem('institute_id') + '/' + obj.session_id).subscribe(
+      (res: any) => {
+        this.getClassesList();
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
 
