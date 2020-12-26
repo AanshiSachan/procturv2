@@ -40,6 +40,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
   datelineRange: any[] = [];
   weekData: any = [];
   chartFormat: any ='';
+  max_graph_value: any = '';
   constructor(private _http: HttpService,
     private msgService: MessageShowService,
     private auth: AuthenticatorService) { }
@@ -84,6 +85,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         this.dailyReport(url);
         break;
       case 'custom': this.showDateSelection = true;
+      this.chartFormat = 'DD-MMM-YYYY';
         break;
     }
 
@@ -101,7 +103,8 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.auth.hideLoader();
-        this.weekDataSource = resp.result;
+        this.weekDataSource = resp.result.response;
+        this.max_graph_value = Math.round(resp.result.max_graph_value);
         this.weekData = this.getDataFromDataSource(0);
         console.log('week' ,this.weekData);
         this.totalRecords = this.weekDataSource.length;
@@ -158,11 +161,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
 
     (Highcharts as any).chart('chartWrap', {
       chart: {
-        type: 'spline',
-        scrollablePlotArea: {
-          minWidth: minWidth,
-          scrollPositionX: 1
-        }
+        type: 'column',
       },
       title: {
         text: ''
@@ -175,8 +174,6 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         title: {
           text: 'Date'
         },
-        minPadding: 1,
-        maxPadding: 1,
         categories: d
       },
       yAxis: {
@@ -184,7 +181,9 @@ export class DateWiseComponent implements OnInit, OnDestroy {
           text: 'Bandwidth (MB)'
         },
         min: 0,
-        max: 600
+        visible: true,
+        tickAmount: 5,
+        max: this.max_graph_value
       },
       tooltip: {
         useHTML: true,
@@ -197,12 +196,13 @@ export class DateWiseComponent implements OnInit, OnDestroy {
           return tool;
         },
       },
+      plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+      },
       series: [{
-        name: '',
-        type: "spline",
-        marker: {
-          radius: 5
-        },
         showInLegend: false,
         data: f
       }]
@@ -211,11 +211,20 @@ export class DateWiseComponent implements OnInit, OnDestroy {
   videoWise(val, batch, page) {
     this.PageIndex = page;
     this.selectType = "video";
+    let to = moment(val).format('DD-MM-YYYY');
+    let from =moment(val).format('DD-MM-YYYY');
+    if(this.chartFormat == 'MMM') {
+      to = moment(val).startOf('month').format('DD-MM-YYYY');
+      from = moment(val).endOf('month').format('DD-MM-YYYY');
+    } else if(this.chartFormat == 'YYYY') {
+      to = moment(val).startOf('year').format('DD-MM-YYYY');
+      from = moment(val).endOf('year').format('DD-MM-YYYY');
+    }
     sessionStorage.setItem('videWise', val);
     this.videoWiseSelection = true;
     this.dateWiseSelection = false;
     this.videoData = [];
-    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&from=' + moment(val).format("DD-MM-YYYY") + '&to=' + moment(val).format("DD-MM-YYYY");
+    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&from=' + to + '&to=' + from;
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.videoData = resp.result.response;
