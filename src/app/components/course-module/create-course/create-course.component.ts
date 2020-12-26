@@ -96,8 +96,6 @@ export class CreateCourseComponent implements OnInit {
     const permissionArray = sessionStorage.getItem('permissions');
     if (userType != 3) {
       if (permissionArray == "" || permissionArray == null) {
-        this.router.navigateByUrl('/view/course/create/standardlist');
-        this.switchActiveView('liStandard');
         this.showAllTabs();
         this.checkWhichTabIsOpen();
       } else {
@@ -160,8 +158,6 @@ export class CreateCourseComponent implements OnInit {
     const permissionArray = sessionStorage.getItem('permissions');
     if (userType != 3) {
       if (permissionArray == "" || permissionArray == null) {
-        this.router.navigateByUrl('/view/course/create/standardlist');
-        this.switchActiveView('liStandard');
         this.showAllTabs();
         this.checkWhichTabIsOpen();
       } else {
