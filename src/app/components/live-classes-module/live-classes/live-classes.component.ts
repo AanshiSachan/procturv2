@@ -1363,11 +1363,14 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
 
   RefreshSession(obj) {
     console.log(obj);
+    this.auth.showLoader();
     this._http.getData('/api/v1/meeting_manager/refresh/' + sessionStorage.getItem('institute_id') + '/' + obj.session_id).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.getClassesList();
       },
       err => {
+        this.auth.hideLoader();
         console.log(err);
       }
     )
