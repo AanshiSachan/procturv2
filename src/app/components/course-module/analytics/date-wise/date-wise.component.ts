@@ -258,7 +258,16 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     let date = sessionStorage.getItem('fromDate');
     let url = '/api/v1/instFileSystem/videoReport/video/' + val + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=createdDate ASC';
     if(date!='' && date != null) {
-      url = url.concat('&from=' + moment(date).format("DD-MM-YYYY") + '&to=' + moment(date).format("DD-MM-YYYY"));
+      let to = moment(date).format('DD-MM-YYYY');
+      let from =moment(date).format('DD-MM-YYYY');
+      if(this.chartFormat == 'MMM') {
+        to = moment(date).startOf('month').format('DD-MM-YYYY');
+        from = moment(date).endOf('month').format('DD-MM-YYYY');
+      } else if(this.chartFormat == 'YYYY') {
+        to = moment(date).startOf('year').format('DD-MM-YYYY');
+        from = moment(date).endOf('year').format('DD-MM-YYYY');
+      }
+      url = url.concat('&from=' + to + '&to=' + from);
     }
     this._http.getData(url).subscribe(
       (resp: any) => {
