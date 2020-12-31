@@ -45,13 +45,7 @@ const routes: Routes = [
         path: 'offer-history',
         component: OfferHistoryComponent,
         pathMatch: 'prefix'
-    },
-    {
-        path: 'website-configuration',
-        loadChildren: () => import('../../../app/components/eStore-module/website-configuration/website-configuration.module').then(m => m.WebsiteConfigurationModule),
-        // loadChildren: 'app/components/eStore-module/manage-coupon-home/manage-coupon-home.module#ManageCouponHomeModule',
-        pathMatch: 'prefix'
-    },
+    }
 ];
 
 @NgModule({

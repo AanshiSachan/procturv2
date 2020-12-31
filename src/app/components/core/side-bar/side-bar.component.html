@@ -624,12 +624,14 @@
                             <span>Offer History</span>
                         </li>
                     </a>
-                    <a routerLink="/view/e-store/website-configuration/images">
-                        <li class="subMenu">
-                            <span>Website Configuration</span>
-                        </li>
-                    </a>
                 </ul>
+            </li>
+            <li *ngIf="jsonEstoreFlags.isEstoreMenu" (click)="toggler('liwebsiteConf')">
+                <img src="./assets/images/sidebar/newSideMenu/eStoreIcon.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/website-configuration/images">
+                    <span [ngClass]="activeSession === 'liwebsiteConf' ? ' abc' : ' NavLink'">Website/ App</span>
+                </a>
             </li>
             <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
                 <img src="./assets/images/sidebar/newSideMenu/onlineExam.svg" alt="" class="sideBar_centerAlign"
