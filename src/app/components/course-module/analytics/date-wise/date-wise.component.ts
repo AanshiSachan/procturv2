@@ -109,7 +109,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         console.log('week' ,this.weekData);
         this.totalRecords = this.weekDataSource.length;
 
-        this.generateChartData(this.weekData);
+        this.generateChartData(this.weekDataSource);
 
       },
       (err) => {
@@ -135,19 +135,20 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     let band = f;
 
 
-    let minWidth = 1100;
+    let minWidth = 800;
     let dataLength = d.length;
+    console.log(d.length);
     if (dataLength > 20 && dataLength < 35) {
-      minWidth = 4000;
+      minWidth = 1100;
     }
     if (dataLength > 35 && dataLength < 50) {
-      minWidth = 6000;
+      minWidth = 2100;
     }
     if (dataLength > 50 && dataLength < 75) {
-      minWidth = 8000;
+      minWidth = 3100;
     }
     if (dataLength > 75 && dataLength < 100) {
-      minWidth = 10000;
+      minWidth = 4100;
     }
     if (dataLength > 100 && dataLength < 150) {
       minWidth = 12000;
@@ -161,7 +162,11 @@ export class DateWiseComponent implements OnInit, OnDestroy {
 
     (Highcharts as any).chart('chartWrap', {
       chart: {
-        type: 'column',
+        type: 'area',
+        scrollablePlotArea: {
+          minWidth: minWidth,
+          scrollPositionX: 1
+        }
       },
       title: {
         text: ''
