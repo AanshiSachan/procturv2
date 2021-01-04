@@ -300,7 +300,7 @@
                     <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Lead</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top: 16%;">
+                <ul style="top: 10%;">
                     <a routerLink="/view/leads/add">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
                             <span>Add Enquiry</span>
@@ -312,11 +312,11 @@
                             <span>Manage Enquiry</span>
                         </li>
                     </a>
-                    <a routerLink="/view/leads/enquiryReport/counsellor">
+                   <!-- <a routerLink="/view/leads/enquiryReport/counsellor">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
                             <span>Enquiry Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/leads/campaign">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddCampaign">
                             <span>Add Campaign</span>
@@ -327,11 +327,11 @@
                             <span>Manage Campaign</span>
                         </li>
                     </a>
-                    <a routerLink="/view/leads/campaign-reports/sms-report">
+                   <!-- <a routerLink="/view/leads/campaign-reports/sms-report">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaignReport">
                             <span>Campaign Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/leads/setup">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
                             <span>Add Closing Reason</span>
@@ -389,11 +389,11 @@
                             <span>Timetable</span>
                         </li>
                     </a>
-                    <a routerLink="/view/course/reports">
+                    <!--<a routerLink="/view/course/reports">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
                             <span>Reports</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/course/master-tag">
                         <li class="subMenu">
                             <span>Manage Tags</span>
@@ -483,7 +483,7 @@
                     <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top: 16%;">
+                <ul style="top:30%;">
                     <a routerLink="/view/fee/monitoring-dashboard/home">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin">
                             <span>Monitoring Dashboard</span>
@@ -494,37 +494,37 @@
                             <span>Data Setup</span>
                         </li>
                     </a>
-                    <a routerLink="/view/fee/allDueReport">
+                  <!--  <a routerLink="/view/fee/allDueReport">
                         <li class="subMenu">
                             <span>Fee Dues</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/fee/moduleReport">
+                    </a>-->
+                  <!--  <a routerLink="/view/fee/moduleReport">
                         <li class="subMenu">
                             <span>{{jsonFeesFlags.moduleState}} wise
                                 Report</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/fee/paymentHistory">
+                    </a>-->
+                   <!-- <a routerLink="/view/fee/paymentHistory">
                         <li class="subMenu">
                             <span>Payment History</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/fee/cheque">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
                             <span>Manage Cheque</span>
                         </li>
                     </a>
-                    <a routerLink="/view/fee/onlinePayment">
+                   <!-- <a routerLink="/view/fee/onlinePayment">
                         <li class="subMenu" *ngIf="enable_online_payment == 1">
                             <span>Online Fee Collection</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/fee/gst">
+                    </a>-->
+                   <!-- <a routerLink="/view/fee/gst">
                         <li class="subMenu" *ngIf="is_tax_enabled=='1'">
                             <span>{{tax_type_without_percentage}} Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/fee/cheque">
                         <li class="subMenu hide">
                             <span>Cheque/PDC Report</span>
@@ -561,17 +561,17 @@
                     <span [ngClass]="activeSession === 'lisix' ? ' abc' : ' NavLink'">Communicate</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top:39%">
-                    <a routerLink="/view/communicate/sms">
+                <ul style="top:45%">
+                   <!-- <a routerLink="/view/communicate/sms">
                         <li class="subMenu" *ngIf="showSMSReport">
                             <span>SMS Report</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/communicate/email">
+                    </a>-->
+                    <!--<a routerLink="/view/communicate/email">
                         <li class="subMenu" *ngIf="showEmailReport">
                             <span>Email Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/communicate/ptm">
                         <li class="subMenu">
                             <span>PTM Management</span>
@@ -609,21 +609,21 @@
                             <span>Registered Users</span>
                         </li>
                     </a>
-                    <a routerLink="/view/e-store/sales-report">
+                    <!--<a routerLink="/view/e-store/sales-report">
                         <li class="subMenu">
                             <span>Sales Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/e-store/manage-offers/coupon">
                         <li class="subMenu">
                             <span>Manage Offers</span>
                         </li>
                     </a>
-                    <a routerLink="/view/e-store/offer-history">
+                   <!-- <a routerLink="/view/e-store/offer-history">
                         <li class="subMenu">
                             <span>Offer History</span>
                         </li>
-                    </a>
+                    </a>-->
                 </ul>
             </li>
             <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
@@ -640,7 +640,7 @@
                     <span [ngClass]="activeSession === 'liten' ? ' abc' : ' NavLink'">Expenses</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top: 57%;">
+                <ul style="top: 65%;">
                     <a routerLink="/view/expense/setup">
                         <li class="subMenu">
                             <span>Data Setup</span>
@@ -656,11 +656,11 @@
                             <span>Manage Income</span>
                         </li>
                     </a>
-                    <a routerLink="/view/expense/report">
+                  <!--  <a routerLink="/view/expense/report">
                         <li class="subMenu">
                             <span>Report</span>
                         </li>
-                    </a>
+                    </a>-->
                 </ul>
             </li>        
             <li (click)="toggler('lieleven')">

@@ -1,7 +1,7 @@
 <div class="clear-fix" style="padding-right: 2%;">
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
-      <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
+      <!--<a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
         Course
       </a>
       <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
@@ -10,8 +10,11 @@
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
         Report
+      </a>-->
+      <a routerLink="/view/reports/list">
+        Reports
       </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+     <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       Exam Dashboard
     </h2>
     <aside class="pull-right">
