@@ -615,11 +615,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById('hiddenAnchorTag2');
+        const dwldLink = document.createElement('a');
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
         dwldLink.click();
+        document.body.removeChild(dwldLink);
       } else {
         this.isShareDetails = false;
         let obj = {
