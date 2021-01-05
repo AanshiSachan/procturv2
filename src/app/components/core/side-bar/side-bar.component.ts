@@ -232,6 +232,23 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkInstituteType();
     this.checkManinBranch();
     this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+
+    (function(){  
+
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+
+    s1.async=true;
+
+    s1.src='https://embed.tawk.to/5fd31bf7df060f156a8bfc37/1ep9alk8n';
+
+    s1.charset='UTF-8';
+
+    s1.setAttribute('crossorigin','*');
+
+    s0.parentNode.insertBefore(s1,s0);
+
+    })();
   }
 
   ngAfterViewInit() {
