@@ -622,6 +622,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('distinct_device_login', institute_data.distinct_device_login);
       sessionStorage.setItem('single_device', institute_data.single_device_login);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
+      sessionStorage.setItem('enable_client_website', institute_data.enable_client_website);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
 
       //Storing the session value 

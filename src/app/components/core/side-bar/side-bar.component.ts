@@ -163,6 +163,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
+  enable_client_website: boolean = false;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -426,6 +427,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
   // USER permission
   checkUserHadAccess() {
+    this.enable_client_website = (sessionStorage.getItem('enable_client_website') == 'true');
     // this.divProfileTag.nativeElement.style.display = 'none';
     const permissionArray = sessionStorage.getItem('permissions');
     const usertype = sessionStorage.getItem('userType');
@@ -1322,6 +1324,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       sessionStorage.setItem('enable_library_feature', res.enable_library_feature);
       sessionStorage.setItem('enable_vdoCipher_feature', res.enable_vdoCipher_feature);
       sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
+      sessionStorage.setItem('enable_client_website', res.enable_client_website);
 
   }
 
