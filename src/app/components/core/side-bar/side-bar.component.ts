@@ -551,6 +551,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       'e-store': 'lieight',
       'online-exam': 'linine',
       'expense': 'liten',
+      'dashboard':'litwelve',
+      'online-assignment':'lithirteen',
+      'contentlibrary':'liforteen'
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];
