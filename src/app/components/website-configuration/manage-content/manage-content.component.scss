@@ -84,3 +84,65 @@
   textarea {
       height: 75px;
   }
+
+  .mattoolbar{
+    position: fixed;
+    // z-index: 9999999999;
+    background: white;
+    width: 89%;
+    top: 43px;
+    height: 7%;
+    border-bottom: 2px solid lightgrey;
+}
+.mat-button img{
+  width: 44%;
+}
+.tool{
+  .spacer {
+      flex: 1 1 auto;
+  }
+  
+  .mat-toolbar.mat-primary {
+      background: #3f51b5;
+      color: #fff;
+  }
+  
+  a,
+  span {
+      // font-size: 22px;
+      font-weight: 600;
+      font-size: 12px;
+      margin-right: 50px;
+      margin-left: 15px;
+      color: black;
+  }
+  
+  input {
+      color: black;
+      margin-right: 40px;
+      border-radius: 4px;
+      padding: 14px;
+      font-size: small;
+      background: white;
+      width: 61%;
+  }
+}
+.buttonDiv {
+  min-width: 120px;
+  float: left;
+  padding: 10px;
+  padding-left: 0;
+  padding-right: 0;
+  color: black;
+  cursor: pointer;
+}
+.activeSession {
+  color: #528ff0;
+  border-bottom: 5px solid #528ff0;
+}
+.middle-main {
+  padding-top: 35px;
+  max-width: 100%;
+  margin-right: 20px;
+  margin-top: 5px;
+}

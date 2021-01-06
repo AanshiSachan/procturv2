@@ -65,7 +65,7 @@ export class ListComponent implements OnInit {
       },
       {
         primary_key: 'in_navbar',
-        value: "Show in Navbar",
+        value: "Show on website",
         charactLimit: 20,
         sorting: false,
         visibility: true
@@ -130,10 +130,7 @@ export class ListComponent implements OnInit {
           this.staticPageDataSouece.forEach(element => {
             if(element.page_status !=null && element.page_status != '') {
               element.page_status = element.page_status.charAt(0).toUpperCase() + element.page_status.substr(1).toLowerCase();
-//               str = str.toString(); 
-//  return str.replace(/\w\S*/g,  
-// function(txt){return txt.charAt(0).toUpperCase() + 
-//        txt.substr(1).toLowerCase();}); 
+              element.in_navbar = (element.in_navbar) ? 'Yes' : 'No';
             }
           });
         }

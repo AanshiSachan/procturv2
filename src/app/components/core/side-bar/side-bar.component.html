@@ -626,12 +626,13 @@
                     </a>
                 </ul>
             </li>
-            <li *ngIf="enable_client_website" (click)="toggler('liwebsiteConf')">
+            <li *ngIf="enable_client_website" (click)="toggler('liwebsiteConf')" style="padding-right: 0;">
                 <img src="../../../../assets//images/Website_App_icon.png" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/website-configuration/images">
                     <span [ngClass]="activeSession === 'liwebsiteConf' ? ' abc' : ' NavLink'">Website/ App</span>
                 </a>
+                <span class="new-keyword">New</span>
             </li>
             <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
                 <img src="./assets/images/sidebar/newSideMenu/onlineExam.svg" alt="" class="sideBar_centerAlign"

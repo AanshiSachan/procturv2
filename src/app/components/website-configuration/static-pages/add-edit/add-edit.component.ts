@@ -96,6 +96,7 @@ export class AddEditComponent implements OnInit {
           in_navbar: this.pageModel.in_navbar,
           page_data: this.pageModel.page_data
         }
+        data.page_status = (data.page_status == '') ? 'DRAFT' : data.page_status;
         if (this.selectedPageId) {
           data.id = this.selectedPageId;
           data.banner_image_url = this.pageModel.banner_image_url;

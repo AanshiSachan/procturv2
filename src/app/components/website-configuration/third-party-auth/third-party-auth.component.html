@@ -1,15 +1,14 @@
-<div class="container-fluid product-wrapper p-0" style="padding-top: 0;">
-  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
+
+<div class="blurBg">
+<span style="position: fixed;top: 50%;left: 50%;font-weight: 600;font-size: 16px;">Coming soon...</span>
+<div class="container-fluid product-wrapper p-0" style="padding-top: 0;opacity: 0.5;cursor: no-drop;">
+  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;margin-top: 10px;">
     <div class="col-md-8" style="padding-left: 0;">
       <section class="middle-top clearFix bulk-header">
         <div>
           <h1 class="pull-left" style="margin-bottom: 10px;">
-            <a routerLink="/view/e-store/home" style="padding:0px; ">
-              eStore
-            </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/view/e-store/website-configuration/images" style="padding:0px; ">
-              Website Configuration
+            <a style="padding:0px; ">
+              Website/ App
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
             <span>Third Party Authorization</span>
@@ -26,28 +25,28 @@
           <label class="text-bold"> Chat
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" placeholder="Chat" [(ngModel)]="pageModel.chat_key" class="form-control form-control-sm">
+          <input type="text" disabled placeholder="Chat" [(ngModel)]="pageModel.chat_key" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Google Analytics
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" placeholder="Google Analytics" [(ngModel)]="pageModel.google_analytics_key" class="form-control form-control-sm">
+          <input type="text" disabled placeholder="Google Analytics" [(ngModel)]="pageModel.google_analytics_key" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Pixel
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" placeholder="Pixel" [(ngModel)]="pageModel.pixel_key" class="form-control form-control-sm">
+          <input type="text" disabled placeholder="Pixel" [(ngModel)]="pageModel.pixel_key" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Google Verification
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" placeholder="Google Verification" [(ngModel)]="pageModel.google_verfication_key" class="form-control form-control-sm">
+          <input type="text" disabled placeholder="Google Verification" [(ngModel)]="pageModel.google_verfication_key" class="form-control form-control-sm">
         </div>
 
       </div>
@@ -55,8 +54,8 @@
   </div>
 
   <div class="go-btn-container">
-    <button type="button" name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
-    <button type="button" name="button" class="fullBlue gobtn" (click)="saveData()"
-      [disabled]="auth.isRippleLoad.getValue()">Update</button>
+    <button type="button" disabled name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
+    <button type="button" disabled name="button" class="fullBlue gobtn" (click)="saveData()">Update</button>
   </div>
+</div>
 </div>

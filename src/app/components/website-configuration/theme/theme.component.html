@@ -4,12 +4,8 @@
             <section class="middle-top clearFix bulk-header">
                 <div>
                     <h1 class="pull-left" style="margin-bottom: 10px;">
-                        <a routerLink="/view/e-store/home" style="padding:0px; ">
-                            eStore
-                        </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-                        <a routerLink="/view/e-store/website-configuration/images" style="padding:0px; ">
-                            Website Configuration
+                        <a routerLink="/view/website-configuration/images" style="padding:0px; ">
+                            Website/ App
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
                         <span>Theme Options </span>
@@ -20,7 +16,7 @@
     </div>
 
     <div class="row" style="padding-left: 15px;">
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <div class="form-group">
                 <label class="text-bold">Background Colour
                 </label>
@@ -47,13 +43,13 @@
                     <button type="button" style="margin-top: 0;margin-right: 15px;" name="button" class="fullBlue" [ngClass]="data.id == pageModel.font_family_content_id ? 'gobtn' : 'add-class-btn'" (click)="setFontFamilyContent(data)">{{data.name}}</button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="col-md-12">
             <div class="form-group">
                 <label class="text-bold">Text Heading Colour
                 </label>
-                <input style="width: 15%;" type="color" [(ngModel)]="pageModel.text_heading_color"
+                <input style="width: 20%;" type="color" [(ngModel)]="pageModel.text_heading_color"
                     class="form-control form-control-sm">
             </div>
         </div>
@@ -62,19 +58,19 @@
             <div class="form-group">
                 <label class="text-bold">Text Content Colour
                 </label>
-                <input style="width: 15%;" type="color" [(ngModel)]="pageModel.text_content_color"
+                <input style="width: 20%;" type="color" [(ngModel)]="pageModel.text_content_color"
                     class="form-control form-control-sm">
             </div>
         </div>
 
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <div class="form-group">
                 <label class="text-bold">Border Colour
                 </label>
                 <input style="width: 15%;" type="color" [(ngModel)]="pageModel.border_color"
                     class="form-control form-control-sm">
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="go-btn-container" style="margin-left: 20px;">

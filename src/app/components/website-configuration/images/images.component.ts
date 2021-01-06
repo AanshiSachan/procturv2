@@ -26,6 +26,7 @@ export class ImagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+    this.toggler('logoImage', '200', '50', 'Logo', this.pageModel.logo_url);
   }
 
   getData() {
@@ -36,7 +37,15 @@ export class ImagesComponent implements OnInit {
         if (res.result) {
           this.pageModel = res.result;
         }
-        this.toggler('logoImage', '200 w * 50 h or 50 w * 50 h Pixel', 'Logo', this.pageModel.logo_url);
+        if(this.activeSession.id == 'logoImage') {
+          this.toggler('logoImage', '200', '50', 'Logo', this.pageModel.logo_url);
+        } else if(this.activeSession.id == 'faviconImage') {
+          this.toggler('faviconImage', '16', '16', 'Favicon', this.pageModel.favicon_url);
+        } else if(this.activeSession.id == 'aboutUsImage') {
+          this.toggler('aboutUsImage', '512', '512', 'About Us', this.pageModel.about_us_url);
+        } else {
+          this.toggler('popUpImage', '512', '512', 'Popup', this.pageModel.pop_up_image_url)
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -44,9 +53,10 @@ export class ImagesComponent implements OnInit {
     );
   }
 
-  toggler(id, size, name, img) {
+  toggler(id, width, height, name, img) {
     this.activeSession.id = id;
-    this.activeSession.size = size;
+    this.activeSession.width = width;
+    this.activeSession.height = height;
     this.activeSession.name = name;
     this.uploadedImg = img;
     if(this.uploadedImg != '' && this.uploadedImg != null) {
@@ -61,7 +71,25 @@ export class ImagesComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select file in gif, png, jpg form");
         return false;
       } else {
-        return true;
+        const max_height = this.activeSession.height;
+        const max_width = this.activeSession.width;
+        const reader = new FileReader();
+            reader.onload = (e: any) => {
+                const image = new Image();
+                image.src = e.target.result;
+                image.onload = rs => {
+                    const img_height = rs.currentTarget['height'];
+                    const img_width = rs.currentTarget['width'];
+                    if ((img_height != max_height && img_width != max_width) || (this.activeSession.id == 'logoImage' && img_height != 50 && img_width != 50)) {
+                      let msg = (this.activeSession.id == 'logoImage') ? 'Please upload file of size 200 * 50 px or 50 * 50 px' : 'Please upload file of size ' +max_width +'*' +max_height +'px';
+                      this.msgService.showErrorMessage('error', '', msg);
+                        return false;
+                    } else {
+                      return true;
+                    }
+                };
+            };
+            reader.readAsDataURL(files[0]);
       }
     }
   }

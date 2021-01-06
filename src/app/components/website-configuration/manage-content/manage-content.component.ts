@@ -10,6 +10,10 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
   styleUrls: ['./manage-content.component.scss']
 })
 export class ManageContentComponent implements OnInit {
+  activeSession: any = {
+    id: '',
+    title: ''
+  };
   pageModel: any = {
     about_us_page: '',
     terms_and_condition_page: '',
@@ -18,7 +22,7 @@ export class ManageContentComponent implements OnInit {
     thank_you_page: ''
   }
   editorConf = {
-    height: 150,
+    height: 450,
     menubar: false,
     branding: false,
     plugins: [
@@ -39,6 +43,12 @@ export class ManageContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+    this.toggler('terms_and_condition_page', 'Terms and Conditions');
+  }
+
+  toggler(id, title) {
+    this.activeSession.id = id;
+    this.activeSession.title = title;
   }
 
   getData() {
@@ -95,7 +105,7 @@ export class ManageContentComponent implements OnInit {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               // this.clearuploadObject();
               // this.refreshList();
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Manage content updated successfully");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.activeSession.title + " content updated successfully");
               this.getData();
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
