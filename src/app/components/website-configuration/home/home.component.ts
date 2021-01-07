@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
       routerLink: 'view/website-configuration/images'
     },
     {
-      title : "Static Pages(More)",
+      title : "Static Page(More)",
       routerLink: 'view/website-configuration/static-pages/list'
     },
     {
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     console.log(pathLastURL);
     let routesData = {
       'images': 'Images',
-      'static-pages': 'Static Pages(More)',
+      'static-pages': 'Static Page(More)',
       'manage-content': 'Manage Content(Other Links)',
       'slider': 'Slider',
       'third-party-auth': '3rd Party Authorization',
