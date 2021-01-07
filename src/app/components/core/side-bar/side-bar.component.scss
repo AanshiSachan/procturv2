@@ -226,7 +226,7 @@
     .side-section {
         display: none;
         position: fixed;
-        right: 12px;
+        right: 30px;
         background: White;
         color: #2e3345;
         border-radius: 4px;
@@ -614,7 +614,7 @@ input{
 .menu{
 
     height: 100%; 
-  width:158px; 
+  width:174px; 
   position: fixed;
   z-index: 99999999; 
   top: 0; 
@@ -631,9 +631,9 @@ input{
 }
 
 .menu ul li {
-    padding:5px;
+    padding:15px;
     position: relative;
-    width: 160px;;
+    width:175px;
     padding-bottom: 2px;
     background-color: white;
 }
@@ -642,7 +642,7 @@ input{
     transition: all 0.3s;
     opacity: 0;
     visibility:hidden;
-    left: 11.7%;
+    left: 12.7%;
     // top: 17.3%;
     z-index: 9999999;
     position: fixed;
@@ -692,7 +692,8 @@ a span{
     font-weight: bold;
 }
 .abc{
-    color: #528ff0;
+   // color: #528ff0;
+    color:white;
 }
 #quick{
     right: 107px;width: 11%;padding: 8px;
@@ -769,6 +770,7 @@ hr{
 ul{
     a{
         cursor: pointer;
+        
     }
 }
 
@@ -776,10 +778,18 @@ ul{
     a :hover{
        // color: #528ff0;
         padding-left: 2px;
+        color: white;
         
     }
     .ul{
         background-color: rgb(44, 43, 53);
     }
    
+}
+.liActiveBG{
+    background-color:#247ac5 !important;
+}
+.a_link{
+ display:inline-block;
+ width: 120px;
 }

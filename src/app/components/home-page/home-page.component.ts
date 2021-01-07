@@ -14,9 +14,11 @@ export class HomePageComponent implements OnInit {
   curMonth: string = moment().format('MMMM');
   curYear: number = moment().year();
   
-  d: any = moment().format('MMMM Do,  YYYY');
-  weekday=moment().format('dddd');
-  t: any = moment().format('LTS');
+  d: any = moment().format('MMMM Do,  YYYY, dddd');
+ weekday=moment().format('dddd');
+  //t: any = moment().format('LTS');
+  time = new Date();
+  timer;
   quotes:string="";
   
   msg:string=null;
@@ -95,6 +97,11 @@ export class HomePageComponent implements OnInit {
     }
   }
   
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.timer = setInterval(() => {
+      this.time = new Date();
+    }, 1000);
+  }
 }
 
