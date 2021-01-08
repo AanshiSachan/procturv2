@@ -179,7 +179,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
       this.backgroundChange.nativeElement.className = "bg-img"
-      this.dynamicImgSrc = "./assets/images/logoProctur.png";
+      // this.dynamicImgSrc = "./assets/images/procturlogo2.png";
       this.virtualStyle.nativeElement.className = "login-box";
       this.titleService.setTitle('Proctur - Your Pocket Classroom');
       sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
