@@ -312,11 +312,11 @@
                             <span>Manage Enquiry</span>
                         </li>
                     </a>
-                   <!-- <a routerLink="/view/leads/enquiryReport/counsellor">
+                   <a routerLink="/view/leads/enquiryReport/counsellor">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
                             <span>Enquiry Report</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/leads/campaign">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddCampaign">
                             <span>Add Campaign</span>
@@ -327,11 +327,11 @@
                             <span>Manage Campaign</span>
                         </li>
                     </a>
-                   <!-- <a routerLink="/view/leads/campaign-reports/sms-report">
+                   <a routerLink="/view/leads/campaign-reports/sms-report">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaignReport">
                             <span>Campaign Report</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/leads/setup">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
                             <span>Add Closing Reason</span>
@@ -389,11 +389,11 @@
                             <span>Timetable</span>
                         </li>
                     </a>
-                    <!--<a routerLink="/view/course/reports">
+                    <a routerLink="/view/course/reports">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
                             <span>Reports</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/course/master-tag">
                         <li class="subMenu">
                             <span>Manage Tags</span>
@@ -494,37 +494,37 @@
                             <span>Data Setup</span>
                         </li>
                     </a>
-                  <!--  <a routerLink="/view/fee/allDueReport">
+                   <a routerLink="/view/fee/allDueReport">
                         <li class="subMenu">
                             <span>Fee Dues</span>
                         </li>
-                    </a>-->
-                  <!--  <a routerLink="/view/fee/moduleReport">
+                    </a>
+                    <a routerLink="/view/fee/moduleReport">
                         <li class="subMenu">
                             <span>{{jsonFeesFlags.moduleState}} wise
                                 Report</span>
                         </li>
-                    </a>-->
-                   <!-- <a routerLink="/view/fee/paymentHistory">
+                    </a>
+                   <a routerLink="/view/fee/paymentHistory">
                         <li class="subMenu">
                             <span>Payment History</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/fee/cheque">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isFeeActivity">
                             <span>Manage Cheque</span>
                         </li>
                     </a>
-                   <!-- <a routerLink="/view/fee/onlinePayment">
+                   <a routerLink="/view/fee/onlinePayment">
                         <li class="subMenu" *ngIf="enable_online_payment == 1">
                             <span>Online Fee Collection</span>
                         </li>
-                    </a>-->
-                   <!-- <a routerLink="/view/fee/gst">
+                    </a>
+                   <a routerLink="/view/fee/gst">
                         <li class="subMenu" *ngIf="is_tax_enabled=='1'">
                             <span>{{tax_type_without_percentage}} Report</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/fee/cheque">
                         <li class="subMenu hide">
                             <span>Cheque/PDC Report</span>
@@ -562,16 +562,16 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:45%">
-                   <!-- <a routerLink="/view/communicate/sms">
+                   <a routerLink="/view/communicate/sms">
                         <li class="subMenu" *ngIf="showSMSReport">
                             <span>SMS Report</span>
                         </li>
-                    </a>-->
-                    <!--<a routerLink="/view/communicate/email">
+                    </a>
+                    <a routerLink="/view/communicate/email">
                         <li class="subMenu" *ngIf="showEmailReport">
                             <span>Email Report</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/communicate/ptm">
                         <li class="subMenu">
                             <span>PTM Management</span>
@@ -609,21 +609,21 @@
                             <span>Registered Users</span>
                         </li>
                     </a>
-                    <!--<a routerLink="/view/e-store/sales-report">
+                    <a routerLink="/view/e-store/sales-report">
                         <li class="subMenu">
                             <span>Sales Report</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/e-store/manage-offers/coupon">
                         <li class="subMenu">
                             <span>Manage Offers</span>
                         </li>
                     </a>
-                   <!-- <a routerLink="/view/e-store/offer-history">
+                    <a routerLink="/view/e-store/offer-history">
                         <li class="subMenu">
                             <span>Offer History</span>
                         </li>
-                    </a>-->
+                    </a>
                 </ul>
             </li>
             <li *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
@@ -656,11 +656,11 @@
                             <span>Manage Income</span>
                         </li>
                     </a>
-                  <!--  <a routerLink="/view/expense/report">
+                   <a routerLink="/view/expense/report">
                         <li class="subMenu">
                             <span>Report</span>
                         </li>
-                    </a>-->
+                    </a>
                 </ul>
             </li>        
             <li (click)="toggler('lieleven')">
@@ -679,11 +679,11 @@
                 <img src="https://proctur.com/assets/proctur_logo.png" alt="faqs" class="helpSection"
                     style="height: 50%;width: 100%;float: left;">
             </a>
-            <!-- <a href="https://www.proctur.com/" target="_blank"><img src="https://proctur.com/assets/proctur_logo.png"
+            <a href="https://www.proctur.com/" target="_blank"><img src="https://proctur.com/assets/proctur_logo.png"
                         alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
                         style="font-size: 12px;margin-left: -11px;font-weight: 100;color: grey;">Powered
                         by
-                        <strong style="font-weight: bold;color: #0084f6;">Proctur 4.0</strong></span> </a> -->
+                        <strong style="font-weight: bold;color: #0084f6;">Proctur 4.0</strong></span> </a> 
         </div>
 
     </div>
