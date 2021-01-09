@@ -350,11 +350,11 @@
                             <span>Manage Enquiry</span>
                         </li>
                     </a>
-                   <a routerLink="/view/leads/enquiryReport/counsellor">
+                   <!--<a routerLink="/view/leads/enquiryReport/counsellor">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
                             <span>Enquiry Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/leads/campaign">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddCampaign">
                             <span>Add Campaign</span>
@@ -365,11 +365,11 @@
                             <span>Manage Campaign</span>
                         </li>
                     </a>
-                   <a routerLink="/view/leads/campaign-reports/sms-report">
+                  <!-- <a routerLink="/view/leads/campaign-reports/sms-report">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaignReport">
                             <span>Campaign Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/leads/setup">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
                             <span>Add Closing Reason</span>
@@ -392,32 +392,32 @@
                     <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Class/Exam</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top:30%;">
-                    <a routerLink="/view/course/setup">
+                <ul style="top:25%;">
+                   <!-- <a routerLink="/view/course/setup">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
                             <span>Data Setup</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/course/create">
+                    </a>-->
+                 <!--   <a routerLink="/view/course/create">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
                             <span>Manage Course</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/course/ecourse-file-manager/ecourses">
+                    </a>-->
+                    <!--<a routerLink="/view/course/ecourse-file-manager/ecourses">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowFileManager">
                             <span>Study Material</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/course/file-manager/drive">
+                    </a>-->
+                   <!-- <a routerLink="/view/course/file-manager/drive">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
                             <span>File/Doc. Manager</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/course/online-assignment">
+                    </a>-->
+                    <!--<a routerLink="/view/course/online-assignment">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnlineAssignment ">
                             <span >Online Assignment</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/course/coursePlanner/class">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
                             <span>Class/Exam Planner</span>
@@ -428,21 +428,21 @@
                             <span>TimeTable</span>
                         </li>
                     </a>
-                    <a routerLink="/view/course/reports">
+                  <!--  <a routerLink="/view/course/reports">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
                             <span>Reports</span>
                         </li>
-                    </a>
-                     <a routerLink="/view/course/master-tag">
+                    </a>-->
+                   <!--  <a routerLink="/view/course/master-tag">
                         <li class="subMenu">
                             <span>Manage Tags</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/course/ecoursemapping">
+                    </a>-->
+                   <!-- <a routerLink="/view/course/ecoursemapping">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
                             <span>eCourse Mapping</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/course/archiving">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
                             <span>Data Archiving</span>
@@ -522,7 +522,7 @@
                     <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top:39%;">
+                <ul style="top:30%;">
                     <a routerLink="/view/fee/monitoring-dashboard/home">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin || jsonFeesFlags.isMonitoringDash">
                             <span>Monitoring Dashboard</span>
@@ -533,17 +533,17 @@
                             <span>Data Setup</span>
                         </li>
                     </a>
-                    <a routerLink="/view/fee/allDueReport">
+                   <!-- <a routerLink="/view/fee/allDueReport">
                         <li *ngIf="jsonFeesFlags.isFeeDues" class="subMenu">
                             <span>Fee Dues</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/fee/moduleReport">
+                    </a>-->
+                    <!--<a routerLink="/view/fee/moduleReport">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isCourseWise">
                             <span>{{jsonFeesFlags.moduleState}} wise
                                 Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/fee/paymentHistory">
                         <li *ngIf="jsonFeesFlags.isPaymentHistory" class="subMenu">
                             <span>Payment History</span>
@@ -554,16 +554,16 @@
                             <span>Manage Cheque</span>
                         </li>
                     </a>
-                    <a routerLink="/view/fee/onlinePayment">
+                  <!--  <a routerLink="/view/fee/onlinePayment">
                         <li class="subMenu" *ngIf="enable_online_payment == 1 && jsonFeesFlags.isOnlineFees">
                             <span>Online Fee Collection</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/fee/gst">
+                    </a>-->
+                  <!--  <a routerLink="/view/fee/gst">
                         <li class="subMenu" *ngIf="is_tax_enabled=='1' && jsonFeesFlags.isGstReport">
                             <span>{{tax_type_without_percentage}} Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/fee/cheque">
                         <li class="subMenu hide">
                             <span>Cheque/PDC Report</span>
@@ -600,17 +600,17 @@
                     <span [ngClass]="activeSession === 'lisix' ? ' abc' : ' NavLink'">Communicate</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top:52%">
-                   <a routerLink="/view/communicate/sms">
+                <ul style="top:47%">
+                 <!--  <a routerLink="/view/communicate/sms">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showSMSReport">
                             <span>SMS Report</span>
                         </li>
-                    </a>
-                    <a routerLink="/view/communicate/email">
+                    </a>-->
+                   <!-- <a routerLink="/view/communicate/email">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showEmailReport">
                             <span>Email Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/communicate/ptm">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showPTM">
                             <span>PTM Management</span>
@@ -637,7 +637,7 @@
                     <span [ngClass]="activeSession === 'liforteen' ? ' abc' : ' NavLink'">Content Library</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top:65%;">
+                <ul style="top:61%;">
                     <a routerLink="/view/course/ecourse-file-manager/ecourses">
                         <li class="subMenu">
                             <span>Study Material</span>
@@ -670,11 +670,11 @@
                             <span>Registered Users</span>
                         </li>
                     </a>
-                    <a routerLink="/view/e-store/sales-report">
+                   <!-- <a routerLink="/view/e-store/sales-report">
                         <li class="subMenu" *ngIf="jsonEstoreFlags.isSalesReport">
                             <span>Sales Report</span>
                         </li>
-                    </a>
+                    </a>-->
                     <a routerLink="/view/course/ecoursemapping">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
                             <span>eCourse Mapping</span>
@@ -685,11 +685,11 @@
                             <span>Manage Offers</span>
                         </li>
                     </a>
-                   <a routerLink="/view/e-store/offer-history">
+                  <!-- <a routerLink="/view/e-store/offer-history">
                         <li class="subMenu" *ngIf="jsonEstoreFlags.isCouponReport">
                             <span>Offer History</span>
                         </li>
-                    </a>
+                    </a>-->
                    
                 </ul>
             </li>
@@ -716,7 +716,7 @@
                     <span [ngClass]="activeSession === 'liten' ? ' abc' : ' NavLink'">Expenses</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top: 87%;">
+                <ul style="top: 78%;">
                    <a routerLink="/view/expense/setup">
                         <li class="subMenu">
                             <span>Data Setup</span>
@@ -732,11 +732,11 @@
                             <span>Manage Income</span>
                         </li>
                     </a>
-                   <a routerLink="/view/expense/report">
+                 <!--  <a routerLink="/view/expense/report">
                         <li class="subMenu">
                             <span>Report</span>
                         </li>
-                    </a>
+                    </a>-->
                 </ul>
             </li>
         </ul>
@@ -744,7 +744,7 @@
             <span data-toggle="modal" data-target="#releaseNote">What's New</span>
             
         </div>
-        <div><h6 style="color:white;margin-left: 12%;
+        <div *ngIf ="jsonFlags.isShowPowerBy"><h6 style="color:white;margin-left: 12%;
             margin-top: 10%;">Powered by Proctur 4.0 </h6></div>
         <div class="proctur-info" style="    position: fixed;width: 100px;">
            <!-- <a href="https://www.proctur.com/" target="_blank">-->
