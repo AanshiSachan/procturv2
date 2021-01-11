@@ -62,6 +62,18 @@
               <span> Coupoun / Vouchers usage report.</span>
             </div>
           </div>
+          <div class="activity-item-container" *ngIf="jsonFlag.isShowEcourseMapping" routerLink="../ecoursemapping">
+            <div class="img_name_container">
+              <img src="./assets/images/activity/ecourse.svg" alt="">
+              <span>eCourse Mapping</span>
+            </div>
+            <div class="activity-description">
+              <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+                Products.</span>
+              <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+                Products.</span>
+            </div>
+          </div>
           <!-- <div class="activity-item-container" routerLink="../master-tag">
             <div class="img_name_container">
               <img src="./assets/images/activity/manage_tag.svg" alt="">

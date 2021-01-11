@@ -305,7 +305,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.jsonCourseFlags.isShowModel = true;
       if (this.role_feature.STUDY_MATERIAL_MENU) {
         this.jsonCourseFlags.isShowFileManager = true;
-      }
+      }    
 // Changes done by Nalini - To handle role based conditions
       if (this.role_feature.CLASS_MENU) {
         this.jsonCourseFlags.isShowClass = true;
