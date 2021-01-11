@@ -1,0 +1,225 @@
+<!--<div class="row"  style="background-color: white;margin-top:2%;margin-left:-2%;" >
+
+    <h1><span  class="h1"style="text-align:left;float:left;line-height:30px;">{{msg}}, &nbsp;{{name}}!<br>
+    Welcome back to admin portal</span></h1>
+
+    
+    </div>-->
+<!--<div class="row"  style="background-color: white;margin-left:-2%;" >
+   
+    <div class="row"  style="background-color: white;margin-top:2%;margin-left:-2%;" >
+
+        <h1><span  class="h1"style="text-align:left;float:left;line-height:30px;">{{msg}}, &nbsp;{{name}}!<br>
+        Welcome back to admin portal</span></h1>
+        
+        
+        </div>
+        <br>
+        <hr style="width:50%;margin-left:13px;height: 2px;background: #C4C4C4;">
+
+<div class="col-md-6" style="margin-top:5%">
+        <div class="row">
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="./assets/images/adminwatch.png">
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="datetimeheader" style="margin-top:-4%;margin-left: -14%;">{{t}}</h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="./assets/images/admincalendar.png">
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="datetimeheader"style="text-align:left;float:left;margin-left:-10%;margin-top:-2%;">{{d}}&nbsp;,</h4>
+                        <h1 class="h1" style="font-size:20px;margin-top:0%;">{{weekday}}</h1>
+                    </div>
+                    <div class="col-md-2" style="margin-left: -36%;margin-top:-38px;">
+                       
+                    </div>-->
+
+<!--</div>
+               
+            </div>
+            <div class="row"  style="background-color: white;margin-top:10%">
+                <hr style="width:40%;background: #C4C4C4;height:1px">
+                <br>
+                <h4><span class="quote">"{{quotes}}"</span></h4>
+            </div>
+
+        </div>
+
+
+</div>
+<div class="col-md-6" style="margin-top:-5%">
+    <img src="./assets/images/image 1.png" style="position:fixed;margin-top:-7%;margin-left: 7%;">
+    <div  class="out shadow" style="position:fixed;margin-top:5%;margin-left:10%;">
+        
+        <div class="flex">
+            <div>
+                <p style="margin-top:20px ;">{{curDate}}</p>
+            </div>
+            <div >
+                <div >
+                    <p class="december" style="margin-left:20px;">{{curMonth}}</p>
+                </div>
+                <div class="year">
+                    <p style="margin-left:20px;font-size:25px;">{{curYear}}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="cal">
+                <div class="week red">
+                    S
+                </div>
+                <div class="week">
+                    M
+                </div>
+                <div class="week">
+                    T
+                </div>
+                <div class="week">
+                    W
+                </div>
+                <div class="week">
+                    T
+                </div>
+                <div class="week">
+                    F
+                </div>
+                <div class="week">
+                    S
+                </div>
+            </div>
+            <div class="date" *ngFor="let week of dates">
+                <div class="date" *ngFor="let date of week; first as isFirst">
+                    <span *ngIf="date == 0" > &nbsp; </span>
+                    <span *ngIf="date > 0" [class.red]="isFirst" [class.active]="date == curDate"> {{date}} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+        
+
+</div>
+
+
+</div> -->
+<div class="row">
+    <div class="col-lg-6" style="padding-top: 3%;">
+        <!--Left part-->
+        <div class="row">
+
+            <h1 class="h1"><span style="line-height: 10px;">{{msg}},&nbsp;{{name}}</span><br>
+                Welcome back to admin portal</h1>
+
+            <!--  <h1 class="h1"><span>Welcome back to admin portal</span></h1>-->
+        </div>
+        <div class="row">
+            <hr style="width:107%;height: 2px;background: #C4C4C4;">
+        </div>
+        <div class="row" style="margin-top:10%;">
+            <!--watch-->
+            <div class="col-md-2" style="margin-top: 5px;">
+                <img src="./assets/images/adminwatch1.png">
+            </div>
+
+            <div class="col-md-4" style="padding:5px;width:50%;">
+                <h1 style="padding:10px;"><span style="font-family: 'Open Sans', sans-serif;">{{ time | date: 'hh:mm:ss a' }}</span></h1>
+            </div>
+
+        </div>
+        <div class="row">
+            <!--date-->
+            <div class="col-md-2" style="margin-top: 8px;">
+                <img src="./assets/images/admincalendar1.png">
+            </div>
+
+            <div class="col-md-4">
+                <h1 style="padding:4px;"><span style="font-family: 'Open Sans', sans-serif;">{{d}}</span></h1>
+            </div>
+
+        </div>
+        <div class="row" style="padding-top:15%;">
+            <hr style="width:40%;background: #C4C4C4;height:1px;">
+
+        </div>
+        <div class="row" style="padding-top:3%;">
+            <!--Quotes-->
+            <h1><span class="quote">"{{quotes}}"</span></h1>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="col-lg-6">
+        <!--Right Part-->
+
+        <img src="./assets/images/image 1.png" style="position:fixed;">
+        <div class="row" style="padding: 22%;">
+            <div class="out shadow" style="position:absolute;">
+
+                <div class="flex">
+                    <div>
+                        <p style="margin-top:20px ;">{{curDate}}</p>
+                    </div>
+                    <div>
+                        <div>
+                            <p class="december" style="margin-left:20px;">{{curMonth}}</p>
+                        </div>
+                        <div class="year">
+                            <p style="margin-left:20px;font-size:25px;">{{curYear}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="cal">
+                        <div class="week red">
+                            S
+                        </div>
+                        <div class="week">
+                            M
+                        </div>
+                        <div class="week">
+                            T
+                        </div>
+                        <div class="week">
+                            W
+                        </div>
+                        <div class="week">
+                            T
+                        </div>
+                        <div class="week">
+                            F
+                        </div>
+                        <div class="week">
+                            S
+                        </div>
+                    </div>
+                    <div class="date" *ngFor="let week of dates">
+                        <div class="date" *ngFor="let date of week; first as isFirst">
+                            <span *ngIf="date == 0"> &nbsp; </span>
+                            <span *ngIf="date > 0" [class.red]="isFirst" [class.active]="date == curDate"> {{date}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>

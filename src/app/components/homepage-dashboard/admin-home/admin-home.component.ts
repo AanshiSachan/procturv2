@@ -576,7 +576,7 @@ export class AdminHomeComponent implements OnInit {
     else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
-    this.router.navigate(['/view/home/mark-attendance']);
+    this.router.navigate(['/view/dashboard/mark-attendance']);
 
 
   }
@@ -1227,7 +1227,7 @@ export class AdminHomeComponent implements OnInit {
     else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
-    this.router.navigate(['/view/home/mark-attendance']);
+    this.router.navigate(['/view/dashboard/mark-attendance']);
 
 
 
@@ -2949,7 +2949,7 @@ export class AdminHomeComponent implements OnInit {
     else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
-    this.router.navigate(['/view/home/mark-attendance']);
+    this.router.navigate(['/view/dashboard/mark-attendance']);
   }
 
   closeExamAttendance() {
@@ -3214,7 +3214,7 @@ export class AdminHomeComponent implements OnInit {
     else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
-    this.router.navigate(['/view/home/exam-marks-batch']);
+    this.router.navigate(['/view/dashboard/exam-marks-batch']);
   }
 
   closeExamMarks() {
@@ -3405,7 +3405,7 @@ export class AdminHomeComponent implements OnInit {
     else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
-    this.router.navigate(['/view/home/mark-attendance']);
+    this.router.navigate(['/view/dashboard/mark-attendance']);
 
   }
 
@@ -3559,7 +3559,7 @@ export class AdminHomeComponent implements OnInit {
     else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
-    this.router.navigate(['/view/home/exam-marks']);
+    this.router.navigate(['/view/dashboard/exam-marks']);
 
   }
 

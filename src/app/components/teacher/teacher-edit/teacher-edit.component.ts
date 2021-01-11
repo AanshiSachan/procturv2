@@ -301,7 +301,7 @@ export class TeacherEditComponent implements OnInit {
       data => {
         this.messageToast('success', 'Updated', 'Details Updated successfully.');
         if (sessionStorage.getItem('userType') == '3') {
-          this.route.navigateByUrl('/view/home/admin');
+          this.route.navigateByUrl('/view/dashboard/admin');
         } else {
           this.route.navigateByUrl('/view/teacher');
         }
