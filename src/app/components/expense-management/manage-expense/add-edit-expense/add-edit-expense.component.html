@@ -58,7 +58,13 @@
     <div class="account-details-container">
       <div class="account-details-heading-container">
         <div class="account-heading-item">
-          <div>Item/Category<span class="danger">*</span> <span style="right: auto;margin-left: 5%;" class="customeAdd" (click)="toggleCategory()">Add Category</span></div>
+          <div>Item/Category<span class="danger">*</span> <span style="right: auto;margin-left: 2%;" class="customeAdd" (click)="toggleCategory()">Add Category</span></div>
+        </div>
+        <div class="account-heading-item">
+          <span>Description</span>
+        </div>
+        <div class="account-heading-item">
+          <span>Remark</span>
         </div>
         <div class="account-heading-item">
           <span>Quantity</span>
@@ -70,13 +76,21 @@
 
       <div class="account-details-input-container">
         <!-- changes done by Nalini - To select category by dropdown -->
-        <div class="payment-details-item field-wrapper" style="width: 18%;float: left;margin-right: 20px;padding-top: 0;">
-          <select class="form-ctrl" name="payee" id="payee" [(ngModel)]="accountDetails.itemName">
+        <div class="payment-details-item field-wrapper" style="width: 15%;float: left;margin-right: 20px;padding-top: 0;">
+          <select class="form-ctrl" name="payee" id="payee" [(ngModel)]="accountDetails.itemName" (ngModelChange)="setDescription($event)">
             <option value="-1">Select Category</option>
             <option [value]="payee.category_id" *ngFor="let payee of categoryList">{{payee.category_name}}</option>
           </select>
         </div>
+        <div class="account-input-item field-wrapper" style="padding-top: 0;margin-left: 0;margin-right: 20px;">
+          <input type="text" value="" disabled id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.description"
+          style="padding: 6px;" name="item-name" placeholder="Category Description">
+        </div>
         <div class="account-input-item field-wrapper" style="padding-top: 0;margin-left: 0;">
+          <input type="text" value="" id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.remarks"
+            style="padding: 6px;" name="item-name" placeholder="Remark">
+        </div>
+        <div class="account-input-item field-wrapper" style="padding-top: 0;">
           <input type="text" value="" id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.quantity"
             style="padding: 6px;" name="item-name" placeholder="Item Quantity"
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
@@ -98,6 +112,10 @@
           <div class="account-value-item">
             <span
               title="{{item?.description}}">{{ (!item.description) ? '-' : (item.description.length > 20) ? (item.description | slice:0:20) + '...' : item.description}}</span>
+          </div>
+          <div class="account-value-item">
+            <span
+              title="{{item?.remarks}}">{{ (!item.remarks) ? '-' : (item.remarks.length > 20) ? (item.remarks | slice:0:20) + '...' : item.remarks}}</span>
           </div>
           <div class="account-value-item">
             <span>{{item.quantity}}</span>
