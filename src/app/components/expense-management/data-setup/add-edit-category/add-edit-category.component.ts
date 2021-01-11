@@ -64,7 +64,7 @@ export class AddEditCategoryComponent implements OnInit {
 
   saveCategoryDetails() {
     if (this.addCategory.Name != '') {
-      if(this.isEditCategory || this.addCategory.expense_category_type != '') {
+      if((this.isEditCategory || !this.showCategoryDropdown) || this.addCategory.expense_category_type != '') {
       let obj: any = {
         category_name: this.addCategory.Name,
         category_desc: this.addCategory.Description,
