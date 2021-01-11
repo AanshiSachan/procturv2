@@ -15,7 +15,8 @@ export class AddEditComponent implements OnInit, OnDestroy {
   pageModel: any = {
     category_id: '',
     question: '',
-    answer: ''
+    answer: '',
+    order_number: ''
   }
 
   constructor(
@@ -73,6 +74,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
           category_id: this.pageModel.category_id,
           question: this.pageModel.question,
           answer: this.pageModel.answer,
+          order_number: this.pageModel.order_number
         }
         this.auth.showLoader();
         this.productService.putMethod('api/v2/website/faq/update', data).then(
@@ -107,6 +109,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
           category_id: this.pageModel.category_id,
           question: this.pageModel.question,
           answer: this.pageModel.answer,
+          order_number: this.pageModel.order_number
         }
         this.auth.showLoader();
         this.productService.postMethod('api/v2/website/faq/create', data).then(

@@ -52,6 +52,8 @@ export class ContactInfoComponent implements OnInit {
     } else {
       var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
       if (this.pageModel.email_id == ''|| this.pageModel.email_id == null || reg.test(this.pageModel.email_id)) {
+        var reg_num = /^[+]+?([0-9])+[-]+?([0-9])+(,[+]+?([0-9])+[-]+?([0-9])+)*$/;
+        if (this.pageModel.contact == ''|| this.pageModel.contact == null || reg_num.test(this.pageModel.contact)) {
         const formData = new FormData();
         let data = this.pageModel;
         formData.append('data', JSON.stringify(data));
@@ -92,6 +94,9 @@ export class ContactInfoComponent implements OnInit {
           }
           newxhr.send(formData);
         }
+      } else {
+        this.msgService.showErrorMessage('error', '', 'Please enter valid number');
+      }
       } else {
         this.msgService.showErrorMessage('error', '', 'Please enter valid email address');
       }

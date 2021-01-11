@@ -40,7 +40,7 @@ export class ImagesComponent implements OnInit {
         if (this.activeSession.id == 'logoImage') {
           this.toggler('logoImage', '200', '50', 'Logo', this.pageModel.logo_url);
         } else if (this.activeSession.id == 'faviconImage') {
-          this.toggler('faviconImage', '16', '16', 'Favicon', this.pageModel.favicon_url);
+          this.toggler('faviconImage', '32', '32', 'Favicon', this.pageModel.favicon_url);
         } else if (this.activeSession.id == 'aboutUsImage') {
           this.toggler('aboutUsImage', '512', '512', 'About Us', this.pageModel.about_us_url);
         } else {

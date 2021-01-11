@@ -42,11 +42,14 @@
     }
 }
 .buttonDiv {
-    min-width: 120px;
+    min-width: 20%;
     float: left;
-    padding: 10px;
+    padding: 15px;
     color: black;
     cursor: pointer;
+    padding-bottom: 7px;
+    padding-left: 0;
+    text-align: center;
 }
 .activeSession {
     color: #528ff0;

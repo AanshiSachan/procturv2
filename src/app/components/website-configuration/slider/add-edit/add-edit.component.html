@@ -10,14 +10,6 @@
                     <input type="text" placeholder="Title" [(ngModel)]="pageModel.name" class="form-control form-control-sm">
                 </div>
 
-                <div class="col-md-12">
-                    <div class="col-md-8 form-group" style="padding-right: 0px;padding-left: 0px;">
-                        <label class="text-bold">Content</label>
-                        <textarea rows="3" placeholder="Content" class="form-control form-control-sm" maxLength="1500"
-                            [(ngModel)]="pageModel.content" style="width: 75%;"></textarea>
-                    </div>
-                </div>
-
                 <div class="col-md-12 form-group">
                     <label class="text-bold"> Order number
                         <span class="text-danger">*</span>
@@ -25,21 +17,29 @@
                     <input type="number" placeholder="Order number" [(ngModel)]="pageModel.order_number" class="form-control form-control-sm">
                 </div>
 
-                <div class="col-md-12" style="margin-bottom: 15px;" *ngIf="selectedPageId && pageModel.image_url!='' && pageModel.image_url!=null">
-                    <div class="c-md-3" style="padding: 0;margin-top: 1%;margin-right: 5px;">
-                        <label class="text-bold"> Uploaded Image</label>
-                        <img style="width: 20%;vertical-align: middle;margin-left: 25px;" src="{{pageModel.image_url}}">
+                <div class="col-md-12">
+                    <div class="col-md-12 form-group" style="padding-right: 0px;padding-left: 0px;width: 100%;">
+                        <label class="text-bold">Content</label>
+                        <textarea rows="3" placeholder="Content" class="form-control form-control-sm" maxLength="1500"
+                            [(ngModel)]="pageModel.content" style="width: 100%;height: 80px;"></textarea>
                     </div>
-                    <div class="c-md-1 clearFile" (click)="clearFile()">X</div>
                 </div>
 
                 <div class="col-md-12 form-group">
-                    <label class="text-bold"> Upload Image (Size - 420 w* 420 h Pixel)
+                    <label class="text-bold"> Upload Image (Size (Width * Height) : 420px * 420px)
                         <span class="text-danger">*</span>
                     </label>
                     <input type="file" class="form-control form-control-sm"
                         [disabled]="pageModel.image_url!='' && pageModel.image_url!=null" id="uploadFileControl"
                         name="uploadFileBox" accept="image/*" [(ngModel)]="pageModel.image" />
+                </div>
+
+                <div class="col-md-12" style="margin-bottom: 15px;width: 50%;" *ngIf="selectedPageId && pageModel.image_url!='' && pageModel.image_url!=null">
+                    <div class="c-md-6" style="padding: 0;margin-top: 1%;margin-right: 5px;">
+                        <label class="text-bold"> Uploaded Image</label>
+                        <img style="width: 24%;vertical-align: middle;margin-left: 25px;" src="{{pageModel.image_url}}">
+                    </div>
+                    <div class="c-md-1 clearFile" (click)="clearFile()">X</div>
                 </div>
             </div>
 

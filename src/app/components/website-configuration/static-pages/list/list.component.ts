@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
       },
       {
         primary_key: 'page_route',
-        value: "Route",
+        value: "Page URL",
         charactLimit: 60,
         sorting: false,
         visibility: true

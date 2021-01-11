@@ -82,7 +82,7 @@ export class ThirdPartyAuthComponent implements OnInit {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               // this.clearuploadObject();
               // this.refreshList();
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Third party authorization updated successfully");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Third party integration updated successfully");
               this.getData();
 
             } else {

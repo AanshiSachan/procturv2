@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div class="buttonDiv" (click)="toggler('faviconImage', '16', '16', 'Favicon', pageModel.favicon_url)"
+    <div class="buttonDiv" (click)="toggler('faviconImage', '32', '32', 'Favicon', pageModel.favicon_url)"
       [ngClass]="activeSession.id === 'faviconImage' ? ' activeSession' : ' '">
       <a mat-button>
         <span>Favicon</span>
@@ -45,8 +45,8 @@
     <div class="select-file-upload">
       <h5>Upload {{activeSession.name}} image here
 
-        <span *ngIf="activeSession.id != 'logoImage'">(Size - {{activeSession.width}} w * {{activeSession.height}} h Pixel)</span>
-        <span *ngIf="activeSession.id == 'logoImage'">(Size - 200 w * 50 h or 50 w * 50 h Pixel)</span>
+        <span *ngIf="activeSession.id != 'logoImage'">(Size (Width * Height) : {{activeSession.width}}px * {{activeSession.height}}px)</span>
+        <span *ngIf="activeSession.id == 'logoImage'">(Size (Width * Height) : 200px * 50px OR 50px * 50px)</span>
       </h5>
       <div class="">
         <ul>

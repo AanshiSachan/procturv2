@@ -64,6 +64,13 @@ export class ListComponent implements OnInit {
         visibility: true
       },
       {
+        primary_key: 'rating',
+        value: "Rating",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
         primary_key: 'action',
         value: "Action",
         charactLimit: 10,
@@ -95,7 +102,11 @@ export class ListComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "25%",
+        width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
         textAlign: "left"
       },
       {

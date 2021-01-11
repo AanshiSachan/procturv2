@@ -14,19 +14,19 @@ export class HomeComponent implements OnInit {
       routerLink: 'view/website-configuration/images'
     },
     {
-      title : "Static Page(More)",
+      title : "Static Page (More)",
       routerLink: 'view/website-configuration/static-pages/list'
     },
     {
-      title : "Slider",
+      title : "Image Slider",
       routerLink: 'view/website-configuration/slider/list'
     },
     {
-      title : "Manage Content(Other Links)",
+      title : "Manage Content (Other Links)",
       routerLink: 'view/website-configuration/manage-content'
     },
     {
-      title : "3rd Party Authorization",
+      title : "3rd Party Integration",
       routerLink: 'view/website-configuration/third-party-auth'
     },
     {
@@ -70,10 +70,10 @@ export class HomeComponent implements OnInit {
     console.log(pathLastURL);
     let routesData = {
       'images': 'Images',
-      'static-pages': 'Static Page(More)',
-      'manage-content': 'Manage Content(Other Links)',
-      'slider': 'Slider',
-      'third-party-auth': '3rd Party Authorization',
+      'static-pages': 'Static Page (More)',
+      'manage-content': 'Manage Content (Other Links)',
+      'slider': 'Image Slider',
+      'third-party-auth': '3rd Party Integration',
       'contact-info': 'Contact Info',
       'theme': 'Theme Options',
       'faq': 'FAQs',

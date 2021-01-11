@@ -128,13 +128,13 @@
   }
 }
 .buttonDiv {
-  min-width: 120px;
-  float: left;
-  padding: 10px;
-  padding-left: 0;
-  padding-right: 0;
-  color: black;
-  cursor: pointer;
+  text-align: center;
+    min-width: 200px;
+    float: left;
+    padding-top: 13px;
+    padding-bottom: 10px;
+    color: black;
+    cursor: pointer;
 }
 .activeSession {
   color: #528ff0;

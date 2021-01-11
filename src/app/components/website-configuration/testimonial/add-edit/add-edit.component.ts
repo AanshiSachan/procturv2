@@ -17,7 +17,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
     content: '',
     order_number: '',
     image: '',
-    rating: ''
+    rating: '0'
   }
 
   constructor(
@@ -64,7 +64,6 @@ export class AddEditComponent implements OnInit, OnDestroy {
     if (this.checkValidation(file)) {
       if (this.pageModel.name != '' && this.pageModel.name != null) {
         if (this.pageModel.order_number != '' && this.pageModel.order_number != null) {
-          if(this.pageModel.rating == '' || this.pageModel.rating<=5) {
           // console.log(this.material_dataFlag);
           const formData = new FormData();
           let data: any = {
@@ -121,9 +120,6 @@ export class AddEditComponent implements OnInit, OnDestroy {
             }
             newxhr.send(formData);
           }
-        } else {
-          this.msgService.showErrorMessage('error', '', 'Please add rating upto 5');
-        }
         } else {
           this.msgService.showErrorMessage('error', '', 'Please enter order number')
         }

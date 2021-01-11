@@ -1,8 +1,8 @@
 
-<div class="blurBg">
-<span style="position: fixed;top: 50%;left: 50%;font-weight: 600;font-size: 16px;">Coming soon...</span>
-<div class="container-fluid product-wrapper p-0" style="padding-top: 0;opacity: 0.5;cursor: no-drop;">
-  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;margin-top: 10px;">
+<!-- <div> -->
+<!-- <span style="position: fixed;top: 50%;left: 50%;font-weight: 600;font-size: 16px;">Coming soon...</span> -->
+<div class="container-fluid product-wrapper p-0">
+  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
     <div class="col-md-8" style="padding-left: 0;">
       <section class="middle-top clearFix bulk-header">
         <div>
@@ -11,7 +11,7 @@
               Website/ App
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <span>Third Party Authorization</span>
+            <span>Third Party Integration</span>
           </h1>
         </div>
       </section>
@@ -22,31 +22,35 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12 form-group">
-          <label class="text-bold"> Chat
+          <label class="text-bold"> Chatbot Code
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" disabled placeholder="Chat" [(ngModel)]="pageModel.chat_key" class="form-control form-control-sm">
+          <textarea placeholder="Chat" [(ngModel)]="pageModel.chat_key" class="form-control form-control-sm">
+          </textarea>
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Google Analytics
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" disabled placeholder="Google Analytics" [(ngModel)]="pageModel.google_analytics_key" class="form-control form-control-sm">
+          <textarea placeholder="Google Analytics" [(ngModel)]="pageModel.google_analytics_key" class="form-control form-control-sm">
+          </textarea>
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Pixel
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" disabled placeholder="Pixel" [(ngModel)]="pageModel.pixel_key" class="form-control form-control-sm">
+          <textarea placeholder="Pixel" [(ngModel)]="pageModel.pixel_key" class="form-control form-control-sm">
+          </textarea>            
         </div>
 
         <div class="col-md-12 form-group">
           <label class="text-bold"> Google Verification
             <!-- <span class="text-danger">*</span> -->
           </label>
-          <input type="text" disabled placeholder="Google Verification" [(ngModel)]="pageModel.google_verfication_key" class="form-control form-control-sm">
+          <textarea placeholder="Google Verification" [(ngModel)]="pageModel.google_verfication_key" class="form-control form-control-sm">
+          </textarea>
         </div>
 
       </div>
@@ -54,8 +58,8 @@
   </div>
 
   <div class="go-btn-container">
-    <button type="button" disabled name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
-    <button type="button" disabled name="button" class="fullBlue gobtn" (click)="saveData()">Update</button>
+    <button type="button" name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
+    <button type="button" name="button" class="fullBlue gobtn" (click)="saveData()">Update</button>
   </div>
 </div>
-</div>
+<!-- </div> -->

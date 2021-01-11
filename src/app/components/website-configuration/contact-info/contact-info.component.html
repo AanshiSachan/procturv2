@@ -21,13 +21,13 @@
         <div class="col-md-12 form-group">
           <label class="text-bold"> Phone
           </label>
-          <input type="text" placeholder="Phone" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="pageModel.contact" class="form-control form-control-sm">
+          <input type="text" placeholder="Eg: +91-12345,+91-156161" [(ngModel)]="pageModel.contact" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
-          <label class="text-bold"> Email
+          <label class="text-bold"> Email ID
           </label>
-          <input type="text" placeholder="Email" [(ngModel)]="pageModel.email_id" class="form-control form-control-sm">
+          <input type="text" placeholder="Eg: abc@gmail.com" [(ngModel)]="pageModel.email_id" class="form-control form-control-sm">
         </div>
 
         <div class="col-md-12 form-group">
@@ -39,7 +39,8 @@
         <div class="col-md-12 form-group">
           <label class="text-bold"> Address
           </label>
-          <input type="text" placeholder="Address" [(ngModel)]="pageModel.address" class="form-control form-control-sm">
+          <textarea style="height: 80px;" placeholder="Address" [(ngModel)]="pageModel.address" class="form-control form-control-sm">
+          </textarea>
         </div>
 
       </div>
