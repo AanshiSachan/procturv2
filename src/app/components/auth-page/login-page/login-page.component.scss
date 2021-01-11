@@ -495,16 +495,16 @@ label {
             }
         }
     }
-    ul {
-        &.social-icons {
-            padding: 5px 15px;
-            li {
-                display: inline;
-                .icons {
-                    font-family: FontAwesome;
-                    margin: 0px 5px;
-                    font-size: 20px;
-                }
+}
+ul {
+    &.social-icons {
+        padding: 5px 0px;
+        li {
+            display: inline;
+            .icons {
+                font-family: FontAwesome;
+                margin: 0px 5px;
+                font-size: 20px;
             }
         }
     }
