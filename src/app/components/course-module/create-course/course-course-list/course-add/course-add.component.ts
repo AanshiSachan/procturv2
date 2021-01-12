@@ -372,8 +372,8 @@ export class CourseAddComponent implements OnInit {
       this.divCreateNewCourse = true;
       // changes by Nalini - to handle school model conditions
       if(!this.schoolModel) {
-        document.getElementById('showCloseBtn').style.display = '';
-        document.getElementById('showAddBtn').style.display = 'none';
+        document.getElementById('showCloseBtn') ? document.getElementById('showCloseBtn').style.display = '' : '';
+        document.getElementById('showAddBtn') ? document.getElementById('showAddBtn').style.display = 'none' : '';
       }
     } else {
       this.divCreateNewCourse = false;
