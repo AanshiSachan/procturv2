@@ -20,11 +20,13 @@ export class AddEditCategoryComponent implements OnInit {
     Name: '',
     Description: '',
     isActive: true,
-    category_id: ''
+    category_id: '',
+    expense_category_type: ''
   }
 
   editAccountDetails: any;
   account: any[] = [];
+  showCategoryDropdown: any = '';
 
   @Output() closePopup = new EventEmitter<boolean>();
   @Input() isEditCategory: boolean;
@@ -41,8 +43,14 @@ export class AddEditCategoryComponent implements OnInit {
   ngOnInit(): void {
     $('#addCategory').modal('show');
     // this.getCategoryDetails()
+    if(sessionStorage.getItem('expense_category_type')) {
+      this.showCategoryDropdown = false;
+    } else {
+      this.showCategoryDropdown = true;
+    }
     if (this.isEditCategory) {
       this.setEditValues();
+      this.showCategoryDropdown = false;
     }
   }
 
@@ -56,6 +64,7 @@ export class AddEditCategoryComponent implements OnInit {
 
   saveCategoryDetails() {
     if (this.addCategory.Name != '') {
+      if((this.isEditCategory || !this.showCategoryDropdown) || this.addCategory.expense_category_type != '') {
       let obj: any = {
         category_name: this.addCategory.Name,
         category_desc: this.addCategory.Description,
@@ -66,7 +75,10 @@ export class AddEditCategoryComponent implements OnInit {
         obj.is_active = (this.addCategory.isActive) ? 'Y' : 'N';
       } else {
         obj.institute_id = this.jsonFlag.institute_id;
-        obj.expense_category_type = '2';
+        obj.expense_category_type = this.addCategory.expense_category_type;
+        if(sessionStorage.getItem('expense_category_type')) {
+          obj.expense_category_type = sessionStorage.getItem('expense_category_type');
+        }
       }
       this.auth.showLoader();
       const url = !this.isEditCategory ? '/api/v1/expense/category/add' : '/api/v1/expense/category/update';
@@ -97,6 +109,9 @@ export class AddEditCategoryComponent implements OnInit {
           }
         )
       }
+    } else {
+      this.msgService.showErrorMessage('error', '', "Please Select Category type");
+    }
     } else {
       this.msgService.showErrorMessage('error', '', "Please Enter Category Name");
     }

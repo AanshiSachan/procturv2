@@ -78,6 +78,9 @@
             title="{{detail?.category_desc}}">{{ (!detail.category_desc) ? '-' : (detail.category_desc.length > 20) ? (detail.category_desc | slice:0:20) + '...' : detail.category_desc}}</span>
         </div>
         <div class="table-value-item">
+          <span>{{ (detail.expense_category_type == 2) ? 'Expense' : (detail.expense_category_type == 3) ? 'Income' : ''}}</span>
+        </div>
+        <div class="table-value-item">
           <i class="fa fa-pencil" aria-hidden="true" title="Edit Account" (click)="editCategoryFun(detail)"></i>
         </div>
       </div>

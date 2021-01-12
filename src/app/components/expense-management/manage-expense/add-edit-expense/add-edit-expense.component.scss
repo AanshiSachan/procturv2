@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: row;
   .payment-details-item{
-    width: 18%;
+    width: 15%;
     margin-left: 20px;
   }
   .payment-details-item:first-child{
@@ -35,7 +35,7 @@
     flex-direction: row;
     width: 100%;
     .account-heading-item, .account-input-item{
-      width: 18%;
+      width: 15%;
       margin-left: 20px;
       font-size: 12px;
     }
@@ -65,7 +65,7 @@
       flex-direction: row;
       width: 100%;
       .account-value-item{
-        width: 18%;
+        width: 15%;
         margin-left: 20px;
       }
       .account-value-item:first-child{

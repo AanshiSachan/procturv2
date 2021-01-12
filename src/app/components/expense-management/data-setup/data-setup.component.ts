@@ -79,6 +79,7 @@ export class DataSetupComponent implements OnInit {
     this.categoryHeader = [
       { header: 'Category Name', class: 'large-item'},
       { header: 'Description	', class: 'large-item'},
+      { header: 'Category Type', class: 'large-item'},
       { header: 'Edit', class: 'small-item'}
     ];
 
@@ -109,7 +110,7 @@ export class DataSetupComponent implements OnInit {
     // Category changes added
     if(showId == 'category') {
       this.headerList = this.categoryHeader;
-      url = `/api/v1/expense/category/all/${this.jsonFlag.institute_id}?expense_category_type=2`;
+      url = `/api/v1/expense/category/all/${this.jsonFlag.institute_id}?expense_category_type=2,3`;
     }
 
     this.auth.showLoader();
