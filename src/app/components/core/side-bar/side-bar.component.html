@@ -519,6 +519,11 @@
                             <span>Data Archiving</span>
                         </li>
                     </a>
+                    <a routerLink="/view/course/ecoursemapping">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                            <span>eCourse Mapping</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowExpense" (click)="toggler('liforteen')" >
@@ -528,7 +533,7 @@
                     <span [ngClass]="activeSession === 'liforteen' ? ' abc' : ' NavLink'">Content Library</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top:61%;">
+                <ul style="top:39%;">
                     <a routerLink="/view/course/ecourse-file-manager/ecourses">
                         <li class="subMenu">
                             <span>Study Material</span>
@@ -625,7 +630,7 @@
                     <span [ngClass]="activeSession === 'lisix' ? ' abc' : ' NavLink'">Communicate</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top:47%">
+                <ul style="top:50%">
                  <!--  <a routerLink="/view/communicate/sms">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showSMSReport">
                             <span>SMS Report</span>
@@ -655,7 +660,7 @@
                     <span [ngClass]="activeSession === 'lieight' ? ' abc' : ' NavLink'">Estore</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top: 65%;">
+                <ul style="top: 58%;">
                     <a routerLink="/view/e-store/details">
                         <li class="subMenu" *ngIf="jsonEstoreFlags.isManageProduct">
                             <span>Manage Product</span>
@@ -671,11 +676,7 @@
                             <span>Sales Report</span>
                         </li>
                     </a>-->
-                    <a routerLink="/view/course/ecoursemapping">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                            <span>eCourse Mapping</span>
-                        </li>
-                    </a>
+                   
                     <a routerLink="/view/e-store/manage-offers/coupon">
                         <li class="subMenu" *ngIf="jsonEstoreFlags.isManageOffer">
                             <span>Manage Offers</span>
@@ -727,7 +728,7 @@
                     <span [ngClass]="activeSession === 'liten' ? ' abc' : ' NavLink'">Expenses</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
-                <ul style="top: 65%;">
+                <ul style="top: 75%;">
                     <a routerLink="/view/expense/setup">
                         <li class="subMenu">
                             <span>Data Setup</span>
