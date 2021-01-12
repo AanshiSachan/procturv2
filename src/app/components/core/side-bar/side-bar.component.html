@@ -739,8 +739,8 @@
                     </a>-->
                 </ul>
             </li>        
-            <li (click)="toggler('lieleven')">
-                <img src="./assets/images/course/reports.svg" alt="" class="sideBar_centerAlign"
+            <li [ngClass]= "activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
+                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/reports/list">
                 <span [ngClass]="activeSession === 'lieleven' ? ' abc' : ' NavLink'">Reports</span>
