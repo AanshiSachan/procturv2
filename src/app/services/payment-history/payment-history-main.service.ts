@@ -35,7 +35,8 @@ export class PaymentHistoryMainService {
       payment_history_student_category_option: 2,
       student_name: obj.student_name,
       contact_no: obj.contact_no,
-      user_id: -1
+      // User Id added by Nalini as per requirement of PRC30-2038
+      user_id: obj.user_id
     }
     let url = this.baseUrl + "/api/v1/studentWise/fee/feesReport/pastHistory/" + this.institute_id + "/details"
     return this.http.post(url, tempObj, { headers: this.headers }).pipe(map(

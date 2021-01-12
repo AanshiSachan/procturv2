@@ -272,7 +272,9 @@ export class EditClassComponent implements OnInit {
 
   onChangeProduct(event) {
     let institute_id = sessionStorage.getItem('institute_id');
-    this.selectedUserList = [];
+    if(institute_id!='100058') {
+      this.selectedUserList = [];
+    }
     let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${event}`;
     this.auth.showLoader();
     this.http_service.getData(url).subscribe(
