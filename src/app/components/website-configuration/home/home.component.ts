@@ -44,6 +44,10 @@ export class HomeComponent implements OnInit {
     {
       title : "Testimonial",
       routerLink: 'view/website-configuration/testimonial/list'
+    },
+    {
+      title : "URL",
+      routerLink: 'view/website-configuration/url'
     }
   ]
   activeSession: any = 'Images';
@@ -77,7 +81,8 @@ export class HomeComponent implements OnInit {
       'contact-info': 'Contact Info',
       'theme': 'Theme Options',
       'faq': 'FAQs',
-      'testimonial': 'Testimonial'
+      'testimonial': 'Testimonial',
+      'url': 'URL'
     };
       this.activeSession = routesData[pathLastURL];
       console.log(this.activeSession);

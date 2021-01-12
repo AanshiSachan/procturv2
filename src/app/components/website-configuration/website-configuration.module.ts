@@ -17,10 +17,11 @@ import {SharedModule} from '../shared/shared.module';
 import { ListComponent } from './testimonial/list/list.component';
 import { AddEditComponent } from './testimonial/add-edit/add-edit.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { UrlComponent } from './url/url.component';
 
 
 @NgModule({
-  declarations: [WebsiteConfigurationComponent, HomeComponent, ImagesComponent, ManageContentComponent, ContactInfoComponent, ThirdPartyAuthComponent, ThemeComponent, FaqComponent, TestimonialComponent, ListComponent, AddEditComponent],
+  declarations: [WebsiteConfigurationComponent, HomeComponent, ImagesComponent, ManageContentComponent, ContactInfoComponent, ThirdPartyAuthComponent, ThemeComponent, FaqComponent, TestimonialComponent, ListComponent, AddEditComponent, UrlComponent],
   imports: [
     CommonModule,
     WebsiteConfigurationRoutingModule,

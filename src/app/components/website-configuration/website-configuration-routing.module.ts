@@ -6,6 +6,7 @@ import {ManageContentComponent} from './manage-content/manage-content.component'
 import {ContactInfoComponent} from '../website-configuration/contact-info/contact-info.component';
 import {ThirdPartyAuthComponent} from './third-party-auth/third-party-auth.component';
 import {ThemeComponent} from './theme/theme.component';
+import {UrlComponent} from './url/url.component';
 
 
 const routes: Routes = [
@@ -57,7 +58,11 @@ const routes: Routes = [
             path: 'testimonial',
             loadChildren: () => import('../website-configuration/testimonial/testimonial.module').then(m => m.TestimonialModule),
             pathMatch: 'prefix'
-          }
+          },
+          {
+            path: 'url',
+            component: UrlComponent
+          },
       ]
   }
 ];
