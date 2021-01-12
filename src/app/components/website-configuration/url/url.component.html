@@ -1,0 +1,32 @@
+<div class="container-fluid product-wrapper p-0" style="padding-top: 0px;">
+    <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
+      <div class="col-md-8" style="padding-left: 0;">
+        <section class="middle-top clearFix bulk-header">
+          <div>
+            <h1 class="pull-left" style="margin-bottom: 10px;">
+              <a routerLink="/view/website-configuration/images" style="padding:0px; ">
+                Website/ App
+              </a>
+              <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+              <span>URL</span>
+            </h1>
+          </div>
+        </section>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label class="text-bold"> URL
+            </label>
+            <input type="text" disabled [(ngModel)]="pageModel.subdomain_name" class="form-control form-control-sm">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 go-btn-container">
+        <button type="button" name="button" class="fullBlue gobtn" (click)="previewSite()">Preview</button>
+      </div>
+    </div>
+  </div>
