@@ -477,7 +477,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     if (this.checkStatusofStudent) {
       this.areaList = [];
     }
-    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "" && this.studentAddFormData.city_id!=null) {
       const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
