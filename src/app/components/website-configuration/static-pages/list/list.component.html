@@ -1,0 +1,21 @@
+<section class="sms-table-wrapper">
+
+    <div class="filter-item-2">
+        <button type="button" name="button" class="add-class-btn" routerLink="../add" style="margin-right: 15px;">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          &nbsp;
+          Add Page
+        </button>
+      </div>
+    <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+      [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'>
+    </app-basic-table>
+    <div style="padding-top: 9px;">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" [count]="totalRecords"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    </div>
+
+
+  </section>

@@ -148,7 +148,13 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
                             loadChildren: () => import('app/components/student-module/student-module.module').then(m => m.StudentModule2),
                             // loadChildren:'app/components/student-module/student-module.module#StudentModule2',
                             canLoad:[AuthGuard]
-                        }
+                        },
+                        {
+                            path: 'website-configuration',
+                            loadChildren: () => import('../../app/components/website-configuration/website-configuration.module').then(m => m.WebsiteConfigurationModule),
+                            // loadChildren: 'app/components/eStore-module/manage-coupon-home/manage-coupon-home.module#ManageCouponHomeModule',
+                            pathMatch: 'prefix'
+                        },
                     ]
                 },
             ]
