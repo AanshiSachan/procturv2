@@ -6,8 +6,8 @@
           style="padding: 16px 0px 3px 10px; font-size: 14px"
           class="pull-left"
         >
-        <a routerLink="/view/course"  *ngIf="!isProfessional" style="padding:0px; ">
-          Course
+        <a *ngIf="!isProfessional" style="padding:0px; ">
+        Setup
         </a>
         <a routerLink="/view/batch" *ngIf="isProfessional" style="padding:0px; ">
           Batch

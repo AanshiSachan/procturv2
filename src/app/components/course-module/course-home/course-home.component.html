@@ -3,22 +3,22 @@
   <section class="header-section" style="padding-left: 12px;">
     <div>
       <div class="header-title">
-        <span *ngIf="(!isLangInstitue)">Course</span>
+        <span *ngIf="(!isLangInstitue)">Class/Exam</span>
         <span *ngIf="(isLangInstitue)"> Batch</span>
       </div>
     </div>
   </section>
   <div class="course-menu-section-container" *ngIf="(!isLangInstitue)">
-    <div class="course-menu-item" routerLink="/view/course/setup" *ngIf="jsonFlags.isShowSetup">
-      <div class="menu-title">
+   <!-- <div class="course-menu-item" routerLink="/view/course/setup" *ngIf="jsonFlags.isShowSetup">
+     <div class="menu-title">
         <img src="./assets/images/course/data-setup.svg" alt="data setup">
         <span>Data Setup</span>
       </div>
       <div class="menu-description">
         <span> One time setup of Academic Year, Faculty Details, Classrooms & Exam Grades.</span>
       </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/create" *ngIf="jsonFlags.isShowModel">
+    </div>-->
+   <!-- <div class="course-menu-item" routerLink="/view/course/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
         <span>Manage Course</span>
@@ -26,8 +26,8 @@
       <div class="menu-description">
         <span> Manage Standards / Subjects / Topics / Courses, along with Class & Exam Scheduling.</span>
       </div>
-    </div>
-    <div class="course-menu-item" routerLink="../ecourse-file-manager" *ngIf="jsonFlags.isEcourseFileManager">
+    </div>-->
+   <!-- <div class="course-menu-item" routerLink="../ecourse-file-manager" *ngIf="jsonFlags.isEcourseFileManager">
       <div class="menu-title">
         <img src="./assets/images/activity/study_material.svg" alt="">
         <span>Study Material</span>
@@ -36,8 +36,8 @@
         <span>Study Material Repository - To be used for Sharing with Students in Offline / Online Courses and for
           Selling purpose.</span>
       </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/file-manager">
+    </div>-->
+   <!-- <div class="course-menu-item" routerLink="/view/course/file-manager">
       <div class="menu-title">
         <img src="./assets/images/activity/file_manager.svg" alt="file manager">
         <span>File / Documents Manager</span>
@@ -45,8 +45,8 @@
       <div class="menu-description">
         <span>Upload and Share Youtube Links / Assignments / Notes / Homework etc with Students.</span>
       </div>
-    </div>
-    <div class="course-menu-item" routerLink="/view/course/online-assignment" *ngIf="jsonFlags.isShowOnlineAssignment">
+    </div>-->
+    <!--<div class="course-menu-item" routerLink="/view/course/online-assignment" *ngIf="jsonFlags.isShowOnlineAssignment">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
         <span>Online Assignment</span>
@@ -55,7 +55,7 @@
       <div class="menu-description">
         <span>Share and evaluate student assignment</span>
       </div>
-    </div>
+    </div>-->
     <div class="course-menu-item" routerLink="/view/course/coursePlanner/class" *ngIf="jsonFlags.isShowClassPlanner">
       <div class="menu-title">
         <img src="./assets/images/course/class-planner.svg" alt="class planner">
@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <div class="course-menu-item" routerLink="/view/course/reports">
+    <!--<div class="course-menu-item" routerLink="/view/course/reports">
       <div class="menu-title">
         <img src="./assets/images/course/reports.svg" alt="reports">
         <span>Reports</span>
@@ -92,8 +92,8 @@
       <div class="menu-description">
         <span>Student Attendance & Exam Reports for Analysis and Printing.</span>
       </div>
-    </div>
-    <div class="course-menu-item" routerLink="../master-tag">
+    </div>-->
+    <!--<div class="course-menu-item" routerLink="../master-tag">
       <div class="menu-title">
         <img src="./assets/images/activity/manage_tag.svg" alt="">
         <span>Manage Tag</span>
@@ -101,8 +101,8 @@
       <div class="menu-description">
         <span>Tags are used in Online Exams for better analysis of student performance.</span>
       </div>
-    </div>
-    <div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping" routerLink="../ecoursemapping">
+    </div>-->
+    <!--<div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping" routerLink="../ecoursemapping">
       <div class="menu-title">
         <img src="./assets/images/activity/ecourse.svg" alt="">
         <span>eCourse Mapping</span>
@@ -113,7 +113,7 @@
         <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
           Products.</span>
       </div>
-    </div>
+    </div>-->
     <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">

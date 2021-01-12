@@ -510,7 +510,7 @@ export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
       this.router.navigate(['/view/course/coursePlanner/exam']);
     }
     else{
-      this.router.navigate(['/view/home/admin']);
+      this.router.navigate(['/view/dashboard/admin']);
     }
   }
 
@@ -521,7 +521,7 @@ export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
     }
     else{
       sessionStorage.setItem('exam_info', '');
-      this.router.navigate(['/view/home/admin']);
+      this.router.navigate(['/view/dashboard/admin']);
     }
   }
 

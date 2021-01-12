@@ -32,7 +32,7 @@
           <!-- E-course -->
 
 
-          <div class="activity-item-container" *ngIf="jsonEstoreFlags.isSalesReport" routerLink="../sales-report">
+          <!--<div class="activity-item-container" routerLink="../sales-report">
             <div class="img_name_container">
               <img src="./assets/images/activity/cheque.svg" alt="">
               <span>Sales Report</span>
@@ -40,7 +40,7 @@
             <div class="activity-description">
               <span>Report of products sold to students.</span>
             </div>
-          </div>
+          </div>-->
 
 
           <div class="activity-item-container" *ngIf="jsonEstoreFlags.isManageOffer" routerLink="../manage-offers">
@@ -53,13 +53,25 @@
             </div>
           </div>
 
-          <div class="activity-item-container" *ngIf="jsonEstoreFlags.isCouponReport" routerLink="../offer-history">
+          <!--<div class="activity-item-container" routerLink="../offer-history">
             <div class="img_name_container">
               <img src="../../../../assets/images/estore/Offer_History.svg" alt="">
               <span>Offer History</span>
             </div>
             <div class="activity-description">
               <span> Coupoun / Vouchers usage report.</span>
+            </div>
+          </div>-->
+          <div class="activity-item-container" *ngIf="jsonFlag.isShowEcourseMapping" routerLink="/view/course/ecoursemapping">
+            <div class="img_name_container">
+              <img src="./assets/images/activity/ecourse.svg" alt="">
+              <span>eCourse Mapping</span>
+            </div>
+            <div class="activity-description">
+              <span *ngIf="!isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+                Products.</span>
+              <span *ngIf="isLangInstitue">Manage eCourse (Online Courses) for Online Tests, Study Material and eStore
+                Products.</span>
             </div>
           </div>
 

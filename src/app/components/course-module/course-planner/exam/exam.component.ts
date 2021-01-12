@@ -856,7 +856,7 @@ export class ExamComponent implements OnInit {
     this.storeSession();
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(false));
-    this.router.navigate(['/view/home/mark-attendance']);
+    this.router.navigate(['/view/dashboard/mark-attendance']);
 
   }
 
@@ -877,7 +877,7 @@ export class ExamComponent implements OnInit {
     this.storeSession();
     sessionStorage.setItem('exam_info', btoa(exam_info));
     sessionStorage.setItem('isSubjectView', String(false));
-    this.router.navigate(['/view/home/exam-marks']);
+    this.router.navigate(['/view/dashboard/exam-marks']);
   }
 
   // Update Exam marks for Batch model
@@ -895,7 +895,7 @@ export class ExamComponent implements OnInit {
     this.storeSession();
     sessionStorage.setItem('exam_info', btoa(exam_info));
     sessionStorage.setItem('isSubjectView', String(false));
-    this.router.navigate(['/view/home/exam-marks-batch']);
+    this.router.navigate(['/view/dashboard/exam-marks-batch']);
   }
 
 

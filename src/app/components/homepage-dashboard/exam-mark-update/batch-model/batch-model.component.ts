@@ -337,7 +337,7 @@ export class BatchModelComponent implements OnInit {
       this.router.navigate(['/view/course/coursePlanner/exam']);
     }
     else{
-      this.router.navigate(['/view/home/admin']);
+      this.router.navigate(['/view/dashboard/admin']);
     }
   }
 
@@ -348,7 +348,7 @@ export class BatchModelComponent implements OnInit {
     }
     else{
       sessionStorage.setItem('exam_info', '');
-      this.router.navigate(['/view/home/admin']);
+      this.router.navigate(['/view/dashboard/admin']);
     }
   }
 

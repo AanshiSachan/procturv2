@@ -1,0 +1,164 @@
+.img{
+    width:30px;
+    margin-left:45px;
+}
+.h4
+{
+    margin-top: -28px;
+    margin-left: 100px;
+    font-family:'Open-sans','sans-serif';
+    font-size: large;
+}
+.datePicker {
+    content: '';
+                position: absolute;
+                right: 47px;
+                top: 20px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+}
+.h1
+{   
+    font-family: 'Open Sans', sans-serif;
+   // margin-left: 45px;
+    //margin-top:38px;
+   // font-family:'Open Sans', sans-serif;
+   // font-size:20px;
+   // line-height:normal;
+    //color: rgb(67, 170, 196);
+   // font-family: Poppins;
+    letter-spacing:0.01em;
+font-style: normal;
+font-weight: bold;
+font-size: 25px;
+line-height: 30px;
+//line-height: 50px;
+color: #109CF1;
+}
+.background-img{
+
+    margin-left:640px;
+    margin-top: -250px;
+    position: absolute;
+    height: 698px;
+}
+.calender{
+    margin-top: -210px; 
+    position: fixed;
+    
+}
+
+// ::ng-deep bs-datepicker-container {
+//     margin-left: 0% !important;
+//   }
+*{
+    margin:0;
+    }
+    body{
+    font-family: 'Poppins', sans-serif;
+    }
+    .out{
+    height: 350px;
+    width: 300px;
+    background-color: white;
+    }
+    .shadow{
+    -webkit-box-shadow: 3px 2px 15px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 2px 15px -1px rgba(0,0,0,0.75);
+    box-shadow: 3px 2px 15px -1px rgba(0,0,0,0.75);
+    }
+    .red{
+    color: #d98288;
+    }
+    .flex{
+        display: flex;
+    }
+    .flex>div:first-child{
+    width: 25%;
+    padding: 6px 30px;
+    }
+    .flex>div>p{
+        color: #989ff1;
+        font-size:74px;
+    }
+    .flex>div{
+        width: 75%;
+        padding: 20px 30px;
+    }
+    .december{
+         color: #48617b;
+         font-size:20px;
+         margin-block-start: 0em;
+         margin-block-end: 0em;
+    }
+    .year{
+    color: #ced2d5;
+    font-size:47px; 
+    margin-block-start: 0em;
+      margin-block-end: 0em;
+      line-height: 1em; 
+    }
+    .cal{
+        display: flex;
+         margin: 0px 4px;
+         border-bottom: 1px solid #ced2d5;
+    }
+    .week{
+        width: calc(100% / 7);
+        text-align: center;
+    }
+    .date{
+        display: flex;
+        margin: 0px 4px;
+        padding: 3px 0px;
+    }
+    .date > div {
+        width: calc(100% / 7);
+    }
+    .date > div > span {
+        padding: 0 5px;
+        border: 1px solid transparent;
+        margin:auto;
+    }
+    .date > div > span.active {
+        border-color: rgba(0, 0, 0, 0.75);
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+.quote{
+
+    font-family: Poppins;
+font-style: italic;
+font-weight: normal;
+font-size: 15px;
+line-height: 60px;
+color: #8B7C7C;
+line-height: 10px;
+font-style: italic;
+}
+ .datetimeheader
+ {
+
+    font-family: Poppins;
+font-style: normal;
+font-weight: normal;
+font-size: 20px;
+line-height: 60px;
+/* or 240% */
+
+letter-spacing: 0.01em;
+
+color: #403636;
+ }
+ .weekday{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 60px;
+    /* or 240% */
+    
+    letter-spacing: 0.01em;
+    
+    color: #109CF1;
+ }

@@ -1030,7 +1030,7 @@ export class ClassComponent implements OnInit {
     this.storeSession();
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(true));
-    this.router.navigate(['/view/home/mark-attendance']);
+    this.router.navigate(['/view/dashboard/mark-attendance']);
   }
 
   redirect() {

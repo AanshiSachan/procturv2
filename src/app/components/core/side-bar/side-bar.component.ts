@@ -323,7 +323,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.jsonCourseFlags.isShowModel = true;
       if (this.role_feature.STUDY_MATERIAL_MENU) {
         this.jsonCourseFlags.isShowFileManager = true;
-      }
+      }    
 // Changes done by Nalini - To handle role based conditions
       if (this.role_feature.CLASS_MENU) {
         this.jsonCourseFlags.isShowClass = true;
@@ -570,7 +570,10 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       'e-store': 'lieight',
       'online-exam': 'linine',
       'expense': 'liten',
-      'website-configuration': 'liwebsiteConf'
+      'website-configuration': 'liwebsiteConf',
+      'dashboard':'litwelve',
+      'online-assignment':'lithirteen',
+      'contentlibrary':'liforteen'
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];

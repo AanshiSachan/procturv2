@@ -1,12 +1,13 @@
 <div class="mainDiv">
   <div class="row" style="margin-top: -15px;">
     <div class="col-md-12 text-headline">
-      <a routerLink="/view/course">
-        {{isLangInstitue ? 'Batch' : 'Course'}}
+      <a>
+        <!--{{isLangInstitue ? 'Batch' : 'Course'}}-->
+        Content Library
       </a>
-      &gt;
+     &gt;
       <span> Study Materials</span>
-      &gt;
+     &gt;
       <span>
         <ng-container *ngIf="_http.routeList.length">
           <span class="breadcrums" (click)="gotoPageData(route)" style="cursor: pointer;"

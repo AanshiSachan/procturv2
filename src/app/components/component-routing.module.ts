@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { ComponentsComponent } from './components.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { TrainingVideoComponent } from './training-video/training-video.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import{ReportsComponent} from './reports/reports.component';
 
 @NgModule({
     imports: [
@@ -23,7 +25,12 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
                         },
                         {
                             path: 'home',
-                            loadChildren: () => import('app/components/homepage-dashboard/homepage-dashboard.module').then(m => m.HomepageDashboardModule)
+                            component:HomePageComponent
+                        },
+                        {
+                            path: 'dashboard',
+                            
+                             loadChildren: () => import('app/components/homepage-dashboard/homepage-dashboard.module').then(m => m.HomepageDashboardModule)
                             // loadChildren: 'app/components/homepage-dashboard/homepage-dashboard.module#HomepageDashboardModule'
                         },
                         {
@@ -155,6 +162,10 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
                             // loadChildren: 'app/components/eStore-module/manage-coupon-home/manage-coupon-home.module#ManageCouponHomeModule',
                             pathMatch: 'prefix'
                         },
+                        {
+                         path: 'reports',
+                         loadChildren: () => import('../components/reports/reports.module').then(m => m.ReportsModule)
+                        }
                     ]
                 },
             ]
