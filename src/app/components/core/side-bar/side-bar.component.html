@@ -526,7 +526,7 @@
                     </a>
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowExpense" (click)="toggler('liforteen')" >
+            <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')" >
                 <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a>
