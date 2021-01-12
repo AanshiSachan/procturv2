@@ -519,6 +519,11 @@
                             <span>Data Archiving</span>
                         </li>
                     </a>
+                    <a routerLink="/view/course/ecoursemapping">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
+                            <span>eCourse Mapping</span>
+                        </li>
+                    </a>
                 </ul>
             </li>
             <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowExpense" (click)="toggler('liforteen')" >
@@ -671,11 +676,7 @@
                             <span>Sales Report</span>
                         </li>
                     </a>-->
-                    <a routerLink="/view/course/ecoursemapping">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                            <span>eCourse Mapping</span>
-                        </li>
-                    </a>
+                   
                     <a routerLink="/view/e-store/manage-offers/coupon">
                         <li class="subMenu" *ngIf="jsonEstoreFlags.isManageOffer">
                             <span>Manage Offers</span>
