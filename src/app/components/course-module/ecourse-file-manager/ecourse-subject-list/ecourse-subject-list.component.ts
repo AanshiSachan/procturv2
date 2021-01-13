@@ -648,6 +648,7 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
     this.editObj.is_hide = (this.editObj.is_hide) ? 'Y' : 'N';
     this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
     this.showEditModal = false;
+    this.getSubjectList();
   }
 
   updateFile() {
@@ -666,12 +667,13 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'File updated successfully');
+        this.cancelEditFile();
       },
       err => {
         this.auth.hideLoader();
+        this.cancelEditFile();
       }
     );
-    this.cancelEditFile();
   }
 
   clearObject() {

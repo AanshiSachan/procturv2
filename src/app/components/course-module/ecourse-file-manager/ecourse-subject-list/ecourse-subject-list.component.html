@@ -165,7 +165,7 @@
     <div class="col-md-1 txt-font">
       Youtube Video
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="video.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-1"></div>
     <div class="col-md-1"></div>
     <div class="col-md-1" style="padding:0">
@@ -181,7 +181,7 @@
     <div class="col-md-1" style="width: 1%;">
       <input type="checkbox" (change)="checkVDOCipherSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
     </div>
-    <div class="col-md-6 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-5 material-title txt-color" (click)="getVdocipherVideoOtp(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
         <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length && video.posterList[0].posterUrl!=null)">
         <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null  || !video.posterList?.length || video.posterList[0].posterUrl==null)"></i>
@@ -198,8 +198,9 @@
     <div class="col-md-1 txt-font" style="padding-right: 0;">
       <span *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
     </div>
-    <div class="col-md-1 txt-font">
+    <div class="col-md-2 txt-font">
       <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
+      <span style="font-size: 12px;color: #eb634b;" *ngIf="video.is_hide == 'Y'">Hidden</span>
     </div>
     <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status=='ready'">
         {{video.video_status |titlecase}} &nbsp;
@@ -222,7 +223,7 @@
     <div class="col-md-1" style="width: 1%;">
       <input type="checkbox" (change)="checkVDOCipherSelectedFile(video, $event.target.checked)" [(ngModel)]="video.selected" style="-webkit-appearance: checkbox;">
     </div>
-    <div class="col-md-6 material-title txt-color" (click)="playVimeoVideo(video)" [ngStyle]="{'padding-left': level+'em'}">
+    <div class="col-md-5 material-title txt-color" (click)="playVimeoVideo(video)" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{video.title}}">
         <img src="{{video.posterList[0].posterUrl}}" style="width:20px; height:20px;" aria-hidden="true" *ngIf="(video.posterList!=null && video.posterList?.length && video.posterList[0].posterUrl!=null)">
         <i class="fa fa-play-circle-o" aria-hidden="true" style="color: blue;font-size: 16px;" *ngIf="(video.posterList==null  || !video.posterList?.length || video.posterList[0].posterUrl==null)"></i>
@@ -239,8 +240,9 @@
     <div class="col-md-1 txt-font" style="padding-right: 0;" (click)="viewUserListFun(video)">
       <span style="cursor: pointer;" *ngIf="video.video_status=='ready'">{{video.watch_count}} &nbsp;viewed </span>
     </div>
-    <div class="col-md-1 txt-font">
-      <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr</span>
+    <div class="col-md-2 txt-font">
+      <span [ngClass]="{'hide': video.video_time==null}" *ngIf="video.video_status=='ready'">  {{video.video_time }}&nbsp;Hr &nbsp;</span>
+      <span style="font-size: 12px;color: #eb634b;" *ngIf="video.is_hide == 'Y'">Hidden</span>
     </div>
     <div class="col-md-1 txt-font" style="color:blue;" *ngIf="video.video_status=='ready'">
         {{video.video_status |titlecase}} &nbsp;
@@ -277,9 +279,9 @@
       {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-2 txt-font">
-        {{file.downloads}} &nbsp;Downloads 
+        {{file.downloads}} &nbsp;Downloads &nbsp;
       </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="file.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
@@ -307,9 +309,9 @@
       {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-2 txt-font">
-        {{file.downloads}} &nbsp;Downloads 
+        {{file.downloads}} &nbsp;Downloads &nbsp;
       </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="file.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
@@ -338,9 +340,9 @@
       {{file.size | number :'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-2 txt-font">
-        {{file.downloads}} &nbsp;Downloads 
+        {{file.downloads}} &nbsp;Downloads &nbsp;
       </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="file.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
@@ -368,9 +370,9 @@
       {{audio.size | number :'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-2 txt-font">
-        {{audio.downloads}} &nbsp;Downloads 
+        {{audio.downloads}} &nbsp;Downloads &nbsp;
       </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="audio.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(audio)">Edit</button>
@@ -398,9 +400,9 @@
       {{file.size | number :'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-2 txt-font">
-        {{file.downloads}} &nbsp;Downloads 
+        {{file.downloads}} &nbsp;Downloads &nbsp;
       </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="file.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
@@ -429,9 +431,9 @@
       {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-2 txt-font">
-        {{file.downloads}} &nbsp;Downloads 
+        {{file.downloads}} &nbsp;Downloads &nbsp;
       </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="file.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>
@@ -459,9 +461,9 @@
       {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-2 txt-font">
-        {{file.downloads}} &nbsp;Downloads 
+        {{file.downloads}} &nbsp;Downloads
       </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-1"><span style="font-size: 12px;color: #eb634b;" *ngIf="file.is_hide == 'Y'">Hidden</span></div>
     <div class="col-md-2" style="padding: 0;">
       <div class="action-buttons" style="float: right;">
         <button class="btn btn-xs btn-ga-white" (click)="editFile(file)">Edit</button>

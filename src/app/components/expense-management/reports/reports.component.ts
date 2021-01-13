@@ -181,7 +181,8 @@ export class ReportsComponent implements OnInit {
       obj["Payee"] = data.party_name;
       obj["Item/Category"] = data.category;
       obj["Category_Description"] = data.category_description,
-        obj["Amount(Rs)"] = data.amount;
+      obj["Amount(Rs)"] = data.amount;
+      obj["Remarks"] = data.remarks;
       exportedArray.push(obj);
     })
     this._excelService.exportAsExcelFile(
@@ -199,7 +200,8 @@ export class ReportsComponent implements OnInit {
       obj["Payer"] = data.party_name;
       obj["Item/Category"] = data.category;
       obj["Category_Description"] = data.category_description,
-        obj["Amount(Rs)"] = data.amount;
+      obj["Amount(Rs)"] = data.amount;
+      obj["Remarks"] = data.remarks;
       exportedArray.push(obj);
     })
     this._excelService.exportAsExcelFile(
