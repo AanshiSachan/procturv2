@@ -363,7 +363,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   checkpermissionOfCommunicate() {
     this.userType = Number(sessionStorage.getItem('userType'));
     this.permissionArray = sessionStorage.getItem('permissions');
-    if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('username') != 'admin') {
+    if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
         // Changes done by Nalini - To handle role based commuicate menu conditions
@@ -379,6 +379,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       array.forEach((flag) => {
         this.jsonCommunicateFlags[flag] = true;
       });
+    }
+    if(this.userType == 3) {
+      this.jsonCommunicateFlags.communicateMenu = false;
     }
   }
   checkPermissionForFees() {
