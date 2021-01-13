@@ -31,14 +31,14 @@
                         <ul class="actb-wrapper grid" style="height: 1473px;">
 
                             <li class="enquiry-state item" style="width: 45%;"
-                            [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_LEAD_STATS)}" data-id="2">
+                            [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_LEAD_STATS) || (userType==3)}" data-id="2">
                                 <div class="item-content">
                                     <enquiry-widget></enquiry-widget>
                                 </div>
                             </li>
 
                             <li class="fees-state item" style="width:41%"
-                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_FEE_STATS)}" data-id="3">
+                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_FEE_STATS) || (userType==3)}" data-id="3">
                                 <div class="item-content">
                                     <fee-widget></fee-widget>
                                 </div>

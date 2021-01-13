@@ -85,6 +85,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   private userInput: string;
   videoplayer: boolean = false;
   privacy: any = false;
+  facultyAccount: boolean = false;
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -250,6 +251,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     s0.parentNode.insertBefore(s1,s0);
 
     })();
+    if(sessionStorage.getItem('userType') == '3') {
+      this.facultyAccount = true;
+    }
   }
 
   ngAfterViewInit() {
@@ -376,6 +380,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.jsonCommunicateFlags[flag] = true;
       });
     }
+    if(this.userType == 3) {
+      this.jsonCommunicateFlags.communicateMenu = false;
+    }
   }
   checkPermissionForFees() {
     this.tax_type_without_percentage = sessionStorage.getItem('tax_type_without_percentage');
@@ -461,8 +468,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
         this.setNativeElementValue(['divMyAccountTag'], '');
-        this.showManageRole = true;
-        this.showSMSSetting = true;
+        // this.showManageRole = true;
+        // this.showSMSSetting = true;
       }
     } else {
       if (permissionArray != undefined) {

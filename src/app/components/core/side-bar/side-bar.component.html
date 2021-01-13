@@ -40,11 +40,11 @@
             <div class="side-section" id="quick">
                 <div class="side-section-item">
                     
-                    <span class="dropSize" (click)="routerLink('/view/students/add','setting');activeSession=null">
+                    <span class="dropSize" *ngIf="!facultyAccount" (click)="routerLink('/view/students/add','setting');activeSession=null">
                         Add Student
                     </span>
                 </div>
-                <div class="side-section-item" (click)="showExpensesList()">
+                <div class="side-section-item" *ngIf="!facultyAccount" (click)="showExpensesList()">
 
                     <span class="dropSize">Add Expenses</span>
 
@@ -70,7 +70,7 @@
     <div style="margin-right: 8%;">
 
         <!-- DataSetup-->
-         <button class="btn" style="padding:0px;height: 27px;border-color:white;outline-style: none;"><img src="./assets/images/datasetup.png" title="Data Setup" alt=""
+         <button class="btn" *ngIf="!facultyAccount" style="padding:0px;height: 27px;border-color:white;outline-style: none;"><img src="./assets/images/datasetup.png" title="Data Setup" alt=""
             (click)="showSubSection('datasetup')"></button>
         
         <!-- Quick Add -->
@@ -116,13 +116,13 @@
                                 src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage
                             Inventory</span>
                     </div>
-                    <div class="side-section-item">
+                    <div class="side-section-item" *ngIf="!facultyAccount">
                         <span class="dropSize" (click)="routerLink('/view/formField/home','setup')"><img
                                 src="./assets/images/sidebar/custom_form_field.svg" alt="phone"
                                 class="helpSection">Custom
                             Form Field</span>
                     </div>
-                    <div class="side-section-item">
+                    <div class="side-section-item" *ngIf="!facultyAccount">
                         <span class="dropSize" (click)="routerLink('/view/master/areaCity','setup')"><img
                                 src="./assets/images/sidebar/city_area_map.svg" alt="phone" class="helpSection">City
                             Area
@@ -239,7 +239,7 @@
                                 </div>
 
                             </div>
-                            <div class="c-lg-6">
+                            <div class="c-lg-6" *ngIf="!facultyAccount">
                                 <div style="font-size: 14px;float: left; margin-left: 33px;">
                                     Setup
                                 </div>
@@ -495,7 +495,7 @@
                         </li>
                     </a>
                     <a routerLink="/view/course/timeTable">
-                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                        <li class="subMenu">
                             <span>TimeTable</span>
                         </li>
                     </a>
@@ -596,7 +596,7 @@
                         </li>
                     </a>
                     <a routerLink="/view/batch/timeTable">
-                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
+                        <li class="subMenu">
                             <span>Timetable</span>
                         </li>
                     </a>
@@ -697,7 +697,7 @@
                     <span [ngClass]="activeSession === 'liwebsiteConf' ? ' abc' : ' NavLink'">Website/ App</span>
                 </a>
             </li>
-            <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" (click)="toggler('lithirteen')" >
+            <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
                 <!--<img src="./assets/images/sidebar/newSideMenu/home.svg" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">-->
                     <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidemenuicon/onlineassignmentIcon1.png'" alt="" class="sideBar_centerAlign"
