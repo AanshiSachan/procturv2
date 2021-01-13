@@ -174,10 +174,10 @@ export class ListComponent implements OnInit {
 
   deleteRow(obj) {
     this.auth.showLoader();
-    this.httpService.deleteFile('/prod/api/v2/website/page/' + obj.data.id).subscribe(
+    this.httpService.deleteFile('/prod/api/v2/website/testimonial/' + obj.data.id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('success','','Page Deleted Successfully');
+        this.msgService.showErrorMessage('success','','Testimoninal Deleted Successfully');
         this.getTestinomialData();
       },
       err => {
