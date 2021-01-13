@@ -313,22 +313,26 @@ export class AddClassComponent implements OnInit {
     let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
 
     if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
-      this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
+      this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" });
+      this.dateTimeStatus = false;
       return false;
     }
 
     else if (this.hoursFrom == "" || this.hoursTo == "" || this.minuteFrom == "" || this.minuteTo == "") {
-      this.appC.popToast({ type: "error", body: "All fields are required" })
+      this.appC.popToast({ type: "error", body: "All fields are required" });
+      this.dateTimeStatus = false;
       return false;
     }
 
     else if (moment(fromTimeT).diff(moment(), 'minutes') <= 0) {
-      this.appC.popToast({ type: "error", body: "Class cannot be schedule before current time" })
+      this.appC.popToast({ type: "error", body: "Class cannot be schedule before current time" });
+      this.dateTimeStatus = false;
       return false;
     }
 
     else if (fromTimeT == toTimeT) {
-      this.appC.popToast({ type: "error", body: "From time and to time cannot be same" })
+      this.appC.popToast({ type: "error", body: "From time and to time cannot be same" });
+      this.dateTimeStatus = false;
       return false;
     }
     else {

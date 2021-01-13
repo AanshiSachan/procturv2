@@ -19,7 +19,7 @@ export class OfferHistoryComponent implements OnInit {
   offerHistoryDataSource: any[] = [];
   varJson: any = {
     PageIndex: 1,
-    sizeArr: [25, 50, 100, 150, 200, 500],
+    sizeArr: [25, 50, 100, 150, 200, 500, 1000],
     displayBatchSize: 25,
     total_items: 0
   };
@@ -219,6 +219,7 @@ export class OfferHistoryComponent implements OnInit {
           this.auth.hideLoader();
           this.offerHistoryData = data.result.results;
           this.totalCount = this.offerHistoryData.length; //Fetching the total count of record. Added by Ashwini Gupta
+          this.varJson.total_items = this.offerHistoryData.length;
           console.log(this.totalCount);
 
         } else {

@@ -30,7 +30,7 @@
             </div>
           </li>
           <li class="" id="li-two">
-            <div class="navigator" id="assignStudent-icon" (click)="switchToView($event.target.id)">
+            <div class="navigator" id="assignStudent-icon" (click)="checkMandatoryFields()">
               <span id="assignStudent-icon">2</span>
               <p id="assignStudent-icon">Assign Students</p>
             </div>
@@ -111,15 +111,15 @@
           <div class="field-wrapper faculty_container" *ngIf="userType != 3">
             <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
             <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
-            <ng-multiselect-dropdown [placeholder]="'Select Faculty'" [data]="teachersAssigned"
-              [settings]="facultySettings" [(ngModel)]="selectedFacultyList">
+            <ng-multiselect-dropdown [placeholder]="'Select Faculty'"
+              [settings]="facultySettings" [data]="teachersAssigned" [(ngModel)]="selectedFacultyList">
             </ng-multiselect-dropdown>
           </div>
 
           <div class="field-wrapper moderator_container" *ngIf="!zoom_enable">
             <label for="moderator">Moderator Name(s) </label>
-            <ng-multiselect-dropdown [placeholder]="'Select Moderator'" [data]="userAssigned"
-              [settings]="moderatorSettings" [(ngModel)]="selectedModeratorList">
+            <ng-multiselect-dropdown [placeholder]="'Select Moderator'" [settings]="moderatorSettings" [data]="userAssigned"
+              [(ngModel)]="selectedModeratorList">
             </ng-multiselect-dropdown>
           </div>
 
@@ -191,8 +191,8 @@
 
           <div class="field-wrapper student_list_container" *ngIf="isProfessional">
             <label for="students">Batch(s)<span class="text-danger">*</span> </label>
-            <ng-multiselect-dropdown class="container" [placeholder]="'Select Batch'" [data]="batches"
-              [settings]="batchListSetting" [(ngModel)]="selectedBatchList"
+            <ng-multiselect-dropdown class="container" [placeholder]="'Select Batch'"
+              [settings]="batchListSetting" [data]="batches" [(ngModel)]="selectedBatchList"
               (ngModelChange)="getBatchesCoursesIds($event)"
               [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
               [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
@@ -204,8 +204,8 @@
             <label for="students">{{schoolModel ? 'Section(s)' : 'Course(s)'}}<span class="text-danger">*</span> </label>
             <ng-multiselect-dropdown class="container"
             placeholder="{{schoolModel ? 'Select Section' : 'Select Course'}}"
-              [data]="courses"
               [settings]="courseListSetting"
+              [data]="courses"
               [(ngModel)]="selectedCourseList"
               (ngModelChange)="getBatchesCoursesIds($event)"
               [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
@@ -218,8 +218,8 @@
             <label for="students" style="margin-bottom: 5px;">Student Name(s) </label>
             <ng-multiselect-dropdown class="container" style="color: #000;
             font-weight: bold;
-            cursor: not-allowed;" [placeholder]="'Select Students'" [data]="studentList"
-              [settings]="studentListSettings" [(ngModel)]="selectedStudentList">
+            cursor: not-allowed;" [placeholder]="'Select Students'" [settings]="studentListSettings" [data]="studentList"
+            [(ngModel)]="selectedStudentList">
             </ng-multiselect-dropdown>
           </div>
 

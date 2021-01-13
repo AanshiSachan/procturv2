@@ -224,7 +224,7 @@
                   <a class="dropdown-item" (click)="showAssignStudentPopup(item)"
                     *ngIf="item.status == 30">Assign/Unassign
                     Student</a>
-                  <a class="dropdown-item" *ngIf="!(item.product_sharable_link == null)" title="Copy Link"
+                  <a class="dropdown-item" *ngIf="!(item.product_sharable_link == null) && item.status == 30" title="Copy Link"
                     (click)="copyToClipboard(item)">Copy Link</a>
                   <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)" style="border: none;"
                     *ngIf="item.status == 40">Closed</a>
