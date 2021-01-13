@@ -14,6 +14,7 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { DateWiseComponent } from './analytics/date-wise/date-wise.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CourseModuleRoutingModule,
     SharedModule,
     FormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    EditorModule
   ],
   declarations: [
     CourseModuleComponent,

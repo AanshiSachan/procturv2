@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { HttpService  } from '../../../../services/http.service';
@@ -13,7 +13,7 @@ declare var $;
   templateUrl: './add-edit-expense.component.html',
   styleUrls: ['./add-edit-expense.component.scss']
 })
-export class AddEditExpenseComponent implements OnInit {
+export class AddEditExpenseComponent implements OnInit, OnDestroy {
 
   // global variables
   jsonFlag = {
@@ -30,7 +30,8 @@ export class AddEditExpenseComponent implements OnInit {
     itemName: -1,
     description: '',
     quantity: 1,
-    amount: 0
+    amount: 0,
+    remarks: ''
   };
 
   paymentDetails = {
@@ -54,6 +55,7 @@ export class AddEditExpenseComponent implements OnInit {
   accountVisibilty: boolean = false;
   categoryVisibility: boolean = false;
   categoryList: any[] = [];
+  categoryName: any = '';
   addCategory = {
     Name: '',
     Description: ''
@@ -84,6 +86,10 @@ export class AddEditExpenseComponent implements OnInit {
       this.editExpenseId = splitURL[splitURL.length - 1];
       this.getEditExpenseDetails();
     }
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('expense_category_type');
   }
 
   // changes done by Nalini - To fetch category details
@@ -170,6 +176,7 @@ export class AddEditExpenseComponent implements OnInit {
             id: this.editExpenseDetails.itemList[index].item_id,
             category_id: this.editExpenseDetails.itemList[index].category_id,
             item_id: this.editExpenseDetails.itemList[index].item_id,
+            remarks: this.editExpenseDetails.itemList[index].remarks
           }
           this.addedItemList.push(obj)
         }
@@ -200,21 +207,14 @@ export class AddEditExpenseComponent implements OnInit {
   addItem(){
     if(this.accountDetails.itemName != -1){
       if(this.accountDetails.amount != 0){
-        let categoryName = '';
-        if(this.categoryList && this.categoryList.length) {
-          let categoryObj =this.categoryList.filter(category=>{
-            if((category.category_id == this.accountDetails.itemName)) {
-              categoryName = category.category_name;
-            }
-          })
-        }
         let obj = {
-          itemName: categoryName,
+          itemName: this.categoryName,
           description: this.accountDetails.description,
           quantity: this.accountDetails.quantity,
           amount: this.accountDetails.amount,
           item_id: 0,
-          category_id: this.accountDetails.itemName
+          category_id: this.accountDetails.itemName,
+          remarks: this.accountDetails.remarks
         };
         this.totalAmount = this.totalAmount + Number(obj.amount)
         this.addedItemList.push(obj);
@@ -222,6 +222,7 @@ export class AddEditExpenseComponent implements OnInit {
         this.accountDetails.description = '';
         this.accountDetails.quantity = 1;
         this.accountDetails.amount = 0;
+        this.accountDetails.remarks = '';
       }
       else{
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
@@ -280,7 +281,8 @@ export class AddEditExpenseComponent implements OnInit {
                  "category_id": this.addedItemList[index].category_id,
                  "item_quantity": this.addedItemList[index].quantity,
                  "item_amount": this.addedItemList[index].amount,
-                 "item_id": this.addedItemList[index].item_id
+                 "item_id": this.addedItemList[index].item_id,
+                 "remarks": this.addedItemList[index].remarks,
               }
               itemlist.push(item)
            }
@@ -329,6 +331,17 @@ export class AddEditExpenseComponent implements OnInit {
     }
     else{
       this.msgService.showErrorMessage('error', '', 'Please select Payee Name');
+    }
+  }
+
+  setDescription(obj) {
+    if(this.categoryList && this.categoryList.length) {
+      let categoryObj =this.categoryList.filter(category=>{
+        if((category.category_id == this.accountDetails.itemName)) {
+          this.categoryName = category.category_name;
+          this.accountDetails.description = category.category_desc;
+        }
+      })
     }
   }
 
@@ -445,6 +458,7 @@ export class AddEditExpenseComponent implements OnInit {
       this.getCategoryDetails();
     }
     else{
+      sessionStorage.setItem('expense_category_type', '2');
       this.categoryVisibility = true;
     }
   }

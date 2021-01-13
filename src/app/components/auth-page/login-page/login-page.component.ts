@@ -176,10 +176,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   checkWebUrlForGenerics() {
     let url: string = window.location.href;
     let test = url.split("/")[2];
-    if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
+    if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200" || test === "webuat.proctur.com") {
       this.isProcturVisible = true;
       this.backgroundChange.nativeElement.className = "bg-img"
-      this.dynamicImgSrc = "./assets/images/logoProctur.png";
+      // this.dynamicImgSrc = "./assets/images/procturlogo2.png";
       this.virtualStyle.nativeElement.className = "login-box";
       this.titleService.setTitle('Proctur - Your Pocket Classroom');
       sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
@@ -622,6 +622,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('distinct_device_login', institute_data.distinct_device_login);
       sessionStorage.setItem('single_device', institute_data.single_device_login);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
+      sessionStorage.setItem('enable_client_website', institute_data.enable_client_website);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
 
       //Storing the session value 

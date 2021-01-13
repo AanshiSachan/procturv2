@@ -514,7 +514,7 @@ export class EnquiryHomeComponent implements OnInit {
         if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
             if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
                 let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-                this.showBulkUpload = this.role_feature.LEAD_MANAGE_ENQUIRY ? true : false;//sms visiblity
+                this.showBulkUpload = this.role_feature.LEAD_ENQUIRY_FULL_ACCESS ? true : false;//sms visiblity
             }
         } else {
             this.showBulkUpload = true;

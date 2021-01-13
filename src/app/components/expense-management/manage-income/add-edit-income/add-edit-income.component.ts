@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { HttpService  } from '../../../../services/http.service';
 // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+declare var $;
 
 @Component({
   selector: 'app-add-edit-income',
   templateUrl: './add-edit-income.component.html',
   styleUrls: ['./add-edit-income.component.scss']
 })
-export class AddEditIncomeComponent implements OnInit {
+export class AddEditIncomeComponent implements OnInit, OnDestroy {
 
   // global variables
   jsonFlag = {
@@ -25,10 +26,11 @@ export class AddEditIncomeComponent implements OnInit {
 
   addedItemList: any[] = [];
   accountDetails = {
-    itemName: '',
+    itemName: -1,
     description: '',
     quantity: 1,
-    amount: 0
+    amount: 0,
+    remarks: ''
   };
 
   paymentDetails = {
@@ -48,6 +50,13 @@ export class AddEditIncomeComponent implements OnInit {
 
   payerVisibilty: boolean = false;
   accountVisibilty: boolean = false;
+  categoryVisibility: boolean = false;
+  categoryList: any[] = [];
+  categoryName: any = '';
+  addCategory = {
+    Name: '',
+    Description: ''
+  }
 
   constructor(
     private msgService: MessageShowService,
@@ -62,6 +71,7 @@ export class AddEditIncomeComponent implements OnInit {
     this.getPayerList();
     this.getAccountDetails();
     this.getPaymentMode();
+    this.getCategoryDetails();
     let currentURL = window.location.href;
     if(currentURL.includes('add-income')){
       this.sectionName = 'Add';
@@ -72,6 +82,26 @@ export class AddEditIncomeComponent implements OnInit {
       this.editIncomeId = splitURL[splitURL.length - 1];
       this.getEditIncomeDetails();
     }
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('expense_category_type');
+  }
+
+  // changes done by Nalini - To fetch category details
+  getCategoryDetails() {
+    this.auth.showLoader();
+    const url1 = `/api/v1/expense/category/all/${this.jsonFlag.institute_id}?expense_category_type=3&is_active=Y`
+    this.httpService.getData(url1).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.categoryList = res;
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      }
+    )
   }
 
   getPayerList(){
@@ -138,7 +168,10 @@ export class AddEditIncomeComponent implements OnInit {
             description: this.editIncomeDetails.itemList[index].item_desc,
             quantity: this.editIncomeDetails.itemList[index].item_quantity,
             amount: this.editIncomeDetails.itemList[index].item_amount,
-            id: this.editIncomeDetails.itemList[index].item_id
+            id: this.editIncomeDetails.itemList[index].item_id,
+            category_id: this.editIncomeDetails.itemList[index].category_id,
+            item_id: this.editIncomeDetails.itemList[index].item_id,
+            remarks: this.editIncomeDetails.itemList[index].remarks
           }
           this.addedItemList.push(obj)
         }
@@ -165,28 +198,31 @@ export class AddEditIncomeComponent implements OnInit {
   }
 
   addItem(){
-    if(this.accountDetails.itemName.trim().length > 0){
+    if(this.accountDetails.itemName != -1){
       if(this.accountDetails.amount != 0){
         let obj = {
-          itemName: this.accountDetails.itemName,
+          itemName: this.categoryName,
           description: this.accountDetails.description,
           quantity: this.accountDetails.quantity,
           amount: this.accountDetails.amount,
-          item_id: 0
+          item_id: 0,
+          category_id: this.accountDetails.itemName,
+          remarks: this.accountDetails.remarks
         };
         this.totalAmount = this.totalAmount + Number(obj.amount)
         this.addedItemList.push(obj);
-        this.accountDetails.itemName = '';
+        this.accountDetails.itemName = -1;
         this.accountDetails.description = '';
         this.accountDetails.quantity = 1;
         this.accountDetails.amount = 0;
+        this.accountDetails.remarks = '';
       }
       else{
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
       }
     }
     else{
-        this.msgService.showErrorMessage('error', '', "Enter Item Name");
+        this.msgService.showErrorMessage('error', '', "Select Item Name");
     }
 
     console.log(this.addedItemList);
@@ -236,11 +272,12 @@ export class AddEditIncomeComponent implements OnInit {
             let itemlist = [];
             for (let index = 0; index < this.addedItemList.length; index++) {
               let item = {
-                 "item_account": this.addedItemList[index].itemName,
-                 "item_desc": this.addedItemList[index].description,
+                "category_id": this.addedItemList[index].category_id,
+                //  "item_desc": this.addedItemList[index].description,
                  "item_quantity": this.addedItemList[index].quantity,
                  "item_amount": this.addedItemList[index].amount,
-                 "item_id": this.addedItemList[index].item_id
+                 "item_id": this.addedItemList[index].item_id,
+                 "remarks": this.addedItemList[index].remarks
               }
               itemlist.push(item)
            }
@@ -369,6 +406,28 @@ export class AddEditIncomeComponent implements OnInit {
     }
     else{
       this.accountVisibilty = true;
+    }
+  }
+
+  setDescription(obj) {
+    if(this.categoryList && this.categoryList.length) {
+      let categoryObj =this.categoryList.filter(category=>{
+        if((category.category_id == this.accountDetails.itemName)) {
+          this.categoryName = category.category_name;
+          this.accountDetails.description = category.category_desc;
+        }
+      })
+    }
+  }
+
+  toggleCategory(){
+    if(this.categoryVisibility){
+      this.categoryVisibility = false;
+      this.getCategoryDetails();
+    }
+    else{
+      sessionStorage.setItem('expense_category_type', '3');
+      this.categoryVisibility = true;
     }
   }
 }

@@ -40,6 +40,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
   datelineRange: any[] = [];
   weekData: any = [];
   chartFormat: any ='';
+  max_graph_value: any = '';
   constructor(private _http: HttpService,
     private msgService: MessageShowService,
     private auth: AuthenticatorService) { }
@@ -55,7 +56,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
 
   filter(val) {
     switch (val) {
-      case 'date': this.dropDownFilter = true;
+      case 'date': this.dropDownFilter = !this.dropDownFilter;
         break;
       case 'video': this.dropDownFilerVideo = true;
         break;
@@ -84,6 +85,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         this.dailyReport(url);
         break;
       case 'custom': this.showDateSelection = true;
+      this.chartFormat = 'DD-MMM-YYYY';
         break;
     }
 
@@ -101,12 +103,13 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.auth.hideLoader();
-        this.weekDataSource = resp.result;
+        this.weekDataSource = resp.result.response;
+        this.max_graph_value = Math.round(resp.result.max_graph_value);
         this.weekData = this.getDataFromDataSource(0);
         console.log('week' ,this.weekData);
         this.totalRecords = this.weekDataSource.length;
 
-        this.generateChartData(this.weekData);
+        this.generateChartData(this.weekDataSource);
 
       },
       (err) => {
@@ -132,19 +135,20 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     let band = f;
 
 
-    let minWidth = 1100;
+    let minWidth = 800;
     let dataLength = d.length;
+    console.log(d.length);
     if (dataLength > 20 && dataLength < 35) {
-      minWidth = 4000;
+      minWidth = 1100;
     }
     if (dataLength > 35 && dataLength < 50) {
-      minWidth = 6000;
+      minWidth = 2100;
     }
     if (dataLength > 50 && dataLength < 75) {
-      minWidth = 8000;
+      minWidth = 3100;
     }
     if (dataLength > 75 && dataLength < 100) {
-      minWidth = 10000;
+      minWidth = 4100;
     }
     if (dataLength > 100 && dataLength < 150) {
       minWidth = 12000;
@@ -158,7 +162,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
 
     (Highcharts as any).chart('chartWrap', {
       chart: {
-        type: 'spline',
+        type: 'area',
         scrollablePlotArea: {
           minWidth: minWidth,
           scrollPositionX: 1
@@ -175,16 +179,16 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         title: {
           text: 'Date'
         },
-        minPadding: 1,
-        maxPadding: 1,
         categories: d
       },
       yAxis: {
         title: {
-          text: 'Bandwidth'
+          text: 'Bandwidth (MB)'
         },
         min: 0,
-        max: 600
+        visible: true,
+        tickAmount: 5,
+        max: this.max_graph_value
       },
       tooltip: {
         useHTML: true,
@@ -192,29 +196,40 @@ export class DateWiseComponent implements OnInit, OnDestroy {
         formatter: function () {
           var point = this.point
           let tool = '';
-          tool += 'Bandwidth ' + band[point.index] + '';
+          tool += 'Bandwidth ' + band[point.index] + '(MB)';
           tool += '<br>' + 'Date ' + d[point.index];
           return tool;
         },
       },
+      plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+      },
       series: [{
-        name: '',
-        type: "spline",
-        marker: {
-          radius: 5
-        },
         showInLegend: false,
         data: f
       }]
     })
   }
   videoWise(val, batch, page) {
+    this.PageIndex = page;
     this.selectType = "video";
+    let to = moment(val).format('DD-MM-YYYY');
+    let from =moment(val).format('DD-MM-YYYY');
+    if(this.chartFormat == 'MMM') {
+      to = moment(val).startOf('month').format('DD-MM-YYYY');
+      from = moment(val).endOf('month').format('DD-MM-YYYY');
+    } else if(this.chartFormat == 'YYYY') {
+      to = moment(val).startOf('year').format('DD-MM-YYYY');
+      from = moment(val).endOf('year').format('DD-MM-YYYY');
+    }
     sessionStorage.setItem('videWise', val);
     this.videoWiseSelection = true;
     this.dateWiseSelection = false;
     this.videoData = [];
-    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&from=' + moment(val).format("DD-MM-YYYY") + '&to=' + moment(val).format("DD-MM-YYYY");
+    let url = '/api/v1/instFileSystem/videoReport/institute/' + sessionStorage.getItem('institute_id') + '?pageSize=' + batch + '&pageOffset=' + page + '&from=' + to + '&to=' + from;
     this._http.getData(url).subscribe(
       (resp: any) => {
         this.videoData = resp.result.response;
@@ -243,7 +258,16 @@ export class DateWiseComponent implements OnInit, OnDestroy {
     let date = sessionStorage.getItem('fromDate');
     let url = '/api/v1/instFileSystem/videoReport/video/' + val + '?pageSize=' + batch + '&pageOffset=' + page + '&sortBy=createdDate ASC';
     if(date!='' && date != null) {
-      url = url.concat('&from=' + moment(date).format("DD-MM-YYYY") + '&to=' + moment(date).format("DD-MM-YYYY"));
+      let to = moment(date).format('DD-MM-YYYY');
+      let from =moment(date).format('DD-MM-YYYY');
+      if(this.chartFormat == 'MMM') {
+        to = moment(date).startOf('month').format('DD-MM-YYYY');
+        from = moment(date).endOf('month').format('DD-MM-YYYY');
+      } else if(this.chartFormat == 'YYYY') {
+        to = moment(date).startOf('year').format('DD-MM-YYYY');
+        from = moment(date).endOf('year').format('DD-MM-YYYY');
+      }
+      url = url.concat('&from=' + to + '&to=' + from);
     }
     this._http.getData(url).subscribe(
       (resp: any) => {
@@ -352,7 +376,7 @@ export class DateWiseComponent implements OnInit, OnDestroy {
       return t;
     }
     else if (this.videoWiseSelection) {
-      this.videoWise(sessionStorage.getItem('videoWise'), this.displayBatchSize, this.PageIndex);
+      this.videoWise(sessionStorage.getItem('videWise'), this.displayBatchSize, this.PageIndex);
       // let t = this.videoDataSource.slice(startindex, startindex + this.displayBatchSize);
       // return t;
     }

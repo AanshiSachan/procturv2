@@ -119,6 +119,7 @@ export class ManageIncomeComponent implements OnInit {
         Category: e.category,
         Category_Description: e.category_description,
         Total: e.amount,
+        Remarks: e.remarks
       }
       return obj;
     });

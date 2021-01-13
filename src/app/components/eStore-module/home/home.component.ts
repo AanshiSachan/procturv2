@@ -10,7 +10,7 @@ export class HomeComponent implements OnInit {
 
   jsonFlag = {
     isProfessional: false,
-    isShowEcourseMapping: false,
+    isShowEcourseMapping: false
   }
   jsonEstoreFlags = {
     isEstoreMenu: false,
@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     const permittedRoles = sessionStorage.getItem('permitted_roles');
+    const permissionArray = sessionStorage.getItem('permissions');
+    const userType = sessionStorage.getItem('userType');
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -39,6 +41,13 @@ export class HomeComponent implements OnInit {
         }
       }
     );
+    if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
+      this.jsonFlag.isShowEcourseMapping = true;
+    }
+
+    if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
+      this.jsonFlag.isShowEcourseMapping = true;
+    }
 // Changes done by Nalini - To handle role based conditions
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {

@@ -20,6 +20,7 @@ import { RegisteredStudentComponent } from './product-registered-student/product
 import { EstoreRoutingModule } from './estore-routing.module';
 import { ProductService } from '../../services/products.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import {FileUploadModule} from 'primeng/fileupload';
 
 
 
@@ -32,7 +33,8 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     TimepickerModule,
     SharedModule,
     NgMultiSelectDropDownModule.forRoot(),
-    EditorModule
+    EditorModule,
+    FileUploadModule
   ],
   declarations: [
     ProductListComponent,

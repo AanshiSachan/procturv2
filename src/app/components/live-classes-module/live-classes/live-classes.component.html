@@ -230,6 +230,12 @@
                       Unlimited 1:1 Meetings
                     </li>
                   </ol><br>
+                  <ol style="list-style-type: disc;">
+                    <div style="margin-bottom: 10px;">Zoom Attendance Feature:</div>
+                    <li style="font-weight: 100;">
+                      Zoom Attendance is available for accounts with Zoom paid plans. The users which are using zoom free plans will not be getting the zoom attendance.
+                    </li>
+                  </ol><br>
                   <ol style="list-style-type: none;">
                     <li style="font-weight: 100;">
                       Note: <span style="font-weight: 600;">Zoom</span> has now introduced <span
@@ -430,6 +436,12 @@
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
                 <span class="upcoming_class" *ngIf="timeLeft(today, class.start_datetime)">Ongoing</span>
+                <span class="dropdown-item">                  
+                <button style="padding: 5px;background: #0084f6;color: white;border-radius: 4px;" type="button" name="button" class="start_session" (click)="RefreshSession(class)"
+                      *ngIf="timeLeft(today, class.start_datetime) && class.live_meeting_with == 'Zoom' && !class.session_processed">
+                      Refresh Session
+                    </button>
+                </span>
                 <div class="dropdown dropleft"
                   *ngIf="(!timeLeft(today, class.start_datetime)) || (!timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime))">
                   <button style="background: #0084f6;color: white;" class="btn btn-light btn-xs dropdown-toggle"
@@ -600,8 +612,8 @@
                     <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                   </button>
                   <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                    <span class="dropdown-item" *ngIf="class.live_meeting_with != 'Zoom' && class.showViewAttendance"
-                      (click)="viewAttandance(class.session_id)">View Attendance</span>
+                    <span class="dropdown-item" *ngIf="(class.live_meeting_with != 'Zoom' && class.showViewAttendance) || (class.live_meeting_with && class.attendance_processed)"
+                      (click)="viewAttandance(class)">View Attendance</span>
                     <span class="dropdown-item"
                       *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'"
                       data-toggle="modal" data-target="#uploadRec" data-backdrop="static"

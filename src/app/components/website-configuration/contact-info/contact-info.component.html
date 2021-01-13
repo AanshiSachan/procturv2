@@ -1,0 +1,55 @@
+<div class="container-fluid product-wrapper p-0" style="padding-top: 0px;">
+  <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
+    <div class="col-md-8" style="padding-left: 0;">
+      <section class="middle-top clearFix bulk-header">
+        <div>
+          <h1 class="pull-left" style="margin-bottom: 10px;">
+            <a routerLink="/view/website-configuration/images" style="padding:0px; ">
+              Website/ App
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span>Contact Info</span>
+          </h1>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <label class="text-bold"> Phone
+          </label>
+          <input type="text" placeholder="Eg: +91-12345,+91-156161" [(ngModel)]="pageModel.contact" class="form-control form-control-sm">
+        </div>
+
+        <div class="col-md-12 form-group">
+          <label class="text-bold"> Email ID
+          </label>
+          <input type="text" placeholder="Eg: abc@gmail.com" [(ngModel)]="pageModel.email_id" class="form-control form-control-sm">
+        </div>
+
+        <div class="col-md-12 form-group">
+          <label class="text-bold"> Whatsapp No
+          </label>
+          <input type="text" placeholder="Whatsapp" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="pageModel.whatsapp" class="form-control form-control-sm">
+        </div>
+
+        <div class="col-md-12 form-group">
+          <label class="text-bold"> Address
+          </label>
+          <textarea style="height: 80px;" placeholder="Address" [(ngModel)]="pageModel.address" class="form-control form-control-sm">
+          </textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="go-btn-container">
+    <button type="button" name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
+    <button type="button" name="button" class="fullBlue gobtn" (click)="saveData()"
+      [disabled]="auth.isRippleLoad.getValue()">Update</button>
+  </div>
+</div>

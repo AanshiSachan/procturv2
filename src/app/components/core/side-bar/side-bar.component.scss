@@ -27,7 +27,7 @@
     .institute-name-container {
         width: 100%;
         text-align: center;
-        color: black;
+        color: white;
         line-height: 20px;
         font-size: 14px;
         text-align: left !important;
@@ -226,7 +226,7 @@
     .side-section {
         display: none;
         position: fixed;
-        right: 12px;
+        right: 30px;
         background: White;
         color: #2e3345;
         border-radius: 4px;
@@ -580,9 +580,11 @@ input{
         border-radius: 90%;
         padding-left: 2px !important;
         padding-bottom: 2px !important;
+        
     }
 .hoverColor:hover{
     opacity: 1;
+    
 }
 .close_button{
     position: absolute;
@@ -610,13 +612,14 @@ input{
     float: right;
 }
 .menu{
+
     height: 100%; 
-  width: 174px; 
+  width:174px; 
   position: fixed;
   z-index: 99999999; 
   top: 0; 
   left: 0;
-  background-color:white; 
+  background-color:#1B2433; 
   overflow-x: hidden; 
   padding-top: 20px;
 //   box-shadow: 0 3px 6px #696969;
@@ -628,9 +631,9 @@ input{
 }
 
 .menu ul li {
-    padding: 15px;
+    padding:15px;
     position: relative;
-    width: 174px;;
+    width:175px;
     padding-bottom: 2px;
     background-color: white;
 }
@@ -638,22 +641,35 @@ input{
 .menu ul ul {
     transition: all 0.3s;
     opacity: 0;
-    visibility: hidden;
+    visibility:hidden;
     left: 12.7%;
     // top: 17.3%;
     z-index: 9999999;
     position: fixed;
     box-shadow: 1px -5px 7px #ddd;
 }
+.menu ul li{
+    background-color:#1B2433;
+}
+
+.menu ul li:hover {
+    opacity: 1;
+    visibility: visible;
+   //background: white;
+  background-color: #247ac5;
+    
+    
+}
 
 .menu ul li:hover>ul {
     opacity: 1;
     visibility: visible;
+    background-color: white !important;
 }
 
 .menu ul li a {
-    color:black;
-    font-weight: 500;
+    color:white;
+    font-weight:500;
     text-decoration: none;
 }
 .subMenu{
@@ -676,7 +692,8 @@ a span{
     font-weight: bold;
 }
 .abc{
-    color: #528ff0;
+   // color: #528ff0;
+    color:white;
 }
 #quick{
     right: 107px;width: 11%;padding: 8px;
@@ -722,15 +739,17 @@ a span{
     margin-left: 24px;
 }
 .whatsNew{
-    position: fixed;
-    margin-top: 4%;
-    margin-left: 2%;
+    margin-left: 17px;
+    color: white;
+    width: 100px;
+    margin-top: 7%;
     cursor: pointer;
-    border: 1px solid #ff5c33;
+    border: 1px solid #05b38a;
     padding: 1px 10px;
     color: white;
     border-radius: 4px;
-    background: #ff5c33;
+    background: #05b38a;
+    margin-bottom: 15px;
 }
 hr{
         
@@ -743,7 +762,7 @@ hr{
 }
 
 .effect{
-    padding-left: 4%;
+    padding-left:4%;
     box-shadow: 0 3px 6px lightgrey;
     border-radius: 24px !important;
     border: 2px solid lightgrey;
@@ -753,12 +772,26 @@ hr{
 ul{
     a{
         cursor: pointer;
+        
     }
 }
 
 ul{
     a :hover{
-        color: #528ff0;
+       // color: #528ff0;
         padding-left: 2px;
+        color: white;
+        
     }
+    .ul{
+        background-color: rgb(44, 43, 53);
+    }
+   
+}
+.liActiveBG{
+    background-color:#247ac5 !important;
+}
+.a_link{
+ display:inline-block;
+ width: 120px;
 }

@@ -693,7 +693,7 @@ closeTopicModal(){
       this.router.navigate(['/view/course/coursePlanner/class']);
     }
     else{
-      this.router.navigate(['/view/home/admin']);
+      this.router.navigate(['/view/dashboard/admin']);
     }
   }
 

@@ -1,0 +1,62 @@
+<mat-toolbar class="tool mattoolbar" id="topMenu">
+    <div>
+        <div class="buttonDiv" (click)="toggler('terms_and_condition_page', 'Terms and Conditions')"
+            [ngClass]="activeSession.id === 'terms_and_condition_page' ? ' activeSession' : ' '">
+            <div>
+                <a mat-button>
+                    <span>Terms and Conditions</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('privacy_policy_page', 'Privacy Policy')"
+            [ngClass]="activeSession.id === 'privacy_policy_page' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>Privacy Policy</span>
+            </a>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('refund_policy_page', 'Refund Policy')"
+            [ngClass]="activeSession.id === 'refund_policy_page' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>Refund Policy</span>
+            </a>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('about_us_page', 'About Us')"
+            [ngClass]="activeSession.id === 'about_us_page' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>About Us</span>
+            </a>
+        </div>
+
+        <div class="buttonDiv" (click)="toggler('thank_you_page', 'Thank you')"
+            [ngClass]="activeSession.id === 'thank_you_page' ? ' activeSession' : ' '">
+            <a mat-button>
+                <span>Thank you</span>
+            </a>
+        </div>
+    </div>
+</mat-toolbar>
+<section class="middle-main clearFix" id="bulkEnquiryMain">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                            [(ngModel)]="pageModel[(activeSession.id=='thank_you_page') ? 'thank_you_page' : (activeSession.id === 'about_us_page') ? 'about_us_page': (activeSession.id === 'refund_policy_page') ? 'refund_policy_page' : (activeSession.id === 'privacy_policy_page') ? 'privacy_policy_page' : 'terms_and_condition_page']"
+                            placeholder="Write a short description about this product">
+                        </editor>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="go-btn-container">
+        <button type="button" name="button" class="fullBlue add-class-btn" (click)="cancel()">Cancel</button>
+        <button type="button" name="button" class="fullBlue gobtn" (click)="saveData()"
+            [disabled]="auth.isRippleLoad.getValue()">Update</button>
+    </div>
+</section>

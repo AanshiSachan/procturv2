@@ -163,6 +163,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
+  enable_client_website: boolean = false;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -232,6 +233,23 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkInstituteType();
     this.checkManinBranch();
     this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+
+    (function(){  
+
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+
+    s1.async=true;
+
+    s1.src='https://embed.tawk.to/5fd31bf7df060f156a8bfc37/1ep9alk8n';
+
+    s1.charset='UTF-8';
+
+    s1.setAttribute('crossorigin','*');
+
+    s0.parentNode.insertBefore(s1,s0);
+
+    })();
   }
 
   ngAfterViewInit() {
@@ -305,7 +323,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.jsonCourseFlags.isShowModel = true;
       if (this.role_feature.STUDY_MATERIAL_MENU) {
         this.jsonCourseFlags.isShowFileManager = true;
-      }
+      }    
 // Changes done by Nalini - To handle role based conditions
       if (this.role_feature.CLASS_MENU) {
         this.jsonCourseFlags.isShowClass = true;
@@ -426,6 +444,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
   // USER permission
   checkUserHadAccess() {
+    this.enable_client_website = (sessionStorage.getItem('enable_client_website') == 'true');
     // this.divProfileTag.nativeElement.style.display = 'none';
     const permissionArray = sessionStorage.getItem('permissions');
     const usertype = sessionStorage.getItem('userType');
@@ -551,6 +570,10 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       'e-store': 'lieight',
       'online-exam': 'linine',
       'expense': 'liten',
+      'website-configuration': 'liwebsiteConf',
+      'dashboard':'litwelve',
+      'online-assignment':'lithirteen',
+      'contentlibrary':'liforteen'
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];
@@ -1321,6 +1344,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       sessionStorage.setItem('enable_library_feature', res.enable_library_feature);
       sessionStorage.setItem('enable_vdoCipher_feature', res.enable_vdoCipher_feature);
       sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
+      sessionStorage.setItem('enable_client_website', res.enable_client_website);
 
   }
 

@@ -419,7 +419,7 @@ export class TeacherEditComponent implements OnInit {
         this.auth.hideLoader();
         this.messageToast('success', '', 'Details updated successfully.');
         if (sessionStorage.getItem('userType') == '3') {
-          this.route.navigateByUrl('/view/home/admin');
+          this.route.navigateByUrl('/view/dashboard/admin');
         } else {
           this.route.navigateByUrl('/view/course/setup/teacher');
         }

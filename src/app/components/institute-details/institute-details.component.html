@@ -368,6 +368,54 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Form Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.form_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.form_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Blog Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.blog_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.blog_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Copyright Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.copyright_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.copyright_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Twitter Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.twitter_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.twitter_url" id="ch15">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1208,6 +1256,19 @@
             </div>
           </div>
         </div>
+
+        <div class="row" *ngIf="instituteDetailsAll?.zoom_attendance_enable">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="enable_attendance">Enable zoom Attendance 
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6" style="margin:1% -1% 0% 0%">
+            <div class="field-wrapper">
+              <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="zoomOBJ.enable_attendance"
+                name="enable_attendance" id="enable_attendance">
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="c-sm-3 c-md-3 c-lg-3" style="float: right;">
             <button class="btn" (click)="ClearZoomJSON()">Cancel</button>
@@ -1251,6 +1312,9 @@
                   </th>
                   <th>
                     Zoom Recording Enable
+                  </th>
+                  <th *ngIf="instituteDetailsAll?.zoom_attendance_enable">
+                    Enable zoom Attendance
                   </th>
                   <th>
                     Action
@@ -1355,6 +1419,15 @@
                     </span>
 
                   </td>
+                  <td *ngIf="instituteDetailsAll?.zoom_attendance_enable">
+                    <span class="view-comp" title="{{data.enable_attendance}}">
+                      {{data.enable_attendance}}
+                    </span>
+                    <span class="edit-comp">
+                      <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="data.enable_attendance"
+                        name="data.enable_attendance" id="data.enable_attendance">
+                    </span>
+                  </td>
                   <td>
                     <span class="view-comp">
                       <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
@@ -1375,7 +1448,7 @@
               </tbody>
               <tbody *ngIf="zoomDetails.length == 0">
                 <tr>
-                  <td colspan="9"> No Data Found</td>
+                  <td colspan="10"> No Data Found</td>
                 </tr>
               </tbody>
             </table>
@@ -1386,7 +1459,7 @@
 
     <div style="padding-bottom: 10%;"></div>
     <section class="row setting-footer">
-      <button class="btn" routerLink="/view/home/admin">Cancel</button>
+      <button class="btn" routerLink="/view/dashboard/admin">Cancel</button>
       <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
     </section>
   </section>
