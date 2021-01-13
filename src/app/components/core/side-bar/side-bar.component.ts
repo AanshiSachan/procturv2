@@ -85,6 +85,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   private userInput: string;
   videoplayer: boolean = false;
   privacy: any = false;
+  facultyAccount: boolean = false;
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -250,6 +251,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     s0.parentNode.insertBefore(s1,s0);
 
     })();
+    if(sessionStorage.getItem('userType') == '3') {
+      this.facultyAccount = true;
+    }
   }
 
   ngAfterViewInit() {
@@ -359,7 +363,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   checkpermissionOfCommunicate() {
     this.userType = Number(sessionStorage.getItem('userType'));
     this.permissionArray = sessionStorage.getItem('permissions');
-    if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+    if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('username') != 'admin') {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
         // Changes done by Nalini - To handle role based commuicate menu conditions
@@ -461,8 +465,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.hideAllFields();     // Swapnil
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
         this.setNativeElementValue(['divMyAccountTag'], '');
-        this.showManageRole = true;
-        this.showSMSSetting = true;
+        // this.showManageRole = true;
+        // this.showSMSSetting = true;
       }
     } else {
       if (permissionArray != undefined) {
