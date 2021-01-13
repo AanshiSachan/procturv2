@@ -176,7 +176,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   checkWebUrlForGenerics() {
     let url: string = window.location.href;
     let test = url.split("/")[2];
-    if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
+    if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200" || test === "webuat.proctur.com") {
       this.isProcturVisible = true;
       this.backgroundChange.nativeElement.className = "bg-img"
       // this.dynamicImgSrc = "./assets/images/procturlogo2.png";
