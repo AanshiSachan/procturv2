@@ -446,6 +446,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.setNativeElementValue(['divMyAccountTag'], '');
         this.showManageRole = true;
         this.showSMSSetting = true;
+        this.enable_client_website = false;
       }
     } else {
       if (permissionArray != undefined) {
