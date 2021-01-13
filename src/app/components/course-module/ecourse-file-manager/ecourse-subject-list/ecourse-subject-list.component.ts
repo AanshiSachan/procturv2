@@ -646,6 +646,7 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
     this.editObj.is_hide = (this.editObj.is_hide) ? 'Y' : 'N';
     this.editObj.file_visibility_till_date = this.editObj.file_visibility_till_date ? moment(this.editObj.file_visibility_till_date).format('YYYY-MM-DD') : '';
     this.showEditModal = false;
+    this.getSubjectList();
   }
 
   updateFile() {
