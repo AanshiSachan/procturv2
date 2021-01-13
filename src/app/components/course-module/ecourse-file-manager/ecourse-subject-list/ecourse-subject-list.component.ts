@@ -665,12 +665,13 @@ export class EcourseSubjectListComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'File updated successfully');
+        this.cancelEditFile();
       },
       err => {
         this.auth.hideLoader();
+        this.cancelEditFile();
       }
     );
-    this.cancelEditFile();
   }
 
   clearObject() {
