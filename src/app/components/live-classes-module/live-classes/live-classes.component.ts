@@ -676,10 +676,11 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   getDataFromDataSource(startindex) {
     let data = [];
     let buffer = this.attendance_buffer;
+    buffer = (buffer!=0 && buffer!=null) ? (buffer * 60000) : buffer;
     let jobTime = moment(new Date().setHours(20, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
     let JobBufferTime = moment(new Date().setHours(0, 0, 0, (72000000 - buffer))).format('YYYY-MM-DD hh:mm a');
     let currentDate = moment(new Date()).format('YYYY-MM-DD hh:mm a');
-    let temp = moment(new Date().setHours(20, 0, 0, 0));
+    let temp = moment(new Date().setHours(0, 0, 0, (72000000 - buffer)));
     let ReportAllowDate = moment(new Date(2020, 6, 25, 0, 0, 0)).format('YYYY-MM-DD hh:mm a');
     temp = moment(temp).subtract(1, 'days');
     let yesterDayJobTime = moment(temp).format('YYYY-MM-DD hh:mm a');
