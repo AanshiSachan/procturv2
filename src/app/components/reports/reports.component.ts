@@ -69,7 +69,13 @@ export class ReportsComponent implements OnInit {
         this.JsonFlags.isShowExamDash = true;
         this.JsonFlags.showBiomentricR = true;
         this.showSMSReport = true;
+        this.isShowEnqReport = true;
         this.showEmailReport = true;
+        this.isFeeDues = true;
+        this.isCourseWise = true;
+        this.isGstReport = true;
+        this.isOnlineFees = true;
+        this.isShowCampaignReport = true;
         if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
           this.jsonEstoreFlags.isSalesReport = true;
           this.jsonEstoreFlags.isCouponReport = true;
