@@ -254,6 +254,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if(sessionStorage.getItem('userType') == '3') {
       this.facultyAccount = true;
     }
+    if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
+      this.jsonCourseFlags.isShowOnlineAssignment = true;
+    }
   }
 
   ngAfterViewInit() {

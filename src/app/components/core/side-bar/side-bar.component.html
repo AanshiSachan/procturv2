@@ -697,7 +697,7 @@
                     <span [ngClass]="activeSession === 'liwebsiteConf' ? ' abc' : ' NavLink'">Website/ App</span>
                 </a>
             </li>
-            <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
+            <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
                 <!--<img src="./assets/images/sidebar/newSideMenu/home.svg" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">-->
                     <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidemenuicon/onlineassignmentIcon1.png'" alt="" class="sideBar_centerAlign"
