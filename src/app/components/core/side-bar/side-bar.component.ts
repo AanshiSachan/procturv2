@@ -153,7 +153,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     private commonService: CommonServiceFactory,
     private cd: ChangeDetectorRef
   ) { 
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
   ngOnInit() {

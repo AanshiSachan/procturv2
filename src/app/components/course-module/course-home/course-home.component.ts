@@ -26,7 +26,14 @@ export class CourseHomeComponent implements OnInit {
   schoolModel: boolean = false;
 
   constructor(   private auth: AuthenticatorService) { 
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
   ngOnInit() {

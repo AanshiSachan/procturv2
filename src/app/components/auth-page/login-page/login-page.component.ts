@@ -504,6 +504,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.auth.course_flag.next(institute_data.course_structure_flag);
       this.auth.institute_type.next(institute_data.institute_type);
       this.auth.instituteType_name.next(institute_data.institute_type);
+      this.auth.schoolModel.next(institute_data.is_institute_type_school);
       this.auth.changeMainBranchValue(institute_data.is_main_branch);
       this.login.changeUserType(institute_data.userType);
       this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
@@ -602,6 +603,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('single_device', institute_data.single_device_login);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
+      sessionStorage.setItem('mark_attendance_subject_wise', res.data.mark_attendance_subject_wise);
 
       //Storing the session value 
       // Added by Ashwini Kumar Gupta

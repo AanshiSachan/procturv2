@@ -91,7 +91,14 @@ export class CoummunicateHomeComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.userType = Number(sessionStorage.getItem('userType'));
     this.permissionArray = sessionStorage.getItem('permissions');
     if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {

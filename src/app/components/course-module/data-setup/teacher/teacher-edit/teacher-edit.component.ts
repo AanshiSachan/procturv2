@@ -369,10 +369,10 @@ getSubjects(event) {
     let dataToBind: any = {};
     dataToBind.teacher_name = data.teacher_name;
     dataToBind.teacher_curr_addr = data.teacher_curr_addr;
-    dataToBind.teacher_phone = data.teacher_phone;
+    dataToBind.teacher_phone = (data.teacher_phone.substring(data.teacher_phone.lastIndexOf("-")+1, data.teacher_phone.length));
     dataToBind.teacher_alt_phone = '';
     if (data.teacher_alt_phone != "" || data.teacher_alt_phone != null) {
-      dataToBind.teacher_alt_phone = data.teacher_alt_phone;
+      dataToBind.teacher_alt_phone = (data.teacher_alt_phone.substring(data.teacher_alt_phone.lastIndexOf("-")+1, data.teacher_alt_phone.length));
     }
     dataToBind.teacher_standards = data.teacher_standards;
     dataToBind.teacher_email = data.teacher_email;
