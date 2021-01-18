@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ExamGradeServiceService } from '../../../../services/examgradeservice/exam-grade-service.service';
+import { HttpService } from '../../../../services/http.service';
 @Component({
   selector: 'app-manage-exam-grades',
   templateUrl: './manage-exam-grades.component.html',
@@ -13,13 +14,20 @@ export class ManageExamGradesComponent implements OnInit {
   addData: any = {
     grade: "",
     description: "",
-    institution_id: sessionStorage.getItem('institute_id')
+    institution_id: sessionStorage.getItem('institute_id'),
+    exam_type_id: -1,
+    garde_points: "",
+    marks_from: "",
+    marks_to: ""
   }
   editData: any = {
-    description: "",
     grade: "",
-    grade_id: "",
-    institution_id: sessionStorage.getItem('institute_id')
+    description: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    exam_type_id: -1,
+    garde_points: "",
+    marks_from: "",
+    marks_to: ""
   }
   deleteData: any = {
     grade_id: ""
@@ -30,10 +38,12 @@ export class ManageExamGradesComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2];
   dataStatus: boolean = false;
   type: string = '';
+  examTypeList: any = [];
+  selectedExamTypeId: number = -1;
   constructor(
     private gradeService: ExamGradeServiceService,
     private appC: AppComponent,
-    private auth: AuthenticatorService) { }
+    private auth: AuthenticatorService, private http: HttpService) { }
 
   ngOnInit() {
     this.fetchGrades();
@@ -46,6 +56,7 @@ export class ManageExamGradesComponent implements OnInit {
           this.type = 'course';
         }
       })
+    this.fetchInstituteExamTypes();
   }
 
   // toggle for add grade div
@@ -76,7 +87,6 @@ export class ManageExamGradesComponent implements OnInit {
   }
   // data added to table
   addDataToTable() {
-
     if (this.addData.description == "" || this.addData.grade == "" || this.addData.description == null || this.addData.grade == null) {
       let msg = {
         type: "error",
@@ -85,8 +95,8 @@ export class ManageExamGradesComponent implements OnInit {
       }
       this.appC.popToast(msg);
     }
-
     else if (this.addData.description != " " || this.addData.grade != " ") {
+      this.addData.exam_type_id = this.selectedExamTypeId;
       this.gradeService.addData(this.addData).subscribe(
         (data: any) => {
           let msg = {
@@ -115,9 +125,13 @@ export class ManageExamGradesComponent implements OnInit {
   }
   // editing rows
   editRowTable(row, index) {
-
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
+    this.fetchInstituteExamTypes();
+    this.selectedExamTypeId = row.exam_type_id;
+    console.log(row.exam_type_id);
+
+
 
   }
   // put data for edited request
@@ -127,7 +141,11 @@ export class ManageExamGradesComponent implements OnInit {
       description: row.description,
       grade: row.grade,
       grade_id: row.grade_id,
-      institution_id: sessionStorage.getItem('institute_id')
+      institution_id: sessionStorage.getItem('institute_id'),
+      marks_from: row.marks_from,
+      marks_to: row.marks_to,
+      exam_type_id: this.selectedExamTypeId,
+      garde_points: row.garde_points
     }
     this.gradeService.saveEdited(data).subscribe(
       (data: any) => {
@@ -185,5 +203,15 @@ export class ManageExamGradesComponent implements OnInit {
           this.fetchGrades();
         })
     }
+  }
+  fetchInstituteExamTypes() {
+    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + sessionStorage.getItem('institute_id');
+    this.http.getData(url).subscribe((data: any) => {
+      this.examTypeList = data.result;
+    }, err => {
+    })
+  };
+  selectedExamType(exam_type_id) {
+    this.selectedExamTypeId = exam_type_id;
   }
 }

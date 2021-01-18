@@ -8,8 +8,11 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class DataSetupHomeComponent implements OnInit {
   type: string = '';
+  schoolModel:boolean =true;
   
-  constructor(   private auth: AuthenticatorService) { }
+  constructor( private auth: AuthenticatorService) { 
+   // this.schoolModel=this.auth.schoolModel=='true'?true:false;
+  }
 
   ngOnInit() {
     this.auth.institute_type.subscribe(

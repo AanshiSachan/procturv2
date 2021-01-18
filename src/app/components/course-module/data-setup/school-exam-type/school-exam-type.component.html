@@ -1,0 +1,118 @@
+<div class="master-wrapper clearFix">
+  <section class="header-section">
+    <div class="header-full">
+      <div class="row m-5">
+        <h2 style="padding: 16px 0px 3px 10px; font-size: 14px" class="pull-left">
+          <a style="padding:0px; ">
+            Setup
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <a routerLink="/view/{{type}}/setup" style="padding:0px; ">
+            Data Setup
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          <span> Exam Type </span>
+        </h2>
+      </div>
+      <button class="btn fullBlue pull-right" style="margin-top: -20px;" data-target="#addExamType" data-toggle="modal">
+        + Add Exam Type
+      </button>
+    </div>
+  </section>
+  <!--  <section class="table-control">
+        <div class="col-lg-8"></div>
+        <div class="col-lg-4 p-0">
+          <div class="field-wrapper">
+              <input class="search-box form-ctrl"  type="text"  [(ngModel)]="searchTag" (keyup)="filterTag()" placeholder="Search tag here"/>
+          </div>
+        </div>
+    </section>
+  -->
+  <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+      [rowColumnSetting]="rowColumns" (editView)='openEditExamTypeModal($event)'>
+    </app-basic-table>
+ 
+  <!--  <div *ngIf="isSearchItemExist" class="noSearchItem">
+          No tags found
+      </div> -->
+</div>
+<!--add exam Type-->
+<div class="modal fade" id="addExamType" role="dialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">{{isExamTypeUpdate ? 'Update Exam Type' : 'Create Exam Type'}}</h3>
+      </div>
+      <div class="modal-body">
+        <div class="field-wrapper">
+          <label>Exam Type<span class="text-danger">*</span></label>
+          <div class="dropdown-div pt-2">
+            <input class="dropdown" type="text" [(ngModel)]="addExamType.exam_type" placeholder=" Enter Exam Type" />
+          </div>
+        </div>
+        <div class="field-wrapper">
+          <label>Description</label>
+          <div class="dropdown-div pt-2">
+            <input class="dropdown" type="text" [(ngModel)]="addExamType.description"
+              placeholder=" Enter Description" />
+          </div>
+        </div>
+        <div class="field-wrapper">
+          <label>Status</label>
+          <div class="dropdown-div">
+            <select class="dropdown" [(ngModel)]="addExamType.is_active">
+              <option value="Y">Y</option>
+              <option value="N">N</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary create-btn" (click)="addUpdateExamType()">{{isExamTypeUpdate?'Update':'Create'}}</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--update exam type-->
+  <div class="modal fade" id="updateExamTypeModel" role="dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Exam Type</h3>
+        </div>
+        <div class="modal-body">
+          <div class="field-wrapper">
+            <label>Exam Type</label>
+            <div class="dropdown-div pt-2">
+              <input class="dropdown" type="text" [(ngModel)]="addExamType.exam_type" />
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label>Description</label>
+            <div class="dropdown-div pt-2">
+              <input class="dropdown" type="text" [(ngModel)]="addExamType.description" />
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label>Status</label>
+            <div class="dropdown-div">
+              <select class="dropdown" [(ngModel)]="addExamType.is_active">
+                <option value="Y">Y</option>
+                <option value="N">N</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary create-btn" (click)="updateExamType()">Update</button>
+        </div>
+      </div>
+
+    </div>
+  </div>

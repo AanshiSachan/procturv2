@@ -7,7 +7,7 @@
             <a routerLink="/view/course/setup" style="color: #0084f6;">
               <!--{{ type | titlecase }}-->
               Setup
-              
+
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
             <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
@@ -34,16 +34,59 @@
         </div> -->
         <div class="row" *ngIf=showToggle>
 
-          <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="c-lg-2 c-md-2 c-sm-2">
             <div class="field-wrapper">
-              <label for="Create Grade">Create Grade
+              <label for="Create Grade">Grade Name
                 <span class="text-danger">*</span>
               </label>
               <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade"
-                style="border-radius: 4px;">
+                style="border-radius: 1px;">
 
             </div>
           </div>
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <label>Exam Type<span class="text-danger">*</span></label>
+            <div class="dropdown-div pt-2">
+              <select class="dropdown" [(ngModel)]="selectedExamTypeId">
+                <option value="-1">Select Exam Type</option>
+                <option *ngFor="let list of examTypeList; let i = index" [value]="list.exam_type_id"
+                  (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <div class="field-wrapper">
+              <label for="Description">Marks From
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-ctrl" name="marks_from" id="marks_from" [(ngModel)]="addData.marks_from"
+                style="border-radius: 1px;">
+
+            </div>
+          </div>
+
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <div class="field-wrapper">
+              <label for="Description">Marks To
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-ctrl" name="marks_to" id="marks_to" [(ngModel)]="addData.marks_to"
+                style="border-radius: 1px;">
+
+            </div>
+          </div>
+
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <div class="field-wrapper">
+              <label for="Description">Grade Points
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-ctrl" name="garde_points" id="garde_points"
+                [(ngModel)]="addData.garde_points" style="border-radius: 1px;">
+
+            </div>
+          </div>
+
           <div class="c-lg-3 c-md-3 c-sm-3">
             <div class="field-wrapper">
               <label for="Description">Description
@@ -51,10 +94,10 @@
               </label>
               <input type="text" class="form-ctrl" name="Description" id="Description" [(ngModel)]="addData.description"
                 style="border-radius: 4px;">
-
             </div>
           </div>
-          <div class="c-lg-3 c-md-3 c-sm-3">
+
+          <div class="c-lg-2 c-md-2 c-sm-2">
             <div class="pull-left create-cancel-small">
               <aside class="pull-left create-cancel-small">
                 <button class="btn fullBlue" style="margin-top:26px;" (click)="addDataToTable()">Add</button>
@@ -72,6 +115,18 @@
                 </th>
                 <th>
                   Grade
+                </th>
+                <th>
+                  Exam Type
+                </th>
+                <th>
+                  Marks From
+                </th>
+                <th>
+                  Marks To
+                </th>
+                <th>
+                  Grade Points
                 </th>
                 <th>
                   Description
@@ -100,6 +155,47 @@
                   <div class="field-wrapper">
                     <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.grade"
                       [value]="row.grade_id">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.exam_type_id}}
+                </td>
+                <td class="edit-comp">
+                  <div class="dropdown-div pt-2">
+                    <select class="dropdown" [(ngModel)]="selectedExamTypeId">
+                      <option value="-1">Select Exam Type</option>
+                      <option *ngFor="let list of examTypeList; let i = index" [value]="list.exam_type_id"
+                        (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
+                    </select>
+                  </div>
+                      </td>
+                <td class="view-comp">
+                  {{row.marks_from}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_from"
+                      [value]="row.marks_from">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.marks_to}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_to"
+                      [value]="row.marks_to">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.garde_points}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.garde_points"
+                      [value]="row.garde_points">
                   </div>
                 </td>
                 <td class="view-comp">
