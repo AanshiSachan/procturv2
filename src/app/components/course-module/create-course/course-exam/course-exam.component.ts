@@ -148,6 +148,9 @@ export class CourseExamComponent implements OnInit {
   public isExpanded;
   coursePlannerStatus: any = false;
   schoolModel: boolean = false;
+  examTypeList:any=[];
+  selectedExamTypeId: any = '';
+
 
   constructor(
     private apiService: ExamCourseService,
@@ -175,6 +178,9 @@ export class CourseExamComponent implements OnInit {
     this.checkForCoursePlannerRoute();
     // changes by Nalini - to handle school model conditions
     this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    if(this.schoolModel){
+      this.fetchInstituteExamTypes();
+    }
   }
 
   checkForCoursePlannerRoute() {
@@ -1076,7 +1082,6 @@ export class CourseExamComponent implements OnInit {
   }
   getMasterCourse() {
     let url = "/api/v1/courseMaster/master-course-list/" + this.institute_id + '?is_active_not_expire=Y&sorted_by=course_name';
-
     let keys;
     this.auth.showLoader();
     this._http.getData(url).subscribe(
@@ -1084,7 +1089,6 @@ export class CourseExamComponent implements OnInit {
         this.auth.hideLoader();
         this.fullResponse = data.result;
         keys = Object.keys(data.result);
-
         console.log("keys", keys);
 
         for (let i = 0; i < keys.length; i++) {
@@ -1552,6 +1556,7 @@ export class CourseExamComponent implements OnInit {
 
 
   addNewExamSubject() {
+    console.log("hjdgsdf");
     if (this.newExamData.startTimeHrs == this.newExamData.endTimeHrs
       && this.newExamData.startTimeMins == this.newExamData.endTimeMins) {
       this.messageNotifier('error', '', 'Exam  start time and end time cannot be same !');
@@ -1592,6 +1597,7 @@ export class CourseExamComponent implements OnInit {
     obj.topicsId = this.checkedKeys;
     obj.exam_desc = this.exam_desc;
     obj.exam_room_no = this.exam_room_no;
+    obj.exam_type=this.selectedExamTypeId;
 
     this.newExamSubjectData.push(obj);
 
@@ -1622,6 +1628,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   addNewExamSubjectCourse(index) {
+    console.log("Testt "+index);
     if (this.viewList[index].coursetableAdder.batch_id == -1) {
       this.messageNotifier('error', '', 'No subject(s) added!');
       return;
@@ -2260,7 +2267,15 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
-
+  fetchInstituteExamTypes() {
+    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + sessionStorage.getItem('institute_id');
+    this._http.getData(url).subscribe((data: any) => {
+      this.examTypeList = data.result;
+    }, err => {
+      
+    })
+  };
+ 
 }
 
 

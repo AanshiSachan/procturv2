@@ -533,6 +533,20 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="schoolModel">
+                                <div class="form-wrapper">
+                                    <label for="examType">Exam Type
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select id="examType" class="side-form-ctrl constantHeight subjectName"
+                                        [(ngModel)]="selectedExamTypeId" >
+                                        <option value="-1" selected="selected">Select Exam Type</option>
+                                        <option [value]="list.exam_type_id" *ngFor="let list of examTypeList">
+                                            {{list.exam_type}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="c-sm-1 c-lg-1 c-md-1">
                                 <div class="form-wrapper" style="width: 75px">
@@ -544,7 +558,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-sm-2 c-lg-2 c-md-2">
+                            <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="!schoolModel">
                                 <div class="form-wrapper">
                                     <label for="topics">Topic</label>
                                     <input type="textbox" class="side-form-ctrl constantHeight" name="label"
@@ -759,6 +773,21 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="schoolModel">
+                                    <div class="form-wrapper">
+                                        <label for="examType">Exam Type
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="examType" class="side-form-ctrl constantHeight subjectName"
+                                            [(ngModel)]="selectedExamTypeId" (ngModelChange)="subjectChanged()">
+                                            <option value="-1" selected="selected">Select Exam Type</option>
+                                            <option [value]="list.exam_type_id" *ngFor="let list of examTypeList">
+                                                {{list.exam_type}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
 
                                 <div class="c-sm-1 c-lg-1 c-md-1"
                                     *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
@@ -772,7 +801,7 @@
                                     </div>
                                 </div>
 
-                                <div class="c-sm-2 c-lg-2 c-md-2">
+                                <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="!schoolModel">
                                     <div class="form-wrapper">
                                         <label for="topics">Topic</label>
                                         <input type="textbox" class="side-form-ctrl constantHeight" name="label"
@@ -835,6 +864,10 @@
                               </select>
                             </div> -->
                                 </div>
+                                <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="schoolModel">
+                                    <span class="view-comp">{{row.exam_type}}</span>
+                                    <span class="edit-comp">{{row.exam_type}}</span>
+                                </div>
 
                                 <div class="c-sm-1 c-lg-1 c-md-1">
                                     <span class="view-comp">{{row.total_marks}} marks</span>
@@ -844,7 +877,7 @@
                                     </div>
                                 </div>
 
-                                <div class="c-sm-2 c-lg-2 c-md-2 topictext">
+                                <div class="c-sm-2 c-lg-2 c-md-2 topictext" *ngIf="!schoolModel">
                                     <span class="view-comp "
                                         title={{row.topicName}}>{{row.topicName | slice:0:20}}</span>
                                     <div class="form-wrapper edit-comp">

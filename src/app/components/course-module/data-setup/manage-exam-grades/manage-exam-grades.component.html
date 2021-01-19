@@ -32,80 +32,113 @@
             <span>Create Grade</span>
           </button>
         </div> -->
-        <div class="row" *ngIf=showToggle>
+        <div *ngIf=showToggle>
+          <div *ngIf="isSchoolModel">
+            <div class="row">
+              <div class="c-lg-2 c-md-2 c-sm-2 ">
+                <div class="field-wrapper">
+                  <label for="Create Grade">Grade Name
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade"
+                    style="border-radius: 1px;">
+                </div>
+              </div>
+              <div class="c-lg-2 c-md-2 c-sm-2 ">
+                <div class="m-5 filter_div">
+                  <div class="field-wrapper" style="margin-left: 0 !important;">
+                    <label>Exam Type<span class="text-danger">*</span></label>
+                    <div class="dropdown-div pt-2">
+                      <select class="dropdown" [(ngModel)]="selectedExamTypeId">
+                        <option value="-1">Select Exam Type</option>
+                        <option *ngFor="let list of examTypeList; let i = index" [value]="list.exam_type_id"
+                          (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="c-lg-2 c-md-2 c-sm-2">
+                <div class="field-wrapper">
+                  <label for="Description">Marks From
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" name="marks_from" id="marks_from"
+                    [(ngModel)]="addData.marks_from" style="border-radius: 1px;">
 
-          <div class="c-lg-2 c-md-2 c-sm-2">
-            <div class="field-wrapper">
-              <label for="Create Grade">Grade Name
-                <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade"
-                style="border-radius: 1px;">
+                </div>
+              </div>
+              <div class="c-lg-2 c-md-2 c-sm-2">
+                <div class="field-wrapper">
+                  <label for="Description">Marks To
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" name="marks_to" id="marks_to" [(ngModel)]="addData.marks_to"
+                    style="border-radius: 1px;">
 
+                </div>
+              </div>
+
+              <div class="c-lg-2 c-md-2 c-sm-2">
+                <div class="field-wrapper">
+                  <label for="Description">Grade Points
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" name="grade_points" id="grade_points"
+                    [(ngModel)]="addData.grade_points" style="border-radius: 1px;">
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <label for="Description">Description
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" name="Description" id="Description"
+                    [(ngModel)]="addData.description" style="border-radius: 4px;">
+                </div>
+              </div>
+              <div class="c-lg-2 c-md-2 c-sm-2">
+                <div class="pull-left create-cancel-small">
+                  <aside class="pull-left create-cancel-small">
+                    <button class="btn fullBlue" style="margin-top:26px;" (click)="addDataToTable()">Add</button>
+                  </aside>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="c-lg-2 c-md-2 c-sm-2">
-            <label>Exam Type<span class="text-danger">*</span></label>
-            <div class="dropdown-div pt-2">
-              <select class="dropdown" [(ngModel)]="selectedExamTypeId">
-                <option value="-1">Select Exam Type</option>
-                <option *ngFor="let list of examTypeList; let i = index" [value]="list.exam_type_id"
-                  (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="c-lg-2 c-md-2 c-sm-2">
-            <div class="field-wrapper">
-              <label for="Description">Marks From
-                <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-ctrl" name="marks_from" id="marks_from" [(ngModel)]="addData.marks_from"
-                style="border-radius: 1px;">
-
-            </div>
-          </div>
-
-          <div class="c-lg-2 c-md-2 c-sm-2">
-            <div class="field-wrapper">
-              <label for="Description">Marks To
-                <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-ctrl" name="marks_to" id="marks_to" [(ngModel)]="addData.marks_to"
-                style="border-radius: 1px;">
-
-            </div>
-          </div>
-
-          <div class="c-lg-2 c-md-2 c-sm-2">
-            <div class="field-wrapper">
-              <label for="Description">Grade Points
-                <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-ctrl" name="garde_points" id="garde_points"
-                [(ngModel)]="addData.garde_points" style="border-radius: 1px;">
-
-            </div>
-          </div>
-
-          <div class="c-lg-3 c-md-3 c-sm-3">
-            <div class="field-wrapper">
-              <label for="Description">Description
-                <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-ctrl" name="Description" id="Description" [(ngModel)]="addData.description"
-                style="border-radius: 4px;">
-            </div>
-          </div>
-
-          <div class="c-lg-2 c-md-2 c-sm-2">
-            <div class="pull-left create-cancel-small">
-              <aside class="pull-left create-cancel-small">
-                <button class="btn fullBlue" style="margin-top:26px;" (click)="addDataToTable()">Add</button>
-              </aside>
+          <div *ngIf="!isSchoolModel">
+            <div class="row">
+              <div class="c-lg-2 c-md-2 c-sm-2 ">
+                <div class="field-wrapper">
+                  <label for="Create Grade">Grade Name
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade"
+                    style="border-radius: 1px;">
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <label for="Description">Description
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" name="Description" id="Description"
+                    [(ngModel)]="addData.description" style="border-radius: 4px;">
+                </div>
+              </div>
+              <div class="c-lg-2 c-md-2 c-sm-2">
+                <div class="pull-left create-cancel-small">
+                  <aside class="pull-left create-cancel-small">
+                    <button class="btn fullBlue" style="margin-top:26px;" (click)="addDataToTable()">Add</button>
+                  </aside>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
         <div class="table table-responsive" style="margin-top:10px;">
           <table class="tableBodyScroll">
             <thead>
@@ -116,16 +149,16 @@
                 <th>
                   Grade
                 </th>
-                <th>
+                <th *ngIf="isSchoolModel">
                   Exam Type
                 </th>
-                <th>
+                <th *ngIf="isSchoolModel">
                   Marks From
                 </th>
-                <th>
+                <th *ngIf="isSchoolModel">
                   Marks To
                 </th>
-                <th>
+                <th *ngIf="isSchoolModel">
                   Grade Points
                 </th>
                 <th>
@@ -157,10 +190,10 @@
                       [value]="row.grade_id">
                   </div>
                 </td>
-                <td class="view-comp">
-                  {{row.exam_type_id}}
+                <td class="view-comp" *ngIf="isSchoolModel">
+                  {{row.exam_type}}
                 </td>
-                <td class="edit-comp">
+                <td class="edit-comp" *ngIf="isSchoolModel">
                   <div class="dropdown-div pt-2">
                     <select class="dropdown" [(ngModel)]="selectedExamTypeId">
                       <option value="-1">Select Exam Type</option>
@@ -168,34 +201,34 @@
                         (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
                     </select>
                   </div>
-                      </td>
-                <td class="view-comp">
+                </td>
+                <td class="view-comp" *ngIf="isSchoolModel">
                   {{row.marks_from}}
                 </td>
-                <td class="edit-comp">
+                <td class="edit-comp" *ngIf="isSchoolModel">
                   <div class="field-wrapper">
                     <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_from"
                       [value]="row.marks_from">
                   </div>
                 </td>
 
-                <td class="view-comp">
+                <td class="view-comp" *ngIf="isSchoolModel">
                   {{row.marks_to}}
                 </td>
-                <td class="edit-comp">
+                <td class="edit-comp" *ngIf="isSchoolModel">
                   <div class="field-wrapper">
                     <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_to"
                       [value]="row.marks_to">
                   </div>
                 </td>
 
-                <td class="view-comp">
-                  {{row.garde_points}}
+                <td class="view-comp" *ngIf="isSchoolModel">
+                  {{row.grade_points}}
                 </td>
-                <td class="edit-comp">
+                <td class="edit-comp" *ngIf="isSchoolModel">
                   <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.garde_points"
-                      [value]="row.garde_points">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.grade_points"
+                      [value]="row.grade_points">
                   </div>
                 </td>
                 <td class="view-comp">

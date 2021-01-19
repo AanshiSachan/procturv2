@@ -22,18 +22,13 @@ export class SchoolExamTypeComponent implements OnInit {
     institution_id: sessionStorage.getItem('institute_id'),
     is_active: 'Y',
   }
-  schoolModel: boolean = false;
   isExamTypeUpdate: boolean = false;
-  exam_op:string="Create Exam Type";
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   staticPageData: any = [];
-  staticPageDataSouece: any = [];
 
   constructor(private http: HttpService, private auth: AuthenticatorService, private msgSrvc: MessageShowService) {
-    this.schoolModel = auth.schoolModel == true ? true : false;
     auth.currentInstituteId.subscribe(key => {
       this.instituteId = key;
     });
@@ -41,6 +36,9 @@ export class SchoolExamTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.createTable();
+  }
+  createTable() {
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -50,77 +48,88 @@ export class SchoolExamTypeComponent implements OnInit {
           this.type = 'course';
         }
       });
-      this.headerSetting = [
-        {
-          primary_key: 'exam_type_id',
-          value: "Id",
-          charactLimit: 25,
-          sorting: true,
-          visibility: true
-        },
-        {
-          primary_key: 'exam_type',
-          value: "Exam Type",
-          charactLimit: 25,
-          sorting: true,
-          visibility: true
-        },
-        {
-          primary_key: 'description',
-          value: "Description",
-          charactLimit: 25,
-          sorting: false,
-          visibility: true
-        },
-        {
-          primary_key: 'is_active',
-          value: "Active",
-          charactLimit: 25,
-          sorting: false,
-          visibility: true
-        },
-        {
-          primary_key: 'action',
-          value: "Action",
-          charactLimit: 10,
-          sorting: false,
-          visibility: true,
-          edit: true,
-          delete: false,
-          // editCondition: 'converted == 0',
-          // deleteCondition: 'converted == 0'
-        },
-      ]
-  
-      this.tableSetting = {
-        width: "100%",
-        height: "58vh"
+    this.headerSetting = [
+      {
+        primary_key: 'exam_type_id',
+        value: "Id",
+        charactLimit: 25,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'exam_type',
+        value: "Exam Type",
+        charactLimit: 25,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'description',
+        value: "Description",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'is_active',
+        value: "Active",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'created_date',
+        value: "Created Date",
+        charactLimit: 25,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'action',
+        value: "Action",
+        charactLimit: 10,
+        sorting: false,
+        visibility: true,
+        edit: true,
+        delete: false,
+        // editCondition: 'converted == 0',
+        // deleteCondition: 'converted == 0'
+      },
+    ]
+
+    this.tableSetting = {
+      width: "100%",
+      height: "58vh"
+    }
+
+    this.rowColumns = [
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      {
+        width: "25%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
       }
-  
-      this.rowColumns = [
-        {
-          width: "10%",
-          textAlign: "left"
-        },
-        {
-          width: "20%",
-          textAlign: "left"
-        },
-        {
-          width: "25%",
-          textAlign: "left"
-        },
-        {
-          width: "20%",
-          textAlign: "left"
-        },
-        {
-          width: "10%",
-          textAlign: "left"
-        }
-  
-      ]
-  
+
+    ]
+
   }
   fetchInstituteExamTypes() {
     let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + this.instituteId;
@@ -132,7 +141,7 @@ export class SchoolExamTypeComponent implements OnInit {
 
   createExamType() {
     let url = "/api/v1/courseExamSchedule/create-exam-type";
-    let payload ={
+    let payload = {
       exam_type: this.addExamType.exam_type,
       description: this.addExamType.description,
       institution_id: sessionStorage.getItem('institute_id'),
@@ -178,7 +187,7 @@ export class SchoolExamTypeComponent implements OnInit {
   }
   updateExamType() {
     let url = "/api/v1/courseExamSchedule/update-exam-type/" + this.addExamType.exam_type_id;
-    let payload ={
+    let payload = {
       exam_type: this.addExamType.exam_type,
       description: this.addExamType.description,
       is_active: this.addExamType.is_active,
@@ -195,9 +204,6 @@ export class SchoolExamTypeComponent implements OnInit {
     })
 
   }
-  closeModel(){
-    this.isExamTypeUpdate=false;
-  }
-      
+
 }
 
