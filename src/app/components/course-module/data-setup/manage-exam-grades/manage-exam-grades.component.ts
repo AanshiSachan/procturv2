@@ -236,14 +236,14 @@ export class ManageExamGradesComponent implements OnInit {
     }
   }
   fetchInstituteExamTypes() {
-    // let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + sessionStorage.getItem('institute_id');
-    // this.http.getData(url).subscribe((data: any) => {
-    //   this.examTypeList = data.result;
-    // }, err => {
+    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + sessionStorage.getItem('institute_id');
+    this.http.getData(url).subscribe((data: any) => {
+    this.examTypeList = data.result;
+    }, err => {
       
-    // })
-    this.examTypeList=this.commonApiCall.fetchInstituteExamTypes(sessionStorage.getItem('institute_id'));
-    console.log(this.examTypeList);
+     })
+   // this.examTypeList=this.commonApiCall.fetchInstituteExamTypes(sessionStorage.getItem('institute_id'));
+    //console.log(this.examTypeList);
   };
   selectedExamType(exam_type_id) {
     this.selectedExamTypeId = exam_type_id;

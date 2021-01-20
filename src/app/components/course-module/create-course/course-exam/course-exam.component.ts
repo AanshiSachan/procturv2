@@ -148,7 +148,7 @@ export class CourseExamComponent implements OnInit {
   public isExpanded;
   coursePlannerStatus: any = false;
   schoolModel: boolean = false;
-  examTypeList:any=[];
+  examTypeList: any = [];
   selectedExamTypeId: any = '';
 
 
@@ -178,7 +178,7 @@ export class CourseExamComponent implements OnInit {
     this.checkForCoursePlannerRoute();
     // changes by Nalini - to handle school model conditions
     this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
-    if(this.schoolModel){
+    if (this.schoolModel) {
       this.fetchInstituteExamTypes();
     }
   }
@@ -1556,10 +1556,20 @@ export class CourseExamComponent implements OnInit {
 
 
   addNewExamSubject() {
-    console.log("hjdgsdf");
+    if (this.schoolModel) {
+      if (this.newExamSubjectData.length >= 1) {
+        this.messageNotifier('error', '', 'You can not add multiple subject!');
+        return;
+      }
+      if (this.selectedExamTypeId == null || this.selectedExamTypeId == '') {
+        this.messageNotifier('error', '', 'Please select exam type!');
+        return;
+      }
+
+    }
     if (this.newExamData.startTimeHrs == this.newExamData.endTimeHrs
       && this.newExamData.startTimeMins == this.newExamData.endTimeMins) {
-      this.messageNotifier('error', '', 'Exam  start time and end time cannot be same !');
+      this.messageNotifier('error', '', 'Exam start time and end time cannot be same!');
       return;
     }
     if (this.subject_id == null || this.subject_id == '') {
@@ -1567,7 +1577,7 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     if (this.exam_marks == '' || this.exam_marks == null) {
-      this.messageNotifier('error', '', 'Please Provide Marks');
+      this.messageNotifier('error', '', 'Please provide marks!');
       return;
     }
 
@@ -1579,10 +1589,13 @@ export class CourseExamComponent implements OnInit {
     }
 
     let subjectName = "";
+    let is_optional_subject = false;
     this.subjectListData[0].forEach(
       ele => {
         if (this.subject_id == ele.subject_id) {
           subjectName = ele.subject_name;
+          if (this.schoolModel)
+            is_optional_subject = ele.is_optional_subject;
         }
       }
     )
@@ -1597,8 +1610,12 @@ export class CourseExamComponent implements OnInit {
     obj.topicsId = this.checkedKeys;
     obj.exam_desc = this.exam_desc;
     obj.exam_room_no = this.exam_room_no;
-    obj.exam_type=this.selectedExamTypeId;
-
+    if (this.schoolModel) {
+      let examTypeArr = this.selectedExamTypeId.split(',');
+      obj.exam_type = examTypeArr[1];
+      obj.exam_type_id = examTypeArr[0];
+      obj.is_optional_subject = is_optional_subject;
+    }
     this.newExamSubjectData.push(obj);
 
     this.calculateTotalMarks();
@@ -1622,13 +1639,23 @@ export class CourseExamComponent implements OnInit {
     this.subject_topics = [];
     this.exam_desc = '';
     this.exam_room_no = '';
-
     this.checkedKeys = [];
     this.topicsName = [];
+    this.selectedExamTypeId = '';
   }
 
   addNewExamSubjectCourse(index) {
-    console.log("Testt "+index);
+    if (this.schoolModel) {
+      if (this.viewList[index].courseTableList.length >= 1) {
+        this.messageNotifier('error', '', 'You can not add multiple subject!');
+        return;
+      }
+      if (this.selectedExamTypeId == null || this.selectedExamTypeId == '') {
+        this.messageNotifier('error', '', 'Please select exam type!');
+        return;
+      }
+
+    }
     if (this.viewList[index].coursetableAdder.batch_id == -1) {
       this.messageNotifier('error', '', 'No subject(s) added!');
       return;
@@ -1923,6 +1950,10 @@ export class CourseExamComponent implements OnInit {
           }
           classLi.room_no = this.viewList[i].courseTableList[j].room_no;
           classLi.class_schedule_id = this.viewList[i].courseTableList[j].class_schedule_id.toString();;
+          if (this.schoolModel) {
+            classLi.exam_type_id = this.viewList[i].courseTableList[j].exam_type_id;
+            classLi.is_optional_subject = this.viewList[i].courseTableList[j].is_optional_subject;
+          }
           total += Number(this.viewList[i].courseTableList[j].total_marks);
           test.courseClassSchdList.push(classLi);
         }
@@ -1974,6 +2005,10 @@ export class CourseExamComponent implements OnInit {
           classLi.total_marks = this.newExamSubjectData[j].exam_marks.toString();
           classLi.room_no = this.newExamSubjectData[j].exam_room_no;
           classLi.class_schedule_id = "0";
+          if (this.schoolModel) {
+            classLi.exam_type_id = this.newExamSubjectData[j].exam_type_id;
+            classLi.is_optional_subject = this.newExamSubjectData[j].is_optional_subject;
+          }
           total += Number(this.newExamSubjectData[j].exam_marks.toString());
           test.courseClassSchdList.push(classLi);
         }
@@ -2272,10 +2307,10 @@ export class CourseExamComponent implements OnInit {
     this._http.getData(url).subscribe((data: any) => {
       this.examTypeList = data.result;
     }, err => {
-      
+
     })
   };
- 
+
 }
 
 

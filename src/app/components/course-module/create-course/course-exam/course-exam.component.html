@@ -528,7 +528,7 @@
                                         [(ngModel)]="subject_id" (ngModelChange)="subjectChanged()">
                                         <option value="-1" selected="selected">Select Subject</option>
                                         <option [value]="time.subject_id" *ngFor="let time of subjectListData[0]">
-                                            {{time.subject_name}}
+                                            {{time.is_optional_subject?time.subject_name+'(Optional)':time.subject_name}}
                                         </option>
                                     </select>
                                 </div>
@@ -541,7 +541,7 @@
                                     <select id="examType" class="side-form-ctrl constantHeight subjectName"
                                         [(ngModel)]="selectedExamTypeId" >
                                         <option value="-1" selected="selected">Select Exam Type</option>
-                                        <option [value]="list.exam_type_id" *ngFor="let list of examTypeList">
+                                        <option [value]="list.exam_type_id+','+list.exam_type" *ngFor="let list of examTypeList">
                                             {{list.exam_type}}
                                         </option>
                                     </select>
@@ -602,8 +602,20 @@
                             style="padding:0px 6px;" id="row{{i}}">
 
                             <div class="c-sm-2 c-lg-2 c-md-2">
-                                <span class="view-comp">{{row.subject_name}}</span>
-                                <span class="edit-comp">{{row.subject_name}}</span>
+                                <span class="view-comp">{{row.is_optional_subject?row.subject_name+'(Optional)':row.subject_name}}</span>
+                                <span class="edit-comp">{{row.is_optional_subject?row.subject_name+'(Optional)':row.subject_name}}</span>
+                                <!-- <div class="form-wrapper edit-comp">
+                            <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="edit_subject_id">
+                                <option value="-1" selected="selected">Select Subject</option>
+                                <option [value]="time.subject_id" *ngFor="let time of subjectListData[0]">
+                                    {{time.subject_name}}
+                                </option>
+                            </select>
+                          </div> -->
+                            </div>
+                            <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="schoolModel">
+                                <span class="view-comp">{{row.exam_type}}</span>
+                                <span class="edit-comp">{{row.exam_type}}</span>
                                 <!-- <div class="form-wrapper edit-comp">
                             <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="edit_subject_id">
                                 <option value="-1" selected="selected">Select Subject</option>
@@ -614,7 +626,7 @@
                           </div> -->
                             </div>
 
-                            <div class="c-sm-1 c-lg-1 c-md-1">
+                            <div class="c-sm-2 c-lg-2 c-md-2">
                                 <span class="view-comp">{{row.exam_marks}} marks</span>
                                 <div class="form-wrapper edit-comp">
                                     <input type="number" class="side-form-ctrl constantHeight" style="width:90px;"
@@ -622,7 +634,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-sm-2 c-lg-2 c-md-2 topictext">
+                            <div class="c-sm-2 c-lg-2 c-md-2 topictext" *ngIf="!schoolModel">
                                 <span class="view-comp"
                                     title={{row.subject_topics}}>{{row.subject_topics | slice:0:20}}</span>
                                 <div class="form-wrapper edit-comp">
@@ -677,7 +689,7 @@
                                 <span style="font-weight: 600;">Total Marks</span>
                             </div>
 
-                            <div class="c-sm-1 c-lg-1 c-md-1">
+                            <div class="c-sm-2 c-lg-2 c-md-2">
                                 <span class="view-comp" style="font-weight: 600;">{{total_marks_to_show}} marks</span>
                             </div>
                         </div>
@@ -768,7 +780,7 @@
                                             (ngModelChange)="subjectChanged()">
                                             <option value="-1">Select Subject</option>
                                             <option [value]="time.batch_id" *ngFor="let time of data.subjectList">
-                                                {{time.subject_name}}
+                                                {{time.is_optional_subject?time.subject_name+'(Optional)':time.subject_name}}
                                             </option>
                                         </select>
                                     </div>
@@ -853,8 +865,8 @@
                                 *ngFor="let row of data.courseTableList; let i= index ; trackBy : index"
                                 id="row_already{{i}}_{{j}}" style="padding:0px 6px;">
                                 <div class="c-sm-2 c-lg-2 c-md-2">
-                                    <span class="view-comp">{{row.subject_name}}</span>
-                                    <span class="edit-comp">{{row.subject_name}}</span>
+                                    <span class="view-comp">{{row.is_optional_subject?row.subject_name+'(Optional)':row.subject_name}}</span>
+                                    <span class="edit-comp">{{row.is_optional_subject?row.subject_name+'(Optional)':row.subject_name}}</span>
                                     <!-- <div class="form-wrapper edit-comp">
                               <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="edit_subject_id">
                                   <option value="-1" selected="selected">Select Subject</option>
@@ -869,7 +881,7 @@
                                     <span class="edit-comp">{{row.exam_type}}</span>
                                 </div>
 
-                                <div class="c-sm-1 c-lg-1 c-md-1">
+                                <div class="c-sm-2 c-lg-2 c-md-2">
                                     <span class="view-comp">{{row.total_marks}} marks</span>
                                     <div class="form-wrapper edit-comp">
                                         <input type="number" class="side-form-ctrl constantHeight" style="width:90px;"
@@ -938,7 +950,7 @@
                                     <span style="font-weight: 600;">Total Marks</span>
                                 </div>
 
-                                <div class="c-sm-1 c-lg-1 c-md-1">
+                                <div class="c-sm-2 c-lg-2 c-md-2">
                                     <span class="view-comp"
                                         style="font-weight: 600;">{{data.courseModelAdder.total_marks}} marks</span>
                                 </div>
