@@ -230,7 +230,7 @@ export class EnquiryHomeComponent implements OnInit {
         enquiry_no: "",
         priority: "",
         status: -1,
-        // filtered_statuses: "",
+        filtered_statuses: "0,3",
         follow_type: "",
         followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'),
         enquiry_date: "",
@@ -427,6 +427,8 @@ export class EnquiryHomeComponent implements OnInit {
         /* Dropdown items for Bulk Actions */
         this.roleManagementForBulkAdd();
         this.checkBulkUploadRole();
+        this.statusString.push('0');
+        this.statusString.push('3');
         /* Load paginated enquiry data from server */
         let params = sessionStorage.getItem('dashBoardParam');
         if (params != "" && params != null && params != undefined) {
