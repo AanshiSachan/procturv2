@@ -1410,9 +1410,21 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     console.log(topicsName)
     let tempKeys = this.checkedKeys;
     obj.topics_covered = tempKeys.join("|");
-    this.classScheduleArray.push(obj);
-    this.checkedKeys = [];
+    if(!this.schoolModel || this.checkTime(obj)) {
+      this.classScheduleArray.push(obj);
+      this.checkedKeys = []; 
+    }
     this.clearClassScheduleForm();
+  }
+
+  checkTime(obj) {
+    for(let i=0;i<this.classScheduleArray.length;i++) {
+      if(this.classScheduleArray[i].start_time == obj.start_time && this.classScheduleArray[i].end_time == obj.end_time) {
+        this.msgService.showErrorMessage('error','','Please enter correct start time and end time');
+        return false;
+      }
+    }
+    return true;
   }
 
   convertTimeToBindableFormat() {
@@ -1598,32 +1610,32 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     } else {
       let obj: any = {};
     // obj.master_course = this.getValueFromArray(this.masterCourse, 'master_course', this.fetchMasterCourseModule.master_course, 'master_course');
-    obj.start_date = moment(this.courseStartDate).format("YYYY-MM-DD");
-    obj.end_date = moment(this.courseEndDate).format("YYYY-MM-DD");
     obj.requested_date = moment().day(this.fetchMasterCourseModule.selected_day).format('YYYY-MM-DD');
     obj.course_id = this.fetchMasterCourseModule.course_id;
-    obj.batch_id = this.classScheduleArray[0].batch_id;;
+    obj.class_type = 11;
+    obj.is_institute_type_school = true;    
     let temp: any = {};
     temp.course_id = this.fetchMasterCourseModule.course_id;
-    temp.courseClassSchdList = [];
+    temp.batch_list = [];
     temp.weekSchd = [];
     console.log(this.classScheduleArray);
     for (let i = 0; i < this.classScheduleArray.length; i++) {
       let test: any = {};
+      test.weekly_schedule = [];
       let weekSchedTest: any = {};
-      test.class_schedule_id = this.classScheduleArray[i].class_schedule_id;
-      // test.batch_id = this.classScheduleArray[i].subject_id;
+      test.batch_id = this.classScheduleArray[i].batch_id;
+      test.teacher_id = this.classScheduleArray[i].teacher_id;
+      test.isClassSchdUpdate = 1;
       weekSchedTest.duration = this.classScheduleArray[i].duration;
       weekSchedTest.start_time = this.classScheduleArray[i].start_time;
       weekSchedTest.end_time = this.classScheduleArray[i].end_time;
-      weekSchedTest.day_of_week = i+1;
-      temp.courseClassSchdList.push(test);
-      temp.weekSchd.push(weekSchedTest);
+      weekSchedTest.day_of_week = this.fetchMasterCourseModule.selected_day;
+      temp.batch_list.push(test);
+      test.weekly_schedule.push(weekSchedTest);
     }
-    obj.weekSchd = temp.weekSchd;
-    obj.courseClassSchdList = temp.courseClassSchdList;
+    obj.batch_list = temp.batch_list;
     this.auth.showLoader();
-    this._http.putData('/api/v1/courseClassSchedule/updateWeeklySubjectSchedule', obj).subscribe(
+    this._http.postData('/api/v1/courseClassSchedule/create/courseLevel', obj).subscribe(
       (res: any)=> {
         this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Your class added successfully');
