@@ -48,7 +48,7 @@
                 <div class="m-5 filter_div">
                   <div class="field-wrapper" style="margin-left: 0 !important;">
                     <label>Exam Type<span class="text-danger">*</span></label>
-                    <div class="dropdown-div pt-2">
+                    <div class="dropdown-div">
                       <select class="dropdown" [(ngModel)]="selectedExamTypeId">
                         <option value="-1">Select Exam Type</option>
                         <option *ngFor="let list of examTypeList; let i = index" [value]="list.exam_type_id"

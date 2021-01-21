@@ -137,6 +137,7 @@ export class ManageExamGradesComponent implements OnInit {
           }
           this.toggleCreateNewgrade();
           this.fetchGrades();
+          this.selectedExamTypeId=-1;
         },
         (error: any) => {
           let msg = {
@@ -154,7 +155,6 @@ export class ManageExamGradesComponent implements OnInit {
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp'); 4
     if (this.isSchoolModel) {
-      this.fetchInstituteExamTypes();
       this.selectedExamTypeId = row.exam_type_id;
     }
   }
@@ -184,6 +184,7 @@ export class ManageExamGradesComponent implements OnInit {
       (data: any) => {
         this.cancelEditRow(index);
         this.fetchGrades();
+        this.selectedExamTypeId=-1;
         let msg = {
           type: "success",
           body: "Grade updated successfully"
@@ -199,6 +200,7 @@ export class ManageExamGradesComponent implements OnInit {
         }
         this.appC.popToast(acad);
         this.fetchGrades();
+        this.selectedExamTypeId=-1;
       })
 
   }
@@ -206,6 +208,8 @@ export class ManageExamGradesComponent implements OnInit {
   cancelEditRow(index) {
     document.getElementById(("row" + index).toString()).classList.add('displayComp');
     document.getElementById(("row" + index).toString()).classList.remove('editComp');
+    this.selectedExamTypeId=-1;
+
   }
   // delete particular grade
   deletingGrade(row, index) {
@@ -244,8 +248,9 @@ export class ManageExamGradesComponent implements OnInit {
      })
    // this.examTypeList=this.commonApiCall.fetchInstituteExamTypes(sessionStorage.getItem('institute_id'));
     //console.log(this.examTypeList);
-  };
-  selectedExamType(exam_type_id) {
+  }; 
+  
+  selectedExamType(exam_type_id:number) {
     this.selectedExamTypeId = exam_type_id;
   }
 }

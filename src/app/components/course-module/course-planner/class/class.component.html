@@ -44,7 +44,8 @@
 
   <!-- Edit Class -->
   <div id="editClass" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="margin-top: 10%;
+    ">
 
       <!-- Modal content-->
       <div class="modal-content">
@@ -70,7 +71,7 @@
               <option [value]="faculty.teacher_id" *ngFor="let faculty of facultyList">{{faculty.teacher_name}}</option>
             </select>
           </div>
-          <div class="edit-input-container field-wrapper">
+          <div class="edit-input-container field-wrapper" *ngIf="!schoolModel">
             <label for="">Topic</label>
             <input type="text" class="form-ctrl" name="" value="" readonly [(ngModel)]="editClass.topic_covered_names"
               (click)="fetchTopics()" placeholder="Link"
@@ -573,7 +574,7 @@
         <div class="table-heading-item medium" *ngIf="showHideColumns.teacher">
           <span>Teacher</span>
         </div>
-        <div class="table-heading-item large" *ngIf="showHideColumns.topic">
+        <div class="table-heading-item large" *ngIf="!schoolModel && showHideColumns.topic">
           <span>Topic(s)</span>
         </div>
         <div class="table-heading-item small align-center">
@@ -682,7 +683,7 @@
               <span *ngIf="course?.teacher_name.length != 0"
                 title="{{course.teacher_name}}">{{ (course.teacher_name.length > 20) ? (course.teacher_name | slice:0:20) + '...' : course.teacher_name }}</span>
             </div>
-            <div class="table-value-item large" *ngIf="showHideColumns.topic">
+            <div class="table-value-item large" *ngIf="!schoolModel &&showHideColumns.topic">
               <span *ngIf="course?.topics_covered.length == 0">-</span>
               <span *ngIf="course?.topics_covered.length != 0"
                 title="{{course.topics_covered}}">{{ (course.topics_covered.length > 25) ? (course.topics_covered | slice:0:25) + '...' : course.topics_covered }}</span>
