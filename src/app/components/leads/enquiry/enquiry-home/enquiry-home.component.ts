@@ -2684,6 +2684,28 @@ export class EnquiryHomeComponent implements OnInit {
                 this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
                 this.advancedFilterForm = this.instituteData;
                 this.loadTableDatatoSource(this.instituteData);
+            } else {
+                let index = this.statusString.indexOf('0');
+                if (index !== -1) {
+                    this.statusString.splice(index, 1);
+                }
+
+                let index1 = this.statusString.indexOf('3');
+                if (index1 !== -1) {
+                    this.statusString.splice(index1, 1);
+                }
+                if (this.statusString.length == 0) {
+                    this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+                    this.advancedFilterForm = this.instituteData;
+                    this.loadTableDatatoSource(this.instituteData);
+                }
+
+                else if (this.statusString.length != 0) {
+                    let stat = this.statusString.join(',');
+                    this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+                    this.advancedFilterForm = this.instituteData;
+                    this.loadTableDatatoSource(this.instituteData);
+                }
             }
         }
 
