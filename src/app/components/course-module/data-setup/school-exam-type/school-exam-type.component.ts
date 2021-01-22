@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { HttpHeaders } from '@angular/common/http';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { CommonApiCallService } from '../../../../services/common-api-call.service';
 declare var $;
 
 
@@ -28,7 +28,7 @@ export class SchoolExamTypeComponent implements OnInit {
   rowColumns: any;
   staticPageData: any = [];
 
-  constructor(private http: HttpService, private auth: AuthenticatorService, private msgSrvc: MessageShowService) {
+  constructor(private http: HttpService, private auth: AuthenticatorService, private msgSrvc: MessageShowService,private commonApiCall:CommonApiCallService) {
     auth.currentInstituteId.subscribe(key => {
       this.instituteId = key;
     });
@@ -130,10 +130,10 @@ export class SchoolExamTypeComponent implements OnInit {
 
   }
   fetchInstituteExamTypes() {
-    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + this.instituteId;
-    this.http.getData(url).subscribe((data: any) => {
+    this.commonApiCall.fetchInstituteExamTypes(this.instituteId).subscribe((data: any) => {
       this.staticPageData = data.result;
     }, err => {
+      this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
     })
   };
 

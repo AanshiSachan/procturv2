@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable({
@@ -9,16 +9,9 @@ import { map } from 'rxjs/operators';
 export class CommonApiCallService {
 
   constructor(private http: HttpService) { }
-  fetchInstituteExamTypes(instituteId:string): any {
+  fetchInstituteExamTypes(instituteId:string): Observable<any> {
     let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + instituteId;
-    this.http.getData(url).subscribe(
-      (data : any) => {
-        return data.result;
-      },
-      err => {
-        return err;
-      }
-    )
+    return this.http.getData(url);
   };
 
 }

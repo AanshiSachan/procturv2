@@ -8,6 +8,8 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { ExamCourseService } from '../../../../services/course-services/exam-schedule.service';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
 import { HttpService } from '../../../../services/http.service';
+import { CommonApiCallService } from '../../../../services/common-api-call.service';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 
 @Component({
@@ -149,7 +151,7 @@ export class CourseExamComponent implements OnInit {
   coursePlannerStatus: any = false;
   schoolModel: boolean = false;
   examTypeList: any = [];
-  selectedExamTypeId: any = '';
+  selectedExamTypeId: any = "-1";
 
 
   constructor(
@@ -159,6 +161,8 @@ export class CourseExamComponent implements OnInit {
     private topicService: TopicListingService,
     private cd: ChangeDetectorRef,
     private _http: HttpService,
+    private commonApiCall: CommonApiCallService,
+    private msgSrvc: MessageShowService
   ) { }
 
   public get checkableSettings(): CheckableSettings {
@@ -1561,7 +1565,7 @@ export class CourseExamComponent implements OnInit {
         this.messageNotifier('error', '', 'You can not add multiple subject!');
         return;
       }
-      if (this.selectedExamTypeId == null || this.selectedExamTypeId == '') {
+      if (this.selectedExamTypeId == null || this.selectedExamTypeId == '-1') {
         this.messageNotifier('error', '', 'Please select exam type!');
         return;
       }
@@ -1641,7 +1645,7 @@ export class CourseExamComponent implements OnInit {
     this.exam_room_no = '';
     this.checkedKeys = [];
     this.topicsName = [];
-    this.selectedExamTypeId = '';
+    this.selectedExamTypeId = "-1";
   }
 
   addNewExamSubjectCourse(index) {
@@ -1650,7 +1654,7 @@ export class CourseExamComponent implements OnInit {
         this.messageNotifier('error', '', 'You can not add multiple subject!');
         return;
       }
-      if (this.selectedExamTypeId == null || this.selectedExamTypeId == '') {
+      if (this.selectedExamTypeId == null || this.selectedExamTypeId == '-1') {
         this.messageNotifier('error', '', 'Please select exam type!');
         return;
       }
@@ -2303,11 +2307,10 @@ export class CourseExamComponent implements OnInit {
     )
   }
   fetchInstituteExamTypes() {
-    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + sessionStorage.getItem('institute_id');
-    this._http.getData(url).subscribe((data: any) => {
+    this.commonApiCall.fetchInstituteExamTypes(sessionStorage.getItem("institute_id")).subscribe((data: any) => {
       this.examTypeList = data.result;
     }, err => {
-
+      this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
     })
   };
 

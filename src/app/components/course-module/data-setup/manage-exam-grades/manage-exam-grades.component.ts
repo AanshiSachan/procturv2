@@ -4,6 +4,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { ExamGradeServiceService } from '../../../../services/examgradeservice/exam-grade-service.service';
 import { HttpService } from '../../../../services/http.service';
 import { CommonApiCallService } from '../../../../services/common-api-call.service';
+import { MessageShowService } from '../../../../services/message-show.service';
 @Component({
   selector: 'app-manage-exam-grades',
   templateUrl: './manage-exam-grades.component.html',
@@ -46,7 +47,11 @@ export class ManageExamGradesComponent implements OnInit {
   constructor(
     private gradeService: ExamGradeServiceService,
     private appC: AppComponent,
-    private auth: AuthenticatorService, private http: HttpService, private commonApiCall:CommonApiCallService) {
+    private auth: AuthenticatorService,
+    private http: HttpService,
+    private commonApiCall: CommonApiCallService,
+    private msgSrvc: MessageShowService
+  ) {
     this.isSchoolModel = auth.schoolModel == 'true' ? true : false;
 
   }
@@ -137,7 +142,7 @@ export class ManageExamGradesComponent implements OnInit {
           }
           this.toggleCreateNewgrade();
           this.fetchGrades();
-          this.selectedExamTypeId=-1;
+          this.selectedExamTypeId = -1;
         },
         (error: any) => {
           let msg = {
@@ -184,7 +189,7 @@ export class ManageExamGradesComponent implements OnInit {
       (data: any) => {
         this.cancelEditRow(index);
         this.fetchGrades();
-        this.selectedExamTypeId=-1;
+        this.selectedExamTypeId = -1;
         let msg = {
           type: "success",
           body: "Grade updated successfully"
@@ -200,7 +205,7 @@ export class ManageExamGradesComponent implements OnInit {
         }
         this.appC.popToast(acad);
         this.fetchGrades();
-        this.selectedExamTypeId=-1;
+        this.selectedExamTypeId = -1;
       })
 
   }
@@ -208,7 +213,7 @@ export class ManageExamGradesComponent implements OnInit {
   cancelEditRow(index) {
     document.getElementById(("row" + index).toString()).classList.add('displayComp');
     document.getElementById(("row" + index).toString()).classList.remove('editComp');
-    this.selectedExamTypeId=-1;
+    this.selectedExamTypeId = -1;
 
   }
   // delete particular grade
@@ -240,17 +245,14 @@ export class ManageExamGradesComponent implements OnInit {
     }
   }
   fetchInstituteExamTypes() {
-    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + sessionStorage.getItem('institute_id');
-    this.http.getData(url).subscribe((data: any) => {
-    this.examTypeList = data.result;
+    this.commonApiCall.fetchInstituteExamTypes(sessionStorage.getItem("institute_id")).subscribe((data: any) => {
+      this.examTypeList = data.result;
     }, err => {
-      
-     })
-   // this.examTypeList=this.commonApiCall.fetchInstituteExamTypes(sessionStorage.getItem('institute_id'));
-    //console.log(this.examTypeList);
-  }; 
-  
-  selectedExamType(exam_type_id:number) {
+      this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
+    })
+  };
+
+  selectedExamType(exam_type_id: number) {
     this.selectedExamTypeId = exam_type_id;
   }
 }
