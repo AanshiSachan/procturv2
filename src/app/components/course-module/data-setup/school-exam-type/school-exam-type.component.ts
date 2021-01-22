@@ -92,9 +92,7 @@ export class SchoolExamTypeComponent implements OnInit {
         visibility: true,
         edit: true,
         delete: false,
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
-      },
+      }
     ]
 
     this.tableSetting = {
@@ -152,12 +150,22 @@ export class SchoolExamTypeComponent implements OnInit {
       this.msgSrvc.showErrorMessage('success', '', temp.message)
       this.auth.hideLoader();
       $('#addExamType').modal('hide');
+      this.clearData();
       this.fetchInstituteExamTypes();
     }, error => {
       this.auth.hideLoader();
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', error.error.message)
     })
 
+  }
+  clearData() {
+    this.addExamType= {
+      exam_type_id: "",
+      exam_type: "",
+      description: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      is_active: 'Y',
+    }
   }
   addUpdateExamType() {
     if (this.addExamType.exam_type == '') {
@@ -197,6 +205,7 @@ export class SchoolExamTypeComponent implements OnInit {
       this.msgSrvc.showErrorMessage('success', '', temp.message)
       this.auth.hideLoader();
       $('#addExamType').modal('hide');
+      this.clearData();
       this.fetchInstituteExamTypes();
     }, error => {
       this.auth.hideLoader();

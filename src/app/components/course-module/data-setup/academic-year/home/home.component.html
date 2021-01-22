@@ -4,7 +4,7 @@
       <div class="header-title">
         <h2>
           <a routerLink="/view/course/setup" style="color: #0084f6;">
-          <!--  {{ type | titlecase }}--> Setup
+            <!--  {{ type | titlecase }}--> Setup
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
           <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
@@ -47,16 +47,6 @@
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2" style="margin-right: -1rem;">
-          <div class="field-wrapper" [ngClass]="{'has-value':addAcademicYearTemplate.desc!=''}">
-            <label for="academicYearDescription">Academic Year Description
-              <span class="text-danger">*</span>
-            </label>
-            <input type="text" class="form-ctrl" name="academicYearDescription" id="academicYearDescription"
-              [(ngModel)]="addAcademicYearTemplate.desc" style="border-radius: 4px;">
-
-          </div>
-        </div>
-        <div class="c-lg-2 c-md-2 c-sm-2" style="margin-right: -1rem;">
           <div class="field-wrapper  datePickerBox" [ngClass]="{'has-value':addAcademicYearTemplate.start_date!=''}">
             <label for="startDate">Start Date
               <span class="text-danger">*</span>
@@ -73,6 +63,16 @@
             </label>
             <input type="text" class="form-ctrl" readonly="true" name="academicYear" id="academicYear"
               [(ngModel)]="addAcademicYearTemplate.end_date" bsDatepicker style="border-radius: 4px;" />
+
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3" style="margin-right: -1rem;">
+          <div class="field-wrapper" [ngClass]="{'has-value':addAcademicYearTemplate.desc!=''}">
+            <label for="academicYearDescription">Academic Year Description
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="form-ctrl" name="academicYearDescription" id="academicYearDescription"
+              [(ngModel)]="addAcademicYearTemplate.desc" style="border-radius: 4px;">
 
           </div>
         </div>

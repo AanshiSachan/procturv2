@@ -223,3 +223,20 @@ screen and (max-height: 768px) {
         }
     }
 }
+.filter_div {
+    margin-top :5%;
+.field-wrapper {
+    margin-left: 20px;
+    padding-top: 0;
+    display: inline-block;
+}
+.dropdown-div {
+    width: 160px;
+    .dropdown {
+      width: 100%;
+      height: 30px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+ }
+}
