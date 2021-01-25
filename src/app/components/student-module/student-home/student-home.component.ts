@@ -616,11 +616,11 @@ export class StudentHomeComponent implements OnInit {
     } else if (this.searchBarData != '' && this.searchBarData != null && this.searchBarData != undefined && !this.isProfessional) {
       this.searchBarData = this.searchBarData.trim();
       /* If input is of type string then validate string validity*/
-      if(/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(this.searchBarData)) {
+      if (/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(this.searchBarData)) {
         obj.mobile = this.searchBarData;
       } else if (isNaN(this.searchBarData)) {
-          obj.name = this.searchBarData;
-        }
+        obj.name = this.searchBarData;
+      }
       if (this.advancedFilterForm.master_course_name == '-1') {
         obj.master_course_name = '';
       }
@@ -842,6 +842,7 @@ export class StudentHomeComponent implements OnInit {
     this.instituteData.start_index = 0;
     this.loadTableDataSource(this.instituteData);
     this.closeAdFilter();
+    this.isAdvFilter=true;
   }
 
   /* If the user select the top checkbox and update its status, all the rows are selectedd or unselected on this basis*/
@@ -898,21 +899,38 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   downloadAllStudent() {
-    let data = {
-      school_id: this.instituteData.school_id,
-      standard_id: this.instituteData.standard_id,
-      filtered_slots: this.instituteData.filtered_slots,
-      batch_id: this.instituteData.batch_id,
-      subject_id: this.instituteData.subject_id,
-      name: "",
-      language_inst_status: this.instituteData.language_inst_status,
-      is_active_status: this.instituteData.is_active_status,
-      mobile: "",
-      master_course_name: this.instituteData.master_course_name,
-      course_id: this.instituteData.course_id,
-      country_id: this.advancedFilterForm.country_id,
-      city_id: this.advancedFilterForm.city_id,
-      state_id: this.advancedFilterForm.state_id
+    let data: any = {};
+    if (this.isAdvFilter) {
+      data.school_id = this.instituteData.school_id,
+        data.standard_id = this.instituteData.standard_id,
+        data.filtered_slots = this.instituteData.filtered_slots,
+        data.batch_id = this.instituteData.batch_id,
+        data.subject_id = this.instituteData.subject_id,
+        data.name = "",
+        data.language_inst_status = this.instituteData.language_inst_status,
+        data.is_active_status = this.instituteData.is_active_status,
+        data.mobile = "",
+        data.master_course_name = this.instituteData.master_course_name,
+        data.course_id = this.instituteData.course_id,
+        data.country_id = this.advancedFilterForm.country_id,
+        data.city_id = this.advancedFilterForm.city_id,
+        data.state_id = this.advancedFilterForm.state_id
+    }
+    if (!this.isAdvFilter) {
+      data.school_id = -1,
+        data.standard_id = this.advancedFilterForm.standard_id,
+        data.batch_id = -1,
+        data.subject_id = -1,
+        data.name = "",
+        data.language_inst_status = -1,
+        data.is_active_status = this.advancedFilterForm.is_active_status==''?'':Number(this.advancedFilterForm.is_active_status),
+        data.mobile = "",
+        data.master_course_name =this.advancedFilterForm.master_course_name=='-1'?'':this.advancedFilterForm.master_course_name,
+        data.course_id = this.advancedFilterForm.course_id=='-1'?'':Number(this.advancedFilterForm.course_id),
+        data.country_id = -1,
+        data.city_id = -1,
+        data.state_id = -1,
+        data.is_quick_filter = 'Y';
     }
 
     this.auth.showLoader();
@@ -1304,11 +1322,11 @@ export class StudentHomeComponent implements OnInit {
         // if (isNaN(this.searchBarData)) {
         //   obj.name = this.searchBarData;
         // }/* If not string then use the data as a number*/
-        if(/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(this.searchBarData)) {
+        if (/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(this.searchBarData)) {
           obj.mobile = this.searchBarData;
         } else if (isNaN(this.searchBarData)) {
-            obj.name = this.searchBarData;
-          }
+          obj.name = this.searchBarData;
+        }
         obj.master_course_name = '';
         obj.course_id = '-1';
         obj.standard_id = '-1';
@@ -2802,19 +2820,19 @@ export class StudentHomeComponent implements OnInit {
     }
   }
 
-// Changes done by Nalini - To handle role based conditions
-    //  Role Based Access
-    checkIfUserHadAccess(id) {
-      let permissionArray = sessionStorage.getItem('permissions');
-      if (permissionArray == "" || permissionArray == null || !permissionArray) {
+  // Changes done by Nalini - To handle role based conditions
+  //  Role Based Access
+  checkIfUserHadAccess(id) {
+    let permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null || !permissionArray) {
+      return true;
+    } else {
+      if (id) {
         return true;
       } else {
-        if (id) {
-          return true;
-        } else {
-          return false;
-        }
+        return false;
       }
     }
+  }
 
 }
