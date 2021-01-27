@@ -923,7 +923,7 @@ export class StudentHomeComponent implements OnInit {
         data.subject_id = -1,
         data.name = "",
         data.language_inst_status = -1,
-        data.is_active_status = this.advancedFilterForm.is_active_status==''?'':Number(this.advancedFilterForm.is_active_status),
+        data.is_active_status = this.advancedFilterForm.is_active_status==''?'-1':Number(this.advancedFilterForm.is_active_status),
         data.mobile = "",
         data.master_course_name =this.advancedFilterForm.master_course_name=='-1'?'':this.advancedFilterForm.master_course_name,
         data.course_id = this.advancedFilterForm.course_id=='-1'?'':Number(this.advancedFilterForm.course_id),
