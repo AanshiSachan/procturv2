@@ -32,7 +32,7 @@ export class SchoolExamTypeComponent implements OnInit {
     auth.currentInstituteId.subscribe(key => {
       this.instituteId = key;
     });
-    this.fetchInstituteExamTypes();
+    this.fetchInstituteExamTypes(false);
   }
 
   ngOnInit(): void {
@@ -129,9 +129,12 @@ export class SchoolExamTypeComponent implements OnInit {
     ]
 
   }
-  fetchInstituteExamTypes() {
+  fetchInstituteExamTypes(isUpdate:boolean) {
     this.commonApiCall.fetchInstituteExamTypes(this.instituteId).subscribe((data: any) => {
       this.staticPageData = data.result;
+      if(isUpdate){
+      this.commonApiCall.examTypeList.next(this.staticPageData);
+      }
     }, err => {
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
     })
@@ -151,7 +154,7 @@ export class SchoolExamTypeComponent implements OnInit {
       this.auth.hideLoader();
       $('#addExamType').modal('hide');
       this.clearData();
-      this.fetchInstituteExamTypes();
+      this.fetchInstituteExamTypes(true);
     }, error => {
       this.auth.hideLoader();
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', error.error.message)
@@ -206,7 +209,7 @@ export class SchoolExamTypeComponent implements OnInit {
       this.auth.hideLoader();
       $('#addExamType').modal('hide');
       this.clearData();
-      this.fetchInstituteExamTypes();
+      this.fetchInstituteExamTypes(false);
     }, error => {
       this.auth.hideLoader();
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', error.error.message)

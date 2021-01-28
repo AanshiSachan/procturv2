@@ -2306,14 +2306,18 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
-  fetchInstituteExamTypes() {
+  fetchInstituteExamTypesv2() {
     this.commonApiCall.fetchInstituteExamTypes(sessionStorage.getItem("institute_id")).subscribe((data: any) => {
       this.examTypeList = data.result;
     }, err => {
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
     })
-  };
-
+  }
+  fetchInstituteExamTypes() {
+    this.commonApiCall.examTypeList.subscribe((data) => {
+      this.examTypeList = data;
+    });
+  }
 }
 
 
