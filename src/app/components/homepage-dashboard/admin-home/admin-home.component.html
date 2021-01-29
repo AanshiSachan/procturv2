@@ -90,7 +90,7 @@
                                                 </li>
                                                 <li class="schedule-det" *ngIf="!isProfessional && !isSubjectView">
                                                     <div>
-                                                        <label>Total Courses :</label>
+                                                        <label>Total {{schoolModel ? 'Section' : 'Course'}} :</label>
                                                         <span> {{courseLevelSchedule.length}}</span>
                                                         <input style="margin-left:10%;" type="text" value=""
                                                             id="schedWidDate" class="widgetDatepicker bsDatepicker"
