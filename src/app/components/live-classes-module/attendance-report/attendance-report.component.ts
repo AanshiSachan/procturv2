@@ -139,4 +139,22 @@ export class AttendanceReportComponent implements OnInit, OnDestroy {
     )
   }
 
+  selectOption(obj, status) {
+    if(confirm('Are you sure, you want to mark attendance ?')) {
+      let url = `/api/v1/meeting_manager/session/${obj.session_id}/attendance/${obj.user_id}?attendanceStatus=${status}`;
+      this.auth.showLoader();
+      this.http_service.getData(url).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage('success','','Attendance marked successfullly');
+          this.getLiveClassAttendanceReport();
+        },
+        (err: any) => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+  }
+
 }
