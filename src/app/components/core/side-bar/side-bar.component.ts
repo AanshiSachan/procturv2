@@ -165,6 +165,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
   enable_client_website: boolean = false;
+  schoolModel: boolean = false;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -180,6 +181,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
     this.instituteId = sessionStorage.getItem('institute_id');
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }

@@ -339,6 +339,12 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:10%;">
+                    <a routerLink="/view/leads">
+                        <li class="subMenu">
+                            <span>Setup</span>
+
+                        </li>
+                    </a>
                     <a routerLink="/view/leads/add">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
                             <span>Add Enquiry</span>
@@ -392,6 +398,11 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:30%;">
+                    <a routerLink="/view/fee/monitoring-dashboard/home">
+                        <li class="subMenu">
+                            <span>Setup</span>
+                        </li>
+                    </a>
                     <a routerLink="/view/fee/monitoring-dashboard/home">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin || jsonFeesFlags.isMonitoringDash">
                             <span>Monitoring Dashboard</span>
@@ -460,15 +471,15 @@
                     style="width: 20px;padding-bottom: 4px;">
                     
                 <a routerLink="/view/course" class="a_link">
-                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Class/Exam</span><i
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">{{schoolModel ? 'Academics' : 'Class/Exam'}}</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:25%;">
-                   <!-- <a routerLink="/view/course/setup">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
-                            <span>Data Setup</span>
+                   <a routerLink="/view/course/setup">
+                        <li class="subMenu">
+                            <span>Setup</span>
                         </li>
-                    </a>-->
+                    </a>
                  <!--   <a routerLink="/view/course/create">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
                             <span>Manage Course</span>
@@ -711,7 +722,15 @@
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/library/issue" class="a_link">
                     <span [ngClass]="activeSession === 'liseven' ? ' abc' : ' NavLink'">Library</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
+                <ul style="top:77%">
+                       <a routerLink="/view/library/issue">
+                           <li class="subMenu">
+                               <span>Setup</span>
+                           </li>
+                       </a>
+                   </ul>
             </li>
            
             <li [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
