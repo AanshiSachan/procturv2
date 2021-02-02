@@ -100,6 +100,7 @@ export class ShareFileComponent implements OnInit {
 
   getFileType: string = "";
   schoolModel: boolean = false;
+  activeSession: any = '1';
 
   constructor(private fileService: FileManagerService, private appC: AppComponent, private auth: AuthenticatorService, private services: MessageShowService) { }
 
@@ -122,6 +123,7 @@ export class ShareFileComponent implements OnInit {
         if (res) {
           this.schoolModel = true;
         }
+        this.selectTab(1);
       }
     )
   }
@@ -131,7 +133,6 @@ export class ShareFileComponent implements OnInit {
     this.editBatchShare = false;
     this.editInstituteShare = false;
     this.editPublicShare = false;
-    this.selectTab(2);
   }
 
   close() {
@@ -225,8 +226,10 @@ export class ShareFileComponent implements OnInit {
         } else if (share_type == '3') {
 
           this.getStandardsId = data.standard_id;
+          this.getStandardsId = (this.getStandardsId == '0') ? '' : this.getStandardsId;
           this.getAllSubjects(data.standard_id);
           this.subjectId = data.subject_id;
+          this.subjectId = (this.subjectId == '0') ? '' : this.subjectId;
           this.fetchShareOption.desc = data.desc;
           this.getBatches(1);
           this.fetchCoursesData(this.subjectId, 0, 1);
@@ -635,7 +638,8 @@ export class ShareFileComponent implements OnInit {
       }
 
       if (isNotCountSelected == this.getBatchesData.length) {
-        this.services.showErrorMessage("error", "Incorrect Details", "Please select batch for share file")
+        let msg = this.schoolModel ? "Please select section for share file" : "Please select batch for share file";
+        this.services.showErrorMessage("error", "Incorrect Details", msg)
         return false;
       }
       return true;
@@ -809,34 +813,16 @@ export class ShareFileComponent implements OnInit {
     document.getElementById('tab1Content').style.display = "none";
     document.getElementById('tab2Content').style.display = "none";
     document.getElementById('tab3Content').style.display = "none";
-
-
+    this.activeSession = tabIndex;
     if (tabIndex == 1) {
-      document.getElementById('tab' + 1).style.backgroundColor = "#0084f6bf";
-      document.getElementById('tab' + 1).style.color = "#fff";
-      document.getElementById('tab' + 2).style.backgroundColor = "";
-      document.getElementById('tab' + 2).style.color = "#0084f6";
-      document.getElementById('tab' + 3).style.backgroundColor = "";
-      document.getElementById('tab' + 3).style.color = "#0084f6";
       this.tabChoice = "student";
-      (<HTMLFormElement>document.getElementById('batch')).checked = true;
+      this.getBatch = '0';
+      // (<HTMLFormElement>document.getElementById('batch')).checked = true;
     }
     else if (tabIndex == 2) {
-      document.getElementById('tab' + 1).style.backgroundColor = "";
-      document.getElementById('tab' + 2).style.backgroundColor = "#0084f6bf";
-      document.getElementById('tab' + 2).style.color = "#fff";
-      document.getElementById('tab' + 1).style.color = "#0084f6";
-      document.getElementById('tab' + 3).style.backgroundColor = "";
-      document.getElementById('tab' + 3).style.color = "#0084f6";
       this.tabChoice = "public";
     }
     else {
-      document.getElementById('tab' + 1).style.backgroundColor = "";
-      document.getElementById('tab' + 2).style.backgroundColor = "";
-      document.getElementById('tab' + 1).style.color = "#0084f6";
-      document.getElementById('tab' + 2).style.color = "#0084f6";
-      document.getElementById('tab' + 3).style.backgroundColor = "#0084f6bf";
-      document.getElementById('tab' + 3).style.color = "#fff";
       this.tabChoice = "institute";
     }
     //Show the Selected Tab
