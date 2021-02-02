@@ -65,6 +65,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     master_course_name: "",
     course_id: -1,
   };
+  isSchoolModel: boolean=false;
 
 
   constructor(
@@ -100,7 +101,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
       this.studentReport = true;
       this.allowEdit = true;
     }
-
+    this.auth.schoolModel.subscribe(data=>{
+      this.isSchoolModel=data='true'?true:false;
+      })
   }
 
   ngOnInit() {

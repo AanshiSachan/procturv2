@@ -315,6 +315,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   assignTo: boolean = true;
   role_feature = role.features;
+  isSchoolModel:boolean=false;
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -334,6 +335,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
+    this.auth.schoolModel.subscribe(data=>{
+    this.isSchoolModel=data='true'?true:false;
+    })
   }
 
   ngOnInit() {

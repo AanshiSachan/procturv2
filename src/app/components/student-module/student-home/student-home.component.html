@@ -47,13 +47,13 @@
                                     <img src="../../../../assets/images/students/Open_user.svg" alt=""> Registered Users
                                 </a>
                             </div>
-                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
+                            <div *ngIf="!schoolModel" && class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
                                 <a>
                                     <img src="../../../../assets/images/students/Student_archived.svg" alt=""> Archive
                                     Students
                                 </a>
                             </div>
-                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_status'
+                            <div *ngIf="!schoolModel" class="more-info-item hand_icon" routerLink='/view/students/archived_status'
                                 style="border-bottom: none;">
                                 <a>
                                     <img src="../../../../assets/images/students/Archived_reports.svg" alt=""> Archived
@@ -173,7 +173,7 @@
                                         (ngModelChange)="updateSubCourse($event)" class="form-ctrl"
                                         [disabled]="advancedFilterForm.standard_id!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
+                                        <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Courses'}}</option>
                                         <option [value]="mc.master_course" *ngFor="let mc of masterCourseList"
                                             title="{{mc.master_course}}">
                                             {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
@@ -189,7 +189,11 @@
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
                                         class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
+<<<<<<< Updated upstream
                                         <option value="-1"></option>
+=======
+                                        <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
+>>>>>>> Stashed changes
                                         <option [value]="course.course_id" title="{{course.course_name}}"
                                             *ngFor="let course of subCourseList">
                                             {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
@@ -379,7 +383,7 @@
                             <div class="row">
                                 <div class="c-lg-4 c-md-4 c-sm-4">
                                     <div class="field-wrapper datePickerBox">
-                                        <label>From Date</label>
+                                        <label>Admission From Date</label>
                                         <input type="text" class="form-ctrl" readonly="true" bsDatepicker
                                             [(ngModel)]="advancedFilterForm.doa_from_date">
                                         <a (click)="advancedFilterForm.doa_from_date = ''"
@@ -389,7 +393,7 @@
                                 </div>
                                 <div class="c-lg-4 c-md-4 c-sm-4">
                                     <div class="field-wrapper datePickerBox">
-                                        <label>To Date</label>
+                                        <label>Admission To Date</label>
                                         <input type="text" class="form-ctrl" readonly="true" bsDatepicker
                                             [(ngModel)]="advancedFilterForm.doa_to_date">
                                         <a (click)="advancedFilterForm.doa_to_date = ''"

@@ -59,7 +59,7 @@
                             </a>
                         </li>
 
-                        <li class="action-item" (click)="emitLeave($event)">
+                        <li *ngIf="!isSchoolModel" class="action-item" (click)="emitLeave($event)">
                             <a class="">
                                 <img src="../../../../assets/images/students/Leave.svg" alt="">Mark Leave
                             </a>
@@ -71,7 +71,7 @@
                             </a>
                         </li>
 
-                        <li class="action-item" (click)="emitEditInv($event)">
+                        <li *ngIf="!isSchoolModel" class="action-item" (click)="emitEditInv($event)">
                             <a class="enq-act enq-act--five">
                                 <img src="../../../../assets/images/students/inventory.svg" alt="">
                                 Manage Inventory
@@ -128,7 +128,7 @@
                                     cursor: pointer;
                                 ">
                                         Click to edit</span></label>
-                                <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">Courses <span style="
+                                <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">{{isSchoolModel?'Sections':'Courses'}} <span style="
                                     float: right;
                                     font-size: 8px;
                                     color: #0084f6;

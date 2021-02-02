@@ -191,6 +191,7 @@ export class EnquiryEditComponent implements OnInit {
 
   permission: boolean = false;
   role_feature = role.features;
+  schoolModel: boolean=false;
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
@@ -223,6 +224,14 @@ export class EnquiryEditComponent implements OnInit {
       this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
       this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
     }
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
 

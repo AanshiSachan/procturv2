@@ -408,8 +408,8 @@ export class InstituteSettingsComponent implements OnInit {
   instituteName: any = '';
   biometricSetting: number = 0;
   vimeo_account_plan: any = false;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive', 'liVdo', 'liEnquiry'];
-  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent', 'divVdoContent', 'divEnquiryContent'];
+  menuList: string[] = ['liSMS', 'liExamRep','liAttendance', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive', 'liVdo', 'liEnquiry'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport','diveAttendanceContent', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent', 'divVdoContent', 'divEnquiryContent'];
 
   IPJson: any = {
     'institute_id': sessionStorage.getItem('institute_id'),
@@ -434,6 +434,10 @@ export class InstituteSettingsComponent implements OnInit {
   role_feature = role.features;
   vdocipher_watch_multiplier: any = '';
   vdocipher_live_class_watch_multiplier: any = '';
+  courseListSetting = {};
+  weekEndData: any = [];
+  selectedWeekEndList: any = [];
+  schoolModel: boolean=false;
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
@@ -445,6 +449,14 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.instituteName = sessionStorage.getItem('institute_name');
     this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');

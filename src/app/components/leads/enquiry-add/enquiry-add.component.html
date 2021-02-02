@@ -357,7 +357,7 @@
                         <li class="data-filled" id="academicDetails" style="padding-bottom: 60px;">
                             <div class="accordian-heading">
                                 <h4>
-                                    <span class="circle-accor">2</span> Academics Details
+                                    <span class="circle-accor">2</span> {{schoolModel?'Other Details':'Academics Details'}}
                                     <span class="close-accor" id="closeAcademic" (click)="toggleForm($event)">-</span>
                                     <span class="open-accor" id="openAcademic" (click)="toggleForm($event)">+</span>
                                 </h4>
@@ -415,7 +415,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" *ngIf='!schoolModel'>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- subject Course -->
                                         <div *ngIf="!isProfessional" class="field-wrapper">
