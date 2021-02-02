@@ -142,8 +142,19 @@
                                 </select>
                             </div>
                         </td>
-
                         <td style="width: 20%;" *ngIf="schoolModel">
+                            <div class="field-wrapper">
+                                <ng-multiselect-dropdown class="container"
+                                placeholder="Select Subjects"
+                                [settings]="courseListSetting"
+                                [data]="batch.data.subject_list"
+                                [(ngModel)]="batch.data.optional_subject_id">
+                              </ng-multiselect-dropdown>
+                            </div>
+                        </td>
+
+
+                        <td style="width: 15%;" >
                             <div class="field-wrapper">
                                 <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl" (ngModelChange)="onFeeTemplateChanges(batch.data)">
                                     <option value="-1"></option>
