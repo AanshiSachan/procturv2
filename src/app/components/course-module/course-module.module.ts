@@ -12,9 +12,10 @@ import { SharedModule } from '../shared/shared.module';
 import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
-import { DateWiseComponent } from './analytics/date-wise/date-wise.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { HttpService } from '../../services/http.service';
+
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     tableComponent
   ],
   providers: [
-    timeTableService
+    timeTableService,
+    HttpService
   ],
   exports: []
 })

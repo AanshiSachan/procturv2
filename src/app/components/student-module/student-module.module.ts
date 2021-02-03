@@ -24,6 +24,7 @@ import { ProductService } from '../../services/products.service';
 import { HttpService } from '../../services/http.service';
 import { ManageExamModule } from '../master/master.module';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     MenuModule,
     ManageExamModule,
     EditorModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     StudentAddComponent,

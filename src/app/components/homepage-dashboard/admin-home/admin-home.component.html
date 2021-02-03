@@ -70,10 +70,7 @@
                                                     <!-- changes by Nalini - to handle school model conditions -->
                                                     <li (click)="onChanged('course')" id="courseSelectButton"
                                                         [ngClass]="{active : !isSubjectView}">{{schoolModel ? 'Section' : 'Course'}}</li>
-                                                    <!-- <li (click)="onChanged('subject')" *ngIf="!schoolModel || mark_attendance_subject_wise" id="subjectSelectButton"
-                                                        [ngClass]="{active : !isSubjectView}">
-                                                        {{schoolModel ? 'Section' : 'Course'}}</li> -->
-                                                    <li (click)="onChanged('subject')" id="subjectSelectButton"
+                                                    <li (click)="onChanged('subject')" *ngIf="!schoolModel || mark_attendance_subject_wise" id="subjectSelectButton"
                                                         [ngClass]="{active : isSubjectView}">Subject</li>
                                                 </ul>
                                                 <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->

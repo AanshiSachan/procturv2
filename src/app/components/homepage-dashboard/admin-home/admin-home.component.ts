@@ -183,6 +183,7 @@ export class AdminHomeComponent implements OnInit {
   remarksLimit: number = 50;
   role_feature = role.features;
   schoolModel: boolean = false;
+  mark_attendance_subject_wise: boolean = false;
 
 
   /* ===================================================================================== */
@@ -211,6 +212,16 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
+    // changes by Nalini - to handle school model conditions
+    this.mark_attendance_subject_wise = (sessionStorage.getItem('mark_attendance_subject_wise') == 'true')? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     //For restricting the client if payment is due.
     // Added By : Ashwini Kumar Gupta
     if (sessionStorage.getItem('login_option') == '12') {
@@ -229,8 +240,6 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
-    // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.schedDate[0] = moment(this.schedDate[0]).format('YYYY-MM-DD');
 
     // added for account expiry popup notification

@@ -73,11 +73,19 @@
             [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
         </div>
 
-        <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 10px">
+        <div class="c-lg-2 c-sm-2 c-md-2" style="padding: 0;padding-top: 10px;width: 10%;">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active"
               id="isAct">
             <label for="isAct">Is Active</label>
+          </div>
+        </div>
+
+        <div class="c-lg-2 c-sm-2 c-md-2" style="width: 13%;padding: 0;padding-top: 10px;">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_optional"
+              id="is_optional">
+            <label for="is_optional">Set as Optional</label>
           </div>
         </div>
 
@@ -118,6 +126,9 @@
             </th>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" (click)="sortTable('is_active')">Optional</label>
             </th>
             <th>
               <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"
@@ -169,6 +180,18 @@
             <td class="edit-comp" style="padding-left: 20px;">
               <div class="field-wrapper has-value">
                 <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </td>
+
+            <td class="view-comp" style="padding-left: 20px;">
+              {{row.is_optional}}
+            </td>
+            <td class="edit-comp" style="padding-left: 20px;">
+              <div class="field-wrapper has-value">
+                <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_optional">
                   <option value="Y">Yes</option>
                   <option value="N">No</option>
                 </select>

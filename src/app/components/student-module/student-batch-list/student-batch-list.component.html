@@ -115,7 +115,9 @@
                             {{(!batch.data.master_course) ? '-' : (batch.data.master_course.length > 10) ? (batch.data.master_course | slice:0:10) + '...' : batch.data.master_course}}
                         </td>
 
-                        <td class="courseN" [title]="batch.data.course_name" *ngIf="!isProfessional">{{batch.data.course_name}}</td>
+                        <td class="courseN" [title]="batch.data.course_name" *ngIf="!isProfessional">
+                            {{(!batch.data.course_name) ? '-' : (batch.data.course_name.length > 10) ? (batch.data.course_name | slice:0:10) + '...' : batch.data.course_name}}
+                        </td>
 
                         <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
 
@@ -152,9 +154,7 @@
                               </ng-multiselect-dropdown>
                             </div>
                         </td>
-
-
-                        <td style="width: 15%;" >
+                        <td style="width: 15%;">
                             <div class="field-wrapper">
                                 <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl" (ngModelChange)="onFeeTemplateChanges(batch.data)">
                                     <option value="-1"></option>

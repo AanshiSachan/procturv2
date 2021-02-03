@@ -11,7 +11,9 @@ export class DataSetupHomeComponent implements OnInit {
   schoolModel:boolean =true;
   
   constructor( private auth: AuthenticatorService) { 
-   this.schoolModel=this.auth.schoolModel=='true'?true:false;
+    this.auth.schoolModel.subscribe((data) => {
+      this.schoolModel = data = 'true' ? true : false;
+    });
   }
 
   ngOnInit() {

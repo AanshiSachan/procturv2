@@ -34,6 +34,17 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     delete_unpaid_fee: boolean = false;
     unselected_checkbox_id: number;
     schoolModel: boolean = false;
+    subjectData: any = [];
+    courseListSetting = {
+        singleSelection: false,
+        idField: 'subject_id',
+        textField: 'subject_name',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 10,
+        enableCheckAll: true
+      };
+    selectedSubList: any = [];
 
     @Input() dataList: any[] = [];
     @Input() academicYear: any[] = [];
@@ -62,7 +73,14 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             }
         );
         // changes by Nalini - to handle school model conditions
-        this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+        this.auth.schoolModel.subscribe(
+            res => {
+              this.schoolModel = false;
+              if (res) {
+                this.schoolModel = true;
+              }
+            }
+          )
 
         this.countryList = JSON.parse(sessionStorage.getItem('country_data'));
     }
@@ -87,6 +105,21 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
             if (e.isSelected && (!this.is_country_disabled)) {
                 this.assginTemplate(e);
+            }
+            e.data.subject_list = [];
+            e.data.optional_subject_id = [];
+            if(e.data.batchesList && e.data.batchesList.length) {
+                e.data.batchesList.forEach(element => {
+                    if(element.is_optional_subject) {
+                        e.data.subject_list.push(element);
+                    }
+                    if(element.is_optional_subject && element.is_optional_subject_assign) {
+                        e.data.optional_subject_id.push({
+                            'subject_id': element.subject_id,
+                            'subject_name': element.subject_name
+                        })
+                    }
+                });
             }
             this.batchList.push(e);
         });
@@ -174,6 +207,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     this.appC.popToast(alert);
                 }
             }
+            for(let j in this.dataList[i].data.optional_subject_id) {                
+                this.selectedSubList.push(this.dataList[i].data.optional_subject_id[j].subject_id)
+            }
         }
 
         if (deleteCourse_SubjectUnPaidFeeSchedules) {
@@ -191,7 +227,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 assignedCourse_Subject_FeeTemplateArray: assignedCourse_Subject_FeeTemplateArray,
                 assignedBatchString: batchString.join(','),
                 isAssignBatch: false,
-                deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules
+                deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules,
+                optional_subject_id: this.selectedSubList
             }
             this.assignList.emit(obj);
         }
@@ -204,7 +241,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 assignedCourse_Subject_FeeTemplateArray: assignedCourse_Subject_FeeTemplateArray,
                 assignedBatchString: batchString.join(','),
                 isAssignBatch: false,
-                deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules
+                deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules,
+                optional_subject_id: this.selectedSubList
             }
             this.assignList.emit(obj);
         }

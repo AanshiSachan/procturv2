@@ -223,7 +223,8 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     deleteCourse_SubjectUnPaidFeeSchedules: false,
     archivedStudent: false,
     studentFileUploadJson: [],
-    assigned_to_id: "0"
+    assigned_to_id: "0",
+    optional_subject_id: []
   };
 
   enqAssignTo: any = [];
@@ -544,6 +545,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         if (el.academic_year_id == '-1') {
           el.academic_year_id = this.defaultAcadYear;
         }
+        el.optional_subject_id = '';
         let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
         this.batchList.push(obj);
       });
@@ -561,7 +563,14 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
 
@@ -931,6 +940,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = false;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
+    this.studentAddFormData.optional_subject_id = e.optional_subject_id;
   }
 
   getSlots() {

@@ -51,7 +51,9 @@ export class ManageExamGradesComponent implements OnInit {
     private commonApiCall: CommonApiCallService,
     private msgSrvc: MessageShowService
   ) {
-    this.isSchoolModel = auth.schoolModel == "true" ? true : false;
+    this.auth.schoolModel.subscribe((data) => {
+      this.isSchoolModel = data = "true" ? true : false;
+    });
   }
 
   ngOnInit() {

@@ -179,7 +179,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     language_inst_status: "admitted",
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false,
-    assigned_to_id: "0"
+    assigned_to_id: "0",
+    optional_subject_id: []
   };
 
   enqAssignTo: any = [];
@@ -1082,6 +1083,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = e.deleteCourse_SubjectUnPaidFeeSchedules;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
+    this.studentAddFormData.optional_subject_id = e.optional_subject_id;
     this.auth.hideLoader()
   }
 

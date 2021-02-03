@@ -99,6 +99,7 @@ export class StudentHomeComponent implements OnInit {
   downloadStudentReportAccess: boolean = false;
   showQuickFilter = false;
   isAdvFilter = false;
+  schoolModel: boolean = false;
 
   private editForm: any = {
     comments: "",
@@ -183,8 +184,6 @@ export class StudentHomeComponent implements OnInit {
     parent_name: "",
   };
   studentCustomField: any = {};
-  schoolModel: boolean = false;
-
   @ViewChild("content", { static: false }) content: ElementRef;
 
   private studentAddFormData: StudentForm = {
@@ -248,16 +247,26 @@ export class StudentHomeComponent implements OnInit {
     private http: ProductService,
     private http_service: HttpService
   ) {
-    this.auth.institute_type.subscribe((res) => {
-      if (res == "LANG") {
-        this.isProfessional = true; // batch module
-        this.labelForAssignStandard = "Master Course";
-      } else {
-        this.isProfessional = false; //course module
-        this.labelForAssignStandard = "Standard";
+    // changes by Nalini - to handle school model conditions
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
       }
-    });
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    )
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true; // batch module
+          this.labelForAssignStandard = 'Master Course';
+        } else {
+          this.isProfessional = false;  //course module
+          this.labelForAssignStandard = 'Standard';
+        }
+      }
+    );
     this.today = moment().format("DD MMM YYYY");
     let institute_id = sessionStorage.getItem("institute_id");
     if (
@@ -308,11 +317,11 @@ export class StudentHomeComponent implements OnInit {
           this.fetchLangStudentStatus();
         } else {
           this.StudentSettings = [
-            { primaryKey: "student_disp_id", header: "Student Id" },
-            { primaryKey: "student_name", header: "Name" },
-            { primaryKey: "student_phone", header: "Contact No" },
-            { primaryKey: "student_class", header: "Standard" },
-            { primaryKey: "batchesAssigned", header: "Course Assigned" },
+            { primaryKey: 'student_disp_id', header: 'Student Id' },
+            { primaryKey: 'student_name', header: 'Name' },
+            { primaryKey: 'student_phone', header: 'Contact No' },
+            { primaryKey: 'student_class', header: 'Standard' },
+            { primaryKey: 'batchesAssigned', header: this.schoolModel ? 'Section Assigned' : 'Course Assigned' }
           ];
         }
       }

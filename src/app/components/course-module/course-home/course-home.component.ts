@@ -23,8 +23,18 @@ export class CourseHomeComponent implements OnInit {
     isShowOnlineAssignment : false
   }
   role_feature = role.features;
+  schoolModel: boolean = false;
 
-  constructor(   private auth: AuthenticatorService) { }
+  constructor(   private auth: AuthenticatorService) { 
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+  }
 
   ngOnInit() {
     const permissionArray = sessionStorage.getItem('permissions');

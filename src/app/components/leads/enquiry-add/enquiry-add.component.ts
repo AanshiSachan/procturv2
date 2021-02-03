@@ -218,7 +218,14 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }

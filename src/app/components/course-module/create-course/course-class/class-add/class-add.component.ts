@@ -101,7 +101,8 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     master_course: "-1",
     requested_date: moment().format("YYYY-MM-DD"),
     inst_id: sessionStorage.getItem('institute_id'),
-    course_id: "-1"
+    course_id: "-1",
+    selected_day: "-1"
   }
   fetchMasterBatchModule: any = {
     standard_id: "-1",
@@ -184,6 +185,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     is_notified: true
   }
   weekDaysList: any[] = [];
+  weekDaysListWithoutWeekend: any[] = [];
 
   // Topic listing variables
   selectedSubId: any;
@@ -239,7 +241,14 @@ export class ClassAddComponent implements OnInit, OnDestroy {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     /* fetching prefilled data */
     this.fetchPrefillData();
     if (!this.isProfessional) {
@@ -289,6 +298,11 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         this.auth.hideLoader();
         this.weekDaysList = res;
         console.log(this.weekDaysList)
+        for(var i=0; i<res.length; i++) {
+          if(!res[i].is_weekend) {
+            this.weekDaysListWithoutWeekend.push(res[i]);
+          }
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -497,6 +511,9 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   }
 
   submitMasterCourse() {
+    if(this.schoolModel) {
+      this.fetchMasterCourseModule.requested_date = moment().day(this.fetchMasterCourseModule.selected_day).format('YYYY-MM-DD')
+    }
     if (this.fetchMasterCourseModule.master_course == '-1' || this.fetchMasterCourseModule.course_id == '-1' ||
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
       || this.fetchMasterCourseModule.requested_date == null) {
@@ -769,9 +786,13 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     this.isClassFormFilled = true;
     this.auth.showLoader();
     this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD');
+    let selected_day = this.fetchMasterCourseModule.selected_day;
+    delete this.fetchMasterCourseModule.selected_day;
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
+        this.fetchMasterCourseModule.selected_day = selected_day;
+        this.schoolModel ? this.getClassesDataForSchoolModel() : '';
         // this.fetchMasterCourseModule.requested_date = moment(res.requested_data).format("YYYY-MM-DD");
         this.auth.hideLoader();
         this.subjectListDataSource = this.getSubjectList(res);
@@ -780,10 +801,61 @@ export class ClassAddComponent implements OnInit, OnDestroy {
       err => {
         //console.log(err);
         this.auth.hideLoader();
+        this.fetchMasterCourseModule.selected_day = selected_day;
+        this.schoolModel ? this.getClassesDataForSchoolModel() : '';
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
+
+  getClassesDataForSchoolModel() {
+    console.log(this.fetchMasterCourseModule);
+    let obj = {
+      institute_id: this.fetchMasterCourseModule.inst_id,
+      master_course_name: this.fetchMasterCourseModule.master_course,
+      course_id: this.fetchMasterCourseModule.course_id,
+      from_date: moment().day(this.fetchMasterCourseModule.selected_day).format('YYYY-MM-DD'),
+      to_date: moment().day(this.fetchMasterCourseModule.selected_day).format('YYYY-MM-DD'),
+      isCompleted: "N",
+      isPending: 'Y',
+      isCancelled: 'N',
+      isUpcoming: 'N',
+      isMarksUpdate: 'N',
+      "standard_id": "-1",	
+      "subject_id": "-1",
+    }
+    console.log(obj);
+    this.auth.showLoader();
+    this._http.postData('/api/v1/coursePlanner/category?type=class', obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        console.log(res);
+        this.classScheduleArray = res;
+      },
+      err => {
+        this.auth.hideLoader();
+        console.log(err);
+      }
+    )
+    // this.getSubjectListForSchoolModel();
+    console.log(this.subjectListDataSource);
+  }
+
+  // getSubjectListForSchoolModel() {
+  // this.auth.showLoader();
+  // this.classService.getSubjectList(this.fetchMasterCourseModule.course_id).subscribe(
+  //   (res: any) => {
+  //     this.auth.hideLoader();
+  //     this.subjectListDataSource = res.batchesList;
+  //     console.log('Subject', this.subjectListDataSource);
+  //   },
+  //   err => {
+  //     this.msgService.showErrorMessage('error', '', err.error.message);
+  //     this.auth.hideLoader();
+  //     //console.log(err);
+  //   }
+  // )
+  // }
 
   constructJSONForTable(data) {
     let courseScheduleList = [];
@@ -1338,9 +1410,21 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     console.log(topicsName)
     let tempKeys = this.checkedKeys;
     obj.topics_covered = tempKeys.join("|");
-    this.classScheduleArray.push(obj);
-    this.checkedKeys = [];
+    if(!this.schoolModel || this.checkTime(obj)) {
+      this.classScheduleArray.push(obj);
+      this.checkedKeys = []; 
+    }
     this.clearClassScheduleForm();
+  }
+
+  checkTime(obj) {
+    for(let i=0;i<this.classScheduleArray.length;i++) {
+      if(this.classScheduleArray[i].start_time == obj.start_time && this.classScheduleArray[i].end_time == obj.end_time) {
+        this.msgService.showErrorMessage('error','','Please enter correct start time and end time');
+        return false;
+      }
+    }
+    return true;
   }
 
   convertTimeToBindableFormat() {
@@ -1501,7 +1585,6 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         }
       )
     };
-
   }
 
   saveCourseSchedule() {
@@ -1509,6 +1592,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'No Schedule to create/update');
       return;
     }
+    if(!this.schoolModel) {
     let obj = this.makeJsonForCourseSave();
     this.auth.showLoader();
     this.classService.saveDataOnServer(obj).subscribe(
@@ -1523,6 +1607,48 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
+    } else {
+      let obj: any = {};
+    // obj.master_course = this.getValueFromArray(this.masterCourse, 'master_course', this.fetchMasterCourseModule.master_course, 'master_course');
+    obj.requested_date = moment().day(this.fetchMasterCourseModule.selected_day).format('YYYY-MM-DD');
+    obj.course_id = this.fetchMasterCourseModule.course_id;
+    obj.class_type = 11;
+    obj.is_institute_type_school = true;    
+    let temp: any = {};
+    temp.course_id = this.fetchMasterCourseModule.course_id;
+    temp.batch_list = [];
+    temp.weekSchd = [];
+    console.log(this.classScheduleArray);
+    for (let i = 0; i < this.classScheduleArray.length; i++) {
+      let test: any = {};
+      test.weekly_schedule = [];
+      let weekSchedTest: any = {};
+      test.batch_id = this.classScheduleArray[i].batch_id;
+      test.teacher_id = this.classScheduleArray[i].teacher_id;
+      test.isClassSchdUpdate = 1;
+      weekSchedTest.duration = this.classScheduleArray[i].duration;
+      weekSchedTest.start_time = this.classScheduleArray[i].start_time;
+      weekSchedTest.end_time = this.classScheduleArray[i].end_time;
+      weekSchedTest.day_of_week = this.fetchMasterCourseModule.selected_day;
+      temp.batch_list.push(test);
+      test.weekly_schedule.push(weekSchedTest);
+    }
+    obj.batch_list = temp.batch_list;
+    this.auth.showLoader();
+    this._http.postData('/api/v1/courseClassSchedule/create/courseLevel', obj).subscribe(
+      (res: any)=> {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Your class added successfully');
+        this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+        console.log(res);
+      },
+      err=> {
+        this.auth.hideLoader();
+        console.log(err);
+      }
+    )
+    
+    }
 
   }
 

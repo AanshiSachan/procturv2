@@ -388,9 +388,11 @@
                 <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidemenuicon/feesIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/fee" class="a_link">
-                    <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span><i
+                    <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span></a>
+                <!-- <a routerLink="/view/course">
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">{{schoolModel ? 'Class' : 'Course'}}</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
+                </a> -->
                 <ul style="top:30%;">
                     <a routerLink="/view/fee/monitoring-dashboard/home">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin || jsonFeesFlags.isMonitoringDash">
@@ -471,7 +473,7 @@
                     </a>-->
                  <!--   <a routerLink="/view/course/create">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                            <span>Manage Course</span>
+                            <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
                         </li>
                     </a>-->
                     <!--<a routerLink="/view/course/ecourse-file-manager/ecourses">
@@ -572,7 +574,7 @@
                     </a>
                     <a routerLink="/view/batch/create">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                            <span>Manage Course</span>
+                            <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
                         </li>
                     </a>
                     <a routerLink="/view/course/ecourse-file-manager/ecourses">

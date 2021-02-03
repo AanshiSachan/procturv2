@@ -43,3 +43,55 @@
   .field-wrapper.datePickerBox .form-ctrl {
     z-index: 5;
 }
+.multiselect-dropdown{
+    font-size: 12px;
+    .dropdown-down{
+      border-top: 5px solid black;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+    }
+    .dropdown-up{
+      border-bottom: 5px solid black;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+    }
+  }
+  .student_list_container{
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 5px;
+    border-color: #c5c5cc;
+    font-size: 14px;
+    margin-top: 0;
+    label{
+      margin-bottom: 5px;
+    }
+  }
+  .documentUploadDiv {
+    margin-top: -2%;
+    padding-bottom: 5%;
+    margin-bottom: 1%;
+  }
+  
+  .uploadedData {
+    width: 70%;
+    float: left;
+    padding-left: 5px;
+  } 
+.box-shadow-lite{
+  padding: 0;
+  border: 1px solid #ccc;
+  min-height: 10vh;
+  box-shadow: 0 1px 2px 0 #ccc;
+}
+.document_header {
+  height: 40px;
+  width: 100%;
+  font-weight: 600;
+  border-bottom: 1px solid #ccc;
+  padding-top: 8px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  box-shadow: 0 1px 2px 0 #ccc;
+  background: #fafafa;
+}

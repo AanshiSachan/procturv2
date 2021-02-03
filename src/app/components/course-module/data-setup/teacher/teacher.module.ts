@@ -10,6 +10,7 @@ import { TeacherAddComponent } from './teacher-add/teacher-add.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 import { TeacherViewComponent } from './teacher-view/teacher-view.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 // import {BsDatepickerConfig, BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TeacherViewComponent } from './teacher-view/teacher-view.component';
     SharedModule,
     TeacherRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     TeacherComponent,

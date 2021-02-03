@@ -181,10 +181,14 @@ export class CourseExamComponent implements OnInit {
     this.fetchPrefillData();
     this.checkForCoursePlannerRoute();
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
-    if (this.schoolModel) {
-      this.fetchInstituteExamTypes();
-    }
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
   checkForCoursePlannerRoute() {

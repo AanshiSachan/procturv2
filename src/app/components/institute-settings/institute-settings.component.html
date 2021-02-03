@@ -4072,6 +4072,33 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
+                            <div class="field-wrapper student_list_container">
+                              <label for="students">Select Weekends </label>
+                              <ng-multiselect-dropdown class="container"
+                                placeholder="Select Weekends"
+                                [settings]="courseListSetting"
+                                [data]="weekEndData"
+                                [(ngModel)]="selectedWeekEndList">
+                              </ng-multiselect-dropdown>
+                            </div>
+                          </div>
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
+                            <div class="field-wrapper"
+                            [ngClass]="{'has-value' : instituteSettingDet.mark_attendance_subject_wise != ''}">
+                            <label for="mark_attendance_subject_wise">Mark Attendace
+                            </label>
+                            <select id="mark_attendance_subject_wise" class="form-ctrl"
+                              name="mark_attendance_subject_wise"
+                              [(ngModel)]="instituteSettingDet.mark_attendance_subject_wise">
+                              <option value="-1">---select---</option>
+                              <option value="true">Subject Wise</option>
+                              <option value="false">Course wise</option>
+                            </select>
+                          </div>
+                          </div>
+                        </div>
                       </td>
 
                     </tr>

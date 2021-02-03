@@ -4,6 +4,7 @@ import { InstituteSettingsComponent } from './institute-settings.component';
 import { SharedModule } from '../shared/shared.module';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { FormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
             }
         ]),
         SharedModule,
-        FormsModule
+        FormsModule,
+        NgMultiSelectDropDownModule.forRoot()
     ],
     exports: [
         RouterModule

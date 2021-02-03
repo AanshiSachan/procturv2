@@ -2,9 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { HttpService } from '../../../../../services/http.service';
 import { AuthenticatorService, CommonServiceFactory } from '../../../../..';
 import { AppComponent } from '../../../../../app.component';
 import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
+import { ProductService } from '../../../../../services/products.service';
 
 @Component({
   selector: 'app-teacher-edit',
@@ -29,6 +31,15 @@ export class TeacherEditComponent implements OnInit {
   country_id: number = null;
   enable_ip_lock_feature: any = 'N';
   isShoweOnlineExam: boolean = false;
+  standardSetting = {};
+  subjectSetting = {};
+  StandardData: any[] = [];
+  subjectData: any[] = [];
+  selectedFiles: any[] = [];
+  uploadedFileData: any[] = [];
+  teacher_user_id:any = 0;
+  assigned_standard_subject_list: any[] = [];
+
   constructor(
     private route: Router,
     private ApiService: TeacherAPIService,
@@ -36,7 +47,9 @@ export class TeacherEditComponent implements OnInit {
     private toastCtrl: AppComponent,
     private routeParam: ActivatedRoute,
     private auth: AuthenticatorService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private httpService: HttpService,
+    private productService: ProductService
   ) {
     this.routeParam.params.subscribe(params => {
       this.selectedTeacherId = params['id'];
@@ -47,15 +60,136 @@ export class TeacherEditComponent implements OnInit {
 
   ngOnInit() {
     let type = Number(sessionStorage.getItem('institute_setup_type'));
+    this.setMultiSelectSetting();
+    this.fetchStandardAndSubjects();
     this.isOnlineExamAllow(type);
     this.fetchDataForCountryDetails();
     this.createEditTeacherForm();
-    if (this.selectedTeacherId) {
-      this.getTeacherInfo();
-      this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-    }
     this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
   }
+
+  setMultiSelectSetting() {
+    this.standardSetting = {
+      singleSelection: false,
+      idField: 'standard_id',
+      textField: 'standard_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
+    this.subjectSetting = {
+      singleSelection: false,
+      idField: 'subject_id',
+      textField: 'subject_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
+}
+
+fetchStandardAndSubjects() {
+  this.auth.showLoader();
+  this.httpService.getData('/api/v1/standards/standard-subject-list/' + sessionStorage.getItem('institute_id')+'?is_active=Y&is_subject_required=true').subscribe(
+    (res:any) => {
+      this.auth.hideLoader();
+      this.StandardData = res.result;
+      if (this.selectedTeacherId) {
+        this.getTeacherInfo();
+        this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+      }
+    },
+    err => {
+      this.auth.hideLoader();
+      if (this.selectedTeacherId) {
+        this.getTeacherInfo();
+        this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+      }
+      console.log(err);
+    }
+  )
+}
+
+getUploadedFileData() {
+  this.auth.showLoader();
+  const url = `/users-file/downloadFile?studentId=${this.teacher_user_id}`;
+  this.productService.getUploadFileData(url).subscribe(
+    (res: any) => {
+      this.uploadedFileData = res;
+      this.auth.hideLoader()
+    },
+    err => {
+      this.auth.hideLoader()
+    }
+  )
+}
+
+downloadFile(object) {
+  const url = object.fileUrl;
+  var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+  hiddenDownload.href = url;
+  hiddenDownload.download = object.title;
+  // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
+  hiddenDownload.click();
+  // this.updateDownloadCount(object);
+}
+
+deleteExistingUploadedfileAPI(id) {
+  if (confirm('Are you sure, you want to delete file?')) {
+    this.auth.showLoader();
+    const url = `/users-file/delete-file/?studentId=${this.teacher_user_id}&id=${id}`;
+    this.productService.deleteFile(url).subscribe(
+      (res: any) => {
+        this.messageToast("success", '', "File deleted successfully");
+        if (res) {
+          this.getUploadedFileData();
+        }
+        this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    )
+  }
+}
+
+getSubjects(event) {
+  this.subjectData = [];
+  if(event) {
+    this.editTeacherForm.patchValue({
+      selectedSubjectList: ''
+    })
+    let object = event.filter((subject) => {
+      let arr = this.StandardData.filter(obj => subject.standard_id == obj.standard_id);
+      if(arr.length) {
+        arr[0].subject_list.forEach(ele => {
+          ele.standard_id = arr[0].standard_id;
+          this.subjectData.push(ele);
+            // Added by - Nalini Walunj
+        // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
+        let temp: any[] = [];
+        for (var i = 0; i < this.subjectData.length; i++) {
+          for(var j = 0; j <  this.assigned_standard_subject_list.length; j++){
+          if(this.subjectData[i].subject_id == this.assigned_standard_subject_list[j].subject_id){
+          let x = {
+            subject_id: '',
+            subject_name: ''
+          };
+          x.subject_id = this.assigned_standard_subject_list[j].subject_id;
+          x.subject_name = this.assigned_standard_subject_list[j].subject_name
+          temp.push(x)
+          }
+          }
+        }
+        this.editTeacherForm.patchValue({
+          selectedSubjectList : temp
+        })
+        })
+      }
+    });
+  }
+}
 
   // created by: Nalini Walunj
   // Below two functions are written to fetch country details from the session stored at the time of login of institute
@@ -140,24 +274,8 @@ export class TeacherEditComponent implements OnInit {
         this.instituteCountryDetObj = this.countryDetails[i];
         this.maxlength = this.countryDetails[i].country_phone_number_length;
         this.country_id = this.countryDetails[i].id;
-        this.editTeacherForm.setValue({
-          country_id: this.countryDetails[i].id,
-          teacher_name: this.editTeacherForm.value.teacher_name,
-          teacher_curr_addr: this.editTeacherForm.value.teacher_curr_addr,
-          teacher_phone: this.editTeacherForm.value.teacher_phone,
-          teacher_alt_phone: this.editTeacherForm.value.teacher_alt_phone,
-          teacher_standards: this.editTeacherForm.value.teacher_standards,
-          teacher_email: this.editTeacherForm.value.teacher_email,
-          teacher_subjects: this.editTeacherForm.value.teacher_subjects,
-          hour_rate: this.editTeacherForm.value.hour_rate,
-          attendance_device_id: this.editTeacherForm.value.attendance_device_id,
-          is_active: this.editTeacherForm.value.is_active,
-          allow_exam_desk_login: this.editTeacherForm.value.allow_exam_desk_login,
-          is_allow_teacher_to_only_mark_attendance: this.editTeacherForm.value.is_allow_teacher_to_only_mark_attendance,
-          is_student_mgmt_flag: this.editTeacherForm.value.is_student_mgmt_flag,
-          dob: this.editTeacherForm.value.dob,
-          date_of_joining: this.editTeacherForm.value.date_of_joining,
-          is_office_only_access: this.editTeacherForm.value.is_office_only_access
+        this.editTeacherForm.patchValue({
+          country_id: this.countryDetails[i].id
         });
         return;
       }
@@ -176,6 +294,8 @@ export class TeacherEditComponent implements OnInit {
         this.editTeacherForm.setValue(setFormData);
         this.studentImage = data.photo;
         this.hasIdCard = data.hasIDCard;
+        this.teacher_user_id = data.user_id;
+        this.getUploadedFileData();
       },
       error => {
         this.auth.hideLoader();
@@ -203,17 +323,55 @@ export class TeacherEditComponent implements OnInit {
       is_student_mgmt_flag: [true],
       dob: [''],
       date_of_joining: [''],
+      selectedStandardList: [],
+      selectedSubjectList: [],
+      title: ''
     })
+  }
+
+  uploadHandler() {
+    if (this.editTeacherForm.value.title!='') {
+      const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
+      if (preview != null || preview != undefined) {
+        var myReader: FileReader = new FileReader();
+        let temp: any = {};
+        myReader.readAsDataURL(preview);
+        myReader.onloadend = () => {
+          temp = {
+            "title": this.editTeacherForm.value.title,
+            "fileName": preview.name,
+            "encodedFile": (<string>myReader.result).split(',')[1]
+          }
+          this.selectedFiles.push(temp);
+          this.messageToast('success', '', "File uploaded successfully");
+          this.editTeacherForm.value.title = '';
+          this.editTeacherForm.patchValue({
+            title: '',
+          });
+          (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
+        }
+      } else {
+        this.messageToast('error', '', "No file selected");
+      }
+    } else {
+      this.messageToast('error', '', "Document title is mandatory");
+    }
+  }
+
+  deletefile(obj, id) {
+    if (confirm('Are you sure, you want to delete file?')) {
+      this.selectedFiles.splice(id, 1);
+      this.messageToast('success', '', "File deleted successfully");
+    }
   }
 
   getFormFieldsdata(data) {
     let dataToBind: any = {};
     dataToBind.teacher_name = data.teacher_name;
     dataToBind.teacher_curr_addr = data.teacher_curr_addr;
-    dataToBind.teacher_phone = (data.teacher_phone.substring(data.teacher_phone.lastIndexOf("-")+1, data.teacher_phone.length))
-    if (data.teacher_alt_phone == "" || data.teacher_alt_phone == null) {
-      dataToBind.teacher_alt_phone = '';
-    } else {
+    dataToBind.teacher_phone = (data.teacher_phone.substring(data.teacher_phone.lastIndexOf("-")+1, data.teacher_phone.length));
+    dataToBind.teacher_alt_phone = '';
+    if (data.teacher_alt_phone != "" || data.teacher_alt_phone != null) {
       dataToBind.teacher_alt_phone = (data.teacher_alt_phone.substring(data.teacher_alt_phone.lastIndexOf("-")+1, data.teacher_alt_phone.length));
     }
     dataToBind.teacher_standards = data.teacher_standards;
@@ -223,46 +381,101 @@ export class TeacherEditComponent implements OnInit {
     if (data.hour_rate == 0) {
       dataToBind.hour_rate = '';
     }
+    dataToBind.is_active = false;
     if (data.is_active == "Y") {
       dataToBind.is_active = true;
     }
-    else {
-      dataToBind.is_active = false;
-    }
+    dataToBind.allow_exam_desk_login = false;
     if (data.allow_exam_desk_login == "Y") {
       dataToBind.allow_exam_desk_login = true;
     }
-    else {
-      dataToBind.allow_exam_desk_login = false;
-    }
+    dataToBind.is_allow_teacher_to_only_mark_attendance = false;
     if (data.is_allow_teacher_to_only_mark_attendance == "Y") {
       dataToBind.is_allow_teacher_to_only_mark_attendance = true;
     }
-    else {
-      dataToBind.is_allow_teacher_to_only_mark_attendance = false;
-    }
 
     dataToBind.is_office_only_access = (data.is_office_only_access == 'Y') ? true : false;
-
+    dataToBind.is_student_mgmt_flag = false;
     if (data.is_student_mgmt_flag == "1") {
       dataToBind.is_student_mgmt_flag = true;
-    }
-    else {
-      dataToBind.is_student_mgmt_flag = false;
     }
     dataToBind.attendance_device_id = data.attendance_device_id;
     dataToBind.country_id = data.country_id;
     // dataToBind.dob = '1998-2-2';
     // dataToBind.date_of_joining = '1998-2-2'
-    dataToBind.dob = moment(data.dob).format("YYYY-MM-DD");
-    dataToBind.date_of_joining = moment(data.date_of_joining).format("YYYY-MM-DD");
+    dataToBind.dob = data.dob ? moment(data.dob).format("YYYY-MM-DD") : '';
+    dataToBind.date_of_joining = data.date_of_joining ? moment(data.date_of_joining).format("YYYY-MM-DD") : '';
     this.country_id = data.country_id;
+    let standatd_temp: any[] = [];
+    let subject_temp: any[] = [];
+    if(data.assigned_standard_subject_list && data.assigned_standard_subject_list.length) {
+    data.assigned_standard_subject_list.forEach(element => {
+      let x = {
+        standard_id: '',
+        standard_name: ''
+      };
+      x.standard_id = element.standard_id;
+      x.standard_name = element.standard_name;
+      if(element.subject_list && element.subject_list.length) {
+      element.subject_list.forEach(sub => {
+        let y = {
+          subject_id:'',
+          subject_name:''
+        };
+        y.subject_id = sub.subject_id;
+        y.subject_name = sub.subject_name;
+        subject_temp.push(y);
+      });
+      }
+      standatd_temp.push(x)
+    });
+    }
+    this.assigned_standard_subject_list = subject_temp;
+    this.getSubjects(this.assigned_standard_subject_list);
+    dataToBind.selectedSubjectList = subject_temp;
+    dataToBind.selectedStandardList = standatd_temp;
+    dataToBind.title = '';
     console.log(dataToBind)
     return dataToBind;
   }
 
+  getSelectedStandardAndSub(obj) {
+    if(obj.selectedSubjectList && obj.selectedSubjectList.length) {
+      obj.selectedSubjectList.forEach(element => {
+        this.subjectData.forEach(ele=>{
+          if(ele.subject_id == element.subject_id) {
+            element.standard_id = ele.standard_id;
+          }
+        })
+      });
+    }
+    let jsontem = {};
+    if(obj.selectedStandardList && obj.selectedStandardList.length) {
+    obj.selectedStandardList.filter(temp =>{
+      this.StandardData.forEach(ele => {
+        if(temp.standard_id == ele.standard_id) {
+          let arr = [];
+          if(obj.selectedSubjectList && obj.selectedSubjectList.length) {
+          obj.selectedSubjectList.forEach(element => {
+            if(element.standard_id == ele.standard_id) {
+              arr.push(element.subject_id);
+            }
+          });
+          jsontem[temp.standard_id] = arr;
+          arr = [];
+        } else {
+          jsontem[temp.standard_id] = [];
+        }
+        }
+      })
+    })
+  }
+    return jsontem;
+  }
+
   addNewTeacherInfo() {
     let formData = this.editTeacherForm.value;
+    formData.stadard_subject_id_map = this.getSelectedStandardAndSub(formData);
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
       this.messageToast('error', '', 'Please enter valid email address.');
       return;
@@ -289,32 +502,11 @@ export class TeacherEditComponent implements OnInit {
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = 0;
     }
-    if (this.studentImage != null && this.studentImage != "") {
-      formData.photo = this.studentImage;
-    }
-    else {
-      formData.photo = null;
-    }
-    if (formData.is_student_mgmt_flag == true) {
-      formData.is_student_mgmt_flag = 1;
-    } else {
-      formData.is_student_mgmt_flag = 0;
-    }
-    if (formData.is_active == true) {
-      formData.is_active = "Y";
-    } else {
-      formData.is_active = "N";
-    }
-    if (formData.allow_exam_desk_login == true) {
-      formData.allow_exam_desk_login = "Y";
-    } else {
-      formData.allow_exam_desk_login = "N";
-    }
-    if (formData.is_allow_teacher_to_only_mark_attendance == true) {
-      formData.is_allow_teacher_to_only_mark_attendance = "Y";
-    } else {
-      formData.is_allow_teacher_to_only_mark_attendance = "N";
-    }
+    formData.photo = (this.studentImage != null && this.studentImage != "") ? this.studentImage : null;
+    formData.is_student_mgmt_flag = (formData.is_student_mgmt_flag == true) ? 1 : 0;
+    formData.is_active = (formData.is_active == true) ? "Y" : "N";
+    formData.allow_exam_desk_login = (formData.allow_exam_desk_login == true) ? "Y" : "N";
+    formData.is_allow_teacher_to_only_mark_attendance = (formData.is_allow_teacher_to_only_mark_attendance == true) ? 'Y' : 'N';
 
     formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     formData.is_employee_to_be_create = "N";
@@ -322,6 +514,12 @@ export class TeacherEditComponent implements OnInit {
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
     formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
     // formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
+    if(this.selectedFiles.length) {
+      formData.teacher_file_upload_list = this.selectedFiles;
+    }
+    delete formData["selectedSubjectList"];
+    delete formData["selectedStandardList"];
+    delete formData["title"];
     this.auth.showLoader();
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
@@ -347,6 +545,7 @@ export class TeacherEditComponent implements OnInit {
 
   saveTeacherInfo() {
     let formData = this.editTeacherForm.value;
+    formData.stadard_subject_id_map = this.getSelectedStandardAndSub(formData);
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
       this.messageToast('error', '', 'Please enter valid email address.');
       return;
@@ -373,32 +572,11 @@ export class TeacherEditComponent implements OnInit {
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = "0";
     }
-    if (this.studentImage != null || this.studentImage != "") {
-      formData.photo = this.studentImage;
-    }
-    else {
-      formData.photo = null;
-    }
-    if (formData.is_student_mgmt_flag == true) {
-      formData.is_student_mgmt_flag = 1;
-    } else {
-      formData.is_student_mgmt_flag = 0;
-    }
-    if (formData.is_active == true) {
-      formData.is_active = "Y";
-    } else {
-      formData.is_active = "N";
-    }
-    if (formData.allow_exam_desk_login == true) {
-      formData.allow_exam_desk_login = "Y";
-    } else {
-      formData.allow_exam_desk_login = "N";
-    }
-    if (formData.is_allow_teacher_to_only_mark_attendance == true) {
-      formData.is_allow_teacher_to_only_mark_attendance = "Y";
-    } else {
-      formData.is_allow_teacher_to_only_mark_attendance = "N";
-    }
+    formData.photo = (this.studentImage != null || this.studentImage != "") ? this.studentImage : null;
+    formData.is_student_mgmt_flag = (formData.is_student_mgmt_flag == true) ? 1 : 0;
+    formData.is_active = (formData.is_active == true) ? "Y" : 'N';
+    formData.allow_exam_desk_login = (formData.allow_exam_desk_login == true) ? "Y" : "N";
+    formData.is_allow_teacher_to_only_mark_attendance = (formData.is_allow_teacher_to_only_mark_attendance == true) ? 'Y' : 'N';
 
     formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
 
@@ -412,7 +590,14 @@ export class TeacherEditComponent implements OnInit {
       formData.id_fileType = "";
     }
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
-    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD')
+    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
+    if(this.selectedFiles.length) {
+      formData.teacher_file_upload_list = this.selectedFiles;
+    }
+    formData.isDeleted = (Object.keys(formData.stadard_subject_id_map).length == 0) ? 'Y' : 'N';
+    delete formData["selectedSubjectList"];
+    delete formData["selectedStandardList"];
+    delete formData["title"];
     this.auth.showLoader();
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
@@ -428,7 +613,7 @@ export class TeacherEditComponent implements OnInit {
         this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
-    )
+    );
   }
 
   onChangeIdCardUpload() {

@@ -123,6 +123,7 @@ export class ManageAssignmentComponent implements OnInit {
  removedAttachments = [];
  removedLinks = [];
  userType: any = 0;
+ schoolModel: any = false;
 
   constructor(
     private msgService: MessageShowService,
@@ -139,6 +140,14 @@ export class ManageAssignmentComponent implements OnInit {
         } else {
           this.jsonFlag.isProfessional = false;
           this.jsonFlag.type='course';
+        }
+      }
+    )
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
         }
       }
     )
