@@ -69,20 +69,15 @@
                                                 <ul>
                                                     <!-- changes by Nalini - to handle school model conditions -->
                                                     <li (click)="onChanged('course')" id="courseSelectButton"
-<<<<<<< Updated upstream
-=======
-                                                        [ngClass]="{active : !isSubjectView}">{{schoolModel ? 'Section'
-                                                        : 'Course'}}</li>
+                                                        [ngClass]="{active : !isSubjectView}">{{schoolModel ? 'Section' : 'Course'}}</li>
                                                     <!-- <li (click)="onChanged('subject')" *ngIf="!schoolModel || mark_attendance_subject_wise" id="subjectSelectButton"
->>>>>>> Stashed changes
                                                         [ngClass]="{active : !isSubjectView}">
-                                                        {{schoolModel ? 'Section' : 'Course'}}</li>
+                                                        {{schoolModel ? 'Section' : 'Course'}}</li> -->
                                                     <li (click)="onChanged('subject')" id="subjectSelectButton"
                                                         [ngClass]="{active : isSubjectView}">Subject</li>
                                                 </ul>
                                                 <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
-                                            </div>
-                                            <ul class="sche-top-det">
+                                            </div>                                            <ul class="sche-top-det">
                                                 <li class="schedule-det" *ngIf="!isProfessional && isSubjectView">
                                                     <div>
                                                         <label>Total Classes :</label>

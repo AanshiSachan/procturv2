@@ -2996,4 +2996,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       )
     }
   }
+  fetchCourseListByStdId(standard_id){
+    if(this.isSchoolModel){
+      this.updateMasterCourseList(standard_id);
+    }
+  }
 }

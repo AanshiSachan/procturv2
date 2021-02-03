@@ -440,7 +440,7 @@
                 <div class="field-wrapper" *ngIf="!isProfessional">
                   <label for="standard">Standard</label>
 
-                  <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
+                  <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl" (ngModelChange)="fetchCourseListByStdId($event)">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -472,7 +472,7 @@
                     placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}" id="assignCourses"
                     class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
                   <a style="cursor:pointer"
-                    (click)="openAssignBatch()">{{schoolModel ? 'Assign Section' : 'Assign Courses'}}</a>
+                    (click)="openAssignBatch()">{{schoolModel ? 'Assign Sections' : 'Assign Courses'}}</a>
                 </div>
 
                 <!-- ================================================================= -->
