@@ -339,7 +339,7 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:10%;">
-                    <a routerLink="/view/leads">
+                    <a routerLink="/view/leads/setup">
                         <li class="subMenu">
                             <span>Setup</span>
 
@@ -376,11 +376,11 @@
                             <span>Campaign Report</span>
                         </li>
                     </a>-->
-                    <a routerLink="/view/leads/setup">
+                    <!-- <a routerLink="/view/leads/setup">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowDataSetup ">
                             <span>Add Closing Reason</span>
                         </li>
-                    </a>
+                    </a> -->
                 </ul>
             </li>
             <li [ngClass]="activeSession === 'litwo'? 'liActiveBG':''" *ngIf="jsonFlags.isShowStudent" (click)="toggler('litwo')" >
