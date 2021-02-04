@@ -135,6 +135,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   is_tax_enabled: boolean;
   tax_type_without_percentage: String;
   Payment_Modes: any = [];
+  standard_id: "-1"
+
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -996,8 +998,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   updateMasterCourseList(id) {
     this.batchList = [];
+    this.auth.showLoader();
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
       (data: any) => {
+        this.auth.hideLoader();
+        if(data.coursesList!=null){
         data.coursesList.forEach(el => {
           if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
             el.feeTemplateList.forEach(e => {
@@ -1016,6 +1021,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           this.batchList.push(obj);
         });
+      }
       },
       err => {
         let msg = {
@@ -1203,7 +1209,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     return test;
   }
 
-  fetchCourseFromMaster(student_id, country_id) {
+  fetchCourseFromMaster(standard_id, country_id) {
     let id = "-1";
     if (id == null || id == '') {
       this.courseList = [];
@@ -1211,7 +1217,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     else {
       /* Fetch Course Mapped to Master Course */
       if (this.isProfessional) {
-        this.studentPrefillService.fetchCourseList(student_id).subscribe(
+        this.studentPrefillService.fetchCourseList(standard_id).subscribe(
           res => {
             this.courseList = res;
           }
@@ -1224,8 +1230,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
           country_id = '-1';
         }
-
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1', country_id).subscribe(
+       if(!this.isSchoolModel){
+        standard_id='1'
+       }
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, standard_id, country_id).subscribe(
           res => {
             // console.log(res);
             if (res.coursesList != null) {
@@ -1367,6 +1375,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.dob = moment(this.studentAddFormData.dob).format('YYYY-MM-DD');
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
+        this.standard_id=data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
         this.studentAddFormData.doj = moment(data.doj).format("YYYY-MM-DD");
         this.studentAddFormData.dob = moment(data.dob).format("YYYY-MM-DD");
@@ -3000,7 +3009,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   fetchCourseListByStdId(standard_id){
     if(this.isSchoolModel){
+      if(this.standard_id==standard_id){
+       this.fetchCourseFromMaster(standard_id,this.country_id);
+      }else {
+      this.studentAddFormData.assignedBatches = null;
+      this.studentAddFormData.batchJoiningDates = null
+      this.studentAddFormData.assignedBatchescademicYearArray =null;
+      this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray =null;
       this.updateMasterCourseList(standard_id);
+      }
     }
   }
 }
