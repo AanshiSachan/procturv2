@@ -206,7 +206,7 @@
                   <!-- <form class="p-10"> -->
                     <div class="row">
                       <div class="filter-item field-wrapper" style="margin-left: 0px;">
-                        <select class="form-ctrl" name="" [(ngModel)]="filter.country_ids" (ngModelChange)="getStateList()">
+                        <select class="form-ctrl input-select" name="" [(ngModel)]="filter.country_ids" (ngModelChange)="getStateList()">
                           <option value="-1">Select Country</option>
                           <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">
                             {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
@@ -214,14 +214,14 @@
                         </select>
                       </div>
                       <div class="filter-item field-wrapper">
-                        <select class="form-ctrl" name="" [(ngModel)]="filter.state_ids" (ngModelChange)="getCityList()">
+                        <select class="form-ctrl input-select" name="" [(ngModel)]="filter.state_ids" (ngModelChange)="getCityList()">
                           <option value="-1">Select State</option>
                           <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
                             {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
                         </select>
                       </div>
                       <div class="filter-item field-wrapper">
-                        <select class="form-ctrl" name="" [(ngModel)]="filter.city_ids">
+                        <select class="form-ctrl input-select" name="" [(ngModel)]="filter.city_ids">
                           <option value="-1">Select City</option>
                           <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">
                             {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>

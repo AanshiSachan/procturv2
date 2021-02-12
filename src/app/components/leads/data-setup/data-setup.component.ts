@@ -240,7 +240,7 @@ export class DataSetupComponent implements OnInit {
         this.services.showErrorMessage('error', '', 'Source name already exist!');
       }
     } else {
-      this.services.showErrorMessage('info', '', 'Please enter source name');
+      this.services.showErrorMessage('error', '', 'Please enter source name');
     }
   }
 
@@ -289,6 +289,7 @@ export class DataSetupComponent implements OnInit {
         this.httpService.postData(url, this.createSource).subscribe(
           el => {
             this.auth.hideLoader();
+            this.services.showErrorMessage('success', '', 'Source added successfully');
             this.getSourceDetails();
             this.createSource.name = '';
           },
@@ -301,7 +302,7 @@ export class DataSetupComponent implements OnInit {
         this.services.showErrorMessage('error', '', 'Source name already exist!');
       }
     } else {
-      this.services.showErrorMessage('info', '', 'Please enter source name');
+      this.services.showErrorMessage('error', '', 'Please enter source name');
     }
   }
 
@@ -326,7 +327,7 @@ export class DataSetupComponent implements OnInit {
         this.services.showErrorMessage('error', '', 'Referrer name already exist!');
       }
     } else {
-      this.services.showErrorMessage('info', '', 'Please enter Referrer name');
+      this.services.showErrorMessage('error', '', 'Please enter Referrer name');
     }
   }
 
@@ -368,7 +369,7 @@ export class DataSetupComponent implements OnInit {
         this.services.showErrorMessage('error', '', 'Referrer name already exist!');
       }
     } else {
-      this.services.showErrorMessage('info', '', 'Please enter Referrer name');
+      this.services.showErrorMessage('error', '', 'Please enter Referrer name');
     }
   }
 
