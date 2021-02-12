@@ -211,10 +211,10 @@
 
 
           <div>
-            <div (click)="showAdvanceSetting = !showAdvanceSetting" class="AdvanceSetting">
+            <div class="AdvanceSetting">
               <span style="font-weight: 600;">Advance settings</span>
             </div>
-            <div *ngIf="showAdvanceSetting" class="AdvanceSettingDiv">
+            <div class="AdvanceSettingDiv">
               <div class="field-checkbox-wrapper advance-setting-item">
                 <input type="checkbox" name="expenses" [(ngModel)]="addOnlineClass.sent_notification_flag" [value]="0"
                   class="form-checkbox" id="qun">

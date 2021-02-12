@@ -109,7 +109,6 @@ export class AddClassComponent implements OnInit {
   singleSelectionOfFaculty: boolean = false;
   zoom_enable: boolean = false;
   schoolModel: boolean = false;
-  showAdvanceSetting: boolean = false;
   subjectList: any = [];
 
   constructor(

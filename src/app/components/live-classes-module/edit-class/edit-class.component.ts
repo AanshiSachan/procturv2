@@ -116,7 +116,6 @@ export class EditClassComponent implements OnInit {
   editSessionId: any;
   repeat_session: number;
   schoolModel: boolean = false;
-  showAdvanceSetting: boolean = false;
   selectedSubjectList = [];
   subjectList: any = [];
 

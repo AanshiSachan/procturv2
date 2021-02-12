@@ -360,12 +360,14 @@
       <section>
         <div class="live-class-list">
           <div class="live-class-container" style="width:61%;">
-            <div class="field-radio-wrapper" [ngClass]="!liveClassFor ? 'activeTab' : ''" (click)="toggleAction(false)">
+            <div class="field-radio-wrapper" style="width: auto !important;margin-right: 5px;"
+              [ngClass]="!liveClassFor ? 'activeTab' : ''" (click)="toggleAction(false)">
               <!-- <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor"
                 (ngModelChange)="getClassesList()" name="liveClasses" id="liveClasses1"> -->
               <span>Upcoming</span>
             </div>
-            <div class="field-radio-wrapper" [ngClass]="liveClassFor ? 'activeTab' : ''" (click)="toggleAction(true)">
+            <div class="field-radio-wrapper" style="width: auto !important;margin-right: 5px;"
+              [ngClass]="liveClassFor ? 'activeTab' : ''" (click)="toggleAction(true)">
               <!-- <input type="radio" [value]="true" class="form-radio" [(ngModel)]="liveClassFor"
                 (ngModelChange)="getClassesList()" name="liveClasses" id="liveClasses2"> -->
               <span>Previous</span>
@@ -380,11 +382,14 @@
               <br>
               <span class="date-clear" (click)="getClassesList()" style="color: #0084f6;left: 54px;">clear</span>
             </div> -->
-            <div class="search-filter-wrapper" (click)="showCustomFilter = !showCustomFilter">
+            <div class="search-filter-wrapper field-wrapper" [ngClass]="{'datePickerBox' : (dateValue == '' )}"
+              style="padding-top: 0;" (click)="showCustomFilter = !showCustomFilter">
               <i class="fa fa-filter" aria-hidden="true"></i>
+              <input type="text" class="form-ctrl" placeholder="Filter Date" readonly="true" [(ngModel)]="dateValue"
+                id="date" style="height: 34px;border-radius: 0 4px 4px 0;padding: 9px 15px;width: 75%;">
             </div>
             <div *ngIf="showCustomFilter" class="customFilter">
-              <div style="margin-bottom: 30px;">
+              <div style="margin-bottom: 20px;">
                 <span class="sortBy">SORT BY DATE</span>
               </div>
               <div class="field-checkbox-wrapper" style="width: 50%;float: left;">
@@ -448,49 +453,56 @@
         </div>
       </section>
 
-      <section class="live-class">
-        <div class="live-class-list-container" *ngIf="getClasses?.length !=0">
-          <div class="live-class-item" *ngFor="let class of getClasses; trackBy:identify">
-            <div class="sub-item-1">
-              <div class="session_name_and_id_container">
-                <div class="session_name" title="{{class.session_name}}">
-                  <span>{{ (class.session_name?.length>15) ? (class.session_name | slice:0:15 ) + '...' :
-                    (class.session_name) }}</span>
-                </div>
-                <div class="session_id">
-                  <span>Session Id : </span>
-                  <span style="color: black;">{{class.session_id}}</span>
-                  <span class="class-for-name" *ngIf="class.live_meeting_with == 'Zoom'">
-                    ({{class.live_meeting_with}})</span>
-                  <!-- <div *ngIf="class.live_meeting_with == 'Zoom'" style="margin-top: 5px;">
-                    Account Name : <span style="color: black;">{{class.account_name==null ? '-' :
-                      class.account_name}}</span></div> -->
-                </div>
-              </div>
-              <span class="upcoming_class" *ngIf="timeLeft(today, class.start_datetime) && !liveClassFor">Ongoing</span>
+      <section class="live-class" *ngIf="totalRow !=0">
+        <div class="live-class-list-container">
+          <div style="width: 100%;float: left;" *ngFor="let c of getClasses; trackBy:identify">
+            <br>
+            <div *ngIf="c[0]">
+              <span class="date_tag">{{c[0].startDateTime | date : 'dd MMM yyyy'}}</span>
+              <div class="borderbottom"></div>
             </div>
-            <div class="sub-item-2">
-              <div class="item_type_1">
-                <!-- <span style="color: #9898a3;">Date :  -->
-                <span style="width: 15%;"><img src="../../../../assets/images/date_time.png"></span>
-                <span style="font-weight: 600;">{{class.startDateTime | date: 'dd MMM yyyy'}}</span>
-                <!-- </span> -->
-                <!-- <span style="color: #9898a3;">Duration :  -->
-                <!-- </span> -->
-              </div>
-              <div class="item_type_1">
-                <span style="width: 15%;"><img src="../../../../assets/images/time_2.png"></span>
-                <span style="font-weight: 600;">{{diffDate(class.startDateTime,
-                  class.endDateTime)}}</span>
-              </div>
-              <div class="item_type_1" *ngIf="liveClassFor">
-                <span style="width: 15%;"><img src="../../../../assets/images/remainder.png"></span>
-                <span>
-                  <!-- <span style="color: #9898a3;">Time : </span> -->
-                  <span style="font-weight: 600;">{{class.startDateTime | date: 'shortTime'}} -
-                    {{class.endDateTime | date: 'shortTime'}}</span>
+            <br>
+            <div class="live-class-item" style="padding-right: 0;box-shadow: 0px 1px 12px 0px rgb(0 0 0 / 10%);"
+              *ngFor="let class of c">
+              <div class="sub-item-1">
+                <div style="width: 58%;" class="session_name_and_id_container">
+                  <div class="session_name" title="{{class.session_name}}">
+                    <span style="color: #109CF1;">{{ (class.session_name?.length>15) ? (class.session_name | slice:0:15
+                      ) + '...' :
+                      (class.session_name) }}</span>
+                  </div>
+                </div>
+                <span class="ongoing" *ngIf="timeLeft(today, class.startDateTime) && !liveClassFor">Ongoing</span>
+                <span class="right min15" *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)">
+                  <span>{{getTimeLeft(today, class.startDateTime) }} left</span>
                 </span>
-                <!-- <span style="color: #585574;" *ngIf="class.live_meeting_with != 'Zoom'">
+              </div>
+              <div class="session_id">
+                <span>Session Id :{{class.session_id}} </span>
+                <span class="class-for-name" *ngIf="class.live_meeting_with == 'Zoom'">
+                  ({{class.live_meeting_with}})</span>
+              </div>
+              <div class="borderbottom1 w96"></div>
+              <div class="sub-item-2">
+                <div class="item_type_1">
+                  <!-- <span style="color: #9898a3;">Date :  -->
+                  <span style="width: 15%;"><img src="../../../../assets/images/date_time_new.svg"></span>
+                  <span style="font-weight: 600;">{{class.startDateTime | date : 'shortTime'}} - {{class.end_datetime |
+                    date: 'shortTime'}}</span>
+                </div>
+                <div class="item_type_1">
+                  <span style="width: 15%;"><img src="../../../../assets/images/time_2.png"></span>
+                  <span style="font-weight: 600;">{{diffDate(class.startDateTime,
+                    class.endDateTime)}}</span>
+                </div>
+                <div class="item_type_1" *ngIf="liveClassFor">
+                  <span style="width: 15%;"><img src="../../../../assets/images/remainder.png"></span>
+                  <span>
+                    <!-- <span style="color: #9898a3;">Time : </span> -->
+                    <span style="font-weight: 600;">{{class.startDateTime | date: 'shortTime'}} -
+                      {{class.endDateTime | date: 'shortTime'}}</span>
+                  </span>
+                  <!-- <span style="color: #585574;" *ngIf="class.live_meeting_with != 'Zoom'">
                   <span style="color: #9898a3;">Moderator : </span>
                   <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}"
                     style="font-weight: 600;">
@@ -498,25 +510,26 @@
                   </span>
                   <span *ngIf="class.moderatorName == '' || class.moderatorName == null">-</span>
                 </span> -->
-              </div>
-              <div class="item_type_1">
-                <span style="width: 15%;"><img src="../../../../assets/images/faculty_img.png"></span>
-                <span style="font-weight: 600;" title="{{class.teachersName}}">
-                  {{ (class.teachersName?.length>20) ? (class.teachersName | slice:0:20 ) + '...' : (class.teachersName)
-                  }}
-                </span>
-              </div>
-              <div class="item_type_1" *ngIf="!liveClassFor">
+                </div>
+                <div class="item_type_1">
+                  <span style="width: 15%;"><img src="../../../../assets/images/faculty_img.png"></span>
+                  <span style="font-weight: 600;" title="{{class.teachersName}}">
+                    {{ (class.teachersName?.length>20) ? (class.teachersName | slice:0:20 ) + '...' :
+                    (class.teachersName)
+                    }}
+                  </span>
+                </div>
+                <!-- <div class="item_type_1" *ngIf="!liveClassFor">
                 <span style="width: 15%;"><img src="../../../../assets/images/remainder.png"></span>
                 <span style="font-weight: 600;">{{getTimeLeft(today, class.startDateTime) }} <span
                     style="color: #109CF1;">(Time Left)</span> </span>
-              </div>
-              <!-- <div class="item_type_3" *ngIf="liveClassFor">
+              </div> -->
+                <!-- <div class="item_type_3" *ngIf="liveClassFor">
                 <span style="color: #9898a3;">Attendees : </span>
                 <span style="color: #585574;font-weight: 600;">{{class.attendeesCount}} of
                   {{class.totalAttendeesLimit}}</span>
               </div> &nbsp;&nbsp; -->
-              <!-- <div class="item_type_1" *ngIf="!isProfessional" style="width: 28%;">
+                <!-- <div class="item_type_1" *ngIf="!isProfessional" style="width: 28%;">
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Master Course : </span>
                   <span title="{{class.course_list[0].master_course_name}}"
@@ -532,13 +545,13 @@
                 </span>
               </div> -->
 
-              <!-- <div class="item_type_1" *ngIf="isProfessional" style="width: 28%;">
+                <!-- <div class="item_type_1" *ngIf="isProfessional" style="width: 28%;">
                 <span style="color: #9898a3;">Batch : </span>
                 <span title="{{class.course}}">
                   {{ (class.course?.length>30) ? (class.course | slice:0:30 ) + '...' : (class.course) }}
                 </span>
               </div> -->
-              <!-- <div class="item_type_2" *ngIf="liveClassFor">
+                <!-- <div class="item_type_2" *ngIf="liveClassFor">
 
                 <div class="dropdown dropleft">
                   <button style="background: #0084f6;color: white;" class="btn btn-light btn-xs dropdown-toggle"
@@ -580,8 +593,8 @@
                   </div>
                 </div>
               </div> -->
-              <div class="item_type_2" *ngIf="!liveClassFor">
-                <!-- <div class="questionInfo inline-relative">
+                <div class="item_type_2" *ngIf="!liveClassFor">
+                  <!-- <div class="questionInfo inline-relative">
                   <span class=" i-class">
                     <button type="button" name="button"
                       *ngIf="forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
@@ -602,7 +615,7 @@
                   </div>
                 </div> -->
 
-                <!-- <div class="questionInfo inline-relative">
+                  <!-- <div class="questionInfo inline-relative">
                         <span class=" i-class">
                             <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" [disabled]="proctur_live_expiry_date_check" (click)="repeatSession(class.session_id, class.live_meeting_with)"  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                                 <i class="fa fa-repeat" aria-hidden="true"></i>
@@ -618,194 +631,200 @@
                         </div>
                     </div> -->
 
-              </div>
-              <!-- <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
+                </div>
+                <!-- <div class="item_type_2" *ngIf="liveClassFor && proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
                 &nbsp;&nbsp;
                 <button class="viewAction" title="download/view" (click)="viewdownload_links(class)"
                   [ngClass]="{'disabledButton': class.download_links?.length==0}">
                   View Recording
                 </button>
               </div> -->
-            </div>
+              </div>
 
-            <div class="notification_container" style="padding-top: 15px;border-top: 1px solid #F4EBEB;"
-              *ngIf="!liveClassFor && (timeLeft(today, class.start_datetime) && class.live_meeting_with == 'Zoom' && !class.session_processed)">
-              <span class="dropdown-item">
-                <button style="padding: 5px;background: #0084f6;color: white;border-radius: 4px;" type="button"
-                  name="button" class="start_session" (click)="RefreshSession(class)">
-                  Refresh Session
-                </button>
-              </span>
-            </div>
-            <div class="item_type_1"
-              *ngIf="(!timeLeft(today, class.start_datetime)) || (!timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime)) || (!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds))"
-              style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
-              <span (click)="cancel(class.session_id, class.live_meeting_with)" title="Cancel"
-                *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)"
-                style="margin-right: 10px;cursor: pointer;" [disabled]="proctur_live_expiry_date_check"
-                [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button style="background: none;" type="button" name="button"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      <i class="fa fa-times-circle-o" style="font-size: 28px;color: red;"></i>
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
-                  </div>
-                </div>
-              </span>
-              <span style="margin-right: 10px;cursor: pointer;" title="Edit"
-                (click)="editStudent(class.session_id, class.live_meeting_with)"
-                *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)">
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button style="background: none;" type="button" name="button"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      <img src="../../../../assets/images/Live class/Edit_class.png">
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
-                  </div>
-                </div>
-              </span>
-              <span style="margin-right: 10px;" (click)="showSmsNotificationPopup(class)"
-                *ngIf="!timeLeft(today, class.start_datetime)" title="Send SMS Notification">
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button style="background: none;" type="button" name="button"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      <img src="../../../../assets/images/Live class/Send_sms.png">
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
-                  </div>
-                </div>
-              </span>
-              <span (click)="showpushNotificationPopup(class)" *ngIf="!timeLeft(today, class.start_datetime)"
-                style="margin-right: 10px;cursor: pointer;" title="Send Push Notification">
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button style="background: none;" type="button" name="button"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      <img src="../../../../assets/images/Live class/Notify.png">
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live
-                    <br> subscription is over.
-                    <br> Please pay quickly
-                    <br> to continue using it.
-                  </div>
-                </div>
-              </span>
-              <span title="View" style="cursor: pointer;" (click)="viewClass(class)">
-                <img src="../../../../assets/images/Live class/view_class.png">
-              </span>
-              <span
-                *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
-                style="cursor: pointer;float: right;border-left: 1px solid #ECEAEA;padding-left: 10px;">
-                <div class="questionInfo inline-relative">
-                  <span class=" i-class">
-                    <button type="button" name="button"
-                      [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'"
-                      (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)"
-                      [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                      Join
-                    </button>
-                  </span>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live<br>
-                    subscription is over.<br>
-                    Please pay quickly<br>
-                    to continue using it.
-                  </div>
-                </div>
-              </span>
-            </div>
-
-            <div class="item_type_1" *ngIf="liveClassFor" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
-              <span (click)="viewAttandance(class)" title="View Attendance"
-                *ngIf="(class.live_meeting_with != 'Zoom' && class.showViewAttendance) || (class.live_meeting_with && class.attendance_processed)"
-                style="margin-right: 15px;cursor: pointer;"><img
-                  src="../../../../assets/images/Live class/View_attendance.png"></span>
-              <span style="margin-right: 15px;cursor: pointer;" title="Upload Recording"
-                *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'" data-toggle="modal"
-                data-target="#uploadRec" data-backdrop="static"
-                (click)="upload(class.session_id, class.live_meeting_with)"><img
-                  src="../../../../assets/images/Live class/Upload_recording.png"></span>
-              <span style="margin-right: 15px;" title="Repeat Class">
-                <div class="questionInfo inline-relative">
-                  <button type="button" style="background: none;" name="button"
-                    [disabled]="proctur_live_expiry_date_check"
-                    (click)="repeatSession(class.session_id, class.live_meeting_with)"
-                    [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                    <img src="../../../../assets/images/Live class/repeat_class.png">
+              <div class="notification_container"
+                style="padding-top: 5px;border-top: 1px solid #F4EBEB;padding-bottom: 5px;"
+                *ngIf="!liveClassFor && (timeLeft(today, class.startDateTime) && class.live_meeting_with == 'Zoom' && !class.session_processed)">
+                <span class="dropdown-item">
+                  <button style="padding: 5px;background: #0084f6;color: white;border-radius: 4px;" type="button"
+                    name="button" class="start_session" (click)="RefreshSession(class)">
+                    Refresh Session
                   </button>
-                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                    Your Proctur Live<br>
-                    subscription is over.<br>
-                    Please pay quickly<br>
-                    to continue using it.
+                </span>
+              </div>
+              <div class="item_type_1" *ngIf="(!liveClassFor)" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
+                <span (click)="cancel(class.session_id, class.live_meeting_with)" title="Cancel"
+                  *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)"
+                  style="margin-right: 10px;cursor: pointer;" [disabled]="proctur_live_expiry_date_check"
+                  [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                  <div class="questionInfo inline-relative">
+                    <span class=" i-class">
+                      <button style="background: none;" type="button" name="button"
+                        [disabled]="proctur_live_expiry_date_check"
+                        [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        <i class="fa fa-times-circle-o" style="font-size: 28px;color: red;"></i>
+                      </button>
+                    </span>
+                    <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                      Your Proctur Live
+                      <br> subscription is over.
+                      <br> Please pay quickly
+                      <br> to continue using it.
+                    </div>
                   </div>
-                </div>
-              </span>
-              <span style="margin-right: 15px;cursor: pointer;" title="View" (click)="viewClass(class)">
-                <img src="../../../../assets/images/Live class/view_class.png">
-              </span>
-              <span (click)="viewdownload_links(class)"
-                style="cursor: pointer;float: right;border-left: 1px solid #ECEAEA;padding-left: 10px;"
-                title="View Recording"
-                *ngIf="(proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0) || (is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom')">
-                <img src="../../../../assets/images/Live class/view_recording.png">
-              </span>
+                </span>
+                <span style="margin-right: 10px;cursor: pointer;" title="Edit"
+                  (click)="editStudent(class.session_id, class.live_meeting_with)"
+                  *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)">
+                  <div class="questionInfo inline-relative">
+                    <span class=" i-class">
+                      <button style="background: none;" type="button" name="button"
+                        [disabled]="proctur_live_expiry_date_check"
+                        [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        <img src="../../../../assets/images/Live class/Edit_class.png">
+                      </button>
+                    </span>
+                    <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                      Your Proctur Live
+                      <br> subscription is over.
+                      <br> Please pay quickly
+                      <br> to continue using it.
+                    </div>
+                  </div>
+                </span>
+                <span style="margin-right: 10px;" (click)="showSmsNotificationPopup(class)"
+                  *ngIf="!timeLeft(today, class.startDateTime)" title="Send SMS Notification">
+                  <div class="questionInfo inline-relative">
+                    <span class=" i-class">
+                      <button style="background: none;" type="button" name="button"
+                        [disabled]="proctur_live_expiry_date_check"
+                        [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        <img src="../../../../assets/images/Live class/Send_sms.png">
+                      </button>
+                    </span>
+                    <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                      Your Proctur Live
+                      <br> subscription is over.
+                      <br> Please pay quickly
+                      <br> to continue using it.
+                    </div>
+                  </div>
+                </span>
+                <span (click)="showpushNotificationPopup(class)" *ngIf="!timeLeft(today, class.startDateTime)"
+                  style="margin-right: 10px;cursor: pointer;" title="Send Push Notification">
+                  <div class="questionInfo inline-relative">
+                    <span class=" i-class">
+                      <button style="background: none;" type="button" name="button"
+                        [disabled]="proctur_live_expiry_date_check"
+                        [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        <img src="../../../../assets/images/Live class/Notify.png">
+                      </button>
+                    </span>
+                    <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                      Your Proctur Live
+                      <br> subscription is over.
+                      <br> Please pay quickly
+                      <br> to continue using it.
+                    </div>
+                  </div>
+                </span>
+                <span *ngIf="timeLeft(today, class.startDateTime)" style="margin-right: 10px;cursor: no-drop;"><img
+                    src="../../../../assets/images/Live class/icon3.svg"></span>
+                <span *ngIf="timeLeft(today, class.startDateTime)" style="margin-right: 10px;cursor: no-drop;"><img
+                    src="../../../../assets/images/Live class/icon4.svg"></span>
+                <span *ngIf="timeLeft(today, class.startDateTime)" style="margin-right: 10px;cursor: no-drop;"><img
+                    src="../../../../assets/images/Live class/icon5.svg"></span>
+                <span *ngIf="timeLeft(today, class.startDateTime)" style="margin-right: 10px;cursor: no-drop;"><img
+                    src="../../../../assets/images/Live class/icon6.svg"></span>
+                <span title="View" style="cursor: pointer;" (click)="viewClass(class)">
+                  <img src="../../../../assets/images/Live class/view_class.png">
+                </span>
+                <span
+                  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
+                  style="cursor: pointer;float: right;border-left: 1px solid #ECEAEA;padding-left: 10px;">
+                  <div class="questionInfo inline-relative">
+                    <span class=" i-class">
+                      <button type="button" name="button"
+                        [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'"
+                        (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)"
+                        [disabled]="proctur_live_expiry_date_check"
+                        [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        Join
+                      </button>
+                    </span>
+                    <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                      Your Proctur Live<br>
+                      subscription is over.<br>
+                      Please pay quickly<br>
+                      to continue using it.
+                    </div>
+                  </div>
+                </span>
+              </div>
+
+              <div class="item_type_1" *ngIf="liveClassFor" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
+                <span (click)="viewAttandance(class)" title="View Attendance"
+                  *ngIf="(class.live_meeting_with != 'Zoom' && class.showViewAttendance) || (class.live_meeting_with && class.attendance_processed)"
+                  style="margin-right: 15px;cursor: pointer;"><img
+                    src="../../../../assets/images/Live class/View_attendance.png"></span>
+                <span style="margin-right: 15px;cursor: pointer;" title="Upload Recording"
+                  *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'"
+                  data-toggle="modal" data-target="#uploadRec" data-backdrop="static"
+                  (click)="upload(class.session_id, class.live_meeting_with)"><img
+                    src="../../../../assets/images/Live class/Upload_recording.png"></span>
+                <span style="margin-right: 15px;" title="Repeat Class">
+                  <div class="questionInfo inline-relative">
+                    <button type="button" style="background: none;" name="button"
+                      [disabled]="proctur_live_expiry_date_check"
+                      (click)="repeatSession(class.session_id, class.live_meeting_with)"
+                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                      <img src="../../../../assets/images/Live class/repeat_class.png">
+                    </button>
+                    <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                      Your Proctur Live<br>
+                      subscription is over.<br>
+                      Please pay quickly<br>
+                      to continue using it.
+                    </div>
+                  </div>
+                </span>
+                <span style="margin-right: 15px;cursor: pointer;" title="View" (click)="viewClass(class)">
+                  <img src="../../../../assets/images/Live class/view_class.png">
+                </span>
+                <span (click)="viewdownload_links(class)"
+                  style="cursor: pointer;float: right;border-left: 1px solid #ECEAEA;padding-left: 10px;"
+                  title="View Recording"
+                  *ngIf="(proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0) || (is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom')">
+                  <img src="../../../../assets/images/Live class/view_recording.png">
+                </span>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="live-class-list-container" *ngIf="getClasses?.length ==0 && (!auth.isRippleLoad.getValue())"
-          style="margin-top: 3%;">
-          <div style="min-height: 60px;color: #8A8B8B;margin-left: 35%;">
-            <div style="padding-bottom: 5px;font-size: 16px;">No {{!liveClassFor ? 'Upcoming' : 'Previous'}} </div><span
-              style="font-size: 16px;">Scheduled
-              Found!</span>
-            <div class="add-class-container" style="padding-top: 5px;">
-              <div class="questionInfo inline-relative">
-                <span class=" i-class">
-                  <button type="button" style="height: 30px;padding: 4px 20px;" name="button" class="add-class"
-                    routerLink='/view/live-classes/add' [disabled]="proctur_live_expiry_date_check"
-                    [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                    Add Live Class </button>
-                </span>
-                <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
-                  Your Proctur Live
-                  <br> subscription is over.
-                  <br> Please pay quickly
-                  <br> to continue using it.
+      </section>
+      <section *ngIf="totalRow == 0 && (!auth.isRippleLoad.getValue())">
+        <div class="live-class-list-container">
+          <div class="w96">
+            <div>
+              <br><br>
+              <span class="position">
+                <span class="schedule-text">No {{!liveClassFor ? 'Upcoming' : 'Previous'}}<br> Schedule found</span>
+                <div class="questionInfo inline-relative">
+                  <span class=" i-class">
+                    <button class="add_live_class" routerLink='/view/live-classes/add'
+                      [disabled]="proctur_live_expiry_date_check"
+                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">Add Live Class</button>
+                  </span>
+                  <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
+                    Your Proctur Live
+                    <br> subscription is over.
+                    <br> Please pay quickly
+                    <br> to continue using it.
+                  </div>
                 </div>
-              </div>
-
+              </span>
             </div>
-          </div>
-          <div style="text-align: center;">
-            <img style="height: 240px;" src="../../../../assets/images/upcoming_class.png">
+            <div class="bg_live_class">
+            </div>
           </div>
         </div>
       </section>
@@ -1233,86 +1252,80 @@
   </div>
 </section>
 
-<section *ngIf="showViewClassPopup">
-  <div class="confirmation_popup" style="width: 35%;left: 35%;padding-top: 0;top: 15%;">
-    <div class="confirm_title" style="text-align: center;">
-      <div class="viewHeader">
-        <span>Details</span>
+<div class="modal viewClassPopop" style="display: block;margin-top: 30px;" *ngIf="showViewClassPopup" id="ViewModal">
+  <div class="modal-dialog" style="width: 500px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Details</h4>
+        <button type="button" class="close" (click)="showViewClassPopup = false;" data-dismiss="modal">&times;</button>
       </div>
-      <div>
-        <button style="color: #109CF1;font-size: 28px;margin-top: 2px;opacity:1;" type="button" class="close"
-          (click)="showViewClassPopup = false;" data-dismiss="modal">&times;</button>
-      </div>
-    </div>
-    <div class="confirmation_msg_box" style="margin-top: 50px;margin-left: 15px;margin-right: 25px;font-size: 12px;">
-      <div>
-        <div class="row m0">
-          <span>Class :</span>
+      <div class="modal-body">
+        <div class="row" style="display: flex;">
+          <div class="col-lg-9">
+            <p class="class_text">Class</p>
+            <p class="class_name"><span title="{{viewClassData.session_name}}">{{
+                (viewClassData.session_name?.length>70) ?
+                (viewClassData.session_name | slice:0:70 ) + '...' :(viewClassData.session_name) }}</span></p>
+            <p class="mb-0"><span class="name">Session ID:</span><span class="value">{{viewClassData.session_id}}</span>
+              <span *ngIf="viewClassData.live_meeting_with == 'Zoom'" class="zoom2">(Zoom)</span>
+            </p>
+            <p *ngIf="viewClassData.live_meeting_with == 'Zoom'" class="mb-0"><span class="name">Account
+                Name</span><span class="value">Zoom Recording Account</span></p>
+          </div>
+          <div class="col-lg-3 image-container">
+            <img src="../../../../assets/images/Group240.svg" class="img_doc">
+          </div>
         </div>
-        <div class="row m0 underline">
-          <span title="{{viewClassData.session_name}}">{{ (viewClassData.session_name?.length>70) ?
-            (viewClassData.session_name | slice:0:70 ) + '...' :(viewClassData.session_name) }}</span>
+        <div class="div-border"></div>
+        <div class="row">
+          <div class="col-lg-9">
+            <p class="name mb-0">Faculty Name:</p>
+            <p class="value"><span title="{{viewClassData.teachersName}}">{{ (viewClassData.teachersName?.length>70) ?
+                (viewClassData.teachersName | slice:0:70 ) + '...' :(viewClassData.teachersName) }}</span></p>
+          </div>
+          <div class="col-lg-3 image-container">
+            <img src="../../../../assets/images/image11.svg" class="profile">
+            <img src="../../../../assets/images/image10.svg" class="profile overlap">
+          </div>
         </div>
-      </div>
-      <div *ngIf="viewClassData.live_meeting_with == 'Zoom'">
-        <div class="row m0">
-          <span>Account Name :</span>
+        <div class="div-border"></div>
+        <div class="flex">
+          <div class="section1">
+            <p class="name mb-0">Date</p>
+            <p class="value mb-0">{{viewClassData.startDateTime | date : 'dd MMM yyyy'}}</p>
+          </div>
+          <div class="div-border-left"></div>
+          <div class="section2">
+            <p class="name mb-0">Duration</p>
+            <p class="value mb-0">{{diffDate(viewClassData.startDateTime,viewClassData.endDateTime)}}</p>
+          </div>
         </div>
-        <div class="row m0 underline">
-          <span title="{{viewClassData.account_name}}">{{ (viewClassData.account_name?.length>70) ?
-            (viewClassData.account_name | slice:0:70 ) + '...' :(viewClassData.account_name) }}</span>
+        <div class="flex">
+          <div class="section1">
+            <p class="name mb-0">Time</p>
+            <p class="value mb-0">{{viewClassData.startDateTime | date : 'shortTime'}}</p>
+          </div>
+          <div class="div-border-left"></div>
+          <div class="section2">
+            <p class="name mb-0">{{schoolModel ? 'Section' : 'Course'}}</p>
+            <p class="value mb-0" title="{{viewClassData.course}}">{{(viewClassData.course?.length>40) ?
+              (viewClassData.course | slice:0:40 ) + '...' :(viewClassData.course) }}</p>
+          </div>
         </div>
-      </div>
-      <div class="row m0" style="margin-top: 10px;">
-        <div class="row m0">
-          <span>Faculty Name :</span>
-        </div>
-        <div class="row m0 underline">
-          <span title="{{viewClassData.teachersName}}">{{ (viewClassData.teachersName?.length>70) ?
-            (viewClassData.teachersName | slice:0:70 ) + '...' :(viewClassData.teachersName) }}</span>
-        </div>
-      </div>
-      <div class="row m0" style="margin-top: 10px;">
-        <div class="row m0">
-          <span>Moderator Name :</span>
-        </div>
-        <div class="row m0">
-          <span *ngIf="viewClassData.moderatorName != '' && viewClassData.moderatorName != null"
-            title="{{viewClassData.moderatorName}}" style="font-weight: 600;color:black;">
-            {{ (viewClassData.moderatorName?.length>70) ? (viewClassData.moderatorName | slice:0:70 ) + '...'
-            :(viewClassData.moderatorName) }}
-          </span>
-          <span *ngIf="viewClassData.moderatorName == '' || viewClassData.moderatorName == null">-</span>
-          <!-- <span title="{{viewClassData.moderatorName}}" style="font-weight:600;color:black">{{ (viewClassData.moderatorName?.length>70) ? (viewClassData.moderatorName | slice:0:70 ) + '...' :(viewClassData.moderatorName) }}</span> -->
-        </div>
-      </div>
-      <div class="row m0" style="margin-top: 10px;">
-        <div class="row m0" style="width: 49%;float: left;margin-right: 1%;">
-          <div>Product :</div>
-          <div style="font-weight:600;color:black;padding-top: 5px;" title="{{viewClassData.product_names}}">{{
-            (viewClassData.product_names?.length>30) ? (viewClassData.product_names | slice:0:30 ) + '...'
-            :(viewClassData.product_names) }}</div>
-        </div>
-        <div class="row m0" style="width: 50%;float: left;padding-left: 5%;border-left: 1px solid #ECEAEA;">
-          <div>Course :</div>
-          <div style="font-weight:600;color:black;padding-top: 5px;" title="{{viewClassData.course}}">{{
-            (viewClassData.course?.length>50) ? (viewClassData.course | slice:0:50 ) + '...' :(viewClassData.course) }}
+        <div class="flex">
+          <div class="section1">
+            <p class="name mb-0">{{schoolModel ? 'Standard' : 'Master Course'}}</p>
+            <p class="value mb-0" title="{{viewClassData.master_course}}">{{(viewClassData.master_course?.length>40) ?
+              (viewClassData.master_course | slice:0:40 ) + '...' : (viewClassData.master_course) }}</p>
+          </div>
+          <div class="div-border-left" *ngIf="schoolModel"></div>
+          <div class="section2" *ngIf="schoolModel">
+            <p class="name mb-0">Subject</p>
+            <p class="value mb-0" title="{{viewClassData.subject}}">{{(viewClassData.subject?.length>40) ?
+              (viewClassData.subject | slice:0:40 ) + '...':(viewClassData.subject) }} </p>
           </div>
         </div>
       </div>
-      <div class="row m0" style="margin-top: 10px;">
-        <div class="row m0">
-          <span>Master Course :</span>
-        </div>
-        <div class="row m0">
-          <span style="font-weight:600;color:black" title="{{viewClassData.master_course}}">{{
-            (viewClassData.master_course?.length>70) ? (viewClassData.master_course | slice:0:70 ) + '...'
-            :(viewClassData.master_course) }}</span>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="confirmation_button_container">
     </div>
   </div>
-</section>
+</div>

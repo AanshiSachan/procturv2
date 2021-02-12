@@ -6,8 +6,6 @@ import { DomSanitizer } from '../../../../../node_modules/@angular/platform-brow
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
-import { role } from '../../../model/role_features';
-import { Event } from '@angular/router';
 declare var window;
 declare var $;
 
@@ -197,6 +195,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   showViewClassPopup: boolean = false;
   viewClassData: any = '';
   showCustomFilter = false;
+  schoolModel: boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -209,6 +208,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   ) {
   }
   ngOnInit() {
+    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -244,7 +244,16 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     }
     let limit = sessionStorage.getItem('videoLimitExceeded');
     this.videoLimitExceed = JSON.parse(limit);
-    // this.getClassesList();
+    this.sortDate.this_week = true;
+    const today = moment();
+    let begin = moment(today.startOf('isoWeek')).format('DD-MM-YYYY');
+    let end = moment(today.endOf('isoWeek')).format('DD-MM-YYYY');
+    this.liveClassSearchFilter = {
+      from_date: moment().format('DD-MM-YYYY'),
+      to_date: end
+    }
+    this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
+    this.getClassesList();
     this.getAuthKey();
     this.institution_id = sessionStorage.getItem('institution_id');
   }
@@ -281,11 +290,26 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   this.totalRow = 0;
   this.getClasses = [];
   this.PageIndex = 1;
-  this.sortDate.this_week = false;
+  this.sortDate.this_week = true;
   this.sortDate.this_month = false;
   this.sortDate.custom_date_range = false;
   this.sortDate.last_week = false;
-  // this.getClassesList();
+  const today = moment();
+  let begin = moment(today.startOf('isoWeek')).format('DD-MM-YYYY');
+  let end = moment(today.endOf('isoWeek')).format('DD-MM-YYYY');
+  if(this.liveClassFor) {
+    this.liveClassSearchFilter = {
+      from_date: begin,
+      to_date: moment().format('DD-MM-YYYY')
+    }
+  } else {
+    this.liveClassSearchFilter = {
+      from_date: moment().format('DD-MM-YYYY'),
+      to_date: end
+    }
+  }
+  this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
+  this.getClassesList();
  }
 
   getClassesList() {
@@ -362,12 +386,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         this.getClassesFor();
         // console.log(this.getClasses)
 
-        if (this.liveClassFor) {
-          this.totalRow = data.total_count;
-        }
-        else {
-          this.totalRow = data.total_count;
-        }
+        this.totalRow = data.total_count;
         // this.fetchTableDataByPage(this.PageIndex);
         this.getClasses = this.getDataFromDataSource(this.PageIndex);
         this.getClasses.map((ele) => {
@@ -376,12 +395,34 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         this.getClasses.map((ele) => {
           ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a')
         })
+        this.diffDataBasedOnDate();
       },
       (error: any) => {
         this.auth.hideLoader();
         this.errorMessage(error);
       }
     )
+  }
+
+  diffDataBasedOnDate() {
+    let previous_date = null;
+    let dTa:any = [];
+    let count = 0;
+    dTa[count] = [];
+    for(let i=0;i<this.getClasses.length;i++) {
+      let currDataDate = this.getClasses[i].start_datetime = moment(this.getClasses[i].start_datetime).format('YYYY-MM-DD')
+      if(previous_date == null || previous_date == currDataDate) {
+        previous_date = currDataDate;
+        dTa[count].push(this.getClasses[i]);
+      } else {
+        previous_date = currDataDate;
+        count = count + 1;
+        dTa[count] = [];
+        dTa[count].push(this.getClasses[i]);
+      }
+    }
+    console.log(JSON.stringify(dTa));
+    this.getClasses = dTa;
   }
 
   copyToClipboard(item) {
@@ -548,6 +589,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         from_date: moment(begin).format('DD-MM-YYYY')
       }
       this.showCustomFilter = false;
+      this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
       this.getClassesList();
     }
     else if (obj == 'this_month') {
@@ -579,6 +621,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     if (this.sortDate.custom_date_range) {
       this.liveClassSearchFilter.from_date = moment(e[0]).format("DD-MM-YYYY");
       this.liveClassSearchFilter.to_date = moment(e[1]).format("DD-MM-YYYY");
+      this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
       this.getClassesList();
     }
   }
@@ -601,7 +644,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   }
 
   getClassesFor() {
-    this.dateValue = "";
+    // this.dateValue = "";
     if (this.liveClassFor) {
       this.getClasses = this.previosLiveClasses;
       this.classListDataSource = this.previosLiveClasses;
@@ -1454,7 +1497,23 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     this.viewClassData.master_course = '-';
     this.viewClassData.product_names = '-';
     if(this.viewClassData.course_list && this.viewClassData.course_list.length) {
-      this.viewClassData.master_course = Array.prototype.map.call(this.viewClassData.course_list, s => s.master_course_name).toString();
+      this.viewClassData.master_course = [];
+      for(let i=0;i<this.viewClassData.course_list.length;i++) {
+        if(i == 0) {
+          this.viewClassData.master_course.push(this.viewClassData.course_list[0].master_course_name);
+        } else{
+          // for(let j=0;j<this.viewClassData.master_course.length;j++) {
+            if(!this.viewClassData.master_course.includes(this.viewClassData.course_list[i].master_course_name)) {
+              this.viewClassData.master_course.push(this.viewClassData.course_list[i].master_course_name);
+            }
+          // }
+        }
+      }
+      this.viewClassData.master_course = this.viewClassData.master_course.join(',');
+      if(this.schoolModel) {
+        this.viewClassData.subject = Array.prototype.map.call(this.viewClassData.course_list, s => (Array.prototype.map.call(s.subject_list, a => a.subject_name)).toString());
+        this.viewClassData.subject = this.viewClassData.subject.join(',')
+      }
     }
 
     if(this.viewClassData.product_list && this.viewClassData.product_list.length) {
@@ -1465,17 +1524,17 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   }
 
 
-  // @HostListener('document:keydown', ['$event'])
-  // onPopState(event) {
-  //   if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73)) {
-  //     event.preventDefault();
-  //   }
-  // }
-  // @HostListener("document:contextmenu", ['$event'])
-  // onMouseOver($event) {
-  //   $event.preventDefault();
-  //   return false;
-  // }
+  @HostListener('document:keydown', ['$event'])
+  onPopState(event) {
+    if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73)) {
+      event.preventDefault();
+    }
+  }
+  @HostListener("document:contextmenu", ['$event'])
+  onMouseOver($event) {
+    $event.preventDefault();
+    return false;
+  }
 
   toggleActionMenu(event) {
     console.log(event);
