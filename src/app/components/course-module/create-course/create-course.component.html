@@ -14,7 +14,7 @@
                 <!-- <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
                     <a routerLink="/view/course/courselist">Courses</a>
                 </li> -->
-                <li id="liTopic" #liTopic (click)="switchActiveView('liTopic')" class="">
+                <li id="liTopic" #liTopic (click)="switchActiveView('liTopic')" class="" *ngIf="!schoolModel">
                     <!-- <a *ngIf="(isLangInstitue)" routerLink="/view/course/managebatch">Batch</a> -->
                     <a routerLink="/view/course/create/topic">Topic</a>
 
