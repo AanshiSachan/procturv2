@@ -438,7 +438,7 @@
                   <button type="button" name="button" class="add-class" routerLink='/view/live-classes/add'
                     [disabled]="proctur_live_expiry_date_check"
                     [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                    <i class="fa fa-plus" aria-hidden="true" style="color: white;"></i>&nbsp;Live Class </button>
+                    <i class="fa fa-plus" aria-hidden="true" style="color: white;"></i>&nbsp;{{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class </button>
                 </span>
                 <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
                   Your Proctur Live
@@ -812,7 +812,7 @@
                   <span class=" i-class">
                     <button class="add_live_class" routerLink='/view/live-classes/add'
                       [disabled]="proctur_live_expiry_date_check"
-                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">Add Live Class</button>
+                      [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">Add {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</button>
                   </span>
                   <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
                     Your Proctur Live
@@ -1256,7 +1256,7 @@
   <div class="modal-dialog" style="width: 500px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Details</h4>
+        <h4 class="modal-title" style="font-weight: 600;">Details</h4>
         <button type="button" class="close" (click)="showViewClassPopup = false;" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">

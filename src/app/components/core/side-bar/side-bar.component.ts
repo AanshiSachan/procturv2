@@ -1602,9 +1602,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if(obj!='') {
       sessionStorage.setItem('setLiveClassType', obj);
     }
-    this.router.navigate(['/view/live-classes'])
-    .then(() => {
-    window.location.reload();
-  });
+    this.router.navigate(['/view/live-classes']).then(() => {window.location.reload();});
   }
 }

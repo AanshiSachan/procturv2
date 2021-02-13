@@ -8,8 +8,8 @@
               Live class
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <span *ngIf="repeat_session == 1">Add Live Class</span>
-            <span *ngIf="repeat_session == 0">Edit Live Class</span>
+            <span *ngIf="repeat_session == 1">Add {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span>
+            <span *ngIf="repeat_session == 0">Edit {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span>
           </h2>
         </div>
       </section>
@@ -42,8 +42,8 @@
         <div class="class_details_container" style="margin-right: 0;float: left;">
           <div>
             <span class="addClassHeader">
-              <span *ngIf="repeat_session == 1">Add Live Class</span>
-              <span *ngIf="repeat_session == 0">Edit Live Class</span></span>
+              <span *ngIf="repeat_session == 1">Add {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span>
+              <span *ngIf="repeat_session == 0">Edit {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span></span>
           </div>
           <!-- <div class="field-wrapper" style="display: flex;width: 100%;" *ngIf="is_zoom_integration_enable">
             <div class="field-radio-wrapper">

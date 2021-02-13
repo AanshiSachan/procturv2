@@ -196,6 +196,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   viewClassData: any = '';
   showCustomFilter = false;
   schoolModel: boolean = false;
+  live_class_for: any = '1';
 
   constructor(
     private auth: AuthenticatorService,
@@ -221,6 +222,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     if(sessionStorage.getItem('setLiveClassType') == null || sessionStorage.getItem('setLiveClassType') == '') {
       sessionStorage.setItem('setLiveClassType', '1');
     }
+    this.live_class_for = sessionStorage.getItem('setLiveClassType');
     let pastClass = sessionStorage.getItem('pastClass');
     if (pastClass === 'true') {
       this.liveClassFor = true;
@@ -252,7 +254,6 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
       from_date: moment().format('DD-MM-YYYY'),
       to_date: end
     }
-    this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
     this.getClassesList();
     this.getAuthKey();
     this.institution_id = sessionStorage.getItem('institution_id');
@@ -308,7 +309,6 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
       to_date: end
     }
   }
-  this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
   this.getClassesList();
  }
 
@@ -347,6 +347,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         this.obj.live_future_past = 2;
       }
     }
+    this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
     const url = '/api/v1/meeting_manager/getMeetingV2/' + this.institution_id;
     this._http.postData(url, this.obj).subscribe(
       (data: any) => {
@@ -589,7 +590,6 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         from_date: moment(begin).format('DD-MM-YYYY')
       }
       this.showCustomFilter = false;
-      this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
       this.getClassesList();
     }
     else if (obj == 'this_month') {
@@ -621,7 +621,6 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     if (this.sortDate.custom_date_range) {
       this.liveClassSearchFilter.from_date = moment(e[0]).format("DD-MM-YYYY");
       this.liveClassSearchFilter.to_date = moment(e[1]).format("DD-MM-YYYY");
-      this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
       this.getClassesList();
     }
   }
