@@ -334,7 +334,7 @@
             <li [ngClass] ="activeSession === 'lione' ? 'liActiveBG':'' "*ngIf="jsonFlags.isShowLead" (click)="toggler('lione')">
                 <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/leadIcon2.png':'./assets/images/sidemenuicon/leadsIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
-                <a routerLink="/view/leads" class="a_link">
+                <a class="a_link">
                     <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Lead</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
@@ -345,15 +345,15 @@
 
                         </li>
                     </a>
-                    <a routerLink="/view/leads/add">
+                    <!-- <a routerLink="/view/leads/add">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddEnquiry">
                             <span>Add Enquiry</span>
 
                         </li>
-                    </a>
+                    </a> -->
                     <a routerLink="/view/leads/enquiry">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowManageEnquiry">
-                            <span>Manage Enquiry</span>
+                            <span>Enquiries</span>
                         </li>
                     </a>
                    <!--<a routerLink="/view/leads/enquiryReport/counsellor">
