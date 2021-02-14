@@ -251,13 +251,13 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       this.router.navigate(['/authPage']);
     }
     if (this.schoolModel) {
-      commonApiCallService.masterDataList.subscribe(data => {
+      commonApiCallService.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
+      commonApiCallService.getAllFinancialYear().subscribe(data => {
+        this.instAcademicYrList = data
+      })
     }
-    commonApiCallService.instAcademicYrList.subscribe(data => {
-      this.instAcademicYrList = data
-    })
   }
   /* OnInit Initialized */
   ngOnInit() {

@@ -16,6 +16,7 @@
             </section>
             <!-- Accordian Menu Element -->
             <section class="middle-main clearFix" id="middleMain">
+                <aside>
                 <div class="add-new-enquiry-form accordian-section">
                     <ul class="accordian">
                         <!-- Basic Form -->
@@ -175,8 +176,8 @@
                                             <input type="text" value="" id="dob" class="form-ctrl bsDatepicker"
                                                 [(ngModel)]="newEnqData.dob" name="dob" readonly='true' bsDatepicker
                                                 style="border-radius: 4px;width: 20rem;">
-                                            <!-- <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
-                        style="left: 18rem;top: 3.5rem;">clear</span> -->
+                                            <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
+                                                style="left: 18rem;top: 3.5rem;">clear</span>
                                         </div>
                                     </div>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -199,12 +200,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="margin-top: 2%;">
+                                <!-- <div class="row" style="margin-top: 2%;">
                                     <div>
                                         <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
                                             style="left: 21rem;top: 24.5rem;">clear</span>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="row">
                                     <!-- City -->
                                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -243,7 +244,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="schoolModel">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
                                             <label for="pin_code">Pin code</label>
@@ -392,9 +393,10 @@
                                         <div class="c-lg-6 c-md-6 c-sm-6">
                                             <div class="field-wrapper">
                                                 <label for="student_adhar_no">Adhar No.</label>
-                                                <input type="text" value="" id="feeCommitted" class="form-ctrl"
-                                                    [(ngModel)]="newEnqData.student_adhar_no"
-                                                    name="student_adhar_no" #student_adhar_card="ngModel"
+                                                <input type="text" value="" id="feeCommitted" class="form-ctrl" maxlength="12"
+                                                    [(ngModel)]="newEnqData.student_adhar_no" name="student_adhar_no"
+                                                    #student_adhar_no="ngModel"
+                                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                                                     style="border-radius: 4px;width: 20rem;" />
                                             </div>
                                         </div>
@@ -417,7 +419,6 @@
                                         <!-- Phone -->
                                         <div class="field-wrapper">
                                             <label for="guardianContact">Parent Contact</label><br>
-
                                             <span class="countryCallingCode">
                                                 <select id="country_id" class="form-ctrl"
                                                     [(ngModel)]="newEnqData.country_id" name="country_id"
@@ -473,8 +474,9 @@
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
                                             <label for="guardianEmail">Parent Adhar No.</label>
-                                            <input type="text" value="" id="parent_adhar_no" class="form-ctrl"
+                                            <input type="text" value="" id="parent_adhar_no" class="form-ctrl" maxlength="12"
                                                 [(ngModel)]="newEnqData.parent_adhar_no" name="parent_adhar_no"
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                                                 #parent_adhar_no="ngModel" style="border-radius: 4px;width: 20rem;" />
                                         </div>
                                     </div>
@@ -489,12 +491,26 @@
                                 </div>
                                 <div class="row" *ngIf="schoolModel">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
-                                        <!-- Email -->
+                                        <!-- Phone -->
                                         <div class="field-wrapper">
-                                            <label for="guardian_phone">Guardian Contact</label>
+                                            <label for="guardian_phone">Guardian Contact</label><br>
+                                            <span class="countryCallingCode">
+                                                <select id="country_id" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.country_id" name="country_id"
+                                                    [disabled]="countryDetails.length<=1"
+                                                    (change)="onChangeObj($event.target.value)"
+                                                    style="height: 29px;padding: 0">
+                                                    <option value=""></option>
+                                                    <option [value]="data.id" selected
+                                                        *ngFor='let data of countryDetails'>
+                                                        {{data.country_code}} +{{data.country_calling_code}}
+                                                    </option>
+                                                </select>
+                                            </span>
                                             <input type="text" value="" id="guardian_phone" class="form-ctrl"
                                                 [(ngModel)]="newEnqData.guardian_phone" name="guardian_phone"
-                                                #guardian_phone="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                                style="border-radius: 4px;width: 15.5rem;" />
                                         </div>
                                     </div>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -502,8 +518,16 @@
                                             <label for="guardian_email">Guardian Email ID</label>
                                             <input type="text" value="" id="guardian_email" class="form-ctrl"
                                                 [(ngModel)]="newEnqData.guardian_email" name="guardian_email"
+                                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
                                                 #guardian_email="ngModel" style="border-radius: 4px;width: 20rem;" />
-                                        </div>
+                                                <div *ngIf="guardian_email.invalid && (guardian_email.dirty || guardianEmail.touched)"
+                                                class="alert invalid-alert">
+                                                <div *ngIf="guardian_email.errors.pattern">
+                                                    Enter email in format eg. someone@xyz.com
+                                                </div>
+                                            </div>
+
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -802,6 +826,7 @@
                         </li>
                     </ul>
                 </div>
+            </aside>
             </section>
             <!-- Footer for Accordian Menu -->
             <section class="middle-bottom clearFix">

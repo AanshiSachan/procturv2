@@ -9,14 +9,12 @@ import { BehaviorSubject } from "rxjs";
 export class CommonApiCallService {
   public examTypeList = new BehaviorSubject(null);
   public masterDataList = new BehaviorSubject(null);
-  public instAcademicYrList=new BehaviorSubject(null);
+  public instAcademicYrList = new BehaviorSubject(null);
 
   constructor(private http: HttpService) {
     this.fetchSchoolExamTypeList();
-    this.fetchMasterData();
-    this.getAllFinancialYear();
   }
-  fetchSchoolExamTypeList(){
+  fetchSchoolExamTypeList() {
     if (sessionStorage.getItem("is_institute_type_school") == 'true') {
       this.http.getData("/api/v1/courseExamSchedule/fetch-exam-type/" + sessionStorage.getItem("institute_id"))
         .subscribe((data: any) => {
@@ -28,25 +26,38 @@ export class CommonApiCallService {
     let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + instituteId;
     return this.http.getData(url);
   }
-  fetchMasterData() {
+  fetchMasterData(): BehaviorSubject<any> {
     if (sessionStorage.getItem("is_institute_type_school") == 'true') {
-      let obj=[
-        "MOTHER_TOUNGE",
-        "PROFESSION",
-        "CASTE_CATEGORY",
-        "BLOOD_GROUP"
-      ];
-    let url = "/api/v1/masterData/all";
-    return this.http.postData(url,obj).subscribe(data => {
-      this.masterDataList.next(data)
-    });
+      if (this.masterDataList.value == null) {
+        let obj = [
+          "MOTHER_TOUNGE",
+          "PROFESSION",
+          "CASTE_CATEGORY",
+          "BLOOD_GROUP"
+        ];
+        let url = "/api/v1/masterData/all";
+        this.http.postData(url, obj).subscribe(data => {
+          this.masterDataList.next(data)
+        });
+        return this.masterDataList;
+      }
+      else {
+        return this.masterDataList;
+      }
+    }
   }
-  }
-  getAllFinancialYear() {
-    let url = "/api/v1/academicYear/all/" + sessionStorage.getItem("institute_id");
-    return this.http.getData(url).subscribe(data=>{
-      this.instAcademicYrList.next(data);
-    })
+  getAllFinancialYear(): BehaviorSubject<any> {
+    if (sessionStorage.getItem("is_institute_type_school") == 'true') {
+      if (this.instAcademicYrList.value == null) {
+        let url = "/api/v1/academicYear/all/" + sessionStorage.getItem("institute_id");
+        this.http.getData(url).subscribe(data => {
+          this.instAcademicYrList.next(data);
+        })
+        return this.instAcademicYrList;
+      } else {
+        return this.instAcademicYrList;
+      }
+    }
   }
 
 }

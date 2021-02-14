@@ -32,21 +32,20 @@
               <div class="accordian-content">
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <!-- Source -->
-                      <div class="field-wrapper">
-                          <label for="source">Source<span class="text-danger">*</span></label>
-                          <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id"
-                              name="source" style="border-radius: 4px;width: 20rem;">
-                              <option value="-1"></option>
-                              <option *ngFor="let source of sourceLead" [value]="source.id">
-                                  {{source.name}}</option>
-                          </select>
-                          <span (click)="showAddSourcePops()" class="sourceI iconPlus"
-                              style="left: 20rem;">+</span>
-                      </div>
+                    <!-- Source -->
+                    <div class="field-wrapper">
+                      <label for="source">Source<span class="text-danger">*</span></label>
+                      <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source"
+                        style="border-radius: 4px;width: 20rem;">
+                        <option value="-1"></option>
+                        <option *ngFor="let source of sourceLead" [value]="source.id">
+                          {{source.name}}</option>
+                      </select>
+                      <span (click)="showAddSourcePops()" class="sourceI iconPlus" style="left: 20rem;">+</span>
+                    </div>
                   </div>
-              </div>
-             
+                </div>
+
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Name -->
@@ -87,33 +86,31 @@
                 </div>
                 <div class="row" *ngIf="schoolModel">
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <!-- standard Course-->
-                      <div *ngIf="!isProfessional" class="field-wrapper">
-                          <label for="editStandard">Standard</label>
-                          <select id="editStandard" class="form-ctrl" [(ngModel)]="course_standard_id"
-                              (ngModelChange)="fetchSubject($event)" name="editStandard"
-                              style="border-radius: 4px;width: 20rem;">
-                              <option value="-1"></option>
-                              <option *ngFor="let std of enqStd" [value]="std.standard_id">
-                                  {{std.standard_name}}</option>
-                          </select>
-                      </div>
+                    <!-- standard Course-->
+                    <div *ngIf="!isProfessional" class="field-wrapper">
+                      <label for="editStandard">Standard</label>
+                      <select id="editStandard" class="form-ctrl" [(ngModel)]="course_standard_id"
+                        (ngModelChange)="fetchSubject($event)" name="editStandard"
+                        style="border-radius: 4px;width: 20rem;">
+                        <option value="-1"></option>
+                        <option *ngFor="let std of enqStd" [value]="std.standard_id">
+                          {{std.standard_name}}</option>
+                      </select>
+                    </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <!-- Academic Yr -->
-                      <div class="field-wrapper">
-                          <label for="editMc">Academic Year</label>
-                          <select id="editMc" class="form-ctrl" name="editMc"
-                              [(ngModel)]="editEnqData.inst_acad_year_id"
-                              style="border-radius: 4px;width: 20rem;">
-                              <option value="-1"></option>
-                              <option *ngFor="let data of instAcademicYrList"
-                                  [value]="data.inst_acad_year_id">
-                                  {{data.inst_acad_year}}</option>
-                          </select>
-                      </div>
+                    <!-- Academic Yr -->
+                    <div class="field-wrapper">
+                      <label for="editMc">Academic Year</label>
+                      <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="editEnqData.inst_acad_year_id"
+                        style="border-radius: 4px;width: 20rem;">
+                        <option value="-1"></option>
+                        <option *ngFor="let data of instAcademicYrList" [value]="data.inst_acad_year_id">
+                          {{data.inst_acad_year}}</option>
+                      </select>
+                    </div>
                   </div>
-              </div>
+                </div>
 
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
@@ -152,8 +149,8 @@
                       <label for="dob">Date of Birth</label>
                       <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.dob"
                         name="dob" readonly='true' style="border-radius: 4px;width: 20rem;" bsDatepicker>
-                      <!-- <span class="date-clear" name="dob" (click)="editEnqData.dob = ''" style="left: 18rem;
-  top: 3.5rem;">clear</span> -->
+                      <span class="date-clear" name="dob" (click)="editEnqData.dob = ''" style="left: 18rem;
+  top: 3.5rem;">clear</span>
                     </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
@@ -174,14 +171,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="row" style="margin-top: 2%;">
+                <!-- <div class="row" style="margin-top: 2%;">
                   <div>
                     <span class="date-clear" name="dob" (click)="editEnqData.dob = ''"
                       style="left: 21rem;top: 23rem;">clear</span>
                   </div>
-                </div>
-
-
+                </div> -->
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- City -->
@@ -215,7 +210,7 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row" *ngIf="schoolModel">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper">
                       <label for="pin_code">Pin code</label>
@@ -349,9 +344,10 @@
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
                         <label for="student_adhar_no">Adhar No.</label>
-                        <input type="text" value="" id="feeCommitted" class="form-ctrl"
+                        <input type="text" value="" id="feeCommitted" class="form-ctrl"  maxlength="12"
                           [(ngModel)]="editEnqData.student_adhar_no" name="student_adhar_no"
-                          #student_adhar_card="ngModel" style="border-radius: 4px;width: 20rem;" />
+                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                          #student_adhar_no="ngModel" style="border-radius: 4px;width: 20rem;" />
                       </div>
                     </div>
                   </div>
@@ -412,57 +408,75 @@
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="schoolModel">
                     <div class="field-wrapper">
-                        <label for="enquirerLink">Parent profession</label>
-                        <select id="parent_profession" class="form-ctrl"
-                            [(ngModel)]="editEnqData.parent_profession" name="parent_profession"
-                            style="border-radius: 4px;width: 20rem;">
-                            <option value="-1"></option>
-                            <option *ngFor="let data of masterDataList.PROFESSION"
-                                [value]="data.data_key">
-                                {{data.data_value}}</option>
-                        </select>
+                      <label for="enquirerLink">Parent profession</label>
+                      <select id="parent_profession" class="form-ctrl" [(ngModel)]="editEnqData.parent_profession"
+                        name="parent_profession" style="border-radius: 4px;width: 20rem;">
+                        <option value="-1"></option>
+                        <option *ngFor="let data of masterDataList.PROFESSION" [value]="data.data_key">
+                          {{data.data_value}}</option>
+                      </select>
                     </div>
-                </div>
+                  </div>
                 </div>
                 <div class="row" *ngIf="schoolModel">
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                          <label for="guardianEmail">Parent Adhar No.</label>
-                          <input type="text" value="" id="parent_adhar_no" class="form-ctrl"
-                              [(ngModel)]="editEnqData.parent_adhar_no" name="parent_adhar_no"
-                              #parent_adhar_no="ngModel" style="border-radius: 4px;width: 20rem;" />
-                      </div>
+                    <div class="field-wrapper">
+                      <label for="guardianEmail">Parent Adhar No.</label>
+                      <input type="text" value="" id="parent_adhar_no" class="form-ctrl" maxlength="12"
+                        [(ngModel)]="editEnqData.parent_adhar_no" name="parent_adhar_no" #parent_adhar_no="ngModel"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        style="border-radius: 4px;width: 20rem;" />
+                    </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                          <label for="guardian_name">Guardian Name</label>
-                          <input type="text" value="" id="guardian_name" class="form-ctrl"
-                              [(ngModel)]="editEnqData.guardian_name" name="guardian_name"
-                              #guardian_name="ngModel" style="border-radius: 4px;width: 20rem;" />
-                      </div>
+                    <div class="field-wrapper">
+                      <label for="guardian_name">Guardian Name</label>
+                      <input type="text" value="" id="guardian_name" class="form-ctrl"
+                        [(ngModel)]="editEnqData.guardian_name" name="guardian_name" #guardian_name="ngModel"
+                        style="border-radius: 4px;width: 20rem;" />
+                    </div>
                   </div>
-              </div>
-              <div class="row" *ngIf="schoolModel">
+                </div>
+                <div class="row" *ngIf="schoolModel">
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <!-- Email -->
-                      <div class="field-wrapper">
-                          <label for="guardian_phone">Guardian Contact</label>
-                          <input type="text" value="" id="guardian_phone" class="form-ctrl"
-                              [(ngModel)]="editEnqData.guardian_phone" name="guardian_phone"
-                              #guardian_phone="ngModel" style="border-radius: 4px;width: 20rem;" />
-                      </div>
+                    <!-- Phone -->
+                    <div class="field-wrapper">
+                      <label for="guardian_phone">Guardian Contact</label><br>
+                      <span class="countryCallingCode">
+                        <select id="country_id" class="form-ctrl" [(ngModel)]="editEnqData.country_id" name="country_id"
+                          [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
+                          style="height: 29px;padding: 0">
+                          <option value=""></option>
+                          <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                            {{data.country_code}} +{{data.country_calling_code}}
+                          </option>
+                        </select>
+                      </span>
+                      <input type="text" value="" id="guardian_phone" class="form-ctrl"
+                        [(ngModel)]="editEnqData.guardian_phone" name="guardian_phone"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        style="border-radius: 4px;width: 15.5rem;" />
+                    </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                          <label for="guardian_email">Guardian Email ID</label>
-                          <input type="text" value="" id="guardian_email" class="form-ctrl"
-                              [(ngModel)]="editEnqData.guardian_email" name="guardian_email"
-                              #guardian_email="ngModel" style="border-radius: 4px;width: 20rem;" />
+                    <div class="field-wrapper">
+                      <label for="guardian_email">Guardian Email ID</label>
+                      <input type="text" value="" id="guardian_email" class="form-ctrl"
+                        [(ngModel)]="editEnqData.guardian_email" name="guardian_email" #guardian_email="ngModel"
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
+                        style="border-radius: 4px;width: 20rem;" />
+                    </div>
+                    <div *ngIf="guardian_email.invalid && (guardian_email.dirty || guardian_email.touched)"
+                      class="alert invalid-alert">
+                      <div *ngIf="guardian_email.errors.pattern">
+                        Enter email in format eg. someone@xyz.com
                       </div>
-                  </div>
-              </div>
+                    </div>
 
-                  <div class="row">
+                  </div>
+                </div>
+
+                <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Link -->
                     <div class="field-wrapper">
@@ -532,25 +546,23 @@
                 </div>
                 <div class="row" *ngIf='schoolModel'>
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                          <label for="educational_group">Group</label>
-                          <input type="text" value="" id="educational_group" class="form-ctrl"
-                              [(ngModel)]="editEnqData.educational_group" name="educational_group"
-                              #educational_group="ngModel" style="border-radius: 4px;width: 20rem;" />
-                      </div>
+                    <div class="field-wrapper">
+                      <label for="educational_group">Group</label>
+                      <input type="text" value="" id="educational_group" class="form-ctrl"
+                        [(ngModel)]="editEnqData.educational_group" name="educational_group"
+                        #educational_group="ngModel" style="border-radius: 4px;width: 20rem;" />
+                    </div>
                   </div>
                   <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper">
-                          <label for="extra_curricular_activities">Extra Curricular Activities</label>
-                          <input type="text" value="" id="extra_curricular_activities"
-                              class="form-ctrl" [(ngModel)]="editEnqData.extra_curricular_activities"
-                              name="extra_curricular_activities"
-                              #extra_curricular_activities="ngModel"
-                              style="border-radius: 4px;width: 20rem;" />
-                      </div>
+                    <div class="field-wrapper">
+                      <label for="extra_curricular_activities">Extra Curricular Activities</label>
+                      <input type="text" value="" id="extra_curricular_activities" class="form-ctrl"
+                        [(ngModel)]="editEnqData.extra_curricular_activities" name="extra_curricular_activities"
+                        #extra_curricular_activities="ngModel" style="border-radius: 4px;width: 20rem;" />
+                    </div>
                   </div>
 
-              </div>
+                </div>
 
 
                 <div class="row" *ngIf="!schoolModel">
@@ -566,7 +578,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6" >
+                  <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- masterCourse course -->
                     <div *ngIf="!isProfessional" class="field-wrapper">
                       <label for="editMc">Master Course</label>
