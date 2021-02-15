@@ -126,7 +126,7 @@
                   </span> 
                 </div>
                 <div style="width: 20%;" *ngIf="!data.isEdit" class="tableData">
-                  <span class="right pr-40">
+                  <span class="right pr-40" style="padding-right: 20px;">
                   <a (click)="EditSource(data, data.name)" style="vertical-align: middle;cursor: pointer;">
                     <img src="../../../../assets/images/EDit.png">
                   </a>
@@ -259,14 +259,14 @@
               <div class="tableData small">
                 <span>City</span>
               </div>
-              <div class="tableData large">
+              <div class="tableData large" style="width: 50%;">
                 <span>Area</span>
               </div>
-              <div class="tableData align-center medium">
+              <!-- <div class="tableData align-center medium">
                 <span>Active Status</span>
-              </div>
+              </div> -->
               <div class="tableData align-center medium">
-                <span>Action</span>
+                <span class="pr-40 right">Action</span>
               </div>
             </div>
             <div class="section" *ngIf="countryStateAreaList?.length > 0">
@@ -279,16 +279,16 @@
                   <span
                     title="{{record?.city}}">{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
                 </div>
-                <div class="tableData large">
+                <div class="tableData large" style="width: 50%;">
                   <span
                     title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 50) ? (record.area | slice:0:50) + '...' : record.area }}</span>
                 </div>
-                <div class="tableData align-center medium">
+                <!-- <div class="tableData align-center medium">
                   <span *ngIf="record?.is_active == 'Y'" class="yes">Yes</span>
                   <span *ngIf="record?.is_active == 'N'" class="no">No</span>
-                </div>
+                </div> -->
                 <div class="tableData align-center medium">
-                  <span class="right pr-40">
+                  <span class="right pr-40" style="padding-right: 25px">
                     <a (click)="editArea(record)" data-toggle="modal" data-target="#editCityArea" style="vertical-align: middle;cursor: pointer;">
                       <img src="../../../../assets/images/EDit.png">
                     </a>
@@ -336,7 +336,7 @@
                   </span> 
                 </div>
                 <div style="width: 20%;" *ngIf="!data.isEdit" class="tableData">
-                  <span class="right pr-40">
+                  <span class="right pr-40" style="padding-right: 25px;">
                   <a (click)="EditSource(data, data.name)" style="vertical-align: middle;cursor: pointer;">
                     <img src="../../../../assets/images/EDit.png">
                   </a>

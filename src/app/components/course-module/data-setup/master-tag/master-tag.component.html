@@ -1,87 +1,63 @@
 <div class="master-wrapper clearFix">
-  <section class="header-section">
-    <div class="header-full">
-      <div class="row m-5">
-        <h2
-          style="padding: 16px 0px 3px 10px; font-size: 14px"
-          class="pull-left"
-        >
-        <a *ngIf="!isProfessional" style="padding:0px; ">
-        Setup
-        </a>
-        <a routerLink="/view/batch" *ngIf="isProfessional" style="padding:0px; ">
-          Batch
-        </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-          <span> Manage Tag</span>
-        </h2>
-      </div>
-      <div class="m-5 filter_div">
-        <div class="field-wrapper" style="margin-left: 0 !important;">
-          <label>Master Tag<span class="text-danger">*</span></label>
-          <div class="dropdown-div pt-2">
-            <select
-              class="dropdown"
-              [(ngModel)]="selectedTag"
-            >
-              <option value="-1">Select Master Tag</option>
-              <option
-                *ngFor="let tag of allTagsList; let i = index"
-                [value]="tag.tagId"
-                (ngModelChange)="selectTag(selectedTag)"
-                >{{ tag.tagName }}</option
-              >
-            </select>
-          </div>
+  <div id="Manage_Tag" class="tab-pane">
+    <div class="w96">
+  <div>
+    <div class="row">
+        <div class="col-lg-12 col-12">
+            <div class="row">
+                <div class="col-lg-7 col-12">
+
+                </div>
+                <div class="col-lg-5 col-12">
+                    <span class="right">
+                        <input type="text"  [(ngModel)]="searchTag" (keyup)="filterTag()" placeholder="Search" class="input magnifying-glass">
+                        <button data-target="#addTag" data-toggle="modal"  class="search">Add Tag</button>
+                    </span>
+                </div>
+            </div>
         </div>
-        <button class="btn fullBlue" (click)="getTagDetails()">View</button>
-        <button
-          class="btn fullBlue pull-right"
-          style="margin-top: 18px;" data-target="#addTag" data-toggle="modal" 
-        >
-          + Add New Tag
-        </button>
-      </div>
     </div>
-  </section>
-  <section class="table-control">
-    <div class="col-lg-8"></div>
-    <div class="col-lg-4 p-0">
-      <div class="field-wrapper">
-          <input class="search-box form-ctrl"  type="text"  [(ngModel)]="searchTag" (keyup)="filterTag()" placeholder="Search tag here"/>
-      </div>
-    </div>
-</section>
+</div>
 
 
   <div class="table-container tag-detail-container" *ngIf="tagDetailsData.length">
-    <table>
+    <table style="margin-top: 0;">
       <thead class="table-header">
-        <tr>
-          <th class="b-grey line-0">Tag Id </th>
-          <th class="text-left b-grey line-0">Tag Name</th>
-          <th class="text-left b-grey line-0">Description</th>
+        <tr style="box-shadow: -1px 1px 6px 0px rgb(0 0 0 / 10%);">
+          <th style="width: 10%;" class="b-grey line-0">Tag Id </th>
+          <th style="width: 20%;" class="text-left b-grey line-0">Tag Name</th>
+          <th style="width: 40%;" class="text-left b-grey line-0">Description</th>
           <th class="b-grey line-0">Active</th>
-          <th class="b-grey text-left line-0">Action</th>
+          <th class="b-grey text-left line-0">
+            <span class="right pr-40" style="padding-right: 30px;">Action</span></th>
         </tr>
       </thead> 
-      <tr *ngFor="let list of tagDetailsData">
-        <td class="tbl-row">{{list.tagId}}</td>
-        <td class="text-left tbl-row" title="{{list.tagName}}" >{{(list.tagName.length > 35) ? (list.tagName | slice:0:35) + '...': (list.tagName) }}</td>
-        <td class="text-left tbl-row" title="{{list.description}}" *ngIf="list.description != null && list.description != ''">{{(list.description.length > 35) ? (list.description | slice:0:35) +'...' :(list.description)  }}</td>
-        <td class="text-left tbl-row" *ngIf="list.description == null || list.description == ''">-</td>
-        <td class="tbl-row">{{list.is_active}}</td>
+      <tbody style="min-height: 55vh;max-height: 55vh;">
+      <tr style="box-shadow: -1px 1px 6px 0px rgb(0 0 0 / 10%);" *ngFor="let list of tagDetailsData">
+        <td style="width: 10%;" class="tbl-row">{{list.tagId}}</td>
+        <td style="width: 20%;" class="text-left tbl-row" title="{{list.tagName}}" >{{(list.tagName.length > 35) ? (list.tagName | slice:0:35) + '...': (list.tagName) }}</td>
+        <td style="width: 40%;" class="text-left tbl-row" title="{{list.description}}" *ngIf="list.description != null && list.description != ''">{{(list.description.length > 35) ? (list.description | slice:0:35) +'...' :(list.description)  }}</td>
+        <td style="width: 40%;" class="text-left tbl-row" *ngIf="list.description == null || list.description == ''">-</td>
+        <td class="tbl-row">
+          <span [ngClass]="(list.is_active == 'Y') ? 'yes' : 'no'">{{list.is_active}}</span>
+        </td>
         
-        <td class="text-left p-0">
-          <span class="p-0-5" title="Edit Tag" (click)="openEditModal(list)">
-            <i class="fa fa-pencil edit-color"></i>
+        <td class="tbl-row text-left p-0">
+          <span class="right pr-40">
+            <a (click)="openEditModal(list)"
+                style="vertical-align: middle;cursor: pointer;">
+                <img src="../../../../assets/images/EDit.png">
+            </a>
           </span>
          <!--  <span class="p-0-5" title="Delete Tag"  (click)="openDeleteModal(list.tagId)">
             <i class="fa fa-trash-o delete-color"></i>
           </span> -->
         </td>
       </tr>
+    </tbody>
     </table>   
+  </div>
+  </div>
   </div>
 
  <!--  <div *ngIf="isSearchItemExist" class="noSearchItem">
@@ -89,7 +65,7 @@
   </div> -->
 </div>
 <!--add tag master modal-->
-<div class="modal fade" id="addTag" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" style="top: 10%;" id="addTag" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -137,7 +113,7 @@
 </div>
 
 <!--update master tag-->
-<div class="modal fade" id="updateTag" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" style="top: 10%;" id="updateTag" role="dialog"  tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

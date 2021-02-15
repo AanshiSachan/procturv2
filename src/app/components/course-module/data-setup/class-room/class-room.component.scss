@@ -1,4 +1,5 @@
 @import "./src/assets/css/common/variables.scss";
+@import "../data-setup-home/data-setup-home.component.scss";
 table {
     thead {
         tr {
@@ -80,6 +81,8 @@ tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
+    border-left: none;
+    border-radius: 0;   
 }
 .anchorTagCursor {
     cursor: pointer;
@@ -91,7 +94,7 @@ tbody tr {
 screen and (max-height: 768px) {
     #divSlotTable {
         margin-left: 0px !important;
-        margin-top: 15px;
+        // margin-top: 15px;
         margin-right: 15px !important;
         // max-height: 480px;
         overflow: hidden;
@@ -242,6 +245,10 @@ form{
 }
 table th, table td {
     text-align: left;
+    border-top: none !important;
+    border-bottom: none !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .btn-sms-search {
     margin-top: 35px;
@@ -261,3 +268,6 @@ table th, table td {
 //         font-size: 14px;
 //         margin-left: 229px;
 //     }
+input {
+    height: 40px;
+}

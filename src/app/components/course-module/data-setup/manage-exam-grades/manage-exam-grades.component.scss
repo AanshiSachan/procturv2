@@ -1,7 +1,8 @@
 @import "./src/assets/css/common/variables.scss";
+@import "../data-setup-home/data-setup-home.component.scss";
 
 .pageMargin{
-    margin-left: 20px;
+    // margin-left: 20px;
     margin-right: 20px;
 }
 .btn {
@@ -10,12 +11,12 @@
     margin-top: -2rem;
 }
 th{
-    background-color: #e0eaec;
+    background-color: #DFE5F0;
     color: black;
 }
 tr {
-    border-radius: 12px;
-    border-left: 5px solid #e0eaec;
+    // border-radius: 12px;
+    // border-left: 5px solid #e0eaec;
     box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
     margin-bottom: 5px;
     margin-top: 5px;
@@ -57,6 +58,7 @@ table {
             }
         }
         tr {
+            border-left: none !important;
             td {
                 .edit {
                     cursor: pointer;
@@ -64,8 +66,10 @@ table {
                 .anchorTag {
                     margin-left: 10px;
                 }
-                padding-bottom: 10px;
-                padding-top: 10px;
+                padding-bottom: 5px;
+                padding-top: 5px;
+                border-top: none !important;
+                border-bottom: none !important;
                 .editOptions li {
                     display: inline-block;
                 }
@@ -222,4 +226,7 @@ screen and (max-height: 768px) {
             }
         }
     }
+}
+input {
+    height: 40px;
 }

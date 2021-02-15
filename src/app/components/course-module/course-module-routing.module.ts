@@ -3,9 +3,10 @@ import { RouterModule } from '@angular/router';
 import { CourseModuleComponent } from './course-module.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
 import { TimeTableComponent } from './time-table/time-table.component';
-import { MasterTagComponent } from './master-tag/master-tag.component';
+// import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import {SetupComponent} from './setup/setup.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
@@ -63,10 +64,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
           // loadChildren: 'app/components/course-module/Archiving/archiving.module#ArchivingModule',
           pathMatch: 'prefix'
         },
-        {
-          path: 'master-tag',
-          component: MasterTagComponent
-        },
+       
         // {
         //     path: 'online-assignment',
         //     loadChildren: 'app/components/course-module/online-assignment/online-assignment.module#OnlineAssignmentModule',
