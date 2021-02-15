@@ -25,6 +25,7 @@ import { HttpService } from '../../services/http.service';
 import { ManageExamModule } from '../master/master.module';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     RegisteredStudentsComponent,
     StudentsComponent,
     StudentsArchivedReportComponent,
-    ViewReportCardComponent
+    ViewReportCardComponent,
+    StudentAddNewComponent
   ],
   providers: [
     AddStudentPrefillService,

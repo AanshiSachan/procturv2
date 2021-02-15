@@ -29,7 +29,7 @@
                 </h4>
               </div>
               <!-- Accordian Form 1  -->
-              <div class="accordian-content">
+              <div class="accordian-content middle-left-auto">
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Source -->
@@ -344,10 +344,10 @@
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
                         <label for="student_adhar_no">Adhar No.</label>
-                        <input type="text" value="" id="feeCommitted" class="form-ctrl"  maxlength="12"
+                        <input type="text" value="" id="feeCommitted" class="form-ctrl" maxlength="12"
                           [(ngModel)]="editEnqData.student_adhar_no" name="student_adhar_no"
-                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                          #student_adhar_no="ngModel" style="border-radius: 4px;width: 20rem;" />
+                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #student_adhar_no="ngModel"
+                          style="border-radius: 4px;width: 20rem;" />
                       </div>
                     </div>
                   </div>
@@ -524,11 +524,9 @@
                   <span class="open-accor" id="openAcademic" (click)="toggleForm($event)">+</span>
                 </h4>
               </div>
-              <div class="accordian-content">
-
+              <div class="accordian-content middle-left-auto">
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
-
                     <div class="field-wrapper">
                       <label for="institutionName">Institution Name</label>
                       <select id="institutionName" class="form-ctrl" [(ngModel)]="editEnqData.school_id"
