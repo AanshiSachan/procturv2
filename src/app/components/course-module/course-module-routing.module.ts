@@ -6,7 +6,6 @@ import { TimeTableComponent } from './time-table/time-table.component';
 // import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
-import {SetupComponent} from './setup/setup.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
