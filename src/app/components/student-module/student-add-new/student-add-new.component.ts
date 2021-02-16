@@ -643,7 +643,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.add('active');
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.remove('active');
-          document.getElementById('li-four').classList.remove('active');
+         // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = true;
           this.isOtherActive = false;
           this.isFeeActive = false;
@@ -657,9 +657,10 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       case 'kyc': {
         if (this.student_id == 0 || this.student_id == null) {
           document.getElementById('li-one').classList.remove('active');
+          document.getElementById('li-two').classList.add('step_active');
           document.getElementById('li-two').classList.add('active');
           document.getElementById('li-three').classList.remove('active');
-          document.getElementById('li-four').classList.remove('active');
+         // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
@@ -675,8 +676,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (this.student_id != 0 && this.student_id != null) {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.add('active');
-          document.getElementById('li-four').classList.remove('active');
+          document.getElementById('li-three').classList.add('step_active');
+         // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = false;
           this.isFeeActive = true;
