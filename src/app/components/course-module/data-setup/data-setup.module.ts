@@ -12,6 +12,7 @@ import { DataSetupHomeComponent } from './data-setup-home/data-setup-home.compon
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 import { ClassRoomComponent } from './class-room/class-room.component';
 import { SchoolExamTypeComponent } from './school-exam-type/school-exam-type.component';
+import { MasterTagComponent } from './master-tag/master-tag.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { SchoolExamTypeComponent } from './school-exam-type/school-exam-type.com
     ManageExamGradesComponent,
     ClassRoomComponent,
     SchoolExamTypeComponent
+    MasterTagComponent
   ],
   providers: [
       ExamGradeServiceService,

@@ -40,6 +40,8 @@ export class TeacherEditComponent implements OnInit {
   teacher_user_id:any = 0;
   assigned_standard_subject_list: any[] = [];
 
+  imgPrefill = 'data:image/png;base64';
+  imgFile: any  = '';
   constructor(
     private route: Router,
     private ApiService: TeacherAPIService,
@@ -293,6 +295,7 @@ getSubjects(event) {
         let setFormData = this.getFormFieldsdata(data);
         this.editTeacherForm.setValue(setFormData);
         this.studentImage = data.photo;
+        this.setServerImg();
         this.hasIdCard = data.hasIDCard;
         this.teacher_user_id = data.user_id;
         this.getUploadedFileData();
@@ -303,6 +306,19 @@ getSubjects(event) {
       }
     );
   }
+
+  setServerImg() {
+    if (this.studentImage === '' || this.studentImage === null) {
+    }
+    else {
+      this.imgFile = "";
+        const temp: any[] = [];
+        temp[0] = this.imgPrefill;
+        temp[1] = this.studentImage;
+        this.imgFile = temp.join(',');
+      }
+  }
+
 
   createEditTeacherForm() {
     this.editTeacherForm = this.fb.group({
@@ -403,8 +419,8 @@ getSubjects(event) {
     dataToBind.country_id = data.country_id;
     // dataToBind.dob = '1998-2-2';
     // dataToBind.date_of_joining = '1998-2-2'
-    dataToBind.dob = data.dob ? moment(data.dob).format("YYYY-MM-DD") : '';
-    dataToBind.date_of_joining = data.date_of_joining ? moment(data.date_of_joining).format("YYYY-MM-DD") : '';
+    dataToBind.dob = (dataToBind.dob != '' && dataToBind.dob != null) ? moment(data.dob).format("YYYY-MM-DD") : '';
+    dataToBind.date_of_joining = (dataToBind.date_of_joining !='' && dataToBind.date_of_joining != null) ? moment(data.date_of_joining).format("YYYY-MM-DD") : '';
     this.country_id = data.country_id;
     let standatd_temp: any[] = [];
     let subject_temp: any[] = [];
@@ -511,8 +527,8 @@ getSubjects(event) {
     formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     formData.is_employee_to_be_create = "N";
     formData.country_id = this.instituteCountryDetObj.id;
-    formData.dob = moment(formData.dob).format('YYYY-MM-DD');
-    formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
+    formData.dob = (formData.dob!=null && formData.dob!='') ? moment(formData.dob).format('YYYY-MM-DD') : '';
+    formData.date_of_joining = (formData.date_of_joining!=null && formData.date_of_joining!='') ? moment(formData.date_of_joining).format('YYYY-MM-DD') : '';
     // formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     if(this.selectedFiles.length) {
       formData.teacher_file_upload_list = this.selectedFiles;
@@ -679,11 +695,34 @@ getSubjects(event) {
 
   setImage(e) {
     this.studentImage = e;
+    console.log(this.studentImage);
   }
 
   updateIdCard($event) {
     $event.preventDefault();
     this.idCardTeacher.nativeElement.click();
+  }
+
+  getFile() {
+    document.getElementById("upfile").click();
+  }
+
+  // uploadHandler(ev) {
+  //   console.log(ev);
+  //   const file = ev[0];
+  //   const fileData = this.readFile(file);
+  // }
+
+
+  readFile(file: any): any {
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        this.setImage((<string>reader.result).split(',')[1]);
+        return (<string>reader.result).split(',')[1];
+      };
+    }
   }
 
 }

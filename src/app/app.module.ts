@@ -12,7 +12,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { AppComponent, AuthenticatorService, CommonServiceFactory, ExpensesService, FetchenquiryService, FetchprefilldataService, HttpService, LoginService, MessageShowService, MultiBranchDataService, PaginationService, PostEnquiryDataService, TablePreferencesService } from '.';
 import { AppMainLoaderComponent } from './app-loader/app-loader.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MasterTagService } from './components/course-module/master-tag/master-tag.component.service';
+import { MasterTagService } from './components/course-module/data-setup/master-tag/master-tag.component.service';
 import { SharedModule } from './components/shared/shared.module';
 /* Interceptors */
 // import { I1, I2 } from './interceptors/load-interceptor';
