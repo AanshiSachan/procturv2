@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
+import { CommonApiCallService } from '../../../services/common-api-call.service';
 import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
@@ -97,7 +98,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   taxEnableCheck: any = '1';
   discountReason: string = '';
   key: string = 'name';
-  containerWidth: any = "200px";
+  containerWidth: any = "110px";
+  containerHeight: any = "110px";
   studentImage: string = '';
   student_id: any = 0;
   paymentMode: number = 0;
@@ -220,7 +222,18 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     archivedStudent: false,
     studentFileUploadJson: [],
     assigned_to_id: "0",
-    optional_subject_id: []
+    optional_subject_id: [],
+    birth_place: '',
+    blood_group: '-1',
+    category: '-1',
+    nationality: '',
+    student_adhar_no: '',
+    parent_adhar_no: '',
+    parent_profession: '-1',
+    mother_tounge: '-1',
+    extra_curricular_activities: '',
+    educational_group: '',
+    pin_code: ''
   };
 
   enqAssignTo: any = [];
@@ -306,6 +319,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   Payment_Modes: any = [];
   role_feature = role.features;
   schoolModel: boolean = false;
+  masterDataList: any={};
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -318,7 +332,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     private feeService: StudentFeeService,
     private apiService: CourseListService,
     private msgToast: MessageShowService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private commonApiCall:CommonApiCallService
   ) {
     this.getInstType();
     this.getSettings();
@@ -475,7 +490,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     if (this.checkStatusofStudent) {
       this.areaList = [];
     }
-    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "" && this.studentAddFormData.city_id!=null) {
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "" && this.studentAddFormData.city_id != null) {
       const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -567,6 +582,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         }
       }
     )
+    if(this.schoolModel){
+      this.commonApiCall.fetchMasterData().subscribe(data=>{
+        this.masterDataList = data;
+      })
+    }
   }
 
 
@@ -643,7 +663,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.add('active');
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.remove('active');
-         // document.getElementById('li-four').classList.remove('active');
+          // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = true;
           this.isOtherActive = false;
           this.isFeeActive = false;
@@ -660,7 +680,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-two').classList.add('step_active');
           document.getElementById('li-two').classList.add('active');
           document.getElementById('li-three').classList.remove('active');
-         // document.getElementById('li-four').classList.remove('active');
+          // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
@@ -677,7 +697,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.add('step_active');
-         // document.getElementById('li-four').classList.remove('active');
+          // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = false;
           this.isFeeActive = true;
@@ -925,9 +945,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   /* align the user selected batch into input and update the data into array to be updated to server */
   getassignedBatchList(e) {
     let temp = [];
-    if(e.batchJoiningDates && e.batchJoiningDates.length) {
+    if (e.batchJoiningDates && e.batchJoiningDates.length) {
       e.batchJoiningDates.forEach(el => {
-            temp.push(moment(el).format('YYYY-MM-DD'));
+        temp.push(moment(el).format('YYYY-MM-DD'));
       });
     }
     this.studentAddFormData.assignedBatches = e.assignedBatches;
@@ -2688,8 +2708,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       this.msgToast.showErrorMessage('success', '', "File deleted successfully");
     }
   }
-  fetchCourseListByStdId(standard_id){
-    if(this.schoolModel){
+  fetchCourseListByStdId(standard_id) {
+    if (this.schoolModel) {
       this.updateMasterCourseList(standard_id);
     }
   }
@@ -2711,4 +2731,4 @@ export class SortPipe {
     });
     return array;
   }
-  }
+}

@@ -1,9 +1,9 @@
 export interface StudentForm {
 	student_name?: any, //"test 122",
-	country_id?:any,
-	state_id?:any,
-	city_id?:any,
-	area_id?:any,
+	country_id?: any,
+	state_id?: any,
+	city_id?: any,
+	area_id?: any,
 	student_sex?: any, //"M",
 	student_email?: any, // "tester@gmail.com",
 	student_phone?: any, // "8844334455",
@@ -43,7 +43,19 @@ export interface StudentForm {
 	stuCustomLi?: any, //
 	deleteCourse_SubjectUnPaidFeeSchedules: any,
 	archivedStudent?: any,
-	studentFileUploadJson?:any,
-	assigned_to_id?:any
-	optional_subject_id?:any;
+	studentFileUploadJson?: any,
+	assigned_to_id?: any
+	optional_subject_id?: any,
+	birth_place?: any,
+	blood_group?: any,
+	category?: any,
+	nationality?: any,
+	student_adhar_no?: any,
+	parent_adhar_no?: any,
+	parent_profession?: any,
+	mother_tounge?: any,
+	extra_curricular_activities?: any,
+	educational_group?: any,
+	pin_code?: any,
+	inst_acad_year_id?: any
 }
