@@ -6,25 +6,18 @@
         <div class="flex w40">
           <div lass="content_img">
             <div class="container1">
-              <!-- <img src="./assets/images/image23.png" alt="Avatar" class="image profile">
-              <div class="overlay">
-                <div class="text">Add image</div>
-              </div> -->
               <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
                 [containerHeight]="containerHeight" (setImage)="setImage($event)">
               </proctur-image>
             </div>
           </div>
-          <!-- <div class="caption">
-            <p>Add&nbsp;Profile<br> Picture</p>
-          </div>-->
         </div>
         <div class="w100">
           <div class="container">
             <ul class="progressbar">
               <li class="step1 step_active active" id="li-one" (click)="switchToView($event.target.id)">
                 Personal&nbsp;Details</li>
-              <li class="step2" id="li-two" (click)="switchToView($event.target.id)">Other&nbsp;Details
+              <li class="step2" id="li-two" [class.hide]="!quickAddStudent" (click)="switchToView($event.target.id)">Other&nbsp;Details
               </li>
               <li class="step3" id="li-three" (click)="switchToView($event.target.id)">Fee&nbsp;Details
               </li>
@@ -42,7 +35,7 @@
                 <div class="col-lg-2">
                   <span class="label">Student&nbsp;Name*</span>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
                   <input type="text" value="" placeholder="Enter student name" class="input" id="sName"
                     [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50" #sname="ngModel" required>
                   <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
@@ -54,9 +47,9 @@
 
                 <div class="col-lg-2">
                   <span class="label">
-                    Contact&nbsp;Number </span>
+                    Contact<br>Number* </span>
                 </div>
-                <div class="col-lg-1">
+                <div class="col-lg-1" >
                   <select id="country_id" class="input-select width-50" [(ngModel)]="studentAddFormData.country_id"
                     name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                     <option value=""></option>
@@ -65,7 +58,7 @@
                     </option>
                   </select>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-3" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
                   <input type="text" value="" id="cNumber" class="input" placeholder="Enter phone no."
                     [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel" required />
@@ -83,7 +76,7 @@
                   Email Id
                 </span>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
                 <input type="text" value="" id="sEmail" class="input" placeholder="Enter email id"
                   [(ngModel)]="studentAddFormData.student_email" name="sEmail"
                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
@@ -94,7 +87,7 @@
                   Gender
                 </span>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                 <select id="userGender" class="input-select" [(ngModel)]="studentAddFormData.student_sex"
                   name="userGender">
                   <option value="">Select Gender</option>
@@ -118,7 +111,7 @@
 
               <div class="col-lg-2" *ngIf="isManualDisplayId">
                 <span class="label ">
-                  Roll No
+                  Roll No *
                 </span>
               </div>
               <div class="col-lg-4" *ngIf="isManualDisplayId"
@@ -139,10 +132,10 @@
                   Course&nbsp;Expiry<br>Date&nbsp;of&nbsp;student
                 </span>
               </div>
-              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
+              <div class="col-lg-4 datePickerBox" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
                 <input type="text" value="" id="studexpDate" class="input bsDatepicker" placeholder="Course expiry date"
                   name="studexpDate" [(ngModel)]="studentAddFormData.expiry_date" #expiry_date="ngModel" readonly="true"
-                  bsDatepicker>
+                  bsDatepicker />
               </div>
               <div class="col-lg-2" *ngIf="enableBiometric == '1'">
                 <span class="label ">
@@ -183,7 +176,7 @@
                 <span class="label ">Mother Tounge</span>
               </div>
               <div class="col-lg-4">
-                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.mother_tounge"
+                <select id="mother_tounge" class="input-select" [(ngModel)]="studentAddFormData.mother_tounge"
                   name="mother_tounge">
                   <option value="-1">Select Mother Tounge</option>
                   <option *ngFor="let data of masterDataList.MOTHER_TOUNGE" [value]="data.data_key">
@@ -195,7 +188,7 @@
                   Category </span>
               </div>
               <div class="col-lg-4">
-                <select id="city" class="input-select" [(ngModel)]="studentAddFormData.category" name="category">
+                <select id="category" class="input-select" [(ngModel)]="studentAddFormData.category" name="category">
                   <option value="">Select Category</option>
                   <option *ngFor="let data of masterDataList.CASTE_CATEGORY" [value]="data.data_key">
                     {{data.data_value}}</option>
@@ -217,7 +210,8 @@
                 <span class="label ">Blood Group</span>
               </div>
               <div class="col-lg-4">
-                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.blood_group" name="blood_group">
+                <select id="blood_group" class="input-select" [(ngModel)]="studentAddFormData.blood_group"
+                  name="blood_group">
                   <option value="-1">Select Blood Group</option>
                   <option *ngFor="let data of masterDataList.BLOOD_GROUP" [value]="data.data_key">
                     {{data.data_value}}</option>
@@ -252,9 +246,10 @@
                   Residential&nbsp;Address
                 </span>
               </div>
-              <div class="col-lg-10" [ngClass]="{'has-value': studentAddFormData.address != ''}">
-                <textarea type="text" value="" id="address" name="address" placeholder="Enter residential address"
-                  [(ngModel)]="studentAddFormData.address" class="input"></textarea>
+              <div class="col-lg-10" [ngClass]="{'has-value': studentAddFormData.student_perm_addr != ''}">
+                <textarea type="text" value="" id="student_perm_addr" name="student_perm_addr"
+                  placeholder="Enter residential address" [(ngModel)]="studentAddFormData.student_perm_addr"
+                  class="input"></textarea>
               </div>
             </div>
 
@@ -328,19 +323,20 @@
                   <input type="text" value="" id="parent_adhar_no" class="input" placeholder="Enter Aadhar No"
                     [(ngModel)]="studentAddFormData.parent_adhar_no" name="parent_adhar_no" #cardId="ngModel" />
                 </div>
-  
+
                 <div class="col-lg-2">
                   <span class="label ">Parent Profession</span>
                 </div>
                 <div class="col-lg-4">
-                  <select id="state" class="input-select" [(ngModel)]="studentAddFormData.parent_profession" name="blood_group">
+                  <select id="parent_profession" class="input-select" [(ngModel)]="studentAddFormData.parent_profession"
+                    name="parent_profession">
                     <option value="-1">Select Profession</option>
                     <option *ngFor="let data of masterDataList.PROFESSION" [value]="data.data_key">
                       {{data.data_value}}</option>
                   </select>
                 </div>
               </div>
-             
+
               <div class="col-lg-2">
                 <span class="label">
                   Guardian Name
@@ -407,7 +403,7 @@
                 <span class="label ">State</span>
               </div>
               <div class="col-lg-4">
-                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.state_id" name="state"
+                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.state_id" name="state_id"
                   (ngModelChange)="getCityList()">
                   <option value="">Select State</option>
                   <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
@@ -445,6 +441,7 @@
                     {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}
                   </option>
                 </select>
+                <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -13px;">+</span>
               </div>
               <div class="col-lg-2" *ngIf="schoolModel">
                 <span class="label">
@@ -456,7 +453,7 @@
                   [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
               </div>
 
-              
+
             </div>
             <div class="row" *ngIf="schoolModel">
               <div class="col-lg-2">
@@ -475,8 +472,9 @@
                 </span>
               </div>
               <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.extra_curricular_activities != ''}">
-                <input type="text" value="" id="extra_curricular_activities" class="input" placeholder="Enter birth place"
-                  [(ngModel)]="studentAddFormData.extra_curricular_activities" name="extra_curricular_activities" #cardId="ngModel" />
+                <input type="text" value="" id="extra_curricular_activities" class="input"
+                  placeholder="Enter birth place" [(ngModel)]="studentAddFormData.extra_curricular_activities"
+                  name="extra_curricular_activities" #cardId="ngModel" />
               </div>
 
             </div>
@@ -492,7 +490,7 @@
               </div>
 
             </div>
-            
+
             <p class="form_heading"><span>Documents</span></p>
             <div class="borderbottom"></div>
             <div class="row">
@@ -527,9 +525,8 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-2">
-              </div>
-              <div class="col-lg-10" *ngFor='let data of selectedFiles;let i = index'>
+              <div class="col-lg-10" *ngFor='let data of selectedFiles;let i = index'
+                style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
                 <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
                 <div style="width: 25%;float: left;text-align: right;">
                   <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
@@ -589,10 +586,7 @@
                         {{institute.school_name}}
                       </option>
                     </select>
-
-                  </div>
-                  <div class="col-lg-1">
-                    <span class="iconPlus sourceI">+</span>
+                    <span class="sourceI iconPlus" style="right: -5%;" (click)="openInstituteAdder()">+</span>
                   </div>
                 </div>
                 <div class="row no-gutters">
@@ -608,9 +602,6 @@
                       </option>
                     </select>
                   </div>
-                  <div class="col-lg-2">
-                    <span class="iconPlus sourceI">+</span>
-                  </div>
                 </div>
                 <div class="row no-gutters" *ngIf="!isProfessional">
                   <div class="col-lg-3">
@@ -625,9 +616,7 @@
                       </option>
                     </select>
                   </div>
-                  <div class="col-lg-2">
-                    <span class="iconPlus sourceI">+</span>
-                  </div>
+
                 </div>
                 <div class="row no-gutters" *ngIf="!isProfessional">
                   <div class="col-lg-3">
@@ -738,8 +727,10 @@
             </div>
             <span class="right" style="margin-top: 10px;">
               <button class="cancel" (click)="clearFormAndRoute(values)">Cancel</button>
-              <button class="blue_button " id="form-continue" [class.hide]="quickAddStudent"
+              <button class="blue_button " id="form-continue" [class.hide]="!quickAddStudent"
                 (click)="navigateTo('kyc')">Continue</button>
+              <button class="blue_button " #saveAndContinue id="form-continue" [class.hide]="quickAddStudent"
+                (click)="addStudentDataAndFetchFee(values)">Save</button>
             </span>
           </div>
         </div>
@@ -856,10 +847,10 @@
               <button class="cancel" (click)="clearFormAndRoute(values)">Cancel</button>
               <button #saveAndContinue id="form-kyc-continue"
                 [disabled]="!values.form.valid && (auth.isRippleLoad.getValue())" class="blue_button "
-                [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">Save and
+                [class.hide]="!quickAddStudent" (click)="addStudentDataAndFetchFee(values)">Save and
                 Continue</button>
               <button id="form-kyc-submit" [disabled]="!values.form.valid && (auth.isRippleLoad.getValue())"
-                (click)="studentQuickAdder(values)" [class.hide]="!quickAddStudent" class="blue_button ">Submit</button>
+                (click)="studentQuickAdder(values)" [class.hide]="quickAddStudent" class="blue_button ">Submit</button>
 
             </span>
           </div>

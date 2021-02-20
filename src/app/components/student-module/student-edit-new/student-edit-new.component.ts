@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
+import { CommonApiCallService } from '../../../services/common-api-call.service';
 import { AppComponent } from '../../../app.component';
 import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
@@ -19,8 +20,7 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
-
-
+import CommonUtils from '../../../utils/CommonUtils'
 
 @Component({
   selector: 'app-student-edit-new',
@@ -183,7 +183,19 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false,
     assigned_to_id: "0",
-    optional_subject_id: []
+    optional_subject_id: [],
+    birth_place: '',
+    blood_group: '-1',
+    category: '-1',
+    nationality: '',
+    student_adhar_no: '',
+    parent_adhar_no: '',
+    parent_profession: '-1',
+    mother_tounge: '-1',
+    extra_curricular_activities: '',
+    educational_group: '',
+    pin_code: '',
+    student_perm_addr: ''
   };
 
   enqAssignTo: any = [];
@@ -319,7 +331,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
 
   assignTo: boolean = true;
   role_feature = role.features;
-  isSchoolModel:boolean=false;
+  isSchoolModel: boolean = false;
+  masterDataList: any = {};
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -331,17 +344,27 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
-    private apiService: CourseListService,
     private productService: ProductService,
     private msgToast: MessageShowService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private commonApiCall: CommonApiCallService
   ) {
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
-    this.auth.schoolModel.subscribe(data=>{
-    this.isSchoolModel=data='true'?true:false;
-    })
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.isSchoolModel = false;
+        if (res) {
+          this.isSchoolModel = true;
+        }
+      });
+    if (this.isSchoolModel) {
+      this.commonApiCall.fetchMasterData().subscribe(data => {
+        this.masterDataList = data;
+      })
+    }
+    this.fetchCustomeComponents();
   }
 
   ngOnInit() {
@@ -567,24 +590,19 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       }
       case "kyc": {
         document.getElementById('li-two').classList.add('active');
-        this.fetchCustomeComponents();
-        this.getUploadedFileData();
+        document.getElementById('li-two').classList.add('step_active');
+        //this.fetchCustomeComponents();
+        // this.getUploadedFileData();
         this.isOtherActive = true;
         break;
       }
       case "feeDetails": {
         document.getElementById('li-three').classList.add('active');
+        document.getElementById('li-three').classList.add('step_active');
         this.updateStudentForm(this.student_id);
         this.updateStudentFeeDetails();
         this.fetchAcademicYears()
         this.isFeeActive = true;
-        break;
-      }
-      case "inventory": {
-        document.getElementById('li-four').classList.add('active');
-        this.isInventoryActive = true;
-        this.getAllocatedHistory();
-        this.fetchInventoryList();
         break;
       }
     }
@@ -850,6 +868,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       data => {
         this.auth.hideLoader()
         if (data != null) {
+          this.quickAddStudent = true;
           data.forEach(el => {
             let max_length = el.comp_length == 0 ? 100 : el.comp_length;
             let obj = {
@@ -1003,26 +1022,26 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
       (data: any) => {
         this.auth.hideLoader();
-        if(data.coursesList!=null){
-        data.coursesList.forEach(el => {
-          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-            el.feeTemplateList.forEach(e => {
-              if (e.is_default == 1) {
-                el.selected_fee_template_id = e.template_id;
-              }
-            })
-          }
-          if (el.academic_year_id == '-1') {
-            el.academic_year_id = this.defaultAcadYear;
-          }
-          let obj = {
-            isSelected: false,
-            data: el,
-            assignDate: moment().format('YYYY-MM-DD')
-          }
-          this.batchList.push(obj);
-        });
-      }
+        if (data.coursesList != null) {
+          data.coursesList.forEach(el => {
+            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+              el.feeTemplateList.forEach(e => {
+                if (e.is_default == 1) {
+                  el.selected_fee_template_id = e.template_id;
+                }
+              })
+            }
+            if (el.academic_year_id == '-1') {
+              el.academic_year_id = this.defaultAcadYear;
+            }
+            let obj = {
+              isSelected: false,
+              data: el,
+              assignDate: moment().format('YYYY-MM-DD')
+            }
+            this.batchList.push(obj);
+          });
+        }
       },
       err => {
         let msg = {
@@ -1078,9 +1097,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   getassignedBatchList(e) {
     this.auth.showLoader();
     let temp = [];
-    if(e.batchJoiningDates && e.batchJoiningDates.length) {
+    if (e.batchJoiningDates && e.batchJoiningDates.length) {
       e.batchJoiningDates.forEach(el => {
-            temp.push(moment(el).format('YYYY-MM-DD'));
+        temp.push(moment(el).format('YYYY-MM-DD'));
       });
     }
     this.studentAddFormData.assignedBatches = e.assignedBatches;
@@ -1231,9 +1250,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         if (sessionStorage.getItem('enable_fee_template_country_wise') == '1') {
           country_id = '-1';
         }
-       if(!this.isSchoolModel){
-        standard_id='1'
-       }
+        if (!this.isSchoolModel) {
+          standard_id = '1'
+        }
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, standard_id, country_id).subscribe(
           res => {
             // console.log(res);
@@ -1372,15 +1391,15 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.auth.hideLoader();
         this.studentName = data.student_name;
         this.studentAddFormData = data;
-        this.studentAddFormData.doj = moment(this.studentAddFormData.doj).format('YYYY-MM-DD');
-        this.studentAddFormData.dob = moment(this.studentAddFormData.dob).format('YYYY-MM-DD');
+        //this.studentAddFormData.doj = moment(this.studentAddFormData.doj).format('YYYY-MM-DD');
+        //this.studentAddFormData.dob = moment(this.studentAddFormData.dob).format('YYYY-MM-DD');
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
-        this.standard_id=data.standard_id;
+        this.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
-        this.studentAddFormData.doj = moment(data.doj).format("YYYY-MM-DD");
-        this.studentAddFormData.dob = moment(data.dob).format("YYYY-MM-DD");
-        this.studentAddFormData.expiry_date = moment(data.expiry_date).format("YYYY-MM-DD");
+        this.studentAddFormData.doj = CommonUtils.validateDate(data.doj);
+        this.studentAddFormData.dob = CommonUtils.validateDate(data.dob);
+        this.studentAddFormData.expiry_date = CommonUtils.validateDate(data.expiry_date);
         this.fetchCourseFromMaster(this.studentAddFormData.standard_id, this.studentAddFormData.country_id);
         this.countryDetails.forEach(element => {
           if (element.id == this.studentAddFormData.country_id) {
@@ -1401,6 +1420,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.auth.hideLoader();
         this.getCourseDropdown(id);
+        this.getUploadedFileData();
         let globalInactiveStudent = sessionStorage.getItem('global_search_edit_student');
         if (data.is_active == "Y") {
           this.JsonFlags.formIsActive = true;
@@ -1555,12 +1575,11 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
 
   studentQuickAdder(form: NgForm) {
-   console.log(JSON.stringify(this.customComponents));
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
 
     /* Both Form are Valid Else there seems to
         be an error on custom component */
-    if (true && isCustomComponentValid) {
+    if (form.valid && isCustomComponentValid) {
 
       if (!this.formValidator()) {
         return false;
@@ -1670,13 +1689,13 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedBatchescademicYearArray;
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
-     // this.btnSaveAndContinue.nativeElement.disabled = true;
+      this.btnSaveAndContinue.nativeElement.disabled = true;
       this.auth.showLoader()
       // console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
           this.auth.hideLoader()
-          //this.btnSaveAndContinue.nativeElement.disabled = false;
+          this.btnSaveAndContinue.nativeElement.disabled = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
             let alert = {
@@ -3008,17 +3027,18 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       )
     }
   }
-  fetchCourseListByStdId(standard_id){
-    if(this.isSchoolModel){
-      if(this.standard_id==standard_id){
-       this.fetchCourseFromMaster(standard_id,this.country_id);
-      }else {
-      this.studentAddFormData.assignedBatches = null;
-      this.studentAddFormData.batchJoiningDates = null
-      this.studentAddFormData.assignedBatchescademicYearArray =null;
-      this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray =null;
-      this.updateMasterCourseList(standard_id);
+  fetchCourseListByStdId(standard_id) {
+    if (this.isSchoolModel) {
+      if (this.standard_id == standard_id) {
+        this.fetchCourseFromMaster(standard_id, this.country_id);
+      } else {
+        this.studentAddFormData.assignedBatches = null;
+        this.studentAddFormData.batchJoiningDates = null
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
+        this.updateMasterCourseList(standard_id);
       }
     }
   }
+  
 }

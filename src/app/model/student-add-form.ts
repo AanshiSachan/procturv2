@@ -57,5 +57,5 @@ export interface StudentForm {
 	extra_curricular_activities?: any,
 	educational_group?: any,
 	pin_code?: any,
-	inst_acad_year_id?: any
+	student_perm_addr?:any
 }

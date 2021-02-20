@@ -6,25 +6,19 @@
                 <div class="flex w40">
                     <div lass="content_img">
                         <div class="container1">
-                            <!-- <img src="./assets/images/image23.png" alt="Avatar" class="image profile">
-                <div class="overlay">
-                  <div class="text">Add image</div>
-                </div> -->
                             <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
                                 [containerHeight]="containerHeight" (setImage)="setImage($event)">
                             </proctur-image>
                         </div>
                     </div>
-                    <!-- <div class="caption">
-              <p>Add&nbsp;Profile<br> Picture</p>
-            </div>-->
                 </div>
                 <div class="w100">
                     <div class="container">
                         <ul class="progressbar">
                             <li class="step1 step_active active" id="li-one" (click)="switchToView($event.target.id)">
                                 Personal&nbsp;Details</li>
-                            <li class="step2" id="li-two" (click)="switchToView($event.target.id)">Other&nbsp;Details
+                            <li class="step2" id="li-two" [class.hide]="!quickAddStudent"
+                                (click)="switchToView($event.target.id)">Other&nbsp;Details
                             </li>
                             <li class="step3" id="li-three" (click)="switchToView($event.target.id)">Fee&nbsp;Details
                             </li>
@@ -56,7 +50,7 @@
 
                                 <div class="col-lg-2">
                                     <span class="label">
-                                        Contact&nbsp;Number </span>
+                                        Contact<br>Number* </span>
                                 </div>
                                 <div class="col-lg-1">
                                     <select id="country_id" class="input-select width-50"
@@ -125,7 +119,7 @@
 
                             <div class="col-lg-2" *ngIf="isManualDisplayId">
                                 <span class="label ">
-                                    Roll No
+                                    Roll No*
                                 </span>
                             </div>
                             <div class="col-lg-4" *ngIf="isManualDisplayId"
@@ -147,7 +141,7 @@
                                     Course&nbsp;Expiry<br>Date&nbsp;of&nbsp;student
                                 </span>
                             </div>
-                            <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
+                            <div class="col-lg-4 datePickerBox" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
                                 <input type="text" value="" id="studexpDate" class="input bsDatepicker"
                                     placeholder="Course expiry date" name="studexpDate"
                                     [(ngModel)]="studentAddFormData.expiry_date" #expiry_date="ngModel" readonly="true"
@@ -166,7 +160,7 @@
                             </div>
 
                         </div>
-                        <div class="row" *ngIf="schoolModel">
+                        <div class="row" *ngIf="isSchoolModel">
                             <div class="col-lg-2">
                                 <span class="label ">
                                     Nationality
@@ -189,13 +183,13 @@
                             </div>
 
                         </div>
-                        <div class="row" *ngIf="schoolModel">
+                        <div class="row" *ngIf="isSchoolModel">
                             <div class="col-lg-2">
                                 <span class="label ">Mother Tounge</span>
                             </div>
                             <div class="col-lg-4">
-                                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.mother_tounge"
-                                    name="mother_tounge">
+                                <select id="mother_tounge" class="input-select"
+                                    [(ngModel)]="studentAddFormData.mother_tounge" name="mother_tounge">
                                     <option value="-1">Select Mother Tounge</option>
                                     <option *ngFor="let data of masterDataList.MOTHER_TOUNGE" [value]="data.data_key">
                                         {{data.data_value}}</option>
@@ -206,7 +200,7 @@
                                     Category </span>
                             </div>
                             <div class="col-lg-4">
-                                <select id="city" class="input-select" [(ngModel)]="studentAddFormData.category"
+                                <select id="category" class="input-select" [(ngModel)]="studentAddFormData.category"
                                     name="category">
                                     <option value="">Select Category</option>
                                     <option *ngFor="let data of masterDataList.CASTE_CATEGORY" [value]="data.data_key">
@@ -214,7 +208,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row" *ngIf="schoolModel">
+                        <div class="row" *ngIf="isSchoolModel">
                             <div class="col-lg-2">
                                 <span class="label">
                                     Religion
@@ -229,15 +223,15 @@
                                 <span class="label ">Blood Group</span>
                             </div>
                             <div class="col-lg-4">
-                                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.blood_group"
-                                    name="blood_group">
+                                <select id="blood_group" class="input-select"
+                                    [(ngModel)]="studentAddFormData.blood_group" name="blood_group">
                                     <option value="-1">Select Blood Group</option>
                                     <option *ngFor="let data of masterDataList.BLOOD_GROUP" [value]="data.data_key">
                                         {{data.data_value}}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="row" *ngIf="schoolModel">
+                        <div class="row" *ngIf="isSchoolModel">
                             <div class="col-lg-2">
                                 <span class="label">
                                     Aadhar No.
@@ -262,16 +256,17 @@
                                     [(ngModel)]="studentAddFormData.student_curr_addr" class="input"></textarea>
                             </div>
                         </div>
-                        <div class="row" *ngIf="schoolModel">
+                        <div class="row" *ngIf="isSchoolModel">
                             <div class="col-lg-2">
                                 <span class="label">
                                     Residential&nbsp;Address
                                 </span>
                             </div>
-                            <div class="col-lg-10" [ngClass]="{'has-value': studentAddFormData.address != ''}">
-                                <textarea type="text" value="" id="address" name="address"
-                                    placeholder="Enter residential address" [(ngModel)]="studentAddFormData.address"
-                                    class="input"></textarea>
+                            <div class="col-lg-10"
+                                [ngClass]="{'has-value': studentAddFormData.student_perm_addr != ''}">
+                                <textarea type="text" value="" id="student_perm_addr" name="student_perm_addr"
+                                    placeholder="Enter residential address"
+                                    [(ngModel)]="studentAddFormData.student_perm_addr" class="input"></textarea>
                             </div>
                         </div>
 
@@ -341,7 +336,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" *ngIf="schoolModel">
+                            <div class="row" *ngIf="isSchoolModel">
                                 <div class="col-lg-2">
                                     <span class="label">
                                         Parent Aadhar No.
@@ -355,10 +350,10 @@
                                 </div>
 
                                 <div class="col-lg-2">
-                                    <span class="label ">Parent Profession</span>
+                                    <span class="label ">Parent<br>Profession</span>
                                 </div>
                                 <div class="col-lg-4">
-                                    <select id="state" class="input-select"
+                                    <select id="blood_group" class="input-select"
                                         [(ngModel)]="studentAddFormData.parent_profession" name="blood_group">
                                         <option value="-1">Select Profession</option>
                                         <option *ngFor="let data of masterDataList.PROFESSION" [value]="data.data_key">
@@ -479,13 +474,14 @@
                                         {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}
                                     </option>
                                 </select>
+                                <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -13px;">+</span>
                             </div>
-                            <div class="col-lg-2" *ngIf="schoolModel">
+                            <div class="col-lg-2" *ngIf="isSchoolModel">
                                 <span class="label">
                                     Pin Code
                                 </span>
                             </div>
-                            <div class="col-lg-4" *ngIf="schoolModel"
+                            <div class="col-lg-4" *ngIf="isSchoolModel"
                                 [ngClass]="{'has-value': studentAddFormData.pin_code != ''}">
                                 <input type="text" value="" id="pin_code" class="input" placeholder="Enter pin code"
                                     [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
@@ -493,7 +489,7 @@
 
 
                         </div>
-                        <div class="row" *ngIf="schoolModel">
+                        <div class="row" *ngIf="isSchoolModel">
                             <div class="col-lg-2">
                                 <span class="label ">
                                     Group
@@ -513,7 +509,7 @@
                             <div class="col-lg-4"
                                 [ngClass]="{'has-value': studentAddFormData.extra_curricular_activities != ''}">
                                 <input type="text" value="" id="extra_curricular_activities" class="input"
-                                    placeholder="Enter birth place"
+                                    placeholder="Enter Curricular Activities"
                                     [(ngModel)]="studentAddFormData.extra_curricular_activities"
                                     name="extra_curricular_activities" #cardId="ngModel" />
                             </div>
@@ -559,21 +555,26 @@
                                 </span>
                             </div>
                             <div class="col-lg-6">
-                                <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" />
+                                <input type="file" class="form-ctrl" id="uploadFileControl" (change)="storeFiles()"
+                                    name="uploadFileBox" />
                             </div>
                             <div class="col-lg-2">
                                 <button class="upload " (click)="uploadHandler();">Upload</button>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
-                            </div>
-                            <div class="col-lg-10" *ngFor='let data of selectedFiles;let i = index'>
+                            <div class="document_data" *ngFor='let data of uploadedFileData'
+                                style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
                                 <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
                                 <div style="width: 25%;float: left;text-align: right;">
                                     <i class="fa fa-trash"
                                         style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
-                                        title="Delete File" (click)="deletefile(data,i)"></i>
+                                        title="Delete File" (click)="deletefile(data.id)"></i>
+                                    <a class="fa fa-download" id="downloadFile"
+                                        style="font-size: 17px;color: #0084f6;margin-top: 5%;margin-right: 10%;cursor: pointer;"
+                                        title="Download File" (click)="downloadFile(data)"
+                                        *ngIf="downloadStudentReportAccess"></a>
+                                    <a id="downloadFileClick" class="hide"></a>
                                 </div>
                             </div>
                             <!-- <div class="col-lg-10">
@@ -631,11 +632,13 @@
                                                 {{institute.school_name}}
                                             </option>
                                         </select>
-
+                                        <span class="sourceI iconPlus" style="right: -5%;"
+                                            (click)="openInstituteAdder()">+</span>
                                     </div>
-                                    <div class="col-lg-1">
-                                        <span class="iconPlus sourceI">+</span>
-                                    </div>
+                                    <!-- <div class="col-lg-1">
+                                        <span class="iconPlus sourceI">+</span> 
+                                        <span class="open-accor" (click)="openInstituteAdder()">+</span>
+                                    </div> -->
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="col-lg-3">
@@ -649,9 +652,6 @@
                                                 {{assign.name}}
                                             </option>
                                         </select>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <span class="iconPlus sourceI">+</span>
                                     </div>
                                 </div>
                                 <div class="row no-gutters" *ngIf="!isProfessional">
@@ -669,22 +669,20 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-2">
-                                        <span class="iconPlus sourceI">+</span>
-                                    </div>
+
                                 </div>
                                 <div class="row no-gutters" *ngIf="!isProfessional">
                                     <div class="col-lg-3">
-                                        <span class="label">Asign<br>{{schoolModel ? 'Sections' : 'Courses'}}</span>
+                                        <span class="label">Asign<br>{{isSchoolModel ? 'Sections' : 'Courses'}}</span>
                                     </div>
                                     <div class="col-lg-9">
                                         <textarea
                                             style="height:89px;width:100%;padding:5px;background: #efefef;margin-top:14px"
                                             name="assignCoursesParent" [ngModel]="assignedBatchString"
-                                            placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}"
+                                            placeholder="{{isSchoolModel ? 'Assign Section' : 'Assign Courses'}}"
                                             id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"
                                             (click)="openAssignBatch()"></textarea>
-                                        <a style="cursor:pointer" (click)="openAssignBatch()">{{schoolModel ? 'Assign
+                                        <a style="cursor:pointer" (click)="openAssignBatch()">{{isSchoolModel ? 'Assign
                                             Sections' : 'Assign Courses'}}</a>
                                     </div>
                                 </div>
@@ -784,16 +782,18 @@
                     <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
                         <div class="pull-left">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive"
-                                    (ngModelChange)="updateFormIsActive($event)" class="form-checkbox"
-                                    id="isStudentActive">
+                                <input type="checkbox" value="" name="isStudentActive"
+                                    [(ngModel)]="JsonFlags.formIsActive" (ngModelChange)="updateFormIsActive($event)"
+                                    class="form-checkbox" id="isStudentActive">
                                 <label for="isStudentActive">Is Active Student</label>
                             </div>
                         </div>
                         <span class="right" style="margin-top: 10px;">
                             <button class="cancel" (click)="clearFormAndRoute(values)">Cancel</button>
-                            <button class="blue_button " id="form-continue" [class.hide]="quickAddStudent"
+                            <button class="blue_button " id="form-continue" [class.hide]="!quickAddStudent"
                                 (click)="navigateTo('kyc')">Continue</button>
+                            <button class="blue_button " #saveAndContinue id="form-continue"
+                                [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">Save</button>
                         </span>
                     </div>
                 </div>
@@ -915,11 +915,11 @@
                         </div>
                         <span class="right" style="margin-top: 10px;">
                             <button class="cancel" (click)="clearFormAndRoute(values)">Cancel</button>
-                            <button ##saveAndContinue id="form-kyc-continue" class="blue_button "
-                                [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">Save and
+                            <button #saveAndContinue id="form-kyc-continue" class="blue_button "
+                                [class.hide]="!quickAddStudent" (click)="addStudentDataAndFetchFee(values)">Save and
                                 Continue</button>
                             <button id="form-kyc-submit" (click)="(values)" (click)="studentQuickAdder(values)"
-                                [class.hide]="!quickAddStudent" class="blue_button ">Submit</button>
+                                [class.hide]="quickAddStudent" class="blue_button ">Submit</button>
 
                         </span>
                     </div>
@@ -984,7 +984,7 @@
 
     </proctur-popup>
     <!-- =============== Fee Details =============================== -->
-    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails" [class.hide]="quickAddStudent">
+    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails" >
         <section class="fee-section-page">
             <!--====================================middle Top section==========================-->
             <section class="middle-top clearFix" style="border-bottom: 1px solid rgba(10,10,10,0.3);">

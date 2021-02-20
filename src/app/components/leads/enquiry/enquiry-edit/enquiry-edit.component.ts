@@ -106,7 +106,9 @@ export class EnquiryEditComponent implements OnInit {
     inst_acad_year_id: '-1',
     guardian_name: '',
     guardian_phone: '',
-    guardian_email: ''
+    guardian_email: '',
+    address: ''
+
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -1093,7 +1095,28 @@ export class EnquiryEditComponent implements OnInit {
                   institute_enquiry_id: this.institute_enquiry_id,
                   school_id: this.editEnqData.school_id,
                   country_id: this.editEnqData.country_id,
-                  assigned_to: this.editEnqData.assigned_to
+                  assigned_to: this.editEnqData.assigned_to,
+                  curr_address : this.editEnqData.curr_address
+
+                }
+                if (this.schoolModel) {
+                  obj.birth_place = this.editEnqData.birth_place,
+                    obj.blood_group = this.editEnqData.blood_group,
+                    obj.category = this.editEnqData.category,
+                    obj.nationality = this.editEnqData.nationality,
+                    obj.student_adhar_no = this.editEnqData.student_adhar_no,
+                    obj.parent_adhar_no = this.editEnqData.parent_adhar_no,
+                    obj.parent_profession = this.editEnqData.parent_profession,
+                    obj.mother_tounge = this.editEnqData.mother_tounge,
+                    obj.extra_curricular_activities = this.editEnqData.extra_curricular_activities,
+                    obj.educational_group = this.editEnqData.educational_group,
+                    obj.pin_code = this.editEnqData.pin_code,
+                    obj.student_perm_addr = this.editEnqData.address,
+                    obj.guardian_name = this.editEnqData.guardian_name,
+                    obj.guardian_email = this.editEnqData.guardian_email,
+                    obj.guardian_phone = this.editEnqData.guardian_phone,
+                    obj.religion = this.editEnqData.religion
+
                 }
                 if (!this.isProfessional) {
                   obj.standard_id = this.editEnqData.standard_id;

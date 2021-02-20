@@ -9,7 +9,6 @@ import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { CourseListService } from '../../../services/course-services/course-list.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
@@ -17,6 +16,7 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
+import CommonUtils from '../../../utils/CommonUtils'
 
 @Component({
   selector: 'app-student-add-new',
@@ -233,7 +233,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     mother_tounge: '-1',
     extra_curricular_activities: '',
     educational_group: '',
-    pin_code: ''
+    pin_code: '',
+    student_perm_addr: ''
   };
 
   enqAssignTo: any = [];
@@ -319,7 +320,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   Payment_Modes: any = [];
   role_feature = role.features;
   schoolModel: boolean = false;
-  masterDataList: any={};
+  masterDataList: any = {};
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -330,14 +331,30 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
-    private apiService: CourseListService,
     private msgToast: MessageShowService,
     private httpService: HttpService,
-    private commonApiCall:CommonApiCallService
+    private commonApiCall: CommonApiCallService
   ) {
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    // changes by Nalini - to handle school model conditions
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+    if (this.schoolModel) {
+      this.commonApiCall.fetchMasterData().subscribe(data => {
+        this.masterDataList = data;
+      })
+    }
+    this.fetchDataForCountryDetails();
+    this.getStateList();
+    this.fetchCustomComponents();
   }
   /* ========================================================================================================== */
   /* OnInit Lifecycle Hook */
@@ -393,8 +410,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     if ((sessionStorage.getItem('userType') == '0') && (sessionStorage.getItem('username') != 'admin') && (sessionStorage.getItem('enable_assign_to_feature') == '0')) {
       this.assignTo = false;
     }
-    this.fetchDataForCountryDetails();
-    this.getStateList();
   }
 
   ngOnDestroy() {
@@ -569,24 +584,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (res == 'LANG') {
           this.isProfessional = true; // batch module
         } else {
-          this.isProfessional = false; // batch module
+          this.isProfessional = false; // Course module
         }
       }
     )
-    // changes by Nalini - to handle school model conditions
-    this.auth.schoolModel.subscribe(
-      res => {
-        this.schoolModel = false;
-        if (res) {
-          this.schoolModel = true;
-        }
-      }
-    )
-    if(this.schoolModel){
-      this.commonApiCall.fetchMasterData().subscribe(data=>{
-        this.masterDataList = data;
-      })
-    }
+
   }
 
 
@@ -680,12 +682,10 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-two').classList.add('step_active');
           document.getElementById('li-two').classList.add('active');
           document.getElementById('li-three').classList.remove('active');
-          // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
-          this.isInventoryActive = false;
-          this.fetchCustomComponents();
+          //this.fetchCustomComponents();
         }
         else {
           this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
@@ -697,34 +697,17 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.add('step_active');
-          // document.getElementById('li-four').classList.remove('active');
+          document.getElementById('li-three').classList.add('active');
           this.isBasicActive = false;
           this.isOtherActive = false;
           this.isFeeActive = true;
-          this.isInventoryActive = false;
         }
         else {
           this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
         }
         break;
       }
-      case 'inventory': {
-        if (this.student_id != 0 && this.student_id != null) {
-          document.getElementById('li-one').classList.remove('active');
-          document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.remove('active');
-          document.getElementById('li-four').classList.add('active');
-          this.isBasicActive = false;
-          this.isOtherActive = false;
-          this.isFeeActive = false;
-          this.isInventoryActive = true;
-          this.fetchInventoryList();
-        }
-        else {
-          this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
-        }
-        break;
-      }
+
     }
 
   }
@@ -747,10 +730,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       }
       case "feeDetails-icon": {
         this.navigateTo("feeDetails");
-        break;
-      }
-      case "inventory-icon": {
-        this.navigateTo("inventory");
         break;
       }
       default: {
@@ -830,6 +809,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       data => {
         this.auth.hideLoader();
         if (data != null) {
+          this.quickAddStudent = true;
           data.forEach(el => {
             let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
             if (el.type == 4) {
@@ -1338,14 +1318,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', "Please enter valid parent/guardian mobile number");
         return;
       }
-
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
-      let dob = this.validateDOB();
-      this.studentAddFormData.dob = dob;
-
-      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD");
+      //let dob = this.validateDOB();
+      this.studentAddFormData.dob = CommonUtils.validateDate(this.studentAddFormData.dob);
+      this.studentAddFormData.expiry_date = CommonUtils.validateDate(this.studentAddFormData.expiry_date);
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
-      console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
       if (!this.auth.isRippleLoad.getValue()) {
         this.auth.showLoader();
@@ -1536,7 +1513,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       return moment(this.studentAddFormData.dob).format("YYYY-MM-DD");
     }
   }
-
+ 
   customComponentValid(): boolean {
     function isValid(el) {
       if (el.is_required == "Y" && el.value != '') {
@@ -1711,12 +1688,32 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.studentAddFormData.city_id = this.enquiryData.city_id;
     this.studentAddFormData.area_id = this.enquiryData.area_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
-    this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.studentAddFormData.enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.assigned_to_id = this.enquiryData.assigned_to;
+    this.studentAddFormData.student_curr_addr = this.enquiryData.curr_address;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null ||
       this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {
       this.studentAddFormData.dob = '';
+    }
+    if (this.schoolModel) {
+      this.studentAddFormData.student_perm_addr = this.enquiryData.student_perm_addr;
+      this.studentAddFormData.birth_place = this.enquiryData.birth_place,
+        this.studentAddFormData.blood_group = this.enquiryData.blood_group,
+        this.studentAddFormData.category = this.enquiryData.category,
+        this.studentAddFormData.nationality = this.enquiryData.nationality,
+        this.studentAddFormData.student_adhar_no = this.enquiryData.student_adhar_no,
+        this.studentAddFormData.parent_adhar_no = this.enquiryData.parent_adhar_no,
+        this.studentAddFormData.parent_profession = this.enquiryData.parent_profession,
+        this.studentAddFormData.mother_tounge = this.enquiryData.mother_tounge,
+        this.studentAddFormData.extra_curricular_activities = this.enquiryData.extra_curricular_activities,
+        this.studentAddFormData.educational_group = this.enquiryData.educational_group,
+        this.studentAddFormData.pin_code = this.enquiryData.pin_code,
+        this.studentAddFormData.guardian_name = this.enquiryData.guardian_name,
+        this.studentAddFormData.guardian_email = this.enquiryData.guardian_email,
+        this.studentAddFormData.guardian_phone = this.enquiryData.guardian_phone,
+        this.studentAddFormData.religion = this.enquiryData.religion
+
     }
     console.log(this.studentAddFormData);
     this.checkStatusofStudent = false;

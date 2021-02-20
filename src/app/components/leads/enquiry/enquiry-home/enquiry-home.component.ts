@@ -28,12 +28,12 @@ import { ColumnSetting } from '../../../shared/custom-table/layout.model';
 })
 export class EnquiryHomeComponent implements OnInit {
     /* Variable Declaration */
-    @ViewChild('skelton',{static: true}) skel: ElementRef;
-    @ViewChild('mySidenav',{static: true}) mySidenav: ElementRef;
-    @ViewChild('enqPage',{static: true}) enqPage: ElementRef;
-    @ViewChild('tablemain',{static: true}) tablemain: ElementRef;
-    @ViewChild('pager',{static: true}) pager: ElementRef;
-    @ViewChild('optMenu',{static: true}) optMenu: ElementRef;
+    @ViewChild('skelton', { static: true }) skel: ElementRef;
+    @ViewChild('mySidenav', { static: true }) mySidenav: ElementRef;
+    @ViewChild('enqPage', { static: true }) enqPage: ElementRef;
+    @ViewChild('tablemain', { static: true }) tablemain: ElementRef;
+    @ViewChild('pager', { static: true }) pager: ElementRef;
+    @ViewChild('optMenu', { static: true }) optMenu: ElementRef;
 
     sourceEnquiry: any[] = [];
     smsSourceApproved: any[] = [];
@@ -346,6 +346,7 @@ export class EnquiryHomeComponent implements OnInit {
     }
     // pre fill data flag
     preFill: boolean = false;
+    schoolModel: boolean = false;
 
 
     /*Declaration Fin*/
@@ -367,7 +368,9 @@ export class EnquiryHomeComponent implements OnInit {
         if (_commService.valueCheck(sessionStorage.getItem('userid'))) {
             this.router.navigate(['/authPage']);
         }
-
+        this.auth.schoolModel.subscribe(data => {
+            this.schoolModel = data;
+        })
         this.actRoute.queryParams.subscribe(e => {
             if ((!this._commService.valueCheck(e.id))) {
                 if (this._commService.valueCheck(e.action)) {
@@ -622,112 +625,113 @@ export class EnquiryHomeComponent implements OnInit {
     }
     /* Function to fetch prefill data for advanced filter */
     FetchEnquiryPrefilledData() {
-      this.auth.showLoader();
-      /* Status */
-      const getEnqStatus = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getEnqStatus().subscribe(data => { this.enqstatus = data;  resolve()});
-        })
-      }
+        this.auth.showLoader();
+        /* Status */
+        const getEnqStatus = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getEnqStatus().subscribe(data => { this.enqstatus = data; resolve() });
+            })
+        }
         /* Campaigns */
-      const getCampaignsList = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getCampaignsList().subscribe((data: any) => { this.campaignList = data; resolve()});
-        })
-      }
-      /* Priority */
-      const getEnqPriority = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getEnqPriority().subscribe(data => { this.enqPriority = data; resolve()});
-        })
-      }
-      /* FollowUp Type */
-      const getFollowupType = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getFollowupType().subscribe(data => { this.enqFollowType = data; resolve()});
-        })
-      }
-      /* Assign To */
-      const getAssignTo = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getAssignTo().subscribe(data => { this.enqAssignTo = data; resolve()});
-        })
-      }
-      /* Sources */
-      const getLeadSource = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getLeadSource().subscribe(data => { this.sources = data; resolve() });
-        })
-      }
-      /* Schools */
-      const getSchoolDetails = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getSchoolDetails().subscribe(data => { this.schools = data; resolve() });
-        })
-      }
-      /* Standard */
-      const getEnqStardards = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getEnqStardards().subscribe(data => { this.enqStd = data; resolve()});
-        })
-      }
-      /* Slots */
-      const getEnquirySlots = () => {
-        return new Promise((resolve, reject) => {
-          if (this.flagJSON.isProfessional) {
-             this.prefill.getEnquirySlots().subscribe((res: any) => { res.forEach(el => {
-               let obj = { label: el.slot_name, value: el, status: false };
-                this.slots.push(obj);
-               });
-             })
-          }
-          resolve();
-        })
-      }
-      /* Payment Modes */
-      const fetchPaymentModes = () => {
-        return new Promise((resolve, reject) => {
-            this.prefill.fetchPaymentModes().subscribe((data: any) => { this.paymentMode = data; resolve() });
-        })
-      }
-      // City Area Fetch //
-      const getCityList = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getCityList().subscribe(res => { this.cityList = res; resolve()});
-        })
-      }
-      // Closing Reason //
-      const getClosingReasons = () => {
-        return new Promise((resolve, reject) => {
-          this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; resolve()})
-        })
-      }
+        const getCampaignsList = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getCampaignsList().subscribe((data: any) => { this.campaignList = data; resolve() });
+            })
+        }
+        /* Priority */
+        const getEnqPriority = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getEnqPriority().subscribe(data => { this.enqPriority = data; resolve() });
+            })
+        }
+        /* FollowUp Type */
+        const getFollowupType = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getFollowupType().subscribe(data => { this.enqFollowType = data; resolve() });
+            })
+        }
+        /* Assign To */
+        const getAssignTo = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getAssignTo().subscribe(data => { this.enqAssignTo = data; resolve() });
+            })
+        }
+        /* Sources */
+        const getLeadSource = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getLeadSource().subscribe(data => { this.sources = data; resolve() });
+            })
+        }
+        /* Schools */
+        const getSchoolDetails = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getSchoolDetails().subscribe(data => { this.schools = data; resolve() });
+            })
+        }
+        /* Standard */
+        const getEnqStardards = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getEnqStardards().subscribe(data => { this.enqStd = data; resolve() });
+            })
+        }
+        /* Slots */
+        const getEnquirySlots = () => {
+            return new Promise((resolve, reject) => {
+                if (this.flagJSON.isProfessional) {
+                    this.prefill.getEnquirySlots().subscribe((res: any) => {
+                        res.forEach(el => {
+                            let obj = { label: el.slot_name, value: el, status: false };
+                            this.slots.push(obj);
+                        });
+                    })
+                }
+                resolve();
+            })
+        }
+        /* Payment Modes */
+        const fetchPaymentModes = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.fetchPaymentModes().subscribe((data: any) => { this.paymentMode = data; resolve() });
+            })
+        }
+        // City Area Fetch //
+        const getCityList = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getCityList().subscribe(res => { this.cityList = res; resolve() });
+            })
+        }
+        // Closing Reason //
+        const getClosingReasons = () => {
+            return new Promise((resolve, reject) => {
+                this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; resolve() })
+            })
+        }
 
-      const promises = [];
-      let arr = [getEnqStatus(),getCampaignsList(),getEnqPriority(),getFollowupType(), getAssignTo(), getLeadSource(), getSchoolDetails(), getEnqStardards(), getEnquirySlots(), fetchPaymentModes(), getCityList(), getClosingReasons() ];
+        const promises = [];
+        let arr = [getEnqStatus(), getCampaignsList(), getEnqPriority(), getFollowupType(), getAssignTo(), getLeadSource(), getSchoolDetails(), getEnqStardards(), getEnquirySlots(), fetchPaymentModes(), getCityList(), getClosingReasons()];
 
-      for(let i = 0; i < arr.length; i++ ){
-         promises.push(arr[i]);
-      }
+        for (let i = 0; i < arr.length; i++) {
+            promises.push(arr[i]);
+        }
 
 
-      Promise.all(promises)
-      .then(response => {
+        Promise.all(promises)
+            .then(response => {
 
-        /* Custom Components */
-        this.fetchCustomComponentData();
+                /* Custom Components */
+                this.fetchCustomComponentData();
 
-        /* Master Course / Standard */
-        if (!this.flagJSON.isProfessional) { this.prefill.getMasterCourseData().subscribe((res: any) => { this.masterCourseData = res; }) };
+                /* Master Course / Standard */
+                if (!this.flagJSON.isProfessional) { this.prefill.getMasterCourseData().subscribe((res: any) => { this.masterCourseData = res; }) };
 
-        //  Referred By //
-        this.fetchReferredByData();
+                //  Referred By //
+                this.fetchReferredByData();
 
-        this.checkMultiBranchStatus();
+                this.checkMultiBranchStatus();
 
-        this.preFill = true;
-        this.auth.hideLoader()
-      })
+                this.preFill = true;
+                this.auth.hideLoader()
+            })
 
     }
 
@@ -736,12 +740,12 @@ export class EnquiryHomeComponent implements OnInit {
         // this.auth.showLoader();
         this.httpService.getData(url).subscribe(
             (res: any) => {
-              // this.auth.hideLoader();
-              this.referredByData = res;
+                // this.auth.hideLoader();
+                this.referredByData = res;
             },
             err => {
-              this.auth.hideLoader();
-              console.log(err);
+                this.auth.hideLoader();
+                console.log(err);
             }
         )
 
@@ -867,20 +871,20 @@ export class EnquiryHomeComponent implements OnInit {
 
         /* Searchbar filled */
         else if (!this._commService.valueCheck(this.varJson.searchBarData)) {
-                /* mobile number detected */
-                if (this.validateNumber(this.varJson.searchBarData)) {
-                    this.instituteData = { name: "", phone: this.varJson.searchBarData, email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
-                    this.loadTableDatatoSource(this.instituteData);
-                } else if (isNaN(this.varJson.searchBarData)) {
-                    this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
-                    this.loadTableDatatoSource(this.instituteData);
-                }
-                /* send data as enquiry number */
-                else {
-                    this.instituteData = { name: "", phone: "", email: "", enquiry_no: this.varJson.searchBarData, commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
-                    this.loadTableDatatoSource(this.instituteData);
+            /* mobile number detected */
+            if (this.validateNumber(this.varJson.searchBarData)) {
+                this.instituteData = { name: "", phone: this.varJson.searchBarData, email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+                this.loadTableDatatoSource(this.instituteData);
+            } else if (isNaN(this.varJson.searchBarData)) {
+                this.instituteData = { name: this.varJson.searchBarData, phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+                this.loadTableDatatoSource(this.instituteData);
+            }
+            /* send data as enquiry number */
+            else {
+                this.instituteData = { name: "", phone: "", email: "", enquiry_no: this.varJson.searchBarData, commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+                this.loadTableDatatoSource(this.instituteData);
 
-                }
+            }
         }
     }
 
@@ -901,8 +905,8 @@ export class EnquiryHomeComponent implements OnInit {
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter')
         //console.log(this.advancedFilterForm);
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
-        if(!this.preFill){
-          this.FetchEnquiryPrefilledData();
+        if (!this.preFill) {
+            this.FetchEnquiryPrefilledData();
         }
         this.closeEnquiryFullDetails();
         this.flagJSON.isSideBar = false;
@@ -1564,10 +1568,10 @@ export class EnquiryHomeComponent implements OnInit {
             }
         )
         // document.getElementByID("sms-content").value = "";
-        let ele=(document.getElementById("sms-content") as HTMLInputElement);
-        ele.value ="";
-        let ele1=(document.getElementById("email-content") as HTMLInputElement);
-        ele1.value ="";
+        let ele = (document.getElementById("sms-content") as HTMLInputElement);
+        ele.value = "";
+        let ele1 = (document.getElementById("email-content") as HTMLInputElement);
+        ele1.value = "";
         // document.getElementByID("email-content").value = "";
     }
 
@@ -1774,9 +1778,9 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Bulk Assign popup open */
     bulkAssignEnquiriesOpen() {
-      if(!this.preFill){
-        this.FetchEnquiryPrefilledData();
-      }
+        if (!this.preFill) {
+            this.FetchEnquiryPrefilledData();
+        }
         this.cd.markForCheck();
         /* If Admin */
         if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == '') {
@@ -2291,8 +2295,9 @@ export class EnquiryHomeComponent implements OnInit {
         return this.enquire.fetchEnquiryStudentData(institute_id, this.selectedRow.institute_enquiry_id).subscribe(
             (data: any) => {
                 this.auth.hideLoader();
+                debugger
                 this.selectedRow.standard_id = data.standard_id;
-                this.selectedRow.address = data.curr_address;
+                //  this.selectedRow.student_perm_addr = data.curr_address;
                 this.selectedRow.curr_address = data.curr_address;
                 this.selectedRow.country_id = data.country_id;
                 this.selectedRow.state_id = data.state_id;
@@ -2300,6 +2305,25 @@ export class EnquiryHomeComponent implements OnInit {
                 this.selectedRow.area_id = data.area_id;
                 this.selectedRow.phone = data.phone;
                 this.selectedRow.assigned_to = data.assigned_to;
+                if (this.schoolModel) {
+                    this.selectedRow.birth_place = data.birth_place,
+                        this.selectedRow.blood_group = data.blood_group,
+                        this.selectedRow.category = data.category,
+                        this.selectedRow.nationality = data.nationality,
+                        this.selectedRow.student_adhar_no = data.student_adhar_no,
+                        this.selectedRow.parent_adhar_no = data.parent_adhar_no,
+                        this.selectedRow.parent_profession = data.parent_profession,
+                        this.selectedRow.mother_tounge = data.mother_tounge,
+                        this.selectedRow.extra_curricular_activities = data.extra_curricular_activities,
+                        this.selectedRow.educational_group = data.educational_group,
+                        this.selectedRow.pin_code = data.pin_code,
+                        this.selectedRow.student_perm_addr = data.address,
+                        this.selectedRow.guardian_name = data.guardian_name,
+                        this.selectedRow.guardian_email = data.guardian_email,
+                        this.selectedRow.guardian_phone = data.guardian_phone,
+                        this.selectedRow.religion = data.religion
+                }
+                console.log(JSON.stringify(this.selectedRow));
                 sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
                 this.router.navigate(['/view/students/add'])
                 this.closePopup();
@@ -2474,8 +2498,8 @@ export class EnquiryHomeComponent implements OnInit {
                 if (res != null) {
                     this.customCompid = res;
                 }
-                if(!this.preFill){
-                  this.FetchEnquiryPrefilledData();
+                if (!this.preFill) {
+                    this.FetchEnquiryPrefilledData();
                 }
                 this.flagJSON.isSideBar = true;
             },

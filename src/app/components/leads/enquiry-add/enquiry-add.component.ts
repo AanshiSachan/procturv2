@@ -110,7 +110,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       inst_acad_year_id: '-1',
       guardian_name: '',
       guardian_phone: '',
-      guardian_email: ''
+      guardian_email: '',
+      address:''
     };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -341,7 +342,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       inst_acad_year_id: '-1',
       guardian_name: '',
       guardian_phone: '',
-      guardian_email: ''
+      guardian_email: '',
+      address:''
 
     };
 
@@ -1197,6 +1199,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             guardian_name: this.newEnqData.guardian_name,
             guardian_phone: this.newEnqData.guardian_phone,
             guardian_email: this.newEnqData.guardian_email,
+            address: this.newEnqData.address
+
           }
           if (this.convertEnquiry) {
             obj.user_id = this.newEnqData.user_id
