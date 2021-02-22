@@ -337,7 +337,7 @@ html {
   }
 
   .live-class{
-    height: 59vh;
+    height: 66vh;
     max-height: 72vh;
     overflow-x: hidden;
     overflow-y: auto;
@@ -359,9 +359,9 @@ html {
         margin-left: 1%;
         margin-right: 1%;
         margin-top: 1%;
-        min-height: 45vh;
-        max-height: 45vh;
-        overflow-y: auto;
+        // min-height: 45vh;
+        // max-height: 45vh;
+        // overflow-y: auto;
         float: left;
         .sub-item-1{
           display: flex;
