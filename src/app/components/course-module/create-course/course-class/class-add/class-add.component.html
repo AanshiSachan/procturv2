@@ -145,7 +145,7 @@
                           (click)="submitMasterCourse()" id="goInp8">
                       </div>
                     </div>
-                    <div class="row" *ngIf="courseStartDate" style="margin-top:5px;margin-left:0px;font-size: 12px;">
+                    <div class="row" *ngIf="courseStartDate && !schoolModel" style="margin-top:5px;margin-left:0px;font-size: 12px;">
                       <span>Course Duration: </span>
                       <span style="font-weight: 600;">{{courseStartDate | date: 'dd-MMM-yyyy'}} - </span>
                       <span style="font-weight: 600;">{{courseEndDate | date: 'dd-MMM-yyyy'}}</span>

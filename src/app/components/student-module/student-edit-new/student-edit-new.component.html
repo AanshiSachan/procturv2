@@ -1,7 +1,7 @@
 <div class="page-content gray">
     <form #values="ngForm" (ngSubmit)="studentQuickAdder(values)">
         <div class="w98">
-            <h5 class="page_heading">Add Student</h5>
+            <h5 class="page_heading">Update Student</h5>
             <div class="outer-progress flex">
                 <div class="flex w40">
                     <div lass="content_img">
@@ -190,7 +190,7 @@
                             <div class="col-lg-4">
                                 <select id="mother_tounge" class="input-select"
                                     [(ngModel)]="studentAddFormData.mother_tounge" name="mother_tounge">
-                                    <option value="-1">Select Mother Tounge</option>
+                                    <option value="">Select Mother Tounge</option>
                                     <option *ngFor="let data of masterDataList.MOTHER_TOUNGE" [value]="data.data_key">
                                         {{data.data_value}}</option>
                                 </select>
@@ -225,7 +225,7 @@
                             <div class="col-lg-4">
                                 <select id="blood_group" class="input-select"
                                     [(ngModel)]="studentAddFormData.blood_group" name="blood_group">
-                                    <option value="-1">Select Blood Group</option>
+                                    <option value="">Select Blood Group</option>
                                     <option *ngFor="let data of masterDataList.BLOOD_GROUP" [value]="data.data_key">
                                         {{data.data_value}}</option>
                                 </select>
@@ -355,7 +355,7 @@
                                 <div class="col-lg-4">
                                     <select id="blood_group" class="input-select"
                                         [(ngModel)]="studentAddFormData.parent_profession" name="blood_group">
-                                        <option value="-1">Select Profession</option>
+                                        <option value="">Select Profession</option>
                                         <option *ngFor="let data of masterDataList.PROFESSION" [value]="data.data_key">
                                             {{data.data_value}}</option>
                                     </select>
@@ -635,12 +635,8 @@
                                         <span class="sourceI iconPlus" style="right: -5%;"
                                             (click)="openInstituteAdder()">+</span>
                                     </div>
-                                    <!-- <div class="col-lg-1">
-                                        <span class="iconPlus sourceI">+</span> 
-                                        <span class="open-accor" (click)="openInstituteAdder()">+</span>
-                                    </div> -->
                                 </div>
-                                <div class="row no-gutters">
+                                <div class="row no-gutters" *ngIf="!isProfessional">
                                     <div class="col-lg-3">
                                         <span class="label">Assign To</span>
                                     </div>

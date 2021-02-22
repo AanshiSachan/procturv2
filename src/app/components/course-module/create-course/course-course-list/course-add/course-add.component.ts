@@ -13,8 +13,8 @@ import { AuthenticatorService } from './../../../../../services/authenticator.se
 })
 export class CourseAddComponent implements OnInit {
 
-  @ViewChild('standardNameDDn',{static: false}) StandardName: ElementRef;
-  @ViewChild('masterCourseInput',{static: false}) MasterCourseDDn: ElementRef;
+  @ViewChild('standardNameDDn', { static: false }) StandardName: ElementRef;
+  @ViewChild('masterCourseInput', { static: false }) MasterCourseDDn: ElementRef;
 
   newCourseAdd: any = {
     master_course_name: '',
@@ -57,7 +57,7 @@ export class CourseAddComponent implements OnInit {
     private auth: AuthenticatorService,
     private route: Router,
     private httpService: HttpService
-  ) { 
+  ) {
     // changes by Nalini - to handle school model conditions
     this.auth.schoolModel.subscribe(
       res => {
@@ -78,20 +78,36 @@ export class CourseAddComponent implements OnInit {
 
   // changes by Nalini - to check validation for add course/section
   checkAddCourseValidation() {
-   let result = this.schoolModel ? (this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) : (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1);
-   return result;
+    let result = this.schoolModel ? (this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) : (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1);
+    return result;
   }
 
   setStartAdEndDate(row) {
-    let obj = this.academicList.filter(acad => {
-      if(acad.inst_acad_year_id == row.academic_year_id){
+    debugger
+    for (let acad of this.academicList) {
+      if (row == null) {
+        if (acad.default_academic_year == 1) {
+          this.courseDetails.academic_year_id = acad.inst_acad_year_id;
+          this.courseDetails.start_Date = moment(acad.start_date).format('YYYY-MM-DD');
+          this.courseDetails.end_Date = moment(acad.end_date).format('YYYY-MM-DD');
+          break;
+        }
+      }
+      else if (acad.inst_acad_year_id == row.academic_year_id) {
         row.start_Date = moment(acad.start_date).format('YYYY-MM-DD');
         row.end_Date = moment(acad.end_date).format('YYYY-MM-DD');
+        break;
       }
-    })
+      else if (row.academic_year_id == '-1') {
+        row.start_Date = ''
+        row.end_Date = ''
+        break;
+      }
+    }
   }
 
   btnGoClickCreateCourse() {
+    debugger
     console.log("standardNameList", this.standardNameList);
     if (this.checkAddCourseValidation()) {
       for (let i = 0; i < this.standardNameList.length; i++) {
@@ -112,7 +128,7 @@ export class CourseAddComponent implements OnInit {
       } else {
         this.subjectListDataSource = this.subjectListDataSource;
         let rawData = this.addKeyInData(this.subjectListDataSource);
-        if(!this.schoolModel) {
+        if (!this.schoolModel) {
           this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
         }
         this.StandardName.nativeElement.disabled = true;
@@ -145,6 +161,7 @@ export class CourseAddComponent implements OnInit {
     this.apiService.getAcadYear().subscribe(
       res => {
         this.academicList = res;
+        this.setStartAdEndDate(null);
       },
       err => {
       }
@@ -164,14 +181,14 @@ export class CourseAddComponent implements OnInit {
 
   getActiveTeacherList(standard_id) {
     this.auth.showLoader();
-    this.httpService.getData('/api/v1/teachers/fetch-teacher/'+sessionStorage.getItem('institute_id') +"?standard_id=" + standard_id + "&subject_id=&is_active=Y&is_std_sub_required=true").subscribe(
-      (res:any) => {
+    this.httpService.getData('/api/v1/teachers/fetch-teacher/' + sessionStorage.getItem('institute_id') + "?standard_id=" + standard_id + "&subject_id=&is_active=Y&is_std_sub_required=true").subscribe(
+      (res: any) => {
         this.auth.hideLoader();
         this.activeTeachers = res.result;
-        for(let i = 0; i < this.subjectList.length; i++) {
+        for (let i = 0; i < this.subjectList.length; i++) {
           this.subjectList[i].allowedTeacher = [];
-          this.activeTeachers.filter(teacher=>{
-            if(teacher.standard_subject_list && teacher.standard_subject_list.length) {
+          this.activeTeachers.filter(teacher => {
+            if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
               this.subjectList[i].allowedTeacher.push(teacher);
               this.subjectList[i].allowedTeacher.push({
                 "is_active": "Y",
@@ -180,7 +197,7 @@ export class CourseAddComponent implements OnInit {
                 "teacher_id": "more",
                 "teacher_name": "More",
                 "teacher_phone": "7503959545"
-            })
+              })
             }
           })
         }
@@ -315,10 +332,10 @@ export class CourseAddComponent implements OnInit {
 
   constructJsonToSend() {
     let obj: any = {};
-    if(this.schoolModel){
+    if (this.schoolModel) {
       for (let i = 0; i < this.standardNameList.length; i++) {
         if (this.standardNameList[i].standard_id == this.newCourseAdd.standard_id) {
-          this.newCourseAdd.master_course_name= this.standardNameList[i].standard_name;
+          this.newCourseAdd.master_course_name = this.standardNameList[i].standard_name;
           break;
         }
       }
@@ -363,10 +380,10 @@ export class CourseAddComponent implements OnInit {
       }
       for (let y = 0; y < selectedSubjectRow.length; y++) {
         let trp: any = {};
-        if(this.schoolModel){
+        if (this.schoolModel) {
           trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
-        }else{
-        trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+        } else {
+          trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         }
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == null || selectedSubjectRow[y].selected_teacher == "-1") {
@@ -412,14 +429,14 @@ export class CourseAddComponent implements OnInit {
     if (this.divCreateNewCourse == false) {
       this.divCreateNewCourse = true;
       // changes by Nalini - to handle school model conditions
-      if(!this.schoolModel) {
+      if (!this.schoolModel) {
         document.getElementById('showCloseBtn') ? document.getElementById('showCloseBtn').style.display = '' : '';
         document.getElementById('showAddBtn') ? document.getElementById('showAddBtn').style.display = 'none' : '';
       }
     } else {
       this.divCreateNewCourse = false;
       // changes by Nalini - to handle school model conditions
-      if(!this.schoolModel) {
+      if (!this.schoolModel) {
         document.getElementById('showCloseBtn') ? document.getElementById('showCloseBtn').style.display = 'none' : '';
         document.getElementById('showAddBtn') ? document.getElementById('showAddBtn').style.display = '' : '';
       }

@@ -91,7 +91,8 @@ export class SchoolExamTypeComponent implements OnInit {
         sorting: false,
         visibility: true,
         edit: true,
-        delete: false,
+        delete: true,
+        view: true
       }
     ]
 
