@@ -539,6 +539,37 @@
                     </a>
                 </ul>
             </li>
+            <li [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" *ngIf="schoolModel" (click)="toggler('liExam')" >
+                <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidemenuicon/classesIcon1.png'" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                    
+                <a routerLink="/view/exams" class="a_link">
+                    <span [ngClass]="activeSession === 'liExam' ? ' abc' : ' NavLink'">Exams</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top:25%;">
+                   <a routerLink="/view/course/setup/exam-type">
+                        <li class="subMenu">
+                            <span>Setup</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/exams/schedule">
+                        <li class="subMenu">
+                            <span>Schedule</span>
+                        </li>
+                    </a>
+                    <!-- <a>
+                        <li class="subMenu">
+                            <span>Attendance</span>
+                        </li>
+                    </a>
+                    <a>
+                        <li class="subMenu">
+                            <span>Marks</span>
+                        </li>
+                    </a> -->
+                </ul>
+            </li>
             <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')" >
                 <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">

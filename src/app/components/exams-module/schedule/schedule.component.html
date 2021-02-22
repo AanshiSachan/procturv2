@@ -1,0 +1,281 @@
+<div id="editCityArea" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="closePopup()" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title" style="margin-bottom: 0;">{{isEdit ? 'Edit Exam schedule' : 'Add Exam schedule'}}</h3>
+      </div>
+      <div class="modal-body" style="padding-top: 0;">
+        <div class="edit-container">
+          <div class="edit-item field-wrapper">
+            <select id="master_course" class="form-ctrl" (ngModelChange)="updateCourseList($event)"
+              [(ngModel)]="editrecord.master_course_name">
+              <option value="">Standard*</option>
+              <option title="{{master}}" [value]="master" *ngFor="let master of masterCourse">
+                {{ (master.length > 30) ? (master | slice:0:30) + '...' : master }}
+              </option>
+            </select>
+          </div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.exam_type_id">
+              <option value="-1">Exam Name*</option>
+              <option title="{{course.exam_type}}" [value]="course.exam_type_id" *ngFor="let course of ExamTypeData">
+                {{ (course.exam_type.length > 30) ? (course.exam_type | slice:0:30) + '...' : course.exam_type }}
+              </option>
+            </select>
+          </div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.course_id"
+              (ngModelChange)="updateSubjectList($event)">
+              <option value="-1">Section*</option>
+              <option title="{{course.course_name}}" [value]="course.course_id" *ngFor="let course of courseList">
+                {{ (course.course_name.length > 30) ? (course.course_name | slice:0:30) + '...' : course.course_name }}
+              </option>
+            </select>
+          </div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.batch_id">
+              <option value="-1">Subject*</option>
+              <option title="{{subject.subject_name}}" [value]="subject.batch_id" *ngFor="let subject of subjectList">
+                {{ (subject.subject_name.length > 30) ? (subject.subject_name | slice:0:30) + '...' :
+                subject.subject_name }}
+              </option>
+            </select>
+          </div>
+          <div class="edit-item field-wrapper datePickerBox">
+            <input type="text" style="width: 100%;" value="" id="strtDate" placeholder="Date*"
+              class="form-ctrl bsDatepicker" [(ngModel)]="editrecord.date" readonly="true" name="strtDate" bsDatepicker>
+          </div>
+          <div class="edit-item field-wrapper">
+            <input type="text" style="width: 100%;" name="" value="" placeholder="Time From*"
+              [(ngModel)]="editrecord.time_from" class="edit-area-item form-ctrl">
+          </div>
+          <div class="edit-item field-wrapper">
+            <input type="text" style="width: 100%;" name="" value="" placeholder="Time To*"
+              [(ngModel)]="editrecord.time_to" class="edit-area-item form-ctrl">
+          </div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
+              <option value="-1">Room</option>
+              <option title="{{subject.subject_name}}" [value]="subject.class_room_id"
+                *ngFor="let subject of classRoomData">
+                {{ (subject.class_room_name.length > 30) ? (subject.class_room_name | slice:0:30) + '...' :
+                subject.class_room_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closePopup()" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="saveData()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="alert-title-container">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="msg-container">
+          <span>Are you sure you want to delete it?</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No, cancel!</button>
+        <button *ngIf="activeSession == 'city_area'" type="button" class="btn btn-default delete-btn"
+          (click)="deleteArea()">Yes, delete it!</button>
+        <button *ngIf="activeSession == 'source'" type="button" class="btn btn-default delete-btn"
+          (click)="deleteSource(deleteAreaId)">Yes, delete it!</button>
+        <button *ngIf="activeSession == 'Referred_by'" type="button" class="btn btn-default delete-btn"
+          (click)="deleteRefer(deleteAreaId)">Yes, delete it!</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<main class="page-content" style="padding-left: 0 !important;">
+  <!-- Tab panes -->
+  <div class="tab-content" style="margin-top: 10px;">
+    <!-- <div id="Source"  class="tab-pane"> -->
+    <div class="w96">
+      <div class="row" style="margin-top: 15px;">
+        <div class="c-md-6 headerLabel">Exam schedules</div>
+        <div class="c-md-6" style="padding: 0;">
+          <button style="float: right;" class="add_master_tag" data-toggle="modal" data-target="#editCityArea"
+            (click)="toggleAddSchedule()">Add
+            Exam schedule</button>
+        </div>
+      </div>
+      <section class="filter-head">
+        <div class="filter-header-container">
+          <div class="filter-item-1" style="justify-content: flex-end;">
+            <div class="header-item" style="width: 25%;">
+              <span>Filter</span>
+              <div class="input-container">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+                <input type="text" name="" value="" class="filer-input" placeholder="Choose filter from dropdown">
+                <i class="fa fa-caret-down" aria-hidden="true" (click)="toggleFilter()" *ngIf="!filterShow"></i>
+                <i class="fa fa-caret-up" aria-hidden="true" (click)="toggleFilter()" *ngIf="filterShow"></i>
+              </div>
+              <span style="font-size: 10px;">From: {{coursePlannerFilters.from_date | date: 'dd-MMM-yyyy'}} &nbsp; To:
+                {{coursePlannerFilters.to_date | date: 'dd-MMM-yyyy'}}</span>
+              <div class="filter-container" *ngIf="filterShow">
+
+                <div class="date-container">
+                  <!-- <div class="date-title">
+                      <span>Date</span>
+                    </div> -->
+                  <div class="date-values-container">
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="thisWeek" name="thisWeek" [(ngModel)]="filterDateInputs.thisWeek"
+                        class="form-checkbox" (change)="updateDateFilter('thisWeek', $event)">
+                      <label for="thisWeek">This Week</label>
+                    </div>
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="lastWeek" name="lastWeek" [(ngModel)]="filterDateInputs.lastWeek"
+                        class="form-checkbox" (change)="updateDateFilter('lastWeek', $event)">
+                      <label for="lastWeek">Last Week</label>
+                    </div>
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="thisMonth" name="thisMonth" [(ngModel)]="filterDateInputs.thisMonth"
+                        class="form-checkbox" (change)="updateDateFilter('thisMonth', $event)">
+                      <label for="thisMonth">This Month</label>
+                    </div>
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="custom" name="custom" [(ngModel)]="filterDateInputs.custom"
+                        class="form-checkbox" (change)="updateDateFilter('custom', $event)">
+                      <label for="custom">Custom</label>
+                      <input style="margin-left:10%;visibility:hidden;" type="text" value="" id="customeDate"
+                        class="widgetDatepicker bsDatepicker" name="schedWidDate" [(ngModel)]="filterDateRange"
+                        (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="header-item" style="margin-left: 10px;">
+              <span>Standard <span class="danger">*</span></span>
+              <select class="header-select-box" style="background: white;color: #787A7D;height: 30px;" name=""
+                [(ngModel)]="coursePlannerFilters.master_course_name" (ngModelChange)="getData()">
+                <option value="">Select Standard</option>
+                <option title="{{master}}" [value]="master" *ngFor="let master of masterCourse">
+                  {{ (master.length > 30) ? (master | slice:0:30) + '...' : master }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div>
+        <div class="tableContainer">
+          <!-- <div> -->
+          <div class="tableHeader">
+            <div class="tableData">
+              #
+            </div>
+            <div class="tableData">
+              Exam Type
+            </div>
+            <div class="tableData">
+              Standard
+            </div>
+            <div class="tableData">
+              Section
+            </div>
+            <div class="tableData">
+              Subject
+            </div>
+            <div class="tableData">
+              Date
+            </div>
+            <div class="tableData">
+              Time From
+            </div>
+            <div class="tableData">
+              Time To
+            </div>
+            <div class="tableData">
+              Room
+            </div>
+            <div class="tableData">
+              <span class="right pr-40">
+                Action
+              </span>
+            </div>
+          </div>
+          <!-- </div> -->
+          <div class="section" *ngIf="coursePlannerData?.length > 0">
+            <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)"
+              *ngFor="let data of coursePlannerData; let i=index;">
+              <div class="tableData">
+                <span>{{i + 1}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.exam_type}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.master_course_name}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.course_name}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.subject_name}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.date}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.start_time}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.end_time}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.room_no}}</span>
+              </div>
+              <div class="tableData">
+                <span class="right pr-40" style="padding-right: 20px;">
+                  <a (click)="EditExam(data)" style="vertical-align: middle;cursor: pointer;">
+                    <img src="../../../../assets/images/EDit.png">
+                  </a>
+                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteAreaId(data)"
+                    style="cursor: pointer;" class="pl-10">
+                    <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="section no-records" *ngIf="!coursePlannerData?.length && !auth.isRippleLoad.getValue()">
+            No Records found
+          </div>
+        </div>
+      </div>
+      <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+            (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+          </pagination>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+
+</main>

@@ -3,6 +3,7 @@ import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { CommonApiCallService } from '../../../../services/common-api-call.service';
+import * as moment from 'moment';
 declare var $;
 
 
@@ -21,6 +22,7 @@ export class SchoolExamTypeComponent implements OnInit {
     description: "",
     institution_id: sessionStorage.getItem('institute_id'),
     is_active: 'Y',
+    date: ''
   }
   isExamTypeUpdate: boolean = false;
   headerSetting: any;
@@ -78,8 +80,8 @@ export class SchoolExamTypeComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'created_date',
-        value: "Created Date",
+        primary_key: 'date',
+        value: "Date",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -147,6 +149,7 @@ export class SchoolExamTypeComponent implements OnInit {
       description: this.addExamType.description,
       institution_id: sessionStorage.getItem('institute_id'),
       is_active: this.addExamType.is_active,
+      date: (this.addExamType.date!='' && this.addExamType.date!=null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
     };
     this.http.postData(url, payload).subscribe(data => {
       let temp: any = data;
@@ -194,6 +197,7 @@ export class SchoolExamTypeComponent implements OnInit {
   openEditExamTypeModal(obj) {
     this.isExamTypeUpdate = true;
     this.addExamType = obj.data;
+    this.addExamType.date = (this.addExamType.date!='' && this.addExamType.date!=null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
     $('#addExamType').modal('show');
   }
   updateExamType() {
@@ -202,6 +206,7 @@ export class SchoolExamTypeComponent implements OnInit {
       exam_type: this.addExamType.exam_type,
       description: this.addExamType.description,
       is_active: this.addExamType.is_active,
+      date: (this.addExamType.date!='' && this.addExamType.date!=null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
     };
     this.http.putData(url, payload).subscribe(data => {
       let temp: any = data;

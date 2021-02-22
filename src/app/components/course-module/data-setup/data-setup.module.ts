@@ -26,7 +26,7 @@ import { MasterTagComponent } from './master-tag/master-tag.component';
     DataSetupHomeComponent,
     ManageExamGradesComponent,
     ClassRoomComponent,
-    SchoolExamTypeComponent
+    SchoolExamTypeComponent,
     MasterTagComponent
   ],
   providers: [

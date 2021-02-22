@@ -52,6 +52,7 @@ export class DataSetupHomeComponent implements OnInit {
       'manage-exam-grades': 'Exam_Grades',
       'classroom': 'classroom',
       'master-tag': 'master_tag',
+      'exam-type': 'Exam_type'
     };
       this.activeSession = routesData[pathLastURL];
       console.log(this.activeSession);

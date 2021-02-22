@@ -15,6 +15,9 @@
               <a class="nav-link" (click)="toggle('academic')" [ngClass]="(activeSession == 'academic') ? 'active' : ''" data-toggle="tab" routerLink="/view/course/setup/academic">Academic Year</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" (click)="toggle('Exam_type')" [ngClass]="(activeSession == 'Exam_type') ? 'active' : ''" data-toggle="tab" routerLink="/view/course/setup/exam-type">Exam Type</a>
+          </li>
+          <li class="nav-item">
               <a class="nav-link" (click)="toggle('Exam_Grades')" [ngClass]="(activeSession == 'Exam_Grades') ? 'active' : ''" data-toggle="tab" routerLink="/view/course/setup/manage-exam-grades">Exam Grades</a>
           </li>
           <li class="nav-item">
