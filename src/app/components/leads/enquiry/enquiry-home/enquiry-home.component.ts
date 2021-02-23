@@ -730,6 +730,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.preFill = true;
         this.auth.hideLoader()
       })
+      this.auth.hideLoader();
 
     }
 
