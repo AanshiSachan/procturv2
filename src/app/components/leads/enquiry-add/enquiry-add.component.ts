@@ -2162,7 +2162,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   }
 
   cancelForm() {
-    this.router.navigate(['/view/leads']);
+    this.router.navigate(['/view/leads/enquiry']);
     sessionStorage.removeItem('enquiryPrefill');
   }
 

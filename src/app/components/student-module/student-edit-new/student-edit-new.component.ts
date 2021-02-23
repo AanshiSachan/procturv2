@@ -1383,6 +1383,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
 
   updateStudentForm(id) {
+    debugger
     this.auth.showLoader()
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(

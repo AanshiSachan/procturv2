@@ -352,8 +352,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.masterDataList = data;
       })
     }
-    this.fetchDataForCountryDetails();
-    this.getStateList();
+   // this.fetchDataForCountryDetails();
+   // this.getStateList();
     this.fetchCustomComponents();
   }
   /* ========================================================================================================== */
@@ -364,14 +364,13 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.auth.showLoader();
     this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
     this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments') == "1" ? true : false;
-
     this.fetchPrefillFormData();
-
     if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
       this.convertToStudentDetected();
-      this.checkStatusofStudent = false;
+     // this.checkStatusofStudent = false;
     } else {
       this.checkStatusofStudent = true;
+      this.fetchDataForCountryDetails();
     }
 
     if (this.isProfessional) {
@@ -527,11 +526,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.fetchDataForCountryDetails();
     this.countryDetails.forEach(element => {
       if (element.id == event) {
-        console.log(element.id);
         this.studentAddFormData.country_id = element.id;
         this.instituteCountryDetObj = element;
         this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = this.instituteCountryDetObj.id;
+        return false;
       }
     });
     this.getStateList();
@@ -742,7 +741,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
     this.auth.showLoader();
-
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
@@ -750,30 +748,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
-
-    // this.studentPrefillService.fetchAllFeeStructure().subscribe(
-    //   res => {
-    //      this.auth.hideLoader();
-    //     this.feeTemplateStore = res;
-    //   },
-    //   err => {
-    //      this.auth.hideLoader();
-    //   }
-    // )
-
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
         this.msgToast.showErrorMessage('error', '', err.error.message);
       });
-
-    // this.studentPrefillService.getChequeStatus().subscribe(
-    //   data => { this.pdcStatus = data; },
-    //   err => {
-    //     this.auth.hideLoader();
-    //     this.msgToast.showErrorMessage('error', '', err.error.message);
-    //   }
-    // );
     this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
@@ -781,6 +760,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
             this.defaultAcadYear = e.inst_acad_year_id;
+            return false;
           }
         });
       },
@@ -1145,6 +1125,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (el.school_id == id) {
         el.edit = true;
         el.new_school_name = el.school_name;
+        return false;
       }
     });
   }
@@ -1513,7 +1494,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       return moment(this.studentAddFormData.dob).format("YYYY-MM-DD");
     }
   }
- 
+
   customComponentValid(): boolean {
     function isValid(el) {
       if (el.is_required == "Y" && el.value != '') {
@@ -1713,17 +1694,14 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.guardian_email = this.enquiryData.guardian_email,
         this.studentAddFormData.guardian_phone = this.enquiryData.guardian_phone,
         this.studentAddFormData.religion = this.enquiryData.religion
-
     }
-    console.log(this.studentAddFormData);
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
   }
 
   fetchEnquiryCustomComponentDetails() {
-    let id = this.institute_enquiry_id;
     this.auth.showLoader();
-    this.studentPrefillService.fetchCustomComponentById(id, undefined, 1).subscribe(
+    this.studentPrefillService.fetchCustomComponentById(this.institute_enquiry_id, undefined, 1).subscribe(
       res => {
         this.auth.hideLoader();
         this.enquiryCustomComp = res;
@@ -1748,7 +1726,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   /* arg1::studentComp arg2:: enquiryComp */
   updateEnquiryComponent(id): any {
     let result: any;
-
     this.enquiryCustomComp.forEach(el => {
       if (el.component_id == id) {
         if (el.type == 4) {
@@ -1856,7 +1833,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
                 this.instituteCountryDetObj = element;
                 this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
                 this.country_id = element.id;
-                console.log(this.instituteCountryDetObj);
+                return false;
               }
             });
           }
@@ -1917,6 +1894,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.countryDetails.forEach(element => {
       if (element.id == coutry_object.country_id) {
         this.instituteCountryDetObj = element;
+        return false;
       }
     });
   }

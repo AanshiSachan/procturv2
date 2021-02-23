@@ -24,12 +24,12 @@ const routes: Routes = [
       },
       {
         path: 'add',
-        component: StudentAddNewComponent,
+        component: StudentAddComponent,
         pathMatch: 'prefix',
       },
       {
         path: 'edit/:id',
-        component: StudentEditNewComponent,
+        component: StudentEditComponent,
         pathMatch: 'prefix',
       },
       {
