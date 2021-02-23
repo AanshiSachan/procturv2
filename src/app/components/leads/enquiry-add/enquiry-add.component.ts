@@ -111,7 +111,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       guardian_name: '',
       guardian_phone: '',
       guardian_email: '',
-      address:''
+      address: ''
     };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -343,7 +343,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       guardian_name: '',
       guardian_phone: '',
       guardian_email: '',
-      address:''
+      address: ''
 
     };
 
@@ -952,7 +952,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       walkin_followUpDate: '',
       walkin_followUpTime: '',
       closing_reason_id: '',
-      is_follow_up_time_notification: false
+      is_follow_up_time_notification: false,
+      country_id: "",
+      state_id: "",
+      city_id: "",
+      area_id: ""
     };
     this.course_standard_id = '-1'
     this.selectedSubjectIds = null;

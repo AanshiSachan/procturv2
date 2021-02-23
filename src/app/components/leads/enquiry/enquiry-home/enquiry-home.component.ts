@@ -2295,9 +2295,7 @@ export class EnquiryHomeComponent implements OnInit {
         return this.enquire.fetchEnquiryStudentData(institute_id, this.selectedRow.institute_enquiry_id).subscribe(
             (data: any) => {
                 this.auth.hideLoader();
-                debugger
                 this.selectedRow.standard_id = data.standard_id;
-                //  this.selectedRow.student_perm_addr = data.curr_address;
                 this.selectedRow.curr_address = data.curr_address;
                 this.selectedRow.country_id = data.country_id;
                 this.selectedRow.state_id = data.state_id;

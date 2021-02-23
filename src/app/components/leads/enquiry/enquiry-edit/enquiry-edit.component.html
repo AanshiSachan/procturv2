@@ -89,8 +89,8 @@
                     <!-- standard Course-->
                     <div *ngIf="!isProfessional" class="field-wrapper">
                       <label for="editStandard">Standard</label>
-                      <select id="editStandard" class="form-ctrl" [(ngModel)]="course_standard_id"
-                        (ngModelChange)="fetchSubject($event)" name="editStandard"
+                      <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id"
+                         name="editStandard"
                         style="border-radius: 4px;width: 20rem;">
                         <option value="-1"></option>
                         <option *ngFor="let std of enqStd" [value]="std.standard_id">

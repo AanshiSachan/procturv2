@@ -1096,8 +1096,10 @@ export class EnquiryEditComponent implements OnInit {
                   school_id: this.editEnqData.school_id,
                   country_id: this.editEnqData.country_id,
                   assigned_to: this.editEnqData.assigned_to,
-                  curr_address : this.editEnqData.curr_address
-
+                  curr_address : this.editEnqData.curr_address,
+                  state_id: this.editEnqData.state_id,
+                  area_id: this.editEnqData.area_id,
+                  city_id: this.editEnqData.city_id
                 }
                 if (this.schoolModel) {
                   obj.birth_place = this.editEnqData.birth_place,

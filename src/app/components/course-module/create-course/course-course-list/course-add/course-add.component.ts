@@ -83,7 +83,6 @@ export class CourseAddComponent implements OnInit {
   }
 
   setStartAdEndDate(row) {
-    debugger
     for (let acad of this.academicList) {
       if (row == null) {
         if (acad.default_academic_year == 1) {
@@ -107,8 +106,6 @@ export class CourseAddComponent implements OnInit {
   }
 
   btnGoClickCreateCourse() {
-    debugger
-    console.log("standardNameList", this.standardNameList);
     if (this.checkAddCourseValidation()) {
       for (let i = 0; i < this.standardNameList.length; i++) {
         if (this.standardNameList[i].standard_id == this.newCourseAdd.standard_id) {

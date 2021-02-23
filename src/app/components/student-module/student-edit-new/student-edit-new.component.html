@@ -353,8 +353,8 @@
                                     <span class="label ">Parent<br>Profession</span>
                                 </div>
                                 <div class="col-lg-4">
-                                    <select id="blood_group" class="input-select"
-                                        [(ngModel)]="studentAddFormData.parent_profession" name="blood_group">
+                                    <select id="parent_profession" class="input-select"
+                                        [(ngModel)]="studentAddFormData.parent_profession" name="parent_profession">
                                         <option value="">Select Profession</option>
                                         <option *ngFor="let data of masterDataList.PROFESSION" [value]="data.data_key">
                                             {{data.data_value}}</option>

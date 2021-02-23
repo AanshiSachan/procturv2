@@ -403,7 +403,7 @@
                 <span class="label ">State</span>
               </div>
               <div class="col-lg-4">
-                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.state_id" name="state_id"
+                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.state_id" name="state"
                   (ngModelChange)="getCityList()">
                   <option value="">Select State</option>
                   <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
