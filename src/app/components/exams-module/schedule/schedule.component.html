@@ -49,12 +49,20 @@
               class="form-ctrl bsDatepicker" [(ngModel)]="editrecord.date" readonly="true" name="strtDate" bsDatepicker>
           </div>
           <div class="edit-item field-wrapper">
-            <input type="text" style="width: 100%;" name="" value="" placeholder="Time From*"
-              [(ngModel)]="editrecord.time_from" class="edit-area-item form-ctrl">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_from">
+              <option value="">Time From*</option>
+              <option *ngFor="let i of hour" [value]="i">
+                {{i}}
+              </option>
+            </select>
           </div>
           <div class="edit-item field-wrapper">
-            <input type="text" style="width: 100%;" name="" value="" placeholder="Time To*"
-              [(ngModel)]="editrecord.time_to" class="edit-area-item form-ctrl">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_to">
+              <option value="">Time To*</option>
+              <option *ngFor="let i of hour" [value]="i">
+                {{i}}
+              </option>
+            </select>
           </div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
@@ -184,7 +192,7 @@
         <div class="tableContainer">
           <!-- <div> -->
           <div class="tableHeader">
-            <div class="tableData">
+            <div class="tableData" style="width: 5%;">
               #
             </div>
             <div class="tableData">
@@ -196,7 +204,7 @@
             <div class="tableData">
               Section
             </div>
-            <div class="tableData">
+            <div class="tableData" style="width: 15%;">
               Subject
             </div>
             <div class="tableData">
@@ -221,11 +229,11 @@
           <div class="section" *ngIf="coursePlannerData?.length > 0">
             <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)"
               *ngFor="let data of coursePlannerData; let i=index;">
-              <div class="tableData">
+              <div class="tableData" style="width: 5%;">
                 <span>{{i + 1}}</span>
               </div>
               <div class="tableData">
-                <span>{{data.exam_type}}</span>
+                <span title="{{data.exam_type}}">{{ (data.exam_type.length > 13) ? (data.exam_type | slice:0:13 ) + '...' : data.exam_type }}</span>
               </div>
               <div class="tableData">
                 <span>{{data.master_course_name}}</span>
@@ -233,7 +241,7 @@
               <div class="tableData">
                 <span>{{data.course_name}}</span>
               </div>
-              <div class="tableData">
+              <div class="tableData" style="width: 15%;">
                 <span>{{data.subject_name}}</span>
               </div>
               <div class="tableData">
