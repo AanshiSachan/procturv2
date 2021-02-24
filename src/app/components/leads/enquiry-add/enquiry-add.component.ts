@@ -939,7 +939,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       enquiry: "",
       follow_type: "call",
       followUpDate: moment().format('YYYY-MM-DD'),
-      religion: null,
+      religion: '',
       link: "",
       slot_id: null,
       closedReason: "",
@@ -953,7 +953,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       walkin_followUpTime: '',
       closing_reason_id: '',
       is_follow_up_time_notification: false,
-      country_id: "",
+      country_id: this.country_id,
       state_id: "",
       city_id: "",
       area_id: ""
@@ -972,7 +972,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     });
     this.isEnquirySubmit = true;
     this.fetchCustomComponentData();
-    this.fetchDataForCountryDetails();
+   // this.fetchDataForCountryDetails();
   }
 
 
