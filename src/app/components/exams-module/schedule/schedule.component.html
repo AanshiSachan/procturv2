@@ -104,12 +104,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No, cancel!</button>
-        <button *ngIf="activeSession == 'city_area'" type="button" class="btn btn-default delete-btn"
-          (click)="deleteArea()">Yes, delete it!</button>
-        <button *ngIf="activeSession == 'source'" type="button" class="btn btn-default delete-btn"
-          (click)="deleteSource(deleteAreaId)">Yes, delete it!</button>
-        <button *ngIf="activeSession == 'Referred_by'" type="button" class="btn btn-default delete-btn"
-          (click)="deleteRefer(deleteAreaId)">Yes, delete it!</button>
+        <button type="button" class="btn btn-default delete-btn"
+          (click)="deleteSchedule()">Yes, delete it!</button>
       </div>
     </div>
 
@@ -261,7 +257,7 @@
                   <a (click)="EditExam(data)" style="vertical-align: middle;cursor: pointer;">
                     <img src="../../../../assets/images/EDit.png">
                   </a>
-                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteAreaId(data)"
+                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteSchedule(data)"
                     style="cursor: pointer;" class="pl-10">
                     <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
                   </a>

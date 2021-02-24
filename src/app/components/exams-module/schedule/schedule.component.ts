@@ -50,6 +50,7 @@ export class ScheduleComponent implements OnInit {
     standard_id: "-1"
   };
   isEdit: boolean = false;
+  deleteData: any = {};
 
 
   constructor(
@@ -81,7 +82,7 @@ export class ScheduleComponent implements OnInit {
 
 
   getStandard() {
-    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem('institute_id') + '?is_active_not_expire=Y&sorted_by=course_name';
+    let url = "/api/v1/courseMaster/master-course-list/100412?is_standard_wise=true&sorted_by=course_name";
 
     let keys;
     this.auth.showLoader();
@@ -109,8 +110,7 @@ export class ScheduleComponent implements OnInit {
 
   updateCourseList(ev) {
     this.courseList = [];
-    // this.auth.showLoader();
-    let temp = this.fullResponse[this.editrecord.master_course_name];
+    let temp = this.fullResponse[ev];
     for (let i = 0; i < temp.length; i++) {
       this.courseList.push(temp[i]);
     }
@@ -383,5 +383,7 @@ export class ScheduleComponent implements OnInit {
     this.updateSubjectList(this.editrecord.course_id);
   }
 
-
+  setDeleteSchedule(obj) {
+    this.deleteData = obj;
+  }
 }
