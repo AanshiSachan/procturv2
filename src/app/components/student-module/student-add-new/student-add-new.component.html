@@ -741,7 +741,7 @@
           <div class="bg-white">
             <custom-student *ngFor="let component of customComponents">
               <div class="row" *ngIf="component.type == 1" input-def>
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                   <span class="label" *ngIf="component.is_required == 'Y'">
                     {{component.label}}*
                   </span>
@@ -756,7 +756,7 @@
 
               <div class="row" *ngIf="component.type == 2" input-def>
                 <div class="col-lg-3">
-                  <div class="field-checkbox-wrapper" style="background: transparent;">
+                  <div class="field-checkbox-wrapper" style="background: transparent;margin: 0;margin-bottom: 10px;">
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
                       name="{{component.label}}" value="{{component.value}}">
                     <label *ngIf="component.is_required == 'Y'">
@@ -769,7 +769,7 @@
               </div>
               <div class="row" *ngIf="component.type == 3" input-def>
                 <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                  <div class="col-lg-2">
+                  <div class="col-lg-3">
                     <span class="label" *ngIf="component.is_required == 'Y'">
                       {{component.label}}*
                     </span>
@@ -790,7 +790,7 @@
               <div class="row" *ngIf="component.type == 4" input-def>
                 <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)"
                   [ngClass]="{'has-value': component.selectedString != ''}">
-                  <div class="col-lg-2">
+                  <div class="col-lg-3">
                     <span class="label" *ngIf="component.is_required == 'Y'">
                       {{component.label}}*
                     </span>
@@ -819,14 +819,14 @@
               </div>
 
               <div class="row" *ngIf="component.type == 5" input-def>
-                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
-                  <div class="col-lg-2">
+                <div class="field-wrapper" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                  <div class="col-lg-3">
                     <span class="label" for="{{component.id">
                       {{component.label}}
                     </span>
 
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-lg-4 datePickerBox">
                     <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value"
                       class="input bsDatepicker" name="{{component.label}}" bsDatepicker />
                   </div>
