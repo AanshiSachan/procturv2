@@ -4,6 +4,7 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import * as moment from 'moment';
 import { CoursePlanner } from '../../course-module/course-planner/course-planner.model';
+import { Session } from 'inspector';
 declare var $;
 
 @Component({
@@ -51,7 +52,16 @@ export class ScheduleComponent implements OnInit {
   };
   isEdit: boolean = false;
   deleteData: any = {};
-
+  times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
+  minArr: any[] = ['00', '15', '30', '45'];
+  mainStartTime = {
+    hour: '12 PM',
+    minute: '00',
+  }
+  mainEndTime = {
+    hour: '1 PM',
+    minute: '00',
+  }
 
   constructor(
     private auth: AuthenticatorService,
@@ -67,6 +77,7 @@ export class ScheduleComponent implements OnInit {
   toggleAddSchedule() {
     this.getExamType();
     this.getRooomDetails();
+    this.clearPrevData();
   }
 
   getRooomDetails() {
@@ -82,8 +93,7 @@ export class ScheduleComponent implements OnInit {
 
 
   getStandard() {
-    let url = "/api/v1/courseMaster/master-course-list/100412?is_standard_wise=true&sorted_by=course_name";
-
+    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
     let keys;
     this.auth.showLoader();
     this._httpService.getData(url).subscribe(
@@ -134,15 +144,17 @@ export class ScheduleComponent implements OnInit {
   }
 
   getExamType() {
-    this._httpService.getData('/api/v1/courseExamSchedule/fetch-exam-type/' + sessionStorage.getItem('institute_id')).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.ExamTypeData = res.result;
-      },
-      err => {
-        console.log(err);
-      }
-    )
+    if (this.ExamTypeData != null) {
+      this._httpService.getData('/api/v1/courseExamSchedule/fetch-exam-type/' + sessionStorage.getItem('institute_id')).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.ExamTypeData = res.result;
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
   }
 
   getDifference(startTime, endTime) {
@@ -155,47 +167,43 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveData() {
+    debugger
     if (this.editrecord.master_course_name != '-1' && this.editrecord.master_course_name != '') {
       if (this.editrecord.exam_type_id != '' && this.editrecord.exam_type_id != '-1') {
         if (this.editrecord.course_id != '' && this.editrecord.course_id != '-1') {
           if (this.editrecord.batch_id != '' && this.editrecord.batch_id != '-1') {
             if (this.editrecord.date != '') {
-              if (this.editrecord.time_from != '') {
-                if (this.editrecord.time_to != '') {
-                  let exam_type_data = this.ExamTypeData.filter(id => (this.editrecord.exam_type_id == id.exam_type_id));
-                  console.log(exam_type_data);
-
-                  if (exam_type_data && exam_type_data.length) {
-                    let exma_Date = moment(exam_type_data[0].date).format('YYYY-MM-DD');
-                    let create_date = moment(this.editrecord.date).format('YYYY-MM-DD');
-                    let today_date = moment().format('YYYY-MM-DD');
-                    if (moment(exma_Date).valueOf() >= moment(create_date).valueOf()) {
-                      this.messageService.showErrorMessage('error', '', 'Exam schedule date must be after exam type date');
-                    } else if (moment(create_date).valueOf() < moment(today_date).valueOf()) {
-                      this.messageService.showErrorMessage('error', '', 'Exam cannot be scheduled before current date');
-                    } else {
-                      let duration = this.getDifference(this.editrecord.time_from, this.editrecord.time_to);
-                      let obj = {
-                        "inst_id": sessionStorage.getItem('institute_id'),
-                        "course_id": this.editrecord.course_id,
-                        "batch_id": this.editrecord.batch_id,
-                        "exam_type_id": this.editrecord.exam_type_id,
-                        "course_exam_date": moment(this.editrecord.date).format('YYYY-MM-DD'),
-                        "exam_start_time": this.editrecord.time_from,
-                        "exam_end_time": this.editrecord.time_to,
-                        "exam_desc": "", // String
-                        "duration": duration,
-                        "room_no": this.editrecord.class_room_id  // String
-                      }
-                      this.isEdit ? this.updateExam(obj) : this.createExam(obj);
-                    }
-                  }
+              if (!this.validateTimeDuration(this.mainStartTime, this.mainEndTime))
+                return;
+              let exam_type_data = this.ExamTypeData.filter(id => (this.editrecord.exam_type_id == id.exam_type_id));
+              if (exam_type_data && exam_type_data.length) {
+                let exma_Date = moment(exam_type_data[0].date).format('YYYY-MM-DD');
+                let create_date = moment(this.editrecord.date).format('YYYY-MM-DD');
+                let today_date = moment().format('YYYY-MM-DD');
+                if (moment(exma_Date).valueOf() >= moment(create_date).valueOf()) {
+                  this.messageService.showErrorMessage('error', '', 'Exam schedule date must be after exam type date');
+                } else if (moment(create_date).valueOf() < moment(today_date).valueOf()) {
+                  this.messageService.showErrorMessage('error', '', 'Exam cannot be scheduled before current date');
                 } else {
-                  this.messageService.showErrorMessage('error', '', 'Please select Time to')
+                  //let duration = this.getDifference(this.editrecord.time_from, this.editrecord.time_to);
+                  let obj = {
+                    "inst_id": sessionStorage.getItem('institute_id'),
+                    "course_id": this.editrecord.course_id,
+                    "batch_id": this.editrecord.batch_id,
+                    "exam_type_id": this.editrecord.exam_type_id,
+                    "course_exam_date": moment(this.editrecord.date).format('YYYY-MM-DD'),
+                    "exam_start_time": this.createTimeInFormat(this.mainStartTime.hour, this.mainStartTime.minute, ''),
+                    "exam_end_time": this.createTimeInFormat(this.mainEndTime.hour, this.mainEndTime.minute, ''),
+                    "exam_desc": "", // String
+                    "duration": 0,
+                    "room_no_id": this.editrecord.class_room_id  // String
+                  }
+                  obj.duration = this.getDifference(moment(obj.exam_start_time, 'h:mma'), moment(obj.exam_end_time, 'h:mma'));
+
+                  this.isEdit ? this.updateExam(obj) : this.createExam(obj);
                 }
-              } else {
-                this.messageService.showErrorMessage('error', '', 'Please select Time from');
               }
+
             } else {
               this.messageService.showErrorMessage('error', '', 'Please select Date')
             }
@@ -219,12 +227,33 @@ export class ScheduleComponent implements OnInit {
         this.messageService.showErrorMessage('success', '', 'Exam schedule created successfully');
         $('#editCityArea').modal('hide');
         this.getData();
+        this.clearPrevData();
       },
       (err: any) => {
         console.log(err);
         this.messageService.showErrorMessage('error', '', err.error.message);
       }
     )
+  }
+  clearPrevData() {
+    this.editrecord = {
+      master_course_name: '',
+      batch_id: '-1',
+      course_id: '-1',
+      exam_type_id: '-1',
+      date: '',
+      time_to: '',
+      time_from: '',
+      class_room_id: '-1'
+    };
+    this.mainStartTime = {
+      hour: '12 PM',
+      minute: '00',
+    }
+    this.mainEndTime = {
+      hour: '1 PM',
+      minute: '00',
+    }
   }
 
   closePopup() {
@@ -248,6 +277,7 @@ export class ScheduleComponent implements OnInit {
         $('#editCityArea').modal('hide');
         this.isEdit = true;
         this.getData();
+        this.clearPrevData();
       },
       (err: any) => {
         console.log(err);
@@ -338,6 +368,7 @@ export class ScheduleComponent implements OnInit {
         }
       },
       err => {
+        this.coursePlannerData = [];
         this.auth.hideLoader();
         this.messageService.showErrorMessage('error', '', err.error.message);
       }
@@ -372,6 +403,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   EditExam(obj) {
+    debugger
     this.isEdit = true;
     this.toggleAddSchedule();
     $('#editCityArea').modal('show');
@@ -379,11 +411,46 @@ export class ScheduleComponent implements OnInit {
     this.editrecord.time_from = obj.start_time;
     this.editrecord.time_to = obj.end_time;
     this.editrecord.class_room_id = (obj.room_no != '') ? obj.room_no : '-1';
-    this.updateCourseList(this.editrecord.master_course_name);
+    this.setTime(obj);
+    this.updateCourseList(this.editrecord.standard_name);
     this.updateSubjectList(this.editrecord.course_id);
+  }
+  setTime(obj: any) {
+    this.mainEndTime = {
+      hour: obj.end_time.split(':')[0] + " " + obj.end_time.split(':')[1].split(' ')[1],
+      minute: obj.end_time.split(':')[1].split(" ")[0]
+    }
+    this.mainStartTime = {
+      hour: obj.start_time.split(':')[0] + " " + obj.start_time.split(':')[1].split(' ')[1],
+      minute: obj.start_time.split(':')[1].split(" ")[0]
+    }
   }
 
   setDeleteSchedule(obj) {
     this.deleteData = obj;
   }
+  createTimeInFormat(hrMeri, minute, format) {
+    let time = hrMeri.split(' ');
+    if (format == "comp") {
+      let t = time[0] + ":" + minute + time[1];
+      return t;
+    } else {
+      let t = time[0] + ":" + minute + " " + time[1];
+      return t;
+    }
+  }
+  validateTimeDuration(startTime, endTime) {
+    let start_Time = moment(this.breakTimeIntoHrMin(startTime.hour, startTime.minute), 'h:mma');
+    let end_Time = moment(this.breakTimeIntoHrMin(endTime.hour, endTime.minute), 'h:mma');
+    if (!(start_Time.isBefore(end_Time))) {
+      this.messageService.showErrorMessage('info', '', "Please enter correct start and end time");
+      return false;
+    }
+    return true;
+  }
+  breakTimeIntoHrMin(time, minute) {
+    let hrMeri = time.split(' ');
+    return hrMeri[0] + ":" + minute + hrMeri[1]
+  }
+
 }

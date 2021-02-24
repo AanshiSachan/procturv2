@@ -30,7 +30,7 @@ export class SchoolExamTypeComponent implements OnInit {
   rowColumns: any;
   staticPageData: any = [];
 
-  constructor(private http: HttpService, private auth: AuthenticatorService, private msgSrvc: MessageShowService,private commonApiCall:CommonApiCallService) {
+  constructor(private http: HttpService, private auth: AuthenticatorService, private msgSrvc: MessageShowService, private commonApiCall: CommonApiCallService) {
     auth.currentInstituteId.subscribe(key => {
       this.instituteId = key;
     });
@@ -131,11 +131,11 @@ export class SchoolExamTypeComponent implements OnInit {
     ]
 
   }
-  fetchInstituteExamTypes(isUpdate:boolean) {
+  fetchInstituteExamTypes(isUpdate: boolean) {
     this.commonApiCall.fetchInstituteExamTypes(this.instituteId).subscribe((data: any) => {
       this.staticPageData = data.result;
-      if(isUpdate){
-      this.commonApiCall.examTypeList.next(this.staticPageData);
+      if (isUpdate) {
+        this.commonApiCall.examTypeList.next(this.staticPageData);
       }
     }, err => {
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', err.error.message)
@@ -149,7 +149,7 @@ export class SchoolExamTypeComponent implements OnInit {
       description: this.addExamType.description,
       institution_id: sessionStorage.getItem('institute_id'),
       is_active: this.addExamType.is_active,
-      date: (this.addExamType.date!='' && this.addExamType.date!=null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
+      date: (this.addExamType.date != '' && this.addExamType.date != null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
     };
     this.http.postData(url, payload).subscribe(data => {
       let temp: any = data;
@@ -164,18 +164,9 @@ export class SchoolExamTypeComponent implements OnInit {
     })
 
   }
-  clearData() {
-    this.addExamType= {
-      exam_type_id: "",
-      exam_type: "",
-      description: "",
-      institution_id: sessionStorage.getItem('institute_id'),
-      is_active: 'Y',
-    }
-  }
-  addUpdateExamType() {
+  validateCreateExamTypeInput() {
     if (this.addExamType.exam_type == '') {
-      this.msgSrvc.showErrorMessage('info', '', "Enter Exam Type");
+      this.msgSrvc.showErrorMessage('info', '', "Enter Valid Exam Type");
       return false;
     }
     if (this.addExamType.exam_type.length > 50) {
@@ -186,10 +177,28 @@ export class SchoolExamTypeComponent implements OnInit {
       this.msgSrvc.showErrorMessage('info', '', "Description cannot be so long");
       return false;
     }
-    if (this.isExamTypeUpdate) {
-      this.updateExamType();
-    } else {
-      this.createExamType();
+    if (this.addExamType.date == '' || this.addExamType.date == null) {
+      this.msgSrvc.showErrorMessage('info', '', 'Enter Valid Date!');
+      return false;
+    }
+    return true;
+  }
+  clearData() {
+    this.addExamType = {
+      exam_type_id: "",
+      exam_type: "",
+      description: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      is_active: 'Y',
+    }
+  }
+  addUpdateExamType() {
+    if (this.validateCreateExamTypeInput()) {
+      if (this.isExamTypeUpdate) {
+        this.updateExamType();
+      } else {
+        this.createExamType();
+      }
     }
 
   }
@@ -197,7 +206,7 @@ export class SchoolExamTypeComponent implements OnInit {
   openEditExamTypeModal(obj) {
     this.isExamTypeUpdate = true;
     this.addExamType = obj.data;
-    this.addExamType.date = (this.addExamType.date!='' && this.addExamType.date!=null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
+    this.addExamType.date = (this.addExamType.date != '' && this.addExamType.date != null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
     $('#addExamType').modal('show');
   }
   updateExamType() {
@@ -206,7 +215,7 @@ export class SchoolExamTypeComponent implements OnInit {
       exam_type: this.addExamType.exam_type,
       description: this.addExamType.description,
       is_active: this.addExamType.is_active,
-      date: (this.addExamType.date!='' && this.addExamType.date!=null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
+      date: (this.addExamType.date != '' && this.addExamType.date != null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
     };
     this.http.putData(url, payload).subscribe(data => {
       let temp: any = data;

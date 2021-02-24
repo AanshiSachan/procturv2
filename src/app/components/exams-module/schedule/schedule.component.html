@@ -5,7 +5,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" (click)="closePopup()" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title" style="margin-bottom: 0;">{{isEdit ? 'Edit Exam schedule' : 'Add Exam schedule'}}</h3>
+        <h3 class="modal-title" style="margin-bottom: 0;">{{isEdit ? 'Edit Exam Schedule' : 'Add Exam Schedule'}}</h3>
       </div>
       <div class="modal-body" style="padding-top: 0;">
         <div class="edit-container">
@@ -19,7 +19,7 @@
             </select>
           </div>
           <div class="edit-item field-wrapper">
-            <select class="form-ctrl" name="" [(ngModel)]="editrecord.exam_type_id">
+            <select class="form-ctrl" id="exam_type" [(ngModel)]="editrecord.exam_type_id">
               <option value="-1">Exam Name*</option>
               <option title="{{course.exam_type}}" [value]="course.exam_type_id" *ngFor="let course of ExamTypeData">
                 {{ (course.exam_type.length > 30) ? (course.exam_type | slice:0:30) + '...' : course.exam_type }}
@@ -49,20 +49,44 @@
               class="form-ctrl bsDatepicker" [(ngModel)]="editrecord.date" readonly="true" name="strtDate" bsDatepicker>
           </div>
           <div class="edit-item field-wrapper">
-            <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_from">
+            <!-- <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_from">
               <option value="">Time From*</option>
               <option *ngFor="let i of hour" [value]="i">
                 {{i}}
               </option>
-            </select>
+            </select> -->
+            <select id="" class="form-ctrl" [(ngModel)]="mainStartTime.hour"
+                name="endtime">
+                <option [value]="time" *ngFor="let time of times">
+                  {{time}}
+                </option>
+              </select>
+              <select id="" class="form-ctrl" [(ngModel)]="mainStartTime.minute"
+                name="minute">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
           </div>
           <div class="edit-item field-wrapper">
-            <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_to">
+            <!-- <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_to">
               <option value="">Time To*</option>
               <option *ngFor="let i of hour" [value]="i">
                 {{i}}
               </option>
-            </select>
+            </select> -->
+            <select id="" class="form-ctrl" [(ngModel)]="mainEndTime.hour"
+                name="endtime">
+                <option [value]="time" *ngFor="let time of times">
+                  {{time}}
+                </option>
+              </select>
+              <select id="" class="form-ctrl" [(ngModel)]="mainEndTime.minute"
+                name="minute">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
           </div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
@@ -117,11 +141,11 @@
     <!-- <div id="Source"  class="tab-pane"> -->
     <div class="w96">
       <div class="row" style="margin-top: 15px;">
-        <div class="c-md-6 headerLabel">Exam schedules</div>
+        <div class="c-md-6 headerLabel">Exam Schedules</div>
         <div class="c-md-6" style="padding: 0;">
           <button style="float: right;" class="add_master_tag" data-toggle="modal" data-target="#editCityArea"
             (click)="toggleAddSchedule()">Add
-            Exam schedule</button>
+            Exam Schedule</button>
         </div>
       </div>
       <section class="filter-head">
@@ -232,13 +256,13 @@
                 <span title="{{data.exam_type}}">{{ (data.exam_type.length > 13) ? (data.exam_type | slice:0:13 ) + '...' : data.exam_type }}</span>
               </div>
               <div class="tableData">
-                <span>{{data.master_course_name}}</span>
+                <span>{{data.standard_name}}</span>
               </div>
               <div class="tableData">
                 <span>{{data.course_name}}</span>
               </div>
               <div class="tableData" style="width: 15%;">
-                <span>{{data.subject_name}}</span>
+                <span>{{data.is_optional_subject?data.subject_name+'(Optional)':data.subject_name}}</span>
               </div>
               <div class="tableData">
                 <span>{{data.date}}</span>
@@ -257,10 +281,10 @@
                   <a (click)="EditExam(data)" style="vertical-align: middle;cursor: pointer;">
                     <img src="../../../../assets/images/EDit.png">
                   </a>
-                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteSchedule(data)"
+                  <!-- <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteSchedule(data)"
                     style="cursor: pointer;" class="pl-10">
                     <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
-                  </a>
+                  </a> -->
                 </span>
               </div>
             </div>

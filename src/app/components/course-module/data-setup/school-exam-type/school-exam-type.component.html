@@ -1,41 +1,15 @@
 <div class="master-wrapper clearFix">
   <section class="header-section">
     <div class="header-full">
-      <!-- <div class="row m-5">
-        <h2  class="pull-left">
-          <a style="padding:0px; ">
-            Setup
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-          <a routerLink="/view/{{type}}/setup" style="padding:0px; ">
-            Data Setup
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-          <span> Exam Type </span>
-        </h2>
-      </div> -->
       <button class="btn fullBlue pull-right" style="margin-bottom: 10px;" data-target="#addExamType" data-toggle="modal">
         + Add Exam Type
       </button>
     </div>
   </section>
-  <!--  <section class="table-control">
-        <div class="col-lg-8"></div>
-        <div class="col-lg-4 p-0">
-          <div class="field-wrapper">
-              <input class="search-box form-ctrl"  type="text"  [(ngModel)]="searchTag" (keyup)="filterTag()" placeholder="Search tag here"/>
-          </div>
-        </div>
-    </section>
-  -->
   <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
       [rowColumnSetting]="rowColumns" (editView)='openEditExamTypeModal($event)'>
     </app-basic-table>
- 
-  <!--  <div *ngIf="isSearchItemExist" class="noSearchItem">
-          No tags found
-      </div> -->
-</div>
+ </div>
 <!--add exam Type-->
 <div class="modal fade" id="addExamType" role="dialog" tabindex="-1"  style="margin-top: 3%;" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -59,7 +33,7 @@
           </div>
         </div>
         <div class="field-wrapper datePickerBox" style="width: 50%;">
-          <label>Date</label>
+          <label>Date<span class="text-danger">*</span></label>
           <div class="dropdown-div pt-2">
             <input type="text" class="form-ctrl dropdown" style="width: 100%;" readonly="true" name="startDate" id="startDate"
             [(ngModel)]="addExamType.date" bsDatepicker/>
