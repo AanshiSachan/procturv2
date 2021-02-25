@@ -408,9 +408,9 @@ export class ScheduleComponent implements OnInit {
     this.toggleAddSchedule();
     $('#editCityArea').modal('show');
     this.editrecord = obj;
-    this.editrecord.time_from = obj.start_time;
-    this.editrecord.time_to = obj.end_time;
-    this.editrecord.class_room_id = (obj.room_no != '') ? obj.room_no : '-1';
+   // this.editrecord.time_from = obj.start_time;
+    //this.editrecord.time_to = obj.end_time;
+    this.editrecord.class_room_id = obj.room_no_id;
     this.setTime(obj);
     this.updateCourseList(this.editrecord.standard_name);
     this.updateSubjectList(this.editrecord.course_id);
