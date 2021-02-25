@@ -3229,6 +3229,7 @@ input[type=number]::-webkit-outer-spin-button {
     top: 15px;
     display: block;
   line-height: 1.1;
+  text-align: left;
   }
   .row{
    padding: 5px 0px;
@@ -3622,7 +3623,22 @@ input[type=number]::-webkit-outer-spin-button {
   .flex{
     display: flex;
   }
+.datePickerBox {
+    .form-ctrl {
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      background: white;
+    }
 
-
-
-  
+    &:after {
+      content: '';
+      background: url("../../../../assets/images/calendar.svg") no-repeat;
+      position: absolute;
+      right: 30px;
+      top: 15px;
+      width: 21px;
+      height: 21px;
+      z-index: 0;
+    }
+}
