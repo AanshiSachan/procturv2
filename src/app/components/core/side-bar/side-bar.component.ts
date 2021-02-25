@@ -190,9 +190,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
     this.instituteId = sessionStorage.getItem('institute_id');
-    this.auth.schoolModel.subscribe((data) => {
-      this.schoolModel = data = "true" ? true : false;
-    });
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }

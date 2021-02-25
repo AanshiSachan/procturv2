@@ -387,18 +387,34 @@
                 <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/studentIcon2.png':'./assets/images/sidemenuicon/studentIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/students" class="a_link">
-                    <span [ngClass]="activeSession === 'litwo' ? ' abc' : ' NavLink'">Student</span>
+                    <span [ngClass]="activeSession === 'litwo' ? ' abc' : ' NavLink'">Students</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
+                <ul style="top:20%;">
+                    <a routerLink="/view/students">
+                        <li class="subMenu">
+                            <span>Manage</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/students">
+                        <li class="subMenu">
+                            <span>Attendance</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/students">
+                        <li class="subMenu">
+                            <span>Leave</span>
+                        </li>
+                    </a>
+                </ul>
             </li>
             <li [ngClass]="activeSession === 'lifour' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowFee" (click)="toggler('lifour')" >
                 <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidemenuicon/feesIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/fee" class="a_link">
-                    <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span></a>
-                <!-- <a routerLink="/view/course">
-                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">{{schoolModel ? 'Class' : 'Course'}}</span><i
-                        class="fa fa-angle-right" aria-hidden="true"></i>
-                </a> -->
+                    <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
                 <ul style="top:30%;">
                     <a routerLink="/view/fee/monitoring-dashboard/home">
                         <li class="subMenu">
@@ -406,6 +422,21 @@
                         </li>
                     </a>
                     <a routerLink="/view/fee/monitoring-dashboard/home">
+                        <li class="subMenu">
+                            <span>Assign</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/monitoring-dashboard/home">
+                        <li class="subMenu">
+                            <span>Update</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/fee/cheque">
+                        <li class="subMenu">
+                            <span>Cheques</span>
+                        </li>
+                    </a>
+                    <!-- <a routerLink="/view/fee/monitoring-dashboard/home">
                         <li class="subMenu" *ngIf="jsonFeesFlags.isAdmin || jsonFeesFlags.isMonitoringDash">
                             <span>Monitoring Dashboard</span>
                         </li>
@@ -415,17 +446,6 @@
                             <span>Data Setup</span>
                         </li>
                     </a>
-                   <!-- <a routerLink="/view/fee/allDueReport">
-                        <li *ngIf="jsonFeesFlags.isFeeDues" class="subMenu">
-                            <span>Fee Dues</span>
-                        </li>
-                    </a>-->
-                    <!--<a routerLink="/view/fee/moduleReport">
-                        <li class="subMenu" *ngIf="jsonFeesFlags.isCourseWise">
-                            <span>{{jsonFeesFlags.moduleState}} wise
-                                Report</span>
-                        </li>
-                    </a>-->
                     <a routerLink="/view/fee/paymentHistory">
                         <li *ngIf="jsonFeesFlags.isPaymentHistory" class="subMenu">
                             <span>Payment History</span>
@@ -436,16 +456,6 @@
                             <span>Manage Cheque</span>
                         </li>
                     </a>
-                  <!--  <a routerLink="/view/fee/onlinePayment">
-                        <li class="subMenu" *ngIf="enable_online_payment == 1 && jsonFeesFlags.isOnlineFees">
-                            <span>Online Fee Collection</span>
-                        </li>
-                    </a>-->
-                  <!--  <a routerLink="/view/fee/gst">
-                        <li class="subMenu" *ngIf="is_tax_enabled=='1' && jsonFeesFlags.isGstReport">
-                            <span>{{tax_type_without_percentage}} Report</span>
-                        </li>
-                    </a>-->
                     <a routerLink="/view/fee/cheque">
                         <li class="subMenu hide">
                             <span>Cheque/PDC Report</span>
@@ -465,7 +475,7 @@
                         <li class="subMenu hide" *ngIf="jsonFeesFlags.isProfitnloss">
                             <span>Profit and Loss</span>
                         </li>
-                    </a>
+                    </a> -->
                 </ul>
             </li>
             <li [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" *ngIf="!isLangInstitute && jsonFlags.isShowCourse" (click)="toggler('lithree')" >
@@ -482,29 +492,19 @@
                             <span>Setup</span>
                         </li>
                     </a>
-                 <!--   <a routerLink="/view/course/create">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                            <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
+                    <a *ngIf="!schoolModel" routerLink="/view/course/create/courselist">
+                        <li class="subMenu">
+                            <span>Section</span>
                         </li>
-                    </a>-->
-                    <!--<a routerLink="/view/course/ecourse-file-manager/ecourses">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowFileManager">
-                            <span>Study Material</span>
-                        </li>
-                    </a>-->
-                   <!-- <a routerLink="/view/course/file-manager/drive">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
-                            <span>File/Doc. Manager</span>
-                        </li>
-                    </a>-->
-                    <!--<a routerLink="/view/course/online-assignment">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnlineAssignment ">
-                            <span >Online Assignment</span>
-                        </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/course/coursePlanner/class">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
-                            <span> Class/Exam Planner</span>
+                            <span> Schedule</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/coursePlanner/class">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                            <span> Attendance</span>
                         </li>
                     </a>
                     <a routerLink="/view/course/timeTable">
@@ -512,22 +512,7 @@
                             <span>TimeTable</span>
                         </li>
                     </a>
-                  <!--  <a routerLink="/view/course/reports">
-                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                            <span>Reports</span>
-                        </li>
-                    </a>-->
-                   <!--  <a routerLink="/view/course/master-tag">
-                        <li class="subMenu">
-                            <span>Manage Tags</span>
-                        </li>
-                    </a>-->
-                   <!-- <a routerLink="/view/course/ecoursemapping">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                            <span>eCourse Mapping</span>
-                        </li>
-                    </a>-->
-                    <a routerLink="/view/course/archiving">
+                    <!-- <a routerLink="/view/course/archiving">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
                             <span>Data Archiving</span>
                         </li>
@@ -536,7 +521,7 @@
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
                             <span>eCourse Mapping</span>
                         </li>
-                    </a>
+                    </a> -->
                 </ul>
             </li>
             <li [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" *ngIf="schoolModel" (click)="toggler('liExam')" >
@@ -558,16 +543,16 @@
                             <span>Schedule</span>
                         </li>
                     </a>
-                    <!-- <a>
+                    <a routerLink="/view/course/setup/exam-type">
                         <li class="subMenu">
                             <span>Attendance</span>
                         </li>
                     </a>
-                    <a>
+                    <a routerLink="/view/course/setup/exam-type">
                         <li class="subMenu">
                             <span>Marks</span>
                         </li>
-                    </a> -->
+                    </a>
                 </ul>
             </li>
             <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')" >
@@ -666,6 +651,59 @@
                     </a>
                 </ul>
             </li>
+
+            <li [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''" (click)="toggler('liManageUser')" >
+                <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a>
+                    <span [ngClass]="activeSession === 'liManageUser' ? ' abc' : ' NavLink'">Users</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top:40%;">
+                    <a routerLink="/view/manage/user">
+                        <li class="subMenu">
+                            <span>Manage</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/manage/user">
+                        <li class="subMenu">
+                            <span>Attendance</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/manage/user">
+                        <li class="subMenu">
+                            <span>Leave</span>
+                        </li>
+                    </a>
+                   
+                </ul>
+            </li>
+            <li [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')" >
+                <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a>
+                    <span [ngClass]="activeSession === 'liTeachers' ? ' abc' : ' NavLink'">Teachers</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top:45%;">
+                    <a routerLink="/view/course/setup/teacher/list">
+                        <li class="subMenu">
+                            <span>Manage</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/setup/teacher/list">
+                        <li class="subMenu">
+                            <span>Attendance</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/course/setup/teacher/list">
+                        <li class="subMenu">
+                            <span>Leave</span>
+                        </li>
+                    </a>
+                   
+                </ul>
+            </li>
            
             <li [ngClass]=" activeSession === 'lisix'?'liActiveBG':''"*ngIf="jsonCommunicateFlags.communicateMenu" (click)="toggler('lisix')">
                 <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidemenuicon/communicateIcon2.png'" alt="" class="sideBar_centerAlign"
@@ -675,16 +713,16 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:50%">
-                 <!--  <a routerLink="/view/communicate/sms">
+                  <a routerLink="/view/communicate/sms">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showSMSReport">
                             <span>SMS Report</span>
                         </li>
-                    </a>-->
-                   <!-- <a routerLink="/view/communicate/email">
+                    </a>
+                   <a routerLink="/view/communicate/email">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showEmailReport">
                             <span>Email Report</span>
                         </li>
-                    </a>-->
+                    </a>
                     <a routerLink="/view/communicate/ptm">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showPTM">
                             <span>PTM Management</span>
@@ -701,7 +739,7 @@
                 <img [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidemenuicon/estoreIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a class="a_link"  routerLink="/view/e-store/home">
-                    <span [ngClass]="activeSession === 'lieight' ? ' abc' : ' NavLink'">Estore</span><i
+                    <span [ngClass]="activeSession === 'lieight' ? ' abc' : ' NavLink'">Store</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 58%;">
@@ -715,23 +753,11 @@
                             <span>Registered Users</span>
                         </li>
                     </a>
-                   <!-- <a routerLink="/view/e-store/sales-report">
-                        <li class="subMenu" *ngIf="jsonEstoreFlags.isSalesReport">
-                            <span>Sales Report</span>
-                        </li>
-                    </a>-->
-                   
                     <a routerLink="/view/e-store/manage-offers/coupon">
                         <li class="subMenu" *ngIf="jsonEstoreFlags.isManageOffer">
                             <span>Manage Offers</span>
                         </li>
                     </a>
-                  <!-- <a routerLink="/view/e-store/offer-history">
-                        <li class="subMenu" *ngIf="jsonEstoreFlags.isCouponReport">
-                            <span>Offer History</span>
-                        </li>
-                    </a>-->
-                   
                 </ul>
             </li>
             <li *ngIf="enable_client_website" (click)="toggler('liwebsiteConf')" style="padding-right: 0;">
@@ -747,7 +773,7 @@
                     <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidemenuicon/onlineassignmentIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom:4px;">
                 <a routerLink="/view/course/online-assignment">
-                    <span [ngClass]="activeSession === 'lithirteen' ? ' abc' : ' NavLink'" style="padding:2px;">Online Assignment</span>
+                    <span [ngClass]="activeSession === 'lithirteen' ? ' abc' : ' NavLink'" style="padding:2px;">Assignment</span>
                 </a>
             </li>
             <li [ngClass]="activeSession === 'liseven' ?'liActiveBG':''" *ngIf="jsonFlags.isShowLibrabry" (click)="toggler('liseven')">
