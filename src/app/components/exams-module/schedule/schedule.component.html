@@ -10,8 +10,8 @@
       <div class="modal-body" style="padding-top: 0;">
         <div class="edit-container">
           <div class="edit-item field-wrapper">
-            <select id="master_course" class="form-ctrl" (ngModelChange)="updateCourseList($event)"
-              [(ngModel)]="editrecord.master_course_name">
+            <select id="master_course" class="form-ctrl" [(ngModel)]="editrecord.master_course_name"
+            (ngModelChange)="updateCourseList($event)">
               <option value="">Standard*</option>
               <option title="{{master}}" [value]="master" *ngFor="let master of masterCourse">
                 {{ (master.length > 30) ? (master | slice:0:30) + '...' : master }}
@@ -21,8 +21,8 @@
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" id="exam_type" [(ngModel)]="editrecord.exam_type_id">
               <option value="-1">Exam Name*</option>
-              <option title="{{course.exam_type}}" [value]="course.exam_type_id" *ngFor="let course of ExamTypeData">
-                {{ (course.exam_type.length > 30) ? (course.exam_type | slice:0:30) + '...' : course.exam_type }}
+              <option title="{{exams.exam_type}}" *ngFor="let exams of ExamTypeData" [value]="exams.exam_type_id">
+                {{ (exams.exam_type.length > 30) ? (exams.exam_type | slice:0:30) + '...' : exams.exam_type }}
               </option>
             </select>
           </div>
@@ -91,17 +91,16 @@
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
               <option value="-1">Room</option>
-              <option title="{{subject.subject_name}}" [value]="subject.class_room_id"
-                *ngFor="let subject of classRoomData">
-                {{ (subject.class_room_name.length > 30) ? (subject.class_room_name | slice:0:30) + '...' :
-                subject.class_room_name }}
+              <option *ngFor="let class of classRoomData" title="{{class.class_room_name}}" [value]="class.class_room_id">
+                {{ (class.class_room_name.length > 30) ? (class.class_room_name | slice:0:30) + '...' :
+                class.class_room_name }}
               </option>
             </select>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="closePopup()" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="clearPrevData()" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-default" (click)="saveData()">Save</button>
       </div>
     </div>

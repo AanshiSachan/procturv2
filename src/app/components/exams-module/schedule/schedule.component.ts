@@ -75,12 +75,13 @@ export class ScheduleComponent implements OnInit {
   }
 
   toggleAddSchedule() {
+    this.clearPrevData();
     this.getExamType();
     this.getRooomDetails();
-    this.clearPrevData();
   }
 
   getRooomDetails() {
+    this.classRoomData = [];
     this._httpService.getData('/api/v1/batchClassRoom/all/' + sessionStorage.getItem('institute_id')).subscribe(
       (res: any) => {
         this.classRoomData = res;
@@ -128,6 +129,7 @@ export class ScheduleComponent implements OnInit {
 
   updateSubjectList(event) {
     this.auth.showLoader();
+    this.subjectList = [];
     const url = "/api/v1/courseMaster/fetch/courses/" + sessionStorage.getItem('institute_id') + '/' + event;
     this._httpService.getData(url).subscribe(
       (res: any) => {
@@ -144,7 +146,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   getExamType() {
-    if (this.ExamTypeData != null) {
+    console.log(this.ExamTypeData);
+    if (this.ExamTypeData != null && this.ExamTypeData.length == 0) {
       this._httpService.getData('/api/v1/courseExamSchedule/fetch-exam-type/' + sessionStorage.getItem('institute_id')).subscribe(
         (res: any) => {
           console.log(res);
@@ -254,6 +257,7 @@ export class ScheduleComponent implements OnInit {
       hour: '1 PM',
       minute: '00',
     }
+    this.isEdit = false;
   }
 
   closePopup() {
@@ -403,17 +407,16 @@ export class ScheduleComponent implements OnInit {
   }
 
   EditExam(obj) {
-    debugger
-    this.isEdit = true;
     this.toggleAddSchedule();
-    $('#editCityArea').modal('show');
+    this.isEdit = true;
     this.editrecord = obj;
-   // this.editrecord.time_from = obj.start_time;
-    //this.editrecord.time_to = obj.end_time;
-    this.editrecord.class_room_id = obj.room_no_id;
-    this.setTime(obj);
     this.updateCourseList(this.editrecord.standard_name);
     this.updateSubjectList(this.editrecord.course_id);
+    this.editrecord.batch_id = obj.batch_id;
+    this.editrecord.class_room_id = obj.room_no_id;
+    this.editrecord.exam_type_id = obj.exam_type_id;
+    this.setTime(obj);
+    $('#editCityArea').modal('show');
   }
   setTime(obj: any) {
     this.mainEndTime = {
