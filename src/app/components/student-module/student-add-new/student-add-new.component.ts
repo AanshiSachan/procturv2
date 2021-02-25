@@ -352,8 +352,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.masterDataList = data;
       })
     }
-   // this.fetchDataForCountryDetails();
-   // this.getStateList();
+    // this.fetchDataForCountryDetails();
+    // this.getStateList();
     this.fetchCustomComponents();
   }
   /* ========================================================================================================== */
@@ -367,7 +367,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.fetchPrefillFormData();
     if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
       this.convertToStudentDetected();
-     // this.checkStatusofStudent = false;
+      // this.checkStatusofStudent = false;
     } else {
       this.checkStatusofStudent = true;
       this.fetchDataForCountryDetails();
@@ -1270,26 +1270,18 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-      let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
-      if (this.studentAddFormData.student_email && this.studentAddFormData.student_email != "") {
-        if (!email.test(this.studentAddFormData.student_email)) {
-          this.msgToast.showErrorMessage('error', '', "Please enter valid email id");
-          return;
-        }
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.student_email)) {
+        this.msgToast.showErrorMessage('error', '', "Please enter valid email id");
+        return;
+      }
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.parent_email)) {
+        this.msgToast.showErrorMessage('error', '', "Please enter valid email ID");
+        return;
       }
 
-      if (this.studentAddFormData.parent_email && this.studentAddFormData.parent_email != "") {
-        if (!email.test(this.studentAddFormData.parent_email)) {
-          this.msgToast.showErrorMessage('error', '', "Please enter valid email ID");
-          return;
-        }
-
-      }
-      if (this.studentAddFormData.guardian_email != "") {
-        if (!email.test(this.studentAddFormData.guardian_email)) {
-          this.msgToast.showErrorMessage('error', '', "Please enter valid guardian email ID");
-          return;
-        }
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.guardian_email)) {
+        this.msgToast.showErrorMessage('error', '', "Please enter valid guardian email ID");
+        return;
       }
 
       if ((this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlegth, this.country_id) == false &&

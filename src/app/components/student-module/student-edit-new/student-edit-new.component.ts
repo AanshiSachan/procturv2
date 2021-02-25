@@ -624,7 +624,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
 
   //get all selected studnet fee installment
   studentFeeInstallment(userType) {
-  //  this.closeMenu();
+    //  this.closeMenu();
     let object = {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
@@ -1637,41 +1637,37 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         }
       });
 
-      let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;;
-      if (this.studentAddFormData.student_email != null && this.studentAddFormData.student_email != "") {
-        if (!email.test(this.studentAddFormData.student_email)) {
-          let alert = {
-            type: 'error',
-            title: '',
-            body: 'Please enter valid email id'
-          }
-          this.appC.popToast(alert);
-          return;
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.student_email)) {
+        let alert = {
+          type: 'error',
+          title: '',
+          body: 'Please enter valid email id'
         }
-      }
-      if (this.studentAddFormData.parent_email != null && this.studentAddFormData.parent_email != "") {
-        if (!email.test(this.studentAddFormData.parent_email)) {
-          let alert = {
-            type: 'error',
-            title: '',
-            body: 'Please enter valid parent email id'
-          }
-          this.appC.popToast(alert);
-          return;
-        }
+        this.appC.popToast(alert);
+        return;
       }
 
-      if (this.studentAddFormData.guardian_email != null && this.studentAddFormData.guardian_email != "") {
-        if (!email.test(this.studentAddFormData.guardian_email)) {
-          let alert = {
-            type: 'error',
-            title: '',
-            body: 'Please enter valid guardian email id'
-          }
-          this.appC.popToast(alert);
-          return;
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.parent_email)) {
+        let alert = {
+          type: 'error',
+          title: '',
+          body: 'Please enter valid parent email id'
         }
+        this.appC.popToast(alert);
+        return;
       }
+
+
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.guardian_email)) {
+        let alert = {
+          type: 'error',
+          title: '',
+          body: 'Please enter valid guardian email id'
+        }
+        this.appC.popToast(alert);
+        return;
+      }
+
 
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
@@ -3040,5 +3036,5 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
+
 }
