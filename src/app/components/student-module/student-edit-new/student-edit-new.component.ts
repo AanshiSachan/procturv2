@@ -624,7 +624,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
 
   //get all selected studnet fee installment
   studentFeeInstallment(userType) {
-    this.closeMenu();
+  //  this.closeMenu();
     let object = {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
@@ -1251,7 +1251,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
           country_id = '-1';
         }
         if (!this.isSchoolModel) {
-          standard_id = '1'
+          standard_id = '0'
         }
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, standard_id, country_id).subscribe(
           res => {
