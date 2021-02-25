@@ -1133,7 +1133,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="c-sm-12 c-md-12 c-lg-12" style="margin-bottom: 10px ">
+                    <div class="c-sm-12 c-md-12 c-lg-12" style="margin-bottom: -12px ">
                         <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
                             <input type="checkbox" value="" class="form-checkbox"
                                 [(ngModel)]="checkBoxGroup.unpaidInstallment"
@@ -1165,7 +1165,7 @@
 
                         <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
 
-                        <input style="right: 115px;" type="button" value="Share"
+                        <input style="right: 115px;margin-top:10px" type="button" value="Share"
                             (click)="isShareDetails= !isShareDetails" class="btn downloadbtn">
                         <input *ngIf="showFeeSection" type="button" (click)="studentFeeInstallment()">
                         <i class="fa fa-download" (click)="studentFeeInstallment(-1)"
@@ -1489,12 +1489,12 @@
   
           </section>
    -->
-            <div class="row">
+            <div class="row" *ngIf="totalAmountToPay != 0">
                 <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
                     <div class="pull-left">
-                        <div class="field-checkbox-wrapper">
+                        <!-- <div class="field-checkbox-wrapper">
                             <input type="button" value="Back" class="btn" (click)="navigateTo('kyc')">
-                        </div>
+                        </div> -->
                     </div>
                     <span class="right" style="margin-top: 10px;">
                         <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalAmountToPay != 0">
