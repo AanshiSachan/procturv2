@@ -9,9 +9,9 @@
           <div class="w40">
             <div class="container1" class="top-10">
               <img *ngIf="imgFile == ''" (click)="getFile()" src="../../../../../../assets/images/course/Group329.svg">
-              <img style="border-radius: 50%;height: 111px;width: 111px;" *ngIf="imgFile != ''" src="{{imgFile}}">
+              <img style="border-radius: 50%;height: 111px;width: 111px;" (click)="getFile()" *ngIf="imgFile != ''" src="{{imgFile}}">
               <div style='height: 0px;width: 0px; overflow:hidden;'><input id="upfile" type="file" value="upload"
-                  (change)="uploadHandler($event.target.files)" /></div>
+                  (change)="readFile($event.target.files)" /></div>
               <div class="overlay">
                 <div class="text">Add image</div>
               </div>
@@ -66,7 +66,7 @@
             <span class="label">Salary (Per Hour)</span>
           </div>
           <div class="w80">
-            <input type="text" class="form-control input" formControlName="hour_rate" placeholder="1200Rs">
+            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="hour_rate" placeholder="1200Rs">
           </div>
         </div>
         <div class="flex_box">
@@ -125,9 +125,8 @@
           </div>
           <div class="w70">
             <span class="">
-              <img src="../../../../../../assets/images/course/image105.svg"><span class="id-card-text">id-Card
-                image.PNG</span>
-
+              <img src="../../../../../../assets/images/course/image105.svg"><span (click)="downloadIdCard()" class="id-card-text">Download id-Card</span>
+                <a #uploadImageAnchor class="hide"></a>
             </span>
           </div>
         </div>

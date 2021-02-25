@@ -717,7 +717,7 @@ getSubjects(event) {
   readFile(file: any): any {
     const reader = new FileReader();
     if (file) {
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file[0]);
       reader.onloadend = () => {
         this.setImage((<string>reader.result).split(',')[1]);
         return (<string>reader.result).split(',')[1];
