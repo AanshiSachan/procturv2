@@ -133,7 +133,7 @@
           </div>
 
           <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;"
-            *ngIf="isShowProductOption">
+            *ngIf="isShowProductOption && !schoolModel">
             <div class="field-wrapper faculty_container" style="margin-right: 5%;display: flex;flex-direction: column;"
               *ngIf="isShowProductOption">
               <label for="faculty">Product(s)</label>
@@ -144,7 +144,7 @@
             </div>
 
             <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;width: 45%;"
-              *ngIf="isShowProductOption">
+              *ngIf="isShowProductOption && !schoolModel">
               <label for="students">User Name(s) </label>
               <ng-multiselect-dropdown [placeholder]="'Select Users'" [settings]="userListSetting" [data]="userData"
                 [(ngModel)]="selectedUserList">

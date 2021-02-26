@@ -561,7 +561,7 @@
                             <span>Proctur Live</span>
                         </li>
                     </a>
-                    <a (click)="setLiveClassType('2')">
+                    <a *ngIf="is_zoom_integration_enable" (click)="setLiveClassType('2')">
                         <li class="subMenu">
                             <span>Zoom</span>
                         </li>

@@ -165,6 +165,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
   enable_client_website: boolean = false;
+  is_zoom_integration_enable:boolean = false;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -257,6 +258,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
       this.jsonCourseFlags.isShowOnlineAssignment = true;
     }
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    this.is_zoom_integration_enable = JSON.parse(zoom);
   }
 
   ngAfterViewInit() {
