@@ -450,7 +450,7 @@
                 <span (click)="viewdownload_links(class)"
                   style="cursor: pointer;float: right;border-left: 1px solid #ECEAEA;padding-left: 10px;"
                   title="View Recording"
-                  *ngIf="(proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0) || (is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom')">
+                  *ngIf="proctur_live_view_or_download_visibility!=0 && class.download_links?.length > 0">
                   <img src="../../../../assets/images/Live class/view_recording.png">
                 </span>
               </div>
@@ -1037,7 +1037,7 @@
         </div>
       </div>
     </section>
-    <section *ngIf="download_links.download_links?.length<=0" style="text-align: center;">
+    <!-- <section *ngIf="download_links.download_links?.length<=0" style="text-align: center;">
       <div class="uploadImg">
         <img style="padding-left: 10px;padding-top: 15px;" src="../../../../assets/images/Live class/upload_img.png">
       </div>
@@ -1052,7 +1052,7 @@
           (click)="upload(download_links.session_id, download_links.live_meeting_with)" class="add-class">Upload
           video</button>
       </div>
-    </section>
+    </section> -->
     <div class="row" *ngIf="donloadBar">
       <div class="c-lg-8 progress-bar-wrapper">
         <div class="upload-bar">

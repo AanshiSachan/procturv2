@@ -607,7 +607,8 @@ export class AddClassComponent implements OnInit {
         (data: any) => {
           this.auth.hideLoader();
           if (data.statusCode >= 200 && data.statusCode <= 300) {
-            this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "created successfully" });
+            let session = (this.live_class_for == "1") ? 'Live class session ' : 'Zoom class session ';
+            this.appC.popToast({ type: "success", body: session + this.topicName + " " + "created successfully" });
             this.navigateTo("studentForm");
             this.clearOnlineSchedulesObject();
           }
@@ -845,6 +846,7 @@ export class AddClassComponent implements OnInit {
   // api. Added By ashwini kumar gupta
   getCourses(master_course_name) {
     this.selectedCourseList = [];
+    this.selectedSubjectList = [];
     this.courses = [];
     let tempData: any = this.masters;
     if(this.schoolModel) {

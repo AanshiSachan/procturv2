@@ -886,7 +886,8 @@ export class EditClassComponent implements OnInit {
         const url = '/api/v1/meeting_manager/updateV2/' + this.institution_id + "/" + this.editSessionId;
         this.http_service.postData(url, this.updateOnlineClass).subscribe(
           (data: any) => {
-            this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "updated successfully" });
+            let session = (this.live_class_for == "1") ? 'Live class session ' : 'Zoom class session ';
+            this.appC.popToast({ type: "success", body: session + this.topicName + " " + "updated successfully" });
             this.router.navigate(['/view/live-classes']);
             this.auth.hideLoader();
           },
@@ -1137,6 +1138,7 @@ export class EditClassComponent implements OnInit {
     if(master_course_name) {      
       this.selectedCourseList = [];
       this.courses = [];
+      this.selectedSubjectList = [];
       let tempData: any = this.masters;
       if(this.schoolModel) {
         for (let i = 0; i < tempData.length; i++) {

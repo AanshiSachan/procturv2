@@ -151,6 +151,11 @@ import{ReportsComponent} from './reports/reports.component';
                             // loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
                         },
                         {
+                            path: 'zoom',
+                            loadChildren: () => import('app/components/live-classes-module/live-classes.module').then(m => m.LiveClassesModule)
+                            // loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
+                        },
+                        {
                             path:'students',
                             loadChildren: () => import('app/components/student-module/student-module.module').then(m => m.StudentModule2),
                             // loadChildren:'app/components/student-module/student-module.module#StudentModule2',
