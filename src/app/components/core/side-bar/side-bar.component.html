@@ -548,20 +548,20 @@
                    
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowLiveclass" (click)="toggler('lifive');setLiveClassType('')">
+            <li [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowLiveclass" (click)="toggler('lifive');">
                 <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
-                <a class="a_link">
+                <a routerLink="/view/live-classes" class="a_link">
                     <span [ngClass]="activeSession === 'lifive' ? ' abc' : ' NavLink'">Live Class</span><i
                     class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 45%;">
-                    <a (click)="setLiveClassType('1')">
+                    <a routerLink="/view/live-classes" (click)="setLiveClassType('1')">
                         <li class="subMenu">
                             <span>Proctur Live</span>
                         </li>
                     </a>
-                    <a *ngIf="is_zoom_integration_enable" (click)="setLiveClassType('2')">
+                    <a *ngIf="is_zoom_integration_enable" routerLink="/view/zoom" (click)="setLiveClassType('2')">
                         <li class="subMenu">
                             <span>Zoom</span>
                         </li>
