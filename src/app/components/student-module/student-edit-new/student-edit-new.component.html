@@ -11,6 +11,9 @@
                             </proctur-image>
                         </div>
                     </div>
+                    <div class="caption">
+                        <p>Add&nbsp;Profile<br>Picture</p>
+                    </div>
                 </div>
                 <div class="w100">
                     <div class="container">
@@ -141,7 +144,8 @@
                                     Course&nbsp;Expiry<br>Date&nbsp;of&nbsp;student
                                 </span>
                             </div>
-                            <div class="col-lg-4 datePickerBox" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
+                            <div class="col-lg-4 datePickerBox"
+                                [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
                                 <input type="text" value="" id="studexpDate" class="input bsDatepicker"
                                     placeholder="Course expiry date" name="studexpDate"
                                     [(ngModel)]="studentAddFormData.expiry_date" #expiry_date="ngModel" readonly="true"
@@ -608,7 +612,7 @@
 
                             <div class="box-shadow-lite mt-top">
                                 <div class="row no-gutters">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Date&nbsp;of<br>Admission</span>
                                     </div>
                                     <div class="col-lg-7 datePickerBox has-value"
@@ -620,7 +624,7 @@
 
                                 </div>
                                 <div class="row no-gutters">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">School&nbsp;/<br>Instistution</span>
                                     </div>
                                     <div class="col-lg-7">
@@ -637,7 +641,7 @@
                                     </div>
                                 </div>
                                 <div class="row no-gutters" *ngIf="!isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Assign To</span>
                                     </div>
                                     <div class="col-lg-7">
@@ -651,7 +655,7 @@
                                     </div>
                                 </div>
                                 <div class="row no-gutters" *ngIf="!isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Standard</span>
                                     </div>
                                     <div class="col-lg-7">
@@ -668,10 +672,10 @@
 
                                 </div>
                                 <div class="row no-gutters" *ngIf="!isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Asign<br>{{isSchoolModel ? 'Sections' : 'Courses'}}</span>
                                     </div>
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-7">
                                         <textarea
                                             style="height:89px;width:100%;padding:5px;background: #efefef;margin-top:14px"
                                             name="assignCoursesParent" [ngModel]="assignedBatchString"
@@ -684,7 +688,7 @@
                                 </div>
 
                                 <div class="row no-gutters" *ngIf="isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Master Course</span>
                                     </div>
                                     <div class="col-lg-7">
@@ -700,7 +704,7 @@
                                     </div>
                                 </div>
                                 <div class="row no-gutters" *ngIf="isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Course</span>
                                     </div>
                                     <div class="col-lg-7">
@@ -714,10 +718,10 @@
                                     </div>
                                 </div>
                                 <div class="row no-gutters" *ngIf="isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Slot</span>
                                     </div>
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-7">
                                         <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional"
                                             (click)="multiselectVisible($event.target.id)">
                                             <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots"
@@ -742,7 +746,7 @@
                                     </div>
                                 </div>
                                 <div class="row no-gutters" *ngIf="isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Status</span>
                                     </div>
                                     <div class="col-lg-7">
@@ -758,10 +762,10 @@
                                 </div>
 
                                 <div class="row no-gutters" *ngIf="isProfessional">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <span class="label">Asign<br>Batch</span>
                                     </div>
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-7">
                                         <textarea
                                             style="height:89px;width:100%;padding:5px;background: #efefef;margin-top:14px"
                                             name="assignCoursesParent" [ngModel]="assignedBatchString"
@@ -816,7 +820,8 @@
 
                             <div class="row" *ngIf="component.type == 2" input-def>
                                 <div class="col-lg-3">
-                                    <div class="field-checkbox-wrapper" style="background: transparent;margin: 0;margin-bottom: 10px;">
+                                    <div class="field-checkbox-wrapper"
+                                        style="background: transparent;margin: 0;margin-bottom: 10px;">
                                         <input class="form-checkbox" id="{{component.id}}" type="checkbox"
                                             [(ngModel)]="component.value" name="{{component.label}}"
                                             value="{{component.value}}">
@@ -883,8 +888,7 @@
                             </div>
 
                             <div class="row" *ngIf="component.type == 5" input-def>
-                                <div class="field-wrapper"
-                                    [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                <div class="field-wrapper" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                                     <div class="col-lg-3">
                                         <span class="label" for="{{component.id">
                                             {{component.label}}
@@ -980,7 +984,7 @@
 
     </proctur-popup>
     <!-- =============== Fee Details =============================== -->
-    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails" >
+    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails">
         <section class="fee-section-page">
             <!--====================================middle Top section==========================-->
             <section class="middle-top clearFix" style="border-bottom: 1px solid rgba(10,10,10,0.3);">

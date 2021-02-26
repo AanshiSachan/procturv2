@@ -11,6 +11,9 @@
               </proctur-image>
             </div>
           </div>
+          <div class="caption">
+            <p>Add&nbsp;Profile<br>Picture</p>
+          </div>
         </div>
         <div class="w100">
           <div class="container">
@@ -564,7 +567,7 @@
 
               <div class="box-shadow-lite mt-top">
                 <div class="row no-gutters">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Date&nbsp;of<br>Admission</span>
                   </div>
                   <div class="col-lg-7 datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
@@ -575,7 +578,7 @@
 
                 </div>
                 <div class="row no-gutters">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">School&nbsp;/<br>Instistution</span>
                   </div>
                   <div class="col-lg-7">
@@ -590,7 +593,7 @@
                   </div>
                 </div>
                 <div class="row no-gutters" *ngIf="!isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Assign To</span>
                   </div>
                   <div class="col-lg-7">
@@ -604,7 +607,7 @@
                   </div>
                 </div>
                 <div class="row no-gutters" *ngIf="!isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Standard</span>
                   </div>
                   <div class="col-lg-7">
@@ -619,10 +622,10 @@
 
                 </div>
                 <div class="row no-gutters" *ngIf="!isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Asign<br>{{schoolModel ? 'Sections' : 'Courses'}}</span>
                   </div>
-                  <div class="col-lg-9">
+                  <div class="col-lg-7">
                     <textarea style="height:89px;width:100%;padding:5px;background: #efefef;margin-top:14px"
                       name="assignCoursesParent" [ngModel]="assignedBatchString"
                       placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}" id="assignCourses"
@@ -633,7 +636,7 @@
                 </div>
 
                 <div class="row no-gutters" *ngIf="isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Master Course</span>
                   </div>
                   <div class="col-lg-7">
@@ -647,7 +650,7 @@
                   </div>
                 </div>
                 <div class="row no-gutters" *ngIf="isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Course</span>
                   </div>
                   <div class="col-lg-7">
@@ -660,10 +663,10 @@
                   </div>
                 </div>
                 <div class="row no-gutters" *ngIf="isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Slot</span>
                   </div>
-                  <div class="col-lg-9">
+                  <div class="col-lg-7">
                     <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional"
                       (click)="multiselectVisible($event.target.id)">
                       <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="input"
@@ -685,7 +688,7 @@
                   </div>
                 </div>
                 <div class="row no-gutters" *ngIf="isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Status</span>
                   </div>
                   <div class="col-lg-7">
@@ -701,10 +704,10 @@
                 </div>
 
                 <div class="row no-gutters" *ngIf="isProfessional">
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                     <span class="label">Asign<br>Batch</span>
                   </div>
-                  <div class="col-lg-9">
+                  <div class="col-lg-7">
                     <textarea style="height:89px;width:100%;padding:5px;background: #efefef;margin-top:14px"
                       name="assignCoursesParent" [ngModel]="assignedBatchString" placeholder="Assign Batch"
                       id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"

@@ -18,18 +18,18 @@ export default class CommonUtils {
     return false;
   }
   public static isEmpty(val: string): boolean {
-    return this.isNotEmpty(val)?false:true;
+    return this.isNotEmpty(val) ? false : true;
   }
   public static isOptionalValidEmailId(email: string): boolean {
     if (this.isEmpty(email) || this.emailRegExp.test(email.trim())) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
   public static isMandatoryValidEmailId(email: string): boolean {
     if (this.isNotEmpty(email) && this.emailRegExp.test(email.trim())) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 }
