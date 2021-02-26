@@ -209,7 +209,14 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   ) {
   }
   ngOnInit() {
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
