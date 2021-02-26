@@ -263,7 +263,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     // })();
 
-    var $zoho = $zoho || {}; $zoho.salesiq = $zoho.salesiq || { widgetcode: "c165a84d5f33a8c8881dd9349ebf02c00e78a8b69f169ab2a3ef7c92aaed2b8abbee2865a1f989b1aefa10a127937fae", values: {}, ready: function () { } }; var d = document; s = d.createElement("script"); s.type = "text/javascript"; s.id = "zsiqscript"; s.defer = true; s.src = "https://salesiq.zoho.com/widget"; t = d.getElementsByTagName("script")[0]; t.parentNode.insertBefore(s, t); d.write("<div id='zsiqwidget'></div>");
+    var $zoho = $zoho || {};
+    $zoho.salesiq = $zoho.salesiq || { widgetcode: "c165a84d5f33a8c8881dd9349ebf02c00e78a8b69f169ab2a3ef7c92aaed2b8abbee2865a1f989b1aefa10a127937fae", values: {}, ready: function () { } };
+    var d = document;
+    var s = d.createElement("script"); s.type = "text/javascript";
+    s.id = "zsiqscript"; s.defer = true;
+    s.src = "https://salesiq.zoho.com/widget";
+    var t = d.getElementsByTagName("script")[0];
+    t.parentNode.insertBefore(s, t); d.write("<div id='zsiqwidget'></div>");
     if (sessionStorage.getItem('userType') == '3') {
       this.facultyAccount = true;
     }
