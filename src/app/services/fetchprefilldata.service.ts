@@ -102,7 +102,6 @@ export class FetchprefilldataService {
 
   getAllFinancialYear() {
     let url = this.baseUrl + "/api/v1/academicYear/all/" + this.institute_id;
-
     return this.http.get(url, { headers: this.headers }).pipe(map(
       res => { return res; },
       err => { return err; }

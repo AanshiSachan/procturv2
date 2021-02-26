@@ -24,7 +24,8 @@ export class CourseSubjectComponent implements OnInit {
     is_active: "Y",
     standard_id: "-1",
     subject_name: '',
-    subject_code: ''
+    subject_code: '',
+    is_optional: false
   }
   searchedData: any = [];
   searchDataFlag: boolean = false;
@@ -114,6 +115,7 @@ export class CourseSubjectComponent implements OnInit {
     data.is_active = row.is_active;
     data.subject_name = row.subject_name;
     data.institution_id = row.institution_id;
+    data.is_optional = row.is_optional;
     if (!this.isLangInstitue) {
       data.subject_code = row.subject_code.toUpperCase();
     }
@@ -188,6 +190,7 @@ export class CourseSubjectComponent implements OnInit {
       if (!this.isLangInstitue) {
         this.newSubjectDetails.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
       }
+      this.newSubjectDetails.is_optional = (this.newSubjectDetails.is_optional) ? 'Y' : 'N';
       this.apiService.createNewSubject(this.newSubjectDetails).subscribe(
         res => {
           let msg = "";
@@ -207,7 +210,8 @@ export class CourseSubjectComponent implements OnInit {
             is_active: "Y",
             standard_id: "",
             subject_name: '',
-            subject_code: ''
+            subject_code: '',
+            is_optional: false
           }
         },
         err => {
@@ -255,7 +259,8 @@ export class CourseSubjectComponent implements OnInit {
         is_active: "Y",
         standard_id: "",
         subject_name: '',
-        subject_code: ''
+        subject_code: '',
+        is_optional: false
       }
     }
   }

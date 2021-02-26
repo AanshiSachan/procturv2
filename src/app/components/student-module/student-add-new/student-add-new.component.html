@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DEMO</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <meta charset="utf-8"> 
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+   
+  <link rel="stylesheet" type="text/css" href=" administration-details.css"> 
+	<link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="sidebar_style.css">
+</head>
+<body>
+	<!-- header -->
+	<header >
+		<div class="header">
+      <div class="header-left">
+        <div id="show-sidebar" class="btn btn-sm btn-dark">
+          <i class="fas fa-bars"></i>
+        </div>
+        <!-- <nav aria-label="breadcrumb ">
+          <ol class="breadcrumb arr-right">
+            <li class="breadcrumb-item "><a href="#" >Advance Setup</a></li>
+            <li class="breadcrumb-item "><a href="#" >Manage Tag</a></li>
+         </ol>
+        </nav> -->
+        <input type="text" class="header-input" name="" placeholder="Student/Enquiry/Contact">
+      </div>
+			<div class="header-right" >
+				<span><img src="img/Vector5.png"  class="m20 head_img"></span>
+				<span><img src="img/Group58.png" class="m20 head_img"></span>
+				<span><img src="img/Vector4.png" s class="m20 head_img"></span>
+        <span><img src="img/Vector3.png" s class="m20 head_img"></span>
+			</div>
+		</div>
+	</header>
+
+<div class="page-wrapper" >
+  <nav id="sidebar" class="sidebar-wrapper" >
+    <div class="sidebar-content" >
+    	 <div class="sidebar-brand">
+          <a href="#">Kakade Career academey</a>
+        </div>
+        <ul class="icons">
+            <li>
+              <a href="">
+              <img src="img/home1.png" >
+              <p >Home</p></a>
+            </li>
+             <li>
+              <a href="">
+              <img src="img/Dashboard.png" >
+              <p >Dashboard</p></a>
+            </li>
+            <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+              <img src="img/Leads.png" >
+              <p >Lead</p><i class="fa fa-angle-right"></i>
+
+              </a>
+                  <div class="dropdown-content">
+                    <a href="#">Set Up</a>
+                    <a href="#">Add Enquiry</a>
+                    <a href="#">Manage Enquiry</a>
+                    <a href="#">Add campaign</a>
+                     <a href="#">Manage campaign</a>
+                    
+                  </div>
+               </div>
+              
+            </li>
+            <li>
+              <a href="">
+              <img src="img/Student.png" >
+              <p >Student</p>
+              </a>
+            </li>
+            <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+                   <img src="img/Classes.png" >
+                    <p >Classes</p><i class="fa fa-angle-right"></i>
+                  </a>
+                  <div class="dropdown-content">
+                    <a href="#">Manage Products</a>
+                    <a href="#">Registered Users</a>
+                    <a href="#">Manage Offers </a>
+                  </div>
+               </div>
+            </li>
+               <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+                    <img src="img/OfflineExam.png">
+                    <p>Offline Exam</p><i class="fa fa-angle-right"></i>
+                  </a>
+                  <div class="dropdown-content">
+                    <a href="#">Manage Products</a>
+                    <a href="#">Registered Users</a>
+                    <a href="#">Manage Offers </a>
+                  </div>
+               </div>
+            </li>
+            <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+                    <img src="img/StudyM.png" >
+                    <p >Study Material</p><i class="fa fa-angle-right"></i>
+                  </a>
+                  <div class="dropdown-content">
+                    <a href="#">Monitoring Dashboard</a>
+                    <a href="#">Data Setup</a>
+                    <a href="#">Permanent History </a>
+                     <a href="#">Manage Cheques</a>
+                  </div>
+               </div>
+            </li>
+            <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+                    <img src="img/fEES.png" >
+                    <p >Fees</p><i class="fa fa-angle-right"></i>
+                  </a>
+                  <div class="dropdown-content">
+
+                    <a href="#">Set Up</a>
+                    <a href="#">Payment History</a>
+                    <a href="#">Manage Cheques </a>
+                     <a href="#">Monitoring Dashboard</a>
+                  </div>
+               </div>
+            </li>
+             <li>
+              <a href="">
+              <img src="img/icons.png">
+              <p>Live Classes</p>
+              </a>
+            </li>
+            <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+                   <img src="img/eSTORE.png" >
+                    <p >Estore</p><i class="fa fa-angle-right"></i>
+                  </a>
+                  <div class="dropdown-content">
+                    <a href="#">Manage Products</a>
+                    <a href="#">Registered Users</a>
+                    <a href="#">Manage Offers </a>
+                  </div>
+               </div>
+            </li>
+            <li>
+              <a href="">
+              <img src="img/Onlineexam.png" >
+              <p>Online exam</p>
+              </a>
+            </li>
+            <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+                   <img src="img/Library.png" >
+                    <p >Library</p><i class="fa fa-angle-right"></i>
+                  </a>
+                  <div class="dropdown-content">
+                    <a href="#">Setup</a>
+                    <a href="#">Issue Books</a>
+                    <a href="#">Return Books</a>
+                    <a href="#">Add New Book</a>
+                    <a href="#">Report</a>
+                    <a href="#">Dash Board</a>
+                  </div>
+               </div>
+            </li>
+            <li class="dropdown">
+              <div >
+                  <a href="" class="dropbtn">
+                   <img src="img/Expenses.png" >
+                    <p >Expense</p><i class="fa fa-angle-right"></i>
+                  </a>
+                  <div class="dropdown-content">
+                    <a href="#">Data Setup</a>
+                    <a href="#">Manage Expense</a>
+                    <a href="#">Manage Income </a>
+                  </div>
+               </div>
+            </li>
+            <li>
+              <a href="">
+              <img src="img/Reports.png" >
+              <p>Report</p>
+              </a>
+            </li>
+            <li>
+              <a href="">
+              <img src="img/Group237.png" >
+              <p>Asset Management</p>
+              </a>
+            </li>
+        </ul>
+        <p class="power">Powered By <span class="proctur40">Proctur 4.0</span></p>
+    </div>
+  </nav>
+  <!-- sidebar-wrapper end -->
+  <main class="page-content gray">
+    <div class="w98">
+      <h5 class="page_heading">Add Student</h5>
+          <div class="outer-progress flex">
+            <div class="flex w40">
+              <div lass="content_img">
+                <div class="container1">
+                  <img src="img/image23.png" alt="Avatar" class="image profile">
+                  <div class="overlay">
+                    <div class="text">Add image</div>
+                  </div>
+                </div>
+              </div>
+              <div class="caption">
+                <p>Add&nbsp;Profile<br>Picture</p>
+              </div>
+            </div>
+            <div class="w100">
+              <div class="container">
+                <ul class="progressbar">
+                <li class="step1 step_active active">Personal&nbsp;Details</li>
+                <li class="step2" >Other&nbsp;Details</li>
+                <li class="step3">Fee&nbsp;Details</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt-9 no-gutters" >
+            <div class="col-lg-8">
+              <div class="bg-white">
+                <div id="form1">
+                  <p class="form_heading"><span>Student Details</span></p>
+                  <div class="borderbottom"></div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label">Student&nbsp;Name*</span>
+                    </div>
+                    <div class="col-lg-4">
+                      <input type="text" name="" class="input" placeholder="Amol Jhadhav">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                      <span class="label">
+                      Contact&nbsp;Number                    </span>
+                    </div>
+                    <div class="col-lg-1">
+                      <select class="input-select width-50">
+                        <option>+91</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-3">
+                      
+                       <input type="text" name=""  class="input" placeholder="1234567890">
+                     
+                    </div>
+                   
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Email Id
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                      <input type="text" name=""  class="input" placeholder="abc@gmail.com">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Gender
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                        <select class="input-select">
+                        <option>Male</option>
+                        <option>Female</option>
+                      </select>
+                    </div>
+                   
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Date Of Birth
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                      <input type="date" name=""  class="input">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Roll No
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                       <input type="text" name=""  class="input" placeholder="123">
+                    </div>
+                   
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Attendance<br>Card&nbsp;Id
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                      <input type="text" name=""  class="input" placeholder="426624">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Course&nbsp;Expiry<br>Date&nbsp;of&nbsp;student
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                       <input type="date" name=""  class="input">
+                    </div>
+                   
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label">
+                      Current&nbsp;Address
+                    </span>
+                    </div>
+                    <div class="col-lg-10">
+                     <textarea   class="input" placeholder="Study Material Delivery Address"></textarea>
+                    </div>
+                   
+                    
+                  </div>
+                   <p class="form_heading"><span>Parent Details</span></p>
+                   <div class="borderbottom"></div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label ">Parent Name*</span>
+                    </div>
+                    <div class="col-lg-4">
+                      <input type="text" name="" class="input" placeholder="Amol Jhadhav">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Contact<br>Number
+                    </span>
+                    </div>
+                    <div class="col-lg-1">
+                      <select class="input-select width-50">
+                        <option>+91</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-3">
+                       <input type="text" name=""  class="input" placeholder="1234567890">
+                     </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label">
+                        Parent<br>Email&nbsp;Id
+                      </span>
+                    </div>
+                    <div class="col-lg-4">
+                      <input type="text" name=""  class="input" placeholder="abc@gmail.com">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                      <span class="label">
+                      Guardian Name
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                       <input type="text" name=""  class="input" placeholder="abc">
+                    </div>
+                   
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label">
+                      Gurdian<br>contact&nbsp;no
+                    </span>
+                    </div>
+                     <div class="col-lg-1">
+                      <select class="input-select width-50">
+                        <option>+91</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-3">
+                      
+                       <input type="text" name=""  class="input" placeholder="1234567890">
+                     
+                    </div>
+                    
+                    <div class="col-lg-2">
+                      <span class="label">
+                     Guardian<br>Email&nbsp;Id
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                       <input type="text" name=""  class="input" placeholder="123@gmail.com">
+                    </div>
+                   
+                  </div>
+                  <p class="form_heading"><span>Other Details</span></p>
+                  <div class="borderbottom"></div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label ">State</span>
+                    </div>
+                    <div class="col-lg-4">
+                   <select class="input-select">
+                        <option>Maharashtra</option>
+                        <option>Gujrat</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-2">
+                      <span class="label">
+                      City
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                      <select class="input-select">
+                        <option>Pune</option>
+                        <option>Nashik</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <span class="label ">
+                      Area
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                      <input type="text" name=""  class="input" placeholder="pimpri-chinchwad">
+                    </div>
+                    
+                    <div class="col-lg-2 ">
+                      <span class="label ">
+                     Add Comment
+                    </span>
+                    </div>
+                    <div class="col-lg-4">
+                        <textarea class="input"></textarea>
+                    </div>
+                    
+                  </div>
+                  <p class="form_heading"><span>Documents</span></p>
+                    <div class="borderbottom"></div>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <span class="label ">
+                            File Name
+                          </span>
+                        </div>
+                         <div class="col-lg-4">
+                          <input type="text" name=""  class="input" placeholder="Document Title*">
+                        </div>
+                      </div>
+                        <div class="row">
+                          <div class="col-lg-2">
+                          </div>
+                          <div class="col-lg-10">
+                            <p class="choose_file">Choose File(Ctrl + ) To Upload</p>
+                          </div>
+                        </div>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <span class="label ">
+                            Upload<br>documents
+                          </span>
+                        </div>
+                         <div class="col-lg-8">
+                          <input type="file" name=""  class="input file" placeholder=" Browse File">
+                        </div>
+                        <div class="col-lg-2">
+                          <button class="upload ">Upload</button>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-2">
+                          </div>
+                          <div class="col-lg-10">
+                            <p class="file_name">abc.jpeg<img src="img/cross.svg"></p>
+                          </div>
+                        </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <span class="right">
+                        <button class="cancel" >Cancel</button>
+                         <button class="blue_button " id="next">Next</button>
+                      </span>
+                    </div>
+                     
+                  </div>
+                </div>
+                <div id="form2">
+                   <!-- please use previous UI -->
+                  <button class="cancel">Cancel</button>
+                  <button class="blue_button" id="next1">Next</button>
+                </div>
+                <div id="form3">
+                  <!-- please use previous UI -->
+                  <button class="cancel">Cancel</button>
+                  <button class="blue_button" id="next2">Submit</button>
+                </div>
+              </div>
+            <div class="col-lg-4 pl-2" >
+              
+                <aside class="bg-white1">
+            
+            <!-- Enquiry Details official use-->
+            <section class="enquiry-detail common-right-section">
+            <p class="form_heading"><span>Administration Details</span><span style="padding-left: 5px; font-weight: 400;color: #323c47;">(official use)</span></p>
+                 
+              <div class="box-shadow-lite mt-top">
+                  <div class="row no-gutters">
+                    <div class="col-lg-4">
+                      <span class="label">Date&nbsp;of<br>Admission</span>
+                    </div>
+                    <div class="col-lg-7">
+                      <input type="date" name="" class="input" >
+                    </div>
+                                    
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-lg-4">
+                      <span class="label">School&nbsp;/<br>Instistution</span>
+                    </div>
+                    <div class="col-lg-7">
+                      <select class="input-select ">
+                        <option>+91</option>
+                      </select>
+                    </div> 
+                     <div class="col-lg-1">
+                      <span  class="iconPlus sourceI">+</span> 
+                    </div>                   
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-lg-4">
+                      <span class="label">Assign To</span>
+                    </div>
+                    <div class="col-lg-7">
+                      <select class="input-select ">
+                        <option>+91</option>
+                      </select>
+                    </div>
+                     <div class="col-lg-1">
+                      <span  class="iconPlus sourceI">+</span> 
+                    </div>                    
+                  </div>
+                <div class="row no-gutters">
+                    <div class="col-lg-4">
+                      <span class="label">Standard</span>
+                    </div>
+                    <div class="col-lg-7">
+                      <select class="input-select ">
+                        <option>+91</option>
+                      </select>
+                    </div> 
+                     <div class="col-lg-1">
+                      <span  class="iconPlus sourceI">+</span> 
+                    </div>                   
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-lg-4">
+                      <span class="label">Asign Sections</span>
+                    </div>
+                    <div class="col-lg-7">
+                    <textarea  class="input" placeholder="Study Material"></textarea>
+                    </div>  
+                     <div class="col-lg-1">
+                      <span  class="iconPlus sourceI">+</span> 
+                    </div>                  
+                  </div>
+
+              </div>
+
+            </section>
+
+          </aside>
+      
+            </div>
+          </div>
+    </div>
+ </main>  
+</div>
+<!-- page-wrapper -->
+
+<script type="text/javascript">
+  $("#show-sidebar").click(function() {
+    if($(".page-wrapper").hasClass('toggled')){
+      $(".page-wrapper").removeClass("toggled");
+    } else {
+      $(".page-wrapper").addClass("toggled");
+    }
+  });
+</script>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    $("#form1").show();
+    $("#form2").hide();
+    $("#form3").hide();
+    $("#next").click(function(){
+      $(".step2").addClass("active");
+      $(".step2").addClass("step_active");
+      $("#form1").hide();
+      $("#form2").show();
+      $("#form3").hide();
+    });
+    $("#next1").click(function(){
+      $(".step3").addClass("active");
+      $(".step3").addClass("step_active");
+      $("#form1").hide();
+      $("#form2").hide();
+      $("#form3").show();
+    });
+  });
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

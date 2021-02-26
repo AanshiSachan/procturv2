@@ -1,5 +1,11 @@
 #tab1Content {
     display: block;
+    th {
+        text-align: left;
+        padding: 5px 0 !important;
+        background: #DFE5F0;
+        border-radius: 0px;
+    }
 }
 
 #tab2Content,
@@ -73,10 +79,10 @@ $color-highlight: lighten($color-base, 7%);
 
 .tab {
     padding-bottom: 18px;
-    margin-left: 10px;
-    background: #efefef;
+    // margin-left: 10px;
+    // background: #efefef;
     color: #fff;
-    width: 92%;
+    width: 100%;
     /* height: 72%; */
     /* min-height: 46%; */
     /* max-height: 73vh; */
@@ -109,4 +115,33 @@ $color-highlight: lighten($color-base, 7%);
     display: inline-block;
      margin-top: 10px;
      margin-bottom: 10px;
+}
+.activeSession {
+    background-color: #0084f6;
+    color: #fff;
+}
+.shareHeader {
+    background: #F4F3F8;
+    border-radius: 0px 0px 30px 30px;
+    padding: 25px;
+    padding-bottom: 10px;
+}
+.shareTab {
+    background: #FFFFFF;
+    border: 1px solid #E9EBED;
+    box-sizing: border-box;
+    // box-shadow: 0px 0px 8px rgb(0 0 0 / 15%);
+    border-radius: 4px;
+    width: 96%;
+    margin-left: 10px;
+    input {
+        width: 33%;
+        border: 0;
+        margin: 0;
+        outline: none;
+    }
+}
+.field-wrapper .form-ctrl {
+    border: 1px solid #D5D0D0;
+    border-radius: 4px;
 }

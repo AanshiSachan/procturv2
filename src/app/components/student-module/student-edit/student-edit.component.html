@@ -363,7 +363,7 @@
                 <div class="field-wrapper" *ngIf="isAcad"
                   [ngClass]="{'has-value': studentAddFormData.standard_id!= ''}">
                   <label for="standard">Standards</label>
-                  <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
+                  <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl" (ngModelChange)="fetchCourseListByStdId($event)">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -392,9 +392,9 @@
                   <label (click)="openAssignBatch()" for="assignCourses">
                   </label>
                   <textarea style="height:107px;margin-left:-9px; background: #efefef;padding:5px;margin-top:0px"
-                    [ngModel]="assignedBatchString" placeholder="Assign Courses" name="assignCourses" class="form-ctrl"
+                    [ngModel]="assignedBatchString" placeholder="Assign {{isSchoolModel?'Sections':'Courses'}}" name="assignCourses" class="form-ctrl"
                     readonly="true"></textarea>
-                  <a style="cursor:pointer" (click)="openAssignBatch()">Assign Courses</a>
+                  <a style="cursor:pointer" (click)="openAssignBatch()">Assign {{isSchoolModel?'Sections':'Courses'}}</a>
                 </div>
 
                 <!-- ================================================================= -->

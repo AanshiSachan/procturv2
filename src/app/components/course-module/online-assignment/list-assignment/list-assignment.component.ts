@@ -31,6 +31,7 @@ export class ListAssignmentComponent implements OnInit {
   displayBatchSize: number = 10;
   totalCount: number = 0;
   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
+  schoolModel: any = false;
 
   constructor(
     private msgService: MessageShowService,
@@ -39,6 +40,14 @@ export class ListAssignmentComponent implements OnInit {
     private auth: AuthenticatorService,
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
   ngOnInit() {

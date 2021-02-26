@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService  } from '../../../../services/http.service';
 import { MessageShowService } from '../../../../services/message-show.service';
-import { MasterTagService } from '../../master-tag/master-tag.component.service';
+import { MasterTagService } from '../../data-setup/master-tag/master-tag.component.service';
 import * as moment from 'moment';
 // // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -123,6 +123,7 @@ export class ManageAssignmentComponent implements OnInit {
  removedAttachments = [];
  removedLinks = [];
  userType: any = 0;
+ schoolModel: any = false;
 
   constructor(
     private msgService: MessageShowService,
@@ -139,6 +140,14 @@ export class ManageAssignmentComponent implements OnInit {
         } else {
           this.jsonFlag.isProfessional = false;
           this.jsonFlag.type='course';
+        }
+      }
+    )
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
         }
       }
     )

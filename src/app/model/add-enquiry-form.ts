@@ -44,10 +44,26 @@ export interface addEnquiryForm {
 	walkin_followUpDate: any,
 	walkin_followUpTime: any,
 	closing_reason_id: any,
-	is_follow_up_time_notification?:any
+	is_follow_up_time_notification?: any
 	country_id?: any,
 	state_id?: any,
 	city_id?: any,
 	area_id?: any,
-	user_id?:any
+	user_id?: any
+	birth_place?: any,
+	blood_group?: any,
+	category?: any,
+	nationality?: any,
+	student_adhar_no?: any,
+	parent_adhar_no?: any,
+	parent_profession?: any,
+	mother_tounge?:any,
+	extra_curricular_activities?: any,
+	educational_group?: any,
+	pin_code?: any,
+	inst_acad_year_id?: any,
+	guardian_name?:any,
+	guardian_phone?:any,
+	guardian_email?:any
+
 }

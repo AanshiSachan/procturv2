@@ -1,4 +1,292 @@
-<div class="clearFix" style="padding-right: 2%;">
+<div class="w96">
+  <form [formGroup]="editTeacherForm">
+    <div class="flex2">
+      <div class="w47">
+        <div class="flex_box h100">
+          <div class="w20">
+            <span class="label top30">Profile Picture</span>
+          </div>
+          <div class="w40">
+            <div class="container1" class="top-10">
+              <img *ngIf="imgFile == ''" (click)="getFile()" src="../../../../../../assets/images/course/Group329.svg">
+              <img style="border-radius: 50%;height: 111px;width: 111px;" (click)="getFile()" *ngIf="imgFile != ''" src="{{imgFile}}">
+              <div style='height: 0px;width: 0px; overflow:hidden;'><input id="upfile" type="file" value="upload"
+                  (change)="readFile($event.target.files)" /></div>
+              <div class="overlay">
+                <div class="text">Add image</div>
+              </div>
+            </div>
+          </div>
+          <div class="w40"></div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Faculty Name</span>
+          </div>
+          <div class="w80">
+            <input type="text" class="form-control input" formControlName="teacher_name" name="name"
+              placeholder="Amol Joshi">
+            <div
+              *ngIf="editTeacherForm.controls['teacher_name'].invalid && (editTeacherForm.controls['teacher_name'].dirty || editTeacherForm.controls['teacher_name'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="editTeacherForm.controls['teacher_name'].hasError('required')">
+                Faculty Name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Email Id</span>
+          </div>
+          <div class="w80">
+            <input type="text" class="form-control input" formControlName="teacher_email" placeholder="abc@gmail.com">
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Date Of Birth</span>
+          </div>
+          <div class="w80 field-wrapper datePickerBox">
+            <input type="text" class="form-control chatbox-input" readonly="true" formControlName="dob" name="dob"
+              bsDatepicker />
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Current<br>Address</span>
+          </div>
+          <div class="w80">
+            <textarea class="form-control input h87" formControlName="teacher_curr_addr"
+              placeholder="study material delivery address"></textarea>
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Salary (Per Hour)</span>
+          </div>
+          <div class="w80">
+            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="hour_rate" placeholder="1200Rs">
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Document Title</span>
+          </div>
+          <div class="w80">
+            <input type="text" id="title" formControlName="title" class="form-control input" name="title"
+              [maxlength]="30" />
+          </div>
+        </div>
+        <div *ngIf="selectedFiles?.length || uploadedFileData?.length" style="padding: 0;margin-top: 10px;" class="row box-shadow-lite">
+          <div class="document_header">
+            <div class="uploadedData">File Name</div>
+            <div style="width: 25%;float: left;"></div>
+          </div>
+          <div class="document_data" *ngFor='let data of selectedFiles;let i = index'
+            style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+            <div style="padding-top: 10px;" class="uploadedData">{{data.title}} </div>
+            <div style="width: 25%;float: left;text-align: right;padding-top: 10px;">
+              <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                title="Delete File" (click)="deletefile(data,i)"></i>
+            </div>
+          </div>
+          <div class="document_data" *ngFor='let data of uploadedFileData;let i = index'
+            style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+            <div style="padding-top: 10px;" class="uploadedData">{{data.title}} </div>
+            <div style="width: 25%;float: left;text-align: right;padding-top: 10px;">
+              <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                title="Delete File" (click)="deleteExistingUploadedfileAPI(data.id)"></i>
+                <a class="fa fa-download" id="downloadFile"
+              style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File"
+              (click)="downloadFile(data)"></a>
+              <a id="downloadFileClick" class="hide"></a>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="flex_box">
+        <div class="w20">
+          <span class="label">Document Title</span>
+        </div>
+        <div class="w80">
+          <input type="text" name="" class="input" placeholder="abc.pdf">
+        </div>
+      </div>       -->
+      </div>
+      <div class="w47">
+        <div class="inner_flex2 h100 top30">
+          <div class="w30">
+            <input class="hide" type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png"
+              (change)="onChangeIdCardUpload()">
+            <input *ngIf="(hasIdCard == 'Y')" class="blue_button h35" type="button" id="yourBtn" value="Update Id-Card"
+              (click)="updateIdCard($event)">
+            <input *ngIf="(hasIdCard == 'N')" class="blue_button h35" type="button" id="yourBtn" value="Upload Id-Card"
+              (click)="updateIdCard($event)">
+          </div>
+          <div class="w70">
+            <span class="">
+              <img src="../../../../../../assets/images/course/image105.svg"><span (click)="downloadIdCard()" class="id-card-text">Download id-Card</span>
+                <a #uploadImageAnchor class="hide"></a>
+            </span>
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Contact No.</span>
+          </div>
+          <div class="w20">
+            <span class="countryCallingCode">
+              <select id="country_id" style="margin: 8px 0;" class="form-control chatbox-select"
+                formControlName="country_id" name="country"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [disabled]="countryDetails.length<=1"
+                (change)="onChangeObj($event.target.value)" style="margin: 8px 0;padding: 0">
+                <option value=""></option>
+                <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                  {{data.country_code}} +{{data.country_calling_code}}
+                </option>
+              </select>
+            </span>
+          </div>
+          <div class="w60">
+            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_phone" placeholder="7890123456">
+            <div
+              *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('required')">
+                Contact Number is required.
+              </div>
+              <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('minlength')">
+                Contact Number is not valid.
+              </div>
+              <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('maxlength')">
+                Contact Number is not valid.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Date of joining</span>
+          </div>
+          <div class="w80 field-wrapper datePickerBox">
+            <input type="text" class="form-control chatbox-input" readonly="true" formControlName="date_of_joining"
+              name="date_of_joining" bsDatepicker />
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Alternate No.</span>
+          </div>
+          <div class="w20">
+            <span class="countryCallingCode">
+              <select id="country_id" style="margin: 8px 0;" class="form-control chatbox-select"
+                formControlName="country_id" name="country"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [disabled]="countryDetails.length<=1"
+                (change)="onChangeObj($event.target.value)" style="margin: 8px 0;padding: 0">
+                <option value=""></option>
+                <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                  {{data.country_code}} +{{data.country_calling_code}}
+                </option>
+              </select>
+            </span>
+          </div>
+          <div class="w60">
+            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_alt_phone" placeholder="7890123456">
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Standard</span>
+          </div>
+          <div class="w80">
+            <ng-multiselect-dropdown class="container"
+          placeholder="Select standard"
+          [settings]="standardSetting"
+          [data]="StandardData"
+          formControlName ="selectedStandardList"
+          (ngModelChange)="getSubjects($event)">
+        </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+            <span class="label">Subject</span>
+          </div>
+          <div class="w80">
+            <ng-multiselect-dropdown class="container"
+          placeholder="Select Subject"
+          [settings]="subjectSetting"
+          [data]="subjectData"
+          formControlName ="selectedSubjectList">
+        </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="flex_box">
+          <div class="w20">
+          </div>
+          <div class="w80">
+            <input type="file" class="form-control input" id="uploadFileControl" name="uploadFileBox"
+              style="width: 75%;float: left;" />
+            <a class="btn blue_button" style="float: left;margin-left: 10px;margin-top: 8px;"
+              (click)="uploadHandler();">Upload</a>
+          </div>
+        </div>
+        <!-- <div class="flex_box hide">
+          <div class="w20">
+            <span class="label">Standard</span>
+          </div>
+          <div class="w80">
+            <select class="input-select">
+              <option>10th</option>
+              <option></option>
+            </select>
+          </div>
+        </div> -->
+      <!-- <div class="documentUploadDiv">
+        <div class="row" style="padding-bottom:5px;padding-top: 5px;">
+          <div class="field-wrapper">
+            <label>Document Title</label>
+            <input type="text" id="title" formControlName="title" class="form-ctrl" name="title"
+              [maxlength]="30" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field-wrapper">
+            <label>Choose File(Ctrl + ) To Upload</label>
+            <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox"
+              style="width: 75%;float: left;" />
+            <a class="btn fullBlue" style="float: left;margin-left:10px ;"
+              (click)="uploadHandler();">Upload</a>
+          </div>
+        </div>
+      </div> -->
+
+        <!-- <div class="flex_box">
+        <input type="file" name=""  class="input file" placeholder=" Browse File">
+        <button class="blue_button mt-9 h35" >Upload</button>
+      </div> -->
+      </div>
+    </div>
+    <!-- main form ends -->
+    <div class="borderbottom"></div>
+    <div class="row">
+      <div class="col-lg-9 field-checkbox-wrapper">
+        <span *ngIf="isShoweOnlineExam" class="right field-checkbox-wrapper">
+          <input type="checkbox" style="appearance: checkbox" value="" name="allowExamDesk" formControlName="allow_exam_desk_login">
+          <span style="margin-left: 5px;" class="allow">Allow Exam Desk Login</span>
+        </span>
+      </div>
+      <div class="col-lg-3">
+        <span class="right">
+          <button routerLink="/view/course/setup/teacher" class="cancel">Cancel</button>
+          <button (click)="addOrEditFun()" class="blue_button">Save</button>
+        </span>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- <div class="clearFix" style="padding-right: 2%;">
     <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
         <h1 class="pull-left" *ngIf="selectedTeacherId==undefined">
             Add Faculty
@@ -10,7 +298,7 @@
 
     <section class="middle-main clearFix">
 
-        <aside class="c-lg-6 c-md-6 c-sm-6">
+        <aside class="c-lg-6 c-md-6 c-sm-6" style="width: 30%;margin-right: 5%;">
             <div class="pull-left">
                 <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="addOrEditFun()">
                     <div class="row field-wrapper">
@@ -31,10 +319,10 @@
                         <label for="contNumber">Contact Number
                             <span class="text-danger">*</span>
                         </label><br>
-                        <span class="countryCallingCode" style="width: 30%">
+                        <span class="countryCallingCode">
                             <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
                                 [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
-                                style="height: 29px;padding: 0">
+                                style="padding: 0;margin: 8px 0;">
                                 <option value=""></option>
                                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                                     {{data.country_code}} +{{data.country_calling_code}}
@@ -88,11 +376,11 @@
                     <div class="row field-wrapper">
                         <label for="alternateNo">Alternate Contact Number
                         </label><br>
-                        <span class="countryCallingCode" style="width: 30%">
+                        <span class="countryCallingCode">
                             <select id="country_id" class="form-ctrl" formControlName="country_id" name="country"
                                 onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                                 [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)"
-                                style="height: 29px;padding: 0">
+                                style="padding: 0;margin: 8px 0;">
                                 <option value=""></option>
                                 <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                                     {{data.country_code}} +{{data.country_calling_code}}
@@ -103,18 +391,74 @@
                             formControlName="teacher_alt_phone">
 
                     </div>
-                    <div class="row field-wrapper">
-                        <label for="standard">Standard
-                        </label>
-                        <input type="text" class="form-ctrl" name="standard" formControlName="teacher_standards">
+                    <div class="field-wrapper row student_list_container">
+                          // changes by Nalini - to handle school model conditions 
+                        <label for="students">Standard</label>
+                        <ng-multiselect-dropdown class="container"
+                          placeholder="Select standard"
+                          [settings]="standardSetting"
+                          [data]="StandardData"
+                          formControlName ="selectedStandardList"
+                          (ngModelChange)="getSubjects($event)">
+                        </ng-multiselect-dropdown>
+                      </div>
+                      <div class="field-wrapper row student_list_container" style="padding-top: 0;">
+                        // changes by Nalini - to handle school model conditions 
+                        <label for="students">Subject</label>
+                        <ng-multiselect-dropdown class="container"
+                          placeholder="Select Subject"
+                          [settings]="subjectSetting"
+                          [data]="subjectData"
+                          formControlName ="selectedSubjectList">
+                        </ng-multiselect-dropdown>
+                      </div>
 
-                    </div>
-                    <div class="row field-wrapper">
-                        <label for="subject">Subjects
-                        </label>
-                        <input type="text" class="form-ctrl" name="subject" formControlName="teacher_subjects">
+                      <div class="documentUploadDiv">
+                        <div class="row" style="padding-bottom:5px;padding-top: 5px;">
+                          <div class="field-wrapper">
+                            <label>Document Title</label>
+                            <input type="text" id="title" formControlName="title" class="form-ctrl" name="title"
+                              [maxlength]="30" />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="field-wrapper">
+                            <label>Choose File(Ctrl + ) To Upload</label>
+                            <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox"
+                              style="width: 75%;float: left;" />
+                            <a class="btn fullBlue" style="float: left;margin-left:10px ;"
+                              (click)="uploadHandler();">Upload</a>
+                          </div>
+                        </div>
+                      </div>
 
-                    </div>
+                      <div *ngIf="selectedFiles?.length || uploadedFileData?.length" style="padding: 0;" class="row box-shadow-lite">
+                        <div class="document_header">
+                          <div class="uploadedData">File Name</div>
+                          <div style="width: 25%;float: left;"></div>
+                        </div>
+                        <div class="document_data" *ngFor='let data of selectedFiles;let i = index'
+                          style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+                          <div style="padding-top: 10px;" class="uploadedData">{{data.title}} </div>
+                          <div style="width: 25%;float: left;text-align: right;padding-top: 10px;">
+                            <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                              title="Delete File" (click)="deletefile(data,i)"></i>
+                          </div>
+                        </div>
+                        <div class="document_data" *ngFor='let data of uploadedFileData;let i = index'
+                          style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+                          <div style="padding-top: 10px;" class="uploadedData">{{data.title}} </div>
+                          <div style="width: 25%;float: left;text-align: right;padding-top: 10px;">
+                            <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                              title="Delete File" (click)="deleteExistingUploadedfileAPI(data.id)"></i>
+                              <a class="fa fa-download" id="downloadFile"
+                            style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File"
+                            (click)="downloadFile(data)"></a>
+                            <a id="downloadFileClick" class="hide"></a>
+                          </div>
+                        </div>
+                      </div>
+
                     <div class="row field-wrapper">
                         <label for="salary">Salary (Per Hour)
                         </label>
@@ -147,13 +491,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
-                            <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
-                                <label for="allow">Allow faculty to only mark attendance</label>
-                            </div>
-                        </div> -->
-
                         <div class="row field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'"
                             style="padding-left: 0;">
                             <div class="field-checkbox-wrapper">
@@ -164,12 +501,6 @@
                         </div>
 
 
-                        <!-- <div class="field-checkbox-wrapper" style="margin-left: -40px;">
-                            <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="markAttendance" formControlName="is_student_mgmt_flag" class="form-checkbox">
-                                <label for="markAttendance">Allow Faculty to view Contact details of student</label>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="row">
                         <div class="pull-right" style="margin-top: 10px;">
@@ -214,4 +545,4 @@
 
     </section>
 
-</div>
+</div> -->

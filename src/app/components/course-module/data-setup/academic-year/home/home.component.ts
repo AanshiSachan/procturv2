@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit {
           default_academic_year: 0
         }
 
-        this.toggleCreateNewAcademicYear();
+        // this.toggleCreateNewAcademicYear();
         this.getAllAcademicFromServer();
       }, err => {
         this.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);

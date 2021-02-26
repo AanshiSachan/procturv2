@@ -64,7 +64,14 @@ export class ExamReportHomeComponent implements OnInit {
       }
       )
       // changes by Nalini - to handle school model conditions
-      this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+      this.auth.schoolModel.subscribe(
+        res => {
+          this.schoolModel = false;
+          if (res) {
+            this.schoolModel = true;
+          }
+        }
+      )
       this.addDate = this.reportJSON.from_date +" - "+ this.reportJSON.to_date;   // this will fetch exam report for current week
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
       this.getPreRequiredData();

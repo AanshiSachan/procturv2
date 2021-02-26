@@ -52,7 +52,14 @@ export class ExamWiseComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     let examschd = sessionStorage.getItem('examSchdType');
     if(examschd){
       this.examSchdlType = JSON.parse(examschd);

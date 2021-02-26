@@ -1,69 +1,93 @@
 <div class="clear-fix pageMargin">
   <aside class="middle-full ">
     <section class="middle-main clearFix ">
-      <section class="middle-top mb0 clearFix sms-header" style="margin-top: 9px;border-bottom: 1px solid lightgrey;">
-        <div class="header-title">
-          <h2>
-            <a routerLink="/view/course/setup" style="color: #0084f6;">
-              <!--{{ type | titlecase }}-->
-              Setup
-              
-            </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/view/{{type}}/setup" style="color: #0084f6;">
-              Data Setup
-            </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Manage Grades
-          </h2>
-        </div>
-        <div class="clearFix add-edit" style="float: right;    margin-top: -13px;margin-bottom: 0px;">
-          <button class="btn" (click)="toggleCreateNewgrade()">
-            <i id="showAddBtn" class="addBtnClass">+</i>
-            <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
-            <span>Create Grade</span>
-          </button>
-        </div>
-      </section>
       <section class="filter-form attendance-container">
-        <!-- <div class="clearFix add-edit" style="float: right;">
-          <button class="btn" (click)="toggleCreateNewgrade()">
-            <i id="showAddBtn" class="addBtnClass">+</i>
-            <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
-            <span>Create Grade</span>
-          </button>
-        </div> -->
-        <div class="row" *ngIf=showToggle>
-
-          <div class="c-lg-3 c-md-3 c-sm-3">
-            <div class="field-wrapper">
-              <label for="Create Grade">Create Grade
-                <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade"
-                style="border-radius: 4px;">
-
-            </div>
+        <div class="row" *ngIf="isSchoolModel">
+          <div class="form-inline">
+          <div class="c-lg-2 c-md-2 c-sm-2">
+              <input type="text" class="form-control input mr-10" placeholder="Grade Name*" name="grade" id="grade"
+              [(ngModel)]="addData.grade" style="border-radius: 4px;">
           </div>
-          <div class="c-lg-3 c-md-3 c-sm-3">
-            <div class="field-wrapper">
-              <label for="Description">Description
-                <span class="text-danger">*</span>
-              </label>
-              <input type="text" class="form-ctrl" name="Description" id="Description" [(ngModel)]="addData.description"
-                style="border-radius: 4px;">
-
+          <!-- <div class="c-lg-2 c-md-2 c-sm-2 " style="width: 125px;margin-right: 10px;">
+            <div class="filter_div">
+              <div class="field-wrapper" style="margin-left: 0 !important;">
+                <div class="dropdown-div">
+                  <select class="dropdown" [(ngModel)]="selectedExamTypeId">
+                    <option value="-1">Select Exam Type</option>
+                    <option *ngFor="let list of examTypeList; let i = index" [value]="list.exam_type_id"
+                      (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
+                  </select>
+                </div>
+              </div>
             </div>
+          </div> -->
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <!-- <div class="field-wrapper"> -->
+              <!-- <label for="Description">Marks From
+                <span class="text-danger">*</span>
+              </label> -->
+              <input type="text" placeholder="Marks From" class="form-control input mr-10" name="marks_from" id="marks_from"
+                [(ngModel)]="addData.marks_from">
+
+            <!-- </div> -->
           </div>
-          <div class="c-lg-3 c-md-3 c-sm-3">
-            <div class="pull-left create-cancel-small">
-              <aside class="pull-left create-cancel-small">
-                <button class="btn fullBlue" style="margin-top:26px;" (click)="addDataToTable()">Add</button>
-              </aside>
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <!-- <div class="field-wrapper"> -->
+              <!-- <label for="Description">Marks To
+                <span class="text-danger">*</span>
+              </label> -->
+              <input type="text" placeholder="Marks To" class="form-control input mr-10" name="marks_to" id="marks_to" [(ngModel)]="addData.marks_to">
+
+            <!-- </div> -->
+          </div>
+
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <!-- <div class="field-wrapper"> -->
+              <!-- <label for="Description">Grade Points
+                <span class="text-danger">*</span>
+              </label> -->
+              <input type="text" placeholder="Grade Points" class="form-control input mr-10" name="grade_points" id="grade_points"
+                [(ngModel)]="addData.grade_points">
+
+            <!-- </div> -->
+          </div>
+          <div class="c-lg-2 c-md-2 c-sm-2">
+            <input type="text" class="form-control input mr-10" placeholder="Description*" name="Description" id="Description" [(ngModel)]="addData.description">
+        </div>
+
+        </div>
+                <button class="add" style="margin-top: 9px;margin-left: 10px;" (click)="addDataToTable()">Add</button>
+        </div>
+        <div *ngIf="!isSchoolModel">
+          <div class="row">
+            <div class="c-lg-2 c-md-2 c-sm-2 ">
+              <!-- <div class="field-wrapper"> -->
+                <!-- <label for="Create Grade">Grade Name
+                  <span class="text-danger">*</span>
+                </label> -->
+                <input type="text" placeholder="Grade Name" class="form-control input mr-10" name="grade" id="grade" [(ngModel)]="addData.grade">
+              <!-- </div> -->
+            </div>
+            <div class="c-lg-3 c-md-3 c-sm-3">
+              <!-- <div class="field-wrapper"> -->
+                <!-- <label for="Description">Description
+                  <span class="text-danger">*</span>
+                </label> -->
+                <input type="text" placeholder="Description" class="form-control input mr-10" name="Description" id="Description"
+                  [(ngModel)]="addData.description" style="border-radius: 4px;">
+              <!-- </div> -->
+            </div>
+            <div class="c-lg-2 c-md-2 c-sm-2">
+              <div class="pull-left create-cancel-small">
+                <aside class="pull-left create-cancel-small">
+                  <button class="btn fullBlue" style="margin-top:26px;" (click)="addDataToTable()">Add</button>
+                </aside>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="table table-responsive" style="margin-top:10px;">
+        <div class="table table-responsive">
           <table class="tableBodyScroll">
             <thead>
               <tr>
@@ -73,6 +97,18 @@
                 <th>
                   Grade
                 </th>
+                <th *ngIf="isSchoolModel">
+                  Exam Type
+                </th>
+                <th *ngIf="isSchoolModel">
+                  Marks From
+                </th>
+                <th *ngIf="isSchoolModel">
+                  Marks To
+                </th>
+                <th *ngIf="isSchoolModel">
+                  Grade Points
+                </th>
                 <th>
                   Description
                 </th>
@@ -80,15 +116,17 @@
                   Create Date
                 </th>
                 <th>
+                  <span class="right pr-40">
                   Action
+                </span>
                 </th>
                 <!-- <th>
                   Delete
                 </th> -->
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let row of gotGrades; let i = index; trackBy: i;" class="displayComp" id="row{{i}}">
+            <tbody style="min-height: 52vh;max-height: 52vh;">
+              <tr style="box-shadow: -1px 1px 6px 0px rgb(0 0 0 / 10%);" *ngFor="let row of gotGrades; let i = index; trackBy: i;" class="displayComp" id="row{{i}}">
                 <td>
                   {{i + 1}}
                 </td>
@@ -100,6 +138,47 @@
                   <div class="field-wrapper">
                     <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.grade"
                       [value]="row.grade_id">
+                  </div>
+                </td>
+                <td class="view-comp" *ngIf="isSchoolModel">
+                  {{row.exam_type}}
+                </td>
+                <td class="edit-comp" *ngIf="isSchoolModel">
+                  <div class="dropdown-div">
+                    <select class="dropdown" [(ngModel)]="selectedExamTypeId">
+                      <option value="-1">Select Exam Type</option>
+                      <option *ngFor="let list of examTypeList; let i = index" [value]="list.exam_type_id"
+                        (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="view-comp" *ngIf="isSchoolModel">
+                  {{row.marks_from}}
+                </td>
+                <td class="edit-comp" *ngIf="isSchoolModel">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_from"
+                      [value]="row.marks_from">
+                  </div>
+                </td>
+
+                <td class="view-comp" *ngIf="isSchoolModel">
+                  {{row.marks_to}}
+                </td>
+                <td class="edit-comp" *ngIf="isSchoolModel">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_to"
+                      [value]="row.marks_to">
+                  </div>
+                </td>
+
+                <td class="view-comp" *ngIf="isSchoolModel">
+                  {{row.grade_points}}
+                </td>
+                <td class="edit-comp" *ngIf="isSchoolModel">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.grade_points"
+                      [value]="row.grade_points">
                   </div>
                 </td>
                 <td class="view-comp">
@@ -115,18 +194,26 @@
                 </td>
 
                 <td class="view-comp">
-                  <i class="fa fa-pencil" title="Edit" style="color: #0084f6;margin-right: 3px;" aria-hidden="true"
-                    (click)="editRowTable(row, i)"></i>
-                  <i class="fa fa-trash" title="Delete" style="color: red;" aria-hidden="true"
-                    (click)="deletingGrade(row , index)"></i>
-
+                  <span class="right pr-40" style="padding-right: 20px;">
+                    <a (click)="editRowTable(row, i)" data-toggle="modal" data-target="#editCityArea"
+                        style="vertical-align: middle;cursor: pointer;">
+                        <img src="../../../../assets/images/EDit.png">
+                    </a>
+                    <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal"
+                        (click)="deletingGrade(row , index)" style="cursor: pointer;" class="pl-10">
+                        <i style="color: red;font-size: 18px;font-weight: 400;"
+                            class="fa fa-trash"></i>
+                    </a>
+                </span>
                   <!-- <a class="anchorTagCursor" (click)="editRowTable(row, i)">Edit</a> -->
                 </td>
                 <td class="edit-comp">
-                  <i class="fa fa-floppy-o" title="Save" style="color: blue;margin-right: 3px;" aria-hidden="true"
+                  <span class="right pr-40" style="padding-right: 20px;">
+                  <i class="fa fa-floppy-o" title="Save" style="color: blue;margin-right: 10px;font-size: 18px;" aria-hidden="true"
                     (click)="saveInformation(row, i)"></i>
-                  <i class="fa fa-times" title="Cancel" style="color: red;" aria-hidden="true"
+                  <i class="fa fa-times" title="Cancel" style="color: red;font-size: 18px;" aria-hidden="true"
                     (click)="cancelEditRow(i)"></i>
+                  </span>
                   <!-- <a class="anchorTagCursor" (click)="saveInformation(row, i)"> Save </a>
                   <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)"> Cancel </a> -->
                 </td>

@@ -137,7 +137,7 @@ export class ClassRoomComponent {
           this.getClassList();
           this.enterclassdata = "";
           this.enterclassdataDesc = "";
-          this.toggleCreateNewList();
+          // this.toggleCreateNewList();
 
         },
         error => {
@@ -149,8 +149,8 @@ export class ClassRoomComponent {
 
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please fill Mandatory Fields');
-      this.enterclassdata = "";
-      this.enterclassdataDesc = "";
+      // this.enterclassdata = "";
+      // this.enterclassdataDesc = "";
       return;
     }
   }

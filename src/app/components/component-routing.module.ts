@@ -165,6 +165,10 @@ import{ReportsComponent} from './reports/reports.component';
                         {
                          path: 'reports',
                          loadChildren: () => import('../components/reports/reports.module').then(m => m.ReportsModule)
+                        },
+                        {
+                            path: 'exams',
+                            loadChildren: () => import('../components/exams-module/exams-module.module').then(m => m.ExamsModuleModule)
                         }
                     ]
                 },

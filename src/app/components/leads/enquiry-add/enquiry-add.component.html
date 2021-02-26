@@ -16,6 +16,7 @@
             </section>
             <!-- Accordian Menu Element -->
             <section class="middle-main clearFix" id="middleMain">
+                <aside>
                 <div class="add-new-enquiry-form accordian-section">
                     <ul class="accordian">
                         <!-- Basic Form -->
@@ -29,7 +30,23 @@
                                 </h4>
                             </div>
                             <!-- Accordian Form 1 -->
-                            <div class="accordian-content AdFilter-field">
+                            <div class="accordian-content AdFilter-field middle-left-auto">
+                                <div class="row">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <!-- Source -->
+                                        <div class="field-wrapper">
+                                            <label for="source">Source<span class="text-danger">*</span></label>
+                                            <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id"
+                                                name="source" style="border-radius: 4px;width: 20rem;">
+                                                <option value="-1"></option>
+                                                <option *ngFor="let source of sourceLead" [value]="source.id">
+                                                    {{source.name}}</option>
+                                            </select>
+                                            <span (click)="showAddSourcePops()" class="sourceI iconPlus"
+                                                style="left: 20rem;">+</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
 
                                     <!-- Name -->
@@ -74,6 +91,36 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row" *ngIf="schoolModel">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <!-- standard Course-->
+                                        <div *ngIf="!isProfessional" class="field-wrapper">
+                                            <label for="editStandard">Standard</label>
+                                            <select id="editStandard" class="form-ctrl" [(ngModel)]="course_standard_id"
+                                                (ngModelChange)="fetchSubject($event)" name="editStandard"
+                                                style="border-radius: 4px;width: 20rem;">
+                                                <option value="-1"></option>
+                                                <option *ngFor="let std of enqStd" [value]="std.standard_id">
+                                                    {{std.standard_name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <!-- Academic Yr -->
+                                        <div class="field-wrapper">
+                                            <label for="editMc">Academic Year</label>
+                                            <select id="editMc" class="form-ctrl" name="editMc"
+                                                [(ngModel)]="newEnqData.inst_acad_year_id"
+                                                style="border-radius: 4px;width: 20rem;">
+                                                <option value="-1"></option>
+                                                <option *ngFor="let data of instAcademicYrList"
+                                                    [value]="data.inst_acad_year_id">
+                                                    {{data.inst_acad_year}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="c-lg-9 c-md-9 c-sm-9">
 
@@ -129,8 +176,8 @@
                                             <input type="text" value="" id="dob" class="form-ctrl bsDatepicker"
                                                 [(ngModel)]="newEnqData.dob" name="dob" readonly='true' bsDatepicker
                                                 style="border-radius: 4px;width: 20rem;">
-                                            <!-- <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
-                        style="left: 18rem;top: 3.5rem;">clear</span> -->
+                                            <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
+                                                style="left: 18rem;top: 3.5rem;">clear</span>
                                         </div>
                                     </div>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -146,18 +193,19 @@
                                                 <option value="">Select State</option>
                                                 <option title="{{state.state_name}}" [value]="state.state_id"
                                                     *ngFor="let state of stateList">
-                                                    {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
+                                                    {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30)
+                                                    + '...' : state.state_name }}
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="margin-top: 2%;">
+                                <!-- <div class="row" style="margin-top: 2%;">
                                     <div>
                                         <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
-                                            style="left: 21rem;top: 14.5rem;">clear</span>
+                                            style="left: 21rem;top: 24.5rem;">clear</span>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="row">
                                     <!-- City -->
                                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -173,7 +221,8 @@
                                                 <option value="">Select City</option>
                                                 <option title="{{city.city_name}}" [value]="city.city_id"
                                                     *ngFor="let city of cityList">
-                                                    {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}
+                                                    {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) +
+                                                    '...' : city.city_name }}
                                                 </option>
                                             </select>
                                         </div>
@@ -187,33 +236,39 @@
                                                 <option value="">Select Area</option>
                                                 <option title="{{area.area}}" [value]="area.id"
                                                     *ngFor="let area of areaList">
-                                                    {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}
+                                                    {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' :
+                                                    area.area }}
                                                 </option>
                                             </select>
                                             <span (click)="toggleAddArea()" class="sourceI iconPlus">+</span>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row" *ngIf="schoolModel">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <div class="field-wrapper">
+                                            <label for="pin_code">Pin code</label>
+                                            <input type="text" value="" id="pin_code" class="form-ctrl"
+                                                [(ngModel)]="newEnqData.pin_code" name="pin_code" #pin_code="ngModel"
+                                                style="border-radius: 4px;width: 20rem;" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
-                                        <!-- Source -->
                                         <div class="field-wrapper">
-                                            <label for="source">Source<span class="text-danger">*</span></label>
-                                            <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id"
-                                                name="source" style="border-radius: 4px;width: 20rem;">
-                                                <option value="-1"></option>
-                                                <option *ngFor="let source of sourceLead" [value]="source.id">
-                                                    {{source.name}}</option>
-                                            </select>
-                                            <span (click)="showAddSourcePops()" class="sourceI iconPlus"
-                                                style="left: 20rem;">+</span>
+                                            <label for="userAddress">Current Address</label>
+                                            <textarea type="text" value="" id="userAddress" class="form-ctrl" row="5"
+                                                cols="5" [(ngModel)]="newEnqData.curr_address" name="address"
+                                                style="border-radius: 4px;width: 20rem;height: 13vh;"></textarea>
+
                                         </div>
                                     </div>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
-                                            <label for="userAddress">Address</label>
-                                            <textarea type="text" value="" id="userAddress" class="form-ctrl" row="5"
-                                                cols="6" [(ngModel)]="newEnqData.curr_address" name="address"
+                                            <label for="address">Residential Address </label>
+                                            <textarea type="text" value="" id="address" class="form-ctrl" row="5"
+                                                cols="5" [(ngModel)]="newEnqData.address" name="address"
                                                 style="border-radius: 4px;width: 20rem;height: 13vh;"></textarea>
 
                                         </div>
@@ -263,9 +318,92 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- School related new field -->
+                                <div *ngIf="schoolModel">
+                                    <div class="row">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="nationality">Nationality</label>
+                                                <input type="text" value="" id="nationality" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.nationality" name="nationality"
+                                                    #nationality="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="birth_place">Birth Place</label>
+                                                <input type="text" value="" id="birth_place" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.birth_place" name="birth_place"
+                                                    #birth_place="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="feeCommitted">Mother Tounge</label>
+                                                <select id="mother_tounge" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.mother_tounge" name="mother_tounge"
+                                                    style="border-radius: 4px;width: 20rem;">
+                                                    <option value="-1"></option>
+                                                    <option *ngFor="let data of masterDataList.MOTHER_TOUNGE"
+                                                        [value]="data.data_key">
+                                                        {{data.data_value}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="discount">Category</label>
+                                                <select id="category" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.category" name="category"
+                                                    style="border-radius: 4px;width: 20rem;">
+                                                    <option value="-1"></option>
+                                                    <option *ngFor="let data of masterDataList.CASTE_CATEGORY"
+                                                        [value]="data.data_key">
+                                                        {{data.data_value}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="religion">Religion</label>
+                                                <input type="text" value="" id="religion" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.religion" name="religion"
+                                                    #religion="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="discount">Blood Group</label>
+                                                <select id="blood_group" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.blood_group" name="blood_group"
+                                                    style="border-radius: 4px;width: 20rem;">
+                                                    <option value="-1"></option>
+                                                    <option *ngFor="let data of masterDataList.BLOOD_GROUP"
+                                                        [value]="data.data_key">
+                                                        {{data.data_value}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="c-lg-6 c-md-6 c-sm-6">
+                                            <div class="field-wrapper">
+                                                <label for="student_adhar_no">Adhar No.</label>
+                                                <input type="text" value="" id="feeCommitted" class="form-ctrl" maxlength="12"
+                                                    [(ngModel)]="newEnqData.student_adhar_no" name="student_adhar_no"
+                                                    #student_adhar_no="ngModel"
+                                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                                    style="border-radius: 4px;width: 20rem;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
-
                                         <!-- Name -->
                                         <div class="field-wrapper">
                                             <label for="guardianName">Parent Name</label>
@@ -281,7 +419,6 @@
                                         <!-- Phone -->
                                         <div class="field-wrapper">
                                             <label for="guardianContact">Parent Contact</label><br>
-
                                             <span class="countryCallingCode">
                                                 <select id="country_id" class="form-ctrl"
                                                     [(ngModel)]="newEnqData.country_id" name="country_id"
@@ -304,7 +441,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
-                                        <!-- Email -->
                                         <div class="field-wrapper">
                                             <label for="guardianEmail">Parent Email ID</label>
                                             <input type="text" value="" id="guardianEmail" class="form-ctrl"
@@ -320,6 +456,81 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="schoolModel">
+                                        <div class="field-wrapper">
+                                            <label for="enquirerLink">Parent profession</label>
+                                            <select id="parent_profession" class="form-ctrl"
+                                                [(ngModel)]="newEnqData.parent_profession" name="parent_profession"
+                                                style="border-radius: 4px;width: 20rem;">
+                                                <option value="-1"></option>
+                                                <option *ngFor="let data of masterDataList.PROFESSION"
+                                                    [value]="data.data_key">
+                                                    {{data.data_value}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="schoolModel">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <div class="field-wrapper">
+                                            <label for="guardianEmail">Parent Adhar No.</label>
+                                            <input type="text" value="" id="parent_adhar_no" class="form-ctrl" maxlength="12"
+                                                [(ngModel)]="newEnqData.parent_adhar_no" name="parent_adhar_no"
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                                #parent_adhar_no="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                        </div>
+                                    </div>
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <div class="field-wrapper">
+                                            <label for="guardian_name">Guardian Name</label>
+                                            <input type="text" value="" id="guardian_name" class="form-ctrl"
+                                                [(ngModel)]="newEnqData.guardian_name" name="guardian_name"
+                                                #guardian_name="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="schoolModel">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <!-- Phone -->
+                                        <div class="field-wrapper">
+                                            <label for="guardian_phone">Guardian Contact</label><br>
+                                            <span class="countryCallingCode">
+                                                <select id="country_id" class="form-ctrl"
+                                                    [(ngModel)]="newEnqData.country_id" name="country_id"
+                                                    [disabled]="countryDetails.length<=1"
+                                                    (change)="onChangeObj($event.target.value)"
+                                                    style="height: 29px;padding: 0">
+                                                    <option value=""></option>
+                                                    <option [value]="data.id" selected
+                                                        *ngFor='let data of countryDetails'>
+                                                        {{data.country_code}} +{{data.country_calling_code}}
+                                                    </option>
+                                                </select>
+                                            </span>
+                                            <input type="text" value="" id="guardian_phone" class="form-ctrl"
+                                                [(ngModel)]="newEnqData.guardian_phone" name="guardian_phone"
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                                style="border-radius: 4px;width: 15.5rem;" />
+                                        </div>
+                                    </div>
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <div class="field-wrapper">
+                                            <label for="guardian_email">Guardian Email ID</label>
+                                            <input type="text" value="" id="guardian_email" class="form-ctrl"
+                                                [(ngModel)]="newEnqData.guardian_email" name="guardian_email"
+                                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
+                                                #guardian_email="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                                <div *ngIf="guardian_email.invalid && (guardian_email.dirty || guardianEmail.touched)"
+                                                class="alert invalid-alert">
+                                                <div *ngIf="guardian_email.errors.pattern">
+                                                    Enter email in format eg. someone@xyz.com
+                                                </div>
+                                            </div>
+
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- Link -->
                                         <div class="field-wrapper">
@@ -351,18 +562,20 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </li>
                         <!-- Academic Form 2-->
                         <li class="data-filled" id="academicDetails" style="padding-bottom: 60px;">
                             <div class="accordian-heading">
                                 <h4>
-                                    <span class="circle-accor">2</span> Academics Details
+                                    <span class="circle-accor">2</span> {{schoolModel?'Other Details':'Academics
+                                    Details'}}
                                     <span class="close-accor" id="closeAcademic" (click)="toggleForm($event)">-</span>
                                     <span class="open-accor" id="openAcademic" (click)="toggleForm($event)">+</span>
                                 </h4>
                             </div>
-                            <div class="accordian-content">
+                            <div class="accordian-content middle-left-auto">
                                 <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- school -->
@@ -383,8 +596,8 @@
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="!schoolModel">
+                                <div class="row" *ngIf="!schoolModel">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- standard Course-->
                                         <div *ngIf="!isProfessional" class="field-wrapper">
                                             <label for="editStandard">Standard</label>
@@ -398,10 +611,10 @@
                                         </div>
                                     </div>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
-                                      <!-- masterCourse course -->
-                                      <div *ngIf="!isProfessional" class="field-wrapper">
-                                          <!-- changes by Nalini - to handle school model conditions -->
-                                        <label for="editMc">{{schoolModel ? 'Standard' : 'Master Course'}}</label>
+                                        <!-- masterCourse course -->
+                                        <div *ngIf="!isProfessional" class="field-wrapper">
+                                            <!-- changes by Nalini - to handle school model conditions -->
+                                            <label for="editMc">{{schoolModel ? 'Standard' : 'Master Course'}}</label>
                                             <select id="editMc" class="form-ctrl" name="editMc"
                                                 [(ngModel)]="course_mastercourse_id"
                                                 (ngModelChange)="courseMasterChange($event)"
@@ -414,8 +627,29 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row" *ngIf='schoolModel'>
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <div class="field-wrapper">
+                                            <label for="educational_group">Group</label>
+                                            <input type="text" value="" id="educational_group" class="form-ctrl"
+                                                [(ngModel)]="newEnqData.educational_group" name="educational_group"
+                                                #educational_group="ngModel" style="border-radius: 4px;width: 20rem;" />
+                                        </div>
+                                    </div>
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
+                                        <div class="field-wrapper">
+                                            <label for="extra_curricular_activities">Extra Curricular Activities</label>
+                                            <input type="text" value="" id="extra_curricular_activities"
+                                                class="form-ctrl" [(ngModel)]="newEnqData.extra_curricular_activities"
+                                                name="extra_curricular_activities"
+                                                #extra_curricular_activities="ngModel"
+                                                style="border-radius: 4px;width: 20rem;" />
+                                        </div>
+                                    </div>
 
-                                <div class="row">
+                                </div>
+
+                                <div class="row" *ngIf='!schoolModel'>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- subject Course -->
                                         <div *ngIf="!isProfessional" class="field-wrapper">
@@ -592,6 +826,7 @@
                         </li>
                     </ul>
                 </div>
+            </aside>
             </section>
             <!-- Footer for Accordian Menu -->
             <section class="middle-bottom clearFix">
@@ -648,7 +883,8 @@
             <!-- Enquiry Details official use-->
             <section class="enquiry-detail common-right-section">
                 <h4>
-                    <strong>Enquiry Details</strong> (Official Use)</h4>
+                    <strong>Enquiry Details</strong> (Official Use)
+                </h4>
                 <div class="box-shadow-lite">
                     <div class="row">
                         <div class="c-lg-6 c-md-6 c-sm-6">
@@ -876,8 +1112,8 @@
                         <div class="pull-right add-form-btns">
                             <a style="cursor:pointer" (click)="reloadEnquiryForm()" id="reloadEnquiryAnch12">Add new
                                 enquiry</a>
-                            <a style="cursor:pointer" *ngIf="permission != true && BulkEnqHide" routerLink="/view/leads/enquiry/upload"
-                                id="uploadAnch13">Add Bulk enquiry</a>
+                            <a style="cursor:pointer" *ngIf="permission != true && BulkEnqHide"
+                                routerLink="/view/leads/enquiry/upload" id="uploadAnch13">Add Bulk enquiry</a>
                         </div>
                     </div>
                 </div>

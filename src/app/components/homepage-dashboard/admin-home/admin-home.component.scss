@@ -1240,6 +1240,9 @@ div#enqChart {
             &.class_room {
                 width: 15% !important;
             }
+            &.class_exam_type {
+                width: 10% !important;
+            }
             &.batch {
                 width: 20% !important;
                 color: rgb(30, 35, 40);
@@ -1295,6 +1298,9 @@ div#enqChart {
                 }
                 &.class_room {
                     width: 15% !important;
+                }
+                &.class_exam_type {
+                    width: 10% !important;
                 }
                 &.batch {
                     &.cls-type {

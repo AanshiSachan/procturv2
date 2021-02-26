@@ -4,6 +4,8 @@ import { DataSetupComponent } from './data-setup.component';
 import { DataSetupHomeComponent } from './data-setup-home/data-setup-home.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 import { ClassRoomComponent } from './class-room/class-room.component';
+import { SchoolExamTypeComponent } from './school-exam-type/school-exam-type.component';
+import {MasterTagComponent} from './master-tag/master-tag.component';
 
 
 @NgModule({
@@ -43,7 +45,16 @@ import { ClassRoomComponent } from './class-room/class-room.component';
                     path: 'classroom',
                     component: ClassRoomComponent,
                     // canLoad: [AuthGuard]
-                }
+                },
+                {
+                    path: 'exam-type',
+                    component: SchoolExamTypeComponent,
+                    // canLoad: [AuthGuard]
+                },
+                {
+                    path: 'master-tag',
+                    component: MasterTagComponent
+                },
 
             ]
         }

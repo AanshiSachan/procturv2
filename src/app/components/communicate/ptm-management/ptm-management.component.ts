@@ -105,7 +105,14 @@ export class PtmManagementComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.ptmScheduledDate = this.today;
     if(this.jsonFlag.isProfessional){
       this.fetchBatchesList();

@@ -21,7 +21,7 @@
    <!-- <div class="course-menu-item" routerLink="/view/course/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
-        <span>Manage Course</span>
+        <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
       </div>
       <div class="menu-description">
         <span> Manage Standards / Subjects / Topics / Courses, along with Class & Exam Scheduling.</span>

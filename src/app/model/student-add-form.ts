@@ -45,4 +45,5 @@ export interface StudentForm {
 	archivedStudent?: any,
 	studentFileUploadJson?:any,
 	assigned_to_id?:any
+	optional_subject_id?:any;
 }

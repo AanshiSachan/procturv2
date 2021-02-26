@@ -266,20 +266,20 @@
       <div class="course-details">
         <!-- For Course Model -->
         <div class="course-details-item field-wrapper" *ngIf="!this.jsonFlag.isProfessional">
-          <label for="" style="font-size: 12px;">Master Course<span class="danger">*</span></label>
+          <label for="" style="font-size: 12px;">{{schoolModel ? 'Standard' : 'Master Course'}}<span class="danger">*</span></label>
           <select class="course-input" name="" [(ngModel)]="assignmentDetails.masterCourse"
             [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getCourses()">
-            <option value="-1">Select Master Course</option>
+            <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
             <option [value]="master.master_course" *ngFor="let master of masterCourseList">
               {{ (master.master_course.length > 30) ? (master.master_course | slice:0:30) + '...' : master.master_course }}
             </option>
           </select>
         </div>
         <div class="course-details-item field-wrapper" *ngIf="!this.jsonFlag.isProfessional">
-          <label for="" style="font-size: 12px;">Course<span class="danger">*</span></label>
+          <label for="" style="font-size: 12px;">{{schoolModel ? 'Section' : 'Course'}}<span class="danger">*</span></label>
           <select class="course-input" name="" [(ngModel)]="assignmentDetails.course"
             [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getSubjects()">
-            <option value="-1">Select Course</option>
+            <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
             <option [value]="course.course_id" *ngFor="let course of courseList">
               {{ (course.course_name.length > 30) ? (course.course_name | slice:0:30) + '...' : course.course_name }}
             </option>

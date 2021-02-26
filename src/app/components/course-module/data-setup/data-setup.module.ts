@@ -11,6 +11,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { DataSetupHomeComponent } from './data-setup-home/data-setup-home.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 import { ClassRoomComponent } from './class-room/class-room.component';
+import { SchoolExamTypeComponent } from './school-exam-type/school-exam-type.component';
+import { MasterTagComponent } from './master-tag/master-tag.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import { ClassRoomComponent } from './class-room/class-room.component';
     DataSetupComponent,
     DataSetupHomeComponent,
     ManageExamGradesComponent,
-    ClassRoomComponent
+    ClassRoomComponent,
+    SchoolExamTypeComponent,
+    MasterTagComponent
   ],
   providers: [
       ExamGradeServiceService,
