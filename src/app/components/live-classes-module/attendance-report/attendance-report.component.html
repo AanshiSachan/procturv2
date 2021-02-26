@@ -16,7 +16,7 @@
       </section>
 
       <section class="header-container" *ngIf="session_data">
-        <div class="header-item" style="width: 45%;">
+        <div class="header-item">
           <div class="header-title">
             <span>Date : </span>
           </div>
@@ -25,7 +25,28 @@
           </div>
         </div>
 
-        <div class="header-item" style="width: 45%;">
+        <div class="header-item">
+          <div class="header-title">
+            <span>Time : </span>
+          </div>
+          <div class="header-value">
+            <span>
+              {{session_data.start_datetime | date: 'shortTime'}} - {{session_data.end_datetime | date: 'shortTime'}}
+            </span>
+          </div>
+        </div> 
+        
+        <div class="header-item">
+          <div class="header-title">
+            <span>Attended : </span>
+          </div>
+          <div class="header-value">
+            <span>{{session_data.total_present + session_data.total_partially_present}} /
+              {{session_data.total_participants}}</span>
+          </div>
+        </div>
+
+        <div class="header-item">
           <div class="header-title">
             <span>Attendance Threshold :
             </span>
@@ -35,46 +56,28 @@
               <div class="questionInfo inline-relative">
                 <span class="qInfoIcon i-class">?</span>
                 <div class="tooltip-box-field md">
-                  Students are marked <br>Present
-                  for the class in <br>case they
-                  attend class <br>for the duration
-                  more than <br>the defined threshold <br>
-                  percentage. This setting <br>
-                  can be changed from the <br> Settings section.
+                  Students are <br> marked Present <br>
+                  for the class in <br> case they 
+                  attend <br> class for the <br> duration
+                  more than the<br> defined threshold
+                  percentage. <br>This setting 
+                  can be <br> changed from the <br> Settings section.
                 </div>
               </div>
             </span>
           </div>
         </div>
 
-        <div class="header-item" style="width: 45%;">
-          <div class="header-title">
-            <span>Time : </span>
-          </div>
-          <div class="header-value">
-            <span>
-              {{session_data.start_datetime | date: 'shortTime'}} - {{session_data.end_datetime | date: 'shortTime'}}
-            </span>
-          </div>
-        </div>
-        <div class="header-item" style="width: 45%;">
+        <div class="header-item">
           <div class="header-title">
             <span>Topic : </span>
           </div>
           <div class="header-value">
-            <span>{{session_data.session_name}}</span>
+            <span title="{{session_data.session_name}}"> {{ (session_data.session_name?.length>30) ? (session_data.session_name | slice:0:30 ) + '...' :(session_data.session_name) }}</span>
           </div>
         </div>
-        <div class="header-item" style="width: 45%;">
-          <div class="header-title">
-            <span>Attended : </span>
-          </div>
-          <div class="header-value">
-            <span>{{session_data.total_present + session_data.total_partially_present}} /
-              {{session_data.total_participants}}</span>
-          </div>
-        </div>
-        <div class="header-item" style="width: 30%;">
+
+        <div class="header-item">
           <div class="header-title">
             <span>Guest : </span>
           </div>
@@ -82,18 +85,18 @@
             <span>{{session_data.total_guest==0 ? '-' : session_data.total_guest}}</span>
           </div>
         </div>
-        <div class="header-item" style="padding: 0;width: 15%;">
+        <!-- <div class="header-item" style="padding: 0;width: 15%;">
           <section class="search-bar-container">
             <div class="field-wrapper">
               <input type="text" value="" id="search_bar" [(ngModel)]="searchInput" name="searchInput"
                 (keyup)="searchDatabase(search)" placeholder="Search here..." class="search-box" #search>
             </div>
           </section>
-        </div>
-        <div class="header-item" style="width: 3%;padding: 0;padding-top: 2px;">
+        </div> -->
+        <!-- <div class="header-item" style="width: 3%;padding: 0;padding-top: 2px;">
           <span (click)="ExportAsExcel()" title="Export as Excel"><i _ngcontent-c28="" aria-hidden="true"
               class="fa fa-file-excel-o" style="font-size: 28px;color: darkred;cursor: pointer;"></i></span>
-        </div>
+        </div> -->
       </section>
 
       <section class="table-container" style="margin-top: 0;">
@@ -108,23 +111,23 @@
             <span>Contact No.</span>
           </div>
           <div class="table-heading-item md-item">
-            <span>Status</span>
-          </div>
-          <div class="table-heading-item md-item">
             <span>Join Time</span>
           </div>
           <div class="table-heading-item md-item">
             <span>Left Time</span>
           </div>
           <div class="table-heading-item md-item">
-            <span>Attended duration (mins)</span>
+            <span>Join duration (mins)</span>
+          </div>
+          <div class="table-heading-item md-item">
+            <span>Status</span>
           </div>
         </div>
         <div class="table-outer-value-container">
           <div class="table-value-container" *ngFor="let record of attendance_list" [ngClass]="{'absent-border': record.attendance_status == 'Absent',
                         'present-border': record.attendance_status == 'Present',
                         'partially-border': record.attendance_status == 'Partially Present'}">
-            <div class="table-value-item sm-item">
+            <div class="table-value-item sm-item" style="color: #109CF1">
               <span>{{record.display_id!=null ? record.display_id : '-'}}</span>
             </div>
             <div class="table-value-item md-item">
@@ -139,12 +142,6 @@
               {{record.phone!=null ? record.phone : '-'}}
             </div>
             <div class="table-value-item md-item">
-              <span *ngIf="record.attendance_status == 'Absent'" class="absent">{{record.attendance_status}}</span>
-              <span *ngIf="record.attendance_status == 'Present'" class="present">{{record.attendance_status}}</span>
-              <span *ngIf="record.attendance_status == 'Partially Present'"
-                class="partially">{{record.attendance_status}}</span>
-            </div>
-            <div class="table-value-item md-item">
               <span>{{record.join_time}}</span>
               <span *ngIf="record.attendance_status == 'Absent'">-</span>
             </div>
@@ -156,6 +153,36 @@
               <span>{{record.duration}} mins
                 <span *ngIf="record.attendance_status != 'Absent'">({{record.attendance_percentage}} %)</span>
               </span>
+            </div>
+            <div class="table-value-item md-item">
+              <span *ngIf="record.attendance_status == 'Absent'" class="absent">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'Present'" class="present">{{record.attendance_status}}</span>
+              <span *ngIf="record.attendance_status == 'Partially Present'"
+                class="partially">{{record.attendance_status}}</span>
+                <i style="margin-left: 10px;font-size: 16px;cursor: pointer;" title="Mark Attendance" (click)="record.showMenu = true" class="fa fa-angle-down" aria-hidden="true"></i>
+                <div class="d-item dd-list-container" *ngIf="record.showMenu" (mouseleave)="record.showMenu = false">
+                  <div class="d-item dropdown-list">
+                      <div class="d-item dd-list-inner">
+                          <ul class="d-item actions-menu">
+                              <li class="d-item action-item" (click)="selectOption(record, 'ABSENT')">
+                                  <a class="d-item enq-act enq-act--one">
+                                    Absent
+                                  </a>
+                              </li>
+                              <li class="d-item action-item" (click)="selectOption(record, 'PRESENT')">
+                                <a class="d-item enq-act enq-act--one">
+                                  Present
+                                </a>
+                            </li>
+                            <li class="d-item action-item" (click)="selectOption(record, 'PARTIALLY_PRESENT')">
+                              <a class="d-item enq-act enq-act--one">
+                                Partially Present
+                              </a>
+                          </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
             </div>
           </div>
           <div class="" *ngIf="attendance_list.length == 0">

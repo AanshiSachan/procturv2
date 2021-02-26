@@ -166,6 +166,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   enable_online_payment: string = "";
   enable_client_website: boolean = false;
   schoolModel: boolean = false;
+  is_zoom_integration_enable:boolean = false;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -270,6 +271,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
       this.jsonCourseFlags.isShowOnlineAssignment = true;
     }
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    this.is_zoom_integration_enable = JSON.parse(zoom);
   }
 
   ngAfterViewInit() {
@@ -1610,5 +1613,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       case 'expense': this.showExp = 'expensehide'; break;
 
     }
+  }
+  setLiveClassType(obj) {
+    if(obj!='') {
+      sessionStorage.setItem('setLiveClassType', obj);
+    }
+    this.router.navigate(['/view/live-classes']).then(() => {window.location.reload();});
   }
 }

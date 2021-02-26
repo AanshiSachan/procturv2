@@ -32,8 +32,10 @@ html {
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.16);
   padding: 30px;
   margin-bottom: 20px;
+  padding-top: 0;
   .field-wrapper{
     margin-top: 10px;
+    border: none;
     #topicName{
       width: 45%;
       border-radius: 4px;
@@ -60,8 +62,8 @@ html {
               content: '';
               background: url(/./assets/images/calendar.svg) no-repeat;
               position: absolute;
-              right: 57px;
-              top: 35px;
+              left: 55px;
+              top: 10px;
               width: 21px;
               height: 21px;
               z-index: 0;
@@ -93,6 +95,8 @@ html {
         margin-top: 5px;
         border-color: #c5c5cc;
         height: 36px;
+        border: none;
+        font-size: 12px;
       }
       #from2, #to2{
         width: 30%;
@@ -100,6 +104,8 @@ html {
         margin-top: 5px;
         border-color: #c5c5cc;
         height: 36px;
+        border: none;
+        font-size: 12px;
       }
     }
     #date{
@@ -107,6 +113,8 @@ html {
       border-radius: 4px;
       margin-top: 5px;
       border-color: #c5c5cc;
+      border: none;
+      font-size: 12px;
     }
 
   }
@@ -141,6 +149,22 @@ html {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
   }
+  .dropdown-btn {
+    border: none !important;
+    padding-left: 0px !important;
+    .selected-item {
+      border: none !important;
+      background: none !important;
+      color: #9E9E9E !important;
+      box-shadow: none !important;
+      a {
+        color: #337ab7 !important;
+      }
+    }
+    span {
+      font-size: 12px;
+    }
+  }
 }
 .multiselect-dropdown .disabled > span {
   background-color: #eceeef;
@@ -168,9 +192,9 @@ html {
     }
   }
   .action-btn-item-2{
-    width: 30%;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     .cancel-btn{
       border: 1px solid #f41212;
       text-align: center;
@@ -297,6 +321,8 @@ html {
 
 .AdvanceSetting {
   position: relative;
+  margin-top: 5px;
+  padding-top: 10px;
 }
 
 .AdvanceSetting span {
@@ -304,6 +330,8 @@ html {
   padding-right: 10px;
   padding-left: 5px;
   margin-left: 10px;
+  color: #4D5869;
+  cursor: pointer;
 }
 
 .AdvanceSetting:after,
@@ -318,14 +346,18 @@ html {
   z-index: -1;
 }
 .AdvanceSettingDiv {
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  // border-left: 1px solid #ccc;
+  // border-right: 1px solid #ccc;
+  // border-bottom: 1px solid #ccc;
   margin-top: -1%;
   padding-bottom: 5%;
   margin-bottom: 1%;
   display: flex;
   flex-wrap: wrap;
+  label {
+    font-weight: 400;
+    font-size: 12px !important;
+  }
 }
 
 .advance-setting-item{
@@ -385,3 +417,17 @@ html {
      }
    }
  }
+ .addClassHeader {
+  background: #FBF9F9;
+  border-radius: 0px 0px 20px 20px;
+  width: 190px;
+  margin-left: 28%;
+  padding: 8px;
+  font-size: 14px;
+  float: left;
+  text-align: center;
+}
+label {
+  color: #4D5869 !important;
+  font-weight: 600;
+}
