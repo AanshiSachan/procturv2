@@ -89,6 +89,8 @@
         <!-- My Account -->
         <a mat-button style=" margin-left: -15px;"><img src="./assets/images/sidebar/myAccount.svg" title="My Account"
                 alt="" (click)="showSubSection('account')"></a>
+                <a mat-button style=" margin-left: -15px;" (click)="openInNewTab('https://desk.zoho.com/portal/procturapp/')"><img src="./assets/images/sidebar/chaticon.svg" title="Chat"
+                    alt="" ></a>
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="help1">
