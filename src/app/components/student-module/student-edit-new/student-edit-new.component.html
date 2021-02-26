@@ -825,10 +825,10 @@
                                         <input class="form-checkbox" id="{{component.id}}" type="checkbox"
                                             [(ngModel)]="component.value" name="{{component.label}}"
                                             value="{{component.value}}">
-                                        <label *ngIf="component.is_required == 'Y'">
+                                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;" *ngIf="component.is_required == 'Y'">
                                             {{component.label}}*
                                         </label>
-                                        <label *ngIf="component.is_required == 'N'">
+                                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;" *ngIf="component.is_required == 'N'">
                                             {{component.label}} </label>
                                     </div>
                                 </div>
