@@ -8,13 +8,12 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class DataSetupHomeComponent implements OnInit {
   type: string = '';
-  schoolModel:boolean =true;
+  schoolModel: boolean = false;
   activeSession: any = 'faculty';
-  
-  constructor( private auth: AuthenticatorService) { 
-    this.auth.schoolModel.subscribe((data) => {
-      this.schoolModel = data = 'true' ? true : false;
-    });
+
+  constructor(private auth: AuthenticatorService) {
+    this.schoolModel = this.auth.schoolModel.value;
+
   }
 
   ngOnInit() {
@@ -54,8 +53,8 @@ export class DataSetupHomeComponent implements OnInit {
       'master-tag': 'master_tag',
       'exam-type': 'Exam_type'
     };
-      this.activeSession = routesData[pathLastURL];
-      console.log(this.activeSession);
+    this.activeSession = routesData[pathLastURL];
+    console.log(this.activeSession);
   }
 
 }

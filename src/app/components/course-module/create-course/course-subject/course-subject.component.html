@@ -81,7 +81,7 @@
           </div>
         </div>
 
-        <div class="c-lg-2 c-sm-2 c-md-2" style="width: 13%;padding: 0;padding-top: 10px;">
+        <div class="c-lg-2 c-sm-2 c-md-2" style="width: 13%;padding: 0;padding-top: 10px;" *ngIf="schoolModel">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_optional"
               id="is_optional">
@@ -128,7 +128,7 @@
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
             </th>
             <th>
-              <label style="cursor:pointer;" (click)="sortTable('is_active')">Optional</label>
+              <label style="cursor:pointer;" *ngIf="schoolModel" (click)="sortTable('is_active')">Optional</label>
             </th>
             <th>
               <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"
@@ -186,7 +186,7 @@
               </div>
             </td>
 
-            <td class="view-comp" style="padding-left: 20px;">
+            <td class="view-comp" *ngIf="schoolModel" style="padding-left: 20px;">
               {{row.is_optional}}
             </td>
             <td class="edit-comp" style="padding-left: 20px;">

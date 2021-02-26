@@ -27,7 +27,7 @@
                     <span class="dropSize" (click)="routerLink('/view/course/create/standardlist');activeSession=null">Manage {{schoolModel?'Section':'Course'}}</span>
 
                 </div>
-                <div class="side-section-item" (click)="routerLink('/view/course/master-tag')">
+                <div class="side-section-item" *ngIf="!schoolModel" (click)="routerLink('/view/course/master-tag')">
 
                     <span class="dropSize">Manage tag</span>
                 </div>
@@ -94,6 +94,9 @@
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="help1">
+                    <div class="side-section-item" (click)="openInNewTab('https://desk.zoho.com/portal/procturapp/')">
+                        <span class="dropSize">Raise Your Query</span>
+                    </div>
                     <div class="side-section-item" (click)="routerLink('/view/training-video' ,'help')">
                         <span class="dropSize">Training
                             Videos</span>

@@ -214,7 +214,7 @@
         <span>Student Attendance & Exam Reports for Analysis and Printing.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="../master-tag">
+    <div class="course-menu-item" *ngIf="!schoolModel" routerLink="../master-tag">
       <div class="menu-title">
         <img src="./assets/images/activity/manage_tag.svg" alt="">
         <span>Manage Tag</span>

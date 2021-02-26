@@ -51,9 +51,7 @@ export class ManageExamGradesComponent implements OnInit {
     private commonApiCall: CommonApiCallService,
     private msgSrvc: MessageShowService
   ) {
-    this.auth.schoolModel.subscribe((data) => {
-      this.isSchoolModel = data = "true" ? true : false;
-    });
+    this.isSchoolModel = this.auth.schoolModel.value;
   }
 
   ngOnInit() {
@@ -118,10 +116,9 @@ export class ManageExamGradesComponent implements OnInit {
           grade: this.addData.grade,
           description: this.addData.description,
           institution_id: sessionStorage.getItem("institute_id"),
-          exam_type_id: this.selectedExamTypeId,
           grade_points: this.addData.grade_points,
-          marks_from: this.addData.marks_from,
-          marks_to: this.addData.marks_to,
+          marks_from_percent: this.addData.marks_from,
+          marks_to_percent: this.addData.marks_to,
         };
       } else {
         payload = {

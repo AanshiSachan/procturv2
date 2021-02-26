@@ -37,6 +37,7 @@ export class CourseSubjectComponent implements OnInit {
   sortingDir: string = "asc";
   subjectCodeCharLimit: number = 4;
   activeList: boolean = false;
+  schoolModel:boolean=false;
 
   constructor(
     private apiService: SubjectApiService,
@@ -49,6 +50,7 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.schoolModel=this.auth.schoolModel.value;
     this.checkInstituteType();
     this.getAllSubjectList();
     this.getAllStandardSubjectList();
