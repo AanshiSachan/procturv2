@@ -5,6 +5,7 @@ import {
   StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent
 } from '.';
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
+import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 
 const routes: Routes = [
   {
@@ -23,12 +24,12 @@ const routes: Routes = [
       },
       {
         path: 'add',
-        component: StudentAddComponent,
+        component: StudentAddNewComponent,
         pathMatch: 'prefix',
       },
       {
         path: 'edit/:id',
-        component: StudentEditComponent,
+        component: StudentEditNewComponent,
         pathMatch: 'prefix',
       },
       {
@@ -58,7 +59,7 @@ const routes: Routes = [
       }, 
       {
         path: 'addNew',
-        component: StudentAddNewComponent,
+        component: StudentAddComponent,
         pathMatch: 'prefix',
       }
     ]

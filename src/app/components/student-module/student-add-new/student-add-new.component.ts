@@ -3,12 +3,12 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
+import { CommonApiCallService } from '../../../services/common-api-call.service';
 import { role } from '../../../model/role_features';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { CourseListService } from '../../../services/course-services/course-list.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
@@ -16,6 +16,7 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
+import CommonUtils from '../../../utils/CommonUtils'
 
 @Component({
   selector: 'app-student-add-new',
@@ -97,7 +98,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   taxEnableCheck: any = '1';
   discountReason: string = '';
   key: string = 'name';
-  containerWidth: any = "200px";
+  containerWidth: any = "110px";
+  containerHeight: any = "110px";
   studentImage: string = '';
   student_id: any = 0;
   paymentMode: number = 0;
@@ -220,7 +222,19 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     archivedStudent: false,
     studentFileUploadJson: [],
     assigned_to_id: "0",
-    optional_subject_id: []
+    optional_subject_id: [],
+    birth_place: '',
+    blood_group: '-1',
+    category: '-1',
+    nationality: '',
+    student_adhar_no: '',
+    parent_adhar_no: '',
+    parent_profession: '-1',
+    mother_tounge: '-1',
+    extra_curricular_activities: '',
+    educational_group: '',
+    pin_code: '',
+    student_perm_addr: ''
   };
 
   enqAssignTo: any = [];
@@ -306,6 +320,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   Payment_Modes: any = [];
   role_feature = role.features;
   schoolModel: boolean = false;
+  masterDataList: any = {};
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -316,13 +331,30 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
-    private apiService: CourseListService,
     private msgToast: MessageShowService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private commonApiCall: CommonApiCallService
   ) {
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    // changes by Nalini - to handle school model conditions
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+    if (this.schoolModel) {
+      this.commonApiCall.fetchMasterData().subscribe(data => {
+        this.masterDataList = data;
+      })
+    }
+    // this.fetchDataForCountryDetails();
+    // this.getStateList();
+    this.fetchCustomComponents();
   }
   /* ========================================================================================================== */
   /* OnInit Lifecycle Hook */
@@ -332,14 +364,13 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.auth.showLoader();
     this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
     this.isTaxEnable = sessionStorage.getItem('enable_tax_applicable_fee_installments') == "1" ? true : false;
-
     this.fetchPrefillFormData();
-
     if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
       this.convertToStudentDetected();
-      this.checkStatusofStudent = false;
+      // this.checkStatusofStudent = false;
     } else {
       this.checkStatusofStudent = true;
+      this.fetchDataForCountryDetails();
     }
 
     if (this.isProfessional) {
@@ -378,8 +409,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     if ((sessionStorage.getItem('userType') == '0') && (sessionStorage.getItem('username') != 'admin') && (sessionStorage.getItem('enable_assign_to_feature') == '0')) {
       this.assignTo = false;
     }
-    this.fetchDataForCountryDetails();
-    this.getStateList();
   }
 
   ngOnDestroy() {
@@ -475,7 +504,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     if (this.checkStatusofStudent) {
       this.areaList = [];
     }
-    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "" && this.studentAddFormData.city_id!=null) {
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "" && this.studentAddFormData.city_id != null) {
       const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -497,11 +526,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.fetchDataForCountryDetails();
     this.countryDetails.forEach(element => {
       if (element.id == event) {
-        console.log(element.id);
         this.studentAddFormData.country_id = element.id;
         this.instituteCountryDetObj = element;
         this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
         this.country_id = this.instituteCountryDetObj.id;
+        return false;
       }
     });
     this.getStateList();
@@ -554,19 +583,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (res == 'LANG') {
           this.isProfessional = true; // batch module
         } else {
-          this.isProfessional = false; // batch module
+          this.isProfessional = false; // Course module
         }
       }
     )
-    // changes by Nalini - to handle school model conditions
-    this.auth.schoolModel.subscribe(
-      res => {
-        this.schoolModel = false;
-        if (res) {
-          this.schoolModel = true;
-        }
-      }
-    )
+
   }
 
 
@@ -643,7 +664,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.add('active');
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.remove('active');
-          document.getElementById('li-four').classList.remove('active');
+          // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = true;
           this.isOtherActive = false;
           this.isFeeActive = false;
@@ -657,14 +678,13 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       case 'kyc': {
         if (this.student_id == 0 || this.student_id == null) {
           document.getElementById('li-one').classList.remove('active');
+          document.getElementById('li-two').classList.add('step_active');
           document.getElementById('li-two').classList.add('active');
           document.getElementById('li-three').classList.remove('active');
-          document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
-          this.isInventoryActive = false;
-          this.fetchCustomComponents();
+          //this.fetchCustomComponents();
         }
         else {
           this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
@@ -675,35 +695,18 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (this.student_id != 0 && this.student_id != null) {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
+          document.getElementById('li-three').classList.add('step_active');
           document.getElementById('li-three').classList.add('active');
-          document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = false;
           this.isFeeActive = true;
-          this.isInventoryActive = false;
         }
         else {
           this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
         }
         break;
       }
-      case 'inventory': {
-        if (this.student_id != 0 && this.student_id != null) {
-          document.getElementById('li-one').classList.remove('active');
-          document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.remove('active');
-          document.getElementById('li-four').classList.add('active');
-          this.isBasicActive = false;
-          this.isOtherActive = false;
-          this.isFeeActive = false;
-          this.isInventoryActive = true;
-          this.fetchInventoryList();
-        }
-        else {
-          this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
-        }
-        break;
-      }
+
     }
 
   }
@@ -728,10 +731,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.navigateTo("feeDetails");
         break;
       }
-      case "inventory-icon": {
-        this.navigateTo("inventory");
-        break;
-      }
       default: {
         this.navigateTo("studentForm");
         break;
@@ -742,7 +741,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
     this.auth.showLoader();
-
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
@@ -750,30 +748,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
-
-    // this.studentPrefillService.fetchAllFeeStructure().subscribe(
-    //   res => {
-    //      this.auth.hideLoader();
-    //     this.feeTemplateStore = res;
-    //   },
-    //   err => {
-    //      this.auth.hideLoader();
-    //   }
-    // )
-
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
         this.msgToast.showErrorMessage('error', '', err.error.message);
       });
-
-    // this.studentPrefillService.getChequeStatus().subscribe(
-    //   data => { this.pdcStatus = data; },
-    //   err => {
-    //     this.auth.hideLoader();
-    //     this.msgToast.showErrorMessage('error', '', err.error.message);
-    //   }
-    // );
     this.auth.showLoader();
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
@@ -781,6 +760,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
             this.defaultAcadYear = e.inst_acad_year_id;
+            return false;
           }
         });
       },
@@ -809,6 +789,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       data => {
         this.auth.hideLoader();
         if (data != null) {
+          this.quickAddStudent = true;
           data.forEach(el => {
             let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
             if (el.type == 4) {
@@ -924,9 +905,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   /* align the user selected batch into input and update the data into array to be updated to server */
   getassignedBatchList(e) {
     let temp = [];
-    if(e.batchJoiningDates && e.batchJoiningDates.length) {
+    if (e.batchJoiningDates && e.batchJoiningDates.length) {
       e.batchJoiningDates.forEach(el => {
-            temp.push(moment(el).format('YYYY-MM-DD'));
+        temp.push(moment(el).format('YYYY-MM-DD'));
       });
     }
     this.studentAddFormData.assignedBatches = e.assignedBatches;
@@ -1144,6 +1125,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (el.school_id == id) {
         el.edit = true;
         el.new_school_name = el.school_name;
+        return false;
       }
     });
   }
@@ -1288,26 +1270,18 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-      let email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,9})+$/;
-      if (this.studentAddFormData.student_email && this.studentAddFormData.student_email != "") {
-        if (!email.test(this.studentAddFormData.student_email)) {
-          this.msgToast.showErrorMessage('error', '', "Please enter valid email id");
-          return;
-        }
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.student_email)) {
+        this.msgToast.showErrorMessage('error', '', "Please enter valid email id");
+        return;
+      }
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.parent_email)) {
+        this.msgToast.showErrorMessage('error', '', "Please enter valid email ID");
+        return;
       }
 
-      if (this.studentAddFormData.parent_email && this.studentAddFormData.parent_email != "") {
-        if (!email.test(this.studentAddFormData.parent_email)) {
-          this.msgToast.showErrorMessage('error', '', "Please enter valid email ID");
-          return;
-        }
-
-      }
-      if (this.studentAddFormData.guardian_email != "") {
-        if (!email.test(this.studentAddFormData.guardian_email)) {
-          this.msgToast.showErrorMessage('error', '', "Please enter valid guardian email ID");
-          return;
-        }
+      if (CommonUtils.isOptionalValidEmailId(this.studentAddFormData.guardian_email)) {
+        this.msgToast.showErrorMessage('error', '', "Please enter valid guardian email ID");
+        return;
       }
 
       if ((this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlegth, this.country_id) == false &&
@@ -1317,14 +1291,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', "Please enter valid parent/guardian mobile number");
         return;
       }
-
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
-      let dob = this.validateDOB();
-      this.studentAddFormData.dob = dob;
-
-      this.studentAddFormData.expiry_date = moment(this.studentAddFormData.expiry_date).format("YYYY-MM-DD");
+      //let dob = this.validateDOB();
+      this.studentAddFormData.dob = CommonUtils.validateDate(this.studentAddFormData.dob);
+      this.studentAddFormData.expiry_date = CommonUtils.validateDate(this.studentAddFormData.expiry_date);
       this.studentAddFormData.studentFileUploadJson = this.selectedFiles;
-      console.log(this.studentAddFormData);
       this.btnSaveAndContinue.nativeElement.disabled = true;
       if (!this.auth.isRippleLoad.getValue()) {
         this.auth.showLoader();
@@ -1690,22 +1661,39 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.studentAddFormData.city_id = this.enquiryData.city_id;
     this.studentAddFormData.area_id = this.enquiryData.area_id;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
-    this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.studentAddFormData.enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.assigned_to_id = this.enquiryData.assigned_to;
+    this.studentAddFormData.student_curr_addr = this.enquiryData.curr_address;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null ||
       this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {
       this.studentAddFormData.dob = '';
     }
-    console.log(this.studentAddFormData);
+    if (this.schoolModel) {
+      this.studentAddFormData.student_perm_addr = this.enquiryData.student_perm_addr;
+      this.studentAddFormData.birth_place = this.enquiryData.birth_place,
+        this.studentAddFormData.blood_group = this.enquiryData.blood_group,
+        this.studentAddFormData.category = this.enquiryData.category,
+        this.studentAddFormData.nationality = this.enquiryData.nationality,
+        this.studentAddFormData.student_adhar_no = this.enquiryData.student_adhar_no,
+        this.studentAddFormData.parent_adhar_no = this.enquiryData.parent_adhar_no,
+        this.studentAddFormData.parent_profession = this.enquiryData.parent_profession,
+        this.studentAddFormData.mother_tounge = this.enquiryData.mother_tounge,
+        this.studentAddFormData.extra_curricular_activities = this.enquiryData.extra_curricular_activities,
+        this.studentAddFormData.educational_group = this.enquiryData.educational_group,
+        this.studentAddFormData.pin_code = this.enquiryData.pin_code,
+        this.studentAddFormData.guardian_name = this.enquiryData.guardian_name,
+        this.studentAddFormData.guardian_email = this.enquiryData.guardian_email,
+        this.studentAddFormData.guardian_phone = this.enquiryData.guardian_phone,
+        this.studentAddFormData.religion = this.enquiryData.religion
+    }
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
   }
 
   fetchEnquiryCustomComponentDetails() {
-    let id = this.institute_enquiry_id;
     this.auth.showLoader();
-    this.studentPrefillService.fetchCustomComponentById(id, undefined, 1).subscribe(
+    this.studentPrefillService.fetchCustomComponentById(this.institute_enquiry_id, undefined, 1).subscribe(
       res => {
         this.auth.hideLoader();
         this.enquiryCustomComp = res;
@@ -1730,7 +1718,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   /* arg1::studentComp arg2:: enquiryComp */
   updateEnquiryComponent(id): any {
     let result: any;
-
     this.enquiryCustomComp.forEach(el => {
       if (el.component_id == id) {
         if (el.type == 4) {
@@ -1838,7 +1825,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
                 this.instituteCountryDetObj = element;
                 this.maxlegth = this.instituteCountryDetObj.country_phone_number_length;
                 this.country_id = element.id;
-                console.log(this.instituteCountryDetObj);
+                return false;
               }
             });
           }
@@ -1899,6 +1886,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.countryDetails.forEach(element => {
       if (element.id == coutry_object.country_id) {
         this.instituteCountryDetObj = element;
+        return false;
       }
     });
   }
@@ -2687,8 +2675,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       this.msgToast.showErrorMessage('success', '', "File deleted successfully");
     }
   }
-  fetchCourseListByStdId(standard_id){
-    if(this.schoolModel){
+  fetchCourseListByStdId(standard_id) {
+    if (this.schoolModel) {
       this.updateMasterCourseList(standard_id);
     }
   }
@@ -2710,4 +2698,4 @@ export class SortPipe {
     });
     return array;
   }
-  }
+}

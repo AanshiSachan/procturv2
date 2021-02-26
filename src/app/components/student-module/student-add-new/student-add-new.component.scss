@@ -2605,7 +2605,7 @@ input[type=number]::-webkit-outer-spin-button {
       margin-right: 15px;
       margin-bottom: 10px;
 
-      div {}
+      //div {}
     }
   }
 }
@@ -3510,9 +3510,6 @@ input, select{
     text-decoration: none; 
   }
 
-  // Style css
-
-  
 *{
     margin: 0px;
   }
@@ -3641,7 +3638,9 @@ input, select{
     text-align: center;
   }
   
+  /* Circles */
   .progressbar li:before {
+   /* counter-increment: step;*/
     width: 20px;
     height: 20px;
     border: 3px solid #B6B5B1;
@@ -3707,9 +3706,9 @@ input, select{
     background-color: #fff;
      padding: 15px 20px; 
      border-radius: 5px;
-     overflow-y: scroll;
-     height:498px;
-  }
+     overflow-y: auto;
+     height: 81vh;
+    }
   .label{
     color: #B6B5B1;
     font-weight: 400;
@@ -3718,6 +3717,7 @@ input, select{
     top: 15px;
     display: block;
   line-height: 1.1;
+  text-align: left;
   }
   .row{
    padding: 5px 0px;
@@ -3746,13 +3746,12 @@ input, select{
       color: rgba(0, 0, 0, 0);
       opacity: 1;
       display: block;
-     // background: url(img/icon.svg) no-repeat;
+  // background: url(img/icon.svg) no-repeat;
       width: 20px;
       height: 20px;
       border-width: thin;
       padding: 2px 0px;
   }
-  //}
   input[type="date"]{
     padding: 6px 4px;
     margin-right: 10px;
@@ -3785,7 +3784,7 @@ input, select{
     text-align: center;
      position: relative;
     top: 30%;
-    left: 2%;
+    left: 5%;
   }
   .step1, .step2, .step3{
     color: #8A7777;
@@ -3815,6 +3814,7 @@ input, select{
   .mt-9{
   margin-top: 9px;
   }
+  /*dropdown for more*/
   
   .dropdown1 {
     position: relative;
@@ -4080,14 +4080,14 @@ input, select{
   }
   .box-shadow-lite{
     box-shadow: 0 1px 2px 0 #ccc;
-      padding: 10px 10px;
+      //padding: 10px 10px;
       border-top: 1px solid #e8e8e8;
   }
   .bg-white1 {
       background-color: #fff;
       padding: 15px 20px;
       border-radius: 5px;
-      /* overflow-y: scroll; */
+      overflow-y: scroll;
        height: 498px; 
   }
   .mt-10{
@@ -4107,25 +4107,26 @@ input, select{
       color: #0084f6;
       cursor: pointer;
   }
-  .sourceI{
-      cursor: pointer;
-      line-height: 20px;
-      position: absolute;
-      right: -3px;
-      bottom: 15px;
+
+  .flex{
+    display: flex;
   }
-  .iconPlus:hover {
-      float: right;
-      width: 24px;
-      font-size: 24px;
-      height: 24px;
-      text-align: center;
-      border-radius: 50%;
-      line-height: 22px;
-      margin-right: 4px;
-      margin-top: 3px;
+.datePickerBox {
+    .form-ctrl {
       cursor: pointer;
-      color: #fff;
-      background-color: #0084f6;
-      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      background: white;
+    }
+
+    &:after {
+      content: '';
+      background: url("../../../../assets/images/calendar.svg") no-repeat;
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      width: 21px;
+      height: 21px;
+      z-index: 0;
+    }
   }

@@ -110,7 +110,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       inst_acad_year_id: '-1',
       guardian_name: '',
       guardian_phone: '',
-      guardian_email: ''
+      guardian_email: '',
+      address: ''
     };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -341,7 +342,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       inst_acad_year_id: '-1',
       guardian_name: '',
       guardian_phone: '',
-      guardian_email: ''
+      guardian_email: '',
+      address: ''
 
     };
 
@@ -937,7 +939,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       enquiry: "",
       follow_type: "call",
       followUpDate: moment().format('YYYY-MM-DD'),
-      religion: null,
+      religion: '',
       link: "",
       slot_id: null,
       closedReason: "",
@@ -950,7 +952,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       walkin_followUpDate: '',
       walkin_followUpTime: '',
       closing_reason_id: '',
-      is_follow_up_time_notification: false
+      is_follow_up_time_notification: false,
+      country_id: this.country_id,
+      state_id: "",
+      city_id: "",
+      area_id: ""
     };
     this.course_standard_id = '-1'
     this.selectedSubjectIds = null;
@@ -966,7 +972,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     });
     this.isEnquirySubmit = true;
     this.fetchCustomComponentData();
-    this.fetchDataForCountryDetails();
+   // this.fetchDataForCountryDetails();
   }
 
 
@@ -1197,6 +1203,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             guardian_name: this.newEnqData.guardian_name,
             guardian_phone: this.newEnqData.guardian_phone,
             guardian_email: this.newEnqData.guardian_email,
+            address: this.newEnqData.address
+
           }
           if (this.convertEnquiry) {
             obj.user_id = this.newEnqData.user_id
@@ -2158,7 +2166,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   }
 
   cancelForm() {
-    this.router.navigate(['/view/leads']);
+    this.router.navigate(['/view/leads/enquiry']);
     sessionStorage.removeItem('enquiryPrefill');
   }
 

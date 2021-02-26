@@ -64,6 +64,7 @@ export interface addEnquiryForm {
 	inst_acad_year_id?: any,
 	guardian_name?:any,
 	guardian_phone?:any,
-	guardian_email?:any
+	guardian_email?:any,
+	address?: any
 
 }

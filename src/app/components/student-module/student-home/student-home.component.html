@@ -155,7 +155,7 @@
                                         (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
                                         [disabled]="advancedFilterForm.master_course_name!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
+                                        <option value="-1">Select Standard</option>
                                         <option [value]="std.standard_id" title="{{std.standard_name}}"
                                             *ngFor="let std of standardList">
                                             {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
@@ -204,7 +204,7 @@
                                     <label for="status">Is Active</label>
                                     <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
                                         class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1">All</option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>

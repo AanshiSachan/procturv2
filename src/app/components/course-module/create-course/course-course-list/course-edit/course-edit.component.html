@@ -133,13 +133,13 @@
                       <thead>
                         <tr class="teacher-list">
                           <th>
-                            Allocate Subject
+                            Select Subject
                           </th>
                           <th>
                             Subject Name
                           </th>
                           <th>
-                            Allocate Faculty
+                            Select Faculty
                           </th>
                           <th>
                           </th>
@@ -156,7 +156,7 @@
                             </div>
                           </td>
                           <td>
-                            {{row.subject_name}}
+                            {{row.is_optional=='Y'?row.subject_name+'(Optional)':row.subject_name}}
                           </td>
                           <td>
                             <div class="field-wrapper">
