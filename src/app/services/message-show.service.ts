@@ -112,7 +112,7 @@ export class MessageShowService {
         }
 
       },
-      success:{
+      success: {
         title: "Password Reset Successfull",
         body: "Kindly check your Mobile/Email Id for further Details!"
       }

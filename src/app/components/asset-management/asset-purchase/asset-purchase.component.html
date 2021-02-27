@@ -1,0 +1,160 @@
+<div class="page-content">
+    <div class="page_heading">
+        <div class="w98">
+            <span> Purchase Asset</span>
+            <span class="right"><button class="btn blue_button" data-toggle="modal" data-target="#modelforpurchase">Add
+                    Add Purchase </button></span>
+        </div>
+    </div>
+    <div class="w98">
+        <div class="padding1">
+            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
+            <span class="right">
+                <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/Group353.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/2.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/document.svg" class="mr10"></a>
+            </span>
+        </div>
+        <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'>
+        </app-basic-table>
+        <div style="padding-top: 9px;">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+            </pagination>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modelforpurchase" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
+                    <h4 class="modal-title">Purchase Asset </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form1" #assePurchaseForm="ngForm" autocomplete="off">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <select class="form-control" name="category_id" id="category_id"
+                                    [(ngModel)]="model.category_id" #category_id="ngModel" selected>
+                                    <option value="-1">Category Name*</option>
+                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
+                                        {{data.category_name}}</option>
+                                </select>
+                                <span class="help-block" *ngIf="category_id.invalid && category_id.touched">Asset ID is
+                                    required</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id">
+                                    <option value="">Asset *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of assetAllData">
+                                        {{data.asset_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <select class="form-control" name="location_name" id="location_name"
+                                    [(ngModel)]="model.location_name">
+                                    <option value="">Location *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of locationAllData">
+                                        {{data.location_name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" name="supplier_id" id="supplier_id"
+                                    [(ngModel)]="model.supplier_id">
+                                    <option value="">Vendor *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of vendorAllData">
+                                        {{data.supplier_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <select class="form-control" name="purchased_by_user_id" id="purchased_by_user_id"
+                                    [(ngModel)]="model.purchased_by_user_id">
+                                    <option value="">Purchased By *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
+                                        {{data.category_name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+
+                                <input type="text" class="form-control" id="inputPassword4" placeholder="Quantity *"
+                                    [(ngModel)]="model.quantity"
+                                    onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <select class="form-control" name="unit" id="unit" [(ngModel)]="model.unit">
+                                    <option value="">Unit *</option>
+                                    <option>Kg</option>
+                                    <option> Piece</option>
+                                    <option>Other</option>
+
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" id="purchase_amount" name="purchase_amount"
+                                    placeholder="Purchase Price *" [(ngModel)]="model.purchase_amount"
+                                    onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">Purchase Date *</label>
+                                <input type="date" name="purchase_date" [(ngModel)]="model.purchase_date"
+                                    class="form-control" placeholder="Purchase Date" id="purchase_date"
+                                    #purchase_date="ngModel" required>
+                                <span class="help-block" *ngIf="purchase_date.invalid && purchase_date.touched">Purchase
+                                    Date required</span>
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">Service Date </label>
+                                <input type="date" name="service_date" [(ngModel)]="model.service_date"
+                                    class="form-control" placeholder="Service Date" id="service_date">
+
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">Expiry Date</label>
+                                <input type="date" name="expiry_date" [(ngModel)]="model.expiry_date"
+                                    class="form-control" placeholder="Expiry Date" id="expiry_date">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">Service Date</label>
+                                <input type="date" name="service_date" [(ngModel)]="model.service_date"
+                                    class="form-control" placeholder="Service Date" id="service_date">
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <span class="right" style="margin-left: 15px;"> <button type="button" class="btns blue_button"
+                            data-dismiss="modal" (click)="cancel(false)">cancel</button></span>
+                    <span class="right"> <button type="submit" class="btns blue_button"
+                            (click)="saveAssetPurchaseDetails(model)" *ngIf="!isedit">Add
+                            Vendor</button></span>
+                    <span class="right"> <button type="submit" class="btns blue_button" *ngIf="isedit"
+                            (click)="updatePurchaseDetails()">Update
+                        </button></span>
+
+                </div>
+            </div>
+
+        </div>
+    </div>

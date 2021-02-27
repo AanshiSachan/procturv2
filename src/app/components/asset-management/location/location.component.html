@@ -1,0 +1,84 @@
+<!---header-->
+<div class="page-content">
+    <div class="page_heading">
+        <div class="w98">
+            <span data-toggle="tooltip" data-placement="right">Location<img
+                    src="assets/images/assets/Group1.svg"></span>
+            <span class="right"><button class="blue_button" data-toggle="modal" data-target="#modelforlocation">Add
+                    Location</button></span>
+        </div>
+    </div>
+    <br>
+    <div>
+        <div class="padding1">
+            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
+            <span class="right">
+                <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/Group353.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/2.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/document.svg" class="mr10"></a>
+            </span>
+        </div>
+        <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
+            (viewView)="viewRow($event)">
+        </app-basic-table>
+        <div style="padding-top: 9px;">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+            </pagination>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modelforlocation" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"
+                            (click)="cancel(false)">&times;</button>
+                        <h4 class="title-model">Add Location</h4>
+                        <form id="form1" #locationaddForm="ngForm" autocomplete="off">
+                            <div ngModelGroup="locationdetails" #Locationdata='ngModelGroup'>
+                                <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
+                                    <input type="text" class="form-control" name="location_name" id="location_name"
+                                        placeholder="Location ID " [(ngModel)]="model.location_name"
+                                        #locationId="ngModel" required>
+                                </div>
+
+                                <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
+                                    <input type="text" class="form-control" name="address" id="address"
+                                        placeholder="Location *" [(ngModel)]="model.address" required>
+                                </div>
+                                <span class="help-block" *ngIf="!Locationdata.valid && Locationdata.touched">
+                                    Location id and location name is Mandatory.
+                                </span>
+                            </div>
+                            <div>
+                                <textarea type="text" class="form-control" name="location_description"
+                                    id="location_description" placeholder="Description"
+                                    [(ngModel)]="model.location_description">
+                            </textarea>
+                            </div>
+                            <div>
+                                <span class="right"> <button type="button" class="btns blue_button" data-dismiss="modal"
+                                        (click)="cancel(false)">cancel</button></span>
+                                <span class="right"> <button type="submit" class="btns blue_button"
+                                        (click)="saveLocationDetails(model)" *ngIf="!isedit">
+                                        Add Location</button></span>
+                                <span class="right"> <button type="submit" class="btns blue_button"
+                                        (click)="updateLocationDetails(model)" *ngIf="isedit">
+                                        Update </button></span>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>

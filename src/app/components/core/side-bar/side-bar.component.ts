@@ -234,24 +234,24 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkInstituteType();
     this.checkManinBranch();
     this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
-    (function(){  
+    (function () {
 
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
 
-    s1.async=true;
+      s1.async = true;
 
-    s1.src='https://embed.tawk.to/5fd31bf7df060f156a8bfc37/1ep9alk8n';
+      s1.src = 'https://embed.tawk.to/5fd31bf7df060f156a8bfc37/1ep9alk8n';
 
-    s1.charset='UTF-8';
+      s1.charset = 'UTF-8';
 
-    s1.setAttribute('crossorigin','*');
+      s1.setAttribute('crossorigin', '*');
 
-    s0.parentNode.insertBefore(s1,s0);
+      s0.parentNode.insertBefore(s1, s0);
 
     })();
-    if(sessionStorage.getItem('userType') == '3') {
+    if (sessionStorage.getItem('userType') == '3') {
       this.facultyAccount = true;
     }
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
@@ -330,8 +330,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.jsonCourseFlags.isShowModel = true;
       if (this.role_feature.STUDY_MATERIAL_MENU) {
         this.jsonCourseFlags.isShowFileManager = true;
-      }    
-// Changes done by Nalini - To handle role based conditions
+      }
+      // Changes done by Nalini - To handle role based conditions
       if (this.role_feature.CLASS_MENU) {
         this.jsonCourseFlags.isShowClass = true;
         this.jsonFlags.isShowCourse = true;
@@ -383,7 +383,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.jsonCommunicateFlags[flag] = true;
       });
     }
-    if(this.userType == 3) {
+    if (this.userType == 3) {
       this.jsonCommunicateFlags.communicateMenu = false;
     }
   }
@@ -402,8 +402,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.jsonFeesFlags.isProfitnloss = true;
         let array = Object.keys(this.jsonFeesFlags);
         array.forEach((flag) => {
-        this.jsonFeesFlags[flag] = true;
-      });
+          this.jsonFeesFlags[flag] = true;
+        });
       }
     }
     if (sessionStorage.getItem('permissions')) {
@@ -444,7 +444,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
         return true;
-      } else if(this.role_feature.MY_ACCOUNTS_MENU) {
+      } else if (this.role_feature.MY_ACCOUNTS_MENU) {
         return true;
       }
     }
@@ -478,7 +478,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     } else {
       if (permissionArray != undefined) {
         this.setNativeElementValue(['divMasterTag'], 'none');
-        if(this.role_feature.SETTINGS_MENU) {
+        if (this.role_feature.SETTINGS_MENU) {
           this.showSMSSetting = true;
         }
         this.showManageRole = this.role_feature.USERS_MENU;
@@ -582,9 +582,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       'online-exam': 'linine',
       'expense': 'liten',
       'website-configuration': 'liwebsiteConf',
-      'dashboard':'litwelve',
-      'online-assignment':'lithirteen',
-      'contentlibrary':'liforteen'
+      'dashboard': 'litwelve',
+      'online-assignment': 'lithirteen',
+      'contentlibrary': 'liforteen'
     };
     if (document.getElementById(routesData[pathLastURL])) {
       this.activeSession = routesData[pathLastURL];
@@ -860,9 +860,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   isElearnAllow(permissions) {
     // this senction is used for enable elearn feature
     let array = Object.keys(this.jsonEstoreFlags);
-        array.forEach((flag) => {
-          this.jsonEstoreFlags[flag] = false;
-        });
+    array.forEach((flag) => {
+      this.jsonEstoreFlags[flag] = false;
+    });
     if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
       if (sessionStorage.getItem('userType') != '0' || sessionStorage.getItem('username') != 'admin') {
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
@@ -886,7 +886,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   isOnlineExamAllow(type) {
     if (this.jsonFlags.isAdmin) {// if user is admin
       this.jsonFlags.isShoweOnlineExam = this.checkInstSetupType(type, 4);
-    } else if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+    } else if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
       this.jsonFlags.isShoweOnlineExam = this.role_feature.ONLINE_TESTS_MENU;
     }
   }
@@ -1346,16 +1346,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('tax_type_with_percentage', res.tax_type + "(%)");
     sessionStorage.setItem('enable_elearn_course_mapping_feature', res.enable_elearn_course_mapping_feature);
     //Storing the session value 
-      // Added by Nalini
-      sessionStorage.setItem('login_option', res.login_option);
-      sessionStorage.setItem('payment_amount', res.payment_amount);
-      sessionStorage.setItem('payment_due_date', res.payment_due_date);
-      sessionStorage.setItem('enable_online_assignment_feature', res.enable_online_assignment_feature);
-      sessionStorage.setItem('teacherIDs', res.teacherId);
-      sessionStorage.setItem('enable_library_feature', res.enable_library_feature);
-      sessionStorage.setItem('enable_vdoCipher_feature', res.enable_vdoCipher_feature);
-      sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
-      sessionStorage.setItem('enable_client_website', res.enable_client_website);
+    // Added by Nalini
+    sessionStorage.setItem('login_option', res.login_option);
+    sessionStorage.setItem('payment_amount', res.payment_amount);
+    sessionStorage.setItem('payment_due_date', res.payment_due_date);
+    sessionStorage.setItem('enable_online_assignment_feature', res.enable_online_assignment_feature);
+    sessionStorage.setItem('teacherIDs', res.teacherId);
+    sessionStorage.setItem('enable_library_feature', res.enable_library_feature);
+    sessionStorage.setItem('enable_vdoCipher_feature', res.enable_vdoCipher_feature);
+    sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
+    sessionStorage.setItem('enable_client_website', res.enable_client_website);
 
   }
 
@@ -1447,12 +1447,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   getSearchObject(e): any {
     let obj = this.globalSearchForm;
-    if(/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(e)) {
+    if (/^[\s()+-]*([0-9][\s()+-]*){0,20}$/.test(e)) {
       /* Nmber detected */
       this.globalSearchForm.phone = e;
       this.globalSearchForm.name = '';
       return this.globalSearchForm;
-    }else if (isNaN(e)) {
+    } else if (isNaN(e)) {
       /* Name detected */
       this.globalSearchForm.name = e;
       this.globalSearchForm.phone = '';

@@ -1,0 +1,266 @@
+*{
+    margin: 0px;
+  }
+  body{
+    font-family: 'Open Sans', sans-serif;
+  }
+  .flex{
+    display: flex;
+  }
+  .blue_button {
+    background-color: #109CF1;
+    color: white;
+    padding: 9px 20px;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    height: 35px;
+  }
+   .select{
+    padding: 7px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 13px;
+    font-weight: 500;
+    color: #787A7D;
+    margin-left: 24px;
+  }
+  select{
+    width: 330px;
+    height: 35px;
+    left: 30px;
+    top: 63px;
+    margin-left: 24px;
+    background: #FFFFFF;
+    border: 1px solid #D5D0D0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-top:10px;
+  }
+  .input{
+    padding: 7px 20px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-weight: 500;
+    vertical-align: top;
+    margin-left: 24px;
+    }
+  
+   input:focus, select:focus,button:focus{
+       outline: none;
+   }
+    .page_heading{
+      padding:10px 0px 20px 0px;
+      box-shadow: 0px 7px 7px -4px rgba(0,0,0,0.11);
+      -webkit-box-shadow: 0px 7px 7px -4px rgba(0,0,0,0.11);
+      -moz-box-shadow: 0px 7px 7px -4px rgba(0,0,0,0.11);
+    }
+   .page_heading>span{
+    font-size: 16px;
+    font-weight: 500;
+    color: #334D6E;
+   }
+   .page_heading>span>img{
+    height: auto;
+    width: 20px;
+    padding-left: 5px;
+   }
+   .w98{
+    width: 98%;
+    margin: 0px auto;
+   }
+   .w99{
+   
+    width: 1214px;
+    height: 1px;
+    left: 226px;
+    top: 164px;
+    
+    background: #EEF1F4;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+   }
+   .right{
+    float: right;
+   }
+   .mr10{
+    margin-right: 10px;
+   }
+   .glass{
+      background-image: url('/assets/images/assets/Vector.svg');
+      background-repeat: no-repeat;
+      background-position:left center;
+   }
+   .padding1{
+    padding: 10px 0px;
+   }
+    
+  .pl10{
+    padding-left: 10px;
+  }
+  .active{
+    text-decoration: underline;
+    border:solid 2px blue;
+    font-size:20px;
+    color:#109CF1;
+  }
+
+  .modal {
+    // float: left;
+    left: 30%;
+    top: 20%;
+    //transform: translate(-50%, -50%);
+    height: auto;
+  }
+  
+.has-error .control-label{
+  color: black;
+}
+.help-block{
+  color: red;
+  margin-bottom: 0%;
+  text-align: center;
+}
+
+.toggle{
+  position: relative;
+  right: 15px;
+  top: 10px;
+}
+.asset-title{
+  width: 127px;
+height: 27px;
+left: 260px;
+top: 82px;
+
+font-family: Poppins;
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0.01em;
+
+color: #334D6E;
+margin-bottom:30px;
+
+}
+.tab1{
+  height: 18px;
+left: 260px;
+top: 129px;
+
+font-family: Open Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+
+letter-spacing: 0.01em;
+
+color: #109CF1;
+margin-right: 10px;
+}
+.tab2{
+  width: 34px;
+height: 18px;
+left: 402px;
+top: 129px;
+
+font-family: Open Sans;
+font-style: normal;
+font-weight: normal;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+
+letter-spacing: 0.01em;
+
+color: #334D6E;
+}
+
+
+input{
+  width: 330px;
+  height: 35px;
+  left: 30px;
+  top: 63px;
+  margin-left: 24px;
+  background: #FFFFFF;
+  border: 1px solid #D5D0D0;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-top:10px;
+    }
+.btns{
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.blue_button {
+  background-color: #109CF1;
+  color: white;
+  padding: 9px 20px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  height: 35px;
+}
+.title-model{
+  
+height: 18px;
+left: 41px;
+top: 30px;
+
+font-family: Open Sans;
+font-style: normal;
+font-weight: 600;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+
+letter-spacing: 0.01em;
+
+color: #444141;
+
+}
+.modal-content{
+  position: relative;
+  width: 397px;
+  height: 230px;
+  
+  background: #FFFFFF;
+  border-radius: 8px;
+    }
+  //css for assets
+  .modal-bodyAseet{
+    height:400px;
+    position: relative;
+    width: 400px;
+   background: #FFFFFF;
+   border-radius: 8px;
+  }
+  .models{
+    
+    width: 86px;
+    height: 18px;
+    left: 41px;
+    top: 30px;
+    
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+    
+    letter-spacing: 0.01em;
+    
+    color: #444141;
+    
+  }

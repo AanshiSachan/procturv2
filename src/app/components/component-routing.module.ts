@@ -4,7 +4,7 @@ import { ComponentsComponent } from './components.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { TrainingVideoComponent } from './training-video/training-video.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import{ReportsComponent} from './reports/reports.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
     imports: [
@@ -25,12 +25,12 @@ import{ReportsComponent} from './reports/reports.component';
                         },
                         {
                             path: 'home',
-                            component:HomePageComponent
+                            component: HomePageComponent
                         },
                         {
                             path: 'dashboard',
-                            
-                             loadChildren: () => import('app/components/homepage-dashboard/homepage-dashboard.module').then(m => m.HomepageDashboardModule)
+
+                            loadChildren: () => import('app/components/homepage-dashboard/homepage-dashboard.module').then(m => m.HomepageDashboardModule)
                             // loadChildren: 'app/components/homepage-dashboard/homepage-dashboard.module#HomepageDashboardModule'
                         },
                         {
@@ -79,25 +79,25 @@ import{ReportsComponent} from './reports/reports.component';
                             loadChildren: () => import('app/components/expense-management/expense-management.module').then(m => m.ExpenseManagementModule),
                             // loadChildren: 'app/components/expense-management/expense-management.module#ExpenseManagementModule',
                             canLoad: [AuthGuard]
-                        }, 
-                       {
-                            path:'fee',
+                        },
+                        {
+                            path: 'fee',
                             loadChildren: () => import('app/components/fee-module/fee.module').then(m => m.FeeModule),
                             // loadChildren:'app/components/fee-module/fee.module#FeeModule',
                             canLoad: [AuthGuard]
                         },
                         {
-                            path:'communicate',
+                            path: 'communicate',
                             loadChildren: () => import('app/components/communicate/communicate.module').then(m => m.CommunicateModule)
                             // loadChildren:'app/components/communicate/communicate.module#CommunicateModule',
                         },
                         {
-                            path:'course',
+                            path: 'course',
                             loadChildren: () => import('app/components/course-module/course-module.module').then(m => m.CourseModule2)
                             // loadChildren:'app/components/course-module/course-module.module#CourseModule2',
                         },
                         {
-                            path:'batch',
+                            path: 'batch',
                             loadChildren: () => import('app/components/course-module/course-module.module').then(m => m.CourseModule2)
                             // loadChildren:'app/components/course-module/course-module.module#CourseModule2',
                         },
@@ -151,10 +151,10 @@ import{ReportsComponent} from './reports/reports.component';
                             // loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
                         },
                         {
-                            path:'students',
+                            path: 'students',
                             loadChildren: () => import('app/components/student-module/student-module.module').then(m => m.StudentModule2),
                             // loadChildren:'app/components/student-module/student-module.module#StudentModule2',
-                            canLoad:[AuthGuard]
+                            canLoad: [AuthGuard]
                         },
                         {
                             path: 'website-configuration',
@@ -163,8 +163,12 @@ import{ReportsComponent} from './reports/reports.component';
                             pathMatch: 'prefix'
                         },
                         {
-                         path: 'reports',
-                         loadChildren: () => import('../components/reports/reports.module').then(m => m.ReportsModule)
+                            path: 'reports',
+                            loadChildren: () => import('../components/reports/reports.module').then(m => m.ReportsModule)
+                        },
+                        {
+                            path: 'asset-management',
+                            loadChildren: () => import('../components/asset-management/asset-management.module').then(m => m.AssetManagementModule)
                         }
                     ]
                 },

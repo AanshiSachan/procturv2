@@ -20,10 +20,12 @@
       <li id="payer" [ngClass]="{'active': selectedSection == 'payer'}" (click)="switchActiveView('payer')" class="">
         <span>Manage Payer</span>
       </li>
-      <li id="account" [ngClass]="{'active': selectedSection == 'account'}" (click)="switchActiveView('account')" class="">
+      <li id="account" [ngClass]="{'active': selectedSection == 'account'}" (click)="switchActiveView('account')"
+        class="">
         <span>Manage Account</span>
       </li>
-      <li id="account" [ngClass]="{'active': selectedSection == 'category'}" (click)="switchActiveView('category')" class="">
+      <li id="account" [ngClass]="{'active': selectedSection == 'category'}" (click)="switchActiveView('category')"
+        class="">
         <span>Manage Category</span>
       </li>
     </ul>
@@ -50,16 +52,16 @@
     <div class="table-value-outer-container" *ngIf="selectedSection == 'account'">
       <div class="table-value-container" *ngFor="let detail of tableValueData">
         <div class="table-value-item">
-          <span
-            title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ? (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
+          <span title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ?
+            (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
         </div>
         <div class="table-value-item">
-          <span
-            title="{{detail?.notes}}">{{ (!detail.notes) ? '-' : (detail.notes.length > 20) ? (detail.notes | slice:0:20) + '...' : detail.notes}}</span>
+          <span title="{{detail?.notes}}">{{ (!detail.notes) ? '-' : (detail.notes.length > 20) ? (detail.notes |
+            slice:0:20) + '...' : detail.notes}}</span>
         </div>
         <div class="table-value-item">
-          <span
-            title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ? (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
+          <span title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ?
+            (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
         </div>
         <div class="table-value-item">
           <i class="fa fa-pencil" aria-hidden="true" title="Edit Account" (click)="editAccount(detail.account_id)"></i>
@@ -70,15 +72,16 @@
     <div class="table-value-outer-container" *ngIf="selectedSection == 'category'">
       <div class="table-value-container" *ngFor="let detail of tableValueData">
         <div class="table-value-item">
-          <span
-            title="{{detail?.category_name}}">{{ (!detail.category_name) ? '-' : (detail.category_name.length > 20) ? (detail.category_name | slice:0:20) + '...' : detail.category_name}}</span>
+          <span title="{{detail?.category_name}}">{{ (!detail.category_name) ? '-' : (detail.category_name.length > 20)
+            ? (detail.category_name | slice:0:20) + '...' : detail.category_name}}</span>
         </div>
         <div class="table-value-item">
-          <span
-            title="{{detail?.category_desc}}">{{ (!detail.category_desc) ? '-' : (detail.category_desc.length > 20) ? (detail.category_desc | slice:0:20) + '...' : detail.category_desc}}</span>
+          <span title="{{detail?.category_desc}}">{{ (!detail.category_desc) ? '-' : (detail.category_desc.length > 20)
+            ? (detail.category_desc | slice:0:20) + '...' : detail.category_desc}}</span>
         </div>
         <div class="table-value-item">
-          <span>{{ (detail.expense_category_type == 2) ? 'Expense' : (detail.expense_category_type == 3) ? 'Income' : ''}}</span>
+          <span>{{ (detail.expense_category_type == 2) ? 'Expense' : (detail.expense_category_type == 3) ? 'Income' :
+            ''}}</span>
         </div>
         <div class="table-value-item">
           <i class="fa fa-pencil" aria-hidden="true" title="Edit Account" (click)="editCategoryFun(detail)"></i>
@@ -89,24 +92,25 @@
     <div class="table-value-outer-container" *ngIf="selectedSection == 'payee' || selectedSection == 'payer'">
       <div class="table-value-container" *ngFor="let detail of tableValueData">
         <div class="table-value-item">
-          <span
-            title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ? (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
+          <span title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ?
+            (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
         </div>
         <div class="table-value-item">
-          <span
-            title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ? (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
+          <span title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ?
+            (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
         </div>
         <div class="table-value-item">
-          <span
-            title="{{detail?.company_name}}">{{ (!detail.company_name) ? '-' : (detail.company_name.length > 20) ? (detail.company_name | slice:0:20) + '...' : detail.company_name}}</span>
+          <span title="{{detail?.company_name}}">{{ (!detail.company_name) ? '-' : (detail.company_name.length > 20) ?
+            (detail.company_name | slice:0:20) + '...' : detail.company_name}}</span>
         </div>
         <div class="table-value-item">
-          <span
-            title="{{detail?.primary_mobile_no}}">{{ (!detail.primary_mobile_no) ? '-' : (detail.primary_mobile_no.length > 20) ? (detail.primary_mobile_no | slice:0:20) + '...' : detail.primary_mobile_no}}</span>
+          <span title="{{detail?.primary_mobile_no}}">{{ (!detail.primary_mobile_no) ? '-' :
+            (detail.primary_mobile_no.length > 20) ? (detail.primary_mobile_no | slice:0:20) + '...' :
+            detail.primary_mobile_no}}</span>
         </div>
         <div class="table-value-item">
-          <span
-            title="{{detail?.email_id}}">{{ (!detail.email_id) ? '-' : (detail.email_id.length > 20) ? (detail.email_id | slice:0:20) + '...' : detail.email_id}}</span>
+          <span title="{{detail?.email_id}}">{{ (!detail.email_id) ? '-' : (detail.email_id.length > 20) ?
+            (detail.email_id | slice:0:20) + '...' : detail.email_id}}</span>
         </div>
         <div class="table-value-item">
           <i class="fa fa-pencil" aria-hidden="true" title="Edit" *ngIf="selectedSection == 'payee'"

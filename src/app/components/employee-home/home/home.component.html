@@ -7,13 +7,14 @@
                 <h1>Employee List</h1>
             </div>
             <div class="pull-right" style="margin-right: 5px">
-                <p-splitButton *ngIf="selectedEmployeeID.length > 0" class="spiltButton-label" label="{{selectedEmployeeID.length}} Employee"
-                    [model]="bulkActionItems"></p-splitButton>
+                <p-splitButton *ngIf="selectedEmployeeID.length > 0" class="spiltButton-label"
+                    label="{{selectedEmployeeID.length}} Employee" [model]="bulkActionItems"></p-splitButton>
                 <li class="headerBtn" routerLink='../addedit'>
                     <i>
-                        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-                            focusable="false">
-                            <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
+                        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0"
+                            preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false">
+                            <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor">
+                            </path>
                         </svg>
                     </i>
                     <p>
@@ -28,7 +29,8 @@
             <section class="search-section row" style="margin-bottom: 10px;">
                 <div class="c-sm-6 c-md-6 c-lg-6">
                     <div class="search-filter-wrapper">
-                        <input id="txtSearchInput" type="text" class="normal-field" [(ngModel)]="searchTextEntered" placeholder="Search by name and contact number">
+                        <input id="txtSearchInput" type="text" class="normal-field" [(ngModel)]="searchTextEntered"
+                            placeholder="Search by name and contact number">
                     </div>
                     <button class="btn fullBlue" (click)="onViewBtnClick()">View</button>
                 </div>
@@ -42,7 +44,8 @@
                             <tr>
                                 <th>
                                     <div class="field-checkbox-wrapper">
-                                        <input type="checkbox" [checked]="(selectedEmployeeID.length == employeeListDataSource.length) && (employeeListDataSource.length != '0')"
+                                        <input type="checkbox"
+                                            [checked]="(selectedEmployeeID.length == employeeListDataSource.length) && (employeeListDataSource.length != '0')"
                                             class="form-checkbox" (click)="onCheckoxSelction($event)">
                                         <label></label>
                                     </div>
@@ -65,10 +68,12 @@
                             </tr>
                         </thead>
                         <tbody *ngIf="employeeList.length != 0 && dataStatus ===2 ">
-                            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of employeeList; let i = index; trackBy: i;">
+                            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow"
+                                *ngFor="let row of employeeList; let i = index; trackBy: i;">
                                 <td>
                                     <div class="field-checkbox-wrapper">
-                                        <input type="checkbox" class="form-checkbox" [(ngModel)]="row.selected" (ngModelChange)="onRowCheckBoxSelect(row)">
+                                        <input type="checkbox" class="form-checkbox" [(ngModel)]="row.selected"
+                                            (ngModelChange)="onRowCheckBoxSelect(row)">
                                         <label></label>
                                     </div>
                                 </td>
@@ -117,8 +122,9 @@
                 <!-- Paginator Here -->
                 <div class="filter-res">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                            [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+                        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+                            (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex"
+                            [perPage]="displayBatchSize" [count]="totalRow">
                         </pagination>
                     </div>
                 </div>
@@ -133,7 +139,8 @@
     </aside>
 
     <aside #sideNav class="hide side-Nav">
-        <app-employee-sidenav [employeeData]="selectedEmpData" (closeAside)="closeSideNav($event)"></app-employee-sidenav>
+        <app-employee-sidenav [employeeData]="selectedEmpData" (closeAside)="closeSideNav($event)">
+        </app-employee-sidenav>
     </aside>
 
 </div>
@@ -144,11 +151,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
             <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                 <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                        transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                        transform="translate(978.81 305.77) rotate(45)" />
                 </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16"
+                    height="16" transform="translate(1012 297)" />
             </g>
         </svg>
     </span>
@@ -171,7 +180,8 @@
             <div class="row">
                 <div class="c-sm-4 c-md-4 c-lg-4">
                     <div class="field-wrapper">
-                        <textarea class="form-ctrl textBox" value="" [(ngModel)]="addNewMessageText" placeholder="Message/SMS"></textarea>
+                        <textarea class="form-ctrl textBox" value="" [(ngModel)]="addNewMessageText"
+                            placeholder="Message/SMS"></textarea>
                         <p>Total Character Count : {{addNewMessageText.length}}</p>
                     </div>
                 </div>
@@ -213,7 +223,8 @@
                     <tr *ngFor="let data of approvedMessageList">
                         <td>
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.selected" (ngModelChange)="onMessageCheckBox(data)">
+                                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.selected"
+                                    (ngModelChange)="onMessageCheckBox(data)">
                                 <label></label>
                             </div>
                         </td>
@@ -257,8 +268,10 @@
 
                         <td>
                             <div *ngIf="data.statusValue == 'Open' && isAdminRole && messageApproval == '1'">
-                                <i class="fas fa-check" (click)="approveRejectSms(data)" title="Approve" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
-                                <i class="fa fa-times" (click)="deleteSms(data)" title="Reject" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
+                                <i class="fas fa-check" (click)="approveRejectSms(data)" title="Approve"
+                                    style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                                <i class="fa fa-times" (click)="deleteSms(data)" title="Reject"
+                                    style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                                 <!-- <i class="edit-icon" aria-hidden="true" (click)="editMessage(i)" title="Edit"></i> -->
                             </div>
                         </td>

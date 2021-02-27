@@ -1,0 +1,114 @@
+<div class="page-content">
+    <div class="page_heading">
+        <div class="w98">
+            <span>Vendor</span>
+            <span class="right"><button class="blue_button" data-toggle="modal" data-target="#modelforvendor"
+                    (click)="cancel(false)">Add
+                    Vendor</button></span>
+        </div>
+    </div>
+    <div class="w98">
+        <div class="padding1">
+            <input type="text" name="" class="input glass" placeholder="search">
+            <span class="right">
+                <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/Group353.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/2.svg" class="mr10"></a>
+                <a href=""><img src="assets/images/assets/document.svg" class="mr10"></a>
+            </span>
+        </div>
+        <app-basic-table [headers]="headerSetting" [displayData]="staticPageDataSouece" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
+            (viewView)="viewRow($event)">
+        </app-basic-table>
+        <div style="padding-top: 9px;">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+            </pagination>
+        </div>
+        <!--model for-vendor-->
+        <div class="modal fade" id="modelforvendor" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"
+                            (click)="cancel(false)">&times;</button>
+                        <h4 class="title-model">Add Vendor</h4>
+                        <form id="form1" #addVendorForm="ngForm" autocomplete="off">
+                            <div ngModelGroup="locationdetails" #Locationdata='ngModelGroup'>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="location_name" id="supplier_name"
+                                        placeholder="Supplier Name* " [(ngModel)]="model.supplier_name"
+                                        #supplier_name="ngModel" required>
+                                </div>
+                                <div class="form-group" [class.has-error]="email_id.invalid && email_id.touched">
+                                    <input type="text" class="form-control" name="email_id" id="email_id"
+                                        placeholder="Email Id * " [(ngModel)]="model.email_id" #email_id="ngModel"
+                                        required>
+                                </div>
+                                <span class="help-block" *ngIf="!Locationdata.valid && Locationdata.touched">
+                                    supplier Name and Email Id is Mandatory.
+                                </span>
+                            </div>
+                            <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
+                                <input type="text" class="form-control" name="mobile_no" id="mobile_no"
+                                    placeholder=" Contact Number * " [(ngModel)]="model.mobile_no" #mobile_no="ngModel"
+                                    required onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
+                                <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
+                                    Only Enter Numbers
+                                </span>
+                            </div>
+                            <div>
+                                <textarea type="text" class="form-control" name="address" id="address"
+                                    placeholder="Address *" [(ngModel)]="model.address" required>
+                        </textarea>
+
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="contact_person_name"
+                                    id="contact_person_name" placeholder="Contact Person * "
+                                    [(ngModel)]="model.contact_person_name" #contact_person_name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="category_id" id="category_id"
+                                    [(ngModel)]="selectedCatId" (ngModelChange)="getAssets($event)">
+                                    <option value="">Category Name*</option>
+                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
+                                        {{data.category_name}}</option>
+                                </select>
+                                <h1>{{selectedvalue}}</h1>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" id="exampleFormControlSelect1"
+                                    [(ngModel)]="model.asset_ids" multiple size="4">
+                                    <option value="">Asset Provided</option>
+                                    <optgroup label="Swedish Cars">
+                                        <option value="{{data.asset_ids}}" *ngFor="let data of assetAllData">
+                                            {{data.asset_name}}
+                                        </option>
+                                    </optgroup>
+
+                                </select>
+                            </div>
+
+                        </form>
+                        <div>
+                            <span class="right"> <button type="button" class="btns blue_button" data-dismiss="modal"
+                                    (click)="cancel(false)">cancel</button></span>
+                            <span class="right"> <button type="submit" class="btns blue_button"
+                                    (click)="saveVendorDetails(model)">
+                                    Add Vendor</button></span>
+                            <span class="right"> <button type="submit" class="btns blue_button"
+                                    (click)="updateVendorDetails(model)">
+                                    Update </button></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>

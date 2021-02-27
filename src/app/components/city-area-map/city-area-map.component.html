@@ -84,7 +84,8 @@
           <select class="form-ctrl" name="" [(ngModel)]="filter.country_ids" (ngModelChange)="getStateList()">
             <option value="-1">Select Country</option>
             <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">
-              {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
+              {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name
+              }}
             </option>
           </select>
         </div>
@@ -150,16 +151,16 @@
         <div class="table-value-outer-container">
           <div class="table-value-container" *ngFor="let record of countryStateAreaList">
             <div class="table-value-item small">
-              <span
-                title="{{record?.state_name}}">{{ (!record.state_name) ? '-' : (record.state_name.length > 20) ? (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
+              <span title="{{record?.state_name}}">{{ (!record.state_name) ? '-' : (record.state_name.length > 20) ?
+                (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
             </div>
             <div class="table-value-item small">
-              <span
-                title="{{record?.city}}">{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
+              <span title="{{record?.city}}">{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city |
+                slice:0:20) + '...' : record.city}}</span>
             </div>
             <div class="table-value-item large">
-              <span
-                title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 50) ? (record.area | slice:0:50) + '...' : record.area }}</span>
+              <span title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 50) ? (record.area |
+                slice:0:50) + '...' : record.area }}</span>
             </div>
             <div class="table-value-item align-center medium">
               <span *ngIf="record?.is_active == 'Y'">Active</span>
