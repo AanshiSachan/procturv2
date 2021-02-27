@@ -943,7 +943,7 @@ export class ExamComponent implements OnInit {
 
   redirect() {
     this.storeSession();
-    this.router.navigate(['/view/course/create/exam']);
+    this.schoolModel ? this.router.navigate(['/view/exams/schedule']) : this.router.navigate(['/view/course/create/exam']);
   }
 
 

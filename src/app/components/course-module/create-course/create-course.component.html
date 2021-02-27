@@ -28,7 +28,7 @@
                     <a routerLink="/view/course/create/class" *ngIf="(isLangInstitue)">Class</a>
                     <a routerLink="/view/course/create/class" *ngIf="(!isLangInstitue)">Class Scheduling</a>
                 </li>
-                <li id="liExam" #liExam *ngIf="jsonFlags.examMenu" (click)="switchActiveView('liExam')" class="">
+                <li id="liExam" #liExam *ngIf="jsonFlags.examMenu && !schoolModel" (click)="switchActiveView('liExam')" class="">
                     <a routerLink="/view/course/create/exam" *ngIf="(!isLangInstitue)">Exam</a>
                     <a routerLink="/view/course/create/exam" *ngIf="(isLangInstitue)">Exam</a>
                 </li>
