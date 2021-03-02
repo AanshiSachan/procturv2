@@ -124,7 +124,7 @@
               <div class="sub-item-1">
                 <div style="width: 58%;" class="session_name_and_id_container">
                   <div class="session_name" title="{{class.session_name}}">
-                    <span style="color: #109CF1;">{{ (class.session_name?.length>15) ? (class.session_name | slice:0:15
+                    <span style="color: #109CF1;">{{ (class.session_name?.length>20) ? (class.session_name | slice:0:20
                       ) + '...' :
                       (class.session_name) }}</span>
                   </div>
@@ -1308,13 +1308,14 @@
           </div>
           <div class="div-border-left"></div>
           <div class="section2">
-            <p class="name mb-0">{{schoolModel ? 'Section' : 'Course'}}</p>
+            <p class="name mb-0" *ngIf="!isProfessional">{{schoolModel ? 'Section' : 'Course'}}</p>
+            <p class="name mb-0" *ngIf="isProfessional">Batch</p>
             <p class="value mb-0" title="{{viewClassData.course}}">{{(viewClassData.course?.length>40) ?
               (viewClassData.course | slice:0:40 ) + '...' :(viewClassData.course) }}</p>
           </div>
         </div>
         <div class="flex">
-          <div class="section1">
+          <div class="section1" *ngIf="!isProfessional">
             <p class="name mb-0">{{schoolModel ? 'Standard' : 'Master Course'}}</p>
             <p class="value mb-0" title="{{viewClassData.master_course}}">{{(viewClassData.master_course?.length>40) ?
               (viewClassData.master_course | slice:0:40 ) + '...' : (viewClassData.master_course) }}</p>
