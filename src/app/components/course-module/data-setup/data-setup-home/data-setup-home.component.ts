@@ -10,11 +10,17 @@ export class DataSetupHomeComponent implements OnInit {
   type: string = '';
   schoolModel:boolean =true;
   activeSession: any = 'faculty';
+  checkClassStatus: any = '';
   
   constructor( private auth: AuthenticatorService) { 
-    this.auth.schoolModel.subscribe((data) => {
-      this.schoolModel = data = 'true' ? true : false;
-    });
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
   ngOnInit() {
@@ -27,6 +33,7 @@ export class DataSetupHomeComponent implements OnInit {
         }
       }
     )
+    this.checkClassStatus = sessionStorage.getItem('class');
     this.setActiveClass();
   }
 
@@ -38,7 +45,8 @@ export class DataSetupHomeComponent implements OnInit {
     // this.RemoveActiveTabs();
     let pathLastURL;
     var str = window.location.href;
-    var res = str.substring(str.lastIndexOf("/view/course/setup") + 19, str.length);
+    var res = (this.checkClassStatus == 'exam') ? (str.substring(str.lastIndexOf("/view/course/exam-setup") + 24, str.length)) : (str.substring(str.lastIndexOf("/view/course/setup") + 19, str.length));
+    console.log(res);
     pathLastURL = res;
     var get_module_name = res.substring(0, res.indexOf("/"));
     if (get_module_name != '') {

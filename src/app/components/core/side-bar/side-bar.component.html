@@ -524,7 +524,7 @@
                     </a> -->
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" *ngIf="schoolModel" (click)="toggler('liExam')" >
+            <li [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" (click)="toggler('liExam')" >
                 <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidemenuicon/classesIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                     
@@ -533,12 +533,12 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:25%;">
-                   <a (click)="setSetupSession('exam')" routerLink="/view/course/exam-setup/exam-type">
+                   <a (click)="setSetupSession('exam')" routerLink="/view/course/exam-setup/manage-exam-grades">
                         <li class="subMenu">
                             <span>Setup</span>
                         </li>
                     </a>
-                    <a routerLink="/view/exams/schedule">
+                    <a routerLink="{{schoolModel ? '/view/exams/schedule' : '/view/course/coursePlanner/exam'}}">
                         <li class="subMenu">
                             <span>Schedule</span>
                         </li>
@@ -551,6 +551,11 @@
                     <a routerLink="/view/course/setup/exam-type">
                         <li class="subMenu">
                             <span>Marks</span>
+                        </li>
+                    </a>
+                    <a *ngIf="!schoolModel" routerLink="/view/course/reports/exam-dashboard">
+                        <li class="subMenu">
+                            <span>Exam Dashboard</span>
                         </li>
                     </a>
                 </ul>
@@ -686,7 +691,7 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:45%;">
-                    <a routerLink="/view/course/setup/teacher/list">
+                    <a (click)="setSetupSession('class')" routerLink="/view/course/setup/teacher/list">
                         <li class="subMenu">
                             <span>Manage</span>
                         </li>
