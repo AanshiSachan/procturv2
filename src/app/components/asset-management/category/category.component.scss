@@ -132,55 +132,57 @@
   top: 10px;
 }
 .asset-title{
+ 
   width: 127px;
-height: 27px;
-left: 260px;
-top: 82px;
-
-font-family: Poppins;
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-line-height: 24px;
-letter-spacing: 0.01em;
-
-color: #334D6E;
-margin-bottom:30px;
+  height: 27px;
+  left: 260px;
+  top: 82px;
+  
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  
+  color: #334D6E;
+  
 
 }
 .tab1{
+  width: 99px;
   height: 18px;
-left: 260px;
-top: 129px;
-
-font-family: Open Sans;
-font-style: normal;
-font-weight: bold;
-font-size: 13px;
-line-height: 18px;
-/* identical to box height */
-
-letter-spacing: 0.01em;
-
-color: #109CF1;
-margin-right: 10px;
+  left: 260px;
+  margin-top: 20px;
+  
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 18px;
+  /* identical to box height */
+  
+  letter-spacing: 0.01em;
+  
+  color: #109CF1;
+  
 }
 .tab2{
   width: 34px;
-height: 18px;
-left: 402px;
-top: 129px;
-
-font-family: Open Sans;
-font-style: normal;
-font-weight: normal;
-font-size: 13px;
-line-height: 18px;
-/* identical to box height */
-
-letter-spacing: 0.01em;
-
-color: #334D6E;
+  height: 18px;
+  left: 402px;
+  top: 129px;
+  margin-left: 43px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  /* identical to box height */
+  
+  letter-spacing: 0.01em;
+  
+  color: #334D6E;
 }
 
 
@@ -245,6 +247,26 @@ color: #444141;
    background: #FFFFFF;
    border-radius: 8px;
   }
+  .blue_button{
+    left: 87.57%;
+right: 3.54%;
+top: 14.47%;
+bottom: 83.41%;
+
+font-family: Open Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+
+text-align: center;
+letter-spacing: 0.01em;
+
+/* white */
+
+color: #FFFFFF;
+  }
   .models{
     
     width: 86px;
@@ -263,4 +285,15 @@ color: #444141;
     
     color: #444141;
     
+  }
+  .input{
+width: 260px;
+height: 35px;
+left: 260px;
+top: 186px;
+
+background: #FFFFFF;
+border: 1px solid #E3DADB;
+box-sizing: border-box;
+border-radius: 5px;
   }

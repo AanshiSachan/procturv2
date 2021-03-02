@@ -241,32 +241,17 @@ export class SupplierMasterComponent implements OnInit {
 
   getAssets(object) {
     console.log(object)
-    this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
-      (res: any) => {
-        //this.auth.hideLoader();
-
-        this.assetAllData = res.result.response;
-        if (this.assetAllData.length > 0) {
-
-        }
-        for (let data of this.assetAllData) {
-
-        }
-
-        const Data_for_asset_dropdown = this.assetAllData.find(person => {
-          if (this.selectedvalue == 107) {
-            this.dataforasset = Data_for_asset_dropdown;
-            console.log(this.dataforasset)
-            return Data_for_asset_dropdown;
-          }
-          (console.log(person))
-        });
-
-        //filter method assetAllData
-      },
-      err => {
-
-      })
+    /* this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+       (res: any) => {
+         //this.auth.hideLoader();
+ 
+ 
+         //filter method assetAllData
+       },
+       err => {
+ 
+       })
+ */
 
   }
 

@@ -58,16 +58,17 @@ export class LocationComponent implements OnInit {
         sorting: true,
         visibility: true
       },
+
       {
-        primary_key: 'location_description',
-        value: " Location Description",
+        primary_key: 'address',
+        value: "Address",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
-        primary_key: 'address',
-        value: "Address",
+        primary_key: 'location_description',
+        value: " Location Description",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -121,6 +122,7 @@ export class LocationComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
+    console.log(startindex)
     this.staticPageData = this.getDataFromDataSource(startindex);
   }
 
@@ -243,6 +245,7 @@ export class LocationComponent implements OnInit {
           this.getLocationDetails();
         },
         err => {
+          this.msgService.showErrorMessage('error', '', 'Location can not be  deleted asset linked to this location');
           this.auth.hideLoader();
         }
       );
@@ -270,5 +273,6 @@ export class LocationComponent implements OnInit {
       this.staticPageData = searchData;
     }
   }
+  //code for tooltip
 
 }

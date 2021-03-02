@@ -25,6 +25,7 @@ export class CategoryComponent implements OnInit {
     this.setTableDataForAsset();
     this.getLocationDetails();
     this.getAssetDetails();
+    this.cancel(false);
   }
   show: boolean = true;
   is_asset_cat: boolean = true;
@@ -275,15 +276,13 @@ export class CategoryComponent implements OnInit {
         console.log(res);
         this.submitted = true;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Created Successfully ")
-
+        this.getCategoryDetails();
       },
         err => {
 
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Code");
         }
       )
-
-      this.getCategoryDetails();
       $('#myModalforcat').modal('hide');
 
     }
@@ -334,7 +333,7 @@ export class CategoryComponent implements OnInit {
       this.getCategoryDetails();
     },
       err => {
-        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
       })
   }
   //code for add asset table 
