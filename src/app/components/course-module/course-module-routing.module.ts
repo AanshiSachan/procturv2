@@ -30,6 +30,12 @@ import { AnalyticsComponent } from './analytics/analytics.component';
           // canLoad: [AuthGuard]
         },
         {
+          path: 'create-section',
+          loadChildren: () => import('../../components/course-module/create-course/create-course.module').then(m => m.CreateCourseModule),
+          //   loadChildren: 'app/components/course-module/create-course/create-course.module#CreateCourseModule',
+          // canLoad: [AuthGuard]
+        },
+        {
           path: 'reports',
           loadChildren: () => import('../../components/course-module/reports/reports.module').then(m => m.ReportsModule),
           //   loadChildren: 'app/components/course-module/reports/reports.module#ReportsModule',
@@ -41,6 +47,12 @@ import { AnalyticsComponent } from './analytics/analytics.component';
         },
         {
           path: 'setup',
+          loadChildren: () => import('../../components/course-module/data-setup/data-setup.module').then(m => m.DataSetupModule),
+          //   loadChildren: 'app/components/course-module/data-setup/data-setup.module#DataSetupModule',
+          pathMatch: 'prefix',
+        },
+        {
+          path: 'exam-setup',
           loadChildren: () => import('../../components/course-module/data-setup/data-setup.module').then(m => m.DataSetupModule),
           //   loadChildren: 'app/components/course-module/data-setup/data-setup.module#DataSetupModule',
           pathMatch: 'prefix',

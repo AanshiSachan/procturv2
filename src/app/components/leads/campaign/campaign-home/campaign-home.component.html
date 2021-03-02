@@ -1,6 +1,6 @@
 <div class="clearFix sms-view-wrapper" style="padding-left: 15px; padding-right: 15px; ">
   <!-- Header and Navigation -->
-  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; ">
+  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; border-bottom: 1px solid #d4d4d4;">
     <h1 class="pull-left">
       <a style="padding:0px;">
         Lead
@@ -9,7 +9,21 @@
       Campaign List
     </h1>
   </section>
-  <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
+  <section class="slide">
+    <div class="header-section">
+      <div class="header-item active" id="coupon" routerLink="/view/leads/campaign">
+        <div class="model-name-container">
+          <span>Add Campaign</span>
+        </div>
+      </div>
+      <div class="header-item non-active" id="voucher" routerLink="/view/leads/manage-campaign">
+        <div class="model-name-container">
+          <span>Manage Campaign</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="sms-filter-wrapper" style="border-bottom: 1px solid #d4d4d4">
     <div class="row" style="padding: 18px;">
       <div class="pull-right" style="display:flex">
         <div class="search-filter-wrapper" style="display:flex">

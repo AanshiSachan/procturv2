@@ -362,15 +362,15 @@
                         </li>
                     </a>-->
                     <a routerLink="/view/leads/campaign">
-                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddCampaign">
-                            <span>Add Campaign</span>
+                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowAddCampaign || jsonRolesFlags.isShowCampaign">
+                            <span>SMS Campaign</span>
                         </li>
                     </a>
-                    <a routerLink="/view/leads/manage-campaign">
+                    <!-- <a routerLink="/view/leads/manage-campaign">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign ">
                             <span>Manage Campaign</span>
                         </li>
-                    </a>
+                    </a> -->
                   <!-- <a routerLink="/view/leads/campaign-reports/sms-report">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaignReport">
                             <span>Campaign Report</span>
@@ -416,7 +416,7 @@
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:30%;">
-                    <a routerLink="/view/fee/monitoring-dashboard/home">
+                    <a routerLink="/view/fee">
                         <li class="subMenu">
                             <span>Setup</span>
                         </li>
@@ -483,18 +483,18 @@
                     style="width: 20px;padding-bottom: 4px;">
                     
                 <a routerLink="/view/course" class="a_link">
-                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">{{schoolModel ? 'Academics' : 'Class/Exam'}}</span><i
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Classes</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:25%;">
-                   <a routerLink="/view/course/setup/teacher/list">
+                   <a (click)="setSetupSession('class')" routerLink="/view/course/setup/teacher/list">
                         <li class="subMenu">
                             <span>Setup</span>
                         </li>
                     </a>
-                    <a *ngIf="!schoolModel" routerLink="/view/course/create/courselist">
+                    <a routerLink="/view/course/create-section/courselist">
                         <li class="subMenu">
-                            <span>Section</span>
+                            <span>{{schoolModel ? 'Section' : 'Courses'}}</span>
                         </li>
                     </a>
                     <a routerLink="/view/course/coursePlanner/class">
@@ -533,7 +533,7 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:25%;">
-                   <a routerLink="/view/course/setup/exam-type">
+                   <a (click)="setSetupSession('exam')" routerLink="/view/course/exam-setup/exam-type">
                         <li class="subMenu">
                             <span>Setup</span>
                         </li>
@@ -834,6 +834,20 @@
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/reports/list">
                 <span [ngClass]="activeSession === 'lieleven' ? ' abc' : ' NavLink'">Reports</span>
+                </a>
+            </li>
+            <li (click)="toggler('liSettings')" *ngIf="showSMSSetting" style="padding-right: 0;">
+                <img src="../../../../assets//images/Website_App_icon.png" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/setting">
+                    <span [ngClass]="activeSession === 'liSettings' ? ' abc' : ' NavLink'">Settings</span>
+                </a>
+            </li>
+            <li (click)="toggler('liMyAccount')" *ngIf="hideForUsers()" style="padding-right: 0;">
+                <img src="../../../../assets//images/Website_App_icon.png" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/account">
+                    <span [ngClass]="activeSession === 'liMyAccount' ? ' abc' : ' NavLink'">My Account</span>
                 </a>
             </li>
         </ul>

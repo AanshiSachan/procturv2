@@ -1608,4 +1608,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     }
   }
+
+  setSetupSession(obj) {
+    sessionStorage.setItem('class', obj);
+  }
 }

@@ -257,14 +257,27 @@
 
 <section class="clearFix" style="padding-right: 2%;padding-top: 2px !important;">
   <!-- Header and Navigation -->
-  <section class="middle-top mb0 clearFix">
-    <h1 class="pull-left">
+  <section class="middle-top mb0 clearFix" style="border-bottom: 1px solid #d4d4d4;">
+    <h1 style="margin-bottom: 10px;" class="pull-left">
         Lead
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       Manage Campaign
     </h1>
   </section>
-
+  <section class="slide">
+    <div class="header-section">
+      <div class="header-item non-active" id="coupon" routerLink="/view/leads/campaign">
+        <div class="model-name-container">
+          <span>Add Campaign</span>
+        </div>
+      </div>
+      <div class="header-item active" id="voucher" routerLink="/view/leads/manage-campaign">
+        <div class="model-name-container">
+          <span>Manage Campaign</span>
+        </div>
+      </div>
+    </div>
+  </section>
   <section>
     <div class="filter-container">
       <div class="filter-first-row-container" [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">
