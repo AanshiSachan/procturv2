@@ -3,9 +3,6 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { MessageShowService } from '../../../../services/message-show.service';
 import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
 import { UserService } from '../../../../services/user-management/user.service';
-
-
-
 @Component({
   selector: 'app-registered-students',
   templateUrl: './registered-students.component.html',

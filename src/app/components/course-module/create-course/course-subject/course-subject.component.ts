@@ -3,6 +3,8 @@ import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { SubjectApiService } from '../../../../services/course-services/subject.service';
+import CommonUtils from '../../../../utils/CommonUtils'
+declare var $;
 
 @Component({
   selector: 'app-course-subject',
@@ -25,7 +27,9 @@ export class CourseSubjectComponent implements OnInit {
     standard_id: "-1",
     subject_name: '',
     subject_code: '',
-    is_optional: false
+    is_optional: false,
+    total_marks: '',
+    passing_marks: ''
   }
   searchedData: any = [];
   searchDataFlag: boolean = false;
@@ -37,7 +41,9 @@ export class CourseSubjectComponent implements OnInit {
   sortingDir: string = "asc";
   subjectCodeCharLimit: number = 4;
   activeList: boolean = false;
-  schoolModel:boolean=false;
+  schoolModel: boolean = false;
+  isNewSubjectAdd: boolean = true;
+  subject_id: number = -1;
 
   constructor(
     private apiService: SubjectApiService,
@@ -50,11 +56,13 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.schoolModel=this.auth.schoolModel.value;
+    this.schoolModel = this.auth.schoolModel.value;
     this.checkInstituteType();
     this.getAllSubjectList();
     this.getAllStandardSubjectList();
   }
+
+
 
   getAllSubjectList() {
     this.PageIndex = 1;
@@ -111,7 +119,23 @@ export class CourseSubjectComponent implements OnInit {
     document.getElementById(("row" + id).toString()).classList.add('displayComp');
     this.getAllSubjectList();
   }
+  editSubject(data) {
+    $('#addUpdateSubjectdialog').modal('show');
+    this.isNewSubjectAdd = false;
+    this.newSubjectDetails.standard_id = data.standard_id;
+    this.newSubjectDetails.subject_name = data.subject_name;
+    this.newSubjectDetails.is_active = data.is_active;
+    if (!this.isLangInstitue) {
+      this.newSubjectDetails.subject_code = data.subject_code;
+    }
+    if (this.schoolModel) {
+      this.newSubjectDetails.is_optional = data.is_optional == "Y" ? true : false;
+      this.newSubjectDetails.total_marks = data.final_marks;
+      this.newSubjectDetails.passing_marks = data.passing_marks;
+    }
+    this.subject_id = data.subject_id;
 
+  }
   updateRow(row, id) {
     let data: any = {};
     data.is_active = row.is_active;
@@ -160,7 +184,33 @@ export class CourseSubjectComponent implements OnInit {
       }
     )
   }
+  updateSubject() {
+    if (this.validateSchoolModelField()) {
+      this.apiService.updateSubjectRowData(this.preparedSubjectRequestPayload(), this.subject_id).subscribe(
+        data => {
+          let msg = {
+            type: "success",
+            title: "",
+            body: "Subject Updated Successfully!"
+          }
+          this.toastCtrl.popToast(msg);
+          $('#addUpdateSubjectdialog').modal('hide');
+          this.getAllSubjectList();
+          this.clearData();
+        },
+        error => {
+          let data = {
+            type: "error",
+            title: "",
+            body: error.error.message
+          }
+          this.toastCtrl.popToast(data);
 
+        }
+      )
+    }
+
+  }
 
   getAllStandardSubjectList() {
     this.apiService.getAllStandardName().subscribe(
@@ -175,46 +225,10 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   addNewSubject() {
-    if (this.newSubjectDetails.standard_id == "" || this.newSubjectDetails.subject_name == "" || this.newSubjectDetails.standard_id == '-1' || (!this.isLangInstitue && this.newSubjectDetails.subject_code.trim() == '')) {
-      let data = {
-        type: "error",
-        title: "",
-        body: "Please enter value of mandatory fields."
-      }
-      this.toastCtrl.popToast(data);
-      return false;
-    } else {
-      if (this.newSubjectDetails.is_active == true || this.newSubjectDetails.is_active == "Y") {
-        this.newSubjectDetails.is_active = "Y";
-      } else {
-        this.newSubjectDetails.is_active = "N";
-      }
-      if (!this.isLangInstitue) {
-        this.newSubjectDetails.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
-      }
-      this.newSubjectDetails.is_optional = (this.newSubjectDetails.is_optional) ? 'Y' : 'N';
-      this.apiService.createNewSubject(this.newSubjectDetails).subscribe(
+    if (this.validateUserInput()) {
+      this.apiService.createNewSubject(this.preparedSubjectRequestPayload()).subscribe(
         res => {
-          let msg = "";
-          if (this.isLangInstitue) {
-            msg = "Course added Successfully!";
-          } else {
-            msg = "Subject created successfully";
-          }
-          let data = {
-            type: "success",
-            title: "",
-            body: msg
-          }
-          this.toastCtrl.popToast(data);
-          this.getAllSubjectList();
-          this.newSubjectDetails = {
-            is_active: "Y",
-            standard_id: "",
-            subject_name: '',
-            subject_code: '',
-            is_optional: false
-          }
+          this.successMsg();
         },
         err => {
           let data = {
@@ -225,6 +239,101 @@ export class CourseSubjectComponent implements OnInit {
           this.toastCtrl.popToast(data);
         })
     }
+  }
+  preparedSubjectRequestPayload(): object {
+    let obj: any = {
+      is_active: (this.newSubjectDetails.is_active == true || this.newSubjectDetails.is_active == "Y") ? "Y" : "N",
+      standard_id: this.newSubjectDetails.standard_id,
+      subject_name: this.newSubjectDetails.subject_name,
+    }
+    if (!this.isLangInstitue) {
+      obj.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
+    }
+    if (this.schoolModel) {
+      obj.is_optional = (this.newSubjectDetails.is_optional) ? 'Y' : 'N';
+      obj.final_marks = this.newSubjectDetails.total_marks;
+      obj.passing_marks = this.newSubjectDetails.passing_marks;
+    }
+    return obj;
+  }
+  successMsg() {
+    let msg = "";
+    if (this.isLangInstitue) {
+      msg = "Course created successfully!";
+    } else {
+      msg = "Subject created successfully";
+    }
+    let data = {
+      type: "success",
+      title: "",
+      body: msg
+    }
+    this.toastCtrl.popToast(data);
+    $('#addUpdateSubjectdialog').modal('hide');
+    this.getAllSubjectList();
+    this.clearData();
+  }
+  validateUserInput() {
+    if (this.newSubjectDetails.standard_id == '-1') {
+      let data = {
+        type: "error",
+        title: "",
+        body: "Please select standard!"
+      }
+      this.toastCtrl.popToast(data);
+      return false;
+    }
+    if (CommonUtils.isEmpty(this.newSubjectDetails.subject_name)) {
+      let data = {
+        type: "error",
+        title: "",
+        body: "Please enter subject name!"
+      }
+      this.toastCtrl.popToast(data);
+      return false;
+    }
+    if (!this.isLangInstitue && CommonUtils.isEmpty(this.newSubjectDetails.subject_code)) {
+      let data = {
+        type: "error",
+        title: "",
+        body: "Please enter subject code!"
+      }
+      this.toastCtrl.popToast(data);
+      return false;
+    }
+    return this.validateSchoolModelField();
+  }
+  validateSchoolModelField() {
+    if (this.schoolModel) {
+      if (Number(this.newSubjectDetails.total_marks) <= 0) {
+        let data = {
+          type: "error",
+          title: "",
+          body: "Please enter total marks!"
+        }
+        this.toastCtrl.popToast(data);
+        return false;
+      }
+      if (Number(this.newSubjectDetails.passing_marks <= 0)) {
+        let data = {
+          type: "error",
+          title: "",
+          body: "Please enter passing marks!"
+        }
+        this.toastCtrl.popToast(data);
+        return false;
+      }
+      if (Number(this.newSubjectDetails.total_marks) < Number(this.newSubjectDetails.passing_marks)) {
+        let data = {
+          type: "error",
+          title: "",
+          body: "Total marks can't be less than passing marks!"
+        }
+        this.toastCtrl.popToast(data);
+        return false;
+      }
+    }
+    return true;
   }
 
   searchInList(element) {
@@ -378,5 +487,20 @@ export class CourseSubjectComponent implements OnInit {
       }
     )
   }
-
+  openPopup() {
+    $('#addUpdateSubjectdialog').modal('show');
+    this.isNewSubjectAdd = true;
+    this.clearData();
+  }
+  clearData() {
+    this.newSubjectDetails = {
+      is_active: "Y",
+      standard_id: "-1",
+      subject_name: '',
+      subject_code: '',
+      is_optional: false,
+      total_marks: '',
+      passing_marks: ''
+    }
+  }
 }

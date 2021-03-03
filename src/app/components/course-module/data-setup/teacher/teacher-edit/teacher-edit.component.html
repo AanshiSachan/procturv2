@@ -9,7 +9,8 @@
           <div class="w40">
             <div class="container1" class="top-10">
               <img *ngIf="imgFile == ''" (click)="getFile()" src="../../../../../../assets/images/course/Group329.svg">
-              <img style="border-radius: 50%;height: 111px;width: 111px;" (click)="getFile()" *ngIf="imgFile != ''" src="{{imgFile}}">
+              <img style="border-radius: 50%;height: 111px;width: 111px;" (click)="getFile()" *ngIf="imgFile != ''"
+                src="{{imgFile}}">
               <div style='height: 0px;width: 0px; overflow:hidden;'><input id="upfile" type="file" value="upload"
                   (change)="readFile($event.target.files)" /></div>
               <div class="overlay">
@@ -66,7 +67,9 @@
             <span class="label">Salary (Per Hour)</span>
           </div>
           <div class="w80">
-            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="hour_rate" placeholder="1200Rs">
+            <input type="text" class="form-control input"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="hour_rate"
+              placeholder="1200Rs">
           </div>
         </div>
         <div class="flex_box">
@@ -78,7 +81,8 @@
               [maxlength]="30" />
           </div>
         </div>
-        <div *ngIf="selectedFiles?.length || uploadedFileData?.length" style="padding: 0;margin-top: 10px;" class="row box-shadow-lite">
+        <div *ngIf="selectedFiles?.length || uploadedFileData?.length" style="padding: 0;margin-top: 10px;"
+          class="row box-shadow-lite">
           <div class="document_header">
             <div class="uploadedData">File Name</div>
             <div style="width: 25%;float: left;"></div>
@@ -97,9 +101,9 @@
             <div style="width: 25%;float: left;text-align: right;padding-top: 10px;">
               <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
                 title="Delete File" (click)="deleteExistingUploadedfileAPI(data.id)"></i>
-                <a class="fa fa-download" id="downloadFile"
-              style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File"
-              (click)="downloadFile(data)"></a>
+              <a class="fa fa-download" id="downloadFile"
+                style="font-size: 17px; color: #0084f6; margin-left: 1%;cursor: pointer;" title="Download File"
+                (click)="downloadFile(data)"></a>
               <a id="downloadFileClick" class="hide"></a>
             </div>
           </div>
@@ -125,8 +129,9 @@
           </div>
           <div class="w70">
             <span class="">
-              <img src="../../../../../../assets/images/course/image105.svg"><span (click)="downloadIdCard()" class="id-card-text">Download id-Card</span>
-                <a #uploadImageAnchor class="hide"></a>
+              <img src="../../../../../../assets/images/course/image105.svg"><span (click)="downloadIdCard()"
+                class="id-card-text">Download id-Card</span>
+              <a #uploadImageAnchor class="hide"></a>
             </span>
           </div>
         </div>
@@ -148,7 +153,9 @@
             </span>
           </div>
           <div class="w60">
-            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_phone" placeholder="7890123456">
+            <input type="text" class="form-control input"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_phone"
+              placeholder="7890123456">
             <div
               *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
               class="alert alert-danger">
@@ -191,7 +198,9 @@
             </span>
           </div>
           <div class="w60">
-            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_alt_phone" placeholder="7890123456">
+            <input type="text" class="form-control input"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_alt_phone"
+              placeholder="7890123456">
           </div>
         </div>
         <div class="flex_box">
@@ -199,13 +208,9 @@
             <span class="label">Standard</span>
           </div>
           <div class="w80">
-            <ng-multiselect-dropdown class="container"
-          placeholder="Select standard"
-          [settings]="standardSetting"
-          [data]="StandardData"
-          formControlName ="selectedStandardList"
-          (ngModelChange)="getSubjects($event)">
-        </ng-multiselect-dropdown>
+            <ng-multiselect-dropdown class="container" placeholder="Select standard" [settings]="standardSetting"
+              [data]="StandardData" formControlName="selectedStandardList" (ngModelChange)="getSubjects($event)">
+            </ng-multiselect-dropdown>
           </div>
         </div>
         <div class="flex_box">
@@ -213,12 +218,9 @@
             <span class="label">Subject</span>
           </div>
           <div class="w80">
-            <ng-multiselect-dropdown class="container"
-          placeholder="Select Subject"
-          [settings]="subjectSetting"
-          [data]="subjectData"
-          formControlName ="selectedSubjectList">
-        </ng-multiselect-dropdown>
+            <ng-multiselect-dropdown class="container" placeholder="Select Subject" [settings]="subjectSetting"
+              [data]="subjectData" formControlName="selectedSubjectList">
+            </ng-multiselect-dropdown>
           </div>
         </div>
         <div class="flex_box">
@@ -242,7 +244,7 @@
             </select>
           </div>
         </div> -->
-      <!-- <div class="documentUploadDiv">
+        <!-- <div class="documentUploadDiv">
         <div class="row" style="padding-bottom:5px;padding-top: 5px;">
           <div class="field-wrapper">
             <label>Document Title</label>
@@ -272,7 +274,8 @@
     <div class="row">
       <div class="col-lg-9 field-checkbox-wrapper">
         <span *ngIf="isShoweOnlineExam" class="right field-checkbox-wrapper">
-          <input type="checkbox" style="appearance: checkbox" value="" name="allowExamDesk" formControlName="allow_exam_desk_login">
+          <input type="checkbox" style="appearance: checkbox" value="" name="allowExamDesk"
+            formControlName="allow_exam_desk_login">
           <span style="margin-left: 5px;" class="allow">Allow Exam Desk Login</span>
         </span>
       </div>

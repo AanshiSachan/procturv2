@@ -1573,12 +1573,11 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     }
 
   }
-
   studentQuickAdder(form: NgForm) {
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
-
     /* Both Form are Valid Else there seems to
-        be an error on custom component */
+        be an error on custom component 
+        */
     if (form.valid && isCustomComponentValid) {
 
       if (!this.formValidator()) {

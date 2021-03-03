@@ -10,7 +10,6 @@
             <span class="text-danger">*</span>
           </label>
           <input type="text" class="form-ctrl" formControlName="teacher_name" name="name">
-
           <div
             *ngIf="addTeacherForm.controls['teacher_name'].invalid && (addTeacherForm.controls['teacher_name'].dirty || addTeacherForm.controls['teacher_name'].touched)"
             class="alert alert-danger">

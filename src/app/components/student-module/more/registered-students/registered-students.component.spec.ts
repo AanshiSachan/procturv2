@@ -5,7 +5,6 @@ import { RegisteredStudentsComponent } from './registered-students.component';
 describe('RegisteredStudentsComponent', () => {
   let component: RegisteredStudentsComponent;
   let fixture: ComponentFixture<RegisteredStudentsComponent>;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RegisteredStudentsComponent ]

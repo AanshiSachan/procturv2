@@ -4,14 +4,12 @@ import * as moment from 'moment';
 import { AppComponent } from '../../../../../app.component';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
-
 @Component({
   selector: 'app-teacher-list',
   templateUrl: './teacher-list.component.html',
   styleUrls: ['./teacher-list.component.scss']
 })
 export class TeacherListComponent implements OnInit {
-
   teacherListDataSource: any = [];
   teacherList: any = [];
   PageIndex: number = 1;
@@ -60,8 +58,8 @@ export class TeacherListComponent implements OnInit {
         this.totalRow = data.length;
         this.teacherListDataSource = data;
         this.teacherListDataSource.forEach(element => {
-          if(element.date_of_joining !=""){
-          element.date_of_joining =  moment(element.date_of_joining).format('DD-MM-YYYY');
+          if (element.date_of_joining != "") {
+            element.date_of_joining = moment(element.date_of_joining).format('DD-MM-YYYY');
           }
         });
         this.fetchTableDataByPage(this.PageIndex);

@@ -7,7 +7,6 @@ import { AuthenticatorService, CommonServiceFactory } from '../../../../..';
 import { AppComponent } from '../../../../../app.component';
 import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 import { ProductService } from '../../../../../services/products.service';
-
 @Component({
   selector: 'app-teacher-edit',
   templateUrl: './teacher-edit.component.html',
@@ -37,11 +36,11 @@ export class TeacherEditComponent implements OnInit {
   subjectData: any[] = [];
   selectedFiles: any[] = [];
   uploadedFileData: any[] = [];
-  teacher_user_id:any = 0;
+  teacher_user_id: any = 0;
   assigned_standard_subject_list: any[] = [];
 
   imgPrefill = 'data:image/png;base64';
-  imgFile: any  = '';
+  imgFile: any = '';
   constructor(
     private route: Router,
     private ApiService: TeacherAPIService,
@@ -89,109 +88,109 @@ export class TeacherEditComponent implements OnInit {
       itemsShowLimit: 10,
       enableCheckAll: true
     }
-}
+  }
 
-fetchStandardAndSubjects() {
-  this.auth.showLoader();
-  this.httpService.getData('/api/v1/standards/standard-subject-list/' + sessionStorage.getItem('institute_id')+'?is_active=Y&is_subject_required=true').subscribe(
-    (res:any) => {
-      this.auth.hideLoader();
-      this.StandardData = res.result;
-      if (this.selectedTeacherId) {
-        this.getTeacherInfo();
-        this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-      }
-    },
-    err => {
-      this.auth.hideLoader();
-      if (this.selectedTeacherId) {
-        this.getTeacherInfo();
-        this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-      }
-      console.log(err);
-    }
-  )
-}
-
-getUploadedFileData() {
-  this.auth.showLoader();
-  const url = `/users-file/downloadFile?studentId=${this.teacher_user_id}`;
-  this.productService.getUploadFileData(url).subscribe(
-    (res: any) => {
-      this.uploadedFileData = res;
-      this.auth.hideLoader()
-    },
-    err => {
-      this.auth.hideLoader()
-    }
-  )
-}
-
-downloadFile(object) {
-  const url = object.fileUrl;
-  var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
-  hiddenDownload.href = url;
-  hiddenDownload.download = object.title;
-  // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
-  hiddenDownload.click();
-  // this.updateDownloadCount(object);
-}
-
-deleteExistingUploadedfileAPI(id) {
-  if (confirm('Are you sure, you want to delete file?')) {
+  fetchStandardAndSubjects() {
     this.auth.showLoader();
-    const url = `/users-file/delete-file/?studentId=${this.teacher_user_id}&id=${id}`;
-    this.productService.deleteFile(url).subscribe(
+    this.httpService.getData('/api/v1/standards/standard-subject-list/' + sessionStorage.getItem('institute_id') + '?is_active=Y&is_subject_required=true').subscribe(
       (res: any) => {
-        this.messageToast("success", '', "File deleted successfully");
-        if (res) {
-          this.getUploadedFileData();
-        }
         this.auth.hideLoader();
+        this.StandardData = res.result;
+        if (this.selectedTeacherId) {
+          this.getTeacherInfo();
+          this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+        }
       },
       err => {
         this.auth.hideLoader();
+        if (this.selectedTeacherId) {
+          this.getTeacherInfo();
+          this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+        }
+        console.log(err);
       }
     )
   }
-}
 
-getSubjects(event) {
-  this.subjectData = [];
-  if(event) {
-    this.editTeacherForm.patchValue({
-      selectedSubjectList: ''
-    })
-    let object = event.filter((subject) => {
-      let arr = this.StandardData.filter(obj => subject.standard_id == obj.standard_id);
-      if(arr.length) {
-        arr[0].subject_list.forEach(ele => {
-          ele.standard_id = arr[0].standard_id;
-          this.subjectData.push(ele);
-            // Added by - Nalini Walunj
-        // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
-        let temp: any[] = [];
-        for (var i = 0; i < this.subjectData.length; i++) {
-          for(var j = 0; j <  this.assigned_standard_subject_list.length; j++){
-          if(this.subjectData[i].subject_id == this.assigned_standard_subject_list[j].subject_id){
-          let x = {
-            subject_id: '',
-            subject_name: ''
-          };
-          x.subject_id = this.assigned_standard_subject_list[j].subject_id;
-          x.subject_name = this.assigned_standard_subject_list[j].subject_name
-          temp.push(x)
-          }
-          }
-        }
-        this.editTeacherForm.patchValue({
-          selectedSubjectList : temp
-        })
-        })
+  getUploadedFileData() {
+    this.auth.showLoader();
+    const url = `/users-file/downloadFile?studentId=${this.teacher_user_id}`;
+    this.productService.getUploadFileData(url).subscribe(
+      (res: any) => {
+        this.uploadedFileData = res;
+        this.auth.hideLoader()
+      },
+      err => {
+        this.auth.hideLoader()
       }
-    });
+    )
   }
-}
+
+  downloadFile(object) {
+    const url = object.fileUrl;
+    var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
+    hiddenDownload.href = url;
+    hiddenDownload.download = object.title;
+    // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
+    hiddenDownload.click();
+    // this.updateDownloadCount(object);
+  }
+
+  deleteExistingUploadedfileAPI(id) {
+    if (confirm('Are you sure, you want to delete file?')) {
+      this.auth.showLoader();
+      const url = `/users-file/delete-file/?studentId=${this.teacher_user_id}&id=${id}`;
+      this.productService.deleteFile(url).subscribe(
+        (res: any) => {
+          this.messageToast("success", '', "File deleted successfully");
+          if (res) {
+            this.getUploadedFileData();
+          }
+          this.auth.hideLoader();
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      )
+    }
+  }
+
+  getSubjects(event) {
+    this.subjectData = [];
+    if (event) {
+      this.editTeacherForm.patchValue({
+        selectedSubjectList: ''
+      })
+      let object = event.filter((subject) => {
+        let arr = this.StandardData.filter(obj => subject.standard_id == obj.standard_id);
+        if (arr.length) {
+          arr[0].subject_list.forEach(ele => {
+            ele.standard_id = arr[0].standard_id;
+            this.subjectData.push(ele);
+            // Added by - Nalini Walunj
+            // if we change course then selected student list should be clear and if we select same course then already selected students should be seleted
+            let temp: any[] = [];
+            for (var i = 0; i < this.subjectData.length; i++) {
+              for (var j = 0; j < this.assigned_standard_subject_list.length; j++) {
+                if (this.subjectData[i].subject_id == this.assigned_standard_subject_list[j].subject_id) {
+                  let x = {
+                    subject_id: '',
+                    subject_name: ''
+                  };
+                  x.subject_id = this.assigned_standard_subject_list[j].subject_id;
+                  x.subject_name = this.assigned_standard_subject_list[j].subject_name
+                  temp.push(x)
+                }
+              }
+            }
+            this.editTeacherForm.patchValue({
+              selectedSubjectList: temp
+            })
+          })
+        }
+      });
+    }
+  }
 
   // created by: Nalini Walunj
   // Below two functions are written to fetch country details from the session stored at the time of login of institute
@@ -312,11 +311,11 @@ getSubjects(event) {
     }
     else {
       this.imgFile = "";
-        const temp: any[] = [];
-        temp[0] = this.imgPrefill;
-        temp[1] = this.studentImage;
-        this.imgFile = temp.join(',');
-      }
+      const temp: any[] = [];
+      temp[0] = this.imgPrefill;
+      temp[1] = this.studentImage;
+      this.imgFile = temp.join(',');
+    }
   }
 
 
@@ -346,7 +345,7 @@ getSubjects(event) {
   }
 
   uploadHandler() {
-    if (this.editTeacherForm.value.title!='') {
+    if (this.editTeacherForm.value.title != '') {
       const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
       if (preview != null || preview != undefined) {
         var myReader: FileReader = new FileReader();
@@ -385,10 +384,10 @@ getSubjects(event) {
     let dataToBind: any = {};
     dataToBind.teacher_name = data.teacher_name;
     dataToBind.teacher_curr_addr = data.teacher_curr_addr;
-    dataToBind.teacher_phone = (data.teacher_phone.substring(data.teacher_phone.lastIndexOf("-")+1, data.teacher_phone.length));
+    dataToBind.teacher_phone = (data.teacher_phone.substring(data.teacher_phone.lastIndexOf("-") + 1, data.teacher_phone.length));
     dataToBind.teacher_alt_phone = '';
     if (data.teacher_alt_phone != "" || data.teacher_alt_phone != null) {
-      dataToBind.teacher_alt_phone = (data.teacher_alt_phone.substring(data.teacher_alt_phone.lastIndexOf("-")+1, data.teacher_alt_phone.length));
+      dataToBind.teacher_alt_phone = (data.teacher_alt_phone.substring(data.teacher_alt_phone.lastIndexOf("-") + 1, data.teacher_alt_phone.length));
     }
     dataToBind.teacher_standards = data.teacher_standards;
     dataToBind.teacher_email = data.teacher_email;
@@ -420,31 +419,31 @@ getSubjects(event) {
     // dataToBind.dob = '1998-2-2';
     // dataToBind.date_of_joining = '1998-2-2'
     dataToBind.dob = (dataToBind.dob != '' && dataToBind.dob != null) ? moment(data.dob).format("YYYY-MM-DD") : '';
-    dataToBind.date_of_joining = (dataToBind.date_of_joining !='' && dataToBind.date_of_joining != null) ? moment(data.date_of_joining).format("YYYY-MM-DD") : '';
+    dataToBind.date_of_joining = (dataToBind.date_of_joining != '' && dataToBind.date_of_joining != null) ? moment(data.date_of_joining).format("YYYY-MM-DD") : '';
     this.country_id = data.country_id;
     let standatd_temp: any[] = [];
     let subject_temp: any[] = [];
-    if(data.assigned_standard_subject_list && data.assigned_standard_subject_list.length) {
-    data.assigned_standard_subject_list.forEach(element => {
-      let x = {
-        standard_id: '',
-        standard_name: ''
-      };
-      x.standard_id = element.standard_id;
-      x.standard_name = element.standard_name;
-      if(element.subject_list && element.subject_list.length) {
-      element.subject_list.forEach(sub => {
-        let y = {
-          subject_id:'',
-          subject_name:''
+    if (data.assigned_standard_subject_list && data.assigned_standard_subject_list.length) {
+      data.assigned_standard_subject_list.forEach(element => {
+        let x = {
+          standard_id: '',
+          standard_name: ''
         };
-        y.subject_id = sub.subject_id;
-        y.subject_name = sub.subject_name;
-        subject_temp.push(y);
+        x.standard_id = element.standard_id;
+        x.standard_name = element.standard_name;
+        if (element.subject_list && element.subject_list.length) {
+          element.subject_list.forEach(sub => {
+            let y = {
+              subject_id: '',
+              subject_name: ''
+            };
+            y.subject_id = sub.subject_id;
+            y.subject_name = sub.subject_name;
+            subject_temp.push(y);
+          });
+        }
+        standatd_temp.push(x)
       });
-      }
-      standatd_temp.push(x)
-    });
     }
     this.assigned_standard_subject_list = subject_temp;
     this.getSubjects(this.assigned_standard_subject_list);
@@ -456,36 +455,36 @@ getSubjects(event) {
   }
 
   getSelectedStandardAndSub(obj) {
-    if(obj.selectedSubjectList && obj.selectedSubjectList.length) {
+    if (obj.selectedSubjectList && obj.selectedSubjectList.length) {
       obj.selectedSubjectList.forEach(element => {
-        this.subjectData.forEach(ele=>{
-          if(ele.subject_id == element.subject_id) {
+        this.subjectData.forEach(ele => {
+          if (ele.subject_id == element.subject_id) {
             element.standard_id = ele.standard_id;
           }
         })
       });
     }
     let jsontem = {};
-    if(obj.selectedStandardList && obj.selectedStandardList.length) {
-    obj.selectedStandardList.filter(temp =>{
-      this.StandardData.forEach(ele => {
-        if(temp.standard_id == ele.standard_id) {
-          let arr = [];
-          if(obj.selectedSubjectList && obj.selectedSubjectList.length) {
-          obj.selectedSubjectList.forEach(element => {
-            if(element.standard_id == ele.standard_id) {
-              arr.push(element.subject_id);
+    if (obj.selectedStandardList && obj.selectedStandardList.length) {
+      obj.selectedStandardList.filter(temp => {
+        this.StandardData.forEach(ele => {
+          if (temp.standard_id == ele.standard_id) {
+            let arr = [];
+            if (obj.selectedSubjectList && obj.selectedSubjectList.length) {
+              obj.selectedSubjectList.forEach(element => {
+                if (element.standard_id == ele.standard_id) {
+                  arr.push(element.subject_id);
+                }
+              });
+              jsontem[temp.standard_id] = arr;
+              arr = [];
+            } else {
+              jsontem[temp.standard_id] = [];
             }
-          });
-          jsontem[temp.standard_id] = arr;
-          arr = [];
-        } else {
-          jsontem[temp.standard_id] = [];
-        }
-        }
+          }
+        })
       })
-    })
-  }
+    }
     return jsontem;
   }
 
@@ -527,10 +526,10 @@ getSubjects(event) {
     formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
     formData.is_employee_to_be_create = "N";
     formData.country_id = this.instituteCountryDetObj.id;
-    formData.dob = (formData.dob!=null && formData.dob!='') ? moment(formData.dob).format('YYYY-MM-DD') : '';
-    formData.date_of_joining = (formData.date_of_joining!=null && formData.date_of_joining!='') ? moment(formData.date_of_joining).format('YYYY-MM-DD') : '';
+    formData.dob = (formData.dob != null && formData.dob != '') ? moment(formData.dob).format('YYYY-MM-DD') : '';
+    formData.date_of_joining = (formData.date_of_joining != null && formData.date_of_joining != '') ? moment(formData.date_of_joining).format('YYYY-MM-DD') : '';
     // formData.is_office_only_access = formData.is_office_only_access ? 'Y' : 'N';
-    if(this.selectedFiles.length) {
+    if (this.selectedFiles.length) {
       formData.teacher_file_upload_list = this.selectedFiles;
     }
     delete formData["selectedSubjectList"];
@@ -607,7 +606,7 @@ getSubjects(event) {
     }
     formData.dob = moment(formData.dob).format('YYYY-MM-DD');
     formData.date_of_joining = moment(formData.date_of_joining).format('YYYY-MM-DD');
-    if(this.selectedFiles.length) {
+    if (this.selectedFiles.length) {
       formData.teacher_file_upload_list = this.selectedFiles;
     }
     formData.isDeleted = (Object.keys(formData.stadard_subject_id_map).length == 0) ? 'Y' : 'N';

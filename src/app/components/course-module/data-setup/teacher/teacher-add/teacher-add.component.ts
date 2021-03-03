@@ -3,19 +3,16 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../../../app.component';
-
 @Component({
   selector: 'app-teacher-add',
   templateUrl: './teacher-add.component.html',
   styleUrls: ['./teacher-add.component.scss']
 })
 export class TeacherAddComponent implements OnInit {
-
   addTeacherForm: FormGroup;
   studentImage: string = '';
   containerWidth: any = "200px"
   enableBiometric: any = 0;
-
   constructor(
     private fb: FormBuilder,
     private teacherAPIService: TeacherAPIService,

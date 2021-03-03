@@ -5,8 +5,6 @@ import { MessageShowService } from '../../../../services/message-show.service';
 import { CommonApiCallService } from '../../../../services/common-api-call.service';
 import * as moment from 'moment';
 declare var $;
-
-
 @Component({
   selector: 'app-school-exam-type',
   templateUrl: './school-exam-type.component.html',
