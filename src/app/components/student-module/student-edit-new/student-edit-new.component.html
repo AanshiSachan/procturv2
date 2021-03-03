@@ -90,8 +90,13 @@
                                 <input type="text" value="" id="sEmail" class="input" placeholder="Enter email id"
                                     [(ngModel)]="studentAddFormData.student_email" name="sEmail"
                                     pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
+                                <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)"
+                                    class="alert invalid-alert">
+                                    <div *ngIf="sEmail.errors.pattern" class="text-danger">
+                                        Enter email in format eg. someone@xyz.com
+                                    </div>
+                                </div>
                             </div>
-
                             <div class="col-lg-2">
                                 <span class="label ">
                                     Gender
@@ -825,10 +830,12 @@
                                         <input class="form-checkbox" id="{{component.id}}" type="checkbox"
                                             [(ngModel)]="component.value" name="{{component.label}}"
                                             value="{{component.value}}">
-                                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;" *ngIf="component.is_required == 'Y'">
+                                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                                            *ngIf="component.is_required == 'Y'">
                                             {{component.label}}*
                                         </label>
-                                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;" *ngIf="component.is_required == 'N'">
+                                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                                            *ngIf="component.is_required == 'N'">
                                             {{component.label}} </label>
                                     </div>
                                 </div>

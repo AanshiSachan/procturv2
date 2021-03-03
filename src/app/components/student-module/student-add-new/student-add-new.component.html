@@ -20,7 +20,8 @@
             <ul class="progressbar">
               <li class="step1 step_active active" id="li-one" (click)="switchToView($event.target.id)">
                 Personal&nbsp;Details</li>
-              <li class="step2" id="li-two" [class.hide]="!quickAddStudent" (click)="switchToView($event.target.id)">Other&nbsp;Details
+              <li class="step2" id="li-two" [class.hide]="!quickAddStudent" (click)="switchToView($event.target.id)">
+                Other&nbsp;Details
               </li>
               <li class="step3" id="li-three" (click)="switchToView($event.target.id)">Fee&nbsp;Details
               </li>
@@ -52,7 +53,7 @@
                   <span class="label">
                     Contact<br>Number* </span>
                 </div>
-                <div class="col-lg-1" >
+                <div class="col-lg-1">
                   <select id="country_id" class="input-select width-50" [(ngModel)]="studentAddFormData.country_id"
                     name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                     <option value=""></option>
@@ -83,6 +84,11 @@
                 <input type="text" value="" id="sEmail" class="input" placeholder="Enter email id"
                   [(ngModel)]="studentAddFormData.student_email" name="sEmail"
                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
+              </div>
+              <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
+                <div *ngIf="sEmail.errors.pattern" class="text-danger">
+                  Enter email in format eg. someone@xyz.com
+                </div>
               </div>
 
               <div class="col-lg-2">
@@ -762,10 +768,12 @@
                   <div class="field-checkbox-wrapper" style="background: transparent;margin: 0;margin-bottom: 10px;">
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
                       name="{{component.label}}" value="{{component.value}}">
-                    <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;" *ngIf="component.is_required == 'Y'">
+                    <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                      *ngIf="component.is_required == 'Y'">
                       {{component.label}}*
                     </label>
-                    <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;" *ngIf="component.is_required == 'N'">
+                    <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                      *ngIf="component.is_required == 'N'">
                       {{component.label}} </label>
                   </div>
                 </div>
@@ -1026,8 +1034,8 @@
               <label for="chkBoxpaidMain">Paid</label>
             </div>
             <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
-            <input style="right: 115px; margin-top:10px" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
-              class="btn downloadbtn">
+            <input style="right: 115px; margin-top:10px" type="button" value="Share"
+              (click)="isShareDetails= !isShareDetails" class="btn downloadbtn">
             <i class="fa fa-download" (click)="studentFeeInstallment(-1)"
               style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;"
               placeholder="Download fee installment"></i>
