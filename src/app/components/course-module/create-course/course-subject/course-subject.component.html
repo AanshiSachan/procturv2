@@ -448,7 +448,7 @@
               id="isAct">
             <label for="isAct">Is Active</label>
           </div>
-          <div class="field-checkbox-wrapper">
+          <div class="field-checkbox-wrapper" *ngIf="schoolModel">
             <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_optional"
               id="is_optional">
             <label for="is_optional">Set as Optional</label>
