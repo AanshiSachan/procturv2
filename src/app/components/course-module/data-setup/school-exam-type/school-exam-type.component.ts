@@ -91,8 +91,8 @@ export class SchoolExamTypeComponent implements OnInit {
         sorting: false,
         visibility: true,
         edit: true,
-        delete: true,
-        view: true
+        delete: false,
+        view: false
       }
     ]
 
@@ -207,6 +207,23 @@ export class SchoolExamTypeComponent implements OnInit {
     this.addExamType = obj.data;
     this.addExamType.date = (this.addExamType.date != '' && this.addExamType.date != null) ? (moment(this.addExamType.date).format('YYYY-MM-DD')) : ''
     $('#addExamType').modal('show');
+  }
+  deleteExamType(obj) {
+    debugger
+    if (obj.data.used) {
+      this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', 'Exam Type is already used. So we can not delete');
+    }
+    let url = "/api/v1/courseExamSchedule/delete-exam-type/" + obj.data.exam_type_id;
+    this.http.deleteData(url, null).subscribe(data => {
+      let temp: any = data;
+      this.msgSrvc.showErrorMessage('success', '', temp.message)
+      this.auth.hideLoader();
+      this.fetchInstituteExamTypes(false);
+    }, error => {
+      this.auth.hideLoader();
+      this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', error.error.message)
+    })
+
   }
   updateExamType() {
     let url = "/api/v1/courseExamSchedule/update-exam-type/" + this.addExamType.exam_type_id;
