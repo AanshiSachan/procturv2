@@ -170,7 +170,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveData() {
-    debugger
     if (this.editrecord.master_course_name != '-1' && this.editrecord.master_course_name != '') {
       if (this.editrecord.exam_type_id != '' && this.editrecord.exam_type_id != '-1') {
         if (this.editrecord.course_id != '' && this.editrecord.course_id != '-1') {
