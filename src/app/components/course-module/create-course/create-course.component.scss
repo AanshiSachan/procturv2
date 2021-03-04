@@ -9,62 +9,63 @@
     // overflow-x: auto;
     // overflow-y: auto;
 }
-
-.common-tab {
-    padding-top: 5px;
-    ul {
-        font-size: 0;
-        text-align: center;
-        // border-bottom: 1px solid #f1f1f1;
-        li {
-            margin-right: 1px;
-            display: inline-block;
-            width: 10%;
-            max-width: 158px;
-            cursor: pointer;
-            a {
-                display: block;
-                padding: 7px 5px;
-                border: 1px solid #cccdcd;
-                color: #9b9b9b;
-                text-align: center;
-                font-size: 14px;
-                font-weight: 600;
-                text-decoration: none;
-            }
-            &:hover,
-            &.active {
-                a {
-                    background: #e1f3ff;
-                    color: #1283f4;
-                    border-color: #1283f4;
-                    font-weight: normal;
-                    font-weight: 600;
-                }
-            }
-        }
+.w98 {
+    width: 100%;
+    margin: 0px auto;
+  }
+  .nav-item {
+    .nav-link {
+        font-weight: 600;
+        color: #405877;
+        padding-bottom: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        float: left;
+        background: none;
     }
-}
-
-@media only screen and (max-width: 420px) {
-    .common-tab ul li {
-        width: auto;
-        a {
-            font-size: 10px;
-        }
+    .active {
+        border-bottom: 3px solid #109cf1 !important;
+        color: #109cf1 !important;
+        font-weight: 600;
+        color: #405877;
+        padding-bottom: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        float: left;
+        background: none;
+        display: block;
+        padding: 0.5rem 0rem;
+        margin: 0;
+        margin-left: 0rem;
+        margin-right: 3.5rem;
     }
-    .field-checkbox-wrapper .form-checkbox+label {
-        font-size: 12px;
-    }
-}
-
-@media only screen and (max-width:767px) {
-    .common-tab ul li {
-        margin-right: 0;
-        width: 20%;
-        a {
-            padding: 5px 5px;
-            font-size: 12px;
-        }
-    }
-}
+  }
+  
+  .nav-link {
+    font-weight: 600;
+    color: #405877;
+    padding-bottom: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    float: left;
+    display: block;
+    padding: 0.5rem 0rem;
+    margin: 0;
+    margin-left: 0rem;
+    margin-right: 3.5rem;
+  }
+  .flex {
+    display: flex;
+  }
+  .main-shadow {
+    box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.1);
+    // padding-bottom: 15px;
+  }
+  .p-15 {
+    padding-bottom: 15px;
+  }
+  .nav>li>a:focus, .nav>li>a:hover {
+      background: none !important;
+  }

@@ -29,6 +29,7 @@ export class CreateCourseComponent implements OnInit {
 
   schoolModel: boolean = false;
   isFromSection: boolean = true;
+  activeSession: any = '';
   constructor(
     private router: Router,
     private auth: AuthenticatorService
@@ -94,7 +95,7 @@ export class CreateCourseComponent implements OnInit {
   }
 
   switchActiveView(showId) {
-    let lists =['liStandard','liSubject','liManageBatch','liExam','liClass', 'liEcourseMapping'];
+    let lists =['liStandard','liSubject','liManageBatch','liExam', 'liEcourseMapping'];
     lists.forEach((object)=>{
       if(this[object]) {
         this[object].nativeElement.classList.remove('active');
@@ -106,6 +107,7 @@ export class CreateCourseComponent implements OnInit {
     setTimeout(() => {
       if(document.getElementById(showId) && document.getElementById(showId).classList){
           document.getElementById(showId).classList.add('active');
+          this.activeSession = showId;
       }
     }, 500);
   }

@@ -706,7 +706,7 @@ export class ManageBatchComponent implements OnInit {
     document.getElementById('liStandard').classList.remove('active');
     document.getElementById('liSubject').classList.remove('active');
     document.getElementById('liManageBatch').classList.remove('active');
-    document.getElementById('liClass').classList.remove('active');
+    // document.getElementById('liClass').classList.remove('active');
   }
 
   //  Role Based Access
