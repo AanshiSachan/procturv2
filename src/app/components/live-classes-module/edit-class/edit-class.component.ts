@@ -401,6 +401,9 @@ export class EditClassComponent implements OnInit {
           if (this.editData.course_list != null && this.editData.course_list.length > 0) {
             this.getCoursepreFillData();
           }
+          if(this.editData.batch_list !=null && this.editData.batch_list.length > 0) {
+            this.getBatchpreFillData();
+          }
           this.getTeachers();
           if (!this.zoom_enable) {
             this.getCustomUsers();

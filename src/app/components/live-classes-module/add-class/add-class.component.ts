@@ -321,7 +321,7 @@ export class AddClassComponent implements OnInit {
         body: "You cannot select past date"
       }
       this.appC.popToast(msg);
-      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+      this.scheduledateFrom = moment(new Date()).format();
     }
     event = (new Date(event));
     proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
@@ -330,9 +330,10 @@ export class AddClassComponent implements OnInit {
     if (proctur_live_expiry_date < event && proctur_live_expiry_date != event) {
       const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
       this.msgService.showErrorMessage('info', '', tempMsg);
-      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+      this.scheduledateFrom = moment(new Date()).format();
     }
   }
+  
 
   getEventHourFrom(e) {
     if (this.hoursFrom != "" && this.hoursFrom != null && this.minuteFrom == "") {
