@@ -6,6 +6,7 @@ import { TimeTableComponent } from './time-table/time-table.component';
 // import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import {AttendanceComponent} from './attendance/attendance.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
@@ -103,6 +104,16 @@ import { AnalyticsComponent } from './analytics/analytics.component';
           // component: AnalyticsComponent
           loadChildren: () => import('../../components/course-module/analytics/analytics.module').then(m => m.AnalyticsModule),
           pathMatch: 'prefix',
+        },
+        {
+          path: 'class-attendance',
+          component: AttendanceComponent,
+          pathMatch: 'prefix'
+        },
+        {
+          path: 'exam-attendance',
+          component: AttendanceComponent,
+          pathMatch: 'prefix'
         }
       ]
     }

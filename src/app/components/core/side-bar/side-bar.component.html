@@ -27,7 +27,7 @@
                     <span class="dropSize" (click)="routerLink('/view/course/create/standardlist');activeSession=null">Manage {{schoolModel?'Section':'Course'}}</span>
 
                 </div>
-                <div class="side-section-item" (click)="routerLink('/view/course/master-tag')">
+                <div class="side-section-item" (click)="routerLink('/view/course/setup/master-tag')">
 
                     <span class="dropSize">Manage tag</span>
                 </div>
@@ -502,8 +502,8 @@
                             <span> Schedule</span>
                         </li>
                     </a>
-                    <a routerLink="/view/course/coursePlanner/class">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                    <a routerLink="/view/course/class-attendance">
+                        <li class="subMenu">
                             <span> Attendance</span>
                         </li>
                     </a>
@@ -543,7 +543,7 @@
                             <span>Schedule</span>
                         </li>
                     </a>
-                    <a routerLink="/view/course/setup/exam-type">
+                    <a routerLink="/view/course/exam-attendance">
                         <li class="subMenu">
                             <span>Attendance</span>
                         </li>
@@ -599,7 +599,7 @@
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 16%;">
-                    <a routerLink="/view/batch/setup">
+                    <a (click)="setSetupSession('class')" routerLink="/view/course/setup/teacher/list">
                         <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
                             <span>Data Setup</span>
                         </li>
@@ -639,7 +639,7 @@
                             <span>Reports</span>
                         </li>
                     </a>
-                    <a routerLink="/view/batch/master-tag">
+                    <a routerLink="/view/course/setup/master-tag">
                         <li class="subMenu">
                             <span>Manage Tags</span>
                         </li>
