@@ -309,7 +309,7 @@
                 </span>
               </div>
               <div class="item_type_1" *ngIf="(!liveClassFor)" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
-                <span (click)="cancel(class.session_id, class.live_meeting_with)" title="Cancel"
+                <span title="Cancel"
                   *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)"
                   style="margin-right: 10px;cursor: pointer;" [disabled]="proctur_live_expiry_date_check"
                   [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
@@ -317,8 +317,9 @@
                     <span class=" i-class">
                       <button style="background: none;" type="button" name="button"
                         [disabled]="proctur_live_expiry_date_check"
+                        (click)="cancel(class.session_id, class.live_meeting_with)"
                         [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
-                        <i class="fa fa-times-circle-o" style="font-size: 28px;color: red;"></i>
+                        <img src="../../../../assets/images/Live class/icon8.svg">
                       </button>
                     </span>
                     <div class="tooltip-box-field" *ngIf="proctur_live_expiry_date_check">
@@ -330,12 +331,12 @@
                   </div>
                 </span>
                 <span style="margin-right: 10px;cursor: pointer;" title="Edit"
-                  (click)="editStudent(class.session_id, class.live_meeting_with)"
                   *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)">
                   <div class="questionInfo inline-relative">
                     <span class=" i-class">
                       <button style="background: none;" type="button" name="button"
                         [disabled]="proctur_live_expiry_date_check"
+                        (click)="editStudent(class.session_id, class.live_meeting_with)"
                         [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                         <img src="../../../../assets/images/Live class/Edit_class.png">
                       </button>
@@ -348,12 +349,13 @@
                     </div>
                   </div>
                 </span>
-                <span style="margin-right: 10px;" (click)="showSmsNotificationPopup(class)"
+                <span style="margin-right: 10px;"
                   *ngIf="!timeLeft(today, class.startDateTime)" title="Send SMS Notification">
                   <div class="questionInfo inline-relative">
                     <span class=" i-class">
                       <button style="background: none;" type="button" name="button"
                         [disabled]="proctur_live_expiry_date_check"
+                        (click)="showSmsNotificationPopup(class)"
                         [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                         <img src="../../../../assets/images/Live class/Send_sms.png">
                       </button>
@@ -366,12 +368,13 @@
                     </div>
                   </div>
                 </span>
-                <span (click)="showpushNotificationPopup(class)" *ngIf="!timeLeft(today, class.startDateTime)"
+                <span *ngIf="!timeLeft(today, class.startDateTime)"
                   style="margin-right: 10px;cursor: pointer;" title="Send Push Notification">
                   <div class="questionInfo inline-relative">
                     <span class=" i-class">
                       <button style="background: none;" type="button" name="button"
                         [disabled]="proctur_live_expiry_date_check"
+                        (click)="showpushNotificationPopup(class)"
                         [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
                         <img src="../../../../assets/images/Live class/Notify.png">
                       </button>
@@ -1274,7 +1277,7 @@
                 Name</span><span class="value">Zoom Recording Account</span></p>
           </div>
           <div class="col-lg-3 image-container">
-            <img src="../../../../assets/images/Group240.svg" class="img_doc">
+            <!-- <img src="../../../../assets/images/Group240.svg" class="img_doc"> -->
           </div>
         </div>
         <div class="div-border"></div>
@@ -1285,8 +1288,8 @@
                 (viewClassData.teachersName | slice:0:70 ) + '...' :(viewClassData.teachersName) }}</span></p>
           </div>
           <div class="col-lg-3 image-container">
-            <img src="../../../../assets/images/image11.svg" class="profile">
-            <img src="../../../../assets/images/image10.svg" class="profile overlap">
+            <!-- <img src="../../../../assets/images/image11.svg" class="profile">
+            <img src="../../../../assets/images/image10.svg" class="profile overlap"> -->
           </div>
         </div>
         <div class="div-border"></div>
