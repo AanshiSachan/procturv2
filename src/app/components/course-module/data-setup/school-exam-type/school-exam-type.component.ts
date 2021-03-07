@@ -91,7 +91,7 @@ export class SchoolExamTypeComponent implements OnInit {
         sorting: false,
         visibility: true,
         edit: true,
-        delete: false,
+        delete: true,
         view: false
       }
     ]
@@ -211,7 +211,8 @@ export class SchoolExamTypeComponent implements OnInit {
   deleteExamType(obj) {
     debugger
     if (obj.data.used) {
-      this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', 'Exam Type is already used. So we can not delete');
+      this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', 'Exam Type is already used. So we can not delete it.');
+      return;
     }
     let url = "/api/v1/courseExamSchedule/delete-exam-type/" + obj.data.exam_type_id;
     this.http.deleteData(url, null).subscribe(data => {
@@ -223,7 +224,6 @@ export class SchoolExamTypeComponent implements OnInit {
       this.auth.hideLoader();
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', error.error.message)
     })
-
   }
   updateExamType() {
     let url = "/api/v1/courseExamSchedule/update-exam-type/" + this.addExamType.exam_type_id;

@@ -28,7 +28,7 @@ export class CourseEditComponent implements OnInit {
     message: '',
     tempObject: {}
   };
-
+  schoolModel:boolean=false;
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
@@ -45,6 +45,7 @@ export class CourseEditComponent implements OnInit {
         }
       }
     )
+    this.schoolModel=this.auth.schoolModel.value;
   }
 
   ngOnInit() {
