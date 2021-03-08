@@ -451,7 +451,7 @@
                       <td>
                         <div class="action-box">
                           <span *ngIf="row.class_schedule_id != 0 && row.is_attendance_marked == 'N'"
-                            class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
+                            class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"> X </span>
                           <span *ngIf="row.class_schedule_id == 0" (click)="removeRowFromSchedule(i , row)"
                             title="Delete" class="delete-btn">
                             <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>

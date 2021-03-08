@@ -34,9 +34,9 @@
                           <td>
                               Contact Number
                           </td>
-                          <td>
+                          <!-- <td>
                               Subject
-                          </td>
+                          </td> -->
                           <td>
                               Date Of Joining
                           </td>
@@ -61,12 +61,12 @@
                       <td>
                         {{row.teacher_phone}}
                       </td>
-                      <td *ngIf="row.teacher_subjects!=''">
+                      <!-- <td *ngIf="row.teacher_subjects!=''">
                         {{row.teacher_subjects}}
                       </td>
                       <td *ngIf="row.teacher_subjects==''">
                         -
-                      </td>
+                      </td> -->
                       <td>
                         <span *ngIf="row.date_of_joining==''"> - </span>
                         <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining}}</span>

@@ -511,16 +511,16 @@ export class ClassAddComponent implements OnInit, OnDestroy {
   }
 
   submitMasterCourse() {
-    if(this.schoolModel) {
-      this.fetchMasterCourseModule.requested_date = moment().day(this.fetchMasterCourseModule.selected_day).format('YYYY-MM-DD')
-    }
     if (this.fetchMasterCourseModule.master_course == '-1' || this.fetchMasterCourseModule.course_id == '-1' ||
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
-      || this.fetchMasterCourseModule.requested_date == null) {
+      || this.fetchMasterCourseModule.requested_date == null || (this.schoolModel && this.fetchMasterCourseModule.selected_day=='-1')) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter all mandatory details');
       return;
     }
     else {
+      if(this.schoolModel) {
+        this.fetchMasterCourseModule.requested_date = moment().day(this.fetchMasterCourseModule.selected_day).format('YYYY-MM-DD')
+      } 
      let requested_date = this.fetchMasterCourseModule.requested_date;
       if (moment(this.courseStartDate).format("YYYY-MM-DD") <= moment(requested_date).format("YYYY-MM-DD") && moment(requested_date).format("YYYY-MM-DD") <= moment(this.courseEndDate).format("YYYY-MM-DD")) {
         this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
