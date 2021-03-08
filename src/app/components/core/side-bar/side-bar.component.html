@@ -22,11 +22,11 @@
                         Data Setup
                     </span>
                 </div>
-                <div class="side-section-item">
+                <!-- <div class="side-section-item">
 
-                    <span class="dropSize" (click)="routerLink('/view/course/create/standardlist');activeSession=null">Manage {{schoolModel?'Section':'Course'}}</span>
+                    <span class="dropSize" (click)="routerLink('/view/course/create/standardlist');activeSession=null">Manage {{schoolModel?'Section':(isLangInstitute ? 'Batch' : 'Course')}}</span>
 
-                </div>
+                </div> -->
                 <div class="side-section-item" (click)="routerLink('/view/course/setup/master-tag')">
 
                     <span class="dropSize">Manage tag</span>
@@ -524,6 +524,36 @@
                     </a> -->
                 </ul>
             </li>
+            <li *ngIf="isLangInstitute && jsonFlags.isShowCourse" (click)="toggler('lithree')" >
+                <img src="./assets/images/sidebar/newSideMenu/course.svg" alt="" class="sideBar_centerAlign"
+                    style="width: 20px;padding-bottom: 4px;">
+                <a routerLink="/view/batch">
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Batch</span><i
+                        class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <ul style="top: 16%;">
+                    <a (click)="setSetupSession('class')" routerLink="/view/course/setup/teacher/list">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
+                            <span>Setup</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/create">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
+                            <span>Batches</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/coursePlanner/class">
+                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                            <span>Class/Exam Planner</span>
+                        </li>
+                    </a>
+                    <a routerLink="/view/batch/timeTable">
+                        <li class="subMenu">
+                            <span>Timetable</span>
+                        </li>
+                    </a>
+                </ul>
+            </li>
             <li [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" (click)="toggler('liExam')" >
                 <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidemenuicon/classesIcon1.png'" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
@@ -588,73 +618,6 @@
                 <a routerLink="/view/live-classes" class="a_link">
                     <span [ngClass]="activeSession === 'lifive' ? ' abc' : ' NavLink'">Live Class</span>
                 </a>
-            </li>
-
-           
-            <li *ngIf="isLangInstitute && jsonFlags.isShowCourse" (click)="toggler('lithree')" >
-                <img src="./assets/images/sidebar/newSideMenu/course.svg" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
-                <a routerLink="/view/batch">
-                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">Batch</span><i
-                        class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
-                <ul style="top: 16%;">
-                    <a (click)="setSetupSession('class')" routerLink="/view/course/setup/teacher/list">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowSetup ">
-                            <span>Data Setup</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/batch/create">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowModel ">
-                            <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/course/ecourse-file-manager/ecourses">
-                        <li class="subMenu">
-                            <span>Study Material</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/batch/file-manager/drive">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isEcourseFileManager ">
-                            <span>File/Doc. Manager</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/course/online-assignment">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowOnslineAssignment ">
-                            <span>Online Assignment</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/batch/coursePlanner/class">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowClassPlanner ">
-                            <span>Class/Exam Planner</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/batch/timeTable">
-                        <li class="subMenu">
-                            <span>Timetable</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/batch/reports">
-                        <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaign">
-                            <span>Reports</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/course/setup/master-tag">
-                        <li class="subMenu">
-                            <span>Manage Tags</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/batch/ecoursemapping">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowEcourseMapping ">
-                            <span>eCourse Mapping</span>
-                        </li>
-                    </a>
-                    <a routerLink="/view/batch/archiving">
-                        <li class="subMenu" *ngIf="jsonCourseFlags.isShowArchiving ">
-                            <span>Data Archiving</span>
-                        </li>
-                    </a>
-                </ul>
             </li>
 
             <li [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''" (click)="toggler('liManageUser')" >

@@ -2,7 +2,7 @@
   <div class="w98 p-15">
       <nav aria-label="breadcrumb ">
           <ol class="breadcrumb arr-right">
-              <li class="breadcrumb-item "><a routerLink="/view/course">Academics</a></li>
+              <li class="breadcrumb-item "><a routerLink="/view/course">{{checkClassStatus == 'exam' ? 'Exams' : (type == 'batch' ? 'Batch' : 'Classes')}}</a></li>
               <li class="breadcrumb-item "><a>Setup</a></li>
           </ol>
       </nav>
