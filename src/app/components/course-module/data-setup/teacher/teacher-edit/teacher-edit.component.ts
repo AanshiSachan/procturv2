@@ -19,7 +19,8 @@ export class TeacherEditComponent implements OnInit {
   hasIdCard: string = 'N';
   editTeacherForm: FormGroup;
   studentImage: string = '';
-  containerWidth: any = "200px";
+  containerWidth: any = "110px";
+  containerHeight: any = "110px";
   @ViewChild('idCardUpload', { static: false }) idCardTeacher;
   @ViewChild('uploadedImage', { static: false }) idCardImg;
   @ViewChild('uploadImageAnchor', { static: false }) anchTag;

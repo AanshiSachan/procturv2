@@ -7,12 +7,10 @@
             <span class="label top30">Profile Picture</span>
           </div>
           <div class="w40">
-            <div class="container1" class="top-10">
-              <img *ngIf="imgFile == ''" (click)="getFile()" src="../../../../../../assets/images/course/Group329.svg">
-              <img style="border-radius: 50%;height: 111px;width: 111px;" (click)="getFile()" *ngIf="imgFile != ''"
-                src="{{imgFile}}">
-              <div style='height: 0px;width: 0px; overflow:hidden;'><input id="upfile" type="file" value="upload"
-                  (change)="readFile($event.target.files)" /></div>
+            <div class="container1" class="top-10" style="position: relative;margin-left: 20px;">
+              <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
+              [containerHeight]="containerHeight" (setImage)="setImage($event)">
+          </proctur-image>
               <div class="overlay">
                 <div class="text">Add image</div>
               </div>
@@ -22,11 +20,11 @@
         </div>
         <div class="flex_box">
           <div class="w20">
-            <span class="label">Faculty Name</span>
+            <span class="label">Faculty Name <span class="text-danger">*</span></span>
           </div>
           <div class="w80">
             <input type="text" class="form-control input" formControlName="teacher_name" name="name"
-              placeholder="Amol Joshi">
+              placeholder="Faculty Name">
             <div
               *ngIf="editTeacherForm.controls['teacher_name'].invalid && (editTeacherForm.controls['teacher_name'].dirty || editTeacherForm.controls['teacher_name'].touched)"
               class="alert alert-danger">
@@ -41,7 +39,7 @@
             <span class="label">Email Id</span>
           </div>
           <div class="w80">
-            <input type="text" class="form-control input" formControlName="teacher_email" placeholder="abc@gmail.com">
+            <input type="text" class="form-control input" formControlName="teacher_email" placeholder="Email Id">
           </div>
         </div>
         <div class="flex_box">
@@ -59,7 +57,7 @@
           </div>
           <div class="w80">
             <textarea class="form-control input h87" formControlName="teacher_curr_addr"
-              placeholder="study material delivery address"></textarea>
+              placeholder="Current Address"></textarea>
           </div>
         </div>
         <div class="flex_box">
@@ -67,9 +65,7 @@
             <span class="label">Salary (Per Hour)</span>
           </div>
           <div class="w80">
-            <input type="text" class="form-control input"
-              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="hour_rate"
-              placeholder="1200Rs">
+            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="hour_rate" placeholder="Salary">
           </div>
         </div>
         <div class="flex_box">
@@ -137,7 +133,7 @@
         </div>
         <div class="flex_box">
           <div class="w20">
-            <span class="label">Contact No.</span>
+            <span class="label">Contact No. <span class="text-danger">*</span></span>
           </div>
           <div class="w20">
             <span class="countryCallingCode">
@@ -153,9 +149,7 @@
             </span>
           </div>
           <div class="w60">
-            <input type="text" class="form-control input"
-              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_phone"
-              placeholder="7890123456">
+            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_phone" placeholder="Contact No.">
             <div
               *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
               class="alert alert-danger">
@@ -198,9 +192,7 @@
             </span>
           </div>
           <div class="w60">
-            <input type="text" class="form-control input"
-              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_alt_phone"
-              placeholder="7890123456">
+            <input type="text" class="form-control input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" formControlName="teacher_alt_phone" placeholder="Alternate No.">
           </div>
         </div>
         <div class="flex_box">
