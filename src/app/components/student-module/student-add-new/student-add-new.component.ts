@@ -351,8 +351,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.masterDataList = data;
       })
     }
-    // this.fetchDataForCountryDetails();
-    // this.getStateList();
+    this.fetchDataForCountryDetails();
+    this.getStateList();
     this.fetchCustomComponents();
   }
   /* ========================================================================================================== */

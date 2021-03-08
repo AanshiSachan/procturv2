@@ -23,7 +23,7 @@ export class CommonApiCallService {
     }
   }
   fetchInstituteExamTypes(instituteId: string): Observable<any> {
-    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + instituteId;
+    let url = "/api/v1/courseExamSchedule/fetch-exam-type/" + instituteId+"?is_used_data=true";
     return this.http.getData(url);
   }
   fetchMasterData(): BehaviorSubject<any> {
