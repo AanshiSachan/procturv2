@@ -2,34 +2,38 @@
   <form #values="ngForm" (ngSubmit)="studentQuickAdder(values)">
     <div class="w98">
       <h5 class="page_heading">Add Student</h5>
-      <div class="outer-progress flex">
-        <div class="flex w40">
-          <div lass="content_img">
-            <div class="container1">
-              <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
-                [containerHeight]="containerHeight" (setImage)="setImage($event)">
-              </proctur-image>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="outer-progress flex">
+            <div class="flex w40">
+              <div lass="content_img">
+                <div class="container1">
+                  <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
+                    [containerHeight]="containerHeight" (setImage)="setImage($event)">
+                  </proctur-image>
+                </div>
+              </div>
+              <div class="caption">
+                <p>Add&nbsp;Profile<br>Picture</p>
+              </div>
             </div>
-          </div>
-          <div class="caption">
-            <p>Add&nbsp;Profile<br>Picture</p>
-          </div>
-        </div>
-        <div class="w100">
-          <div class="container">
-            <ul class="progressbar">
-              <li class="step1 step_active active" id="li-one" (click)="switchToView($event.target.id)">
-                Personal&nbsp;Details</li>
-              <li class="step2" id="li-two" [class.hide]="!quickAddStudent" (click)="switchToView($event.target.id)">
-                Other&nbsp;Details
-              </li>
-              <li class="step3" id="li-three" (click)="switchToView($event.target.id)">Fee&nbsp;Details
-              </li>
-            </ul>
+            <div class="w100">
+              <div class="container">
+                <ul class="progressbar">
+                  <li class="step1 step_active active" id="li-one" (click)="switchToView($event.target.id)">
+                    Personal&nbsp;Details</li>
+                  <li class="step2" id="li-two" [class.hide]="!quickAddStudent" (click)="switchToView($event.target.id)">
+                    Other&nbsp;Details
+                  </li>
+                  <li class="step3" id="li-three" (click)="switchToView($event.target.id)">Fee&nbsp;Details
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row mt-9 no-gutters" *ngIf="isBasicActive" id="studentForm">
+      <div class="row no-gutters mt-9" *ngIf="isBasicActive" id="studentForm">
         <div class="col-lg-8">
           <div class="bg-white">
             <div id="form1">
@@ -367,7 +371,7 @@
             <div class="row">
               <div class="col-lg-2">
                 <span class="label">
-                  Gurdian<br>contact&nbsp;no
+                  Guardian<br>Contact&nbsp;No
                 </span>
               </div>
               <div class="col-lg-1">
@@ -584,7 +588,7 @@
                 </div>
                 <div class="row no-gutters">
                   <div class="col-lg-4">
-                    <span class="label">School&nbsp;/<br>Instistution</span>
+                    <span class="label">School&nbsp;/<br>Institution</span>
                   </div>
                   <div class="col-lg-7">
                     <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name"
@@ -628,13 +632,14 @@
                 </div>
                 <div class="row no-gutters" *ngIf="!isProfessional">
                   <div class="col-lg-4">
-                    <span class="label">Asign<br>{{schoolModel ? 'Sections' : 'Courses'}}</span>
+                    <span class="label">Assign<br>{{schoolModel ? 'Sections' : 'Courses'}}</span>
                   </div>
                   <div class="col-lg-7">
-                    <textarea style="height:89px;width:100%;padding:5px;background: #efefef;margin-top:14px"
+                    <!-- style="height:89px;width:100%;padding:5px;margin-top:14px" -->
+                    <textarea 
                       name="assignCoursesParent" [ngModel]="assignedBatchString"
                       placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}" id="assignCourses"
-                      class="form-ctrl" readonly="true" cols="1" rows="1" (click)="openAssignBatch()"></textarea>
+                      class="form-ctrl input textarea" readonly="true" cols="1" rows="1" (click)="openAssignBatch()"></textarea>
                     <a style="cursor:pointer" (click)="openAssignBatch()">{{schoolModel ? 'Assign
                       Sections' : 'Assign Courses'}}</a>
                   </div>

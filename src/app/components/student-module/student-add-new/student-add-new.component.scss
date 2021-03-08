@@ -1762,7 +1762,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .common-right-section {
   &:first-child {
-    margin-top: 15px;
+    margin-top: 0px;//15px
   }
 }
 
@@ -3610,6 +3610,8 @@ input, select{
     font-weight: 700;
     font-size: 16px;
     padding: 10px 0px;
+     margin: 0px;
+     margin-left: 1rem;
   }
   .outer-progress{
     background-color: #fff;
@@ -3707,14 +3709,15 @@ input, select{
      padding: 15px 20px; 
      border-radius: 5px;
      overflow-y: auto;
-     height: 81vh;
+     height: 60vh;
     }
   .label{
-    color: #B6B5B1;
+    color: #4e5154;
     font-weight: 400;
     font-size: 13px;
     position:relative;
     top: 15px;
+   // float: right;
     display: block;
   line-height: 1.1;
   text-align: left;
@@ -3971,7 +3974,7 @@ input, select{
   }
   .borderbottom{
     border-bottom:1px solid #DFE5F0;
-    top: -32px;
+    top: -28px;
     position: relative;
     z-index: 0;
   }
@@ -3990,7 +3993,6 @@ input, select{
     border:1px solid #109CF1;
     border-radius: 5px;
     font-weight: 600;
-    margin-top: 9px;
   }
   .file::placeholder{
     color: #109CF1;
@@ -4010,6 +4012,9 @@ input, select{
   input[type=file] {
     padding: 0px;
      color: #B6B5B1;
+     width: 100%;
+     background-color: #F4F3F8;
+     border: 1px solid #F0EDED;
   }
   .choose_file{
   font-weight: 300;
@@ -4024,9 +4029,7 @@ input, select{
   font-weight: 300;
   font-size: 13px;
   line-height: 18px;
-  
   letter-spacing: 0.01em;
-  
   color: #3E4852;
   }
   .file_name>img{
@@ -4087,8 +4090,8 @@ input, select{
       background-color: #fff;
       padding: 15px 20px;
       border-radius: 5px;
-      overflow-y: scroll;
-       height: 498px; 
+      overflow-y: visible;
+       height: 460px; 
   }
   .mt-10{
     margin-top: 10px
@@ -4129,4 +4132,32 @@ input, select{
       height: 21px;
       z-index: 0;
     }
+  }
+  .textarea{
+    height: 65px;
+  }
+  .joinnow{
+    background-color: #109CF1;
+    color: white;
+    padding: 4px 20px;
+    font-size: 13px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   /* margin-left: 17px;*/
+  }
+  .joinlatter{
+    background-color: #DEE5EA;
+    color: white;
+    padding: 6px 20px;
+    font-size: 13px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    /*margin-left: 17px;*/
   }
