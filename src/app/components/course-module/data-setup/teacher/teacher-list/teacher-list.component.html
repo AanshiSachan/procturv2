@@ -21,75 +21,81 @@
           </div>
         </div>
 
-        <div>
-          <table class="tableBodyScroll">
-            <thead>
-              <tr>
-                <td>
-                  Faculty Name
-                </td>
-                <td>
-                  Contact Number
-                </td>
-                <td>
-                  Subject
-                </td>
-                <td>
-                  Date Of Joining
-                </td>
-                <td>Is Active</td>
-                <td *ngIf="isShoweOnlineExam" class="center">Exam Desk Login</td>
-                <td>
-                  <span class="right pr-40">
-                    Action
-                  </span>
-                </td>
-              </tr>
-            </thead>
-            <!-- <div  *ngIf="teacherList.length != 0 "> -->
-            <tbody style="min-height: 45vh;max-height: 45vh;">
-              <tr style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" id="row{{i}}" (click)="rowSelectEvent(i)"
-                [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
-                <td>
-                  {{row.teacher_name}}
-                </td>
-                <td>
-                  {{row.teacher_phone}}
-                </td>
-                <td *ngIf="row.teacher_subjects!=''">
-                  {{row.teacher_subjects}}
-                </td>
-                <td *ngIf="row.teacher_subjects==''">
-                  -
-                </td>
-                <td>
-                  <span *ngIf="row.date_of_joining==''"> - </span>
-                  <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining}}</span>
-                </td>
-                <td>
-                  <span *ngIf="row?.is_active == 'Y'" class="yes">Yes</span>
-                  <span *ngIf="row?.is_active == 'N'" class="no">No</span>
-                </td>
-                <td *ngIf="isShoweOnlineExam">
-                  {{row.allow_exam_desk_login}}
-                </td>
-                <td>
-                  <span class="right pr-40">
-                    <a [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"
-                      style="vertical-align: middle;cursor: pointer;">
-                      <img src="../../../../assets/images/EDit.png">
-                    </a>
-                    <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal"
-                      (click)="deleteTeacherDeatils(row)" style="cursor: pointer;" class="pl-10">
-                      <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
-                    </a>
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-            <!-- </div> -->
-          </table>
-        </div>
+          <div>
+              <table class="tableBodyScroll">
+                  <thead>
+                      <tr>
+                          <td>
+                            Id
+                          </td>
+                          <td>
+                              Faculty Name
+                          </td>
+                          <td>
+                              Contact Number
+                          </td>
+                          <td>
+                              Subject
+                          </td>
+                          <td>
+                              Date Of Joining
+                          </td>
+                          <td>Is Active</td>
+                          <td *ngIf="isShoweOnlineExam" class="center">Exam Desk Login</td>
+                          <td>
+                              <span class="right pr-40">
+                                  Action
+                              </span>
+                          </td>
+                      </tr>
+                  </thead>
+                  <!-- <div  *ngIf="teacherList.length != 0 "> -->
+                  <tbody style="min-height: 45vh;max-height: 45vh;">
+                    <tr style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
+                      <td>
+                        {{i+1}}
+                      </td>
+                      <td>
+                        {{row.teacher_name}}
+                      </td>
+                      <td>
+                        {{row.teacher_phone}}
+                      </td>
+                      <td *ngIf="row.teacher_subjects!=''">
+                        {{row.teacher_subjects}}
+                      </td>
+                      <td *ngIf="row.teacher_subjects==''">
+                        -
+                      </td>
+                      <td>
+                        <span *ngIf="row.date_of_joining==''"> - </span>
+                        <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining}}</span>
+                      </td>
+                      <td>
+                        <span *ngIf="row?.is_active == 'Y'" class="yes">Yes</span>
+                        <span *ngIf="row?.is_active == 'N'" class="no">No</span>
+                      </td>
+                      <td *ngIf="isShoweOnlineExam">
+                        {{row.allow_exam_desk_login}}
+                      </td>
+                      <td>
+                        <span class="right pr-40">
+                          <a [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"
+                              style="vertical-align: middle;cursor: pointer;">
+                              <img src="../../../../assets/images/EDit.png">
+                          </a>
+                          <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal"
+                          (click)="deleteTeacherDeatils(row)" style="cursor: pointer;" class="pl-10">
+                              <i style="color: red;font-size: 18px;font-weight: 400;"
+                                  class="fa fa-trash"></i>
+                          </a>
+                      </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                <!-- </div> -->
+              </table>
+          </div>
       </div>
     </div>
   </section>

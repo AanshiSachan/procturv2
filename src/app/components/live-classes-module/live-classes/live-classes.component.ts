@@ -231,10 +231,20 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     }
     this.live_class_for = sessionStorage.getItem('setLiveClassType');
     let pastClass = sessionStorage.getItem('pastClass');
+    const today = moment();
+    let begin = moment(today.startOf('isoWeek')).format('DD-MM-YYYY');
+    let end = moment(today.endOf('isoWeek')).format('DD-MM-YYYY');
+    this.liveClassSearchFilter = {
+      from_date: moment().format('DD-MM-YYYY'),
+      to_date: end
+    }
     if (pastClass === 'true') {
       this.liveClassFor = true;
       sessionStorage.setItem('pastClass', 'false');
-
+      this.liveClassSearchFilter.from_date = sessionStorage.getItem('from_live_date');
+      this.liveClassSearchFilter.to_date = sessionStorage.getItem('to_live_date');
+      sessionStorage.removeItem('from_live_date');
+      sessionStorage.removeItem('to_live_date');
     }
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
@@ -254,13 +264,6 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     let limit = sessionStorage.getItem('videoLimitExceeded');
     this.videoLimitExceed = JSON.parse(limit);
     this.sortDate.this_week = true;
-    const today = moment();
-    let begin = moment(today.startOf('isoWeek')).format('DD-MM-YYYY');
-    let end = moment(today.endOf('isoWeek')).format('DD-MM-YYYY');
-    this.liveClassSearchFilter = {
-      from_date: moment().format('DD-MM-YYYY'),
-      to_date: end
-    }
     this.getClassesList();
     this.getAuthKey();
     this.institution_id = sessionStorage.getItem('institution_id');
@@ -1471,6 +1474,8 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
 
   viewAttandance(obj) {
     sessionStorage.setItem('live_meeting_with', obj.live_meeting_with);
+    sessionStorage.setItem('from_live_date', this.liveClassSearchFilter.from_date);
+    sessionStorage.setItem('to_live_date', this.liveClassSearchFilter.to_date);
     this.router.navigate(['/view/live-classes/report/' + obj.session_id]);
   }
 

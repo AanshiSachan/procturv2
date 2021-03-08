@@ -418,6 +418,8 @@ export class TeacherEditComponent implements OnInit {
     dataToBind.country_id = data.country_id;
     // dataToBind.dob = '1998-2-2';
     // dataToBind.date_of_joining = '1998-2-2'
+    dataToBind.date_of_joining = data.date_of_joining;
+    dataToBind.dob = data.dob;
     dataToBind.dob = (dataToBind.dob != '' && dataToBind.dob != null) ? moment(data.dob).format("YYYY-MM-DD") : '';
     dataToBind.date_of_joining = (dataToBind.date_of_joining != '' && dataToBind.date_of_joining != null) ? moment(data.date_of_joining).format("YYYY-MM-DD") : '';
     this.country_id = data.country_id;
