@@ -114,6 +114,11 @@ import {AttendanceComponent} from './attendance/attendance.component';
           path: 'exam-attendance',
           component: AttendanceComponent,
           pathMatch: 'prefix'
+        },
+        {
+          path: 'exam-marks',
+          component: AttendanceComponent,
+          pathMatch: 'prefix'
         }
       ]
     }

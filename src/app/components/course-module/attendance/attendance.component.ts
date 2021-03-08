@@ -24,6 +24,7 @@ export class AttendanceComponent implements OnInit {
   role_feature = role.features;
   public classMarkedForAction: any;
   classAttendance: any = false;
+  exam_marks: any = false;
 
   constructor(
     private widgetService: WidgetService,
@@ -37,6 +38,7 @@ export class AttendanceComponent implements OnInit {
   ngOnInit(): void {
     this.classAttendance = (window.location.href.includes('class-attendance'));
     this.mark_attendance_subject_wise = (sessionStorage.getItem('mark_attendance_subject_wise') == 'true') ? true : false;
+    this.exam_marks = (window.location.href.includes('exam-marks'));
     this.auth.schoolModel.subscribe(
       res => {
         this.schoolModel = false;
@@ -113,6 +115,7 @@ export class AttendanceComponent implements OnInit {
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('fromClassAttendace', 'true');
     sessionStorage.setItem('classAttendance', this.classAttendance);
+    sessionStorage.setItem('exam_marks',this.exam_marks);
     sessionStorage.setItem('batch_info', btoa(batch_info));
     sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
     if (this.isSubjectView || this.isProfessional) {
@@ -123,6 +126,26 @@ export class AttendanceComponent implements OnInit {
     }
     this.router.navigate(['/view/dashboard/mark-attendance']);
 
+
+  }
+
+  examMarksUpdateCourse(data) {
+    let obj = {
+      data: data
+    }
+    let exam_info = JSON.stringify(obj);
+    sessionStorage.setItem('exam_info', btoa(exam_info));
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    sessionStorage.setItem('fromClassAttendace', 'true');
+    sessionStorage.setItem('classAttendance', this.classAttendance);
+    sessionStorage.setItem('exam_marks',this.exam_marks);
+    if (this.isSubjectView || this.isProfessional) {
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else {
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
+    this.router.navigate(['/view/dashboard/exam-marks']);
 
   }
 
