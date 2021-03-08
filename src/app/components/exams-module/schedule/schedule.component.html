@@ -41,6 +41,7 @@
               <option title="{{subject.subject_name}}" [value]="subject.batch_id" *ngFor="let subject of subjectList">
                 {{ (subject.subject_name.length > 30) ? (subject.subject_name | slice:0:30) + '...' :
                 subject.subject_name }}
+                <span *ngIf="subject.is_optional_subject">(Optional)</span>
               </option>
             </select>
           </div>

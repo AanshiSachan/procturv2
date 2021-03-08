@@ -254,7 +254,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
     if (!this.isProfessional) {
       this.checkForEditMode();
     }
-    this.switchActiveView();
+    // this.switchActiveView();
     this.checkForCoursePlannerRoute();
     this.getAllWeekDay();
   }

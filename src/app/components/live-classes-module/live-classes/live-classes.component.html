@@ -144,19 +144,19 @@
                 <div class="item_type_1">
                   <!-- <span style="color: #9898a3;">Date :  -->
                   <span style="width: 15%;"><img src="../../../../assets/images/date_time_new.svg"></span>
-                  <span style="font-weight: 600;">{{class.startDateTime | date : 'shortTime'}} - {{class.end_datetime |
+                  <span class="dateColor" style="font-weight: 600;">{{class.startDateTime | date : 'shortTime'}} - {{class.end_datetime |
                     date: 'shortTime'}}</span>
                 </div>
                 <div class="item_type_1">
                   <span style="width: 15%;"><img src="../../../../assets/images/time_2.png"></span>
-                  <span style="font-weight: 600;">{{diffDate(class.startDateTime,
+                  <span class="dateColor" style="font-weight: 600;">{{diffDate(class.startDateTime,
                     class.endDateTime)}}</span>
                 </div>
                 <div class="item_type_1" *ngIf="liveClassFor">
                   <span style="width: 15%;"><img src="../../../../assets/images/remainder.png"></span>
                   <span>
                     <!-- <span style="color: #9898a3;">Time : </span> -->
-                    <span style="font-weight: 600;">{{class.startDateTime | date: 'shortTime'}} -
+                    <span class="dateColor" style="font-weight: 600;">{{class.startDateTime | date: 'shortTime'}} -
                       {{class.endDateTime | date: 'shortTime'}}</span>
                   </span>
                   <!-- <span style="color: #585574;" *ngIf="class.live_meeting_with != 'Zoom'">
@@ -170,7 +170,7 @@
                 </div>
                 <div class="item_type_1">
                   <span style="width: 15%;"><img src="../../../../assets/images/faculty_img.png"></span>
-                  <span style="font-weight: 600;" title="{{class.teachersName}}">
+                  <span class="dateColor" style="font-weight: 600;" title="{{class.teachersName}}">
                     {{ (class.teachersName?.length>20) ? (class.teachersName | slice:0:20 ) + '...' :
                     (class.teachersName)
                     }}
@@ -309,6 +309,7 @@
                 </span>
               </div>
               <div class="item_type_1" *ngIf="(!liveClassFor)" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
+                <div style="width: 70%;float: left;border-right: 1px solid #ECEAEA;">
                 <span title="Cancel"
                   *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)"
                   style="margin-right: 10px;cursor: pointer;" [disabled]="proctur_live_expiry_date_check"
@@ -398,9 +399,11 @@
                 <span title="View" style="cursor: pointer;" (click)="viewClass(class)">
                   <img src="../../../../assets/images/Live class/view_class.png">
                 </span>
+              </div>
+              <div style="float: left;width: 30%;padding-left: 10px;">
                 <span
                   *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
-                  style="cursor: pointer;float: right;border-left: 1px solid #ECEAEA;padding-left: 10px;">
+                  style="cursor: pointer;">
                   <div class="questionInfo inline-relative">
                     <span class=" i-class">
                       <button type="button" name="button"
@@ -419,6 +422,7 @@
                     </div>
                   </div>
                 </span>
+              </div>
               </div>
 
               <div class="item_type_1" *ngIf="liveClassFor" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
