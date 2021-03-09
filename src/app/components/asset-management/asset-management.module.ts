@@ -12,9 +12,7 @@ import { AssetPurchaseComponent } from './asset-purchase/asset-purchase.componen
 import { SharedModule } from '../shared/shared.module';
 import { FormValidationsDirective } from './form-validations.directive';
 import { AddEditAssetComponent } from './add-edit-asset/add-edit-asset.component';
-
-
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [AssetManagementComponent, SupplierMasterComponent,
     LocationComponent, CategoryComponent, AssetAssignmentComponent, AssetPurchaseComponent,
@@ -24,7 +22,8 @@ import { AddEditAssetComponent } from './add-edit-asset/add-edit-asset.component
     CommonModule,
     AssetManagementRoutingModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    NgMultiSelectDropDownModule.forRoot()
   ]
 })
 export class AssetManagementModule { }

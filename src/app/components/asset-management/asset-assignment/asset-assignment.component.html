@@ -43,18 +43,17 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="category_id" id="category_id"
-                                    [(ngModel)]="model.category_id" #category_id="ngModel">
-                                    <option value="-1" selected>Category Name*</option>
+                                    [(ngModel)]="model.category_id">
+                                    <option value="" selected>Category Name*</option>
                                     <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                         {{data.category_name}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <select class="form-control" name="asset_id" id="asset_id"
-                                    [(ngModel)]="model.purchased_by_user_id">
-                                    <option value="" selected>Asset *</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
-                                        {{data.category_name}}</option>
+                                <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id">
+                                    <option value="">Asset *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of assetAllData">
+                                        {{data.asset_name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -62,14 +61,15 @@
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="Location_id" id="Location_id"
                                     [(ngModel)]="model.Location_id">
-                                    <option value="" selected>Location *</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
-                                        {{data.category_name}}</option>
+                                    <option value="">Location *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of locationAllData">
+                                        {{data.location_name}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="text" class="form-control" id="inputPassword4"
-                                    placeholder=" Assign Quantity *" [(ngModel)]="model.quantity"
+
+                                <input type="text" class="form-control" id="inputPassword4" placeholder="Quantity *"
+                                    [(ngModel)]="model.quantity" name="quantity"
                                     onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
                             </div>
                         </div>

@@ -4,6 +4,8 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
 import { NgForm } from '@angular/forms';
+//import { UserService } from '../../../services/user-management/user.service';
+import { HttpService } from '../../../services/http.service';
 declare var $;
 @Component({
   selector: 'app-asset-purchase',
@@ -23,24 +25,27 @@ export class AssetPurchaseComponent implements OnInit {
   isedit: any;
   purchaseAllData: any = [];
   searchParams: any;
+  purchaseby: any;
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
-    private msgService: MessageShowService) { }
+    private msgService: MessageShowService,
+    private temp: HttpService
+  ) { }
 
   model = {
     asset_id: '',
     supplier_id: '',
     Location_id: '',
-    expiry_date: 31 - 12 - 2021,
+    expiry_date: '',
     institute_id: sessionStorage.getItem('institute_id'),
-    purchase_amount: 10000,
-    purchase_date: "17-02-2021",
-    purchased_by_user_id: 29772,
-    quantity: 10,
-    service_date: "20-02-2021",
-    unit: "piece",
-    user_type: 3
+    purchase_amount: '',
+    purchase_date: '',
+    purchased_by_user_id: '',
+    quantity: '',
+    service_date: '',
+    unit: '',
+    user_type: ''
 
   }
   ngOnInit(): void {
@@ -49,7 +54,8 @@ export class AssetPurchaseComponent implements OnInit {
     this.getPurchaseDetails();
     this.getAssetDetails();
     this.getVendorDetails();
-    this.getLocationDetails()
+    this.getLocationDetails();
+    this.get_purchase_by();
   }
   setTableData() {
     this.headerSetting = [
@@ -57,7 +63,7 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'id',
         value: "Id",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -192,21 +198,6 @@ export class AssetPurchaseComponent implements OnInit {
 
     ]
   }
-  getFaqCategoryData() {
-    this.auth.showLoader();
-    this.httpService.getMethod('/api/v2/website/faq/category/institute/' + sessionStorage.getItem('institute_id'), null).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.staticPageDataSouece = res.result;
-        this.totalRecords = this.staticPageDataSouece.length;
-        this.staticPageData = this.getDataFromDataSource(0);
-        //this.fetchTableDataByPage(this.pageIndex);
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
-  }
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
@@ -246,7 +237,7 @@ export class AssetPurchaseComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset not Purchased");
           $('#modelforpurchase').model('hide');
         })
-      $('#modelforpurchase').model('hide');
+      // $('#modelforpurchase').model('hide');
       this.getPurchaseDetails();
     }
     else {
@@ -314,15 +305,15 @@ export class AssetPurchaseComponent implements OnInit {
       asset_id: '',
       supplier_id: '',
       Location_id: '',
-      expiry_date: 31 - 12 - 2021,
+      expiry_date: '',
       institute_id: sessionStorage.getItem('institute_id'),
-      purchase_amount: 10000,
-      purchase_date: "17-02-2021",
-      purchased_by_user_id: 29772,
-      quantity: 10,
-      service_date: "20-02-2021",
-      unit: "piece",
-      user_type: 3
+      purchase_amount: '',
+      purchase_date: '',
+      purchased_by_user_id: '',
+      quantity: '',
+      service_date: '',
+      unit: '',
+      user_type: ''
 
     }
   }
@@ -394,4 +385,27 @@ export class AssetPurchaseComponent implements OnInit {
       }
     );
   }
+  //
+  get_purchase_by() {
+
+    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,5').subscribe(
+      (res: any) => {
+        //this.auth.hideLoader();
+        console.log(res)
+        this.purchaseby = res.active_users;
+        console.log(this.purchaseby)
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
+  }
+  //selected
+  selecteduser;
+  getUserType(obj) {
+
+    this.model.user_type = obj.user_type;
+    console.log(this.model.user_type)
+  }
+
 }

@@ -28,6 +28,11 @@ export class AssetAssignmentComponent implements OnInit {
   searchParams: any;
   startDate: string;
   endDate: string;
+
+  //data for dropdown
+  assetcategoryData: any = [];
+  assetAllData: any = [];
+  locationAllData: any = [];
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -36,6 +41,9 @@ export class AssetAssignmentComponent implements OnInit {
   model: AssetAssignment = new AssetAssignment();
   ngOnInit(): void {
     this.setTableData();
+    this.getCategoryDetails();
+    this.getAssetDetails();
+    this.getLocationDetails();
   }
   setTableData() {
     this.headerSetting = [
@@ -309,5 +317,40 @@ export class AssetAssignmentComponent implements OnInit {
      }
      this.getAllAssignment(obj)
      */
+  }
+
+  getCategoryDetails() {
+    this.httpService.getMethod('api/v2/asset/category/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
+      this.assetcategoryData = res.result.response;
+      this.staticPageData = this.getDataFromDataSource(0);
+
+    },
+      err => {
+        this.auth.hideLoader();
+      })
+
+  }
+
+  getAssetDetails() {
+    this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        //this.auth.hideLoader();
+        this.assetAllData = res.result.response;
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
+  }
+  getLocationDetails() {
+    this.httpService.getMethod('api/v2/asset/location/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        //this.auth.hideLoader();
+        this.locationAllData = res.result.response;
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
   }
 }

@@ -33,9 +33,12 @@ export class CategoryComponent implements OnInit {
   activeclass: string;
   isadd: boolean;
   isUpdate: boolean;
-
+  active: boolean = true;
+  activeb: boolean = false;
   //function for toggle view 
   toggle(param) {
+    this.active = param;
+    this.activeb = !param;
     this.is_asset_cat = !param;
     this.is_asset = param;
 
@@ -371,18 +374,19 @@ export class CategoryComponent implements OnInit {
       this.model.location_ids = location_id;
       this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
+        $('#myModalforasset').model('hide');
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id or Asset Name Duplicate");
           $('#myModalforasset').model('hide');
         })
-      $('#myModalforasset').model('hide');
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
       $('#myModalforasset').model('hide');
     }
     this.getAssetDetails();
+    $('#myModalforasset').model('hide');
   }
 
   //get location
@@ -394,6 +398,7 @@ export class CategoryComponent implements OnInit {
         console.log(this.assetAllData)
         this.totalRecords = this.assetAllData.length;
         this.staticPageDataForAsset = this.getDataFromDataSource(0);
+        $('#myModalforasset').modal('hide');
       },
       err => {
         this.auth.hideLoader();

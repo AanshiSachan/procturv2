@@ -4,9 +4,11 @@
             <span *ngIf="is_asset" class="asset-title">Assets</span>
             <span *ngIf="is_asset_cat" class="asset-title">Asset Category</span>
             <br>
-            <span class="tab1"><b (click)="toggle(false)">Asset
+            <span class="tab1" [ngStyle]="{'color':active === true ? '#109CF1' : '#334D6E' }"><b
+                    (click)="toggle(false)">Asset
                     category</b></span>
-            <span><b class="tab2" (click)="toggle(true)">Asset
+            <span><b class="tab2 tabcolor" [ngStyle]="{'color':active === true ? '#109CF1' : '#334D6E' }"
+                    (click)="toggle(true)">Asset
                 </b></span>
 
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforcat"
@@ -106,7 +108,7 @@
         <div class="modal-dialog">
             <div>
                 <div class="modal-bodyAseet">
-                    <h4 class="models" style="margin-left:20px;margin-top:20px;"> Add Assets</h4>
+                    <h4 class="models titles" style="margin-left:20px;margin-top:20px;"> Add Assets</h4>
                     <form id="form1" #assetaddForm="ngForm" autocomplete="off">
                         <div class="form-group">
                             <input type="text" class="form-control" name="asset_code" id="asset_code"

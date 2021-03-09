@@ -286,6 +286,12 @@ color: #FFFFFF;
     color: #444141;
     
   }
+  .inactives{
+    color: #334D6E;
+  }
+  .actives{
+    color: #109CF1;
+  }
   .input{
 width: 260px;
 height: 35px;
@@ -296,4 +302,22 @@ background: #FFFFFF;
 border: 1px solid #E3DADB;
 box-sizing: border-box;
 border-radius: 5px;
+  }
+  .titles{
+    width: 64px;
+height: 18px;
+left: 35px;
+top: 30px;
+
+font-family: Open Sans;
+font-style: normal;
+font-weight: 600;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+
+letter-spacing: 0.01em;
+
+color: #444141;
+
   }

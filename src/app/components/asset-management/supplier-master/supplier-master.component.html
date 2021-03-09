@@ -9,7 +9,8 @@
     </div>
     <div class="w98">
         <div class="padding1">
-            <input type="text" name="" class="input glass" placeholder="search">
+            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
             <span class="right">
                 <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
                 <a href=""><img src="assets/images/assets/Group353.svg" class="mr10"></a>
@@ -17,7 +18,7 @@
                 <a href=""><img src="assets/images/assets/document.svg" class="mr10"></a>
             </span>
         </div>
-        <app-basic-table [headers]="headerSetting" [displayData]="staticPageDataSouece" [tableSetting]="tableSetting"
+        <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
             [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
             (viewView)="viewRow($event)">
         </app-basic-table>
@@ -47,7 +48,7 @@
                                 </div>
                                 <div class="form-group" [class.has-error]="email_id.invalid && email_id.touched">
                                     <input type="text" class="form-control" name="email_id" id="email_id"
-                                        placeholder="Email Id * " [(ngModel)]="model.email_id" #email_id="ngModel"
+                                        placeholder="Email Id * " [(ngModel)]="model.email_id" #email_id="ngModel" email
                                         required>
                                 </div>
                                 <span class="help-block" *ngIf="!Locationdata.valid && Locationdata.touched">
@@ -64,46 +65,40 @@
                             </div>
                             <div>
                                 <textarea type="text" class="form-control" name="address" id="address"
-                                    placeholder="Address *" [(ngModel)]="model.address" required>
+                                    placeholder="Address *" [(ngModel)]="model.address" #address="ngModel" required>
                         </textarea>
-
+                                <span class="help-block" *ngIf="!address.valid && address.touched">
+                                    Location is Mandatory.
+                                </span>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="contact_person_name"
                                     id="contact_person_name" placeholder="Contact Person * "
                                     [(ngModel)]="model.contact_person_name" #contact_person_name="ngModel" required>
+                                <span class="help-block"
+                                    *ngIf="!contact_person_name.valid && contact_person_name.touched">
+                                    Contact Person Name is Mandatory.
+                                </span>
                             </div>
-                            <div class="form-group">
-                                <select class="form-control" name="category_id" id="category_id"
-                                    [(ngModel)]="selectedCatId" (ngModelChange)="getAssets($event)">
-                                    <option value="">Category Name*</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
-                                        {{data.category_name}}</option>
-                                </select>
-                                <h1>{{selectedvalue}}</h1>
+                            <div class="form-group multiselect">
+                                <ng-multiselect-dropdown placeholder="Category Name *" [(ngModel)]="model.category_id"
+                                    [data]="assetcategoryData" [settings]="moderatorSettings" name="category_id">
+                                </ng-multiselect-dropdown>
                             </div>
-                            <div class="form-group">
-                                <select class="form-control" id="exampleFormControlSelect1"
-                                    [(ngModel)]="model.asset_ids" multiple size="4">
-                                    <option value="">Asset Provided</option>
-                                    <optgroup label="Swedish Cars">
-                                        <option value="{{data.asset_ids}}" *ngFor="let data of assetAllData">
-                                            {{data.asset_name}}
-                                        </option>
-                                    </optgroup>
-
-                                </select>
+                            <div class="form-group multiselect">
+                                <ng-multiselect-dropdown placeholder="Asset Provide *" [(ngModel)]="model.asset_ids"
+                                    [data]="assetAllData" [settings]="moderatorSettingsforasset" name="model.asset_ids">
+                                </ng-multiselect-dropdown>
                             </div>
-
                         </form>
                         <div>
                             <span class="right"> <button type="button" class="btns blue_button" data-dismiss="modal"
                                     (click)="cancel(false)">cancel</button></span>
                             <span class="right"> <button type="submit" class="btns blue_button"
-                                    (click)="saveVendorDetails(model)">
+                                    (click)="saveVendorDetails(model)" *ngIf="!isedit">
                                     Add Vendor</button></span>
                             <span class="right"> <button type="submit" class="btns blue_button"
-                                    (click)="updateVendorDetails(model)">
+                                    (click)="updateVendorDetails(model)" *ngIf="isedit">
                                     Update </button></span>
                         </div>
                     </div>

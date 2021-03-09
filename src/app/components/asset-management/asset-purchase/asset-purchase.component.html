@@ -3,7 +3,7 @@
         <div class="w98">
             <span> Purchase Asset</span>
             <span class="right"><button class="btn blue_button" data-toggle="modal" data-target="#modelforpurchase">Add
-                    Add Purchase </button></span>
+                    Purchase </button></span>
         </div>
     </div>
     <div class="w98">
@@ -43,13 +43,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="category_id" id="category_id"
-                                    [(ngModel)]="model.category_id" #category_id="ngModel" selected>
-                                    <option value="-1">Category Name*</option>
+                                    [(ngModel)]="model.category_id">
+                                    <option value="">Category Name *</option>
                                     <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                         {{data.category_name}}</option>
                                 </select>
-                                <span class="help-block" *ngIf="category_id.invalid && category_id.touched">Asset ID is
-                                    required</span>
                             </div>
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id">
@@ -61,8 +59,8 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <select class="form-control" name="location_name" id="location_name"
-                                    [(ngModel)]="model.location_name">
+                                <select class="form-control" name="Location_id" id="Location_id"
+                                    [(ngModel)]="model.Location_id">
                                     <option value="">Location *</option>
                                     <option value="{{data.id}}" *ngFor="let data of locationAllData">
                                         {{data.location_name}}</option>
@@ -80,16 +78,16 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="purchased_by_user_id" id="purchased_by_user_id"
-                                    [(ngModel)]="model.purchased_by_user_id">
+                                    [(ngModel)]="model.purchased_by_user_id" (ngModelChange)="getUserType($event)">
                                     <option value="">Purchased By *</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
-                                        {{data.category_name}}</option>
+                                    <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
+                                        {{data.name}} </option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
 
                                 <input type="text" class="form-control" id="inputPassword4" placeholder="Quantity *"
-                                    [(ngModel)]="model.quantity"
+                                    [(ngModel)]="model.quantity" name="quantity"
                                     onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
                             </div>
                         </div>
@@ -147,8 +145,7 @@
                     <span class="right" style="margin-left: 15px;"> <button type="button" class="btns blue_button"
                             data-dismiss="modal" (click)="cancel(false)">cancel</button></span>
                     <span class="right"> <button type="submit" class="btns blue_button"
-                            (click)="saveAssetPurchaseDetails(model)" *ngIf="!isedit">Add
-                            Vendor</button></span>
+                            (click)="saveAssetPurchaseDetails(model)" *ngIf="!isedit">Purchase Asset</button></span>
                     <span class="right"> <button type="submit" class="btns blue_button" *ngIf="isedit"
                             (click)="updatePurchaseDetails()">Update
                         </button></span>

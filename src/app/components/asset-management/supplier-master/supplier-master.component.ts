@@ -22,6 +22,7 @@ export class SupplierMasterComponent implements OnInit {
     this.getCategoryDetails();
     this.getAssetDetails();
     this.getVendorDetails();
+    this.getVendorDetails();
 
   }
   headerSetting: any;
@@ -34,16 +35,17 @@ export class SupplierMasterComponent implements OnInit {
   staticPageData: any = [];
   staticPageDataSouece: any = [];
   isedit = false;
+
   model = {
     active: true,
     address: '',
     institute_id: sessionStorage.getItem('institute_id'),
-    asset_ids: '',  //required
     contact_person_name: '',
     email_id: '', //required
     mobile_no: 0,  //required
     supplier_name: '',  //required
-    category_id: 0
+    category_id: 0,
+    asset_ids: [],
   }
 
 
@@ -65,7 +67,7 @@ export class SupplierMasterComponent implements OnInit {
       },
       {
         primary_key: 'email_id',
-        value: " Emailss",
+        value: " Email",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -175,7 +177,7 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.staticPageDataSouece.slice(startindex, startindex + this.displayBatchSize);
+    let t = this.vendorAllData.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
   updateTableBatchSize(event) {
@@ -189,6 +191,19 @@ export class SupplierMasterComponent implements OnInit {
   submitted = false;
   assetcategoryData: [];
   assetAllData: [];
+  moderatorSettings: any = {
+    singleSelection: false,
+    idField: 'id',
+    textField: 'category_name',
+    enableCheckAll: false
+  };
+
+  moderatorSettingsforasset: any = {
+    singleSelection: false,
+    idField: 'id',
+    textField: 'asset_name',
+    enableCheckAll: false
+  }
   vendorAllData: any;
   dataforasset: [];
   //get category details
@@ -208,7 +223,7 @@ export class SupplierMasterComponent implements OnInit {
       (res: any) => {
         //this.auth.hideLoader();
         this.assetAllData = res.result.response;
-        console.log(this.assetAllData)
+        // console.log(this.assetAllData)
 
       },
       err => {
@@ -217,41 +232,57 @@ export class SupplierMasterComponent implements OnInit {
     );
   }
   //method use to post form data
+
   saveVendorDetails() {
-    var asset_ids = JSON.parse("[" + this.model.asset_ids + "]");
+    let newasset = []
+    let asset_ids: any = this.model.asset_ids;
+    console.log(asset_ids)
+    for (let data in asset_ids) {
+      console.log(asset_ids[data].id)
+      newasset.push(asset_ids[data].id);
+    }
+    this.model.asset_ids = newasset
+    // var asset_idss = JSON.parse("[" + this.model.asset_ids + "]");
     this.model.mobile_no = Number(this.model.mobile_no);
-    this.model.asset_ids = asset_ids;
+    //this.model.asset_ids = JSON.parse("[" + this.model.asset_ids + "]");
+    this.model.category_id = this.selectedvalue;
+    console.log(this.model.mobile_no)
+    // this.model.asset_ids = asset_idss;
     this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Vendor Added Successfully");
+        $('#modelforvendor').modal('hide');
+        this.getVendorDetails()
       },
       err => {
         console.log(err);
 
       }
     )
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location Added Successfully");
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
     $('#modelforvendor').modal('hide');
 
-    this.getVendorDetails()
+
   }
 
   //fordropdown
   selectedvalue: number;
 
-  getAssets(object) {
+  getAssetsForSelectedCat(object) {
     console.log(object)
-    /* this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
-       (res: any) => {
-         //this.auth.hideLoader();
- 
- 
-         //filter method assetAllData
-       },
-       err => {
- 
-       })
- */
+    this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        //this.auth.hideLoader();
+        this.assetAllData = res.result.response;
+
+
+        //filter method assetAllData
+      },
+      err => {
+
+      })
+
 
   }
 
@@ -286,7 +317,7 @@ export class SupplierMasterComponent implements OnInit {
       err => {
         this.auth.hideLoader();
       })
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
+    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Updated Successfully")
     $('#modelforvendor').modal('hide');
   }
   //cancel model
@@ -318,13 +349,32 @@ export class SupplierMasterComponent implements OnInit {
       active: true,
       address: '',
       institute_id: sessionStorage.getItem('institute_id'),
-      asset_ids: '',  //required
+      asset_ids: [],  //required
       contact_person_name: '',
       email_id: '', //required
       mobile_no: 0,  //required
       supplier_name: '',
       category_id: 0 //required
 
+    }
+  }
+  //search 
+
+  searchDatabase() {
+    //alert("hi")
+    console.log(this.searchParams);
+    console.log(this.staticPageDataSouece)
+    // this.staticPageDataSouece = this.tempIncomelist;
+    if (this.searchParams == undefined || this.searchParams == null) {
+      this.searchParams = "";
+
+    }
+    else {
+      let searchData = this.vendorAllData.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
+      );
+      this.staticPageData = searchData;
     }
   }
 }
