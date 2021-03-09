@@ -2887,9 +2887,11 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
 
   openMenu(index) {
     document.getElementById('menuList').classList.toggle('hide');
+    document.getElementById('blackbg').classList.toggle('hide');
   }
   closeMenu() {
     document.getElementById('menuList').classList.add('hide');
+    document.getElementById('blackbg').classList.add('hide');
   }
 
   storeFiles() {

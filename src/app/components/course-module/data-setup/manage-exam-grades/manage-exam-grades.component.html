@@ -9,17 +9,17 @@
               [(ngModel)]="addData.grade" style="border-radius: 4px;">
           </div>
           <div class="c-lg-2 c-md-2 c-sm-2">
-              <input type="text" placeholder="Marks From*" class="form-control input mr-10" name="marks_from" id="marks_from"
+              <input type="text" placeholder="Marks From*" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control input mr-10" name="marks_from" id="marks_from"
                 [(ngModel)]="addData.marks_from">
 
           </div>
           <div class="c-lg-2 c-md-2 c-sm-2">
-              <input type="text" placeholder="Marks To*" class="form-control input mr-10" name="marks_to" id="marks_to" [(ngModel)]="addData.marks_to">
+              <input type="text" placeholder="Marks To*" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control input mr-10" name="marks_to" id="marks_to" [(ngModel)]="addData.marks_to">
 
           </div>
 
           <div class="c-lg-2 c-md-2 c-sm-2">
-              <input type="text" placeholder="Grade Points*" class="form-control input mr-10" name="grade_points" id="grade_points"
+              <input type="text" placeholder="Grade Points*" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control input mr-10" name="grade_points" id="grade_points"
                 [(ngModel)]="addData.grade_points">
 
           </div>
@@ -59,9 +59,9 @@
                 <th>
                   Grade
                 </th>
-                <th *ngIf="isSchoolModel">
+                <!-- <th *ngIf="isSchoolModel">
                   Exam Type
-                </th>
+                </th> -->
                 <th *ngIf="isSchoolModel">
                   Marks From
                 </th>
@@ -102,7 +102,7 @@
                       [value]="row.grade_id">
                   </div>
                 </td>
-                <td class="view-comp" *ngIf="isSchoolModel">
+                <!-- <td class="view-comp" *ngIf="isSchoolModel">
                   {{row.exam_type}}
                 </td>
                 <td class="edit-comp" *ngIf="isSchoolModel">
@@ -113,24 +113,24 @@
                         (ngModelChange)="selectedExamType(selectedExamTypeId)">{{ list.exam_type }}</option>
                     </select>
                   </div>
-                </td>
+                </td> -->
                 <td class="view-comp" *ngIf="isSchoolModel">
-                  {{row.marks_from}}
+                  {{row.marks_from_percent}}
                 </td>
                 <td class="edit-comp" *ngIf="isSchoolModel">
                   <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_from"
-                      [value]="row.marks_from">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_from_percent"
+                      [value]="row.marks_from_percent">
                   </div>
                 </td>
 
                 <td class="view-comp" *ngIf="isSchoolModel">
-                  {{row.marks_to}}
+                  {{row.marks_to_percent}}
                 </td>
                 <td class="edit-comp" *ngIf="isSchoolModel">
                   <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_to"
-                      [value]="row.marks_to">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.marks_to_percent"
+                      [value]="row.marks_to_percent">
                   </div>
                 </td>
 
