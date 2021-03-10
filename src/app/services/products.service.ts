@@ -25,7 +25,7 @@ export class ProductService {
         private _http: HttpClient,
         private _auth: AuthenticatorService
     ) {
-        this.baseUrl = this._auth.baseUrl + '/prod/';
+        this.baseUrl = this._auth.productBaseUrl + '/prod/';
     }
 
     searchMethod(method, url, body, params, plateform) {

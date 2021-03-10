@@ -61,8 +61,6 @@
 
     </div>
     <!--model for asset category-->
-
-
     <div class="modal fade" id="myModalforcat" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -77,13 +75,16 @@
                                     placeholder="Category ID *" [(ngModel)]="category_model.category_code"
                                     #categoryCode="ngModel" required>
                             </div>
+                            <span class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
+                                Category ID is mandatory.
+                            </span>
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
                                 <input type="text" class="form-control" name="category_name" id="category_name"
                                     placeholder="Category Name*" [(ngModel)]="category_model.category_name"
                                     #categoryNmae="ngModel" required>
                             </div>
                             <span class="help-block" *ngIf="!categoryDetails.valid && categoryDetails.touched">
-                                category Name and Id is Mandatory.
+                                Category name mandatory.
                             </span>
                         </div>
                         <div>
@@ -108,7 +109,7 @@
         <div class="modal-dialog">
             <div>
                 <div class="modal-bodyAseet">
-                    <h4 class="models titles" style="margin-left:20px;margin-top:20px;"> Add Assets</h4>
+                    <h4 class="models titles" style="margin-left:20px;margin-top:20px;"> Assets</h4>
                     <form id="form1" #assetaddForm="ngForm" autocomplete="off">
                         <div class="form-group">
                             <input type="text" class="form-control" name="asset_code" id="asset_code"
@@ -119,7 +120,7 @@
                         <div class="form-group">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id">
-                                <option value="-1">Category Name*</option>
+                                <option value="" selected>Category Name*</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>
@@ -145,7 +146,7 @@
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
                                 id="asset_condition">
-                                <option value="-1" selected>Asset Condition*</option>
+                                <option value="" selected>Asset Condition*</option>
                                 <option>New</option>
                                 <option>Used</option>
                             </select>
@@ -153,7 +154,7 @@
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="model.location_ids" name="location_ids"
                                 id="location_ids">
-                                <option value="">Asset Location *</option>
+                                <option value="" selected>Asset Location *</option>
                                 <option value="{{data.id}}" *ngFor="let data of locationData">
                                     {{data.location_name}}
                                 </option>

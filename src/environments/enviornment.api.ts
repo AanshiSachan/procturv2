@@ -1,5 +1,5 @@
 export const environment = {
-    production: 'api',
-    serverUrl: 'https://api.proctur.com/StdMgmtWebAPI'
-  };
-  
+  production: 'api',
+  serverUrl: 'https://api.proctur.com/StdMgmtWebAPI',
+  productUrl: 'https://productapi.proctur.com'
+};

@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
+import { HttpService } from '../../../services/http.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AssetAssignment } from './asset-assignment';
 declare var $;
 import * as moment from 'moment';
+import { RoleService } from '../../../services/user-management/role.service';
 @Component({
   selector: 'app-asset-assignment',
   templateUrl: './asset-assignment.component.html',
@@ -33,17 +35,37 @@ export class AssetAssignmentComponent implements OnInit {
   assetcategoryData: any = [];
   assetAllData: any = [];
   locationAllData: any = [];
+  totalRow: any;
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
-    private msgService: MessageShowService) { }
+    private msgService: MessageShowService,
+    private temp: HttpService,
+    private apiService: RoleService,) { }
 
-  model: AssetAssignment = new AssetAssignment();
+  model = {
+    asset_id: '',
+    location_id: '',
+    check_out_date: '',
+    due_date: '',
+    institute_id: sessionStorage.getItem('institute_id'),
+    note: '',
+    quantity: 0,
+    status: 'IN_STORAGE',
+    check_in_date: '',
+    user_type: '',
+    check_out_user_id: ''
+
+  }
   ngOnInit(): void {
     this.setTableData();
     this.getCategoryDetails();
     this.getAssetDetails();
     this.getLocationDetails();
+    this.getCheckOutBy();
+    this.getRolesList();
+    this.cancel(false);
+    this.getAssignDetails();
   }
   setTableData() {
     this.headerSetting = [
@@ -70,14 +92,14 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'unit',
+        primary_key: 'user_type',
         value: "Role",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
-        primary_key: 'check_out_by',
+        primary_key: 'check_out_user_id',
         value: "Check out By",
         charactLimit: 25,
         sorting: true,
@@ -102,6 +124,13 @@ export class AssetAssignmentComponent implements OnInit {
         value: "Due Date",
         charactLimit: 25,
         sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'status',
+        value: "Status",
+        charactLimit: 25,
+        sorting: false,
         visibility: true
       },
       {
@@ -134,10 +163,6 @@ export class AssetAssignmentComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "15%",
-        textAlign: "left"
-      },
-      {
         width: "10%",
         textAlign: "left"
       },
@@ -150,7 +175,15 @@ export class AssetAssignmentComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
         textAlign: "left"
       },
       {
@@ -197,20 +230,25 @@ export class AssetAssignmentComponent implements OnInit {
   @ViewChild('assetAssignmentForm', { static: false }) assetAssignmentForm: NgForm;
   saveAssetAssignDetails() {
     if (this.assetAssignmentForm.valid) {
-
+      this.model.quantity = Number(this.model.quantity);
+      // this.model.user_type = Number(this.model.user_type);
+      this.model.due_date = moment(this.model.due_date).format("DD-MM-YYYY");
+      this.model.check_out_date = moment(this.model.check_out_date).format("DD-MM-YYYY")
+      this.model.check_in_date = moment(this.model.check_in_date).format("DD-MM-YYYY")
       this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
+        $('#modelforassetAssign').modal('hide');
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset not Available");
-          $('#modelforassetAssign').model('hide');
+          $('#modelforassetAssign').modal('hide');
         })
       // $('#modelforassetAssign').model('hide');
       this.getAssignDetails();
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
-      $('#modelforassetAssign').model('hide');
+      $('#modelforassetAssign').modal('hide');
     }
 
   }
@@ -238,13 +276,11 @@ export class AssetAssignmentComponent implements OnInit {
 
     $('#modelforassetAssign').modal('show');
     console.log(object);
-    //sessionStorage.setItem('faqData', JSON.stringify(object.data));
-    // this.router.navigate(['view/website-configuration/faq/category/edit/' + object.data.id])
   }
 
   deleteRow(obj) {
     this.auth.showLoader();
-    this.httpService.deleteFile('/api/v2/asset/assignment/delete' + obj.data.id).subscribe(
+    this.httpService.deleteMethod('/api/v2/asset/assignment/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', ' Deleted Successfully');
@@ -272,15 +308,15 @@ export class AssetAssignmentComponent implements OnInit {
     this.model = {
       asset_id: '',
       location_id: '',
-      check_out_by: '',
+      check_out_user_id: '',
       check_in_date: '',
       check_out_date: '',
       due_date: '',
-      institute_id: '',
+      institute_id: sessionStorage.getItem('institute_id'),
       note: '',
       quantity: 0,
-      status: ''
-
+      status: 'IN_STORAGE',
+      user_type: ''
     }
   }
   searchDatabase() {
@@ -322,8 +358,6 @@ export class AssetAssignmentComponent implements OnInit {
   getCategoryDetails() {
     this.httpService.getMethod('api/v2/asset/category/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
-      this.staticPageData = this.getDataFromDataSource(0);
-
     },
       err => {
         this.auth.hideLoader();
@@ -352,5 +386,35 @@ export class AssetAssignmentComponent implements OnInit {
         this.auth.hideLoader();
       }
     );
+  }
+  //purchaseby
+  purchaseby: any = [];
+  getCheckOutBy() {
+    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3').subscribe(
+      (res: any) => {
+        //this.auth.hideLoader();
+        console.log(res)
+        this.purchaseby = res.active_users;
+        console.log(this.purchaseby)
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
+  }
+
+  //getroles
+  rolesListDataSource: any = [];
+  getRolesList() {
+    this.apiService.getRoles().subscribe(
+      (res: any) => {
+        this.rolesListDataSource = res;
+        this.totalRow = res.length;
+        //this.fetchTableDataByPage(this.PageIndex);
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 }

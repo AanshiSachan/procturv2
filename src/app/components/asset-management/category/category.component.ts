@@ -272,28 +272,27 @@ export class CategoryComponent implements OnInit {
     category_name: '',
     institute_id: sessionStorage.getItem('institute_id')
   }
+  errordata: any = [];
   saveCategoryDetails() {
     if (this.assetcat.valid) {
-
       this.httpService.postMethod('api/v2/asset/category/create', this.category_model).then((res) => {
         console.log(res);
         this.submitted = true;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Created Successfully ")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Created Successfully ");
+        $('#myModalforcat').modal('hide');
         this.getCategoryDetails();
       },
         err => {
-
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Code");
+          this.errordata = err.error;
+          console.log(this.errordata)
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
         }
       )
       $('#myModalforcat').modal('hide');
-
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please fill all fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please fill all manadatory fields");
     }
-
-
   }
   //get category details
   getCategoryDetails() {
@@ -323,7 +322,7 @@ export class CategoryComponent implements OnInit {
       this.getCategoryDetails();
     },
       err => {
-        console.log("erro")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
       }
 
     )
@@ -367,6 +366,7 @@ export class CategoryComponent implements OnInit {
       }
     );
   }
+
   //save asset details
   saveAssetDetails() {
     if (this.assetaddForm.valid) {
@@ -375,6 +375,7 @@ export class CategoryComponent implements OnInit {
       this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
         $('#myModalforasset').model('hide');
+        this.getAssetDetails();
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id or Asset Name Duplicate");

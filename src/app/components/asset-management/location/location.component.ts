@@ -27,8 +27,6 @@ export class LocationComponent implements OnInit {
     this.setTableData();
     this.cancel(false);
   }
-
-  //basic-table ui code
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
@@ -38,10 +36,7 @@ export class LocationComponent implements OnInit {
   displayBatchSize: number = 25;
   staticPageData: any = [];
   staticPageDataSouece: any = [];
-
-  //table ui related functions
-
-
+  //table ui data
   setTableData() {
     this.headerSetting = [
       {
@@ -82,12 +77,8 @@ export class LocationComponent implements OnInit {
         view: true,
         edit: true,
         delete: true,
-
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
       },
     ]
-
     this.tableSetting = {
       width: "100%",
       height: "58vh"
@@ -117,27 +108,22 @@ export class LocationComponent implements OnInit {
 
     ]
   }
-
-  //pagination code
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     console.log(startindex)
     this.staticPageData = this.getDataFromDataSource(startindex);
   }
-
   fetchNext() {
     this.pageIndex++;
     this.fetchTableDataByPage(this.pageIndex);
   }
-
   fetchPrevious() {
     if (this.pageIndex != 1) {
       this.pageIndex--;
       this.fetchTableDataByPage(this.pageIndex);
     }
   }
-
   getDataFromDataSource(startindex) {
     let t = this.staticPageDataSouece.slice(startindex, startindex + this.displayBatchSize);
     return t;
@@ -147,8 +133,6 @@ export class LocationComponent implements OnInit {
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.pageIndex);
   }
-
-  //crud for location
   @ViewChild('locationaddForm', { static: false }) locationaddForm: NgForm;
   model: Location = new Location();
   isedit = false;
@@ -170,21 +154,20 @@ export class LocationComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.submitted = true;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location Added Successfully");
+          $('#modelforlocation').modal('hide');
+          this.getLocationDetails();
         },
         err => {
-          console.log(err);
-
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Location name is duplicate");
         }
       )
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location Added Successfully");
       $('#modelforlocation').modal('hide');
-
       this.getLocationDetails();
-
     }
     else {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please fill all fields");
     }
   }
 
@@ -208,9 +191,8 @@ export class LocationComponent implements OnInit {
     this.isedit = !this.isedit;
     console.log(object);
     this.model = object.data;
-
     $('#modelforlocation').modal('show');
-    //this.router.navigate(['view/website-configuration/faq/category/edit/' + object.data.id])
+    this.getLocationDetails();
   }
 
   updateLocationDetails() {
@@ -226,8 +208,8 @@ export class LocationComponent implements OnInit {
   }
   //cancel model
   cancel(param) {
-    this.isedit = param;
     //this.locationaddForm.reset();
+    this.isedit = param;
     this.model.address = '';
     this.model.location_description = '';
     this.model.location_name = '';

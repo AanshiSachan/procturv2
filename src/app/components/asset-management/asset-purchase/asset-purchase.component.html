@@ -59,8 +59,8 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <select class="form-control" name="Location_id" id="Location_id"
-                                    [(ngModel)]="model.Location_id">
+                                <select class="form-control" name="location_id" id="location_id"
+                                    [(ngModel)]="model.location_id">
                                     <option value="">Location *</option>
                                     <option value="{{data.id}}" *ngFor="let data of locationAllData">
                                         {{data.location_name}}</option>
@@ -78,10 +78,10 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="purchased_by_user_id" id="purchased_by_user_id"
-                                    [(ngModel)]="model.purchased_by_user_id" (ngModelChange)="getUserType($event)">
+                                    [(ngModel)]="model.purchased_by_user_id" (ngModelChange)="getUserData($event)">
                                     <option value="">Purchased By *</option>
                                     <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
-                                        {{data.name}} </option>
+                                        {{data.name}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
@@ -108,35 +108,44 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Purchase Date *</label>
-                                <input type="date" name="purchase_date" [(ngModel)]="model.purchase_date"
-                                    class="form-control" placeholder="Purchase Date" id="purchase_date"
-                                    #purchase_date="ngModel" required>
-                                <span class="help-block" *ngIf="purchase_date.invalid && purchase_date.touched">Purchase
-                                    Date required</span>
 
+                            <div class="field-wrapper col-md-6 datePickerBox">
+                                <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="purchase_date"
+                                    [(ngModel)]="model.purchase_date" class="form-control" placeholder="Purchase Date *"
+                                    id="purchase_date">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Service Date </label>
-                                <input type="date" name="service_date" [(ngModel)]="model.service_date"
-                                    class="form-control" placeholder="Service Date" id="service_date">
-
+                            <div class="field-wrapper col-md-6 datePickerBox">
+                                <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="service_date"
+                                    [(ngModel)]="model.service_date" class="form-control" placeholder="Service Date"
+                                    id="service_date">
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Expiry Date</label>
-                                <input type="date" name="expiry_date" [(ngModel)]="model.expiry_date"
-                                    class="form-control" placeholder="Expiry Date" id="expiry_date">
+                            <div class="field-wrapper col-md-6 datePickerBox">
+                                <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="expiry_date"
+                                    [(ngModel)]="model.expiry_date" class="form-control" placeholder="Expiry Date"
+                                    id="expiry_date">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Service Date</label>
-                                <input type="date" name="service_date" [(ngModel)]="model.service_date"
-                                    class="form-control" placeholder="Service Date" id="service_date">
+                            <div class="col-md-6">
+                                <ul *ngIf="isedit">
+                                    <li>Bill Copy</li>
+                                    <li (click)="clearFile()"><i class="fa fa-trash" style="color:red;"></i>
+                                    </li>
+                                    <li>
+                                        <a href="https://s3-ap-southeast-1.amazonaws.com/testeduimspro/visitor100058/1615282660126-aa.png"
+                                            target="_blank"><i class="fa fa-download" style="color:#064d0f;"></i> </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="field-wrapper col-md-6">
+
+                                <input type="file" name="billImageFile" class="form-control" placeholder="upload file"
+                                    id="billImageFile" style="margin-top:8px;" [(ngModel)]="bill_image_url">
 
                             </div>
                         </div>
+
 
                     </form>
                 </div>
@@ -145,9 +154,9 @@
                     <span class="right" style="margin-left: 15px;"> <button type="button" class="btns blue_button"
                             data-dismiss="modal" (click)="cancel(false)">cancel</button></span>
                     <span class="right"> <button type="submit" class="btns blue_button"
-                            (click)="saveAssetPurchaseDetails(model)" *ngIf="!isedit">Purchase Asset</button></span>
+                            (click)="saveAssetPurchaseData(model)" *ngIf="!isedit">Purchase Asset</button></span>
                     <span class="right"> <button type="submit" class="btns blue_button" *ngIf="isedit"
-                            (click)="updatePurchaseDetails()">Update
+                            (click)="saveAssetPurchaseData()">Update
                         </button></span>
 
                 </div>

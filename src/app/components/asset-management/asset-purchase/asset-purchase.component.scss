@@ -187,3 +187,34 @@
     font-weight: 500;
     height: 35px;
   }
+  .field-wrapper.datePickerBox:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 50px !important;
+    top: 20px;
+    width: 21px;
+    height: 21px;
+    z-index: 20;
+    border-radius: 4px;
+    margin-top: 3px;
+    }
+    .field-wrapper{
+      margin-bottom: 8px;
+      height: 31px;
+      border-radius: 4px;
+      input {
+      background-color: #fff !important;
+      }
+    }
+    .rounded-circle{
+      border-radius: 30%;
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+   ul,li{
+     float: left;
+     margin:10px;
+     font-size:15px;
+     left:250px;
+   }

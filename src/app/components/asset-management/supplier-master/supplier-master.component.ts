@@ -20,7 +20,7 @@ export class SupplierMasterComponent implements OnInit {
     this.setTableData();
     this.cancel(false);
     this.getCategoryDetails();
-    this.getAssetDetails();
+    // this.getAssetDetails();
     this.getVendorDetails();
     this.getVendorDetails();
 
@@ -218,51 +218,51 @@ export class SupplierMasterComponent implements OnInit {
 
   }
 
-  getAssetDetails() {
-    this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
-      (res: any) => {
-        //this.auth.hideLoader();
-        this.assetAllData = res.result.response;
-        // console.log(this.assetAllData)
+  // getAssetDetails() {
+  //   this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+  //     (res: any) => {
+  //       //this.auth.hideLoader();
+  //       this.assetAllData = res.result.response;
+  //       // console.log(this.assetAllData)
 
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
-  }
+  //     },
+  //     err => {
+  //       this.auth.hideLoader();
+  //     }
+  //   );
+  // }
   //method use to post form data
 
   saveVendorDetails() {
-    let newasset = []
-    let asset_ids: any = this.model.asset_ids;
-    console.log(asset_ids)
-    for (let data in asset_ids) {
-      console.log(asset_ids[data].id)
-      newasset.push(asset_ids[data].id);
-    }
-    this.model.asset_ids = newasset
-    // var asset_idss = JSON.parse("[" + this.model.asset_ids + "]");
-    this.model.mobile_no = Number(this.model.mobile_no);
-    //this.model.asset_ids = JSON.parse("[" + this.model.asset_ids + "]");
-    this.model.category_id = this.selectedvalue;
-    console.log(this.model.mobile_no)
-    // this.model.asset_ids = asset_idss;
-    this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
-      (res: any) => {
-        // console.log(res);
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Vendor Added Successfully");
-        $('#modelforvendor').modal('hide');
-        this.getVendorDetails()
-      },
-      err => {
-        console.log(err);
-
+    if (this.addVendorForm.valid) {
+      let newasset = []
+      let asset_ids: any = this.model.asset_ids;
+      console.log(asset_ids)
+      for (let data in asset_ids) {
+        console.log(asset_ids[data].id)
+        newasset.push(asset_ids[data].id);
       }
-    )
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
-    $('#modelforvendor').modal('hide');
+      this.model.asset_ids = newasset
+      this.model.mobile_no = Number(this.model.mobile_no);
+      this.model.category_id = this.selectedvalue;
+      this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
+        (res: any) => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Vendor Added Successfully");
+          $('#modelforvendor').modal('hide');
+          this.getVendorDetails()
+        },
+        err => {
 
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Supplier Name is Duplicate");
+          $('#modelforvendor').modal('hide');
+        }
+      )
+
+    }
+    else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
+      $('#modelforvendor').modal('hide');
+    }
 
   }
 
@@ -270,14 +270,26 @@ export class SupplierMasterComponent implements OnInit {
   selectedvalue: number;
 
   getAssetsForSelectedCat(object) {
-    console.log(object)
-    this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    const CategoryId = object.map((object) => {
+      return object.id;
+    });
+    var categoryselectedid = CategoryId.join();
+    console.log(categoryselectedid)
+    this.httpService.getMethod('/api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        this.assetAllData = res.result.response;
-
-
-        //filter method assetAllData
+        let result = res.result;
+        let keys = Object.keys(result);
+        let temp: any = [];
+        for (let i = 0; i < keys.length; i++) {
+          let a = result[keys[i]];
+          for (let j = 0; j < a.length; j++) {
+            temp.push(a[j]);
+          }
+          // console.log(a);
+        }
+        console.log(temp);
+        this.assetAllData = temp;
+        console.log(this.assetAllData);
       },
       err => {
 
@@ -304,21 +316,24 @@ export class SupplierMasterComponent implements OnInit {
     this.isedit = !this.isedit;
     console.log(object);
     this.model = object.data;
+    console.log(this.model)
 
     $('#modelforvendor').modal('show');
-    //this.router.navigate(['view/website-configuration/faq/category/edit/' + object.data.id])
   }
 
   updateVendorDetails() {
-    // this.isedit = !this.isedit;
+    this.model.mobile_no = Number(this.model.mobile_no);
+    this.model.category_id = this.selectedvalue;
+
     this.httpService.putMethod('api/v2/asset/supplier/update', this.model).then(() => {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Updated Successfully")
+      $('#modelforvendor').modal('hide');
       this.getVendorDetails();
     },
       err => {
         this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select category")
       })
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Updated Successfully")
-    $('#modelforvendor').modal('hide');
   }
   //cancel model
 
@@ -333,7 +348,7 @@ export class SupplierMasterComponent implements OnInit {
           this.getVendorDetails();
         },
         err => {
-          this.auth.hideLoader();
+          this.msgService.showErrorMessage('error', '', 'Delete when no pending asset request for supplier');
         }
       );
     }

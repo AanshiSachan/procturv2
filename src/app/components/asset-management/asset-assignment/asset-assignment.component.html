@@ -38,100 +38,86 @@
                     <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
                     <h4 class="modal-title">Assign Assets </h4>
                 </div>
-                <div class="modal-body">
-                    <form id="form1" #assetAssignmentForm="ngForm" autocomplete="off">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <select class="form-control" name="category_id" id="category_id"
-                                    [(ngModel)]="model.category_id">
-                                    <option value="" selected>Category Name*</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
-                                        {{data.category_name}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id">
-                                    <option value="">Asset *</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetAllData">
-                                        {{data.asset_name}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <select class="form-control" name="Location_id" id="Location_id"
-                                    [(ngModel)]="model.Location_id">
-                                    <option value="">Location *</option>
-                                    <option value="{{data.id}}" *ngFor="let data of locationAllData">
-                                        {{data.location_name}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
 
-                                <input type="text" class="form-control" id="inputPassword4" placeholder="Quantity *"
-                                    [(ngModel)]="model.quantity" name="quantity"
-                                    onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
-                            </div>
+                <form id="form1" #assetAssignmentForm="ngForm" autocomplete="off">
+                    <div class="form-row">
+                        <div class="field-wrapper  col-md-6">
+                            <select class="form-control" name="category_id" id="category_id"
+                                [(ngModel)]="model.category_id">
+                                <option value="" selected>Category Name*</option>
+                                <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
+                                    {{data.category_name}}</option>
+                            </select>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <select class="form-control" name="purchased_by_user_id" id="purchased_by_user_id"
-                                    [(ngModel)]="model.purchased_by_user_id">
-                                    <option value="" selected>Role *</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
-                                        {{data.category_name}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <select class="form-control" name="check_out_by" id="check_out_by"
-                                    [(ngModel)]="model.check_out_by">
-                                    <option value="" selected>Check-Out By *</option>
-                                    <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
-                                        {{data.category_name}}</option>
-                                </select>
-                            </div>
+                        <div class="field-wrapper  col-md-6">
+                            <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id">
+                                <option value="">Asset *</option>
+                                <option value="{{data.id}}" *ngFor="let data of assetAllData">
+                                    {{data.asset_name}}</option>
+                            </select>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Due Date </label>
-                                <input type="date" name="check_out_date" [(ngModel)]="model.check_out_date"
-                                    class="form-control" placeholder="Due Date" id="check_out_date"
-                                    #purchase_date="ngModel">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Check In Date </label>
-                                <input type="date" name="service_date" [(ngModel)]="model.service_date"
-                                    class="form-control" placeholder="Check In Date" id="service_date">
-
-                            </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field-wrapper  col-md-6">
+                            <input type="text" class="form-control" id="inputPassword4" placeholder="Assign Quantity *"
+                                [(ngModel)]="model.quantity" name="quantity"
+                                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">Check Out Date</label>
-                                <input type="date" name="check_out_date" [(ngModel)]="model.check_out_date"
-                                    class="form-control" placeholder="check_out_date Date" id="check_out_date">
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <div class="filter-item field-wrapper datePickerBox">
-                                    <!-- <label for="date-range">Select Date Range</label> -->
-                                    <input type="text" value="" id="date-range" [(ngModel)]="dateFilterRange"
-                                        (ngModelChange)="dateRangeChange($event)"
-                                        class="form-ctrl widgetDatepicker bsDatepicker" style="padding: 6px;"
-                                        readonly="true" name="date-range" placeholder="Date" bsDaterangepicker />
-                                </div>
-                            </div>
+                        <div class="field-wrapper  col-md-6">
+                            <select class="form-control" name="user_type" id="user_type" [(ngModel)]="model.user_type">
+                                <option value="" selected>Role *</option>
+                                <option value="3">
+                                    Teacher </option>
+                                <option value="0">
+                                    Admin </option>
+                                <option value="0">
+                                    Custom User </option>
+                            </select>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="exampleInputEmail1">Note</label>
-                                <input type="text" name="note" [(ngModel)]="model.note" class="form-control"
-                                    placeholder="Note " id="note">
-                            </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field-wrapper col-md-6">
+                            <select class="form-control" name="check_out_user_id" id="check_out_user_id"
+                                [(ngModel)]="model.check_out_user_id">
+                                <option value="" selected>Check-Out By *</option>
+                                <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
+                                    {{data.name}}</option>
+                            </select>
                         </div>
-                    </form>
-                </div>
-
+                        <div class="field-wrapper col-md-6 datePickerBox">
+                            <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="due_date"
+                                [(ngModel)]="model.due_date" class="form-control" placeholder="Due Date" id="due_date">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field-wrapper col-md-6 datePickerBox">
+                            <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_out_date"
+                                [(ngModel)]="model.check_out_date" class="form-control" placeholder="Check Out Date"
+                                id="check_out_date">
+                        </div>
+                        <div class="field-wrapper col-md-6 datePickerBox">
+                            <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_in_date"
+                                [(ngModel)]="model.check_in_date" class="form-control" placeholder="Check In Date"
+                                id="check_in_date">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field-wrapper col-md-6">
+                            <select class="form-control" name="Location_id" id="Location_id"
+                                [(ngModel)]="model.location_id">
+                                <option value="">Location *</option>
+                                <option value="{{data.id}}" *ngFor="let data of locationAllData">
+                                    {{data.location_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field-wrapper col-md-12">
+                            <input type="text" class="form-ctrl" name="note" [(ngModel)]="model.note"
+                                class="form-control" placeholder="Note" id="note">
+                        </div>
+                    </div>
+                </form>
                 <div class="modal-footer">
                     <span class="right" style="margin-left: 15px;"> <button type="button" class="btns blue_button"
                             data-dismiss="modal" (click)="cancel(false)">cancel</button></span>
@@ -141,7 +127,6 @@
                     <span class="right"> <button type="submit" class="btns blue_button" *ngIf="isedit"
                             (click)="updateAssetAssignDetails()">Update
                         </button></span>
-
                 </div>
             </div>
 

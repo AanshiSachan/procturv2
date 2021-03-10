@@ -233,7 +233,8 @@
                   <ol style="list-style-type: disc;">
                     <div style="margin-bottom: 10px;">Zoom Attendance Feature:</div>
                     <li style="font-weight: 100;">
-                      Zoom Attendance is available for accounts with Zoom paid plans. The users which are using zoom free plans will not be getting the zoom attendance.
+                      Zoom Attendance is available for accounts with Zoom paid plans. The users which are using zoom
+                      free plans will not be getting the zoom attendance.
                     </li>
                   </ol><br>
                   <ol style="list-style-type: none;">
@@ -436,11 +437,12 @@
               </div>
               <div class="notification_container" *ngIf="!liveClassFor">
                 <span class="upcoming_class" *ngIf="timeLeft(today, class.start_datetime)">Ongoing</span>
-                <span class="dropdown-item">                  
-                <button style="padding: 5px;background: #0084f6;color: white;border-radius: 4px;" type="button" name="button" class="start_session" (click)="RefreshSession(class)"
-                      *ngIf="timeLeft(today, class.start_datetime) && class.live_meeting_with == 'Zoom' && !class.session_processed">
-                      Refresh Session
-                    </button>
+                <span class="dropdown-item">
+                  <button style="padding: 5px;background: #0084f6;color: white;border-radius: 4px;" type="button"
+                    name="button" class="start_session" (click)="RefreshSession(class)"
+                    *ngIf="timeLeft(today, class.start_datetime) && class.live_meeting_with == 'Zoom' && !class.session_processed">
+                    Refresh Session
+                  </button>
                 </span>
                 <div class="dropdown dropleft"
                   *ngIf="(!timeLeft(today, class.start_datetime)) || (!timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime)) || (!liveClassFor && !timeLeft(today, class.start_datetime))">
@@ -548,14 +550,16 @@
               <div class="item_type_1">
                 <span style="color: #9898a3;">Faculty : </span>
                 <span style="color: #585574;font-weight: 600; color: #0084f6" title="{{class.teachersName}}">
-                  {{ (class.teachersName?.length>20) ? (class.teachersName | slice:0:20 ) + '...' : (class.teachersName) }}
+                  {{ (class.teachersName?.length>20) ? (class.teachersName | slice:0:20 ) + '...' : (class.teachersName)
+                  }}
                 </span>
               </div>
               <div class="item_type_1" style="width:14% ;">
                 <span style="color: #9898a3;">Date : <span
                     style="color: #585574;font-weight: 600;">{{class.startDateTime | date: 'dd MMM yyyy'}}</span></span>
                 <span style="color: #9898a3;">Duration : <span
-                    style="color: #585574;font-weight: 600;">{{diffDate(class.startDateTime, class.endDateTime)}}</span></span>
+                    style="color: #585574;font-weight: 600;">{{diffDate(class.startDateTime,
+                    class.endDateTime)}}</span></span>
               </div>
               <div class="item_type_1">
                 <span style="color: #585574;">
@@ -567,7 +571,8 @@
                   <span style="color: #9898a3;">Moderator : </span>
                   <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}"
                     style="font-weight: 600;">
-                    {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' : (class.moderatorName) }}
+                    {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' :
+                    (class.moderatorName) }}
                   </span>
                   <span *ngIf="class.moderatorName == '' || class.moderatorName == null">-</span>
                 </span>
@@ -586,7 +591,8 @@
                   <span style="color: #9898a3;">Master Course : </span>
                   <span title="{{class.course_list[0].master_course_name}}"
                     *ngIf="class.course_list!=null && class.course_list?.length!=0" style="font-weight: 600;">
-                    {{ (class.course_list[0]?.master_course_name?.length>30) ? (class.course_list[0].master_course_name | slice:0:30 ) + '...' : (class.course_list[0].master_course_name) }}
+                    {{ (class.course_list[0]?.master_course_name?.length>30) ? (class.course_list[0].master_course_name
+                    | slice:0:30 ) + '...' : (class.course_list[0].master_course_name) }}
                   </span>
                 </span>
                 <span style="color: #585574;">
@@ -612,7 +618,8 @@
                     <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                   </button>
                   <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                    <span class="dropdown-item" *ngIf="(class.live_meeting_with != 'Zoom' && class.showViewAttendance) || (class.live_meeting_with && class.attendance_processed)"
+                    <span class="dropdown-item"
+                      *ngIf="(class.live_meeting_with != 'Zoom' && class.showViewAttendance) || (class.live_meeting_with && class.attendance_processed)"
                       (click)="viewAttandance(class)">View Attendance</span>
                     <span class="dropdown-item"
                       *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'"
@@ -871,8 +878,8 @@
         <div class="value-outer-container">
           <div class="value-container" *ngFor="let data of download_links.download_links">
             <div class="value-item" style="text-align: left;">
-              <span
-                title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) + '...' : data.session_name}}</span>
+              <span title="{{data.session_name}}">{{(data.session_name.length > 80) ? (data.session_name | slice:0:80) +
+                '...' : data.session_name}}</span>
             </div>
             <div class="value-item" style="width: 17%;">
               <span title="{{data?.video_size}}" *ngIf="data?.video_size!=null">{{data.video_size}}&nbsp;MB</span>

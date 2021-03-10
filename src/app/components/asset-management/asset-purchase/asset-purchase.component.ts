@@ -6,6 +6,7 @@ import { ProductService } from '../../../services/products.service';
 import { NgForm } from '@angular/forms';
 //import { UserService } from '../../../services/user-management/user.service';
 import { HttpService } from '../../../services/http.service';
+import * as moment from 'moment';
 declare var $;
 @Component({
   selector: 'app-asset-purchase',
@@ -26,6 +27,7 @@ export class AssetPurchaseComponent implements OnInit {
   purchaseAllData: any = [];
   searchParams: any;
   purchaseby: any;
+  bill_image_url: any;
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -36,7 +38,7 @@ export class AssetPurchaseComponent implements OnInit {
   model = {
     asset_id: '',
     supplier_id: '',
-    Location_id: '',
+    location_id: '',
     expiry_date: '',
     institute_id: sessionStorage.getItem('institute_id'),
     purchase_amount: '',
@@ -45,7 +47,8 @@ export class AssetPurchaseComponent implements OnInit {
     quantity: '',
     service_date: '',
     unit: '',
-    user_type: ''
+    user_type: '',
+
 
   }
   ngOnInit(): void {
@@ -227,25 +230,7 @@ export class AssetPurchaseComponent implements OnInit {
   }
   //save asset purchase details
   @ViewChild('assePurchaseForm', { static: false }) assePurchaseForm: NgForm;
-  saveAssetPurchaseDetails() {
-    if (this.assePurchaseForm.valid) {
 
-      this.httpService.postMethod('api/v2/asset/purchase/create', this.model).then((res) => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Purchased Successfully");
-      },
-        err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset not Purchased");
-          $('#modelforpurchase').model('hide');
-        })
-      // $('#modelforpurchase').model('hide');
-      this.getPurchaseDetails();
-    }
-    else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
-      $('#modelforpurchase').model('hide');
-    }
-
-  }
   //get asset details
 
   getPurchaseDetails() {
@@ -266,57 +251,45 @@ export class AssetPurchaseComponent implements OnInit {
   editRow(object) {
     this.isedit = !this.isedit;
     console.log(object);
+    this.bill_image_url = object.data.bill_image_url;
+    console.log(this.bill_image_url)
     this.model = object.data;
-
     $('#modelforpurchase').modal('show');
     console.log(object);
     //sessionStorage.setItem('faqData', JSON.stringify(object.data));
     // this.router.navigate(['view/website-configuration/faq/category/edit/' + object.data.id])
   }
-
   deleteRow(obj) {
     this.auth.showLoader();
-    this.httpService.deleteFile('/api/v2/asset/purchase/delete/' + obj.data.id).subscribe(
+    this.httpService.deleteMethod('/api/v2/asset/purchase/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Purchase Deleted Successfully');
         this.getPurchaseDetails();
       },
       err => {
+        this.msgService.showErrorMessage('error', '', "err.response");
+        // this.msgService.showErrorMessage('error', '', err.response);
         this.auth.hideLoader();
       }
     );
   }
 
   updatePurchaseDetails() {
-    this.httpService.putMethod('api/v2/asset/purchase/update    ', this.model).then(() => {
-      this.getPurchaseDetails();
-    },
-      err => {
-        this.auth.hideLoader();
-      })
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
-    $('#modelforpurchase').modal('hide');
+    /* this.httpService.putMethod('api/v2/asset/purchase/update    ', this.model).then(() => {
+       this.getPurchaseDetails();
+     },
+       err => {
+         this.auth.hideLoader();
+       })
+     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
+     $('#modelforpurchase').modal('hide');
+ 
+ */
+
 
   }
-  cancel(param) {
-    this.isedit = param;
-    this.model = {
-      asset_id: '',
-      supplier_id: '',
-      Location_id: '',
-      expiry_date: '',
-      institute_id: sessionStorage.getItem('institute_id'),
-      purchase_amount: '',
-      purchase_date: '',
-      purchased_by_user_id: '',
-      quantity: '',
-      service_date: '',
-      unit: '',
-      user_type: ''
 
-    }
-  }
   searchDatabase() {
     //alert("hi")
     console.log(this.searchParams);
@@ -342,7 +315,7 @@ export class AssetPurchaseComponent implements OnInit {
   getCategoryDetails() {
     this.httpService.getMethod('api/v2/asset/category/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
-      this.staticPageData = this.getDataFromDataSource(0);
+
 
     },
       err => {
@@ -350,8 +323,8 @@ export class AssetPurchaseComponent implements OnInit {
       })
 
   }
-
   getAssetDetails() {
+
     this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
@@ -387,7 +360,6 @@ export class AssetPurchaseComponent implements OnInit {
   }
   //
   get_purchase_by() {
-
     this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,5').subscribe(
       (res: any) => {
         //this.auth.hideLoader();
@@ -401,11 +373,97 @@ export class AssetPurchaseComponent implements OnInit {
     );
   }
   //selected
-  selecteduser;
-  getUserType(obj) {
-
-    this.model.user_type = obj.user_type;
-    console.log(this.model.user_type)
+  getUserData(obj) {
+    console.log(obj)
+    this.purchaseby.map((data) => {
+      if (obj === this.model.purchased_by_user_id) {
+        this.model.user_type = data.user_type;
+      }
+    })
   }
 
+
+  saveAssetPurchaseData() {
+    let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
+    const formData = new FormData();
+    let assetPurchaseStringDto = this.model;
+    assetPurchaseStringDto.expiry_date = moment(assetPurchaseStringDto.expiry_date).format("YYYY-MM-DD")
+    assetPurchaseStringDto.purchase_date = moment(assetPurchaseStringDto.purchase_date).format("YYYY-MM-DD")
+    assetPurchaseStringDto.service_date = moment(assetPurchaseStringDto.service_date).format("YYYY-MM-DD")
+    formData.append('assetPurchaseStringDto', JSON.stringify(assetPurchaseStringDto));
+    if (file) {
+      formData.append('billImageFile', file);
+    }
+    if (this.isedit) {
+
+      // assetPurchaseStringDto.bill_image_url = this.bill_image_url;
+    }
+    let base = this.auth.getBaseUrl();
+    // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
+    let urlPostXlsDocument = this.isedit ? base + "/prod/api/v2/asset/purchase/update" : base + "/prod/api/v2/asset/purchase/create";
+    let newxhr = new XMLHttpRequest();
+    let auths: any = {
+      userid: sessionStorage.getItem('userid'),
+      userType: sessionStorage.getItem('userType'),
+      password: sessionStorage.getItem('password'),
+      institution_id: sessionStorage.getItem('institute_id'),
+    }
+    let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+
+    this.isedit ? newxhr.open("PUT", urlPostXlsDocument, true) : newxhr.open("POST", urlPostXlsDocument, true);
+
+    newxhr.setRequestHeader("Authorization", Authorization);
+    newxhr.setRequestHeader("x-proc-authorization", Authorization);
+    newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
+    newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
+    newxhr.setRequestHeader("enctype", "multipart/form-data;");
+    newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+    if (!this.auth.isRippleLoad.getValue()) {
+      this.auth.showLoader();
+      newxhr.onreadystatechange = () => {
+        this.auth.hideLoader();
+        if (newxhr.readyState == 4) {
+          if (newxhr.status >= 200 && newxhr.status < 300) {
+            // this.clearuploadObject();
+            // this.refreshList();
+            let msg = this.isedit ? 'Page Updated Successfully' : 'Page Added successfully';
+
+            // let msg = this.selectedPageId ? 'Page Updated successfully' : 'Page Added Successfully';
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
+            $('#modelforpurchase').modal('hide');
+            this.getPurchaseDetails();
+
+          } else {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+          }
+        }
+      }
+      newxhr.send(formData);
+    }
+  }
+
+  clearFile() {
+    this.bill_image_url = '';
+  }
+  cancel(param) {
+    this.isedit = param;
+    this.model = {
+      asset_id: '',
+      supplier_id: '',
+      location_id: '',
+      expiry_date: '',
+      institute_id: sessionStorage.getItem('institute_id'),
+      purchase_amount: '',
+      purchase_date: '',
+      purchased_by_user_id: '',
+      quantity: '',
+      service_date: '',
+      unit: '',
+      user_type: '',
+
+
+    }
+  }
 }
