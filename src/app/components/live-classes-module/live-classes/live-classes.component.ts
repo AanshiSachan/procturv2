@@ -1371,19 +1371,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     newxhr.send(formData);
 
   }
-  // watchDuration(payloadObject) {
-  //   let obj = {
-  //     "video_id": payloadObject.videoId,
-  //     "watch_duration": this.watch_duration
-  //   }
-  //   let url = "/api/v1/instFileSystem/allocateWatchHistory";
-  //   this._http.postData(url, obj).subscribe((res: any) => {
 
-  //   }, (err) => {
-  //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "some problem arise please check with support ");
-  //   }
-  //   )
-  // }
   patchRequest(obj) {
     // this.auth.showLoader();
     let base = this.auth.getBaseUrl();
@@ -1513,11 +1501,9 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         if(i == 0) {
           this.viewClassData.master_course.push(this.viewClassData.course_list[0].master_course_name);
         } else{
-          // for(let j=0;j<this.viewClassData.master_course.length;j++) {
             if(!this.viewClassData.master_course.includes(this.viewClassData.course_list[i].master_course_name)) {
               this.viewClassData.master_course.push(this.viewClassData.course_list[i].master_course_name);
             }
-          // }
         }
       }
       this.viewClassData.master_course = this.viewClassData.master_course.join(',');
@@ -1530,7 +1516,6 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     if(this.viewClassData.product_list && this.viewClassData.product_list.length) {
         this.viewClassData.product_names = Array.prototype.map.call(this.viewClassData.product_list, s => s.product_name).toString();
     }
-    console.log(this.viewClassData);
     this.showViewClassPopup = true;
   }
 
