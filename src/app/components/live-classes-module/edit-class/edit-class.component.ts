@@ -118,6 +118,7 @@ export class EditClassComponent implements OnInit {
   schoolModel: boolean = false;
   selectedSubjectList = [];
   subjectList: any = [];
+  fullResponse: any = [];
 
   constructor(
     private auth: AuthenticatorService,
@@ -252,7 +253,7 @@ export class EditClassComponent implements OnInit {
 
     this.subjectSetting = {
       singleSelection: false,
-      idField: 'subject_id',
+      idField: 'batch_id',
       textField: 'subject_name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
@@ -391,7 +392,7 @@ export class EditClassComponent implements OnInit {
           this.batchesIds = this.editData.batch_list;
           if (this.editData.course_list != null && this.editData.course_list.length > 0) {
             if(this.schoolModel) {
-              this.courseValue = this.editData.course_list[0].master_course_name;
+              this.courseValue = this.editData.course_list[0].standard_name;
             } else {
               this.courseValue = this.editData.course_list;
             }
@@ -401,7 +402,7 @@ export class EditClassComponent implements OnInit {
           if (this.editData.course_list != null && this.editData.course_list.length > 0) {
             this.getCoursepreFillData();
           }
-          if(this.editData.batch_list !=null && this.editData.batch_list.length > 0) {
+          if(this.isProfessional && this.editData.batch_list !=null && this.editData.batch_list.length > 0) {
             this.getBatchpreFillData();
           }
           this.getTeachers();
@@ -573,10 +574,10 @@ export class EditClassComponent implements OnInit {
     for(let i=0;i<this.courseIds.length;i++) {
       for(let j=0;j<this.courseIds[i].subject_list.length;j++) {
         let temp = {
-          subject_id: '',
+          batch_id: '',
           subject_name: ''
         }
-        temp.subject_id = this.courseIds[i].subject_list[j].subject_id;
+        temp.batch_id = this.courseIds[i].subject_list[j].batch_id;
         temp.subject_name = this.courseIds[i].subject_list[j].subject_name;
         sub_list.push(temp);
       }
@@ -606,7 +607,7 @@ export class EditClassComponent implements OnInit {
       }
       this.courseValue = mcourse;
     } else {
-      this.courseValue = this.editData.course_list[0].master_course_name;
+        this.courseValue = this.editData.course_list[0].standard_name;
     }
   }
 
@@ -768,12 +769,14 @@ export class EditClassComponent implements OnInit {
       }
 
       let course_list: any = [];
-      this.selectedCourseList.map(
-        (ele: any) => {
-          let x = { 'course_id': ele.course_id.toString() }
-          course_list.push(x);
-        }
-      );
+      if(!this.schoolModel) {
+        this.selectedCourseList.map(
+          (ele: any) => {
+            let x = { 'course_id': ele.course_id.toString() }
+            course_list.push(x);
+          }
+        );
+      }
 
       let batch_list: any = [];
       this.selectedBatchList.map(
@@ -783,19 +786,19 @@ export class EditClassComponent implements OnInit {
         }
       );
 
-      if(this.schoolModel) {
-        for(let i=0;i<this.courses.length;i++) {
-          for(let k=0;k<course_list.length;k++){
-              course_list[k].subject_list = [];
-              for(let j=0;j<this.courses[i].batchesList.length;j++) {
-                for(let l=0;l<this.selectedSubjectList.length;l++) {
-                  if(this.courses[i].batchesList[j].subject_id == this.selectedSubjectList[l].subject_id) {
-                    let x = { 'subject_id': this.selectedSubjectList[l].subject_id.toString() }
-                    course_list[k].subject_list.push(x);
+      if(this.schoolModel) {       
+        for(let i=0;i<this.selectedCourseList.length;i++) {
+            let x = { 'course_id': this.selectedCourseList[i].course_id.toString() }
+            course_list.push(x);
+              course_list[i].subject_list = [];
+              for(let j=0;j<this.subjectList.length;j++) {
+              for(let l=0;l<this.selectedSubjectList.length;l++) {                
+                  if((this.subjectList[j].batch_id == this.selectedSubjectList[l].batch_id) && (this.subjectList[j].course_id == this.selectedCourseList[i].course_id)) {
+                    let x = { 'batch_id': this.subjectList[j].batch_id.toString() }
+                    course_list[i].subject_list.push(x);
                   }
                 }
               }
-            }
           }
       }
       // this.selectedBatchList.map(
@@ -934,39 +937,12 @@ export class EditClassComponent implements OnInit {
 
   getStudentsBySubject(obj) {
     if(obj && obj.length) {
-    let temp = Array.prototype.map.call(obj, function(item) { return item.subject_id; }).join(",");
-    console.log(temp);
-    this.auth.showLoader();
-    this.http_service.getData('/api/v1/students/subject?subjectIdList='+temp).subscribe(
-      (res:any) => {
-        this.auth.hideLoader();
-        this.studentList = res.response;
-        let temp2: any[] = [];
-        if (this.editData.studentIDS != null) {
-          let studentIDS = this.editData.studentIDS.split(',')
-          let studentName = this.editData.studentName.split(',')
-          for (var i = 0; i < this.studentList.length; i++) {
-            for (var j = 0; j < studentIDS.length; j++) {
-              if (this.studentList[i].student_id == studentIDS[j]) {
-                let x = {
-                  student_id: 0,
-                  student_name: ''
-                };
-                x.student_id = Number(studentIDS[j]);
-                x.student_name = studentName[j]
-                temp2.push(x)
-              }
-            }
-          }
-        }
-        this.selectedStudentList = temp2;
-        console.log(this.selectedStudentList);
-      },
-      (err:any) => {
-        this.auth.hideLoader();
-        this.appC.popToast({ type: "error", body: err.error.message });
-      }
-    )
+      let temp:any = [];
+      obj.forEach(element => {
+        temp.push(element.batch_id);
+      });
+      console.log(temp);
+      this.fetchStudentsApi(temp);
     }
   }
 
@@ -1060,23 +1036,7 @@ export class EditClassComponent implements OnInit {
       let tempData: any = this.courses;
       if(this.schoolModel) {
         this.subjectList = [];
-        if(ids && ids.length>0) {
-            for (let i = 0; i < tempData.length; i++) {
-              for(let j=0;j< ids.length; j++) {
-                if (tempData[i].course_id === ids[j].course_id) {
-                  for(let k=0;k<tempData[i].batchesList.length;k++) {
-                    let x= {
-                      subject_id : '',
-                      subject_name : ''
-                    }
-                    x = tempData[i].batchesList[k];
-                    // x.subject_name = tempData[i].batchesList[k].subject_name;
-                    this.subjectList.push(x);
-                  }
-                }
-              }
-            }
-        }
+        this.updateSubjectList(ids);
       } else {
         this.courseIds = ids
         this.courseIds.forEach(element => {
@@ -1085,6 +1045,35 @@ export class EditClassComponent implements OnInit {
         this.fetchStudentsApi(temp);
       }
       // this.getStudents();
+    }
+  }
+
+  updateSubjectList(event) {
+    this.subjectList = [];
+    if(event && event.length) {
+    let course_id = Array.prototype.map.call(event, function(item) { return item.course_id; }).join(",");
+    const url = "/api/v1/subjects/course?courseIds=" + course_id;
+    this.auth.showLoader();
+    this.http_service.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        //console.log('Subject', res);
+        this.subjectList = res.result;
+        if(this.subjectList && this.subjectList.length) {
+        this.subjectList.forEach(element => {
+          element.subject_name = element.course_name + ' - ' + element.subject_name;
+          if(element.is_optional == 'Y') {
+            element.subject_name = element.subject_name + ' (Optional)';
+          }
+        });
+      }
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+        //console.log(err);
+      }
+    )
     }
   }
 
@@ -1114,14 +1103,17 @@ export class EditClassComponent implements OnInit {
     }
     else {
       let url = '';
-      if (this.userType === '3') {
+      if(this.schoolModel) {
+        url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+      } else if(this.userType === '3') {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
       } else {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
-          this.masters = data;
+          this.fullResponse = data.result;
+          this.masters = (this.schoolModel) ? (Object.keys(data.result)) : data;
           if (this.masters && !this.masters.length) {
             this.appC.popToast({ type: "error", body: "Please check courses are active or not." });
           }
@@ -1144,10 +1136,9 @@ export class EditClassComponent implements OnInit {
       this.selectedSubjectList = [];
       let tempData: any = this.masters;
       if(this.schoolModel) {
-        for (let i = 0; i < tempData.length; i++) {
-          if (tempData[i].master_course === master_course_name) {
-            this.courses = tempData[i].coursesList;
-          }
+        let temp = this.fullResponse[master_course_name];
+        for (let i = 0; i < temp.length; i++) {
+          this.courses.push(temp[i]);
         }
       } else {
         for (let i = 0; i < tempData.length; i++) {

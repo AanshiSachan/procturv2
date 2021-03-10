@@ -398,7 +398,7 @@
                 <span title="View" style="cursor: pointer;" (click)="viewClass(class)">
                   <img src="../../../../assets/images/Live class/view_class.png">
                 </span>
-                <span class="borderright"></span>
+                <span *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) " class="borderright"></span>
                 <span
                   *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
                   style="cursor: pointer;">

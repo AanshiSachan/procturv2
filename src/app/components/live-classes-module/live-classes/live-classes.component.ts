@@ -1497,6 +1497,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     this.viewClassData.product_names = '-';
     if(this.viewClassData.course_list && this.viewClassData.course_list.length) {
       this.viewClassData.master_course = [];
+      if(!this.schoolModel) {
       for(let i=0;i<this.viewClassData.course_list.length;i++) {
         if(i == 0) {
           this.viewClassData.master_course.push(this.viewClassData.course_list[0].master_course_name);
@@ -1507,7 +1508,9 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         }
       }
       this.viewClassData.master_course = this.viewClassData.master_course.join(',');
+    }
       if(this.schoolModel) {
+        this.viewClassData.master_course = this.viewClassData.course_list[0].standard_name;
         this.viewClassData.subject = Array.prototype.map.call(this.viewClassData.course_list, s => (Array.prototype.map.call(s.subject_list, a => a.subject_name)).toString());
         this.viewClassData.subject = this.viewClassData.subject.join(',')
       }

@@ -161,8 +161,8 @@
                 id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
                 <option value="" disabled selected="selected">Select {{schoolModel ? 'Standard' : 'Master Course'}}
                 </option>
-                <option *ngFor="let i of masters" [value]="i.master_course">
-                  {{i.master_course}}
+                <option *ngFor="let i of masters" [value]="i">
+                  {{i}}
                 </option>
               </select>
               <ng-multiselect-dropdown *ngIf="!schoolModel"
@@ -221,9 +221,9 @@
             </div>
             <div class="AdvanceSettingDiv">
               <div class="field-checkbox-wrapper advance-setting-item">
-                <input type="checkbox" name="expenses" [(ngModel)]="editData.sent_notification_flag" [value]="0"
-                  class="form-checkbox" id="qun">
-                <label for="qun">Send Notification</label>
+                <input type="checkbox" name="sent_notification_flag" [(ngModel)]="editData.sent_notification_flag" [value]="0"
+                  class="form-checkbox" id="sent_notification_flag">
+                <label for="sent_notification_flag">Send Notification</label>
                 <div class="questionInfo inline-relative">
                   <span class="qInfoIcon i-class">i</span>
                   <div class="tooltip-box-field">
