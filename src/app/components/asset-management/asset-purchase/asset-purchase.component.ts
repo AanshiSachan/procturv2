@@ -17,10 +17,10 @@ export class AssetPurchaseComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 25;
+  displayBatchSize: number = 2;
   staticPageData: any = [{ id: 1, name: 'manisha', address: 'asas' }, { id: 2, name: 'nmanisha', address: 'asas', action: 'edit' }, { id: 3, name: 'amanisha', address: 'asas' }, { id: 1, name: 'manisha', address: 'asas' }];
   staticPageDataSouece: any = [];
   isedit: any;
@@ -28,6 +28,10 @@ export class AssetPurchaseComponent implements OnInit {
   searchParams: any;
   purchaseby: any;
   bill_image_url: any;
+  assetcategoryData: any = [];
+  assetAllData: any = [];
+  locationAllData: any = [];
+  vendorAllData: any = [];
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -48,8 +52,7 @@ export class AssetPurchaseComponent implements OnInit {
     service_date: '',
     unit: '',
     user_type: '',
-
-
+    category_id: ''
   }
   ngOnInit(): void {
     this.setTableData();
@@ -142,9 +145,6 @@ export class AssetPurchaseComponent implements OnInit {
         view: true,
         edit: true,
         delete: true,
-
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
       },
     ]
 
@@ -152,7 +152,6 @@ export class AssetPurchaseComponent implements OnInit {
       width: "100%",
       height: "58vh"
     }
-
     this.rowColumns = [
       {
         width: "5%",
@@ -220,8 +219,7 @@ export class AssetPurchaseComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.purchaseAllData.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    this.getPurchaseDetails();
   }
   updateTableBatchSize(event) {
     this.pageIndex = 1;
@@ -234,13 +232,12 @@ export class AssetPurchaseComponent implements OnInit {
   //get asset details
 
   getPurchaseDetails() {
-    this.httpService.getMethod('api/v2/asset/purchase/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
         this.purchaseAllData = res.result.response;
-        //console.log(this.purchaseAllData)
-        this.totalRecords = this.purchaseAllData.length;
-        this.staticPageData = this.getDataFromDataSource(0);
+        this.staticPageData = res.result.response;
+        this.totalRecords = res.result.total_elements;
       },
       err => {
         this.auth.hideLoader();
@@ -250,10 +247,21 @@ export class AssetPurchaseComponent implements OnInit {
 
   editRow(object) {
     this.isedit = !this.isedit;
-    console.log(object);
     this.bill_image_url = object.data.bill_image_url;
     console.log(this.bill_image_url)
-    this.model = object.data;
+    this.model.asset_id = object.data.asset_id;
+    this.model.supplier_id = object.data.supplier_id;
+    this.model.location_id = object.data.location_id;
+    this.model.expiry_date = object.data.expiry_date;
+    this.model.institute_id = object.data.institute_id;
+    this.model.purchase_amount = object.data.purchase_amount;
+    this.model.purchase_date = object.data.purchase_date;
+    this.model.purchased_by_user_id = object.data.purchased_by_user_id;
+    this.model.quantity = object.data.quantity;
+    this.model.service_date = object.data.service_date;
+    this.model.unit = object.data.unit;
+    this.model.user_type = object.data.user_type;
+    this.model.category_id = object.data.category_id;
     $('#modelforpurchase').modal('show');
     console.log(object);
     //sessionStorage.setItem('faqData', JSON.stringify(object.data));
@@ -275,43 +283,20 @@ export class AssetPurchaseComponent implements OnInit {
     );
   }
 
-  updatePurchaseDetails() {
-    /* this.httpService.putMethod('api/v2/asset/purchase/update    ', this.model).then(() => {
-       this.getPurchaseDetails();
-     },
-       err => {
-         this.auth.hideLoader();
-       })
-     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
-     $('#modelforpurchase').modal('hide');
- 
- */
-
-
-  }
-
   searchDatabase() {
-    //alert("hi")
     console.log(this.searchParams);
-    // this.staticPageDataSouece = this.tempIncomelist;
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
 
     }
     else {
-      let searchData = this.purchaseAllData.filter(item =>
+      let searchData = this.staticPageData.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
       this.staticPageData = searchData;
     }
   }
-
-  //data for dropdown
-  assetcategoryData: any = [];
-  assetAllData: any = [];
-  locationAllData: any = [];
-  vendorAllData: any = [];
   getCategoryDetails() {
     this.httpService.getMethod('api/v2/asset/category/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
@@ -324,10 +309,8 @@ export class AssetPurchaseComponent implements OnInit {
 
   }
   getAssetDetails() {
-
     this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
         this.assetAllData = res.result.response;
       },
       err => {
@@ -426,11 +409,7 @@ export class AssetPurchaseComponent implements OnInit {
         this.auth.hideLoader();
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
-            // this.clearuploadObject();
-            // this.refreshList();
             let msg = this.isedit ? 'Page Updated Successfully' : 'Page Added successfully';
-
-            // let msg = this.selectedPageId ? 'Page Updated successfully' : 'Page Added Successfully';
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
             $('#modelforpurchase').modal('hide');
             this.getPurchaseDetails();
@@ -462,7 +441,7 @@ export class AssetPurchaseComponent implements OnInit {
       service_date: '',
       unit: '',
       user_type: '',
-
+      category_id: '',
 
     }
   }
