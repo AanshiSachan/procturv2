@@ -19,6 +19,7 @@ export class ReportsComponent implements OnInit {
   enable_online_payment: any;
   showSMSReport: boolean = false;
   showEmailReport: boolean = false;
+  isShowExpense: any = false;
   JsonFlags = {
     biometricAttendanceEnable: false,
     isShowAttendanceReport: false,
@@ -42,6 +43,7 @@ export class ReportsComponent implements OnInit {
     this.fetchAndUpdatePermissions();
     this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
+    this.isShowExpense = sessionStorage.getItem('isShowExpense');
   }
 
   checkRoleAccess() {
