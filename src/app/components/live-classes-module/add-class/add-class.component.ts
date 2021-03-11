@@ -252,7 +252,7 @@ export class AddClassComponent implements OnInit {
 
   onChangeProduct(event) {
     let institute_id = sessionStorage.getItem('institute_id');
-    if(institute_id!='100058' && institute_id!='100127' && institute_id!='101924') {
+    if (institute_id != '100058' && institute_id != '100127' && institute_id != '101924') {
       this.selectedUserList = [];
     }
     let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${event}`;

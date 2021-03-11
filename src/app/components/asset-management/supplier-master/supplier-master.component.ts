@@ -94,7 +94,7 @@ export class SupplierMasterComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'asset_ids',
+        primary_key: 'asset_names_string',
         value: "Asset Provided",
         charactLimit: 25,
         sorting: true,
@@ -161,24 +161,23 @@ export class SupplierMasterComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
-    this.staticPageData = this.getDataFromDataSource(startindex);
+    console.log(startindex)
+    this.getDataFromDataSource(startindex);
   }
-
   fetchNext() {
     this.pageIndex++;
     this.fetchTableDataByPage(this.pageIndex);
   }
-
   fetchPrevious() {
     if (this.pageIndex != 1) {
       this.pageIndex--;
       this.fetchTableDataByPage(this.pageIndex);
     }
   }
-
   getDataFromDataSource(startindex) {
-    let t = this.vendorAllData.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    this.getVendorDetails();
+
+
   }
   updateTableBatchSize(event) {
     this.pageIndex = 1;
@@ -232,7 +231,7 @@ export class SupplierMasterComponent implements OnInit {
   //   );
   // }
   //method use to post form data
-
+  maxlength = 10;
   saveVendorDetails() {
     if (this.addVendorForm.valid) {
       let newasset = []
@@ -271,11 +270,17 @@ export class SupplierMasterComponent implements OnInit {
 
   getAssetsForSelectedCat(object) {
     const CategoryId = object.map((object) => {
-      return object.id;
+      if (object == undefined) {
+        return false
+      }
+      else {
+        return object.id;
+      }
+
     });
     var categoryselectedid = CategoryId.join();
     console.log(categoryselectedid)
-    this.httpService.getMethod('/api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         let result = res.result;
         let keys = Object.keys(result);
@@ -299,12 +304,11 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   getVendorDetails() {
-    this.httpService.getMethod('api/v2/asset/supplier/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/supplier/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        this.vendorAllData = res.result.response;
-        console.log(this.vendorAllData)
-        this.staticPageData = this.getDataFromDataSource(0);
+        this.staticPageData = res.result.response;
+        this.tempLocationList = res.result;
+        this.totalRecords = res.result.total_elements;
       },
       err => {
         this.auth.hideLoader();
@@ -316,10 +320,35 @@ export class SupplierMasterComponent implements OnInit {
     this.isedit = !this.isedit;
     console.log(object);
     this.model = object.data;
-    console.log(this.model)
+    this.model.active = object.data.active;
+    this.model.address = object.data.address;
+    this.model.institute_id = object.data.institute_id;
+    //this.model.asset_ids = object.model.asset_ids;
+    this.model.contact_person_name = object.data.contact_person_name;
+    this.model.email_id = object.data.email_id;
+    this.model.mobile_no = object.data.mobile_no;
+    this.model.supplier_name = object.data.supplier_name;
+    this.model.category_id = object.data.category_id;
 
     $('#modelforvendor').modal('show');
+    let asset_names = object.data.asset_names_string.split();
+    console.log(asset_names);
+    for (let i; i < this.model.asset_ids.length; i++) {
+      let obj = {
+        asset_ids: '',
+        asset_names: ''
+      }
+      obj.asset_ids = this.model.asset_ids[i];
+      obj.asset_names = asset_names[i];
+      this.model.asset_ids.push(obj);
+
+    }
+    console.log(this.model.asset_ids)
   }
+  // );
+  // $('#modelforvendor').modal('show');
+  // this.getVendorDetails();
+  // }
 
   updateVendorDetails() {
     this.model.mobile_no = Number(this.model.mobile_no);
@@ -378,14 +407,14 @@ export class SupplierMasterComponent implements OnInit {
   searchDatabase() {
     //alert("hi")
     console.log(this.searchParams);
-    console.log(this.staticPageDataSouece)
+    console.log(this.staticPageData)
     // this.staticPageDataSouece = this.tempIncomelist;
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
 
     }
     else {
-      let searchData = this.vendorAllData.filter(item =>
+      let searchData = this.staticPageData.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );

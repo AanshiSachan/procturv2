@@ -4,7 +4,7 @@
             <span *ngIf="is_asset" class="asset-title">Assets</span>
             <span *ngIf="is_asset_cat" class="asset-title">Asset Category</span>
             <br>
-            <span class="tab1" [ngStyle]="{'color':active === true ? '#109CF1' : '#334D6E' }"><b
+            <span class="tab1" [ngStyle]="{'color':active === false ? '#109CF1' : '#334D6E' }"><b
                     (click)="toggle(false)">Asset
                     category</b></span>
             <span><b class="tab2 tabcolor" [ngStyle]="{'color':active === true ? '#109CF1' : '#334D6E' }"
@@ -23,7 +23,6 @@
     <!--flex for asset category data-->
     <div class="w98">
         <div class="padding1">
-            <input type="text" name="" class="input glass" placeholder="search" *ngIf="is_asset_cat">
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()" *ngIf="is_asset">
             <span class="right">
@@ -40,13 +39,9 @@
             (viewView)="viewRow($event)" *ngIf="is_asset_cat">
         </app-basic-table>
         <div style="padding-top: 9px;">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
-                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)" *ngIf="is_asset_cat">
-            </pagination>
             <!--table for asset view-->
 
-            <app-basic-table [headers]="headerSettingForAsset" [displayData]="staticPageDataForAsset"
+            <app-basic-table [headers]="headerSettingForAsset" [displayData]="staticPageData"
                 [tableSetting]="tableSettingForAsset" [rowColumnSetting]="rowColumnForAsset"
                 (editView)='editAssetRow($event)' (deleteView)='deleteAssetRow($event)'
                 (viewView)="viewAssetRow($event)" *ngIf="is_asset">
@@ -120,7 +115,7 @@
                         <div class="form-group">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id">
-                                <option value="" selected>Category Name*</option>
+                                <option value="">Category Name*</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>

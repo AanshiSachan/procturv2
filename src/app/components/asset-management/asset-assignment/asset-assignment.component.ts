@@ -19,10 +19,10 @@ export class AssetAssignmentComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 25;
+  displayBatchSize: number = 2;
   staticPageData: any = [{ id: 1, name: 'manisha', address: 'asas' }, { id: 2, name: 'nmanisha', address: 'asas', action: 'edit' }, { id: 3, name: 'amanisha', address: 'asas' }, { id: 1, name: 'manisha', address: 'asas' }];
   staticPageDataSouece: any = [];
   isedit: any;
@@ -77,8 +77,15 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'asset_id',
+        primary_key: 'asset_name',
         value: "Asset",
+        charactLimit: 25,
+        sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'location_name',
+        value: "Location",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -99,7 +106,7 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'check_out_user_id',
+        primary_key: 'check_out_user_name',
         value: "Check out By",
         charactLimit: 25,
         sorting: true,
@@ -155,7 +162,7 @@ export class AssetAssignmentComponent implements OnInit {
 
     this.rowColumns = [
       {
-        width: "10%",
+        width: "5%",
         textAlign: "left"
       },
       {
@@ -168,6 +175,10 @@ export class AssetAssignmentComponent implements OnInit {
       },
       {
         width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "5%",
         textAlign: "left"
       },
       {
@@ -218,8 +229,7 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.assignedAssetAllData.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    this.getAssignDetails();
   }
   updateTableBatchSize(event) {
     this.pageIndex = 1;
@@ -238,9 +248,11 @@ export class AssetAssignmentComponent implements OnInit {
       this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
         $('#modelforassetAssign').modal('hide');
+        this.getAssignDetails();
+        this.cancel(false);
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset not Available");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Requested asset quantity is more than available");
           $('#modelforassetAssign').modal('hide');
         })
       // $('#modelforassetAssign').model('hide');
@@ -255,13 +267,13 @@ export class AssetAssignmentComponent implements OnInit {
   //get asset details
 
   getAssignDetails() {
-    this.httpService.getMethod('api/v2/asset/assignment/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/assignment/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
         this.assignedAssetAllData = res.result.response;
-        //console.log(this.purchaseAllData)
-        this.totalRecords = this.assignedAssetAllData.length;
-        this.staticPageData = this.getDataFromDataSource(0);
+        this.staticPageData = res.result.response;
+        this.totalRecords = res.result.total_elements;
+
       },
       err => {
         this.auth.hideLoader();
@@ -273,7 +285,17 @@ export class AssetAssignmentComponent implements OnInit {
     this.isedit = !this.isedit;
     console.log(object);
     this.model = object.data;
-
+    this.model.asset_id = object.data.asset_id;
+    this.model.location_id = object.data.location_ids;
+    this.model.check_out_date = object.data.check_out_date;
+    this.model.check_in_date = object.data.check_in_date;
+    this.model.due_date = object.data.due_date;
+    this.model.institute_id = object.data.institute_id;
+    this.model.quantity = object.data.quantity;
+    this.model.status = object.data.status;
+    this.model.user_type = object.data.user_type;
+    this.model.note = object.data.note;
+    this.model.check_out_user_id = object.data.check_out_user_id;
     $('#modelforassetAssign').modal('show');
     console.log(object);
   }
@@ -293,6 +315,12 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   updateAssetAssignDetails() {
+    this.model.quantity = Number(this.model.quantity);
+    // this.model.user_type = Number(this.model.user_type);
+    this.model.due_date = moment(this.model.due_date).format("DD-MM-YYYY");
+    this.model.check_out_date = moment(this.model.check_out_date).format("DD-MM-YYYY")
+    this.model.check_in_date = moment(this.model.check_in_date).format("DD-MM-YYYY")
+
     this.httpService.putMethod('api/v2/asset/assignment/update', this.model).then(() => {
       this.getAssignDetails();
     },
@@ -322,13 +350,12 @@ export class AssetAssignmentComponent implements OnInit {
   searchDatabase() {
     //alert("hi")
     console.log(this.searchParams);
-    // this.staticPageDataSouece = this.tempIncomelist;
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
 
     }
     else {
-      let searchData = this.assignedAssetAllData.filter(item =>
+      let searchData = this.staticPageData.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );

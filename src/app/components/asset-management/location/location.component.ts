@@ -30,12 +30,11 @@ export class LocationComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
   displayBatchSize: number = 25;
   staticPageData: any = [];
-  staticPageDataSouece: any = [];
   //table ui data
   setTableData() {
     this.headerSetting = [
@@ -112,7 +111,7 @@ export class LocationComponent implements OnInit {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     console.log(startindex)
-    this.staticPageData = this.getDataFromDataSource(startindex);
+    this.getDataFromDataSource(startindex);
   }
   fetchNext() {
     this.pageIndex++;
@@ -125,8 +124,9 @@ export class LocationComponent implements OnInit {
     }
   }
   getDataFromDataSource(startindex) {
-    let t = this.staticPageDataSouece.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    this.getLocationDetails();
+
+
   }
   updateTableBatchSize(event) {
     this.pageIndex = 1;
@@ -172,14 +172,12 @@ export class LocationComponent implements OnInit {
   }
 
   getLocationDetails() {
-    this.httpService.getMethod('api/v2/asset/location/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/location/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
-        this.staticPageDataSouece = res.result.response;
-        console.log(this.staticPageDataSouece)
+        this.staticPageData = res.result.response;
         this.tempLocationList = res.result;
-        this.totalRecords = this.staticPageDataSouece.length;
-        this.staticPageData = this.getDataFromDataSource(0);
+        this.totalRecords = res.result.total_elements;
       },
       err => {
         this.auth.hideLoader();
@@ -189,10 +187,14 @@ export class LocationComponent implements OnInit {
 
   editRow(object) {
     this.isedit = !this.isedit;
-    console.log(object);
-    this.model = object.data;
+    this.model.id = object.data.id;
+    this.model.institute_id = object.data.institute_id;
+    this.model.address = object.data.address;
+    this.model.location_description = object.data.location_description;
+    this.model.location_name = object.data.location_name;
+
     $('#modelforlocation').modal('show');
-    this.getLocationDetails();
+    // this.getLocationDetails();
   }
 
   updateLocationDetails() {
@@ -213,6 +215,7 @@ export class LocationComponent implements OnInit {
     this.model.address = '';
     this.model.location_description = '';
     this.model.location_name = '';
+
   }
 
 
@@ -241,14 +244,14 @@ export class LocationComponent implements OnInit {
   searchDatabase() {
     //alert("hi")
     console.log(this.searchParams);
-    console.log(this.staticPageDataSouece)
+    console.log(this.staticPageData)
     // this.staticPageDataSouece = this.tempIncomelist;
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
 
     }
     else {
-      let searchData = this.staticPageDataSouece.filter(item =>
+      let searchData = this.staticPageData.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );

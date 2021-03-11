@@ -58,9 +58,10 @@
                             <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
                                 <input type="text" class="form-control" name="mobile_no" id="mobile_no"
                                     placeholder=" Contact Number * " [(ngModel)]="model.mobile_no" #mobile_no="ngModel"
-                                    required onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
+                                    required onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+                                    maxlength="10">
                                 <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
-                                    Only Enter Numbers
+                                    Only Enter 10 digit mobile numbers
                                 </span>
                             </div>
                             <div>
