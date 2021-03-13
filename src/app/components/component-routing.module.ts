@@ -168,7 +168,9 @@ import { ReportsComponent } from './reports/reports.component';
                         },
                         {
                             path: 'asset-management',
-                            loadChildren: () => import('../components/asset-management/asset-management.module').then(m => m.AssetManagementModule)
+                            loadChildren: () => import('../components/asset-management/asset-management.module').then(m => m.AssetManagementModule),
+                            pathMatch: 'prefix'
+
                         }
                     ]
                 },

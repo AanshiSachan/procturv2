@@ -44,14 +44,15 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="category_id" id="category_id"
-                                    [(ngModel)]="model.category_id">
+                                    [(ngModel)]="model.category_id" (ngModelChange)="getassetsAndLocation($event)">
                                     <option value="">Category Name *</option>
                                     <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                         {{data.category_name}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id">
+                                <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
+                                    (ngModelChange)="getLocationData($event)">
                                     <option value="">Asset *</option>
                                     <option value="{{data.id}}" *ngFor="let data of assetAllData">
                                         {{data.asset_name}}</option>

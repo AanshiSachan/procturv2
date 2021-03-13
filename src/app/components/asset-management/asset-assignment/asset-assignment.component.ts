@@ -123,7 +123,7 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'check_in_date',
+        primary_key: 'check_out_date',
         value: "Check Out Date",
         charactLimit: 25,
         sorting: true,
@@ -399,12 +399,44 @@ export class AssetAssignmentComponent implements OnInit {
       })
 
   }
+  //get asset and cat
+  getassetsAndLocation(category_id) {
+    let key = this.assetcategoryData.filter(id => (id.id == category_id));
+    console.log(key);
+    let key_name = key[0].category_name;
+    this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + category_id + '&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
+      this.assetAllData = res.result[key_name];
+      // var location_ids = JSON.parse("[" + this.model.location_ids + "]");
+      console.log('lo', this.locationAllData);
+
+      console.log(this.assetAllData);
+    },
+      err => {
+        this.auth.hideLoader();
+      })
+
+
+  }
+
+  getLocationData(obj) {
+    // alert(obj);
+    let key = this.assetAllData.filter(id => (id.id == obj));
+    console.log(key);
+
+    /*
+    let location_name = key[0].location_names_string.join(',');
+    for (let i = 0; i < key[0].location_ids.length; i++) {
+      this.locationAllData.push({ 'location_id': key[0].location_ids[i], 'location_name': location_name[i] });
+    }
+    */
+    console.log('lo', this.locationAllData);
+  }
 
   getAssetDetails() {
     this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
-        this.assetAllData = res.result.response;
+        // this.assetAllData = res.result.response;
       },
       err => {
         this.auth.hideLoader();

@@ -310,6 +310,37 @@ export class AssetPurchaseComponent implements OnInit {
       })
 
   }
+  //get location and asset data
+
+  getassetsAndLocation(category_id) {
+    let key = this.assetcategoryData.filter(id => (id.id == category_id));
+    console.log(key);
+    let key_name = key[0].category_name;
+    this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + category_id + '&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
+      this.assetAllData = res.result[key_name];
+      // console.log('lo', this.locationAllData);
+      console.log(this.assetAllData);
+    },
+      err => {
+        this.auth.hideLoader();
+      })
+
+
+  }
+  //get
+  getLocationData(obj) {
+    // alert(obj);
+    let key = this.assetAllData.filter(id => (id.id == obj));
+    console.log(key);
+
+    /*
+    let location_name = key[0].location_names_string.join(',');
+    for (let i = 0; i < key[0].location_ids.length; i++) {
+      this.locationAllData.push({ 'location_id': key[0].location_ids[i], 'location_name': location_name[i] });
+    }
+    */
+    console.log('lo', this.locationAllData);
+  }
   getAssetDetails() {
     this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
