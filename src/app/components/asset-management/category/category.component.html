@@ -12,10 +12,10 @@
                 </b></span>
 
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforcat"
-                    *ngIf="is_asset_cat">Add
+                    *ngIf="is_asset_cat" (click)="cancel()">Add
                     Asset Category</button></span>
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforasset"
-                    *ngIf="is_asset">Add
+                    *ngIf="is_asset" (click)="cancel()">Add
                     Asset</button></span>
 
         </div>
@@ -56,11 +56,11 @@
 
     </div>
     <!--model for asset category-->
-    <div class="modal fade" id="myModalforcat" role="dialog">
+    <div class="modal fade" id="myModalforcat" data-backdrop="static" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
                     <h4 class="title-model"> Assets Category</h4>
                     <form id="form1" #assetcat="ngForm" autocomplete="off">
                         <div ngModelGroup="categoryDetails" #categoryDetails='ngModelGroup'>
@@ -84,7 +84,7 @@
                         </div>
                         <div>
                             <span class="right"> <button type="button" class="btns blue_button" data-dismiss="modal"
-                                    (click)="cancel(false)">cancel</button></span>
+                                    (click)="cancel()">cancel</button></span>
                             <span class="right"> <button type="submit" class="btns blue_button"
                                     (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">
                                     Add Category</button></span>
@@ -100,11 +100,12 @@
         </div>
     </div>
     <!--model for add asset -->
-    <div class="modal fade" id="myModalforasset" role="dialog">
+    <div class="modal fade" data-backdrop="static" id="myModalforasset" role="dialog">
         <div class="modal-dialog">
             <div>
                 <div class="modal-bodyAseet">
-                    <h4 class="models titles" style="margin-left:20px;margin-top:20px;"> Assets</h4>
+                    <h4 class="models titles" style="margin-left:20px;margin-top:25px !important;"
+                        (click)="cancel(false)"> Assets</h4>
                     <form id="form1" #assetaddForm="ngForm" autocomplete="off">
                         <div class="form-group">
                             <input type="text" class="form-control" name="asset_code" id="asset_code"

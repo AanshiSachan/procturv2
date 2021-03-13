@@ -36,6 +36,7 @@ export class AssetAssignmentComponent implements OnInit {
   assetAllData: any = [];
   locationAllData: any = [];
   totalRow: any;
+  tempLocationList: any;
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -44,17 +45,19 @@ export class AssetAssignmentComponent implements OnInit {
     private apiService: RoleService,) { }
 
   model = {
+    id: '',
     asset_id: '',
     location_id: '',
     check_out_date: '',
     due_date: '',
     institute_id: sessionStorage.getItem('institute_id'),
     note: '',
-    quantity: 0,
+    quantity: '',
     status: 'IN_STORAGE',
     check_in_date: '',
     user_type: '',
-    check_out_user_id: ''
+    check_out_user_id: '',
+    category_id: ''
 
   }
   ngOnInit(): void {
@@ -240,11 +243,11 @@ export class AssetAssignmentComponent implements OnInit {
   @ViewChild('assetAssignmentForm', { static: false }) assetAssignmentForm: NgForm;
   saveAssetAssignDetails() {
     if (this.assetAssignmentForm.valid) {
-      this.model.quantity = Number(this.model.quantity);
+      // let tmp = parseInt(this.model.quantity);
       // this.model.user_type = Number(this.model.user_type);
-      this.model.due_date = moment(this.model.due_date).format("DD-MM-YYYY");
-      this.model.check_out_date = moment(this.model.check_out_date).format("DD-MM-YYYY")
-      this.model.check_in_date = moment(this.model.check_in_date).format("DD-MM-YYYY")
+      this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
+      this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
+      this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD")
       this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
         $('#modelforassetAssign').modal('hide');
@@ -272,6 +275,7 @@ export class AssetAssignmentComponent implements OnInit {
         //this.auth.hideLoader();
         this.assignedAssetAllData = res.result.response;
         this.staticPageData = res.result.response;
+        this.tempLocationList = res.result.response;
         this.totalRecords = res.result.total_elements;
 
       },
@@ -282,11 +286,12 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   editRow(object) {
-    this.isedit = !this.isedit;
+    this.isedit = true;
     console.log(object);
+    // this.model.id = this.object.id;
     this.model = object.data;
     this.model.asset_id = object.data.asset_id;
-    this.model.location_id = object.data.location_ids;
+    this.model.location_id = object.data.location_id;
     this.model.check_out_date = object.data.check_out_date;
     this.model.check_in_date = object.data.check_in_date;
     this.model.due_date = object.data.due_date;
@@ -295,6 +300,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.model.status = object.data.status;
     this.model.user_type = object.data.user_type;
     this.model.note = object.data.note;
+    this.model.category_id = object.data.category_id;
     this.model.check_out_user_id = object.data.check_out_user_id;
     $('#modelforassetAssign').modal('show');
     console.log(object);
@@ -315,11 +321,11 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   updateAssetAssignDetails() {
-    this.model.quantity = Number(this.model.quantity);
+    // this.model.quantity = Number(this.model.quantity);
     // this.model.user_type = Number(this.model.user_type);
-    this.model.due_date = moment(this.model.due_date).format("DD-MM-YYYY");
-    this.model.check_out_date = moment(this.model.check_out_date).format("DD-MM-YYYY")
-    this.model.check_in_date = moment(this.model.check_in_date).format("DD-MM-YYYY")
+    this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
+    this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
+    this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD")
 
     this.httpService.putMethod('api/v2/asset/assignment/update', this.model).then(() => {
       this.getAssignDetails();
@@ -332,8 +338,9 @@ export class AssetAssignmentComponent implements OnInit {
 
   }
   cancel(param) {
-    this.isedit = param;
+    this.isedit = false;
     this.model = {
+      id: '',
       asset_id: '',
       location_id: '',
       check_out_user_id: '',
@@ -342,9 +349,10 @@ export class AssetAssignmentComponent implements OnInit {
       due_date: '',
       institute_id: sessionStorage.getItem('institute_id'),
       note: '',
-      quantity: 0,
+      quantity: '',
       status: 'IN_STORAGE',
-      user_type: ''
+      user_type: '',
+      category_id: ''
     }
   }
   searchDatabase() {
@@ -352,10 +360,10 @@ export class AssetAssignmentComponent implements OnInit {
     console.log(this.searchParams);
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
-
+      this.staticPageData = this.tempLocationList;
     }
     else {
-      let searchData = this.staticPageData.filter(item =>
+      let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
@@ -383,7 +391,7 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   getCategoryDetails() {
-    this.httpService.getMethod('api/v2/asset/category/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
+    this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
     },
       err => {
@@ -393,7 +401,7 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   getAssetDetails() {
-    this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
         this.assetAllData = res.result.response;
@@ -404,7 +412,7 @@ export class AssetAssignmentComponent implements OnInit {
     );
   }
   getLocationDetails() {
-    this.httpService.getMethod('api/v2/asset/location/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
         this.locationAllData = res.result.response;
@@ -422,7 +430,7 @@ export class AssetAssignmentComponent implements OnInit {
         //this.auth.hideLoader();
         console.log(res)
         this.purchaseby = res.active_users;
-        console.log(this.purchaseby)
+        // console.log(this.purchaseby)
       },
       err => {
         this.auth.hideLoader();

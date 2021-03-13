@@ -32,6 +32,7 @@ export class AssetPurchaseComponent implements OnInit {
   assetAllData: any = [];
   locationAllData: any = [];
   vendorAllData: any = [];
+  tempLocationList: any;
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -69,18 +70,18 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'id',
         value: "Id",
         charactLimit: 25,
-        sorting: false,
+        sorting: true,
         visibility: true
       },
       {
-        primary_key: 'asset_id',
+        primary_key: 'asset_name',
         value: "Asset",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
-        primary_key: 'supplier_id',
+        primary_key: 'supplier_name',
         value: "Vendor",
         charactLimit: 25,
         sorting: true,
@@ -130,7 +131,7 @@ export class AssetPurchaseComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'purchased_by_user_id',
+        primary_key: 'purchased_by_user_name',
         value: "Purchase By",
         charactLimit: 25,
         sorting: true,
@@ -238,6 +239,7 @@ export class AssetPurchaseComponent implements OnInit {
         this.purchaseAllData = res.result.response;
         this.staticPageData = res.result.response;
         this.totalRecords = res.result.total_elements;
+        this.tempLocationList = res.result.response;
       },
       err => {
         this.auth.hideLoader();
@@ -246,7 +248,7 @@ export class AssetPurchaseComponent implements OnInit {
   }
 
   editRow(object) {
-    this.isedit = !this.isedit;
+    this.isedit = true;
     this.bill_image_url = object.data.bill_image_url;
     console.log(this.bill_image_url)
     this.model.asset_id = object.data.asset_id;
@@ -287,10 +289,10 @@ export class AssetPurchaseComponent implements OnInit {
     console.log(this.searchParams);
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
-
+      this.staticPageData = this.tempLocationList;
     }
     else {
-      let searchData = this.staticPageData.filter(item =>
+      let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
@@ -348,7 +350,7 @@ export class AssetPurchaseComponent implements OnInit {
         //this.auth.hideLoader();
         console.log(res)
         this.purchaseby = res.active_users;
-        console.log(this.purchaseby)
+        // console.log(this.purchaseby)
       },
       err => {
         this.auth.hideLoader();
@@ -381,7 +383,7 @@ export class AssetPurchaseComponent implements OnInit {
 
       // assetPurchaseStringDto.bill_image_url = this.bill_image_url;
     }
-    let base = this.auth.getBaseUrl();
+    let base = this.auth.productBaseUrl;
     // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
     let urlPostXlsDocument = this.isedit ? base + "/prod/api/v2/asset/purchase/update" : base + "/prod/api/v2/asset/purchase/create";
     let newxhr = new XMLHttpRequest();
@@ -409,13 +411,15 @@ export class AssetPurchaseComponent implements OnInit {
         this.auth.hideLoader();
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
-            let msg = this.isedit ? 'Page Updated Successfully' : 'Page Added successfully';
+            let msg = this.isedit ? 'Purchase Updated Successfully' : 'Purchase Added successfully';
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
             $('#modelforpurchase').modal('hide');
             this.getPurchaseDetails();
 
           } else {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+
+            // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
           }
         }
       }

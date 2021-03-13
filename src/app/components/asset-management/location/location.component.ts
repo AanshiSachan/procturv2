@@ -176,7 +176,7 @@ export class LocationComponent implements OnInit {
       (res: any) => {
         //this.auth.hideLoader();
         this.staticPageData = res.result.response;
-        this.tempLocationList = res.result;
+        this.tempLocationList = res.result.response;
         this.totalRecords = res.result.total_elements;
       },
       err => {
@@ -186,7 +186,7 @@ export class LocationComponent implements OnInit {
   }
 
   editRow(object) {
-    this.isedit = !this.isedit;
+    this.isedit = true;
     this.model.id = object.data.id;
     this.model.institute_id = object.data.institute_id;
     this.model.address = object.data.address;
@@ -248,10 +248,10 @@ export class LocationComponent implements OnInit {
     // this.staticPageDataSouece = this.tempIncomelist;
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
-
+      this.staticPageData = this.tempLocationList;
     }
     else {
-      let searchData = this.staticPageData.filter(item =>
+      let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );

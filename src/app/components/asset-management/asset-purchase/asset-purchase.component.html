@@ -2,7 +2,8 @@
     <div class="page_heading">
         <div class="w98">
             <span> Purchase Asset</span>
-            <span class="right"><button class="btn blue_button" data-toggle="modal" data-target="#modelforpurchase">Add
+            <span class="right"><button class="btn blue_button" data-toggle="modal" (click)="cancel(false)"
+                    data-target="#modelforpurchase">Add
                     Purchase </button></span>
         </div>
     </div>
@@ -29,7 +30,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modelforpurchase" role="dialog">
+    <div class="modal fade" id="modelforpurchase" data-backdrop="static" role="dialog">
         <div class="modal-dialog modal-lg">
 
             <!-- Modal content-->

@@ -1,7 +1,7 @@
 <div class="page-content">
     <div class="page_heading">
         <div class="w98">
-            <span> Purchase Asset</span>
+            <span> Asset Assignment</span>
             <span class="right"><button class="btn blue_button" data-toggle="modal" data-target="#modelforassetAssign">
                     Asset Assignment </button></span>
         </div>
@@ -44,7 +44,7 @@
                         <div class="field-wrapper  col-md-6">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id">
-                                <option value="" selected>Category Name*</option>
+                                <option value="">Category Name*</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>

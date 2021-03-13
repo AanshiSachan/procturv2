@@ -207,7 +207,7 @@ export class SupplierMasterComponent implements OnInit {
   dataforasset: [];
   //get category details
   getCategoryDetails() {
-    this.httpService.getMethod('api/v2/asset/category/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
+    this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
       console.log(this.assetcategoryData)
     },
@@ -248,7 +248,7 @@ export class SupplierMasterComponent implements OnInit {
         (res: any) => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Vendor Added Successfully");
           $('#modelforvendor').modal('hide');
-          this.getVendorDetails()
+          this.getVendorDetails();
         },
         err => {
 
@@ -280,26 +280,32 @@ export class SupplierMasterComponent implements OnInit {
     });
     var categoryselectedid = CategoryId.join();
     console.log(categoryselectedid)
-    this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id, null).subscribe(
-      (res: any) => {
-        let result = res.result;
-        let keys = Object.keys(result);
-        let temp: any = [];
-        for (let i = 0; i < keys.length; i++) {
-          let a = result[keys[i]];
-          for (let j = 0; j < a.length; j++) {
-            temp.push(a[j]);
+    if (categoryselectedid === undefined) {
+
+    }
+    else {
+      this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id, null).subscribe(
+        (res: any) => {
+          let result = res.result;
+          let keys = Object.keys(result);
+          let temp: any = [];
+          for (let i = 0; i < keys.length; i++) {
+            let a = result[keys[i]];
+            for (let j = 0; j < a.length; j++) {
+              temp.push(a[j]);
+            }
+            // console.log(a);
           }
-          // console.log(a);
-        }
-        console.log(temp);
-        this.assetAllData = temp;
-        console.log(this.assetAllData);
-      },
-      err => {
+          console.log(temp);
+          this.assetAllData = temp;
+          console.log(this.assetAllData);
+        },
+        err => {
 
-      })
+        })
 
+
+    }
 
   }
 
@@ -317,7 +323,7 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   editRow(object) {
-    this.isedit = !this.isedit;
+    this.isedit = true;
     console.log(object);
     this.model = object.data;
     this.model.active = object.data.active;
@@ -388,7 +394,8 @@ export class SupplierMasterComponent implements OnInit {
   tempLocationList = [];
 
   cancel(param) {
-    this.isedit = param;
+
+    this.isedit = false;
     this.model = {
       active: true,
       address: '',

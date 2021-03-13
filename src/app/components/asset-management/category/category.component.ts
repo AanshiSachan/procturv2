@@ -13,6 +13,7 @@ declare var $;
 })
 export class CategoryComponent implements OnInit {
   institute_id = sessionStorage.getItem('institute_id');
+  tempLocationList: any;
 
   constructor(
     private httpService: ProductService,
@@ -26,7 +27,6 @@ export class CategoryComponent implements OnInit {
     this.setTableDataForAsset();
     this.getLocationDetails();
     this.getAssetDetails();
-    this.cancel(false);
 
   }
   show: boolean = true;
@@ -264,7 +264,7 @@ export class CategoryComponent implements OnInit {
 
   //crud for category
   @ViewChild('assetcat', { static: false }) assetcat: NgForm;
-  isedit = false;
+  isedit;
   submitted = false;
   category_model = {
     id: '',
@@ -310,7 +310,7 @@ export class CategoryComponent implements OnInit {
 
   }
   editRow(object) {
-    this.isedit = !this.isedit;
+    this.isedit = true;
     this.category_model.id = object.data.id;
     this.category_model.active = object.data.category_model;
     this.category_model.category_code = object.data.category_code;
@@ -346,20 +346,21 @@ export class CategoryComponent implements OnInit {
   @ViewChild('assetaddForm', { static: false }) assetaddForm: NgForm
   model = {
     active: true,
-    id: '',
     category_id: '',
     asset_code: '',
     asset_condition: '',
     location_ids: '',
     asset_name: '',
     institute_id: sessionStorage.getItem('institute_id'),
-    quantity: ''
+    quantity: '',
+    id: ''
+
   }
   // model: AssetModel = new AssetModel();
   locationData: any = [];
   //get location data
   getLocationDetails() {
-    this.httpService.getMethod('api/v2/asset/location/all?pageOffset=1&pageSize=10&instituteId=' + this.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
         this.locationData = res.result.response;
@@ -379,21 +380,21 @@ export class CategoryComponent implements OnInit {
       this.model.location_ids = location_id;
       this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
-        $('#myModalforasset').model('hide');
-        this.cancel(false)
+        $('#myModalforasset').modal('hide');
+        this.cancel()
         this.getAssetDetails();
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id or Asset Name Duplicate");
-          $('#myModalforasset').model('hide');
+          $('#myModalforasset').modal('hide');
         })
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
-      $('#myModalforasset').model('hide');
+      $('#myModalforasset').modal('hide');
     }
     this.getAssetDetails();
-    $('#myModalforasset').model('hide');
+    $('#myModalforasset').modal('hide');
   }
 
   //get location
@@ -402,6 +403,7 @@ export class CategoryComponent implements OnInit {
       (res: any) => {
         this.assetAllData = res.result.response;
         this.staticPageData = res.result.response;
+        this.tempLocationList = res.result.response;
         console.log(this.assetAllData)
         this.totalRecords = res.result.total_elements;
         $('#myModalforasset').modal('hide');
@@ -413,7 +415,7 @@ export class CategoryComponent implements OnInit {
   }
   //edit asset data
   editAssetRow(object) {
-    this.isedit = !this.isedit;
+    this.isedit = true;
     this.model.id = object.data.id;
     this.model.active = object.data.active;
     this.model.asset_code = object.data.asset_code;
@@ -421,7 +423,7 @@ export class CategoryComponent implements OnInit {
     this.model.location_ids = object.data.location_ids;
     this.model.asset_name = object.data.asset_name;
     this.model.institute_id = object.data.institute_id;
-    this.model.quantity = object.data.institute_id;
+    this.model.quantity = object.data.quantity;
     this.model.category_id = object.data.category_id;
     $('#myModalforasset').modal('show');
   }
@@ -436,7 +438,7 @@ export class CategoryComponent implements OnInit {
       this.getCategoryDetails();
     },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset  is Updated Successfully")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "")
       }
 
     )
@@ -466,10 +468,11 @@ export class CategoryComponent implements OnInit {
     // this.staticPageDataSouece = this.tempIncomelist;
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
+      this.staticPageData = this.tempLocationList;
 
     }
     else {
-      let searchData = this.staticPageData.filter(item =>
+      let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
@@ -479,25 +482,25 @@ export class CategoryComponent implements OnInit {
 
 
   //cancel 
-  cancel(param) {
-
-    this.isedit = param;
+  cancel() {
+    this.isedit = false;
     this.category_model = {
       active: true,
       category_code: '',
       category_name: '',
       institute_id: sessionStorage.getItem('institute_id'),
+      id: ''
     }
     this.model = {
       active: true,
-      id: '',
       category_id: '',
       asset_code: '',
       asset_condition: '',
       location_ids: '',
       asset_name: '',
       institute_id: sessionStorage.getItem('institute_id'),
-      quantity: ''
+      quantity: '',
+      id: ''
     }
 
   }
