@@ -1104,7 +1104,7 @@ export class EditClassComponent implements OnInit {
     else {
       let url = '';
       if(this.schoolModel) {
-        url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+        url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name&is_active_not_expire=Y";
       } else if(this.userType === '3') {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=Y&isActiveNotExpire=Y';
       } else {
