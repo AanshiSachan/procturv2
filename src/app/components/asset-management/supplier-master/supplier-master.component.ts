@@ -42,7 +42,7 @@ export class SupplierMasterComponent implements OnInit {
     institute_id: sessionStorage.getItem('institute_id'),
     contact_person_name: '',
     email_id: '', //required
-    mobile_no: 0,  //required
+    mobile_no: '',  //required
     supplier_name: '',  //required
     category_id: 0,
     asset_ids: [],
@@ -209,28 +209,13 @@ export class SupplierMasterComponent implements OnInit {
   getCategoryDetails() {
     this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
-      console.log(this.assetcategoryData)
+      // console.log(this.assetcategoryData)
     },
       err => {
         this.auth.hideLoader();
       })
 
   }
-
-  // getAssetDetails() {
-  //   this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
-  //     (res: any) => {
-  //       //this.auth.hideLoader();
-  //       this.assetAllData = res.result.response;
-  //       // console.log(this.assetAllData)
-
-  //     },
-  //     err => {
-  //       this.auth.hideLoader();
-  //     }
-  //   );
-  // }
-  //method use to post form data
   maxlength = 10;
   saveVendorDetails() {
     if (this.addVendorForm.valid) {
@@ -242,7 +227,7 @@ export class SupplierMasterComponent implements OnInit {
         newasset.push(asset_ids[data].id);
       }
       this.model.asset_ids = newasset
-      this.model.mobile_no = Number(this.model.mobile_no);
+      let mobileno = Number(this.model.mobile_no);
       this.model.category_id = this.selectedvalue;
       this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
         (res: any) => {
@@ -357,7 +342,17 @@ export class SupplierMasterComponent implements OnInit {
   // }
 
   updateVendorDetails() {
-    this.model.mobile_no = Number(this.model.mobile_no);
+    let newasset = []
+    let asset_ids: any = this.model.asset_ids;
+    console.log(asset_ids)
+    for (let data in asset_ids) {
+      console.log(asset_ids[data].id)
+      newasset.push(asset_ids[data].id);
+    }
+    this.model.asset_ids = newasset;
+    let mobile_no: any = Number(this.model.mobile_no);
+    this.model.mobile_no = mobile_no;
+    // this.model.mobile_no = Number(this.model.mobile_no);
     this.model.category_id = this.selectedvalue;
 
     this.httpService.putMethod('api/v2/asset/supplier/update', this.model).then(() => {
@@ -403,7 +398,7 @@ export class SupplierMasterComponent implements OnInit {
       asset_ids: [],  //required
       contact_person_name: '',
       email_id: '', //required
-      mobile_no: 0,  //required
+      mobile_no: '',  //required
       supplier_name: '',
       category_id: 0 //required
 

@@ -333,14 +333,17 @@ export class CategoryComponent implements OnInit {
   }
   //delete category
   deleteRow(object) {
-    this.httpService.deleteMethod('api/v2/asset/category/delete/' + object.data.id + '?instituteId=' + this.category_model.institute_id).then((res: any) => {
-      this.auth.hideLoader();
-      this.msgService.showErrorMessage('success', '', 'Category Deleted Successfully');
-      this.getCategoryDetails();
-    },
-      err => {
-        this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
-      })
+    let deleteconfirm = confirm("Are you really want to delete?");
+    if (deleteconfirm == true) {
+      this.httpService.deleteMethod('api/v2/asset/category/delete/' + object.data.id + '?instituteId=' + this.category_model.institute_id).then((res: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('success', '', 'Category Deleted Successfully');
+        this.getCategoryDetails();
+      },
+        err => {
+          this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
+        });
+    }
   }
   //code for add asset table 
   @ViewChild('assetaddForm', { static: false }) assetaddForm: NgForm
@@ -438,7 +441,7 @@ export class CategoryComponent implements OnInit {
       this.getCategoryDetails();
     },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate")
       }
 
     )

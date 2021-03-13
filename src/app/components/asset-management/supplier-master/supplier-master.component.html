@@ -2,8 +2,8 @@
     <div class="page_heading">
         <div class="w98">
             <span>Vendor</span>
-            <span class="right"><button class="blue_button" data-toggle="modal" (click)="isedit=false"
-                    data-target="#modelforvendor" (click)="cancel(false)">Add
+            <span class="right"><button class="blue_button" data-toggle="modal" data-target="#modelforvendor"
+                    (click)="cancel(false)">Add
                     Vendor</button></span>
         </div>
     </div>
@@ -35,33 +35,44 @@
                 <!-- Modal content-->
                 <div class="modal-content">
 
-                    <div class="modal-body">
+                    <div class="modal-body" style="padding-left:25px;">
                         <button type="button" class="close" data-dismiss="modal"
                             (click)="cancel(false)">&times;</button>
                         <h4 class="title-model">Add Vendor</h4>
                         <form id="form1" #addVendorForm="ngForm" autocomplete="off">
-                            <div ngModelGroup="locationdetails" #Locationdata='ngModelGroup'>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="supplier_name" id="supplier_name"
-                                        placeholder="Supplier Name* " [(ngModel)]="model.supplier_name"
-                                        #supplier_name="ngModel" required>
-                                </div>
-                                <div class="form-group" [class.has-error]="email_id.invalid && email_id.touched">
-                                    <input type="text" class="form-control" name="email_id" id="email_id"
-                                        placeholder="Email Id * " [(ngModel)]="model.email_id" #email_id="ngModel" email
-                                        required>
-                                </div>
-                                <span class="help-block" *ngIf="!Locationdata.valid && Locationdata.touched">
-                                    supplier Name and Email Id is Mandatory.
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="supplier_name" id="supplier_name"
+                                    placeholder="Supplier Name* " [(ngModel)]="model.supplier_name"
+                                    #supplier_name="ngModel" required>
+                                <span class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched"> Supplier
+                                    Name is
+                                    required
                                 </span>
                             </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="email_id" id="email_id"
+                                    placeholder="Email Id * " [(ngModel)]="model.email_id" #email="ngModel"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+
+                            </div>
+                            <div *ngIf="email.touched">
+                                <span class="help-block" *ngIf="email.errors?.required">Email is a required
+                                    field!</span>
+                                <span class="help-block" *ngIf="email.errors?.pattern">This is not a valid Email!</span>
+                            </div>
                             <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
-                                <input type="text" class="form-control" name="mobile_no" id="mobile_no"
-                                    placeholder=" Contact Number * " [(ngModel)]="model.mobile_no" #mobile_no="ngModel"
-                                    required onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
-                                    maxlength="10">
+                                <input type="text" class="form-control" name="mobile_no" id="mobile_no" maxlength="10"
+                                    minlength="10" placeholder=" Contact Number * " [(ngModel)]="model.mobile_no"
+                                    #mobile_no="ngModel" required
+                                    onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
+                                <div *ngIf="mobile_no.errors?.maxlength">
+                                    Enter 10 digit number only
+                                </div>
+                                <div *ngIf="mobile_no.errors?.minlength">
+                                    Please Enter 10 digit mobile number
+                                </div>
                                 <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
-                                    Only Enter 10 digit mobile numbers
+                                    Mobile Number is Required
                                 </span>
                             </div>
                             <div>
