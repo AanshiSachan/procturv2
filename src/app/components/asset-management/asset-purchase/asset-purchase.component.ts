@@ -434,8 +434,7 @@ export class AssetPurchaseComponent implements OnInit {
     newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
     newxhr.setRequestHeader("enctype", "multipart/form-data;");
     newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-
+    //newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     if (!this.auth.isRippleLoad.getValue()) {
       this.auth.showLoader();
       newxhr.onreadystatechange = () => {
