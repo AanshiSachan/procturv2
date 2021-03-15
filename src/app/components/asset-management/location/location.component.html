@@ -75,11 +75,12 @@
                             </textarea>
                             </div>
                             <div>
-                                <span class="right"> <button type="button" class="btns blue_button" data-dismiss="modal"
-                                        (click)="cancel(false)">cancel</button></span>
+
                                 <span class="right"> <button type="submit" class="btns blue_button"
                                         (click)="saveLocationDetails(model)" *ngIf="!isedit">
                                         Add Location</button></span>
+                                <span class="right"> <button type="button" class="btns blue_button cancel"
+                                        data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
                                 <span class="right"> <button type="submit" class="btns blue_button"
                                         (click)="updateLocationDetails(model)" *ngIf="isedit">
                                         Update </button></span>

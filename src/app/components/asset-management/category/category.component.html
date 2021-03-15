@@ -60,7 +60,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
                     <h4 class="title-model"> Assets Category</h4>
                     <form id="form1" #assetcat="ngForm" autocomplete="off">
                         <div ngModelGroup="categoryDetails" #categoryDetails='ngModelGroup'>
@@ -82,8 +82,8 @@
                             </span>
                         </div>
                         <div style="margin-top: 10px;">
-                            <span class="right"> <button type="button" class="btns blue_button" data-dismiss="modal"
-                                    (click)="cancel()">cancel</button></span>
+                            <span class="right"> <button type="button" class="btns blue_button cancel"
+                                    data-dismiss="modal" (click)="cancel()">cancel</button></span>
                             <span class="right"> <button type="submit" class="btns blue_button"
                                     (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">
                                     Add Category</button></span>
@@ -148,20 +148,32 @@
                             <span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">asset
                                 condition mandatory</span>
                         </div>
-                        <div class="form-group">
-                            <select class="form-control" [(ngModel)]="model.location_ids" name="location_ids"
+
+                        <!--<select class="form-control" [(ngModel)]="model.location_ids" name="location_ids"
                                 id="location_ids" required #location_ids="ngModel" required>
                                 <option value="" selected>Asset Location *</option>
                                 <option value="{{data.id}}" *ngFor="let data of locationData">
                                     {{data.location_name}}
                                 </option>
-                            </select>
-                            <span class="help-block" *ngIf="location_ids.invalid && location_ids.touched">Asset Location
-                                is mandatory</span>
+                            </select>-->
+
+                        <div class="form-group multiselect">
+                            <ng-multiselect-dropdown placeholder="Location *" [(ngModel)]="model.location_ids"
+                                [data]="locationData" [settings]="moderatorSettingsforasset" name="model.location_ids">
+                            </ng-multiselect-dropdown>
                         </div>
+
+                        <!--<select class="form-control" [(ngModel)]="model.location_ids" name="location_ids"
+                                id="location_ids" required #location_ids="ngModel" required>
+                                <option value="" selected>Asset Location *</option>
+                                <option value="{{data.id}}" *ngFor="let data of locationData">
+                                    {{data.location_name}}
+                                </option>
+                            </select>-->
+
                         <div class="form-group">
-                            <span class="right"> <button type="submit" class="btns blue_button" (click)="cancel(false)"
-                                    data-dismiss="modal">Cancel</button></span>
+                            <span class="right"> <button type="submit" class="btns blue_button cancel"
+                                    (click)="cancel(false)" data-dismiss="modal">Cancel</button></span>
                             <span class="right"> <button type="submit" class="btns blue_button"
                                     (click)="saveAssetDetails(model)" *ngIf="!isedit">Add
                                     Asset</button></span>

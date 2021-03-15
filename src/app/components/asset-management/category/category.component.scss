@@ -231,6 +231,18 @@ letter-spacing: 0.01em;
 color: #444141;
 
 }
+.multiselect{
+  width: 330px;
+height: 35px;
+left: 35px;
+top: 63px;
+margin-left: 24px;
+background: #FFFFFF;
+border: 1px solid #D5D0D0;
+box-sizing: border-box;
+border-radius: 4px;
+margin-top:10px;
+}
 .modal-content{
   position: relative;
   width: 397px;
@@ -241,7 +253,8 @@ color: #444141;
     }
   //css for assets
   .modal-bodyAseet{
-    height:400px;
+    margin-top: 10px;
+    height:450px;
     position: relative;
     width: 400px;
    background: #FFFFFF;
@@ -321,3 +334,14 @@ letter-spacing: 0.01em;
 color: #444141;
 
   }
+  .cancel{
+    background-color: white;
+      color: #109CF1;
+      padding: 8px 20px;
+      font-size: 12px;
+      border: solid 2px #109CF1;
+      border-radius: 5px;
+      font-weight: 500;
+      height: 35px;
+  }
+  

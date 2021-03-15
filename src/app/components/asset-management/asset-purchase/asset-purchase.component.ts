@@ -17,10 +17,10 @@ export class AssetPurchaseComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 2;
+  displayBatchSize: number = 25;
   staticPageData: any = [{ id: 1, name: 'manisha', address: 'asas' }, { id: 2, name: 'nmanisha', address: 'asas', action: 'edit' }, { id: 3, name: 'amanisha', address: 'asas' }, { id: 1, name: 'manisha', address: 'asas' }];
   staticPageDataSouece: any = [];
   isedit: any;
@@ -41,6 +41,7 @@ export class AssetPurchaseComponent implements OnInit {
   ) { }
 
   model = {
+    id: '',
     asset_id: '',
     supplier_id: '',
     location_id: '',
@@ -143,7 +144,7 @@ export class AssetPurchaseComponent implements OnInit {
         charactLimit: 10,
         sorting: false,
         visibility: true,
-        view: true,
+        view: false,
         edit: true,
         delete: true,
       },
@@ -250,8 +251,10 @@ export class AssetPurchaseComponent implements OnInit {
   editRow(object) {
     this.isedit = true;
     this.bill_image_url = object.data.bill_image_url;
-    console.log(this.bill_image_url)
+    console.log(this.bill_image_url);
+    this.model.id = object.data.id;
     this.model.asset_id = object.data.asset_id;
+    console.log(this.model.asset_id);
     this.model.supplier_id = object.data.supplier_id;
     this.model.location_id = object.data.location_id;
     this.model.expiry_date = object.data.expiry_date;
@@ -270,19 +273,22 @@ export class AssetPurchaseComponent implements OnInit {
     // this.router.navigate(['view/website-configuration/faq/category/edit/' + object.data.id])
   }
   deleteRow(obj) {
-    this.auth.showLoader();
-    this.httpService.deleteMethod('/api/v2/asset/purchase/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Purchase Deleted Successfully');
-        this.getPurchaseDetails();
-      },
-      err => {
-        this.msgService.showErrorMessage('error', '', "err.response");
-        // this.msgService.showErrorMessage('error', '', err.response);
-        this.auth.hideLoader();
-      }
-    );
+    let deleteconfirm = confirm("Are you really want to delete?");
+    if (deleteconfirm == true) {
+      this.auth.showLoader();
+      this.httpService.deleteMethod('/api/v2/asset/purchase/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage('success', '', 'Purchase Deleted Successfully');
+          this.getPurchaseDetails();
+        },
+        err => {
+          this.msgService.showErrorMessage('error', '', "err.response");
+          // this.msgService.showErrorMessage('error', '', err.response);
+          this.auth.hideLoader();
+        }
+      );
+    }
   }
 
   searchDatabase() {
@@ -342,14 +348,14 @@ export class AssetPurchaseComponent implements OnInit {
     console.log('lo', this.locationAllData);
   }
   getAssetDetails() {
-    this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
-      (res: any) => {
-        this.assetAllData = res.result.response;
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
+    // this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    //   (res: any) => {
+    //     this.assetAllData = res.result.response;
+    //   },
+    //   err => {
+    //     this.auth.hideLoader();
+    //   }
+    // );
   }
 
   getLocationDetails() {
@@ -400,60 +406,62 @@ export class AssetPurchaseComponent implements OnInit {
 
 
   saveAssetPurchaseData() {
-    let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
-    const formData = new FormData();
-    let assetPurchaseStringDto = this.model;
-    assetPurchaseStringDto.expiry_date = moment(assetPurchaseStringDto.expiry_date).format("YYYY-MM-DD")
-    assetPurchaseStringDto.purchase_date = moment(assetPurchaseStringDto.purchase_date).format("YYYY-MM-DD")
-    assetPurchaseStringDto.service_date = moment(assetPurchaseStringDto.service_date).format("YYYY-MM-DD")
-    formData.append('assetPurchaseStringDto', JSON.stringify(assetPurchaseStringDto));
-    if (file) {
-      formData.append('billImageFile', file);
-    }
-    if (this.isedit) {
+    if (this.assePurchaseForm.valid) {
+      let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
+      const formData = new FormData();
+      let assetPurchaseStringDto = this.model;
+      assetPurchaseStringDto.expiry_date = moment(assetPurchaseStringDto.expiry_date).format("YYYY-MM-DD")
+      assetPurchaseStringDto.purchase_date = moment(assetPurchaseStringDto.purchase_date).format("YYYY-MM-DD")
+      assetPurchaseStringDto.service_date = moment(assetPurchaseStringDto.service_date).format("YYYY-MM-DD")
+      formData.append('assetPurchaseStringDto', JSON.stringify(assetPurchaseStringDto));
+      if (file) {
+        formData.append('billImageFile', file);
+      }
+      if (this.isedit) {
 
-      // assetPurchaseStringDto.bill_image_url = this.bill_image_url;
-    }
-    let base = this.auth.productBaseUrl;
-    // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
-    let urlPostXlsDocument = this.isedit ? base + "/prod/api/v2/asset/purchase/update" : base + "/prod/api/v2/asset/purchase/create";
-    let newxhr = new XMLHttpRequest();
-    let auths: any = {
-      userid: sessionStorage.getItem('userid'),
-      userType: sessionStorage.getItem('userType'),
-      password: sessionStorage.getItem('password'),
-      institution_id: sessionStorage.getItem('institute_id'),
-    }
-    let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+        // assetPurchaseStringDto.bill_image_url = this.bill_image_url;
+      }
+      let base = this.auth.productBaseUrl;
+      // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
+      let urlPostXlsDocument = this.isedit ? base + "/prod/api/v2/asset/purchase/update" : base + "/prod/api/v2/asset/purchase/create";
+      let newxhr = new XMLHttpRequest();
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
-    this.isedit ? newxhr.open("PUT", urlPostXlsDocument, true) : newxhr.open("POST", urlPostXlsDocument, true);
+      this.isedit ? newxhr.open("PUT", urlPostXlsDocument, true) : newxhr.open("POST", urlPostXlsDocument, true);
 
-    newxhr.setRequestHeader("Authorization", Authorization);
-    newxhr.setRequestHeader("x-proc-authorization", Authorization);
-    newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
-    newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
-    newxhr.setRequestHeader("enctype", "multipart/form-data;");
-    newxhr.setRequestHeader("Accept", "application/json, text/javascript");
-    //newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    if (!this.auth.isRippleLoad.getValue()) {
-      this.auth.showLoader();
-      newxhr.onreadystatechange = () => {
-        this.auth.hideLoader();
-        if (newxhr.readyState == 4) {
-          if (newxhr.status >= 200 && newxhr.status < 300) {
-            let msg = this.isedit ? 'Purchase Updated Successfully' : 'Purchase Added successfully';
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
-            $('#modelforpurchase').modal('hide');
-            this.getPurchaseDetails();
+      newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("x-proc-authorization", Authorization);
+      newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
+      newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      //newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
+        newxhr.onreadystatechange = () => {
+          this.auth.hideLoader();
+          if (newxhr.readyState == 4) {
+            if (newxhr.status >= 200 && newxhr.status < 300) {
+              let msg = this.isedit ? 'Purchase Updated Successfully' : 'Purchase Added successfully';
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
+              $('#modelforpurchase').modal('hide');
+              this.getPurchaseDetails();
 
-          } else {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+            } else {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
 
-            // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+              // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+            }
           }
         }
+        newxhr.send(formData);
       }
-      newxhr.send(formData);
     }
   }
 
@@ -463,6 +471,7 @@ export class AssetPurchaseComponent implements OnInit {
   cancel(param) {
     this.isedit = param;
     this.model = {
+      id: '',
       asset_id: '',
       supplier_id: '',
       location_id: '',

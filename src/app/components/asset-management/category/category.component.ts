@@ -109,7 +109,7 @@ export class CategoryComponent implements OnInit {
         charactLimit: 10,
         sorting: false,
         visibility: true,
-        view: true,
+        view: false,
         edit: true,
         delete: true,
 
@@ -170,7 +170,14 @@ export class CategoryComponent implements OnInit {
   displayBatchSize: number = 25;
   assetcategoryData: any = [];
   staticPageData: any = [];
+  //multiselect
 
+  moderatorSettingsforasset: any = {
+    singleSelection: false,
+    idField: 'id',
+    textField: 'location_name',
+    enableCheckAll: false
+  }
   setTableData() {
     this.headerSetting = [
       {
@@ -200,7 +207,7 @@ export class CategoryComponent implements OnInit {
         charactLimit: 10,
         sorting: false,
         visibility: true,
-        view: true,
+        view: false,
         edit: true,
         delete: true,
 
@@ -379,13 +386,22 @@ export class CategoryComponent implements OnInit {
   //save asset details
   saveAssetDetails() {
     if (this.assetaddForm.valid) {
-      var location_id = JSON.parse("[" + this.model.location_ids + "]");
-      this.model.location_ids = location_id;
+
+      let newasset: any = []
+      let location_ids: any = this.model.location_ids;
+      console.log(location_ids)
+      for (let data in location_ids) {
+        console.log(location_ids[data].id)
+        newasset.push(location_ids[data].id);
+      }
+      this.model.location_ids = newasset
+      //var location_id = JSON.parse("[" + this.model.location_ids + "]");
+      //this.model.location_ids = location_id;
       this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
-        $('#myModalforasset').modal('hide');
         this.cancel()
         this.getAssetDetails();
+        $('#myModalforasset').modal('hide');
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id or Asset Name Duplicate");

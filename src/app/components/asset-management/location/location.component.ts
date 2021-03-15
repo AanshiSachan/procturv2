@@ -30,7 +30,7 @@ export class LocationComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
   displayBatchSize: number = 25;
@@ -73,7 +73,7 @@ export class LocationComponent implements OnInit {
         charactLimit: 10,
         sorting: false,
         visibility: true,
-        view: true,
+        view: false,
         edit: true,
         delete: true,
       },
@@ -217,8 +217,6 @@ export class LocationComponent implements OnInit {
     this.model.location_name = '';
 
   }
-
-
   deleteRow(obj) {
     let deleteconfirm = confirm("Are you really want to delete?");
     if (deleteconfirm == true) {

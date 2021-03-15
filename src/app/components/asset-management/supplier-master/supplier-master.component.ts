@@ -106,7 +106,7 @@ export class SupplierMasterComponent implements OnInit {
         charactLimit: 10,
         sorting: false,
         visibility: true,
-        view: true,
+        view: false,
         edit: true,
         delete: true,
 
@@ -320,20 +320,21 @@ export class SupplierMasterComponent implements OnInit {
     this.model.mobile_no = object.data.mobile_no;
     this.model.supplier_name = object.data.supplier_name;
     this.model.category_id = object.data.category_id;
-
-    $('#modelforvendor').modal('show');
+    let temp = object.data.asset_ids;
     let asset_names = object.data.asset_names_string.split();
     console.log(asset_names);
-    for (let i; i < this.model.asset_ids.length; i++) {
-      let obj = {
-        asset_ids: '',
-        asset_names: ''
-      }
-      obj.asset_ids = this.model.asset_ids[i];
-      obj.asset_names = asset_names[i];
-      this.model.asset_ids.push(obj);
+    console.log(temp);
+    // for (let i = 0; i < temp.length; i++) {
+    //   let obj = {
+    //     id: '',
+    //     asset_names: ''
+    //   }
+    //   obj.id = temp[i];
+    //   obj.asset_names = asset_names[i];
+    //   this.model.asset_ids.push(obj);
 
-    }
+    // }
+    $('#modelforvendor').modal('show');
     console.log(this.model.asset_ids)
   }
   // );
