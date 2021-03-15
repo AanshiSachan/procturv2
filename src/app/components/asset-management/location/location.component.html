@@ -54,7 +54,7 @@
 
                             <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
                                 <input type="text" class="form-control" name="location_name" id="location_name"
-                                    placeholder="Location ID " [(ngModel)]="model.location_name" #locationId="ngModel"
+                                    placeholder="Location ID* " [(ngModel)]="model.location_name" #locationId="ngModel"
                                     required>
                             </div>
                             <span class="help-block" *ngIf="!locationId.valid && locationId.touched">

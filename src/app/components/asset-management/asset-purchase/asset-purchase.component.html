@@ -67,7 +67,8 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <select class="form-control" name="location_id" id="location_id"
-                                    [(ngModel)]="model.location_id" require #location_id="ngModel">
+                                    [(ngModel)]="model.location_id" require #location_id="ngModel"
+                                    (ngModelChange)="getVendorLocDependnt($event)">
                                     <option value="">Location *</option>
                                     <option value="{{data.id}}" *ngFor="let data of locationAllData">
                                         {{data.location_name}}</option>
@@ -178,7 +179,7 @@
                             </div>
 
                             <div class="field-wrapper col-md-6">
-                                <input type="file" name="billImageFile" [disabled]="bill_image_url!=''"
+                                <input type="file" name="billImageFile" [disabled]="bill_image_url!=''&& isedit"
                                     class="form-control" placeholder="upload file" id="billImageFile"
                                     style="margin-top:8px;" [(ngModel)]="bill_image_url">
                             </div>

@@ -62,7 +62,7 @@ export class AssetPurchaseComponent implements OnInit {
     this.getPurchaseDetails();
     this.getAssetDetails();
     this.getVendorDetails();
-    this.getLocationDetails();
+    // this.getLocationDetails();
     this.get_purchase_by();
   }
   setTableData() {
@@ -132,7 +132,7 @@ export class AssetPurchaseComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'purchased_by_user_name',
+        primary_key: 'purchased_by_user_display_name',
         value: "Purchase By",
         charactLimit: 25,
         sorting: true,
@@ -249,6 +249,8 @@ export class AssetPurchaseComponent implements OnInit {
   }
 
   editRow(object) {
+    //api for selected data
+    this.model.id = object.data.id;
     this.isedit = true;
     this.bill_image_url = object.data.bill_image_url;
     console.log(this.bill_image_url);
@@ -267,6 +269,7 @@ export class AssetPurchaseComponent implements OnInit {
     this.model.unit = object.data.unit;
     this.model.user_type = object.data.user_type;
     this.model.category_id = object.data.category_id;
+    this.getassetsAndLocation(this.model.category_id);
     $('#modelforpurchase').modal('show');
     console.log(object);
     //sessionStorage.setItem('faqData', JSON.stringify(object.data));
@@ -337,14 +340,15 @@ export class AssetPurchaseComponent implements OnInit {
   getLocationData(obj) {
     // alert(obj);
     let key = this.assetAllData.filter(id => (id.id == obj));
-    console.log(key);
+    //console.log(key);
 
-    /*
-    let location_name = key[0].location_names_string.join(',');
+    //location_ids,location_names_string
+    let location_name = key[0].location_names_string.split(',');
+    //console.log(location_name)
     for (let i = 0; i < key[0].location_ids.length; i++) {
       this.locationAllData.push({ 'location_id': key[0].location_ids[i], 'location_name': location_name[i] });
     }
-    */
+
     console.log('lo', this.locationAllData);
   }
   getAssetDetails() {
@@ -358,22 +362,27 @@ export class AssetPurchaseComponent implements OnInit {
     // );
   }
 
-  getLocationDetails() {
-    this.httpService.getMethod('api/v2/asset/location/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
-      (res: any) => {
-        //this.auth.hideLoader();
-        this.locationAllData = res.result.response;
-      },
-      err => {
-        this.auth.hideLoader();
+  //
+
+  getVendorLocDependnt(obj) {
+    let key = this.assetAllData.filter(id => (id.id == obj));
+    if (key.length > 0) {
+      console.log("data available")
+      let supplier_name = key[0].supplier_names_string.split(',');
+      for (let i = 0; i < key[0].supplier_ids.length; i++) {
+
+        this.vendorAllData.push({ 'supplier_ids': key[0].supplier_ids[i], 'supplier_name': supplier_name[i] });
       }
-    );
+    }
+    else {
+      this.msgService.showErrorMessage('warning', "", "Vendor is not available please add vendor first ")
+    }
   }
   getVendorDetails() {
     this.httpService.getMethod('api/v2/asset/supplier/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
-        this.vendorAllData = res.result.response;
+        //  this.vendorAllData = res.result.response;
       },
       err => {
         this.auth.hideLoader();

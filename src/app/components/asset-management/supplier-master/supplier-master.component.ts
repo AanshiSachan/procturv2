@@ -194,14 +194,16 @@ export class SupplierMasterComponent implements OnInit {
     singleSelection: false,
     idField: 'id',
     textField: 'category_name',
-    enableCheckAll: false
+    enableCheckAll: false,
+    itemsShowLimit: 3
   };
 
   moderatorSettingsforasset: any = {
     singleSelection: false,
     idField: 'id',
     textField: 'asset_name',
-    enableCheckAll: false
+    enableCheckAll: false,
+    itemsShowLimit: 3
   }
   vendorAllData: any;
   dataforasset: [];
@@ -321,19 +323,20 @@ export class SupplierMasterComponent implements OnInit {
     this.model.supplier_name = object.data.supplier_name;
     this.model.category_id = object.data.category_id;
     let temp = object.data.asset_ids;
-    let asset_names = object.data.asset_names_string.split();
+    let asset_names = object.data.asset_names_string.split(',');
     console.log(asset_names);
     console.log(temp);
-    // for (let i = 0; i < temp.length; i++) {
-    //   let obj = {
-    //     id: '',
-    //     asset_names: ''
-    //   }
-    //   obj.id = temp[i];
-    //   obj.asset_names = asset_names[i];
-    //   this.model.asset_ids.push(obj);
+    this.model.asset_ids = [];
+    for (let i = 0; i < temp.length; i++) {
+      let obj = {
+        id: '',
+        asset_name: ''
+      }
+      obj.id = temp[i];
+      obj.asset_name = asset_names[i];
+      this.model.asset_ids.push(obj);
 
-    // }
+    }
     $('#modelforvendor').modal('show');
     console.log(this.model.asset_ids)
   }
@@ -343,7 +346,7 @@ export class SupplierMasterComponent implements OnInit {
   // }
 
   updateVendorDetails() {
-    let newasset = []
+    let newasset = [];
     let asset_ids: any = this.model.asset_ids;
     console.log(asset_ids)
     for (let data in asset_ids) {

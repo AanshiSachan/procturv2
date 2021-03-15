@@ -64,7 +64,6 @@ export class AssetAssignmentComponent implements OnInit {
     this.setTableData();
     this.getCategoryDetails();
     this.getAssetDetails();
-    this.getLocationDetails();
     this.getCheckOutBy();
     this.getRolesList();
     this.cancel(false);
@@ -109,7 +108,7 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'check_out_user_name',
+        primary_key: 'check_out_user_display_name',
         value: "Check out By",
         charactLimit: 25,
         sorting: true,
@@ -288,7 +287,7 @@ export class AssetAssignmentComponent implements OnInit {
   editRow(object) {
     this.isedit = true;
     console.log(object);
-    // this.model.id = this.object.id;
+    this.model.id = object.data.id;
     this.model = object.data;
     this.model.asset_id = object.data.asset_id;
     this.model.location_id = object.data.location_id;
@@ -421,33 +420,24 @@ export class AssetAssignmentComponent implements OnInit {
   getLocationData(obj) {
     // alert(obj);
     let key = this.assetAllData.filter(id => (id.id == obj));
-    console.log(key);
+    //console.log(key);
 
-    /*
-    let location_name = key[0].location_names_string.join(',');
+    //location_ids,location_names_string
+    let location_name = key[0].location_names_string.split(',');
+    //console.log(location_name)
     for (let i = 0; i < key[0].location_ids.length; i++) {
       this.locationAllData.push({ 'location_id': key[0].location_ids[i], 'location_name': location_name[i] });
     }
-    */
+
     console.log('lo', this.locationAllData);
   }
+  //
 
   getAssetDetails() {
     this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
         // this.assetAllData = res.result.response;
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
-  }
-  getLocationDetails() {
-    this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
-      (res: any) => {
-        //this.auth.hideLoader();
-        this.locationAllData = res.result.response;
       },
       err => {
         this.auth.hideLoader();

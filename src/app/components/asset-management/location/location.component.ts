@@ -155,7 +155,6 @@ export class LocationComponent implements OnInit {
           console.log(res);
           this.submitted = true;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location Added Successfully");
-          $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },
         err => {
@@ -172,12 +171,13 @@ export class LocationComponent implements OnInit {
   }
 
   getLocationDetails() {
+    this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/location/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.total_elements;
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
@@ -198,15 +198,20 @@ export class LocationComponent implements OnInit {
   }
 
   updateLocationDetails() {
-    // this.isedit = !this.isedit;
-    this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
-      this.getLocationDetails();
-    },
-      err => {
-        this.auth.hideLoader();
-      })
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
-    $('#modelforlocation').modal('hide');
+    if (this.locationaddForm.valid) {
+      // this.isedit = !this.isedit;
+      this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
+        this.getLocationDetails();
+      },
+        err => {
+          this.auth.hideLoader();
+        })
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
+      $('#modelforlocation').modal('hide');
+    }
+    else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
+    }
   }
   //cancel model
   cancel(param) {

@@ -58,7 +58,7 @@
     <!--model for asset category-->
     <div class="modal fade" id="myModalforcat" data-backdrop="static" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="height: 250px;">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
                     <h4 class="title-model"> Assets Category</h4>
@@ -173,7 +173,7 @@
 
                         <div class="form-group">
                             <span class="right"> <button type="submit" class="btns blue_button cancel"
-                                    (click)="cancel(false)" data-dismiss="modal">Cancel</button></span>
+                                    (click)="cancel()" data-dismiss="modal">Cancel</button></span>
                             <span class="right"> <button type="submit" class="btns blue_button"
                                     (click)="saveAssetDetails(model)" *ngIf="!isedit">Add
                                     Asset</button></span>

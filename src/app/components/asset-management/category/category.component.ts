@@ -176,7 +176,8 @@ export class CategoryComponent implements OnInit {
     singleSelection: false,
     idField: 'id',
     textField: 'location_name',
-    enableCheckAll: false
+    enableCheckAll: false,
+    itemsShowLimit: 2
   }
   setTableData() {
     this.headerSetting = [
@@ -304,12 +305,13 @@ export class CategoryComponent implements OnInit {
   }
   //get category details
   getCategoryDetails() {
+    this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
       this.staticPageData = res.result.response;
       this.totalRecords = res.result.total_elements;
       this.staticPageData = this.getDataFromDataSource(0);
-
+      this.auth.hideLoader();
     },
       err => {
         this.auth.hideLoader();
@@ -327,16 +329,21 @@ export class CategoryComponent implements OnInit {
   }
   //update category
   updateAssetCategory() {
-    this.httpService.putMethod('api/v2/asset/category/update', this.category_model).then(() => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Updated Successfully")
-      $('#myModalforcat').modal('hide');
-      this.getCategoryDetails();
-    },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
-      }
+    if (this.assetcat.valid) {
+      this.httpService.putMethod('api/v2/asset/category/update', this.category_model).then(() => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Updated Successfully")
+        $('#myModalforcat').modal('hide');
+        this.getCategoryDetails();
+      },
+        err => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
+        }
 
-    )
+      )
+    }
+    else {
+      this.msgService.showErrorMessage('error', '', 'All Field Required');
+    }
   }
   //delete category
   deleteRow(object) {
@@ -359,7 +366,7 @@ export class CategoryComponent implements OnInit {
     category_id: '',
     asset_code: '',
     asset_condition: '',
-    location_ids: '',
+    location_ids: [],
     asset_name: '',
     institute_id: sessionStorage.getItem('institute_id'),
     quantity: '',
@@ -370,11 +377,12 @@ export class CategoryComponent implements OnInit {
   locationData: any = [];
   //get location data
   getLocationDetails() {
+    this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
+        this.auth.hideLoader();
         this.locationData = res.result.response;
-        console.log(this.locationData)
+        //console.log(this.locationData)
 
       },
       err => {
@@ -404,7 +412,7 @@ export class CategoryComponent implements OnInit {
         $('#myModalforasset').modal('hide');
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id or Asset Name Duplicate");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id/ Name Duplicate");
           $('#myModalforasset').modal('hide');
         })
     }
@@ -418,6 +426,7 @@ export class CategoryComponent implements OnInit {
 
   //get location
   getAssetDetails() {
+    this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.assetAllData = res.result.response;
@@ -426,6 +435,7 @@ export class CategoryComponent implements OnInit {
         console.log(this.assetAllData)
         this.totalRecords = res.result.total_elements;
         $('#myModalforasset').modal('hide');
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
@@ -445,22 +455,51 @@ export class CategoryComponent implements OnInit {
     this.model.quantity = object.data.quantity;
     this.model.category_id = object.data.category_id;
     $('#myModalforasset').modal('show');
+    let temp = object.data.location_ids;
+    let location_names = object.data.location_names_string.split(',');
+    console.log(location_names);
+    console.log(temp);
+    this.model.location_ids = [];
+    for (let i = 0; i < temp.length; i++) {
+      let obj: any = {
+        id: '',
+        location_name: ''
+      }
+      obj.id = temp[i];
+      obj.location_name = location_names[i];
+      this.model.location_ids.push(obj);
+
+    }
   }
 
   //update asset details
   updateAssetDetails() {
-    var location_ids = JSON.parse("[" + this.model.location_ids + "]");
-    this.model.location_ids = location_ids;
-    this.httpService.putMethod('api/v2/asset/update', this.model).then(() => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset  is Updated Successfully")
-      $('#myModalforasset').modal('hide');
-      this.getCategoryDetails();
-    },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate")
-      }
+    if (this.assetaddForm.valid) {
+      // var location_ids = JSON.parse("[" + this.model.location_ids + "]");
+      // this.model.location_ids = location_ids;
 
-    )
+      let newasset: any = []
+      let location_ids: any = this.model.location_ids;
+      console.log(location_ids)
+      for (let data in location_ids) {
+        console.log(location_ids[data].id)
+        newasset.push(location_ids[data].id);
+      }
+      this.model.location_ids = newasset;
+      this.httpService.putMethod('api/v2/asset/update', this.model).then(() => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset  is Updated Successfully")
+        $('#myModalforasset').modal('hide');
+        this.getCategoryDetails();
+      },
+        err => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate")
+        }
+
+      )
+    }
+    else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
+    }
   }
   //delete asset Category
   deleteAssetRow(object) {
@@ -515,7 +554,7 @@ export class CategoryComponent implements OnInit {
       category_id: '',
       asset_code: '',
       asset_condition: '',
-      location_ids: '',
+      location_ids: [],
       asset_name: '',
       institute_id: sessionStorage.getItem('institute_id'),
       quantity: '',
