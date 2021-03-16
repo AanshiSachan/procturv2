@@ -643,7 +643,7 @@
         cursor: pointer;
         position: relative;
         z-index: 1;
-        background: transparent;
+        background:#F4F3F8;
         width: 95%;
     }
     &:after {
@@ -3122,7 +3122,10 @@ input[type=number]::-webkit-outer-spin-button {
     font-weight: 700;
     font-size: 16px;
     padding: 10px 0px;
+    margin-bottom: 0px;
+    margin-left: 1rem;
   }
+
   .outer-progress{
     background-color: #fff;
     border-radius: 12px;
@@ -3219,10 +3222,10 @@ input[type=number]::-webkit-outer-spin-button {
      padding: 15px 20px; 
      border-radius: 5px;
      overflow-y: auto;
-     height: 81vh;
+     height: 61vh;
     }
   .label{
-    color: #B6B5B1;
+    color: #4e5154;
     font-weight: 400;
     font-size: 13px;
     position:relative;
@@ -3483,7 +3486,7 @@ input[type=number]::-webkit-outer-spin-button {
   }
   .borderbottom{
     border-bottom:1px solid #DFE5F0;
-    top: -32px;
+    top: -28px;
     position: relative;
     z-index: 0;
   }
@@ -3502,11 +3505,12 @@ input[type=number]::-webkit-outer-spin-button {
     border:1px solid #109CF1;
     border-radius: 5px;
     font-weight: 600;
-    margin-top: 9px;
   }
   .file::placeholder{
     color: #109CF1;
+    
     font-weight: 700;
+    
   }
   input[type=file]::-webkit-file-upload-button {
     border: none;
@@ -3520,7 +3524,10 @@ input[type=number]::-webkit-outer-spin-button {
   }
   
   input[type=file] {
+    background-color: #F4F3F8;
+    border: 1px solid #F0EDED;
     padding: 0px;
+    width: 100%;
      color: #B6B5B1;
   }
   .choose_file{
@@ -3599,8 +3606,8 @@ input[type=number]::-webkit-outer-spin-button {
       background-color: #fff;
       padding: 15px 20px;
       border-radius: 5px;
-      overflow-y: scroll;
-       height: 498px; 
+      overflow-y: visible;
+       height: 465px; 
   }
   .mt-10{
     margin-top: 10px
@@ -3641,4 +3648,7 @@ input[type=number]::-webkit-outer-spin-button {
       height: 21px;
       z-index: 0;
     }
+}
+.texrarea {
+    height: 65px;
 }
