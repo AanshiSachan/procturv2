@@ -1,0 +1,37 @@
+.filter-item-2 {
+    display: flex;
+    justify-content: flex-end;
+    .add-class-btn {
+      border: 1px solid #1283f4;
+      border-radius: 4px;
+      box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+      padding: 4px 10px;
+      background: #1283f4;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      height: 30px;
+    }
+  }
+  .sms-table-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .reason-input {
+    padding: 10px 20px;
+    font-size: 11px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-weight: 600;
+    width: 100%;
+    color: #4a627f;
+    height: 38px;
+}
+.modal-footer {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border-top: 0;
+}

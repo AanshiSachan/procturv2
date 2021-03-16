@@ -26,6 +26,12 @@
           <li class="nav-item" *ngIf="checkClassStatus == 'class'">
               <a class="nav-link" (click)="toggle('master_tag')" [ngClass]="(activeSession == 'master_tag') ? 'active' : ''" data-toggle="tab" routerLink="/view/course/setup/master-tag">Manage Tag</a>
           </li>
+          <li class="nav-item" *ngIf="checkClassStatus == 'exam' && schoolModel">
+            <a class="nav-link" (click)="toggle('mark_distribution')" [ngClass]="(activeSession == 'mark_distribution') ? 'active' : ''" data-toggle="tab" routerLink="/view/course/exam-setup/mark-distribution">Mark Distribution</a>
+          </li>
+          <li class="nav-item" *ngIf="checkClassStatus == 'exam' && schoolModel">
+            <a class="nav-link" (click)="toggle('mark_setting')" [ngClass]="(activeSession == 'mark_setting') ? 'active' : ''" data-toggle="tab" routerLink="/view/course/exam-setup/mark-setting">Mark Settings</a>
+          </li>
       </ul>
   </div>
 </div>
