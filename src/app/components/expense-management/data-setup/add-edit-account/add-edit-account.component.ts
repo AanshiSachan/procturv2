@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, Input, ElementRef, HostListener, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { MessageShowService } from '../../../../services/message-show.service';
-import { HttpService  } from '../../../../services/http.service';
+import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 declare var $;
 
@@ -18,13 +18,23 @@ export class AddEditAccountComponent implements OnInit {
   };
 
   accountDetails = {
+    displayPayeeName: '',
+    //partId: '',
+    displayPayeerName: '',
     accountName: '',
     accountType: 0,
-    accountDescription: ''
+    accountDescription: '',
+    accountNumber: '',
+    IFSC_Code: '',
+    valuType: '2'
+
   }
 
   editAccountDetails: any;
   account: any[] = [];
+  payeeAccount: any[] = [];
+  payeerAccount: any[] = [];
+
 
   @Output() closePopup = new EventEmitter<boolean>();
   @Input() isEditAccount: boolean;
@@ -33,7 +43,7 @@ export class AddEditAccountComponent implements OnInit {
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
-    private auth:AuthenticatorService
+    private auth: AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
   }
@@ -41,12 +51,14 @@ export class AddEditAccountComponent implements OnInit {
   ngOnInit() {
     $('#addAccountModal').modal('show');
     this.getAccountTypes();
-    if(this.isEditAccount){
+    if (this.isEditAccount) {
       this.setEditValues();
     }
+    this.getPayeeAccount()
+    this.getPayeerAccount()
   }
 
-  getAccountTypes(){
+  getAccountTypes() {
     this.auth.showLoader();
     const url = `/api/v1/masterData/type/ACCOUNT_TYPE`;
     this.httpService.getData(url).subscribe(
@@ -61,7 +73,41 @@ export class AddEditAccountComponent implements OnInit {
     )
   }
 
-  setEditValues(){
+
+
+  getPayeeAccount() {
+    this.auth.showLoader()
+    const url = '/api/v1/payment/party/expense/all/' + this.jsonFlag.institute_id
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.payeeAccount = res;
+        console.log("Ashahhh", this.payeeAccount)
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      }
+    )
+  }
+
+  getPayeerAccount() {
+    this.auth.showLoader()
+    const url = '/api/v1/payment/party/income/all/' + this.jsonFlag.institute_id
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.payeerAccount = res;
+        console.log("Ashahhh payerr", this.payeerAccount)
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      }
+    )
+  }
+
+  setEditValues() {
     this.auth.showLoader();
     const url = `/api/v1/account/${this.editAccountId}`;
     this.httpService.getData(url).subscribe(
@@ -77,71 +123,88 @@ export class AddEditAccountComponent implements OnInit {
     )
   }
 
-  setValue(){
+  setValue() {
     this.accountDetails.accountName = this.editAccountDetails.display_name;
     this.accountDetails.accountType = this.editAccountDetails.type;
     this.accountDetails.accountDescription = this.editAccountDetails.notes;
+    // this.accountDetails.accountNumber=this.editAccountDetails.account_number
+    // this.accountDetails.IFSC_Code=this.editAccountDetails.ifsc_code
   }
 
-  saveAccountDetails(){
-    if(this.accountDetails.accountName.trim() != ''){
-      if(!isNaN(this.accountDetails.accountType)){
-        if(this.accountDetails.accountDescription.trim() != ""){
+  saveAccountDetails() {
+    if (this.accountDetails.accountName.trim() != '') {
+      if (!isNaN(this.accountDetails.accountType)) {
+        if (this.accountDetails.accountDescription.trim() != "") {
+          if (this.accountDetails.accountNumber.trim() != '') {
+            if (this.accountDetails.IFSC_Code.trim() != '') {
 
-          let obj = {
-            display_name: this.accountDetails.accountName,
-            notes: this.accountDetails.accountDescription,
-            institution_id: this.jsonFlag.institute_id,
-            type: this.accountDetails.accountType,
-            account_id: ''
-          };
-          const url = `/api/v1/account`;
-          if(this.isEditAccount){
-            obj.account_id = this.editAccountId;
-            this.auth.showLoader();
-            this.httpService.putData(url, obj).subscribe(
-              (res: any) => {
-                this.auth.hideLoader();
-                if(res.statusCode == 200){
-                  this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account updated successfully');
-                  this.closePopups(false);
-                }
-              },
-              err => {
-                this.auth.hideLoader();
-                this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-              }
-            )
-          }
-          else{
-            delete obj.account_id;
-            this.auth.showLoader();
-            this.httpService.postData(url, obj).subscribe(
-              (res: any) => {
-                this.auth.hideLoader();
-                if(res.statusCode == 200){
-                  this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account created successfully');
-                  this.closePopups(false);
-                }
-              },
-              err => {
-                this.auth.hideLoader();
-                this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-              }
-            )
-          }
 
+              let obj = {
+
+                display_name: this.accountDetails.accountName,
+                notes: this.accountDetails.accountDescription,
+                institution_id: this.jsonFlag.institute_id,
+                type: this.accountDetails.accountType,
+                ifsc_code: this.accountDetails.IFSC_Code,
+                account_number: this.accountDetails.accountNumber,
+                party_id: this.accountDetails.displayPayeerName,
+                account_id: ''
+              };
+              const url = `/api/v1/account`;
+              if (this.isEditAccount) {
+                obj.account_id = this.editAccountId;
+                this.auth.showLoader();
+                this.httpService.putData(url, obj).subscribe(
+                  (res: any) => {
+                    this.auth.hideLoader();
+                    if (res.statusCode == 200) {
+                      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account updated successfully');
+                      this.closePopups(false);
+                    }
+                  },
+                  err => {
+                    this.auth.hideLoader();
+                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+                  }
+                )
+              }
+              else {
+                delete obj.account_id;
+                this.auth.showLoader();
+                this.httpService.postData(url, obj).subscribe(
+                  (res: any) => {
+                    this.auth.hideLoader();
+                    if (res.statusCode == 200) {
+                      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account created successfully');
+                      this.closePopups(false);
+                    }
+                  },
+                  err => {
+                    this.auth.hideLoader();
+                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+                  }
+                )
+              }
+
+            }
+            else {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
+            }
+          }
+          else {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Type!');
+          }
         }
-        else{
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
+        else {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Name!');
         }
       }
-      else{
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Type!');
+      else {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
       }
     }
-    else{
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Name!');
+    else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC_Code !');
     }
 
   }
