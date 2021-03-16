@@ -541,6 +541,8 @@ export class CategoryComponent implements OnInit {
 
   //cancel 
   cancel() {
+    this.assetaddForm.resetForm();
+    this.assetcat.resetForm();
     this.isedit = false;
     this.category_model = {
       active: true,

@@ -1,13 +1,14 @@
 <div class="page-content">
     <div class="page_heading">
-        <div class="w98">
+        <div class="w98 tab">
             <span *ngIf="is_asset" class="asset-title">Assets</span>
             <span *ngIf="is_asset_cat" class="asset-title">Asset Category</span>
-            <br>
-            <span class="tab1" [ngStyle]="{'color':active === false ? '#109CF1' : '#334D6E' }"><b
+            <div>
+            <span class="tab1" [ngClass]="is_asset ? 'inactive' : 'active' ">
+                <b
                     (click)="toggle(false)">Asset
                     category</b></span>
-            <span><b class="tab2 tabcolor" [ngStyle]="{'color':active === true ? '#109CF1' : '#334D6E' }"
+            <span><b class="tab2 " [ngClass]="is_asset_cat ? 'inactive' : 'active' "
                     (click)="toggle(true)">Asset
                 </b></span>
 
@@ -17,7 +18,7 @@
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforasset"
                     *ngIf="is_asset" (click)="cancel(false)">Add
                     Asset</button></span>
-
+                </div>
         </div>
     </div>
     <!--flex for asset category data-->

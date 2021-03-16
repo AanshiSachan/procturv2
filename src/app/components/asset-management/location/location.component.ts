@@ -5,6 +5,8 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
 import { Location } from './location';
 import { NgForm } from '@angular/forms';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { ExcelService } from '../../../services/excel.service';
 //import { $ } from 'protractor';
 declare var $;
 
@@ -14,13 +16,26 @@ declare var $;
   styleUrls: ['./location.component.scss']
 })
 export class LocationComponent implements OnInit {
-
+  @ViewChild('locationaddForm', { static: false }) locationaddForm: NgForm;
+  model: Location = new Location();
+  isedit = false;
+  submitted = false;
+  locationData = {
+    institute_id: sessionStorage.getItem('institute_id'),
+    address: '',
+    location_description: '',
+    location_name: '',
+    active: true,
+  }
+ 
   constructor(
     private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
     private msgService: MessageShowService,
-    private currentRout: ActivatedRoute) { }
+    private currentRout: ActivatedRoute,
+    private _pdfService: ExportToPdfService,
+    private excelService: ExcelService) { }
 
   ngOnInit(): void {
     this.getLocationDetails();
@@ -30,10 +45,10 @@ export class LocationComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 25;
+  displayBatchSize: number = 2;
   staticPageData: any = [];
   //table ui data
   setTableData() {
@@ -47,7 +62,7 @@ export class LocationComponent implements OnInit {
       },
       {
         primary_key: 'location_name',
-        value: " Location Name",
+        value: " Location Id",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -55,7 +70,7 @@ export class LocationComponent implements OnInit {
 
       {
         primary_key: 'address',
-        value: "Address",
+        value: "Location Name",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -125,24 +140,11 @@ export class LocationComponent implements OnInit {
   }
   getDataFromDataSource(startindex) {
     this.getLocationDetails();
-
-
-  }
+}
   updateTableBatchSize(event) {
     this.pageIndex = 1;
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.pageIndex);
-  }
-  @ViewChild('locationaddForm', { static: false }) locationaddForm: NgForm;
-  model: Location = new Location();
-  isedit = false;
-  submitted = false;
-  locationData = {
-    institute_id: sessionStorage.getItem('institute_id'),
-    address: '',
-    location_description: '',
-    location_name: '',
-    active: true,
   }
   //method use to post form data
   saveLocationDetails() {
@@ -192,15 +194,12 @@ export class LocationComponent implements OnInit {
     this.model.address = object.data.address;
     this.model.location_description = object.data.location_description;
     this.model.location_name = object.data.location_name;
-
-    $('#modelforlocation').modal('show');
-    // this.getLocationDetails();
+  $('#modelforlocation').modal('show');
   }
 
   updateLocationDetails() {
     if (this.locationaddForm.valid) {
-      // this.isedit = !this.isedit;
-      this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
+     this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
         this.getLocationDetails();
       },
         err => {
@@ -213,9 +212,8 @@ export class LocationComponent implements OnInit {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
     }
   }
-  //cancel model
-  cancel(param) {
-    //this.locationaddForm.reset();
+ cancel(param) {
+  // this.locationaddForm.resetForm();
     this.isedit = param;
     this.model.address = '';
     this.model.location_description = '';
@@ -239,17 +237,11 @@ export class LocationComponent implements OnInit {
       );
     }
   }
-
-  //search filter
   searchParams: any;
   tempLocationList = [];
 
   searchDatabase() {
-    //alert("hi")
-    console.log(this.searchParams);
-    console.log(this.staticPageData)
-    // this.staticPageDataSouece = this.tempIncomelist;
-    if (this.searchParams == undefined || this.searchParams == null) {
+ if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
     }
@@ -261,6 +253,66 @@ export class LocationComponent implements OnInit {
       this.staticPageData = searchData;
     }
   }
-  //code for tooltip
 
+  //download pdf
+//
+locationDataforDownload:[];
+  downloadPdf() {
+    this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.locationDataforDownload = res.result.response;
+        this.auth.showLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    let arr = [];
+   
+    this.locationDataforDownload.map(
+      (ele: any) => {
+        let json = [
+          ele.location_name,
+          ele.address,
+          ele.location_description,
+       ]
+        arr.push(json);
+      })
+
+    let rows = [];
+    rows = [['Location Id', 'Location Name', 'Location Description']]
+    let columns = arr;
+    this._pdfService.exportToPdf(rows, columns, 'Location List');
+  }
+//download in excel format
+exportToExcel(){
+  this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+    (res: any) => {
+      this.locationDataforDownload = res.result.response;
+      console.log( this.locationDataforDownload = res.result.response)
+      let Excelarr = [];
+      this.locationDataforDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSetting.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_location'
+    );
+     // console.log(this.locationDataforDownload)
+      this.auth.showLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+ 
+}
 }

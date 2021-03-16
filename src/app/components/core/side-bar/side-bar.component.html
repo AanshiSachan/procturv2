@@ -778,16 +778,10 @@
                 <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/assest-icon.svg':'./assets/images/sidemenuicon/assest-icon.svg'"
                     alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/asset-management" class="a_link">
-                    <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Asset&nbsp;Management</span><i
+                    <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Assets</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="bottom:8%;">
-                    <a routerLink="/view/asset-management/asset-supplier">
-                        <li class="subMenu">
-                            <span>Supplier Master</span>
-
-                        </li>
-                    </a>
                     <a routerLink="/view/asset-management/asset-location">
                         <li class="subMenu">
                             <span>Location Of Assets</span>
@@ -795,12 +789,13 @@
                     </a>
                     <a routerLink="/view/asset-management/asset-category">
                         <li class="subMenu">
-                            <span>Asset Category</span>
+                            <span>Asset</span>
                         </li>
                     </a>
-                    <a routerLink="/view/asset-management/asset-assignment">
+                    <a routerLink="/view/asset-management/asset-supplier">
                         <li class="subMenu">
-                            <span>Asset Assignment</span>
+                            <span>Supplier Master</span>
+
                         </li>
                     </a>
                     <a routerLink="/view/asset-management/asset-purchase">
@@ -808,6 +803,12 @@
                             <span>Purchase Asset</span>
                         </li>
                     </a>
+                    <a routerLink="/view/asset-management/asset-assignment">
+                        <li class="subMenu">
+                            <span>Asset Assignment</span>
+                        </li>
+                    </a>
+                    
                 </ul>
             </li>
         </ul>

@@ -19,10 +19,10 @@ export class AssetAssignmentComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 2;
+  displayBatchSize: number = 25;
   staticPageData: any = [{ id: 1, name: 'manisha', address: 'asas' }, { id: 2, name: 'nmanisha', address: 'asas', action: 'edit' }, { id: 3, name: 'amanisha', address: 'asas' }, { id: 1, name: 'manisha', address: 'asas' }];
   staticPageDataSouece: any = [];
   isedit: any;
@@ -148,7 +148,7 @@ export class AssetAssignmentComponent implements OnInit {
         charactLimit: 10,
         sorting: false,
         visibility: true,
-        view: true,
+        view: false,
         edit: true,
         delete: true,
 
@@ -246,7 +246,7 @@ export class AssetAssignmentComponent implements OnInit {
       // this.model.user_type = Number(this.model.user_type);
       this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
       this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
-      this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD")
+      this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD");
       this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
         $('#modelforassetAssign').modal('hide');
@@ -269,6 +269,7 @@ export class AssetAssignmentComponent implements OnInit {
   //get asset details
 
   getAssignDetails() {
+    this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/assignment/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
@@ -276,7 +277,7 @@ export class AssetAssignmentComponent implements OnInit {
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.total_elements;
-
+        this.auth.hideLoader()
       },
       err => {
         this.auth.hideLoader();
@@ -320,8 +321,7 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   updateAssetAssignDetails() {
-    // this.model.quantity = Number(this.model.quantity);
-    // this.model.user_type = Number(this.model.user_type);
+    if(this.assetAssignmentForm.valid){
     this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
     this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
     this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD")
@@ -334,7 +334,10 @@ export class AssetAssignmentComponent implements OnInit {
       })
     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
     $('#modelforassetAssign').modal('hide');
-
+    }
+    else{
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All  fields Required")
+    }
   }
   cancel(param) {
     this.isedit = false;

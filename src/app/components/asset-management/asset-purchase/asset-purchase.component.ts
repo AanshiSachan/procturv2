@@ -234,6 +234,7 @@ export class AssetPurchaseComponent implements OnInit {
   //get asset details
 
   getPurchaseDetails() {
+    this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         //this.auth.hideLoader();
@@ -241,6 +242,7 @@ export class AssetPurchaseComponent implements OnInit {
         this.staticPageData = res.result.response;
         this.totalRecords = res.result.total_elements;
         this.tempLocationList = res.result.response;
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
@@ -478,7 +480,8 @@ export class AssetPurchaseComponent implements OnInit {
     this.bill_image_url = '';
   }
   cancel(param) {
-    this.isedit = param;
+    this.isedit = false;
+    this.assePurchaseForm.resetForm();
     this.model = {
       id: '',
       asset_id: '',

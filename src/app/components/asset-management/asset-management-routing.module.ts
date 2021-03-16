@@ -11,33 +11,34 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
 
 const routes: Routes = [{
   path: 'asset-supplier',
-  component: SupplierMasterComponent
+  component: SupplierMasterComponent,
+  pathMatch: 'prefix'
 
 },
 {
   path: 'asset-location',
   component: LocationComponent,
-
+  pathMatch: 'prefix'
 },
 {
   path: 'asset-category',
-  component: CategoryComponent
-
-
+  component: CategoryComponent,
+ pathMatch: 'prefix'
 },
 {
   path: 'asset-assignment',
   component: AssetAssignmentComponent,
-
+  pathMatch: 'prefix'
 },
 {
   path: 'asset-purchase',
   component: AssetPurchaseComponent,
-
+  pathMatch: 'prefix'
 },
 {
   path: '/view/asset-management/add-edit-asset',
-  component: AddEditAssetComponent
+  component: AddEditAssetComponent,
+  pathMatch: 'prefix'
 }
 
 ];

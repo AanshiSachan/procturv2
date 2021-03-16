@@ -22,7 +22,7 @@ export class SupplierMasterComponent implements OnInit {
     this.getCategoryDetails();
     // this.getAssetDetails();
     this.getVendorDetails();
-    this.getVendorDetails();
+   
 
   }
   headerSetting: any;
@@ -46,6 +46,7 @@ export class SupplierMasterComponent implements OnInit {
     supplier_name: '',  //required
     category_id: 0,
     asset_ids: [],
+    category_ids:[],
   }
 
 
@@ -195,7 +196,7 @@ export class SupplierMasterComponent implements OnInit {
     idField: 'id',
     textField: 'category_name',
     enableCheckAll: false,
-    itemsShowLimit: 3
+    itemsShowLimit: 2
   };
 
   moderatorSettingsforasset: any = {
@@ -203,7 +204,7 @@ export class SupplierMasterComponent implements OnInit {
     idField: 'id',
     textField: 'asset_name',
     enableCheckAll: false,
-    itemsShowLimit: 3
+    itemsShowLimit: 2
   }
   vendorAllData: any;
   dataforasset: [];
@@ -229,12 +230,17 @@ export class SupplierMasterComponent implements OnInit {
         newasset.push(asset_ids[data].id);
       }
       this.model.asset_ids = newasset
-      let mobileno = Number(this.model.mobile_no);
+      //for cat
+      let newcat =[];
+      let category_ids:any =this.model.category_ids;
+      for (let data in category_ids) {
+        newcat.push(category_ids[data].id);
+      }
+      this.model.category_ids = newcat
       this.model.category_id = this.selectedvalue;
       this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
         (res: any) => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Vendor Added Successfully");
-          $('#modelforvendor').modal('hide');
           this.getVendorDetails();
         },
         err => {
@@ -243,13 +249,12 @@ export class SupplierMasterComponent implements OnInit {
           $('#modelforvendor').modal('hide');
         }
       )
-
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
       $('#modelforvendor').modal('hide');
     }
-
+    $('#modelforvendor').modal('hide');
   }
 
   //fordropdown
@@ -297,11 +302,13 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   getVendorDetails() {
+    this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/supplier/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result;
         this.totalRecords = res.result.total_elements;
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
@@ -322,7 +329,9 @@ export class SupplierMasterComponent implements OnInit {
     this.model.mobile_no = object.data.mobile_no;
     this.model.supplier_name = object.data.supplier_name;
     this.model.category_id = object.data.category_id;
+    //asset_id_for_multiselect
     let temp = object.data.asset_ids;
+    let temp2 =object.data.category_ids;
     let asset_names = object.data.asset_names_string.split(',');
     console.log(asset_names);
     console.log(temp);
@@ -337,6 +346,21 @@ export class SupplierMasterComponent implements OnInit {
       this.model.asset_ids.push(obj);
 
     }
+    //category_selcet
+let category_names= object.data.category_names_string.split(',');
+console.log(temp2)
+console.log(category_names);
+ this.model.category_ids = [];
+ for (let i = 0; i < temp2.length; i++) {
+  let obj2 = {
+    id: '',
+    category_name: ''
+  }
+  obj2.id = temp2[i];
+  obj2.category_name = category_names[i];
+  this.model.category_ids.push(obj2);
+ }
+ 
     $('#modelforvendor').modal('show');
     console.log(this.model.asset_ids)
   }
@@ -346,7 +370,8 @@ export class SupplierMasterComponent implements OnInit {
   // }
 
   updateVendorDetails() {
-    let newasset = [];
+    if(this.addVendorForm.valid){
+  let newasset = [];
     let asset_ids: any = this.model.asset_ids;
     console.log(asset_ids)
     for (let data in asset_ids) {
@@ -354,6 +379,17 @@ export class SupplierMasterComponent implements OnInit {
       newasset.push(asset_ids[data].id);
     }
     this.model.asset_ids = newasset;
+    console.log(newasset);
+
+    let newassetcat = [];
+    let category_ids: any = this.model.category_ids;
+    console.log(category_ids)
+    for (let data in category_ids) {
+      console.log(category_ids[data].id)
+      newasset.push(category_ids[data].id);
+    }
+    this.model.category_ids = newassetcat;
+    console.log(newassetcat);
     let mobile_no: any = Number(this.model.mobile_no);
     this.model.mobile_no = mobile_no;
     // this.model.mobile_no = Number(this.model.mobile_no);
@@ -368,6 +404,10 @@ export class SupplierMasterComponent implements OnInit {
         this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select category")
       })
+    }
+    else{
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All Required Fields")
+    }
   }
   //cancel model
 
@@ -393,7 +433,6 @@ export class SupplierMasterComponent implements OnInit {
   tempLocationList = [];
 
   cancel(param) {
-
     this.isedit = false;
     this.model = {
       active: true,
@@ -404,9 +443,13 @@ export class SupplierMasterComponent implements OnInit {
       email_id: '', //required
       mobile_no: '',  //required
       supplier_name: '',
-      category_id: 0 //required
+      category_id: 0 ,
+      category_ids:[],
+      
 
     }
+
+
   }
   //search 
 

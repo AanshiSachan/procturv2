@@ -102,13 +102,7 @@
   .pl10{
     padding-left: 10px;
   }
-  .active{
-    text-decoration: underline;
-    border:solid 2px blue;
-    font-size:20px;
-    color:#109CF1;
-  }
-
+  
   .modal {
     // float: left;
     left: 30%;
@@ -163,8 +157,7 @@
   /* identical to box height */
   
   letter-spacing: 0.01em;
-  
-  color: #109CF1;
+
   
 }
 .tab2{
@@ -182,7 +175,7 @@
   
   letter-spacing: 0.01em;
   
-  color: #334D6E;
+  
 }
 
 
@@ -344,4 +337,21 @@ color: #444141;
       font-weight: 500;
       height: 35px;
   }
+  .active {
+    border-bottom: 3px solid #109cf1 !important;
+    color: #109cf1 !important;
+    padding-bottom: 29px;
+    padding-top: 10px;
+}
+.tab{display: block;
+  padding: 1.5rem 0rem;
+  margin: -1rem 3.5rem;
+  margin-left: 0rem;
+  cursor: default;
+}
+.inactive{
+  border-bottom: none;
   
+}
+
+

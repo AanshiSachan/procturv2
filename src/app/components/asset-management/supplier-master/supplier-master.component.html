@@ -68,7 +68,7 @@
                                 <div *ngIf="mobile_no.errors?.maxlength">
                                     Enter 10 digit number only
                                 </div>
-                                <div *ngIf="mobile_no.errors?.minlength">
+                                <div class="help-block" *ngIf="mobile_no.errors?.minlength">
                                     Please Enter 10 digit mobile number
                                 </div>
                                 <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
@@ -93,8 +93,8 @@
                                 </span>
                             </div>
                             <div class="form-group multiselect">
-                                <ng-multiselect-dropdown placeholder="Category Name *" [(ngModel)]="model.category_id"
-                                    [data]="assetcategoryData" [settings]="moderatorSettings" name="category_id"
+                                <ng-multiselect-dropdown placeholder="Category Name *" [(ngModel)]="model.category_ids"
+                                    [data]="assetcategoryData" [settings]="moderatorSettings" name="category_ids"
                                     (ngModelChange)="getAssetsForSelectedCat($event)">
                                 </ng-multiselect-dropdown>
                             </div>
