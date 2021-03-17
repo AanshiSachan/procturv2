@@ -19,14 +19,13 @@ export class AddEditAccountComponent implements OnInit {
 
   accountDetails = {
     displayPayeeName: '',
-    //partId: '',
     displayPayeerName: '',
     accountName: '',
-    accountType: 0,
+    accountType: '2',
     accountDescription: '',
     accountNumber: '',
     IFSC_Code: '',
-    valuType: '2'
+    valuType: ''
 
   }
 
@@ -82,7 +81,6 @@ export class AddEditAccountComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.payeeAccount = res;
-        console.log("Ashahhh", this.payeeAccount)
       },
       err => {
         this.auth.hideLoader();
@@ -98,7 +96,6 @@ export class AddEditAccountComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.payeerAccount = res;
-        console.log("Ashahhh payerr", this.payeerAccount)
       },
       err => {
         this.auth.hideLoader();
@@ -114,6 +111,7 @@ export class AddEditAccountComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.editAccountDetails = res;
+        console.log("Asha edit", this.editAccountDetails)
         this.setValue();
       },
       err => {
@@ -124,91 +122,96 @@ export class AddEditAccountComponent implements OnInit {
   }
 
   setValue() {
+
     this.accountDetails.accountName = this.editAccountDetails.display_name;
     this.accountDetails.accountType = this.editAccountDetails.type;
     this.accountDetails.accountDescription = this.editAccountDetails.notes;
-    // this.accountDetails.accountNumber=this.editAccountDetails.account_number
-    // this.accountDetails.IFSC_Code=this.editAccountDetails.ifsc_code
+    this.accountDetails.accountNumber = this.editAccountDetails.account_number
+    this.accountDetails.IFSC_Code = this.editAccountDetails.ifsc_code
+    this.accountDetails.displayPayeeName = this.editAccountDetails.party_id
+    this.accountDetails.valuType = this.editAccountDetails.party_type
+
   }
 
   saveAccountDetails() {
-    if (this.accountDetails.accountName.trim() != '') {
-      if (!isNaN(this.accountDetails.accountType)) {
-        if (this.accountDetails.accountDescription.trim() != "") {
-          if (this.accountDetails.accountNumber.trim() != '') {
-            if (this.accountDetails.IFSC_Code.trim() != '') {
 
 
-              let obj = {
-
-                display_name: this.accountDetails.accountName,
-                notes: this.accountDetails.accountDescription,
-                institution_id: this.jsonFlag.institute_id,
-                type: this.accountDetails.accountType,
-                ifsc_code: this.accountDetails.IFSC_Code,
-                account_number: this.accountDetails.accountNumber,
-                party_id: this.accountDetails.displayPayeerName,
-                account_id: ''
-              };
-              const url = `/api/v1/account`;
-              if (this.isEditAccount) {
-                obj.account_id = this.editAccountId;
-                this.auth.showLoader();
-                this.httpService.putData(url, obj).subscribe(
-                  (res: any) => {
-                    this.auth.hideLoader();
-                    if (res.statusCode == 200) {
-                      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account updated successfully');
-                      this.closePopups(false);
-                    }
-                  },
-                  err => {
-                    this.auth.hideLoader();
-                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-                  }
-                )
-              }
-              else {
-                delete obj.account_id;
-                this.auth.showLoader();
-                this.httpService.postData(url, obj).subscribe(
-                  (res: any) => {
-                    this.auth.hideLoader();
-                    if (res.statusCode == 200) {
-                      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account created successfully');
-                      this.closePopups(false);
-                    }
-                  },
-                  err => {
-                    this.auth.hideLoader();
-                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-                  }
-                )
-              }
-
+    if (this.validateAccountDetailsInput()) {
+      let obj = {
+        display_name: this.accountDetails.accountName,
+        notes: this.accountDetails.accountDescription,
+        institution_id: this.jsonFlag.institute_id,
+        type: this.accountDetails.accountType,
+        ifsc_code: this.accountDetails.IFSC_Code,
+        account_number: this.accountDetails.accountNumber,
+        party_id: this.accountDetails.displayPayeeName,
+        party_type: this.accountDetails.valuType,
+        account_id: ''
+      };
+      const url = `/api/v1/account`;
+      if (this.isEditAccount) {
+        obj.account_id = this.editAccountId;
+        this.auth.showLoader();
+        this.httpService.putData(url, obj).subscribe(
+          (res: any) => {
+            this.auth.hideLoader();
+            if (res.statusCode == 200) {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account updated successfully');
+              this.closePopups(false);
             }
-            else {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
-            }
+
+          },
+          err => {
+            this.auth.hideLoader();
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
           }
-          else {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Type!');
-          }
-        }
-        else {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Name!');
-        }
+        )
       }
       else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
+        delete obj.account_id;
+        this.auth.showLoader();
+        this.httpService.postData(url, obj).subscribe(
+          (res: any) => {
+            this.auth.hideLoader();
+            if (res.statusCode == 200) {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account created successfully');
+              this.closePopups(false);
+            }
+          },
+          err => {
+            this.auth.hideLoader();
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+          }
+        )
       }
     }
-    else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC_Code !');
-    }
-
   }
 
+  validateAccountDetailsInput() {
+    if (this.accountDetails.accountName.trim() == '') {
+
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Name!');
+      return;
+    }
+    if (this.accountDetails.accountType == '0' && this.accountDetails.IFSC_Code.trim() == '') {
+
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
+      return
+    }
+    if (this.accountDetails.accountNumber.trim() == '') {
+
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
+      return
+
+    }
+
+    if (this.accountDetails.accountDescription.trim() == '') {
+
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
+      return
+    }
+    return true;
+  }
   closePopups($event) {
     $('#addAccountModal').modal('hide');
     this.closePopup.emit(false);

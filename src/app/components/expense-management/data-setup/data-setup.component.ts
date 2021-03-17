@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageShowService } from '../../../services/message-show.service';
-import { HttpService  } from '../../../services/http.service';
+import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class DataSetupComponent implements OnInit {
   editAccountId = '';
   editCategory = {};
 
-  isEditPayee:boolean = false;
+  isEditPayee: boolean = false;
   isEditPayer: boolean = false;
   isEditAccount: boolean = false;
   isEditCategory: boolean = false;
@@ -45,42 +45,46 @@ export class DataSetupComponent implements OnInit {
   constructor(
     private msgService: MessageShowService,
     private httpService: HttpService,
-    private auth:AuthenticatorService
+    private auth: AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-   }
+  }
 
   ngOnInit() {
     this.payeeHeader = [
-      { header: 'Name', class: 'medium-item'},
-      { header: 'Vendor Type', class: 'medium-item'},
-      { header: 'Company Name', class: 'medium-item'},
-      { header: 'Contact No.', class: 'medium-item'},
-      { header: 'Email ID', class: 'medium-item'},
-      { header: 'Edit', class: 'small-item'}
+      { header: 'Name', class: 'medium-item' },
+      { header: 'Vendor Type', class: 'medium-item' },
+      { header: 'Company Name', class: 'medium-item' },
+      { header: 'Contact No.', class: 'medium-item' },
+      { header: 'Email ID', class: 'medium-item' },
+      { header: 'Edit', class: 'small-item' }
     ];
 
     this.payerHeader = [
-      { header: 'Name', class: 'medium-item'},
-      { header: 'Vendor Type', class: 'medium-item'},
-      { header: 'Company Name', class: 'medium-item'},
-      { header: 'Contact No.', class: 'medium-item'},
-      { header: 'Email ID', class: 'medium-item'},
-      { header: 'Edit', class: 'small-item'}
+      { header: 'Name', class: 'medium-item' },
+      { header: 'Vendor Type', class: 'medium-item' },
+      { header: 'Company Name', class: 'medium-item' },
+      { header: 'Contact No.', class: 'medium-item' },
+      { header: 'Email ID', class: 'medium-item' },
+      { header: 'Edit', class: 'small-item' }
     ];
 
     this.accountHeader = [
-      { header: 'Account Name	', class: 'large-item'},
-      { header: 'Description	', class: 'large-item'},
-      { header: 'Type	', class: 'medium-item'},
-      { header: 'Edit', class: 'small-item'}
+      { header: 'Account Name	', class: 'large-item' },
+      { header: 'Description	', class: 'large-item' },
+      { header: 'Type	', class: 'medium-item' },
+      { header: 'Account Number	', class: 'large-item' },
+      { header: 'IFSC Code	', class: 'medium-item' },
+
+
+      { header: 'Edit', class: 'small-item' }
     ];
 
     this.categoryHeader = [
-      { header: 'Category Name', class: 'large-item'},
-      { header: 'Description	', class: 'large-item'},
-      { header: 'Category Type', class: 'large-item'},
-      { header: 'Edit', class: 'small-item'}
+      { header: 'Category Name', class: 'large-item' },
+      { header: 'Description	', class: 'large-item' },
+      { header: 'Category Type', class: 'large-item' },
+      { header: 'Edit', class: 'small-item' }
     ];
 
     this.switchActiveView('payee');
@@ -93,22 +97,22 @@ export class DataSetupComponent implements OnInit {
     this.getTableData(showId)
   }
 
-  getTableData(showId){
+  getTableData(showId) {
     let url = "";
-    if(showId == 'payee'){
+    if (showId == 'payee') {
       this.headerList = this.payeeHeader;
       url = `/api/v1/payment/party/expense/all/${this.jsonFlag.institute_id}`;
     }
-    if(showId == 'payer'){
+    if (showId == 'payer') {
       this.headerList = this.payerHeader;
       url = `/api/v1/payment/party/income/all/${this.jsonFlag.institute_id}`;
     }
-    if(showId == 'account'){
+    if (showId == 'account') {
       this.headerList = this.accountHeader;
       url = `/api/v1/account/all/${this.jsonFlag.institute_id}`;
     }
     // Category changes added
-    if(showId == 'category') {
+    if (showId == 'category') {
       this.headerList = this.categoryHeader;
       url = `/api/v1/expense/category/all/${this.jsonFlag.institute_id}?expense_category_type=2,3`;
     }
@@ -118,6 +122,7 @@ export class DataSetupComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.tableValueData = res;
+
       },
       err => {
         this.auth.hideLoader();
@@ -126,19 +131,19 @@ export class DataSetupComponent implements OnInit {
     )
   }
 
-  editPayee(party_id){
+  editPayee(party_id) {
     this.isEditPayee = true;
     this.editPayeeId = party_id;
     this.payeeVisibilty = true;
   }
 
-  editPayer(party_id){
+  editPayer(party_id) {
     this.isEditPayer = true;
     this.editPayerId = party_id;
     this.payerVisibilty = true;
   }
 
-  editAccount(account_id){
+  editAccount(account_id) {
     this.isEditAccount = true;
     this.editAccountId = account_id;
     this.accountVisibilty = true;
@@ -152,11 +157,11 @@ export class DataSetupComponent implements OnInit {
   }
 
   toggleCategory() {
-    if(this.categoryVisibilty){
+    if (this.categoryVisibilty) {
       this.categoryVisibilty = false;
       this.getTableData(this.selectedSection);
     }
-    else{
+    else {
       this.editCategory = {};
       this.isEditCategory = false;
       this.categoryVisibilty = true;
@@ -164,36 +169,36 @@ export class DataSetupComponent implements OnInit {
   }
 
 
-  togglePayee(){
-    if(this.payeeVisibilty){
+  togglePayee() {
+    if (this.payeeVisibilty) {
       this.payeeVisibilty = false;
       this.getTableData(this.selectedSection);
     }
-    else{
+    else {
       this.payeeVisibilty = true;
       this.editPayeeId = '';
       this.isEditPayee = false;
     }
   }
 
-  togglePayer(){
-    if(this.payerVisibilty){
+  togglePayer() {
+    if (this.payerVisibilty) {
       this.payerVisibilty = false;
       this.getTableData(this.selectedSection);
     }
-    else{
+    else {
       this.editPayerId = '';
       this.isEditPayer = false;
       this.payerVisibilty = true;
     }
   }
 
-  toggleAccount(){
-    if(this.accountVisibilty){
+  toggleAccount() {
+    if (this.accountVisibilty) {
       this.accountVisibilty = false;
       this.getTableData(this.selectedSection);
     }
-    else{
+    else {
       this.editAccountId = '';
       this.isEditAccount = false;
       this.accountVisibilty = true;
