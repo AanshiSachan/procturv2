@@ -16,7 +16,7 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
-import CommonUtils from '../../../utils/CommonUtils'
+import CommonUtils from '../../../utils/commonUtils'
 @Component({
   selector: 'app-student-add-new',
   templateUrl: './student-add-new.component.html',

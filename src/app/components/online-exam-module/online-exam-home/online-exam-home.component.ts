@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
-import {role} from '../../../model/role_features'
+import { role } from '../../../model/role_features'
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-online-exam-home',
@@ -14,14 +15,15 @@ export class OnlineExamHomeComponent implements OnInit {
     isProfessional: false,
     isAdmin: false,
     showExamDesk: false,
-    institute_id:'',
-    isShowEcourseMapping:false
+    institute_id: '',
+    isShowEcourseMapping: false
   }
   role_feature = role.features;
 
   constructor(
     private router: Router,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private http: HttpService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigateByUrl('/authPage');
@@ -43,7 +45,7 @@ export class OnlineExamHomeComponent implements OnInit {
     if (this.jsonFlag.isAdmin || this.role_feature.ONLINE_TESTS_MENU) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
       this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
-    }  
+    }
   }
 
   checkUserAccess() {
@@ -59,13 +61,13 @@ export class OnlineExamHomeComponent implements OnInit {
         this.jsonFlag.isShowEcourseMapping = true;
       }
     }
- 
+
     if (sessionStorage.getItem('enable_elearn_course_mapping_feature') == '1') {
       this.jsonFlag.isShowEcourseMapping = true;
     }
   }
 
-checkInstSetupType(value, role): boolean {
+  checkInstSetupType(value, role): boolean {
     if (value != 0) {
       var start = 2;
       var count = 1;
@@ -127,9 +129,11 @@ checkInstSetupType(value, role): boolean {
       return false;
     }
   }
-
   openExamdesk() {
-    window.open('https://examdesk.co/');
+    this.http.getData("/api/v2/user/examdesk/SSO")
+      .subscribe((data: any) => {
+        window.open('https://test999.examdesk.co/administrator/login?token=' + data.result);
+      });
   }
 
 

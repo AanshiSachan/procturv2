@@ -5,7 +5,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
-import CommonUtils from '../../../utils/CommonUtils'
+import CommonUtils from '../../../utils/commonUtils'
 
 @Component({
   selector: 'app-enquiry-update-popup',

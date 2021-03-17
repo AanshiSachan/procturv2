@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { SubjectApiService } from '../../../../services/course-services/subject.service';
-import CommonUtils from '../../../../utils/CommonUtils'
+import CommonUtils from '../../../../utils/commonUtils'
 declare var $;
 
 @Component({
