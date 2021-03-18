@@ -1,0 +1,48 @@
+<div style="padding-right: 1%;">
+    <div class="tableContainer">
+        <!-- <div> -->
+        <div class="tableHeader">
+            <div class="tableData">
+                #
+            </div>
+            <div class="tableData">
+                Name
+            </div>
+            <div class="tableData" style="text-align: center;"
+                [ngStyle]="{'width': 'calc(100% /' + marks_dist_list.length + ')'}"
+                *ngFor="let dist of marks_dist_list">
+                <span>{{dist.marks_distribution_name}} ({{dist.marks_max_value}})</span>
+            </div>
+        </div>
+        <div class="section" *ngIf="studentList.student_list?.length > 0">
+            <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)"
+                *ngFor="let data of studentList.student_list;let i=index;">
+                <div class="tableData">
+                    <span>{{i + 1}}</span>
+                </div>
+                <div class="tableData">
+                    <span>{{data.student_name}}</span>
+                </div>
+                <div class="tableData" [ngStyle]="{'width': 'calc(100% /' + marks_dist_list.length + ')'}"
+                    style="padding: 5px 0;text-align: center;" *ngFor="let dist of data.marks_dist_list;let j=index;">
+                    <input *ngIf="data.attendance_status =='P'" style="margin: 0"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" type="text"
+                        [(ngModel)]="dist.marks_value" class="reason-input" name="'name'+i+j">
+                    <span style="color: #969696;font-weight: 600;" *ngIf="data.attendance_status !='P'">NA</span>
+                </div>
+            </div>
+        </div>
+        <div class="section no-records" *ngIf="!studentList.student_list?.length && !auth.isRippleLoad.getValue()">
+            No Records found
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div class="go-btn-container">
+            <button type="button" name="button" class="gobtn backbtn"
+                routerLink="/view/exams/marks/schedule-list">Back</button>
+        </div>
+        <div class="go-btn-container" style="justify-content: flex-end;">
+            <button type="button" name="button" class="gobtn" (click)="saveMarksData()">Save</button>
+        </div>
+    </div>
+</div>

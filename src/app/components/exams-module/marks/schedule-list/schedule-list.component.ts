@@ -1,0 +1,170 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { CoursePlanner } from '../../../course-module/course-planner/course-planner.model';
+import * as moment from 'moment';
+import { HttpService } from '../../../../services/http.service';
+import { MessageShowService } from '../../../../services/message-show.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-schedule-list',
+  templateUrl: './schedule-list.component.html',
+  styleUrls: ['./schedule-list.component.scss']
+})
+export class ScheduleListComponent implements OnInit {
+  coursePlannerFilters: CoursePlanner = new CoursePlanner();
+  allData: any = [];
+  courseLevelSchedDate: any = new Date();
+  masterCourse: any = [];
+  courseList: any = [];
+  subjectList: any = [];
+  fullResponse: any = [];
+  ExamTypeData: any = [];
+
+  constructor(
+    private auth: AuthenticatorService,
+    private _httpService: HttpService,
+    private messageService: MessageShowService,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    this.getScheduleList();
+    this.getStandard();
+    this.getExamType();
+  }
+
+  getScheduleList() {
+    // this.jsonFlag.showHideColumn = false;
+    this.auth.showLoader();
+    let obj: any = this.coursePlannerFilters;
+    obj.institute_id = sessionStorage.getItem('institute_id');
+    obj.from_date = moment(obj.from_date).format("YYYY-MM-DD");
+    obj.to_date = moment(obj.to_date).format("YYYY-MM-DD");
+    obj.isCancelled = "Y";
+    obj.isCompleted = "Y";
+    obj.isMarksUpdate = "Y";
+    obj.isPending = "Y";
+    obj.isUpcoming = "Y";
+    delete(obj.master_course_name);
+    let url = "/api/v1/coursePlanner/category?type=exam";
+    this._httpService.postData(url, obj).subscribe(
+      res => {
+        console.log(res)
+        this.auth.hideLoader();
+        this.allData = res;
+        if (this.allData.length == 0) {
+          this.messageService.showErrorMessage('info', '', "No result found");
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.messageService.showErrorMessage('error', '', err.error.message);
+      }
+    );
+  }
+
+  examMarksUpdateCourse(obj) {
+    console.log(obj);
+    this.router.navigateByUrl('/view/exams/marks/update-marks/' + obj.schedule_id);
+  }
+
+  getSchedDateForCourse() {
+    let date = this.courseLevelSchedDate;
+    return date;
+  }
+
+  openCalendar(id) {
+    document.getElementById(id).click();
+  }
+
+  getExamType() {
+    if (this.ExamTypeData != null && this.ExamTypeData.length == 0) {
+      this._httpService.getData('/api/v1/courseExamSchedule/fetch-exam-type/' + sessionStorage.getItem('institute_id')).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.ExamTypeData = res.result;
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
+  }
+
+  updateCourseLevelSched(e) {
+    this.coursePlannerFilters.from_date = e;
+    this.coursePlannerFilters.to_date = e;
+    this.getScheduleList();
+  }
+
+  
+  getStandard() {
+    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+    let keys;
+    this.auth.showLoader();
+    this._httpService.getData(url).subscribe(
+      (data: any) => {
+        this.masterCourse = [];
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        // console.log("keys", keys);
+        // this.masterCourse = keys;
+        for (let i = 0; i < keys.length; i++) {
+          let obj = {
+            masterCourse: '',
+            standard_id: 0
+          }
+          obj.masterCourse = keys[i];
+          let temp = this.fullResponse[keys[i]];
+          obj.standard_id = (temp.length) ? temp[0].standard_id : '';
+          this.masterCourse.push(obj);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
+  updateCourseList(ev) {
+    this.courseList = [];
+    this.coursePlannerFilters.course_id = '-1';
+    this.coursePlannerFilters.batch_id = '-1';
+    let master_course_obj = this.masterCourse.filter(
+      (standard)=> (ev == standard.standard_id)
+    );
+    console.log(master_course_obj);
+    let temp = this.fullResponse[master_course_obj[0].masterCourse];
+    console.log(temp);
+    for (let i = 0; i < temp.length; i++) {
+      this.courseList.push(temp[i]);
+    }
+    console.log(this.courseList);
+  }
+
+  updateSubjectList(event) {
+    console.log(event);
+    this.auth.showLoader();
+    this.subjectList = [];
+    const url = "/api/v1/courseMaster/fetch/courses/" + sessionStorage.getItem('institute_id') + '/' + event;
+    this._httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        //console.log('Subject', res);
+        this.subjectList = res.batchesList;
+      },
+      err => {
+        this.messageService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+        //console.log(err);
+      }
+    )
+  }
+
+}
