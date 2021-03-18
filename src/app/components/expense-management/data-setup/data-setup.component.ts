@@ -70,11 +70,14 @@ export class DataSetupComponent implements OnInit {
     ];
 
     this.accountHeader = [
-      { header: 'Account Name	', class: 'large-item' },
-      { header: 'Description	', class: 'large-item' },
+      { header: 'Payee/Payer	', class: 'medium-item' },
+      { header: 'Name	', class: 'medium-item' },
+      { header: 'Account Name	', class: 'medium-item' },
       { header: 'Type	', class: 'medium-item' },
-      { header: 'Account Number	', class: 'large-item' },
+      { header: 'Account Number	', class: 'medium-item' },
       { header: 'IFSC Code	', class: 'medium-item' },
+      { header: 'Description	', class: 'medium-item' },
+
 
 
       { header: 'Edit', class: 'small-item' }

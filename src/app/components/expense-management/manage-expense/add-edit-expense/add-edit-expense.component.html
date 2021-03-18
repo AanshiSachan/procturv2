@@ -35,6 +35,27 @@
         </select>
       </div>
 
+      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
+        <label for=" account-name">Account Number <span class="danger">*</span>
+        </label>
+        <input type="text" class="form-ctrl" name="account-number" id="account-name"
+          [(ngModel)]="paymentDetails.accountNumber" placeholder="Enter Account Number">
+
+      </div>
+
+      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
+        <label for="account-name">IFSC Code <span class="danger">*</span></label>
+        <input type="text" class="form-ctrl" name="account-name" id="ifsc-code" [(ngModel)]="paymentDetails.IfscCode"
+          placeholder="Enter IFSC Code">
+
+      </div>
+
+
+    </div>
+  </section>
+
+  <section>
+    <div class="payment-details-container">
       <div class="payment-details-item field-wrapper datePickerBox">
         <label for="payee">Payment Date <span class="danger">*</span></label>
         <input type="text" value="" id="payment-date" class="form-ctrl widgetDatepicker bsDatepicker"
@@ -49,6 +70,22 @@
           <option [value]="mode.data_key" *ngFor="let mode of paymentModelist">{{mode.data_value}}</option>
         </select>
       </div>
+      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode =='3'">
+        <label for="account-name">Transaction Id <span class="danger">*</span></label>
+        <input type="text" class="form-ctrl" name="trans-id" id="trans-id" [(ngModel)]="paymentDetails.transacId"
+          placeholder="Enter Transaction Id">
+
+      </div>
+
+
+      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode =='1'">
+        <label for="account-name">Cheque Number <span class="danger">*</span></label>
+        <input type="text" class="form-ctrl" name="Cheque-number" id="Cheque-number"
+          [(ngModel)]="paymentDetails.ChequeNumber" placeholder="Enter Cheque Number">
+
+      </div>
+
+
     </div>
   </section>
 
@@ -58,7 +95,8 @@
     <div class="account-details-container">
       <div class="account-details-heading-container">
         <div class="account-heading-item">
-          <div>Item/Category<span class="danger">*</span> <span style="right: auto;margin-left: 2%;" class="customeAdd" (click)="toggleCategory()">Add Category</span></div>
+          <div>Item/Category<span class="danger">*</span> <span style="right: auto;margin-left: 2%;" class="customeAdd"
+              (click)="toggleCategory()">Add Category</span></div>
         </div>
         <div class="account-heading-item">
           <span>Description</span>
@@ -76,15 +114,17 @@
 
       <div class="account-details-input-container">
         <!-- changes done by Nalini - To select category by dropdown -->
-        <div class="payment-details-item field-wrapper" style="width: 15%;float: left;margin-right: 20px;padding-top: 0;">
-          <select class="form-ctrl" name="payee" id="payee" [(ngModel)]="accountDetails.itemName" (ngModelChange)="setDescription($event)">
+        <div class="payment-details-item field-wrapper"
+          style="width: 15%;float: left;margin-right: 20px;padding-top: 0;">
+          <select class="form-ctrl" name="payee" id="payee" [(ngModel)]="accountDetails.itemName"
+            (ngModelChange)="setDescription($event)">
             <option value="-1">Select Category</option>
             <option [value]="payee.category_id" *ngFor="let payee of categoryList">{{payee.category_name}}</option>
           </select>
         </div>
         <div class="account-input-item field-wrapper" style="padding-top: 0;margin-left: 0;margin-right: 20px;">
-          <input type="text" value="" disabled id="item-name" class="form-ctrl"  [(ngModel)]="accountDetails.description"
-          style="padding: 6px;" name="item-name" placeholder="Category Description">
+          <input type="text" value="" disabled id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.description"
+            style="padding: 6px;" name="item-name" placeholder="Category Description">
         </div>
         <div class="account-input-item field-wrapper" style="padding-top: 0;margin-left: 0;">
           <input type="text" value="" id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.remarks"
@@ -107,20 +147,40 @@
       <div class="account-value-outer-container">
         <div class="account-value-container" *ngFor="let item of addedItemList">
           <div class="account-value-item">
+            <h2>Item Category</h2>
             <span>{{item.itemName}}</span>
           </div>
           <div class="account-value-item">
-            <span
-              title="{{item?.description}}">{{ (!item.description) ? '-' : (item.description.length > 20) ? (item.description | slice:0:20) + '...' : item.description}}</span>
+            <h2>Description</h2>
+            <span title="{{item?.description}}">{{ (!item.description) ? '-' : (item.description.length > 20) ?
+              (item.description | slice:0:20) + '...' : item.description}}</span>
+          </div>
+
+
+          <div class="account-value-item">
+            <h2>Payment Mode</h2>
+            <span title="{{item?.paying_mode}}">{{ (!item.paymentmode) ? '-' : (item.paymentmode.length > 20) ?
+              (item.paymentmode | slice:0:20) + '...' : item.paymentmode}}</span>
+          </div>
+
+
+
+          <div class="account-value-item">
+            <h2>Transaction Id</h2>
+            <span title="{{item?.transacId}}">{{ (!item.transacId) ? '-' : (item.transacId.length > 20) ?
+              (item.transacId | slice:0:20) + '...' : item.transacId}}</span>
           </div>
           <div class="account-value-item">
-            <span
-              title="{{item?.remarks}}">{{ (!item.remarks) ? '-' : (item.remarks.length > 20) ? (item.remarks | slice:0:20) + '...' : item.remarks}}</span>
+            <span title="{{item?.remarks}}">{{ (!item.remarks) ? '-' : (item.remarks.length > 20) ? (item.remarks |
+              slice:0:20) + '...' : item.remarks}}</span>
           </div>
           <div class="account-value-item">
+            <h2>Quantity</h2>
             <span>{{item.quantity}}</span>
           </div>
           <div class="account-value-item right-align">
+            <h1>Total Amount </h1>
+
             <span> Rs.{{item.amount}}</span>
           </div>
           <div class="account-value-item">
@@ -157,8 +217,8 @@
       <div class="upload-docs-value-outer-container">
         <div class="upload-docs-value-container" *ngFor="let doc of docsList">
           <div class="upload-docs-value-item">
-            <span *ngIf="sectionName == 'Add'"
-              title="{{doc.fileName}}">{{ (doc.fileName.length > 20) ? (doc.fileName | slice:0:20) + '...' : doc.fileName }}</span>
+            <span *ngIf="sectionName == 'Add'" title="{{doc.fileName}}">{{ (doc.fileName.length > 20) ? (doc.fileName |
+              slice:0:20) + '...' : doc.fileName }}</span>
             <span *ngIf="sectionName == 'Edit'" title="{{doc.fileName}}">
               {{ (doc.fileName.length > 20) ? (doc.fileName | slice:0:20) + '...' : doc.fileName }}
               <i class="fa fa-download download-icon" aria-hidden="true"
@@ -167,8 +227,8 @@
             </span>
           </div>
           <div class="upload-docs-value-item">
-            <span *ngIf="doc?.file_desc && !!doc.file_desc"
-              title="{{doc.file_desc}}">{{ (doc.file_desc.length > 20) ? (doc.file_desc | slice:0:20) + '...' : doc.file_desc }}</span>
+            <span *ngIf="doc?.file_desc && !!doc.file_desc" title="{{doc.file_desc}}">{{ (doc.file_desc.length > 20) ?
+              (doc.file_desc | slice:0:20) + '...' : doc.file_desc }}</span>
           </div>
           <div class="upload-docs-value-item">
             <i class="fa fa-times remove-icon" aria-hidden="true" style="margin-left:0"

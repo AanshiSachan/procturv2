@@ -52,34 +52,38 @@
     <div class="table-value-outer-container" *ngIf="selectedSection == 'account'">
       <div class="table-value-container" *ngFor="let detail of tableValueData">
         <div class="table-value-item">
-          <span title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 20) ?
-            (detail.display_name | slice:0:20) + '...' : detail.display_name}}</span>
+          <span title="{{detail?.party_type}}">
+            {{detail?.party_type == 0 ? 'Payee' : 'Payer'}}
+          </span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.notes}}">{{ (!detail.notes) ? '-' : (detail.notes.length > 20) ? (detail.notes |
-            slice:0:20) + '...' : detail.notes}}</span>
+          <span title="{{detail?.party_name}}">{{ (!detail.party_name) ? '-' : (detail.party_name.length > 10) ?
+            (detail.party_name| slice:0:10) + '...' : detail.party_name}}</span>
         </div>
         <div class="table-value-item">
-          <span title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 20) ?
-            (detail.type_value | slice:0:20) + '...' : detail.type_value}}</span>
+          <span title="{{detail?.display_name}}">{{ (!detail.display_name) ? '-' : (detail.display_name.length > 10) ?
+            (detail.display_name | slice:0:10) + '...' : detail.display_name}}</span>
+        </div>
+
+        <div class="table-value-item">
+          <span title="{{detail?.type_value}}">{{ (!detail.type_value) ? '-' : (detail.type_value.length > 10) ?
+            (detail.type_value | slice:0:10) + '...' : detail.type_value}}</span>
         </div>
 
         <div class="table-value-item">
           <span title="{{detail?.account_number}}">{{ (!detail.account_number) ? '-' : (detail.account_number.length >
-            20) ? (detail.account_number | slice:0:20) + '...' : detail.account_number}}</span>
+            10) ? (detail.account_number | slice:0:10) + '...' : detail.account_number}}</span>
         </div>
 
         <div class="table-value-item">
           <span title="{{detail?.ifsc_code}}">{{ (!detail.ifsc_code) ? '-' : (detail.ifsc_code.length >
-            20) ? (detail.ifsc_code | slice:0:20) + '...' : detail.ifsc_code}}</span>
+            10) ? (detail.ifsc_code | slice:0:10) + '...' : detail.ifsc_code}}</span>
         </div>
 
-
-
-
-
-
-
+        <div class="table-value-item">
+          <span title="{{detail?.notes}}">{{ (!detail.notes) ? '-' : (detail.notes.length > 10) ? (detail.notes |
+            slice:0:10) + '...' : detail.notes}}</span>
+        </div>
 
         <div class="table-value-item">
           <i class="fa fa-pencil" aria-hidden="true" title="Edit Account" (click)="editAccount(detail.account_id)"></i>
