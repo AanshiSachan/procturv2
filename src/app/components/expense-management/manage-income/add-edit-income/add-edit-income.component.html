@@ -17,7 +17,7 @@
   <!-- payment details section -->
   <section>
     <div class="payment-details-container">
-      <div class="payment-details-item field-wrapper">
+      <div class="payment-details-item field-wrapper" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="payer">Payer Name <span class="danger">*</span><span class="customeAdd" (click)="togglePayer()">Add
             Payer</span></label>
         <select class="form-ctrl" name="payer" id="payer" [(ngModel)]="paymentDetails.payerName">
@@ -26,11 +26,12 @@
         </select>
       </div>
 
-      <div class="payment-details-item field-wrapper">
+      <div class="payment-details-item field-wrapper" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="account-name">Account Name <span class="danger">*</span><span class="customeAdd"
             (click)="toggleAccount()">Add Account</span></label>
-        <select class="form-ctrl" name="account-name" id="account-name" [(ngModel)]="paymentDetails.accountName">
-          <option value="-1">Select Account</option>
+        <select class="form-ctrl" name="account-name" id="account-name" [(ngModel)]="paymentDetails.accountName"
+          (ngModelChange)="setAccountIfscIncome($event)">
+          <option value=" -1">Select Account</option>
           <option [value]="account.account_id" *ngFor="let account of accountNamelist">{{account.display_name}}</option>
         </select>
       </div>
@@ -57,7 +58,7 @@
   <section>
     <div class="payment-details-container">
 
-      <div class="payment-details-item field-wrapper datePickerBox">
+      <div class="payment-details-item field-wrapper datePickerBox" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="payee">Received Date <span class="danger">*</span></label>
         <input type="text" value="" id="payment-date" class="form-ctrl widgetDatepicker bsDatepicker"
           [(ngModel)]="paymentDetails.receivedDate" style="padding: 6px;" readonly="true" name="payment-date"
@@ -75,7 +76,7 @@
 
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode =='3'">
         <label for="account-name">Transaction Id <span class="danger">*</span></label>
-        <input type="text" class="form-ctrl" name="trans-id" id="trans-id" [(ngModel)]="paymentDetails.transId"
+        <input type="text" class="form-ctrl" name="trans-id" id="trans-id" [(ngModel)]="paymentDetails.transacId"
           placeholder="Enter Transaction Id">
 
       </div>
@@ -146,7 +147,8 @@
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
         <div class="account-input-item">
-          <button type="button" name="button" class="add-item-btn" (click)="addItem()">Add</button>
+          <button type="button" name="button" class="add-item-btn" [disabled]="!jsonFlag.isAuthoriseUser"
+            (click)="addItem()">Add</button>
         </div>
       </div>
       <div class="account-value-outer-container">
@@ -156,9 +158,32 @@
             <span>{{item.itemName}}</span>
           </div>
           <div class="account-value-item">
+            <h2>Description</h2>
             <span title="{{item?.description}}">{{ (!item.description) ? '-' : (item.description.length > 20) ?
               (item.description | slice:0:20) + '...' : item.description}}</span>
           </div>
+
+
+
+
+          <div class="account-value-item">
+            <h2>Payment Mode</h2>
+            <span title="{{item?.payment_mode}}">{{ (!item.payment_mode) ? '-' : (item.payment_mode.length > 20) ?
+              (item.payment_mode | slice:0:20) + '...' : item.payment_mode}}</span>
+          </div>
+
+
+
+          <div class="account-value-item">
+            <h2>Transaction Id</h2>
+            <span title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-' : (item.transaction_id.length > 20) ?
+              (item.transaction_id | slice:0:20) + '...' : item.transaction_id}}</span>
+          </div>
+
+
+
+
+
           <div class="account-value-item">
             <span title="{{item?.remarks}}">{{ (!item.remarks) ? '-' : (item.remarks.length > 20) ? (item.remarks |
               slice:0:20) + '...' : item.remarks}}</span>
@@ -172,8 +197,8 @@
             <span>Rs.{{item.amount}}</span>
           </div>
           <div class="account-value-item">
-            <i class="fa fa-times remove-icon" aria-hidden="true" (click)="removeItem(item.itemName)"
-              title="Remove Item"></i>
+            <i class="fa fa-times remove-icon" style="cursor: no-drop;" aria-hidden="true"
+              (click)="removeItem(item.itemName)" title="Remove Item"></i>
           </div>
         </div>
       </div>
@@ -229,8 +254,11 @@
   <section>
     <footer>
       <div class="action-container">
-        <button type="button" name="button" class="cancel-btn" routerLink="/view/expense/manage-income">Cancel</button>
-        <button type="button" name="button" class="save-btn" (click)="addIncome()">Save</button>
+        <button type="button" name="button" class="cancel-btn"
+          routerLink="/view/expense/manage-income">{{(!jsonFlag.isAuthoriseUser) ? 'Back To Income' :
+          'Cancle'}}</button>
+        <button type="button" name="button" class="save-btn" [disabled]="!jsonFlag.isAuthoriseUser"
+          (click)="addIncome()">Save</button>
       </div>
     </footer>
   </section>

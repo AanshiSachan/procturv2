@@ -111,7 +111,6 @@ export class AddEditAccountComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.editAccountDetails = res;
-        console.log("Asha edit", this.editAccountDetails)
         this.setValue();
       },
       err => {

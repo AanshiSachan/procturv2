@@ -6,6 +6,7 @@ import { HttpService } from '../../../../services/http.service';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { Console } from 'console';
 declare var $;
 
 @Component({
@@ -20,7 +21,9 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     isProfessional: false,
     institute_id: '',
     isRippleLoad: false,
-    toggle: false
+    toggle: false,
+    isAuthoriseUser: false,
+    created_by: ''
   };
   sectionName = '';
   editExpenseId: string;
@@ -31,7 +34,9 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     description: '',
     quantity: 1,
     amount: 0,
-    remarks: ''
+    remarks: '',
+    accountNumber: '',
+    ifscCode: ''
   };
 
   paymentDetails = {
@@ -62,6 +67,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   categoryVisibility: boolean = false;
   categoryList: any[] = [];
   categoryName: any = '';
+  accountNumber2: any
   addCategory = {
     Name: '',
     Description: ''
@@ -85,6 +91,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     let currentURL = window.location.href;
     if (currentURL.includes('add-expense')) {
       this.sectionName = 'Add';
+      this.jsonFlag.isAuthoriseUser = true;
     }
     else {
       this.sectionName = 'Edit';
@@ -151,6 +158,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.auth.hideLoader();
         this.paymentModelist = res;
+        console.log("sdffffff", this.paymentModelist)
       },
       err => {
         this.auth.hideLoader();
@@ -159,6 +167,18 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
+
+  checkpermissinForEditExpense() {
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    if (sessionStorage.getItem('userType') == '0' && username == 'admin') {
+      this.jsonFlag.isAuthoriseUser = true;
+    } else if ((sessionStorage.getItem('userid') == this.jsonFlag.created_by)) {
+      this.jsonFlag.isAuthoriseUser = true;
+    }
+  }
+
+
   getEditExpenseDetails() {
     this.auth.showLoader();
     const url = `/api/v1/expense/${this.jsonFlag.institute_id}/${this.editExpenseId}`
@@ -166,6 +186,8 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.auth.hideLoader();
         this.editExpenseDetails = res;
+        this.jsonFlag.created_by = res.created_by;
+        this.checkpermissinForEditExpense()
         this.paymentDetails.payeeName = this.editExpenseDetails.party_id;
         this.paymentDetails.accountName = this.editExpenseDetails.account_id;
         this.paymentDetails.paymentDate = this.editExpenseDetails.payment_date;
@@ -183,9 +205,9 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
             category_id: this.editExpenseDetails.itemList[index].category_id,
             item_id: this.editExpenseDetails.itemList[index].item_id,
             remarks: this.editExpenseDetails.itemList[index].remarks,
-            ChequeNumber: this.editExpenseDetails.itemList[index].cheque_number,
-            transacId: this.editExpenseDetails.itemList[index].transaction_id,
-            paymentmode: this.editExpenseDetails.paying_mode
+            cheque_number: this.editExpenseDetails.itemList[index].cheque_number,
+            transaction_id: this.editExpenseDetails.itemList[index].transaction_id,
+            payment_mode: this.editExpenseDetails.paying_mode
 
 
 
@@ -216,30 +238,57 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
+  checkPaymentModeVal() {
+    if (this.paymentDetails.paymentmode == '0') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '2') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
+      return true;
+    }
+  }
+
   addItem() {
     if (this.accountDetails.itemName != -1) {
       if (this.accountDetails.amount != 0) {
+        if (this.paymentDetails.paymentmode != "-1") {
 
-        let obj = {
-          itemName: this.categoryName,
-          description: this.accountDetails.description,
-          quantity: this.accountDetails.quantity,
-          amount: this.accountDetails.amount,
-          item_id: 0,
-          category_id: this.accountDetails.itemName,
-          remarks: this.accountDetails.remarks,
-          payment_mode: this.paymentDetails.paymentmode,
-          transaction_id: this.paymentDetails.transacId,
-          cheque_number: this.paymentDetails.ChequeNumber
+          if (this.checkPaymentModeVal()) {
 
-        };
-        this.totalAmount = this.totalAmount + Number(obj.amount)
-        this.addedItemList.push(obj);
-        this.accountDetails.itemName = -1;
-        this.accountDetails.description = '';
-        this.accountDetails.quantity = 1;
-        this.accountDetails.amount = 0;
-        this.accountDetails.remarks = '';
+            let obj = {
+              itemName: this.categoryName,
+              description: this.accountDetails.description,
+              quantity: this.accountDetails.quantity,
+              amount: this.accountDetails.amount,
+              item_id: 0,
+              category_id: this.accountDetails.itemName,
+              remarks: this.accountDetails.remarks,
+              payment_mode: this.paymentDetails.paymentmode,
+              transaction_id: this.paymentDetails.transacId,
+              cheque_number: this.paymentDetails.ChequeNumber
+
+            };
+            this.totalAmount = this.totalAmount + Number(obj.amount)
+            this.addedItemList.push(obj);
+            this.accountDetails.itemName = -1;
+            this.accountDetails.description = '';
+            this.accountDetails.quantity = 1;
+            this.accountDetails.amount = 0;
+            this.accountDetails.remarks = '';
+          }
+
+          else {
+            let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
+            this.msgService.showErrorMessage('error', '', msg);
+          }
+        }
+
+
+        else {
+          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+        }
       }
       else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
@@ -290,65 +339,68 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   addExpense() {
     if (this.paymentDetails.payeeName != '-1') {
       if (this.paymentDetails.accountName != '-1') {
-        if (this.paymentDetails.paymentmode != "-1") {
-          if (this.addedItemList.length > 0) {
+        // if (this.paymentDetails.paymentmode != "-1") {
+        if (this.addedItemList.length > 0) {
 
 
-            let itemlist = [];
-            for (let index = 0; index < this.addedItemList.length; index++) {
-              let item = {
-                "category_id": this.addedItemList[index].category_id,
-                "item_quantity": this.addedItemList[index].quantity,
-                "item_amount": this.addedItemList[index].amount,
-                "item_id": this.addedItemList[index].item_id,
-                "remarks": this.addedItemList[index].remarks,
-                "payment_mode": this.addedItemList[index].payment_mode,
-                "transaction_id": this.addedItemList[index].transaction_id,
-                "cheque_number": this.addedItemList[index].cheque_number
-              }
-              itemlist.push(item)
+
+          let itemlist = [];
+          for (let index = 0; index < this.addedItemList.length; index++) {
+            let item = {
+              "category_id": this.addedItemList[index].category_id,
+              "item_quantity": this.addedItemList[index].quantity,
+              "item_amount": this.addedItemList[index].amount,
+              "item_id": this.addedItemList[index].item_id,
+              "remarks": this.addedItemList[index].remarks,
+              "payment_mode": this.addedItemList[index].payment_mode,
+              "transaction_id": this.addedItemList[index].transaction_id,
+              "cheque_number": this.addedItemList[index].cheque_number
             }
+            itemlist.push(item)
+          }
 
-            let attachList = [];
-            for (let index = 0; index < this.docsList.length; index++) {
-              let file = {
-                file_id: this.docsList[index].file_id,
-                file: this.docsList[index].file,
-                file_extn: this.docsList[index].file_extn,
-                file_desc: this.docsList[index].file_desc,
-                file_name: this.docsList[index].fileName
-              }
-              attachList.push(file);
+          let attachList = [];
+          for (let index = 0; index < this.docsList.length; index++) {
+            let file = {
+              file_id: this.docsList[index].file_id,
+              file: this.docsList[index].file,
+              file_extn: this.docsList[index].file_extn,
+              file_desc: this.docsList[index].file_desc,
+              file_name: this.docsList[index].fileName
             }
+            attachList.push(file);
+          }
 
-            let obj = {
-              party_id: this.paymentDetails.payeeName,
-              account_id: this.paymentDetails.accountName,
-              payment_date: moment(this.paymentDetails.paymentDate).format('YYYY-MM-DD'),
-              paying_mode: this.paymentDetails.paymentmode,
+          let obj = {
+            party_id: this.paymentDetails.payeeName,
+            account_id: this.paymentDetails.accountName,
+            payment_date: moment(this.paymentDetails.paymentDate).format('YYYY-MM-DD'),
+            paying_mode: this.paymentDetails.paymentmode,
 
-              itemList: itemlist,
-              attachmentList: attachList,
-              amount: this.totalAmount,
-              //data_key: this.paymentDetails.dataKey
-            }
-            console.log(obj);
+            itemList: itemlist,
+            attachmentList: attachList,
+            amount: this.totalAmount,
+            //data_key: this.paymentDetails.dataKey
+          }
+          console.log(obj);
 
-            if (this.sectionName == 'Edit') {
-              this.updateExpense(obj);
-            }
-            else {
-              this.addNewExpense(obj);
-            }
+          if (this.sectionName == 'Edit') {
+            this.updateExpense(obj);
           }
           else {
-            this.msgService.showErrorMessage('error', '', 'Please specify at least one item of expense!');
+            this.addNewExpense(obj);
           }
+
+
         }
         else {
-          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+          this.msgService.showErrorMessage('error', '', 'Please specify at least one item of expense!');
         }
       }
+      // else {
+      //   this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+      // }
+
       else {
         this.msgService.showErrorMessage('error', '', 'Please select Account Name');
       }
@@ -368,6 +420,22 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       })
     }
   }
+
+  setAccountIfscCode(obj) {
+    if (this.accountNamelist && this.accountNamelist.length) {
+      let accuntIfscObj = this.accountNamelist.filter(nameSet => {
+        if ((nameSet.account_id == obj)) {
+          this.paymentDetails.accountNumber = nameSet.account_number
+          this.paymentDetails.IfscCode = nameSet.ifsc_code
+        }
+      })
+
+
+    }
+  }
+
+
+
 
   addNewExpense(obj) {
     this.auth.showLoader();
@@ -402,11 +470,14 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   }
 
   removeItem(itemName) {
-    for (let index = 0; index < this.addedItemList.length; index++) {
-      if (this.addedItemList[index].itemName == itemName) {
-        this.totalAmount = this.totalAmount - Number(this.addedItemList[index].amount);
-        this.addedItemList.splice(index, 1);
-        break;
+    if (this.jsonFlag.isAuthoriseUser) {
+
+      for (let index = 0; index < this.addedItemList.length; index++) {
+        if (this.addedItemList[index].itemName == itemName) {
+          this.totalAmount = this.totalAmount - Number(this.addedItemList[index].amount);
+          this.addedItemList.splice(index, 1);
+          break;
+        }
       }
     }
   }

@@ -202,3 +202,6 @@ input[type=number]::-webkit-outer-spin-button {
   height: 21px;
   z-index: 0;
 }
+button[disabled]{
+  cursor: no-drop;
+}

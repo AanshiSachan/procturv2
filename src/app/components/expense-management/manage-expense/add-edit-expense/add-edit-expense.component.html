@@ -17,7 +17,7 @@
   <!-- payment details section -->
   <section>
     <div class="payment-details-container">
-      <div class="payment-details-item field-wrapper">
+      <div class="payment-details-item field-wrapper" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="payee">Payee Name <span class="danger">*</span> <span class="customeAdd" (click)="togglePayee()">Add
             Payee</span></label>
         <select class="form-ctrl" name="payee" id="payee" [(ngModel)]="paymentDetails.payeeName">
@@ -26,16 +26,17 @@
         </select>
       </div>
 
-      <div class="payment-details-item field-wrapper">
+      <div class="payment-details-item field-wrapper" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="account-name">Account Name <span class="danger">*</span><span class="customeAdd"
             (click)="toggleAccount()">Add Account</span></label>
-        <select class="form-ctrl" name="account-name" id="account-name" [(ngModel)]="paymentDetails.accountName">
+        <select class="form-ctrl" name="account-name" id="account-name" [(ngModel)]="paymentDetails.accountName"
+          (ngModelChange)="setAccountIfscCode($event)">
           <option value="-1">Select Account</option>
           <option [value]="account.account_id" *ngFor="let account of accountNamelist">{{account.display_name}}</option>
         </select>
       </div>
 
-      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
+      <div class="payment-details-item field-wrapper">
         <label for=" account-name">Account Number <span class="danger">*</span>
         </label>
         <input type="text" class="form-ctrl" name="account-number" id="account-name"
@@ -43,7 +44,7 @@
 
       </div>
 
-      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
+      <div class="payment-details-item field-wrapper">
         <label for="account-name">IFSC Code <span class="danger">*</span></label>
         <input type="text" class="form-ctrl" name="account-name" id="ifsc-code" [(ngModel)]="paymentDetails.IfscCode"
           placeholder="Enter IFSC Code">
@@ -56,7 +57,7 @@
 
   <section>
     <div class="payment-details-container">
-      <div class="payment-details-item field-wrapper datePickerBox">
+      <div class="payment-details-item field-wrapper datePickerBox" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="payee">Payment Date <span class="danger">*</span></label>
         <input type="text" value="" id="payment-date" class="form-ctrl widgetDatepicker bsDatepicker"
           [(ngModel)]="paymentDetails.paymentDate" style="padding: 6px;" readonly="true" name="payment-date"
@@ -141,7 +142,8 @@
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
         <div class="account-input-item">
-          <button type="button" name="button" class="add-item-btn" (click)="addItem()">Add</button>
+          <button type="button" name="button" class="add-item-btn" [disabled]="!jsonFlag.isAuthoriseUser"
+            (click)="addItem()">Add</button>
         </div>
       </div>
       <div class="account-value-outer-container">
@@ -159,17 +161,28 @@
 
           <div class="account-value-item">
             <h2>Payment Mode</h2>
-            <span title="{{item?.paying_mode}}">{{ (!item.paymentmode) ? '-' : (item.paymentmode.length > 20) ?
-              (item.paymentmode | slice:0:20) + '...' : item.paymentmode}}</span>
+            <span title="{{item?.payment_mode}}">{{ (!item.payment_mode) ? '-' : (item.payment_mode.length > 20) ?
+              (item.payment_mode | slice:0:20) + '...' : item.payment_mode}}</span>
           </div>
 
 
 
-          <div class="account-value-item">
+          <div class="account-value-item" *ngIf="item.payment_mode =='3'">
             <h2>Transaction Id</h2>
-            <span title="{{item?.transacId}}">{{ (!item.transacId) ? '-' : (item.transacId.length > 20) ?
-              (item.transacId | slice:0:20) + '...' : item.transacId}}</span>
+            <span title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-' : (item.transaction_id.length > 20) ?
+              (item.transaction_id | slice:0:20) + '...' : item.transaction_id}}</span>
           </div>
+
+
+
+          <div class="account-value-item" *ngIf="item.payment_mode =='1'">
+            <h2>Cheque Number</h2>
+            <span title="{{item?.ChequeNumber}}">{{ (!item.cheque_number) ? '-' : (item.cheque_number.length > 20) ?
+              (item.cheque_number | slice:0:20) + '...' : item.cheque_number}}</span>
+          </div>
+
+
+
           <div class="account-value-item">
             <span title="{{item?.remarks}}">{{ (!item.remarks) ? '-' : (item.remarks.length > 20) ? (item.remarks |
               slice:0:20) + '...' : item.remarks}}</span>
@@ -242,8 +255,12 @@
   <section>
     <footer>
       <div class="action-container">
-        <button type="button" name="button" class="cancel-btn" routerLink="/view/expense/manage-expense">Cancel</button>
-        <button type="button" name="button" class="save-btn" (click)="addExpense()">Save</button>
+        <button type="button" name="button" class="cancel-btn"
+          routerLink="/view/expense/manage-expense">{{(!jsonFlag.isAuthoriseUser) ? 'Back To Expense' : 'Cancle'}}
+        </button>
+
+        <button type="button" name="button" class="save-btn" [disabled]="!jsonFlag.isAuthoriseUser"
+          (click)="addExpense()">Save </button>
       </div>
     </footer>
   </section>

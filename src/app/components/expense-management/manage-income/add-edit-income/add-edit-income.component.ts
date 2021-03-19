@@ -18,7 +18,9 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
   jsonFlag = {
     isProfessional: false,
     institute_id: '',
-    toggle: false
+    toggle: false,
+    isAuthoriseUser: false,
+    created_by: ''
   };
 
   sectionName = '';
@@ -39,7 +41,10 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     receivedDate: moment(new Date()).format('YYYY-MM-DD'),
     paymentmode: '-1',
     accounNumber: '',
-    IfscCode: ''
+    IfscCode: '',
+    transacId: '',
+    ChequeNumber: '',
+    accountNumber: ''
   }
 
   payerList: any[] = [];
@@ -77,6 +82,8 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     let currentURL = window.location.href;
     if (currentURL.includes('add-income')) {
       this.sectionName = 'Add';
+      this.jsonFlag.isAuthoriseUser = true;
+
     }
     else {
       this.sectionName = 'Edit';
@@ -151,6 +158,17 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
+
+  checkpermissinForEditIncome() {
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    if (sessionStorage.getItem('userType') == '0' && username == 'admin') {
+      this.jsonFlag.isAuthoriseUser = true;
+    } else if ((sessionStorage.getItem('userid') == this.jsonFlag.created_by)) {
+      this.jsonFlag.isAuthoriseUser = true;
+    }
+  }
+
   getEditIncomeDetails() {
     this.auth.showLoader();
     const url = `/api/v1/income/${this.jsonFlag.institute_id}/${this.editIncomeId}`
@@ -158,6 +176,9 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.auth.hideLoader();
         this.editIncomeDetails = res;
+        this.jsonFlag.created_by = res.created_by;
+
+        this.checkpermissinForEditIncome()
         this.paymentDetails.payerName = this.editIncomeDetails.party_id;
         this.paymentDetails.accountName = this.editIncomeDetails.account_id;
         this.paymentDetails.receivedDate = this.editIncomeDetails.payment_date;
@@ -173,7 +194,11 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
             id: this.editIncomeDetails.itemList[index].item_id,
             category_id: this.editIncomeDetails.itemList[index].category_id,
             item_id: this.editIncomeDetails.itemList[index].item_id,
-            remarks: this.editIncomeDetails.itemList[index].remarks
+            remarks: this.editIncomeDetails.itemList[index].remarks,
+            ChequeNumber: this.editIncomeDetails.itemList[index].cheque_number,
+            transaction_id: this.editIncomeDetails.itemList[index].transaction_id,
+            payment_mode: this.editIncomeDetails.paying_mode
+
           }
           this.addedItemList.push(obj)
         }
@@ -199,25 +224,54 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
+
+  checkPaymentModeVal() {
+    if (this.paymentDetails.paymentmode == '0') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '2') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
+      return true;
+    }
+  }
+
   addItem() {
     if (this.accountDetails.itemName != -1) {
       if (this.accountDetails.amount != 0) {
-        let obj = {
-          itemName: this.categoryName,
-          description: this.accountDetails.description,
-          quantity: this.accountDetails.quantity,
-          amount: this.accountDetails.amount,
-          item_id: 0,
-          category_id: this.accountDetails.itemName,
-          remarks: this.accountDetails.remarks
-        };
-        this.totalAmount = this.totalAmount + Number(obj.amount)
-        this.addedItemList.push(obj);
-        this.accountDetails.itemName = -1;
-        this.accountDetails.description = '';
-        this.accountDetails.quantity = 1;
-        this.accountDetails.amount = 0;
-        this.accountDetails.remarks = '';
+        if (this.paymentDetails.paymentmode != "-1") {
+          if (this.checkPaymentModeVal()) {
+
+            let obj = {
+              itemName: this.categoryName,
+              description: this.accountDetails.description,
+              quantity: this.accountDetails.quantity,
+              amount: this.accountDetails.amount,
+              item_id: 0,
+              category_id: this.accountDetails.itemName,
+              remarks: this.accountDetails.remarks,
+              payment_mode: this.paymentDetails.paymentmode,
+              transaction_id: this.paymentDetails.transacId,
+              cheque_number: this.paymentDetails.ChequeNumber
+            };
+            this.totalAmount = this.totalAmount + Number(obj.amount)
+            this.addedItemList.push(obj);
+            this.accountDetails.itemName = -1;
+            this.accountDetails.description = '';
+            this.accountDetails.quantity = 1;
+            this.accountDetails.amount = 0;
+            this.accountDetails.remarks = '';
+          }
+
+          else {
+            let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
+            this.msgService.showErrorMessage('error', '', msg);
+          }
+        }
+        else {
+          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+        }
       }
       else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
@@ -269,58 +323,57 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
   addIncome() {
     if (this.paymentDetails.payerName != '-1') {
       if (this.paymentDetails.accountName != '-1') {
-        if (this.paymentDetails.paymentmode != "-1") {
-          if (this.addedItemList.length > 0) {
-            let itemlist = [];
-            for (let index = 0; index < this.addedItemList.length; index++) {
-              let item = {
-                "category_id": this.addedItemList[index].category_id,
-                //  "item_desc": this.addedItemList[index].description,
-                "item_quantity": this.addedItemList[index].quantity,
-                "item_amount": this.addedItemList[index].amount,
-                "item_id": this.addedItemList[index].item_id,
-                "remarks": this.addedItemList[index].remarks
-              }
-              itemlist.push(item)
+        if (this.addedItemList.length > 0) {
+          let itemlist = [];
+          for (let index = 0; index < this.addedItemList.length; index++) {
+            let item = {
+              "category_id": this.addedItemList[index].category_id,
+              //  "item_desc": this.addedItemList[index].description,
+              "item_quantity": this.addedItemList[index].quantity,
+              "item_amount": this.addedItemList[index].amount,
+              "item_id": this.addedItemList[index].item_id,
+              "remarks": this.addedItemList[index].remarks,
+              "payment_mode": this.addedItemList[index].payment_mode,
+              "transaction_id": this.addedItemList[index].transaction_id,
+              "cheque_number": this.addedItemList[index].cheque_number
             }
+            itemlist.push(item)
+          }
 
-            let attachList = [];
-            for (let index = 0; index < this.docsList.length; index++) {
-              let file = {
-                file_id: this.docsList[index].file_id,
-                file: this.docsList[index].encodedFile,
-                file_extn: this.docsList[index].file_extn,
-                file_desc: this.docsList[index].file_desc,
-                file_name: this.docsList[index].fileName
-              }
-              attachList.push(file);
+          let attachList = [];
+          for (let index = 0; index < this.docsList.length; index++) {
+            let file = {
+              file_id: this.docsList[index].file_id,
+              file: this.docsList[index].encodedFile,
+              file_extn: this.docsList[index].file_extn,
+              file_desc: this.docsList[index].file_desc,
+              file_name: this.docsList[index].fileName
             }
+            attachList.push(file);
+          }
 
-            let obj = {
-              party_id: this.paymentDetails.payerName,
-              account_id: this.paymentDetails.accountName,
-              payment_date: moment(this.paymentDetails.receivedDate).format('YYYY-MM-DD'),
-              paying_mode: this.paymentDetails.paymentmode,
-              itemList: itemlist,
-              attachmentList: attachList,
-              amount: this.totalAmount
-            }
-            console.log(obj);
+          let obj = {
+            party_id: this.paymentDetails.payerName,
+            account_id: this.paymentDetails.accountName,
+            payment_date: moment(this.paymentDetails.receivedDate).format('YYYY-MM-DD'),
+            paying_mode: this.paymentDetails.paymentmode,
+            itemList: itemlist,
+            attachmentList: attachList,
+            amount: this.totalAmount
+          }
+          console.log(obj);
 
-            if (this.sectionName == 'Edit') {
-              this.updateIncome(obj);
-            }
-            else {
-              this.addNewIncome(obj);
-            }
+          if (this.sectionName == 'Edit') {
+            this.updateIncome(obj);
           }
           else {
-            this.msgService.showErrorMessage('error', '', 'Please specify at least one item of income!');
+            this.addNewIncome(obj);
           }
         }
         else {
-          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+          this.msgService.showErrorMessage('error', '', 'Please specify at least one item of income!');
         }
+
       }
       else {
         this.msgService.showErrorMessage('error', '', 'Please select Account Name');
@@ -364,11 +417,13 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
   }
 
   removeItem(itemName) {
-    for (let index = 0; index < this.addedItemList.length; index++) {
-      if (this.addedItemList[index].itemName == itemName) {
-        this.totalAmount = this.totalAmount - Number(this.addedItemList[index].amount);
-        this.addedItemList.splice(index, 1);
-        break;
+    if (this.jsonFlag.isAuthoriseUser) {
+      for (let index = 0; index < this.addedItemList.length; index++) {
+        if (this.addedItemList[index].itemName == itemName) {
+          this.totalAmount = this.totalAmount - Number(this.addedItemList[index].amount);
+          this.addedItemList.splice(index, 1);
+          break;
+        }
       }
     }
   }
@@ -419,6 +474,18 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
           this.accountDetails.description = category.category_desc;
         }
       })
+    }
+  }
+  setAccountIfscIncome(obj) {
+    if (this.accountNamelist && this.accountNamelist.length) {
+      let accuntIfscObj = this.accountNamelist.filter(nameSet => {
+        if ((nameSet.account_id == obj)) {
+          this.paymentDetails.accountNumber = nameSet.account_number
+          this.paymentDetails.IfscCode = nameSet.ifsc_code
+        }
+      })
+
+
     }
   }
 
