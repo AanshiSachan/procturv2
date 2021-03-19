@@ -20,6 +20,8 @@ export class ScheduleListComponent implements OnInit {
   subjectList: any = [];
   fullResponse: any = [];
   ExamTypeData: any = [];
+  marks_dist_setting: any = -1;
+  exam_type_id: any = '-1';
 
   constructor(
     private auth: AuthenticatorService,
@@ -29,9 +31,14 @@ export class ScheduleListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.coursePlannerFilters.from_date = moment(new Date).format('YYYY-MM-DD');
+    this.coursePlannerFilters.to_date = moment(new Date).format('YYYY-MM-DD');
+    this.marks_dist_setting = sessionStorage.getItem('marks_dist_setting');
     this.getScheduleList();
     this.getStandard();
-    this.getExamType();
+    if (this.marks_dist_setting != 1 && this.marks_dist_setting != 5 && this.marks_dist_setting != 6) {
+      this.getExamType();
+    }
   }
 
   getScheduleList() {
@@ -46,6 +53,7 @@ export class ScheduleListComponent implements OnInit {
     obj.isMarksUpdate = "Y";
     obj.isPending = "Y";
     obj.isUpcoming = "Y";
+    obj.exam_type_id = this.exam_type_id;
     delete(obj.master_course_name);
     let url = "/api/v1/coursePlanner/category?type=exam";
     this._httpService.postData(url, obj).subscribe(
@@ -65,7 +73,6 @@ export class ScheduleListComponent implements OnInit {
   }
 
   examMarksUpdateCourse(obj) {
-    console.log(obj);
     this.router.navigateByUrl('/view/exams/marks/update-marks/' + obj.schedule_id);
   }
 
@@ -79,8 +86,12 @@ export class ScheduleListComponent implements OnInit {
   }
 
   getExamType() {
-    if (this.ExamTypeData != null && this.ExamTypeData.length == 0) {
-      this._httpService.getData('/api/v1/courseExamSchedule/fetch-exam-type/' + sessionStorage.getItem('institute_id')).subscribe(
+    this.ExamTypeData = [];
+    let url = `/api/v1/courseExamSchedule/fetch-exam-type/${sessionStorage.getItem('institute_id')}?marks_type=${this.marks_dist_setting}`;
+    if (this.marks_dist_setting == 1 || this.marks_dist_setting == 5 || this.marks_dist_setting == 6) {
+      url = `/api/v1/courseExamSchedule/fetch-exam-type/${sessionStorage.getItem('institute_id')}?marks_type=${this.marks_dist_setting}&standard_id=${this.coursePlannerFilters.standard_id}`
+    }
+      this._httpService.getData(url).subscribe(
         (res: any) => {
           console.log(res);
           this.ExamTypeData = res.result;
@@ -89,12 +100,15 @@ export class ScheduleListComponent implements OnInit {
           console.log(err);
         }
       )
-    }
   }
 
   updateCourseLevelSched(e) {
     this.coursePlannerFilters.from_date = e;
     this.coursePlannerFilters.to_date = e;
+    this.coursePlannerFilters.standard_id = '-1';
+    this.coursePlannerFilters.course_id = '-1';
+    this.coursePlannerFilters.batch_id = '-1';
+    this.exam_type_id = '-1';
     this.getScheduleList();
   }
 
@@ -139,13 +153,13 @@ export class ScheduleListComponent implements OnInit {
     let master_course_obj = this.masterCourse.filter(
       (standard)=> (ev == standard.standard_id)
     );
-    console.log(master_course_obj);
+    if (this.marks_dist_setting == 1 || this.marks_dist_setting == 5 || this.marks_dist_setting == 6) {
+      this.getExamType();
+    }
     let temp = this.fullResponse[master_course_obj[0].masterCourse];
-    console.log(temp);
     for (let i = 0; i < temp.length; i++) {
       this.courseList.push(temp[i]);
     }
-    console.log(this.courseList);
   }
 
   updateSubjectList(event) {

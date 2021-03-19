@@ -21,7 +21,6 @@
     .tableData {
         padding: 10px 15px;
         font-size: 12px;
-        width: 20%;
     }
     .updateAction {
         cursor: pointer;
@@ -54,13 +53,14 @@
 .reason-input {
     padding: 10px 20px;
     font-size: 11px;
-    margin: 8px 0;
+    margin: 0px 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     font-weight: 600;
     color: #4a627f;
     height: 30px;
+    width: 100%;
 }
 .go-btn-container {
     display: flex;

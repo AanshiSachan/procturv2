@@ -218,7 +218,8 @@ export class MarkDistributionComponent implements OnInit {
       "marks_distribution_name": "",
       "marks_value_percent": '',
       "description": "",
-      "is_active": "Y"
+      "is_active": "Y",
+      "institution_id": sessionStorage.getItem('institute_id')
     }
     
   }

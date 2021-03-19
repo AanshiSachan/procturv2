@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
@@ -18,7 +18,8 @@ export class MarksUpdateComponent implements OnInit {
     private routeParam: ActivatedRoute,
     private _httpService: HttpService,
     private auth: AuthenticatorService,
-    private _msgService: MessageShowService
+    private _msgService: MessageShowService,
+    private router: Router
   ) {
     this.routeParam.params.subscribe(params => {
       this.selectedScheduleId = params['batch_exam_schedule_id'];
@@ -71,6 +72,7 @@ export class MarksUpdateComponent implements OnInit {
         (res: any) => {
           this.auth.hideLoader();
           this._msgService.showErrorMessage('success', '', 'Marks Updated successfully');
+          this.router.navigateByUrl('/view/exams/marks/schedule-list');
         },
         (err: any) => {
           this.auth.hideLoader();

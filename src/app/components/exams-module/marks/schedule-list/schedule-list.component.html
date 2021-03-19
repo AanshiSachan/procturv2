@@ -9,13 +9,13 @@
                 <div class="header-item">
                     <select class="header-select-box" name="" [(ngModel)]="coursePlannerFilters.standard_id"
                         (ngModelChange)="updateCourseList($event)">
-                        <option value="">Select Standard*</option>
+                        <option value="-1">Select Standard*</option>
                         <option [value]="masterCourse.standard_id" *ngFor="let masterCourse of masterCourse">
                             {{masterCourse.masterCourse}}</option>
                     </select>
                 </div>
                 <div class="header-item">
-                    <select class="header-select-box" name="" [(ngModel)]="coursePlannerFilters.exam_type_id">
+                    <select class="header-select-box" name="" [(ngModel)]="exam_type_id">
                         <option value="-1">Select Exam*</option>
                         <option title="{{exams.exam_type}}" *ngFor="let exams of ExamTypeData"
                             [value]="exams.exam_type_id">
@@ -147,11 +147,11 @@
                                             <!-- <div class="che-action pull-right"> -->
                                             <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks"
                                                 style="cursor:pointer"
-                                                *ngIf="class.status=='Mks. pending' && class.course_marks_update_level != '0' && class.course_marks_update_level != '1' && class.course_marks_update_level != '2'"
+                                                *ngIf="class.status=='Mks. pending'"
                                                 (click)="examMarksUpdateCourse(class)">
                                             <img src="./assets/images/exam-update.svg" alt="Update Exam Marks"
                                                 title="Update Exam Marks" style="cursor:pointer"
-                                                *ngIf="class.status == 'Mks. Updated' && class.course_marks_update_level == '1' || class.course_marks_update_level == '2'"
+                                                *ngIf="class.status == 'Mks. Updated'"
                                                 (click)="examMarksUpdateCourse(class)">
                                             <!-- </div> -->
 
