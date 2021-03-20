@@ -39,15 +39,15 @@
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
         <label for=" account-name">Account Number <span class="danger">*</span>
         </label>
-        <input type="text" class="form-ctrl" name="account-number" id="account-name"
+        <input type="text" class="form-ctrl" name="account-number" disabled id="account-name"
           [(ngModel)]="paymentDetails.accountNumber" placeholder="Enter Account Number">
 
       </div>
 
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
         <label for="account-name">IFSC Code <span class="danger">*</span></label>
-        <input type="text" class="form-ctrl" name="account-name" id="ifsc-code" [(ngModel)]="paymentDetails.IfscCode"
-          placeholder="Enter IFSC Code">
+        <input type="text" class="form-ctrl" name="ifsc-code" disabled id="ifsc-code"
+          [(ngModel)]="paymentDetails.IfscCode" placeholder="Enter IFSC Code">
 
       </div>
 
@@ -84,7 +84,7 @@
 
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode =='1'">
         <label for="account-name">Cheque Number <span class="danger">*</span></label>
-        <input type="text" class="form-ctrl" name="account-name" id="ifsc-code"
+        <input type="text" class="form-ctrl" name="Cheque-number" id="ifsc-code"
           [(ngModel)]="paymentDetails.ChequeNumber" placeholder="Enter Cheque Number">
 
       </div>
@@ -152,13 +152,41 @@
         </div>
       </div>
       <div class="account-value-outer-container">
+        <div class="list-table-container">
+
+          <div class="list-header-container" *ngIf="addedItemList.length">
+            <div class="list-header-item small-item">
+              <span>Item/Category</span>
+            </div>
+            <div class="list-header-item small-item">
+              <span>Description </span>
+            </div>
+            <div class="list-header-item medium-item">
+              <span>Payment Mode</span>
+            </div>
+            <div class="list-header-item medium-item">
+              <span>Transaction Id</span>
+            </div>
+            <div class="list-header-item medium-item">
+              <span>Cheque Number</span>
+            </div>
+            <div class="list-header-item medium-item">
+              <span>Remark</span>
+            </div>
+            <div class="list-header-item small-item align-center">
+              <span>Quantity</span>
+            </div>
+            <div class="list-header-item small-item align-center">
+              <span>Amount</span>
+            </div>
+          </div>
+        </div>
+
         <div class="account-value-container" *ngFor="let item of addedItemList">
           <div class="account-value-item">
-            <h2>Item Category</h2>
             <span>{{item.itemName}}</span>
           </div>
           <div class="account-value-item">
-            <h2>Description</h2>
             <span title="{{item?.description}}">{{ (!item.description) ? '-' : (item.description.length > 20) ?
               (item.description | slice:0:20) + '...' : item.description}}</span>
           </div>
@@ -167,21 +195,35 @@
 
 
           <div class="account-value-item">
-            <h2>Payment Mode</h2>
-            <span title="{{item?.payment_mode}}">{{ (!item.payment_mode) ? '-' : (item.payment_mode.length > 20) ?
-              (item.payment_mode | slice:0:20) + '...' : item.payment_mode}}</span>
+            <span *ngIf="item.payment_mode == 2">
+              Credit/Debit card
+            </span>
+            <span *ngIf="item.payment_mode == 1">
+              Cheque
+            </span>
+            <span *ngIf="item.payment_mode == 0">
+              Cash
+            </span>
+            <span *ngIf="item.payment_mode == 3">
+              Net Banking
+            </span>
           </div>
 
 
 
           <div class="account-value-item">
-            <h2>Transaction Id</h2>
-            <span title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-' : (item.transaction_id.length > 20) ?
+            <span *ngIf="item.payment_mode =='3'" title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-' :
+              (item.transaction_id.length > 20) ?
               (item.transaction_id | slice:0:20) + '...' : item.transaction_id}}</span>
           </div>
 
 
 
+          <div class="account-value-item">
+            <span *ngIf="item.payment_mode =='1'" title="{{item?.cheque_number}}">{{ (!item.cheque_number) ? '-' :
+              (item.cheque_number.length > 20) ?
+              (item.cheque_number | slice:0:20) + '...' : item.cheque_number}}</span>
+          </div>
 
 
           <div class="account-value-item">
@@ -189,16 +231,14 @@
               slice:0:20) + '...' : item.remarks}}</span>
           </div>
           <div class="account-value-item">
-            <h2>Quantity</h2>
             <span>{{item.quantity}}</span>
           </div>
           <div class="account-value-item right-align">
-            <h2>Amount</h2>
             <span>Rs.{{item.amount}}</span>
           </div>
           <div class="account-value-item">
-            <i class="fa fa-times remove-icon" style="cursor: no-drop;" aria-hidden="true"
-              (click)="removeItem(item.itemName)" title="Remove Item"></i>
+            <i class="fa fa-times remove-icon" [ngStyle]="{cursor: !jsonFlag.isAuthoriseUser ? 'no-drop':'pointer'}"
+              aria-hidden="true" (click)="removeItem(item.itemName)" title="Remove Item"></i>
           </div>
         </div>
       </div>

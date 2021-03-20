@@ -195,7 +195,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
             category_id: this.editIncomeDetails.itemList[index].category_id,
             item_id: this.editIncomeDetails.itemList[index].item_id,
             remarks: this.editIncomeDetails.itemList[index].remarks,
-            ChequeNumber: this.editIncomeDetails.itemList[index].cheque_number,
+            cheque_number: this.editIncomeDetails.itemList[index].cheque_number,
             transaction_id: this.editIncomeDetails.itemList[index].transaction_id,
             payment_mode: this.editIncomeDetails.paying_mode
 

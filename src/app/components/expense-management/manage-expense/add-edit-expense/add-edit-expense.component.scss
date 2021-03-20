@@ -65,15 +65,12 @@
       flex-direction: row;
       width: 100%;
       .account-value-item{
-        width: 15%;
-        margin-left: 20px;
-      }
-      .account-value-item:first-child{
-        margin-left: 0;
-      }
-    }
-  }
+        width: calc(100%/9);
+        padding: 10px;
+        text-align: center;
 }
+      
+}}}
 
 .customeAdd{
   position: absolute;
@@ -204,4 +201,24 @@ input[type=number]::-webkit-outer-spin-button {
 }
 button[disabled]{
   cursor: no-drop;
+}
+
+.list-table-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .list-header-container{
+    //border: 1px solid #ccc;
+    display: flex;
+    flex-direction: row;
+    //background: #e0eaec;
+    font-weight: 600;
+    text-align: center;
+  }
+
+
+.list-header-item{
+  padding: 10px;
+  width: calc(100%/9);
+}
 }

@@ -65,7 +65,7 @@
 
 
             <div class="payee-item field-wrapper" *ngIf="accountDetails.accountType == '0'">
-              <label for="">IFSC Code<span class="danger">*</span></label>
+              <label for="">IFSC Code<span class="danger" *ngIf="accountDetails.valuType !== '1'">*</span></label>
               <input type="text" name="" value="" [(ngModel)]="accountDetails.IFSC_Code" placeholder="Enter IFSC Code"
                 class="form-ctrl">
             </div>

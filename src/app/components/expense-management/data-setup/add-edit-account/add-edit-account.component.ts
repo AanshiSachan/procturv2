@@ -192,14 +192,15 @@ export class AddEditAccountComponent implements OnInit {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Name!');
       return;
     }
-    if (this.accountDetails.accountType == '0' && this.accountDetails.IFSC_Code.trim() == '') {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
+    if (this.accountDetails.accountNumber.trim() == '' && this.accountDetails.valuType !== '1') {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
       return
     }
-    if (this.accountDetails.accountNumber.trim() == '' && this.accountDetails.valuType !== '1') {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
+    if (this.accountDetails.valuType == '0' && this.accountDetails.IFSC_Code.trim() == '') {
+
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
       return
 
     }
