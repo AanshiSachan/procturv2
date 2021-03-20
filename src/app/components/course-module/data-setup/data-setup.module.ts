@@ -13,6 +13,8 @@ import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grad
 import { ClassRoomComponent } from './class-room/class-room.component';
 import { SchoolExamTypeComponent } from './school-exam-type/school-exam-type.component';
 import { MasterTagComponent } from './master-tag/master-tag.component';
+import { MarkDistributionComponent } from './mark-distribution/mark-distribution.component';
+import { MarkSettingComponent } from './mark-setting/mark-setting.component';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { MasterTagComponent } from './master-tag/master-tag.component';
     ManageExamGradesComponent,
     ClassRoomComponent,
     SchoolExamTypeComponent,
-    MasterTagComponent
+    MasterTagComponent,
+    MarkDistributionComponent,
+    MarkSettingComponent
   ],
   providers: [
       ExamGradeServiceService,

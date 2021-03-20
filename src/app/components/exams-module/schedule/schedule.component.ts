@@ -4,7 +4,6 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import * as moment from 'moment';
 import { CoursePlanner } from '../../course-module/course-planner/course-planner.model';
-import { Session } from 'inspector';
 declare var $;
 
 @Component({
@@ -14,7 +13,7 @@ declare var $;
 })
 export class ScheduleComponent implements OnInit {
   editrecord: any = {
-    master_course_name: '',
+    standard_id: '',
     batch_id: '-1',
     course_id: '-1',
     exam_type_id: '-1',
@@ -52,6 +51,7 @@ export class ScheduleComponent implements OnInit {
   };
   isEdit: boolean = false;
   deleteData: any = {};
+  marks_dist_setting: any = -1;
   times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['00', '15', '30', '45'];
   mainStartTime = {
@@ -72,11 +72,14 @@ export class ScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
     this.getStandard();
+    this.marks_dist_setting = sessionStorage.getItem('marks_dist_setting');
   }
 
   toggleAddSchedule() {
     this.clearPrevData();
-    this.getExamType();
+    if (this.marks_dist_setting != 1 && this.marks_dist_setting != 5 && this.marks_dist_setting != 6) {
+      this.getExamType();
+    }
     this.getRooomDetails();
   }
 
@@ -107,7 +110,14 @@ export class ScheduleComponent implements OnInit {
         // console.log("keys", keys);
         // this.masterCourse = keys;
         for (let i = 0; i < keys.length; i++) {
-          this.masterCourse.push(keys[i]);
+          let obj = {
+            masterCourse: '',
+            standard_id: 0
+          }
+          obj.masterCourse = keys[i];
+          let temp = this.fullResponse[keys[i]];
+          obj.standard_id = (temp.length) ? temp[0].standard_id : '';
+          this.masterCourse.push(obj);
         }
 
 
@@ -121,7 +131,13 @@ export class ScheduleComponent implements OnInit {
 
   updateCourseList(ev) {
     this.courseList = [];
-    let temp = this.fullResponse[ev];
+    let master_course_obj = this.masterCourse.filter(
+      (standard) => (ev == standard.standard_id)
+    );
+    if (this.marks_dist_setting == 1 || this.marks_dist_setting == 5 || this.marks_dist_setting == 6) {
+      this.getExamType();
+    }
+    let temp = this.fullResponse[master_course_obj[0].masterCourse];
     for (let i = 0; i < temp.length; i++) {
       this.courseList.push(temp[i]);
     }
@@ -146,18 +162,20 @@ export class ScheduleComponent implements OnInit {
   }
 
   getExamType() {
-    console.log(this.ExamTypeData);
-    if (this.ExamTypeData != null && this.ExamTypeData.length == 0) {
-      this._httpService.getData('/api/v1/courseExamSchedule/fetch-exam-type/' + sessionStorage.getItem('institute_id')).subscribe(
-        (res: any) => {
-          console.log(res);
-          this.ExamTypeData = res.result;
-        },
-        err => {
-          console.log(err);
-        }
-      )
+    this.ExamTypeData = [];
+    let url = `/api/v1/courseExamSchedule/fetch-exam-type/${sessionStorage.getItem('institute_id')}?marks_type=${this.marks_dist_setting}`;
+    if (this.marks_dist_setting == 1 || this.marks_dist_setting == 5 || this.marks_dist_setting == 6) {
+      url = `/api/v1/courseExamSchedule/fetch-exam-type/${sessionStorage.getItem('institute_id')}?marks_type=${this.marks_dist_setting}&standard_id=${this.editrecord.standard_id}`
     }
+    this._httpService.getData(url).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.ExamTypeData = res.result;
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
   getDifference(startTime, endTime) {
@@ -170,7 +188,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveData() {
-    if (this.editrecord.master_course_name != '-1' && this.editrecord.master_course_name != '') {
+    if (this.editrecord.standard_id != '-1' && this.editrecord.standard_id != '') {
       if (this.editrecord.exam_type_id != '' && this.editrecord.exam_type_id != '-1') {
         if (this.editrecord.course_id != '' && this.editrecord.course_id != '-1') {
           if (this.editrecord.batch_id != '' && this.editrecord.batch_id != '-1') {
@@ -239,7 +257,7 @@ export class ScheduleComponent implements OnInit {
   }
   clearPrevData() {
     this.editrecord = {
-      master_course_name: '',
+      standard_id: '',
       batch_id: '-1',
       course_id: '-1',
       exam_type_id: '-1',
@@ -261,7 +279,7 @@ export class ScheduleComponent implements OnInit {
 
   closePopup() {
     this.editrecord = {
-      master_course_name: '',
+      standard_id: '',
       batch_id: '-1',
       course_id: '-1',
       exam_type_id: '-1',
@@ -354,7 +372,8 @@ export class ScheduleComponent implements OnInit {
     obj.isMarksUpdate = "Y";
     obj.isPending = "Y";
     obj.isUpcoming = "Y";
-    obj.master_course_name = (obj.master_course_name == '-1') ? '' : obj.master_course_name;
+    obj.standard_id = this.coursePlannerFilters.standard_id;
+    obj.master_course_name = '';
     let url = "/api/v1/coursePlanner/category?type=exam";
     this._httpService.postData(url, obj).subscribe(
       res => {
@@ -409,7 +428,7 @@ export class ScheduleComponent implements OnInit {
     this.toggleAddSchedule();
     this.isEdit = true;
     this.editrecord = obj;
-    this.updateCourseList(this.editrecord.standard_name);
+    this.updateCourseList(this.editrecord.standard_id);
     this.updateSubjectList(this.editrecord.course_id);
     this.editrecord.batch_id = obj.batch_id;
     this.editrecord.class_room_id = obj.room_no_id;

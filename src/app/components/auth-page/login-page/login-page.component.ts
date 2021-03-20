@@ -626,6 +626,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_client_website', institute_data.enable_client_website);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
       sessionStorage.setItem('mark_attendance_subject_wise', res.data.mark_attendance_subject_wise);
+      sessionStorage.setItem('marks_dist_setting', institute_data.marks_dist_setting);
 
       //Storing the session value 
       // Added by Ashwini Kumar Gupta

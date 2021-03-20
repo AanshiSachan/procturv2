@@ -16,6 +16,11 @@ const routes: Routes = [
           {
             path: 'schedule',
             component: ScheduleComponent
+          },
+          {
+            path: 'marks',
+            loadChildren: () => import('./marks/marks.module').then(m => m.MarksModule),
+            pathMatch: 'prefix'
           }
       ]
   }

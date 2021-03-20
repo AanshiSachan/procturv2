@@ -505,9 +505,12 @@ export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
   }
 
   closeAttendance() {
+    let fromExamMarks = sessionStorage.getItem('exam_marks');
     if(this.coursePlannerStatus== 'true'){
       this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/exam']):
       this.router.navigate(['/view/course/coursePlanner/exam']);
+    } else if (fromExamMarks == 'true') {
+      this.router.navigate(['/view/course/exam-marks']);
     }
     else{
       this.router.navigate(['/view/dashboard/admin']);
@@ -515,9 +518,12 @@ export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
   }
 
   backToHome() {
+    let fromExamMarks = sessionStorage.getItem('exam_marks');
     if(this.coursePlannerStatus== 'true'){
       this.isProfessional ? this.router.navigate(['/view/batch/coursePlanner/exam']):
       this.router.navigate(['/view/course/coursePlanner/exam']);
+    } else if (fromExamMarks == 'true') {
+      this.router.navigate(['/view/course/exam-marks']);
     }
     else{
       sessionStorage.setItem('exam_info', '');

@@ -10,13 +10,13 @@
       <div class="modal-body" style="padding-top: 0;">
         <div class="edit-container">
           <div class="edit-item field-wrapper">
-            <select id="master_course" class="form-ctrl" [(ngModel)]="editrecord.master_course_name"
+            <select id="master_course" class="form-ctrl" [(ngModel)]="editrecord.standard_id"
             (ngModelChange)="updateCourseList($event)">
-              <option value="">Standard*</option>
-              <option title="{{master}}" [value]="master" *ngFor="let master of masterCourse">
-                {{ (master.length > 30) ? (master | slice:0:30) + '...' : master }}
+            <option value="">Standard*</option>
+            <option [value]="masterCourse.standard_id" title="{{masterCourse.masterCourse}}" *ngFor="let masterCourse of masterCourse">
+                {{ (masterCourse.masterCourse.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
               </option>
-            </select>
+        </select>
           </div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" id="exam_type" [(ngModel)]="editrecord.exam_type_id">
@@ -143,7 +143,7 @@
       <div class="row" style="margin-top: 15px;">
         <div class="c-md-6 headerLabel">Exam Schedules</div>
         <div class="c-md-6" style="padding: 0;">
-          <button style="float: right;" class="add_master_tag" data-toggle="modal" data-target="#editCityArea"
+          <button style="float: right;" title="{{marks_dist_setting == '-1' ? 'Please update mark setting first in order to schedule exam' : ''}}" [disabled]="marks_dist_setting == '-1'" class="add_master_tag" data-toggle="modal" data-target="#editCityArea"
             (click)="toggleAddSchedule()">Add
             Exam Schedule</button>
         </div>
@@ -198,10 +198,10 @@
             <div class="header-item" style="margin-left: 10px;">
               <span>Standard <span class="danger">*</span></span>
               <select class="header-select-box" style="background: white;color: #787A7D;height: 30px;" name=""
-                [(ngModel)]="coursePlannerFilters.master_course_name" (ngModelChange)="getData()">
-                <option value="">Select Standard</option>
-                <option title="{{master}}" [value]="master" *ngFor="let master of masterCourse">
-                  {{ (master.length > 30) ? (master | slice:0:30) + '...' : master }}
+                [(ngModel)]="coursePlannerFilters.standard_id" (ngModelChange)="getData()">
+                <option value="-1">Select Standard</option>
+                <option [value]="masterCourse.standard_id" title="{{masterCourse.masterCourse}}" *ngFor="let masterCourse of masterCourse">
+                  {{ (masterCourse.masterCourse.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
                 </option>
               </select>
             </div>

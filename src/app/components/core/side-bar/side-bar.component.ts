@@ -1620,9 +1620,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     }
   }
-  setLiveClassType(obj) {
-    if (obj != '') {
-      sessionStorage.setItem('setLiveClassType', obj);
-    }
+
+  setSetupSession(obj) {
+    sessionStorage.setItem('class', obj);
   }
 }
