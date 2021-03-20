@@ -1,5 +1,5 @@
 <div class="page-content gray">
-    <form #values="ngForm" (ngSubmit)="studentQuickAdder(values)">
+    <form #values="ngForm">
         <div class="w98">
             <h5 class="page_heading">Update Student</h5>
             <div class="row">
@@ -109,7 +109,7 @@
                             <div class="col-lg-4">
                                 <select id="userGender" class="input-select"
                                     [(ngModel)]="studentAddFormData.student_sex" name="userGender">
-                                    <option value="">Select Gender</option>
+                                    <option style="color: #a8a7a9;" value="">Select Gender</option>
                                     <option value="M">Male</option>
                                     <option value="F">Female</option>
                                     <option value="Na">NA</option>
@@ -148,12 +148,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-2" *ngIf="!isSchoolModel">
                                 <span class="label ">
                                     Course&nbsp;Expiry<br>Date&nbsp;of&nbsp;student
                                 </span>
                             </div>
-                            <div class="col-lg-4 datePickerBox"
+                            <div class="col-lg-4 datePickerBox" *ngIf="!isSchoolModel"
                                 [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
                                 <input type="text" value="" id="studexpDate" class="input bsDatepicker"
                                     placeholder="Course expiry date" name="studexpDate"
@@ -253,6 +253,7 @@
                             <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_adhar_no != ''}">
                                 <input type="text" value="" id="student_adhar_no" class="input"
                                     placeholder="Enter Aadhar No" [(ngModel)]="studentAddFormData.student_adhar_no"
+                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
                                     name="student_adhar_no" #cardId="ngModel" />
                             </div>
                         </div>
@@ -359,6 +360,7 @@
                                     [ngClass]="{'has-value': studentAddFormData.parent_adhar_no != ''}">
                                     <input type="text" value="" id="parent_adhar_no" class="input"
                                         placeholder="Enter Aadhar No" [(ngModel)]="studentAddFormData.parent_adhar_no"
+                                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
                                         name="parent_adhar_no" #cardId="ngModel" />
                                 </div>
 
@@ -1041,6 +1043,8 @@
                         <img src="../../../../assets/images/vert.png" style="height:16px;">
                     </button>
 
+                    <div id="blackbg" class="blackbg" (click)="closeMenu()"></div>
+
                     <div id="menuList" class="dd-list-container hide">
                         <div class="dropdown-list">
                             <div class="dd-list-inner">
@@ -1451,7 +1455,7 @@
                                                             <li class=""
                                                                 (click)="emailFeeReciptInstallment(installment)">
                                                                 <a class="">
-                                                                    E-mail Recipt
+                                                                    E-mail Receipt
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -1602,12 +1606,12 @@
                                 <td class="edit-view-btn" *ngIf="!sch.edit">
                                     <div class="" style="width: 50%;float: left;">
                                         <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
-                                            <i class="cursor-icon fa fa-edit" aria-hidden="true" title="Edit"></i>
+                                            <i class="cursor-icon fa fa-edit" style="color: #0084f6;" aria-hidden="true" title="Edit"></i>
                                         </a>
                                     </div>
                                     <div class="" style="width: 32%;float: left;">
                                         <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer;color: red;">
-                                            <i class="view-icon cursor-icon fa fa-trash" title="Delete"
+                                            <i class="view-icon cursor-icon fa fa-trash" style="color: red;" title="Delete"
                                                 aria-hidden="true"></i>
                                         </a>
                                     </div>

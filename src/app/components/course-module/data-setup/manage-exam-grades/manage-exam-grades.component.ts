@@ -139,7 +139,7 @@ export class ManageExamGradesComponent implements OnInit {
             description: "",
             grade: "",
           };
-          this.toggleCreateNewgrade();
+          // this.toggleCreateNewgrade();
           this.fetchGrades();
           this.selectedExamTypeId = -1;
         },
@@ -175,8 +175,8 @@ export class ManageExamGradesComponent implements OnInit {
         grade: row.grade,
         grade_id: row.grade_id,
         institution_id: sessionStorage.getItem("institute_id"),
-        marks_from: row.marks_from,
-        marks_to: row.marks_to,
+        marks_from_percent: row.marks_from_percent,
+        marks_to_percent: row.marks_to_percent,
         exam_type_id: this.selectedExamTypeId,
         grade_points: row.grade_points,
       };
@@ -202,7 +202,7 @@ export class ManageExamGradesComponent implements OnInit {
       (error) => {
         let acad = {
           type: "error",
-          title: "Incorrect Details",
+          title: "",
           body: error.error.message,
         };
         this.appC.popToast(acad);
@@ -231,7 +231,7 @@ export class ManageExamGradesComponent implements OnInit {
         (data: any) => {
           this.fetchGrades();
           let msg = {
-            type: "success",
+            type: "",
             body: "Grade deleted successfully",
           };
           this.appC.popToast(msg);
@@ -239,7 +239,7 @@ export class ManageExamGradesComponent implements OnInit {
         (error) => {
           let acad = {
             type: "error",
-            title: "Incorrect Details",
+            title: "",
             body: error.error.message,
           };
           this.appC.popToast(acad);

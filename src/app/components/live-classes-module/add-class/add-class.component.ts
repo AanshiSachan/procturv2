@@ -110,6 +110,7 @@ export class AddClassComponent implements OnInit {
   zoom_enable: boolean = false;
   schoolModel: boolean = false;
   subjectList: any = [];
+  fullResponse: any = [];
 
   constructor(
     private auth: AuthenticatorService,
@@ -252,7 +253,7 @@ export class AddClassComponent implements OnInit {
 
     this.subjectSetting = {
       singleSelection: false,
-      idField: 'subject_id',
+      idField: 'batch_id',
       textField: 'subject_name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
@@ -513,12 +514,14 @@ export class AddClassComponent implements OnInit {
         }
       );
       let course_list: any[] = [];
+      if(!this.schoolModel) {
       this.selectedCourseList.map(
         (ele: any) => {
           let x = { 'course_id': ele.course_id.toString() }
           course_list.push(x);
         }
       );
+      }
 
       let batch_list: any = [];
       this.selectedBatchList.map(
@@ -527,23 +530,21 @@ export class AddClassComponent implements OnInit {
           batch_list.push(x);
         }
       );
-      if(this.schoolModel) {
-        for(let i=0;i<this.courses.length;i++) {
-          for(let k=0;k<course_list.length;k++){
-              course_list[k].subject_list = [];
-              for(let j=0;j<this.courses[i].batchesList.length;j++) {
-                for(let l=0;l<this.selectedSubjectList.length;l++) {
-                  if(this.courses[i].batchesList[j].subject_id == this.selectedSubjectList[l].subject_id) {
-                    let x = { 'subject_id': this.selectedSubjectList[l].subject_id.toString() }
-                    course_list[k].subject_list.push(x);
+      if(this.schoolModel) {       
+        for(let i=0;i<this.selectedCourseList.length;i++) {
+            let x = { 'course_id': this.selectedCourseList[i].course_id.toString() }
+            course_list.push(x);
+              course_list[i].subject_list = [];
+              for(let j=0;j<this.subjectList.length;j++) {
+              for(let l=0;l<this.selectedSubjectList.length;l++) {                
+                if((this.subjectList[j].batch_id == this.selectedSubjectList[l].batch_id) && (this.subjectList[j].course_id == this.selectedCourseList[i].course_id)) {
+                    let x = { 'batch_id': this.subjectList[j].batch_id.toString() }
+                    course_list[i].subject_list.push(x);
                   }
                 }
               }
-            }
           }
-        console.log('schoo', course_list);
       }
-
       this.addOnlineClass.course_list = course_list;
       this.addOnlineClass.batch_list = batch_list;
 
@@ -742,25 +743,7 @@ export class AddClassComponent implements OnInit {
         let tempData: any = this.courses;
         if(this.schoolModel) {
         this.subjectList = [];
-        if(ids && ids.length>0) {
-          if(tempData && tempData.length) {
-            for (let i = 0; i < tempData.length; i++) {
-              for(let j=0;j< ids.length; j++) {
-                if (tempData[i].course_id === ids[j].course_id) {
-                  for(let k=0;k<tempData[i].batchesList.length;k++) {
-                    let x= {
-                      subject_id : '',
-                      subject_name : ''
-                    }
-                    x = tempData[i].batchesList[k];
-                    // x.subject_name = tempData[i].batchesList[k].subject_name;
-                    this.subjectList.push(x);
-                  }
-                }
-              }
-            }
-          }
-        }
+        this.updateSubjectList(ids);
       } else {
         let temp: any = [];
         this.courseIds.forEach(element => {
@@ -773,21 +756,43 @@ export class AddClassComponent implements OnInit {
     }
   }
 
-  getStudentsBySubject(obj) {
-    if(obj && obj.length) {
-    let temp = Array.prototype.map.call(obj, function(item) { return item.subject_id; }).join(",");
-    console.log(temp);
+  updateSubjectList(event) {
+    console.log(event);
+    this.subjectList = [];
+    if(event && event.length) {
+    let course_id = Array.prototype.map.call(event, function(item) { return item.course_id; }).join(",");
+    const url = "/api/v1/subjects/course?courseIds=" + course_id;
     this.auth.showLoader();
-    this.http_service.getData('/api/v1/students/subject?subjectIdList='+temp).subscribe(
-      (res:any) => {
+    this.http_service.getData(url).subscribe(
+      (res: any) => {
         this.auth.hideLoader();
-        this.studentList = res.response;
+        this.subjectList = res.result;
+        if(this.subjectList && this.subjectList.length) {
+        this.subjectList.forEach(element => {
+          element.subject_name = element.course_name + ' - ' + element.subject_name;
+          if(element.is_optional == 'Y') {
+            element.subject_name = element.subject_name + ' (Optional)';
+          }
+        });
+      }
       },
-      (err:any) => {
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
         this.auth.hideLoader();
-        this.appC.popToast({ type: "error", body: err.error.message });
+        //console.log(err);
       }
     )
+    }
+  }
+
+  getStudentsBySubject(obj) {
+    console.log(obj);
+    if(obj && obj.length) {
+      let temp:any = [];
+      obj.forEach(element => {
+        temp.push(element.batch_id);
+      });
+      this.fetchStudentsApi(temp);
     }
   }
 
@@ -820,15 +825,17 @@ export class AddClassComponent implements OnInit {
     }
     else {
       let url = '';
-      if (this.userType === '3') {
+      if(this.schoolModel) {
+        url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name&is_active_not_expire=Y";
+      } else if (this.userType === '3') {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=N&isActiveNotExpire=Y'; //Changed isAllCourses flay Y to N as per ticket 1103
       } else {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
-
-          this.masters = data;
+          this.fullResponse = data.result;
+          this.masters = (this.schoolModel) ? (Object.keys(data.result)) : data;
           if (this.masters && !this.masters.length) {
             this.appC.popToast({ type: "error", body: "Please check courses are active or not." });
           }
@@ -851,10 +858,9 @@ export class AddClassComponent implements OnInit {
     this.courses = [];
     let tempData: any = this.masters;
     if(this.schoolModel) {
-      for (let i = 0; i < tempData.length; i++) {
-        if (tempData[i].master_course === master_course_name) {
-          this.courses = tempData[i].coursesList;
-        }
+      let temp = this.fullResponse[master_course_name];
+      for (let i = 0; i < temp.length; i++) {
+        this.courses.push(temp[i]);
       }
     } else {
       for (let i = 0; i < tempData.length; i++) {

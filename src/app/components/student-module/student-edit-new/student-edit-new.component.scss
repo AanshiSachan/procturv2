@@ -3652,3 +3652,12 @@ input[type=number]::-webkit-outer-spin-button {
 .texrarea {
     height: 65px;
 }
+.blackbg {
+    // background: rgba(12, 11, 11, 0.3);
+    position: fixed;
+    top: 0px;
+    height: 100%;
+    left: 0px;
+    // z-index: 6;
+    width: 100%;
+}
