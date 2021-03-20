@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class DataSetupHomeComponent implements OnInit {
   schoolModel: boolean = false;
   activeSession: any = 'faculty';
 
-  constructor(private auth: AuthenticatorService) {
+  constructor(private auth: AuthenticatorService, private route: Router,
+  ) {
     this.schoolModel = this.auth.schoolModel.value;
 
   }
@@ -30,7 +32,12 @@ export class DataSetupHomeComponent implements OnInit {
   }
 
   toggle(id) {
+    debugger
     this.activeSession = id;
+    if (id=='Exam_type') {
+      this.route.navigateByUrl("/view/course/setup/exam-type")
+    }
+    // this.activeSession = id;
   }
 
   setActiveClass() {
