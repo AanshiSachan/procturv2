@@ -193,12 +193,12 @@ export class AddEditAccountComponent implements OnInit {
       return;
     }
 
-    if (this.accountDetails.accountNumber.trim() == '' && this.accountDetails.valuType !== '1') {
+    if (this.accountDetails.accountNumber == '' && this.accountDetails.valuType !== '1') {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
       return
     }
 
-    if (this.accountDetails.valuType == '0' && this.accountDetails.IFSC_Code.trim() == '') {
+    if (this.accountDetails.valuType == '0' && this.accountDetails.IFSC_Code == '' && this.accountDetails.accountType == '0') {
 
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
       return
@@ -211,14 +211,14 @@ export class AddEditAccountComponent implements OnInit {
       return
     }
 
-    if (this.accountDetails.valuType.trim() == '') {
+
+    if (this.accountDetails.valuType != '0' && this.accountDetails.valuType != '1') {
 
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Payee/Payer!');
       return
     }
 
-
-    if (this.accountDetails.displayPayeeName.trim() == '' && this.accountDetails.displayPayeeName.trim() != "1") {
+    if (this.accountDetails.displayPayeeName == '') {
 
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Payee/Payer!');
       return
