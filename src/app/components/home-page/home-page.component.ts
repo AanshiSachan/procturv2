@@ -1,5 +1,6 @@
 import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/scroll/scroll-strategy';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 
@@ -29,7 +30,8 @@ export class HomePageComponent implements OnInit {
   
   dates: number[][] = new Array<number[]>(5);
 
-  constructor() {
+  constructor(private router: Router) {
+    if ((sessionStorage.getItem('userid') != null) && sessionStorage.getItem('institute_id') != null) {
     let firstDay: number = moment().date(1).day();
     let lastDate: number = moment().clone().endOf('month').date();
     let day: number = 1;
@@ -94,6 +96,9 @@ export class HomePageComponent implements OnInit {
           
 
         }
+    }
+    } else {
+      this.router.navigate(['/login']);
     }
   }
   

@@ -55,8 +55,8 @@
                       <td>
                         {{i+1}}
                       </td>
-                      <td>
-                        {{row.teacher_name}}
+                      <td title="{{row.teacher_name}}">
+                        {{(row.teacher_name?.length>20) ?(row.teacher_name | slice:0:20 ) + '...' :(row.teacher_name) }}
                       </td>
                       <td>
                         {{row.teacher_phone}}

@@ -98,18 +98,16 @@ export class ManageExamGradesComponent implements OnInit {
   // data added to table
   addDataToTable() {
     if (
-      this.addData.description == "" ||
       this.addData.grade == "" ||
-      this.addData.description == null ||
       this.addData.grade == null
     ) {
       let msg = {
         type: "error",
-        title: "Incorrect Details",
+        title: "",
         body: "All fields Are required",
       };
       this.appC.popToast(msg);
-    } else if (this.addData.description != " " || this.addData.grade != " ") {
+    } else if (this.addData.grade != " ") {
       let payload = {};
       if (this.isSchoolModel) {
         payload = {
