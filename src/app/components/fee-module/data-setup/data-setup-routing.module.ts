@@ -38,7 +38,11 @@ const routes: Routes = [
           },{
             path: 'fee-structure',
             component: FeeTemplateV2Component
-          }
+          },{
+            path: 'fee-structure',
+            loadChildren: () => import('app/components/fee-module/data-setup/fee-structure/fee-structure.module').then(m => m.FeeStructureModule),
+            canLoad: [AuthGuard]
+          },
         ]
       }
     ]

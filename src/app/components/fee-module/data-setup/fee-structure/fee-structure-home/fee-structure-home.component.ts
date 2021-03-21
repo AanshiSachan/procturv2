@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/Rx';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { CommonServiceFactory } from '../../../../services/common-service';
-import { FeeStrucService } from '../../../../services/feeStruc.service';
+import { AuthenticatorService } from '../../../../..//services/authenticator.service';
+import { CommonServiceFactory } from '../../../../../services/common-service';
+import { FeeStrucService } from '../../../../../services/feeStruc.service';
 
 @Component({
-  selector: 'app-fee-template-v2',
-  templateUrl: './fee-template-v2.component.html',
-  styleUrls: ['./fee-template-v2.component.scss']
+  selector: 'app-fee-structure-home',
+  templateUrl: './fee-structure-home.component.html',
+  styleUrls: ['./fee-structure-home.component.scss']
 })
-export class FeeTemplateV2Component implements OnInit {
+export class FeeStructureHomeComponent implements OnInit {
   isProfessional: boolean = false;
   countryAdditioalFeeTypes: any = {};
   source: any[] = [];
@@ -104,7 +104,7 @@ export class FeeTemplateV2Component implements OnInit {
         }
       }
     )
-    //this.fetchPrefill();
+    this.fetchPrefill();
   }
 
 
