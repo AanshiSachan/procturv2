@@ -2,7 +2,7 @@
   <div class="row" style="margin:0em">
     <div class="filter-item field-wrapper" style="margin-left: 0px;">
       <select class="form-ctrl input-select" name="" [(ngModel)]="model.mark_type"
-        (ngModelChange)="changeMarkType($event)">
+        (ngModelChange)="changeMarkType('onChange', $event)">
         <option value="-1">Select Mark Type</option>
         <option title="{{marks.data_key}}" [value]="marks.data_value" *ngFor="let marks of markTypeData">
           {{ (marks.data_key?.length > 30) ? (marks.data_key | slice:0:30) + '...' : marks.data_key }}

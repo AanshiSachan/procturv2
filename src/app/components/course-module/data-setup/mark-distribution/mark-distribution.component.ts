@@ -227,10 +227,10 @@ export class MarkDistributionComponent implements OnInit {
   deleteRow(obj) {
     if (confirm('Are you Sure, you want to Delete Mark Distribution?')) {
       this.auth.showLoader();
-      this.httpService.deleteDataById('/api/v1/courseExamSchedule/delete-marks-distribution' + obj.data.marks_distribution_id).subscribe(
+      this.httpService.deleteDataById('/api/v1/courseExamSchedule/delete-marks-distribution/' + obj.data.marks_distribution_id).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', 'Page Deleted Successfully');
+          this.msgService.showErrorMessage('success', '', 'Mark Distribution Deleted Successfully');
           this.getStaticPageData();
         },
         err => {

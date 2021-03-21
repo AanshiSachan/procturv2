@@ -34,25 +34,19 @@ export class MarkSettingComponent implements OnInit {
     this.getMarksType();
     this.getExamType();
     this.getMarkDistribution();
-    this.model.mark_type = sessionStorage.getItem('marks_dist_setting');
     setTimeout(() => {
-      this.changeMarkType(this.model.mark_type);
+      this.changeMarkType('onload', this.model.mark_type);
     }, 3000);
   }
 
-  changeMarkType(obj) {
+  changeMarkType(calltype, obj) {
     this.examTypeData.filter((data) => {
       data.isChecked = false;
     });
     this.markDistributionData.filter((data) => {
       data.isChecked = false;
     });
-    if (this.model.mark_type == 1 || this.model.mark_type == 4 || this.model.mark_type == 5 || this.model.mark_type == 6) {
-      this.getStandard();
-    } else if (this.model.mark_type == 2 || this.model.mark_type == 3) {
-      this.makeExamWiseArray();
-    }
-    this.fetchSettingByMarkType(obj);
+    this.fetchSettingByMarkType(calltype, obj);
   }
 
   makeExamWiseArray() {
@@ -77,12 +71,21 @@ export class MarkSettingComponent implements OnInit {
     }
   }
 
-  fetchSettingByMarkType(obj) {
-    if (obj != '-1') {
+  fetchSettingByMarkType(calltype, mark_type) {    
       this.auth.showLoader();
-      this.httpService.getData('/api/v1/courseExamSchedule/fetch-marks-setting/' + sessionStorage.getItem('institute_id') + '/' + obj).subscribe(
+      let url = '/api/v1/courseExamSchedule/fetch-marks-setting/' + sessionStorage.getItem('institute_id');
+      if(calltype == 'onChange') {
+        url = '/api/v1/courseExamSchedule/fetch-marks-setting/' + sessionStorage.getItem('institute_id') + '?marks_type='+mark_type;
+      }
+      this.httpService.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
+          this.model.mark_type = res.result.mark_type;
+          if (this.model.mark_type == 1 || this.model.mark_type == 4 || this.model.mark_type == 5 || this.model.mark_type == 6) {
+            this.getStandard();
+          } else if (this.model.mark_type == 2 || this.model.mark_type == 3) {
+            this.makeExamWiseArray();
+          }
           this.setSettingData(res);
         },
         (err: any) => {
@@ -90,37 +93,36 @@ export class MarkSettingComponent implements OnInit {
           this.msgService.showErrorMessage('error', '', err.error.message);
         }
       );
-    }
   }
 
 
   setSettingData(obj) {
     switch (this.model.mark_type) {
-      case '0': {
+      case 0: {
         this.setSettingForGlobalWise(obj);
         break;
       }
-      case '1': {
+      case 1: {
         this.setSettingForGlobalWise(obj);
         break;
       }
-      case '2': {
+      case 2: {
         this.setSettingForExamWise(obj);
         break;
       }
-      case '3': {
+      case 3: {
         this.setSettingForExamWise(obj);
         break;
       }
-      case '4': {
+      case 4: {
         this.setSettingForSubjectWise(obj);
         break;
       }
-      case '5': {
+      case 5: {
         this.setSettingForClassExamWise(obj);
         break;
       }
-      case '6': {
+      case 6: {
         this.setForClassExSubWise(obj);
         break;
       }
@@ -336,25 +338,25 @@ export class MarkSettingComponent implements OnInit {
 
   checkInputValidation() {
     switch (this.model.mark_type) {
-      case '0': {
+      case 0: {
         return this.checkForGlobalWise();
       }
-      case '1': {
+      case 1: {
         return this.checkForClassWise();
       }
-      case '2': {
+      case 2: {
         return this.checkForExamWise();
       }
-      case '3': {
+      case 3: {
         return this.checkForExamIndividual();
       }
-      case '4': {
+      case 4: {
         return this.checkForSubjectWise();
       }
-      case '5': {
+      case 5: {
         return this.checkForClassExWise();
       }
-      case '6': {
+      case 6: {
         return this.checkForClassExSub();
       }
 
