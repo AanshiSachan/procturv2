@@ -7,11 +7,6 @@ import { FeeTypesV2Component } from './fee-types-v2/fee-types-v2.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: DataSetupComponent,
-    pathMatch: 'prefix',
-    children: [
-      {
         path: '',
         component: DataSetupComponent,
         children:[
@@ -35,18 +30,18 @@ const routes: Routes = [
           },{
             path: 'fee-type-v2',
             component: FeeTypesV2Component
-          },{
-            path: 'fee-structure',
-            component: FeeTemplateV2Component
-          },{
+          },
+          // {
+          //   path: 'fee-structure',
+          //   component: FeeTemplateV2Component
+          // },
+          {
             path: 'fee-structure',
             loadChildren: () => import('app/components/fee-module/data-setup/fee-structure/fee-structure.module').then(m => m.FeeStructureModule),
             canLoad: [AuthGuard]
           },
         ]
       }
-    ]
-  }
 ];
 
 @NgModule({

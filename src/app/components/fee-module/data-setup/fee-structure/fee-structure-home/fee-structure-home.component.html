@@ -1,29 +1,7 @@
 <div class="page-content">
-    <div class="head_padding">
-        <div class="w98">
-            <div class="page_heading pageheadingspace">
-                <p>Fees</p>
-            </div>
-            <!-- Nav tabs -->
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" (click)="toggle('fee_types')" data-toggle="tab" href="#fee_types"
-                        [ngClass]="(activeSession == 'fee_types') ? 'active' : ''">Fee Types</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" (click)="toggle('structure')" href="#structure"
-                        [ngClass]="(activeSession == 'structure') ? 'active' : ''">Fee Structure</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" (click)="toggle('discount')" href="#discount"
-                        [ngClass]="(activeSession == 'discount') ? 'active' : ''">Discount Reason</a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <div class="w98">
         <div class="tab-content">
-            <div id="structure" class="tab-pane">
+            <div id="structure">
                 <div class="padding1">
                     <input type="text" class="input magnifying-glass mr10" name="" placeholder="Search">
                     <a routerLink='/view/fee/data-setup/fee-structure/add'> <button class="blue_button right">New
@@ -149,7 +127,8 @@
     <div class="modal-dialog">
         <div class="modal-content" style="width: 144%;">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Fee Structure</h4>
+                <h4 style="float: left;" class="modal-title">Edit Fee Structure</h4>
+                <input type="text" [(ngModel)]="templateName" placeholder="00" style="width: 50%;float: left;margin-left: 10px;" class="input wid80 rrs">
                 <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
             </div>
             <div class="modal-body" style="height: 410px;overflow: auto;">
@@ -211,6 +190,16 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="padding1">
+                    <span class="right">
+                        <button class="white_button mr10">
+                            Cancel
+                        </button>
+                        <button class="blue_button ">
+                            Save
+                        </button>
+                    </span>
                 </div>
                 <!-- <div class="save">
                     <button class="blue_button" (click)="createFeeStructure()">Save</button>

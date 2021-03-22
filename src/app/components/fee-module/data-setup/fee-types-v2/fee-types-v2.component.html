@@ -1,26 +1,4 @@
 <div class="page-content">
-  <div class="head_padding">
-    <div class="w98">
-      <div class="page_heading pageheadingspace">
-        <p>Fees</p>
-      </div>
-      <!-- Nav tabs -->
-      <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" (click)="toggle('fee_types')" data-toggle="tab" href="#fee_types"
-            [ngClass]="(activeSession == 'fee_types') ? 'active' : ''">Fee Types</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" (click)="toggle('structure')" href="#structure"
-            [ngClass]="(activeSession == 'structure') ? 'active' : ''">Fee Structure</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" (click)="toggle('discount')" href="#discount"
-            [ngClass]="(activeSession == 'discount') ? 'active' : ''">Discount Reason</a>
-        </li>
-      </ul>
-    </div>
-  </div>
   <div class="w98">
     <div class="tab-content">
       <div id="fee_types" class="tab-pane active">
