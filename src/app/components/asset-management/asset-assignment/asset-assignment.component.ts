@@ -9,6 +9,8 @@ import { AssetAssignment } from './asset-assignment';
 declare var $;
 import * as moment from 'moment';
 import { RoleService } from '../../../services/user-management/role.service';
+import { ExcelService } from '../../../services/excel.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 @Component({
   selector: 'app-asset-assignment',
   templateUrl: './asset-assignment.component.html',
@@ -37,12 +39,15 @@ export class AssetAssignmentComponent implements OnInit {
   locationAllData: any = [];
   totalRow: any;
   tempLocationList: any;
+  assignDataforDownload: [];
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
     private msgService: MessageShowService,
     private temp: HttpService,
-    private apiService: RoleService,) { }
+    private apiService: RoleService,
+    private _pdfService: ExportToPdfService,
+    private excelService: ExcelService) { }
 
   model = {
     id: '',
@@ -86,7 +91,7 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
      
-
+      
       {
         primary_key: 'quantity',
         value: "Assign Quantity",
@@ -478,4 +483,71 @@ export class AssetAssignmentComponent implements OnInit {
       }
     )
   }
+
+  downloadPdf() {
+    this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.assignDataforDownload = res.result.response;
+        //this.auth.showLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    let arr = [];
+   
+    this.assignDataforDownload.map(
+      (ele: any) => {
+        let json = [
+         ele.asset_name,
+          ele.quantity,
+          ele.user_type,
+          ele.check_out_user_display_name,
+          ele.check_in_date,
+          ele.check_out_date,
+          ele.due_date,
+          ele.status,
+          ele.note,
+   ]
+        arr.push(json);
+      })
+
+    let rows = [];
+    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','status','Note']]
+    let columns = arr;
+    this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
+    this.auth.hideLoader();
+  }
+//download in excel format
+exportToExcel(){
+  this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+    (res: any) => {
+      this.auth.showLoader();
+      this.assignDataforDownload= res.result.response;
+      console.log( this.assignDataforDownload = res.result.response)
+      let Excelarr = [];
+      this.assignDataforDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSetting.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_assign'
+    );
+     // console.log(this.locationDataforDownload)
+      this.auth.hideLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  this.auth.hideLoader();
+}
 }

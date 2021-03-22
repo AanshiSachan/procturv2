@@ -12,10 +12,10 @@
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
             <span class="rights">
-                <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
-                <a href=""><img src="assets/images/assets/Group353.svg" class="mr10"></a>
-                <a href=""><img src="assets/images/assets/2.svg" class="mr10"></a>
-                <a href=""><img src="assets/images/assets/document.svg" class="mr10"></a>
+                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
+                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
+                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
             </span>
         </div>
         <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"

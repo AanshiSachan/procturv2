@@ -7,6 +7,8 @@ import { NgForm } from '@angular/forms';
 //import { UserService } from '../../../services/user-management/user.service';
 import { HttpService } from '../../../services/http.service';
 import * as moment from 'moment';
+import { ExcelService } from '../../../services/excel.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 declare var $;
 @Component({
   selector: 'app-asset-purchase',
@@ -33,11 +35,14 @@ export class AssetPurchaseComponent implements OnInit {
   locationAllData: any = [];
   vendorAllData: any = [];
   tempLocationList: any;
+  purchaseDataforDownload: [];
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
     private msgService: MessageShowService,
-    private temp: HttpService
+    private temp: HttpService,
+    private _pdfService: ExportToPdfService,
+    private excelService: ExcelService
   ) { }
 
   model = {
@@ -500,4 +505,71 @@ export class AssetPurchaseComponent implements OnInit {
 
     }
   }
+
+  downloadPdf() {
+    this.httpService.getMethod('api/v2/asset/purchase/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.purchaseDataforDownload = res.result.response;
+        //this.auth.showLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    let arr = [];
+   
+    this.purchaseDataforDownload.map(
+      (ele: any) => {
+        let json = [
+         ele.asset_name,
+          ele.quantity,
+          ele.supplier_name,
+          ele.unit,
+          ele.purchase_amount,
+          ele.purchase_date,
+          ele.service_date,
+          ele.expiry_date,
+          ele.purchased_by_user_display_name,
+   ]
+        arr.push(json);
+      })
+
+    let rows = [];
+    rows = [['Asset Name', ' Quantity', ' Company Name','Unit',' Purchase Price','Purchase Date ','Service Date','Expiry Date','Purchase By']]
+    let columns = arr;
+    this._pdfService.exportToPdf(rows, columns, 'Asset_Purchase_List');
+    this.auth.hideLoader();
+  }
+//download in excel format
+exportToExcel(){
+  this.httpService.getMethod('api/v2/asset/purchase/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+    (res: any) => {
+      this.auth.showLoader();
+      this.purchaseDataforDownload= res.result.response;
+      console.log( this.purchaseDataforDownload = res.result.response)
+      let Excelarr = [];
+      this.purchaseDataforDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSetting.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_Purchase'
+    );
+     // console.log(this.locationDataforDownload)
+      this.auth.hideLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  this.auth.hideLoader();
+}
 }

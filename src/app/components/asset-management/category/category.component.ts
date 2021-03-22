@@ -637,7 +637,6 @@ assetExportToExcel(){
 }
 
 assetDownloadPdf(){
-  alert("hi")
   this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
       this.assetDataToDownload = res.result.response;

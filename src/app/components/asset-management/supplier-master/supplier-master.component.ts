@@ -3,7 +3,8 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
 import { NgForm } from '@angular/forms';
-import { isForOfStatement } from 'typescript';
+import { ExcelService } from '../../../services/excel.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 declare var $;
 @Component({
   selector: 'app-supplier-master',
@@ -13,7 +14,9 @@ declare var $;
 export class SupplierMasterComponent implements OnInit {
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
-    private msgService: MessageShowService) { }
+    private msgService: MessageShowService,
+    private _pdfService: ExportToPdfService,
+    private excelService: ExcelService) { }
 
 
   ngOnInit(): void {
@@ -35,6 +38,7 @@ export class SupplierMasterComponent implements OnInit {
   staticPageData: any = [];
   staticPageDataSouece: any = [];
   isedit = false;
+ supplierDataforDownload:[];
 
   model = {
     active: true,
@@ -470,4 +474,69 @@ console.log(category_names);
       this.staticPageData = searchData;
     }
   }
+
+  downloadPdf() {
+    this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.supplierDataforDownload = res.result.response;
+        //this.auth.showLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    let arr = [];
+   
+    this.supplierDataforDownload.map(
+      (ele: any) => {
+        let json = [
+         
+          ele.supplier_name,
+          ele.email_id,
+          ele.mobile_no,
+          ele.address,
+          ele.contact_person_name,
+          ele.asset_names_string
+       ]
+        arr.push(json);
+      })
+
+    let rows = [];
+    rows = [['Company Name', ' Email', ' Mobile','Address','Contact Person','Asset Provided']]
+    let columns = arr;
+    this._pdfService.exportToPdf(rows, columns, 'Vendor List');
+    this.auth.hideLoader();
+  }
+//download in excel format
+exportToExcel(){
+  this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+    (res: any) => {
+      this.auth.showLoader();
+      this.supplierDataforDownload= res.result.response;
+      console.log( this.supplierDataforDownload = res.result.response)
+      let Excelarr = [];
+      this.supplierDataforDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSetting.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_vendor'
+    );
+     // console.log(this.locationDataforDownload)
+      this.auth.hideLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  this.auth.hideLoader();
+}
 }
