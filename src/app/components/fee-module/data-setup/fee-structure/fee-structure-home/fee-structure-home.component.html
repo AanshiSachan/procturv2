@@ -26,7 +26,8 @@
             <div id="structure" class="tab-pane">
                 <div class="padding1">
                     <input type="text" class="input magnifying-glass mr10" name="" placeholder="Search">
-                    <a routerLink='/view/fee/data-setup/fee-structure/add'> <button class="blue_button right">New Structure</button></a>
+                    <a routerLink='/view/fee/data-setup/fee-structure/add'> <button class="blue_button right">New
+                            Structure</button></a>
                 </div>
                 <div class="school">
                     <div class="table_heading">
@@ -47,18 +48,19 @@
                             <div> {{data.course_subject_name}}</div>
                             <div>{{data.country_name}}</div>
                             <div class="flex">
-                                <div class="right wid50"><span class="right">Rs 258000</span></div>
+                                <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount}}
+                                        {{data.currency_code}}</span></div>
                                 <div class="light wid50"><span class="left"></span></div>
                             </div>
-                            <div><a (click)="studentsAssigned(fee)" class="students_assigned" data-toggle="modal"
+                            <div><a (click)="studentsAssigned(data)" class="students_assigned" data-toggle="modal"
                                     data-target="#myModal">{{data.totalAssignedStudent}}</a></div>
                             <div>
-                                <a class="mr10"><img src="../../../../../assets/images/icon7.svg" title="View"
-                                        class="size22"></a>
-                                <a class="mr10"><img src="../../../../../assets/images/EDit.png" (click)="editFee(data)"
-                                        title="Edit" class="size22"></a>
-                                <a><img src="../../../../../assets/images/Group321.svg" (click)="deleteFeeStructure(data)"
-                                        title="Delete" class="size22"></a>
+                                <!-- <a class="mr10"><img src="../../../../../assets/images/icon7.svg" title="View"
+                                        class="size22"></a> -->
+                                <a class="mr10" (click)="editFeeStructure(data)"><img
+                                        src="../../../../../assets/images/EDit.png" title="Edit" class="size22"></a>
+                                <a><img src="../../../../../assets/images/Group321.svg"
+                                        (click)="deleteFeeStructure(data)" title="Delete" class="size22"></a>
                             </div>
                         </div>
                     </div>
@@ -132,11 +134,87 @@
                         <div>Student Id</div>
                         <div>Student Name</div>
                     </div>
-                    <div class="table_body">
-                        <div>PCR2092</div>
-                        <div>Ashish</div>
+                    <div *ngFor="let data of studentList">
+                        <div class="table_body">
+                            <div>{{data.student_disp_id}}</div>
+                            <div>{{data.student_name}}</div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="editFeeStructureModel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 144%;">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Fee Structure</h4>
+                <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
+            </div>
+            <div class="modal-body" style="height: 410px;overflow: auto;">
+                <div class="fee_new">
+                    <div class="table_heading">
+                        <div>#</div>
+                        <div>Fee Type </div>
+                        <div>{{schoolModel?'Day Of Month':'Trigger Date'}}</div>
+                        <div>{{schoolModel?'Month':'Day/Month'}}</div>
+                        <div><span>Total Fees <span class="light">(In )</span></span></div>
+                        <div>Action</div>
+                    </div>
+                    <div *ngFor="let data of feeInstalllmentArr; let i=index;">
+                        <div class="table_body">
+                            <div>{{i+1}}</div>
+                            <div>
+                                <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type_id">
+                                    <option value="-1">Fee Type</option>
+                                    <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
+                                        {{data.fee_type}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="schoolModel">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day">
+                                    <option value="-1">Day</option>
+                                    <option *ngFor="let day of dayOfmonth" [value]="day">{{day}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="!schoolModel">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
+                                    (ngModelChange)="changesValuesAsPerType($event)">
+                                    <option value="-1">Trigger Date</option>
+                                    <option value="1">Course Assign Date (CAD)</option>
+                                    <option value="2">No of days after CAD</option>
+                                    <option value="3">No of Month after CAD</option>
+                                </select>
+                            </div>
+                            <div *ngIf="schoolModel">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
+                                    <option value="-1">Month</option>
+                                    <option *ngFor="let month of months.entries()" [value]="month[1]">{{month[0]}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="!schoolModel">
+                                <input type="text" [(ngModel)]="feeInstalllmentArr[i].day" placeholder="00"
+                                    class="input wid80 rrs"
+                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
+                            </div>
+                            <div><input type="text" [(ngModel)]="feeInstalllmentArr[i].fee_amount" placeholder="00"
+                                    class="input wid80 rrs"
+                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></div>
+                            <div>
+                                <a (click)="addInstallment(i)" class="mr10"><img
+                                        src="../../../../../assets/images/add.svg" class="size22" title="Add"></a>
+                                <a (click)="deleteInstallment(i)"><img src="../../../../../assets/images/Group321.svg"
+                                        class="size22" title="Delete"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="save">
+                    <button class="blue_button" (click)="createFeeStructure()">Save</button>
+                </div> -->
             </div>
         </div>
     </div>

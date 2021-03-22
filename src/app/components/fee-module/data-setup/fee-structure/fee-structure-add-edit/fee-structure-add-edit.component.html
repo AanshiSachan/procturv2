@@ -59,7 +59,7 @@
                 <div>{{schoolModel?'Day Of Month':'Trigger Date'}}</div>
                 <div>{{schoolModel?'Month':'Day/Month'}}</div>
                 <!-- <div>Year</div> -->
-                <div><span>Total Fees <span class="light">(In Rs)</span></span></div>
+                <div><span>Total Fees <span class="light">(In {{currencySymbol}})</span></span></div>
                 <div>Action</div>
             </div>
             <div *ngFor="let data of feeInstalllmentArr; let i=index;">
@@ -90,7 +90,7 @@
                     <div *ngIf="schoolModel || showMonthDropDown">
                         <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
                             <option value="-1">Month</option>
-                            <option  *ngFor="let month of months" [value]="month">{{month}}</option>
+                            <option  *ngFor="let month of months.entries()" [value]="month[1]">{{month[0]}}</option>
                             <!-- <option *ngIf="!schoolModel" *ngFor="let month of monthValue" [value]="month">{{month}}</option> -->
                         </select>
                     </div>

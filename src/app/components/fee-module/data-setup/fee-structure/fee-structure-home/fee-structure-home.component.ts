@@ -4,20 +4,21 @@ import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../../..//services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
 import { FeeStrucService } from '../../../../../services/feeStruc.service';
-
+declare var $;
 @Component({
   selector: 'app-fee-structure-home',
   templateUrl: './fee-structure-home.component.html',
   styleUrls: ['./fee-structure-home.component.scss']
 })
 export class FeeStructureHomeComponent implements OnInit {
-  isProfessional: boolean = false;
+  isLangInstitute: boolean = false;
+  feeInstalllmentArr: Array<any> = [];
   countryAdditioalFeeTypes: any = {};
   source: any[] = [];
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
   isEditFee: boolean = false;
-  selectedCountry:any;
+  selectedCountry: any;
   feeStructure: any;
   installmentList: any = [];
   otherInstList: any = [];
@@ -65,9 +66,27 @@ export class FeeStructureHomeComponent implements OnInit {
   searchText: string = '';
   addTemplatePopUp: boolean = false;
   searchDataFlag: boolean = false;
-  tax_type_without_percentage : String;
+  tax_type_without_percentage: String;
   is_tax_enabled: boolean = false;
-  schoolModel:boolean = false;
+  schoolModel: boolean = false;
+  feeTypeList: any=[];
+  dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+  // months: any = ['Jan', 'Feb', 'Mar', 'Apr'];
+  months = new Map([
+    ["Jan", 1],
+    ["Feb", 2],
+    ["Mar", 3],
+    ["Apr", 4],
+    ["May", 5],
+    ["Jun", 6],
+    ["Jul", 7],
+    ["Aug", 8],
+    ["Sep", 9],
+    ["Oct", 10],
+    ["Nov", 11],
+    ["Dec", 12]
+  ]);
+  monthValue: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   constructor(
     private router: Router,
@@ -82,15 +101,15 @@ export class FeeStructureHomeComponent implements OnInit {
 
   ngOnInit() {
     this.enableTax = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");
-    this.is_tax_enabled=this.enableTax=="1"?true:false;
+    this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
+    this.is_tax_enabled = this.enableTax == "1" ? true : false;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
-          this.isProfessional = true;
+          this.isLangInstitute = true;
           this.moduleState = 'Batch';
         } else {
-          this.isProfessional = false;
+          this.isLangInstitute = false;
           this.moduleState = 'Course';
         }
       }
@@ -158,15 +177,15 @@ export class FeeStructureHomeComponent implements OnInit {
     )
   }
 
-  changesValuesAsPerType(row){
-    if(row.day_type==1){
-      row.days=0;
+  changesValuesAsPerType(row) {
+    if (row.day_type == 1) {
+      row.days = 0;
     }
   }
 
   editFee(fee) {
     this.templateName = fee.template_name;
-    this.selectedTemplate = fee;    
+    this.selectedTemplate = fee;
     this.feeStructure = [];
     this.isEditFee = true;
     this.auth.showLoader();
@@ -184,19 +203,19 @@ export class FeeStructureHomeComponent implements OnInit {
         let data = JSON.parse(encryptedData);
         if (data.length > 0) {
           data.forEach((country) => {
-            if(this.selectedTemplate.country_id==country.id){
-              this.selectedCountry=country;
+            if (this.selectedTemplate.country_id == country.id) {
+              this.selectedCountry = country;
             }
           })
         }
         this.fillDataInYTable(res.customFeeSchedules);
         // if (res.studentwise_fees_tax_applicable == "Y") {
-          if (this.enableTax == "1" &&
-            document.getElementById('checkBoxtaxes')) {
-            (document.getElementById('checkBoxtaxes') as HTMLInputElement).checked = true;
-            this.showTaxFields();
-          }
-        
+        if (this.enableTax == "1" &&
+          document.getElementById('checkBoxtaxes')) {
+          (document.getElementById('checkBoxtaxes') as HTMLInputElement).checked = true;
+          this.showTaxFields();
+        }
+
         this.totalAmountCal = res.studentwise_total_fees_amount;
       },
       err => {
@@ -246,7 +265,7 @@ export class FeeStructureHomeComponent implements OnInit {
   }
 
   updateFeeTemplate() {
-    let taxApplicable:any  = (document.getElementById('checkBoxtaxes') as HTMLInputElement).checked;
+    let taxApplicable: any = (document.getElementById('checkBoxtaxes') as HTMLInputElement).checked;
     if (taxApplicable == true) {
       taxApplicable = "Y";
     } else {
@@ -609,7 +628,6 @@ export class FeeStructureHomeComponent implements OnInit {
     this.calculateTotalAmount();
   }
 
-
   // pagination functions
 
   fetchTableDataByPage(index) {
@@ -617,12 +635,10 @@ export class FeeStructureHomeComponent implements OnInit {
     let startindex = this.displayBatchSize * (index - 1);
     this.tabkeList = this.getDataFromDataSource(startindex);
   }
-
   fetchNext() {
     this.PageIndex++;
     this.fetchTableDataByPage(this.PageIndex);
   }
-
   fetchPrevious() {
     if (this.PageIndex != 1) {
       this.PageIndex--;
@@ -639,7 +655,6 @@ export class FeeStructureHomeComponent implements OnInit {
     }
     return data;
   }
-
   searchInList() {
     if (this.searchText.trim() != "" && this.searchText.trim() != null) {
       let searchData = this.source.filter(item =>
@@ -657,8 +672,6 @@ export class FeeStructureHomeComponent implements OnInit {
       this.totalRow = this.source.length;
     }
   }
-
-  ////Delete Fee Structure
 
   deleteFeeStructure(fee) {
     let is_archived = "N";
@@ -699,10 +712,8 @@ export class FeeStructureHomeComponent implements OnInit {
       )
     }
   }
-
-  // for showing students assigned to the particular fee template
-
   studentsAssigned(fee) {
+    debugger
     if (fee.studentList != null) {
       this.addTemplatePopUp = true;
       this.studentList = fee.studentList;
@@ -712,9 +723,51 @@ export class FeeStructureHomeComponent implements OnInit {
       this.addTemplatePopUp = false;
     }
   }
-
   closeTemplatePopup() {
     this.addTemplatePopUp = false;
   }
-
+  editFeeStructure(fee) {
+    debugger
+    $("#editFeeStructureModel").show();
+    this.getInstituteFeeTypes();
+    this.templateName = fee.template_name;
+   // this.selectedTemplate = fee;
+    this.feeStructure = [];
+    this.auth.showLoader();
+    this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.feeStructure = res;
+        if (this.feeStructure.customFeeSchedules != null) {
+          for (let data of this.feeStructure.customFeeSchedules) {
+            let installmentData: any = {
+              installment_no: 1,
+              fee_type_id: data.fee_type,
+              month: data.month,
+              day: data.days,
+              fee_amount: data.fees_amount,
+              day_type: data.day_type
+            }
+            this.feeInstalllmentArr.push(installmentData);
+          }
+        }
+      })
+  }
+  getInstituteFeeTypes() {
+    debugger
+    this.auth.showLoader();
+    this.fetchService.getAllFeeType().subscribe(
+      res => {
+        this.auth.hideLoader();
+        this.feeTypeList = res;
+      },
+      err => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', err.error.message);
+      }
+    )
+  }
+  closePopUp(){
+    $("#editFeeStructureModel").hide();
+  }
 }

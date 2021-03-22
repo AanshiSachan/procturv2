@@ -13,7 +13,21 @@ import CommonUtils from '../../../../../utils/commonUtils';
 })
 export class FeeStructureAddEditComponent implements OnInit {
   dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  months: any = ['Jan', 'Feb', 'Mar', 'Apr'];
+  // months: any = ['Jan', 'Feb', 'Mar', 'Apr'];
+  months = new Map([
+    ["Jan", 1],
+    ["Feb", 2],
+    ["Mar", 3],
+    ["Apr", 4],
+    ["May", 5],
+    ["Jun", 6],
+    ["Jul", 7],
+    ["Aug", 8],
+    ["Sep", 9],
+    ["Oct", 10],
+    ["Nov", 11],
+    ["Dec", 12]
+  ]);
   monthValue: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   feeInstalllmentArr: Array<any> = [];
   newInstallment: any = {};
@@ -42,8 +56,8 @@ export class FeeStructureAddEditComponent implements OnInit {
   defultFeeTypes: number = -1;
   showMonthDropDown: boolean = false;
   defultCountryId: number = -1;
-  totalFeeAmount: number=0;
-  currencySymbol:any="Rs ";
+  totalFeeAmount: number = 0;
+  currencySymbol: any = "Rs ";
   constructor(private apiService: FeeStrucService,
     private route: Router,
     private auth: AuthenticatorService,
@@ -93,8 +107,8 @@ export class FeeStructureAddEditComponent implements OnInit {
         if (data.is_default == "Y") {
           this.defultCountryId = data.id;
           this.addNewTemplate.country_id = data.id;
-          if(data.id==1){
-          this.currencySymbol=data.currency_code
+          if (data.id == 1) {
+            this.currencySymbol = data.currency_code
           }
           break;
         }
@@ -136,7 +150,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       fee_amount: this.feeInstalllmentArr[i].fee_amount,
       day_type: this.feeInstalllmentArr[i].day_type
     };
-    this.totalFeeAmount=this.totalFeeAmount+Number(this.feeInstalllmentArr[i].fee_amount);
+    this.totalFeeAmount = this.totalFeeAmount + Number(this.feeInstalllmentArr[i].fee_amount);
     this.feeInstalllmentArr.push(this.newInstallment);
   }
   deleteInstallment(index) {
@@ -144,7 +158,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       this.commonService.showErrorMessage('info', '', "You can't delete!");
       return false;
     } else {
-      this.totalFeeAmount=this.totalFeeAmount-Number(this.feeInstalllmentArr[index].fee_amount);
+      this.totalFeeAmount = this.totalFeeAmount - Number(this.feeInstalllmentArr[index].fee_amount);
       this.feeInstalllmentArr.splice(index, 1);
       return true;
     }
@@ -173,24 +187,21 @@ export class FeeStructureAddEditComponent implements OnInit {
     }
   }
   createFeeStructure() {
-
     debugger
-    console.log(JSON.stringify(this.feeInstalllmentArr));
-    console.log(JSON.stringify(this.addNewTemplate));
-    if(this.validateFeeStructureData()){
-      let data=this.preparedFeeStructureData();
-    this.auth.showLoader();
-    this.apiService.updateFeeTemplate(data).subscribe(
-      res => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
-       // this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
-      },
-      err => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', err.error.message);
-      }
-    )
+    if (this.validateFeeStructureData()) {
+      let data = this.preparedFeeStructureData();
+      this.auth.showLoader();
+      this.apiService.updateFeeTemplate(data).subscribe(
+        res => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
+          // this.route.navigateByUrl('/view/fee/data-setup/fee-template/home');
+        },
+        err => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
     }
   }
   validateFeeStructureData() {
@@ -234,13 +245,13 @@ export class FeeStructureAddEditComponent implements OnInit {
     for (let data of this.feeInstalllmentArr) {
       if (this.validateEachInstallment(data)) {
         let installment: any = {
-          day_type: this.schoolModel?4:data.day_type,
+          day_type: this.schoolModel ? 4 : data.day_type,
           days: data.day,
           fee_type: data.fee_type_id,
           fees_amount: data.fee_amount,
           initial_fee_amount: data.fee_amount,
-          service_tax: this.is_tax_enabled?18 :0,
-          service_tax_applicable: this.is_tax_enabled?"Y":"N",
+          service_tax: this.is_tax_enabled ? 18 : 0,
+          service_tax_applicable: this.is_tax_enabled ? "Y" : "N",
         };
         this.feeInstallments.push(installment);
       } else {
@@ -281,24 +292,24 @@ export class FeeStructureAddEditComponent implements OnInit {
     }
     return true;
   }
-  preparedFeeStructureData():any {
+  preparedFeeStructureData(): any {
     let data: any = {
       is_default: 0,
       country_id: this.addNewTemplate.country_id,
       customFeeSchedules: this.feeInstallments,
       studentwise_total_fees_amount: this.totalFeeAmount.toString(),
       studentwise_total_fees_discount: 0,
-      studentwise_fees_tax_applicable: this.is_tax_enabled?"Y":"N",
+      studentwise_fees_tax_applicable: this.is_tax_enabled ? "Y" : "N",
       template_id: 0,
       template_name: this.addNewTemplate.template_name
     };
     if (this.isLangInstitute) {
       data.course_id = '-1';
       data.subject_id = this.addNewTemplate.course_id;
-    } else if(this.schoolModel) {
+    } else if (this.schoolModel) {
       data.course_id = '-1';
       data.standard_id = this.addNewTemplate.master_course_name;
-    }else{
+    } else {
       data.course_id = this.addNewTemplate.course_id;
     }
     return data;
