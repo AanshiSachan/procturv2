@@ -72,16 +72,16 @@
         </select>
       </div>
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode =='3'">
-        <label for="account-name">Transaction Id <span class="danger">*</span></label>
-        <input type="text" class="form-ctrl" name="trans-id" id="trans-id" [(ngModel)]="paymentDetails.transacId"
-          placeholder="Enter Transaction Id">
+        <label for="trans-id">Transaction Id <span class="danger">*</span></label>
+        <input type="text" class="form-ctrl" value="" name="transacId" id="trans-id"
+          [(ngModel)]="paymentDetails.transacId" placeholder="Enter Transaction Id">
 
       </div>
 
 
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode =='1'">
-        <label for="account-name">Cheque Number <span class="danger">*</span></label>
-        <input type="text" class="form-ctrl" name="Cheque-number" id="Cheque-number"
+        <label for="Cheque-number">Cheque Number <span class="danger">*</span></label>
+        <input type="text" class="form-ctrl" value="" name="ChequeNumber" id="Cheque-number"
           [(ngModel)]="paymentDetails.ChequeNumber" placeholder="Enter Cheque Number">
 
       </div>
@@ -206,15 +206,18 @@
 
 
 
-          <div class="account-value-item" *ngIf="item.payment_mode =='3'">
-            <span title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-' : (item.transaction_id.length > 20) ?
+          <div class="account-value-item">
+            <span title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-'
+              :
+              (item.transaction_id.length > 20) ?
               (item.transaction_id | slice:0:20) + '...' : item.transaction_id}}</span>
           </div>
 
 
 
-          <div class="account-value-item" *ngIf="item.payment_mode =='1'">
-            <span title="{{item?.ChequeNumber}}">{{ (!item.cheque_number) ? '-' : (item.cheque_number.length > 20) ?
+          <div class="account-value-item">
+            <span title="{{item?.ChequeNumber}}">{{ (!item.cheque_number) ? '-' :
+              (item.cheque_number.length > 20) ?
               (item.cheque_number | slice:0:20) + '...' : item.cheque_number}}</span>
           </div>
 
@@ -232,7 +235,8 @@
             <span> Rs.{{item.amount}}</span>
           </div>
           <div class="account-value-item">
-            <i class="fa fa-times remove-icon" aria-hidden="true" (click)="removeItem(item.itemName)"
+            <i class="fa fa-times remove-icon" aria-hidden="true"
+              [ngStyle]="{cursor: !jsonFlag.isAuthoriseUser ? 'no-drop':'pointer'}" (click)="removeItem(item.itemName)"
               title="Remove Item"></i>
           </div>
         </div>

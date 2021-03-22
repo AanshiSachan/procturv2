@@ -212,7 +212,7 @@
 
 
           <div class="account-value-item">
-            <span *ngIf="item.payment_mode =='3'" title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-' :
+            <span title="{{item?.transaction_id}}">{{ (!item.transaction_id) ? '-' :
               (item.transaction_id.length > 20) ?
               (item.transaction_id | slice:0:20) + '...' : item.transaction_id}}</span>
           </div>
@@ -220,7 +220,7 @@
 
 
           <div class="account-value-item">
-            <span *ngIf="item.payment_mode =='1'" title="{{item?.cheque_number}}">{{ (!item.cheque_number) ? '-' :
+            <span title="{{item?.cheque_number}}">{{ (!item.cheque_number) ? '-' :
               (item.cheque_number.length > 20) ?
               (item.cheque_number | slice:0:20) + '...' : item.cheque_number}}</span>
           </div>
