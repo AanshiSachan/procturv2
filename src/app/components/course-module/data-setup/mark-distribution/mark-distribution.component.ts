@@ -105,7 +105,7 @@ export class MarkDistributionComponent implements OnInit {
 
   getStaticPageData() {
     this.auth.showLoader();
-    this.httpService.getData('/api/v1/courseExamSchedule/fetch-marks-distribution/' + sessionStorage.getItem('institute_id')).subscribe(
+    this.httpService.getData('/api/v1/courseExamSchedule/fetch-marks-distribution/' + sessionStorage.getItem('institute_id') + '?is_used=true').subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.staticPageDataSouece = res.result;
@@ -150,6 +150,7 @@ export class MarkDistributionComponent implements OnInit {
 
   editRow(object) {
     console.log(object);
+    if(!object.data.is_used) {
     this.isDistributionUpdate = true;
     this.addDistributionModel.marks_distribution_name = object.data.marks_distribution_name;
     this.addDistributionModel.marks_value_percent = object.data.marks_value_percent;
@@ -157,6 +158,9 @@ export class MarkDistributionComponent implements OnInit {
     this.addDistributionModel.is_active = object.data.is_active;
     this.addDistributionModel.marks_distribution_id = object.data.marks_distribution_id;
     $('#addExamType').modal('show');
+    } else {
+      this.msgService.showErrorMessage('error','','Mark Distribution is already used. So we cannot Edit it');
+    }
   }
 
   inputValidationCheck() {
@@ -225,6 +229,7 @@ export class MarkDistributionComponent implements OnInit {
   }
 
   deleteRow(obj) {
+    if(!obj.data.is_used) {
     if (confirm('Are you Sure, you want to Delete Mark Distribution?')) {
       this.auth.showLoader();
       this.httpService.deleteDataById('/api/v1/courseExamSchedule/delete-marks-distribution/' + obj.data.marks_distribution_id).subscribe(
@@ -238,5 +243,8 @@ export class MarkDistributionComponent implements OnInit {
         }
       );
     }
+  } else {
+    this.msgService.showErrorMessage('error','','Mark Distribution is already used. So we cannot delete it');
+  }
   }
 }
