@@ -82,7 +82,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     let currentURL = window.location.href;
     if (currentURL.includes('add-income')) {
       this.sectionName = 'Add';
-      this.jsonFlag.isAuthoriseUser = true;
+      this.jsonFlag.isAuthoriseUser = true
 
     }
     else {
@@ -197,7 +197,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
             remarks: this.editIncomeDetails.itemList[index].remarks,
             cheque_number: this.editIncomeDetails.itemList[index].cheque_number,
             transaction_id: this.editIncomeDetails.itemList[index].transaction_id,
-            payment_mode: this.editIncomeDetails.paying_mode
+            payment_mode: this.editIncomeDetails.itemList[index].payment_mode
 
           }
           this.addedItemList.push(obj)
@@ -262,6 +262,9 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
             this.accountDetails.quantity = 1;
             this.accountDetails.amount = 0;
             this.accountDetails.remarks = '';
+            this.paymentDetails.paymentmode = '-1';
+            this.paymentDetails.transacId = '';
+            this.paymentDetails.ChequeNumber = ''
           }
 
           else {

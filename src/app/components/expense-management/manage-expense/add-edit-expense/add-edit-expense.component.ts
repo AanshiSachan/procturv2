@@ -191,7 +191,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
         this.paymentDetails.payeeName = this.editExpenseDetails.party_id;
         this.paymentDetails.accountName = this.editExpenseDetails.account_id;
         this.paymentDetails.paymentDate = this.editExpenseDetails.payment_date;
-        this.paymentDetails.paymentmode = this.editExpenseDetails.paying_mode;
+        this.paymentDetails.paymentmode = this.editExpenseDetails.payment_mode;
 
         this.totalAmount = this.editExpenseDetails.amount;
 
@@ -207,7 +207,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
             remarks: this.editExpenseDetails.itemList[index].remarks,
             cheque_number: this.editExpenseDetails.itemList[index].cheque_number,
             transaction_id: this.editExpenseDetails.itemList[index].transaction_id,
-            payment_mode: this.editExpenseDetails.paying_mode
+            payment_mode: this.editExpenseDetails.itemList[index].payment_mode
 
 
 
@@ -277,6 +277,9 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
             this.accountDetails.quantity = 1;
             this.accountDetails.amount = 0;
             this.accountDetails.remarks = '';
+            this.paymentDetails.transacId = '';
+            this.paymentDetails.ChequeNumber = '';
+            this.paymentDetails.paymentmode = '-1'
           }
 
           else {
