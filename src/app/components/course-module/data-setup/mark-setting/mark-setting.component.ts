@@ -71,33 +71,36 @@ export class MarkSettingComponent implements OnInit {
     }
   }
 
-  fetchSettingByMarkType(calltype, mark_type) {    
-      this.auth.showLoader();
-      let url = '/api/v1/courseExamSchedule/fetch-marks-setting/' + sessionStorage.getItem('institute_id');
-      if(calltype == 'onChange') {
-        url = '/api/v1/courseExamSchedule/fetch-marks-setting/' + sessionStorage.getItem('institute_id') + '?marks_type='+mark_type;
-      }
-      this.httpService.getData(url).subscribe(
-        (res: any) => {
-          this.auth.hideLoader();
+  fetchSettingByMarkType(calltype, mark_type) {
+    this.auth.showLoader();
+    let url = '/api/v1/courseExamSchedule/fetch-marks-setting/' + sessionStorage.getItem('institute_id');
+    if (calltype == 'onChange') {
+      url = '/api/v1/courseExamSchedule/fetch-marks-setting/' + sessionStorage.getItem('institute_id') + '?marks_type=' + mark_type;
+    }
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        if (res.result) {
           this.model.mark_type = res.result.mark_type;
-          if (this.model.mark_type == 1 || this.model.mark_type == 4 || this.model.mark_type == 5 || this.model.mark_type == 6) {
-            this.getStandard();
-          } else if (this.model.mark_type == 2 || this.model.mark_type == 3) {
-            this.makeExamWiseArray();
-          }
-          this.setSettingData(res);
-        },
-        (err: any) => {
-          this.auth.hideLoader();
-          this.msgService.showErrorMessage('error', '', err.error.message);
         }
-      );
+        if (this.model.mark_type == 1 || this.model.mark_type == 4 || this.model.mark_type == 5 || this.model.mark_type == 6) {
+          this.getStandard();
+        } else if (this.model.mark_type == 2 || this.model.mark_type == 3) {
+          this.makeExamWiseArray();
+        }
+        this.setSettingData(res);
+      },
+      (err: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('error', '', err.error.message);
+      }
+    );
   }
 
 
   setSettingData(obj) {
-    switch (this.model.mark_type) {
+    let mark_type = Number(this.model.mark_type);
+    switch (mark_type) {
       case 0: {
         this.setSettingForGlobalWise(obj);
         break;
@@ -337,7 +340,8 @@ export class MarkSettingComponent implements OnInit {
   }
 
   checkInputValidation() {
-    switch (this.model.mark_type) {
+    let obj = Number(this.model.mark_type);
+    switch (obj) {
       case 0: {
         return this.checkForGlobalWise();
       }
