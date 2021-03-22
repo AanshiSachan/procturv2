@@ -57,7 +57,7 @@
             </div>
 
             <div class="payee-item field-wrapper">
-              <label for="">Account Number<span class="danger" *ngIf="accountDetails.valuType !== '1'">*</span></label>
+              <label for="">Account Number<span class="danger" *ngIf="accountDetails.valuType == '0'">*</span></label>
               <input type="text" name="" value="" [(ngModel)]="accountDetails.accountNumber"
                 placeholder="Enter Account Number" class="form-ctrl">
             </div>

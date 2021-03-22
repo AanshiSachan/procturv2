@@ -193,7 +193,7 @@ export class AddEditAccountComponent implements OnInit {
       return;
     }
 
-    if (this.accountDetails.accountNumber == '' && this.accountDetails.valuType !== '1') {
+    if (this.accountDetails.accountNumber == '' && this.accountDetails.valuType == '0') {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
       return
     }
