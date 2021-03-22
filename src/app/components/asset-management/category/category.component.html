@@ -1,9 +1,11 @@
 <div class="page-content">
     <div class="page_heading">
         <div class="w98 tab">
+            <div style="margin-bottom: 20px;">
             <span *ngIf="is_asset" class="asset-title">Assets</span>
             <span *ngIf="is_asset_cat" class="asset-title">Asset Category</span>
-            <div>
+        </div>
+           
             <span class="tab1" [ngClass]="is_asset ? 'inactive' : 'active' ">
                 <b
                     (click)="toggle(false)">Asset
@@ -14,7 +16,7 @@
 
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforcat"
                     *ngIf="is_asset_cat" (click)="cancel(false)">Add
-                    Asset Category</button></span>
+                     Category</button></span>
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforasset"
                     *ngIf="is_asset" (click)="cancel(false)">Add
                     Asset</button></span>
@@ -26,11 +28,17 @@
         <div class="padding1">
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()" *ngIf="is_asset">
-            <span class="right">
-                <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
-                <a href=""><img src="assets/images/assets/Group353.svg" class="mr10"></a>
-                <a href=""><img src="assets/images/assets/2.svg" class="mr10"></a>
-                <a href=""><img src="assets/images/assets/document.svg" class="mr10"></a>
+            <span class="rights" *ngIf="is_asset">
+                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <a  (click)="assetExportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
+                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
+                <a (click)="assetDownloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
+            </span>
+            <span class="rights" *ngIf="is_asset_cat">
+                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
+                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
+                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
             </span>
         </div>
 
@@ -61,13 +69,12 @@
         <div class="modal-dialog">
             <div class="modal-content" style="height: 250px;">
                 <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
-                    <h4 class="title-model"> Assets Category</h4>
+                   <h4 class="title-model"> Assets Category</h4>
                     <form id="form1" #assetcat="ngForm" autocomplete="off">
                         <div ngModelGroup="categoryDetails" #categoryDetails='ngModelGroup'>
                             <div class="form-group" [class.has-error]="categoryCode.invalid && categoryCode.touched">
                                 <input type="text" class="form-control" name="category_code" id="category_code"
-                                    placeholder="Category ID *" [(ngModel)]="category_model.category_code"
+                                    placeholder="Code *" [(ngModel)]="category_model.category_code"
                                     #categoryCode="ngModel" required>
                             </div>
                             <span class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
@@ -75,20 +82,20 @@
                             </span>
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
                                 <input type="text" class="form-control" name="category_name" id="category_name"
-                                    placeholder="Category Name*" [(ngModel)]="category_model.category_name"
+                                    placeholder=" Name*" [(ngModel)]="category_model.category_name"
                                     #categoryNmae="ngModel" required>
                             </div>
                             <span class="help-block" *ngIf="!categoryDetails.valid && categoryDetails.touched">
                                 Category name mandatory.
                             </span>
                         </div>
-                        <div style="margin-top: 10px;">
-                            <span class="right"> <button type="button" class="btns blue_button cancel"
+                        <div style="text-align: center;">
+                            <span > <button type="button" class="btns blue_button cancel"
                                     data-dismiss="modal" (click)="cancel()">cancel</button></span>
-                            <span class="right"> <button type="submit" class="btns blue_button"
+                            <span > <button type="submit" class="btns blue_button"
                                     (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">
                                     Add Category</button></span>
-                            <span class="right"> <button type="submit" class="btns blue_button" *ngIf="isedit"
+                            <span > <button type="submit" class="btns blue_button" *ngIf="isedit"
                                     (click)="updateAssetCategory(category_model)">
                                     Update </button></span>
                         </div>
@@ -104,19 +111,18 @@
         <div class="modal-dialog">
             <div>
                 <div class="modal-bodyAseet">
-                    <h4 class="models titles" style="margin-left:20px;margin-top:25px !important;"
-                        (click)="cancel(false)"> Assets</h4>
+                    <h4 class="titleforasset" > Assets</h4>
                     <form id="form1" #assetaddForm="ngForm" autocomplete="off">
                         <div class="form-group">
                             <input type="text" class="form-control" name="asset_code" id="asset_code"
-                                placeholder="Asset ID *" [(ngModel)]="model.asset_code" #asset_code="ngModel" required>
+                                placeholder="Code*" [(ngModel)]="model.asset_code" #asset_code="ngModel" required>
                             <span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Asset ID is
                                 required</span>
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id">
-                                <option value="">Category Name*</option>
+                                <option value="-1">Category* {{model.category_id}}</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>
@@ -132,7 +138,7 @@
                         <div class="form-group">
 
                             <input type="text" class="form-control" name="quantity" id="quantity"
-                                placeholder=" Number Of Assets* " [(ngModel)]="model.quantity"
+                                placeholder="Asset Qty* " [(ngModel)]="model.quantity"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" #quantity="ngModel"
                                 required>
                             <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Number Of Assets is
@@ -142,9 +148,9 @@
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
                                 id="asset_condition" required #asset_condition="ngModel">
-                                <option value="" selected>Asset Condition*</option>
-                                <option>New</option>
-                                <option>Used</option>
+                                <option value="-1" > Condition* {{model.asset_condition}}</option>
+                                <option value="New">New</option>
+                                <option value="Used">Used</option>
                             </select>
                             <span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">asset
                                 condition mandatory</span>
@@ -173,14 +179,16 @@
                             </select>-->
 
                         <div class="form-group">
-                            <span class="right"> <button type="submit" class="btns blue_button cancel"
+                            <div style="text-align: center;">
+                            <span > <button type="submit" class="btns blue_button cancel"
                                     (click)="cancel()" data-dismiss="modal">Cancel</button></span>
-                            <span class="right"> <button type="submit" class="btns blue_button"
+                            <span > <button type="submit" class="btns blue_button"
                                     (click)="saveAssetDetails(model)" *ngIf="!isedit">Add
                                     Asset</button></span>
-                            <span class="right"> <button type="submit" class="btns blue_button"
+                            <span > <button type="submit" class="btns blue_button"
                                     (click)="updateAssetDetails(model)" *ngIf="isedit">Update
                                     Asset</button></span>
+                                </div>
                         </div>
                     </form>
                 </div>

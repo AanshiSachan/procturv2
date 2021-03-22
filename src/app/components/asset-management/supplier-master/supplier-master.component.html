@@ -11,7 +11,7 @@
         <div class="padding1">
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
-            <span class="right">
+            <span class="rights">
                 <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
                 <a href=""><img src="assets/images/assets/Group353.svg" class="mr10"></a>
                 <a href=""><img src="assets/images/assets/2.svg" class="mr10"></a>
@@ -42,7 +42,7 @@
                         <form id="form1" #addVendorForm="ngForm" autocomplete="off">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="supplier_name" id="supplier_name"
-                                    placeholder="Supplier Name* " [(ngModel)]="model.supplier_name"
+                                    placeholder="Company Name* " [(ngModel)]="model.supplier_name"
                                     #supplier_name="ngModel" required>
                                 <span class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched"> Supplier
                                     Name is
@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="email_id" id="email_id"
-                                    placeholder="Email Id * " [(ngModel)]="model.email_id" #email="ngModel"
+                                    placeholder="Email  * " [(ngModel)]="model.email_id" #email="ngModel"
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
 
                             </div>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
                                 <input type="text" class="form-control" name="mobile_no" id="mobile_no" maxlength="10"
-                                    minlength="10" placeholder=" Contact Number * " [(ngModel)]="model.mobile_no"
+                                    minlength="10" placeholder=" Mobile * " [(ngModel)]="model.mobile_no"
                                     #mobile_no="ngModel" required
                                     onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
                                 <div *ngIf="mobile_no.errors?.maxlength">
@@ -99,20 +99,20 @@
                                 </ng-multiselect-dropdown>
                             </div>
                             <div class="form-group multiselect">
-                                <ng-multiselect-dropdown placeholder="Asset Provide *" [(ngModel)]="model.asset_ids"
+                                <ng-multiselect-dropdown placeholder="Asset Provided *" [(ngModel)]="model.asset_ids"
                                     [data]="assetAllData" [settings]="moderatorSettingsforasset" name="model.asset_ids">
                                 </ng-multiselect-dropdown>
                             </div>
                         </form>
-                        <div>
-                            <span class="right"> <button type="button" class="btns blue_button cancel"
+                        <div style="text-align: center;"> 
+                            <span > <button type="button" class="btns blue_button cancel"
                                     data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
-                            <span class="right"> <button type="submit" class="btns blue_button"
+                            <span > <button type="submit" class="btns blue_button"
                                     (click)="saveVendorDetails(model)" *ngIf="!isedit">
                                     Add Vendor</button></span>
-                            <span class="right"> <button type="submit" class="btns blue_button"
+                            <span > <button type="submit" class="btns blue_button"
                                     (click)="updateVendorDetails(model)" *ngIf="isedit">
-                                    Update </button></span>
+                                    Update  Vendor</button></span>
                         </div>
                     </div>
 

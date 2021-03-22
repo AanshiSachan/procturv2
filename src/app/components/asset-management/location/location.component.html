@@ -18,15 +18,15 @@
     </div>
     <br>
     <div>
-        <div class="padding1">
+        <div class="">
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
-            <span class="right">
-                <a href=""><img src="assets/images/assets/Group354.svg" class="mr10"></a>
-                <a href="" (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
-                <a href=""><img src="assets/images/assets/2.svg" class="mr10"></a>
+               <span class="rights">
+                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
+                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
                 <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
-            </span>
+               </span>
         </div>
         <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
             [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
@@ -46,15 +46,14 @@
                 <!-- Modal content-->
                 <div class="modal-content" style="padding:20px;">
                     <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal"
-                            (click)="cancel(false)">&times;</button>
+                      
                         <h4 class="title-model" *ngIf="!isedit">Add Location</h4>
                         <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Location</h4>
                         <form id="form1" #locationaddForm="ngForm" autocomplete="off">
 
                             <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
                                 <input type="text" class="form-control" name="location_name" id="location_name"
-                                    placeholder="Location ID* " [(ngModel)]="model.location_name" #locationId="ngModel"
+                                    placeholder="Code* " [(ngModel)]="model.location_name" #locationId="ngModel"
                                     required>
                             </div>
                             <span class="help-block" *ngIf="!locationId.valid && locationId.touched">
@@ -74,14 +73,13 @@
                                     [(ngModel)]="model.location_description">
                             </textarea>
                             </div>
-                            <div>
-
-                                <span class="right"> <button type="submit" class="btns blue_button"
+                            <div style="text-align: center;">
+                                <span > <button type="button" class="btns blue_button cancel"
+                                    data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
+                                <span > <button type="submit" class="btns blue_button"
                                         (click)="saveLocationDetails(model)" *ngIf="!isedit">
                                         Add Location</button></span>
-                                <span class="right"> <button type="button" class="btns blue_button cancel"
-                                        data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
-                                <span class="right"> <button type="submit" class="btns blue_button"
+                               <span > <button type="submit" class="btns blue_button"
                                         (click)="updateLocationDetails(model)" *ngIf="isedit">
                                         Update </button></span>
                             </div>

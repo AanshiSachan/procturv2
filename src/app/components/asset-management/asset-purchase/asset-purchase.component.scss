@@ -22,6 +22,10 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+.rights{
+  float: right;
+  margin-top: 28px;
+ }
   .select{
     padding: 7px 20px;
     margin: 8px 0;
@@ -40,6 +44,7 @@
     box-sizing: border-box;
     font-weight: 500;
     vertical-align: top;
+    width:260px;
     }
   
    input:focus, select:focus,button:focus{
@@ -128,7 +133,7 @@
   .modal {
     // float: left;
     left: 30%;
-    top: 20%;
+    top: 10%;
     //transform: translate(-50%, -50%);
     height: auto;
   }
@@ -167,10 +172,10 @@
       margin-top:30px;
   }
   input{
-    margin-top:8px;
+    margin-top:20px;
   }
   select{
-    margin-top:8px;
+    margin-top:20px;
   }
   .btns{
     margin-top: 15px;
@@ -198,10 +203,10 @@
     height: 21px;
     z-index: 20;
     border-radius: 4px;
-    margin-top: 3px;
+    margin-top: 15px;
     }
     .field-wrapper{
-      margin-bottom: 8px;
+      margin-bottom: 20px;
       height: 31px;
       border-radius: 4px;
       input {

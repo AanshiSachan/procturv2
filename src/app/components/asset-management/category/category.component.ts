@@ -5,6 +5,8 @@ import { ProductService } from '../../../services/products.service';
 import { AuthenticatorService } from '../../../services/authenticator.service'
 import { AssetModel } from '../asset-model';
 import { ObjectUnsubscribedError } from 'rxjs';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
+import { ExcelService } from '../../../services/excel.service';
 declare var $;
 @Component({
   selector: 'app-category',
@@ -19,6 +21,8 @@ export class CategoryComponent implements OnInit {
     private httpService: ProductService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
+    private _pdfService: ExportToPdfService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -57,12 +61,12 @@ export class CategoryComponent implements OnInit {
         primary_key: 'id',
         value: "#",
         charactLimit: 25,
-        sorting: false,
+        sorting: true,
         visibility: true
       },
       {
         primary_key: 'asset_code',
-        value: " Asset ID",
+        value: "Asset ID",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -83,14 +87,14 @@ export class CategoryComponent implements OnInit {
       },
       {
         primary_key: 'quantity',
-        value: " Total Assets ",
+        value: " Asset Qty ",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
-        primary_key: 'available',
-        value: " Available Assets ",
+        primary_key: 'asset_condition',
+        value: "Condition",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -190,14 +194,14 @@ export class CategoryComponent implements OnInit {
       },
       {
         primary_key: 'category_code',
-        value: " Category ID",
+        value: " Code",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
         primary_key: 'category_name',
-        value: " Category Name ",
+        value: " Name ",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -363,9 +367,9 @@ export class CategoryComponent implements OnInit {
   @ViewChild('assetaddForm', { static: false }) assetaddForm: NgForm
   model = {
     active: true,
-    category_id: '',
+    category_id: '-1',
     asset_code: '',
-    asset_condition: '',
+    asset_condition: -1,
     location_ids: [],
     asset_name: '',
     institute_id: sessionStorage.getItem('institute_id'),
@@ -407,7 +411,7 @@ export class CategoryComponent implements OnInit {
       //this.model.location_ids = location_id;
       this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
-        this.cancel()
+       // this.cancel(false)
         this.getAssetDetails();
         $('#myModalforasset').modal('hide');
       },
@@ -537,8 +541,133 @@ export class CategoryComponent implements OnInit {
       this.staticPageData = searchData;
     }
   }
+  catDataToDownload:[];
+  exportToExcel(){
 
+    this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe(
+      (res: any) => {
+        this.auth.showLoader();
+        this.catDataToDownload = res.result.response;
+        console.log( this.catDataToDownload = res.result.response)
+        let Excelarr = [];
+        this.catDataToDownload.map(
+        (ele: any) => {
+          let json = {}
+          this.headerSetting.map((keys) => {
+            json[keys.value] = ele[keys.primary_key]
+          })
+          Excelarr.push(json);
+        }
+      )
+      this.excelService.exportAsExcelFile(
+        Excelarr,
+        'asset_category'
+      );
+       // console.log(this.locationDataforDownload)
+        this.auth.hideLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    this.auth.hideLoader();
+  }
+  
+downloadPdf(){
+  this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe(
+    (res: any) => {
+      this.catDataToDownload = res.result.response;
+      //this.auth.showLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  let arr = [];
+ 
+  this.catDataToDownload.map(
+    (ele: any) => {
+      let json = [
+        ele.category_code,
+        ele.category_name,
+     ]
+      arr.push(json);
+    })
 
+  let rows = [];
+  rows = [['Ctegory Code', ' Category Name']]
+  let columns = arr;
+  this._pdfService.exportToPdf(rows, columns, 'Category List');
+  this.auth.hideLoader();
+
+}
+assetDataToDownload:[];
+assetExportToExcel(){
+  this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+    (res: any) => {
+      this.auth.showLoader();
+      this.assetDataToDownload = res.result.response;
+      console.log( this.catDataToDownload = res.result.response)
+      let Excelarr = [];
+      this.assetDataToDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSettingForAsset.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_data'
+    );
+     // console.log(this.locationDataforDownload)
+      this.auth.hideLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  this.auth.hideLoader();
+
+}
+
+assetDownloadPdf(){
+  alert("hi")
+  this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+    (res: any) => {
+      this.assetDataToDownload = res.result.response;
+      //this.auth.showLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  let arr = [];
+ 
+  this.assetDataToDownload.map(
+    (ele: any) => {
+      let json = [
+        ele.asset_code,
+        ele.asset_condition,
+        ele.asset_name,
+        ele.category_name,
+       
+     ]
+      arr.push(json);
+    })
+
+  let rows = [];
+  rows = [['Asset Code', 'Condition',' Asset Name','Category']]
+  let columns = arr;
+  this._pdfService.exportToPdf(rows, columns, 'Asset List');
+  this.auth.hideLoader();
+}
   //cancel 
   cancel() {
     this.assetaddForm.resetForm();
@@ -553,9 +682,9 @@ export class CategoryComponent implements OnInit {
     }
     this.model = {
       active: true,
-      category_id: '',
+      category_id: '-1',
       asset_code: '',
-      asset_condition: '',
+      asset_condition: -1,
       location_ids: [],
       asset_name: '',
       institute_id: sessionStorage.getItem('institute_id'),

@@ -45,10 +45,10 @@ export class LocationComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 2;
+  displayBatchSize: number = 25;
   staticPageData: any = [];
   //table ui data
   setTableData() {
@@ -62,7 +62,7 @@ export class LocationComponent implements OnInit {
       },
       {
         primary_key: 'location_name',
-        value: " Location Id",
+        value: " Code",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -70,14 +70,14 @@ export class LocationComponent implements OnInit {
 
       {
         primary_key: 'address',
-        value: "Location Name",
+        value: "Name",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
         primary_key: 'location_description',
-        value: " Location Description",
+        value: "  Description",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -213,7 +213,7 @@ export class LocationComponent implements OnInit {
     }
   }
  cancel(param) {
-  // this.locationaddForm.resetForm();
+   this.locationaddForm.resetForm();
     this.isedit = param;
     this.model.address = '';
     this.model.location_description = '';
@@ -261,7 +261,7 @@ locationDataforDownload:[];
     this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.locationDataforDownload = res.result.response;
-        this.auth.showLoader();
+        //this.auth.showLoader();
     },
       err => {
         this.auth.hideLoader();
@@ -281,14 +281,16 @@ locationDataforDownload:[];
       })
 
     let rows = [];
-    rows = [['Location Id', 'Location Name', 'Location Description']]
+    rows = [['Code', ' Name', ' Description']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Location List');
+    this.auth.hideLoader();
   }
 //download in excel format
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
+      this.auth.showLoader();
       this.locationDataforDownload = res.result.response;
       console.log( this.locationDataforDownload = res.result.response)
       let Excelarr = [];
@@ -306,13 +308,13 @@ exportToExcel(){
       'asset_location'
     );
      // console.log(this.locationDataforDownload)
-      this.auth.showLoader();
+      this.auth.hideLoader();
   },
     err => {
       this.auth.hideLoader();
     }
     
   );
- 
+  this.auth.hideLoader();
 }
 }

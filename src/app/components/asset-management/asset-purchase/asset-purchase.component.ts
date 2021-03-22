@@ -377,7 +377,7 @@ export class AssetPurchaseComponent implements OnInit {
       }
     }
     else {
-      this.msgService.showErrorMessage('warning', "", "Vendor is not available please add vendor first ")
+      //this.msgService.showErrorMessage('warning', "", "Vendor is not available please add vendor first ")
     }
   }
   getVendorDetails() {

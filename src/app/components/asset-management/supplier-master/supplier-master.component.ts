@@ -61,7 +61,7 @@ export class SupplierMasterComponent implements OnInit {
       },
       {
         primary_key: 'supplier_name',
-        value: " Supplier Name",
+        value: " Company Name",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -75,7 +75,7 @@ export class SupplierMasterComponent implements OnInit {
       },
       {
         primary_key: 'mobile_no',
-        value: "Phone",
+        value: "Mobile",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -386,7 +386,7 @@ console.log(category_names);
     console.log(category_ids)
     for (let data in category_ids) {
       console.log(category_ids[data].id)
-      newasset.push(category_ids[data].id);
+      newassetcat.push(category_ids[data].id);
     }
     this.model.category_ids = newassetcat;
     console.log(newassetcat);

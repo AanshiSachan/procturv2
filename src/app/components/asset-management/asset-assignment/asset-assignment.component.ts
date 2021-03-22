@@ -85,13 +85,7 @@ export class AssetAssignmentComponent implements OnInit {
         sorting: true,
         visibility: true
       },
-      {
-        primary_key: 'location_name',
-        value: "Location",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+     
 
       {
         primary_key: 'quantity',
@@ -139,7 +133,7 @@ export class AssetAssignmentComponent implements OnInit {
         primary_key: 'status',
         value: "Status",
         charactLimit: 25,
-        sorting: false,
+        sorting: true,
         visibility: true
       },
       {
@@ -164,10 +158,6 @@ export class AssetAssignmentComponent implements OnInit {
 
     this.rowColumns = [
       {
-        width: "5%",
-        textAlign: "left"
-      },
-      {
         width: "10%",
         textAlign: "left"
       },
@@ -175,12 +165,13 @@ export class AssetAssignmentComponent implements OnInit {
         width: "10%",
         textAlign: "left"
       },
+      
       {
         width: "10%",
         textAlign: "left"
       },
       {
-        width: "5%",
+        width: "10%",
         textAlign: "left"
       },
       {
@@ -254,7 +245,16 @@ export class AssetAssignmentComponent implements OnInit {
         this.cancel(false);
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Requested asset quantity is more than available");
+          let data:any =[];
+        let errors;
+          data =err.error.error;
+                    console.log(data)
+                   for(let i=0;i <data.length;i++){
+                     let errs =data[i].error_message;
+                     console.log(errs);
+                  }
+                  console.log(errors)
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "asset not available to assign" );
           $('#modelforassetAssign').modal('hide');
         })
       // $('#modelforassetAssign').model('hide');
@@ -356,6 +356,7 @@ export class AssetAssignmentComponent implements OnInit {
       user_type: '',
       category_id: ''
     }
+ //  this.assetAssignmentForm.reset();
   }
   searchDatabase() {
     //alert("hi")
