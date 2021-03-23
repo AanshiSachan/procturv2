@@ -9,7 +9,7 @@
                 class="search-input searchbox form-ctrl-head search-item searchBox effect ">
 
         </form>
-        
+
     </div>
     <!--Datasetup-->
     <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
@@ -17,14 +17,16 @@
         <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
             <div class="side-section" id="datasetup">
                 <div class="side-section-item">
-                    
+
                     <span class="dropSize" (click)="routerLink('/view/course/setup/teacher/list');activeSession=null">
                         Data Setup
                     </span>
                 </div>
                 <div class="side-section-item">
 
-                    <span class="dropSize" (click)="routerLink('/view/course/create/standardlist');activeSession=null">Manage {{schoolModel?'Section':'Course'}}</span>
+                    <span class="dropSize"
+                        (click)="routerLink('/view/course/create/standardlist');activeSession=null">Manage
+                        {{schoolModel?'Section':'Course'}}</span>
 
                 </div>
                 <div class="side-section-item" *ngIf="!schoolModel" (click)="routerLink('/view/course/master-tag')">
@@ -39,8 +41,9 @@
         <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
             <div class="side-section" id="quick">
                 <div class="side-section-item">
-                    
-                    <span class="dropSize" *ngIf="!facultyAccount" (click)="routerLink('/view/students/add','setting');activeSession=null">
+
+                    <span class="dropSize" *ngIf="!facultyAccount"
+                        (click)="routerLink('/view/students/add','setting');activeSession=null">
                         Add Student
                     </span>
                 </div>
@@ -70,9 +73,11 @@
     <div style="margin-right: 8%;">
 
         <!-- DataSetup-->
-         <button class="btn" *ngIf="!facultyAccount" style="padding:0px;height: 27px;border-color:white;outline-style: none;"><img src="./assets/images/datasetup.png" title="Data Setup" alt=""
-            (click)="showSubSection('datasetup')"></button>
-        
+        <button class="btn" *ngIf="!facultyAccount"
+            style="padding:0px;height: 27px;border-color:white;outline-style: none;"><img
+                src="./assets/images/datasetup.png" title="Data Setup" alt=""
+                (click)="showSubSection('datasetup')"></button>
+
         <!-- Quick Add -->
         <a mat-button> <img src="./assets/images/sidebar/newQuickAdd.svg" title="Quick Add" alt=""
                 (click)="showSubSection('quick')">
@@ -89,8 +94,8 @@
         <!-- My Account -->
         <a mat-button style=" margin-left: -15px;"><img src="./assets/images/sidebar/myAccount.svg" title="My Account"
                 alt="" (click)="showSubSection('account')"></a>
-                <a mat-button style=" margin-left: -15px;" href="https://tawk.to/proctur" target="_blank"><img src="./assets/images/sidebar/chaticon.svg" title="Chat"
-                    alt="" ></a>
+        <a mat-button style=" margin-left: -15px;" href="https://tawk.to/proctur" target="_blank"><img
+                src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a>
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="help1">
@@ -320,25 +325,26 @@
         </section>
         <hr>
         <ul (click)="closeMenu()">
-            <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''"  (click)="toggler('lizero')" >
-                <img [src]="activeSession === 'lizero' ? './assets/images/sidemenuicon/homeIcon2.png' : './assets/images/sidemenuicon/homeIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''" (click)="toggler('lizero')">
+                <img [src]="activeSession === 'lizero' ? './assets/images/sidemenuicon/homeIcon2.png' : './assets/images/sidemenuicon/homeIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/home" class="a_link">
                     <span [ngClass]="activeSession === 'lizero' ? ' abc' : ' NavLink'">Home</span>
                 </a>
             </li>
-            <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')" >
+            <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                 <!--<img src="./assets/images/sidebar/newSideMenu/home.svg" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">-->
-                    <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidemenuicon/dashboardIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom:4px;">
+                <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidemenuicon/dashboardIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom:4px;">
                 <a routerLink="/view/dashboard" class="a_link">
                     <span [ngClass]="activeSession === 'litwelve' ? ' abc' : ' NavLink'">Dashboard</span>
                 </a>
             </li>
-            <li [ngClass] ="activeSession === 'lione' ? 'liActiveBG':'' "*ngIf="jsonFlags.isShowLead" (click)="toggler('lione')">
-                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/leadIcon2.png':'./assets/images/sidemenuicon/leadsIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'lione' ? 'liActiveBG':'' " *ngIf="jsonFlags.isShowLead"
+                (click)="toggler('lione')">
+                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/leadIcon2.png':'./assets/images/sidemenuicon/leadsIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a class="a_link">
                     <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'">Lead</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
@@ -361,7 +367,7 @@
                             <span>Enquiries</span>
                         </li>
                     </a>
-                   <!--<a routerLink="/view/leads/enquiryReport/counsellor">
+                    <!--<a routerLink="/view/leads/enquiryReport/counsellor">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowReport">
                             <span>Enquiry Report</span>
                         </li>
@@ -376,7 +382,7 @@
                             <span>Manage Campaign</span>
                         </li>
                     </a>
-                  <!-- <a routerLink="/view/leads/campaign-reports/sms-report">
+                    <!-- <a routerLink="/view/leads/campaign-reports/sms-report">
                         <li class="subMenu" *ngIf="jsonRolesFlags.isShowCampaignReport">
                             <span>Campaign Report</span>
                         </li>
@@ -388,9 +394,10 @@
                     </a> -->
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'litwo'? 'liActiveBG':''" *ngIf="jsonFlags.isShowStudent" (click)="toggler('litwo')" >
-                <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/studentIcon2.png':'./assets/images/sidemenuicon/studentIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'litwo'? 'liActiveBG':''" *ngIf="jsonFlags.isShowStudent"
+                (click)="toggler('litwo')">
+                <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/studentIcon2.png':'./assets/images/sidemenuicon/studentIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/students" class="a_link">
                     <span [ngClass]="activeSession === 'litwo' ? ' abc' : ' NavLink'">Students</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -413,9 +420,10 @@
                     </a>
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'lifour' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowFee" (click)="toggler('lifour')" >
-                <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidemenuicon/feesIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'lifour' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowFee"
+                (click)="toggler('lifour')">
+                <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidemenuicon/feesIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/fee" class="a_link">
                     <span [ngClass]="activeSession === 'lifour' ? ' abc' : ' NavLink'">Fees</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -483,16 +491,17 @@
                     </a> -->
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" *ngIf="!isLangInstitute && jsonFlags.isShowCourse" (click)="toggler('lithree')" >
-                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidemenuicon/classesIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
-                    
+            <li [ngClass]="activeSession === 'lithree' ?'liActiveBG':''"
+                *ngIf="!isLangInstitute && jsonFlags.isShowCourse" (click)="toggler('lithree')">
+                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidemenuicon/classesIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
+
                 <a routerLink="/view/course" class="a_link">
-                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">{{schoolModel ? 'Academics' : 'Class/Exam'}}</span><i
-                        class="fa fa-angle-right" aria-hidden="true"></i>
+                    <span [ngClass]="activeSession === 'lithree' ? ' abc' : ' NavLink'">{{schoolModel ? 'Academics' :
+                        'Class/Exam'}}</span><i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:25%;">
-                   <a routerLink="/view/course/setup/teacher/list">
+                    <a routerLink="/view/course/setup/teacher/list">
                         <li class="subMenu">
                             <span>Setup</span>
                         </li>
@@ -529,16 +538,16 @@
                     </a> -->
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" *ngIf="schoolModel" (click)="toggler('liExam')" >
-                <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidemenuicon/classesIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
-                    
+            <li [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" *ngIf="schoolModel" (click)="toggler('liExam')">
+                <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidemenuicon/classesIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
+
                 <a routerLink="/view/exams/schedule" class="a_link">
                     <span [ngClass]="activeSession === 'liExam' ? ' abc' : ' NavLink'">Exams</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:25%;">
-                   <a routerLink="/view/course/setup/exam-type">
+                    <a routerLink="/view/course/setup/exam-type">
                         <li class="subMenu">
                             <span>Setup</span>
                         </li>
@@ -560,9 +569,9 @@
                     </a>
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')" >
-                <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')">
+                <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a>
                     <span [ngClass]="activeSession === 'liforteen' ? ' abc' : ' NavLink'">Content Library</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
@@ -578,16 +587,17 @@
                             <span>File/Doc. Manager</span>
                         </li>
                     </a>
-                   
-                   
+
+
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowLiveclass" (click)="toggler('lifive');">
-                <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" *ngIf="jsonFlags.isShowLiveclass"
+                (click)="toggler('lifive');">
+                <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/live-classes" class="a_link">
                     <span [ngClass]="activeSession === 'lifive' ? ' abc' : ' NavLink'">Live Class</span><i
-                    class="fa fa-angle-right" aria-hidden="true"></i>
+                        class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top: 45%;">
                     <a routerLink="/view/live-classes" (click)="setLiveClassType('1')">
@@ -603,8 +613,8 @@
                 </ul>
             </li>
 
-           
-            <li *ngIf="isLangInstitute && jsonFlags.isShowCourse" (click)="toggler('lithree')" >
+
+            <li *ngIf="isLangInstitute && jsonFlags.isShowCourse" (click)="toggler('lithree')">
                 <img src="./assets/images/sidebar/newSideMenu/course.svg" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/batch">
@@ -670,9 +680,9 @@
                 </ul>
             </li>
 
-            <li [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''" (click)="toggler('liManageUser')" >
-                <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''" (click)="toggler('liManageUser')">
+                <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a>
                     <span [ngClass]="activeSession === 'liManageUser' ? ' abc' : ' NavLink'">Users</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
@@ -693,12 +703,12 @@
                             <span>Leave</span>
                         </li>
                     </a>
-                   
+
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')" >
-                <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')">
+                <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a>
                     <span [ngClass]="activeSession === 'liTeachers' ? ' abc' : ' NavLink'">Teachers</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
@@ -709,7 +719,7 @@
                             <span>Manage</span>
                         </li>
                     </a>
-                    <a routerLink="/view/course/setup/teacher/list">
+                    <a routerLink="/view/manage/attendance/mark-attendance">
                         <li class="subMenu">
                             <span>Attendance</span>
                         </li>
@@ -719,24 +729,25 @@
                             <span>Leave</span>
                         </li>
                     </a>
-                   
+
                 </ul>
             </li>
-           
-            <li [ngClass]=" activeSession === 'lisix'?'liActiveBG':''"*ngIf="jsonCommunicateFlags.communicateMenu" (click)="toggler('lisix')">
-                <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidemenuicon/communicateIcon2.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+
+            <li [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" *ngIf="jsonCommunicateFlags.communicateMenu"
+                (click)="toggler('lisix')">
+                <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidemenuicon/communicateIcon2.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/communicate" class="a_link">
                     <span [ngClass]="activeSession === 'lisix' ? ' abc' : ' NavLink'">Communicate</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:50%">
-                  <a routerLink="/view/communicate/sms">
+                    <a routerLink="/view/communicate/sms">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showSMSReport">
                             <span>SMS Report</span>
                         </li>
                     </a>
-                   <a routerLink="/view/communicate/email">
+                    <a routerLink="/view/communicate/email">
                         <li class="subMenu" *ngIf="jsonCommunicateFlags.showEmailReport">
                             <span>Email Report</span>
                         </li>
@@ -753,10 +764,11 @@
                     </a>
                 </ul>
             </li>
-            <li [ngClass]="activeSession === 'lieight' ?'liActiveBG':''" *ngIf="jsonEstoreFlags.isEstoreMenu" (click)="toggler('lieight')" >
-                <img [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidemenuicon/estoreIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
-                <a class="a_link"  routerLink="/view/e-store/home">
+            <li [ngClass]="activeSession === 'lieight' ?'liActiveBG':''" *ngIf="jsonEstoreFlags.isEstoreMenu"
+                (click)="toggler('lieight')">
+                <img [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidemenuicon/estoreIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
+                <a class="a_link" routerLink="/view/e-store/home">
                     <span [ngClass]="activeSession === 'lieight' ? ' abc' : ' NavLink'">Store</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
@@ -766,7 +778,7 @@
                             <span>Manage Product</span>
                         </li>
                     </a>
-                   <a routerLink="/view/e-store/registered-user">
+                    <a routerLink="/view/e-store/registered-user">
                         <li class="subMenu" *ngIf="jsonEstoreFlags.isRegisterUser">
                             <span>Registered Users</span>
                         </li>
@@ -785,41 +797,46 @@
                     <span [ngClass]="activeSession === 'liwebsiteConf' ? ' abc' : ' NavLink'">Website/ App</span>
                 </a>
             </li>
-            <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
+            <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''"
+                *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')">
                 <!--<img src="./assets/images/sidebar/newSideMenu/home.svg" alt="" class="sideBar_centerAlign"
                     style="width: 20px;padding-bottom: 4px;">-->
-                    <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidemenuicon/onlineassignmentIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom:4px;">
+                <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidemenuicon/onlineassignmentIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom:4px;">
                 <a routerLink="/view/course/online-assignment">
-                    <span [ngClass]="activeSession === 'lithirteen' ? ' abc' : ' NavLink'" style="padding:2px;">Assignment</span>
+                    <span [ngClass]="activeSession === 'lithirteen' ? ' abc' : ' NavLink'"
+                        style="padding:2px;">Assignment</span>
                 </a>
             </li>
-            <li [ngClass]="activeSession === 'liseven' ?'liActiveBG':''" *ngIf="jsonFlags.isShowLibrabry" (click)="toggler('liseven')">
-                <img [src]="activeSession === 'liseven' ? './assets/images/sidemenuicon/libraryIcon2.png':'./assets/images/sidemenuicon/libraryIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'liseven' ?'liActiveBG':''" *ngIf="jsonFlags.isShowLibrabry"
+                (click)="toggler('liseven')">
+                <img [src]="activeSession === 'liseven' ? './assets/images/sidemenuicon/libraryIcon2.png':'./assets/images/sidemenuicon/libraryIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/library/issue" class="a_link">
                     <span [ngClass]="activeSession === 'liseven' ? ' abc' : ' NavLink'">Library</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
                 <ul style="top:77%">
-                       <a routerLink="/view/library/issue">
-                           <li class="subMenu">
-                               <span>Setup</span>
-                           </li>
-                       </a>
-                   </ul>
+                    <a routerLink="/view/library/issue">
+                        <li class="subMenu">
+                            <span>Setup</span>
+                        </li>
+                    </a>
+                </ul>
             </li>
-           
-            <li [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
-                <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidemenuicon/onlinexamIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+
+            <li [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam"
+                (click)="toggler('linine')">
+                <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidemenuicon/onlinexamIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/online-exam" class="a_link">
                     <span [ngClass]="activeSession === 'linine' ? ' abc' : ' NavLink'">Online Exam</span>
                 </a>
             </li>
-            <li [ngClass] ="activeSession === 'liten'?'liActiveBG':''"*ngIf="jsonFlags.isShowExpense" (click)="toggler('liten')" >
-                <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidemenuicon/expensesIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            <li [ngClass]="activeSession === 'liten'?'liActiveBG':''" *ngIf="jsonFlags.isShowExpense"
+                (click)="toggler('liten')">
+                <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidemenuicon/expensesIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/expense" class="a_link">
                     <span [ngClass]="activeSession === 'liten' ? ' abc' : ' NavLink'">Expenses</span><i
                         class="fa fa-angle-right" aria-hidden="true"></i>
@@ -840,38 +857,40 @@
                             <span>Manage Income</span>
                         </li>
                     </a>
-                 <!--  <a routerLink="/view/expense/report">
+                    <!--  <a routerLink="/view/expense/report">
                         <li class="subMenu">
                             <span>Report</span>
                         </li>
                     </a>-->
                 </ul>
-            </li>        
-            <li [ngClass]= "activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
-                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="" class="sideBar_centerAlign"
-                    style="width: 20px;padding-bottom: 4px;">
+            </li>
+            <li [ngClass]="activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
+                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'"
+                    alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
                 <a routerLink="/view/reports/list">
-                <span [ngClass]="activeSession === 'lieleven' ? ' abc' : ' NavLink'">Reports</span>
+                    <span [ngClass]="activeSession === 'lieleven' ? ' abc' : ' NavLink'">Reports</span>
                 </a>
             </li>
         </ul>
         <div class="whatsNew" style="margin-left:17px;">
             <span data-toggle="modal" data-target="#releaseNote">What's New</span>
-            
+
         </div>
-        <div *ngIf ="jsonFlags.isShowPowerBy"><h6 style="color:white;margin-left: 12%;
-            margin-top: 10%;">Powered by Proctur 4.0 </h6></div>
+        <div *ngIf="jsonFlags.isShowPowerBy">
+            <h6 style="color:white;margin-left: 12%;
+            margin-top: 10%;">Powered by Proctur 4.0 </h6>
+        </div>
         <div class="proctur-info" style="    position: fixed;width: 100px;">
-           <!-- <a href="https://www.proctur.com/" target="_blank">-->
-               <!--<img src="https://proctur.com/assets/proctur_logo.png" alt="faqs" class="helpSection"
+            <!-- <a href="https://www.proctur.com/" target="_blank">-->
+            <!--<img src="https://proctur.com/assets/proctur_logo.png" alt="faqs" class="helpSection"
                     style="height: 50%;width: 100%;float: left;"> -->
-                   <!-- <h6 style="color:white">Powered by Proctur 4.0 </h6>-->
-           <!-- </a>-->
+            <!-- <h6 style="color:white">Powered by Proctur 4.0 </h6>-->
+            <!-- </a>-->
             <!-- <a href="https://www.proctur.com/" target="_blank"><img src="https://proctur.com/assets/proctur_logo.png"
                         alt="faqs" class="helpSection" style="height: 17px;width: 17px;"> <span
                         style="font-size: 12px;margin-left: -11px;font-weight: 100;color: grey;">Powered
                         by
-                        <strong style="font-weight: bold;color: #0084f6;">Proctur 4.0</strong></span> </a>--> 
+                        <strong style="font-weight: bold;color: #0084f6;">Proctur 4.0</strong></span> </a>-->
         </div>
 
     </div>
@@ -908,10 +927,12 @@
                             To download click on http://bit.ly/Proctur_admin
                         </li>
                         <li><span style="font-weight: 700;"> Online Assignment feature(Paid) </span><br>
-                            Assignment feature is now available where teachers can view and track status of the assignments submitted by students.
+                            Assignment feature is now available where teachers can view and track status of the
+                            assignments submitted by students.
                         </li>
                         <li><span style="font-weight: 700;"> Updated Report Menu -</span><br>
-                            Now track all reports of your institute in one place like enquiry, fees, courses, sales and other miscellaneous reports.
+                            Now track all reports of your institute in one place like enquiry, fees, courses, sales and
+                            other miscellaneous reports.
                         </li>
                         <li> <span style="font-weight: 700;"> Live chat Support -</span><br>
                             Now get instant support through live chat with our dedicated support team.
@@ -1036,7 +1057,7 @@
                         <li>
                             Pop up message is coming if students not logged in on any system.
                         </li>
-                         <li>
+                        <li>
                             Common error is shown in My Account page.
                         </li>
                         <li>

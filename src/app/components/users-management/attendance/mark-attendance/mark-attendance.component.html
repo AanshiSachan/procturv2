@@ -1,0 +1,147 @@
+<div class="page-content">
+    <div class="head_padding">
+        <div class="w98 flex head_padding1">
+            <div class="page_heading">
+                <p>Mark Attendanc</p>
+            </div>
+            <div class="info_box1"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
+                {{lastAttendanceUpdatedDate}}</div>
+            <div>
+                <span class="right">
+                    <a href="" class="mr10"><img src="../../../../../assets/img/copy.svg" title="Copy"></a>
+                    <a href="" class="mr10"><img src="../../../../../assets/img/excel.svg" title="Download Excel"
+                            (click)=" downloadToExcel()"></a>
+                    <a href="" class="mr10"><img src="../../../../../assets/img/pdf.svg" title="Download PDF"
+                            (click)="downloadPdf()"></a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="w98">
+        <div class="padding1 display">
+            <!-- <select class="select mr10 wid240">
+           <option>Role*</option>
+         </select> -->
+            <div>
+                <input type="text" class="mr10 input wid240 magnifying-glass" name="" placeholder="Search ">
+
+                <div class="field-wrapper datePickerBox">
+                    <label for="payee"></label>
+                    <input type="text" value="" id="currentDate" class="form-ctrl widgetDatepicker"
+                        [(ngModel)]="markAttendanceDetail.currentDate" style="padding: 6px;" readonly="true"
+                        name="currentDate" placeholder="Date" (ngModelChange)="checkFututreDate($event)" bsDatepicker />
+                </div>
+                <!--  <button class="blue_button">Search</button> -->
+            </div>
+
+            <div class="attendance_blocks1">
+                <span title="Absent" class="absent "> </span>
+                <p class="top_label">Absent</p>
+                <span title="Present" class="present"></span>
+                <p class="top_label">Present</p>
+                <span title="Late Present" class="late_present "></span>
+                <p class="top_label">Late Present</p>
+                <span title="Late Present With Excuse" class="lpwe"></span>
+                <p class="top_label">Late Present With Excuse</p>
+            </div>
+
+        </div>
+        <div class="teacher_attendance">
+            <div class="table_heading">
+                <div>Name </div>
+                <div>Mobile</div>
+                <div>Email Id</div>
+                <div>Mark</div>
+                <div>View</div>
+            </div>
+            <div class="table_body" *ngFor="let item of allMarkAttendanceList ;let i=index">
+                <div><span title="{{item.name}}"> {{ (!item.name) ? '-' : (item.name.length > 20) ?
+                        (item.name | slice:0:20) + '...' : item.name}}</span></div>
+                <div> <span title="{{item.phoneNo}}">{{ (!item.phoneNo) ? '-' : (item.phoneNo.length > 20) ?
+                        (item.phoneNo | slice:0:20) + '...' : item.phoneNo}}</span></div>
+                <div> <span title="{{item.emailId}}">{{ (!item.emailId) ?'-' : (item.emailId.length > 20) ?
+                        (item.emailId | slice:0:20)+ '...' : item.emailId}}</span></div>
+                <div class="attendance_blocks">
+
+                    <span title="Absent" class="absent dull" [ngClass]="{'absent' : item.attendance_status == 'Absent'}"
+                        (click)="markAttendaceBtnClick(item,'Absent',i)">
+                        A
+                    </span>
+
+                    <span title="Present" class="present dull"
+                        [ngClass]="{'present': item.attendance_status == 'Present'}"
+                        (click)="markAttendaceBtnClick(item,'Present',i)">
+                        P
+                    </span>
+                    <span title="Late Present" class="late_present"
+                        [ngClass]="{'late_present':item.attendance_status == 'Late Present'}"
+                        (click)="markAttendaceBtnClick(item,'Late Present',i)">
+                        LP
+                    </span>
+                    <span title="Late Present With Excuse" class="lpwe"
+                        [ngClass]="{'lpwe': item.attendance_status == 'Late Present with Excuse'}"
+                        (click)="markAttendaceBtnClick(item,'Late Present with Excuse',i)">
+                        LE
+                    </span>
+
+
+                </div>
+                <div>
+                    <a routerLink="/view/manage/attendance/view-attendance"><img
+                            src="../../../../../assets/img/Group2.svg" title="View"></a>
+                </div>
+            </div>
+
+            <!-- <div>
+                <a routerLink="/view/manage/attendance/view-attendance/6"><img src="../../../assets/img/Group2.svg"
+                        title="View"></a>
+            </div> -->
+
+        </div>
+        <!-- use image only when page is empty,table body class element will not be present -->
+    </div>
+    <div class="white bottom_button bottom_pagignation">
+        <div class="w98">
+            <button class="blue_button right" data-toggle="modal" *ngIf="lastAttendanceUpdatedDate != null"
+                data-target="#myalertModal" (click)="updateMarkAttendance()">Update</button>
+            <button class="blue_button right" data-toggle="modal" *ngIf="lastAttendanceUpdatedDate == null"
+                data-target="#myalertModal" (click)="createAttendance()">Create</button>
+            <div class=" flex pagin_height">
+                <div class="w20">
+                    <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
+                </div>
+                <div class="w10">
+                    <p>Total <span>9</span> Pages</p>
+                </div>
+                <div class="w40">
+                    <p>Records per Page
+                        <select>
+                            <option>9</option>
+                        </select>
+                    </p>
+                </div>
+                <div class="w30">
+                    <span class="right">
+                        <p>Previous <a><span class="active_circle number">1</span></a> <a><span
+                                    class="number">2</span></a>
+                            <a><span class="number">3</span></a> <a><span class="next">Next</span></a>
+                        </p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="myalertModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100 text-center">Attendance Updated!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- <div class="modal-body">
+         </div> -->
+            </div>
+        </div>
+    </div>
+
+</div>

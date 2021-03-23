@@ -5,7 +5,8 @@ import { UsersManagementComponent } from './users-management.component';
 // import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { SharedModule } from '../shared/shared.module';
 import { UserManagementRouting } from './users-management.routing';
-
+import { ExcelService } from '../../services/excel.service';
+import { ExportToPdfService } from '../../services/export-to-pdf.service';
 @NgModule({
     declarations: [
         UsersManagementComponent,
@@ -19,7 +20,7 @@ import { UserManagementRouting } from './users-management.routing';
         SharedModule,
         UserManagementRouting
     ],
-    providers: []
+    providers: [ExcelService, ExportToPdfService]
 })
 
 export class UserManagementModule {
