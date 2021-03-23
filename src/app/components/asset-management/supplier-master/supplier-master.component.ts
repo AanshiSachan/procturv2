@@ -166,7 +166,6 @@ export class SupplierMasterComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
-    console.log(startindex)
     this.getDataFromDataSource(startindex);
   }
   fetchNext() {
@@ -216,8 +215,7 @@ export class SupplierMasterComponent implements OnInit {
   getCategoryDetails() {
     this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetcategoryData = res.result.response;
-      // console.log(this.assetcategoryData)
-    },
+   },
       err => {
         this.auth.hideLoader();
       })
@@ -228,10 +226,8 @@ export class SupplierMasterComponent implements OnInit {
     if (this.addVendorForm.valid) {
       let newasset = []
       let asset_ids: any = this.model.asset_ids;
-      console.log(asset_ids)
-      for (let data in asset_ids) {
-        console.log(asset_ids[data].id)
-        newasset.push(asset_ids[data].id);
+     for (let data in asset_ids) {
+       newasset.push(asset_ids[data].id);
       }
       this.model.asset_ids = newasset
       //for cat
@@ -275,7 +271,6 @@ export class SupplierMasterComponent implements OnInit {
 
     });
     var categoryselectedid = CategoryId.join();
-    console.log(categoryselectedid)
     if (categoryselectedid === undefined) {
 
     }
@@ -290,18 +285,13 @@ export class SupplierMasterComponent implements OnInit {
             for (let j = 0; j < a.length; j++) {
               temp.push(a[j]);
             }
-            // console.log(a);
           }
-          console.log(temp);
           this.assetAllData = temp;
-          console.log(this.assetAllData);
         },
         err => {
 
         })
-
-
-    }
+ }
 
   }
 
@@ -322,12 +312,10 @@ export class SupplierMasterComponent implements OnInit {
 
   editRow(object) {
     this.isedit = true;
-    console.log(object);
     this.model = object.data;
     this.model.active = object.data.active;
     this.model.address = object.data.address;
     this.model.institute_id = object.data.institute_id;
-    //this.model.asset_ids = object.model.asset_ids;
     this.model.contact_person_name = object.data.contact_person_name;
     this.model.email_id = object.data.email_id;
     this.model.mobile_no = object.data.mobile_no;
@@ -337,9 +325,7 @@ export class SupplierMasterComponent implements OnInit {
     let temp = object.data.asset_ids;
     let temp2 =object.data.category_ids;
     let asset_names = object.data.asset_names_string.split(',');
-    console.log(asset_names);
-    console.log(temp);
-    this.model.asset_ids = [];
+   this.model.asset_ids = [];
     for (let i = 0; i < temp.length; i++) {
       let obj = {
         id: '',
@@ -352,8 +338,6 @@ export class SupplierMasterComponent implements OnInit {
     }
     //category_selcet
 let category_names= object.data.category_names_string.split(',');
-console.log(temp2)
-console.log(category_names);
  this.model.category_ids = [];
  for (let i = 0; i < temp2.length; i++) {
   let obj2 = {
@@ -366,8 +350,7 @@ console.log(category_names);
  }
  
     $('#modelforvendor').modal('show');
-    console.log(this.model.asset_ids)
-  }
+ }
   // );
   // $('#modelforvendor').modal('show');
   // this.getVendorDetails();
@@ -377,29 +360,20 @@ console.log(category_names);
     if(this.addVendorForm.valid){
   let newasset = [];
     let asset_ids: any = this.model.asset_ids;
-    console.log(asset_ids)
     for (let data in asset_ids) {
-      console.log(asset_ids[data].id)
-      newasset.push(asset_ids[data].id);
+     newasset.push(asset_ids[data].id);
     }
     this.model.asset_ids = newasset;
-    console.log(newasset);
-
-    let newassetcat = [];
+   let newassetcat = [];
     let category_ids: any = this.model.category_ids;
-    console.log(category_ids)
-    for (let data in category_ids) {
-      console.log(category_ids[data].id)
+   for (let data in category_ids) {
       newassetcat.push(category_ids[data].id);
     }
     this.model.category_ids = newassetcat;
-    console.log(newassetcat);
-    let mobile_no: any = Number(this.model.mobile_no);
+   let mobile_no: any = Number(this.model.mobile_no);
     this.model.mobile_no = mobile_no;
-    // this.model.mobile_no = Number(this.model.mobile_no);
-    this.model.category_id = this.selectedvalue;
-
-    this.httpService.putMethod('api/v2/asset/supplier/update', this.model).then(() => {
+   this.model.category_id = this.selectedvalue;
+   this.httpService.putMethod('api/v2/asset/supplier/update', this.model).then(() => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Updated Successfully")
       $('#modelforvendor').modal('hide');
       this.getVendorDetails();
@@ -458,11 +432,7 @@ console.log(category_names);
   //search 
 
   searchDatabase() {
-    //alert("hi")
-    console.log(this.searchParams);
-    console.log(this.staticPageData)
-    // this.staticPageDataSouece = this.tempIncomelist;
-    if (this.searchParams == undefined || this.searchParams == null) {
+  if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
 
     }
@@ -514,8 +484,7 @@ exportToExcel(){
     (res: any) => {
       this.auth.showLoader();
       this.supplierDataforDownload= res.result.response;
-      console.log( this.supplierDataforDownload = res.result.response)
-      let Excelarr = [];
+     let Excelarr = [];
       this.supplierDataforDownload.map(
       (ele: any) => {
         let json = {}
@@ -529,8 +498,7 @@ exportToExcel(){
       Excelarr,
       'asset_vendor'
     );
-     // console.log(this.locationDataforDownload)
-      this.auth.hideLoader();
+     this.auth.hideLoader();
   },
     err => {
       this.auth.hideLoader();

@@ -41,6 +41,12 @@ export class CategoryComponent implements OnInit {
   isUpdate: boolean;
   active: boolean = false;
   activeb: boolean = true;
+  headerSettingForAsset: any;
+  tableSettingForAsset: any;
+  rowColumnForAsset: any;
+  assetAllData: any = [];
+  staticPageDataForAsset: any = [];
+  searchParams: any;
   //function for toggle view 
   toggle(param) {
     this.active = param;
@@ -50,12 +56,7 @@ export class CategoryComponent implements OnInit {
 
   }
   //TABLE CODING FOR ASSET
-  headerSettingForAsset: any;
-  tableSettingForAsset: any;
-  rowColumnForAsset: any;
-  assetAllData: any = [];
-  staticPageDataForAsset: any = [];
-  setTableDataForAsset() {
+ setTableDataForAsset() {
     this.headerSettingForAsset = [
       {
         primary_key: 'id',
@@ -117,8 +118,6 @@ export class CategoryComponent implements OnInit {
         edit: true,
         delete: true,
 
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
       },
     ],
       this.tableSettingForAsset = [
@@ -216,9 +215,7 @@ export class CategoryComponent implements OnInit {
         edit: true,
         delete: true,
 
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
-      },
+     },
     ]
 
     this.tableSetting = {
@@ -250,7 +247,6 @@ export class CategoryComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
-    console.log(startindex)
     this.getDataFromDataSource(startindex);
   }
   fetchNext() {
@@ -289,7 +285,6 @@ export class CategoryComponent implements OnInit {
   saveCategoryDetails() {
     if (this.assetcat.valid) {
       this.httpService.postMethod('api/v2/asset/category/create', this.category_model).then((res) => {
-        console.log(res);
         this.submitted = true;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Created Successfully ");
         $('#myModalforcat').modal('hide');
@@ -297,7 +292,6 @@ export class CategoryComponent implements OnInit {
       },
         err => {
           this.errordata = err.error;
-          console.log(this.errordata)
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
         }
       )
@@ -386,9 +380,7 @@ export class CategoryComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.locationData = res.result.response;
-        //console.log(this.locationData)
-
-      },
+     },
       err => {
         this.auth.hideLoader();
       }
@@ -401,17 +393,12 @@ export class CategoryComponent implements OnInit {
 
       let newasset: any = []
       let location_ids: any = this.model.location_ids;
-      console.log(location_ids)
       for (let data in location_ids) {
-        console.log(location_ids[data].id)
         newasset.push(location_ids[data].id);
       }
       this.model.location_ids = newasset
-      //var location_id = JSON.parse("[" + this.model.location_ids + "]");
-      //this.model.location_ids = location_id;
-      this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
+     this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
-       // this.cancel(false)
         this.getAssetDetails();
         $('#myModalforasset').modal('hide');
       },
@@ -436,8 +423,7 @@ export class CategoryComponent implements OnInit {
         this.assetAllData = res.result.response;
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
-        console.log(this.assetAllData)
-        this.totalRecords = res.result.total_elements;
+       this.totalRecords = res.result.total_elements;
         $('#myModalforasset').modal('hide');
         this.auth.hideLoader();
       },
@@ -461,8 +447,6 @@ export class CategoryComponent implements OnInit {
     $('#myModalforasset').modal('show');
     let temp = object.data.location_ids;
     let location_names = object.data.location_names_string.split(',');
-    console.log(location_names);
-    console.log(temp);
     this.model.location_ids = [];
     for (let i = 0; i < temp.length; i++) {
       let obj: any = {
@@ -484,10 +468,8 @@ export class CategoryComponent implements OnInit {
 
       let newasset: any = []
       let location_ids: any = this.model.location_ids;
-      console.log(location_ids)
       for (let data in location_ids) {
-        console.log(location_ids[data].id)
-        newasset.push(location_ids[data].id);
+       newasset.push(location_ids[data].id);
       }
       this.model.location_ids = newasset;
       this.httpService.putMethod('api/v2/asset/update', this.model).then(() => {
@@ -522,12 +504,7 @@ export class CategoryComponent implements OnInit {
   }
 
   //search asset
-  searchParams: any;
   searchDatabase() {
-    //alert("hi")
-    console.log(this.searchParams);
-    console.log(this.assetAllData)
-    // this.staticPageDataSouece = this.tempIncomelist;
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
@@ -548,8 +525,7 @@ export class CategoryComponent implements OnInit {
       (res: any) => {
         this.auth.showLoader();
         this.catDataToDownload = res.result.response;
-        console.log( this.catDataToDownload = res.result.response)
-        let Excelarr = [];
+       let Excelarr = [];
         this.catDataToDownload.map(
         (ele: any) => {
           let json = {}
@@ -563,7 +539,6 @@ export class CategoryComponent implements OnInit {
         Excelarr,
         'asset_category'
       );
-       // console.log(this.locationDataforDownload)
         this.auth.hideLoader();
     },
       err => {
@@ -609,8 +584,7 @@ assetExportToExcel(){
     (res: any) => {
       this.auth.showLoader();
       this.assetDataToDownload = res.result.response;
-      console.log( this.catDataToDownload = res.result.response)
-      let Excelarr = [];
+     let Excelarr = [];
       this.assetDataToDownload.map(
       (ele: any) => {
         let json = {}
@@ -624,7 +598,6 @@ assetExportToExcel(){
       Excelarr,
       'asset_data'
     );
-     // console.log(this.locationDataforDownload)
       this.auth.hideLoader();
   },
     err => {

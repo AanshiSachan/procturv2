@@ -22,7 +22,7 @@ export class LocationComponent implements OnInit {
   submitted = false;
   locationData = {
     institute_id: sessionStorage.getItem('institute_id'),
-    address: '',
+    location_code: '',
     location_description: '',
     location_name: '',
     active: true,
@@ -50,8 +50,10 @@ export class LocationComponent implements OnInit {
   totalRecords: number = 0;
   displayBatchSize: number = 25;
   staticPageData: any = [];
-  //table ui data
-  setTableData() {
+  locationDataforDownload:[];
+  searchParams: any;
+  tempLocationList = []; 
+ setTableData() {
     this.headerSetting = [
       {
         primary_key: 'id',
@@ -61,15 +63,15 @@ export class LocationComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'location_name',
-        value: " Code",
+        primary_key: 'location_code',
+        value: "Code",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
 
       {
-        primary_key: 'address',
+        primary_key: 'location_name',
         value: "Name",
         charactLimit: 25,
         sorting: true,
@@ -125,7 +127,6 @@ export class LocationComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
-    console.log(startindex)
     this.getDataFromDataSource(startindex);
   }
   fetchNext() {
@@ -154,7 +155,6 @@ export class LocationComponent implements OnInit {
       obj.active = true;
       this.httpService.postMethod('api/v2/asset/location/create', obj).then(
         (res: any) => {
-          console.log(res);
           this.submitted = true;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location Added Successfully");
           this.getLocationDetails();
@@ -191,7 +191,7 @@ export class LocationComponent implements OnInit {
     this.isedit = true;
     this.model.id = object.data.id;
     this.model.institute_id = object.data.institute_id;
-    this.model.address = object.data.address;
+    this.model.location_code = object.data.location_code;
     this.model.location_description = object.data.location_description;
     this.model.location_name = object.data.location_name;
   $('#modelforlocation').modal('show');
@@ -215,7 +215,7 @@ export class LocationComponent implements OnInit {
  cancel(param) {
    this.locationaddForm.resetForm();
     this.isedit = param;
-    this.model.address = '';
+    this.model.location_code = '';
     this.model.location_description = '';
     this.model.location_name = '';
 
@@ -237,10 +237,7 @@ export class LocationComponent implements OnInit {
       );
     }
   }
-  searchParams: any;
-  tempLocationList = [];
-
-  searchDatabase() {
+ searchDatabase() {
  if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
@@ -256,7 +253,6 @@ export class LocationComponent implements OnInit {
 
   //download pdf
 //
-locationDataforDownload:[];
   downloadPdf() {
     this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
@@ -274,7 +270,7 @@ locationDataforDownload:[];
       (ele: any) => {
         let json = [
           ele.location_name,
-          ele.address,
+          ele.location_code,
           ele.location_description,
        ]
         arr.push(json);
@@ -292,7 +288,6 @@ exportToExcel(){
     (res: any) => {
       this.auth.showLoader();
       this.locationDataforDownload = res.result.response;
-      console.log( this.locationDataforDownload = res.result.response)
       let Excelarr = [];
       this.locationDataforDownload.map(
       (ele: any) => {
@@ -307,8 +302,7 @@ exportToExcel(){
       Excelarr,
       'asset_location'
     );
-     // console.log(this.locationDataforDownload)
-      this.auth.hideLoader();
+     this.auth.hideLoader();
   },
     err => {
       this.auth.hideLoader();

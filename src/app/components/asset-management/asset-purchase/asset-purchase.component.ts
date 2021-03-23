@@ -46,10 +46,10 @@ export class AssetPurchaseComponent implements OnInit {
   ) { }
 
   model = {
-    id: '',
+   id: '',
     asset_id: '',
     supplier_id: '',
-    location_id: '',
+    //location_id: '',
     expiry_date: '',
     institute_id: sessionStorage.getItem('institute_id'),
     purchase_amount: '',
@@ -59,13 +59,13 @@ export class AssetPurchaseComponent implements OnInit {
     service_date: '',
     unit: '',
     user_type: '',
-    category_id: ''
+   category_id: '',
   }
   ngOnInit(): void {
     this.setTableData();
-    this.getCategoryDetails();
+    //this.getCategoryDetails();
     this.getPurchaseDetails();
-    this.getAssetDetails();
+   // this.getAssetDetails();
     this.getVendorDetails();
     // this.getLocationDetails();
     this.get_purchase_by();
@@ -260,12 +260,9 @@ export class AssetPurchaseComponent implements OnInit {
     this.model.id = object.data.id;
     this.isedit = true;
     this.bill_image_url = object.data.bill_image_url;
-    console.log(this.bill_image_url);
     this.model.id = object.data.id;
     this.model.asset_id = object.data.asset_id;
-    console.log(this.model.asset_id);
     this.model.supplier_id = object.data.supplier_id;
-    this.model.location_id = object.data.location_id;
     this.model.expiry_date = object.data.expiry_date;
     this.model.institute_id = object.data.institute_id;
     this.model.purchase_amount = object.data.purchase_amount;
@@ -276,12 +273,9 @@ export class AssetPurchaseComponent implements OnInit {
     this.model.unit = object.data.unit;
     this.model.user_type = object.data.user_type;
     this.model.category_id = object.data.category_id;
-    this.getassetsAndLocation(this.model.category_id);
+   // this.getassetsAndLocation(this.model.category_id);
     $('#modelforpurchase').modal('show');
-    console.log(object);
-    //sessionStorage.setItem('faqData', JSON.stringify(object.data));
-    // this.router.navigate(['view/website-configuration/faq/category/edit/' + object.data.id])
-  }
+ }
   deleteRow(obj) {
     let deleteconfirm = confirm("Are you really want to delete?");
     if (deleteconfirm == true) {
@@ -294,16 +288,14 @@ export class AssetPurchaseComponent implements OnInit {
         },
         err => {
           this.msgService.showErrorMessage('error', '', "err.response");
-          // this.msgService.showErrorMessage('error', '', err.response);
-          this.auth.hideLoader();
+         this.auth.hideLoader();
         }
       );
     }
   }
 
   searchDatabase() {
-    console.log(this.searchParams);
-    if (this.searchParams == undefined || this.searchParams == null) {
+  if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
     }
@@ -315,96 +307,70 @@ export class AssetPurchaseComponent implements OnInit {
       this.staticPageData = searchData;
     }
   }
-  getCategoryDetails() {
-    this.httpService.getMethod('api/v2/asset/category/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
-      this.assetcategoryData = res.result.response;
 
-
-    },
-      err => {
-        this.auth.hideLoader();
-      })
-
-  }
-  //get location and asset data
-
-  getassetsAndLocation(category_id) {
-    let key = this.assetcategoryData.filter(id => (id.id == category_id));
-    console.log(key);
-    let key_name = key[0].category_name;
-    this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + category_id + '&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
-      this.assetAllData = res.result[key_name];
-      // console.log('lo', this.locationAllData);
-      console.log(this.assetAllData);
-    },
-      err => {
-        this.auth.hideLoader();
-      })
-
-
-  }
-  //get
-  getLocationData(obj) {
-    // alert(obj);
-    let key = this.assetAllData.filter(id => (id.id == obj));
-    //console.log(key);
-
-    //location_ids,location_names_string
-    let location_name = key[0].location_names_string.split(',');
-    //console.log(location_name)
-    for (let i = 0; i < key[0].location_ids.length; i++) {
-      this.locationAllData.push({ 'location_id': key[0].location_ids[i], 'location_name': location_name[i] });
-    }
-
-    console.log('lo', this.locationAllData);
-  }
-  getAssetDetails() {
-    // this.httpService.getMethod('api/v2/asset/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
-    //   (res: any) => {
-    //     this.assetAllData = res.result.response;
-    //   },
-    //   err => {
-    //     this.auth.hideLoader();
-    //   }
-    // );
-  }
-
-  //
-
-  getVendorLocDependnt(obj) {
-    let key = this.assetAllData.filter(id => (id.id == obj));
-    if (key.length > 0) {
-      console.log("data available")
-      let supplier_name = key[0].supplier_names_string.split(',');
-      for (let i = 0; i < key[0].supplier_ids.length; i++) {
-
-        this.vendorAllData.push({ 'supplier_ids': key[0].supplier_ids[i], 'supplier_name': supplier_name[i] });
-      }
-    }
-    else {
-      //this.msgService.showErrorMessage('warning', "", "Vendor is not available please add vendor first ")
-    }
-  }
   getVendorDetails() {
-    this.httpService.getMethod('api/v2/asset/supplier/all?pageOffset=1&pageSize=10&instituteId=' + this.model.institute_id, null).subscribe(
+    this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        //  this.vendorAllData = res.result.response;
-      },
+        this.vendorAllData=res.result.response;
+     },
       err => {
         this.auth.hideLoader();
       }
     );
   }
+  categorydata:any =[];
+  assetalldata:any =[]
+  getCategoryData(obj){
+//  this.httpService.getMethod('api/v2/asset/supplier/assetsBySupplier/' + this.model.institute_id + '/' + obj, null).subscribe(
+//       (res: any) => {
+//         this.assetAllData=res.result.response;
+//         console.log(this.assetAllData)
+//      },
+//       err => {
+//         this.auth.hideLoader();
+//       }
+//     );
+
+console.log(obj);//id =286
+let key = this.vendorAllData.filter(id => (id.id == obj));
+   let category_name =key[0].category_names_string.split(',');
+   for (let i = 0; i < key[0].category_ids.length; i++) {
+
+    this.categorydata.push({ 'category_ids': key[0].category_ids[i], 'category_names_string': category_name[i] });
+    console.log(this.categorydata)
+    }
+
+  }
+  getassets(object){
+    //this.auth.showLoader();
+  this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + object + '&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.auth.showLoader();
+      let result = res.result;
+        let keys = Object.keys(result);
+        let temp: any = [];
+        for (let i = 0; i < keys.length; i++) {
+          let a = result[keys[i]];
+          for (let j = 0; j < a.length; j++) {
+            temp.push(a[j]);
+            this.auth.hideLoader();
+          }
+        }
+        this.assetAllData = temp;
+        this.auth.hideLoader();
+      },
+      err => {
+
+      })
+
+  }
+
   //
   get_purchase_by() {
     this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,5').subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        console.log(res)
-        this.purchaseby = res.active_users;
-        // console.log(this.purchaseby)
-      },
+      this.purchaseby = res.active_users;
+     },
       err => {
         this.auth.hideLoader();
       }
@@ -412,8 +378,7 @@ export class AssetPurchaseComponent implements OnInit {
   }
   //selected
   getUserData(obj) {
-    console.log(obj)
-    this.purchaseby.map((data) => {
+   this.purchaseby.map((data) => {
       if (obj === this.model.purchased_by_user_id) {
         this.model.user_type = data.user_type;
       }
@@ -423,7 +388,11 @@ export class AssetPurchaseComponent implements OnInit {
 
   saveAssetPurchaseData() {
     if (this.assePurchaseForm.valid) {
-      let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
+      delete(this.model.category_id);
+     if(!this.isedit){
+       delete( this.model.id);
+      }
+     let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       const formData = new FormData();
       let assetPurchaseStringDto = this.model;
       assetPurchaseStringDto.expiry_date = moment(assetPurchaseStringDto.expiry_date).format("YYYY-MM-DD")
@@ -435,8 +404,8 @@ export class AssetPurchaseComponent implements OnInit {
       }
       if (this.isedit) {
 
-        // assetPurchaseStringDto.bill_image_url = this.bill_image_url;
-      }
+    }
+    //this.isedit?this.model.id:delete(this.model.id);
       let base = this.auth.productBaseUrl;
       // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
       let urlPostXlsDocument = this.isedit ? base + "/prod/api/v2/asset/purchase/update" : base + "/prod/api/v2/asset/purchase/create";
@@ -470,7 +439,7 @@ export class AssetPurchaseComponent implements OnInit {
               this.getPurchaseDetails();
 
             } else {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
 
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
@@ -488,10 +457,9 @@ export class AssetPurchaseComponent implements OnInit {
     this.isedit = false;
     this.assePurchaseForm.resetForm();
     this.model = {
-      id: '',
+     id: '',
       asset_id: '',
       supplier_id: '',
-      location_id: '',
       expiry_date: '',
       institute_id: sessionStorage.getItem('institute_id'),
       purchase_amount: '',
@@ -547,7 +515,6 @@ exportToExcel(){
     (res: any) => {
       this.auth.showLoader();
       this.purchaseDataforDownload= res.result.response;
-      console.log( this.purchaseDataforDownload = res.result.response)
       let Excelarr = [];
       this.purchaseDataforDownload.map(
       (ele: any) => {
@@ -562,7 +529,6 @@ exportToExcel(){
       Excelarr,
       'asset_Purchase'
     );
-     // console.log(this.locationDataforDownload)
       this.auth.hideLoader();
   },
     err => {

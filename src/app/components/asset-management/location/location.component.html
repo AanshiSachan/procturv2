@@ -56,14 +56,14 @@
                                     placeholder="Code* " [(ngModel)]="model.location_name" #locationId="ngModel"
                                     required>
                             </div>
-                            <span class="help-block" *ngIf="!locationId.valid && locationId.touched">
+                          <span style="height:10px;" class="help-block" *ngIf="!locationId.valid && locationId.touched">
                                 Location id is Mandatory.
                             </span>
-                            <div class="form-group" [class.has-error]="address.invalid && address.touched">
-                                <input type="text" class="form-control" name="address" id="address"
-                                    placeholder="Location *" [(ngModel)]="model.address" #address="ngModel" required>
+                            <div class="form-group" [class.has-error]="location_code.invalid && location_code.touched">
+                                <input type="text" class="form-control" name="location_code" id="location_code"
+                                    placeholder="Location *" [(ngModel)]="model.location_code" #location_code="ngModel" required>
                             </div>
-                            <span class="help-block" *ngIf="!address.valid && address.touched">
+                            <span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
                                 Location name is mandatory
                             </span>
 
@@ -72,6 +72,8 @@
                                     id="location_description" placeholder="Description"
                                     [(ngModel)]="model.location_description">
                             </textarea>
+                            <span  style="height:10px;" ></span>
+                            
                             </div>
                             <div style="text-align: center;">
                                 <span > <button type="button" class="btns blue_button cancel"

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddEditAssetComponent } from './add-edit-asset/add-edit-asset.component';
+//import { AddEditAssetComponent } from './add-edit-asset/add-edit-asset.component';
 import { AssetAssignmentComponent } from './asset-assignment/asset-assignment.component';
 import { AssetPurchaseComponent } from './asset-purchase/asset-purchase.component';
 import { CategoryComponent } from './category/category.component';
@@ -35,11 +35,7 @@ const routes: Routes = [{
   component: AssetPurchaseComponent,
   pathMatch: 'prefix'
 },
-{
-  path: '/view/asset-management/add-edit-asset',
-  component: AddEditAssetComponent,
-  pathMatch: 'prefix'
-}
+
 
 ];
 

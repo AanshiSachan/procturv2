@@ -32,6 +32,8 @@ export class AssetAssignmentComponent implements OnInit {
   searchParams: any;
   startDate: string;
   endDate: string;
+   purchaseby: any = [];
+ 
 
   //data for dropdown
   assetcategoryData: any = [];
@@ -40,6 +42,7 @@ export class AssetAssignmentComponent implements OnInit {
   totalRow: any;
   tempLocationList: any;
   assignDataforDownload: [];
+  rolesListDataSource: any = [];
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -52,8 +55,7 @@ export class AssetAssignmentComponent implements OnInit {
   model = {
     id: '',
     asset_id: '',
-    location_id: '',
-    check_out_date: '',
+   check_out_date: '',
     due_date: '',
     institute_id: sessionStorage.getItem('institute_id'),
     note: '',
@@ -245,24 +247,21 @@ export class AssetAssignmentComponent implements OnInit {
       this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD");
       this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
-        $('#modelforassetAssign').modal('hide');
-        this.getAssignDetails();
+       this.getAssignDetails();
         this.cancel(false);
+        $('#modelforassetAssign').modal('hide');
       },
         err => {
           let data:any =[];
         let errors;
           data =err.error.error;
-                    console.log(data)
                    for(let i=0;i <data.length;i++){
                      let errs =data[i].error_message;
-                     console.log(errs);
                   }
-                  console.log(errors)
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "asset not available to assign" );
           $('#modelforassetAssign').modal('hide');
         })
-      // $('#modelforassetAssign').model('hide');
+       $('#modelforassetAssign').model('hide');
       this.getAssignDetails();
     }
     else {
@@ -292,11 +291,10 @@ export class AssetAssignmentComponent implements OnInit {
 
   editRow(object) {
     this.isedit = true;
-    console.log(object);
     this.model.id = object.data.id;
     this.model = object.data;
     this.model.asset_id = object.data.asset_id;
-    this.model.location_id = object.data.location_id;
+   // this.model.location_id = object.data.location_id;
     this.model.check_out_date = object.data.check_out_date;
     this.model.check_in_date = object.data.check_in_date;
     this.model.due_date = object.data.due_date;
@@ -308,21 +306,25 @@ export class AssetAssignmentComponent implements OnInit {
     this.model.category_id = object.data.category_id;
     this.model.check_out_user_id = object.data.check_out_user_id;
     $('#modelforassetAssign').modal('show');
-    console.log(object);
   }
 
   deleteRow(obj) {
+    let deleteconfirm = confirm("Are you really want to delete?");
+    if (deleteconfirm == true) {
     this.auth.showLoader();
     this.httpService.deleteMethod('/api/v2/asset/assignment/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', ' Deleted Successfully');
+
         this.getAssignDetails();
+        this.auth.showLoader();
       },
       err => {
         this.auth.hideLoader();
       }
     );
+    }
   }
 
   updateAssetAssignDetails() {
@@ -345,11 +347,12 @@ export class AssetAssignmentComponent implements OnInit {
     }
   }
   cancel(param) {
+  
     this.isedit = false;
     this.model = {
       id: '',
       asset_id: '',
-      location_id: '',
+      //location_id: '',
       check_out_user_id: '',
       check_in_date: '',
       check_out_date: '',
@@ -361,12 +364,11 @@ export class AssetAssignmentComponent implements OnInit {
       user_type: '',
       category_id: ''
     }
- //  this.assetAssignmentForm.reset();
+ // this.assetAssignmentForm.reset();
   }
   searchDatabase() {
     //alert("hi")
-    console.log(this.searchParams);
-    if (this.searchParams == undefined || this.searchParams == null) {
+   if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
     }
@@ -383,19 +385,7 @@ export class AssetAssignmentComponent implements OnInit {
   dateRangeChange(e) {
     this.startDate = moment(e[0]).format("YYYY-MM-DD");
     this.endDate = moment(e[1]).format("YYYY-MM-DD");
-    console.log(this.startDate)
-    /* let obj = {
-       institute_id: this.jsonFlag.institute_id,
-       category_id: "255",
-       course_id: -1,
-       batch_id: -1,
-       subject_id: -1,
-       from_date: this.startDate,
-       to_date: this.endDate,
-       assignment_status: null
-     }
-     this.getAllAssignment(obj)
-     */
+  
   }
 
   getCategoryDetails() {
@@ -410,15 +400,10 @@ export class AssetAssignmentComponent implements OnInit {
   //get asset and cat
   getassetsAndLocation(category_id) {
     let key = this.assetcategoryData.filter(id => (id.id == category_id));
-    console.log(key);
     let key_name = key[0].category_name;
     this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + category_id + '&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetAllData = res.result[key_name];
-      // var location_ids = JSON.parse("[" + this.model.location_ids + "]");
-      console.log('lo', this.locationAllData);
-
-      console.log(this.assetAllData);
-    },
+     },
       err => {
         this.auth.hideLoader();
       })
@@ -427,41 +412,28 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   getLocationData(obj) {
-    // alert(obj);
-    let key = this.assetAllData.filter(id => (id.id == obj));
-    //console.log(key);
-
-    //location_ids,location_names_string
-    let location_name = key[0].location_names_string.split(',');
-    //console.log(location_name)
+   let key = this.assetAllData.filter(id => (id.id == obj));
+   let location_name = key[0].location_names_string.split(',');
     for (let i = 0; i < key[0].location_ids.length; i++) {
       this.locationAllData.push({ 'location_id': key[0].location_ids[i], 'location_name': location_name[i] });
     }
-
-    console.log('lo', this.locationAllData);
-  }
+}
   //
 
   getAssetDetails() {
     this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        // this.assetAllData = res.result.response;
-      },
+     },
       err => {
         this.auth.hideLoader();
       }
     );
   }
   //purchaseby
-  purchaseby: any = [];
   getCheckOutBy() {
     this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3').subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        console.log(res)
-        this.purchaseby = res.active_users;
-        // console.log(this.purchaseby)
+       this.purchaseby = res.active_users;
       },
       err => {
         this.auth.hideLoader();
@@ -470,17 +442,15 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   //getroles
-  rolesListDataSource: any = [];
+ 
   getRolesList() {
     this.apiService.getRoles().subscribe(
       (res: any) => {
         this.rolesListDataSource = res;
         this.totalRow = res.length;
-        //this.fetchTableDataByPage(this.PageIndex);
-      },
+     },
       err => {
-        console.log(err);
-      }
+     }
     )
   }
 
@@ -488,7 +458,6 @@ export class AssetAssignmentComponent implements OnInit {
     this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.assignDataforDownload = res.result.response;
-        //this.auth.showLoader();
     },
       err => {
         this.auth.hideLoader();
@@ -525,7 +494,6 @@ exportToExcel(){
     (res: any) => {
       this.auth.showLoader();
       this.assignDataforDownload= res.result.response;
-      console.log( this.assignDataforDownload = res.result.response)
       let Excelarr = [];
       this.assignDataforDownload.map(
       (ele: any) => {
@@ -540,7 +508,6 @@ exportToExcel(){
       Excelarr,
       'asset_assign'
     );
-     // console.log(this.locationDataforDownload)
       this.auth.hideLoader();
   },
     err => {

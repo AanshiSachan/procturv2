@@ -39,29 +39,40 @@
                     <div class="form-row">
                         <div class="field-wrapper  col-md-6">
                             <select class="form-control" name="category_id" id="category_id"
-                                [(ngModel)]="model.category_id" (ngModelChange)="getassetsAndLocation($event)">
+                                [(ngModel)]="model.category_id"  required #category_id="ngModel"
+                                (ngModelChange)="getassetsAndLocation($event)"
+                                >
                                 <option value="">Category Name*</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>
+                            
                         </div>
-                        <div class="field-wrapper  col-md-6">
+                         <div class="field-wrapper  col-md-6">
                             <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
+                            required #asset_id="ngModel"
                                 (ngModelChange)="getLocationData($event)">
                                 <option value="">Asset *</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetAllData">
                                     {{data.asset_name}}</option>
                             </select>
-                        </div>
+                       </div>
+                        <span  class="help-block" *ngIf="asset_id.invalid && asset_id.touched">Please
+                            select Asset</span>
                     </div>
                     <div class="form-row">
                         <div class="field-wrapper  col-md-6">
                             <input type="text" class="form-control" id="inputPassword4" placeholder="Assign Quantity *"
                                 [(ngModel)]="model.quantity" name="quantity"
-                                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
-                        </div>
+                                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel">
+                                <span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
+                                    enter quantity</span>
+                            </div>
+                        
                         <div class="field-wrapper  col-md-6">
-                            <select class="form-control" name="user_type" id="user_type" [(ngModel)]="model.user_type">
+                            <select class="form-control" name="user_type" id="user_type" 
+                            required #user_type="ngModel"
+                            [(ngModel)]="model.user_type">
                                 <option value="" selected>Role *</option>
                                 <option value="3">
                                     Teacher </option>
@@ -71,32 +82,38 @@
                                     Custom User </option>
                             </select>
                         </div>
+                        <span  class="help-block" *ngIf="user_type.invalid && user_type.touched">Please
+                            select Role</span>
                     </div>
                     <div class="form-row">
                         <div class="field-wrapper col-md-6">
                             <select class="form-control" name="check_out_user_id" id="check_out_user_id"
-                                [(ngModel)]="model.check_out_user_id">
+                                [(ngModel)]="model.check_out_user_id"
+                                required #check_out_user_id="ngModel">
                                 <option value="" selected>Check-Out By *</option>
                                 <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
                                     {{data.name}}</option>
                             </select>
                         </div>
+                        <span  class="help-block" *ngIf="check_out_user_id.invalid && check_out_user_id.touched">Please
+                            select Check-Out By</span>
                         <div class="field-wrapper col-md-6 datePickerBox">
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="due_date"
-                                [(ngModel)]="model.due_date" class="form-control" placeholder="Due Date" id="due_date">
+                                [(ngModel)]="model.due_date" class="form-control" placeholder="Due Date" id="due_date"> 
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="field-wrapper col-md-6 datePickerBox">
-                            <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_out_date"
-                                [(ngModel)]="model.check_out_date" class="form-control" placeholder="Check Out Date"
-                                id="check_out_date">
-                        </div>
                         <div class="field-wrapper col-md-6 datePickerBox">
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_in_date"
                                 [(ngModel)]="model.check_in_date" class="form-control" placeholder="Check In Date"
                                 id="check_in_date">
                         </div>
+                        <div class="field-wrapper col-md-6 datePickerBox">
+                            <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_out_date"
+                                [(ngModel)]="model.check_out_date" class="form-control" placeholder="Check Out Date"
+                                id="check_out_date">
+                        </div>
+                       
                     </div>
                   <!-- <div class="form-row">
                         <div class="field-wrapper col-md-6">
