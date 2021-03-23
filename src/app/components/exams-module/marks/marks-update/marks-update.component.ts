@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -9,7 +9,7 @@ import { HttpService } from '../../../../services/http.service';
   templateUrl: './marks-update.component.html',
   styleUrls: ['./marks-update.component.scss']
 })
-export class MarksUpdateComponent implements OnInit {
+export class MarksUpdateComponent implements OnInit, OnDestroy {
   selectedScheduleId: any = '';
   marks_dist_list: any = [];
   studentList: any = {};
@@ -28,6 +28,10 @@ export class MarksUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStudentDetails();
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('fromAdminComponent');
   }
 
   getStudentDetails() {
@@ -72,13 +76,21 @@ export class MarksUpdateComponent implements OnInit {
         (res: any) => {
           this.auth.hideLoader();
           this._msgService.showErrorMessage('success', '', 'Marks Updated successfully');
-          this.router.navigateByUrl('/view/exams/marks/schedule-list');
+          this.backToHome();
         },
         (err: any) => {
           this.auth.hideLoader();
           this._msgService.showErrorMessage('error', '', err.error.message);
         }
       )
+    }
+  }
+
+  backToHome() {
+    if(sessionStorage.getItem('fromAdminComponent') == 'true') {
+      this.router.navigate(['/view/dashboard/admin']);
+    } else {
+      this.router.navigateByUrl('/view/exams/marks/schedule-list');
     }
   }
 
