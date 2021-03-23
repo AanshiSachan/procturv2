@@ -415,7 +415,7 @@ export class AttendanceComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.addKeyInData(res.otherSchd, "isExam", true);
-        let result = (this.schedStat.otherSchd) ? this.schedStat.otherSchd.concat(res.otherSchd) : res.otherSchd;
+        let result = this.schedStat.otherSchd.concat(res.otherSchd);
         this.schedStat.otherSchd = this.sortDataByDateTime(result);
         this.classScheduleCount = this.schedStat.otherSchd.length;
       },

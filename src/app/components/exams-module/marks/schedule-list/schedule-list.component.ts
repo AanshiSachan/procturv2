@@ -22,6 +22,7 @@ export class ScheduleListComponent implements OnInit {
   ExamTypeData: any = [];
   marks_dist_setting: any = -1;
   exam_type_id: any = '-1';
+  isFilterSelected:boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -41,6 +42,17 @@ export class ScheduleListComponent implements OnInit {
     }
   }
 
+  getFilterData() {
+    if(this.coursePlannerFilters.standard_id == '-1' || this.exam_type_id == '-1' || this.coursePlannerFilters.course_id == '-1' || this.coursePlannerFilters.batch_id == '-1') {
+      this.messageService.showErrorMessage('error','','Please select mandatory fields');
+    } else {
+      this.coursePlannerFilters.from_date == '';
+      this.coursePlannerFilters.to_date == '';
+      this.isFilterSelected = true;
+      this.getScheduleList();
+    }
+  }
+
   getScheduleList() {
     // this.jsonFlag.showHideColumn = false;
     this.auth.showLoader();
@@ -55,6 +67,10 @@ export class ScheduleListComponent implements OnInit {
     obj.isUpcoming = "Y";
     obj.exam_type_id = this.exam_type_id;
     delete(obj.master_course_name);
+    if(this.isFilterSelected) {
+      obj.from_date = '';
+      obj.to_date = '';
+    }
     let url = "/api/v1/coursePlanner/category?type=exam";
     this._httpService.postData(url, obj).subscribe(
       res => {
@@ -109,6 +125,7 @@ export class ScheduleListComponent implements OnInit {
     this.coursePlannerFilters.course_id = '-1';
     this.coursePlannerFilters.batch_id = '-1';
     this.exam_type_id = '-1';
+    this.isFilterSelected = false;
     this.getScheduleList();
   }
 
