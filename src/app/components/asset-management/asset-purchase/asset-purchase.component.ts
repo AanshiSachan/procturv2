@@ -384,9 +384,7 @@ let key = this.vendorAllData.filter(id => (id.id == obj));
       }
     })
   }
-
-
-  saveAssetPurchaseData() {
+ saveAssetPurchaseData() {
     if (this.assePurchaseForm.valid) {
       delete(this.model.category_id);
      if(!this.isedit){

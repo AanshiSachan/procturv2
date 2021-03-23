@@ -18,7 +18,7 @@
                     *ngIf="is_asset_cat" (click)="cancel(false)">Add
                      Category</button></span>
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforasset"
-                    *ngIf="is_asset" (click)="cancel(false)">Add
+                    *ngIf="is_asset">Add
                     Asset</button></span>
                 </div>
         </div>
@@ -67,7 +67,7 @@
     <!--model for asset category-->
     <div class="modal fade" id="myModalforcat" data-backdrop="static" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content" style="height: 250px;">
+            <div class="modal-content" style="height: 260px;">
                 <div class="modal-body">
                    <h4 class="title-model"> Assets Category</h4>
                     <form id="form1" #assetcat="ngForm" autocomplete="off">
@@ -77,7 +77,7 @@
                                     placeholder="Code *" [(ngModel)]="category_model.category_code"
                                     #categoryCode="ngModel" required>
                             </div>
-                            <span class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
+                            <span style="height:10px;"class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
                                 Category ID is mandatory.
                             </span>
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
@@ -85,7 +85,7 @@
                                     placeholder=" Name*" [(ngModel)]="category_model.category_name"
                                     #categoryNmae="ngModel" required>
                             </div>
-                            <span class="help-block" *ngIf="!categoryDetails.valid && categoryDetails.touched">
+                            <span style="height:10px;" class="help-block" *ngIf="!categoryDetails.valid && categoryDetails.touched">
                                 Category name mandatory.
                             </span>
                         </div>
@@ -148,7 +148,7 @@
                         <div class="form-group">
                             <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
                                 id="asset_condition" required #asset_condition="ngModel">
-                                <option value="-1" > Condition* {{model.asset_condition}}</option>
+                                <option value="-1" > Condition* </option>
                                 <option value="New">New</option>
                                 <option value="Used">Used</option>
                             </select>
