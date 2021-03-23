@@ -32,7 +32,6 @@ export class DataSetupHomeComponent implements OnInit {
   }
 
   toggle(id) {
-    debugger
     this.activeSession = id;
     if (id=='Exam_type') {
       this.route.navigateByUrl("/view/course/setup/exam-type")

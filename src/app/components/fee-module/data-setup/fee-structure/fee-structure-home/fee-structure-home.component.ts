@@ -69,24 +69,13 @@ export class FeeStructureHomeComponent implements OnInit {
   tax_type_without_percentage: String;
   is_tax_enabled: boolean = false;
   schoolModel: boolean = false;
-  feeTypeList: any=[];
+  feeTypeList: any = [];
   dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  // months: any = ['Jan', 'Feb', 'Mar', 'Apr'];
-  months = new Map([
-    ["Jan", 1],
-    ["Feb", 2],
-    ["Mar", 3],
-    ["Apr", 4],
-    ["May", 5],
-    ["Jun", 6],
-    ["Jul", 7],
-    ["Aug", 8],
-    ["Sep", 9],
-    ["Oct", 10],
-    ["Nov", 11],
-    ["Dec", 12]
-  ]);
   monthValue: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  totalFeeAmount: any;
+  feeInstallments: any;
+  totalTax: number = 0;
+  currencySymbol: string = "Rs ";
 
   constructor(
     private router: Router,
@@ -115,14 +104,7 @@ export class FeeStructureHomeComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.auth.schoolModel.subscribe(
-      res => {
-        this.schoolModel = false;
-        if (res) {
-          this.schoolModel = true;
-        }
-      }
-    )
+    this.schoolModel = this.auth.schoolModel.value;
     this.fetchPrefill();
   }
 
@@ -133,32 +115,11 @@ export class FeeStructureHomeComponent implements OnInit {
   }
 
   fetchDataForCountryDetails() {
-    this.countryAdditioalFeeTypes = {};
     let encryptedData = sessionStorage.getItem('country_data');
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      let country_ids = [];
-      this.countryDetails.forEach((item) => {
-        this.countryAdditioalFeeTypes[item.id] = [];
-        country_ids.push(item.id);
-      })
-
-      this.fetchService.additionalFeeTypeDetail(country_ids.join()).subscribe(
-        (res: any) => {
-          res && res.forEach(fee => {
-            const country_id = fee.countryId.country_id;
-            let fee_details = {};
-            fee_details[fee.fee_type_id] = fee.fee_type;
-            this.countryAdditioalFeeTypes[country_id].push(fee_details);
-          });
-        },
-        err => {
-          this.commonService.showErrorMessage('error', '', err.error.message);
-        }
-      )
     }
-    // console.log(data);
   }
 
   getFeeStructures() {
@@ -177,11 +138,6 @@ export class FeeStructureHomeComponent implements OnInit {
     )
   }
 
-  changesValuesAsPerType(row) {
-    if (row.day_type == 1) {
-      row.days = 0;
-    }
-  }
 
   editFee(fee) {
     this.templateName = fee.template_name;
@@ -264,13 +220,8 @@ export class FeeStructureHomeComponent implements OnInit {
     this.templateName = "";
   }
 
-  updateFeeTemplate() {
-    let taxApplicable: any = (document.getElementById('checkBoxtaxes') as HTMLInputElement).checked;
-    if (taxApplicable == true) {
-      taxApplicable = "Y";
-    } else {
-      taxApplicable = "N";
-    }
+  updateFeeStructure() {
+    this.validateFeeInstallments();
     let set_is_default = '0';
     if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
       set_is_default = '1';
@@ -278,19 +229,19 @@ export class FeeStructureHomeComponent implements OnInit {
     let data: any = {
       is_default: set_is_default,
       country_id: this.selectedTemplate.country_id,
-      customFeeSchedules: this.makeJSONForCustomFee(),
-      studentwise_total_fees_amount: this.totalAmount.toString(),
-      studentwise_total_fees_discount: this.discountAmount,
-      studentwise_fees_tax_applicable: taxApplicable,
+      customFeeSchedules: this.feeInstalllmentArr,
+      studentwise_total_fees_amount: this.totalFeeAmount.toString(),
+      studentwise_total_fees_discount: 0,
+      studentwise_fees_tax_applicable: this.is_tax_enabled ? "Y" : "N",
       template_id: this.selectedTemplate.template_id.toString(),
-      template_name: this.selectedTemplate.template_name
+      template_name: this.templateName
     };
     this.auth.showLoader();
     this.fetchService.updateFeeTemplate(data).subscribe(
       res => {
         this.auth.hideLoader();
+        $("#editFeeStructureModel").hide();
         this.commonService.showErrorMessage('success', 'Update Successfully', 'Fee Structure Updated Successfully');
-        this.closeFeeEditor();
       },
       err => {
         this.auth.hideLoader();
@@ -388,93 +339,6 @@ export class FeeStructureHomeComponent implements OnInit {
     });
     this.totalAmountCal = totalAmount;
   }
-
-
-  // calculateTotalAmount() {
-  //   if (document.getElementById('checkBoxtaxes').checked == true) {
-  //     let otherAmount = 0;
-  //     if (this.otherInstList.length > 0) {
-  //       otherAmount = this.otherInstList.map(fee => fee.fees_amount).reduce((acc, val) => val + acc)
-  //     } else {
-  //       otherAmount = 0;
-  //     }
-  //     return Math.floor(this.onApplyTaxChechbox() + otherAmount);
-  //   } else {
-  //     let installAmount = 0;
-  //     let otherAmount = 0;
-  //     if (this.installmentList.length > 0) {
-  //       installAmount = this.installmentList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
-  //     }
-  //     if (this.otherInstList.length > 0) {
-  //       otherAmount = this.otherInstList.map(fee => fee.fees_amount).reduce((acc, val) => val + acc);
-  //     }
-  //     return Math.floor(installAmount + otherAmount);
-  //   }
-  // }
-
-  // onApplyTaxChechbox() {
-  //   let taxPercent = this.feeStructure.registeredServiceTax;
-  //   if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-  //     if (this.installmentList.length > 0) {
-  //       this.addTaxInInstallmentTable();
-  //       return (this.totalAmountCal);
-  //     } else {
-  //       return 0;
-  //     }
-  //   } else {
-  //     let msg = {
-  //       type: 'error',
-  //       title: '',
-  //       body: "Please define Tax (%age) in Institute Settings"
-  //     }
-  //     this.appC.popToast(msg);
-  //     document.getElementById('checkBoxtaxes').checked == false;
-  //     this.calculateTotalAmount();
-  //   }
-  // }
-
-  // addTaxInInstallmentTable() {
-  //   this.totalAmountCal = 0;
-  //   if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-  //     let taxPercent = this.feeStructure.registeredServiceTax;
-  //     if (document.getElementById('checkBoxtaxes').checked == true) {
-  //       if (taxPercent > 0) {
-  //         this.installmentList.map(
-  //           fee => {
-  //             if (fee.service_tax_applicable == "Y") {
-  //               fee.tax = Math.floor(fee.fees_amount - fee.initial_fee_amount)
-  //               this.totalAmountCal = this.totalAmountCal + fee.fee_amount;
-  //             } else {
-  //               fee.tax = Math.floor(fee.fees_amount * 0.01 * taxPercent);
-  //               fee.initial_fee_amount = fee.fees_amount - fee.tax;
-  //               fee.service_tax_applicable = "Y";
-  //               this.totalAmountCal = this.totalAmountCal + fee.fees_amount;
-  //             }
-  //           }
-  //         )
-  //       }
-  //     } else {
-  //       this.installmentList.map(
-  //         fee => {
-  //           if (fee.service_tax_applicable == "Y") {
-  //             fee.initial_fee_amount = fee.fee_amount - fee.tax;
-  //             fee.tax = 0;
-  //             fee.fees_amount = fee.tax + fee.initial_fee_amount;
-  //             fee.service_tax_applicable = "N";
-  //           } else {
-  //             fee.tax = 0;
-  //             fee.fees_amount = fee.initial_fee_amount;
-  //           }
-  //           this.totalAmountCal = this.totalAmountCal + fee.fees_amount;
-  //         }
-  //       )
-  //     }
-  //     if (this.otherInstList.length > 0) {
-  //       this.totalAmountCal = this.totalAmountCal + this.otherInstList.map(fee => fee.fees_amount).reduce((acc, val) => val + acc);
-  //     }
-  //   }
-  // }  
-
   deleteRow(row, i) {
     this.installmentList.splice(i, 1);
     this.calculateTotalAmount();
@@ -713,7 +577,6 @@ export class FeeStructureHomeComponent implements OnInit {
     }
   }
   studentsAssigned(fee) {
-    debugger
     if (fee.studentList != null) {
       this.addTemplatePopUp = true;
       this.studentList = fee.studentList;
@@ -727,34 +590,42 @@ export class FeeStructureHomeComponent implements OnInit {
     this.addTemplatePopUp = false;
   }
   editFeeStructure(fee) {
-    debugger
     $("#editFeeStructureModel").show();
     this.getInstituteFeeTypes();
     this.templateName = fee.template_name;
-   // this.selectedTemplate = fee;
+    this.selectedTemplate = fee;
     this.feeStructure = [];
+    this.feeInstalllmentArr = [];
     this.auth.showLoader();
     this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.feeStructure = res;
+        this.totalFeeAmount = this.feeStructure.studentwise_total_fees_amount;
         if (this.feeStructure.customFeeSchedules != null) {
           for (let data of this.feeStructure.customFeeSchedules) {
             let installmentData: any = {
-              installment_no: 1,
-              fee_type_id: data.fee_type,
+              fee_type: data.fee_type,
               month: data.month,
-              day: data.days,
-              fee_amount: data.fees_amount,
-              day_type: data.day_type
+              days: data.days,
+              fees_amount: data.fees_amount,
+              day_type: data.day_type,
+              initial_fee_amount: data.initial_fee_amount.toString(),
+              service_tax: data.service_tax,
+              service_tax_applicable: data.service_tax_applicable,
+              schedule_id: data.schedule_id.toString(),
+              is_referenced: data.is_referenced
+            }
+            if (this.is_tax_enabled) {
+              this.totalTax += (Number(data.fees_amount) - Number(data.initial_fee_amount));
             }
             this.feeInstalllmentArr.push(installmentData);
+            this.getCurrencyData(this.selectedTemplate.country_id);
           }
         }
       })
   }
   getInstituteFeeTypes() {
-    debugger
     this.auth.showLoader();
     this.fetchService.getAllFeeType().subscribe(
       res => {
@@ -767,7 +638,148 @@ export class FeeStructureHomeComponent implements OnInit {
       }
     )
   }
-  closePopUp(){
+  closePopUp() {
     $("#editFeeStructureModel").hide();
+  }
+  addInstallment(i) {
+    let newInstallment = {
+      installment_no: i + 2,
+      fee_type: this.feeInstalllmentArr[i].fee_type,
+      month: this.feeInstalllmentArr[i].month,
+      days: this.feeInstalllmentArr[i].days,
+      fees_amount: this.feeInstalllmentArr[i].fees_amount,
+      initial_fee_amount: this.feeInstalllmentArr[i].initial_fee_amount,
+      day_type: this.feeInstalllmentArr[i].day_type,
+      schedule_id: 0,
+      is_referenced: "N",
+      service_tax: this.feeInstalllmentArr[i].fee_type,
+      service_tax_applicable: this.is_tax_enabled ? "Y" : "N",
+    };
+    this.totalFeeAmount = this.totalFeeAmount + Number(this.feeInstalllmentArr[i].fees_amount);
+    this.totalTax = this.totalTax + this.calculateTax(this.feeInstalllmentArr[i].fees_amount, this.feeInstalllmentArr[i].fee_type)
+    this.feeInstalllmentArr.push(newInstallment);
+  }
+  deleteInstallment(index) {
+    if (this.feeInstalllmentArr.length == 1) {
+      this.commonService.showErrorMessage('info', '', "You can't delete!");
+      return false;
+    } else {
+      this.totalFeeAmount = this.totalFeeAmount - Number(this.feeInstalllmentArr[index].fees_amount);
+      this.feeInstalllmentArr.splice(index, 1);
+      return true;
+    }
+  }
+
+  validateFeeInstallments() {
+    if (this.feeInstalllmentArr.length == 0) {
+      this.commonService.showErrorMessage('info', '', "Please enter valid template name!");
+      return;
+    }
+    for (let data of this.feeInstalllmentArr) {
+      if (this.validateEachInstallment(data)) {
+        let installment: any = {
+          day_type: this.schoolModel ? 4 : data.day_type,
+          days: data.day,
+          fee_type: data.fee_type_id,
+          fees_amount: data.fees_amount,
+          initial_fee_amount: data.fees_amount,
+          service_tax: this.getFeeTypeTax(data.fee_type_id),
+          service_tax_applicable: this.is_tax_enabled ? "Y" : "N",
+        };
+        this.feeInstallments.push(installment);
+      } else {
+        this.feeInstallments = [];
+        return;
+      }
+    }
+    return true;
+  }
+  validateEachInstallment(data: any) {
+    if (data.fee_type < 0) {
+      this.commonService.showErrorMessage('info', '', "Please select valid fee type!");
+      return;
+    }
+    if (this.schoolModel) {
+      if (data.days < 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
+        return;
+      }
+      if (data.month < 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee month!");
+        return;
+      }
+    }
+    if (!this.schoolModel) {
+      if (data.day_type < 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid trigger date!");
+        return;
+      }
+      if (data.days < 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
+        return;
+      }
+    }
+    if (data.fees_amount < 0) {
+      this.commonService.showErrorMessage('info', '', "Please enter valid fee amount!");
+      return;
+    }
+    return true;
+  }
+  changesValuesAsPerType(row, i) {
+    if (row == 1) {
+      this.feeInstalllmentArr[i].days = 0;
+    }
+  }
+  calculateTotalFee() {
+    debugger
+    let totalFee: number = 0;
+    let totalTax: number = 0;
+    let i = 0;
+    for (let data of this.feeInstalllmentArr) {
+      totalFee += Number(data.fees_amount);
+      let tax = this.calculateTax(data.fees_amount, data.fee_type);
+      if (this.is_tax_enabled) {
+        this.feeInstalllmentArr[i].service_tax = tax;
+        this.feeInstalllmentArr[i].initial_fee_amount = Number(data.fees_amount) - Number(tax);
+        i++;
+      }
+      totalTax += tax;
+    }
+    this.totalFeeAmount = totalFee;
+    this.totalTax = totalTax;
+  }
+  getCurrencyData(id) {
+    debugger
+    for (let data of this.countryDetails) {
+      if (data.id == id) {
+        this.currencySymbol = data.currency_code
+        break;
+      }
+    }
+  }
+  calFeeAmountWithoutTax(feeAmount, tax): number {
+    if (this.is_tax_enabled) {
+      return Math.floor((Number(feeAmount) * 100) / (100 + Number(tax)));
+    } else {
+      return Number(feeAmount);
+    }
+  }
+  calculateTax(feeAmount, fee_type_id): number {
+    if (this.is_tax_enabled) {
+      let tax = this.getFeeTypeTax(fee_type_id);
+      return Number(feeAmount) - this.calFeeAmountWithoutTax(feeAmount, tax);
+    } else {
+      return 0;
+    }
+  }
+  getFeeTypeTax(fee_type_id): number {
+    if (this.is_tax_enabled) {
+      for (let data of this.feeTypeList) {
+        if (fee_type_id == data.fee_type_id) {
+          return Number(data.fee_type_tax);
+        }
+      }
+    }
+    return 0;
   }
 }

@@ -10,11 +10,13 @@
                 <div class="school">
                     <div class="table_heading">
                         <div>Template Name</div>
-                        <div>Master Course</div>
-                        <div>Course</div>
+                        <div *ngIf="schoolModel">Standard</div>
+                        <div *ngIf="!schoolModel">Master Course</div>
+                        <div *ngIf="!schoolModel">Course</div>
+                        <div *ngIf="countryDetails.length>1">Country</div>
                         <div class="flex">
                             <div class="right wid50"><span class="right">Total Fees</span></div>
-                            <div class="light wid50"></div>
+                            <div class="light wid50"><span class="left"></span></div>
                         </div>
                         <div>Students Assigned</div>
                         <div>Action</div>
@@ -22,9 +24,10 @@
                     <div *ngFor="let data of tabkeList">
                         <div class="table_body">
                             <div>{{data.template_name}}</div>
-                            <div> {{data.master_course_standard_name}}</div>
-                            <div> {{data.course_subject_name}}</div>
-                            <div>{{data.country_name}}</div>
+                            <div *ngIf="schoolModel"> {{data.standard_name}}</div>
+                            <div *ngIf="!schoolModel"> {{data.master_course_standard_name}}</div>
+                            <div *ngIf="!schoolModel"> {{data.course_subject_name}}</div>
+                            <div *ngIf="countryDetails.length>1">{{data.country_name}}</div>
                             <div class="flex">
                                 <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount}}
                                         {{data.currency_code}}</span></div>
@@ -40,32 +43,6 @@
                                 <a><img src="../../../../../assets/images/Group321.svg"
                                         (click)="deleteFeeStructure(data)" title="Delete" class="size22"></a>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="discount" class="tab-pane">
-                <div class="padding1">
-                    <input type="" class="input w450 mr10" name="" placeholder="Add Discount Reason">
-                    <button class="blue_button">Add</button>
-                </div>
-                <div class="discount">
-                    <div class="table_heading">
-                        <div>Reason</div>
-                        <div></div>
-                        <div></div>
-                        <div>Created Date</div>
-                        <div>Action</div>
-                    </div>
-                    <div class="table_body">
-                        <div>Non-creamy layer criteria.</div>
-                        <div></div>
-                        <div></div>
-                        <div>21-09-2020</div>
-                        <div>
-                            <a data-toggle="modal" data-target="#discountModal">
-                                <img src="../../../assets/img/Edit.svg" title="Edit" class="size22">
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -128,10 +105,14 @@
         <div class="modal-content" style="width: 144%;">
             <div class="modal-header">
                 <h4 style="float: left;" class="modal-title">Edit Fee Structure</h4>
-                <input type="text" [(ngModel)]="templateName" placeholder="00" style="width: 50%;float: left;margin-left: 10px;" class="input wid80 rrs">
+                <input type="text" [(ngModel)]="templateName" placeholder="Template Name" style="width: 50%;float: left;margin-left: 10px;" class="input wid80 rrs">
                 <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
             </div>
             <div class="modal-body" style="height: 410px;overflow: auto;">
+                <span class="right relative">
+                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
+                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax}}</p>
+            </span>
                 <div class="fee_new">
                     <div class="table_heading">
                         <div>#</div>
@@ -145,7 +126,7 @@
                         <div class="table_body">
                             <div>{{i+1}}</div>
                             <div>
-                                <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type_id">
+                                <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type" (ngModelChange)="calculateTotalFee()">
                                     <option value="-1">Fee Type</option>
                                     <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
                                         {{data.fee_type}}
@@ -153,7 +134,7 @@
                                 </select>
                             </div>
                             <div *ngIf="schoolModel">
-                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].days">
                                     <option value="-1">Day</option>
                                     <option *ngFor="let day of dayOfmonth" [value]="day">{{day}}</option>
                                 </select>
@@ -170,17 +151,17 @@
                             <div *ngIf="schoolModel">
                                 <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
                                     <option value="-1">Month</option>
-                                    <option *ngFor="let month of months.entries()" [value]="month[1]">{{month[0]}}
+                                    <option *ngFor="let month of monthValue" [value]="month">{{month}}
                                     </option>
                                 </select>
                             </div>
                             <div *ngIf="!schoolModel">
-                                <input type="text" [(ngModel)]="feeInstalllmentArr[i].day" placeholder="00"
+                                <input type="text" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00"
                                     class="input wid80 rrs"
                                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
                             </div>
-                            <div><input type="text" [(ngModel)]="feeInstalllmentArr[i].fee_amount" placeholder="00"
-                                    class="input wid80 rrs"
+                            <div><input type="text" [(ngModel)]="feeInstalllmentArr[i].fees_amount" placeholder="00"
+                                    class="input wid80 rrs" (keyup)="calculateTotalFee()"
                                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></div>
                             <div>
                                 <a (click)="addInstallment(i)" class="mr10"><img
@@ -191,39 +172,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="padding1">
+                <div class="padding1" style="margin-top: -63px;">
                     <span class="right">
-                        <button class="white_button mr10">
+                        <button class="white_button mr10" (click)="closePopUp()">
                             Cancel
                         </button>
-                        <button class="blue_button ">
-                            Save
-                        </button>
-                    </span>
-                </div>
-                <!-- <div class="save">
-                    <button class="blue_button" (click)="createFeeStructure()">Save</button>
-                </div> -->
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" id="discountModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Edit Discount Reason</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <textarea placeholder="Reason" class="input"></textarea>
-                <div class="padding1">
-                    <span class="right">
-                        <button class="white_button mr10">
-                            Cancel
-                        </button>
-                        <button class="blue_button ">
-                            Save
+                        <button class="blue_button " (click)="updateFeeStructure()"> 
+                            Update
                         </button>
                     </span>
                 </div>

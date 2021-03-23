@@ -55,34 +55,13 @@
   </div> 
 </div>
 <!-- The Modal -->
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Students Assigned</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="student">
-          <div class="table_heading">
-            <div>Student Id</div>
-            <div>Student Name</div>
-          </div>
-          <div class="table_body">
-            <div>PCR2092</div>
-            <div>Ashish</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
 <div class="modal" id="feetypesModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Edit Fee Types</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" (click)="clearData()">&times;</button>
       </div>
       <div class="modal-body">
         <div>

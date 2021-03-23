@@ -58,7 +58,6 @@ export class FeeTypesV2Component implements OnInit {
     }
   }
   createFeeType() {
-    debugger
     if (this.validateUserInput()) {
       this.auth.showLoader();
       let url = "/api/v2/fee_types/create/" + sessionStorage.getItem('institute_id');
@@ -91,6 +90,7 @@ export class FeeTypesV2Component implements OnInit {
       fee_type_tax: 0,
       fee_type_id: 0,
     }
+    $('#feetypesModal').modal('hide');
   }
   validateUserInput() {
     if (this.addNewFee.fee_type == '') {

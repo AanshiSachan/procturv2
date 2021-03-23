@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentFeeService } from '../../../student-module/student_fee.service';
 import { CommonServiceFactory } from '../../../../services/common-service';
-
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+declare var $;
 
 @Component({
   selector: 'app-discount-reason',
@@ -13,10 +14,13 @@ export class DiscountReasonComponent implements OnInit {
   discountReasonArray: any = [];
   createNewDiscount: boolean = false;
   discountReason: string = "";
+  discount_reason_id: number = -1;
 
   constructor(
     private apiService: StudentFeeService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private auth: AuthenticatorService,
+
   ) { }
 
   ngOnInit() {
@@ -48,6 +52,7 @@ export class DiscountReasonComponent implements OnInit {
 
   addNewDiscountReason() {
     if (this.discountReason.trim() != "" && this.discountReason.trim().length > 0) {
+      this.auth.showLoader();
       let obj: any = {
         reason: this.discountReason
       }
@@ -55,9 +60,11 @@ export class DiscountReasonComponent implements OnInit {
         res => {
           this.commonService.showErrorMessage('success', 'Discount Reason Added', '');
           this.getDiscountReson();
+          this.auth.hideLoader();
           this.discountReason = "";
         },
         err => {
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', err.error.message, '');
         }
       )
@@ -70,24 +77,36 @@ export class DiscountReasonComponent implements OnInit {
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
   }
-
-  saveInformation(row, index) {
-    if (row.reason != null && row.reason != "") {
+  editReason(data) {
+    $('#discountReasonModel').modal('show');
+    this.discountReason = data.reason;
+    this.discount_reason_id=data.discount_reason_id;
+  }
+  updateDiscountReason() {
+    if (this.discountReason != "") {
+      this.auth.showLoader();
       let obj: any = {};
-      obj.reason = row.reason;
-      this.apiService.updateDiscountReasons(obj, row.discount_reason_id).subscribe(
+      obj.reason = this.discountReason;
+      this.apiService.updateDiscountReasons(obj, this.discount_reason_id).subscribe(
         (data: any) => {
-          this.cancelEditRow(index);
-          this.commonService.showErrorMessage('success', 'Discount Reason Updated', '');
+          this.commonService.showErrorMessage('success', 'Discount Reason Updated!', '');
+          this.discountReason = "";
+          $('#discountReasonModel').modal('hide');
+          this.auth.hideLoader();
           this.getDiscountReson();
         },
         (error: any) => {
+          this.auth.hideLoader();
           this.commonService.showErrorMessage('error', '', error.error.message);
         }
       )
     } else {
       this.commonService.showErrorMessage('error', '', 'Please enter discount reason');
     }
+  }
+  clearData() {
+    this.discountReason = "";
+    $('#discountReasonModel').modal('hide');
   }
 
   cancelEditRow(index) {

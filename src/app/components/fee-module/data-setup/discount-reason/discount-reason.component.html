@@ -1,102 +1,89 @@
-<div class="middle-section clearFix" style="padding: 2%;">
-  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
-    <h1 class="pull-left">
-      <a routerLink="/view/fee">
-        Fees
-      </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      <a routerLink="/view/fee/data-setup">
-        Data-setup
-      </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Discount Reason
-    </h1>
-  </section>
-
-  <section class="middle-main clearFix">
-
-    <div class="clearFix add-edit">
-      <a (click)="toggleCreateNew()">
-        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
-        <span>Add Discount Reason</span>
-      </a>
-    </div>
-    <section class="clearFix create-standard-form" *ngIf="createNewDiscount">
-      <div class="row create-standard-field">
-
-        <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper">
-            <label for="newDiscount">Reason</label>
-            <input type="text" [(ngModel)]="discountReason" class="form-ctrl" name="newDiscount">
+<div class="page-content">
+  <div class="w98">
+    <div class="tab-content">
+      <div id="fee_types" class="tab-pane active">
+        <div class="padding1">
+          <input type="" class="input mr10" name="discountReason" [(ngModel)]="discountReason" placeholder="Discount Reason *">
+          <button class="blue_button" (click)="addNewDiscountReason()">Add</button>
+        </div>
+        <div class="fee_types">
+          <div class="table_heading">
+            <div>Discount Reason</div>
+            <div>Created Date</div>
+            <div>Action</div>
+          </div>
+          <div *ngFor="let data of discountReasonArray">
+            <div class="table_body">
+              <div>{{data.reason}}</div>
+              <div>{{data.created_date}}</div>
+              <div><a (click)="editReason(data)"><img src="../../../../../assets/images/Edit.svg"
+                    class="size22" title="Edit"></a></div>
+            </div>
           </div>
         </div>
-        <div class="c-lg-2 c-md-2 c-sm-2">
-          <aside class="pull-left create-cancel-small">
-            <button class="btn fullBlue" (click)="addNewDiscountReason()" style="margin-top:25px;">Add</button>
-          </aside>
-        </div>
       </div>
+        </div>
+  </div>
+ <div class="w98">
+    <div class="bottom_pagignation flex w98">
+      <div class="w20">
+      </div>
+      <div class="w10">
+      </div>
+      <div class="w40">
+      </div>
+      <div class="w30">
+      </div>
+    </div>
+  </div> 
+</div>
 
-    </section>
-    <div id="divSlotTable">
-      <div class="table-scroll-wrapper">
-        <div class="table table-responsive" style="max-height: 400px;">
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  Reason
-                </th>
-                <th>
-                  Created Date
-                </th>
-                <th>
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr id="row{{i}}" class="displayComp" *ngFor="let row of discountReasonArray; let i = index; trackBy: i;">
-                <td class="view-comp">
-                  {{row.reason}}
-                </td>
-                <td class="edit-comp">
-                  <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.reason" name="label">
-                  </div>
-                </td>
-
-                <td class="CreatedOn">
-                  {{row.created_date}}
-                </td>
-
-                <td class="view-comp">
-                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
-                </td>
-                <td class="edit-comp">
-                  <a class="anchorTagCursor" (click)="saveInformation(row , i)"> Save </a>
-                  <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
-                </td>
-              </tr>
-              <tr *ngIf="discountReasonArray.length ==0">
-                <td colspan="3" style="text-align: center">
-                  No Discount Reason Available
-                </td>
-              </tr>
-            </tbody>
-          </table>
+<div class="modal" id="discountReasonModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Discount Reason</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" style="height: 116px;">
+        <div>
+          <div><input type="" name="discountReason" [(ngModel)]="discountReason" class="input w100" placeholder="Discount Reason">
+          </div>
+          <div class="padding1">
+            <span class="right">
+              <button class="white_button mr10" (click)="clearData()">
+                Cancel
+              </button>
+              <button class="blue_button" (click)="updateDiscountReason()">
+                Save
+              </button>
+            </span>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Paginator Here -->
-    <!-- <div class="row filter-res pagination" style="width: 100%;">
-      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
-        </pagination>
+  </div>
+</div>
+<div class="modal" id="discountModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Discount Reason</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
-    </div> -->
-  </section>
-
+      <div class="modal-body">
+        <textarea placeholder="Reason" class="input"></textarea>
+        <div class="padding1">
+          <span class="right">
+            <button class="white_button mr10">
+              Cancel
+            </button>
+            <button class="blue_button ">
+              Save
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
