@@ -187,15 +187,15 @@ export class CourseAddComponent implements OnInit {
           this.activeTeachers.filter(teacher => {
             if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
               this.subjectList[i].allowedTeacher.push(teacher);
-              this.subjectList[i].allowedTeacher.push({
-                "is_active": "Y",
-                "standard_subject_list": [],
-                "teacher_email": null,
-                "teacher_id": "more",
-                "teacher_name": "More",
-                "teacher_phone": "7503959545"
-              })
             }
+          })
+          this.subjectList[i].allowedTeacher.push({
+            "is_active": "Y",
+            "standard_subject_list": [],
+            "teacher_email": null,
+            "teacher_id": "more",
+            "teacher_name": "More",
+            "teacher_phone": "7503959545"
           })
         }
       },

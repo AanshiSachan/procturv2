@@ -641,11 +641,13 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById('hiddenAnchorTag2');
+        let dwldLink = document.createElement('a');
+        if (dwldLink.getAttribute('href') == "" || dwldLink.getAttribute('href') == null) {
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
         dwldLink.click();
+        }
       } else {
         this.isShareDetails = false;
         this.msgToast.showErrorMessage('success', '', 'Email sent successfully');

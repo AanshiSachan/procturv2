@@ -1472,7 +1472,7 @@
                                 <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                                     <label for="masterCourse">{{schoolModel? 'Standard' : 'Master Course'}}</label>
                                     <div class="" style="padding: 0px;">
-                                        <select id="walkintime" class="side-form-ctrl"
+                                        <select *ngIf="!schoolModel" id="walkintime" class="side-form-ctrl"
                                             [(ngModel)]="sendNotificationCourse.master_course"
                                             (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
                                             <option value="-1"></option>
@@ -1480,6 +1480,14 @@
                                                 {{opt.master_course}}
                                             </option>
                                         </select>
+                                        <select *ngIf="schoolModel" id="walkintime" class="side-form-ctrl"
+                                        [(ngModel)]="sendNotificationCourse.standard_id"
+                                        (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
+                                        <option value=""></option>
+                                        <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                                            {{opt.masterCourse}}
+                                        </option>
+                                    </select>
                                     </div>
                                 </div>
 
