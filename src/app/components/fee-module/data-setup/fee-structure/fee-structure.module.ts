@@ -5,6 +5,7 @@ import { FeeStructureAddEditComponent } from './fee-structure-add-edit/fee-struc
 import { FeeStructureHomeComponent } from './fee-structure-home/fee-structure-home.component';
 import { FeeStructureComponent } from './fee-structure.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {SharedModule} from '../../../shared/shared.module';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FeeStructureRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class FeeStructureModule { }

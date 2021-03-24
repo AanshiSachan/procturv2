@@ -49,31 +49,13 @@
             </div>
         </div>
     </div>
-    <div class="w98">
-        <!-- pagignation div -->
-        <div class="bottom_pagignation flex w98">
-            <div class="w20">
-                <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-            </div>
-            <div class="w10">
-                <p>Total <span>9</span> Pages</p>
-            </div>
-            <div class="w40">
-                <p>Records per Page
-                    <select>
-                        <option>9</option>
-                    </select>
-                </p>
-            </div>
-            <div class="w30">
-                <span>
-                    <p>Previous <a><span class="active_circle number">1</span></a> <a><span class="number">2</span></a>
-                        <a><span class="number">3</span></a> <a><span class="next">Next</span></a>
-                    </p>
-                </span>
-            </div>
+    <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          </pagination>
         </div>
-    </div>
+      </div>
 </div>
 <!-- The Modal -->
 <div class="modal" id="myModal">
