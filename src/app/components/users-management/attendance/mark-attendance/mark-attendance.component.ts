@@ -188,7 +188,7 @@ export class MarkAttendanceComponent implements OnInit {
   }
   downloadPdf() {
     let temp = []
-    temp = this.allMarkAttendanceList.map(e => {
+    this.allMarkAttendanceList.map((e: any) => {
       let obj = [
         e.name,
         e.phoneNo,
@@ -202,7 +202,8 @@ export class MarkAttendanceComponent implements OnInit {
     row = [['Name', 'Mobaile No', 'Email', 'Attendance-Status']]
     let columns = temp
 
-
+    console.log(row);
+    console.log(columns);
     this.pdf.exportToPdf(row, columns, 'Attendance_pdf');
 
   }
