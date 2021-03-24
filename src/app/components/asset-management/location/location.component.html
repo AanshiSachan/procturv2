@@ -35,7 +35,7 @@
         <div style="padding-top: 9px;">
             <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
                 [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
-                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)" >
             </pagination>
         </div>
 

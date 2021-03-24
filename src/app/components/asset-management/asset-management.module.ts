@@ -9,7 +9,6 @@ import { CategoryComponent } from './category/category.component';
 import { AssetAssignmentComponent } from './asset-assignment/asset-assignment.component';
 import { AssetPurchaseComponent } from './asset-purchase/asset-purchase.component';
 import { SharedModule } from '../shared/shared.module';
-import { FormValidationsDirective } from './form-validations.directive';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RoleService } from '../.././services/user-management/role.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
@@ -17,7 +16,6 @@ import { ExcelService } from '../../services/excel.service';
 @NgModule({
   declarations: [AssetManagementComponent, SupplierMasterComponent,
     LocationComponent, CategoryComponent, AssetAssignmentComponent, AssetPurchaseComponent,
-    FormValidationsDirective,
   ],
   imports: [
     CommonModule,

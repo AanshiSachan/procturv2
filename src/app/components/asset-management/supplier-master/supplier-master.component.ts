@@ -12,22 +12,7 @@ declare var $;
   styleUrls: ['./supplier-master.component.scss']
 })
 export class SupplierMasterComponent implements OnInit {
-  constructor(private httpService: ProductService,
-    private auth: AuthenticatorService,
-    private msgService: MessageShowService,
-    private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) { }
-
-
-  ngOnInit(): void {
-    this.setTableData();
-    this.cancel(false);
-    this.getCategoryDetails();
-    // this.getAssetDetails();
-    this.getVendorDetails();
-   
-
-  }
+  selectedvalue: number;
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
@@ -39,20 +24,35 @@ export class SupplierMasterComponent implements OnInit {
   staticPageDataSouece: any = [];
   isedit = false;
  supplierDataforDownload:[];
-
   model = {
     active: true,
     address: '',
     institute_id: sessionStorage.getItem('institute_id'),
     contact_person_name: '',
-    email_id: '', //required
-    mobile_no: '',  //required
-    supplier_name: '',  //required
+    email_id: '', 
+    mobile_no: '',  
+    supplier_name: '',  
     category_id: 0,
     asset_ids: [],
     category_ids:[],
   }
+  submitted = false;
+  assetcategoryData: [];
+  assetAllData: [];
+  constructor(private httpService: ProductService,
+    private auth: AuthenticatorService,
+    private msgService: MessageShowService,
+    private _pdfService: ExportToPdfService,
+    private excelService: ExcelService) { }
 
+ ngOnInit(): void {
+    this.setTableData();
+    this.cancel(false);
+    this.getCategoryDetails();
+    this.getVendorDetails();
+   
+
+  }
 
   setTableData() {
     this.headerSetting = [
@@ -114,10 +114,7 @@ export class SupplierMasterComponent implements OnInit {
         view: false,
         edit: true,
         delete: true,
-
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
-      },
+},
     ]
 
     this.tableSetting = {
@@ -191,9 +188,7 @@ export class SupplierMasterComponent implements OnInit {
 
   //crud for location
   @ViewChild('addVendorForm', { static: false }) addVendorForm: NgForm;
-  submitted = false;
-  assetcategoryData: [];
-  assetAllData: [];
+  
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'id',
@@ -259,9 +254,7 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   //fordropdown
-  selectedvalue: number;
-
-  getAssetsForSelectedCat(object) {
+ getAssetsForSelectedCat(object) {
     const CategoryId = object.map((object) => {
       if (object == undefined) {
         return false
@@ -301,8 +294,8 @@ export class SupplierMasterComponent implements OnInit {
     this.httpService.getMethod('api/v2/asset/supplier/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.staticPageData = res.result.response;
-        this.tempLocationList = res.result;
-        this.totalRecords = res.result.total_elements;
+        this.tempLocationList = res.result.response;
+      this.totalRecords = res.result.total_elements;
         this.auth.hideLoader();
       },
       err => {
@@ -352,12 +345,7 @@ let category_names= object.data.category_names_string.split(',');
  
     $('#modelforvendor').modal('show');
  }
-  // );
-  // $('#modelforvendor').modal('show');
-  // this.getVendorDetails();
-  // }
-
-  updateVendorDetails() {
+ updateVendorDetails() {
     if(this.addVendorForm.valid){
   let newasset = [];
     let asset_ids: any = this.model.asset_ids;
@@ -388,9 +376,7 @@ let category_names= object.data.category_names_string.split(',');
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All Required Fields")
     }
   }
-  //cancel model
-
-  deleteRow(obj) {
+ deleteRow(obj) {
     let deleteconfirm = confirm("Are you really want to delete?");
     if (deleteconfirm == true) {
       this.auth.showLoader();
@@ -417,32 +403,32 @@ let category_names= object.data.category_names_string.split(',');
       active: true,
       address: '',
       institute_id: sessionStorage.getItem('institute_id'),
-      asset_ids: [],  //required
+      asset_ids: [],  
       contact_person_name: '',
-      email_id: '', //required
-      mobile_no: '',  //required
+      email_id: '', 
+      mobile_no: '', 
       supplier_name: '',
       category_id: 0 ,
       category_ids:[],
-      
-
     }
 
-
-  }
+ }
   //search 
 
   searchDatabase() {
   if (this.searchParams == undefined || this.searchParams == null) {
-      this.searchParams = "";
+    this.searchParams = "";
+    this.staticPageData = this.tempLocationList;
 
     }
     else {
-      let searchData = this.staticPageData.filter(item =>
+      let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
       this.staticPageData = searchData;
+      this.totalRecords = this.staticPageData.length;
+   
     }
   }
 
@@ -450,7 +436,6 @@ let category_names= object.data.category_names_string.split(',');
     this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.supplierDataforDownload = res.result.response;
-        //this.auth.showLoader();
     },
       err => {
         this.auth.hideLoader();

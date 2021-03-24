@@ -5,7 +5,6 @@ import { ProductService } from '../../../services/products.service';
 import { HttpService } from '../../../services/http.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AssetAssignment } from './asset-assignment';
 declare var $;
 import * as moment from 'moment';
 import { RoleService } from '../../../services/user-management/role.service';
@@ -25,17 +24,14 @@ export class AssetAssignmentComponent implements OnInit {
   pageIndex: number = 1;
   totalRecords: number = 0;
   displayBatchSize: number = 25;
-  staticPageData: any = [{ id: 1, name: 'manisha', address: 'asas' }, { id: 2, name: 'nmanisha', address: 'asas', action: 'edit' }, { id: 3, name: 'amanisha', address: 'asas' }, { id: 1, name: 'manisha', address: 'asas' }];
+  staticPageData: any = [];
   staticPageDataSouece: any = [];
   isedit: any;
   assignedAssetAllData: any = [];
   searchParams: any;
   startDate: string;
   endDate: string;
-   purchaseby: any = [];
- 
-
-  //data for dropdown
+  purchaseby: any = [];
   assetcategoryData: any = [];
   assetAllData: any = [];
   locationAllData: any = [];
@@ -43,15 +39,6 @@ export class AssetAssignmentComponent implements OnInit {
   tempLocationList: any;
   assignDataforDownload: [];
   rolesListDataSource: any = [];
-  constructor(private httpService: ProductService,
-    private auth: AuthenticatorService,
-    private router: Router,
-    private msgService: MessageShowService,
-    private temp: HttpService,
-    private apiService: RoleService,
-    private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) { }
-
   model = {
     id: '',
     asset_id: '',
@@ -67,6 +54,16 @@ export class AssetAssignmentComponent implements OnInit {
     category_id: ''
 
   }
+  constructor(private httpService: ProductService,
+    private auth: AuthenticatorService,
+    private router: Router,
+    private msgService: MessageShowService,
+    private temp: HttpService,
+    private apiService: RoleService,
+    private _pdfService: ExportToPdfService,
+    private excelService: ExcelService) { }
+
+
   ngOnInit(): void {
     this.setTableData();
     this.getCategoryDetails();
@@ -153,9 +150,7 @@ export class AssetAssignmentComponent implements OnInit {
         edit: true,
         delete: true,
 
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
-      },
+     },
     ]
 
     this.tableSetting = {
@@ -240,8 +235,6 @@ export class AssetAssignmentComponent implements OnInit {
   @ViewChild('assetAssignmentForm', { static: false }) assetAssignmentForm: NgForm;
   saveAssetAssignDetails() {
     if (this.assetAssignmentForm.valid) {
-      // let tmp = parseInt(this.model.quantity);
-      // this.model.user_type = Number(this.model.user_type);
       this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
       this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
       this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD");
@@ -252,12 +245,6 @@ export class AssetAssignmentComponent implements OnInit {
         $('#modelforassetAssign').modal('hide');
       },
         err => {
-          let data:any =[];
-        let errors;
-          data =err.error.error;
-                   for(let i=0;i <data.length;i++){
-                     let errs =data[i].error_message;
-                  }
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "asset not available to assign" );
       
         })
@@ -274,8 +261,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/assignment/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        this.assignedAssetAllData = res.result.response;
+       this.assignedAssetAllData = res.result.response;
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.total_elements;
@@ -292,8 +278,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.model.id = object.data.id;
     this.model = object.data;
     this.model.asset_id = object.data.asset_id;
-   // this.model.location_id = object.data.location_id;
-    this.model.check_out_date = object.data.check_out_date;
+   this.model.check_out_date = object.data.check_out_date;
     this.model.check_in_date = object.data.check_in_date;
     this.model.due_date = object.data.due_date;
     this.model.institute_id = object.data.institute_id;
@@ -350,8 +335,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.model = {
       id: '',
       asset_id: '',
-      //location_id: '',
-      check_out_user_id: '',
+     check_out_user_id: '',
       check_in_date: '',
       check_out_date: '',
       due_date: '',
@@ -365,7 +349,6 @@ export class AssetAssignmentComponent implements OnInit {
  // this.assetAssignmentForm.reset();
   }
   searchDatabase() {
-    //alert("hi")
    if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
@@ -376,6 +359,7 @@ export class AssetAssignmentComponent implements OnInit {
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
       this.staticPageData = searchData;
+      this.totalRecords=this.staticPageData;
     }
   }
 
@@ -439,8 +423,7 @@ export class AssetAssignmentComponent implements OnInit {
     );
   }
 
-  //getroles
- 
+
   getRolesList() {
     this.apiService.getRoles().subscribe(
       (res: any) => {

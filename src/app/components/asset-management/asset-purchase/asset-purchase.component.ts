@@ -36,6 +36,21 @@ export class AssetPurchaseComponent implements OnInit {
   vendorAllData: any = [];
   tempLocationList: any;
   purchaseDataforDownload: [];
+  model = {
+    id: '',
+     asset_id: '',
+     supplier_id: '',
+     expiry_date: '',
+     institute_id: sessionStorage.getItem('institute_id'),
+     purchase_amount: '',
+     purchase_date: '',
+     purchased_by_user_id: '',
+     quantity: '',
+     service_date: '',
+     unit: '',
+     user_type: '',
+    category_id: '',
+   }
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
@@ -45,29 +60,11 @@ export class AssetPurchaseComponent implements OnInit {
     private excelService: ExcelService
   ) { }
 
-  model = {
-   id: '',
-    asset_id: '',
-    supplier_id: '',
-    //location_id: '',
-    expiry_date: '',
-    institute_id: sessionStorage.getItem('institute_id'),
-    purchase_amount: '',
-    purchase_date: '',
-    purchased_by_user_id: '',
-    quantity: '',
-    service_date: '',
-    unit: '',
-    user_type: '',
-   category_id: '',
-  }
+ 
   ngOnInit(): void {
     this.setTableData();
-    //this.getCategoryDetails();
     this.getPurchaseDetails();
-   // this.getAssetDetails();
-    this.getVendorDetails();
-    // this.getLocationDetails();
+   this.getVendorDetails();
     this.get_purchase_by();
   }
   setTableData() {
@@ -242,8 +239,7 @@ export class AssetPurchaseComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getMethod('api/v2/asset/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
-        //this.auth.hideLoader();
-        this.purchaseAllData = res.result.response;
+       this.purchaseAllData = res.result.response;
         this.staticPageData = res.result.response;
         this.totalRecords = res.result.total_elements;
         this.tempLocationList = res.result.response;
@@ -256,8 +252,7 @@ export class AssetPurchaseComponent implements OnInit {
   }
 
   editRow(object) {
-    //api for selected data
-    this.model.id = object.data.id;
+   this.model.id = object.data.id;
     this.isedit = true;
     this.bill_image_url = object.data.bill_image_url;
     this.model.id = object.data.id;
@@ -273,8 +268,7 @@ export class AssetPurchaseComponent implements OnInit {
     this.model.unit = object.data.unit;
     this.model.user_type = object.data.user_type;
     this.model.category_id = object.data.category_id;
-   // this.getassetsAndLocation(this.model.category_id);
-    $('#modelforpurchase').modal('show');
+   $('#modelforpurchase').modal('show');
  }
   deleteRow(obj) {
     let deleteconfirm = confirm("Are you really want to delete?");
@@ -305,6 +299,7 @@ export class AssetPurchaseComponent implements OnInit {
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
       this.staticPageData = searchData;
+      this.totalRecords = this.staticPageData ;
     }
   }
 

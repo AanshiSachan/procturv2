@@ -3,8 +3,6 @@ import { NgForm } from '@angular/forms';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
 import { AuthenticatorService } from '../../../services/authenticator.service'
-import { AssetModel } from '../asset-model';
-import { ObjectUnsubscribedError } from 'rxjs';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
 declare var $;
@@ -16,6 +14,44 @@ declare var $;
 export class CategoryComponent implements OnInit {
   institute_id = sessionStorage.getItem('institute_id');
   tempLocationList: any;
+  show: boolean = true;
+  is_asset_cat: boolean = true;
+  is_asset: boolean = false;
+  activeclass: string;
+  isadd: boolean;
+  isUpdate: boolean;
+  active: boolean = false;
+  activeb: boolean = true;
+  headerSettingForAsset: any;
+  tableSettingForAsset: any;
+  rowColumnForAsset: any;
+  assetAllData: any = [];
+  staticPageDataForAsset: any = [];
+  searchParams: any;
+  //basic-table declaration for category
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
+  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
+  pageIndex: number = 1;
+  totalRecords: number = 0;
+  displayBatchSize: number = 25;
+  assetcategoryData: any = [];
+  staticPageData: any = [];
+  locationData: any = [];
+  catDataToDownload:[];
+ 
+  @ViewChild('assetcat', { static: false }) assetcat: NgForm;
+  isedit;
+  submitted = false;
+  category_model = {
+    id: '',
+    active: true,
+    category_code: '',
+    category_name: '',
+    institute_id: sessionStorage.getItem('institute_id')
+  }
+  errordata: any = [];
 
   constructor(
     private httpService: ProductService,
@@ -33,20 +69,7 @@ export class CategoryComponent implements OnInit {
     this.getAssetDetails();
 
   }
-  show: boolean = true;
-  is_asset_cat: boolean = true;
-  is_asset: boolean = false;
-  activeclass: string;
-  isadd: boolean;
-  isUpdate: boolean;
-  active: boolean = false;
-  activeb: boolean = true;
-  headerSettingForAsset: any;
-  tableSettingForAsset: any;
-  rowColumnForAsset: any;
-  assetAllData: any = [];
-  staticPageDataForAsset: any = [];
-  searchParams: any;
+ 
   //function for toggle view 
   toggle(param) {
     this.active = param;
@@ -163,16 +186,7 @@ export class CategoryComponent implements OnInit {
       ]
 
   }
-  //basic-table for category
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
-  displayBatchSize: number = 25;
-  assetcategoryData: any = [];
-  staticPageData: any = [];
+  
   //multiselect
 
   moderatorSettingsforasset: any = {
@@ -271,18 +285,7 @@ export class CategoryComponent implements OnInit {
   }
 
   //crud for category
-  @ViewChild('assetcat', { static: false }) assetcat: NgForm;
-  isedit;
-  submitted = false;
-  category_model = {
-    id: '',
-    active: true,
-    category_code: '',
-    category_name: '',
-    institute_id: sessionStorage.getItem('institute_id')
-  }
-  errordata: any = [];
-  saveCategoryDetails() {
+   saveCategoryDetails() {
     if (this.assetcat.valid) {
       this.httpService.postMethod('api/v2/asset/category/create', this.category_model).then((res) => {
         this.submitted = true;
@@ -371,8 +374,6 @@ export class CategoryComponent implements OnInit {
     id: ''
 
   }
-  // model: AssetModel = new AssetModel();
-  locationData: any = [];
   //get location data
   getLocationDetails() {
     this.auth.showLoader();
@@ -515,9 +516,9 @@ export class CategoryComponent implements OnInit {
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
       this.staticPageData = searchData;
+      this.totalRecords = this.staticPageData.length;
     }
   }
-  catDataToDownload:[];
   exportToExcel(){
 
     this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe(

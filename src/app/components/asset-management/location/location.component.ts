@@ -20,6 +20,17 @@ export class LocationComponent implements OnInit {
   model: Location = new Location();
   isedit = false;
   submitted = false;
+  headerSetting: any;
+  tableSetting: any;
+  rowColumns: any;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  pageIndex: number = 1;
+  totalRecords: number = 0;
+  displayBatchSize: number = 25;
+  staticPageData: any = [];
+  locationDataforDownload:[];
+  searchParams: any;
+  tempLocationList = []; 
   locationData = {
     institute_id: sessionStorage.getItem('institute_id'),
     location_code: '',
@@ -27,7 +38,6 @@ export class LocationComponent implements OnInit {
     location_name: '',
     active: true,
   }
- 
   constructor(
     private httpService: ProductService,
     private auth: AuthenticatorService,
@@ -42,17 +52,7 @@ export class LocationComponent implements OnInit {
     this.setTableData();
     this.cancel(false);
   }
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
-  displayBatchSize: number = 25;
-  staticPageData: any = [];
-  locationDataforDownload:[];
-  searchParams: any;
-  tempLocationList = []; 
+  //table setting
  setTableData() {
     this.headerSetting = [
       {
@@ -124,6 +124,7 @@ export class LocationComponent implements OnInit {
 
     ]
   }
+  //pagination setting
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
@@ -236,27 +237,31 @@ export class LocationComponent implements OnInit {
       );
     }
   }
+  
  searchDatabase() {
  if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
+         
     }
     else {
       let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
-      this.staticPageData = searchData;
+     
+        this.staticPageData = searchData;
+      this.totalRecords = this.staticPageData.length;
+      
+      
     }
   }
 
   //download pdf
-//
   downloadPdf() {
     this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.locationDataforDownload = res.result.response;
-        //this.auth.showLoader();
     },
       err => {
         this.auth.hideLoader();
