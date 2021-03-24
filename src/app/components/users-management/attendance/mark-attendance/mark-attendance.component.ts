@@ -173,15 +173,15 @@ export class MarkAttendanceComponent implements OnInit {
 
 
   downloadToExcel() {
-    let temp: any[] = []
-    temp = this.allMarkAttendanceList.map(e => {
-      let obj: any = {
+    let temp = []
+    this.allMarkAttendanceList.map(e => {
+      let obj = {
         name: e.name,
         phoneNo: e.phoneNo,
         emailId: e.emailId,
         attendance_status: e.attendance_status
       }
-      return obj;
+      temp.push(obj);
     })
     this.excelService.exportAsExcelFile(temp, 'Attendance_Details')
 
