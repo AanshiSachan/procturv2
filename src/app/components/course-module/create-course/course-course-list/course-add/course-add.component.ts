@@ -158,7 +158,7 @@ export class CourseAddComponent implements OnInit {
     this.apiService.getAcadYear().subscribe(
       res => {
         this.academicList = res;
-        this.setStartAdEndDate(null);
+        // this.setStartAdEndDate(null);
       },
       err => {
       }
@@ -309,7 +309,7 @@ export class CourseAddComponent implements OnInit {
           let msg = {
             type: "success",
             title: "",
-            body: " Course created successfully"
+            body: this.schoolModel ? 'Section' : 'Course' + " created successfully"
           }
           this.toastCtrl.popToast(msg);
           this.route.navigateByUrl('/view/course/create/courselist');

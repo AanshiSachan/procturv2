@@ -25,9 +25,9 @@
               <table class="tableBodyScroll">
                   <thead>
                       <tr>
-                          <td>
+                          <!-- <td>
                             Id
-                          </td>
+                          </td> -->
                           <td>
                               Faculty Name
                           </td>
@@ -49,12 +49,12 @@
                           </td>
                       </tr>
                   </thead>
-                  <!-- <div  *ngIf="teacherList.length != 0 "> -->
+                  <!-- <div  *ngIf="teacherList.length != 0 "> -->  
                   <tbody style="min-height: 45vh;max-height: 45vh;">
                     <tr style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
-                      <td>
+                      <!-- <td>
                         {{i+1}}
-                      </td>
+                      </td> -->
                       <td>
                         {{row.teacher_name}}
                       </td>
