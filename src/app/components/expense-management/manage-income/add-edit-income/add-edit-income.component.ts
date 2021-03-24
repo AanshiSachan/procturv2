@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../../services/message-show.service';
-import { HttpService  } from '../../../../services/http.service';
+import { HttpService } from '../../../../services/http.service';
 // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -62,10 +62,10 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
-    private auth:AuthenticatorService
+    private auth: AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-   }
+  }
 
   ngOnInit() {
     this.getPayerList();
@@ -73,10 +73,10 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     this.getPaymentMode();
     this.getCategoryDetails();
     let currentURL = window.location.href;
-    if(currentURL.includes('add-income')){
+    if (currentURL.includes('add-income')) {
       this.sectionName = 'Add';
     }
-    else{
+    else {
       this.sectionName = 'Edit';
       let splitURL = currentURL.split("/");
       this.editIncomeId = splitURL[splitURL.length - 1];
@@ -104,7 +104,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  getPayerList(){
+  getPayerList() {
     this.auth.showLoader();
     const url1 = `/api/v1/payment/party/income/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url1).subscribe(
@@ -119,7 +119,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  getAccountDetails(){
+  getAccountDetails() {
     this.auth.showLoader();
     const url2 = `/api/v1/account/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url2).subscribe(
@@ -134,7 +134,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  getPaymentMode(){
+  getPaymentMode() {
     this.auth.showLoader();
     const url3 = `/api/v1/masterData/type/PAYMENT_MODE`
     this.httpService.getData(url3).subscribe(
@@ -149,7 +149,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  getEditIncomeDetails(){
+  getEditIncomeDetails() {
     this.auth.showLoader();
     const url = `/api/v1/income/${this.jsonFlag.institute_id}/${this.editIncomeId}`
     this.httpService.getData(url).subscribe(
@@ -176,10 +176,10 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
           this.addedItemList.push(obj)
         }
 
-        if(!!this.editIncomeDetails.attachmentList){
+        if (!!this.editIncomeDetails.attachmentList) {
           for (let index = 0; index < this.editIncomeDetails.attachmentList.length; index++) {
             let obj = {
-              fileName: this.editIncomeDetails.attachmentList[index].file_name+"."+this.editIncomeDetails.attachmentList[index].file_extn,
+              fileName: this.editIncomeDetails.attachmentList[index].file_name + "." + this.editIncomeDetails.attachmentList[index].file_extn,
               file_desc: this.editIncomeDetails.attachmentList[index].file_desc,
               file_id: this.editIncomeDetails.attachmentList[index].file_id,
               file: this.editIncomeDetails.attachmentList[index].file,
@@ -197,9 +197,9 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  addItem(){
-    if(this.accountDetails.itemName != -1){
-      if(this.accountDetails.amount != 0){
+  addItem() {
+    if (this.accountDetails.itemName != -1) {
+      if (this.accountDetails.amount != 0) {
         let obj = {
           itemName: this.categoryName,
           description: this.accountDetails.description,
@@ -217,12 +217,12 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
         this.accountDetails.amount = 0;
         this.accountDetails.remarks = '';
       }
-      else{
+      else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
       }
     }
-    else{
-        this.msgService.showErrorMessage('error', '', "Select Item Name");
+    else {
+      this.msgService.showErrorMessage('error', '', "Select Item Name");
     }
 
     console.log(this.addedItemList);
@@ -230,69 +230,69 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
 
   uploadHandler() {
 
-      var fileTypes = ['jpg', 'jpeg', 'png', 'docs', 'pdf', 'doc', 'svg', 'txt'];  //acceptable file types
-      const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
-      if (preview != null || preview != undefined) {
-        let extension = preview.name.split('.').pop().toLowerCase(),  //file extension from input file
+    var fileTypes = ['jpg', 'jpeg', 'png', 'docs', 'pdf', 'doc', 'svg', 'txt'];  //acceptable file types
+    const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
+    if (preview != null || preview != undefined) {
+      let extension = preview.name.split('.').pop().toLowerCase(),  //file extension from input file
         isSuccess = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
 
-        if(isSuccess){
-          var myReader: FileReader = new FileReader();
-          let temp: any = {};
-          myReader.readAsDataURL(preview);
-          myReader.onloadend = () => {
-            temp = {
-              // "title": this.category_id,
-              "fileName": preview.name,
-              "file_desc": this.docDescription,
-              "encodedFile": (<string>myReader.result).split(',')[1],
-              "file_extn": extension,
-              "file_id": 0
-            }
-            this.docsList.push(temp);
-            this.docDescription = "";
-            this.msgService.showErrorMessage('success', '', "File uploaded successfully");
-            (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
+      if (isSuccess) {
+        var myReader: FileReader = new FileReader();
+        let temp: any = {};
+        myReader.readAsDataURL(preview);
+        myReader.onloadend = () => {
+          temp = {
+            // "title": this.category_id,
+            "fileName": preview.name,
+            "file_desc": this.docDescription,
+            "encodedFile": (<string>myReader.result).split(',')[1],
+            "file_extn": extension,
+            "file_id": 0
           }
-        }
-        else{
-          this.msgService.showErrorMessage('error', '', "Please check file type.");
+          this.docsList.push(temp);
+          this.docDescription = "";
+          this.msgService.showErrorMessage('success', '', "File uploaded successfully");
+          (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
         }
       }
       else {
-        this.msgService.showErrorMessage('error', '', "No file selected");
+        this.msgService.showErrorMessage('error', '', "Please check file type.");
       }
+    }
+    else {
+      this.msgService.showErrorMessage('error', '', "No file selected");
+    }
   }
 
-  addIncome(){
-    if(this.paymentDetails.payerName != '-1'){
+  addIncome() {
+    if (this.paymentDetails.payerName != '-1') {
       if (this.paymentDetails.accountName != '-1') {
-        if(this.paymentDetails.paymentmode != "-1"){
-          if(this.addedItemList.length > 0){
+        if (this.paymentDetails.paymentmode != "-1") {
+          if (this.addedItemList.length > 0) {
             let itemlist = [];
             for (let index = 0; index < this.addedItemList.length; index++) {
               let item = {
                 "category_id": this.addedItemList[index].category_id,
                 //  "item_desc": this.addedItemList[index].description,
-                 "item_quantity": this.addedItemList[index].quantity,
-                 "item_amount": this.addedItemList[index].amount,
-                 "item_id": this.addedItemList[index].item_id,
-                 "remarks": this.addedItemList[index].remarks
+                "item_quantity": this.addedItemList[index].quantity,
+                "item_amount": this.addedItemList[index].amount,
+                "item_id": this.addedItemList[index].item_id,
+                "remarks": this.addedItemList[index].remarks
               }
               itemlist.push(item)
-           }
-
-           let attachList = [];
-           for (let index = 0; index < this.docsList.length; index++) {
-            let file = {
-              file_id: this.docsList[index].file_id,
-              file: this.docsList[index].encodedFile,
-              file_extn: this.docsList[index].file_extn,
-              file_desc: this.docsList[index].file_desc,
-              file_name: this.docsList[index].fileName
             }
-            attachList.push(file);
-           }
+
+            let attachList = [];
+            for (let index = 0; index < this.docsList.length; index++) {
+              let file = {
+                file_id: this.docsList[index].file_id,
+                file: this.docsList[index].encodedFile,
+                file_extn: this.docsList[index].file_extn,
+                file_desc: this.docsList[index].file_desc,
+                file_name: this.docsList[index].fileName
+              }
+              attachList.push(file);
+            }
 
             let obj = {
               party_id: this.paymentDetails.payerName,
@@ -305,31 +305,31 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
             }
             console.log(obj);
 
-            if(this.sectionName == 'Edit'){
+            if (this.sectionName == 'Edit') {
               this.updateIncome(obj);
             }
-            else{
+            else {
               this.addNewIncome(obj);
             }
           }
-          else{
+          else {
             this.msgService.showErrorMessage('error', '', 'Please specify at least one item of income!');
           }
         }
-        else{
+        else {
           this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
         }
       }
-      else{
+      else {
         this.msgService.showErrorMessage('error', '', 'Please select Account Name');
       }
     }
-    else{
+    else {
       this.msgService.showErrorMessage('error', '', 'Please select Payer Name');
     }
   }
 
-  addNewIncome(obj){
+  addNewIncome(obj) {
     this.auth.showLoader();
     const url = `/api/v1/income/${this.jsonFlag.institute_id}`
     this.httpService.postData(url, obj).subscribe(
@@ -345,7 +345,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  updateIncome(obj){
+  updateIncome(obj) {
     this.auth.showLoader();
     const url = `/api/v1/income/${this.jsonFlag.institute_id}/${this.editIncomeId}`
     this.httpService.putData(url, obj).subscribe(
@@ -361,9 +361,9 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  removeItem(itemName){
+  removeItem(itemName) {
     for (let index = 0; index < this.addedItemList.length; index++) {
-      if(this.addedItemList[index].itemName == itemName){
+      if (this.addedItemList[index].itemName == itemName) {
         this.totalAmount = this.totalAmount - Number(this.addedItemList[index].amount);
         this.addedItemList.splice(index, 1);
         break;
@@ -371,48 +371,48 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeDoc(fileName){
+  removeDoc(fileName) {
     for (let index = 0; index < this.docsList.length; index++) {
-      if(this.docsList[index].fileName == fileName){
+      if (this.docsList[index].fileName == fileName) {
         this.docsList.splice(index, 1);
         break;
       }
     }
   }
 
-  checkFututreDate(){
+  checkFututreDate() {
     let today = moment(new Date);
     let selectedDate = moment(this.paymentDetails.receivedDate)
     let diff = moment(selectedDate.diff(today))['_i'];
-    if(diff > 0){
+    if (diff > 0) {
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
       this.paymentDetails.receivedDate = moment(new Date).format('YYYY-MM-DD');
     }
   }
 
-  togglePayer(){
-    if(this.payerVisibilty){
+  togglePayer() {
+    if (this.payerVisibilty) {
       this.payerVisibilty = false;
       this.getPayerList();
     }
-    else{
+    else {
       this.payerVisibilty = true;
     }
   }
-  toggleAccount(){
-    if(this.accountVisibilty){
+  toggleAccount() {
+    if (this.accountVisibilty) {
       this.accountVisibilty = false;
       this.getAccountDetails();
     }
-    else{
+    else {
       this.accountVisibilty = true;
     }
   }
 
   setDescription(obj) {
-    if(this.categoryList && this.categoryList.length) {
-      let categoryObj =this.categoryList.filter(category=>{
-        if((category.category_id == this.accountDetails.itemName)) {
+    if (this.categoryList && this.categoryList.length) {
+      let categoryObj = this.categoryList.filter(category => {
+        if ((category.category_id == this.accountDetails.itemName)) {
           this.categoryName = category.category_name;
           this.accountDetails.description = category.category_desc;
         }
@@ -420,12 +420,12 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleCategory(){
-    if(this.categoryVisibility){
+  toggleCategory() {
+    if (this.categoryVisibility) {
       this.categoryVisibility = false;
       this.getCategoryDetails();
     }
-    else{
+    else {
       sessionStorage.setItem('expense_category_type', '3');
       this.categoryVisibility = true;
     }

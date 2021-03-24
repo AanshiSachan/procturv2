@@ -19,6 +19,7 @@ export class ViewAttendanceComponent implements OnInit {
     institute_id: ''
   }
   userDetailsAttendance = {
+
     fromDate: moment(new Date()).format('YYYY-MM-DD'),
     toDate: moment(new Date()).format('YYYY-MM-DD'),
     user_id: '17863',
@@ -44,7 +45,7 @@ export class ViewAttendanceComponent implements OnInit {
   getallAttendanceDetails() {
     this.auth.showLoader();
 
-    const url = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + /getByUser/ + this.userDetailsAttendance.user_id + '?' + 'formDate=' + this.userDetailsAttendance.fromDate + '&&' + 'toDate=' + this.userDetailsAttendance.toDate;
+    const url = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + /getByUser/ + this.userDetailsAttendance.user_id + '?' + 'fromDate=' + this.userDetailsAttendance.fromDate + '&&' + 'toDate=' + this.userDetailsAttendance.toDate;
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();

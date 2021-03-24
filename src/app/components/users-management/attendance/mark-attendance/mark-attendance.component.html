@@ -2,7 +2,7 @@
     <div class="head_padding">
         <div class="w98 flex head_padding1">
             <div class="page_heading">
-                <p>Mark Attendanc</p>
+                <p>Mark Attendance</p>
             </div>
             <div class="info_box1"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
                 {{lastAttendanceUpdatedDate}}</div>
@@ -22,17 +22,21 @@
             <!-- <select class="select mr10 wid240">
            <option>Role*</option>
          </select> -->
-            <div>
-                <input type="text" class="mr10 input wid240 magnifying-glass" name="" placeholder="Search ">
 
-                <div class="field-wrapper datePickerBox">
-                    <label for="payee"></label>
-                    <input type="text" value="" id="currentDate" class="form-ctrl widgetDatepicker"
-                        [(ngModel)]="markAttendanceDetail.currentDate" style="padding: 6px;" readonly="true"
-                        name="currentDate" placeholder="Date" (ngModelChange)="checkFututreDate($event)" bsDatepicker />
-                </div>
-                <!--  <button class="blue_button">Search</button> -->
+
+            <!-- 
+            <input type="text" class="mr10 input wid240 magnifying-glass" name="searchInput" [(ngModel)]="searchInput"
+                placeholder="Search " (keyup)="searchDataList(search)" #search> -->
+
+            <div class="field-wrapper datePickerBox">
+                <input type="text" value="" id="currentDate" class="form-ctrl widgetDatepicker"
+                    [(ngModel)]="markAttendanceDetail.currentDate" style="padding: 6px;" readonly="true"
+                    name="currentDate" placeholder="Date" (ngModelChange)="checkFututreDate($event)" bsDatepicker />
             </div>
+
+
+            <!--  <button class="blue_button">Search</button> -->
+
 
             <div class="attendance_blocks1">
                 <span title="Absent" class="absent "> </span>
@@ -69,7 +73,7 @@
                     </span>
 
                     <span title="Present" class="present dull"
-                        [ngClass]="{'present': item.attendance_status == 'Present'}"
+                        [ngClass]="{'present' : item.attendance_status == 'Present'}"
                         (click)="markAttendaceBtnClick(item,'Present',i)">
                         P
                     </span>
@@ -87,8 +91,7 @@
 
                 </div>
                 <div>
-                    <a routerLink="/view/manage/attendance/view-attendance"><img
-                            src="../../../../../assets/img/Group2.svg" title="View"></a>
+                    <img src="../../../../../assets/img/Group2.svg" title="View" (click)="viewUser(item.user_id)">
                 </div>
             </div>
 
@@ -107,13 +110,13 @@
             <button class="blue_button right" data-toggle="modal" *ngIf="lastAttendanceUpdatedDate == null"
                 data-target="#myalertModal" (click)="createAttendance()">Create</button>
             <div class=" flex pagin_height">
-                <div class="w20">
+                <!-- <div class="w20">
                     <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-                </div>
-                <div class="w10">
+                </div> -->
+                <!-- <div class="w10">
                     <p>Total <span>9</span> Pages</p>
-                </div>
-                <div class="w40">
+                </div> -->
+                <!-- <div class="w40">
                     <p>Records per Page
                         <select>
                             <option>9</option>
@@ -127,21 +130,23 @@
                             <a><span class="number">3</span></a> <a><span class="next">Next</span></a>
                         </p>
                     </span>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
-    <div class="modal" id="myalertModal">
+    <!-- <div class="modal" id="myalertModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title w-100 text-center">Attendance Updated!</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <!-- <div class="modal-body">
-         </div> -->
+             
             </div>
         </div>
+    </div> -->
+    <div class="no-records" *ngIf="allMarkAttendanceList.length == 0">
+        <span>No Records Found</span>
     </div>
 
 </div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { HttpService } from '../../../../services/http.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ExcelService } from '../../../../services/excel.service';
 import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
@@ -17,6 +17,9 @@ export class MarkAttendanceComponent implements OnInit {
   jsonFlag = {
     institute_id: '',
   };
+  searchInput: any
+  attendanceList: any[] = []
+  userType: any
 
 
   markAttendanceDetail = {
@@ -38,10 +41,16 @@ export class MarkAttendanceComponent implements OnInit {
   constructor(private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
-    private auth: AuthenticatorService, private excelService: ExcelService, private pdf: ExportToPdfService,) {
+    private auth: AuthenticatorService,
+    private excelService: ExcelService,
+    private pdf: ExportToPdfService,
+    private activatedRoute: ActivatedRoute,) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-
-
+    this.activatedRoute.params.subscribe(
+      (res: any) => {
+        this.userType = res['user_type'];
+      }
+    )
   }
 
   ngOnInit(): void {
@@ -51,14 +60,22 @@ export class MarkAttendanceComponent implements OnInit {
   }
 
   getAllmarkAttendance() {
+    this.markAttendanceDetail.currentDate = moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD')
     this.auth.showLoader();
-    const url1 = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + /all/ + this.markAttendanceDetail.currentDate + '/3';
+    const url1 = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + /all/ + this.markAttendanceDetail.currentDate + '/' + this.userType;
     this.httpService.getData(url1).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        debugger
+
         this.allMarkAttendanceList = res.result;
-        this.lastAttendanceUpdatedDate = this.allMarkAttendanceList[0].last_attendance_updated_date
+        this.attendanceList = res.result;
+        this.lastAttendanceUpdatedDate = this.allMarkAttendanceList[0].last_attendance_updated_date;
+        if (this.lastAttendanceUpdatedDate == null) {
+          for (let i = 0; this.allMarkAttendanceList.length; i++) {
+            this.allMarkAttendanceList[i].attendance_status = 'Present'
+          }
+
+        }
       },
       err => {
         this.auth.hideLoader();
@@ -68,7 +85,6 @@ export class MarkAttendanceComponent implements OnInit {
   }
 
   checkFututreDate(event) {
-    alert(this.markAttendanceDetail.currentDate)
     let today = moment(new Date);
     let selectedDate = moment(this.markAttendanceDetail.currentDate)
     let diff = moment(selectedDate.diff(today))['_i'];
@@ -76,6 +92,8 @@ export class MarkAttendanceComponent implements OnInit {
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
       this.markAttendanceDetail.currentDate = moment(new Date).format('YYYY-MM-DD');
 
+    } else {
+      this.getAllmarkAttendance();
     }
   }
 
@@ -102,13 +120,15 @@ export class MarkAttendanceComponent implements OnInit {
       institute_id: this.jsonFlag.institute_id,
       attendance_dto_list: this.attendance_dto_list
     }
-    console.log(JSON.stringify(obj));
     this.auth.showLoader();
     const url = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + "/update";
     this.httpService.putData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
+
         this.updateAttendanceList = res.result;
+        this.msgService.showErrorMessage('success', '', "Attendance updated successfully");
+
       },
       err => {
         this.auth.hideLoader();
@@ -127,7 +147,7 @@ export class MarkAttendanceComponent implements OnInit {
   createAttendance() {
     this.makeJSONToUpdate();
     let obj = {
-      attendance_date: this.markAttendanceDetail.currentDate,
+      attendance_date: moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD'),
       user_type: this.markAttendanceDetail.user_type,
       institute_id: this.jsonFlag.institute_id,
       attendance_dto_list: this.attendance_dto_list
@@ -140,7 +160,8 @@ export class MarkAttendanceComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.createAttendanceList = res.result;
-        console.log("ASHA create Atttendance", this.createAttendanceList)
+        this.msgService.showErrorMessage('success', '', "Attendance created successfully");
+
       },
       err => {
         this.auth.hideLoader();
@@ -185,11 +206,29 @@ export class MarkAttendanceComponent implements OnInit {
     this.pdf.exportToPdf(row, columns, 'Attendance_pdf');
 
   }
-  // previous(){
-  //   let today = moment(new Date);
-  //   let selectedDate = moment(this.markAttendanceDetail.currentDate)
+  searchDataList() {
+    if (this.searchInput == undefined || this.searchInput == null) {
+      this.searchInput = "";
+    }
+    else {
+      let searchData = this.attendanceList.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchInput.toLowerCase()))
+
+      );
+      this.allMarkAttendanceList = searchData;
+
+    }
+
+  }
+  viewUser(user_id) {
+
+    // user_id = this.allMarkAttendanceList.user_id
+    this.router.navigate(['/view/manage/attendance/view-attendance/' + user_id])
+
+  }
 
 
-  // }
 }
+
 

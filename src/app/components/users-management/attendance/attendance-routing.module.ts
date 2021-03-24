@@ -11,9 +11,9 @@ const routes: Routes = [
     component: AttendanceComponent,
     pathMatch: 'prefix',
     children: [
-      { path: 'view-attendance', component: ViewAttendanceComponent },
-      { path: 'mark-attendance', component: MarkAttendanceComponent }
-
+      { path: 'view-attendance/:id', component: ViewAttendanceComponent },
+      { path: 'mark-user-attendance/:user_type', component: MarkAttendanceComponent },
+      { path: 'mark-teacher-attendance/:user_type', component: MarkAttendanceComponent }
     ]
   }
 ];
