@@ -30,7 +30,7 @@
                     </div>
                     <div class="padding">
                         <p class="blue_text"> Name</p>
-                        <p class="black_text">Abhishek Joshi</p>
+                        <p class="black_text">{{nameData.userName}}</p>
                     </div>
                 </div>
                 <div class="width80"></div>
@@ -41,8 +41,8 @@
                         <div class="circle"></div>
                     </div>
                     <div class="padding">
-                        <p class="blue_text">Mobile</p>
-                        <p class="black_text">+91 2993939399</p>
+                        <p class="blue_text">Mobaile</p>
+                        <p class="black_text">{{nameData.userPhoneNo}}</p>
                     </div>
                 </div>
                 <div class="width80"></div>
@@ -316,35 +316,35 @@
             </div>
             <div class="summary_div"></div>
             <div class="flex attendance_details">
-                <div>
+                <!-- <div>
                     <p class="blue">30</p>
                     <p class="blue_text1">Total Working Days </p>
-                </div>
+                </div> -->
                 <div>
-                    <p class="blue">30</p>
+                    <p class="blue">{{dayStetus.Present}}</p>
                     <p class="blue_text1">No of days Present</p>
                 </div>
             </div>
             <div class="flex attendance_details">
                 <div>
-                    <p class="blue">01</p>
+                    <p class="blue">{{dayStetus.Absent}}</p>
                     <p class="blue_text1"> Absent </p>
 
                 </div>
                 <div>
-                    <p class="blue">30</p>
+                    <p class="blue">{{dayStetus.Late Present with Excuse}}</p>
                     <p class="blue_text1"> Late In With Excuse</p>
                 </div>
             </div>
             <div class="w98 flex attendance_details">
                 <div>
-                    <p class="blue">01</p>
+                    <p class="blue">{{dayStetus.Late Present}}</p>
                     <p class="blue_text1">Late In</p>
                 </div>
-                <div>
+                <!-- <div>
                     <p class="blue">0</p>
                     <p class="blue_text1">Holidays </p>
-                </div>
+                </div> -->
 
             </div>
         </div>
