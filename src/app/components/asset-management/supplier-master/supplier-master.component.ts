@@ -241,20 +241,21 @@ export class SupplierMasterComponent implements OnInit {
       this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
         (res: any) => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Vendor Added Successfully");
+          $('#modelforvendor').modal('hide');
           this.getVendorDetails();
         },
         err => {
 
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Supplier Name is Duplicate");
-          $('#modelforvendor').modal('hide');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Company Name is Duplicate");
+         
         }
       )
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
-      $('#modelforvendor').modal('hide');
+     
     }
-    $('#modelforvendor').modal('hide');
+    
   }
 
   //fordropdown

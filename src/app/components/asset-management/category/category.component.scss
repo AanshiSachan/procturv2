@@ -33,7 +33,7 @@
     height: 35px;
     left: 30px;
     top: 63px;
-    margin-left: 24px;
+    
     background: #FFFFFF;
     border: 1px solid #D5D0D0;
     box-sizing: border-box;
@@ -192,12 +192,12 @@ color: #444141;
  }
 
 
-input{
+ input{
   width: 330px;
   height: 35px;
-  left: 35px;
+  left: 30px;
   top: 63px;
-  margin-left: 24px;
+  
   background: #FFFFFF;
   border: 1px solid #D5D0D0;
   box-sizing: border-box;
@@ -220,11 +220,10 @@ input{
   height: 35px;
 }
 .title-model{
-  
 height: 18px;
-margin-left: 35px;
-margin-top: 20px;
-bottom: 15px;
+left: 41px;
+top: 30px;
+
 font-family: Open Sans;
 font-style: normal;
 font-weight: 600;
@@ -237,14 +236,13 @@ letter-spacing: 0.01em;
 color: #444141;
 
 }
+
 .multiselect{
   width: 330px;
 height: 35px;
-left: 35px;
+left: 30px;
 top: 63px;
-margin-left: 24px;
 background: #FFFFFF;
-border: 1px solid #D5D0D0;
 box-sizing: border-box;
 border-radius: 4px;
 margin-top:20px;
@@ -252,11 +250,16 @@ margin-top:20px;
 .modal-content{
   position: relative;
   width: 397px;
-  height: 230px;
-  
+  padding: 20px;
   background: #FFFFFF;
   border-radius: 8px;
     }
+
+    .modal-body {
+      position: relative;
+      padding: 15px;
+  }
+
   //css for assets
   .modal-bodyAseet{
     margin-top: 10px;
@@ -366,6 +369,9 @@ color: #444141;
 .inactive{
   border-bottom: none;
   
+}
+.errormsg{
+  height:10px;
 }
 
 

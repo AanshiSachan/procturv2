@@ -295,7 +295,7 @@ export class CategoryComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
         }
       )
-      $('#myModalforcat').modal('hide');
+    
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please fill all manadatory fields");
@@ -398,21 +398,20 @@ export class CategoryComponent implements OnInit {
       }
       this.model.location_ids = newasset
      this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
-        this.getAssetDetails();
-        $('#myModalforasset').modal('hide');
+       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
+       $('#myModalforasset').modal('hide');
+       this.getAssetDetails();
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id/ Name Duplicate");
-          $('#myModalforasset').modal('hide');
+        
         })
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
-      $('#myModalforasset').modal('hide');
+    
     }
-    this.getAssetDetails();
-    $('#myModalforasset').modal('hide');
+    
   }
 
   //get location

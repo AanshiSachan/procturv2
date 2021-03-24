@@ -157,18 +157,17 @@ export class LocationComponent implements OnInit {
         (res: any) => {
           this.submitted = true;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location Added Successfully");
+          $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Location name is duplicate");
         }
       )
-      $('#modelforlocation').modal('hide');
-      this.getLocationDetails();
     }
     else {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please fill all fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all fields");
     }
   }
 

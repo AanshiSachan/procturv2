@@ -31,34 +31,31 @@
         <!--model for-vendor-->
         <div class="modal fade" id="modelforvendor" role="dialog">
             <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-
-                    <div class="modal-body" style="padding-left:25px;">
-                        <button type="button" class="close" data-dismiss="modal"
-                            (click)="cancel(false)">&times;</button>
-                        <h4 class="title-model">Add Vendor</h4>
+           <div class="modal-content" style="height: 606px;">
+           <div class="modal-body">
+            <h4 class="title-model" *ngIf="!isedit">Add Vendor</h4>
+            <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Vendor</h4>
                         <form id="form1" #addVendorForm="ngForm" autocomplete="off">
-                            <div class="form-group">
+                            <div class="form-group" [class.has-error]="supplier_name.invalid && supplier_name.touched">
                                 <input type="text" class="form-control" name="supplier_name" id="supplier_name"
                                     placeholder="Company Name* " [(ngModel)]="model.supplier_name"
                                     #supplier_name="ngModel" required>
-                                <span class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched"> Supplier
-                                    Name is
-                                    required
-                                </span>
                             </div>
-                            <div class="form-group">
+                           <p class="errormsg"> <span class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched"> Company Name is
+                                required
+                            </span></p>
+                            <div class="form-group"  [class.has-error]="email.invalid && email.touched">
                                 <input type="text" class="form-control" name="email_id" id="email_id"
                                     placeholder="Email  * " [(ngModel)]="model.email_id" #email="ngModel"
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
 
                             </div>
-                            <div *ngIf="email.touched">
-                                <span class="help-block" *ngIf="email.errors?.required">Email is a required
+                            <div class="errormsg">
+                           <p  *ngIf="email.touched">
+                               <span class="help-block" *ngIf="email.errors?.required">Email is a required
                                     field!</span>
                                 <span class="help-block" *ngIf="email.errors?.pattern">This is not a valid Email!</span>
+                                </p>
                             </div>
                             <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
                                 <input type="text" class="form-control" name="mobile_no" id="mobile_no" maxlength="10"
@@ -71,38 +68,43 @@
                                 <div class="help-block" *ngIf="mobile_no.errors?.minlength">
                                     Please Enter 10 digit mobile number
                                 </div>
-                                <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
+                              <p  class="errormsg"> <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
                                     Mobile Number is Required
                                 </span>
+                            </p> 
                             </div>
                             <div>
                                 <textarea type="text" class="form-control" name="address" id="address"
                                     placeholder="Address *" [(ngModel)]="model.address" #address="ngModel" required>
                         </textarea>
-                                <span class="help-block" *ngIf="!address.valid && address.touched">
-                                    Location is Mandatory.
-                                </span>
+                        <p  class="errormsg">  <span class="help-block" *ngIf="!address.valid && address.touched">
+                                    Address is Required.
+                                </span></p>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="contact_person_name"
                                     id="contact_person_name" placeholder="Contact Person * "
                                     [(ngModel)]="model.contact_person_name" #contact_person_name="ngModel" required>
-                                <span class="help-block"
-                                    *ngIf="!contact_person_name.valid && contact_person_name.touched">
-                                    Contact Person Name is Mandatory.
-                                </span>
                             </div>
+                          <p class="errormsg">  <span class="help-block"
+                            *ngIf="!contact_person_name.valid && contact_person_name.touched">
+                            Contact Person Name is Mandatory.
+                        </span></p>
                             <div class="form-group multiselect">
                                 <ng-multiselect-dropdown placeholder="Category Name *" [(ngModel)]="model.category_ids"
                                     [data]="assetcategoryData" [settings]="moderatorSettings" name="category_ids"
                                     (ngModelChange)="getAssetsForSelectedCat($event)">
                                 </ng-multiselect-dropdown>
                             </div>
+                            <p class="errormsg">  <span class="help-block">
+                            </span></p>
                             <div class="form-group multiselect">
                                 <ng-multiselect-dropdown placeholder="Asset Provided *" [(ngModel)]="model.asset_ids"
                                     [data]="assetAllData" [settings]="moderatorSettingsforasset" name="model.asset_ids">
                                 </ng-multiselect-dropdown>
                             </div>
+                            <p class="errormsg">  <span class="help-block">
+                           </span></p>
                         </form>
                         <div style="text-align: center;"> 
                             <span > <button type="button" class="btns blue_button cancel"

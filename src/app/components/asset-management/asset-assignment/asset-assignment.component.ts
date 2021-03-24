@@ -259,14 +259,12 @@ export class AssetAssignmentComponent implements OnInit {
                      let errs =data[i].error_message;
                   }
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "asset not available to assign" );
-          $('#modelforassetAssign').modal('hide');
+      
         })
-       $('#modelforassetAssign').model('hide');
-      this.getAssignDetails();
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
-      $('#modelforassetAssign').modal('hide');
+    
     }
 
   }

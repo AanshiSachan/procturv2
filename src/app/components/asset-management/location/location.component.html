@@ -44,35 +44,33 @@
             <div class="modal-dialog">
 
                 <!-- Modal content-->
-                <div class="modal-content" style="padding:20px;">
+                <div class="modal-content">
                     <div class="modal-body">
-                      
-                        <h4 class="title-model" *ngIf="!isedit">Add Location</h4>
+                       <h4 class="title-model" *ngIf="!isedit">Add Location</h4>
                         <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Location</h4>
                         <form id="form1" #locationaddForm="ngForm" autocomplete="off">
-
-                            <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
+                          <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
                                 <input type="text" class="form-control" name="location_name" id="location_name"
                                     placeholder="Code* " [(ngModel)]="model.location_name" #locationId="ngModel"
                                     required>
                             </div>
-                          <span style="height:10px;" class="help-block" *ngIf="!locationId.valid && locationId.touched">
-                                Location id is Mandatory.
-                            </span>
+                         <p class="errormsg"><span  class="help-block" *ngIf="!locationId.valid && locationId.touched">
+                            Location id is Mandatory.
+                        </span></p> 
                             <div class="form-group" [class.has-error]="location_code.invalid && location_code.touched">
                                 <input type="text" class="form-control" name="location_code" id="location_code"
                                     placeholder="Location *" [(ngModel)]="model.location_code" #location_code="ngModel" required>
                             </div>
-                            <span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
+                            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
                                 Location name is mandatory
-                            </span>
+                            </span></p>
 
                             <div>
                                 <textarea type="text" class="form-control" name="location_description"
                                     id="location_description" placeholder="Description"
                                     [(ngModel)]="model.location_description">
                             </textarea>
-                            <span  style="height:10px;" ></span>
+                            <p class="errormsg">   <span  style="height:10px;" ></span></p>
                             
                             </div>
                             <div style="text-align: center;">

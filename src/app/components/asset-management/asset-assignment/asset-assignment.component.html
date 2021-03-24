@@ -31,13 +31,12 @@
     <!-- Modal -->
     <div class="modal fade" id="modelforassetAssign" role="dialog">
         <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
             <div class="modal-content">
-                <h4 class="modal-title">Assign Assets </h4>
+                <div class="modal-body">
+                <h4 class="title-model">Assign Assets </h4>
                 <form id="form1" #assetAssignmentForm="ngForm" autocomplete="off">
-                    <div class="form-row">
-                        <div class="field-wrapper  col-md-6">
+                    <div class="row">
+                        <div class="field-wrapper  col-md-6" [class.has-error]="category_id.invalid && category_id.touched">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id"  required #category_id="ngModel"
                                 (ngModelChange)="getassetsAndLocation($event)"
@@ -46,9 +45,11 @@
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>
-                            
-                        </div>
-                         <div class="field-wrapper  col-md-6">
+                            <p class="errormsg"><span  class="help-block" *ngIf="!category_id.valid && category_id.touched">
+                                Please select Category its  Mandatory Field.
+                            </span></p> 
+                       </div>
+                         <div class="field-wrapper  col-md-6" [class.has-error]="asset_id.invalid && asset_id.touched">
                             <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
                             required #asset_id="ngModel"
                                 (ngModelChange)="getLocationData($event)">
@@ -56,20 +57,21 @@
                                 <option value="{{data.id}}" *ngFor="let data of assetAllData">
                                     {{data.asset_name}}</option>
                             </select>
+                            <p class="errormsg"><span  class="help-block" *ngIf="!asset_id.valid && asset_id.touched">
+                                Please select Asset its  Mandatory Field.
+                            </span></p> 
                        </div>
-                        <span  class="help-block" *ngIf="asset_id.invalid && asset_id.touched">Please
-                            select Asset</span>
                     </div>
-                    <div class="form-row">
-                        <div class="field-wrapper  col-md-6">
+                    <div class="row">
+                        <div class="field-wrapper  col-md-6" [class.has-error]="quantity.invalid && quantity.touched">
                             <input type="text" class="form-control" id="inputPassword4" placeholder="Assign Quantity *"
                                 [(ngModel)]="model.quantity" name="quantity"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel">
-                                <span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
-                                    enter quantity</span>
+                                <p class="errormsg"><span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
+                                     Quantity is Mandatory Field</span></p>
                             </div>
-                        
-                        <div class="field-wrapper  col-md-6">
+                          
+                        <div class="field-wrapper  col-md-6"  [class.has-error]="user_type.invalid && user_type.touched">
                             <select class="form-control" name="user_type" id="user_type" 
                             required #user_type="ngModel"
                             [(ngModel)]="model.user_type">
@@ -81,12 +83,13 @@
                                 <option value="0">
                                     Custom User </option>
                             </select>
+                            <p class="errormsg"> <span  class="help-block" *ngIf="user_type.invalid && user_type.touched">Please
+                                select Role</span></p>
                         </div>
-                        <span  class="help-block" *ngIf="user_type.invalid && user_type.touched">Please
-                            select Role</span>
+                        
                     </div>
-                    <div class="form-row">
-                        <div class="field-wrapper col-md-6">
+                    <div class="row">
+                        <div class="field-wrapper col-md-6" [class.has-error]="check_out_user_id.invalid && check_out_user_id.touched">
                             <select class="form-control" name="check_out_user_id" id="check_out_user_id"
                                 [(ngModel)]="model.check_out_user_id"
                                 required #check_out_user_id="ngModel">
@@ -94,24 +97,28 @@
                                 <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
                                     {{data.name}}</option>
                             </select>
+                            <p class="errormsg">  <span  class="help-block" *ngIf="check_out_user_id.invalid && check_out_user_id.touched">Please
+                                select Check-Out By</span></p>
                         </div>
-                        <span  class="help-block" *ngIf="check_out_user_id.invalid && check_out_user_id.touched">Please
-                            select Check-Out By</span>
-                        <div class="field-wrapper col-md-6 datePickerBox">
+                       
+                        <div class="field-wrapper col-md-6 datePickerBox" >
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="due_date"
                                 [(ngModel)]="model.due_date" class="form-control" placeholder="Due Date" id="due_date"> 
                         </div>
+                        <p class="errormsg">  <span  class="help-block"></span></p>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="field-wrapper col-md-6 datePickerBox">
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_in_date"
                                 [(ngModel)]="model.check_in_date" class="form-control" placeholder="Check In Date"
                                 id="check_in_date">
+                                <p class="errormsg">  <span  class="help-block"></span></p>
                         </div>
                         <div class="field-wrapper col-md-6 datePickerBox">
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_out_date"
                                 [(ngModel)]="model.check_out_date" class="form-control" placeholder="Check Out Date"
                                 id="check_out_date">
+                                <p class="errormsg">  <span  class="help-block"></span></p>
                         </div>
                        
                     </div>
@@ -125,25 +132,28 @@
                             </select>
                         </div>
                     </div>--> 
-                    <div class="form-row">
+                    <div class="row">
                         <div class="field-wrapper col-md-12">
                             <input type="text" class="form-ctrl" name="note" [(ngModel)]="model.note"
                                 class="form-control" placeholder="Note" id="note">
                         </div>
+                        <p class="errormsg">  <span  class="help-block"></span></p>
+                    </div>
+         <div class="row" style="text-align:center;margin-top:15px;">
+                        <span > <button type="button"
+                                class="btns blue_button cancel" data-dismiss="modal"
+                                (click)="cancel(false)">Cancel</button></span>
+                        <span > <button type="submit" class="btns blue_button"
+                                (click)="saveAssetAssignDetails(model)" *ngIf="!isedit">Add
+                                Asset Assignment</button></span>
+                        <span > <button type="submit" class="btns blue_button" *ngIf="isedit"
+                                (click)="updateAssetAssignDetails()">Update
+                            </button></span>
                     </div>
                 </form>
-                <div class="modal-footer" style="text-align:center;">
-                    <span > <button type="button"
-                            class="btns blue_button cancel" data-dismiss="modal"
-                            (click)="cancel(false)">Cancel</button></span>
-                    <span > <button type="submit" class="btns blue_button"
-                            (click)="saveAssetAssignDetails(model)" *ngIf="!isedit">Add
-                            Asset Assignment</button></span>
-                    <span > <button type="submit" class="btns blue_button" *ngIf="isedit"
-                            (click)="updateAssetAssignDetails()">Update
-                        </button></span>
-                </div>
-            </div>
 
+              
+            </div>
+</div>
         </div>
     </div>

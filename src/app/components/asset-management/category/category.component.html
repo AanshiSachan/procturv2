@@ -35,6 +35,8 @@
                 <a (click)="assetDownloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
             </span>
             <span class="rights" *ngIf="is_asset_cat">
+                <input type="text"  style="visibility: hidden;"class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
                 <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
                 <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
                 <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
@@ -67,28 +69,28 @@
     <!--model for asset category-->
     <div class="modal fade" id="myModalforcat" data-backdrop="static" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content" style="height: 260px;">
+            <div class="modal-content" style="height: 278px;">
                 <div class="modal-body">
                    <h4 class="title-model"> Assets Category</h4>
                     <form id="form1" #assetcat="ngForm" autocomplete="off">
-                        <div ngModelGroup="categoryDetails" #categoryDetails='ngModelGroup'>
+                    
                             <div class="form-group" [class.has-error]="categoryCode.invalid && categoryCode.touched">
                                 <input type="text" class="form-control" name="category_code" id="category_code"
                                     placeholder="Code *" [(ngModel)]="category_model.category_code"
                                     #categoryCode="ngModel" required>
                             </div>
-                            <span style="height:10px;"class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
-                                Category ID is mandatory.
-                            </span>
+                          <p class="errormsg"> <span class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
+                                Category Code is mandatory.
+                            </span></p> 
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
                                 <input type="text" class="form-control" name="category_name" id="category_name"
                                     placeholder=" Name*" [(ngModel)]="category_model.category_name"
                                     #categoryNmae="ngModel" required>
                             </div>
-                            <span style="height:10px;" class="help-block" *ngIf="!categoryDetails.valid && categoryDetails.touched">
+                            <p class="errormsg"><span  class="help-block" *ngIf="!categoryNmae.valid && categoryNmae.touched">
                                 Category name mandatory.
-                            </span>
-                        </div>
+                            </span></p>
+                       
                         <div style="text-align: center;">
                             <span > <button type="button" class="btns blue_button cancel"
                                     data-dismiss="modal" (click)="cancel()">cancel</button></span>
@@ -109,75 +111,59 @@
     <!--model for add asset -->
     <div class="modal fade" data-backdrop="static" id="myModalforasset" role="dialog">
         <div class="modal-dialog">
-            <div>
-                <div class="modal-bodyAseet">
-                    <h4 class="titleforasset" > Assets</h4>
+            <div class="modal-content" style="height:540px;">
+                <div class="modal-body">
+                    <h4 class="title-model">Add Asset</h4>
                     <form id="form1" #assetaddForm="ngForm" autocomplete="off">
-                        <div class="form-group">
+                        <div class="form-group" [class.has-error]="asset_code.invalid && asset_code.touched">
                             <input type="text" class="form-control" name="asset_code" id="asset_code"
                                 placeholder="Code*" [(ngModel)]="model.asset_code" #asset_code="ngModel" required>
-                            <span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Asset ID is
-                                required</span>
                         </div>
-                        <div class="form-group">
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Asset ID is
+                            required</span></p>
+                        <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
                             <select class="form-control" name="category_id" id="category_id"
-                                [(ngModel)]="model.category_id">
-                                <option value="-1">Category* {{model.category_id}}</option>
+                                [(ngModel)]="model.category_id" required #category_id="ngModel">
+                                <option value="-1">Category*</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>
-
-                        </div>
-                        <div class="form-group">
+                          </div>
+                        <p class="errormsg"><span class="help-block" *ngIf="category_id.invalid && category_id.touched">    
+                            Category is mandatory</span></p>
+                        <div class="form-group" [class.has-error]="asset_name.invalid && asset_name.touched">
                             <input type="text" class="form-control" name="asset_name" id="asset_name"
                                 placeholder="Asset Name* " [(ngModel)]="model.asset_name" #asset_name="ngModel"
                                 required>
-                            <span class="help-block" *ngIf="asset_name.invalid && asset_name.touched">Asset Name is
-                                Required</span>
                         </div>
-                        <div class="form-group">
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_name.invalid && asset_name.touched">Asset Name is
+                            Required</span></p>
+                        <div class="form-group"  [class.has-error]="quantity.invalid && quantity.touched">
 
                             <input type="text" class="form-control" name="quantity" id="quantity"
                                 placeholder="Asset Qty* " [(ngModel)]="model.quantity"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" #quantity="ngModel"
                                 required>
-                            <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Number Of Assets is
-                                Required</span>
-
-                        </div>
-                        <div class="form-group">
+                       </div>
+                       <p class="errormsg"> <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Number Of Assets is
+                        Required</span></p>
+                      <div class="form-group"  [class.has-error]="asset_condition.invalid && asset_condition.touched">
                             <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
                                 id="asset_condition" required #asset_condition="ngModel">
                                 <option value="-1" > Condition* </option>
                                 <option value="New">New</option>
                                 <option value="Used">Used</option>
                             </select>
-                            <span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">asset
-                                condition mandatory</span>
-                        </div>
-
-                        <!--<select class="form-control" [(ngModel)]="model.location_ids" name="location_ids"
-                                id="location_ids" required #location_ids="ngModel" required>
-                                <option value="" selected>Asset Location *</option>
-                                <option value="{{data.id}}" *ngFor="let data of locationData">
-                                    {{data.location_name}}
-                                </option>
-                            </select>-->
-
-                        <div class="form-group multiselect">
+                      </div>
+                      <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">asset
+                        condition mandatory</span></p>
+                       <div class="form-group multiselect">
                             <ng-multiselect-dropdown placeholder="Location *" [(ngModel)]="model.location_ids"
                                 [data]="locationData" [settings]="moderatorSettingsforasset" name="model.location_ids">
                             </ng-multiselect-dropdown>
                         </div>
-
-                        <!--<select class="form-control" [(ngModel)]="model.location_ids" name="location_ids"
-                                id="location_ids" required #location_ids="ngModel" required>
-                                <option value="" selected>Asset Location *</option>
-                                <option value="{{data.id}}" *ngFor="let data of locationData">
-                                    {{data.location_name}}
-                                </option>
-                            </select>-->
-
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched"></span></p>
+                       
                         <div class="form-group">
                             <div style="text-align: center;">
                             <span > <button type="submit" class="btns blue_button cancel"
