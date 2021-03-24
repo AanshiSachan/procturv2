@@ -124,17 +124,17 @@
 
               <div class="col-lg-2" *ngIf="isManualDisplayId">
                 <span class="label ">
-                  Roll No *
+                  {{schoolModel? 'Registration Number *' : 'Roll No *'}}
                 </span>
               </div>
               <div class="col-lg-4" *ngIf="isManualDisplayId"
                 [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
-                <input type="text" value="" class="input" id="manualId" placeholder="Enter roll no"
+                <input type="text" value="" class="input" id="manualId" [placeholder]="schoolModel? 'Enter Registration Number *' : 'Enter Roll No *'"
                   [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel"
                   required>
                 <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
                   <div *ngIf="manualId.errors.required" class="text-danger">
-                    Roll Number is Mandatory
+                    {{schoolModel? 'Registration Number *' : 'Roll No *'}} is Mandatory
                   </div>
                 </div>
               </div>
@@ -185,12 +185,12 @@
             </div>
             <div class="row" *ngIf="schoolModel">
               <div class="col-lg-2">
-                <span class="label ">Mother Tounge</span>
+                <span class="label ">Mother Tongue</span>
               </div>
               <div class="col-lg-4">
                 <select id="mother_tounge" class="input-select" [(ngModel)]="studentAddFormData.mother_tounge"
                   name="mother_tounge">
-                  <option value="">Select Mother Tounge</option>
+                  <option value="">Select Mother Tongue</option>
                   <option *ngFor="let data of masterDataList.MOTHER_TOUNGE" [value]="data.data_key">
                     {{data.data_value}}</option>
                 </select>
@@ -522,7 +522,7 @@
               <div class="col-lg-2">
               </div>
               <div class="col-lg-10">
-                <p class="choose_file">Choose File(Ctrl + ) To Upload</p>
+                <p class="choose_file">Choose File(Ctrl + U) To Upload</p>
               </div>
             </div>
             <div class="row">
@@ -645,6 +645,23 @@
                     <a style="cursor:pointer" (click)="openAssignBatch()">{{schoolModel ? 'Assign
                       Sections' : 'Assign Courses'}}</a>
                   </div>
+                </div>
+
+                <div class="row no-gutters" *ngIf="!isProfessional && schoolModel && showRollNoField">
+                  <div class="col-lg-4">
+                    <span class="label">Roll No. *</span>
+                  </div>
+                <div class="col-lg-7" 
+                [ngClass]="{'has-value': studentAddFormData.roll_no != ''}">
+                <input type="text" value="" class="input" id="roll_no" placeholder="Enter roll no"
+                  [(ngModel)]="studentAddFormData.roll_no" name="roll_no" maxlength="50" #roll_no="ngModel"
+                  required>
+                <div *ngIf="roll_no.invalid && (roll_no.dirty || roll_no.touched)" class="alert invalid-alert">
+                  <div *ngIf="roll_no.errors.required" class="text-danger">
+                    Roll Number is Mandatory
+                  </div>
+                </div>
+              </div>
                 </div>
 
                 <div class="row no-gutters" *ngIf="isProfessional">

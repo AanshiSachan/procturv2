@@ -5,6 +5,7 @@ import { ExamGradeServiceService } from "../../../../services/examgradeservice/e
 import { HttpService } from "../../../../services/http.service";
 import { CommonApiCallService } from "../../../../services/common-api-call.service";
 import { MessageShowService } from "../../../../services/message-show.service";
+import CommonUtils from '../../../../utils/commonUtils';
 @Component({
   selector: "app-manage-exam-grades",
   templateUrl: "./manage-exam-grades.component.html",
@@ -95,21 +96,35 @@ export class ManageExamGradesComponent implements OnInit {
       }
     );
   }
+
+  valAddInputFields(obj) {
+    if(this.editData)
+    if(CommonUtils.isEmpty(obj.grade) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_from)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_to)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.grade_points))) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  valEditInputFields(obj) {
+    if(this.editData)
+    if(CommonUtils.isEmpty(obj.grade) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_from_percent)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_to_percent)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.grade_points))) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   // data added to table
   addDataToTable() {
-    if (
-      this.addData.description == "" ||
-      this.addData.grade == "" ||
-      this.addData.description == null ||
-      this.addData.grade == null
-    ) {
+    if (!this.valAddInputFields(this.addData)) {
       let msg = {
         type: "error",
-        title: "Incorrect Details",
+        title: "",
         body: "All fields Are required",
       };
       this.appC.popToast(msg);
-    } else if (this.addData.description != " " || this.addData.grade != " ") {
+    } else {
       let payload = {};
       if (this.isSchoolModel) {
         payload = {
@@ -168,6 +183,14 @@ export class ManageExamGradesComponent implements OnInit {
   }
   // put data for edited request
   saveInformation(row, index) {
+    if (!this.valEditInputFields(row)) {
+      let msg = {
+        type: "error",
+        title: "",
+        body: "All fields Are required",
+      };
+      this.appC.popToast(msg);
+    } else {
     let data = {};
     if (this.isSchoolModel) {
       data = {
@@ -210,6 +233,7 @@ export class ManageExamGradesComponent implements OnInit {
         this.selectedExamTypeId = -1;
       }
     );
+    }
   }
 
   cancelEditRow(index) {
@@ -231,7 +255,7 @@ export class ManageExamGradesComponent implements OnInit {
         (data: any) => {
           this.fetchGrades();
           let msg = {
-            type: "",
+            type: "error",
             body: "Grade deleted successfully",
           };
           this.appC.popToast(msg);

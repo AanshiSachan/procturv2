@@ -233,7 +233,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     extra_curricular_activities: '',
     educational_group: '',
     pin_code: '',
-    student_perm_addr: ''
+    student_perm_addr: '',
+    roll_no: ''
   };
 
   enqAssignTo: any = [];
@@ -320,6 +321,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   role_feature = role.features;
   schoolModel: boolean = false;
   masterDataList: any = {};
+  showRollNoField: boolean = false;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -904,7 +906,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   /* align the user selected batch into input and update the data into array to be updated to server */
   getassignedBatchList(e) {
     let temp = [];
+    this.showRollNoField = false;
     if (e.batchJoiningDates && e.batchJoiningDates.length) {
+      this.showRollNoField = true;
       e.batchJoiningDates.forEach(el => {
         temp.push(moment(el).format('YYYY-MM-DD'));
       });
@@ -1210,7 +1214,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
-        this.msgToast.showErrorMessage('error', 'Student Roll Number Missing', "Please enter a valid roll number");
+        let msg = this.schoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
+        this.msgToast.showErrorMessage('error', '', msg);
       }
     }
     else {
@@ -1288,6 +1293,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         || (this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlegth, this.country_id) == false &&
           this.studentAddFormData.guardian_phone != "")) {
         this.msgToast.showErrorMessage('error', '', "Please enter valid parent/guardian mobile number");
+        return;
+      }
+
+      if(this.schoolModel && this.showRollNoField && this.studentAddFormData.roll_no == '') {
+        this.msgToast.showErrorMessage('error', '', "Please enter Roll No");
         return;
       }
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
