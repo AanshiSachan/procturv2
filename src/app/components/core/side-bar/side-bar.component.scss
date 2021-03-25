@@ -850,7 +850,7 @@ overflow-x: visible;
 }
 
 .power{
-  width: calc(14% - 12px);
+  width: calc(14% - 10px);
   color: #fff;
   position:fixed;
   bottom: 0em;
@@ -985,7 +985,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
 }
 
 .sidebar-wrapper .sidebar-brand {
-  width:calc(14% - 12px);
+  width:calc(14% - 10px);
   padding: 10px 0px;
   display: flex;
   text-align: center;
