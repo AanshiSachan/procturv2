@@ -185,12 +185,12 @@
             </div>
             <div class="row" *ngIf="schoolModel">
               <div class="col-lg-2">
-                <span class="label ">Mother Tounge</span>
+                <span class="label ">Mother Tongue</span>
               </div>
               <div class="col-lg-4">
                 <select id="mother_tounge" class="input-select" [(ngModel)]="studentAddFormData.mother_tounge"
                   name="mother_tounge">
-                  <option value="">Select Mother Tounge</option>
+                  <option value="">Select Mother Tongue</option>
                   <option *ngFor="let data of masterDataList.MOTHER_TOUNGE" [value]="data.data_key">
                     {{data.data_value}}</option>
                 </select>
@@ -485,7 +485,7 @@
               </div>
               <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.extra_curricular_activities != ''}">
                 <input type="text" value="" id="extra_curricular_activities" class="input"
-                  placeholder="Enter birth place" [(ngModel)]="studentAddFormData.extra_curricular_activities"
+                  placeholder="Extra Curricular Activities" [(ngModel)]="studentAddFormData.extra_curricular_activities"
                   name="extra_curricular_activities" #cardId="ngModel" />
               </div>
 
