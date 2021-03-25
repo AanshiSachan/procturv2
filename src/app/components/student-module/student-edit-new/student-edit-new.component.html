@@ -1220,7 +1220,7 @@
                                     <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}"
                                         [(ngModel)]="tableHeaderCheckbox"
                                         (ngModelChange)="mainTAbleCheckboxClicked($event)" />
-                                    <label for="instl{{i}}">Course Name</label>
+                                    <label for="instl{{i}}">{{isSchoolModel ? 'Section' : 'Course'}} Name</label>
                                 </div>
                             </aside>
 

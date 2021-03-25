@@ -391,8 +391,9 @@ export class ScheduleComponent implements OnInit {
       },
       err => {
         this.coursePlannerData = [];
+        this.totalCount = 0;
         this.auth.hideLoader();
-        this.messageService.showErrorMessage('error', '', err.error.message);
+        // this.messageService.showErrorMessage('error', '', err.error.message);
       }
     );
   }
