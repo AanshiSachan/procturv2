@@ -1286,7 +1286,7 @@ export class AdminHomeComponent implements OnInit {
         this.auth.hideLoader();
         let msg = {
           type: 'success',
-          title: 'Course Schedule Cancelled',
+          title: '',
           body: 'The requested scheduled has been cancelled'
         }
         this.appC.popToast(msg);
