@@ -158,6 +158,7 @@
               <label for="master_course">{{schoolModel ? 'Standard' : 'Master Course'}}<span
                   class="text-danger">*</span> </label>
               <select class="form-ctrl" *ngIf="schoolModel" style="border: none;" name="master_course"
+              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
                 id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
                 <option value="" disabled selected="selected">Select {{schoolModel ? 'Standard' : 'Master Course'}}
                 </option>
@@ -167,6 +168,7 @@
               </select>
               <ng-multiselect-dropdown *ngIf="!schoolModel"
                 placeholder="{{schoolModel ? 'Select Standard' : 'Select Master Course'}}"
+                [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
                 [settings]="masterCourseListSetting" [data]="masters" [(ngModel)]="courseValue"
                 (ngModelChange)="getCourses($event)">
               </ng-multiselect-dropdown>

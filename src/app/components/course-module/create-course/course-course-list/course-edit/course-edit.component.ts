@@ -177,7 +177,8 @@ export class CourseEditComponent implements OnInit {
         res => {
           this.jsonVar.callApi = true;
           this.router.navigateByUrl('/view/course/create/courselist');
-          this.messageToast('success', '', 'Course updated successfully.');
+          let msg = this.schoolModel ? 'Section' : 'Course';
+          this.messageToast('success', '', msg +' updated successfully.');
 
         },
         err => {
