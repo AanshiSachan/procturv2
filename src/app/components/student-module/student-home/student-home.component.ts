@@ -890,6 +890,9 @@ export class StudentHomeComponent implements OnInit {
       this.advancedFilterForm.is_active_status
     );
     this.instituteData = this.advancedFilterForm;
+    if (this.advancedFilterForm.master_course_name == "-1") {
+      this.instituteData.master_course_name = "";
+    }
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     this.loadTableDataSource(this.instituteData);
@@ -1014,9 +1017,13 @@ export class StudentHomeComponent implements OnInit {
 
     if (!this.standardList.length) {
       this.auth.showLoader();
+      if(!this.schoolModel) {
       this.prefill.getEnqStardards().subscribe((data) => {
         this.standardList = data;
       });
+    } else {
+      this.getStandard();
+    }
     }
 
     if (!this.schoolList.length) {
@@ -1043,6 +1050,34 @@ export class StudentHomeComponent implements OnInit {
     }
 
     this.fetchDataForCountryDetails();
+  }
+
+  getStandard() {
+    let url = "/api/v1/courseMaster/standard-section-list/" + sessionStorage.getItem("institute_id");
+    let keys;
+    this.auth.showLoader();
+    this.http_service.getData(url).subscribe(
+      (data: any) => {
+        this.standardList = [];
+        this.auth.hideLoader();
+        this.standardList = data.result;
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
+  updateCourseList(ev) {
+    this.advancedFilterForm.course_id = "-1";
+    this.subCourseList = [];
+    let standard_obj = this.standardList.filter(
+      (standard) => (ev == standard.standard_id)
+    );
+    if(standard_obj && standard_obj.length) {
+      this.subCourseList = standard_obj[0].section_list;
+    }
   }
 
   getAcademmicYear() {
@@ -1282,6 +1317,9 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   updateSubCourse(course) {
+    if(this.schoolModel) {
+      this.updateCourseList(course)
+    } else {
     this.advancedFilterForm.course_id = "-1";
     this.subCourseList = [];
     this.masterCourseList.forEach((el) => {
@@ -1290,16 +1328,21 @@ export class StudentHomeComponent implements OnInit {
       }
     });
   }
+  }
 
   /* when the user select the master course then fetch course for the related */
   /* =================================================================================================== */
   /* =================================================================================================== */
   fetchCourseForMaster(id) {
+    if(this.schoolModel) {
+      this.updateCourseList(id);
+    } else {
     this.advancedFilterForm.subject_id = "-1";
     this.subjectList = [];
     this.studentPrefill.fetchCourseList(id).subscribe((res) => {
       this.subjectList = res;
     });
+    }
   }
 
   /* =================================================================================================== */
@@ -2967,10 +3010,14 @@ export class StudentHomeComponent implements OnInit {
     this.showQuickFilter = true;
     if (!this.standardList.length) {
       this.auth.showLoader();
-      this.prefill.getEnqStardards().subscribe((data) => {
-        this.auth.hideLoader();
-        this.standardList = data;
-      });
+      if(this.schoolModel) {
+        this.getStandard();
+      } else {
+        this.prefill.getEnqStardards().subscribe((data) => {
+          this.auth.hideLoader();
+          this.standardList = data;
+        });
+      }
     }
     this.auth.showLoader();
     this.studentPrefill.fetchBatchDetails().subscribe((data) => {
