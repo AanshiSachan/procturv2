@@ -36,7 +36,8 @@
                 <h4 class="title-model">Assign Assets </h4>
                 <form id="form1" #assetAssignmentForm="ngForm" autocomplete="off">
                     <div class="row">
-                        <div class="field-wrapper  col-md-6" [class.has-error]="category_id.invalid && category_id.touched">
+                        <div class="field-wrapper  col-md-6" 
+                        [class.has-error]="category_id.invalid && category_id.touched">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id"  required #category_id="ngModel"
                                 (ngModelChange)="getassetsAndLocation($event)"
@@ -46,7 +47,7 @@
                                     {{data.category_name}}</option>
                             </select>
                             <p class="errormsg"><span  class="help-block" *ngIf="!category_id.valid && category_id.touched">
-                                Please select Category its  Mandatory Field.
+                                Category name is mandatory
                             </span></p> 
                        </div>
                          <div class="field-wrapper  col-md-6" [class.has-error]="asset_id.invalid && asset_id.touched">
@@ -58,7 +59,7 @@
                                     {{data.asset_name}}</option>
                             </select>
                             <p class="errormsg"><span  class="help-block" *ngIf="!asset_id.valid && asset_id.touched">
-                                Please select Asset its  Mandatory Field.
+                                Asset is mandatory
                             </span></p> 
                        </div>
                     </div>
@@ -68,7 +69,7 @@
                                 [(ngModel)]="model.quantity" name="quantity"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel">
                                 <p class="errormsg"><span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
-                                     Quantity is Mandatory Field</span></p>
+                                     Quantity is mandatory </span></p>
                             </div>
                           
                         <div class="field-wrapper  col-md-6"  [class.has-error]="user_type.invalid && user_type.touched">
@@ -83,8 +84,8 @@
                                 <option value="0">
                                     Custom User </option>
                             </select>
-                            <p class="errormsg"> <span  class="help-block" *ngIf="user_type.invalid && user_type.touched">Please
-                                select Role</span></p>
+                            <p class="errormsg"> <span  class="help-block" *ngIf="user_type.invalid && user_type.touched">Role
+                               is mandatory</span></p>
                         </div>
                         
                     </div>
@@ -108,11 +109,11 @@
                         <p class="errormsg">  <span  class="help-block"></span></p>
                     </div>
                     <div class="row">
-                        <div class="field-wrapper col-md-6 datePickerBox">
+                        <div class="field-wrapper col-md-6 datePickerBox" [class.has-error]="check_in_date.invalid && check_in_date.touched"> 
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_in_date"
                                 [(ngModel)]="model.check_in_date" class="form-control" placeholder="Check In Date"
-                                id="check_in_date">
-                                <p class="errormsg">  <span  class="help-block"></span></p>
+                                id="check_in_date" #check_in_date="ngModel" required>
+                                <p class="errormsg">  <span  *ngIf="check_in_date.invalid && check_in_date.touched" class="help-block"> Check in date is mandatory</span></p>
                         </div>
                         <div class="field-wrapper col-md-6 datePickerBox">
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_out_date"

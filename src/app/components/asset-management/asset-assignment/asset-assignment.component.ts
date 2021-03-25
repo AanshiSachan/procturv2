@@ -70,7 +70,6 @@ export class AssetAssignmentComponent implements OnInit {
     this.getAssetDetails();
     this.getCheckOutBy();
     this.getRolesList();
-    this.cancel(false);
     this.getAssignDetails();
   }
   setTableData() {
@@ -93,7 +92,7 @@ export class AssetAssignmentComponent implements OnInit {
       
       {
         primary_key: 'quantity',
-        value: "Assign Quantity",
+        value: "Assign Qty",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -238,14 +237,14 @@ export class AssetAssignmentComponent implements OnInit {
       this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
       this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
       this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD");
-      this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
+        this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
        this.getAssignDetails();
         this.cancel(false);
         $('#modelforassetAssign').modal('hide');
       },
         err => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "asset not available to assign" );
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Requested asset quantity is more than available" );
       
         })
     }
@@ -317,10 +316,12 @@ export class AssetAssignmentComponent implements OnInit {
     this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD")
 
     this.httpService.putMethod('api/v2/asset/assignment/update', this.model).then(() => {
+      this.cancel(false)
       this.getAssignDetails();
     },
       err => {
         this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "updated successfully")
       })
     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
     $('#modelforassetAssign').modal('hide');
@@ -330,7 +331,7 @@ export class AssetAssignmentComponent implements OnInit {
     }
   }
   cancel(param) {
-  
+  this.assetAssignmentForm.resetForm();
     this.isedit = false;
     this.model = {
       id: '',
@@ -383,8 +384,10 @@ export class AssetAssignmentComponent implements OnInit {
   getassetsAndLocation(category_id) {
     let key = this.assetcategoryData.filter(id => (id.id == category_id));
     let key_name = key[0].category_name;
+    console.log(key_name)
     this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + category_id + '&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
       this.assetAllData = res.result[key_name];
+      console.log(this.assetAllData)
      },
       err => {
         this.auth.hideLoader();

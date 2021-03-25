@@ -156,13 +156,13 @@ export class LocationComponent implements OnInit {
       obj.active = true;
       this.httpService.postMethod('api/v2/asset/location/create', obj).then(
         (res: any) => {
-          this.submitted = true;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location Added Successfully");
+           this.submitted = true;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.body.result);
           $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Location name is duplicate");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
         }
       )
     }
@@ -200,13 +200,14 @@ export class LocationComponent implements OnInit {
   updateLocationDetails() {
     if (this.locationaddForm.valid) {
      this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
+      $('#modelforlocation').modal('hide');
         this.getLocationDetails();
       },
         err => {
-          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
+         this.auth.hideLoader();
         })
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
-      $('#modelforlocation').modal('hide');
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")

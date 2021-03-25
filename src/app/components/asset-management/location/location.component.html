@@ -11,7 +11,7 @@
                         src="assets/images/assets/Group1.svg"></span>
                 <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
                 <div class="tooltip-box-field">
-                    This section is used to store the location at which the management stores its assets
+                   " This section is used to manage the location at which the management stores its assets."
                 </div>
             </div>
         </div>
@@ -50,16 +50,16 @@
                         <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Location</h4>
                         <form id="form1" #locationaddForm="ngForm" autocomplete="off">
                           <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
-                                <input type="text" class="form-control" name="location_name" id="location_name"
-                                    placeholder="Code* " [(ngModel)]="model.location_name" #locationId="ngModel"
+                                <input type="text" class="form-control" name="location_code" id="location_code"
+                                    placeholder="Code* " [(ngModel)]="model.location_code" #locationId="ngModel"
                                     required>
                             </div>
                          <p class="errormsg"><span  class="help-block" *ngIf="!locationId.valid && locationId.touched">
-                            Location id is Mandatory.
+                            Location code is mandatory
                         </span></p> 
                             <div class="form-group" [class.has-error]="location_code.invalid && location_code.touched">
-                                <input type="text" class="form-control" name="location_code" id="location_code"
-                                    placeholder="Location *" [(ngModel)]="model.location_code" #location_code="ngModel" required>
+                                <input type="text" class="form-control" name="location_name" id="location_code"
+                                    placeholder="Location *" [(ngModel)]="model.location_name" #location_code="ngModel" required>
                             </div>
                             <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
                                 Location name is mandatory

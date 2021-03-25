@@ -1,10 +1,10 @@
 <div class="page-content">
     <div class="page_heading">
         <div class="w98">
-            <span>Vendor</span>
+            <span>Supplier Master</span>
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#modelforvendor"
                     (click)="cancel(false)">Add
-                    Vendor</button></span>
+                    Supplier</button></span>
         </div>
     </div>
     <div class="w98">
@@ -31,10 +31,10 @@
         <!--model for-vendor-->
         <div class="modal fade" id="modelforvendor" role="dialog">
             <div class="modal-dialog">
-           <div class="modal-content" style="height: 606px;">
+           <div class="modal-content" style="height: 620px;">
            <div class="modal-body">
-            <h4 class="title-model" *ngIf="!isedit">Add Vendor</h4>
-            <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Vendor</h4>
+            <h4 class="title-model" *ngIf="!isedit">Add Supplier</h4>
+            <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Supplier</h4>
                         <form id="form1" #addVendorForm="ngForm" autocomplete="off">
                             <div class="form-group" [class.has-error]="supplier_name.invalid && supplier_name.touched">
                                 <input type="text" class="form-control" name="supplier_name" id="supplier_name"
@@ -42,7 +42,7 @@
                                     #supplier_name="ngModel" required>
                             </div>
                            <p class="errormsg"> <span class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched"> Company Name is
-                                required
+                            mandatory 
                             </span></p>
                             <div class="form-group"  [class.has-error]="email.invalid && email.touched">
                                 <input type="text" class="form-control" name="email_id" id="email_id"
@@ -52,9 +52,8 @@
                             </div>
                             <div class="errormsg">
                            <p  *ngIf="email.touched">
-                               <span class="help-block" *ngIf="email.errors?.required">Email is a required
-                                    field!</span>
-                                <span class="help-block" *ngIf="email.errors?.pattern">This is not a valid Email!</span>
+                               <span class="help-block" *ngIf="email.errors?.required">Email is mandatory</span>
+                                <span class="help-block" *ngIf="email.errors?.pattern">This is not a valid email!</span>
                                 </p>
                             </div>
                             <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
@@ -69,7 +68,7 @@
                                     Please Enter 10 digit mobile number
                                 </div>
                               <p  class="errormsg"> <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
-                                    Mobile Number is Required
+                                    Mobile number is mandatory
                                 </span>
                             </p> 
                             </div>
@@ -78,7 +77,7 @@
                                     placeholder="Address *" [(ngModel)]="model.address" #address="ngModel" required>
                         </textarea>
                         <p  class="errormsg">  <span class="help-block" *ngIf="!address.valid && address.touched">
-                                    Address is Required.
+                                    Address is mandatory..
                                 </span></p>
                             </div>
                             <div class="form-group">
@@ -88,7 +87,7 @@
                             </div>
                           <p class="errormsg">  <span class="help-block"
                             *ngIf="!contact_person_name.valid && contact_person_name.touched">
-                            Contact Person Name is Mandatory.
+                            Contact person name is mandatory
                         </span></p>
                             <div class="form-group multiselect">
                                 <ng-multiselect-dropdown placeholder="Category Name *" [(ngModel)]="model.category_ids"
@@ -96,7 +95,7 @@
                                     (ngModelChange)="getAssetsForSelectedCat($event)">
                                 </ng-multiselect-dropdown>
                             </div>
-                            <p class="errormsg">  <span class="help-block">
+                            <p class="errormsg" style="margin-top: 10px;">  <span class="help-block">
                             </span></p>
                             <div class="form-group multiselect">
                                 <ng-multiselect-dropdown placeholder="Asset Provided *" [(ngModel)]="model.asset_ids"
@@ -111,10 +110,10 @@
                                     data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
                             <span > <button type="submit" class="btns blue_button"
                                     (click)="saveVendorDetails(model)" *ngIf="!isedit">
-                                    Add Vendor</button></span>
+                                    Add Supplier</button></span>
                             <span > <button type="submit" class="btns blue_button"
                                     (click)="updateVendorDetails(model)" *ngIf="isedit">
-                                    Update  Vendor</button></span>
+                                    Update </button></span>
                         </div>
                     </div>
 

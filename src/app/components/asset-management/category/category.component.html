@@ -80,7 +80,7 @@
                                     #categoryCode="ngModel" required>
                             </div>
                           <p class="errormsg"> <span class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
-                                Category Code is mandatory.
+                                Category code is mandatory
                             </span></p> 
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
                                 <input type="text" class="form-control" name="category_name" id="category_name"
@@ -88,7 +88,7 @@
                                     #categoryNmae="ngModel" required>
                             </div>
                             <p class="errormsg"><span  class="help-block" *ngIf="!categoryNmae.valid && categoryNmae.touched">
-                                Category name mandatory.
+                                Category name mandatory
                             </span></p>
                        
                         <div style="text-align: center;">
@@ -119,8 +119,8 @@
                             <input type="text" class="form-control" name="asset_code" id="asset_code"
                                 placeholder="Code*" [(ngModel)]="model.asset_code" #asset_code="ngModel" required>
                         </div>
-                        <p class="errormsg"><span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Asset ID is
-                            required</span></p>
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Code is
+                            mandatory</span></p>
                         <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id" required #category_id="ngModel">
@@ -137,7 +137,7 @@
                                 required>
                         </div>
                         <p class="errormsg"><span class="help-block" *ngIf="asset_name.invalid && asset_name.touched">Asset Name is
-                            Required</span></p>
+                            mandatory</span></p>
                         <div class="form-group"  [class.has-error]="quantity.invalid && quantity.touched">
 
                             <input type="text" class="form-control" name="quantity" id="quantity"
@@ -145,8 +145,8 @@
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" #quantity="ngModel"
                                 required>
                        </div>
-                       <p class="errormsg"> <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Number Of Assets is
-                        Required</span></p>
+                       <p class="errormsg"> <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Asset Qty is
+                        mandatory</span></p>
                       <div class="form-group"  [class.has-error]="asset_condition.invalid && asset_condition.touched">
                             <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
                                 id="asset_condition" required #asset_condition="ngModel">
@@ -155,10 +155,10 @@
                                 <option value="Used">Used</option>
                             </select>
                       </div>
-                      <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">asset
-                        condition mandatory</span></p>
+                      <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">Asset
+                        condition is mandatory</span></p>
                        <div class="form-group multiselect">
-                            <ng-multiselect-dropdown placeholder="Location *" [(ngModel)]="model.location_ids"
+                            <ng-multiselect-dropdown placeholder="Location" [(ngModel)]="model.location_ids"
                                 [data]="locationData" [settings]="moderatorSettingsforasset" name="model.location_ids">
                             </ng-multiselect-dropdown>
                         </div>
@@ -173,7 +173,7 @@
                                     Asset</button></span>
                             <span > <button type="submit" class="btns blue_button"
                                     (click)="updateAssetDetails(model)" *ngIf="isedit">Update
-                                    Asset</button></span>
+                                   </button></span>
                                 </div>
                         </div>
                     </form>

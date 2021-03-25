@@ -90,28 +90,28 @@ export class CategoryComponent implements OnInit {
       },
       {
         primary_key: 'asset_code',
-        value: "Asset ID",
+        value: "Code",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
         primary_key: 'asset_name',
-        value: " Asset Name ",
+        value: "Name ",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
         primary_key: 'category_name',
-        value: " Category Name ",
+        value: "Category ",
         charactLimit: 25,
         sorting: true,
         visibility: true
       },
       {
         primary_key: 'quantity',
-        value: " Asset Qty ",
+        value: "Quantity ",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -176,11 +176,11 @@ export class CategoryComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "13%",
+          width: "15%",
           textAlign: "left"
         },
         {
-          width: "7%",
+          width: "10%",
           textAlign: "left"
         }
       ]

@@ -23,7 +23,7 @@ export class AssetPurchaseComponent implements OnInit {
   pageIndex: number = 1;
   totalRecords: number = 0;
   displayBatchSize: number = 25;
-  staticPageData: any = [{ id: 1, name: 'manisha', address: 'asas' }, { id: 2, name: 'nmanisha', address: 'asas', action: 'edit' }, { id: 3, name: 'amanisha', address: 'asas' }, { id: 1, name: 'manisha', address: 'asas' }];
+  staticPageData: any = [];
   staticPageDataSouece: any = [];
   isedit: any;
   purchaseAllData: any = [];
@@ -316,27 +316,37 @@ export class AssetPurchaseComponent implements OnInit {
   categorydata:any =[];
   assetalldata:any =[]
   getCategoryData(obj){
-//  this.httpService.getMethod('api/v2/asset/supplier/assetsBySupplier/' + this.model.institute_id + '/' + obj, null).subscribe(
-//       (res: any) => {
-//         this.assetAllData=res.result.response;
-//         console.log(this.assetAllData)
-//      },
-//       err => {
-//         this.auth.hideLoader();
-//       }
-//     );
+    console.log("hi")
+ this.httpService.getMethod('api/v2/asset/supplier/assetsBySupplier/' + this.model.institute_id + '/' + obj, null).subscribe(
+      (res: any) => {
+        let result = res.result;
+        let keys = Object.keys(result);
+        console.log(keys)
+        let temp: any = [];
+        for (let i = 0; i < keys.length; i++) {
+          let a = result[keys[i]];
+          console.log(a)
+          this.categorydata.push(a)
+         
+        }
+     },
+      err => {
+        this.auth.hideLoader();
+      }
+    );
 
-console.log(obj);//id =286
-let key = this.vendorAllData.filter(id => (id.id == obj));
-   let category_name =key[0].category_names_string.split(',');
-   for (let i = 0; i < key[0].category_ids.length; i++) {
+// console.log(obj);//id =286
+// let key = this.vendorAllData.filter(id => (id.id == obj));
+//    let category_name =key[0].category_names_string.split(',');
+//    for (let i = 0; i < key[0].category_ids.length; i++) {
 
-    this.categorydata.push({ 'category_ids': key[0].category_ids[i], 'category_names_string': category_name[i] });
-    console.log(this.categorydata)
-    }
+//     this.categorydata.push({ 'category_ids': key[0].category_ids[i], 'category_names_string': category_name[i] });
+//     console.log(this.categorydata)
+//     }
 
   }
   getassets(object){
+    console.log(object)
     //this.auth.showLoader();
   this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + object + '&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
@@ -426,11 +436,11 @@ let key = this.vendorAllData.filter(id => (id.id == obj));
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = this.isedit ? 'Purchase Updated Successfully' : 'Purchase Added successfully';
+              let msg = this.isedit ? 'Asset Purchased details is Updated Successfully' : 'Asset Purchased details is Saved Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               $('#modelforpurchase').modal('hide');
               this.getPurchaseDetails();
-
+this.cancel(false)
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Something is missing");
 

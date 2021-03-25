@@ -47,7 +47,6 @@ export class SupplierMasterComponent implements OnInit {
 
  ngOnInit(): void {
     this.setTableData();
-    this.cancel(false);
     this.getCategoryDetails();
     this.getVendorDetails();
    
@@ -235,9 +234,10 @@ export class SupplierMasterComponent implements OnInit {
       this.model.category_id = this.selectedvalue;
       this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
         (res: any) => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Vendor Added Successfully");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Supplier Added Successfully");
           $('#modelforvendor').modal('hide');
-          this.getVendorDetails();
+         // this.cancel(false);
+         this.getVendorDetails();
         },
         err => {
 
@@ -398,6 +398,7 @@ let category_names= object.data.category_names_string.split(',');
   tempLocationList = [];
 
   cancel(param) {
+    this.addVendorForm.resetForm();
     this.isedit = false;
     this.model = {
       active: true,
@@ -461,7 +462,7 @@ let category_names= object.data.category_names_string.split(',');
     let rows = [];
     rows = [['Company Name', ' Email', ' Mobile','Address','Contact Person','Asset Provided']]
     let columns = arr;
-    this._pdfService.exportToPdf(rows, columns, 'Vendor List');
+    this._pdfService.exportToPdf(rows, columns, 'Supplier List');
     this.auth.hideLoader();
   }
 //download in excel format
@@ -482,7 +483,7 @@ exportToExcel(){
     )
     this.excelService.exportAsExcelFile(
       Excelarr,
-      'asset_vendor'
+      'asset_Supplier'
     );
      this.auth.hideLoader();
   },
