@@ -67,7 +67,7 @@
                     <div>
                         <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type_id" (ngModelChange)="calculateTotalFee()">
                             <option value="-1">Fee Type</option>
-                            <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">{{data.fee_type}}
+                            <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">{{data.fee_type=='INSTALLMENT'?'Tuition Fees':data.fee_type}}
                             </option>
                         </select>
                     </div>

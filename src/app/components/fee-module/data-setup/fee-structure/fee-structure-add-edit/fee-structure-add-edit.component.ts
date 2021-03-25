@@ -328,7 +328,7 @@ export class FeeStructureAddEditComponent implements OnInit {
         this.auth.hideLoader();
         this.feeTypeList = res;
         for (let data of this.feeTypeList) {
-          if (data.fee_type == "Tuition Fees") {
+          if (data.fee_type == "INSTALLMENT") {
             this.defultFeeTypes = data.fee_type_id;
             if (this.is_tax_enabled) {
               this.taxPrecent = data.service_tax;
@@ -363,7 +363,6 @@ export class FeeStructureAddEditComponent implements OnInit {
   getCurrencyData(id) {
     debugger
     for (let data of this.countryDetails) {
-      //this.addNewTemplate.country_id = data.id;
       if (data.id == id) {
         this.currencySymbol = data.currency_code
         break;

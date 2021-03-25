@@ -591,7 +591,9 @@ export class FeeStructureHomeComponent implements OnInit {
   }
   editFeeStructure(fee) {
     $("#editFeeStructureModel").show();
+    if(this.feeTypeList.length==0){
     this.getInstituteFeeTypes();
+    }
     this.templateName = fee.template_name;
     this.selectedTemplate = fee;
     this.feeStructure = [];
