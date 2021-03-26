@@ -711,14 +711,23 @@ export class StudentHomeComponent implements OnInit {
     this.postService.archieveStudents(obj).subscribe((res) => {
       let msg = {
         type: "success",
-        title: "Record Deleted",
+        title: "",
         body: "Requested record has been removed from student list",
       };
       this.closeSideBar();
       this.appC.popToast(msg);
       this.closeDeletePopup();
       this.loadTableDataSource(this.instituteData);
-    });
+    },
+    (err : any) => {
+      let msg = {
+        type: "error",
+        title: "",
+        body: err.error.message,
+      };
+      this.appC.popToast(msg);
+    }
+    );
   }
 
   /* =================================================================================================== */

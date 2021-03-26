@@ -311,8 +311,7 @@
                   </button>
                 </span>
               </div>
-              <div class="item_type_1" *ngIf="(!liveClassFor)" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
-                <div style="width: 70%;float: left;border-right: 1px solid #ECEAEA;">
+              <div class="item_type_1 icon_flex" *ngIf="(!liveClassFor)" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">
                 <span title="Cancel"
                   *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)"
                   style="margin-right: 10px;cursor: pointer;" [disabled]="proctur_live_expiry_date_check"
@@ -402,8 +401,7 @@
                 <span title="View" style="cursor: pointer;" (click)="viewClass(class)">
                   <img src="../../../../assets/images/Live class/view_class.png">
                 </span>
-              </div>
-              <div style="float: left;width: 30%;padding-left: 10px;">
+                <span *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) " class="borderright"></span>
                 <span
                   *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
                   style="cursor: pointer;">
@@ -425,7 +423,6 @@
                     </div>
                   </div>
                 </span>
-              </div>
               </div>
 
               <div class="item_type_1" *ngIf="liveClassFor" style="border-top: 1px solid #F4EBEB;padding-top: 15px;">

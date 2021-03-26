@@ -125,7 +125,7 @@
           </div>
           <div class="w70">
             <span class="">
-              <img src="../../../../../../assets/images/course/image105.svg"><span (click)="downloadIdCard()"
+              <img style="cursor: pointer;" (click)="downloadIdCard()" src="../../../../../../assets/images/course/image105.svg"><span
                 class="id-card-text">Download id-Card</span>
               <a #uploadImageAnchor class="hide"></a>
             </span>
@@ -265,11 +265,25 @@
     <div class="borderbottom"></div>
     <div class="row">
       <div class="col-lg-9 field-checkbox-wrapper">
-        <span *ngIf="isShoweOnlineExam" class="right field-checkbox-wrapper">
+        <div *ngIf="isShoweOnlineExam" style="width: 30%;float: left;" class="right field-checkbox-wrapper">
           <input type="checkbox" style="appearance: checkbox" value="" name="allowExamDesk"
             formControlName="allow_exam_desk_login">
           <span style="margin-left: 5px;" class="allow">Allow Exam Desk Login</span>
-        </span>
+        </div>
+        <div class="field-checkbox-wrapper" style="width: 30%;float: left;">
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="isActive" formControlName="is_active"
+                  class="form-checkbox">
+              <label for="isActive">Is Active</label>
+          </div>
+      </div>
+      <div class="field-checkbox-wrapper" *ngIf="enable_ip_lock_feature=='Y'" style="padding-left: 0;width: 30%;float: left;">
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="is_office_only_access" id="is_office_only_access"
+                  formControlName="is_office_only_access" class="form-checkbox">
+              <label for="is_office_only_access">Enable IP Lock Functionality</label>
+          </div>
+      </div>
       </div>
       <div class="col-lg-3">
         <span class="right">

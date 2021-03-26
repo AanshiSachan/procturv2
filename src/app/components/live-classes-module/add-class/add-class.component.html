@@ -68,7 +68,7 @@
             <div class="field-wrapper datePickerBox" style="width: 50%;">
               <label for="date">Date<span class="text-danger">*</span></label>
               <input type="text" style="border: none;" class="form-ctrl" bsDatepicker readonly="true"
-                [(ngModel)]="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date" style="height: 36px;">
+                [(ngModel)]="scheduledateFrom" name="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date" style="height: 36px;">
               <!-- <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('date')"></i> -->
             </div>
 
@@ -161,8 +161,8 @@
                 id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
                 <option value="" disabled selected="selected">Select {{schoolModel ? 'Standard' : 'Master Course'}}
                 </option>
-                <option *ngFor="let i of masters" [value]="i.master_course">
-                  {{i.master_course}}
+                <option *ngFor="let i of masters" [value]="i">
+                  {{i}}
                 </option>
               </select>
               <ng-multiselect-dropdown *ngIf="!schoolModel"

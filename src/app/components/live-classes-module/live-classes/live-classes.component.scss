@@ -356,7 +356,7 @@ html {
         background-color: #ffffff;
         padding: 15px;
         flex-direction: column;
-        width: 23%;
+        width: 24%;
         margin-left: 1%;
         margin-right: 1%;
         margin-top: 1%;
@@ -517,15 +517,14 @@ html {
       .start_session{
         background: #67c967;
         color: white;
-        border-radius: 4px;
         text-align: center;
-        // text-transform: uppercase;
-        padding: 6px 10px;
-        font-weight: 600;
-        padding: 5px;
         background: #109CF1;
         color: white;
-        border-radius: 4px;
+        padding: 6px 20px;
+        font-size: 13px;
+        border-radius: 5px;
+        font-weight: 500;
+        margin: auto;
       }
       .notAllowed{
         background: #acacac;
@@ -533,8 +532,11 @@ html {
         border-radius: 4px;
         text-align: center;
         // text-transform: uppercase;
-        padding: 6px 10px;
-        font-weight: 600;
+        padding: 6px 20px;
+        font-size: 13px;
+        border-radius: 5px;
+        font-weight: 500;
+        margin: auto;
       }
       .repeat_session{
         background: white;
@@ -1251,4 +1253,12 @@ input[type=number]::-webkit-outer-spin-button {
 .dateColor{
   font-size: 12px;
   color: #4C6380;
+}
+.icon_flex{
+  margin: 10px 0px;
+  display: flex;
+}
+.borderright{
+  border-right:1px solid #DFE5F0;
+  margin: 0px 10px;
 }

@@ -16,7 +16,7 @@
             <div class="col-lg-5 col-12">
               <span class="right">
                 <input type="text" name="search" [(ngModel)]="searchText" (keyup)="searchDatabase()"
-                  placeholder="Search" class="input magnifying-glass">
+                  placeholder="Search by Room Name/Description" class="input magnifying-glass">
               </span>
             </div>
           </div>
@@ -111,7 +111,7 @@
             <thead>
               <tr>
                 <th style="text-align: left;width: 10%;">
-                  S No.
+                  Id
                 </th>
                 <th style="width: 25%;">
                   Room Name
@@ -146,8 +146,9 @@
                   </div>
                 </td>
 
-                <td class="view-comp" style="text-align: left;width: 40%;">
-                  {{row.class_room_desc}}
+                <td class="view-comp" title="{{row.class_room_desc}}" style="text-align: left;width: 40%;">
+                  {{ (row.class_room_desc?.length>50) ?
+                    (row.class_room_desc | slice:0:50 ) + '...' :(row.class_room_desc) }}
                 </td>
 
                 <td class="edit-comp" style="text-align: left;width: 40%;">
