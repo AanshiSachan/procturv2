@@ -70,13 +70,50 @@ export class FeeStructureHomeComponent implements OnInit {
   is_tax_enabled: boolean = false;
   schoolModel: boolean = false;
   feeTypeList: any = [];
-  dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+  dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+  months = [{
+    id: 1,
+    value: 'Jan'
+  }, {
+    id: 2,
+    value: 'Feb'
+  }, {
+    id: 3,
+    value: 'Mar'
+  }, {
+    id: 4,
+    value: 'Apr'
+  }, {
+    id: 5,
+    value: 'May'
+  }, {
+    id: 6,
+    value: 'Jun'
+  }, {
+    id: 7,
+    value: 'Jul'
+  }, {
+    id: 8,
+    value: 'Aug'
+  }, {
+    id: 9,
+    value: 'Sep'
+  }, {
+    id: 10,
+    value: 'Oct'
+  }, {
+    id: 11,
+    value: 'Nov'
+  }, {
+    id: 12,
+    value: 'Dec'
+  }]
   monthValue: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   totalFeeAmount: any;
   feeInstallments: any;
   totalTax: number = 0;
   currencySymbol: string = "Rs ";
-
+  isTemplateLinkWithCourseAndStandard: boolean = false;
   constructor(
     private router: Router,
     private fetchService: FeeStrucService,
@@ -221,35 +258,37 @@ export class FeeStructureHomeComponent implements OnInit {
   }
 
   updateFeeStructure() {
-    this.validateFeeInstallments();
-    let set_is_default = '0';
-    if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
-      set_is_default = '1';
-    }
-    let data: any = {
-      is_default: set_is_default,
-      country_id: this.selectedTemplate.country_id,
-      customFeeSchedules: this.feeInstalllmentArr,
-      studentwise_total_fees_amount: this.totalFeeAmount.toString(),
-      studentwise_total_fees_discount: 0,
-      studentwise_fees_tax_applicable: this.is_tax_enabled ? "Y" : "N",
-      template_id: this.selectedTemplate.template_id.toString(),
-      template_name: this.templateName
-    };
-    this.auth.showLoader();
-    this.fetchService.updateFeeTemplate(data).subscribe(
-      res => {
-        this.auth.hideLoader();
-        $("#editFeeStructureModel").hide();
-        this.commonService.showErrorMessage('success', 'Update Successfully', 'Fee Structure Updated Successfully');
-      },
-      err => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', err.error.message);
-
+    debugger
+    if (this.validateFeeInstallments()) {
+      let set_is_default = '0';
+      if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
+        set_is_default = '1';
       }
-    )
-  }
+      let data: any = {
+        is_default: set_is_default,
+        country_id: this.selectedTemplate.country_id,
+        customFeeSchedules: this.feeInstalllmentArr,
+        studentwise_total_fees_amount: this.totalFeeAmount.toString(),
+        studentwise_total_fees_discount: 0,
+        studentwise_fees_tax_applicable: this.is_tax_enabled ? "Y" : "N",
+        template_id: this.selectedTemplate.template_id.toString(),
+        template_name: this.templateName
+      };
+      this.auth.showLoader();
+      this.fetchService.updateFeeTemplate(data).subscribe(
+        res => {
+          this.auth.hideLoader();
+          $("#editFeeStructureModel").hide();
+          this.commonService.showErrorMessage('success', 'Update Successfully', 'Fee Structure Updated Successfully');
+        },
+        err => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', err.error.message);
+
+        }
+      )
+    }
+  } ß
 
   makeJSONForCustomFee() {
     this.customJson = [];
@@ -591,8 +630,8 @@ export class FeeStructureHomeComponent implements OnInit {
   }
   editFeeStructure(fee) {
     $("#editFeeStructureModel").show();
-    if(this.feeTypeList.length==0){
-    this.getInstituteFeeTypes();
+    if (this.feeTypeList.length == 0) {
+      this.getInstituteFeeTypes();
     }
     this.templateName = fee.template_name;
     this.selectedTemplate = fee;
@@ -673,67 +712,23 @@ export class FeeStructureHomeComponent implements OnInit {
   }
 
   validateFeeInstallments() {
-    if (this.feeInstalllmentArr.length == 0) {
+    if (this.templateName && this.templateName.trim()=='') {
       this.commonService.showErrorMessage('info', '', "Please enter valid template name!");
       return;
     }
-    for (let data of this.feeInstalllmentArr) {
-      if (this.validateEachInstallment(data)) {
-        let installment: any = {
-          day_type: this.schoolModel ? 4 : data.day_type,
-          days: data.day,
-          fee_type: data.fee_type_id,
-          fees_amount: data.fees_amount,
-          initial_fee_amount: data.fees_amount,
-          service_tax: this.getFeeTypeTax(data.fee_type_id),
-          service_tax_applicable: this.is_tax_enabled ? "Y" : "N",
-        };
-        this.feeInstallments.push(installment);
-      } else {
-        this.feeInstallments = [];
-        return;
-      }
-    }
-    return true;
-  }
-  validateEachInstallment(data: any) {
-    if (data.fee_type < 0) {
-      this.commonService.showErrorMessage('info', '', "Please select valid fee type!");
-      return;
-    }
-    if (this.schoolModel) {
-      if (data.days < 0) {
-        this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
-        return;
-      }
-      if (data.month < 0) {
-        this.commonService.showErrorMessage('info', '', "Please select valid fee month!");
-        return;
-      }
-    }
-    if (!this.schoolModel) {
-      if (data.day_type < 0) {
-        this.commonService.showErrorMessage('info', '', "Please select valid trigger date!");
-        return;
-      }
-      if (data.days < 0) {
-        this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
-        return;
-      }
-    }
-    if (data.fees_amount < 0) {
-      this.commonService.showErrorMessage('info', '', "Please enter valid fee amount!");
+    if (this.feeInstalllmentArr.length == 0) {
+      this.commonService.showErrorMessage('info', '', "Please enter valid fee structure details!");
       return;
     }
     return true;
   }
+ 
   changesValuesAsPerType(row, i) {
     if (row == 1) {
       this.feeInstalllmentArr[i].days = 0;
     }
   }
   calculateTotalFee() {
-    debugger
     let totalFee: number = 0;
     let totalTax: number = 0;
     let i = 0;
@@ -751,7 +746,6 @@ export class FeeStructureHomeComponent implements OnInit {
     this.totalTax = totalTax;
   }
   getCurrencyData(id) {
-    debugger
     for (let data of this.countryDetails) {
       if (data.id == id) {
         this.currencySymbol = data.currency_code

@@ -135,7 +135,7 @@
                             <div *ngIf="schoolModel">
                                 <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
                                     <option value="-1">Month</option>
-                                    <option *ngFor="let month of monthValue" [value]="month">{{month}}
+                                    <option *ngFor="let month of months" [value]="month.id">{{month.value}}
                                     </option>
                                 </select>
                             </div>

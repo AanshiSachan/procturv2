@@ -7,7 +7,7 @@
           <input type="" class="input mr10" name="fee_type_desc" [(ngModel)]="addNewFee.fee_type_desc"
             placeholder="Description">
           <input type="" class="input mr10" name="fee_type_tax" *ngIf="is_tax_enabled"
-            [(ngModel)]="addNewFee.fee_type_tax" placeholder="Tax  (in percentage)">
+            [(ngModel)]="addNewFee.fee_type_tax" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Tax  (in percentage)">
           <button class="blue_button" (click)="createFeeType()">Add</button>
         </div>
         <div class="fee_types">
@@ -33,24 +33,13 @@
  <div class="w98">
     <div class="bottom_pagignation flex w98">
       <div class="w20">
-        <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
       </div>
       <div class="w10">
-        <p>Total <span>9</span> Pages</p>
       </div>
       <div class="w40">
-        <p>Records per Page
-          <select>
-            <option>9</option>
-          </select>
-        </p>
       </div>
       <div class="w30">
-        <span>
-          <p>Previous <a><span class="active_circle number">1</span></a> <a><span class="number">2</span></a> <a><span
-                class="number">3</span></a> <a><span class="next">Next</span></a></p>
-        </span>
-      </div>-->
+      </div>
     </div>
   </div> 
 </div>
@@ -70,14 +59,14 @@
           <div class="padding1"><input type="" name="fee_type_desc" [(ngModel)]="addNewFee.fee_type_desc"
               class="input w100" placeholder="Fee Type Description*"></div>
           <div class="padding1"><input type="" name="fee_type_tax" *ngIf="is_tax_enabled"
-              [(ngModel)]="addNewFee.fee_type_tax" class="input w100" placeholder="Tax(in %)"></div>
+              [(ngModel)]="addNewFee.fee_type_tax" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input w100" placeholder="Tax(in %)"></div>
           <div class="padding1">
             <span class="right">
               <button class="white_button mr10" (click)="clearData()">
                 Cancel
               </button>
               <button class="blue_button" (click)="updateFeeType()">
-                Save
+                Update
               </button>
             </span>
           </div>

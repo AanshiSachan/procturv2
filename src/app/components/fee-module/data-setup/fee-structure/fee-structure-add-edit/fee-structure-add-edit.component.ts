@@ -12,22 +12,44 @@ import { FeeStrucService } from '../../../../../services/feeStruc.service';
   styleUrls: ['./fee-structure-add-edit.component.scss']
 })
 export class FeeStructureAddEditComponent implements OnInit {
-  dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
-  // months: any = ['Jan', 'Feb', 'Mar', 'Apr'];
-  months = new Map([
-    ["Jan", 1],
-    ["Feb", 2],
-    ["Mar", 3],
-    ["Apr", 4],
-    ["May", 5],
-    ["Jun", 6],
-    ["Jul", 7],
-    ["Aug", 8],
-    ["Sep", 9],
-    ["Oct", 10],
-    ["Nov", 11],
-    ["Dec", 12]
-  ]);
+  dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+  months = [{
+    id: 1,
+    value: 'Jan'
+  }, {
+    id: 2,
+    value: 'Feb'
+  }, {
+    id: 3,
+    value: 'Mar'
+  }, {
+    id: 4,
+    value: 'Apr'
+  }, {
+    id: 5,
+    value: 'May'
+  }, {
+    id: 6,
+    value: 'Jun'
+  }, {
+    id: 7,
+    value: 'Jul'
+  }, {
+    id: 8,
+    value: 'Aug'
+  }, {
+    id: 9,
+    value: 'Sep'
+  }, {
+    id: 10,
+    value: 'Oct'
+  }, {
+    id: 11,
+    value: 'Nov'
+  }, {
+    id: 12,
+    value: 'Dec'
+  }]
   monthValue: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   feeInstalllmentArr: Array<any> = [];
   newInstallment: any = {};
@@ -60,6 +82,7 @@ export class FeeStructureAddEditComponent implements OnInit {
   currencySymbol: any = "Rs ";
   totalTax: number = 0;
   taxPrecent: number = 0;
+  isTemplateLinkWithCourseAndStandard: boolean = false;
   constructor(private apiService: FeeStrucService,
     private route: Router,
     private auth: AuthenticatorService,
@@ -69,10 +92,10 @@ export class FeeStructureAddEditComponent implements OnInit {
     this.newInstallment = {
       installment_no: 1,
       fee_type_id: this.defultFeeTypes,
-      month: this.schoolModel?1:0,
-      day: this.schoolModel?1:0,
+      month: this.schoolModel ? 1 : 0,
+      day: this.schoolModel ? 1 : 0,
       fee_amount: 0,
-      day_type: this.schoolModel?4:1,
+      day_type: this.schoolModel ? 4 : 1,
     };
     this.feeInstalllmentArr.push(this.newInstallment);
   }
@@ -151,7 +174,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       day_type: this.feeInstalllmentArr[i].day_type,
     };
     this.totalFeeAmount = this.totalFeeAmount + Number(this.feeInstalllmentArr[i].fee_amount);
-    this.totalTax = this.totalTax +this.calculateTax(this.feeInstalllmentArr[i].fee_amount,this.feeInstalllmentArr[i].fee_type_id)
+    this.totalTax = this.totalTax + this.calculateTax(this.feeInstalllmentArr[i].fee_amount, this.feeInstalllmentArr[i].fee_type_id)
     this.feeInstalllmentArr.push(this.newInstallment);
   }
   deleteInstallment(index) {
@@ -160,7 +183,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       return false;
     } else {
       this.totalFeeAmount = this.totalFeeAmount - Number(this.feeInstalllmentArr[index].fee_amount);
-      this.totalTax = this.totalTax - this.calculateTax(this.feeInstalllmentArr[index].fee_amount,this.feeInstalllmentArr[index].fee_type_id)
+      this.totalTax = this.totalTax - this.calculateTax(this.feeInstalllmentArr[index].fee_amount, this.feeInstalllmentArr[index].fee_type_id)
       this.feeInstalllmentArr.splice(index, 1);
       return true;
     }
@@ -206,31 +229,32 @@ export class FeeStructureAddEditComponent implements OnInit {
     }
   }
   validateFeeStructureData() {
-    debugger
     if (this.addNewTemplate.template_name == '') {
       this.commonService.showErrorMessage('info', '', "Please enter valid template name!");
       return;
     }
-    if (this.schoolModel && Number(this.addNewTemplate.master_course_name) < 0) {
-      this.commonService.showErrorMessage('info', '', "Please select valid standard!");
-      return;
-    } else if (!this.isLangInstitute && !this.schoolModel) {
-      if (this.addNewTemplate.master_course_name == '-1') {
-        this.commonService.showErrorMessage('info', '', "Please select valid Maser Course!");
+    if (!this.isTemplateLinkWithCourseAndStandard) {
+      if (this.schoolModel && Number(this.addNewTemplate.master_course_name) < 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid standard!");
         return;
+      } else if (!this.isLangInstitute && !this.schoolModel) {
+        if (this.addNewTemplate.master_course_name == '-1') {
+          this.commonService.showErrorMessage('info', '', "Please select valid Maser Course!");
+          return;
+        }
+        if (Number(this.addNewTemplate.course_id) < 0) {
+          this.commonService.showErrorMessage('info', '', "Please select valid Course!");
+          return;
+        }
       }
-      if (Number(this.addNewTemplate.course_id) < 0) {
-        this.commonService.showErrorMessage('info', '', "Please select valid Course!");
-        return;
-      }
-    }
-    if (this.isLangInstitute) {
-      if (Number(this.addNewTemplate.master_course_name) < 0) {
-        this.commonService.showErrorMessage('info', '', "Please select valid Maser Course!");
-        return;
-      } if (Number(this.addNewTemplate.course_id) < 0) {
-        this.commonService.showErrorMessage('info', '', "Please select valid Course!");
-        return;
+      if (this.isLangInstitute) {
+        if (Number(this.addNewTemplate.master_course_name) < 0) {
+          this.commonService.showErrorMessage('info', '', "Please select valid Maser Course!");
+          return;
+        } if (Number(this.addNewTemplate.course_id) < 0) {
+          this.commonService.showErrorMessage('info', '', "Please select valid Course!");
+          return;
+        }
       }
     }
     if (this.countryDetails.length > 1 && this.addNewTemplate.country_id < 0) {
@@ -253,10 +277,10 @@ export class FeeStructureAddEditComponent implements OnInit {
           fees_amount: data.fee_amount,
           service_tax: this.getFeeTypeTax(data.fee_type_id),
           service_tax_applicable: this.is_tax_enabled ? "Y" : "N",
-          month:data.month
+          month: data.month
         };
-        installment.initial_fee_amount=this.calFeeAmountWithoutTax(data.fee_amount,installment.service_tax),
-        this.feeInstallments.push(installment);
+        installment.initial_fee_amount = this.calFeeAmountWithoutTax(data.fee_amount, installment.service_tax),
+          this.feeInstallments.push(installment);
       } else {
         this.feeInstallments = [];
         return;
@@ -310,14 +334,16 @@ export class FeeStructureAddEditComponent implements OnInit {
       template_id: 0,
       template_name: this.addNewTemplate.template_name
     };
-    if (this.isLangInstitute) {
-      data.course_id = '-1';
-      data.subject_id = this.addNewTemplate.course_id;
-    } else if (this.schoolModel) {
-      data.course_id = '-1';
-      data.standard_id = this.addNewTemplate.master_course_name;
-    } else {
-      data.course_id = this.addNewTemplate.course_id;
+    if (!this.isTemplateLinkWithCourseAndStandard) {
+      if (this.isLangInstitute) {
+        data.course_id = '-1';
+        data.subject_id = this.addNewTemplate.course_id;
+      } else if (this.schoolModel) {
+        data.course_id = '-1';
+        data.standard_id = this.addNewTemplate.master_course_name;
+      } else {
+        data.course_id = this.addNewTemplate.course_id;
+      }
     }
     return data;
   }
@@ -344,13 +370,12 @@ export class FeeStructureAddEditComponent implements OnInit {
       }
     )
   }
-  changesValuesAsPerType(row,i) {
+  changesValuesAsPerType(row, i) {
     if (row == 1) {
-      this.feeInstalllmentArr[i].day=0;
-    } 
+      this.feeInstalllmentArr[i].day = 0;
+    }
   }
   calculateTotalFee() {
-    debugger
     let totalFee: number = 0;
     let totalTax: number = 0;
     for (let data of this.feeInstalllmentArr) {
@@ -361,7 +386,6 @@ export class FeeStructureAddEditComponent implements OnInit {
     this.totalTax = totalTax;
   }
   getCurrencyData(id) {
-    debugger
     for (let data of this.countryDetails) {
       if (data.id == id) {
         this.currencySymbol = data.currency_code
@@ -378,20 +402,20 @@ export class FeeStructureAddEditComponent implements OnInit {
   }
   calculateTax(feeAmount, fee_type_id): number {
     if (this.is_tax_enabled) {
-      let tax=this.getFeeTypeTax(fee_type_id);
+      let tax = this.getFeeTypeTax(fee_type_id);
       return Number(feeAmount) - this.calFeeAmountWithoutTax(feeAmount, tax);
     } else {
       return 0;
     }
   }
-  getFeeTypeTax(fee_type_id):number{
-   if(this.is_tax_enabled){
-     for(let data of this.feeTypeList){
-       if(fee_type_id==data.fee_type_id){
-         return Number(data.fee_type_tax);
-       }
-     }
-   }
-   return 0;
+  getFeeTypeTax(fee_type_id): number {
+    if (this.is_tax_enabled) {
+      for (let data of this.feeTypeList) {
+        if (fee_type_id == data.fee_type_id) {
+          return Number(data.fee_type_tax);
+        }
+      }
+    }
+    return 0;
   }
 }

@@ -52,6 +52,21 @@
                 <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax}}</p>
             </span>
         </div>
+        <div class="padding1" *ngIf="isTemplateLinkWithCourseAndStandard">
+            <select class="select wid240 mr10" *ngIf="countryDetails.length >1" [(ngModel)]="addNewTemplate.country_id"
+                name="CourseCountry" (ngModelChange)="getCurrencyData($event)">
+                <option value="-1">Country</option>
+                <option [value]="data.id" *ngFor='let data of countryDetails'>
+                    {{data.country_name}}
+                </option>
+            </select>
+            <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
+                placeholder="Template Name">
+            <span class="right relative">
+                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
+                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax}}</p>
+            </span>
+        </div>
         <div class="fee_new">
             <div class="table_heading">
                 <div>#</div>
@@ -65,9 +80,11 @@
                 <div class="table_body">
                     <div>{{i+1}}</div>
                     <div>
-                        <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type_id" (ngModelChange)="calculateTotalFee()">
+                        <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type_id"
+                            (ngModelChange)="calculateTotalFee()">
                             <option value="-1">Fee Type</option>
-                            <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">{{data.fee_type=='INSTALLMENT'?'Tuition Fees':data.fee_type}}
+                            <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
+                                {{data.fee_type=='INSTALLMENT'?'Tuition Fees':data.fee_type}}
                             </option>
                         </select>
                     </div>
@@ -89,16 +106,17 @@
                     <div *ngIf="schoolModel">
                         <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
                             <option value="-1">Month</option>
-                            <option  *ngFor="let mon of monthValue" [value]="mon">{{mon}}</option>
+                            <option *ngFor="let mon of months" [value]="mon.id">{{mon.value}}</option>
                         </select>
                     </div>
-                    
+
                     <div *ngIf="!schoolModel">
                         <input type="text" [(ngModel)]="feeInstalllmentArr[i].day" placeholder="0"
-                            class="input wid80 rrs"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
+                            class="input wid80 rrs" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
                     </div>
                     <div><input type="text" [(ngModel)]="feeInstalllmentArr[i].fee_amount" placeholder="00"
-                            class="input wid80 rrs" (keyup)="calculateTotalFee()" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></div>
+                            class="input wid80 rrs" (keyup)="calculateTotalFee()"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></div>
                     <div>
                         <a (click)="addInstallment(i)" class="mr10"><img src="../../../../../assets/images/add.svg"
                                 class="size22" title="Add"></a>
