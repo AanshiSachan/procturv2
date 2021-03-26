@@ -1,0 +1,197 @@
+<div class="page-content">
+    <div class="page_heading">
+        <div class="w98">
+            <span> Purchase Asset</span>
+            <span class="right"><button class="btn blue_button" data-toggle="modal" 
+                    data-target="#modelforpurchase" (click)="cancel(false)">Add
+                    Purchase </button></span>
+        </div>
+    </div>
+    <div class="w98">
+        <div class="padding1">
+            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
+            <span class="rights">
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>-->
+                <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a> 
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
+                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
+            </span>
+        </div>
+        <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'>
+        </app-basic-table>
+        <div style="padding-top: 9px;">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+            </pagination>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modelforpurchase" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="height: 540px;">
+                    <h4 class="title-model" >Purchase Asset </h4>
+                    <form id="form1" #assePurchaseForm="ngForm" autocomplete="off">
+                        <div class="row">
+                            <div class="form-group col-md-6" [class.has-error]="supplier_id.invalid && supplier_id.touched">
+                                <select class="form-control" name="supplier_id" id="supplier_id"
+                                    [(ngModel)]="model.supplier_id" (ngModelChange)="getCategoryData($event)" required #supplier_id="ngModel">
+                                    <option value="">Supplier *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of vendorAllData">
+                                        {{data.supplier_name}}</option>
+                                </select>
+                               <p class="errormsg"> <span class="help-block" *ngIf="supplier_id.invalid && supplier_id.touched">Supplier
+                                    name is  mandatory</span></p>
+                            </div>
+                            <div class="form-group col-md-6" [class.has-error]="category_id.invalid && category_id.touched">
+                                <select class="form-control" name="category_id" id="category_id"
+                                    [(ngModel)]="model.category_id" (ngModelChange)="getassets($event)"
+                                    required #category_id="ngModel">
+                                    <option value="">Category Name *</option>
+                                    <option value="{{data.category_id}}" *ngFor="let data of categorydata">
+                                        {{data.category_name}}</option>
+                                </select>
+                                <p class="errormsg"> <span class="help-block" *ngIf="category_id.invalid && category_id.touched">Category
+                                    name is  mandatory</span></p>
+                               
+                            </div>
+                           
+                        </div>
+                        
+                        <div class="row">
+                            <div class="form-group col-md-6" [class.has-error]="asset_id.invalid && asset_id.touched">
+                                <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
+                                  required #asset_id="ngModel">
+                                    <option value="">Asset *</option>
+                                    <option value="{{data.id}}" *ngFor="let data of assetAllData">
+                                        {{data.asset_name}}</option>
+                                </select>
+                                <p class="errormsg">   <span class="help-block" *ngIf="asset_id.invalid && asset_id.touched">Asset
+                                     is  mandatory </span></p>
+                            </div>
+                            <div class="form-group col-md-6" [class.has-error]="purchased_by_user_id.invalid && purchased_by_user_id.touched">
+                                <select class="form-control" name="purchased_by_user_id" id="purchased_by_user_id"
+                                    [(ngModel)]="model.purchased_by_user_id" (ngModelChange)="getUserData($event)"
+                                    required #purchased_by_user_id="ngModel">
+                                    <option value="">Purchased By *</option>
+                                    <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
+                                        {{data.name}}</option>
+                                </select>
+                                <p class="errormsg">  <span class="help-block"
+                                    *ngIf="purchased_by_user_id.invalid && purchased_by_user_id.touched">Purchased by
+                                    is
+                                    is  mandatory</span></p>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6"  [class.has-error]="quantity.invalid && quantity.touched">
+
+                                <input type="text" class="form-control" id="inputPassword4" placeholder="Quantity *"
+                                    [(ngModel)]="model.quantity" name="quantity"
+                                    onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required
+                                    #quantity="ngModel">
+                                    <p class="errormsg">   <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Quantity
+                                    is
+                                    mandatory </span></p>
+                            </div>
+                            <div class="form-group col-md-6" [class.has-error]="unit.invalid && unit.touched">
+                                <select class="form-control" name="unit" id="unit" [(ngModel)]="model.unit" required
+                                    #unit="ngModel">
+                                    <option value="">Unit *</option>
+                                    <option>Kg</option>
+                                    <option> Piece</option>
+                                    <option>Other</option>
+
+                                </select>
+                                <p class="errormsg"> <span class="help-block" *ngIf="unit.invalid && unit.touched">Unit
+                                    is
+                                    mandatory </span></p>
+                            </div>
+                           
+
+                        </div>
+                        <div class="row">
+                            
+                                <div class="field-wrapper col-md-6" [class.has-error]="purchase_amount.invalid && purchase_amount.touched">
+                                    <input type="text" class="form-control" id="purchase_amount" name="purchase_amount"
+                                        placeholder="Purchase Price *" [(ngModel)]="model.purchase_amount"
+                                        onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required
+                                        #purchase_amount="ngModel">
+                                        <p class="errormsg">    <span class="help-block"
+                                        *ngIf="purchase_amount.invalid && purchase_amount.touched">Purchase
+                                        price
+                                        is
+                                        mandatory </span></p>
+                                </div>
+                                <div class="field-wrapper col-md-6 datePickerBox" [class.has-error]="purchase_date.invalid && purchase_date.touched">
+                                    <input type="text" class="form-ctrl" bsDatepicker readonly="false"
+                                        name="purchase_date" [(ngModel)]="model.purchase_date" class="form-control"
+                                        placeholder="Purchase Date *" id="purchase_date" required
+                                       #purchase_date="ngModel">
+                                </div>
+                                <p class="errormsg">    <span class="help-block"
+                                    *ngIf="purchase_date.invalid && purchase_date.touched">Purchase
+                                    date
+                                    is
+                                    mandatory </span></p>
+                            </div>
+                        <div class="row">
+                            <div class="field-wrapper col-md-6 datePickerBox">
+                                <input type="text" class="form-ctrl" bsDatepicker readonly="false"
+                                    name="service_date" [(ngModel)]="model.service_date" class="form-control"
+                                    placeholder="Service Date" id="service_date" #service_date="ngModel">
+                                    <p class="errormsg"><span class="help-block"></span></p>
+                            </div>
+                            <div class="field-wrapper col-md-6 datePickerBox">
+                                <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="expiry_date"
+                                    [(ngModel)]="model.expiry_date" class="form-control" placeholder="Expiry Date"
+                                    id="expiry_date">
+                            </div>
+                          
+                        </div>
+                        <div class="row">
+                           <div class="field-wrapper col-md-6">
+                                <input type="file" name="billImageFile" [disabled]="bill_image_url!=''&& isedit"
+                                    class="form-control" placeholder="upload file" id="billImageFile"
+                                    style="margin-top:8px;" [(ngModel)]="bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+                                  
+                                </div>
+                            <div class="col-md-6" *ngIf="isedit && bill_image_url !='' && bill_image_url!=null">
+                                <ul>
+                                    <li>Bill Copy</li>
+                                    <li (click)="clearFile()"><i class="fa fa-trash" style="color:red;"></i>
+                                    </li>
+                                    <li>
+                                        <a href="{{bill_image_url}}" target="_blank"><i class="fa fa-download"
+                                                style="color:#064d0f;"></i> </a>
+                                    </li>
+                                </ul>
+                                <p class="errormsg"><span class="help-block"></span></p>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align:center;margin-top:15px;">
+                            <span > <button type="button"
+                                    class="btns blue_button cancel" data-dismiss="modal"
+                                    (click)="cancel(false)">Cancel</button></span>
+                            <span > <button type="submit" class="btns blue_button"
+                                    (click)="saveAssetPurchaseData(model)" *ngIf="!isedit">Purchase Asset</button></span>
+                            <span > <button type="submit" class="btns blue_button" *ngIf="isedit"
+                                    (click)="saveAssetPurchaseData()">Update
+                                </button></span>
+        
+                        </div>
+                    </form>
+                </div>
+
+              
+            </div>
+
+        </div>
+    </div>

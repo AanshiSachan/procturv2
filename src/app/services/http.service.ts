@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -32,7 +32,7 @@ export class HttpService {
 
   }
 
-  updatedDataSelection(type: String){
+  updatedDataSelection(type: String) {
     this.dataSource.next(type);
   }
 
@@ -72,13 +72,13 @@ export class HttpService {
     ))
   }
 
-  deleteDataById(deleteurl){
-    let url= this.baseUrl + deleteurl ; 
-    return this.http.delete(url , {headers:this.headers}).pipe(map(
-      (data:any)=>{
+  deleteDataById(deleteurl) {
+    let url = this.baseUrl + deleteurl;
+    return this.http.delete(url, { headers: this.headers }).pipe(map(
+      (data: any) => {
         return data;
       },
-      (error:any)=>{
+      (error: any) => {
         return error;
       }
     ))
@@ -103,7 +103,7 @@ export class HttpService {
   downloadRecording(objecturl, file_type) {
     let url = this.baseUrl + objecturl;
     let headers = new HttpHeaders({ "Content-Type": file_type, "Authorization": this.Authorization });
-    return this.http.get(url, { headers: headers , "responseType": 'blob'}).pipe(map(
+    return this.http.get(url, { headers: headers, "responseType": 'blob' }).pipe(map(
       data => {
         return data;
       },
@@ -116,7 +116,7 @@ export class HttpService {
   downloadItem(objecturl, file_type) {
     let url = this.baseUrl + objecturl;
     let headers = new HttpHeaders({ "Content-Type": file_type, "Authorization": this.Authorization });
-    return this.http.get(url, { headers: headers , "responseType": 'blob'}).pipe(map(
+    return this.http.get(url, { headers: headers, "responseType": 'blob' }).pipe(map(
       data => {
         return data;
       },

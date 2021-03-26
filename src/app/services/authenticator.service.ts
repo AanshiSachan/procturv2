@@ -1,7 +1,7 @@
 
-import {fromEvent as observableFromEvent, of as observableOf, merge as observableMerge,  BehaviorSubject ,  Observable } from 'rxjs';
+import { fromEvent as observableFromEvent, of as observableOf, merge as observableMerge, BehaviorSubject, Observable } from 'rxjs';
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
@@ -27,10 +27,12 @@ export class AuthenticatorService {
     schoolModel = new BehaviorSubject(true);
 
     public baseUrl: string = "";
+    public productBaseUrl: string = "";
     public baseUrlStudent: string = window.location.origin;
 
     constructor() {
         this.baseUrl = environment.serverUrl;
+        this.productBaseUrl = environment.productUrl;
         this.getAuthToken(false);
         this.getInstituteId();
         this.getIsMainBranchValue();
@@ -47,11 +49,11 @@ export class AuthenticatorService {
         this.authToken.next(key);
     }
 
-    showLoader(){
+    showLoader() {
         this.isRippleLoad.next(true);
     }
 
-    hideLoader(){
+    hideLoader() {
         this.isRippleLoad.next(false);
     }
 
@@ -66,13 +68,13 @@ export class AuthenticatorService {
 
         if (obj != null && obj != undefined) {
             let Authorization;
-            if(studnetValidation){
-              let deviceId = sessionStorage.getItem('deviceId');
-              let source = sessionStorage.getItem('source');
-              Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id + ":" + deviceId + ":" + source);
+            if (studnetValidation) {
+                let deviceId = sessionStorage.getItem('deviceId');
+                let source = sessionStorage.getItem('source');
+                Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id + ":" + deviceId + ":" + source);
             }
-            else{
-              Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id);
+            else {
+                Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id);
             }
             let token = Authorization;
             if (token != null) {

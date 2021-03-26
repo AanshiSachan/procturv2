@@ -1,0 +1,184 @@
+<div class="page-content">
+    <div class="page_heading">
+        <div class="w98 tab">
+            <div style="margin-bottom: 20px;">
+            <span *ngIf="is_asset" class="asset-title">Assets</span>
+            <span *ngIf="is_asset_cat" class="asset-title">Asset Category</span>
+        </div>
+           
+            <span class="tab1" [ngClass]="is_asset ? 'inactive' : 'active' ">
+                <b
+                    (click)="toggle(false)">Asset
+                    category</b></span>
+            <span><b class="tab2 " [ngClass]="is_asset_cat ? 'inactive' : 'active' "
+                    (click)="toggle(true)">Asset
+                </b></span>
+
+            <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforcat"
+                    *ngIf="is_asset_cat" (click)="cancel(false)">Add
+                     Category</button></span>
+            <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforasset"
+                    *ngIf="is_asset" (click)="cancel(false)">Add
+                    Asset</button></span>
+                </div>
+        </div>
+    </div>
+    <!--flex for asset category data-->
+    <div class="w98">
+        <div class="padding1">
+            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()" *ngIf="is_asset">
+            <span class="rights" *ngIf="is_asset">
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>-->
+                <a  (click)="assetExportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
+                <a (click)="assetDownloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a> 
+            </span>
+            <span class="rights" *ngIf="is_asset_cat">
+                <input type="text"  style="visibility: hidden;"class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
+                <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
+                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a> 
+            </span>
+        </div>
+
+        <!--table for asset category-->
+        <app-basic-table [headers]="headerSetting" [displayData]="assetcategoryData" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
+            (viewView)="viewRow($event)" *ngIf="is_asset_cat">
+        </app-basic-table>
+        <div style="padding-top: 9px;">
+            <!--table for asset view-->
+
+            <app-basic-table [headers]="headerSettingForAsset" [displayData]="staticPageData"
+                [tableSetting]="tableSettingForAsset" [rowColumnSetting]="rowColumnForAsset"
+                (editView)='editAssetRow($event)' (deleteView)='deleteAssetRow($event)'
+                (viewView)="viewAssetRow($event)" *ngIf="is_asset">
+            </app-basic-table>
+            <div style="padding-top: 9px;">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                    [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+                    [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)" *ngIf="is_asset">
+                </pagination>
+            </div>
+        </div>
+
+    </div>
+    <!--model for asset category-->
+    <div class="modal fade" id="myModalforcat" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: 278px;">
+                <div class="modal-body">
+                   <h4 class="title-model"> Assets Category</h4>
+                    <form id="form1" #assetcat="ngForm" autocomplete="off">
+                    
+                            <div class="form-group" [class.has-error]="categoryCode.invalid && categoryCode.touched">
+                                <input type="text" class="form-control" name="category_code" id="category_code"
+                                    placeholder="Code *" [(ngModel)]="category_model.category_code"
+                                    #categoryCode="ngModel" required>
+                            </div>
+                          <p class="errormsg"> <span class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
+                                Category code is mandatory
+                            </span></p> 
+                            <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
+                                <input type="text" class="form-control" name="category_name" id="category_name"
+                                    placeholder=" Name*" [(ngModel)]="category_model.category_name"
+                                    #categoryNmae="ngModel" required>
+                            </div>
+                            <p class="errormsg"><span  class="help-block" *ngIf="!categoryNmae.valid && categoryNmae.touched">
+                                Category name is mandatory
+                            </span></p>
+                       
+                        <div style="text-align: center;">
+                            <span > <button type="button" class="btns blue_button cancel"
+                                    data-dismiss="modal" (click)="cancel()">cancel</button></span>
+                            <span > <button type="submit" class="btns blue_button"
+                                    (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">
+                                    Add Category</button></span>
+                            <span > <button type="submit" class="btns blue_button" *ngIf="isedit"
+                                    (click)="updateAssetCategory(category_model)">
+                                    Update </button></span>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!--model for add asset -->
+    <div class="modal fade" data-backdrop="static"  id="myModalforasset" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height:540px;">
+                <div class="modal-body">
+                    <h4 class="title-model">Add Asset</h4>
+                    <form id="form1" #assetaddForm="ngForm" autocomplete="off">
+                        <div class="form-group" [class.has-error]="asset_code.invalid && asset_code.touched">
+                            <input type="text" class="form-control" name="asset_code" id="asset_code"
+                                placeholder="Code*" [(ngModel)]="model.asset_code" #asset_code="ngModel" required>
+                        </div>
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Asset code  is
+                            mandatory</span></p>
+                        <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
+                            <select class="form-control" name="category_id" id="category_id"
+                                [(ngModel)]="model.category_id" required #category_id="ngModel">
+                                <option value="-1">Category*</option>
+                                <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
+                                    {{data.category_name}}</option>
+                            </select>
+                          </div>
+                        <p class="errormsg"><span class="help-block" *ngIf="category_id.invalid && category_id.touched">    
+                            Category is mandatory</span></p>
+                        <div class="form-group" [class.has-error]="asset_name.invalid && asset_name.touched">
+                            <input type="text" class="form-control" name="asset_name" id="asset_name"
+                                placeholder="Asset Name* " [(ngModel)]="model.asset_name" #asset_name="ngModel"
+                                required>
+                        </div>
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_name.invalid && asset_name.touched">Asset Name is
+                            mandatory</span></p>
+                        <div class="form-group"  [class.has-error]="quantity.invalid && quantity.touched">
+
+                            <input type="text" class="form-control" name="quantity" id="quantity"
+                                placeholder="Asset Qty* " [(ngModel)]="model.quantity"
+                                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" #quantity="ngModel"
+                                required>
+                       </div>
+                       <p class="errormsg"> <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Asset Qty is
+                        mandatory</span></p>
+                      <div class="form-group"  [class.has-error]="asset_condition.invalid && asset_condition.touched">
+                            <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
+                                id="asset_condition" required #asset_condition="ngModel">
+                                <option value="-1" > Condition* </option>
+                                <option value="New">New</option>
+                                <option value="Used">Used</option>
+                            </select>
+                      </div>
+                      <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">Asset
+                        condition is mandatory</span></p>
+                       <div class="form-group multiselect">
+                            <ng-multiselect-dropdown placeholder="Location" [(ngModel)]="model.location_ids"
+                                [data]="locationData" [settings]="moderatorSettingsforasset" name="model.location_ids">
+                            </ng-multiselect-dropdown>
+                        </div>
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched"></span></p>
+                       
+                        <div class="form-group">
+                            <div style="text-align: center;">
+                            <span > <button type="submit" class="btns blue_button cancel"
+                                    (click)="cancel()" data-dismiss="modal">Cancel</button></span>
+                            <span > <button type="submit" class="btns blue_button"
+                                    (click)="saveAssetDetails(model)" *ngIf="!isedit" >Add
+                                    Asset</button></span>
+                            <span > <button type="submit" class="btns blue_button"
+                                    (click)="updateAssetDetails(model)" *ngIf="isedit">Update
+                                   </button></span>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>

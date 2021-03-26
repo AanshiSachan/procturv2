@@ -163,7 +163,8 @@
                   <span style="color: #9898a3;">Moderator : </span>
                   <span *ngIf="class.moderatorName != '' && class.moderatorName != null" title="{{class.moderatorName}}"
                     style="font-weight: 600;">
-                    {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' : (class.moderatorName) }}
+                    {{ (class.moderatorName?.length>15) ? (class.moderatorName | slice:0:15 ) + '...' :
+                    (class.moderatorName) }}
                   </span>
                   <span *ngIf="class.moderatorName == '' || class.moderatorName == null">-</span>
                 </span> -->
@@ -191,7 +192,8 @@
                   <span style="color: #9898a3;">Master Course : </span>
                   <span title="{{class.course_list[0].master_course_name}}"
                     *ngIf="class.course_list!=null && class.course_list?.length!=0" style="font-weight: 600;">
-                    {{ (class.course_list[0]?.master_course_name?.length>30) ? (class.course_list[0].master_course_name | slice:0:30 ) + '...' : (class.course_list[0].master_course_name) }}
+                    {{ (class.course_list[0]?.master_course_name?.length>30) ? (class.course_list[0].master_course_name
+                    | slice:0:30 ) + '...' : (class.course_list[0].master_course_name) }}
                   </span>
                 </span>
                 <span style="color: #585574;">
@@ -217,7 +219,8 @@
                     <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp; Action
                   </button>
                   <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                    <span class="dropdown-item" *ngIf="(class.live_meeting_with != 'Zoom' && class.showViewAttendance) || (class.live_meeting_with && class.attendance_processed)"
+                    <span class="dropdown-item"
+                      *ngIf="(class.live_meeting_with != 'Zoom' && class.showViewAttendance) || (class.live_meeting_with && class.attendance_processed)"
                       (click)="viewAttandance(class)">View Attendance</span>
                     <span class="dropdown-item"
                       *ngIf="is_proctur_live_recording_allow == '1' && class.live_meeting_with != 'Zoom'"

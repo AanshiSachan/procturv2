@@ -1,0 +1,93 @@
+<!---header-->
+<div class="page-content">
+    <div class="page_heading">
+        <div class="w98">
+
+            <span class="right"><button class="blue_button" data-toggle="modal" data-target="#modelforlocation"
+                    (click)="cancel(false)">Add
+                    Location</button></span>
+            <div class="questionInfo inline-relative">
+                <span data-toggle="tooltip" data-placement="right">Location<img
+                        src="assets/images/assets/Group1.svg"></span>
+                <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
+                <div class="tooltip-box-field">
+                   " This section is used to manage the location at which the management stores its assets."
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div>
+        <div class="">
+            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
+               <span class="rights">
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
+                <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
+                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
+               </span>
+        </div>
+        <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
+            (viewView)="viewRow($event)">
+        </app-basic-table>
+        <div style="padding-top: 9px;">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)" >
+            </pagination>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modelforlocation" data-backdrop="static" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                       <h4 class="title-model" *ngIf="!isedit">Add Location</h4>
+                        <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Location</h4>
+                        <form id="form1" #locationaddForm="ngForm" autocomplete="off">
+                          <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
+                                <input type="text" class="form-control" name="location_code" id="location_code"
+                                    placeholder="Code* " [(ngModel)]="model.location_code" #locationId="ngModel"
+                                    required>
+                            </div>
+                         <p class="errormsg"><span  class="help-block" *ngIf="!locationId.valid && locationId.touched">
+                             Location code is mandatory
+                        </span></p> 
+                            <div class="form-group" [class.has-error]="location_code.invalid && location_code.touched">
+                                <input type="text" class="form-control" name="location_name" id="location_code"
+                                    placeholder="Name *" [(ngModel)]="model.location_name" #location_code="ngModel" required>
+                            </div>
+                            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
+                               Location  Name is mandatory
+                            </span></p>
+
+                            <div>
+                                <textarea type="text" class="form-control" name="location_description"
+                                    id="location_description" placeholder="Description"
+                                    [(ngModel)]="model.location_description">
+                            </textarea>
+                            <p class="errormsg">   <span  style="height:10px;" ></span></p>
+                            
+                            </div>
+                            <div style="text-align: center;">
+                                <span > <button type="button" class="btns blue_button cancel"
+                                    data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
+                                <span > <button type="submit" class="btns blue_button"
+                                        (click)="saveLocationDetails(model)" *ngIf="!isedit">
+                                        Add Location</button></span>
+                               <span > <button type="submit" class="btns blue_button"
+                                        (click)="updateLocationDetails(model)" *ngIf="isedit">
+                                        Update </button></span>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>

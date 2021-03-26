@@ -7,14 +7,16 @@
                     <label class="text-bold"> Title
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="text" placeholder="Title" [(ngModel)]="pageModel.name" class="form-control form-control-sm">
+                    <input type="text" placeholder="Title" [(ngModel)]="pageModel.name"
+                        class="form-control form-control-sm">
                 </div>
 
                 <div class="col-md-12 form-group">
                     <label class="text-bold"> Order number
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="number" placeholder="Order number" [(ngModel)]="pageModel.order_number" class="form-control form-control-sm">
+                    <input type="number" placeholder="Order number" [(ngModel)]="pageModel.order_number"
+                        class="form-control form-control-sm">
                 </div>
 
                 <div class="col-md-12">
@@ -34,7 +36,8 @@
                         name="uploadFileBox" accept="image/*" [(ngModel)]="pageModel.image" />
                 </div>
 
-                <div class="col-md-12" style="margin-bottom: 15px;width: 50%;" *ngIf="selectedPageId && pageModel.image_url!='' && pageModel.image_url!=null">
+                <div class="col-md-12" style="margin-bottom: 15px;width: 50%;"
+                    *ngIf="selectedPageId && pageModel.image_url!='' && pageModel.image_url!=null">
                     <div class="c-md-6" style="padding: 0;margin-top: 1%;margin-right: 5px;">
                         <label class="text-bold"> Uploaded Image</label>
                         <img style="width: 24%;vertical-align: middle;margin-left: 25px;" src="{{pageModel.image_url}}">
