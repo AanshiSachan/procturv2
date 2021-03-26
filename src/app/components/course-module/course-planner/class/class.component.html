@@ -391,12 +391,20 @@
     <div class="filter-header-container">
       <div class="filter-item-1">
         <!-- FOR COURSE MODEL -->
-        <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional && !schoolModel">
           <!-- changes by Nalini - to handle school model conditions -->
           <span>{{schoolModel ? 'Standard' : 'Master Course'}}<span class="danger">*</span></span>
           <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse" (ngModelChange)="updateCoursesList()">
             <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
             <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
+          </select>
+        </div>
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional && schoolModel">
+          <!-- changes by Nalini - to handle school model conditions -->
+          <span>Standard<span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.standard_id" (ngModelChange)="getCourseList($event)">
+            <option value="-1">Select Standard</option>
+            <option [value]="masterCourse.standard_id" *ngFor="let masterCourse of masterCourseList">{{masterCourse.standard_name}}</option>
           </select>
         </div>
         <div class="header-item" *ngIf="!jsonFlag.isProfessional">

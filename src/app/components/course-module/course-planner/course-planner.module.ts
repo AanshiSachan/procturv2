@@ -13,6 +13,7 @@ import { ClassScheduleService } from '../../../services/course-services/class-sc
 import { WidgetService } from '../../../services/widget.service';
 import { TopicListingService } from '../../../services/course-services/topic-listing.service';
 import { ExamCourseService } from '../../../services/course-services/exam-schedule.service';
+import { HttpService } from '../../../services/http.service';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { ExamCourseService } from '../../../services/course-services/exam-schedu
       ClassScheduleService,
       WidgetService,
       TopicListingService,
-      ExamCourseService
+      ExamCourseService,
+      HttpService
   ]
 })
 export class CoursePlannerModule { }

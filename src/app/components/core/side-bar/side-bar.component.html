@@ -328,7 +328,7 @@
                   </li>
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLead ? 'block' : 'none'}" [ngClass] ="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
                     <div *ngIf="jsonFlags.isShowLead">
-                        <a href="" class="dropbtn">
+                        <a routerLink="/view/leads/enquiry" class="dropbtn">
                             <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/leadIcon2.png':'./assets/images/sidemenuicon/leadsIcon1.png'" alt="">
                     <p >Lead</p><i class="fa fa-angle-right"></i>
       
@@ -360,12 +360,12 @@
                             <a routerLink="/view/students">
                                 <span>Manage</span>
                         </a>
-                        <a routerLink="/view/students">
+                        <!-- <a routerLink="/view/students">
                                 <span>Attendance</span>
                         </a>
                         <a routerLink="/view/students">
                                 <span>Leave</span>
-                        </a>
+                        </a> -->
                         </div>
                      </div>
                     
@@ -379,15 +379,15 @@
       
                     </a>
                         <div class="dropdown-content">
-                            <a routerLink="/view/fee">
+                            <a routerLink="/view/fee/data-setup">
                                 <span>Setup</span>
                         </a>
-                        <a routerLink="/view/fee/monitoring-dashboard/home">
+                        <!-- <a routerLink="/view/fee/monitoring-dashboard/home">
                                 <span>Assign</span>
                         </a>
                         <a routerLink="/view/fee/monitoring-dashboard/home">
                                 <span>Update</span>
-                        </a>
+                        </a> -->
                         <a routerLink="/view/fee/cheque">
                                 <span>Cheques</span>
                         </a>
@@ -530,9 +530,9 @@
                         <a routerLink="/view/manage/user">
                                 <span>Attendance</span>
                         </a>
-                        <a routerLink="/view/manage/user">
+                        <!-- <a routerLink="/view/manage/user">
                                 <span>Leave</span>
-                        </a>
+                        </a> -->
                         </div>
                      </div>
                     
@@ -552,9 +552,9 @@
                         <a routerLink="/view/course/setup/teacher/list">
                                 <span>Attendance</span>
                         </a>
-                        <a routerLink="/view/course/setup/teacher/list">
+                        <!-- <a routerLink="/view/course/setup/teacher/list">
                                 <span>Leave</span>
-                        </a>
+                        </a> -->
                         </div>
                      </div>
                     
@@ -627,9 +627,12 @@
       
                     </a>
                         <div class="dropdown-content">
-                            <a routerLink="/view/library/issue">
+                            <a routerLink="/view/library/master">
                                     <span>Setup</span>
                             </a>
+                            <a routerLink="/view/library/issue">
+                                <span>Manage</span>
+                        </a>
                         </div>
                      </div>
                     
