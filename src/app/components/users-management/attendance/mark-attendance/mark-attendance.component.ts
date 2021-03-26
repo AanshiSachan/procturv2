@@ -66,7 +66,6 @@ export class MarkAttendanceComponent implements OnInit {
     this.httpService.getData(url1).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-
         this.allMarkAttendanceList = res.result;
         this.attendanceList = res.result;
         this.lastAttendanceUpdatedDate = this.allMarkAttendanceList[0].last_attendance_updated_date;
@@ -112,11 +111,10 @@ export class MarkAttendanceComponent implements OnInit {
   }
 
   updateMarkAttendance() {
-
     this.makeJSONToUpdate();
     let obj = {
       attendance_date: moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD'),
-      user_type: this.markAttendanceDetail.user_type,
+      user_type: this.userType,
       institute_id: this.jsonFlag.institute_id,
       attendance_dto_list: this.attendance_dto_list
     }
@@ -125,7 +123,6 @@ export class MarkAttendanceComponent implements OnInit {
     this.httpService.putData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-
         this.updateAttendanceList = res.result;
         this.msgService.showErrorMessage('success', '', "Attendance updated successfully");
 
@@ -148,7 +145,7 @@ export class MarkAttendanceComponent implements OnInit {
     this.makeJSONToUpdate();
     let obj = {
       attendance_date: moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD'),
-      user_type: this.markAttendanceDetail.user_type,
+      user_type: this.userType,
       institute_id: this.jsonFlag.institute_id,
       attendance_dto_list: this.attendance_dto_list
     }

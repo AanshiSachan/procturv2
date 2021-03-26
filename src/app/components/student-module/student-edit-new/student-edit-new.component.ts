@@ -588,13 +588,13 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       case "studentForm": {
         document.getElementById('li-one').classList.add('active');
         this.isBasicActive = true;
+        this.getUploadedFileData();
         break;
       }
       case "kyc": {
         document.getElementById('li-two').classList.add('active');
         document.getElementById('li-two').classList.add('step_active');
-        //this.fetchCustomeComponents();
-        // this.getUploadedFileData();
+        this.fetchCustomeComponents();
         this.isOtherActive = true;
         break;
       }

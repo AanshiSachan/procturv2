@@ -591,7 +591,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
 
   }
 
-
   updateMasterCourseList(id) {
     this.batchList = [];
     this.auth.showLoader();
@@ -667,7 +666,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.add('active');
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.remove('active');
-          // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = true;
           this.isOtherActive = false;
           this.isFeeActive = false;
@@ -687,7 +685,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
-          //this.fetchCustomComponents();
+          this.fetchCustomComponents();
         }
         else {
           this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');

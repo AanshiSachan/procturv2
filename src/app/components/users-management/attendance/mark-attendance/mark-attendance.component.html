@@ -4,8 +4,9 @@
             <div class="page_heading">
                 <p>Mark Attendance</p>
             </div>
-            <div class="info_box1"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
+            <div *ngIf="lastAttendanceUpdatedDate!= null " class="info_box1"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
                 {{lastAttendanceUpdatedDate}}</div>
+                <div *ngIf="lastAttendanceUpdatedDate== null "></div>
             <div>
                 <span class="right">
                     <!-- <a class="mr10"><img src="../../../../../assets/img/copy.svg" title="Copy"></a> -->

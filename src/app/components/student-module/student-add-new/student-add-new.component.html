@@ -1322,19 +1322,21 @@
         </aside>
 
       </section> -->
-      <div class="row" *ngIf="totalAmountToPay != 0">
+      <div class="row">
         <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
           <div class="pull-left">
-            <!-- <div class="field-checkbox-wrapper">
+            <div class="field-checkbox-wrapper">
               <input type="button" value="Back" class="btn" (click)="navigateTo('kyc')">
-            </div> -->
+            </div>
           </div>
           <span class="right" style="margin-top: 10px;">
             <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalAmountToPay != 0">
               Payment for {{instituteCountryDetObj.symbol}}&nbsp;{{totalAmountToPay }} to be updated
             </div>
             <button class="blue_button " *ngIf="totalAmountToPay != 0" (click)="openPaymentDetails($event)">Update
-              Payment</button>
+              Payment</button><input *ngIf="totalAmountToPay == 0" type="button" value="Continue" (click)="cancelStudentUpload()"
+              class="btn fullBlue">
+
           </span>
         </div>
       </div>
