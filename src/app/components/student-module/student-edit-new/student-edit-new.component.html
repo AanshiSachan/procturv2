@@ -7,13 +7,13 @@
                     <div class="outer-progress flex">
                         <div class="flex w40">
                             <div lass="content_img">
-                                <div class="container1">
+                                <div class="container1" *ngIf="!isFeeActive">
                                     <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
                                         [containerHeight]="containerHeight" (setImage)="setImage($event)">
                                     </proctur-image>
                                 </div>
                             </div>
-                            <div class="caption">
+                            <div class="caption" *ngIf="!isFeeActive">
                                 <p>Add&nbsp;Profile<br>Picture</p>
                             </div>
                         </div>
@@ -667,7 +667,7 @@
                                 </div>
                                 <div class="row no-gutters" *ngIf="!isProfessional">
                                     <div class="col-lg-4">
-                                        <span class="label">Standard</span>
+                                        <span class="label">Standard *</span>
                                     </div>
                                     <div class="col-lg-7">
                                         <select id="standard" [(ngModel)]="studentAddFormData.standard_id"
