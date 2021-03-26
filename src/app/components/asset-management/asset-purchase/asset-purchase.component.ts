@@ -406,8 +406,8 @@ export class AssetPurchaseComponent implements OnInit {
        assetPurchaseStringDto.unit=this.model.unit;
        assetPurchaseStringDto.user_type=this.model.user_type;
        assetPurchaseStringDto.supplier_id=this.model.supplier_id;
-      assetPurchaseStringDto.service_date = this.model.service_date ? moment(this.model.service_date).format("YYYY-MM-DD"): '';
-      assetPurchaseStringDto.expiry_date = this.model.expiry_date ? moment(this.model.expiry_date).format("YYYY-MM-DD"): '';
+      assetPurchaseStringDto.service_date = this.model.service_date ? moment(this.model.service_date).format("YYYY-MM-DD"): null;
+      assetPurchaseStringDto.expiry_date = this.model.expiry_date ? moment(this.model.expiry_date).format("YYYY-MM-DD"): null;
       assetPurchaseStringDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
       
       formData.append('assetPurchaseStringDto', JSON.stringify(assetPurchaseStringDto));
@@ -449,9 +449,9 @@ export class AssetPurchaseComponent implements OnInit {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               $('#modelforpurchase').modal('hide');
               this.getPurchaseDetails();
-this.cancel(false)
+              this.cancel(false)
             } else {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Something is missing");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
