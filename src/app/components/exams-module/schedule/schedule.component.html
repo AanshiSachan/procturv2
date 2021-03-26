@@ -20,7 +20,7 @@
           </div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" id="exam_type" [(ngModel)]="editrecord.exam_type_id">
-              <option value="-1">Exam Name*</option>
+              <option value="-1">Exam Type*</option>
               <option title="{{exams.exam_type}}" *ngFor="let exams of ExamTypeData" [value]="exams.exam_type_id">
                 {{ (exams.exam_type.length > 30) ? (exams.exam_type | slice:0:30) + '...' : exams.exam_type }}
               </option>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
+import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
@@ -156,6 +157,7 @@ export class ClassComponent implements OnInit {
     private classService: ClassScheduleService,
     private widgetService: WidgetService,
     private topicService: TopicListingService,
+    private httpService: HttpService
   ) { }
 
   ngOnInit() {
@@ -260,6 +262,9 @@ export class ClassComponent implements OnInit {
     // get master course - course - subject data  for course model
     if (!this.jsonFlag.isProfessional) {
       this.auth.showLoader();
+      if(this.schoolModel) {
+        this.getStandard();
+      } else {  
       this.classService.getAllMasterCourse().subscribe(
         res => {
           this.masterCourseList = res;
@@ -273,6 +278,7 @@ export class ClassComponent implements OnInit {
           this.auth.hideLoader();
         }
       );
+      }
     }
     else {
       // get master course - course - subject data  for Batch model
@@ -302,6 +308,33 @@ export class ClassComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
       }
     );
+  }
+
+  getStandard() {
+    this.auth.showLoader();
+    this.httpService.getData('/api/v1/courseMaster/standard-section-list/'+sessionStorage.getItem('institute_id')).subscribe(
+      (res:any)=>{
+        this.auth.hideLoader();
+        this.masterCourseList = res.result;
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+      }
+    )
+  }
+
+  getCourseList(ev) {
+    this.inputElements.course = "-1";
+    this.inputElements.subject = '-1';
+    this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
+    this.courseList = [];
+    let standard_obj = this.masterCourseList.filter(
+      (standard) => (ev == standard.standard_id)
+    );
+    if(standard_obj && standard_obj.length) {
+      this.courseList = standard_obj[0].section_list;
+    }
   }
 
   updateCoursesList() {
@@ -385,6 +418,9 @@ export class ClassComponent implements OnInit {
         this.coursePlannerFilters.batch_id = this.inputElements.subject;
       }
       else {
+        if(this.schoolModel) {
+          this.getSchoolSubjects();
+        } else {
         for (var i = 0; i < this.courseList.length; i++) {
           if (this.courseList[i].course_id == this.inputElements.course) {
             this.subjectList = this.courseList[i].batchesList;
@@ -397,6 +433,7 @@ export class ClassComponent implements OnInit {
             return;
           }
         }
+      }
       }
     }
     // For Batch Model
@@ -416,6 +453,24 @@ export class ClassComponent implements OnInit {
       );
     }
 
+  }
+
+  getSchoolSubjects() {
+    this.auth.showLoader();
+    this.subjectList = [];
+    const url = "/api/v1/courseMaster/fetch/courses/" + sessionStorage.getItem('institute_id') + '/' + this.inputElements.course;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        //console.log('Subject', res);
+        this.subjectList = res.batchesList;
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+        //console.log(err);
+      }
+    )
   }
 
   updateSubject() {   // after selecting batch update course planner payload value
@@ -527,13 +582,18 @@ export class ClassComponent implements OnInit {
     this.jsonFlag.showHideColumn = false;
     this.auth.showLoader();
     // Course/bacth model and master course is selected
-    if ((!this.jsonFlag.isProfessional && this.coursePlannerFilters.master_course_name == "-1") ||
+    if ((!this.jsonFlag.isProfessional && !this.schoolModel && this.coursePlannerFilters.master_course_name == "-1") ||
+    (!this.jsonFlag.isProfessional && this.schoolModel && this.coursePlannerFilters.standard_id == "-1") ||
       (this.jsonFlag.isProfessional && this.coursePlannerFilters.standard_id == "-1")) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select master course');
+        let msg = this.schoolModel ? 'Please select standard' : 'Please select master course';
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', msg);
       this.auth.hideLoader();
       return;
     }
     else {   // Get Course Planner Data
+      if(this.schoolModel) {
+        this.coursePlannerFilters.master_course_name = '';
+      }
       this.classService.getCoursePlannerData(this.coursePlannerFilters, this.coursePlannerFor).subscribe(
         res => {
           this.auth.hideLoader();

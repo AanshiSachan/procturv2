@@ -1,7 +1,7 @@
 <div class="master-wrapper clearFix">
   <section class="header-section">
     <div class="header-full">
-      <button class="btn fullBlue pull-right" style="margin-bottom: 10px;" data-target="#addExamType"
+      <button class="btn fullBlue pull-right" (click)="isExamTypeUpdate = false;" style="margin-bottom: 10px;" data-target="#addExamType"
         data-toggle="modal">
         + Add Exam Type
       </button>
@@ -12,12 +12,12 @@
   </app-basic-table>
 </div>
 <!--add exam Type-->
-<div class="modal fade" id="addExamType" role="dialog" tabindex="-1" style="margin-top: 3%;" role="dialog"
+<div class="modal fade" id="addExamType" data-backdrop="static" role="dialog" tabindex="-1" style="margin-top: 3%;" role="dialog"
   aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" (click)="clearData()" data-dismiss="modal">&times;</button>
         <h3 class="modal-title" style="margin-bottom: 0;">{{isExamTypeUpdate ? 'Update Exam Type' : 'Create Exam Type'}}
         </h3>
       </div>

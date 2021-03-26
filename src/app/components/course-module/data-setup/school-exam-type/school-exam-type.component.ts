@@ -183,6 +183,7 @@ export class SchoolExamTypeComponent implements OnInit {
     return true;
   }
   clearData() {
+    this.isExamTypeUpdate = false;
     this.addExamType = {
       exam_type_id: "",
       exam_type: "",

@@ -195,7 +195,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     extra_curricular_activities: '',
     educational_group: '',
     pin_code: '',
-    student_perm_addr: ''
+    student_perm_addr: '',
+    roll_no: ''
   };
 
   enqAssignTo: any = [];
@@ -333,6 +334,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   role_feature = role.features;
   isSchoolModel: boolean = false;
   masterDataList: any = {};
+  showRollNoField: boolean = false;
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -723,6 +725,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     this.studentAddFormData.assignedBatches = temp;
     this.studentAddFormData.batchJoiningDates = tempDate;
     this.assignedBatchString = batchString.join(',');
+    if(this.assignedBatchString != '' && this.isSchoolModel) {
+      this.showRollNoField = true;
+    }
     this.JsonFlags.isDisabled = false;
     this.auth.hideLoader()
   }
@@ -1097,7 +1102,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   getassignedBatchList(e) {
     this.auth.showLoader();
     let temp = [];
+    this.showRollNoField = false;
     if (e.batchJoiningDates && e.batchJoiningDates.length) {
+      this.showRollNoField = true;
       e.batchJoiningDates.forEach(el => {
         temp.push(moment(el).format('YYYY-MM-DD'));
       });
@@ -1369,10 +1376,11 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
+        let msg = this.isSchoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
         let obj = {
           type: 'error',
-          title: 'Student Roll Number Missing',
-          body: "Please enter a valid roll number"
+          title: '',
+          body: msg
         };
         this.appC.popToast(obj);
       }
@@ -1549,7 +1557,12 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
           if (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength, this.country_id) == true) {
             if (this.studentAddFormData.guardian_phone != null && this.studentAddFormData.guardian_phone != "") {
               if (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength, this.country_id) == true) {
-                return true;
+                if(!this.isSchoolModel || !this.showRollNoField || this.studentAddFormData.roll_no != '') {
+                  return true;
+                } else {
+                  this.msgToast.showErrorMessage('error', '', "Please enter Roll No");
+                  return;
+                }
               } else {
                 this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
                 return false;

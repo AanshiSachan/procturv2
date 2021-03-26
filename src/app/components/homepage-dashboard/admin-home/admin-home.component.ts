@@ -169,7 +169,8 @@ export class AdminHomeComponent implements OnInit {
   }
   sendNotificationCourse = {
     master_course: '',
-    course_id: ''
+    course_id: '',
+    standard_id: ''
   }
   loginField = {
     checkBox: '0'
@@ -184,6 +185,7 @@ export class AdminHomeComponent implements OnInit {
   role_feature = role.features;
   schoolModel: boolean = false;
   mark_attendance_subject_wise: boolean = false;
+  fullResponse: any = [];
 
 
   /* ===================================================================================== */
@@ -1624,6 +1626,9 @@ export class AdminHomeComponent implements OnInit {
 
   getMaterCourseList() {
     this.flushData();
+    if(this.schoolModel) {
+      this.getStandard();
+    } else {
     this.auth.showLoader();
     this.widgetService.getAllMasterCourse().subscribe(
       res => {
@@ -1636,6 +1641,52 @@ export class AdminHomeComponent implements OnInit {
         //console.log(err);
       }
     )
+    }
+  }
+
+  getStandard() {
+    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+    let keys;
+    this.auth.showLoader();
+    this.httpService.getData(url).subscribe(
+      (data: any) => {
+        this.masterCourseList = [];
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        // console.log("keys", keys);
+        // this.masterCourse = keys;
+        for (let i = 0; i < keys.length; i++) {
+          let obj = {
+            masterCourse: '',
+            standard_id: 0
+          }
+          obj.masterCourse = keys[i];
+          let temp = this.fullResponse[keys[i]];
+          obj.standard_id = (temp.length) ? temp[0].standard_id : '';
+          this.masterCourseList.push(obj);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
+  getCourseList(ev) {
+    this.courseList = [];
+    this.sendNotificationCourse.course_id = '-1';
+    let master_course_obj = this.masterCourseList.filter(
+      (standard)=> (ev == standard.standard_id)
+    );
+    let temp = this.fullResponse[master_course_obj[0].masterCourse];
+    for (let i = 0; i < temp.length; i++) {
+      this.courseList.push(temp[i]);
+    }
   }
 
   onMasterCourseChange(event) {
@@ -1653,6 +1704,9 @@ export class AdminHomeComponent implements OnInit {
       this.openAppUserSelected = false;
     }
     this.flushData();
+    if(this.schoolModel) {
+      this.getCourseList(this.sendNotificationCourse.standard_id)
+    } else {
     if (this.sendNotificationCourse.master_course != "-1") {
       this.auth.showLoader();
       this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
@@ -1667,15 +1721,19 @@ export class AdminHomeComponent implements OnInit {
         }
       )
     }
+    }
   }
 
   fetchDataFromFields() {
     if (this.sendNotificationCourse.course_id != "-1") {
-      this.auth.showLoader();
-      let obj = {
+      let obj:any = {
         course_id: this.sendNotificationCourse.course_id,
         master_course_name: this.sendNotificationCourse.master_course
       }
+      if(this.schoolModel) {
+        obj.standard_id = this.sendNotificationCourse.standard_id;
+      }
+        this.auth.showLoader();
       this.widgetService.getStudentListOfCourse(obj).subscribe(
         res => {
           this.allChecked = true;
@@ -2180,7 +2238,8 @@ export class AdminHomeComponent implements OnInit {
     } else {
       this.sendNotificationCourse = {
         master_course: '',
-        course_id: '-1'
+        course_id: '-1',
+        standard_id: ''
       }
     }
   }

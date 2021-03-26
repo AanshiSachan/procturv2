@@ -58,4 +58,5 @@ export interface StudentForm {
 	educational_group?: any,
 	pin_code?: any,
 	student_perm_addr?:any
+	roll_no?:any;
 }

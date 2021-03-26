@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+declare var $;
 
 
 @Component({
@@ -263,15 +264,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     // })();
 
-    var $zoho = $zoho || {};
-    $zoho.salesiq = $zoho.salesiq || { widgetcode: "c165a84d5f33a8c8881dd9349ebf02c00e78a8b69f169ab2a3ef7c92aaed2b8abbee2865a1f989b1aefa10a127937fae", values: {}, ready: function () { } };
-    var d = document;
-    var s = d.createElement("script"); s.type = "text/javascript";
-    s.id = "zsiqscript"; s.defer = true;
-    s.src = "https://salesiq.zoho.com/widget";
-    var t = d.getElementsByTagName("script")[0];
-    t.parentNode.insertBefore(s, t); d.write("<div id='zsiqwidget'></div>");
-    if (sessionStorage.getItem('userType') == '3') {
+    // var $zoho = $zoho || {};
+    // $zoho.salesiq = $zoho.salesiq || { widgetcode: "c165a84d5f33a8c8881dd9349ebf02c00e78a8b69f169ab2a3ef7c92aaed2b8abbee2865a1f989b1aefa10a127937fae", values: {}, ready: function () { } };
+    // var d = document;
+    // var s = d.createElement("script"); s.type = "text/javascript";
+    // s.id = "zsiqscript"; s.defer = true;
+    // s.src = "https://salesiq.zoho.com/widget";
+    // var t = d.getElementsByTagName("script")[0];
+    // t.parentNode.insertBefore(s, t); d.write("<div id='zsiqwidget'></div>");
+    if(sessionStorage.getItem('userType') == '3') {
       this.facultyAccount = true;
     }
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
@@ -279,6 +280,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
+    $(document).ready(function() {
+      $('.sidebar-wrapper').css('width','14%');
+      $('.dropdown'). mouseover(
+       function(){
+           $('.sidebar-wrapper').css('width','27.5%');
+       }). mouseleave(
+       function(){
+           $('.sidebar-wrapper').css('width','14%');
+       });
+   });
   }
 
   ngAfterViewInit() {
@@ -289,6 +300,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.accessToHomeAndLead();
     }
   }
+
+
 
   checkpermissinForLeadDetails() {
     let userType = sessionStorage.getItem('userType');
@@ -1039,8 +1052,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
-    this.activeSession = id;
-
+    // this.activeSession = id;
+    
   }
   checkInstituteType() {
     this.auth.institute_type.subscribe(

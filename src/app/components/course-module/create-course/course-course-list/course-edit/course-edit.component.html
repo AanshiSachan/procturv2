@@ -1,7 +1,7 @@
 <div class="middle-section clearFix head editCourseWrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
-      <a routerLink="/view/course/create/courselist">Course</a>
+      <a routerLink="/view/course/create/courselist">{{schoolModel ? 'Section' :'Course'}}</a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       Edit :
       <u> {{selectedCourseDetails.master_course}}</u>

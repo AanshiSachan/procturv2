@@ -124,7 +124,7 @@ export class CourseSubjectComponent implements OnInit {
     this.isNewSubjectAdd = false;
     this.newSubjectDetails.standard_id = data.standard_id;
     this.newSubjectDetails.subject_name = data.subject_name;
-    this.newSubjectDetails.is_active = data.is_active;
+    this.newSubjectDetails.is_active = data.is_active == 'Y' ? true : false;
     if (!this.isLangInstitue) {
       this.newSubjectDetails.subject_code = data.subject_code;
     }
