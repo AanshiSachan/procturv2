@@ -619,7 +619,7 @@
                 </div>
                 <div class="row no-gutters" *ngIf="!isProfessional">
                   <div class="col-lg-4">
-                    <span class="label">Standard *</span>
+                    <span class="label">Standard {{schoolModel ? '*' : ''}}</span>
                   </div>
                   <div class="col-lg-7">
                     <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard"
