@@ -176,8 +176,9 @@
                                             <input type="text" value="" id="dob" class="form-ctrl bsDatepicker"
                                                 [(ngModel)]="newEnqData.dob" name="dob" readonly='true' bsDatepicker
                                                 style="border-radius: 4px;width: 20rem;">
-                                            <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
-                                                style="left: 18rem;top: 3.5rem;">clear</span>
+                                                <span name="clear" (click)="newEnqData.dob = ''" class="date-clear" style="margin-right: 5%;top: 58px;right: 0;">clear</span>
+                                            <!-- <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
+                        style="left: 18rem;top: 3.5rem;">clear</span> -->
                                         </div>
                                     </div>
                                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -200,12 +201,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="row" style="margin-top: 2%;">
-                                    <div>
-                                        <span class="date-clear" name="dob" (click)="newEnqData.dob = ''"
-                                            style="left: 21rem;top: 24.5rem;">clear</span>
-                                    </div>
-                                </div>-->
                                 <div class="row">
                                     <!-- City -->
                                     <div class="c-lg-6 c-md-6 c-sm-6">
