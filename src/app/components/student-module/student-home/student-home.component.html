@@ -92,10 +92,10 @@
                         <!-- Advance Filter Trigger -->
                         <div class="c-lg-4 c-md-4 c-sm-4" style="z-index: 5;">
                             <div class="filter-right" style="float: right;">
-                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()"
+                                <a href="javascript:void(0);" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()"
                                     class="openAdFilter">Advance Filter
                                 </a>
-                                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide"
+                                <a href="javascript:void(0);" id="adFilterExit" *ngIf="!schoolModel" class="closeAdFilter hide"
                                     (click)="closeAdFilter()">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                                         <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
