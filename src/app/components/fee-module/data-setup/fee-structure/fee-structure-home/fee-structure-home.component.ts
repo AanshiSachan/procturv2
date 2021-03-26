@@ -280,6 +280,7 @@ export class FeeStructureHomeComponent implements OnInit {
           this.auth.hideLoader();
           $("#editFeeStructureModel").hide();
           this.commonService.showErrorMessage('success', 'Update Successfully', 'Fee Structure Updated Successfully');
+          this.getFeeStructures()
         },
         err => {
           this.auth.hideLoader();
