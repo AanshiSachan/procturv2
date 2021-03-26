@@ -391,17 +391,16 @@ export class CategoryComponent implements OnInit {
   //save asset details
   saveAssetDetails() {
     if (this.assetaddForm.valid) {
-
-      let newasset: any = []
+     let newasset: any = []
       let location_ids: any = this.model.location_ids;
       for (let data in location_ids) {
         newasset.push(location_ids[data].id);
       }
       this.model.location_ids = newasset
      this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
-       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset is Created Successfully ");
-       $('#myModalforasset').modal('hide');
-       this.getAssetDetails();
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset is Created Successfully ");
+      $('#myModalforasset').modal('hide');
+      this.getAssetDetails();
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Code/ Name  is Duplicate");
@@ -642,8 +641,8 @@ assetDownloadPdf(){
 }
   //cancel 
   cancel() {
-    this.assetaddForm.resetForm();
-    this.assetcat.resetForm();
+    // this.assetaddForm.resetForm();
+    // this.assetcat.resetForm();
     this.isedit = false;
     this.category_model = {
       active: true,
@@ -663,6 +662,8 @@ assetDownloadPdf(){
       quantity: '',
       id: ''
     }
+    this.assetaddForm.reset(this.model);
+    this.assetcat.reset(this.category_model);
 
   }
 }

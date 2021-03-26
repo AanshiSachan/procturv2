@@ -471,7 +471,6 @@ this.cancel(false)
   }
   cancel(param) {
     this.isedit = false;
-    this.assePurchaseForm.resetForm();
     this.model = {
      id: '',
       asset_id: '',
@@ -488,6 +487,8 @@ this.cancel(false)
       category_id: '',
 
     }
+    this.assePurchaseForm.resetForm(this.model);
+   
   }
 
   downloadPdf() {

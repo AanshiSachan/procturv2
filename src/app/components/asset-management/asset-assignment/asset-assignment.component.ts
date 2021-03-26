@@ -332,7 +332,6 @@ export class AssetAssignmentComponent implements OnInit {
     }
   }
   cancel(param) {
-  this.assetAssignmentForm.resetForm();
     this.isedit = false;
     this.model = {
       id: '',
@@ -348,7 +347,7 @@ export class AssetAssignmentComponent implements OnInit {
       user_type: '',
       category_id: ''
     }
- // this.assetAssignmentForm.reset();
+    this.assetAssignmentForm.resetForm(this.model);
   }
   searchDatabase() {
    if (this.searchParams == undefined || this.searchParams == null) {

@@ -18,7 +18,7 @@
                     *ngIf="is_asset_cat" (click)="cancel(false)">Add
                      Category</button></span>
             <span class="right"><button class="blue_button" data-toggle="modal" data-target="#myModalforasset"
-                    *ngIf="is_asset">Add
+                    *ngIf="is_asset" (click)="cancel(false)">Add
                     Asset</button></span>
                 </div>
         </div>
@@ -88,7 +88,7 @@
                                     #categoryNmae="ngModel" required>
                             </div>
                             <p class="errormsg"><span  class="help-block" *ngIf="!categoryNmae.valid && categoryNmae.touched">
-                                Category name mandatory
+                                Category name is mandatory
                             </span></p>
                        
                         <div style="text-align: center;">
@@ -109,7 +109,7 @@
         </div>
     </div>
     <!--model for add asset -->
-    <div class="modal fade" data-backdrop="static" id="myModalforasset" role="dialog">
+    <div class="modal fade" data-backdrop="static"  id="myModalforasset" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content" style="height:540px;">
                 <div class="modal-body">
@@ -169,7 +169,7 @@
                             <span > <button type="submit" class="btns blue_button cancel"
                                     (click)="cancel()" data-dismiss="modal">Cancel</button></span>
                             <span > <button type="submit" class="btns blue_button"
-                                    (click)="saveAssetDetails(model)" *ngIf="!isedit">Add
+                                    (click)="saveAssetDetails(model)" *ngIf="!isedit" >Add
                                     Asset</button></span>
                             <span > <button type="submit" class="btns blue_button"
                                     (click)="updateAssetDetails(model)" *ngIf="isedit">Update
