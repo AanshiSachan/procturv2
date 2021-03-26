@@ -234,7 +234,7 @@ export class SupplierMasterComponent implements OnInit {
       this.model.category_id = this.selectedvalue;
       this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
         (res: any) => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Supplier Added Successfully");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Created Successfully");
           $('#modelforvendor').modal('hide');
          // this.cancel(false);
          this.getVendorDetails();

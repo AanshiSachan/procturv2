@@ -29,18 +29,18 @@
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()" *ngIf="is_asset">
             <span class="rights" *ngIf="is_asset">
-                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>-->
                 <a  (click)="assetExportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
-                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
-                <a (click)="assetDownloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
+                <a (click)="assetDownloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a> 
             </span>
             <span class="rights" *ngIf="is_asset_cat">
                 <input type="text"  style="visibility: hidden;"class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
-                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
                 <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
-                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
-                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
+                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a> 
             </span>
         </div>
 
@@ -119,7 +119,7 @@
                             <input type="text" class="form-control" name="asset_code" id="asset_code"
                                 placeholder="Code*" [(ngModel)]="model.asset_code" #asset_code="ngModel" required>
                         </div>
-                        <p class="errormsg"><span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Code is
+                        <p class="errormsg"><span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Asset code  is
                             mandatory</span></p>
                         <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
                             <select class="form-control" name="category_id" id="category_id"

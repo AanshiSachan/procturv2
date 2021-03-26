@@ -11,10 +11,10 @@
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
             <span class="rights">
-                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
                 <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
-                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
-                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
+                <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a> 
             </span>
         </div>
         <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
@@ -90,7 +90,7 @@
                         
                     </div>
                     <div class="row">
-                        <div class="field-wrapper col-md-6" [class.has-error]="check_out_user_id.invalid && check_out_user_id.touched">
+                        <div class="field-wrapper col-md-6">
                             <select class="form-control" name="check_out_user_id" id="check_out_user_id"
                                 [(ngModel)]="model.check_out_user_id"
                                 required #check_out_user_id="ngModel">
@@ -109,18 +109,17 @@
                         <p class="errormsg">  <span  class="help-block"></span></p>
                     </div>
                     <div class="row">
-                        <div class="field-wrapper col-md-6 datePickerBox" [class.has-error]="check_in_date.invalid && check_in_date.touched"> 
+                        <div class="field-wrapper col-md-6 datePickerBox"> 
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_in_date"
                                 [(ngModel)]="model.check_in_date" class="form-control" placeholder="Check In Date"
-                                id="check_in_date" #check_in_date="ngModel" required>
-                                <p class="errormsg">  <span  *ngIf="check_in_date.invalid && check_in_date.touched" class="help-block"> Check in date is mandatory</span></p>
+                                id="check_in_date">
+                                <p class="errormsg">  <span  class="help-block"> </span></p>
                         </div>
-                        <div class="field-wrapper col-md-6 datePickerBox">
+                        <div class="field-wrapper col-md-6 datePickerBox" [class.has-error]="check_out_date.invalid && check_out_date.touched">
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_out_date"
-                                [(ngModel)]="model.check_out_date" class="form-control" placeholder="Check Out Date"
-                                id="check_out_date">
-                                <p class="errormsg">  <span  class="help-block"></span></p>
-                        </div>
+                                [(ngModel)]="model.check_out_date" class="form-control" placeholder="Check Out Date *"
+                                id="check_out_date" #check_out_date="ngModel" required>
+                                <p class="errormsg">  <span  *ngIf="check_out_date.invalid && check_out_date.touched" class="help-block"> Check out date is mandatory</span></p></div>
                        
                     </div>
                   <!-- <div class="form-row">

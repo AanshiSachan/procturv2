@@ -399,12 +399,12 @@ export class CategoryComponent implements OnInit {
       }
       this.model.location_ids = newasset
      this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
-       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Added Successfully");
+       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset is Created Successfully ");
        $('#myModalforasset').modal('hide');
        this.getAssetDetails();
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Id/ Name Duplicate");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Code/ Name  is Duplicate");
         
         })
     }

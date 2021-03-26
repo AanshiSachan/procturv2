@@ -22,9 +22,9 @@
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
                <span class="rights">
-                <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>
+                <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
                 <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>
-                <a ><img src="assets/images/assets/2.svg" class="mr10"></a>
+                <!-- <a ><img src="assets/images/assets/2.svg" class="mr10"></a>-->
                 <a (click)="downloadPdf()" ><img src="assets/images/assets/document.svg" class="mr10" ></a>
                </span>
         </div>
@@ -55,14 +55,14 @@
                                     required>
                             </div>
                          <p class="errormsg"><span  class="help-block" *ngIf="!locationId.valid && locationId.touched">
-                            Location code is mandatory
+                             Location code is mandatory
                         </span></p> 
                             <div class="form-group" [class.has-error]="location_code.invalid && location_code.touched">
                                 <input type="text" class="form-control" name="location_name" id="location_code"
-                                    placeholder="Location *" [(ngModel)]="model.location_name" #location_code="ngModel" required>
+                                    placeholder="Name *" [(ngModel)]="model.location_name" #location_code="ngModel" required>
                             </div>
                             <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
-                                Location name is mandatory
+                               Location  Name is mandatory
                             </span></p>
 
                             <div>

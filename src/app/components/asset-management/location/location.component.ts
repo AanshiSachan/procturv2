@@ -200,7 +200,7 @@ export class LocationComponent implements OnInit {
   updateLocationDetails() {
     if (this.locationaddForm.valid) {
      this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Location is Updated Successfully")
       $('#modelforlocation').modal('hide');
         this.getLocationDetails();
       },

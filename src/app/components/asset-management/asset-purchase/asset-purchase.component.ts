@@ -391,16 +391,25 @@ export class AssetPurchaseComponent implements OnInit {
   }
  saveAssetPurchaseData() {
     if (this.assePurchaseForm.valid) {
-      delete(this.model.category_id);
-     if(!this.isedit){
-       delete( this.model.id);
-      }
      let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
+     this.model.institute_id=sessionStorage.getItem('institute_id');
       const formData = new FormData();
-      let assetPurchaseStringDto = this.model;
-      assetPurchaseStringDto.expiry_date = moment(assetPurchaseStringDto.expiry_date).format("YYYY-MM-DD")
-      assetPurchaseStringDto.purchase_date = moment(assetPurchaseStringDto.purchase_date).format("YYYY-MM-DD")
-      assetPurchaseStringDto.service_date = moment(assetPurchaseStringDto.service_date).format("YYYY-MM-DD")
+      let assetPurchaseStringDto:any={};
+      if(this.isedit){
+        assetPurchaseStringDto.id = this.model.id;
+       }  
+       assetPurchaseStringDto.institute_id =sessionStorage.getItem('institute_id');
+       assetPurchaseStringDto.purchase_amount =this.model.purchase_amount;   
+       assetPurchaseStringDto.quantity=this.model.quantity;
+       assetPurchaseStringDto.asset_id=this.model.asset_id;
+       assetPurchaseStringDto.purchased_by_user_id =this.model.purchased_by_user_id;
+       assetPurchaseStringDto.unit=this.model.unit;
+       assetPurchaseStringDto.user_type=this.model.user_type;
+       assetPurchaseStringDto.supplier_id=this.model.supplier_id;
+      assetPurchaseStringDto.service_date = this.model.service_date ? moment(this.model.service_date).format("YYYY-MM-DD"): '';
+      assetPurchaseStringDto.expiry_date = this.model.expiry_date ? moment(this.model.expiry_date).format("YYYY-MM-DD"): '';
+      assetPurchaseStringDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
+      
       formData.append('assetPurchaseStringDto', JSON.stringify(assetPurchaseStringDto));
       if (file) {
         formData.append('billImageFile', file);

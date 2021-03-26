@@ -234,9 +234,9 @@ export class AssetAssignmentComponent implements OnInit {
   @ViewChild('assetAssignmentForm', { static: false }) assetAssignmentForm: NgForm;
   saveAssetAssignDetails() {
     if (this.assetAssignmentForm.valid) {
-      this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
-      this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
-      this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD");
+     this.model.due_date = this.model.due_date ? moment(this.model.due_date).format("YYYY-MM-DD"): '';
+      this.model.check_in_date = this.model.check_in_date ? moment(this.model.check_in_date).format("YYYY-MM-DD"): '';
+      this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD");
         this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
        this.getAssignDetails();
@@ -311,21 +311,22 @@ export class AssetAssignmentComponent implements OnInit {
 
   updateAssetAssignDetails() {
     if(this.assetAssignmentForm.valid){
-    this.model.due_date = moment(this.model.due_date).format("YYYY-MM-DD");
-    this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD")
-    this.model.check_in_date = moment(this.model.check_in_date).format("YYYY-MM-DD")
-
+      this.model.due_date = this.model.due_date ? moment(this.model.due_date).format("YYYY-MM-DD"): '';
+      this.model.check_in_date = this.model.check_in_date ? moment(this.model.check_in_date).format("YYYY-MM-DD"): '';
+      this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD");
     this.httpService.putMethod('api/v2/asset/assignment/update', this.model).then(() => {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success,'',"Assignment details of Asset is Updated Successfully ")
       this.cancel(false)
+      $('#modelforassetAssign').modal('hide');
       this.getAssignDetails();
+     
+   
     },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "updated successfully")
+
       })
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "updated successfully")
-    $('#modelforassetAssign').modal('hide');
-    }
+   }
     else{
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All  fields Required")
     }
