@@ -14,7 +14,7 @@
             (ngModelChange)="updateCourseList($event)">
             <option value="">Standard*</option>
             <option [value]="masterCourse.standard_id" title="{{masterCourse.masterCourse}}" *ngFor="let masterCourse of masterCourse">
-                {{ (masterCourse.masterCourse.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
+                {{ (masterCourse.masterCourse?.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
               </option>
         </select>
           </div>
@@ -31,7 +31,7 @@
               (ngModelChange)="updateSubjectList($event)">
               <option value="-1">Section*</option>
               <option title="{{course.course_name}}" [value]="course.course_id" *ngFor="let course of courseList">
-                {{ (course.course_name.length > 30) ? (course.course_name | slice:0:30) + '...' : course.course_name }}
+                {{ (course.course_name?.length > 30) ? (course.course_name | slice:0:30) + '...' : course.course_name }}
               </option>
             </select>
           </div>
@@ -39,7 +39,7 @@
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.batch_id">
               <option value="-1">Subject*</option>
               <option title="{{subject.subject_name}}" [value]="subject.batch_id" *ngFor="let subject of subjectList">
-                {{ (subject.subject_name.length > 30) ? (subject.subject_name | slice:0:30) + '...' :
+                {{ (subject.subject_name?.length > 30) ? (subject.subject_name | slice:0:30) + '...' :
                 subject.subject_name }}
               </option>
             </select>
@@ -92,7 +92,7 @@
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
               <option value="-1">Room</option>
               <option *ngFor="let class of classRoomData" title="{{class.class_room_name}}" [value]="class.class_room_id">
-                {{ (class.class_room_name.length > 30) ? (class.class_room_name | slice:0:30) + '...' :
+                {{ (class.class_room_name?.length > 30) ? (class.class_room_name | slice:0:30) + '...' :
                 class.class_room_name }}
               </option>
             </select>
@@ -200,7 +200,7 @@
                 [(ngModel)]="coursePlannerFilters.standard_id" (ngModelChange)="getData()">
                 <option value="-1">Select Standard</option>
                 <option [value]="masterCourse.standard_id" title="{{masterCourse.masterCourse}}" *ngFor="let masterCourse of masterCourse">
-                  {{ (masterCourse.masterCourse.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
+                  {{ (masterCourse.masterCourse?.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
                 </option>
               </select>
             </div>
@@ -252,7 +252,7 @@
                 <span>{{i + 1}}</span>
               </div>
               <div class="tableData">
-                <span title="{{data.exam_type}}">{{ (data.exam_type.length > 13) ? (data.exam_type | slice:0:13 ) + '...' : data.exam_type }}</span>
+                <span title="{{data.exam_type}}">{{ (data.exam_type?.length > 13) ? (data.exam_type | slice:0:13 ) + '...' : data.exam_type }}</span>
               </div>
               <div class="tableData">
                 <span>{{data.standard_name}}</span>
