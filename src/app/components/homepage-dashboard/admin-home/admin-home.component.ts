@@ -3568,7 +3568,12 @@ export class AdminHomeComponent implements OnInit {
     else {
       sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
     }
-    this.router.navigate(['/view/dashboard/exam-marks']);
+    if(!this.schoolModel) {
+      this.router.navigate(['/view/dashboard/exam-marks']);
+    } else {
+      sessionStorage.setItem('fromAdminComponent','true');
+      this.router.navigateByUrl('/view/exams/marks/update-marks/' + data.course_exam_schedule_id);
+    }
 
   }
 

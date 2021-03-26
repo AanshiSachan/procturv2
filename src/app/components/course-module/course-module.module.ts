@@ -15,6 +15,8 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { HttpService } from '../../services/http.service';
+import { AttendanceComponent } from './attendance/attendance.component';
+import { WidgetService } from '../../services/widget.service';
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import { HttpService } from '../../services/http.service';
     // MasterTagComponent,
     EcourseMappingComponent,
     AnalyticsComponent,
+    AttendanceComponent,
   ],
   entryComponents: [
     CourseModuleComponent,
@@ -41,7 +44,8 @@ import { HttpService } from '../../services/http.service';
   ],
   providers: [
     timeTableService,
-    HttpService
+    HttpService,
+    WidgetService
   ],
   exports: []
 })

@@ -1,0 +1,51 @@
+<div style="padding-right: 1%;">
+    <div class="tableContainer">
+        <!-- <div> -->
+        <div class="tableHeader">
+            <div class="tableData" style="width: 5%;">
+                #
+            </div>
+            <div class="tableData" style="width: 15%;">
+                Name
+            </div>
+            <div class="tableData" style="text-align: center;"
+                [ngStyle]="{'width': 'calc(80% /' + marks_dist_list.length + ')'}"
+                *ngFor="let dist of marks_dist_list">
+                <span title="{{dist.marks_distribution_name}}" *ngIf="marks_dist_list?.length >7">{{ (dist.marks_distribution_name.length > 4) ? (dist.marks_distribution_name | slice:0:4) + '.' : dist.marks_distribution_name}} ({{dist.marks_max_value}})</span>
+                <span title="{{dist.marks_distribution_name}}" *ngIf="marks_dist_list?.length <=7">{{ (dist.marks_distribution_name.length > 10) ? (dist.marks_distribution_name | slice:0:10) + '.' : dist.marks_distribution_name}} ({{dist.marks_max_value}})</span>
+            </div>
+        </div>
+        <div class="section" *ngIf="studentList.student_list?.length > 0">
+            <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)"
+                *ngFor="let data of studentList.student_list;let i=index;">
+                <div class="tableData" style="width: 5%;">
+                    <span>{{i + 1}}</span>
+                </div>
+                <div class="tableData" style="width: 15%;">
+                    <span title="{{data.student_name}}">
+                        {{ (data.student_name.length > 30) ? (data.student_name | slice:0:30) + '...' : data.student_name}}
+                    </span>
+                </div>
+                <div class="tableData" [ngStyle]="{'width': 'calc(80% /' + marks_dist_list.length + ')'}"
+                    style="padding: 5px 15px;text-align: center;" *ngFor="let dist of data.marks_dist_list;let j=index;">
+                    <input *ngIf="data.attendance_status =='P'"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" type="text"
+                        [(ngModel)]="dist.marks_value" class="reason-input" name="'name'+i+j">
+                    <span style="color: #969696;font-weight: 600;" *ngIf="data.attendance_status !='P'">NA</span>
+                </div>
+            </div>
+        </div>
+        <div class="section no-records" *ngIf="!studentList.student_list?.length && !auth.isRippleLoad.getValue()">
+            No Records found
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div class="go-btn-container">
+            <button type="button" name="button" class="gobtn backbtn"
+                (click)="backToHome()">Back</button>
+        </div>
+        <div class="go-btn-container" style="justify-content: flex-end;">
+            <button type="button" name="button" class="gobtn" (click)="saveMarksData()">Save</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="act-bottom clearfix">
+    <div>
+        <span style="color: #787A7D;font-size: 13px;"><span style="font-weight: 600;">Note: </span> Create exam, class,
+            section & subject before Add Mark </span>
+    </div>
+    <section class="filter-head">
+        <div class="filter-header-container">
+            <div class="filter-item-1">
+                <div class="header-item">
+                    <select class="header-select-box" name="" [(ngModel)]="coursePlannerFilters.standard_id"
+                        (ngModelChange)="updateCourseList($event)">
+                        <option value="-1">Select Standard*</option>
+                        <option [value]="masterCourse.standard_id" *ngFor="let masterCourse of masterCourse">
+                            {{masterCourse.masterCourse}}</option>
+                    </select>
+                </div>
+                <div class="header-item">
+                    <select class="header-select-box" name="" [(ngModel)]="exam_type_id">
+                        <option value="-1">Select Exam*</option>
+                        <option title="{{exams.exam_type}}" *ngFor="let exams of ExamTypeData"
+                            [value]="exams.exam_type_id">
+                            {{ (exams.exam_type.length > 30) ? (exams.exam_type | slice:0:30) + '...' : exams.exam_type
+                            }}
+                        </option>
+                    </select>
+                </div>
+                <div class="header-item" style="width: 19%;">
+                    <select class="header-select-box" name="" [(ngModel)]="coursePlannerFilters.course_id"
+                        (ngModelChange)="updateSubjectList($event)">
+                        <option value="-1">Select Section*</option>
+                        <option [value]="course.course_id" *ngFor="let course of courseList">{{course.course_name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="header-item">
+                    <select class="header-select-box" name="" [(ngModel)]="coursePlannerFilters.batch_id">
+                        <option value="-1">Select Subject*</option>
+                        <option [value]="subject.batch_id" *ngFor="let subject of subjectList">{{subject.subject_name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="go-btn-container">
+                    <button type="button" name="button" class="fullBlue gobtn" (click)="getFilterData()">GO</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="grid-container">
+        <ul class="actb-wrapper grid" style="height: 550px;">
+            <li class="schedule-state item" data-id="1">
+                <div class="item-content">
+                    <div>
+                        <div class="actb-top-header clearfix">
+                            <span class="heading">
+                                Schedule
+                            </span>
+                            <div class="schedSwitcher">
+                                <ul>
+                                    <li id="courseSelectButton" class="active">Section
+                                    </li>
+                                </ul>
+                            </div>
+                            <ul class="sche-top-det">
+                                <li class="schedule-det">
+                                    <div>
+                                        <label>Total Section :</label>
+                                        <span> {{allData?.length}}</span>
+                                        <input style="margin-left:10%;" type="text" value="" id="schedWidDate"
+                                            class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                                            [(ngModel)]="courseLevelSchedDate"
+                                            (ngModelChange)="updateCourseLevelSched($event)" readonly="true"
+                                            bsDatepicker />
+                                    </div>
+                                </li>
+                                <li>
+                                    <button class="pull-right drag-button hide">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <path fill="#0C8AF6" fill-rule="nonzero"
+                                                d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z" />
+                                        </svg>
+                                    </button>
+                                    <button class="pull-right" (click)="openCalendar('schedWidDate')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24">
+                                            <g fill="#0084F6" fill-rule="nonzero">
+                                                <path
+                                                    d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z" />
+                                                <path
+                                                    d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z" />
+                                            </g>
+                                        </svg>
+                                    </button>
+                                    <span class="enquiry-state-date pull-right">
+                                        {{getSchedDateForCourse()| date: 'dd MMM yyyy'}}
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="schedule-bottom">
+                            <ul class="subjectViewHead">
+                                <li class="class_room">Standard</li>
+                                <li class="batch">Section</li>
+                                <li class="batch">Subject</li>
+                                <li class="batch">Exam Type</li>
+                                <li class="batch">Timings</li>
+                                <li class="action" style="text-align: center;">Action</li>
+                            </ul>
+                            <div class="schedule-scroller">
+                                <div class="ct-disable-wrapper pos-rel" *ngFor="let class of allData;let i = index;">
+                                    <ul class="ct-ongoing">
+                                        <li class="class_room" title="{{class.standard_name}}">
+                                            <div title="{{class.standard_name}}">
+                                                {{ (class.standard_name?.length > 20) ?
+                                                (class.standard_name |
+                                                slice:0:20)+'..':(class.standard_name) }}
+                                            </div>
+                                        </li>
+                                        <li class="batch" title="{{class.course_name}}">
+                                            <div>
+                                                <span title="{{class.course_name}}">{{
+                                                    (class.course_name?.length > 20) ?
+                                                    (class.course_name |
+                                                    slice:0:20)+'..':(class.course_name) }}
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li class="batch" title="{{class.subject_name}}">
+                                            <span title="{{class.subject_name}}">
+                                                {{class.is_optional_subject?class.subject_name+'(Optional)':class.subject_name}}
+                                            </span>
+                                        </li>
+
+                                        <li class="batch" title="{{class.exam_type}}">
+                                            <span title="{{class.exam_type}}">{{
+                                                (class.exam_type?.length > 20) ?
+                                                (class.exam_type |
+                                                slice:0:20)+'..':(class.exam_type) }}
+                                            </span>
+                                        </li>
+                                        <li class="batch">
+                                            <div>
+                                                {{class.start_time}} - {{class.end_time}}
+                                            </div>
+                                        </li>
+                                        <li class="action" style="text-align: center;">
+                                            <!-- <div class="che-action pull-right"> -->
+                                            <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks"
+                                                style="cursor:pointer"
+                                                *ngIf="class.status=='Mks. pending'"
+                                                (click)="examMarksUpdateCourse(class)">
+                                            <img src="./assets/images/exam-update.svg" alt="Update Exam Marks"
+                                                title="Update Exam Marks" style="cursor:pointer"
+                                                *ngIf="class.status == 'Mks. Updated'"
+                                                (click)="examMarksUpdateCourse(class)">
+                                            <!-- </div> -->
+
+                                        </li>
+                                    </ul>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

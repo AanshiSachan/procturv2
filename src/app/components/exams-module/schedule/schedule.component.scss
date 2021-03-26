@@ -740,3 +740,7 @@ select {
     font-weight: 600;
     padding: 0;
 }
+button[disabled]{
+    cursor: no-drop;
+    opacity: 0.5;
+}

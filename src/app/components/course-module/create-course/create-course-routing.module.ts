@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { EcourseMappingComponent } from '../ecourse-mapping/ecourse-mapping.component';
 import { CreateCourseComponent } from './create-course.component';
 
 
@@ -55,6 +56,11 @@ import { CreateCourseComponent } from './create-course.component';
                     loadChildren: () => import('app/components/course-module/create-course/manage-batch/manage-batch.module').then(m => m.ManageBatchModule),
                     // loadChildren: "app/components/course-module/create-course/manage-batch/manage-batch.module#ManageBatchModule",
                     pathMatch: 'prefix',
+                },
+                {
+                    path:'ecoursemapping',
+                    component: EcourseMappingComponent,
+                    pathMatch:'prefix'
                 }
             ]
         }

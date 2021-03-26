@@ -6,6 +6,7 @@ import { TimeTableComponent } from './time-table/time-table.component';
 // import { MasterTagComponent } from './master-tag/master-tag.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import {AttendanceComponent} from './attendance/attendance.component';
 
 @NgModule({
   imports: [RouterModule.forChild([
@@ -30,6 +31,12 @@ import { AnalyticsComponent } from './analytics/analytics.component';
           // canLoad: [AuthGuard]
         },
         {
+          path: 'create-section',
+          loadChildren: () => import('../../components/course-module/create-course/create-course.module').then(m => m.CreateCourseModule),
+          //   loadChildren: 'app/components/course-module/create-course/create-course.module#CreateCourseModule',
+          // canLoad: [AuthGuard]
+        },
+        {
           path: 'reports',
           loadChildren: () => import('../../components/course-module/reports/reports.module').then(m => m.ReportsModule),
           //   loadChildren: 'app/components/course-module/reports/reports.module#ReportsModule',
@@ -41,6 +48,12 @@ import { AnalyticsComponent } from './analytics/analytics.component';
         },
         {
           path: 'setup',
+          loadChildren: () => import('../../components/course-module/data-setup/data-setup.module').then(m => m.DataSetupModule),
+          //   loadChildren: 'app/components/course-module/data-setup/data-setup.module#DataSetupModule',
+          pathMatch: 'prefix',
+        },
+        {
+          path: 'exam-setup',
           loadChildren: () => import('../../components/course-module/data-setup/data-setup.module').then(m => m.DataSetupModule),
           //   loadChildren: 'app/components/course-module/data-setup/data-setup.module#DataSetupModule',
           pathMatch: 'prefix',
@@ -91,6 +104,21 @@ import { AnalyticsComponent } from './analytics/analytics.component';
           // component: AnalyticsComponent
           loadChildren: () => import('../../components/course-module/analytics/analytics.module').then(m => m.AnalyticsModule),
           pathMatch: 'prefix',
+        },
+        {
+          path: 'class-attendance',
+          component: AttendanceComponent,
+          pathMatch: 'prefix'
+        },
+        {
+          path: 'exam-attendance',
+          component: AttendanceComponent,
+          pathMatch: 'prefix'
+        },
+        {
+          path: 'exam-marks',
+          component: AttendanceComponent,
+          pathMatch: 'prefix'
         }
       ]
     }

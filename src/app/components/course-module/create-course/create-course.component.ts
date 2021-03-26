@@ -17,6 +17,7 @@ export class CreateCourseComponent implements OnInit {
   @ViewChild('liClass',{static: false}) liClass: ElementRef;
   @ViewChild('liExam',{static: false}) liExam: ElementRef;
   @ViewChild('liTopic',{static: false}) liTopic: ElementRef;
+  @ViewChild ('liEcourseMapping', {static: false}) liEcourseMapping: ElementRef;
   role_feature = role.features;
   jsonFlags = {
     classMenu: false,
@@ -27,6 +28,8 @@ export class CreateCourseComponent implements OnInit {
   }
 
   schoolModel: boolean = false;
+  isFromSection: boolean = true;
+  activeSession: any = '';
   constructor(
     private router: Router,
     private auth: AuthenticatorService
@@ -66,23 +69,33 @@ export class CreateCourseComponent implements OnInit {
   checkWhichTabIsOpen() {
     if (this.router.url.includes('standardlist')) {
       this.switchActiveView('liStandard');
+      this.isFromSection = true;
     } else if (this.router.url.includes('subject')) {
       this.switchActiveView('liSubject');
+      this.isFromSection = true;
     } else if (this.router.url.includes('courselist')) {
       this.switchActiveView('liManageBatch');
+      this.isFromSection = true;
     } else if (this.router.url.includes('exam')) {
       this.switchActiveView('liExam');
+      this.isFromSection = false;
     } else if (this.router.url.includes('class')) {
       this.switchActiveView('liClass');
+      this.isFromSection = false;
     } else if (this.router.url.includes('managebatch')) {
       this.switchActiveView('liManageBatch');
+      this.isFromSection = true;
     }else if (this.router.url.includes('topic')) {
       this.switchActiveView('liTopic');
-    }
+      this.isFromSection = true;
+    } else if (this.router.url.includes('ecoursemapping')) {
+      this.switchActiveView('liEcourseMapping');
+      this.isFromSection = true;
+    } 
   }
 
   switchActiveView(showId) {
-    let lists =['liStandard','liSubject','liManageBatch','liExam','liClass'];
+    let lists =['liStandard','liSubject','liManageBatch','liExam', 'liEcourseMapping'];
     lists.forEach((object)=>{
       if(this[object]) {
         this[object].nativeElement.classList.remove('active');
@@ -94,6 +107,7 @@ export class CreateCourseComponent implements OnInit {
     setTimeout(() => {
       if(document.getElementById(showId) && document.getElementById(showId).classList){
           document.getElementById(showId).classList.add('active');
+          this.activeSession = showId;
       }
     }, 500);
   }

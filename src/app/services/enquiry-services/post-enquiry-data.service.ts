@@ -164,7 +164,7 @@ export class PostEnquiryDataService {
     // );
     let options = 
       {
-        headers: headers,
+        headers: this.headers,
         body: data
       }
     return this.httpOnly.delete(urlDeleteBulk, options).pipe(map(

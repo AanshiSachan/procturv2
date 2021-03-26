@@ -1625,4 +1625,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       sessionStorage.setItem('setLiveClassType', obj);
     }
   }
+
+  setSetupSession(obj) {
+    sessionStorage.setItem('class', obj);
+  }
 }

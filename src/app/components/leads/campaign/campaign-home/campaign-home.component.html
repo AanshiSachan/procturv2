@@ -1,16 +1,25 @@
 <div class="clearFix sms-view-wrapper" style="padding-left: 15px; padding-right: 15px; ">
   <!-- Header and Navigation -->
-  <section class="middle-top clearFix bulk-header" style="padding-left: 5px; ">
-    <h1 class="pull-left">
-      <!-- <a routerLink="/view/leads" style="padding:0px;">
-        Lead
-      </a> -->
-      Lead
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      Campaign List
-    </h1>
-  </section>
-  <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
+  <div>
+    <div class="w98 p-15">
+        <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb arr-right">
+                <li class="breadcrumb-item "><a>Lead</a></li>
+                <li class="breadcrumb-item "><a>SMS Campaign</a></li>
+            </ol>
+        </nav>
+        <!-- Nav tabs -->
+        <ul class="nav main-shadow">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" routerLink="/view/leads/campaign">Add Campaign</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" routerLink="/view/leads/manage-campaign">Manage Campaign</a>
+          </li>
+        </ul>
+    </div>
+  </div>
+  <section class="sms-filter-wrapper" style="border-bottom: 1px solid #d4d4d4">
     <div class="row" style="padding: 18px;">
       <div class="pull-right" style="display:flex">
         <div class="search-filter-wrapper" style="display:flex">
