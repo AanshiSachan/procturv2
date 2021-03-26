@@ -34,9 +34,9 @@ export class MarkSettingComponent implements OnInit {
     this.getMarksType();
     this.getExamType();
     this.getMarkDistribution();
-    setTimeout(() => {
+    // setTimeout(() => {
       this.changeMarkType('onload', this.model.mark_type);
-    }, 3000);
+    // }, 3000);
   }
 
   changeMarkType(calltype, obj) {
@@ -88,7 +88,9 @@ export class MarkSettingComponent implements OnInit {
         } else if (this.model.mark_type == 2 || this.model.mark_type == 3) {
           this.makeExamWiseArray();
         }
-        this.setSettingData(res);
+        setTimeout(() => {
+          this.setSettingData(res);
+        }, 3000);
       },
       (err: any) => {
         this.auth.hideLoader();
