@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../../services/message-show.service';
-import { HttpService  } from '../../../../services/http.service';
+import { HttpService } from '../../../../services/http.service';
 // // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { Console } from 'console';
 declare var $;
 
 @Component({
@@ -20,7 +21,9 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     isProfessional: false,
     institute_id: '',
     isRippleLoad: false,
-    toggle: false
+    toggle: false,
+    isAuthoriseUser: false,
+    created_by: ''
   };
   sectionName = '';
   editExpenseId: string;
@@ -31,14 +34,22 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     description: '',
     quantity: 1,
     amount: 0,
-    remarks: ''
+    remarks: '',
+    accountNumber: '',
+    ifscCode: ''
   };
 
   paymentDetails = {
     payeeName: '-1',
     accountName: '-1',
     paymentDate: moment(new Date()).format('YYYY-MM-DD'),
-    paymentmode: '-1'
+    paymentmode: '-1',
+    accountNumber: '',
+    IfscCode: '',
+    dataKey: '',
+    transacId: '',
+    ChequeNumber: ''
+
   }
 
   payeeList: any[] = [];
@@ -47,8 +58,8 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   docsList: any[] = [];
   docDescription: '';
   totalAmount: number = 0;
-  fileName:any = null;
-  fileUrl:any;
+  fileName: any = null;
+  fileUrl: any;
   editExpenseDetails: any;
 
   payeeVisibilty: boolean = false;
@@ -56,6 +67,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   categoryVisibility: boolean = false;
   categoryList: any[] = [];
   categoryName: any = '';
+  accountNumber2: any
   addCategory = {
     Name: '',
     Description: ''
@@ -66,10 +78,10 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     private httpService: HttpService,
     private router: Router,
     private sanitizer: DomSanitizer,
-    private auth:AuthenticatorService
+    private auth: AuthenticatorService
   ) {
     this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-   }
+  }
 
   ngOnInit() {
     this.getPayeeDetails();
@@ -77,10 +89,11 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     this.getPaymentMode();
     this.getCategoryDetails();
     let currentURL = window.location.href;
-    if(currentURL.includes('add-expense')){
+    if (currentURL.includes('add-expense')) {
       this.sectionName = 'Add';
+      this.jsonFlag.isAuthoriseUser = true;
     }
-    else{
+    else {
       this.sectionName = 'Edit';
       let splitURL = currentURL.split("/");
       this.editExpenseId = splitURL[splitURL.length - 1];
@@ -108,7 +121,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
-  getPayeeDetails(){
+  getPayeeDetails() {
     this.auth.showLoader();
     const url1 = `/api/v1/payment/party/expense/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url1).subscribe(
@@ -123,7 +136,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
-  getAccountDetails(){
+  getAccountDetails() {
     this.auth.showLoader();
     const url2 = `/api/v1/account/all/${this.jsonFlag.institute_id}`
     this.httpService.getData(url2).subscribe(
@@ -138,13 +151,14 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
-  getPaymentMode(){
+  getPaymentMode() {
     this.auth.showLoader();
     const url3 = `/api/v1/masterData/type/PAYMENT_MODE`
     this.httpService.getData(url3).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.paymentModelist = res;
+        console.log("sdffffff", this.paymentModelist)
       },
       err => {
         this.auth.hideLoader();
@@ -153,17 +167,31 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
-  getEditExpenseDetails(){
+
+  checkpermissinForEditExpense() {
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    if (sessionStorage.getItem('userType') == '0' && username == 'admin') {
+      this.jsonFlag.isAuthoriseUser = true;
+    } else if ((sessionStorage.getItem('userid') == this.jsonFlag.created_by)) {
+      this.jsonFlag.isAuthoriseUser = true;
+    }
+  }
+
+
+  getEditExpenseDetails() {
     this.auth.showLoader();
     const url = `/api/v1/expense/${this.jsonFlag.institute_id}/${this.editExpenseId}`
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.editExpenseDetails = res;
+        this.jsonFlag.created_by = res.created_by;
+        this.checkpermissinForEditExpense()
         this.paymentDetails.payeeName = this.editExpenseDetails.party_id;
         this.paymentDetails.accountName = this.editExpenseDetails.account_id;
         this.paymentDetails.paymentDate = this.editExpenseDetails.payment_date;
-        this.paymentDetails.paymentmode = this.editExpenseDetails.paying_mode;
+        this.paymentDetails.paymentmode = this.editExpenseDetails.payment_mode;
 
         this.totalAmount = this.editExpenseDetails.amount;
 
@@ -176,12 +204,18 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
             id: this.editExpenseDetails.itemList[index].item_id,
             category_id: this.editExpenseDetails.itemList[index].category_id,
             item_id: this.editExpenseDetails.itemList[index].item_id,
-            remarks: this.editExpenseDetails.itemList[index].remarks
+            remarks: this.editExpenseDetails.itemList[index].remarks,
+            cheque_number: this.editExpenseDetails.itemList[index].cheque_number,
+            transaction_id: this.editExpenseDetails.itemList[index].transaction_id,
+            payment_mode: this.editExpenseDetails.itemList[index].payment_mode
+
+
+
           }
           this.addedItemList.push(obj)
         }
 
-        if(!!this.editExpenseDetails.attachmentList){
+        if (!!this.editExpenseDetails.attachmentList) {
           for (let index = 0; index < this.editExpenseDetails.attachmentList.length; index++) {
             let obj = {
               fileName: this.editExpenseDetails.attachmentList[index].file_name,
@@ -204,32 +238,67 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
-  addItem(){
-    if(this.accountDetails.itemName != -1){
-      if(this.accountDetails.amount != 0){
-        let obj = {
-          itemName: this.categoryName,
-          description: this.accountDetails.description,
-          quantity: this.accountDetails.quantity,
-          amount: this.accountDetails.amount,
-          item_id: 0,
-          category_id: this.accountDetails.itemName,
-          remarks: this.accountDetails.remarks
-        };
-        this.totalAmount = this.totalAmount + Number(obj.amount)
-        this.addedItemList.push(obj);
-        this.accountDetails.itemName = -1;
-        this.accountDetails.description = '';
-        this.accountDetails.quantity = 1;
-        this.accountDetails.amount = 0;
-        this.accountDetails.remarks = '';
+  checkPaymentModeVal() {
+    if (this.paymentDetails.paymentmode == '0') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '2') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
+      return true;
+    } else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
+      return true;
+    }
+  }
+
+  addItem() {
+    if (this.accountDetails.itemName != -1) {
+      if (this.accountDetails.amount != 0) {
+        if (this.paymentDetails.paymentmode != "-1") {
+
+          if (this.checkPaymentModeVal()) {
+
+            let obj = {
+              itemName: this.categoryName,
+              description: this.accountDetails.description,
+              quantity: this.accountDetails.quantity,
+              amount: this.accountDetails.amount,
+              item_id: 0,
+              category_id: this.accountDetails.itemName,
+              remarks: this.accountDetails.remarks,
+              payment_mode: this.paymentDetails.paymentmode,
+              transaction_id: this.paymentDetails.transacId,
+              cheque_number: this.paymentDetails.ChequeNumber
+
+            };
+            this.totalAmount = this.totalAmount + Number(obj.amount)
+            this.addedItemList.push(obj);
+            this.accountDetails.itemName = -1;
+            this.accountDetails.description = '';
+            this.accountDetails.quantity = 1;
+            this.accountDetails.amount = 0;
+            this.accountDetails.remarks = '';
+            this.paymentDetails.transacId = '';
+            this.paymentDetails.ChequeNumber = '';
+            this.paymentDetails.paymentmode = '-1'
+          }
+
+          else {
+            let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
+            this.msgService.showErrorMessage('error', '', msg);
+          }
+        }
+
+
+        else {
+          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+        }
       }
-      else{
+      else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
       }
     }
-    else{
-        this.msgService.showErrorMessage('error', '', "Select Item Name");
+    else {
+      this.msgService.showErrorMessage('error', '', "Select Item Name");
     }
 
     console.log(this.addedItemList);
@@ -237,58 +306,64 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
 
   uploadHandler() {
 
-      var fileTypes = ['jpg', 'jpeg', 'png', 'docs', 'pdf', 'doc', 'svg', 'txt'];  //acceptable file types
-      const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
-      if (preview != null || preview != undefined) {
-        let extension = preview.name.split('.').pop().toLowerCase(),  //file extension from input file
+    var fileTypes = ['jpg', 'jpeg', 'png', 'docs', 'pdf', 'doc', 'svg', 'txt'];  //acceptable file types
+    const preview = (<HTMLInputElement>document.getElementById('uploadFileControl')).files[0];
+    if (preview != null || preview != undefined) {
+      let extension = preview.name.split('.').pop().toLowerCase(),  //file extension from input file
         isSuccess = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
-        if(isSuccess){
-          var myReader: FileReader = new FileReader();
-          let temp: any = {};
-          myReader.readAsDataURL(preview);
-          myReader.onloadend = () => {
-            temp = {
-              // "title": this.category_id,
-              "fileName": preview.name,
-              "file_desc": this.docDescription,
-              "file": (<string>myReader.result).split(',')[1],
-              "file_extn": extension,
-              "file_id": 0
-            }
-            this.docsList.push(temp);
-            this.docDescription = "";
-            this.msgService.showErrorMessage('success', '', "File uploaded successfully");
-            (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
+      if (isSuccess) {
+        var myReader: FileReader = new FileReader();
+        let temp: any = {};
+        myReader.readAsDataURL(preview);
+        myReader.onloadend = () => {
+          temp = {
+            // "title": this.category_id,
+            "fileName": preview.name,
+            "file_desc": this.docDescription,
+            "file": (<string>myReader.result).split(',')[1],
+            "file_extn": extension,
+            "file_id": 0
           }
-        }
-        else{
-          this.msgService.showErrorMessage('error', '', "Please check file type.");
+          this.docsList.push(temp);
+          this.docDescription = "";
+          this.msgService.showErrorMessage('success', '', "File uploaded successfully");
+          (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
         }
       }
       else {
-        this.msgService.showErrorMessage('error', '', "No file selected");
+        this.msgService.showErrorMessage('error', '', "Please check file type.");
       }
+    }
+    else {
+      this.msgService.showErrorMessage('error', '', "No file selected");
+    }
   }
 
-  addExpense(){
-    if(this.paymentDetails.payeeName != '-1'){
+  addExpense() {
+    if (this.paymentDetails.payeeName != '-1') {
       if (this.paymentDetails.accountName != '-1') {
-        if(this.paymentDetails.paymentmode != "-1"){
-          if(this.addedItemList.length > 0){
-            let itemlist = [];
-            for (let index = 0; index < this.addedItemList.length; index++) {
-              let item = {
-                 "category_id": this.addedItemList[index].category_id,
-                 "item_quantity": this.addedItemList[index].quantity,
-                 "item_amount": this.addedItemList[index].amount,
-                 "item_id": this.addedItemList[index].item_id,
-                 "remarks": this.addedItemList[index].remarks,
-              }
-              itemlist.push(item)
-           }
+        // if (this.paymentDetails.paymentmode != "-1") {
+        if (this.addedItemList.length > 0) {
 
-           let attachList = [];
-           for (let index = 0; index < this.docsList.length; index++) {
+
+
+          let itemlist = [];
+          for (let index = 0; index < this.addedItemList.length; index++) {
+            let item = {
+              "category_id": this.addedItemList[index].category_id,
+              "item_quantity": this.addedItemList[index].quantity,
+              "item_amount": this.addedItemList[index].amount,
+              "item_id": this.addedItemList[index].item_id,
+              "remarks": this.addedItemList[index].remarks,
+              "payment_mode": this.addedItemList[index].payment_mode,
+              "transaction_id": this.addedItemList[index].transaction_id,
+              "cheque_number": this.addedItemList[index].cheque_number
+            }
+            itemlist.push(item)
+          }
+
+          let attachList = [];
+          for (let index = 0; index < this.docsList.length; index++) {
             let file = {
               file_id: this.docsList[index].file_id,
               file: this.docsList[index].file,
@@ -297,47 +372,51 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
               file_name: this.docsList[index].fileName
             }
             attachList.push(file);
-           }
-
-            let obj = {
-              party_id: this.paymentDetails.payeeName,
-              account_id: this.paymentDetails.accountName,
-              payment_date: moment(this.paymentDetails.paymentDate).format('YYYY-MM-DD'),
-              paying_mode: this.paymentDetails.paymentmode,
-              itemList: itemlist,
-              attachmentList: attachList,
-              amount: this.totalAmount
-            }
-            console.log(obj);
-
-            if(this.sectionName == 'Edit'){
-              this.updateExpense(obj);
-            }
-            else{
-              this.addNewExpense(obj);
-            }
           }
-          else{
-            this.msgService.showErrorMessage('error', '', 'Please specify at least one item of expense!');
+
+          let obj = {
+            party_id: this.paymentDetails.payeeName,
+            account_id: this.paymentDetails.accountName,
+            payment_date: moment(this.paymentDetails.paymentDate).format('YYYY-MM-DD'),
+            paying_mode: this.paymentDetails.paymentmode,
+
+            itemList: itemlist,
+            attachmentList: attachList,
+            amount: this.totalAmount,
+            //data_key: this.paymentDetails.dataKey
           }
+          console.log(obj);
+
+          if (this.sectionName == 'Edit') {
+            this.updateExpense(obj);
+          }
+          else {
+            this.addNewExpense(obj);
+          }
+
+
         }
-        else{
-          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+        else {
+          this.msgService.showErrorMessage('error', '', 'Please specify at least one item of expense!');
         }
       }
-      else{
+      // else {
+      //   this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+      // }
+
+      else {
         this.msgService.showErrorMessage('error', '', 'Please select Account Name');
       }
     }
-    else{
+    else {
       this.msgService.showErrorMessage('error', '', 'Please select Payee Name');
     }
   }
 
   setDescription(obj) {
-    if(this.categoryList && this.categoryList.length) {
-      let categoryObj =this.categoryList.filter(category=>{
-        if((category.category_id == this.accountDetails.itemName)) {
+    if (this.categoryList && this.categoryList.length) {
+      let categoryObj = this.categoryList.filter(category => {
+        if ((category.category_id == this.accountDetails.itemName)) {
           this.categoryName = category.category_name;
           this.accountDetails.description = category.category_desc;
         }
@@ -345,7 +424,23 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     }
   }
 
-  addNewExpense(obj){
+  setAccountIfscCode(obj) {
+    if (this.accountNamelist && this.accountNamelist.length) {
+      let accuntIfscObj = this.accountNamelist.filter(nameSet => {
+        if ((nameSet.account_id == obj)) {
+          this.paymentDetails.accountNumber = nameSet.account_number
+          this.paymentDetails.IfscCode = nameSet.ifsc_code
+        }
+      })
+
+
+    }
+  }
+
+
+
+
+  addNewExpense(obj) {
     this.auth.showLoader();
     const url = `/api/v1/expense/${this.jsonFlag.institute_id}`
     this.httpService.postData(url, obj).subscribe(
@@ -361,7 +456,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
-  updateExpense(obj){
+  updateExpense(obj) {
     this.auth.showLoader();
     const url = `/api/v1/expense/${this.jsonFlag.institute_id}/${this.editExpenseId}`
     this.httpService.putData(url, obj).subscribe(
@@ -377,36 +472,39 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     )
   }
 
-  removeItem(itemName){
-    for (let index = 0; index < this.addedItemList.length; index++) {
-      if(this.addedItemList[index].itemName == itemName){
-        this.totalAmount = this.totalAmount - Number(this.addedItemList[index].amount);
-        this.addedItemList.splice(index, 1);
-        break;
+  removeItem(itemName) {
+    if (this.jsonFlag.isAuthoriseUser) {
+
+      for (let index = 0; index < this.addedItemList.length; index++) {
+        if (this.addedItemList[index].itemName == itemName) {
+          this.totalAmount = this.totalAmount - Number(this.addedItemList[index].amount);
+          this.addedItemList.splice(index, 1);
+          break;
+        }
       }
     }
   }
 
-  removeDoc(fileName){
+  removeDoc(fileName) {
     for (let index = 0; index < this.docsList.length; index++) {
-      if(this.docsList[index].fileName == fileName){
+      if (this.docsList[index].fileName == fileName) {
         this.docsList.splice(index, 1);
         break;
       }
     }
   }
 
-  downloadattachemnt(file_id, file_type, fileName){
+  downloadattachemnt(file_id, file_type, fileName) {
     this.auth.showLoader();
-    const url = "/api/v1/expense/download/"+this.jsonFlag.institute_id+"/"+file_id;
+    const url = "/api/v1/expense/download/" + this.jsonFlag.institute_id + "/" + file_id;
     this.httpService.downloadItem(url, file_type).subscribe(
-      (response:any)=>{
+      (response: any) => {
         this.auth.hideLoader();
-        if(response){
+        if (response) {
           const blob = new Blob([response.document], { type: file_type });
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-          if(this.fileUrl != null){
-          this.fileName = fileName
+          if (this.fileUrl != null) {
+            this.fileName = fileName
             setTimeout(() => {
               var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
               hiddenDownload.href = this.fileUrl.changingThisBreaksApplicationSecurity;
@@ -416,48 +514,48 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
           }
         }
       },
-       err=>{
+      err => {
         this.auth.hideLoader();
         console.log(err);
       }
     )
   }
 
-  checkFututreDate(){
+  checkFututreDate() {
     let today = moment(new Date);
     let selectedDate = moment(this.paymentDetails.paymentDate)
     let diff = moment(selectedDate.diff(today))['_i'];
-    if(diff > 0){
+    if (diff > 0) {
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
       this.paymentDetails.paymentDate = moment(new Date).format('YYYY-MM-DD');
     }
   }
 
-  togglePayee(){
-    if(this.payeeVisibilty){
+  togglePayee() {
+    if (this.payeeVisibilty) {
       this.payeeVisibilty = false;
       this.getPayeeDetails();
     }
-    else{
+    else {
       this.payeeVisibilty = true;
     }
   }
-  toggleAccount(){
-    if(this.accountVisibilty){
+  toggleAccount() {
+    if (this.accountVisibilty) {
       this.accountVisibilty = false;
       this.getAccountDetails();
     }
-    else{
+    else {
       this.accountVisibilty = true;
     }
   }
 
-  toggleCategory(){
-    if(this.categoryVisibility){
+  toggleCategory() {
+    if (this.categoryVisibility) {
       this.categoryVisibility = false;
       this.getCategoryDetails();
     }
-    else{
+    else {
       sessionStorage.setItem('expense_category_type', '2');
       this.categoryVisibility = true;
     }

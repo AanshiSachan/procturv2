@@ -209,6 +209,31 @@
 
 
   </div>
+  <div class="leads-menu-section-container" *ngIf="isShowExpense == 'true'">
+    <div class="leads-menu-item pleads-menu-item">
+      <div class="menu-title">
+        <!--  <img src="./assets/images/leads/data-setup.svg" alt="data setup">-->
+        <img src="../../../assets/images/estore/Expenses.svg" alt=" ">
+        <span class="head-font" style="margin-top:-5px;">Expense</span>
+      </div>
+      <div class="menu-description">
+        <hr class="heading_hr">
+        <div class="row">
+
+          <a routerLink="/view/expense/report" class="icon_click"><img
+              src="./assets/images/Reporticons/salesreport.png" alt=" "></a>
+          <div class="col-sm" style="margin-top:-34px; margin-left:13px;">
+            <span class="sub-head"><a routerLink="/view/expense/report">Income and Expense Report</a></span>
+          </div>
+          <div class="col-sm" style="margin-top:10px;margin-left:-6px;">
+            <h6 class="content">Income and Expense Report of the Institution.</h6>
+            <hr class="content_hr" style="margin-left:-28px;">
+          </div>
+        </div>
+  </div>
+  </div>
+  </div>
+
   <div class="leads-menu-section-container" *ngIf="!facultyAccount">
     <div class="leads-menu-item mleads-menu-item">
       <div class="menu-title">

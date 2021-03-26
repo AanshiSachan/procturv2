@@ -856,6 +856,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.jsonFlags.isShowExpense = true;
       }
     }
+    sessionStorage.setItem('isShowExpense', String(this.jsonFlags.isShowExpense));
   }
 
   isLiveClassesAllow(type) {
