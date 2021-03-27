@@ -17,6 +17,7 @@
             <div *ngIf="is_tax_enabled">Tax(%) <span title="Enable Tax" class="info">i</span></div>
             <div>Action</div>
           </div>
+          <div class="tableHeight">
           <div *ngFor="let data of feeTypeList">
             <div class="table_body">
               <div>{{data.fee_type}}</div>
@@ -25,6 +26,7 @@
               <div><a data-toggle="modal" (click)="editFeeTypes(data)"><img src="../../../../../assets/images/Edit.svg"
                     class="size22" title="Edit"></a></div>
             </div>
+          </div>
           </div>
         </div>
       </div>

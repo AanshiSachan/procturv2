@@ -12,6 +12,7 @@
             <div>Created Date</div>
             <div>Action</div>
           </div>
+          <div class="tableHeight">
           <div *ngFor="let data of discountReasonArray">
             <div class="table_body">
               <div>{{data.reason}}</div>
@@ -19,6 +20,7 @@
               <div><a (click)="editReason(data)"><img src="../../../../../assets/images/Edit.svg"
                     class="size22" title="Edit"></a></div>
             </div>
+          </div>
           </div>
         </div>
       </div>

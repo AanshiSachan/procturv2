@@ -26,15 +26,11 @@ const routes: Routes = [
           },
           {
             path: 'fee-type',
-            component: FeeTypesComponent
+            component: FeeTypesV2Component
           },{
             path: 'fee-type-v2',
-            component: FeeTypesV2Component
+            component: FeeTypesComponent
           },
-          // {
-          //   path: 'fee-structure',
-          //   component: FeeTemplateV2Component
-          // },
           {
             path: 'fee-structure',
             loadChildren: () => import('app/components/fee-module/data-setup/fee-structure/fee-structure.module').then(m => m.FeeStructureModule),

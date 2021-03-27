@@ -258,7 +258,6 @@ export class FeeStructureHomeComponent implements OnInit {
   }
 
   updateFeeStructure() {
-    debugger
     if (this.validateFeeInstallments()) {
       let set_is_default = '0';
       if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
@@ -631,6 +630,7 @@ export class FeeStructureHomeComponent implements OnInit {
   }
   editFeeStructure(fee) {
     $("#editFeeStructureModel").show();
+    this.totalTax=0;
     if (this.feeTypeList.length == 0) {
       this.getInstituteFeeTypes();
     }

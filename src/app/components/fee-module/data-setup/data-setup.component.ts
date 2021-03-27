@@ -14,7 +14,7 @@ export class DataSetupComponent implements OnInit {
 
   constructor(private auth: AuthenticatorService,
     private router: Router) {
-      this.toggle(this.activeSession) 
+     // this.toggle(this.activeSession) 
     this.schoolModel = this.auth.schoolModel.value;
   }
 
@@ -32,21 +32,13 @@ export class DataSetupComponent implements OnInit {
   }
 
   toggle(id) {
-    if (id == 'fee_types') {
-      this.router.navigateByUrl("/view/fee/data-setup/fee-type-v2");
-    } else if (id == 'fee_structure') {
-      this.router.navigateByUrl("/view/fee/data-setup/fee-structure")
-    } else if (id == 'fee_discount') {
-      this.router.navigateByUrl("/view/fee/data-setup/discount-reason")
-    }
     this.activeSession = id;
   }
 
   setActiveClass() {
-    // this.RemoveActiveTabs();
     let pathLastURL;
     var str = window.location.href;
-    var res = str.substring(str.lastIndexOf("/view/fee/setup") + 19, str.length);
+    var res = str.substring(str.lastIndexOf("/view/fee/data-setup") + 21, str.length);
     pathLastURL = res;
     var get_module_name = res.substring(0, res.indexOf("/"));
     if (get_module_name != '') {
@@ -55,9 +47,9 @@ export class DataSetupComponent implements OnInit {
 
     console.log(pathLastURL);
     let routesData = {
-      'teacher': 'fee_types',
-      'academic': 'fee_structure',
-      'manage-exam-grades': 'fee_discount',
+      'fee-type': 'fee_types',
+      'fee-structure': 'structure',
+      'discount-reason': 'discount',
     };
     this.activeSession = routesData[pathLastURL];
     console.log(this.activeSession);
