@@ -16,7 +16,7 @@ export class FeeTypesV2Component implements OnInit {
   addNewFee = {
     fee_type: '',
     fee_type_desc: '',
-    fee_type_tax: 0,
+    fee_type_tax: '',
     fee_type_id: 0,
   }
   feeTypeList: any = [];
@@ -87,13 +87,13 @@ export class FeeTypesV2Component implements OnInit {
     this.addNewFee = {
       fee_type: '',
       fee_type_desc: '',
-      fee_type_tax: 0,
+      fee_type_tax: '',
       fee_type_id: 0,
     }
     $('#feetypesModal').modal('hide');
   }
   validateUserInput() {
-    if (this.addNewFee.fee_type == '') {
+    if ( this.addNewFee.fee_type.trim()=='') {
       this.commonService.showErrorMessage('info', '', "Enter Valid Fee Type!");
       return false;
     }
