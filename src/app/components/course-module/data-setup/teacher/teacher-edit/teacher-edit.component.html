@@ -123,7 +123,7 @@
             <input *ngIf="(hasIdCard == 'N')" class="blue_button h35" type="button" id="yourBtn" value="Upload Id-Card"
               (click)="updateIdCard($event)">
           </div>
-          <div class="w70">
+          <div class="w70" *ngIf="selectedTeacherId">
             <span class="">
               <img style="cursor: pointer;" (click)="downloadIdCard()" src="../../../../../../assets/images/course/image105.svg"><span
                 class="id-card-text">Download id-Card</span>
