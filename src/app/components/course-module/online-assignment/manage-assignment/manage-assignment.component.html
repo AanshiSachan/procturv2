@@ -235,7 +235,8 @@
           <div class="file-attachment-container">
             <div class="file-attachment-item" *ngFor="let file of fileArray">
               <i class="fa fa-file" aria-hidden="true"></i>
-              <span>{{file.fileName}}.{{file.fileType}}</span>
+              <span title="{{file.fileName}}">{{ (file.fileName.length > 30) ? (file.fileName | slice:0:30) + '...' : file.fileName }}
+                .{{file.fileType}}</span>
               <i class="fa fa-times" aria-hidden="true" (click)="removeFile(file.name)" style="color:red;"></i>
             </div>
           </div>
@@ -254,7 +255,7 @@
           <div class="file-attachment-container" *ngIf="editAttachmentList?.length > 0">
             <div class="file-attachment-item" *ngFor="let file of editAttachmentList">
               <i class="fa fa-file" aria-hidden="true"></i>
-              <span>{{file.attachment_name}}</span>
+              <span title="{{file.attachment_name}}">{{ (file.attachment_name.length > 50) ? (file.attachment_name | slice:0:50) + '...' : file.attachment_name }}</span>
               <i class="fa fa-times" aria-hidden="true" (click)="removeOldFile(file.file_id)" style="color:red;"></i>
             </div>
           </div>
@@ -265,13 +266,23 @@
 
       <div class="course-details">
         <!-- For Course Model -->
-        <div class="course-details-item field-wrapper" *ngIf="!this.jsonFlag.isProfessional">
+        <div class="course-details-item field-wrapper" *ngIf="!this.jsonFlag.isProfessional && !schoolModel">
           <label for="" style="font-size: 12px;">{{schoolModel ? 'Standard' : 'Master Course'}}<span class="danger">*</span></label>
           <select class="course-input" name="" [(ngModel)]="assignmentDetails.masterCourse"
             [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getCourses()">
             <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
             <option [value]="master.master_course" *ngFor="let master of masterCourseList">
               {{ (master.master_course.length > 30) ? (master.master_course | slice:0:30) + '...' : master.master_course }}
+            </option>
+          </select>
+        </div>
+        <div class="course-details-item field-wrapper" *ngIf="!this.jsonFlag.isProfessional && schoolModel">
+          <label for="" style="font-size: 12px;">Standard<span class="danger">*</span></label>
+          <select class="course-input" name="" [(ngModel)]="assignmentDetails.standard_id"
+            [disabled]="assignmentDetails.assignment_status == 'Published'" (ngModelChange)="getCourseList($event)">
+            <option value="-1">Select Standard</option>
+            <option [value]="master.standard_id" *ngFor="let master of masterCourseList">
+              {{ (master.standard_name.length > 30) ? (master.standard_name | slice:0:30) + '...' : master.standard_name }}
             </option>
           </select>
         </div>

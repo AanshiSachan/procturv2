@@ -75,6 +75,7 @@ export class ManageAssignmentComponent implements OnInit {
    evaluation_marks: 0,
    lateSubmission : false,
    masterCourse: '-1',
+   standard_id:'-1',
    course: "-1",
    subject: "-1",
    batch: "-1",
@@ -169,7 +170,11 @@ export class ManageAssignmentComponent implements OnInit {
       arr.push(this.getBatchList())
     }
     else{
+      if(this.schoolModel) {
+        arr.push(this.getStandard())
+      } else {
       arr.push(this.getMasterCourse())
+      }
     }
     arr.push(this.getFacultyList())
     arr.push(this.setMultiSelectSetting())
@@ -244,16 +249,15 @@ export class ManageAssignmentComponent implements OnInit {
       this.selectedTagsList = tags
     }
     // console.log(this.selectedTagsList)
-
-    if(!this.jsonFlag.isProfessional){
+    this.assignmentDetails.standard_id = this.editAssignmentDetails.standard_id;
+    this.assignmentDetails.course = this.editAssignmentDetails.course_id;
+    if(!this.jsonFlag.isProfessional && !this.schoolModel){
       this.assignmentDetails.masterCourse = this.editAssignmentDetails.master_course_name;
     }
     // else{
     //   this.assignmentDetails.masterCours
     // }
 
-
-    this.assignmentDetails.course = this.editAssignmentDetails.course_id;
     this.assignmentDetails.subject = this.editAssignmentDetails.subject_id
     this.assignmentDetails.topic = this.editAssignmentDetails.topic_id;
     this.assignmentDetails.subtopic = this.editAssignmentDetails.sub_topic_id;
@@ -296,7 +300,9 @@ export class ManageAssignmentComponent implements OnInit {
         }
       }
     }
-
+    if(this.schoolModel) {
+      this.getCourseList(this.assignmentDetails.standard_id);
+    }
 
 
 
@@ -397,6 +403,9 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   getMasterCourse(){
+    // if(this.schoolModel) {
+    //   this.getStandard();
+    // } else {
     this.auth.showLoader();
     const url = `/api/v1/courseMaster/fetch/${this.jsonFlag.institute_id}/all`;
     this.httpService.getData(url).subscribe(
@@ -412,6 +421,76 @@ export class ManageAssignmentComponent implements OnInit {
       err => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      }
+    )
+    // }
+  }
+
+  getStandard() {
+    this.auth.showLoader();
+    this.httpService.getData('/api/v1/courseMaster/standard-section-list/'+sessionStorage.getItem('institute_id')).subscribe(
+      (res:any)=>{
+        this.auth.hideLoader();
+        this.masterCourseList = res.result; 
+        if(this.sectionName == 'Edit'){
+          this.getCourseList(this.assignmentDetails.standard_id);
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+      }
+    )
+  }
+
+  getCourseList(ev) {
+    // this.assignmentDetails.course = "-1";
+    // this.assignmentDetails.subject = '-1';
+    if(this.assignmentDetails.standard_id != "-1"){
+    this.courseList = [];
+    let standard_obj = this.masterCourseList.filter(
+      (standard) => (ev == standard.standard_id)
+    );
+    if(standard_obj && standard_obj.length) {
+      this.courseList = standard_obj[0].section_list;
+    }
+    if(this.sectionName == 'Edit'){
+      this.getStudentsList();
+      this.getSchoolSubjects();
+    }
+  } else {
+      this.courseList = [];
+      this.subjectList = [];
+      this.topicList = [];
+      this.subTopicList = [];
+      this.studentsList = [];
+      this.selectedStudentList = [];
+      this.assignmentDetails.course = "-1";
+      this.assignmentDetails.subject = "-1";
+      this.assignmentDetails.batch = "-1";
+      this.assignmentDetails.topic = "-1";
+      this.assignmentDetails.subtopic = "-1";
+      this.assignmentDetails.students = [];
+  }
+  }
+
+  getSchoolSubjects() {    
+    this.auth.showLoader();
+    this.subjectList = [];
+    const url = "/api/v1/courseMaster/fetch/courses/" + sessionStorage.getItem('institute_id') + '/' + this.assignmentDetails.course;
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        //console.log('Subject', res);
+        this.subjectList = res.batchesList;
+        if(this.sectionName == 'Edit' && this.assignmentDetails.subject != "0"){
+          this.getTopic();
+        }
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+        //console.log(err);
       }
     )
   }
@@ -447,11 +526,15 @@ export class ManageAssignmentComponent implements OnInit {
   getSubjects(){
     if(this.assignmentDetails.course != "-1"){
       this.getStudentsList();
+      if(this.schoolModel) {
+        this.getSchoolSubjects();
+      } else {
       for (let index = 0; index < this.courseList.length; index++) {
         if(this.courseList[index].course_id == this.assignmentDetails.course){
           this.subjectList = this.courseList[index].batchesList;
         }
       }
+    }
       if(this.sectionName == 'Edit' && this.assignmentDetails.subject != "0"){
         this.getTopic();
       }
@@ -680,7 +763,8 @@ export class ManageAssignmentComponent implements OnInit {
                 enable_grade: this.assignmentDetails.enable_grade,
                 evaluation_date: this.assignmentDetails.evaluation_date,
                 assignment_late_submission_date: '',
-                attachmentId_array: this.removeOldFile
+                attachmentId_array: this.removeOldFile,
+                // standard_id: this.assignmentDetails.standard_id
               }
               if(lateSub == 'Y') {
                 obj.assignment_late_submission_date = this.assignmentDetails.assignment_late_submission_date
@@ -737,7 +821,7 @@ export class ManageAssignmentComponent implements OnInit {
 
     if(this.assignmentDetails.title.trim() != '' && this.assignmentDetails.title.trim() != null){
       if(this.assignmentDetails.startHr.trim() != '' && this.assignmentDetails.startMin.trim() != ''){
-        if(this.assignmentDetails.masterCourse != '-1'){
+        if((!this.schoolModel && this.assignmentDetails.masterCourse != '-1') || (this.schoolModel && this.assignmentDetails.standard_id != '-1')){
           if(this.assignmentDetails.course != '-1'){
             if(this.selectedStudentList.length > 0){
               if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
@@ -791,6 +875,7 @@ export class ManageAssignmentComponent implements OnInit {
                   enable_grade: this.assignmentDetails.enable_grade,
                   evaluation_date: this.assignmentDetails.evaluation_date,
                   assignment_late_submission_date: '',
+                  // standard_id: this.assignmentDetails.standard_id
                 }
                 if(lateSub == 'Y') {
                   obj.assignment_late_submission_date = this.assignmentDetails.assignment_late_submission_date
@@ -816,11 +901,13 @@ export class ManageAssignmentComponent implements OnInit {
             }
           }
           else{
-            this.msgService.showErrorMessage('error', '', "Please select course");
+            let msg = this.schoolModel ? 'Please seclect section' : 'Please select course';
+            this.msgService.showErrorMessage('error', '', msg);
           }
         }
         else{
-          this.msgService.showErrorMessage('error', '', "Please select master course");
+          let msg = this.schoolModel ? 'Please seclect standard' : 'Please select master course';
+          this.msgService.showErrorMessage('error', '', msg);
         }
       }
       else{
