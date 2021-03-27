@@ -55,11 +55,10 @@ export class MarkAttendanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllmarkAttendance()
-
-
   }
 
   getAllmarkAttendance() {
+    debugger
     this.markAttendanceDetail.currentDate = moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD')
     this.auth.showLoader();
     const url1 = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + /all/ + this.markAttendanceDetail.currentDate + '/' + this.userType;
@@ -69,12 +68,12 @@ export class MarkAttendanceComponent implements OnInit {
         this.allMarkAttendanceList = res.result;
         this.attendanceList = res.result;
         this.lastAttendanceUpdatedDate = this.allMarkAttendanceList[0].last_attendance_updated_date;
-        if (this.lastAttendanceUpdatedDate == null) {
-          for (let i = 0; this.allMarkAttendanceList.length; i++) {
-            this.allMarkAttendanceList[i].attendance_status = 'Present'
-          }
+        // if (this.lastAttendanceUpdatedDate == null) {
+        //   for (let i = 0; this.allMarkAttendanceList.length; i++) {
+        //     this.allMarkAttendanceList[i].attendance_status = 'Present'
+        //   }
 
-        }
+        // }
       },
       err => {
         this.auth.hideLoader();

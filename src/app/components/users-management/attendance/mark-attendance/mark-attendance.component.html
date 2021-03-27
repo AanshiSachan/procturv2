@@ -4,9 +4,10 @@
             <div class="page_heading">
                 <p>Mark Attendance</p>
             </div>
-            <div *ngIf="lastAttendanceUpdatedDate!= null " class="info_box1"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
+            <div *ngIf="lastAttendanceUpdatedDate!= null " class="info_box1"><span class="bold1">NOTE:</span> Attendance
+                for this page has been marked on
                 {{lastAttendanceUpdatedDate}}</div>
-                <div *ngIf="lastAttendanceUpdatedDate== null "></div>
+            <div *ngIf="lastAttendanceUpdatedDate== null "></div>
             <div>
                 <span class="right">
                     <!-- <a class="mr10"><img src="../../../../../assets/img/copy.svg" title="Copy"></a> -->
@@ -34,11 +35,7 @@
                     [(ngModel)]="markAttendanceDetail.currentDate" style="padding: 6px;" readonly="true"
                     name="currentDate" placeholder="Date" (ngModelChange)="checkFututreDate($event)" bsDatepicker />
             </div>
-
-
             <!--  <button class="blue_button">Search</button> -->
-
-
             <div class="attendance_blocks1">
                 <span title="Absent" class="absent "> </span>
                 <p class="top_label">Absent</p>
