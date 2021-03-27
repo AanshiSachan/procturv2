@@ -58,7 +58,6 @@ export class MarkAttendanceComponent implements OnInit {
   }
 
   getAllmarkAttendance() {
-    debugger
     this.markAttendanceDetail.currentDate = moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD')
     this.auth.showLoader();
     const url1 = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + /all/ + this.markAttendanceDetail.currentDate + '/' + this.userType;
@@ -68,12 +67,6 @@ export class MarkAttendanceComponent implements OnInit {
         this.allMarkAttendanceList = res.result;
         this.attendanceList = res.result;
         this.lastAttendanceUpdatedDate = this.allMarkAttendanceList[0].last_attendance_updated_date;
-        // if (this.lastAttendanceUpdatedDate == null) {
-        //   for (let i = 0; this.allMarkAttendanceList.length; i++) {
-        //     this.allMarkAttendanceList[i].attendance_status = 'Present'
-        //   }
-
-        // }
       },
       err => {
         this.auth.hideLoader();
@@ -94,9 +87,8 @@ export class MarkAttendanceComponent implements OnInit {
       this.getAllmarkAttendance();
     }
   }
-
-
   makeJSONToUpdate() {
+    this.attendance_dto_list = [];
     for (let data of this.allMarkAttendanceList) {
       if (data.attendance_status != null) {
         let obj = {
@@ -122,13 +114,12 @@ export class MarkAttendanceComponent implements OnInit {
     this.httpService.putData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.updateAttendanceList = res.result;
-        this.msgService.showErrorMessage('success', '', "Attendance updated successfully");
-
+        this.lastAttendanceUpdatedDate = moment(new Date).format('YYYY-MM-DD');
+        this.msgService.showErrorMessage('success', '', "Attendance Updated Successfully!");
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].errorMessage);
       }
     )
 
@@ -141,6 +132,7 @@ export class MarkAttendanceComponent implements OnInit {
 
 
   createAttendance() {
+    debugger
     this.makeJSONToUpdate();
     let obj = {
       attendance_date: moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD'),
@@ -148,20 +140,18 @@ export class MarkAttendanceComponent implements OnInit {
       institute_id: this.jsonFlag.institute_id,
       attendance_dto_list: this.attendance_dto_list
     }
-    console.log(JSON.stringify(obj));
     this.auth.showLoader();
-
     const url = '/api/v1/daily/attendance/' + this.jsonFlag.institute_id + "/create";
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.createAttendanceList = res.result;
-        this.msgService.showErrorMessage('success', '', "Attendance created successfully");
-
+        this.lastAttendanceUpdatedDate = moment(new Date).format('YYYY-MM-DD');
+        this.msgService.showErrorMessage('success', '', "Attendance Marked Successfully!");
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].errorMessage);
       }
     )
 
@@ -190,16 +180,12 @@ export class MarkAttendanceComponent implements OnInit {
         e.phoneNo,
         e.emailId,
         e.attendance_status
-
       ]
       temp.push(obj)
     })
     let row = []
     row = [['Name', 'Mobaile No', 'Email', 'Attendance-Status']]
     let columns = temp
-
-    console.log(row);
-    console.log(columns);
     this.pdf.exportToPdf(row, columns, 'Attendance_pdf');
 
   }
