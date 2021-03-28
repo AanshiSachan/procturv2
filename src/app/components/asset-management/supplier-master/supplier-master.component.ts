@@ -25,6 +25,7 @@ export class SupplierMasterComponent implements OnInit {
   isedit = false;
  supplierDataforDownload:[];
   model = {
+    id:'',
     active: true,
     address: '',
     institute_id: sessionStorage.getItem('institute_id'),
@@ -55,13 +56,13 @@ export class SupplierMasterComponent implements OnInit {
 
   setTableData() {
     this.headerSetting = [
-      {
-        primary_key: 'id',
-        value: "#",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "#",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: true
+      // },
       {
         primary_key: 'supplier_name',
         value: " Company Name",
@@ -73,21 +74,21 @@ export class SupplierMasterComponent implements OnInit {
         primary_key: 'email_id',
         value: " Email",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
         primary_key: 'mobile_no',
         value: "Mobile",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
         primary_key: 'address',
         value: "Address",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -101,7 +102,7 @@ export class SupplierMasterComponent implements OnInit {
         primary_key: 'asset_names_string',
         value: "Asset Provided",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -122,10 +123,10 @@ export class SupplierMasterComponent implements OnInit {
     }
 
     this.rowColumns = [
-      {
-        width: "5%",
-        textAlign: "left"
-      },
+      // {
+      //   width: "5%",
+      //   textAlign: "left"
+      // },
       {
         width: "18%",
         textAlign: "left"
@@ -147,7 +148,7 @@ export class SupplierMasterComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
@@ -216,23 +217,38 @@ export class SupplierMasterComponent implements OnInit {
 
   }
   maxlength = 10;
-  saveVendorDetails() {
+  saveVendorDetails() {debugger
     if (this.addVendorForm.valid) {
+      let obj :any={
+        active: this.model.active,
+        address: this.model.address,
+        institute_id: sessionStorage.getItem('institute_id'),
+        contact_person_name: this.model.address,
+        email_id: this.model.email_id, 
+        mobile_no: this.model.mobile_no,  
+        supplier_name: this.model.supplier_name,  
+        category_id: this.model.category_id,
+        asset_ids: this.model.asset_ids,
+        category_ids:this.model.category_ids,  
+      }
       let newasset = []
-      let asset_ids: any = this.model.asset_ids;
+      let asset_ids: any = obj.asset_ids;
+      console.log(asset_ids);
      for (let data in asset_ids) {
        newasset.push(asset_ids[data].id);
       }
-      this.model.asset_ids = newasset
+      //this.model.asset_ids = newasset
+      obj.asset_ids= newasset;
+      console.log(this.model.asset_ids)
       //for cat
       let newcat =[];
       let category_ids:any =this.model.category_ids;
       for (let data in category_ids) {
         newcat.push(category_ids[data].id);
       }
-      this.model.category_ids = newcat
-      this.model.category_id = this.selectedvalue;
-      this.httpService.postMethod('api/v2/asset/supplier/create ', this.model).then(
+      obj.category_ids = newcat
+      obj.category_id = this.selectedvalue;
+      this.httpService.postMethod('api/v2/asset/supplier/create ', obj).then(
         (res: any) => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Created Successfully");
           $('#modelforvendor').modal('hide');
@@ -305,8 +321,9 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   editRow(object) {
+    // let object1 = object.data;
     this.isedit = true;
-    this.model = object.data;
+    // this.model = object.data;
     this.model.active = object.data.active;
     this.model.address = object.data.address;
     this.model.institute_id = object.data.institute_id;
@@ -315,6 +332,7 @@ export class SupplierMasterComponent implements OnInit {
     this.model.mobile_no = object.data.mobile_no;
     this.model.supplier_name = object.data.supplier_name;
     this.model.category_id = object.data.category_id;
+    this.model.id = object.data.id;
     //asset_id_for_multiselect
     let temp = object.data.asset_ids;
     let temp2 =object.data.category_ids;
@@ -326,7 +344,9 @@ export class SupplierMasterComponent implements OnInit {
         asset_name: ''
       }
       obj.id = temp[i];
+      console.log(obj.id)
       obj.asset_name = asset_names[i];
+      console.log( obj.asset_name)
       this.model.asset_ids.push(obj);
 
     }
@@ -347,22 +367,37 @@ let category_names= object.data.category_names_string.split(',');
  }
  updateVendorDetails() {
     if(this.addVendorForm.valid){
-  let newasset = [];
-    let asset_ids: any = this.model.asset_ids;
-    for (let data in asset_ids) {
-     newasset.push(asset_ids[data].id);
-    }
-    this.model.asset_ids = newasset;
-   let newassetcat = [];
-    let category_ids: any = this.model.category_ids;
-   for (let data in category_ids) {
-      newassetcat.push(category_ids[data].id);
-    }
-    this.model.category_ids = newassetcat;
-   let mobile_no: any = Number(this.model.mobile_no);
-    this.model.mobile_no = mobile_no;
-   this.model.category_id = this.selectedvalue;
-   this.httpService.putMethod('api/v2/asset/supplier/update', this.model).then(() => {
+      let obj :any={
+      }
+      obj.active= this.model.active;
+      obj.address= this.model.address;
+      obj.institute_id=sessionStorage.getItem('institute_id');
+      obj.contact_person_name= this.model.address;
+      obj.email_id= this.model.email_id;
+      obj.mobile_no= this.model.mobile_no;  
+      obj.supplier_name= this.model.supplier_name; 
+      obj.category_id= this.model.category_id;
+      obj.asset_ids= this.model.asset_ids;
+      obj.category_ids=this.model.category_ids;
+      obj.id=this.model.id; 
+      let newasset = []
+      let asset_ids: any = obj.asset_ids;
+      console.log(asset_ids);
+     for (let data in asset_ids) {
+       newasset.push(asset_ids[data].id);
+      }
+      //this.model.asset_ids = newasset
+      obj.asset_ids= newasset;
+      console.log(this.model.asset_ids)
+      //for cat
+      let newcat =[];
+      let category_ids:any =obj.category_ids;
+      for (let data in category_ids) {
+        newcat.push(category_ids[data].id);
+      }
+      obj.category_ids = newcat
+      obj.category_id = this.selectedvalue;
+   this.httpService.putMethod('api/v2/asset/supplier/update', obj).then(() => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Updated Successfully")
       $('#modelforvendor').modal('hide');
       this.getVendorDetails();
@@ -401,6 +436,7 @@ let category_names= object.data.category_names_string.split(',');
     this.addVendorForm.resetForm();
     this.isedit = false;
     this.model = {
+      id:'',
       active: true,
       address: '',
       institute_id: sessionStorage.getItem('institute_id'),
@@ -466,6 +502,49 @@ let category_names= object.data.category_names_string.split(',');
     this.auth.hideLoader();
   }
 //download in excel format
+headersetingforexcel:any=[{
+  primary_key: 'supplier_name',
+  value: " Company Name",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'email_id',
+  value: " Email",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'mobile_no',
+  value: "Mobile",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'address',
+  value: "Address",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'contact_person_name',
+  value: "Contact Person",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'asset_names_string',
+  value: "Asset Provided",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+]
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
@@ -475,7 +554,7 @@ exportToExcel(){
       this.supplierDataforDownload.map(
       (ele: any) => {
         let json = {}
-        this.headerSetting.map((keys) => {
+        this.headersetingforexcel.map((keys) => {
           json[keys.value] = ele[keys.primary_key]
         })
         Excelarr.push(json);

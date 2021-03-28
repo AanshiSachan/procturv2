@@ -124,7 +124,7 @@
                         <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id" required #category_id="ngModel">
-                                <option value="-1">Category*</option>
+                                <option  value="-1">Category*</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>

@@ -69,13 +69,13 @@ export class AssetPurchaseComponent implements OnInit {
   }
   setTableData() {
     this.headerSetting = [
-      {
-        primary_key: 'id',
-        value: "Id",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "Id",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: true
+      // },
       {
         primary_key: 'asset_name',
         value: "Asset",
@@ -85,7 +85,7 @@ export class AssetPurchaseComponent implements OnInit {
       },
       {
         primary_key: 'supplier_name',
-        value: "Vendor",
+        value: "Supplier",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -101,7 +101,7 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'unit',
         value: "Unit",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -115,14 +115,14 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'purchase_date',
         value: "Purchase Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
         primary_key: 'service_date',
         value: "Service Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
 
@@ -130,7 +130,7 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'expiry_date',
         value: "Expiry Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -157,10 +157,10 @@ export class AssetPurchaseComponent implements OnInit {
       height: "58vh"
     }
     this.rowColumns = [
-      {
-        width: "5%",
-        textAlign: "left"
-      },
+      // {
+      //   width: "5%",
+      //   textAlign: "left"
+      // },
       {
         width: "10%",
         textAlign: "left"
@@ -194,11 +194,11 @@ export class AssetPurchaseComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "13%",
+        width: "15%",
         textAlign: "left"
       },
       {
-        width: "7%",
+        width: "10%",
         textAlign: "left"
       },
 
@@ -527,6 +527,70 @@ export class AssetPurchaseComponent implements OnInit {
     this.auth.hideLoader();
   }
 //download in excel format
+headersettingforexcel:any=[ {
+  primary_key: 'asset_name',
+  value: "Asset",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'supplier_name',
+  value: "Supplier",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'quantity',
+  value: "Quantity",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'unit',
+  value: "Unit",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'purchase_amount',
+  value: "Purchase Price",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'purchase_date',
+  value: "Purchase Date",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'service_date',
+  value: "Service Date",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+
+{
+  primary_key: 'expiry_date',
+  value: "Expiry Date",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'purchased_by_user_display_name',
+  value: "Purchase By",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+}]
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/purchase/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
@@ -536,7 +600,7 @@ exportToExcel(){
       this.purchaseDataforDownload.map(
       (ele: any) => {
         let json = {}
-        this.headerSetting.map((keys) => {
+        this.headersettingforexcel.map((keys) => {
           json[keys.value] = ele[keys.primary_key]
         })
         Excelarr.push(json);

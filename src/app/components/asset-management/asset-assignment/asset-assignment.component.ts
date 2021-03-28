@@ -74,13 +74,13 @@ export class AssetAssignmentComponent implements OnInit {
   }
   setTableData() {
     this.headerSetting = [
-      {
-        primary_key: 'id',
-        value: "Id",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "Id",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: true
+      // },
       {
         primary_key: 'asset_name',
         value: "Asset",
@@ -115,7 +115,7 @@ export class AssetAssignmentComponent implements OnInit {
         primary_key: 'check_in_date',
         value: "Check In Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -136,7 +136,7 @@ export class AssetAssignmentComponent implements OnInit {
         primary_key: 'status',
         value: "Status",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -158,10 +158,10 @@ export class AssetAssignmentComponent implements OnInit {
     }
 
     this.rowColumns = [
-      {
-        width: "10%",
-        textAlign: "left"
-      },
+      // {
+      //   width: "10%",
+      //   textAlign: "left"
+      // },
       {
         width: "10%",
         textAlign: "left"
@@ -180,7 +180,7 @@ export class AssetAssignmentComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
@@ -188,7 +188,7 @@ export class AssetAssignmentComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
@@ -461,18 +461,75 @@ export class AssetAssignmentComponent implements OnInit {
           ele.check_out_date,
           ele.due_date,
           ele.status,
-          ele.note,
    ]
         arr.push(json);
       })
 
     let rows = [];
-    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','status','Note']]
+    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','status']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
     this.auth.hideLoader();
   }
 //download in excel format
+headersettingforexcel:any=[  {
+  primary_key: 'asset_name',
+  value: "Asset",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+
+
+{
+  primary_key: 'quantity',
+  value: "Assign Qty",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'user_type',
+  value: "Role",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'check_out_user_display_name',
+  value: "Check out By",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'check_in_date',
+  value: "Check In Date",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'check_out_date',
+  value: "Check Out Date",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'due_date',
+  value: "Due Date",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'status',
+  value: "Status",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+}]
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
@@ -482,7 +539,7 @@ exportToExcel(){
       this.assignDataforDownload.map(
       (ele: any) => {
         let json = {}
-        this.headerSetting.map((keys) => {
+        this.headersettingforexcel.map((keys) => {
           json[keys.value] = ele[keys.primary_key]
         })
         Excelarr.push(json);
