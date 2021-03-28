@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="w98">
-        <div class="padding1">
+        <div class="padding1" *ngIf="!isTemplateLinkWithCourseAndStandard">
             <select class="select wid240 mr10" *ngIf="isLangInstitute || schoolModel"
                 [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
                 (ngModelChange)="onMasterCourseSelection()">
@@ -53,6 +53,8 @@
             </span>
         </div>
         <div class="padding1" *ngIf="isTemplateLinkWithCourseAndStandard">
+            <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
+            placeholder="Template Name">
             <select class="select wid240 mr10" *ngIf="countryDetails.length >1" [(ngModel)]="addNewTemplate.country_id"
                 name="CourseCountry" (ngModelChange)="getCurrencyData($event)">
                 <option value="-1">Country</option>
@@ -60,8 +62,6 @@
                     {{data.country_name}}
                 </option>
             </select>
-            <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
-                placeholder="Template Name">
             <span class="right relative">
                 <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
                 <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax}}</p>

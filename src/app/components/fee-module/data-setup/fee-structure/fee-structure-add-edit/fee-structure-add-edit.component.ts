@@ -103,6 +103,7 @@ export class FeeStructureAddEditComponent implements OnInit {
   ngOnInit(): void {
     this.schoolModel = this.auth.schoolModel.value;
     this.is_tax_enabled = sessionStorage.getItem("enable_tax_applicable_fee_installments") == '1' ? true : false;
+    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true';
     this.checkModel();
     this.getCountryDetails();
     this.getAllMasterCourseList();
@@ -289,11 +290,11 @@ export class FeeStructureAddEditComponent implements OnInit {
     return true;
   }
   validateEachInstallment(data: any) {
-    if (data.installment_no < 0) {
+    if (data.installment_no <= 0) {
       this.commonService.showErrorMessage('info', '', "Please enter valid installment No.");
       return;
     }
-    if (data.fee_type_id < 0) {
+    if (data.fee_type_id <= 0) {
       this.commonService.showErrorMessage('info', '', "Please select valid fee type!");
       return;
     }
@@ -308,7 +309,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       }
     }
     if (!this.schoolModel) {
-      if (data.day_type < 0) {
+      if (data.day_type <= 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid trigger date!");
         return;
       }
@@ -317,7 +318,7 @@ export class FeeStructureAddEditComponent implements OnInit {
         return;
       }
     }
-    if (data.fee_amount < 0) {
+    if (data.fee_amount <= 0) {
       this.commonService.showErrorMessage('info', '', "Please enter valid fee amount!");
       return;
     }

@@ -10,9 +10,9 @@
                 <div class="school">
                     <div class="table_heading">
                         <div>Template Name</div>
-                        <div *ngIf="schoolModel">Standard</div>
-                        <div *ngIf="!schoolModel">Master Course</div>
-                        <div *ngIf="!schoolModel">Course</div>
+                        <div *ngIf="schoolModel && !isTemplateLinkWithCourseAndStandard">Standard</div>
+                        <div *ngIf="!schoolModel && !isTemplateLinkWithCourseAndStandard">Master Course</div>
+                        <div *ngIf="!schoolModel && !isTemplateLinkWithCourseAndStandard">Course</div>
                         <div *ngIf="countryDetails.length>1">Country</div>
                         <div class="flex">
                             <div class="right wid50"><span class="right">Total Fees</span></div>
@@ -25,9 +25,9 @@
                     <div *ngFor="let data of tabkeList">
                         <div class="table_body">
                             <div>{{data.template_name}}</div>
-                            <div *ngIf="schoolModel"> {{data.standard_name}}</div>
-                            <div *ngIf="!schoolModel"> {{data.master_course_standard_name}}</div>
-                            <div *ngIf="!schoolModel"> {{data.course_subject_name}}</div>
+                            <div *ngIf="schoolModel && !isTemplateLinkWithCourseAndStandard"> {{data.standard_name}}</div>
+                            <div *ngIf="!schoolModel && !isTemplateLinkWithCourseAndStandard"> {{data.master_course_standard_name}}</div>
+                            <div *ngIf="!schoolModel && !isTemplateLinkWithCourseAndStandard"> {{data.course_subject_name}}</div>
                             <div *ngIf="countryDetails.length>1">{{data.country_name}}</div>
                             <div class="flex">
                                 <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount}}
