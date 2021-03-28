@@ -1,0 +1,196 @@
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Sale Item</p>
+        </div>
+        <div>
+          <a routerLink="../sale-add">
+            <button class="blue_button" >Add Sale</button>
+           </a>
+        </div>
+      </div>
+    </div>
+      <div class="w98">
+        <div class="pt15 display">
+          <div>
+            <input type="text" class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
+          </div>
+          <div class="right">
+            <a href="" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
+            <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>
+            <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+            <a href="" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
+          </div>
+        </div>
+        <div class="sale">
+            <div class="table_heading">
+              <div>
+               Reference No.
+              </div>
+              <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div>
+              <div>
+              Role<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
+              </div>
+              <div>User<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>Date<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>File<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>Grand Total</div>
+              <div>Paid</div>
+              <div>Balance<br>(To be Paid)</div>
+              <div>Actions</div>
+            </div>
+            <div class="table_body">
+              <div>
+               122
+              </div>
+              <div>
+               Abc
+              </div>
+              <div>Student</div>
+              <div>
+               Avishkar
+              </div>
+              <div>
+              20-02-2020
+              </div>
+              <div>
+               asd
+              </div>
+              <div>Abc</div>
+              <div>
+                20000
+              </div>
+             <div>
+               0
+             </div>
+             <div>
+               2000
+             </div>
+              <div>
+               <div class="dropdown1">
+                  <img src="../../../../assets/img1/menu.svg" class="dot3">
+                    <div class="dropdown-content1">
+                      <a routerLink="../sale-view">View</a>
+                      <a href="#">Edit</a>
+                      <a href="#">Delete</a>
+                      <a href="#">Cancel</a>
+                      <a href="#" data-toggle="modal" data-target="#addpayModal">Add Payment</a>
+                      <a href=""  data-toggle="modal" data-target="#viewpayModal">View Payment History</a>
+                    
+                    </div>
+                </div>
+              </div>
+            </div>
+    
+        </div>
+      </div>
+      <div class="white bottom_button bottom_pagignation">
+        <!-- pagignation div -->
+        <div class=" flex w98">
+          <div class="w20">
+            <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
+          </div>
+          <div class="w10">
+            <p>Total <span>9</span> Pages</p>
+          </div>
+          <div class="w40">
+            <p>Records per Page  
+              <select>
+              <option>9</option>
+              </select>
+            </p>
+          </div>
+          <div class="w30" >
+           <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
+          </div>
+        </div>
+      </div>
+          <!-- use image only when page is empty,table body class element will not be present -->
+
+</div> 
+  <div class="modal" id="addpayModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Add Payment</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="flex">
+            <div class="sec1">
+              <div class="pt10">
+                  <input type="Date" class="input wid100" name="" placeholder="Date*">
+              </div>
+              <div class="pt10">
+                  <select class="select wid100">
+                    <option>Payment Method*</option>
+                  </select>
+              </div>
+              <div class="pt10">
+                  <input type="File" class="input wid100" name="" placeholder="Date*">
+              </div>
+            </div>
+            <div class="sec2">
+              <div class="pt10">
+                  <input type="text" class="input wid100" name="" placeholder="Reference Number">
+              </div>
+              <div class="pt10">
+                  <input type="text" class="input wid100" name="" placeholder="Amount*">
+              </div>
+             
+            </div>
+          </div>
+          <div class="pt10 display">
+            <div></div>
+            <div><button class="blue_button">Save</button></div>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="viewpayModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Payment History</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="history">
+            <div class="table_heading">
+              <div>
+                #
+              </div>
+              <div>Date </div>
+              <div>
+               Reference No
+              </div>
+              <div>Amount</div>
+              <div>Paid By</div>
+              <div>File</div>
+            </div>
+            <div class="table_body">
+              <div>
+               1
+              </div>
+              <div>
+               11-02-2020
+              </div>
+              <div>4022</div>
+              <div>
+               1212
+              </div>
+              <div>
+              Cash
+              </div>
+              <div>
+               <span class="file_name">file.jpg</span>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>

@@ -667,6 +667,34 @@
                      </div>
                     
                   </li>
+                  <li class="dropdown" [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')">
+                    <div >
+                        <a  class="dropbtn">
+                            <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'" alt="">
+                    <p >Inventory</p><i class="fa fa-angle-right"></i>
+      
+                    </a>
+                        <div class="dropdown-content">
+                            <a  routerLink="/view/inventory-management/item-cm">
+                                <span>Item</span>
+                        </a>
+                        <a  routerLink="/view/inventory-management/supplier">
+                            <span>Manage Supplier</span>
+                    </a>
+                        <a  routerLink="/view/inventory-management/purchase-item">
+                            <span>Manage Purchase</span>
+                    </a>
+                    <a  routerLink="/view/inventory-management/sale-item">
+                        <span>Manage Sale </span>
+                </a>
+                       
+                        <!-- <a routerLink="/view/course/setup/teacher/list">
+                                <span>Leave</span>
+                        </a> -->
+                        </div>
+                     </div>
+                    
+                  </li>
     
                   <li [ngClass]= "activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
                     <a routerLink="/view/reports/list">
@@ -685,7 +713,7 @@
                         <img [[src]="activeSession === 'liMyAccount' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
                     <p >My Account</p></a>
                   </li>
-    
+          
               </ul>
               <p *ngIf="jsonFlags.isShowPowerBy" class="power">Powered By <span class="proctur40">Proctur 4.0</span></p>
           </div>
