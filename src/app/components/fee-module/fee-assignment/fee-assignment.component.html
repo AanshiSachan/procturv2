@@ -1,155 +1,192 @@
 <div class="page-content">
-    <div class="head_padding">
-       <div class="w98">
-         <div class="page_heading">
-           <p>Assign Fee</p>
-         </div>
-       </div>
-     </div>
-     <div class="w98">
-       <div class="padding1">
-         <select class="select mr10 wid240">
-           <option>Standard*</option>
-         </select>
-         <select class="select mr10 wid240">
-           <option>Section</option>
-         </select>
-         <button class="blue_button">Search</button>
-       </div>
-       <div class="fee_asign">
-             <div class="table_heading">
-               <div>
-                 <label class="checkbox">
-                   <span class="checkbox__input">
-                     <input type="checkbox" name="checked" checked>
-                     <span class="checkbox__control">
-                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                         <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                     </span>
-                   </span>
-                 </label>
-               </div>
-               <div>Name </div>
-               <div>Registration No. </div>
-               <div>Total Fee</div>
-               <div>Updated Date</div>
-               <div>Action</div>
-             </div>
-             <div class="table_body">
-               <div>
-                 <label class="checkbox">
-                   <span class="checkbox__input">
-                     <input type="checkbox" name="checked" checked>
-                     <span class="checkbox__control">
-                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                         <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                     </span>
-                   </span>
-                 </label>
-               </div>
-               <div>Diya </div>
-                <div>123456789 </div>
-               <div>Rs 34400</div>
-               <div>02-03-2020</div>
-               <div>
-                 <span class="img__wrap">
-                     <a href="" class="mr10"><img src="../../../assets/img/eyes.svg"></a>
-                     <p class="img__description">View</p>
-                 </span>          
-                 <span class="img__wrap">
-                     <a href="" class="mr10"><img src="../../../assets/img/asign.svg"></a>
-                     <p class="img__description">Assign</p>
-                 </span>     
-               </div>
-             </div>
-           </div>
-           <!-- use image only when page is empty,table body class element will not be present -->
-     </div>
+  <div class="head_padding">
     <div class="w98">
-     <div class="assignfee">
-         <button class="blue_button" data-toggle="modal" data-target="#myModal">Assign Fee</button>
-       </div>
-       <!-- pagignation div -->
-     <div class="bottom_pagignation flex w98">
-       <div class="w20">
-         <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-       </div>
-       <div class="w10">
-         <p>Total <span>9</span> Pages</p>
-       </div>
-       <div class="w40">
-         <p>Records per Page  
-           <select>
-           <option>9</option>
-           </select>
-         </p>
-       </div>
-       <div class="w30" >
-        <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
-       </div>
-     </div>
+      <div class="page_heading">
+        <p>Assign Fee</p>
+      </div>
     </div>
-     <div class="modal" id="myModal">
-     <div class="modal-dialog">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h4 class="modal-title" >Assign Fee</h4>
-           <button type="button" class="close" data-dismiss="modal">&times;</button>
-         </div>
-         <div class="modal-body">
-             <div >
-               <select class="select wid140 mr10 select2">
-                 <option>Select Template</option>
-               </select>
-               <select class="select wid140 mr10 select2">
-                 <option>Academic Year</option>
-                 <option>2020</option>
-               </select>
-               <!-- <span class="selected">Selected Template Name</span> -->
-               <span class="right relative">
-                 <span class="green_top">Total Amount:<span>Rs 1000/-</span></span>
-                 <p class="itax">Tax: Rs 100/-</p>
-               </span>
-             </div>
-             <div class="fee_asign">
-             <div class="table_heading">
-               
-               <div>#</div>
-               <div>Fee Type</div>
-               <div>Day Of Month</div>
-               <div>Month </div>
-               <div>Year</div>
-               
-               <div><span class="right pl20">Fee Amount</span></div>
-               <!-- <div>Action</div> -->
-             </div>
-             <div class="table_body">
-               <div>01</div>
-               <div>Admission</div>
-               <div><select class="input">
-                 <option>1</option>
-               </select></div>
-                 <div><select class="input">
-                   <option>January</option>
-                 <option>March</option>
-               </select></div>
-             <div><select class="input">
-                   <option>2020</option>
-               </select></div>
-                <div><span class="right pl20">Rs 233400</span></div>
-               <!-- <div>
+  </div>
+  <div class="w98">
+    <div class="padding1">
+      <select class="select mr10 wid240" *ngIf="schoolModel" (ngModelChange)="fetchSectionList($event)" [(ngModel)]="model.standard_id">
+        <option value="-1">Standard*</option>
+        <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">{{data.standard_name}}</option>
+      </select>
+      <select class="select mr10 wid240" *ngIf="schoolModel" [(ngModel)]="model.course_id">
+        <option value="-1">Section</option>
+        <option *ngFor="let data of sectionList" [value]="data.course_id">{{data.course_name}}</option>
+      </select>
+      <select class="select mr10 wid240" *ngIf="!isProfessional" (ngModelChange)="fetchCoursesList($event)" [(ngModel)]="model.master_course">
+        <option value="">Master Course*</option>
+        <option *ngFor="let data of masterCourseList" [value]="data.master_course">{{data.master_course}} </option>
+      </select>
+      <select class="select mr10 wid240" *ngIf="!isProfessional" [(ngModel)]="model.course_id">
+        <option value="-1">Course*</option>
+        <option *ngFor="let data of courseList" [value]="data.course_id">{{data.course_name}}</option>
+      </select>
+      <select class="select mr10 wid240" *ngIf="isProfessional" [(ngModel)]="model.master_course">
+        <option value="">Master Course*</option>
+        <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">{{data.standard_name}}</option>
+      </select>
+      <select class="select mr10 wid240" *ngIf="isProfessional" [(ngModel)]="model.master_course">
+        <option value="-1">Course*</option>
+        <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">{{data.standard_name}}</option>
+      </select>
+      <select class="select mr10 wid240" *ngIf="countryDetails.length>1" [(ngModel)]="model.country_id">
+        <option value="-1">country</option>
+        <option [value]="data.id" *ngFor='let data of countryDetails' >
+          {{data.country_name}}
+      </select>
+      <select class="select mr10 wid240" [(ngModel)]="model.academic_yr_id">
+        <option value="-1">Academic Year</option>
+        <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
+          {{data.inst_acad_year}}</option>
+      </select>
+      <button class="blue_button" (click)="fetchStudentList()">Search</button>
+    </div>
+
+    <div class="fee_asign">
+      <div class="table_heading">
+        <div>
+          <label class="checkbox">
+            <span class="checkbox__input">
+              <input type="checkbox" name="checked"[(ngModel)]="masterSelected" (change)="checkUncheckAll()">
+              <span class="checkbox__control">
+                <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                  <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
+                </svg>
+              </span>
+            </span>
+          </label>
+        </div>
+        <div>Name </div>
+        <div>Registration No. </div>
+        <div>Roll No. </div>
+        <div>Total Fee</div>
+        <!-- <div>Updated Date</div> -->
+        <div>Action</div>
+      </div>
+      <div *ngFor="let data of studentList">
+      <div class="table_body">
+        <div>
+          <label class="checkbox">
+            <span class="checkbox__input">
+              <input type="checkbox" name="checked" [(ngModel)]="data.isSelected">
+              <span class="checkbox__control">
+                <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                  <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
+                </svg>
+              </span>
+            </span>
+          </label>
+        </div>
+        <div>{{data.student_name}} </div>
+        <div>{{data.student_roll_no}} </div>
+        <div>{{data.student_roll_no}}</div>
+        <div>{{data.total_fee_amount}}</div>
+        <div>
+          <span class="img__wrap">
+            <a (click)="viewFeeDetails(data)" class="mr10"><img ></a>
+            <p class="img__description">View</p>
+          </span>
+          <span class="img__wrap">
+            <a (click)="assignFeeToSingleStudent(data)" class="mr10"><img></a>
+            <p class="img__description">Assign</p>
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- use image only when page is empty,table body class element will not be present -->
+  </div>
+  <div class="w98">
+    <div class="assignfee">
+      <button class="blue_button" data-toggle="modal" data-target="#myModal" (click)="fetchFeeStructure()">Assign Fee</button>
+    </div>
+    <!-- pagignation div -->
+    <div class="bottom_pagignation flex w98">
+      <div class="w20">
+        <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
+      </div>
+      <div class="w10">
+        <p>Total <span>9</span> Pages</p>
+      </div>
+      <div class="w40">
+        <p>Records per Page
+          <select>
+            <option>9</option>
+          </select>
+        </p>
+      </div>
+      <div class="w30">
+        <span>
+          <p>Previous <a><span class="active_circle number">1</span></a> <a><span class="number">2</span></a> <a><span
+                class="number">3</span></a> <a><span class="next">Next</span></a></p>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Assign Fee</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <select class="select wid140 mr10 select2">
+              <option>Select Template</option>
+            </select>
+            <select class="select wid140 mr10 select2">
+              <option>Academic Year</option>
+              <option>2020</option>
+            </select>
+            <!-- <span class="selected">Selected Template Name</span> -->
+            <span class="right relative">
+              <span class="green_top">Total Amount:<span>Rs 1000/-</span></span>
+              <p class="itax">Tax: Rs 100/-</p>
+            </span>
+          </div>
+          <div class="fee_asign">
+            <div class="table_heading">
+
+              <div>#</div>
+              <div>Fee Type</div>
+              <div>Day Of Month</div>
+              <div>Month </div>
+              <div>Year</div>
+
+              <div><span class="right pl20">Fee Amount</span></div>
+              <!-- <div>Action</div> -->
+            </div>
+            <div class="table_body">
+              <div>01</div>
+              <div>Admission</div>
+              <div><select class="input">
+                  <option>1</option>
+                </select></div>
+              <div><select class="input">
+                  <option>January</option>
+                  <option>March</option>
+                </select></div>
+              <div><select class="input">
+                  <option>2020</option>
+                </select></div>
+              <div><span class="right pl20">Rs 233400</span></div>
+              <!-- <div>
                  <a href=""><img src="img/Group321.svg"></a>
                </div> -->
-             </div>
-           </div>
-           <div class="h50">
-             <span class="right">
-               <button class="white_button mr10">Back</button>
-               <button class="blue_button">Save</button>
-             </span>
-           </div>
-         </div>        
-       </div>
-     </div>
-   </div>
+            </div>
+          </div>
+          <div class="h50">
+            <span class="right">
+              <button class="white_button mr10">Back</button>
+              <button class="blue_button">Save</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
