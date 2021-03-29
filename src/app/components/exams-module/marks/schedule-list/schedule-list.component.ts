@@ -83,7 +83,9 @@ export class ScheduleListComponent implements OnInit {
       err => {
         this.allData = [];
         this.auth.hideLoader();
-        this.messageService.showErrorMessage('error', '', err.error.message);
+        if(this.isFilterSelected) {
+          this.messageService.showErrorMessage('error', '', err.error.message);
+        }
       }
     );
   }

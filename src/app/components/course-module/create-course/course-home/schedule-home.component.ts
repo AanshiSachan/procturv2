@@ -132,6 +132,13 @@ export class ScheduleHomeComponent implements OnInit {
   addNewStandard() {
     if (this.newStandardDetails.standard_name == "") {
       this.no_standard_name = true;
+      let msg = (this.isLangInstitue != true) ? 'Please enter valid Standard Name' : 'Please enter valid Master Course';
+      let data = {
+        type: "error",
+        title: '',
+        body: msg
+      }
+      this.toastCtrl.popToast(data);
     } else {
       this.auth.showLoader();
       if (this.newStandardDetails.is_active == true || this.newStandardDetails.is_active == "Y") {

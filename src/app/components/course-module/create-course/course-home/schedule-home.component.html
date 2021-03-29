@@ -44,7 +44,7 @@
                                     name="standard_name" id="StdName" #standard_name="ngModel" required courseInput>
 
 
-                                <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched || no_standard_name)"
+                                <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched)"
                                     class="alert invalid-alert">
                                     <div *ngIf="standard_name.errors.required">
                                         <span *ngIf="(isLangInstitue != true)">Please enter valid Standard Name</span>
@@ -77,16 +77,14 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <label style="cursor:pointer;" (click)="sortTable('standard_id')">ID</label>
+                                    <label>ID</label>
                                 </th>
                                 <th style="width: 32%;">
-                                    <label *ngIf="(isLangInstitue != true)" style="cursor:pointer;"
-                                        (click)="sortTable('standard_name')">Standard</label>
-                                    <label *ngIf="(isLangInstitue == true)" style="cursor:pointer;"
-                                        (click)="sortTable('standard_name')">Master Course</label>
+                                    <label *ngIf="(isLangInstitue != true)">Standard</label>
+                                    <label *ngIf="(isLangInstitue == true)">Master Course</label>
                                 </th>
                                 <th>
-                                    <label style="cursor:pointer;padding-left: 3px;" (click)="sortTable('is_active')">Is
+                                    <label style="padding-left: 3px;">Is
                                         Active</label>
                                 </th>
                                 <th style="padding-left: 3px;">
@@ -98,7 +96,7 @@
                                         Date</label>
                                 </th>
                                 <th>
-                                    <label style="cursor:pointer;">Action</label>
+                                    <label>Action</label>
                                 </th>
                             </tr>
                         </thead>
