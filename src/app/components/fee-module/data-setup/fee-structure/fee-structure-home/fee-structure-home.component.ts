@@ -663,8 +663,8 @@ export class FeeStructureHomeComponent implements OnInit {
               this.totalTax += (Number(data.fees_amount) - Number(data.initial_fee_amount));
             }
             this.feeInstalllmentArr.push(installmentData);
-            this.getCurrencyData(this.selectedTemplate.country_id);
           }
+          this.getCurrencyData(this.selectedTemplate.country_id);
         }
       })
   }

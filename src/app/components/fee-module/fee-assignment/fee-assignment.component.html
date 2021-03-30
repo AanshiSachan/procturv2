@@ -8,7 +8,8 @@
   </div>
   <div class="w98">
     <div class="padding1">
-      <select class="select mr10 wid240" *ngIf="schoolModel" (ngModelChange)="fetchSectionList($event)" [(ngModel)]="model.standard_id">
+      <select class="select mr10 wid240" *ngIf="schoolModel" (ngModelChange)="fetchSectionList($event)"
+        [(ngModel)]="model.standard_id">
         <option value="-1">Standard*</option>
         <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">{{data.standard_name}}</option>
       </select>
@@ -16,11 +17,12 @@
         <option value="-1">Section</option>
         <option *ngFor="let data of sectionList" [value]="data.course_id">{{data.course_name}}</option>
       </select>
-      <select class="select mr10 wid240" *ngIf="!isProfessional" (ngModelChange)="fetchCoursesList($event)" [(ngModel)]="model.master_course">
+      <select class="select mr10 wid240" *ngIf="!isProfessional && !schoolModel"
+        (ngModelChange)="fetchCoursesList($event)" [(ngModel)]="model.master_course">
         <option value="">Master Course*</option>
         <option *ngFor="let data of masterCourseList" [value]="data.master_course">{{data.master_course}} </option>
       </select>
-      <select class="select mr10 wid240" *ngIf="!isProfessional" [(ngModel)]="model.course_id">
+      <select class="select mr10 wid240" *ngIf="!isProfessional && !schoolModel" [(ngModel)]="model.course_id">
         <option value="-1">Course*</option>
         <option *ngFor="let data of courseList" [value]="data.course_id">{{data.course_name}}</option>
       </select>
@@ -34,7 +36,7 @@
       </select>
       <select class="select mr10 wid240" *ngIf="countryDetails.length>1" [(ngModel)]="model.country_id">
         <option value="-1">country</option>
-        <option [value]="data.id" *ngFor='let data of countryDetails' >
+        <option [value]="data.id" *ngFor='let data of countryDetails'>
           {{data.country_name}}
       </select>
       <select class="select mr10 wid240" [(ngModel)]="model.academic_yr_id">
@@ -50,7 +52,7 @@
         <div>
           <label class="checkbox">
             <span class="checkbox__input">
-              <input type="checkbox" name="checked"[(ngModel)]="masterSelected" (change)="checkUncheckAll()">
+              <input type="checkbox" name="checked" [(ngModel)]="masterSelected" (change)="checkUncheckAll()">
               <span class="checkbox__control">
                 <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                   <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
@@ -67,41 +69,41 @@
         <div>Action</div>
       </div>
       <div *ngFor="let data of studentList">
-      <div class="table_body">
-        <div>
-          <label class="checkbox">
-            <span class="checkbox__input">
-              <input type="checkbox" name="checked" [(ngModel)]="data.isSelected">
-              <span class="checkbox__control">
-                <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                  <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
-                </svg>
+        <div class="table_body">
+          <div>
+            <label class="checkbox">
+              <span class="checkbox__input">
+                <input type="checkbox" name="checked" [(ngModel)]="data.isSelected">
+                <span class="checkbox__control">
+                  <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                    <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
+                  </svg>
+                </span>
               </span>
+            </label>
+          </div>
+          <div>{{data.student_name}} </div>
+          <div>{{data.student_roll_no}} </div>
+          <div>{{data.student_roll_no}}</div>
+          <div>{{data.total_fee_amount}}</div>
+          <div>
+            <span class="img__wrap">
+              <a (click)="viewFeeDetails(data)" class="mr10"><img></a>
+              <p class="img__description">View</p>
             </span>
-          </label>
-        </div>
-        <div>{{data.student_name}} </div>
-        <div>{{data.student_roll_no}} </div>
-        <div>{{data.student_roll_no}}</div>
-        <div>{{data.total_fee_amount}}</div>
-        <div>
-          <span class="img__wrap">
-            <a (click)="viewFeeDetails(data)" class="mr10"><img ></a>
-            <p class="img__description">View</p>
-          </span>
-          <span class="img__wrap">
-            <a (click)="assignFeeToSingleStudent(data)" class="mr10"><img></a>
-            <p class="img__description">Assign</p>
-          </span>
+            <span class="img__wrap">
+              <a (click)="assignFeeToSingleStudent(data)" class="mr10"><img></a>
+              <p class="img__description">Assign</p>
+            </span>
+          </div>
         </div>
       </div>
-    </div>
     </div>
     <!-- use image only when page is empty,table body class element will not be present -->
   </div>
   <div class="w98">
     <div class="assignfee">
-      <button class="blue_button" data-toggle="modal" data-target="#myModal" (click)="fetchFeeStructure()">Assign Fee</button>
+      <button class="blue_button" data-toggle="modal" (click)="fetchFeeStructure()">Assign Fee</button>
     </div>
     <!-- pagignation div -->
     <div class="bottom_pagignation flex w98">
@@ -126,7 +128,7 @@
       </div>
     </div>
   </div>
-  <div class="modal" id="myModal">
+  <div class="modal" id="assignFeeModel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -135,48 +137,71 @@
         </div>
         <div class="modal-body">
           <div>
-            <select class="select wid140 mr10 select2">
-              <option>Select Template</option>
-            </select>
-            <select class="select wid140 mr10 select2">
-              <option>Academic Year</option>
-              <option>2020</option>
+            <select class="select wid140 mr10 select2" [(ngModel)]="template_id"
+              (ngModelChange)="fetchFeeStructureData($event)">
+              <option value="-1">Select Template</option>
+              <option *ngFor="let data of feeStructureList" [value]="data.template_id">{{data.template_name}}</option>
             </select>
             <!-- <span class="selected">Selected Template Name</span> -->
             <span class="right relative">
-              <span class="green_top">Total Amount:<span>Rs 1000/-</span></span>
-              <p class="itax">Tax: Rs 100/-</p>
+              <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
+              <p class="itax" *ngIf="is_tax_enabled">{{currencySymbol}} {{totalTax}}</p>
             </span>
           </div>
           <div class="fee_asign">
             <div class="table_heading">
-
               <div>#</div>
-              <div>Fee Type</div>
-              <div>Day Of Month</div>
-              <div>Month </div>
-              <div>Year</div>
-
+              <div>Fee Type </div>
+              <div>{{schoolModel?'Day Of Month':'Trigger Date'}}</div>
+              <div>{{schoolModel?'Month':'Day/Month'}}</div>
               <div><span class="right pl20">Fee Amount</span></div>
-              <!-- <div>Action</div> -->
             </div>
-            <div class="table_body">
-              <div>01</div>
-              <div>Admission</div>
-              <div><select class="input">
-                  <option>1</option>
-                </select></div>
-              <div><select class="input">
-                  <option>January</option>
-                  <option>March</option>
-                </select></div>
-              <div><select class="input">
-                  <option>2020</option>
-                </select></div>
-              <div><span class="right pl20">Rs 233400</span></div>
-              <!-- <div>
-                 <a href=""><img src="img/Group321.svg"></a>
-               </div> -->
+            <div *ngFor="let data of feeInstalllmentArr; let i=index;">
+              <div class="table_body">
+                <div>{{i+1}}</div>
+                <div>{{feeInstalllmentArr[i].fee_type_name}}
+                  <!-- <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type"
+                    (ngModelChange)="calculateTotalFee()">
+                    <option value="-1">Fee Type</option>
+                    <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
+                      {{data.fee_type}}
+                    </option>
+                  </select> -->
+                </div>
+                <div *ngIf="schoolModel">
+                  <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].days">
+                    <option value="-1">Day</option>
+                    <option *ngFor="let day of dayOfmonth" [value]="day">{{day}}</option>
+                  </select>
+                </div>
+                <div *ngIf="!schoolModel">
+                  <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
+                    (ngModelChange)="changesValuesAsPerType($event)">
+                    <option value="-1">Trigger Date</option>
+                    <option value="1">Course Assign Date (CAD)</option>
+                    <option value="2">No of days after CAD</option>
+                    <option value="3">No of Month after CAD</option>
+                  </select>
+                </div>
+                <div *ngIf="schoolModel">
+                  <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
+                    <option value="-1">Month</option>
+                    <option *ngFor="let month of months" [value]="month.id">{{month.value}}
+                    </option>
+                  </select>
+                </div>
+                <div *ngIf="!schoolModel">
+                  <input type="text" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00" class="input wid80 rrs"
+                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
+                </div>
+                <div>{{feeInstalllmentArr[i].fees_amount}}</div>
+                <!-- <div>
+                         <a (click)="addInstallment(i)" class="mr10"><img
+                                src="../../../../../assets/images/add.svg" class="size22" title="Add"></a>
+                        <a (click)="deleteInstallment(i)"><img src="../../../../../assets/images/Group321.svg"
+                                class="size22" title="Delete"></a>
+                    </div> -->
+              </div>
             </div>
           </div>
           <div class="h50">
