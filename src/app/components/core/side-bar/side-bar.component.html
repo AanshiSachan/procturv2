@@ -588,8 +588,8 @@
                     
                   </li>
     
-                  <li class="dropdown" [ngStyle]="{display: jsonEstoreFlags.isEstoreMenu ? 'block' : 'none'}"  [ngClass]="activeSession === 'lieight' ?'liActiveBG':''" (click)="toggler('lieight')">
-                    <div *ngIf="jsonEstoreFlags.isEstoreMenu">
+                  <li class="dropdown" [ngStyle]="{display: (jsonEstoreFlags.isEstoreMenu && !schoolModel) ? 'block' : 'none'}"  [ngClass]="activeSession === 'lieight' ?'liActiveBG':''" (click)="toggler('lieight')">
+                    <div *ngIf="jsonEstoreFlags.isEstoreMenu && !schoolModel">
                         <a routerLink="/view/e-store/home" class="dropbtn">
                             <img  [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidemenuicon/estoreIcon1.png'" alt="">
                     <p >Store</p><i class="fa fa-angle-right"></i>

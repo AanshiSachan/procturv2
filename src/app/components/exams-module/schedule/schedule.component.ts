@@ -428,12 +428,16 @@ export class ScheduleComponent implements OnInit {
   EditExam(obj) {
     this.toggleAddSchedule();
     this.isEdit = true;
-    this.editrecord = obj;
+    this.editrecord = {
+      standard_id: obj.standard_id,
+      batch_id: obj.batch_id,
+      course_id: obj.course_id,
+      exam_type_id: obj.exam_type_id,
+      date: obj.date,
+      class_room_id: obj.room_no_id
+    };
     this.updateCourseList(this.editrecord.standard_id);
     this.updateSubjectList(this.editrecord.course_id);
-    this.editrecord.batch_id = obj.batch_id;
-    this.editrecord.class_room_id = obj.room_no_id;
-    this.editrecord.exam_type_id = obj.exam_type_id;
     this.setTime(obj);
     $('#editCityArea').modal('show');
   }
