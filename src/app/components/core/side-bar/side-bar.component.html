@@ -315,9 +315,9 @@
     <div class="page-wrapper" >
         <nav id="sidebar" class="sidebar-wrapper" >
           <div class="sidebar-content" >
-               <div class="sidebar-brand">
-                <span>{{instituteName}}</span>
-              </div>        
+                <div class="sidebar-brand">
+                    <span>{{instituteName}}</span>
+                </div>        
                <ul class="icons" (click)="closeMenu()">
                   <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''"  (click)="toggler('lizero')">
                     <a routerLink="/view/home" class="dropbtn">
@@ -348,7 +348,7 @@
                                 <span>SMS Campaign</span>
                         </a>
                         </div>
-                     </div>
+                    </div>
                     
                   </li>
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowStudent ? 'block' : 'none'}" [ngClass]="activeSession === 'litwo'? 'liActiveBG':''" (click)="toggler('litwo')">
@@ -483,7 +483,7 @@
                   <li class="dropdown"  [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')">
                     <div >
                         <a routerLink="/view/exams/schedule" class="dropbtn">
-                            <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/sidebar_images/Library.svg'" alt="">
+                            <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/sidebar_images/Content_Library-1.png'" alt="">
                     <p >Content Library</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -612,13 +612,13 @@
     
                   <li [ngClass]="activeSession === 'liwebsiteConf' ?'liActiveBG':''" *ngIf="enable_client_website" (click)="toggler('liwebsiteConf')" style="padding-right: 0;">
                     <a routerLink="/view/website-configuration/images">
-                        <img src="../../../../assets//images/Website_App_icon.png" alt="">
+                        <img src="../../../../assets/sidebar_images/Website_App.png" alt="">
                     <p >Website/ App</p></a>
                   </li>
     
                   <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
                     <a routerLink="/view/course/online-assignment">
-                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidemenuicon/onlineassignmentIcon1.png'" alt="">
+                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/sidebar_images/Online_assignment.png'" alt="">
                     <p >Assignment</p></a>
                   </li>
     
@@ -1231,3 +1231,4 @@
         </div>
     </div>
 </div>
+ <!-- </nav>  -->
