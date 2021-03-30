@@ -103,7 +103,7 @@ export class FeeAssignmentComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getCountryDetails();
-    this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments') == 'true';
+    this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1';
   }
   fetchFilterData() {
     if (this.schoolModel) {
@@ -301,6 +301,13 @@ export class FeeAssignmentComponent implements OnInit {
       institute_id: this.institute_id,
       fee_details: this.feeInstmentArr,
     }
+    if(this.schoolModel){
+      requestPayload.standard_id=this.model.standard_id;
+    }else if(!this.isProfessional){
+      requestPayload.course_id=this.model.course_id;
+    }else{
+      requestPayload.batch_id=this.model.batch_id;
+    }
     let url = "/api/v1//studentWise/fee/assign";
     this.http.postData(url, requestPayload).subscribe(
       (res: any) => {
@@ -358,9 +365,6 @@ export class FeeAssignmentComponent implements OnInit {
   }
   preparedFeeStructureData(feeStructureData) {
     this.totalTax = 0;
-    if (this.feeTypeList.length == 0) {
-      this.getInstituteFeeTypes();
-    }
     this.feeInstalllmentArr = [];
     this.totalFeeAmount = feeStructureData.studentwise_total_fees_amount;
     if (feeStructureData.customFeeSchedules != null) {
@@ -372,7 +376,9 @@ export class FeeAssignmentComponent implements OnInit {
           fees_amount: data.fees_amount,
           day_type: data.day_type,
           schedule_id: data.schedule_id,
-          fee_type_name: data.fee_type_name
+          fee_type_name: data.fee_type_name,
+          installment_date: data.installment_date
+
         }
         if (this.is_tax_enabled) {
           this.totalTax += (Number(data.fees_amount) - Number(data.initial_fee_amount));

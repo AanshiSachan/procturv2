@@ -152,8 +152,8 @@
             <div class="table_heading">
               <div>#</div>
               <div>Fee Type </div>
-              <div>{{schoolModel?'Day Of Month':'Trigger Date'}}</div>
-              <div>{{schoolModel?'Month':'Day/Month'}}</div>
+              <div>{{schoolModel?'Date':'Trigger Date'}}</div>
+              <div *ngIf="!schoolModel">Day/Month</div>
               <div><span class="right pl20">Fee Amount</span></div>
             </div>
             <div *ngFor="let data of feeInstalllmentArr; let i=index;">
@@ -168,11 +168,11 @@
                     </option>
                   </select> -->
                 </div>
-                <div *ngIf="schoolModel">
-                  <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].days">
+                <div *ngIf="schoolModel">{{feeInstalllmentArr[i].installment_date}}
+                  <!-- <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].Installment_date">
                     <option value="-1">Day</option>
                     <option *ngFor="let day of dayOfmonth" [value]="day">{{day}}</option>
-                  </select>
+                  </select> -->
                 </div>
                 <div *ngIf="!schoolModel">
                   <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
@@ -183,13 +183,13 @@
                     <option value="3">No of Month after CAD</option>
                   </select>
                 </div>
-                <div *ngIf="schoolModel">
+                <!-- <div *ngIf="schoolModel">
                   <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
                     <option value="-1">Month</option>
                     <option *ngFor="let month of months" [value]="month.id">{{month.value}}
                     </option>
                   </select>
-                </div>
+                </div> -->
                 <div *ngIf="!schoolModel">
                   <input type="text" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00" class="input wid80 rrs"
                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
