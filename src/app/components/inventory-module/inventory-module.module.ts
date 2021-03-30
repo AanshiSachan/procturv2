@@ -13,7 +13,7 @@ import { SaleAddComponent } from './sale-add/sale-add.component';
 import { SaleViewComponent } from './sale-view/sale-view.component';
 import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { SharedModule } from 'primeng/primeng';
+import { SharedModule } from '../shared/shared.module';
 import { RoleService } from '../.././services/user-management/role.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
 import { ExcelService } from '../../services/excel.service';

@@ -7,18 +7,18 @@
          </div>
          <div>
 
-          <button class="blue_button" data-toggle="modal" data-target="#addModal"  >Add Category</button>
-           <button class="blue_button" data-toggle="modal" data-target="#itemModal"  >Add Item</button>
+          <button class="blue_button" data-toggle="modal" data-target="#addModal" *ngIf="isaddcat" >Add Category</button>
+           <button class="blue_button" data-toggle="modal" data-target="#itemModal" *ngIf="is_add_item" >Add Item</button>
           <!-- Two Diffrent Button On Tab Change -->
       </div>
          </div>
          <!-- Nav tabs -->
          <ul class="nav">
           <li class="nav-item" >
-            <a class="nav-link" (click)="toggle('onev')" data-toggle="tab" href="#onev"  [ngClass]="(activeSession == 'onev') ? 'active' : ''">Item Category</a>
+            <a class="nav-link" (click)="toggle('onev',false)"  data-toggle="tab" href="#onev"  [ngClass]="(activeSession == 'onev') ? 'active' : ''">Item Category</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"  data-toggle="tab" (click)="toggle('twov')" href="#twov" [ngClass]="(activeSession == 'twov') ? 'active' : ''" >Item Management</a>
+            <a class="nav-link"  data-toggle="tab" (click)="toggle('twov',true)" href="#twov" [ngClass]="(activeSession == 'twov') ? 'active' : ''" >Item Management</a>
           </li>
          </ul>
        </div>
@@ -32,7 +32,8 @@
         <div class="w98">
             <div class="pt15 display">
             <div>
-                <input type="text" class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
+                <input type="text" name="search" [(ngModel)]="searchText" (keyup)="searchDatabase()"
+                class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
             </div>
             <div class="right">
                 <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
@@ -41,72 +42,16 @@
                 <a href="" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
             </div>
             </div>
-            <div class="item_cat">
-                <div class="table_heading">
-                <div>
-                #
-                </div>
-                <div>Category<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-                <div>
-                    Description
-                </div>
-                <div>Actions</div>
-                </div>
-                <div class="table_body">
-                <div>
-                    1
-                </div>
-                <div>
-                    School Bag
-                </div>
-                    <div>
-                    School Item
-                    </div>
-                <div>
-                    <a href="" class="mr10"><img src="../../../assets/img1/view.svg" title="View" ></a>
-                    <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18" ></a>
-                    <a href="" data-toggle="modal" data-target="#delete1Modal"><img src="../../../assets/img1/delete.svg" title="Delete"  class="group18"></a>
-                </div>
-                </div>
-                <div class="table_body">
-                <div>
-                    1
-                </div>
-                <div>
-                    School Bag
-                </div>
-                <div>
-                School Item
-                </div>
-                <div>
-                    <a href="" class="mr10"><img src="../../../assets/img1/view.svg" title="View" ></a>
-                    <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-                    <a href="" data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete"  class="group18"></a>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="white bottom_button bottom_pagignation">
-        <!-- pagignation div -->
-            <div class=" flex w98">
-            <div class="w20">
-                <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-            </div>
-            <div class="w10">
-                <p>Total <span>9</span> Pages</p>
-            </div>
-            <div class="w40">
-                <p>Records per Page  
-                <select>
-                <option>9</option>
-                </select>
-                </p>
-            </div>
-            <div class="w30" >
-            <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
-            </div>
-            </div>
-        </div>
+            <app-basic-table [headers]="headerSetting" [tableSetting]="tableSetting" [displayData]="pagedclassRoomData"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
+            (viewView)="viewRow($event)">
+        </app-basic-table>
+       </div>
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    
     </div>
     <div id="twov" class="tab-pane">
       <!-- two -->
@@ -196,7 +141,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" >
-          <h4 class="modal-title"> Add Category</h4>
+          <h4 class="modal-title" *ngIf="!isedit"> Add Category</h4>
+          <h4 class="modal-title" *ngIf="isedit"> Update Category</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
@@ -214,37 +160,14 @@
         
           <div class="pt10 display">
             <div></div>
-            <div> <button class="right blue_button" (click)="saveCategoryDetails(category_model)">Save</button></div>
+            <div> <button class="right blue_button" (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">Save</button>
+              <button class="right blue_button" (click)="updateLocationDetails(category_model)" *ngIf="isedit">Update</button></div>
            </div>
            </form>
         </div>        
       </div>
     </div>
   </div> 
-  <div class="modal" id="editModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" >Edit Category</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-     
-          <div class="pt10">
-            <input type="text" class="input wid100" name="" placeholder="Category Name*">
-          </div>
-          <div class="pt10">
-            <textarea class="input wid100" name="" placeholder="Description"></textarea>
-          </div>
-        
-          <div class="pt10 display">
-            <div></div>
-            <div> <button class="right blue_button">Save</button></div>
-           </div>
-        </div>        
-      </div>
-    </div>
-  </div>
   <div class="modal" id="deleteModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -262,10 +185,10 @@
           </div>
           <div class="pt101 display">
             <div>
-              <button class="white_button right">Cancel</button>
+              <button class="white_button right" data-dismiss="modal">Cancel</button>
             </div>
             <div>
-              <button class="blue_button right">Delete</button>
+              <button class="blue_button right" >Delete</button>
             </div>
           </div>
         </div>        
