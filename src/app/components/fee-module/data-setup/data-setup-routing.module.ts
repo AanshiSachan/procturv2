@@ -12,7 +12,7 @@ const routes: Routes = [
         children:[
           {
             path:'',
-            component:MenuComponent
+            component:FeeTypesV2Component
           },
           {
             path: 'fee-template',

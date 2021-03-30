@@ -292,6 +292,7 @@ export class FeeAssignmentComponent implements OnInit {
     }
   }
   assignfeeToStudent() {
+    debugger
     this.validateAssignFeeData()
     let requestPayload: any = {
       student_ids: this.studentIdArr,
@@ -303,7 +304,9 @@ export class FeeAssignmentComponent implements OnInit {
     let url = "/api/v1//studentWise/fee/assign";
     this.http.postData(url, requestPayload).subscribe(
       (res: any) => {
+        $('#assignFeeModel').modal('hide');
         this.commonService.showErrorMessage('success', '', 'Success!');
+        this.fetchStudentList();
         this.auth.hideLoader();
       },
       err => {
@@ -335,8 +338,6 @@ export class FeeAssignmentComponent implements OnInit {
 
   }
   checkUncheckAll() {
-    alert(this.masterSelected);
-    debugger
     for (var i = 0; i < this.studentList.length; i++) {
       this.studentList[i].isSelected = this.masterSelected;
     }
@@ -356,7 +357,6 @@ export class FeeAssignmentComponent implements OnInit {
     );
   }
   preparedFeeStructureData(feeStructureData) {
-    // $("#editFeeStructureModel").show();
     this.totalTax = 0;
     if (this.feeTypeList.length == 0) {
       this.getInstituteFeeTypes();
@@ -404,5 +404,8 @@ export class FeeAssignmentComponent implements OnInit {
         break;
       }
     }
+  }
+  closePopUp(){
+    $('#assignFeeModel').modal('hide');
   }
 }
