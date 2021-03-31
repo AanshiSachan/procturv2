@@ -709,7 +709,8 @@
         align-items: center;
        }
        .right{
-         float: right;
+         float: left;
+         margin: 5px;
        }
    .modal-dialog {
         margin: 0 auto;
@@ -725,3 +726,25 @@
       font-family: 'Open Sans', sans-serif;
       margin-bottom: 0px;
   }
+  .errormsg{
+    height:10px;
+  }
+  .help-block{
+    color: red;
+    margin-bottom: 0%;
+    //text-align: center;
+    padding-left: 2px;
+    }
+    .cancel{
+      background-color: white;
+        color: #109CF1;
+        padding: 0px 20px;
+        font-size: 12px;
+        border: solid 2px #109CF1;
+        border-radius: 5px;
+        font-weight: 500;
+        height: 35px;
+    }
+    .align{
+      text-align: center;
+    }

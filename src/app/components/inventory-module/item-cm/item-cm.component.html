@@ -7,8 +7,8 @@
          </div>
          <div>
 
-          <button class="blue_button" data-toggle="modal" data-target="#addModal" *ngIf="isaddcat" >Add Category</button>
-           <button class="blue_button" data-toggle="modal" data-target="#itemModal" *ngIf="is_add_item" >Add Item</button>
+          <button class="blue_button" data-toggle="modal" data-target="#addModal" *ngIf="isaddcat" (click)="cancel(false)" >Add Category</button>
+           <button class="blue_button" data-toggle="modal" data-target="#itemModal"  *ngIf="is_add_item"  (click)="cancel(false)"  >Add Item</button>
           <!-- Two Diffrent Button On Tab Change -->
       </div>
          </div>
@@ -25,7 +25,7 @@
      </div>
  
 
-  <!-- Tab panes -->
+  <!--pagination for category-->
   <div class="tab-content">
     <div id="onev" class="tab-pane active">
    <!--  one -->
@@ -36,37 +36,42 @@
                 class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
             </div>
             <div class="right">
-                <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
-                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a>
-                <a href="" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-                <a href="" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
+                <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a> -->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a> 
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
+           </div>
             </div>
-            </div>
+             <!--table for item-->
             <app-basic-table [headers]="headerSetting" [tableSetting]="tableSetting" [displayData]="pagedclassRoomData"
             [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
             (viewView)="viewRow($event)">
         </app-basic-table>
        </div>
+        <!--pagination for category-->
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
         [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
         (sizeChange)="updateTableBatchSize($event)">
       </pagination>
     
     </div>
+     <!--Data for item-->
     <div id="twov" class="tab-pane">
       <!-- two -->
       <div class="w98">
         <div class="pt15 display">
           <div>
-            <input type="text" class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
-          </div>
+            <input type="text" name="search" [(ngModel)]="searchTextforItem" (keyup)="searchDatabaseforItem()"
+            class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
+      </div>
             <div class="right">
-                <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
-                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a>
-                <a href="" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-                <a href="" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
+                <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a>-->
+                <a (click)="downloadPdffoItem()" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a> 
+                <a (click)="exportToExcelItem()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
             </div>
         </div>
+         <!--table for item-->
         <div class="item_man">
             <div class="table_heading">
               <div>Item<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
@@ -81,26 +86,27 @@
               <div>Low Stock<br>indicator (Units)</div>
               <div>Actions</div>
             </div>
-            <div class="table_body">
-              <div>
-                School Bag
+            <div class="table_body" *ngFor="let data of pagedItemData">
+              <p ></p>
+              <div [ngClass]="{'lowstock':data.available_units <= data.out_of_stock_indicator_units }">
+               {{data.item_name}}
               </div>
              <div>
-               School Item
+              {{data.category_name}}
              </div>
-             <div>100</div>
-             <div>100</div>
-             <div>1000</div>
-             <div>1200</div>
-             <div>10</div>
-             <div>10</div>
+             <div>  {{data.alloted_units}}</div>
+             <div>{{data.available_units}}</div>
+             <div>{{data.unit_cost}}</div>
+             <div>{{data.sale_price}}</div>
+             <div>{{data.tax_percent}}</div>
+             <div>{{data.out_of_stock_indicator_units}}</div>
               <div>
                 
                 <div class="dropdown1">
                     <img src="../../../assets/img1/menu.svg" class="dot3">
                   <div class="dropdown-content1">
-                    <a href="#" data-toggle="modal" data-target="#edititemModal">Edit</a>
-                    <a href="#" data-toggle="modal" data-target="#deleteitemModal">Delete</a>
+                    <a href="#" data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a>
+                    <a href="#" data-toggle="modal" data-target="#deleteitemModal" (click)="deleteItem(data.item_id)">Delete</a>
                     <a href="#"  data-toggle="modal" data-target="#subbranchModal">Allocate to Sub-branch</a>
                     <a href="" data-toggle="modal" data-target="#historyModal" >Allocation History</a>
                     <a href="" data-toggle="modal" data-target="#manageunitModal">Manage Unit</a>
@@ -110,49 +116,36 @@
             </div>
         </div>
       </div>
-       <div class="white bottom_button bottom_pagignation">
-            <!-- pagignation div -->
-            <div class=" flex w98">
-            <div class="w20">
-                <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-            </div>
-            <div class="w10">
-                <p>Total <span>9</span> Pages</p>
-            </div>
-            <div class="w40">
-                <p>Records per Page  
-                <select>
-                <option>9</option>
-                </select>
-                </p>
-            </div>
-            <div class="w30" >
-            <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
-            </div>
-            </div>
-        </div>
-    </div>
+      <!--pagination for item-->
+    <pagination (goPage)="fetchTableDataByPageforItem($event)" (goNext)="fetchNextItem()" (goPrev)="fetchPreviousItem()"
+        [pagesToShow]="10" [page]="pageIndexforItem" [perPage]="displayBatchSize" [count]="totalItemRow" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination> </div>
   </div>
      
           <!-- use image only when page is empty,table body class element will not be present -->
 
 </div> 
+ <!--model for item-->
   <div class="modal" id="addModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" >
           <h4 class="modal-title" *ngIf="!isedit"> Add Category</h4>
           <h4 class="modal-title" *ngIf="isedit"> Update Category</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal"  (click)="cancel(false)" >&times;</button>
         </div>
         <div class="modal-body">
      <form  #catForm="ngForm" autocomplete="off">
-          <div class="pt10">
+          <div class="pt10" [class.has-error]="category_name.invalid && category_name.touched">
             <input type="text" class="input wid100" id ="category_name"
             name="category_name" placeholder="Category Name*"
             [(ngModel)]="category_model.category_name"
             #category_name="ngModel" required >
           </div>
+          <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!category_name.valid && category_name.touched">
+            Category  name is mandatory
+         </span></p>
           <div class="pt10">
             <textarea class="input wid100" name="desc" id="desc"
             [(ngModel)]="category_model.desc" placeholder="Description" ></textarea>
@@ -160,14 +153,18 @@
         
           <div class="pt10 display">
             <div></div>
-            <div> <button class="right blue_button" (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">Save</button>
-              <button class="right blue_button" (click)="updateLocationDetails(category_model)" *ngIf="isedit">Update</button></div>
+            <div class="align"> 
+              <button type="button" class="right blue_button cancel"
+              data-dismiss="modal" (click)="cancel(false)">Cancel</button>
+              <button class="right blue_button" (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">Save</button>
+              <button class="right blue_button" (click)="updateCategoryDetails(category_model)" *ngIf="isedit">Update</button></div>
            </div>
            </form>
         </div>        
       </div>
     </div>
   </div> 
+   <!--delete model for category-->
   <div class="modal" id="deleteModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -266,134 +263,135 @@
       </div>
     </div>
   </div> 
+   <!--add edit model for item-->
   <div class="modal" id="itemModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" >Add Item</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" *ngIf="!isedit" >Add Item</h4>
+          <h4 class="modal-title" *ngIf="isedit">Update Item</h4>
+          <button type="button" class="close" data-dismiss="modal"
+          (click)="cancel(false)">&times;</button>
         </div>
         <div class="modal-body">
+          <form #itemForm ="ngForm" autocomplete="off">
           <div class="flex">
             <div class="sec1">
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Item*">
+              <div class="pt10"  [class.has-error]="item_name.invalid && item_name.touched">
+                  <input type="text" class="input wid100" id="item_name" name="item_name" placeholder="Item*"  [(ngModel)]="item.item_name"
+                  #item_name="ngModel" required>
               </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!item_name.valid && item_name.touched">
+                Item  name is mandatory
+             </span></p>
                 <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                     Standard*
+                  <select class="select wid100" name="standard_id" id="standard_id"
+                  [(ngModel)]="item.standard_id" (ngModelChange)="onMasterCourseSelection($event)">
+                    <option value="">
+                     Standard
+                    </option>
+                    <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                      {{opt.standard_name}}
                     </option>
                   </select>
                 </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Total Units*">
+               <p class="errormsg"><span  style="height:10px;" class="help-block">
+               </span></p>
+              <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched" >
+                  <input type="text" class="input wid100" id="alloted_units" 
+                  name="alloted_units" placeholder="Total Units*"  
+                  #alloted_units="ngModel" 
+                  [(ngModel)]="item.alloted_units" required
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
               </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Sale Price (Unit Price)*">
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!alloted_units.valid && alloted_units.touched">
+                Total units are mandatory
+             </span></p>
+              <div class="pt10" [class.has-error]="sale_price.invalid && sale_price.touched" >
+                <input type="text" class="input wid100" id="sale_price" 
+                name="sale_price" placeholder="Sale Price (Unit Price)*"  
+                #sale_price="ngModel" 
+                [(ngModel)]="item.sale_price"  
+                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                required>
+            </div>
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
+              Sale or unit price is mandatory
+           </span></p>
+               <div class="pt10" [class.has-error]="tax_percent.invalid && tax_percent.touched" >
+                  <input type="text" class="input wid100" id="tax_percent" 
+                  name="tax_percent" placeholder="Tax(%)"  
+                  #tax_percent="ngModel" 
+                  [(ngModel)]="item.tax_percent" onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
               </div>
-                <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Tax(%)">
-                </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block">
+             </span></p>
             </div>
             <div class="sec2">
-              <div class="pt10">
-                 <select class="select wid100" name="">
-                    <option>
-                     Category*
-                    </option>
-                  </select>
+              <div class="pt10"  [class.has-error]="abc.invalid && abc.touched">
+                <select class="select wid100" name="category_id" id="category_id"
+                [(ngModel)]="item.category_id"  required #abc="ngModel">
+                  <option value="">
+                   Category*
+                  </option>
+                  <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">
+                    {{data.category_name}}</option>
+                </select>
               </div>
-              <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                    Subject
-                    </option>
-                  </select>
+              <p class="errormsg"><!-- <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
+                Category is mandatory
+               </span> --></p>
+             <div class="pt10">
+              <select class="select wid100" name="subject_id" id="subject_id"
+              [(ngModel)]="item.subject_id" >
+                <option value="">
+                Subject
+                </option>
+                <option *ngFor="let opt of CourseList" [value]="opt.subject_id">
+                  {{opt.subject_name}}
+                </option>
+              </select>
+            </div>
+            <p class="errormsg"><span  style="height:10px;" class="help-block">
+              </span></p>
+                <div class="pt10" [class.has-error]="unit_cost.invalid && unit_cost.touched" >
+                  <input type="text" class="input wid100" id="unit_cost" 
+                  name="unit_cost" placeholder="Buying Price (Unit Price)*"  
+                  #unit_cost="ngModel" 
+                  [(ngModel)]="item.unit_cost"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
               </div>
-                <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Buying Price (Unit Price)*">
-                </div>
-              <div class="pt10">
-                 <input type="text" class="input wid100" name="" placeholder="Low Stock Indicator*"> 
-              </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
+                Buying or unit price is mandatory
+             </span></p>
+              <div class="pt10" [class.has-error]="out_of_stock_indicator_units.invalid && out_of_stock_indicator_units.touched" >
+                <input type="text" class="input wid100" id="out_of_stock_indicator_units" 
+                name="out_of_stock_indicator_units" placeholder="Low Stock Indicator*"  
+                #out_of_stock_indicator_units="ngModel" 
+                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+                [(ngModel)]="item.out_of_stock_indicator_units" required>
+            </div>
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!out_of_stock_indicator_units.valid && out_of_stock_indicator_units.touched">
+              Low stock indicator  is mandatory
+           </span></p>
             </div>
           </div>
              <div class="pt10">
-                   <textarea class="input wid100" name="" placeholder="Description"></textarea>
+                   <textarea class="input wid100" name="desc" id="desc" placeholder="Description" [(ngModel)]="item.desc"></textarea>
               </div>
           <!-- </div> -->
+          <p class="errormsg"><span  style="height:10px;" class="help-block">
+         </span></p>
          
           <div class="pt10 display w98">
             <div></div>
-            <div> <button class="right blue_button">Save</button></div>
+            <div class="align"> 
+              <button type="button" class="right blue_button cancel"
+              data-dismiss="modal" >Cancel</button>
+              <button class="right blue_button" (click)="saveItemDetails(item)" *ngIf="!isedit">Save</button>
+              <button class="right blue_button" (click)="updateItemDetails(item.item_id)" *ngIf="isedit">Update</button></div>
            </div>
-        </div>        
-      </div>
-    </div>
-  </div>
-  <div class="modal" id="edititemModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" >Edit Item</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="flex">
-            <div class="sec1">
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Item*">
-              </div>
-                <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                     Standard*
-                    </option>
-                  </select>
-                </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Total Units*">
-              </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Sale Price (Unit Price)*">
-              </div>
-                <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Tax(%)">
-                </div>
-            </div>
-            <div class="sec2">
-              <div class="pt10">
-                 <select class="select wid100" name="">
-                    <option>
-                     Category*
-                    </option>
-                  </select>
-              </div>
-              <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                    Subject
-                    </option>
-                  </select>
-              </div>
-                <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Buying Price (Unit Price)*">
-                </div>
-              <div class="pt10">
-                 <input type="text" class="input wid100" name="" placeholder="Low Stock Indicator*"> 
-              </div>
-            </div>
-          </div>
-             <div class="pt10">
-                   <textarea class="input wid100" name="" placeholder="Description"></textarea>
-              </div>
-          <!-- </div> -->
-         
-          <div class="pt10 display w98">
-            <div></div>
-            <div> <button class="right blue_button">Save</button></div>
-           </div>
+          </form>
         </div>        
       </div>
     </div>
