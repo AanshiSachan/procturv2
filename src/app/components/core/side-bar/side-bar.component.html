@@ -321,18 +321,18 @@
                <ul class="icons" (click)="closeMenu()">
                   <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''"  (click)="toggler('lizero')">
                     <a routerLink="/view/home" class="dropbtn">
-                        <img [src]="activeSession === 'lizero' ? './assets/sidebar_images/home.svg' : './assets/sidebar_images/home.svg'" alt="">
+                        <img [src]="activeSession === 'lizero' ? './assets/images/sidebar_images/home.svg' : './assets/images/sidebar_images/home.svg'" alt="">
                     <p >Home</p></a>
                   </li>
                    <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                     <a routerLink="/view/dashboard">
-                        <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/sidebar_images/Dashboard.svg'" alt="">
+                        <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidebar_images/Dashboard.svg'" alt="">
                     <p >Dashboard</p></a>
                   </li>
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLead ? 'block' : 'none'}" [ngClass] ="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
                     <div *ngIf="jsonFlags.isShowLead">
                         <a routerLink="/view/leads/enquiry" class="dropbtn">
-                            <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/leadIcon2.png':'./assets/sidebar_images/Leads.svg'" alt="">
+                            <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/leadIcon2.png':'./assets/images/sidebar_images/Leads.svg'" alt="">
                     <p >Lead</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -354,7 +354,7 @@
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowStudent ? 'block' : 'none'}" [ngClass]="activeSession === 'litwo'? 'liActiveBG':''" (click)="toggler('litwo')">
                     <div *ngIf="jsonFlags.isShowStudent">
                         <a routerLink="/view/students" class="dropbtn">
-                            <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/studentIcon2.png':'./assets/sidebar_images/Student.svg'" alt="">
+                            <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/studentIcon2.png':'./assets/images/sidebar_images/Student.svg'" alt="">
                     <p >Students</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -377,7 +377,7 @@
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowFee ? 'block' : 'none'}" [ngClass]="activeSession === 'lifour' ? 'liActiveBG':''" (click)="toggler('lifour')">
                     <div *ngIf="jsonFlags.isShowFee">
                         <a routerLink="/view/fee" class="dropbtn">
-                            <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/sidebar_images/fees.svg'" alt="">
+                            <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidebar_images/fees.svg'" alt="">
                     <p >Fees</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -402,7 +402,7 @@
                   <li class="dropdown" [ngStyle]="{display: (!isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}" [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')" >
                     <div *ngIf="!isLangInstitute && jsonFlags.isShowCourse">
                         <a routerLink="/view/course" class="dropbtn">
-                            <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/sidebar_images/Classes.svg'" alt="">
+                            <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/Classes.svg'" alt="">
                     <p >Classes</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -430,7 +430,7 @@
                   <li class="dropdown" [ngStyle]="{display: (isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}" [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')">
                     <div *ngIf="isLangInstitute && jsonFlags.isShowCourse">
                         <a routerLink="/view/batch" class="dropbtn">
-                            <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/sidebar_images/offline_exam.svg'" alt="">
+                            <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/offline_exam.svg'" alt="">
                     <p >Batch</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -455,7 +455,7 @@
                   <li class="dropdown"  [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" (click)="toggler('liExam')">
                     <div >
                         <a routerLink="/view/exams/schedule" class="dropbtn">
-                            <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/sidebar_images/offline_exam.svg'" alt="">
+                            <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/offline_exam.svg'" alt="">
                     <p >Exams</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -483,7 +483,7 @@
                   <li class="dropdown"  [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')">
                     <div >
                         <a routerLink="/view/exams/schedule" class="dropbtn">
-                            <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/sidebar_images/Content_Library-1.png'" alt="">
+                            <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidebar_images/Content_Library-1.png'" alt="">
                     <p >Content Library</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -503,7 +503,7 @@
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLiveclass ? 'block' : 'none'}"  [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" (click)="toggler('lifive');">
                     <div *ngIf="jsonFlags.isShowLiveclass">
                         <a routerLink="/view/live-classes" class="dropbtn">
-                            <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/sidebar_images/live_class.svg'" alt="">
+                            <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/live_class.svg'" alt="">
                     <p >Live Class</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -522,7 +522,7 @@
                   <li class="dropdown" [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''" (click)="toggler('liManageUser')">
                     <div >
                         <a routerLink="/view/live-classes" class="dropbtn">
-                            <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/sidebar_images/users.png'" alt="">
+                            <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/users.png'" alt="">
                     <p >Users</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -544,7 +544,7 @@
                   <li class="dropdown" [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')">
                     <div >
                         <a routerLink="/view/live-classes" class="dropbtn">
-                            <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/sidebar_images/Teacher-1.png'" alt="">
+                            <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/Teacher-1.png'" alt="">
                     <p >Teachers</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -566,7 +566,7 @@
                   <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}" [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
                     <div *ngIf="jsonCommunicateFlags.communicateMenu">
                         <a routerLink="/view/communicate" class="dropbtn">
-                            <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/sidebar_images/communicate.svg'" alt="">
+                            <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidebar_images/communicate.svg'" alt="">
                     <p >Communicate</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -591,7 +591,7 @@
                   <li class="dropdown" [ngStyle]="{display: jsonEstoreFlags.isEstoreMenu ? 'block' : 'none'}"  [ngClass]="activeSession === 'lieight' ?'liActiveBG':''" (click)="toggler('lieight')">
                     <div *ngIf="jsonEstoreFlags.isEstoreMenu">
                         <a routerLink="/view/e-store/home" class="dropbtn">
-                            <img  [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/sidebar_images/estore.svg'" alt="">
+                            <img  [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidebar_images/estore.svg'" alt="">
                     <p >Store</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -612,20 +612,20 @@
     
                   <li [ngClass]="activeSession === 'liwebsiteConf' ?'liActiveBG':''" *ngIf="enable_client_website" (click)="toggler('liwebsiteConf')" style="padding-right: 0;">
                     <a routerLink="/view/website-configuration/images">
-                        <img src="../../../../assets/sidebar_images/Website_App.png" alt="">
+                        <img src="../../../../assets/images/sidebar_images/Website_App.png" alt="">
                     <p >Website/ App</p></a>
                   </li>
     
                   <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
                     <a routerLink="/view/course/online-assignment">
-                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/sidebar_images/Online_assignment.png'" alt="">
+                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidebar_images/Online_assignment.png'" alt="">
                     <p >Assignment</p></a>
                   </li>
     
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLibrabry ? 'block' : 'none'}" [ngClass]="activeSession === 'liseven' ?'liActiveBG':''" (click)="toggler('liseven')">
                     <div *ngIf="jsonFlags.isShowLibrabry">
                         <a routerLink="/view/library/issue" class="dropbtn">
-                            <img  [src]="activeSession === 'liseven' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/sidebar_images/Library.svg'" alt="">
+                            <img  [src]="activeSession === 'liseven' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidebar_images/Library.svg'" alt="">
                     <p >Library</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -643,13 +643,13 @@
                   
                   <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
                     <a routerLink="/view/online-exam">
-                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/sidebar_images/online_exam.svg'" alt="">
+                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidebar_images/online_exam.svg'" alt="">
                     <p >Online Exam</p></a>
                   </li>
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowExpense ? 'block' : 'none'}"  [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
                     <div *ngIf="jsonFlags.isShowExpense">
                         <a routerLink="/view/expense" class="dropbtn">
-                            <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/sidebar_images/Expenses.svg'" alt="">
+                            <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'" alt="">
                     <p >Expenses</p><i class="fa fa-angle-right"></i>
       
                     </a>
@@ -670,7 +670,7 @@
     
                   <li [ngClass]= "activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
                     <a routerLink="/view/reports/list">
-                        <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/sidebar_images/Reports.svg'" alt="">
+                        <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidebar_images/Reports.svg'" alt="">
                     <p >Reports</p></a>
                   </li>
     
