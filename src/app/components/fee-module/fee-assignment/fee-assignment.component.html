@@ -26,23 +26,30 @@
         <option value="-1">Course*</option>
         <option *ngFor="let data of courseList" [value]="data.course_id">{{data.course_name}}</option>
       </select>
-      <select class="select mr10 wid240" *ngIf="isProfessional" [(ngModel)]="model.master_course">
-        <option value="">Master Course*</option>
-        <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">{{data.standard_name}}</option>
+      <select class="select mr10 wid240" *ngIf="isProfessional" [(ngModel)]="model.standard_id" (ngModelChange)="fetchBatch($event)">
+        <option value="-1">Master Course*</option>
+        <option *ngFor="let data of standardList" [value]="data.standard_id">{{data.standard_name}}</option>
       </select>
-      <select class="select mr10 wid240" *ngIf="isProfessional" [(ngModel)]="model.master_course">
-        <option value="-1">Course*</option>
-        <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">{{data.standard_name}}</option>
+      <select class="select mr10 wid240" *ngIf="isProfessional" [(ngModel)]="model.batch_id">
+        <option value="-1">Batch*</option>
+        <option *ngFor="let data of batchList" [value]="data.batch_id">{{data.batch_name}}</option>
       </select>
-      <select class="select mr10 wid240" *ngIf="countryDetails.length>1" [(ngModel)]="model.country_id">
+      <select class="select mr10 wid240" *ngIf="countryDetails.length>1" [(ngModel)]="model.country_id"style="width: 12%;">
         <option value="-1">country</option>
         <option [value]="data.id" *ngFor='let data of countryDetails'>
           {{data.country_name}}
       </select>
-      <select class="select mr10 wid240" [(ngModel)]="model.academic_yr_id">
+      <select class="select mr10 wid240" [(ngModel)]="model.academic_yr_id" style="width: 12%;">
         <option value="-1">Academic Year</option>
         <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
           {{data.inst_acad_year}}</option>
+      </select>
+      <select class="select mr10 wid240" [(ngModel)]="model.fee_assigned" style="width: 12%;">
+        <option value="-1">Fee Assigned</option>
+        <option value="1">All</option>
+        <option value="2">Y</option>
+        <option value="3">N</option>
+
       </select>
       <button class="blue_button" (click)="fetchStudentList()">Search</button>
     </div>
@@ -87,13 +94,13 @@
           <div>{{data.student_roll_no}}</div>
           <div>{{data.total_fee_amount}}</div>
           <div>
-            <span class="img__wrap">
+            <!-- <span class="img__wrap">
               <a (click)="viewFeeDetails(data)" class="mr10"><img></a>
               <p class="img__description">View</p>
-            </span>
+            </span> -->
             <span class="img__wrap">
-              <a (click)="assignFeeToSingleStudent(data)" class="mr10"><img></a>
-              <p class="img__description">Assign</p>
+              <a (click)="assignFeeToSingleStudent(data)" class="mr10"><img>Assign</a>
+              <p class="img__description"(click)="assignFeeToSingleStudent(data)">Assign</p>
             </span>
           </div>
         </div>
