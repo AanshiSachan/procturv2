@@ -33,12 +33,6 @@ import { MarkSettingComponent } from './mark-setting/mark-setting.component';
                     // canLoad: [AuthGuard]
                 },
                 {
-                    path: 'teacher',
-                    loadChildren: () => import('app/components/course-module/data-setup/teacher/teacher.module').then(m => m.TeacherModule)
-                    // loadChildren: 'app/components/course-module/data-setup/teacher/teacher.module#TeacherModule',
-                    // canLoad: [AuthGuard]
-                },
-                {
                     path: 'manage-exam-grades',
                     component: ManageExamGradesComponent,
                     pathMatch: 'prefix',

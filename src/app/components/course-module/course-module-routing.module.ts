@@ -122,7 +122,7 @@ import {AttendanceComponent} from './attendance/attendance.component';
         },
         {
           path: 'teacher',
-          loadChildren: () => import('../teacher/teacher.module').then(m => m.TeacherModule),
+          loadChildren: () => import('./teacher/teacher.module').then(m => m.TeacherModule),
           pathMatch: 'prefix'
           // loadChildren: 'app/components/course-module/data-setup/teacher/teacher.module#TeacherModule',
           // canLoad: [AuthGuard]

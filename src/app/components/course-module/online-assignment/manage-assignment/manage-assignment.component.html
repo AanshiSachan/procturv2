@@ -34,15 +34,15 @@
   <section class="middle-top clearFix bulk-header">
     <div>
       <h1 class="pull-left" style="margin-bottom: 0;">
-        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+        <!-- <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
           Course
         </a>
         <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
           Batch
         </a>
-        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> -->
         <a routerLink="/view/{{jsonFlag.type}}/online-assignment" style="padding:0px; ">
-          Online Assignment
+          Assignments
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         <span>Manage Assignment</span>

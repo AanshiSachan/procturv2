@@ -45,14 +45,18 @@
                         Add Student
                     </span>
                 </div>
-                <div class="side-section-item" *ngIf="!facultyAccount" (click)="showExpensesList()">
+                <div class="side-section-item" routerLink="/view/leads/add">
 
-                    <span class="dropSize">Add Expenses</span>
+                    <span class="dropSize">Add Enquiry</span>
 
                 </div>
-                <div class="side-section-item" (click)="showToDoList()">
+                <div class="side-section-item" routerLink="/view/course/teacher/add">
 
-                    <span class="dropSize">To Do List</span>
+                    <span class="dropSize">Add Faculty</span>
+                </div>
+                <div class="side-section-item" routerLink="/view/manage/user/addedit">
+
+                    <span class="dropSize">Add User</span>
                 </div>
             </div>
         </div>
@@ -68,13 +72,13 @@
     </div>
 
     <div class="spacer"></div>
-    <div style="margin-right: 8%;">
+    <div>
 
         <!-- DataSetup-->
-        <button class="btn" *ngIf="!facultyAccount"
-            style="padding:0px;height: 27px;border-color:white;outline-style: none;"><img
-                src="./assets/images/datasetup.png" title="Data Setup" alt=""
-                (click)="showSubSection('datasetup')"></button>
+        <button class="btn helpIcon">
+          <a href="https://tawk.to/proctur" style="color: white;" target="_blank">
+            <i class="fa fa-question-circle"></i> Help</a> 
+            <!-- <img src="./assets/images/datasetup.png" title="Data Setup" alt="" --></button>
 
         <!-- Quick Add -->
         <a mat-button> <img src="./assets/images/sidebar/newQuickAdd.svg" title="Quick Add" alt=""
@@ -82,18 +86,18 @@
         </a>
 
         <!-- Help -->
-        <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/helpIcon.svg" title="Help" alt=""
-                (click)="showSubSection('help1')"></a>
+        <!-- <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/helpIcon.svg" title="Help" alt=""
+                (click)="showSubSection('help1')"></a> -->
         <!-- Setting -->
 
         <a mat-button style="margin-left: -15px;">
-            <img src="./assets/images/sidebar/Vector.svg" title="Settings" alt="" (click)="showSubSection('help')">
+            <img src="./assets/images/sidebar/Vector.svg" title="Settings" alt="" routerLink="/view/setting">
         </a>
         <!-- My Account -->
         <a mat-button style=" margin-left: -15px;"><img src="./assets/images/sidebar/myAccount.svg" title="My Account"
                 alt="" (click)="showSubSection('account')"></a>
-        <a mat-button style=" margin-left: -15px;" href="https://tawk.to/proctur" target="_blank"><img
-                src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a>
+        <!-- <a mat-button style=" margin-left: -15px;" href="https://tawk.to/proctur" target="_blank"><img
+                src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a> -->
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="help1">
@@ -149,18 +153,56 @@
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="account">
                     <div style="border-bottom: 1px solid lightgrey;">
-                        <div class="accHead">
-                            MY ACCOUNT (ID- {{globalSearchForm.instituteId}})
+                        <div class="row">
+                            <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/formField/home','setup')">Custom
+                                                Form Field</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize" (click)="changePasswordClick()">
+                                                Change
+                                                Password</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="c-lg-6">
+                                <div class="row" *ngIf="jsonFlags.isShowExpense">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize" routerLink="/view/expense">
+                                                Manage Expense</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item" *ngIf="hasInventoryAccess()">
+                                            <span class="dropSize" (click)="showToDoList()">To Do List</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
                         </div>
+                    </div>
+                    <div style="border-bottom: 1px solid lightgrey;">
+                        <!-- <div class="accHead">
+                            MY ACCOUNT (ID- {{globalSearchForm.instituteId}})
+                        </div> -->
                         <div class="side-section-item" *ngIf="hideForUsers()">
                             <span class="dropSize" (click)="routerLink('/view/account','account')">
                                 My
                                 Account</span>
-                        </div>
-                        <div class="side-section-item">
-                            <span class="dropSize" (click)="changePasswordClick()">
-                                Change
-                                Password</span>
                         </div>
                     </div>
                     <div *ngIf="isMainBranch == 'Y' && checkAdmin" style="font-size: 14px;">
@@ -398,6 +440,12 @@
                      </div>
                     
                   </li>
+
+                  <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
+                    <a routerLink="/view/course/teacher/list">
+                        <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidebar_images/Dashboard.svg'" alt="">
+                    <p >Teachers</p></a>
+                  </li>
     
                   <li class="dropdown" [ngStyle]="{display: (!isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}" [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')" >
                     <div *ngIf="!isLangInstitute && jsonFlags.isShowCourse">
@@ -407,7 +455,7 @@
       
                     </a>
                         <div class="dropdown-content">
-                            <a (click)="setSetupSession('class')" routerLink="/view/course/setup/teacher/list">
+                            <a (click)="setSetupSession('class')" routerLink="/view/course/setup/academic">
                                 <span>Setup</span>
                         </a>
                         <a routerLink="/view/course/create-section/courselist">
@@ -480,6 +528,55 @@
                     
                   </li>
     
+                  <li class="dropdown" [ngStyle]="{display: (jsonFlags.isShowLiveclass || is_zoom_integration_enable) ? 'block' : 'none'}"  [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" (click)="toggler('lifive');">
+                    <div *ngIf="(jsonFlags.isShowLiveclass || is_zoom_integration_enable)">
+                        <a routerLink="/view/live-classes" class="dropbtn">
+                            <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/live_class.svg'" alt="">
+                    <p >Live Classes</p>
+                    <i class="fa fa-angle-right"></i>
+      
+                    </a>
+                        <div class="dropdown-content">
+                            <a routerLink="/view/live-classes" *ngIf="jsonFlags.isShowLiveclass" (click)="setLiveClassType('1')">
+                                <span>Proctur Live</span>
+                        </a>
+                        <a *ngIf="is_zoom_integration_enable" routerLink="/view/zoom" (click)="setLiveClassType('2')">
+                                <span>Zoom</span>
+                        </a>
+                        </div>
+                     </div>
+                    
+                  </li>
+    
+                  <li [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''" (click)="toggler('liManageUser')">
+                        <a routerLink="/view/manage/user">
+                            <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/users.png'" alt="">
+                    <p >Users</p>
+      
+                    </a>
+                    
+                  </li>
+
+                  <li class="dropdown" [ngClass]="activeSession === 'liAttendance' ? 'liActiveBG':''" (click)="toggler('liAttendance');">
+                    <div>
+                        <a class="dropbtn">
+                            <img [src]="activeSession === 'liAttendance' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/live_class.svg'" alt="">
+                    <p >Attendance</p>
+                    <i class="fa fa-angle-right"></i>
+      
+                    </a>
+                        <div class="dropdown-content">
+                        <a routerLink="/view/manage/attendance/mark-teacher-attendance/3">
+                                <span>Teachers</span>
+                        </a>
+                        <a routerLink="/view/manage/attendance/mark-user-attendance/0">
+                                <span>Users</span>
+                        </a>
+                        </div>
+                     </div>
+                    
+                  </li>
+
                   <li class="dropdown"  [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''" (click)="toggler('liforteen')">
                     <div >
                         <a class="dropbtn">
@@ -499,68 +596,16 @@
                     
                   </li>
 
+                  <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
+                    <a routerLink="/view/course/online-assignment">
+                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidebar_images/Online_assignment.png'" alt="">
+                    <p >Assignments</p></a>
+                  </li>
 
-                  <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLiveclass ? 'block' : 'none'}"  [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" (click)="toggler('lifive');">
-                    <div *ngIf="jsonFlags.isShowLiveclass">
-                        <a routerLink="/view/live-classes" class="dropbtn">
-                            <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/live_class.svg'" alt="">
-                    <p >Live Class</p><i class="fa fa-angle-right"></i>
-      
-                    </a>
-                        <div class="dropdown-content">
-                            <a routerLink="/view/live-classes" (click)="setLiveClassType('1')">
-                                <span>Proctur Live</span>
-                        </a>
-                        <a *ngIf="is_zoom_integration_enable" routerLink="/view/zoom" (click)="setLiveClassType('2')">
-                                <span>Zoom</span>
-                        </a>
-                        </div>
-                     </div>
-                    
-                  </li>
-    
-                  <li class="dropdown" [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''" (click)="toggler('liManageUser')">
-                    <div >
-                        <a routerLink="/view/live-classes" class="dropbtn">
-                            <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/users.png'" alt="">
-                    <p >Users</p><i class="fa fa-angle-right"></i>
-      
-                    </a>
-                        <div class="dropdown-content">
-                            <a routerLink="/view/manage/user">
-                                <span>Manage</span>
-                        </a>
-                        <a routerLink="/view/manage/attendance/mark-user-attendance/0">
-                                <span>Attendance</span>
-                        </a>
-                        <!-- <a routerLink="/view/manage/user">
-                                <span>Leave</span>
-                        </a> -->
-                        </div>
-                     </div>
-                    
-                  </li>
-    
-                  <li class="dropdown" [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')">
-                    <div >
-                        <a routerLink="/view/live-classes" class="dropbtn">
-                            <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/Teacher-1.png'" alt="">
-                    <p >Teachers</p><i class="fa fa-angle-right"></i>
-      
-                    </a>
-                        <div class="dropdown-content">
-                            <a (click)="setSetupSession('class')" routerLink="/view/course/setup/teacher/list">
-                                <span>Manage</span>
-                        </a>
-                        <a routerLink="/view/manage/attendance/mark-teacher-attendance/3">
-                                <span>Attendance</span>
-                        </a>
-                        <!-- <a routerLink="/view/course/setup/teacher/list">
-                                <span>Leave</span>
-                        </a> -->
-                        </div>
-                     </div>
-                    
+                  <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
+                    <a routerLink="/view/online-exam">
+                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidebar_images/online_exam.svg'" alt="">
+                    <p >Online Test</p></a>
                   </li>
     
                   <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}" [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
@@ -603,7 +648,7 @@
                                 <span>Registered Users</span>
                         </a>
                         <a routerLink="/view/e-store/manage-offers/coupon" *ngIf="jsonEstoreFlags.isManageOffer">
-                                <span>Manage Offers</span>
+                                <span>Offers/ Discounts</span>
                         </a>
                         </div>
                      </div>
@@ -616,41 +661,31 @@
                     <p >Website/ App</p></a>
                   </li>
     
-                  <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
-                    <a routerLink="/view/course/online-assignment">
-                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidebar_images/Online_assignment.png'" alt="">
-                    <p >Assignment</p></a>
-                  </li>
-    
-                  <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLibrabry ? 'block' : 'none'}" [ngClass]="activeSession === 'liseven' ?'liActiveBG':''" (click)="toggler('liseven')">
-                    <div *ngIf="jsonFlags.isShowLibrabry">
-                        <a routerLink="/view/library/issue" class="dropbtn">
+                  <li class="dropdown" *ngIf="jsonFlags.isShowLibrabry" [ngClass]="activeSession === 'liseven' ?'liActiveBG':''" (click)="toggler('liseven')">
+                    <!-- <div *ngIf="jsonFlags.isShowLibrabry"> -->
+                        <a routerLink="/view/library/issue">
                             <img  [src]="activeSession === 'liseven' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidebar_images/Library.svg'" alt="">
-                    <p >Library</p><i class="fa fa-angle-right"></i>
+                    <p >Library</p>
+                    <!-- <i class="fa fa-angle-right"></i> -->
       
                     </a>
-                        <div class="dropdown-content">
+                        <!-- <div class="dropdown-content">
                             <a routerLink="/view/library/master">
                                     <span>Setup</span>
                             </a>
                             <a routerLink="/view/library/issue">
                                 <span>Manage</span>
                         </a>
-                        </div>
-                     </div>
+                        </div> -->
+                     <!-- </div> -->
                     
                   </li>
                   
-                  <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
-                    <a routerLink="/view/online-exam">
-                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidebar_images/online_exam.svg'" alt="">
-                    <p >Online Exam</p></a>
-                  </li>
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowExpense ? 'block' : 'none'}"  [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
                     <div *ngIf="jsonFlags.isShowExpense">
                         <a routerLink="/view/expense" class="dropbtn">
                             <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'" alt="">
-                    <p >Expenses</p><i class="fa fa-angle-right"></i>
+                    <p>Income/ Expenses</p><i class="fa fa-angle-right"></i>
       
                     </a>
                         <div class="dropdown-content">
