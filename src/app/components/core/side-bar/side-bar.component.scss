@@ -20,7 +20,7 @@
 
 .search-container {
     width: 80%;
-    margin: 10px 10%;
+    // margin: 10px 10%;
     margin-bottom: 0px;
     position: relative;
     .searchBox {
@@ -582,7 +582,7 @@ input{
 a span{
     padding-left: 7px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 300;
 
 }
 .fa-angle-right{
@@ -610,7 +610,7 @@ a span{
 }
 
 .mattoolbar{
-    position: fixed;margin-left: -1%;margin-top: -53px;z-index: 9999999999;background: white;width: 89%;height: 7%;    border-bottom: 2px solid lightgrey;
+    position: fixed;margin-left: -2%;margin-top: -50px;z-index: 9999999999;background: white;width: 89%;height: 7%;    border-bottom: 2px solid lightgrey;
 }
 .mat-button img{
     width: 44%;
@@ -739,7 +739,7 @@ header{
   height:60px;
   position: fixed;
   right: 0%;
-  width:calc(100% - 14%);
+  width:calc(100% - 13%);
   background-color: #fff;
   border-bottom: 1px solid #EBEFF2;
   background-color: #fff;
@@ -824,12 +824,13 @@ width:20px;
 .sidebar-wrapper .icons li img{
   width:20px;
   height: auto;
-  margin-right: 6px;
+  margin-right: 10px;
 }
 .sidebar-wrapper .icons li p{
 margin-block-start: 0.25em;
 line-height: 0.25em;
 font-size: 13px;
+vertical-align: super;
 color: #f2ecf8;
 display: inline;
 font-weight: 300;
@@ -850,7 +851,7 @@ overflow-x: visible;
 }
 
 .power{
-  width: calc(14% - 10px);
+  width: calc(13% - 10px);
   color: #fff;
   position:fixed;
   bottom: 0em;
@@ -876,11 +877,11 @@ overflow-x: visible;
 .page-wrapper .page-content {
   display: inline-block;
   /* width: 100%; */
-  width:calc(100% - 14%);
+  width:calc(100% - 13%);
   padding-left: 0px;
   padding-top: 0px;
-  margin-left: 14%;
-  margin-top: 60px;
+  margin-left: 13%;
+  margin-top: 7%;
 }
 
 
@@ -908,7 +909,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
     display: block;
   }
   .sidebar-wrapper{
-    left: -14%;
+    left: -13%;
   }
   .toggled .sidebar-wrapper {
     left: 0px;
@@ -934,7 +935,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
 }
 
 .dropdown-content {
-  left:49%;
+  left:48%;
   top:0px;
   display: none;
   position: absolute;
@@ -973,7 +974,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
     display: block;
   }
   .sidebar-wrapper{
-    left: -14%;
+    left: -13%;
   }
   .toggled .sidebar-wrapper {
     left: 0px;
@@ -985,12 +986,12 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
 }
 
 .sidebar-wrapper .sidebar-brand {
-  width:calc(14% - 10px);
+  width:calc(13% - 10px);
   padding: 10px 0px;
   display: flex;
   text-align: center;
   align-items: center;
-  height: 60px;
+  height: 7%;
   border-bottom:2px solid #81868e;
   position: fixed;
   left: 10px;
@@ -1050,7 +1051,7 @@ a:hover {
 .paneldd{
    position: fixed;
     background: #1B2433;
-    width: 14%;
+    width: 13%;
     height: 100vh;
     left: 0;
 }
@@ -1081,7 +1082,7 @@ a:hover {
   border: 3px solid rgba(0, 0, 0, 0);
   background-clip: padding-box; 
 }
-.fa-angle-right:before {
+ .fa-angle-right:before {
     position: absolute;
-    left: 137px;
+    left: 10vw;
 }
