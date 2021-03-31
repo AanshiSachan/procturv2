@@ -133,7 +133,8 @@
             </div>
 
             <div class="col-md-4" style="padding:5px;width:50%;">
-                <h1 style="padding:10px;"><span style="font-family: 'Open Sans', sans-serif;">{{ time | date: 'hh:mm:ss a' }}</span></h1>
+                <h1 style="padding:10px;"><span style="font-family: 'Open Sans', sans-serif;">{{ time | date: 'hh:mm:ss
+                        a' }}</span></h1>
             </div>
 
         </div>
@@ -222,4 +223,49 @@
     </div>
 
 
+</div>
+
+
+<div id="smsMsg" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="top: 10%;left: 30%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title" style="margin-bottom: 0;">Notifications</h2>
+            </div>
+            <div class="modal-body" style="padding: 15px;height: 65vh;overflow-y: auto;">
+                <div style="font-weight: 600;margin-bottom: 10px;">Dear Sir/Madam,</div> 
+                As per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be register with DTL
+                platform. SMS will only be delivered if that SMS Content Template is approved on DLT. Kindly ensure to
+                apply the SMS Content Templates separately for each kind of SMS that you are sending.
+                Steps to be followed.
+                <div style="font-weight: 600;margin-bottom: 10px;margin-top: 10px;">(A) Entity Registration Process</div>
+                1) For faster response, it’s requested for register on MTNL.
+                Entity Registration Process for MTNL
+                Signup Link:<a href="https://www.ucc-mtnl.in/." target="_blank">https://www.ucc-mtnl.in/.</a><br>
+                2) Form Filling: Fill the form and upload the required documents.<br>
+                3) Form Submission: Submit the application and you will get the approval.<br>
+                4) Headers Registration: Once registration is approved, kindly login and add your Headers (Sender ID)
+                and it will be approved in a day or two.<br>
+                5) Test SMS: Once Header is approved on DLT platform, it will be synced on Global Platform in around 24
+                hrs and you will then be able to use your Header for sending SMS.<br>
+                <div style="font-weight: 600;margin-bottom: 10px;margin-top: 10px;">(B) Get approval for your SMS content on DLT platform.</div>
+                Make a list of SMS content that expected to Send through Proctur and get it approved on DLT.
+                1) Find the link of Proctur system generated SMS, which is expected to approved from DLT. (Download the
+                template-<a href="https://bit.ly/3sDxMgx" target="_blank">“ https://bit.ly/3sDxMgx ”).</a><br>
+                2) And For custom SMS, needs to upload individually on DLT form, and get it approved.<br>
+                3) As it gets approved follow the refer (C) section.<br>
+                <div style="font-weight: 600;margin-bottom: 10px;margin-top: 10px;">(C) SMS system Login.</div>
+                1) An Individual needs to contact to Proctur support team using help section from application. Make sure
+                SMS templates are approved at DLT end.<br>
+                2) Proctur Team will share sub-account of Pinnacle SMS service provider login details, where approved
+                SMS from DLT to be get uploaded.<br>
+                3) Add custom approved SMS and send it from Proctur.
+
+            </div>
+            <div class="modal-footer" style="padding: 5px;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1002,10 +1002,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             (res: any) => {
               sessionStorage.setItem('manual_student_disp_id', res.is_student_displayId_manual);
               this.login.changeSidenavStatus('authorized');
+              sessionStorage.setItem('showSMSService', 'true');
               this.route.navigateByUrl('/view/home');
             },
             err => {
               this.login.changeSidenavStatus('authorized');
+              sessionStorage.setItem('showSMSService', 'true');
               this.route.navigateByUrl('/view/home');
             }
           );
