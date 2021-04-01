@@ -72,7 +72,7 @@
     </div>
 
     <div class="spacer"></div>
-    <div>
+    <div style="margin-right: 4%;">
 
         <!-- DataSetup-->
         <button class="btn helpIcon">
@@ -709,11 +709,11 @@
                     <p >Reports</p></a>
                   </li>
     
-                  <li [ngClass]= "activeSession ==='liSettings'?'liActiveBG':''" *ngIf="showSMSSetting" (click)="toggler('liSettings')">
+                  <!-- <li [ngClass]= "activeSession ==='liSettings'?'liActiveBG':''" *ngIf="showSMSSetting" (click)="toggler('liSettings')">
                     <a routerLink="/view/setting">
                         <img [src]="activeSession === 'liSettings' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
                     <p >Settings</p></a>
-                  </li>
+                  </li> -->
     
                   <li [ngClass]= "activeSession ==='liMyAccount'?'liActiveBG':''" click)="toggler('liMyAccount')" *ngIf="hideForUsers()">
                     <a routerLink="/view/setting">
