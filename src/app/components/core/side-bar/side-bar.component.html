@@ -81,8 +81,7 @@
             <!-- <img src="./assets/images/datasetup.png" title="Data Setup" alt="" --></button></a>
 
         <!-- Quick Add -->
-        <a mat-button> <img src="./assets/images/sidebar/newQuickAdd.svg" title="Quick Add" alt=""
-                (click)="showSubSection('quick')">
+        <a mat-button (click)="showSubSection('quick')"> <img src="./assets/images/sidebar/newQuickAdd.svg" title="Quick Add" alt="">
         </a>
 
         <!-- Help -->
@@ -90,12 +89,12 @@
                 (click)="showSubSection('help1')"></a> -->
         <!-- Setting -->
 
-        <a mat-button style="margin-left: -15px;">
-            <img src="./assets/images/sidebar/Vector.svg" title="Settings" alt="" routerLink="/view/setting">
+        <a mat-button style="margin-left: -15px;" routerLink="/view/setting">
+            <img src="./assets/images/sidebar/Vector.svg" title="Settings" alt="">
         </a>
         <!-- My Account -->
-        <a mat-button style=" margin-left: -15px;"><img src="./assets/images/sidebar/myAccount.svg" title="My Account"
-                alt="" (click)="showSubSection('account')"></a>
+        <a mat-button style=" margin-left: -15px;" (click)="showSubSection('account')"><img src="./assets/images/sidebar/myAccount.svg" title="My Account"
+                alt=""></a>
         <!-- <a mat-button style=" margin-left: -15px;" href="https://tawk.to/proctur" target="_blank"><img
                 src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a> -->
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
@@ -368,7 +367,7 @@
                   </li>
                    <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                     <a routerLink="/view/dashboard">
-                        <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidebar_images/Dashboard.svg'" alt="">
+                        <img [src]="activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidebar_images/Dashboard.svg'" alt="">
                     <p >Dashboard</p></a>
                   </li>
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLead ? 'block' : 'none'}" [ngClass] ="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
@@ -449,7 +448,7 @@
     
                   <li class="dropdown" [ngStyle]="{display: (!isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}" [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')" >
                     <div *ngIf="!isLangInstitute && jsonFlags.isShowCourse">
-                        <a routerLink="/view/course" class="dropbtn">
+                        <a class="dropbtn">
                             <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/Classes.svg'" alt="">
                     <p >Classes</p><i class="fa fa-angle-right"></i>
       
@@ -477,7 +476,7 @@
     
                   <li class="dropdown" [ngStyle]="{display: (isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}" [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')">
                     <div *ngIf="isLangInstitute && jsonFlags.isShowCourse">
-                        <a routerLink="/view/batch" class="dropbtn">
+                        <a class="dropbtn">
                             <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/offline_exam.svg'" alt="">
                     <p >Batch</p><i class="fa fa-angle-right"></i>
       
@@ -502,7 +501,7 @@
     
                   <li class="dropdown"  [ngClass]="activeSession === 'liExam' ?'liActiveBG':''" (click)="toggler('liExam')">
                     <div >
-                        <a routerLink="/view/exams/schedule" class="dropbtn">
+                        <a class="dropbtn">
                             <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/offline_exam.svg'" alt="">
                     <p >Exams</p><i class="fa fa-angle-right"></i>
       
