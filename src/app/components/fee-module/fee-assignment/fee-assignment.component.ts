@@ -86,6 +86,7 @@ export class FeeAssignmentComponent implements OnInit {
   feeInstmentArr: any = [];
   batchList: any = [];
   student_id: number = -1;
+  isTemplateLinkWithCourseAndStandard: boolean = false;
 
   constructor(private auth: AuthenticatorService,
     private http: HttpService,
@@ -102,7 +103,9 @@ export class FeeAssignmentComponent implements OnInit {
         }
       }
     )
+    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true';
     this.fetchFilterData();
+
   }
   ngOnInit(): void {
     this.getCountryDetails();
@@ -271,17 +274,24 @@ export class FeeAssignmentComponent implements OnInit {
     }
     this.requestPayload.academic_yr_id = this.model.academic_yr_id;
     this.requestPayload.country_id = this.model.country_id;
+    this.requestPayload.fee_assigned = this.model.fee_assigned
     return true;
   }
-  fetchFeeStructure() {
+  fetchFeeStructure(isAssignedToSingleStudent) {
+    if (isAssignedToSingleStudent) {
+      this.student_id = -1;
+    }
+    if (!this.validateStudentData()) {
+      return;
+    }
     if (this.feeStructureList.length > 0) {
       $('#assignFeeModel').modal('show');
       return
     }
-    if (this.validateStudentData()) {
-      $('#assignFeeModel').modal('show');
-      this.auth.showLoader();
-      let queryParam = "";
+    $('#assignFeeModel').modal('show');
+    this.auth.showLoader();
+    let queryParam = "";
+    if (!this.isTemplateLinkWithCourseAndStandard) {
       if (this.schoolModel) {
         queryParam = "?standard_id=" + this.model.standard_id;
       } else if (!this.isProfessional) {
@@ -289,38 +299,44 @@ export class FeeAssignmentComponent implements OnInit {
       } else {
         queryParam = "?batch_id=" + this.model.batch_id;
       }
-      if (queryParam == '') {
-        queryParam += "?country_id=" + this.model.country_id;
-      } else {
-        queryParam += "&country_id=" + this.model.country_id;
-      }
-      const url = "/api/v1/student_wise/feeStructure/" + this.institute_id + queryParam;
-      this.http.getData(url).subscribe(
-        (res: any) => {
-          this.feeStructureList = res.result;
-          if (this.feeStructureList.length > 0) {
-            this.template_id = this.feeStructureList[0].template_id;
+      queryParam += "&country_id=" + this.model.country_id;
+    } else {
+      queryParam += "?country_id=" + this.model.country_id;
+    }
+    const url = "/api/v1/student_wise/feeStructure/" + this.institute_id + queryParam;
+    this.http.getData(url).subscribe(
+      (res: any) => {
+        this.feeStructureList = res.result;
+        if (this.feeStructureList.length > 0) {
+          for (let data of this.feeStructureList) {
+            if (data.is_default = 1) {
+              this.template_id = data.template_id;
+              break;
+            }
+          }
+          if (this.template_id > 0) {
             this.fetchFeeStructureData(this.template_id);
           }
-          this.auth.hideLoader();
-        },
-        err => {
-          this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
-          this.auth.hideLoader();
         }
-      );
-    }
-  }
-  validateStudentData() {
-    for (let data of this.studentList) {
-      if (data.isSelected) {
-        return true;
+        this.auth.hideLoader();
+      },
+      err => {
+        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+        this.auth.hideLoader();
       }
-    }
-    if(this.student_id<0){
-    this.commonService.showErrorMessage('info', '', 'Select at least one student');
-    return false;
-    }else{
+    );
+  }
+
+  validateStudentData() {
+    if (this.student_id < 0) {
+      for (let data of this.studentList) {
+        if (data.isSelected) {
+          return true;
+        }
+      }
+      this.commonService.showErrorMessage('info', '', 'Select at least one student');
+      return false;
+    } else {
       return true;
     }
   }
@@ -338,7 +354,7 @@ export class FeeAssignmentComponent implements OnInit {
       }
     }
   }
-  assignfeeToStudent() {
+  assignfeeToStudent(isAssignedToSingleStudent) {
     debugger
     this.validateAssignFeeData()
     let requestPayload: any = {
@@ -373,18 +389,24 @@ export class FeeAssignmentComponent implements OnInit {
     this.studentIdArr = [];
     this.feeInstmentArr = [];
     if (this.student_id < 0) {
-    for (let data of this.studentList) {
-      if (data.isSelected) {
-        this.studentIdArr.push(data.student_id);
+      for (let data of this.studentList) {
+        if (data.isSelected) {
+          this.studentIdArr.push(data.student_id);
+        }
       }
+    } else {
+      this.studentIdArr.push(this.student_id);
     }
-  }else{
-    this.studentIdArr.push(this.student_id);
-  }
     for (let data of this.feeInstalllmentArr) {
+      if (data.day_type == 3 && data.days > 12) {
+        this.commonService.showErrorMessage('info', '', "Please enter valid month!");
+      }
       let obj = {
         template_data_id: data.schedule_id,
-        installment_date: data.installment_date
+        installment_date: data.installment_date,
+        //date_type: data.day_type,
+        //days: data.days
+
       }
       this.feeInstmentArr.push(obj);
     }
@@ -395,7 +417,7 @@ export class FeeAssignmentComponent implements OnInit {
   assignFeeToSingleStudent(data) {
     debugger
     this.student_id = data.student_id;
-    this.fetchFeeStructure();
+    this.fetchFeeStructure(false);
   }
   checkUncheckAll() {
     for (var i = 0; i < this.studentList.length; i++) {
@@ -466,6 +488,6 @@ export class FeeAssignmentComponent implements OnInit {
   }
   closePopUp() {
     $('#assignFeeModel').modal('hide');
-    this.student_id=-1;
+    this.student_id = -1;
   }
 }
