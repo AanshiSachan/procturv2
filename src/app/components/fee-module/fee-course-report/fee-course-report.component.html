@@ -57,7 +57,7 @@
                                     <label for="mc">{{schoolModel ? 'Standard' : 'Master Course'}} </label>
                                     <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
                                         <option value="-1"></option>
-                                        <ng-container *ngIf="isProfessional; else masterCourse">
+                                        <ng-container *ngIf="(isProfessional || schoolModel); else masterCourse">
                                             <option *ngFor="let master of standardList" [value]="master.standard_id">
                                                 {{master.standard_name}}</option>
                                         </ng-container>

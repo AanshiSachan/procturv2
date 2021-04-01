@@ -3030,8 +3030,10 @@ export class StudentHomeComponent implements OnInit {
   openQuickFilter() {
     this.isAdvFilter = false;
     this.searchBarData = "";
+    if(!this.schoolModel) {
     document.getElementById("adFilterExit").classList.add("hide");
     document.getElementById("adFilterOpen").classList.remove("hide");
+    }
     // document.getElementById('black-bg').classList.add('hide');
     document.getElementById("advanced-filter-section").classList.add("hide");
     this.showQuickFilter = true;

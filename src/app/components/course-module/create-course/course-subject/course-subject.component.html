@@ -33,19 +33,16 @@
         <thead *ngIf="schoolModel">
           <tr>
             <th>
-              <label style="cursor:pointer;" (click)="sortTable('subject_id')">ID</label>
+              <label style="cursor:pointer;">ID</label>
             </th>
             <th>
-              <label *ngIf="isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Master
+              <label *ngIf="isLangInstitue" style="cursor:pointer;">Master
                 Course</label>
-              <label *ngIf="!isLangInstitue" style="cursor:pointer;"
-                (click)="sortTable('standard_name')">Standard</label>
+              <label *ngIf="!isLangInstitue" style="cursor:pointer;">Standard</label>
             </th>
             <th style="width: 15%;">
-              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;"
-                (click)="sortTable('subject_name')">Subject</label>
-              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;"
-                (click)="sortTable('subject_name')">Course</label>
+              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;">Subject</label>
+              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;">Course</label>
             </th>
             <th *ngIf="!isLangInstitue">
               <label>Subject Code</label>
@@ -58,10 +55,10 @@
             </th>
 
             <th>
-              <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
+              <label style="cursor:pointer;">Is Active</label>
             </th>
             <th>
-              <label style="cursor:pointer;" *ngIf="schoolModel" (click)="sortTable('is_active')">Optional</label>
+              <label style="cursor:pointer;" *ngIf="schoolModel">Optional</label>
             </th>
             <th>
               <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"

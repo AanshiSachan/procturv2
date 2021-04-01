@@ -155,7 +155,7 @@
             <hr class="content_hr" style="margin-left:-28px;">
           </div>
         </div>
-        <div class="row" *ngIf="JsonFlags.isShowExamDash">
+        <!-- <div class="row" *ngIf="JsonFlags.isShowExamDash">
 
           <a routerLink="/view/course/reports/exam-dashboard" class="icon_click"><img
               src="./assets/images/Reporticons/examdashboard.png" alt=" "></a>
@@ -165,14 +165,14 @@
           <div class="col-sm" style="margin-top:9px;margin-left:-6px;">
             <h6 class="content">In-depth exam report of students.</h6>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
 
 
   </div>
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  <div class="leads-menu-section-container" *ngIf="!facultyAccount && !schoolModel && jsonEstoreFlags.isEstoreMenu">
     <div class="leads-menu-item pleads-menu-item">
       <div class="menu-title">
         <!--  <img src="./assets/images/leads/data-setup.svg" alt="data setup">-->
@@ -234,7 +234,7 @@
   </div>
   </div>
 
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  <!-- <div class="leads-menu-section-container" *ngIf="!facultyAccount">
     <div class="leads-menu-item mleads-menu-item">
       <div class="menu-title">
         <img src="./assets/images/Reporticons/mh.png" alt="">
@@ -268,6 +268,6 @@
 
 
 
-  </div>
+  </div> -->
 
 </section>

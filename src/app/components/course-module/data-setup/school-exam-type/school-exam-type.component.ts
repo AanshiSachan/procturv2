@@ -70,13 +70,13 @@ export class SchoolExamTypeComponent implements OnInit {
         sorting: false,
         visibility: true
       },
-      {
-        primary_key: 'is_active',
-        value: "Active",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'is_active',
+      //   value: "Active",
+      //   charactLimit: 25,
+      //   sorting: false,
+      //   visibility: true
+      // },
       {
         primary_key: 'date',
         value: "Date",
@@ -107,19 +107,19 @@ export class SchoolExamTypeComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "20%",
-        textAlign: "left"
-      },
-      {
         width: "25%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "30%",
         textAlign: "left"
       },
+      // {
+      //   width: "20%",
+      //   textAlign: "left"
+      // },
       {
-        width: "20%",
+        width: "25%",
         textAlign: "left"
       },
       {

@@ -284,7 +284,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       $('.sidebar-wrapper').css('width','14%');
       $('.dropdown'). mouseover(
        function(){
-           $('.sidebar-wrapper').css('width','27.5%');
+           $('.sidebar-wrapper').css('width','26.5%');
        }). mouseleave(
        function(){
            $('.sidebar-wrapper').css('width','14%');

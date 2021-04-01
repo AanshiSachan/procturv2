@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { AppComponent } from '../../../../../app.component';
-import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
+import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { TeacherAPIService } from '../../../../services/teacherService/teacherApi.service';
 @Component({
   selector: 'app-teacher-list',
   templateUrl: './teacher-list.component.html',

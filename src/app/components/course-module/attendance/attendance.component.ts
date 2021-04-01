@@ -331,6 +331,7 @@ export class AttendanceComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       (res: any) => {
+        this.courseLevelSchedule = [];
         this.auth.hideLoader();
         let dataArray: any = [];
         res.map(ele => {

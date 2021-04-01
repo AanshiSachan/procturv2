@@ -305,11 +305,12 @@ export class CourseAddComponent implements OnInit {
       this.auth.showLoader();
       this.apiService.saveCourseDetails(dataToSend).subscribe(
         res => {
+          let msg_text = this.schoolModel ? 'Section created successfully' : 'Course created successfully';
           this.auth.hideLoader();
           let msg = {
             type: "success",
             title: "",
-            body: this.schoolModel ? 'Section' : 'Course' + " created successfully"
+            body: msg_text
           }
           this.toastCtrl.popToast(msg);
           this.route.navigateByUrl('/view/course/create/courselist');

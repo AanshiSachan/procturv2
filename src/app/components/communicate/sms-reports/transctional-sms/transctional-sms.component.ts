@@ -307,9 +307,9 @@ export class TransctionalSmsComponent implements OnInit {
           ele.message,
           ele.sentDateTime,
           ele.role,
-          ele.sms_type,
           ele.func_type,
-          ele.sentStatus,
+          // ele.func_type,
+          // ele.sentStatus,
         ]
         arr.push(json);
       })

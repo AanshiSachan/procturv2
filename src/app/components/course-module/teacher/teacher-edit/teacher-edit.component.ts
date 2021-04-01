@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { HttpService } from '../../../../../services/http.service';
-import { AuthenticatorService, CommonServiceFactory } from '../../../../..';
-import { AppComponent } from '../../../../../app.component';
-import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
-import { ProductService } from '../../../../../services/products.service';
+import { HttpService } from '../../../../services/http.service';
+import { AuthenticatorService, CommonServiceFactory } from '../../../..';
+import { AppComponent } from '../../../../app.component';
+import { TeacherAPIService } from '../../../../services/teacherService/teacherApi.service';
+import { ProductService } from '../../../../services/products.service';
 @Component({
   selector: 'app-teacher-edit',
   templateUrl: './teacher-edit.component.html',
@@ -543,7 +543,7 @@ export class TeacherEditComponent implements OnInit {
       data => {
         this.auth.hideLoader();
         this.messageToast('success', '', 'Faculty added successfully.');
-        this.route.navigateByUrl('/view/course/setup/teacher');
+        this.route.navigateByUrl('/view/course/teacher');
       },
       err => {
         this.auth.hideLoader();
@@ -624,7 +624,7 @@ export class TeacherEditComponent implements OnInit {
         if (sessionStorage.getItem('userType') == '3') {
           this.route.navigateByUrl('/view/dashboard/admin');
         } else {
-          this.route.navigateByUrl('/view/course/setup/teacher');
+          this.route.navigateByUrl('/view/course/teacher');
         }
       },
       err => {

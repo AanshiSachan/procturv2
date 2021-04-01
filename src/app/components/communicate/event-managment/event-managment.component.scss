@@ -10,7 +10,7 @@
 }
 
 .row {
-    margin-top: 10px;
+    // margin-top: 10px;
     margin-left: 0px;
     margin-right: 0px;
 }
@@ -19,6 +19,7 @@
     background: transparent;
     margin: 2px 0px;
     width: 85% !important;
+    margin-bottom: 15px;
     .btn {
         margin-top: 10px;
         width: 30%;
@@ -43,7 +44,7 @@
         margin-left: 22px;
         height: 30px;
         padding: 4px 5px;
-        font-weight: 600;
+        // font-weight: 600;
         font-size: 14px;
         color: black;
         &.bsDatepicker {

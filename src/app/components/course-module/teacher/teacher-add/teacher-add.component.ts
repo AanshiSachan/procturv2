@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { TeacherAPIService } from '../../../../../services/teacherService/teacherApi.service';
+import { TeacherAPIService } from '../../../../services/teacherService/teacherApi.service';
 import { Router } from '@angular/router';
-import { AppComponent } from '../../../../../app.component';
+import { AppComponent } from '../../../../app.component';
 @Component({
   selector: 'app-teacher-add',
   templateUrl: './teacher-add.component.html',

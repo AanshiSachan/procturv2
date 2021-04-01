@@ -12,7 +12,7 @@
                   <span class="right">
                     <input type="text" name="" placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()"
                       class="input magnifying-glass">
-                    <a routerLink='/view/course/setup/teacher/add'><button class="search">Add Faculty</button></a>
+                    <a routerLink='/view/course/teacher/add'><button class="search">Add Faculty</button></a>
 
                   </span>
                 </div>
@@ -50,7 +50,7 @@
                       </tr>
                   </thead>
                   <!-- <div  *ngIf="teacherList.length != 0 "> -->  
-                  <tbody style="min-height: 45vh;max-height: 45vh;">
+                  <tbody style="min-height: 65vh;max-height: 65vh;">
                     <tr style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
                       <!-- <td>
                         {{i+1}}
@@ -80,7 +80,7 @@
                       </td>
                       <td>
                         <span class="right pr-40">
-                          <a [routerLink]="['/view/course/setup/teacher/edit',  row.teacher_id]"
+                          <a [routerLink]="['/view/course/teacher/edit',  row.teacher_id]"
                               style="vertical-align: middle;cursor: pointer;">
                               <img src="../../../../assets/images/EDit.png">
                           </a>

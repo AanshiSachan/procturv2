@@ -74,7 +74,6 @@ export class ScheduleListComponent implements OnInit {
     let url = "/api/v1/coursePlanner/category?type=exam";
     this._httpService.postData(url, obj).subscribe(
       res => {
-        console.log(res)
         this.auth.hideLoader();
         this.allData = res;
         if (this.allData.length == 0) {
@@ -82,8 +81,11 @@ export class ScheduleListComponent implements OnInit {
         }
       },
       err => {
+        this.allData = [];
         this.auth.hideLoader();
-        this.messageService.showErrorMessage('error', '', err.error.message);
+        if(this.isFilterSelected) {
+          this.messageService.showErrorMessage('error', '', err.error.message);
+        }
       }
     );
   }
