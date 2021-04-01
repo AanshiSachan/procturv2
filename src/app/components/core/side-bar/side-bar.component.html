@@ -560,7 +560,7 @@
                         </a> -->
                         </div>
                      </div>
-                    
+  
                   </li>
     
                   <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}" [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
@@ -667,7 +667,34 @@
                      </div>
                     
                   </li>
-    
+<!-- ===========================asha-work============================ -->
+
+                  <li class="dropdown">
+                    <div>
+
+                <a routerLink ="/view/leave" class="dropbtn"></a>
+                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
+
+            <p >Leave</p><i class="fa fa-angle-right"></i>
+            <div class="dropdown-content">
+
+            <a routerLink="/view/leave/leave-application">
+                <span>Leave Application</span>
+        </a>
+        <a routerLink="/view/leave/leave-category">
+            <span>Leave Category</span>
+    </a>
+
+    <a routerLink="/view/leave/leave-permission">
+        <span>Leave Permission</span>
+</a>
+        </div>
+    </div>
+
+        </li>
+<!-- ===============================work-end=============================== -->
+
+
                   <li [ngClass]= "activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
                     <a routerLink="/view/reports/list">
                         <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">

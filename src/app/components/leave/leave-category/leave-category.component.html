@@ -1,0 +1,128 @@
+
+ <div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Leave Category</p>
+        </div>
+        <div>
+          <a href="" class="mr10"><img src="../../../assets/img1/email.svg" title="Send Report to email"></a>
+          <a href="" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+          <a href="" class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+        </div>
+      </div>
+    </div>
+    <div class="w98">
+        <div class="pt15">
+          <input type="text" class="input wid240 mr10" name="" placeholder="Category Name *">
+            <button class="blue_button">Add Category</button>
+        </div>
+        <div class="leave_cat">
+            <div class="table_heading">
+              <div>
+               #
+              </div>
+             
+              <div>Category Name </div>
+              <div></div>
+              <div></div>
+              <div>Actions</div>
+            </div>
+            <div class="table_body">
+              <div>
+                1
+              </div>
+              <div>
+                Sick Leave
+              </div>
+             <div></div>
+             <div></div>
+              <div>
+                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
+                <a href="" data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+              </div>
+            </div>
+         </div>
+    </div>
+        
+          <!-- use image only when page is empty,table body class element will not be present -->
+    
+    <div class="white bottom_button bottom_pagignation">
+        <div class="w98">
+      <!-- pagignation div -->
+            <div class=" flex">
+                <div class="w20">
+                <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
+                </div>
+                <div class="w10">
+                <p>Total <span>9</span> Pages</p>
+                </div>
+                <div class="w40">
+                <p>Records per Page  
+                    <select>
+                    <option>9</option>
+                    </select>
+                </p>
+                </div>
+                <div class="w30" >
+                <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Add Leave Category</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="pt10">
+            <input type="text" class="input wid100 mr10" name="" placeholder="Category ID *">
+          </div>
+          <div class="pt10">
+            <input type="text" class="input wid100 mr10" name="" placeholder="Category Name *">
+          </div>
+          <div class="pt10 h10">
+            <button class="blue_button right">Add</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+ <div class="modal" id="editModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Edit Leave Category</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="pt10">
+            <input type="text" class="input wid100 mr10" name="" placeholder="Category Name *">
+          </div>
+          <div class="pt10 h10">
+            <button class="blue_button right">Edit</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div> 
+  <div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Delete Leave Category: Name of category</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="pt10 h10">
+            <button class="white_button">Cancel</button>
+            <button class="blue_button right">Delete</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div> 
