@@ -75,10 +75,10 @@
     <div style="margin-right: 4%;">
 
         <!-- DataSetup-->
+        <a href="https://desk.zoho.com/portal/procturapp/en/home" style="color: white;" target="_blank">
         <button class="btn helpIcon">
-          <a href="https://tawk.to/proctur" style="color: white;" target="_blank">
-            <i class="fa fa-question-circle"></i> Help</a> 
-            <!-- <img src="./assets/images/datasetup.png" title="Data Setup" alt="" --></button>
+            <i class="fa fa-question-circle"></i> Help
+            <!-- <img src="./assets/images/datasetup.png" title="Data Setup" alt="" --></button></a>
 
         <!-- Quick Add -->
         <a mat-button> <img src="./assets/images/sidebar/newQuickAdd.svg" title="Quick Add" alt=""
@@ -153,6 +153,9 @@
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="account">
                     <div style="border-bottom: 1px solid lightgrey;">
+                        <div class="accHead">
+                            MY ACCOUNT (ID- {{globalSearchForm.instituteId}})
+                        </div>
                         <div class="row">
                             <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
                                 <div class="row">
@@ -196,9 +199,6 @@
                         </div>
                     </div>
                     <div style="border-bottom: 1px solid lightgrey;">
-                        <!-- <div class="accHead">
-                            MY ACCOUNT (ID- {{globalSearchForm.instituteId}})
-                        </div> -->
                         <div class="side-section-item" *ngIf="hideForUsers()">
                             <span class="dropSize" (click)="routerLink('/view/account','account')">
                                 My
@@ -610,7 +610,7 @@
     
                   <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}" [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
                     <div *ngIf="jsonCommunicateFlags.communicateMenu">
-                        <a routerLink="/view/communicate" class="dropbtn">
+                        <a class="dropbtn">
                             <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidebar_images/communicate.svg'" alt="">
                     <p >Communicate</p><i class="fa fa-angle-right"></i>
       
@@ -635,7 +635,7 @@
     
                   <li class="dropdown" [ngStyle]="{display: (jsonEstoreFlags.isEstoreMenu && !schoolModel) ? 'block' : 'none'}"  [ngClass]="activeSession === 'lieight' ?'liActiveBG':''" (click)="toggler('lieight')">
                     <div *ngIf="jsonEstoreFlags.isEstoreMenu && !schoolModel">
-                        <a routerLink="/view/e-store/home" class="dropbtn">
+                        <a class="dropbtn">
                             <img  [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidebar_images/estore.svg'" alt="">
                     <p >Store</p><i class="fa fa-angle-right"></i>
       
@@ -683,7 +683,7 @@
                   
                   <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowExpense ? 'block' : 'none'}"  [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
                     <div *ngIf="jsonFlags.isShowExpense">
-                        <a routerLink="/view/expense" class="dropbtn">
+                        <a class="dropbtn">
                             <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'" alt="">
                     <p>Income/ Expenses</p><i class="fa fa-angle-right"></i>
       

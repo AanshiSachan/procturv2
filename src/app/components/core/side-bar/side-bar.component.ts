@@ -281,13 +281,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
     $(document).ready(function() {
-      $('.sidebar-wrapper').css('width','13%');
+      $('.sidebar-wrapper').css('width','14%');
       $('.dropdown'). mouseover(
        function(){
            $('.sidebar-wrapper').css('width','26.5%');
        }). mouseleave(
        function(){
-           $('.sidebar-wrapper').css('width','13%');
+           $('.sidebar-wrapper').css('width','14%');
        });
    });
   }
