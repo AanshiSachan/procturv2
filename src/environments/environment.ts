@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-//serverUrl: 'http://localhost:8080/SMSWebAPI',
-serverUrl: 'https://test999.proctur.com/StdMgmtWebAPI',
+serverUrl: 'http://localhost:8080/SMSWebAPI',
+//serverUrl: 'https://test999.proctur.com/StdMgmtWebAPI',
 
 };

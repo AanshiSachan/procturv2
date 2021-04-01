@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import * as moment from 'moment';
 declare var $;
 
 @Component({
@@ -403,9 +404,9 @@ export class FeeAssignmentComponent implements OnInit {
       }
       let obj = {
         template_data_id: data.schedule_id,
-        installment_date: data.installment_date,
-        //date_type: data.day_type,
-        //days: data.days
+        installment_date: moment(data.installment_date).format("YYYY-MM-DD"),
+        date_type: data.day_type,
+        days: data.days
 
       }
       this.feeInstmentArr.push(obj);
