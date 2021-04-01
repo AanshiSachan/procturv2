@@ -114,6 +114,7 @@ export class FeeStructureHomeComponent implements OnInit {
   totalTax: number = 0;
   currencySymbol: string = "Rs ";
   isTemplateLinkWithCourseAndStandard: boolean = false;
+  is_default:boolean=false;
   constructor(
     private router: Router,
     private fetchService: FeeStrucService,
@@ -179,6 +180,7 @@ export class FeeStructureHomeComponent implements OnInit {
 
   editFee(fee) {
     this.templateName = fee.template_name;
+    this.is_default=fee.is_default==1;
     this.selectedTemplate = fee;
     this.feeStructure = [];
     this.isEditFee = true;
@@ -260,12 +262,8 @@ export class FeeStructureHomeComponent implements OnInit {
 
   updateFeeStructure() {
     if (this.validateFeeInstallments()) {
-      let set_is_default = '0';
-      if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
-        set_is_default = '1';
-      }
       let data: any = {
-        is_default: set_is_default,
+        is_default: this.is_default?1:0,
         country_id: this.selectedTemplate.country_id,
         customFeeSchedules: this.feeInstalllmentArr,
         studentwise_total_fees_amount: this.totalFeeAmount.toString(),
