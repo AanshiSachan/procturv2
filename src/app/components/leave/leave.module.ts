@@ -6,13 +6,22 @@ import { LeaveApplicationComponent } from './leave-application/leave-application
 import { LeaveCategoryComponent } from './leave-category/leave-category.component';
 import { LeavePermissionComponent } from './leave-permission/leave-permission.component';
 import { LeaveComponent } from './leave/leave.component';
+import { FormsModule } from '@angular/forms';
+import { ExportToPdfService } from '../../services/export-to-pdf.service';
+// import { ExcelService } from '../../services/excel.service';
+
+
 
 
 @NgModule({
   declarations: [LeaveApplicationComponent, LeaveCategoryComponent, LeavePermissionComponent, LeaveComponent],
   imports: [
     CommonModule,
-    LeaveRoutingModule
-  ]
+    LeaveRoutingModule,
+    FormsModule
+  ],
+  providers: [
+    ExportToPdfService
+  ],
 })
 export class LeaveModule { }

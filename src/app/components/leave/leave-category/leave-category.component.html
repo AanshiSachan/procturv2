@@ -6,16 +6,16 @@
           <p>Leave Category</p>
         </div>
         <div>
-          <a href="" class="mr10"><img src="../../../assets/img1/email.svg" title="Send Report to email"></a>
-          <a href="" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-          <a href="" class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a>
+          <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
         </div>
       </div>
     </div>
     <div class="w98">
         <div class="pt15">
-          <input type="text" class="input wid240 mr10" name="" placeholder="Category Name *">
-            <button class="blue_button">Add Category</button>
+          <input type="text" class="input wid240 mr10" [(ngModel)]="leaveSearchInput" name="leaveSearchInput" (keyup)="searchInput(search)" placeholder="Category Name *" #search>
+            <button class="blue_button"  data-toggle="modal" data-target="#addModal">Add Category</button>
         </div>
         <div class="leave_cat">
             <div class="table_heading">
@@ -28,18 +28,18 @@
               <div></div>
               <div>Actions</div>
             </div>
-            <div class="table_body">
+            <div class="table_body" *ngFor="let item of leaveTypeList">
               <div>
-                1
+                {{item.id}}
               </div>
               <div>
-                Sick Leave
+                {{item.name}}
               </div>
              <div></div>
              <div></div>
               <div>
-                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-                <a href="" data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                <a href="" class="mr10" data-toggle="modal" data-target="#editModal" (click)="editLeave(item)"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+                <a href="" data-toggle="modal" data-target="#deleteModal" (click)="deletLeavebyId(item)"><img src="../../../assets/img/delete.svg" title="Delete" class="group18" ></a>
               </div>
             </div>
          </div>
@@ -50,7 +50,7 @@
     <div class="white bottom_button bottom_pagignation">
         <div class="w98">
       <!-- pagignation div -->
-            <div class=" flex">
+            <!-- <div class=" flex">
                 <div class="w20">
                 <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="w30" >
                 <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -80,13 +80,13 @@
         </div>
         <div class="modal-body">
           <div class="pt10">
-            <input type="text" class="input wid100 mr10" name="" placeholder="Category ID *">
+            <input type="text" class="input wid100 mr10" name="id" id="id"  [(ngModel)]="leaveType.id" placeholder="Category ID *">
           </div>
           <div class="pt10">
-            <input type="text" class="input wid100 mr10" name="" placeholder="Category Name *">
+            <input type="text" class="input wid100 mr10" name="name" id="name" [(ngModel)]="leaveType.name" placeholder="Category Name *">
           </div>
           <div class="pt10 h10">
-            <button class="blue_button right">Add</button>
+            <button class="blue_button right" (click)="createLeaveType()">Add</button>
           </div>
         </div>        
       </div>
@@ -101,10 +101,10 @@
         </div>
         <div class="modal-body">
           <div class="pt10">
-            <input type="text" class="input wid100 mr10" name="" placeholder="Category Name *">
+            <input type="text" class="input wid100 mr10" name="name" [(ngModel)]="leaveType.name" placeholder="Category Name *">
           </div>
           <div class="pt10 h10">
-            <button class="blue_button right">Edit</button>
+            <button class="blue_button right" (click)="editLeaveType()">Edit</button>
           </div>
         </div>        
       </div>
@@ -114,15 +114,18 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" >Delete Leave Category: Name of category</h4>
+          <h4 class="modal-title">Delete Leave Category:{{leaveType.name}}</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
           <div class="pt10 h10">
             <button class="white_button">Cancel</button>
-            <button class="blue_button right">Delete</button>
+            <button class="blue_button right" (click)="deleteLeave()">Delete</button>
           </div>
         </div>        
       </div>
     </div>
   </div> 
+  <div class="no-records" *ngIf="leaveTypeList.length  == 0">
+    <span>No Records Found</span>
+  </div>
