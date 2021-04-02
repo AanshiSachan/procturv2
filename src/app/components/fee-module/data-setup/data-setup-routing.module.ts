@@ -2,20 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DataSetupComponent, DiscountReasonComponent, MenuComponent, FeeTypesComponent} from '.';
 import { AuthGuard } from '../../../guards/auth.guard';
+import { FeeTemplateV2Component } from './fee-template-v2/fee-template-v2.component';
+import { FeeTypesV2Component } from './fee-types-v2/fee-types-v2.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: DataSetupComponent,
-    pathMatch: 'prefix',
-    children: [
-      {
         path: '',
         component: DataSetupComponent,
         children:[
           {
             path:'',
-            component:MenuComponent
+            component:FeeTypesV2Component
           },
           {
             path: 'fee-template',
@@ -29,12 +26,18 @@ const routes: Routes = [
           },
           {
             path: 'fee-type',
+            component: FeeTypesV2Component
+          },{
+            path: 'fee-type-v2',
             component: FeeTypesComponent
-          }
+          },
+          {
+            path: 'fee-structure',
+            loadChildren: () => import('app/components/fee-module/data-setup/fee-structure/fee-structure.module').then(m => m.FeeStructureModule),
+            canLoad: [AuthGuard]
+          },
         ]
       }
-    ]
-  }
 ];
 
 @NgModule({

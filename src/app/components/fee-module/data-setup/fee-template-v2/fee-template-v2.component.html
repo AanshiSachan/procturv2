@@ -1,0 +1,144 @@
+<div class="page-content">
+    <div class="w98">
+        <div class="tab-content">
+            <div id="structure">
+                <div class="padding1">
+                    <input type="text" class="input magnifying-glass mr10" name="" placeholder="Search">
+                    <a routerLink='/view/fee/data-setup/fee-structure/add'> <button class="blue_button right">New Structure</button></a>
+                </div>
+                <div class="school">
+                    <div class="table_heading">
+                        <div>Template Name</div>
+                        <div>Master Course</div>
+                        <div>Course</div>
+                        <div class="flex">
+                            <div class="right wid50"><span class="right">Total Fees</span></div>
+                            <div class="light wid50"></div>
+                        </div>
+                        <div>Students Assigned</div>
+                        <div>Action</div>
+                    </div>
+                    <div *ngFor="let data of tabkeList">
+                        <div class="table_body">
+                            <div>{{data.template_name}}</div>
+                            <div> {{data.master_course_standard_name}}</div>
+                            <div> {{data.course_subject_name}}</div>
+                            <div>{{data.country_name}}</div>
+                            <div class="flex">
+                                <div class="right wid50"><span class="right">Rs 258000</span></div>
+                                <div class="light wid50"><span class="left"></span></div>
+                            </div>
+                            <div><a (click)="studentsAssigned(fee)" class="students_assigned" data-toggle="modal"
+                                    data-target="#myModal">{{data.totalAssignedStudent}}</a></div>
+                            <div>
+                                <a class="mr10"><img src="../../../../../assets/images/icon7.svg" title="View"
+                                        class="size22"></a>
+                                <a class="mr10"><img src="../../../../../assets/images/EDit.png" (click)="editFee(data)"
+                                        title="Edit" class="size22"></a>
+                                <a><img src="../../../../../assets/images/Group321.svg" (click)="deleteFeeStructure(data)"
+                                        title="Delete" class="size22"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="discount" class="tab-pane">
+                <div class="padding1">
+                    <input type="" class="input w450 mr10" name="" placeholder="Add Discount Reason">
+                    <button class="blue_button">Add</button>
+                </div>
+                <div class="discount">
+                    <div class="table_heading">
+                        <div>Reason</div>
+                        <div></div>
+                        <div></div>
+                        <div>Created Date</div>
+                        <div>Action</div>
+                    </div>
+                    <div class="table_body">
+                        <div>Non-creamy layer criteria.</div>
+                        <div></div>
+                        <div></div>
+                        <div>21-09-2020</div>
+                        <div>
+                            <a data-toggle="modal" data-target="#discountModal">
+                                <img src="../../../assets/img/Edit.svg" title="Edit" class="size22">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w98">
+        <!-- pagignation div -->
+        <div class="bottom_pagignation flex w98">
+            <div class="w20">
+                <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
+            </div>
+            <div class="w10">
+                <p>Total <span>9</span> Pages</p>
+            </div>
+            <div class="w40">
+                <p>Records per Page
+                    <select>
+                        <option>9</option>
+                    </select>
+                </p>
+            </div>
+            <div class="w30">
+                <span>
+                    <p>Previous <a><span class="active_circle number">1</span></a> <a><span class="number">2</span></a>
+                        <a><span class="number">3</span></a> <a><span class="next">Next</span></a>
+                    </p>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Students Assigned</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="student">
+                    <div class="table_heading">
+                        <div>Student Id</div>
+                        <div>Student Name</div>
+                    </div>
+                    <div class="table_body">
+                        <div>PCR2092</div>
+                        <div>Ashish</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="discountModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Discount Reason</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea placeholder="Reason" class="input"></textarea>
+                <div class="padding1">
+                    <span class="right">
+                        <button class="white_button mr10">
+                            Cancel
+                        </button>
+                        <button class="blue_button ">
+                            Save
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

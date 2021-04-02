@@ -12,8 +12,9 @@
     color: white;
     padding: 9px 20px;
     font-size: 12px;
-    border: none;
     height: 35px;
+    line-height: 17px;
+    border: none;
     border-radius: 5px;
     font-weight: 500;
     cursor: pointer;
@@ -26,14 +27,15 @@
     font-size: 13px;
     font-weight: 500;
     color: #787A7D;
-     -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:210px center;
+     
+    background-position:200px center;
+  }
+  .select2{
+    color:#8e8f90;
+    line-height: 20px;
   }
   .input{
-    padding: 7px 10px;
+    padding: 7px 20px;
     font-size: 13px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -80,18 +82,17 @@
     margin: 10px 0px;
     display: flex;
     border-radius: 5px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   }
-  .fee_types .table_heading>div{
-    width: calc(100%  / 3);
-  }
+  
   .table_heading>div{
     
     text-align: center;
     font-weight: 600;
     font-size: 12px;
     color: #323C47;
-   line-height: 40px;
+    line-height: 40px;
+  
   }
   
   .table_body{
@@ -99,30 +100,32 @@
     margin-bottom: 10px;
     display: flex;
     border-radius: 5px;
-    line-height: 35px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   }
   .table_body>div{
+    
     text-align: center;
     font-weight: 500;
     font-size: 13px;
     color: #807C7C;
-   /* padding: 5px 0px;*/
+      line-height: 40px;
+  /*  padding: 5px 0px;*/
      margin: auto;
-     line-height: 40px;
   
   }
-  .fee_types .table_body>div{
-    width: calc(100% / 3);
+  .fee_asign .table_heading>div{
+    width: calc((100%  - 50px) / 3);
+  }
+  .fee_asign .table_body>div{
+    width: calc((100% - 50px) / 3);
   }
   
-  .discount .table_heading>div{
-    width: calc(100% / 5);
+  .fee_asign .table_heading>div:first-child{
+    width: 50px;
   }
-  .discount .table_body>div{
-    width: calc(100% / 5);
+  .fee_asign .table_body>div:first-child{
+    width: 50px;
   }
-  
   .bottom_pagignation{
     padding-top: 10px;
     background-color: #fff;
@@ -165,7 +168,7 @@
   margin:0px 4px;
   }
   .active_circle{
-   // background-color: 
+    // background-color: 
   font-weight: 500;
     font-size: 13px;
   line-height: 20px;
@@ -184,30 +187,29 @@
   
   }
   .w450{
-    width: 345px;
+    width: 450px;
   }
   .modal-title{
     color: #2B2626;
     font-weight: 600;
     font-size: 13px;
-    font-family: 'Open Sans', sans-serif;
-    margin-bottom: 0px;
   }
   .white_button {
     background-color: #fff;
     color: #109CF1;
     padding: 8px 20px;
-    height: 35px;
     font-size: 12px;
     border: 1px solid #109CF1;
     border-radius: 5px;
+    height: 35px;
+    line-height: 17px;
     font-weight: 500;
   }
   .w100{
    width: 100%;
   }
   .modal textarea{
-    height: 100px;
+    height: 200px;
     width: 100%;
   }
   .feestruc .table_heading>div{
@@ -220,13 +222,13 @@
     margin-right: 10px;
   }
   .magnifying-glass{
-    background-image: url(../../../../../assets/images/fee/Vector.png);
+    background-image: url('../../../../assets/images/Vector.png');
     background-repeat: no-repeat;
     background-position:left center;
-    text-indent: 15px;
   }
   .padding1{
      margin-top: 20px;
+     margin-bottom: 15px;
   }
   .text{
     color: #8A8B8B;
@@ -264,48 +266,17 @@
     width: calc(100% / 5);
   }
   .fee_new .table_heading>div{
-    width: calc((100% - 380px) / 5);
+    width: calc(100% / 8);
   }
   .fee_new .table_body>div{
-    width: calc((100% - 380px) / 5);
+    width: calc(100% / 8);
      padding: 0px 0px;
     margin: 0px; 
     margin-bottom: 10px;
   }
-  .fee_new .table_heading>div:nth-child(2){
-    width: 330px ;
-  }
-  .fee_new .table_body>div:nth-child(2){
-    width: 330px;
-  }
-  .fee_new .table_heading>div:first-child{
-    width: 50px ;
-  }
-  .fee_new .table_body>div:first-child{
-    width: 50px;
-  }
   .wid80{
-    width: 70%;
+    width: 80%;
     margin: auto;
-  }
-  .rrs::-webkit-input-placeholder { text-align:right; }
-  .select1{
-    color:#8e8f90;
-        -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:200px center;
-    line-height: 20px;
-  }
-  .select2{
-    color:#8e8f90;
-        -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:82px center;
-    line-height: 20px;
   }
   .img{
     width: 100%;
@@ -314,9 +285,64 @@
   .wid240{
     width: 240px;
   }
+  .wid140{
+    width: 160px;
+  
+  }
+  
+  .img__wrap {
+    position: relative;
+    height: 200px;
+    width: 257px;
+  }
+  
+  .img__description {
+    position: absolute;
+    top: 20px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    background-color: #fff;
+    padding: 5px;
+    transition: opacity .2s, visibility .2s;
+  }
+  
+  .img__wrap:hover .img__description {
+    visibility: visible;
+    opacity: 1;
+  }
+  .fee_asign{
+    margin-bottom: 135px;
+  }
+  .assignfee{
+    width: 100%;
+    position: fixed;
+    bottom: 47px;
+    z-index: 100;
+    height: 65px;
+    background-color: #fff;
+  }
+  .assignfee>button{
+  position: fixed;
+  right: 15px;
+  bottom: 60px;
+  }
+  #myModal .modal-dialog{
+  width: 700px !important;
+  }
+  @media (min-width: 576px){
+  .modal-dialog {
+       max-width: 700px;
+     }
+   }
+  .wid240{
+    width: 240px;
+  }
   .green_top{
     padding: 5px 32px;
-    background: linear-gradient(92.13deg, #19bb3c 71.19%, #90d73e 103.74%);
+     background: linear-gradient(92.13deg, #19bb3c 71.19%, #90d73e 103.74%);
     border-radius: 5px;
     text-align: center;
     font-weight: 600;
@@ -330,146 +356,117 @@
    padding-left: 10px;
   }
   .itax{
-    padding-top: 8px;
+    padding-top: 4px;
   
     font-weight: normal;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 14px;
-    text-align: right;
+    text-align: center;
     letter-spacing: 0.01em;
     color: #323C47;
-  
   }
   .relative{
     position: relative;
   }
   .installments{
     font-weight: 600;
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 16px;
+    line-height: 24px;
     letter-spacing: 0.01em;
     color: #109CF1;
   }
-  .info{
-    padding: 0px 4px;
-    color: #109CF1;
+  .selected{
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 18px;
+      letter-spacing: 0.01em;
+      color: #787A7D;
   }
-  .save{
-    width: 100%;
-    position: fixed;
-    bottom: 47px;
-    z-index: 100;
-    height: 65px;
-    background-color: #fff;
+  #myModal .modal-content .fee_asign.table_heading>div{
+    width: calc(100% / 6);
   }
-  .save>button{
-  position: fixed;
-  right: 15px;
-  bottom: 60px;
+  #myModal .modal-content .fee_asign.table_body>div{
+    width: calc(100% / 6);
   }
-  .fee_new{
-  margin-bottom: 140px;
-  }
-  // .page_heading{
-    
-  // }
-  .page_heading>p{
-    color: #334D6E;
-    font-weight: 600;
-    font-size: 14px;
+  #myModal .modal-content .fee_asign{
     margin-bottom: 0px;
   }
-  .pageheadingspace{
-    margin-bottom: 7px;
+  /*checkbox*/
+     .checkbox {
+      display: inline-flex;
+      font-size: 2rem;
+      margin-bottom: 0rem;
+  }
+  .checkbox__input input {
+      opacity: 0;
+      width: 0em;
+      height: 0em;
+    }
+  .checkbox__control {
+    display: inline-grid;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 0.1em;
+  border: 1px solid #BBB2B2;
+      margin-top: -12px;
+  }
+  .checkbox__input {
+    display: grid;
+    grid-template-areas: "checkbox";
+  }
+  .checkbox__control svg {
+      color:  #119CF1;
+    transition: transform 0.1s ease-in 25ms;
+    transform: scale(0);
+    transform-origin: bottom left;
+  }
+  .checkbox__input input:checked
+   + .checkbox__control svg {
+    transform: scale(1);
+  }
+  .modal-title>span{
+    padding-left: 10px;
   }
   .light{
     font-weight: 500;
     padding-left: 5px;
   }
-  .indent{
-  float: left;
-  padding-left: 3.7rem;
+  .page_heading>p{
+    color: #334D6E;
+    font-weight: 600;
+    font-size: 14px;
   }
+  .page_heading>p{
+    margin-bottom: 0px;
+  }
+  .rrs::-webkit-input-placeholder { text-align:right; }
   .left{
     float: left;
   }
-  .wid50{
-    width: 50%;
+  .pl20{
+    padding-right: 20px;
   }
-  .student .table_heading>div{
-    width: calc(100% / 2);
+  .modal-dialog {
+    margin: 0 auto;
+    top:10%;
+}
+.right{
+    float: right;
+}
+.h50{
+    height: 50px;
+    padding-top: 20px;
+}
+.modal-header:before,.modal-header:after{
+    display:none;
   }
-  .student .table_body>div{
-    width: calc(100% / 2);
+  .modal-title{
+    color: #2B2626;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 0px;
   }
-  .size22{
-    height: auto;
-    width: 18px;
-  }
-  .select3{
-    color:#8e8f90;
-        -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:430px center;
-    line-height: 20px;
-  }
-  .nav>li {
-    display: inline;
-  }
-  .nav-link{
-    display: inline;
-  }
-  .nav-link:hover,.nav-link,.nav-link:focus{
-    background-color:transparent;
-    }
-    
-    .nav-item {
-        .nav-link {
-            font-weight: 600;
-            color: #405877;
-            padding-bottom: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            float: left;
-            background: none;
-        }
-        .active {
-            border-bottom: 3px solid #109cf1 !important;
-            color: #109cf1 !important;
-        }
-      }
-      .modal {
-        width: 100%;
-        height: 100%;
-       
-        justify-content: center;
-        align-items: center;
-       }
-       .right{
-         float: right;
-       }
-   .modal-dialog {
-        margin: 0 auto;
-        top:10%;
-    }
-    .modal-header:before{
-      display:none;
-    }
-    // .modal-header{
-    //   padding-bottom: 0px;
-    // }
-    #feetypesModal .modal-content, #discountModal .modal-content{
-      min-height: 300px;
-    }
-    .left{
-      float: left;
-    }
-    .padding2{
-      padding-left: 50px;
-    }
-    .tableHeight{
-      height: 54vh;
-      overflow-y: auto;
-    }
+  .modal-header .close {
+    margin-top: -21px;
+}

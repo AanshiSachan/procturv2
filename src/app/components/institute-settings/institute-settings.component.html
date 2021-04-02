@@ -1895,7 +1895,7 @@
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field xl">
                                     Weedend Setting: Select Days for weekends
-                                    <br>for yearly Schedule, On Weekends class 
+                                    <br>for yearly Schedule, On Weekends class
                                     <br>scheduling can not be done.
                                   </div>
                                 </div>
@@ -1913,10 +1913,11 @@
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field xl">
                                     Section / Day wise Attendance : Day/Section wise
-                                     <br>Attendace will help you to mark attendance 
-                                     <br>Section wise and day wise.
-                                     <br>Subject wise attendance: Select setting this to
-                                    <br> mark attendance Subject wise from the dashboard.                                  </div>
+                                    <br>Attendace will help you to mark attendance
+                                    <br>Section wise and day wise.
+                                    <br>Subject wise attendance: Select setting this to
+                                    <br> mark attendance Subject wise from the dashboard.
+                                  </div>
                                 </div>
                               </label>
                               <select id="mark_attendance_subject_wise" class="form-ctrl"
@@ -2194,24 +2195,25 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="c-lg-5" style="margin-top:15px">
-                          <div class="field-checkbox-wrapper" style="width: 100%">
-                            <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox"
-                              [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis" id="taxPayEnable">
-                            <label for="taxPayEnable">Tax payable on reverse charge basis (For Fee Receipt)
-                              <!-- <div class="questionInfo inline-relative">
-                                  <span class="qInfoIcon i-class">i</span>
-                                  <div class="tooltip-box-field">
-
-                                    Used in Fee
-                                    <br> Receipt Generation
-                                  </div>
-                                </div>-->
-                            </label>
+                        <div class="row m-0 webkitBox">
+                          <div class="c-lg-5" style="margin-top:15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox"
+                                [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis" id="taxPayEnable">
+                              <label for="taxPayEnable">Tax payable on reverse charge basis (For Fee Receipt)
+                              </label>
+                            </div>
+                          </div>
+                            <div class="c-lg-5" style="margin-top:15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox"
+                                [(ngModel)]="instituteSettingDet.is_fee_struct_link_with_cour_or_stand"
+                                id="fee_struct_link_with_cour_or_stand">
+                              <label for="taxPayEnable">Link Fee Structure With Standard/Course
+                              </label>
+                            </div>
                           </div>
                         </div>
-
                       </td>
                     </tr>
                     <tr>

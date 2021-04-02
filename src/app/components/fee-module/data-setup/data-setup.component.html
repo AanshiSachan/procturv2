@@ -1,1 +1,27 @@
-<router-outlet></router-outlet>
+ <div>
+    <div class="w98 p-15">
+        <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb arr-right">
+                <li style="color: #0084f6;" class="breadcrumb-item "><a routerLink="/view/fee">Fees</a></li>
+                <li class="breadcrumb-item "><a>Setup</a></li>
+            </ol>
+        </nav>
+        <ul class="nav main-shadow">
+            <li class="nav-item">
+                <a class="nav-link" (click)="toggle('fee_types')" routerLink="/view/fee/data-setup/fee-type"
+                    [ngClass]="(activeSession == 'fee_types') ? 'active' : ''">Fee Types</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="toggle('structure')" routerLink="/view/fee/data-setup/fee-structure"
+                    [ngClass]="(activeSession == 'structure') ? 'active' : ''">Fee Structure</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="toggle('discount')" routerLink="/view/fee/data-setup/discount-reason"
+                    [ngClass]="(activeSession == 'discount') ? 'active' : ''">Discount Reason</a>
+            </li>
+        </ul>
+    </div>
+    
+    
+  </div> 
+  <router-outlet></router-outlet>

@@ -132,7 +132,6 @@ export class MarkAttendanceComponent implements OnInit {
 
 
   createAttendance() {
-    debugger
     this.makeJSONToUpdate();
     let obj = {
       attendance_date: moment(this.markAttendanceDetail.currentDate).format('YYYY-MM-DD'),

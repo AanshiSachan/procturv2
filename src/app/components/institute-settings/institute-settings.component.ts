@@ -374,6 +374,7 @@ export class InstituteSettingsComponent implements OnInit {
     feedback_email_ids: '',
     vimeo_storage_capacity_threshold: '',
     enable_stud_app_vimeo_offline_downloaded_video_visibility: '',
+    is_fee_struct_link_with_cour_or_stand:'',
     vimeo_video_download_visibility_filemanager: {
       student: '',
       teacher: '',
@@ -615,8 +616,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.absenteeism_report_flag = this.convertBoolenToNumber(this.instituteSettingDet.absenteeism_report_flag);
     obj.pre_enquiry_follow_up_reminder_time = (this.instituteSettingDet.pre_enquiry_follow_up_reminder_time);
     obj.post_enquiry_follow_up_reminder_time = (this.instituteSettingDet.post_enquiry_follow_up_reminder_time);
-
-
+    obj.is_fee_struct_link_with_cour_or_stand = this.instituteSettingDet.is_fee_struct_link_with_cour_or_stand;
     obj.enable_counsellor_number_to_enquirer_in_sms = this.convertBoolenToNumber(this.instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms);
     obj.course_or_batch_expiry_notification = this.convertBoolenToNumber(this.instituteSettingDet.course_or_batch_expiry_notification);
     obj.course_or_batch_expiry_notification_before_no_days = this.instituteSettingDet.course_or_batch_expiry_notification_before_no_days;
@@ -948,6 +948,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.cin = data.cin;
     this.instituteSettingDet.service_code = data.service_code;
     this.instituteSettingDet.tax_payable_on_reverse_charge_basis = data.tax_payable_on_reverse_charge_basis;
+    this.instituteSettingDet.is_fee_struct_link_with_cour_or_stand = data.is_fee_struct_link_with_cour_or_stand;
     this.instituteSettingDet.state_code = data.state_code;
     this.instituteSettingDet.accounting_code = data.accounting_code;
     this.instituteSettingDet.home_work_feature_enable = data.home_work_feature_enable;

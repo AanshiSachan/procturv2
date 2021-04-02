@@ -28,7 +28,7 @@
     color: #787A7D;
      -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
+    background-image: url("../../../../assets/images/fee/arrow-down.svg");
     background-repeat: no-repeat;
     background-position:210px center;
   }
@@ -83,15 +83,15 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   }
   .fee_types .table_heading>div{
-    width: calc(100%  / 3);
+    width: calc(100%  / 4);
   }
   .table_heading>div{
-    
     text-align: center;
     font-weight: 600;
     font-size: 12px;
     color: #323C47;
    line-height: 40px;
+   margin: auto;
   }
   
   .table_body{
@@ -107,13 +107,12 @@
     font-weight: 500;
     font-size: 13px;
     color: #807C7C;
-   /* padding: 5px 0px;*/
      margin: auto;
      line-height: 40px;
   
   }
   .fee_types .table_body>div{
-    width: calc(100% / 3);
+    width: calc(100% / 4);
   }
   
   .discount .table_heading>div{
@@ -220,7 +219,7 @@
     margin-right: 10px;
   }
   .magnifying-glass{
-    background-image: url(../../../../../assets/images/fee/Vector.png);
+   // background-image: url(../../../../assets/images/fee/Vector.png);
     background-repeat: no-repeat;
     background-position:left center;
     text-indent: 15px;
@@ -269,7 +268,7 @@
   .fee_new .table_body>div{
     width: calc((100% - 380px) / 5);
      padding: 0px 0px;
-    margin: 0px; 
+    margin: auto;
     margin-bottom: 10px;
   }
   .fee_new .table_heading>div:nth-child(2){
@@ -293,7 +292,7 @@
     color:#8e8f90;
         -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
+    background-image: url("../../../../assets/images/fee/arrow-down.svg");
     background-repeat: no-repeat;
     background-position:200px center;
     line-height: 20px;
@@ -302,7 +301,7 @@
     color:#8e8f90;
         -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
+    background-image: url("../../../../assets/images/fee/arrow-down.svg");
     background-repeat: no-repeat;
     background-position:82px center;
     line-height: 20px;
@@ -410,7 +409,7 @@
     color:#8e8f90;
         -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("../../../../../assets/images/fee/arrow-down.svg");
+    background-image: url("../../../../assets/images/fee/arrow-down.svg");
     background-repeat: no-repeat;
     background-position:430px center;
     line-height: 20px;

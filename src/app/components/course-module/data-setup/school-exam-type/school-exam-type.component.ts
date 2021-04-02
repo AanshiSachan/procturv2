@@ -210,7 +210,6 @@ export class SchoolExamTypeComponent implements OnInit {
     $('#addExamType').modal('show');
   }
   deleteExamType(obj) {
-    debugger
     if (obj.data.used) {
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', 'Exam Type is already used. So we can not delete it.');
       return;
