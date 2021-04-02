@@ -17,130 +17,109 @@
             <input type="text" class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
           </div>
           <div >
-            <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
-            <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a>
-            <a href="" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-            <a href="" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
-          </div>
-        </div>
-        <div class="supplier_m">
-            <div class="table_heading">
-              <div>
-               Company<span class="space33"><img src="../../../assets/img1/down1a.svg"></span>
-              </div>
-              <div>Supplier Name<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div>
-                Address<span class="space33"><img src="../../../assets/img1/down1a.svg"></span>
-              </div>
-              <div>Email<span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
-              <div>Mobile<span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
-              <div>Category<span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
-              <div>Item <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
-              <div>Actions</div>
+                <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a> -->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a> 
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
             </div>
-            <div class="table_body">
-              <div>
-               Abc
-              </div>
-              <div>
-               Abc
-              </div>
-              <div>
-               Abc
-              </div>
-              <div>
-               Abc@gmail.com
-              </div>
-              <div>
-               1234567890
-              </div>
-              <div>
-                School Bag
-              </div>
-                <div>
-               School Item
-             </div>
-              <div>
-             
-                <a href="" class="mr10"><img src="../../../assets/img1/view.svg" title="View"  ></a>
-                <a href="" class="mr10" data-toggle="modal" data-target="#editsModal"><img src="../../../assets/img1/edit.svg" title="Edit"   ></a>
-                <a href="" class="mr10"  data-toggle="modal" data-target="#deletesModal"><img src="../../../assets/img1/delete.svg" title="Delete" ></a>
-              </div>
-            </div>
-    
         </div>
+        <app-basic-table [headers]="headerSetting" [tableSetting]="tableSetting" [displayData]="staticPageData"
+        [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'
+        (viewView)="viewRow($event)">
+        </app-basic-table>
       </div>
-       <div class="white bottom_button bottom_pagignation">
-            <!-- pagignation div -->
-            <div class=" flex w98">
-            <div class="w20">
-                <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-            </div>
-            <div class="w10">
-                <p>Total <span>9</span> Pages</p>
-            </div>
-            <div class="w40">
-                <p>Records per Page  
-                <select>
-                <option>9</option>
-                </select>
-                </p>
-            </div>
-            <div class="w30" >
-            <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
-            </div>
-            </div>
-        </div>
-          <!-- use image only when page is empty,table body class element will not be present -->
+         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+            </pagination> 
+            <!-- use image only when page is empty,table body class element will not be present -->
 
 </div> 
   <div class="modal" id="add1Modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" >Add Supplier</h4>
+          <h4 class="modal-title" *ngIf="!isedit" >Add Supplier</h4>
+          <h4 class="modal-title" *ngIf="isedit">Update Supplier</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
+          <form #addVendorForm ="ngForm" autocomplete="off">
           <div class="flex">
             <div class="sec1">
+              <div class="pt10"  [class.has-error]="company_name.invalid && company_name.touched">
+                <input type="text" class="input wid100" id="company_name" name="company_name" placeholder="Company*"  [(ngModel)]="model.company_name"
+                #company_name="ngModel" required>
+            </div>
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!company_name.valid && company_name.touched">
+              Company  name is mandatory
+           </span></p>
               <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Company*">
-              </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Email">
-              </div>
-              <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                      Category*
-                    </option>
-                  </select>
-              </div>
+                <input type="text" class="input wid100" id="email_id" name="email_id" placeholder="Email*"  [(ngModel)]="model.email_id"
+                #email_id="ngModel"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" > </div>
+               
+             <p  class="errormsg">
+                       <span class="help-block" *ngIf="email_id.errors?.pattern">This is not a valid email!</span>
+                       </p>
+                  
+                <div class="pt10">
+                  <ng-multiselect-dropdown placeholder="Category *" [(ngModel)]="model.category_id"
+                  [data]="categoryAllData" [settings]="moderatorSettings" name="category_id"
+                  (ngModelChange)="getItemForSelectedCat($event)">
+              </ng-multiselect-dropdown>
+                </div>
+                <p class="errormsg"> <span  style="height:10px;"class="help-block">
+                 
+                 </span></p>
             </div>
             <div class="sec2">
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Supplier Name*">
-              </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Mobile*">
-              </div>
-              <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                      Item*
-                    </option>
-                  </select>
-              </div>
+              <div class="pt10"  [class.has-error]="supplier_name.invalid && supplier_name.touched">
+                <input type="text" class="input wid100" id="supplier_name" name="supplier_name" placeholder="Supplier Name*"  [(ngModel)]="model.supplier_name"
+                #supplier_name="ngModel" required>
+            </div>
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched">
+              Supplier  name is mandatory
+           </span></p>
+           <div class="pt10" [class.has-error]="phone_no.invalid && phone_no.touched" >
+            <input type="text" class="input wid100" id="unit_cost" 
+            name="phone_no" placeholder="Mobile*"  
+            #phone_no="ngModel" 
+            [(ngModel)]="model.phone_no"
+            maxlength="10"
+            minlength="10"
+            onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+            required>
+        </div>
+        <p  class="errormsg"> <span class="help-block" *ngIf="!phone_no.valid && phone_no.touched">
+          Mobile number is mandatory
+      </span>
+     <span class="help-block"  *ngIf="phone_no.errors?.minlength">   Please Enter 10 digit mobile number</span>
+      
+    </p> 
+  
+    <div class="pt10">
+        <ng-multiselect-dropdown placeholder="Item*" [(ngModel)]="model.item_ids"
+        [data]="itemAllData" [settings]="moderatorSettingsforitem" name="item_ids">
+       </ng-multiselect-dropdown>
+      </div>
+      <p class="errormsg"> <span  style="height:10px;" class="help-block">
+       
+       </span></p>
             </div>
           </div>
           <div class="pt10">
-            <input type="text" class="input wid100" name="" placeholder="Address">
+            <input type="text" class="input wid100" name="address" id="address"
+            [(ngModel)]="model.address"  placeholder="Address">
           </div>
           <div class="pt10 display">
            <div></div>
-           <div> <button class="right blue_button">Save</button></div>
+           <div>
+            <button class="right blue_button cancel" data-dismiss="modal" >Cancel</button>
+              <button class="right blue_button" *ngIf="!isedit" (click)="saveSupplierDetails(addVendorForm.value)">Save</button>
+              <button class="right blue_button"  *ngIf="isedit" (click)="updateSupplierDetails(addVendorForm.value)">Update</button></div>
+        
           </div>
+        </form>
         </div>        
       </div>
     </div>
@@ -165,57 +144,6 @@
             <div>
               <button class="blue_button right">Delete</button>
             </div>
-          </div>
-        </div>        
-      </div>
-    </div>
-  </div>
-  <div class="modal" id="editsModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" >Edit Supplier</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="flex">
-            <div class="sec1">
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Company*">
-              </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Email">
-              </div>
-              <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                      Category*
-                    </option>
-                  </select>
-              </div>
-            </div>
-            <div class="sec2">
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Supplier Name*">
-              </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Mobile*">
-              </div>
-              <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                      Item*
-                    </option>
-                  </select>
-              </div>
-            </div>
-          </div>
-          <div class="pt10">
-            <input type="text" class="input wid100" name="" placeholder="Address">
-          </div>
-          <div class="pt10 display">
-           <div></div>
-           <div> <button class="right blue_button">Save</button></div>
           </div>
         </div>        
       </div>

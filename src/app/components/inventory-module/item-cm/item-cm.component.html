@@ -88,14 +88,17 @@
             </div>
             <div class="table_body" *ngFor="let data of pagedItemData">
               <p ></p>
-              <div [ngClass]="{'lowstock':data.available_units <= data.out_of_stock_indicator_units }">
+              <div >
                {{data.item_name}}
               </div>
              <div>
               {{data.category_name}}
              </div>
              <div>  {{data.alloted_units}}</div>
-             <div>{{data.available_units}}</div>
+             <div [ngClass]="{'lowstock':data.available_units <= data.out_of_stock_indicator_units }">
+                {{data.available_units}}            <!--<i  class="fa  fa-warning" data-toggle="tooltip" data-placement="left" title="Purchase Inventory Name, 
+              your current inventory count is going below the set threshold units"></i>  -->
+             </div>
              <div>{{data.unit_cost}}</div>
              <div>{{data.sale_price}}</div>
              <div>{{data.tax_percent}}</div>
@@ -105,11 +108,11 @@
                 <div class="dropdown1">
                     <img src="../../../assets/img1/menu.svg" class="dot3">
                   <div class="dropdown-content1">
-                    <a href="#" data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a>
-                    <a href="#" data-toggle="modal" data-target="#deleteitemModal" (click)="deleteItem(data.item_id)">Delete</a>
-                    <a href="#"  data-toggle="modal" data-target="#subbranchModal">Allocate to Sub-branch</a>
-                    <a href="" data-toggle="modal" data-target="#historyModal" >Allocation History</a>
-                    <a href="" data-toggle="modal" data-target="#manageunitModal">Manage Unit</a>
+                    <a data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a>
+                    <a   (click)="showConfirm(data)">Delete</a>
+                    <a  data-toggle="modal" data-target="#subbranchModal"(click)="allocateToSubBranch(data)">Allocate to Sub-branch</a>
+                    <a   data-toggle="modal" data-target="#historyModal" (click)="getAllocationHistrory(data.item_id)">Allocation History</a>
+                    <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a>
                   </div>
                 </div>
               </div>
@@ -219,15 +222,15 @@
           <div class="center">
             <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
           </div>
-          <!-- <div ><p>Do you want
-           to proceed ?</p>
-          </div> -->
+          <div ><p>
+           This items is still available which are not allocated, do you want to proceed ?</p>
+          </div> 
           <div class="pt101 display">
             <div>
-              <button class="white_button right">Cancel</button>
+              <button class="white_button right"  data-dismiss="modal">Cancel</button>
             </div>
             <div>
-              <button class="blue_button right">Delete</button>
+              <button class="blue_button right" (click)="deleteItem(tempObj)">Proceed</button>
             </div>
           </div>
         </div>        
@@ -243,21 +246,31 @@
         </div>
         <div class="modal-body">
           <div class="pt10">
-            <input type="text" class="input wid100" name="" placeholder="Available Units*">
+            <input type="text" class="input wid100" [(ngModel)]="manageData.available_units" name="available_units" 
+            [disabled]= "true" 
+            placeholder="Available Units*">
           </div>
             <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
+                  <!-- <select class="select wid100" name="units_added" [(ngModel)]="manageData.units_added">
+                    <option value="">
                       Manage Unit*
-                  </select>
+                      </option>
+                      <option value=""></option>
+                  </select> -->
+                  <input type="number" class="input wid100" name="units_added" 
+            [(ngModel)]="manageData.units_added"
+            placeholder="Total Unit Units*" > 
             </div>
           <div class="pt10">
-            <input type="text" class="input wid100" name="" placeholder="Total Unit Units*">
+            <input type="text" class="input wid100" name="alloted_units" 
+            [(ngModel)]="manageData.alloted_units"
+            placeholder="Total Unit Units*"
+            [disabled]="true">
           </div>
         
           <div class="pt10 display">
             <div></div>
-            <div> <button class="right blue_button">Save</button></div>
+            <div> <button class="right blue_button" (click)="updataeManageUnit(manageData.item_id)">Save</button></div>
            </div>
         </div>        
       </div>
@@ -338,9 +351,9 @@
                     {{data.category_name}}</option>
                 </select>
               </div>
-              <p class="errormsg"><!-- <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
+              <p class="errormsg"> <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
                 Category is mandatory
-               </span> --></p>
+               </span></p>
              <div class="pt10">
               <select class="select wid100" name="subject_id" id="subject_id"
               [(ngModel)]="item.subject_id" >
@@ -404,52 +417,102 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
+          <form #allcateForm="ngForm" autocomplete="off">
           <div class="flex">
             <div class="sec1">
               <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Item*">
+                  <input type="text" class="input wid100" name="item_name" [(ngModel)]="allocatedata.item_name" [disabled]="true" placeholder="Item*">
               </div>
-             
-              <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                      Sub-Branch*
+              <p class="errormsg"> <span  style="height:10px;" class="help-block">
+                
+               </span></p>
+              <div class="pt10" [class.has-error]="sub_branch_id.invalid && sub_branch_id.touched">
+                  <select class="select wid100" name="sub_branch_id" 
+                  [(ngModel)]="allocatedata.sub_branch_id"
+                  (ngModelChange)="getItemAgainSubBranch($event)"#sub_branch_id="ngModel" required>
+                    <option value="">  Sub-Branch*</option>
+                    <option value="{{data.institute_id}}" *ngFor="let data of subBranchAllData">
+                     {{data.institute_name}}
                     </option>
                   </select>
+
               </div>
+              <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_id.invalid && sub_branch_id.touched"class="help-block">
+                Sub-Branch is mandatory
+               </span></p>
+               <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched">
+                  <input type="text" class="input wid100" [(ngModel)]="allocatedata.alloted_units" name="alloted_units" 
+                  placeholder="Allocate Unit*"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                  required #alloted_units="ngModel" required>
+              </div>
+              <p class="errormsg"> <span  
+                *ngIf="alloted_units.invalid && alloted_units.touched" style="height:10px;" class="help-block" >
+                Allocate Unit is mandatory
+              </span></p>
                <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Allocate Unit*">
+                  <input type="text" class="input wid100" name="challan_no"
+                   placeholder="Challan No."
+                   [(ngModel)]="allocatedata.challan_no">
               </div>
+              <p class="errormsg"> <span  style="height:10px;" class="help-block">
+                
+              </span></p>
                <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Challan No.">
+                  <input type="text" class="input wid100"   [(ngModel)]="allocatedata.challan_amount" name="challan_amount" placeholder="Challan Amount"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
               </div>
-               <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Challan Amount">
-              </div>
+              <p class="errormsg"> <span  style="height:10px;" class="help-block">
+                
+              </span></p>
             </div>
             <div class="sec2">
               <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Available Units">
+                  <input type="text" class="input wid100"  name="available_units" [(ngModel)]="allocatedata.available_units" [disabled]="true" placeholder="Available Units">
               </div>
+              <p class="errormsg"> <span  style="height:10px;" class="help-block">
+                
+              </span></p>
+              <div class="pt10" [class.has-error]="sub_branch_item_id.invalid && sub_branch_item_id.touched">
+                <select class="select wid100" name="sub_branch_item_id" 
+                [(ngModel)]="allocatedata.sub_branch_item_id"
+                (ngModelChange)="getItemAgainSubBranch($event)"#sub_branch_item_id="ngModel" required>
+                  <option value="">  Sub-Branch Item*</option>
+                  <option value="60">bag</option>
+                  <option value="{{data.item_id}}" *ngFor="let data of itemfromSubbrach">
+                  {{data.item_name}}
+                  </option>
+                </select>
+
+            </div>
+            <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_item_id.invalid && sub_branch_item_id.touched"class="help-block">
+              Sub-Branch item is mandatory
+             </span></p>
               <div class="pt10">
-                  <select class="select wid100" name="">
-                    <option>
-                      Sub-Branch Item*
-                    </option>
-                  </select>
+                  <input type="text" class="input wid100" name="transport"
+                  [(ngModel)]="allocatedata.transport" placeholder="Tranport">
               </div>
+              <p class="errormsg"> <span  style="height:10px;" class="help-block">
+                
+              </span></p>
               <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Tranport">
+                  <input type="date" class="input wid100" name="challan_date"
+                  [(ngModel)]="allocatedata.challan_date" 
+                   placeholder="Challan Date" >
               </div>
-              <div class="pt10">
-                  <input type="date" class="input wid100" name="" placeholder="Challan Date" >
-              </div>
+              <p class="errormsg"> <span  style="height:10px;" class="help-block">
+                
+              </span></p>
             </div>
           </div>
           <div class="pt10 display">
            <div></div>
-           <div> <button class="right blue_button">Save</button></div>
+           <div> 
+            <button class="right blue_button cancel" data-dismiss="modal">cancel</button>
+             <button class="right blue_button" (click)="saveAllocatedData(allocatedata)">Save</button></div>
+           
           </div>
+        </form>
         </div>        
       </div>
     </div>
@@ -475,42 +538,30 @@
               <div>Quantity</div>
               <div>In/Out</div>
             </div>
-            <div class="table_body">
+            <div class="table_body" *ngFor="let data of allocationHistoryData;index as i">
               <div>
-                1
+             1
               </div>
               <div>
-               23-03-2021
+            {{data.created_date | date: 'yyyy-MM-dd'}}
               </div>
               <div>
-                -
-              </div>
-             <div>
-              0987654321
-             </div>
-             <div>10</div>
-              <div>
-                <span class="in1">In</span>
-              </div>
-            </div>
-            <div class="table_body">
-              <div>
-                1
-              </div>
-              <div>
-               23-03-2021
-              </div>
-              <div>
-                -
+                <span  *ngIf="data.user_name==''" >-</span>
+                <span  *ngIf="data.user_name" >{{data.user_name}}</span>
+             {{data.user_name}}
               </div>
              <div>
-              0987654321
+            {{data.contact_no}}
              </div>
-             <div>10</div>
+             <div>{{data.alloted_units}}</div>
               <div>
-                <span class="out">Out</span>
+                <span  *ngIf="data.inventory_type==1" class="in1">In</span>
+                <span  *ngIf="data.inventory_type==2" class="out">Out</span>
               </div>
+             
+              
             </div>
+           
         </div>
         </div>        
       </div>

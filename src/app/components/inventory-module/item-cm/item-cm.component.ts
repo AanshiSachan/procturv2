@@ -47,7 +47,8 @@ export class ItemCmComponent implements OnInit {
     private _pdfService: ExportToPdfService,
     private excelService: ExcelService) {
     this.category_model.institution_id = sessionStorage.getItem('institution_id');
-    this.item.institution_id = sessionStorage.getItem('institution_id')
+    this.item.institution_id = sessionStorage.getItem('institution_id');
+    this.getSubBranches();
   }
 
   ngOnInit(): void {
@@ -65,11 +66,13 @@ export class ItemCmComponent implements OnInit {
 
   @ViewChild('catForm', { static: false }) catForm: NgForm;
   @ViewChild('itemForm', { static: false }) itemForm: NgForm;
+  @ViewChild('allcateForm', { static: false }) allcateForm: NgForm;
 
   /*======================================CRUD For Category===============*/
   saveCategoryDetails() {
     if (this.catForm.valid) {
-      this.httpService.postData(this.url + 'category/', this.category_model).subscribe(
+      delete(this.category_model.id)
+            this.httpService.postData(this.url + 'category/', this.category_model).subscribe(
         (res: any) => {
           $('#addModal').modal('hide');
           this.auth.hideLoader();
@@ -269,7 +272,7 @@ updateItemDetails(){
     this.httpService.putData(this.url + 'item', obj).subscribe(() => {
       $('#itemModal').modal('hide');
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Item is Updated Successfully")
-      this.getCategoryDetails();
+      this.getItemDetails();
    },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -281,24 +284,31 @@ updateItemDetails(){
   }
 
 }
+tempObj={
+  item_id:'',
+  item_name:''
+}
+showConfirm(obj) {
+  this.tempObj=obj;
+  this.tempObj.item_id =obj.item_id
+  $('#deleteitemModal').modal('show');
+}
 //delete
 deleteItem(obj) {
-  // $('#deleteModal').modal('show');
-  let deleteconfirm = confirm("Are you really want to delete?");
-  if (deleteconfirm == true) {
     this.auth.showLoader();
-    this.httpService.deleteData(this.url + 'item/' + obj, null).subscribe(
+    this.httpService.deleteData(this.url + 'item/' + obj.item_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Item Deleted Successfully');
         this.getItemDetails();
+        $('#deleteitemModal').modal('hide');
       },
       err => {
         this.msgService.showErrorMessage('error', '', err.error.message);
         this.auth.hideLoader();
       }
     );
-  }
+
 }
 /*======================================APi Clla For Item===============*/
 getAllMasterCourseList() {
@@ -500,7 +510,6 @@ getClassRoomTableFromSource(startindex) {
   ]
   //download pdf
   downloadPdf() {
-    alert("hi")
     let arr =[];
   this.categoryAllData.map(
       (ele: any) => {
@@ -519,7 +528,6 @@ getClassRoomTableFromSource(startindex) {
   }
 //download in excel format
 exportToExcel(){
-  alert("hi")
  let Excelarr = [];
       this.categoryAllData.map(
       (ele: any) => {
@@ -614,5 +622,120 @@ exportToExcelItem(){
     );
      this.auth.hideLoader();
 
+}
+//allocate to subbranch
+allocatedata ={
+  item_name:'',
+  item_id:'',
+    student_id:'',
+    alloted_units:'',
+    date_of_dispatch:'',
+    available_units:'',
+    sub_branch_id:'',
+    // sub_branch_name:'',
+    sub_branch_item_id:'',
+    institution_id:sessionStorage.getItem('institution_id')
+}
+subBranchAllData:any=[];
+
+allocateToSubBranch(data){
+  this.allocatedata.student_id=data.student_id;
+this.allocatedata.item_id=data.item_id;
+this.allocatedata.item_name=data.item_name;
+this.allocatedata.date_of_dispatch =
+this.allocatedata.available_units=data.available_units;
+}
+saveAllocatedData(){
+  if(this.allcateForm.valid){
+    let date:any = new Date();
+    this.allocatedata.date_of_dispatch =date;
+      
+    this.allocatedata.date_of_dispatch
+    this.httpService.postData(this.url + 'item/allocate', this.allocatedata).subscribe(
+      (res: any) => {
+         $('#subbranchModal').modal('hide');
+        this.auth.hideLoader();
+        this.getItemDetails();
+        if (res.statusCode == 200) {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Allocated successfully');
+          this.getCategoryDetails();
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      }
+    )
+  }
+  else{
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+     
+  }
+ 
+}
+getSubBranches(){
+  //this.auth.showloader()
+  this.httpService.getData('/api/v1/institutes/all/subBranches/'+this.item.institution_id +'?active=Y').subscribe(
+    res => {
+      this.subBranchAllData = res;
+      this.auth.hideLoader();
+    },
+    err => {
+      //console.log(err);
+    }
+  )
+
+}
+itemfromSubbrach:any=[];
+getItemAgainSubBranch(id){
+  this.httpService.getData('/api/v1/inventory/item/all/'+id).subscribe(
+    res => {
+      this.itemfromSubbrach = res;
+      this.auth.hideLoader();
+    },
+    err => {
+      //console.log(err);
+    }
+  )
+}
+allocationHistoryData:any =[]
+getAllocationHistrory(id){
+  console.log(id)
+ //this.auth.showloader()
+ this.httpService.getData('/api/v1/inventory/item/txHistory/'+id).subscribe(
+  res => {
+    this.allocationHistoryData = res;
+    this.auth.hideLoader();
+  },
+  err => {
+    //console.log(err);
+  }
+)
+}
+manageData={
+  item_id:'',
+  units_added:'',
+  available_units:'',
+  alloted_units:'',
+  institution_id:sessionStorage.getItem('institution_id')
+
+}
+//manage units
+manageUnit(data){
+  this.manageData.item_id =data.item_id;
+  this.manageData.available_units=data.available_units;
+  this.manageData.alloted_units=data.alloted_units;
+}
+updataeManageUnit(){
+
+  this.httpService.putData(this.url + 'item/stockUpdate', this.manageData).subscribe(() => {
+    $('#manageunitModal').modal('hide');
+    this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Units Updated Successfully")
+    this.getItemDetails();
+  },
+    err => {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+      this.auth.hideLoader();
+    })
 }
 }
