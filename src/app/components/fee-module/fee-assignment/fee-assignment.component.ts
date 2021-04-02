@@ -356,8 +356,7 @@ export class FeeAssignmentComponent implements OnInit {
     }
   }
   assignfeeToStudent(isAssignedToSingleStudent) {
-    debugger
-    this.validateAssignFeeData()
+    if(this.validateAssignFeeData()){
     let requestPayload: any = {
       student_ids: this.studentIdArr,
       template_id: this.template_id,
@@ -386,6 +385,7 @@ export class FeeAssignmentComponent implements OnInit {
       }
     );
   }
+}
   validateAssignFeeData() {
     this.studentIdArr = [];
     this.feeInstmentArr = [];
@@ -401,6 +401,7 @@ export class FeeAssignmentComponent implements OnInit {
     for (let data of this.feeInstalllmentArr) {
       if (data.day_type == 3 && data.days > 12) {
         this.commonService.showErrorMessage('info', '', "Please enter valid month!");
+        return;
       }
       let obj = {
         template_data_id: data.schedule_id,
@@ -411,6 +412,7 @@ export class FeeAssignmentComponent implements OnInit {
       }
       this.feeInstmentArr.push(obj);
     }
+    return true;
   }
   viewFeeDetails(data) {
 
