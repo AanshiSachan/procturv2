@@ -180,7 +180,6 @@ export class FeeStructureHomeComponent implements OnInit {
 
 
   editFee(fee) {
-    debugger
     this.templateName = fee.template_name;
     this.is_default=fee.is_default==1;
     this.selectedTemplate = fee;
@@ -630,7 +629,6 @@ export class FeeStructureHomeComponent implements OnInit {
     this.addTemplatePopUp = false;
   }
   editFeeStructure(fee) {
-    debugger
     $("#editFeeStructureModel").show();
     this.totalTax=0;
     if (this.feeTypeList.length == 0) {
