@@ -209,7 +209,7 @@ export class SupplierComponent implements OnInit {
 
   moderatorSettingsforitem: any = {
     singleSelection: false,
-    idField: 'item_ids',
+    idField: 'item_id',
     textField: 'item_name',
     enableCheckAll: false,
     itemsShowLimit: 2
@@ -235,23 +235,18 @@ export class SupplierComponent implements OnInit {
  
   //fordropdown
  getItemForSelectedCat(object) {
-   console.log(object)
-    const CategoryId = object.map((object) => {
-      if (object == undefined) {
-        return false
-      }
-      else {
-        return object.id;
-      }
-
-    });
-    var categoryselectedid = CategoryId.join();
-    if (categoryselectedid === undefined) {
-
-    }
+   let categoryids:any =[];
+   for(let data of object){
+     categoryids.push(data.category_id)
+  }
+  console.log(categoryids);
+  let selectcategory =categoryids.join(',');
+  console.log(selectcategory)
+   if (selectcategory === undefined) {
+  }
     else {
       //api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id
-      this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/123').subscribe(
+      this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/'+selectcategory).subscribe(
         (res: any) => {
           let result = res.result;
           let keys = Object.keys(result);
@@ -268,15 +263,14 @@ export class SupplierComponent implements OnInit {
 
         })
  }
-
-  }
+ }
   getVendorDetails() {
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/supplier/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&sortBy=supplierName&instituteId=' + this.model.institution_id).subscribe(
       (res: any) => {
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
-      this.totalRecords = res.result.total_elements;
+        this.totalRecords = res.result.total_elements;
         this.auth.hideLoader();
       },
       err => {
@@ -286,8 +280,7 @@ export class SupplierComponent implements OnInit {
   }
 
   saveSupplierDetails(obj){
-    this.isedit =false;
-    if(this.addVendorForm.valid){
+  if(this.addVendorForm.valid){
       this.httpService.postData(this.url + 'supplier/create', obj).subscribe(
         (res: any) => {
            $('#add1Modal').modal('hide');
@@ -317,10 +310,7 @@ export class SupplierComponent implements OnInit {
      this.model.email_id =object.data.email_id;
      this.model.item_ids =object.data.item_ids;
      this.model.item_names=object.data.item_names;
-    // this.category_model.category_name = object.data.category_name;
-    // this.category_model.desc = object.data.desc;
-    // this.category_model.category_id = object.data.category_id;
-    $('#add1Modal').modal('show');
+   $('#add1Modal').modal('show');
   }
   //search filter
   updateSupplierDetails(){
@@ -333,6 +323,7 @@ export class SupplierComponent implements OnInit {
     this.addVendorForm.resetForm();
     this.isedit = false;
     this.model = {
+        item_names:'',
        supplier_id:'',
        company_name:'',
        supplier_name:'',
@@ -396,7 +387,7 @@ export class SupplierComponent implements OnInit {
   }
 //download in excel format
 exportToExcel(){
-  this.httpService.getData('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id).subscribe(
+  this.httpService.getData('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institution_id).subscribe(
     (res: any) => {
       this.auth.showLoader();
       this.supplierDataforDownload= res.result.response;

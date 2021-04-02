@@ -109,9 +109,10 @@
                     <img src="../../../assets/img1/menu.svg" class="dot3">
                   <div class="dropdown-content1">
                     <a data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a>
-                    <a   (click)="showConfirm(data)">Delete</a>
+                    <a  *ngIf="data.alloted_units>data.available_units" (click)="showConfirm(data)">Delete</a>
+                    <a  *ngIf="data.alloted_units-data.available_units==0" (click)="showConfirmdelete(data)">Delete</a>
                     <a  data-toggle="modal" data-target="#subbranchModal"(click)="allocateToSubBranch(data)">Allocate to Sub-branch</a>
-                    <a   data-toggle="modal" data-target="#historyModal" (click)="getAllocationHistrory(data.item_id)">Allocation History</a>
+                    <a    (click)="showAllocationHistory(data)">Allocation History</a>
                     <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a>
                   </div>
                 </div>
@@ -179,16 +180,14 @@
             <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
           </div>
           <div >
-            <p class="alert_text"> "X" items available under this category 
-          which are not allocated, do you want
-           to proceed ?</p>
+            <p class="alert_text"> Do you really want to delete this item?</p>
           </div>
           <div class="pt101 display">
             <div>
               <button class="white_button right" data-dismiss="modal">Cancel</button>
             </div>
             <div>
-              <button class="blue_button right" >Delete</button>
+              <button class="blue_button right"  (click)="deleteItem(tempObj)">Delete</button>
             </div>
           </div>
         </div>        
@@ -478,7 +477,6 @@
                 [(ngModel)]="allocatedata.sub_branch_item_id"
                 (ngModelChange)="getItemAgainSubBranch($event)"#sub_branch_item_id="ngModel" required>
                   <option value="">  Sub-Branch Item*</option>
-                  <option value="60">bag</option>
                   <option value="{{data.item_id}}" *ngFor="let data of itemfromSubbrach">
                   {{data.item_name}}
                   </option>
@@ -561,9 +559,8 @@
              
               
             </div>
-           
         </div>
-        </div>        
+       </div>        
       </div>
     </div>
   </div>

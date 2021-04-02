@@ -293,6 +293,11 @@ showConfirm(obj) {
   this.tempObj.item_id =obj.item_id
   $('#deleteitemModal').modal('show');
 }
+showConfirmdelete(obj){
+  this.tempObj=obj;
+  this.tempObj.item_id =obj.item_id
+  $('#deleteModal').modal('show');
+}
 //delete
 deleteItem(obj) {
     this.auth.showLoader();
@@ -302,6 +307,7 @@ deleteItem(obj) {
         this.msgService.showErrorMessage('success', '', 'Item Deleted Successfully');
         this.getItemDetails();
         $('#deleteitemModal').modal('hide');
+        $('#deleteModal').modal('hide');
       },
       err => {
         this.msgService.showErrorMessage('error', '', err.error.message);
@@ -309,6 +315,12 @@ deleteItem(obj) {
       }
     );
 
+}
+showAllocationHistory(obj){
+  this.tempObj=obj;
+  this.tempObj.item_id =obj.item_id
+  $('#historyModal').modal('show');
+  this.getAllocationHistrory(obj.item_id);
 }
 /*======================================APi Clla For Item===============*/
 getAllMasterCourseList() {
@@ -625,9 +637,8 @@ exportToExcelItem(){
 }
 //allocate to subbranch
 allocatedata ={
-  item_name:'',
-  item_id:'',
-    student_id:'',
+    item_name:'',
+    item_id:'',
     alloted_units:'',
     date_of_dispatch:'',
     available_units:'',
@@ -639,18 +650,17 @@ allocatedata ={
 subBranchAllData:any=[];
 
 allocateToSubBranch(data){
-  this.allocatedata.student_id=data.student_id;
+ // this.allocatedata.student_id=data.student_id;
 this.allocatedata.item_id=data.item_id;
 this.allocatedata.item_name=data.item_name;
-this.allocatedata.date_of_dispatch =
 this.allocatedata.available_units=data.available_units;
 }
 saveAllocatedData(){
   if(this.allcateForm.valid){
-    let date:any = new Date();
-    this.allocatedata.date_of_dispatch =date;
+    // let date:any = new Date();
+    // this.allocatedata.date_of_dispatch =date;
       
-    this.allocatedata.date_of_dispatch
+    // this.allocatedata.date_of_dispatch
     this.httpService.postData(this.url + 'item/allocate', this.allocatedata).subscribe(
       (res: any) => {
          $('#subbranchModal').modal('hide');
