@@ -146,7 +146,7 @@ export class AttendanceReportComponent implements OnInit, OnDestroy {
       this.http_service.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success','','Attendance marked successfullly');
+          this.msgService.showErrorMessage('success','','Attendance marked successfully');
           this.getLiveClassAttendanceReport();
         },
         (err: any) => {

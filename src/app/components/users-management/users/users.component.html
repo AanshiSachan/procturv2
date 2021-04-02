@@ -110,11 +110,17 @@
       <div class="row" style="margin-top: 5px;padding-bottom: 10px;border-bottom: 1px solid #ccc;">
         <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role=='1' && !isProfessional">
           <div class="field-wrapper" style="padding-top: 0px;">
-            <label for="userType" style="font-weight: bold;">Master Course</label>
-            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.master_course"
+            <label for="userType" style="font-weight: bold;">{{schoolModel ? 'Standard' : 'Master Course'}}</label>
+            <select *ngIf="!schoolModel" id="userType" class="form-ctrl" [(ngModel)]="dataFilter.master_course"
               (ngModelChange)="getCourseData($event)">
               <option value="">Select</option>
               <option value="{{data.master_course}}" *ngFor="let data of masterCourseData">{{data.master_course}}
+              </option>
+            </select>
+            <select *ngIf="schoolModel" id="userType" class="form-ctrl" [(ngModel)]="dataFilter.standard_id"
+              (ngModelChange)="updateCourseList($event)">
+              <option value="">Select</option>
+              <option value="{{data.standard_id}}" *ngFor="let data of masterCourseData">{{data.masterCourse}}
               </option>
             </select>
           </div>
@@ -131,7 +137,7 @@
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="dataFilter.role=='1' && !isProfessional">
           <div class="field-wrapper" style="padding-top: 0px;">
-            <label for="userType" style="font-weight: bold;">Course</label>
+            <label for="userType" style="font-weight: bold;">{{schoolModel ? 'Section' : 'Course'}}</label>
             <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.course_id">
               <option value="0">Select</option>
               <option value="{{data.course_id}}" *ngFor="let data of CourseData">{{data.course_name}} </option>

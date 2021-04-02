@@ -67,6 +67,7 @@ export class CourseSubjectComponent implements OnInit {
   getAllSubjectList() {
     this.PageIndex = 1;
     this.auth.showLoader();
+    this.searchDataFlag = false;
     this.apiService.getAllSubjectListFromServer().subscribe(
       (data: any) => {
         console.log("getAllSubjectList", data);

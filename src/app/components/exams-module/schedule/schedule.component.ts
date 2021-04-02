@@ -68,8 +68,8 @@ export class ScheduleComponent implements OnInit {
     'course_id': '',
     'exam_type_id': '',
     'date': '',
-    'time_to': '',
-    'time_from': '',
+    'exam_end_time': '',
+    'exam_start_time': '',
     'room_no_id': '',
     'course_exam_date':''
   }
@@ -303,8 +303,8 @@ export class ScheduleComponent implements OnInit {
       'course_id': '',
       'exam_type_id': '',
       'date': '',
-      'time_to': '',
-      'time_from': '',
+      'exam_end_time': '',
+      'exam_start_time': '',
       'room_no_id': '',
       'course_exam_date':''
     }

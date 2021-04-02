@@ -492,7 +492,7 @@ sup {
 }
 .beforeHover{
     width: 80%;
-    margin-left: 14%;
+    margin-left: 14.5%;
 }
 .afterHover{
     width: 23%;
@@ -610,7 +610,7 @@ a span{
 }
 
 .mattoolbar{
-    position: fixed;margin-left: -1%;margin-top: -50px;z-index: 9999999999;background: white;width: 89%;height: 7%;    border-bottom: 2px solid lightgrey;
+    position: fixed;margin-left: -5px;margin-top: -50px;z-index: 9999999999;background: white;width: 89%;height: 7%;    border-bottom: 2px solid lightgrey;
 }
 .mat-button img{
     width: 44%;
@@ -739,7 +739,7 @@ header{
   height:60px;
   position: fixed;
   right: 0%;
-  width:calc(100% - 14%);
+  width:calc(100% - 14.5%);
   background-color: #fff;
   border-bottom: 1px solid #EBEFF2;
   background-color: #fff;
@@ -851,7 +851,7 @@ overflow-x: visible;
 }
 
 .power{
-  width: calc(14% - 10px);
+  width: calc(14.5% - 10px);
   color: #fff;
   position:fixed;
   bottom: 0em;
@@ -877,10 +877,10 @@ overflow-x: visible;
 .page-wrapper .page-content {
   display: inline-block;
   /* width: 100%; */
-  width:calc(100% - 14%);
+  width:calc(100% - 14.5%);
   padding-left: 0px;
   padding-top: 0px;
-  margin-left: 14%;
+  margin-left: 14.5%;
   margin-top: 7%;
 }
 
@@ -909,7 +909,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
     display: block;
   }
   .sidebar-wrapper{
-    left: -14%;
+    left: -14.5%;
   }
   .toggled .sidebar-wrapper {
     left: 0px;
@@ -975,7 +975,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
     display: block;
   }
   .sidebar-wrapper{
-    left: -14%;
+    left: -14.5%;
   }
   .toggled .sidebar-wrapper {
     left: 0px;
@@ -987,7 +987,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
 }
 
 .sidebar-wrapper .sidebar-brand {
-  width:calc(14% - 10px);
+  width:calc(14.5% - 10px);
   padding: 10px 0px;
   display: flex;
   text-align: center;
@@ -1052,7 +1052,7 @@ a:hover {
 .paneldd{
    position: fixed;
     background: #1B2433;
-    width: 14%;
+    width: 14.5%;
     height: 100vh;
     left: 0;
 }
@@ -1085,7 +1085,7 @@ a:hover {
 }
  .fa-angle-right:before {
     position: absolute;
-    left: 10.5vw;
+    left: 11vw;
 }
 .helpIcon {
   background: #0084f6;padding: 5px 10px;font-weight: 500;color: white;
