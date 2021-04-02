@@ -39,23 +39,23 @@
                             <div>
                                 <!-- <a class="mr10"><img src="../../../../../assets/images/icon7.svg" title="View"
                                         class="size22"></a> -->
-                                <a class="mr10" (click)="editFeeStructure(data)"><img
-                                        src="../../../../../assets/images/EDit.png" title="Edit" class="size22"></a>
-                                <a><img src="../../../../../assets/images/Group321.svg"
-                                        (click)="deleteFeeStructure(data)" title="Delete" class="size22"></a>
+                                    <a class="mr10" (click)="editFeeStructure(data)"><img
+                                            src="../../../../../assets/images/EDit.png" title="Edit" class="size22"></a>
+                                    <a><img src="../../../../../assets/images/Group321.svg"
+                                            (click)="deleteFeeStructure(data)" title="Delete" class="size22"></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                   </div>
                 </div>
             </div>
         </div>
     </div>
      <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-            [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
-          </pagination>
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+            </pagination>
         </div>
       </div> 
 <!-- The Modal -->
@@ -68,18 +68,18 @@
             </div>
             <div class="modal-body">
                 <div class="tableHeight">
-                <div class="student">
-                    <div class="table_heading">
-                        <div>Student Id</div>
-                        <div>Student Name</div>
-                    </div>
-                    <div *ngFor="let data of studentList">
-                        <div class="table_body">
-                            <div>{{data.student_disp_id}}</div>
-                            <div>{{data.student_name}}</div>
+                    <div class="student">
+                        <div class="table_heading">
+                            <div>Student Id</div>
+                            <div>Student Name</div>
+                        </div>
+                        <div *ngFor="let data of studentList">
+                            <div class="table_body">
+                                <div>{{data.student_disp_id}}</div>
+                                <div>{{data.student_name}}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -90,14 +90,16 @@
         <div class="modal-content" style="width: 144%;">
             <div class="modal-header">
                 <h4 style="float: left;" class="modal-title">Edit Fee Structure</h4>
-                <input type="text" [(ngModel)]="templateName" placeholder="Template Name" style="width: 50%;float: left;margin-left: 10px;" class="input wid80 rrs">
+                <input type="text" [(ngModel)]="templateName" placeholder="Template Name"
+                    style="width: 45%;margin-left: 10px;" class="input wid80"/>
+                <input type="checkbox" name="checked" [(ngModel)]="is_default">Is Default
                 <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
             </div>
             <div class="modal-body" style="height: 422px;overflow: auto;">
                 <span class="right relative" style="margin-bottom: 12px;">
-                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
-                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax}}</p>
-            </span>
+                    <span class="green_top">Total Amount(Inc Of Tax):<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
+                    <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax}}</p>
+                </span>
                 <div class="fee_new">
                     <div class="table_heading">
                         <div>#</div>
@@ -111,7 +113,8 @@
                         <div class="table_body">
                             <div>{{i+1}}</div>
                             <div>
-                                <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type" (ngModelChange)="calculateTotalFee()">
+                                <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type"
+                                    (ngModelChange)="calculateTotalFee()">
                                     <option value="-1">Fee Type</option>
                                     <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
                                         {{data.fee_type}}
@@ -162,7 +165,7 @@
                         <button class="white_button mr10" (click)="closePopUp()">
                             Cancel
                         </button>
-                        <button class="blue_button " (click)="updateFeeStructure()"> 
+                        <button class="blue_button " (click)="updateFeeStructure()">
                             Update
                         </button>
                     </span>

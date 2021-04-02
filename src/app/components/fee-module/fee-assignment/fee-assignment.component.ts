@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import * as moment from 'moment';
 declare var $;
 
 @Component({
@@ -25,7 +26,8 @@ export class FeeAssignmentComponent implements OnInit {
     standard_id: -1,
     academic_yr_id: -1,
     batch_id: -1,
-    country_id: -1
+    country_id: -1,
+    fee_assigned: 1
   }
   requestPayload: any = {
     institute_id: sessionStorage.getItem("institute_id")
@@ -83,6 +85,9 @@ export class FeeAssignmentComponent implements OnInit {
   monthValue: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   studentIdArr: any = [];
   feeInstmentArr: any = [];
+  batchList: any = [];
+  student_id: number = -1;
+  isTemplateLinkWithCourseAndStandard: boolean = false;
 
   constructor(private auth: AuthenticatorService,
     private http: HttpService,
@@ -99,25 +104,51 @@ export class FeeAssignmentComponent implements OnInit {
         }
       }
     )
+    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true';
     this.fetchFilterData();
+
   }
   ngOnInit(): void {
     this.getCountryDetails();
     this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1';
   }
   fetchFilterData() {
+    this.fetchAcademicYearList();
     if (this.schoolModel) {
       this.fetchStandardAndSection();
-      this.fetchAcademicYearList();
     } else if (!this.isProfessional) {
       this.fetchMCAndCourse();
-      this.fetchAcademicYearList();
     } else {
-      this.fetchBatch();
+      this.fetchStandard();
     }
   }
-  fetchBatch() {
-    throw new Error('Method not implemented.');
+  fetchStandard() {
+    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + '?is_active=Y';
+    this.auth.showLoader();
+    this.http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.standardList = data.result;
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+  fetchBatch(standard_id) {
+    let url = "/api/v1/batches/" + this.institute_id + "/standard/" + standard_id;
+    this.auth.showLoader();
+    this.http.getData(url).subscribe(
+      (data: any) => {
+        this.auth.hideLoader();
+        this.batchList = data.result;
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
   }
   fetchMCAndCourse() {
     this.auth.showLoader();
@@ -183,12 +214,12 @@ export class FeeAssignmentComponent implements OnInit {
   }
   fetchDefaultAY() {
     if (this.academicYrList != null) {
-    for(let data of this.academicYrList){
-      if(data.default_academic_year==1){
-        this.model.academic_yr_id=data.inst_acad_year_id;
-        break;
+      for (let data of this.academicYrList) {
+        if (data.default_academic_year == 1) {
+          this.model.academic_yr_id = data.inst_acad_year_id;
+          break;
+        }
       }
-    }
     }
   }
   fetchStudentList() {
@@ -228,17 +259,40 @@ export class FeeAssignmentComponent implements OnInit {
       }
       this.requestPayload.course_id = this.model.course_id;
     } else {
-
+      if (this.model.standard_id <= 0) {
+        this.commonService.showErrorMessage('info', '', 'Select Master Course!');
+        return;
+      }
+      if (this.model.batch_id <= 0) {
+        this.commonService.showErrorMessage('info', '', 'Select Batch!');
+        return;
+      }
+      this.requestPayload.batch_id = this.model.batch_id;
+    }
+    if (this.model.academic_yr_id <= 0) {
+      this.commonService.showErrorMessage('info', '', 'Select Academic Yr!');
+      return;
     }
     this.requestPayload.academic_yr_id = this.model.academic_yr_id;
     this.requestPayload.country_id = this.model.country_id;
+    this.requestPayload.fee_assigned = this.model.fee_assigned
     return true;
   }
-  fetchFeeStructure() {
-    if (this.validateStudentData()) {
+  fetchFeeStructure(isAssignedToSingleStudent) {
+    if (isAssignedToSingleStudent) {
+      this.student_id = -1;
+    }
+    if (!this.validateStudentData()) {
+      return;
+    }
+    if (this.feeStructureList.length > 0) {
       $('#assignFeeModel').modal('show');
-      this.auth.showLoader();
-      let queryParam = "";
+      return
+    }
+    $('#assignFeeModel').modal('show');
+    this.auth.showLoader();
+    let queryParam = "";
+    if (!this.isTemplateLinkWithCourseAndStandard) {
       if (this.schoolModel) {
         queryParam = "?standard_id=" + this.model.standard_id;
       } else if (!this.isProfessional) {
@@ -246,36 +300,46 @@ export class FeeAssignmentComponent implements OnInit {
       } else {
         queryParam = "?batch_id=" + this.model.batch_id;
       }
-      if (queryParam == '') {
-        queryParam += "?country_id=" + this.model.country_id;
-      } else {
-        queryParam += "&country_id=" + this.model.country_id;
-      }
-      const url = "/api/v1/student_wise/feeStructure/" + this.institute_id + queryParam;
-      this.http.getData(url).subscribe(
-        (res: any) => {
-          this.feeStructureList = res.result;
-          if (this.feeStructureList.length > 0) {
-            this.template_id = this.feeStructureList[0].template_id;
+      queryParam += "&country_id=" + this.model.country_id;
+    } else {
+      queryParam += "?country_id=" + this.model.country_id;
+    }
+    const url = "/api/v1/student_wise/feeStructure/" + this.institute_id + queryParam;
+    this.http.getData(url).subscribe(
+      (res: any) => {
+        this.feeStructureList = res.result;
+        if (this.feeStructureList.length > 0) {
+          for (let data of this.feeStructureList) {
+            if (data.is_default = 1) {
+              this.template_id = data.template_id;
+              break;
+            }
+          }
+          if (this.template_id > 0) {
             this.fetchFeeStructureData(this.template_id);
           }
-          this.auth.hideLoader();
-        },
-        err => {
-          this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
-          this.auth.hideLoader();
         }
-      );
-    }
-  }
-  validateStudentData() {
-    for (let data of this.studentList) {
-      if (data.isSelected) {
-        return true;
+        this.auth.hideLoader();
+      },
+      err => {
+        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+        this.auth.hideLoader();
       }
+    );
+  }
+
+  validateStudentData() {
+    if (this.student_id < 0) {
+      for (let data of this.studentList) {
+        if (data.isSelected) {
+          return true;
+        }
+      }
+      this.commonService.showErrorMessage('info', '', 'Select at least one student');
+      return false;
+    } else {
+      return true;
     }
-    this.commonService.showErrorMessage('info', '', 'Select at least one student');
-    return false;
   }
   getCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
@@ -291,9 +355,8 @@ export class FeeAssignmentComponent implements OnInit {
       }
     }
   }
-  assignfeeToStudent() {
-    debugger
-    this.validateAssignFeeData()
+  assignfeeToStudent(isAssignedToSingleStudent) {
+    if(this.validateAssignFeeData()){
     let requestPayload: any = {
       student_ids: this.studentIdArr,
       template_id: this.template_id,
@@ -301,12 +364,12 @@ export class FeeAssignmentComponent implements OnInit {
       institute_id: this.institute_id,
       fee_details: this.feeInstmentArr,
     }
-    if(this.schoolModel){
-      requestPayload.standard_id=this.model.standard_id;
-    }else if(!this.isProfessional){
-      requestPayload.course_id=this.model.course_id;
-    }else{
-      requestPayload.batch_id=this.model.batch_id;
+    if (this.schoolModel) {
+      requestPayload.standard_id = this.model.standard_id;
+    } else if (!this.isProfessional) {
+      requestPayload.course_id = this.model.course_id;
+    } else {
+      requestPayload.batch_id = this.model.batch_id;
     }
     let url = "/api/v1//studentWise/fee/assign";
     this.http.postData(url, requestPayload).subscribe(
@@ -317,32 +380,47 @@ export class FeeAssignmentComponent implements OnInit {
         this.auth.hideLoader();
       },
       err => {
-        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+        this.commonService.showErrorMessage('error', '', err.error.message);
         this.auth.hideLoader();
       }
     );
   }
+}
   validateAssignFeeData() {
     this.studentIdArr = [];
     this.feeInstmentArr = [];
-    for (let data of this.studentList) {
-      if (data.isSelected) {
-        this.studentIdArr.push(data.student_id);
+    if (this.student_id < 0) {
+      for (let data of this.studentList) {
+        if (data.isSelected) {
+          this.studentIdArr.push(data.student_id);
+        }
       }
+    } else {
+      this.studentIdArr.push(this.student_id);
     }
     for (let data of this.feeInstalllmentArr) {
+      if (data.day_type == 3 && data.days > 12) {
+        this.commonService.showErrorMessage('info', '', "Please enter valid month!");
+        return;
+      }
       let obj = {
         template_data_id: data.schedule_id,
-        installment_date: data.installment_date
+        installment_date: moment(data.installment_date).format("YYYY-MM-DD"),
+        date_type: data.day_type,
+        days: data.days
+
       }
       this.feeInstmentArr.push(obj);
     }
+    return true;
   }
   viewFeeDetails(data) {
 
   }
   assignFeeToSingleStudent(data) {
-
+    debugger
+    this.student_id = data.student_id;
+    this.fetchFeeStructure(false);
   }
   checkUncheckAll() {
     for (var i = 0; i < this.studentList.length; i++) {
@@ -411,7 +489,8 @@ export class FeeAssignmentComponent implements OnInit {
       }
     }
   }
-  closePopUp(){
+  closePopUp() {
     $('#assignFeeModel').modal('hide');
+    this.student_id = -1;
   }
 }
