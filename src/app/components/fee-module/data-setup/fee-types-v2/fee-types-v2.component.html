@@ -14,7 +14,7 @@
           <div class="table_heading">
             <div>Fee Type</div>
             <div>Fee Type Description</div>
-            <div *ngIf="is_tax_enabled">Tax(%) <span title="Enable Tax" class="info">i</span></div>
+            <div *ngIf="is_tax_enabled">Tax(%) <span title="Enable Tax" class="info">i</span></div> 
             <div>Action</div>
           </div>
           <div class="tableHeight">
@@ -22,7 +22,7 @@
             <div class="table_body">
               <div>{{data.fee_type}}</div>
               <div>{{data.fee_type_desc}}</div>
-              <div *ngIf="is_tax_enabled">{{data.fee_type_tax}}</div>
+               <div *ngIf="is_tax_enabled">{{data.fee_type_tax}}</div>
               <div><a data-toggle="modal" (click)="editFeeTypes(data)" class="pointer"><img src="../../../../../assets/images/Edit.svg"
                     class="size22" title="Edit"></a></div>
             </div>
@@ -33,7 +33,7 @@
         </div>
   </div>
  <div class="w98">
-    <div class="bottom_pagignation flex w98">
+    <!-- <div class="bottom_pagignation flex w98">
       <div class="w20">
       </div>
       <div class="w10">
@@ -42,9 +42,12 @@
       </div>
       <div class="w30">
       </div>
-    </div>
-  </div> 
+    </div> -->
+     
+  </div>
+
 </div>
+
 <!-- The Modal -->
 
 <div class="modal" id="feetypesModal" aria-hidden="true">
@@ -58,11 +61,11 @@
         <div>
           <div><input type="" name="fee_type" [(ngModel)]="addNewFee.fee_type" class="input w100" placeholder="Fee*">
           </div>
-          <div class="padding1"><input type="" name="fee_type_desc" [(ngModel)]="addNewFee.fee_type_desc"
+          <div class="padding11"><input type="" name="fee_type_desc" [(ngModel)]="addNewFee.fee_type_desc"
               class="input w100" placeholder="Fee Type Description*"></div>
-          <div class="padding1"><input type="" name="fee_type_tax" *ngIf="is_tax_enabled"
+          <div class="padding11"><input type="" name="fee_type_tax" *ngIf="is_tax_enabled"
               [(ngModel)]="addNewFee.fee_type_tax" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input w100" placeholder="Tax(in %)"></div>
-          <div class="padding1">
+          <div class="padding11">
             <span class="right">
               <button class="white_button mr10" (click)="clearData()">
                 Cancel

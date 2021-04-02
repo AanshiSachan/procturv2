@@ -83,13 +83,12 @@ body{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 .fee_types .table_heading>div{
-  width: calc(100%  / 4);
+  width: 25%;
   text-align: left;
   padding-left: 20px;
 }
 .table_heading>div{
-  
-  text-align: center;
+
   font-weight: 600;
   font-size: 12px;
   color: #323C47;
@@ -97,6 +96,8 @@ body{
 }
 .fee_types .table_heading>div:last-child,.fee_types .table_body>div:last-child{
 text-align: right;
+margin-left:auto;
+margin-right:0;
 padding-right: 50px;
 }
 .table_body{
@@ -108,18 +109,15 @@ padding-right: 50px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 .table_body>div{
-  
-  text-align: center;
   font-weight: 500;
   font-size: 13px;
   color: #807C7C;
  /* padding: 5px 0px;*/
-   margin: auto;
    line-height: 40px;
 
 }
 .fee_types .table_body>div{
-  width: calc(100% / 4);
+  width: 25%;
   text-align: left;
   padding-left: 20px;
 }
@@ -233,8 +231,8 @@ color: #0079FF;
   background-position:left center;
   text-indent: 15px;
 }
-.padding1{
-  //  margin-top: 20px;
+.padding11{
+   margin-top: 20px;
 }
 .text{
   color: #8A8B8B;
@@ -481,6 +479,6 @@ padding-left: 3.7rem;
     padding-left: 50px;
   }
   .tableHeight{
-    height: 54vh;
+   // height: 54vh;
     overflow-y: auto;
   }

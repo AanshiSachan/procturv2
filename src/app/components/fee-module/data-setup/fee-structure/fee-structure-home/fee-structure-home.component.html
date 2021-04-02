@@ -30,7 +30,7 @@
                             <div *ngIf="!schoolModel && !isTemplateLinkWithCourseAndStandard"> {{data.course_subject_name}}</div>
                             <div *ngIf="countryDetails.length>1">{{data.country_name}}</div>
                             <div class="flex">
-                                <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount}}
+                                <div class="right wid50"><span class="right"><span>Rs </span>{{data.studentwise_total_fees_amount}}
                                         {{data.currency_code}}</span></div>
                                 <div class="light wid50"><span class="left"></span></div>
                             </div>
@@ -51,14 +51,13 @@
             </div>
         </div>
     </div>
-    <div class="row filter-res pagination" style="width: 100%;">
+     <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
           <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
             [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
           </pagination>
         </div>
-      </div>
-</div>
+      </div> 
 <!-- The Modal -->
 <div class="modal" id="myModal">
     <div class="modal-dialog">
