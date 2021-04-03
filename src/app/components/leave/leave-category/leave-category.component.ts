@@ -20,14 +20,15 @@ export class LeaveCategoryComponent implements OnInit {
     name:"",
     id:0
   }
-  
 
   @Output() closePopup = new EventEmitter<boolean>();
+
 leaveSearchInput:any
 leaveSearchList:any
   leaveTypeList :any
   ceateLeaveData:any[]=[]
   getbyIdList:any
+
   constructor( private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
@@ -35,15 +36,14 @@ leaveSearchList:any
     private pdf: ExportToPdfService,
     ) {
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-
      }
+
   ngOnInit(): void {
-    // $('#addModal').modal('show');
     this.getAllleaveType()
   }
+
   getAllleaveType(){
-    
-    this.auth.showLoader();
+     this.auth.showLoader();
     const url1 = '/api/v2/leave-type/all/'+this.jsonFlag.institute_id
     this.httpService.getData(url1).subscribe(
       (res: any) => {
@@ -58,16 +58,13 @@ leaveSearchList:any
     )
   }
 
-
 createLeaveType(){
-if(this.leaveType.id != 0){
+// if(this.leaveType.id != 0){
   if(this.leaveType.name.trim() != ''){
-
   let obj = {
 institute_id: this.jsonFlag.institute_id,
 name: this.leaveType.name,
-
-  }
+ }
   this.auth.showLoader();
   const url ='/api/v2/leave-type'
   this.httpService.postData(url, obj).subscribe((res:any) =>{
@@ -77,7 +74,7 @@ name: this.leaveType.name,
     if (res.statusCode == 200) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Leave created successfully');
       this.closePopups(false);
-     this.leaveType.id=0,
+    //  this.leaveType.id=0,
      this.leaveType.name=''
 
     }
@@ -91,13 +88,11 @@ name: this.leaveType.name,
 } else {
   this.msgService.showErrorMessage('error', '', 'Please Enter Leave Category Name');
 }
-}
-
-else {
-  this.msgService.showErrorMessage('error', '', 'Please Enter  Leave Category Id');
-}
 
 
+// else {
+//   this.msgService.showErrorMessage('error', '', 'Please Enter  Leave Category Id');
+// }
 
 }
 
@@ -119,7 +114,6 @@ editLeave(obj){
      this.leaveType.id =  obj.id;
     this.leaveType.name = obj.name;
 }
-
 editLeaveType(){
   let obj ={
     id :this.leaveType.id,
@@ -140,9 +134,6 @@ this.httpService.putData(url, obj).subscribe((res :any)=>{
 err => {
   this.auth.hideLoader();
   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-  this.closePopups(false);
-
-
 
 })
 
@@ -150,15 +141,12 @@ err => {
 deletLeavebyId(obj){
   this.leaveType.name = obj.name
   this.leaveType.id =  obj.id;
-
-
 }
 
 deleteLeave(){
   let obj= {
     id :this.leaveType.id,
     name : this.leaveType.name
-
   }
   this.auth.showLoader()
   const url = '/api/v2/leave-type/'+this.jsonFlag.institute_id+'/' +this.leaveType.id
@@ -168,22 +156,14 @@ deleteLeave(){
   this.auth.hideLoader()
 
   this.msgService.showErrorMessage('success', '', "Leave deleted successfully");
-
-  this.closePopups(false);
+this.cancelPopups(false)
 },
 err => {
   this.auth.hideLoader();
   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-  this.closePopups(false);
-
-
-
 })
-
-
 }
-   
-downloadPdf(){
+   downloadPdf(){
   let temp =[]
   this.leaveTypeList.map((e:any )=>{
     let obj=[
@@ -195,14 +175,8 @@ downloadPdf(){
   let row =[]
   row = [['id','name']]
   let column = temp
-  this.pdf.exportToPdf(row,column,'Leave_pdf')
-    
+  this.pdf.exportToPdf(row,column,'Leave_pdf')   
 }
-
-
-
-
-
 searchInput(){
   this.leaveTypeList = this.leaveSearchList
   if( this.leaveSearchInput == undefined || this.leaveSearchInput == null){
@@ -216,13 +190,14 @@ this.leaveSearchInput = "";
   }
 }
 
-
-
 closePopups($event) {
   $('#addModal').modal('hide');
   this.closePopup.emit(false);
 }
 
 
-
+cancelPopups($event){
+  $('#deleteModal').model('hide');
+  this.closePopup.emit(false)
+}
 }

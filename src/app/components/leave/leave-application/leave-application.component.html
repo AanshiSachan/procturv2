@@ -6,9 +6,9 @@
           <p>Leave Application</p>
         </div>
         <div>
-          <a href="" class="mr10"><img src="../../../assets/img1/email.svg" title="Send Report to email"></a>
-          <a href="" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-          <a href="" class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
         </div>
       </div>
     </div>
@@ -30,35 +30,35 @@
               <div>Status</div>
               <div>Action</div>
             </div>
-            <div class="table_body">
+            <div class="table_body" *ngFor="let array of leaveApplicationList ; let i=index">
               <div>
-                1
+                {{i+1}}
               </div>
               <div>
-                Admin
+                {{array.applied_to_name}}
               </div>
               <div>
-                Sick Leave
+                {{array.type.name}}
               </div>
              <div>
-               01-02-2020
+               {{array.from}}
              </div>
              <div>
-               01-02-2020  
-             </div>
+              {{array.to}}
+            </div>
              <div>02-02-2020</div>
              <div>
                2
              </div>
              <div>
-               <span class="pending">Pending</span>
+               <span class="pending">{{array.status}}</span>
              </div>
               <div>
-                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-                <a href="" data-toggle="modal" data-target="#withdrawModal"><img src="../../../assets/img1/withdraw.svg" title="Withdraw" class="group18" ></a>
+                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+                <a href="" data-toggle="modal" data-target="#withdrawModal"><img src="../../../assets/img/withdraw.svg" title="Withdraw" class="group18" ></a>
               </div>
             </div>
-            <div class="table_body">
+            <!-- <div class="table_body">
               <div>
                 2
               </div>
@@ -82,10 +82,10 @@
                <span class="approved">Approved</span>
              </div>
               <div>
-                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-                <a href="" data-toggle="modal" data-target="#withdrawModal"><img src="../../../assets/img1/withdraw.svg" title="Withdraw" class="group18" ></a>
-              </div>
-            </div>
+                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+                <a href="" data-toggle="modal" data-target="#withdrawModal"><img src="../../../assets/img/withdraw.svg" title="Withdraw" class="group18" ></a>
+              </div> -->
+            <!-- </div> -->
             </div>
           </div>
           <!-- use image only when page is empty,table body class element will not be present -->
@@ -124,29 +124,34 @@
         <div class="modal-body">
           <div class="pt10">
             <!-- dropdown with search -->
-            <select class="select wid100">
-              <option>Role*</option>
+            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)">
+              <option value="">Role*</option>
+              <option value="3">Teacher</option>
+              <option value="0,9">Staff</option>
+
             </select>
           </div>
           <div class="pt10">
-            <select class="select wid100">
-              <option>Application To*</option>
-              <option>Sunil</option>
+            <select class="select wid100"  name="" [(ngModel)]="leaveApllicationmodel.applicatioName">
+              <option value="">Application To*</option>
+              <option [value]="list.user_id" *ngFor="let list of toApplicationList">{{list.name}}</option>
             </select>
           </div>
           <div class="pt10">
-            <select class="select wid100">
-              <option *ngFor="let item of leaveTypeList">{{item.name}}</option>
+            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.categoryName">
+              <option value="">Category*</option>
+
+              <option [value]="item.id" *ngFor="let item of leaveTypeList">{{item.name}}</option>
             </select>
           </div>
           <div class="pt10">
-            <input type="date" name="" class="wid100 input" placeholder="From*">
+            <input type="date" name="" [(ngModel)]="leaveApllicationmodel.from" class="wid100 input" placeholder="From*">
           </div>
           <div class="pt10">
-            <input type="date" name="" class="wid100 input" placeholder="To*">
+            <input type="date" name="" [(ngModel)]="leaveApllicationmodel.to" class="wid100 input" placeholder="To*">
           </div>
           <div class="pt10 h10">
-            <button class="blue_button right">Apply</button>
+            <button class="blue_button right" (click)="createLeaveApplication()">Apply</button>
           </div>
         </div>        
       </div>
@@ -178,10 +183,10 @@
             </select>
           </div>
           <div class="pt10">
-            <input type="date" name="" class="wid100 input" placeholder="From">
+            <input type="date" id="from" name="from" [(ngModel)]="leaveApllicationmodel.from" class="wid100 input" placeholder="From">
           </div>
           <div class="pt10">
-            <input type="date" name="" class="wid100 input" placeholder="To">
+            <input type="date" id="to" name="to" [(ngModel)]="leaveApllicationmodel.to" class="wid100 input" placeholder="To">
           </div>
           <div class="pt10 h10">
             <button class="blue_button right">Edit</button>

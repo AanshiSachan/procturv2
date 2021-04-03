@@ -6,7 +6,7 @@
           <p>Leave Category</p>
         </div>
         <div>
-          <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a>
+          <!-- <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a> -->
           <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
           <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
         </div>
@@ -28,9 +28,9 @@
               <div></div>
               <div>Actions</div>
             </div>
-            <div class="table_body" *ngFor="let item of leaveTypeList">
+            <div class="table_body" *ngFor="let item of leaveTypeList;let i=index">
               <div>
-                {{item.id}}
+                {{i+1}}
               </div>
               <div>
                 {{item.name}}
@@ -79,9 +79,9 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <div class="pt10">
+          <!-- <div class="pt10">
             <input type="text" class="input wid100 mr10" name="id" id="id"  [(ngModel)]="leaveType.id" placeholder="Category ID *">
-          </div>
+          </div> -->
           <div class="pt10">
             <input type="text" class="input wid100 mr10" name="name" id="name" [(ngModel)]="leaveType.name" placeholder="Category Name *">
           </div>
@@ -114,12 +114,12 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Delete Leave Category:{{leaveType.name}}</h4>
+          <h4 class="modal-title">Delete Leave Category : {{leaveType.name}}</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
           <div class="pt10 h10">
-            <button class="white_button">Cancel</button>
+            <button class="white_button" (click)="closePopups()">Cancel</button>
             <button class="blue_button right" (click)="deleteLeave()">Delete</button>
           </div>
         </div>        
