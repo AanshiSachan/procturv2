@@ -44,50 +44,11 @@ export class FeeAssignmentComponent implements OnInit {
   totalTax: number = 0;
   feeTypeList: any = [];
   feeInstalllmentArr: any[];
-  dayOfmonth: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
-  months = [{
-    id: 1,
-    value: 'Jan'
-  }, {
-    id: 2,
-    value: 'Feb'
-  }, {
-    id: 3,
-    value: 'Mar'
-  }, {
-    id: 4,
-    value: 'Apr'
-  }, {
-    id: 5,
-    value: 'May'
-  }, {
-    id: 6,
-    value: 'Jun'
-  }, {
-    id: 7,
-    value: 'Jul'
-  }, {
-    id: 8,
-    value: 'Aug'
-  }, {
-    id: 9,
-    value: 'Sep'
-  }, {
-    id: 10,
-    value: 'Oct'
-  }, {
-    id: 11,
-    value: 'Nov'
-  }, {
-    id: 12,
-    value: 'Dec'
-  }]
-  monthValue: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   studentIdArr: any = [];
   feeInstmentArr: any = [];
   batchList: any = [];
   student_id: number = -1;
-  isTemplateLinkWithCourseAndStandard: boolean = false;
+  isTemplateNotLinkWithCourseAndStandard: boolean = false;
 
   constructor(private auth: AuthenticatorService,
     private http: HttpService,
@@ -104,7 +65,7 @@ export class FeeAssignmentComponent implements OnInit {
         }
       }
     )
-    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true';
+    this.isTemplateNotLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'?false:true;
     this.fetchFilterData();
 
   }
@@ -292,7 +253,7 @@ export class FeeAssignmentComponent implements OnInit {
     $('#assignFeeModel').modal('show');
     this.auth.showLoader();
     let queryParam = "";
-    if (!this.isTemplateLinkWithCourseAndStandard) {
+    if (!this.isTemplateNotLinkWithCourseAndStandard) {
       if (this.schoolModel) {
         queryParam = "?standard_id=" + this.model.standard_id;
       } else if (!this.isProfessional) {
@@ -467,20 +428,7 @@ export class FeeAssignmentComponent implements OnInit {
     }
 
   }
-  getInstituteFeeTypes() {
-    this.auth.showLoader();
-    let url = "/api/v1/batchFeeSched/feeType/" + this.institute_id;
-    this.http.getData(url).subscribe(
-      res => {
-        this.auth.hideLoader();
-        this.feeTypeList = res;
-      },
-      err => {
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', err.error.message);
-      }
-    )
-  }
+ 
   getCurrencyData(id) {
     for (let data of this.countryDetails) {
       if (data.id == id) {
