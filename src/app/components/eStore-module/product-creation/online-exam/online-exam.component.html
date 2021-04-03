@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <div class="col-md-12 table-wrapper p-0 ">
+  <div class="col-md-12 table-wrapper p-0 " style="margin-bottom: 10px;" *ngIf="testlist?.length">
     <table class="table product-table">
       <thead class="product-table-head">
         <tr>
@@ -50,8 +50,39 @@
         </tr>
       </thead>
       <tbody class="product-table-body">
+        <tr *ngFor="let test of testlist;let i =index;">
+          <td>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [disabled]="test.is_existed_selected" [checked]="test.isChecked"
+                [(ngModel)]="test.isChecked" (ngModelChange)="selectVlaue($event,test)" [id]="'ch'+index">
+              <label [for]="'ch'+index"></label>
+            </div>
+          </td>
+          <td style="text-align: left;">
+            <label [for]="'ch'+index" title="{{test.test_name}}">
+              {{ (test.test_name.length > 20) ? (test.test_name | slice:0:20) + '...' : test.test_name }}
+            </label>
+          </td>
+          <td>{{getTime(test.start_timestamp)}}<br>
+            <span style="color:blue;"><b>{{getDate(test.start_timestamp)}}</b></span>
+          </td>
+          <td>{{getTime(test.end_timestamp)}}<br>
+            <span style="color:blue;"><b>{{getDate(test.end_timestamp)}}</b></span>
+          </td>
+          <td> {{test.total_marks}}</td>
+          <td>
+            {{test.total_question}}
+          </td>
+          <td>
+            {{test.duration}} &nbsp;min
+          </td>
+          <td class="text-center">
+            {{test.difficulty_title}}
+          </td>
+        </tr>
+
         <!--read view -->
-        <ng-template [ngIf]="true">
+        <!-- <ng-template [ngIf]="true">
           <ng-container *ngFor="let ecourse of product_ecourse_maps;">
             <tr>
               <td>
@@ -98,7 +129,94 @@
             </ng-template>
 
           </ng-container>
-        </ng-template>
+        </ng-template> -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="filter_div" style="border-bottom: 1px solid lightgrey;">
+    <div class="field-wrapper" style="margin-left:0px">
+      <label *ngIf="!isProfessional">Standard<span class="text-danger">*</span></label>
+      <label *ngIf="isProfessional">Master Course<span class="text-danger">*</span></label>
+      <div class="dropdown-div">
+        <select class="dropdown" [(ngModel)]="filterData.standard_id"
+          (change)="getAllSubjectListFromServer($event.target.value)">
+          <option value="-1">Select</option>
+          <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">
+            {{standard.standard_name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-wrapper">
+      <label *ngIf="!isProfessional">Subject</label>
+      <label *ngIf="isProfessional">Course</label>
+      <div class="dropdown-div">
+        <select class="dropdown" [(ngModel)]="filterData.subject_id">
+          <option value="-1">Select</option>
+          <option *ngFor="let subject of subjectData;let i=index; " [value]="subject.subject_id">
+            {{subject.subject_name}}</option>
+        </select>
+      </div>
+    </div>
+    <!-- <button class="btn fullBlue" style="margin-bottom: 5px;" [disabled]="(filterData.standard_id==-1) || (filterData.subject_id==-1)" (click)="getTopicDetails('view')" >Upload</button> -->
+    <div class="pull-right">
+      <button class="btn fullBlue" style="margin-top: 18px; font-size: 12px;" (click)="fetchTestByStd()">
+        Go
+      </button>
+    </div>
+  </div>
+  <div class="col-md-12 table-wrapper p-0 " *ngIf="filteredTestList?.length">
+    <table class="table product-table">
+      <thead class="product-table-head">
+        <tr>
+          <th width="5%">
+            <!-- <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+                (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test"> <label
+                for="ch2"></label>
+            </div> -->
+          </th>
+          <th width="30%" style="text-align: left;">Content</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th width="10%">Marks</th>
+          <th class="text-center">Questions</th>
+          <th class="text-center">Time</th>
+          <th class="text-center">Difficulty</th>
+        </tr>
+      </thead>
+      <tbody class="product-table-body">
+        <!-- <ng-template [ngIf]="ecourse.isExpand"> -->
+        <tr *ngFor="let test of filteredTestList;let i =index;">
+          <td>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [checked]="test.isChecked" [disabled]="test.disabled" [(ngModel)]="test.isChecked"
+                (ngModelChange)="selectVlaue($event,test)" [id]="'ch'+index">
+              <label [for]="'ch'+index"></label>
+            </div>
+          </td>
+          <td style="text-align: left;">
+            <label [for]="'ch'+index" title="{{test.test_name}}">
+              {{ (test.test_name.length > 20) ? (test.test_name | slice:0:20) + '...' : test.test_name }}
+            </label>
+          </td>
+          <td>{{getTime(test.start_timestamp)}}<br>
+            <span style="color:blue;"><b>{{getDate(test.start_timestamp)}}</b></span>
+          </td>
+          <td>{{getTime(test.end_timestamp)}}<br>
+            <span style="color:blue;"><b>{{getDate(test.end_timestamp)}}</b></span>
+          </td>
+          <td> {{test.total_marks}}</td>
+          <td>
+            {{test.total_question}}
+          </td>
+          <td>
+            {{test.duration}} &nbsp;min
+          </td>
+          <td class="text-center">
+            {{test.difficulty_title}}
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
