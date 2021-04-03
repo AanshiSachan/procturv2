@@ -120,7 +120,6 @@ export class MockTestComponent implements OnInit {
     //Fetch Product Groups List
 
     if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
-      this.getTestIdByProduct();
       // Fetch Product Info
       this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
@@ -150,6 +149,7 @@ export class MockTestComponent implements OnInit {
             });
             this.isAdvanceProductEdit = (this.prodForm.is_advance_product && this.prodForm.status == 30) ? true : false;
             this.updateProductItemStates(null, null);
+            this.getTestIdByProduct();
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');

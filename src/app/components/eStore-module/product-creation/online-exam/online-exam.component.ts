@@ -117,7 +117,6 @@ export class OnlineExamComponent implements OnInit {
     //Fetch Product Groups List
 
     if (this.entity_id && this.entity_id.length > 0 && (!this.auth.isRippleLoad.getValue())) {
-      this.getTestIdByProduct();
       //Fetch Product Info
       this.auth.showLoader();
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
@@ -136,6 +135,7 @@ export class OnlineExamComponent implements OnInit {
             });
 
             this.updateProductItemStates(null, null);
+            this.getTestIdByProduct();
             this.product_ecourse_maps = response.product_ecourse_maps;
             this.product_ecourse_maps.forEach((course) => {
               course.isExpand = false;
