@@ -25,7 +25,8 @@ export class UsersComponent implements OnInit {
     master_course: '',
     course_id: 0,
     searchCriteria: '',
-    app_downloaded: '-1'
+    app_downloaded: '-1',
+    standard_id: ''
   };
   allocateItemPopUp: boolean = false;
   tempdata: any = "";
@@ -83,6 +84,8 @@ export class UsersComponent implements OnInit {
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   user_role: any = '';
   role_feature = role.features;
+  schoolModel: boolean = false;
+  fullResponse: any = [];
 
   constructor(
     private apiService: UserService,
@@ -97,6 +100,13 @@ export class UsersComponent implements OnInit {
     this.checkWhichTabIsOpen();
     this.checkInstituteType();
     this.getAllUserList(this.PageIndex);
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      });
     if (sessionStorage.getItem('permitted_roles')) {
       let permissions = Object.keys(JSON.parse(sessionStorage.getItem('permitted_roles')));
       if (this.role_feature.USERS_MENU) {
@@ -152,8 +162,13 @@ export class UsersComponent implements OnInit {
       page_offset: this.displayBatchSize
     }
     if (!this.isProfessional && this.dataFilter.role == '1') {
-      obj.master_course_name = this.dataFilter.master_course,
-        obj.course_id = this.dataFilter.course_id;
+      if(this.schoolModel) {
+        obj.standard_id = this.dataFilter.standard_id;
+        obj.master_course_name = '';
+      } else {
+        obj.master_course_name = this.dataFilter.master_course;
+      }
+      obj.course_id = this.dataFilter.course_id;
     }
     if (this.isProfessional && this.dataFilter.role == '1') {
       obj.standard_id = this.dataFilter.master_course,
@@ -223,8 +238,56 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  getStandard() {
+    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+    let keys;
+    this.auth.showLoader();
+    this.httpService.getData(url).subscribe(
+      (data: any) => {
+        this.masterCourseData = [];
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        // console.log("keys", keys);
+        // this.masterCourse = keys;
+        for (let i = 0; i < keys.length; i++) {
+          let obj = {
+            masterCourse: '',
+            standard_id: 0
+          }
+          obj.masterCourse = keys[i];
+          let temp = this.fullResponse[keys[i]];
+          obj.standard_id = (temp.length) ? temp[0].standard_id : '';
+          this.masterCourseData.push(obj);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
+  updateCourseList(ev) {
+    this.CourseData = [];
+    this.dataFilter.course_id = '0';
+    let master_course_obj = this.masterCourseData.filter(
+      (standard)=> (ev == standard.standard_id)
+    );
+    let temp = this.fullResponse[master_course_obj[0].masterCourse];
+    for (let i = 0; i < temp.length; i++) {
+      this.CourseData.push(temp[i]);
+    }
+  }
+
   getMasterCourseData() {
     if (!this.isProfessional) {
+      if(this.schoolModel) {
+        this.getStandard();
+      } else {
       this.auth.showLoader();
       this.httpService.getData('/api/v1/courseMaster/fetch/' + sessionStorage.getItem('institute_id') + '/all').subscribe(
         (res: any) => {
@@ -236,6 +299,7 @@ export class UsersComponent implements OnInit {
           this.messageNotifier('error', '', err.error.message);
         }
       )
+      }
     } else {
       this.auth.showLoader();
       this.httpService.getData('/api/v1/standards/all/' + sessionStorage.getItem('institute_id')).subscribe(

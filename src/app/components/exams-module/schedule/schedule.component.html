@@ -73,6 +73,7 @@
                 </option>
               </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_start_time!=''"><span>{{errorsObj.exam_start_time}}</span></div>
           <div class="edit-item field-wrapper">
             <!-- <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_to">
               <option value="">Time To*</option>
@@ -93,6 +94,7 @@
                 </option>
               </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_end_time!=''"><span>{{errorsObj.exam_end_time}}</span></div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
               <option value="-1">Room</option>

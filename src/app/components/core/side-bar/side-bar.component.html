@@ -181,7 +181,7 @@
                                 <div class="row" *ngIf="jsonFlags.isShowExpense">
                                     <div class="c-lg-12">
                                         <div class="side-section-item">
-                                            <span class="dropSize" routerLink="/view/expense">
+                                            <span class="dropSize" (click)="showExpensesList()">
                                                 Manage Expense</span>
                                         </div>
                                     </div>
@@ -189,7 +189,7 @@
                                 <div class="row">
                                     <div class="c-lg-12">
                                         <div class="side-section-item" *ngIf="hasInventoryAccess()">
-                                            <span class="dropSize" (click)="showToDoList()">To Do List</span>
+                                            <span class="dropSize" (click)="showToDoList();closeMenu()">To Do List</span>
                                         </div>
                                     </div>
                                 </div>
