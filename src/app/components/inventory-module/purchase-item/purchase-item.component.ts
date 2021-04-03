@@ -29,7 +29,7 @@ export class PurchaseItemComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.getPurchaseDetails();
+   // this.getPurchaseDetails();
   }
   getPurchaseDetails() {
     this.auth.showLoader();

@@ -25,7 +25,7 @@ export class SupplierComponent implements OnInit {
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 2;
+  displayBatchSize: number = 25;
   staticPageData: any = [];
   staticPageDataSouece: any = [];
   isedit = false;
@@ -353,12 +353,13 @@ export class SupplierComponent implements OnInit {
       //     newassetcat.push(category_ids[data].id);
       //   }
       //   this.model.category_ids = newassetcat;
-         delete(this.model.category_ids) 
-    
-       this.httpService.putData('/api/v1/inventory/supplier/update',obj).subscribe(() => {
+         
+         $('#add1Modal').modal('show');
+         this.auth.hideLoader();
+         this.httpService.putData('/api/v1/inventory/supplier/update',obj).subscribe(() => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Supplier is Updated Successfully")
-          $('#modelforvendor').modal('hide');
-          this.getVendorDetails();
+         this.getVendorDetails();
+         $('#add1Modal').modal('hide');
         },
           err => {
             this.auth.hideLoader();

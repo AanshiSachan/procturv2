@@ -12,33 +12,66 @@
           <div class="heading1">
             <p>Purchase</p>
           </div>
+              <div class="pt102" [class.has-error]="supplier_id.invalid && supplier_id.touched">
+                <select class="select wid100" name="supplier_id" id="supplier_id"
+                [(ngModel)]="model.supplier_name" #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)">
+                  <option value="">
+                    Supplier Name*
+                  </option>
+                 <option value="{{data.supplier_id}}" *ngFor="let data of supplierAllData">
+                   {{data.supplier_name}}</option>
+                </select>
+              </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!supplier_id.valid && supplier_id.touched">
+                Supplier  name is mandatory
+             </span></p>
+               <div class="pt102" >
+                  <input type="Date" class="input wid100" name="purchase_date" 
+                  placeholder="Date*"  [(ngModel)]="model.purchase_date" #purchase_date="ngModel" >
+              </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!purchase_date.valid && purchase_date.touched">
+               Date is mandatory
+             </span></p>
               <div class="pt102">
-                  <select class="select wid100">
-                    <option>Company Name*</option>
-                  </select>
+                  <input type="File" class="input wid100" name="billImageFile" 
+                  placeholder="Date*"
+                  [(ngModel)]="model.billImageFile">
               </div>
-               <div class="pt102">
-                  <input type="Date" class="input wid100" name="" placeholder="Date*">
-              </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block">
+                </span></p>
               <div class="pt102">
-                  <input type="File" class="input wid100" name="" placeholder="Date*">
+                  <textarea  class="input wid100 textarea1" name="purchase_description" 
+                  placeholder="Description"
+                  [(ngModel)]="model.purchase_description"></textarea>
               </div>
-              <div class="pt102">
-                  <textarea  class="input wid100 textarea1" name="" placeholder="Description"></textarea>
-              </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block">
+              </span></p>
         </div>
        <div  class="div_2">
-          <div class="heading1 ">
+          <div class="heading1">
             <p>Purchase Item</p>
           </div>
-            <div class="pt102">
-                  <select class="select sel1 mr10">
-                    <option>Category Name*</option>
+            <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
+                  <select class="select sel1 mr10"  name="categoryId" id="categoryId"
+                  [(ngModel)]="model.categoryId" #category_id="ngModel">
+                    <option value="">Category Name*</option>
+                    <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
+                      {{data.categoryName}} </option>
                   </select>
-                   <select class="select sel1 mr10">
-                    <option>Item Name*</option>
+                   <select class="select sel1 mr10"
+                    name="item_id" id="category_id"
+                  [(ngModel)]="model.item_name" #item_id="ngModel">
+                    <option value="">Item Name*</option>
+                    <option value="{{data.item_id}}" *ngFor="let data of itemAllData">
+                      {{data.item_name}}</option>
                   </select>
             </div>
+            <p ><span  style="height:10px;" class="help-block" *ngIf="!category_id.valid && category_id.touched">
+              Category is mandatory
+            </span></p>
+            <p ><span  style="height:10px;" class="help-block" *ngIf="!item_id.valid && item_id.touched">
+              Item is mandatory
+            </span></p>
             <div class="tablehead">
               <div>
                 Item
@@ -61,10 +94,10 @@
                 Abc
               </div>
               <div>
-               <input type="text" name="" class="input wid80">
+               <input type="text" name="unit_cost" value="100"  class="input wid80">
               </div>
               <div>
-                <input type="text" name="" class="input wid80">
+                <input type="text" name="available_units" class="input wid80">
               </div>
               <div>
                 212211

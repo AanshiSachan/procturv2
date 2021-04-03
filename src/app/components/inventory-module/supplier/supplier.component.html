@@ -62,12 +62,9 @@
              <p  class="errormsg">
                        <span class="help-block" *ngIf="email_id.errors?.pattern">This is not a valid email!</span>
                        </p>
-                  
-
-                       <div class="pt10">
+                    <div class="pt10">
                         <select class="select wid100" name="category_ids" id="category_ids"
-                        [(ngModel)]="model.category_ids"
-                       >
+                        [(ngModel)]="model.category_ids">
                           <option value="">
                             Category*
                           </option>

@@ -13,6 +13,8 @@ export class Item {
     item_id;
     subject_name;
     standard_name;
+    category_name;
+    
 }
 export class Category{
     category_name;

@@ -153,6 +153,8 @@ export class ItemCmComponent implements OnInit {
       category_id:''
     }
     this.item ={
+      category_name:'',
+      standard_name:'',
       alloted_units:'',
       category_id:'',
       desc:'',
@@ -237,6 +239,7 @@ getItemDetails() {
 //edit items
 editItem(data){
 this.isedit = true;
+this.item.standard_name =data.standard_name;
 this.item.item_id=data.item_id;
 this.item.category_id =data.category_id;
 this.item.item_name =data.item_name;
@@ -339,16 +342,22 @@ getAllMasterCourseList() {
   
 }
 onMasterCourseSelection(standard_id){
-  // this.auth.showLoader();
-  this.httpService.getData('/api/v1/subjects/standards/'+ standard_id).subscribe(
-    res => {
-      this.CourseList = res;
-      this.auth.hideLoader();
-    },
-    err => {
-      //console.log(err);
-    }
-  )
+  if(standard_id==undefined){
+
+  }
+  else{
+    this.auth.showLoader();
+    this.httpService.getData('/api/v1/subjects/standards/'+ standard_id).subscribe(
+      res => {
+        this.CourseList = res;
+        this.auth.hideLoader();
+      },
+      err => {
+        //console.log(err);
+      }
+    )
+  }
+ 
 }
 
    /*======================================Table setting For Category===============*/
@@ -663,7 +672,7 @@ saveAllocatedData(){
     // this.allocatedata.date_of_dispatch =date;
       
     // this.allocatedata.date_of_dispatch
-    this.httpService.postData(this.url + 'item/allocate', this.allocatedata).subscribe(
+    this.httpService.postData(this.url + 'item/allocate/subBranch', this.allocatedata).subscribe(
       (res: any) => {
          $('#subbranchModal').modal('hide');
         this.auth.hideLoader();
@@ -700,7 +709,8 @@ getSubBranches(){
 }
 itemfromSubbrach:any=[];
 getItemAgainSubBranch(id){
-  this.httpService.getData('/api/v1/inventory/item/all/'+id).subscribe(
+  console.log(id)
+  this.httpService.getData('/api/v1/inventory/item/all/100074').subscribe(
     res => {
       this.itemfromSubbrach = res;
       this.auth.hideLoader();
