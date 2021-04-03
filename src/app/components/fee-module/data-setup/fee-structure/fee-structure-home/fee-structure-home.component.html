@@ -10,7 +10,7 @@
                 </div>
                 <div class="school">
                     <div class="table_heading">
-                        <div>Template Name</div>
+                        <div>Fee Structure</div>
                         <div *ngIf="schoolModel && !isTemplateNotLinkWithCourseAndStandard">Standard</div>
                         <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">Master Course</div>
                         <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">Course</div>
@@ -34,8 +34,7 @@
                                     {{data.course_subject_name}}</div>
                                 <div *ngIf="countryDetails.length>1">{{data.country_name}}</div>
                                 <div class="flex">
-                                    <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount}}
-                                            {{data.currency_code}}</span></div>
+                                    <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount | number }}</span></div>
                                     <div class="light wid50"><span class="left"></span></div>
                                 </div>
                                 <div><a (click)="studentsAssigned(data)" class="students_assigned" data-toggle="modal"
@@ -95,15 +94,15 @@
         <div class="modal-content" style="width: 144%;">
             <div class="modal-header">
                 <h4 style="float: left;" class="modal-title">Edit Fee Structure</h4>
-                <input type="text" [(ngModel)]="templateName" placeholder="Template Name"
+                <input type="text" [(ngModel)]="templateName" placeholder="Fee Structure"
                     style="width: 45%;margin-left: 10px;" class="input wid80"/>
                 <input type="checkbox" name="checked" [(ngModel)]="is_default">Is Default
                 <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
             </div>
             <div class="modal-body" style="height: 422px;overflow: auto;">
                 <span class="right relative" style="margin-bottom: 12px;">
-                    <span class="green_top">Total Amount(Inc Of Tax):<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
-                    <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax}}</p>
+                    <span class="green_top">Total Amount(Inc Of Tax):<span>{{currencySymbol}} {{ totalFeeAmount | number }}</span></span>
+                    <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax | number}}</p>
                 </span>
                 <div class="fee_new">
                     <div class="table_heading">

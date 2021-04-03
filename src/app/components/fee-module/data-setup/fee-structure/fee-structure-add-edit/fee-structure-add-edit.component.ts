@@ -79,7 +79,7 @@ export class FeeStructureAddEditComponent implements OnInit {
   showMonthDropDown: boolean = false;
   defultCountryId: number = -1;
   totalFeeAmount: number = 0;
-  currencySymbol: any = "Rs ";
+  currencySymbol: any = "";
   totalTax: number = 0;
   taxPrecent: number = 0;
   isTemplateNotLinkWithCourseAndStandard: boolean = false;
@@ -131,9 +131,7 @@ export class FeeStructureAddEditComponent implements OnInit {
         if (data.is_default == "Y") {
           this.defultCountryId = data.id;
           this.addNewTemplate.country_id = data.id;
-          if (data.id > 1) {
             this.currencySymbol = data.currency_code
-          }
           break;
         }
       }

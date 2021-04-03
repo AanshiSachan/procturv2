@@ -112,7 +112,7 @@ export class FeeStructureHomeComponent implements OnInit {
   totalFeeAmount: any;
   feeInstallments: any;
   totalTax: number = 0;
-  currencySymbol: string = "Rs ";
+  currencySymbol: string = "";
   isTemplateNotLinkWithCourseAndStandard: boolean = false;
   is_default:boolean=false;
   constructor(
@@ -334,7 +334,7 @@ export class FeeStructureHomeComponent implements OnInit {
       this.isHeaderEdit = false
     }
     else {
-      this.commonService.showErrorMessage('error', 'Fee Template Name is Mandatory', 'Please enter a valid fee template name');
+      this.commonService.showErrorMessage('error', '', 'Please enter a valid fee structure name');
     }
   }
 
