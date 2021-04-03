@@ -27,7 +27,7 @@ export class PurchaseViewComponent implements OnInit {
     private excelService: ExcelService) { }
 
   ngOnInit(): void {
-    this.getPurchaseDetails();
+   // this.getPurchaseDetails();
   }
 
   

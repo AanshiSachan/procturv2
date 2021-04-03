@@ -244,6 +244,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
+          <form #history="ngForm">
           <div class="pt10">
             <input type="text" class="input wid100" [(ngModel)]="manageData.available_units" name="available_units" 
             [disabled]= "true" 
@@ -258,7 +259,7 @@
                   </select> -->
                   <input type="number" class="input wid100" name="units_added" 
             [(ngModel)]="manageData.units_added"
-            placeholder="Total Unit Units*" > 
+            placeholder="Manage Unit*" > 
             </div>
           <div class="pt10">
             <input type="text" class="input wid100" name="alloted_units" 
@@ -269,8 +270,11 @@
         
           <div class="pt10 display">
             <div></div>
-            <div> <button class="right blue_button" (click)="updataeManageUnit(manageData.item_id)">Save</button></div>
+            <div> 
+              <button  class="right blue_button cancel" (click)="cancel(false)" data-dismiss="modal">Cancel</button>
+              <button class="right blue_button" (click)="updataeManageUnit(manageData.item_id)">Save</button></div>
            </div>
+          </form>
         </div>        
       </div>
     </div>
@@ -546,7 +550,7 @@
               <div>
                 <span  *ngIf="data.user_name==''" >-</span>
                 <span  *ngIf="data.user_name" >{{data.user_name}}</span>
-             {{data.user_name}}
+            
               </div>
              <div>
             {{data.contact_no}}

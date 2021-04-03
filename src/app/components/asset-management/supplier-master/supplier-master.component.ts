@@ -305,6 +305,10 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   editRow(object) {
+       //category_ids: [48, 50]
+//category_names: "Equipments,Uniformatory"
+// item_ids: [40, 58]
+// item_names: "Bags2,sdfsdf"
     this.isedit = true;
     this.model = object.data;
     this.model.active = object.data.active;
@@ -316,8 +320,9 @@ export class SupplierMasterComponent implements OnInit {
     this.model.supplier_name = object.data.supplier_name;
     this.model.category_id = object.data.category_id;
     //asset_id_for_multiselect
-    let temp = object.data.asset_ids;
     let temp2 =object.data.category_ids;
+    let temp = object.data.asset_ids;
+    
     let asset_names = object.data.asset_names_string.split(',');
    this.model.asset_ids = [];
     for (let i = 0; i < temp.length; i++) {
@@ -472,7 +477,7 @@ exportToExcel(){
       this.auth.showLoader();
       this.supplierDataforDownload= res.result.response;
      let Excelarr = [];
-      this.supplierDataforDownload.map(
+     this.supplierDataforDownload.map(
       (ele: any) => {
         let json = {}
         this.headerSetting.map((keys) => {

@@ -67,6 +67,7 @@ export class ItemCmComponent implements OnInit {
   @ViewChild('catForm', { static: false }) catForm: NgForm;
   @ViewChild('itemForm', { static: false }) itemForm: NgForm;
   @ViewChild('allcateForm', { static: false }) allcateForm: NgForm;
+  @ViewChild('history', { static: false }) history: NgForm;
 
   /*======================================CRUD For Category===============*/
   saveCategoryDetails() {
@@ -168,7 +169,8 @@ export class ItemCmComponent implements OnInit {
       standard_name:''
     }
     this.catForm.resetForm(this.category_model);
-    this.itemForm.resetForm(this.item)
+    this.itemForm.resetForm(this.item);
+    this.history.resetForm()
     this.isedit = false;
 
   }
@@ -429,7 +431,7 @@ getClassRoomTableFromSource(startindex) {
     }
   }
 
- /* ==========================================pagination for category=============*/
+ /* ==========================================pagination for item=============*/
 
   fetchTableDataByPageforItem(index) {
     this.pageIndexforItem = index;
@@ -711,7 +713,7 @@ getItemAgainSubBranch(id){
 allocationHistoryData:any =[]
 getAllocationHistrory(id){
   console.log(id)
- //this.auth.showloader()
+this.auth.showLoader();
  this.httpService.getData('/api/v1/inventory/item/txHistory/'+id).subscribe(
   res => {
     this.allocationHistoryData = res;
