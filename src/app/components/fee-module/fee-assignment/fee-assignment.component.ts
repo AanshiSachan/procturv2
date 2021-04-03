@@ -246,14 +246,14 @@ export class FeeAssignmentComponent implements OnInit {
     if (!this.validateStudentData()) {
       return;
     }
-    if (this.feeStructureList.length > 0) {
-      $('#assignFeeModel').modal('show');
-      return
-    }
+    // if (this.feeStructureList.length > 0) {
+    //   $('#assignFeeModel').modal('show');
+    //   return
+    // }
     $('#assignFeeModel').modal('show');
     this.auth.showLoader();
     let queryParam = "";
-    if (!this.isTemplateNotLinkWithCourseAndStandard) {
+    if (!this.isTemplateNotLinkWithCourseAndStandard && false)  {
       if (this.schoolModel) {
         queryParam = "?standard_id=" + this.model.standard_id;
       } else if (!this.isProfessional) {

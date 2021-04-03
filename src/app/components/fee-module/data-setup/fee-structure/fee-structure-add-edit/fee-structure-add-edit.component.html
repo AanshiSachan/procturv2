@@ -46,15 +46,15 @@
                 </option>
             </select>
             <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
-                placeholder="Template Name">
+                placeholder="Fee Structure Name">
             <span class="right relative">
-                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
-                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax}}</p>
+                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount | number}}</span></span>
+                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax | number}}</p>
             </span>
         </div>
         <div class="padding1" *ngIf="isTemplateNotLinkWithCourseAndStandard">
             <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
-            placeholder="Template Name">
+            placeholder="Fee Structure Name">
             <select class="select wid240 mr10" *ngIf="countryDetails.length >1" [(ngModel)]="addNewTemplate.country_id"
                 name="CourseCountry" (ngModelChange)="getCurrencyData($event)">
                 <option value="-1">Country</option>
@@ -63,8 +63,8 @@
                 </option>
             </select>
             <span class="right relative">
-                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount}}</span></span>
-                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax}}</p>
+                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount | number }}</span></span>
+                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax | number}}</p>
             </span>
         </div>
         <div class="fee_new">
