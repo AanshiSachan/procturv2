@@ -90,7 +90,7 @@ export class PurchaseAddComponent implements OnInit {
       }
     });
   }
-  getItemData(e) {debugger;
+  getItemData(e) {
     this.itemData;
     let id = e;
     id = +id;
@@ -99,9 +99,12 @@ export class PurchaseAddComponent implements OnInit {
       if (element && element.item_id === id) {
         let data = element;
         data.subtotal = Number(data.unit_cost) * Number(data.available_units);
+        console.log( data.subtotal)
         data.Prevsubtotal = data.unit_cost * data.available_units;
+        console.log( data.Prevsubtotal)
         // this.total = this.total - data.Prevsubtotal;
         this.total = this.total + data.subtotal;
+        console.log(this.total)
         this.itemData.push(data);
       }
     })
@@ -121,11 +124,17 @@ export class PurchaseAddComponent implements OnInit {
     console.log(obj)
     this.isChange = true;
     obj.subtotal = obj.unit_cost * obj.available_units;
+    console.log(obj.subtotal)
     obj.Prevsubtotal = obj.unit_cost * obj.available_units;
+    console.log(obj.Prevsubtotal)
     obj.Prevsubtotal = obj.subtotal;
+    console.log(obj.Prevsubtotal)
     //this.total = this.total - obj.Prevsubtotal;
     this.total = this.total + obj.subtotal;
+    console.log( this.total)
     
-    
+  }
+  savePurchaseData(){
+
   }
 }

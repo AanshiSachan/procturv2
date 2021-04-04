@@ -12,6 +12,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 })
 export class PurchaseItemComponent implements OnInit {
   purchaseAllData:any=[];
+  paid:number =1;
   rowColumns: any;
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
@@ -55,5 +56,13 @@ console.log(purchaseData)
         this.auth.hideLoader();
       }
     );
+  }
+  isDelete =true;
+  total=100;
+  paids=200;
+
+  addPayment(){
+    this.isDelete =false;
+
   }
 }

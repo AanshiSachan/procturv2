@@ -116,7 +116,7 @@
               <div>
                <input type="text" name="unit_cost" value="{{data.unit_cost}}" [(ngModel)]="data.unit_cost"  
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
-                (change)="totals(data)"
+               
                 [disabled]="status"
                 class="input wid80">
               </div>
@@ -126,7 +126,7 @@
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" class="input wid80"
                  [(ngModel)]="data.available_units" (change)="totals(data)">
               </div>
-              <div>
+              <div (change)="totals(data)">
                {{data.subtotal}}
               </div>
               <div>
@@ -155,10 +155,10 @@
       </div>
        <div class="white bottom_button bottom_pagignation">
         <div class="display w98">
-          <div> <button class="blue_button cancel">Back </button></div>
+          <div> <button class="blue_button cancel" routerLink="/view/inventory-management/purchase-item">Back </button></div>
           <div> 
            
-            <button style="margin-left: 10px;"class="blue_button">Save</button>
+            <button style="margin-left: 10px;"class="blue_button" (click)="savePurchaseData()">Save</button>
             
           </div>
         </div>
@@ -207,3 +207,4 @@
       </div>
     </div>
   </div>
+  <router-outlet></router-outlet>

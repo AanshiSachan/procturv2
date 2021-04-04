@@ -72,9 +72,9 @@
                                 <div class="dropdown-content1">
                                     <a  routerLink="../purchase-view">View</a>
                                     <a href="#">Edit</a>
-                                    <a href="#">Delete</a>
-                                    <a href="#">Cancel</a>
-                                    <a href="#" data-toggle="modal" data-target="#addpayModal">Add Payment</a>
+                                    <a href="#" *ngIf="isDelete">Delete</a>
+                                    <a href="#" *ngIf="isDelete">Cancel</a>
+                                    <a href="#" *ngIf="total-paid==0" data-toggle="modal" data-target="#addpayModal">Add Payment</a>
                                     <a href=""  data-toggle="modal" data-target="#viewpayModal">View Payment History</a>
                                 
                                 </div>
@@ -141,7 +141,9 @@
           </div>
           <div class="pt10 display">
            <div></div>
-           <div> <button class="blue_button">Save</button></div>
+           <div>
+            <button class="blue_button cancel" data-dismiss="addpayModal">Cancel</button> 
+             <button class="blue_button" (click)="addPayment()">Save</button></div>
           </div>
         </div>        
       </div>
