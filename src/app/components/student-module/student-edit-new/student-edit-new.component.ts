@@ -3039,6 +3039,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
   fetchCourseListByStdId(standard_id) {
     if (this.isSchoolModel) {
+      this.assignedBatchString = '';
+      this.showRollNoField = false;
       if (this.standard_id == standard_id) {
         this.fetchCourseFromMaster(standard_id, this.country_id);
       } else {

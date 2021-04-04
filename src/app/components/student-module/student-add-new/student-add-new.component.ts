@@ -2686,6 +2686,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   }
   fetchCourseListByStdId(standard_id) {
     if (this.schoolModel) {
+      this.assignedBatchString = '';
+      this.showRollNoField = false;
       this.updateMasterCourseList(standard_id);
     }
   }
