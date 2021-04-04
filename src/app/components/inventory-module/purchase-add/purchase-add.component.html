@@ -44,8 +44,8 @@
                   placeholder="Description"
                   [(ngModel)]="model.purchase_description"></textarea>
               </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block">
-              </span></p>
+              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+              </span></p> -->
         </div>
        <div  class="div_2">
           <div class="heading1">
@@ -53,16 +53,18 @@
           </div>
             <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
                   <select class="select sel1 mr10"  name="categoryId" id="categoryId"
-                  [(ngModel)]="model.categoryId" #category_id="ngModel">
+                  [(ngModel)]="model.categoryId" #category_id="ngModel"
+                  (change)="getItemAgainscat($event)">
                     <option value="">Category Name*</option>
                     <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
                       {{data.categoryName}} </option>
                   </select>
                    <select class="select sel1 mr10"
                     name="item_id" id="category_id"
+                    (ngModelChange)="getItemData($event)"
                   [(ngModel)]="model.item_name" #item_id="ngModel">
                     <option value="">Item Name*</option>
-                    <option value="{{data.item_id}}" *ngFor="let data of itemAllData">
+                    <option value="{{data.item_id}}" *ngFor="let data of itemArray">
                       {{data.item_name}}</option>
                   </select>
             </div>
@@ -89,25 +91,7 @@
                 Actions
               </div>
             </div>
-            <div class="tablebody">
-              <div>
-                Abc
-              </div>
-              <div>
-               <input type="text" name="unit_cost" value="100"  class="input wid80">
-              </div>
-              <div>
-                <input type="text" name="available_units" class="input wid80">
-              </div>
-              <div>
-                212211
-              </div>
-              <div>
-                <a href=""><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18 mr10"></a>
-                 <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
-              </div>
-            </div>
-            <div class="tablebody">
+            <!-- <div class="tablebody">
               <div>
                 Abc
               </div>
@@ -124,8 +108,34 @@
                 <a href=""><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18 mr10"></a>
                  <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
               </div>
+            </div> -->
+            <div class="tablebody" *ngFor="let data of itemData">
+              <div>
+               {{data.item_name}}
+              </div>
+              <div>
+               <input type="text" name="unit_cost" value="{{data.unit_cost}}" [(ngModel)]="data.unit_cost"  
+                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+                (change)="totals(data)"
+                [disabled]="status"
+                class="input wid80">
+              </div>
+              <div>
+                <input type="text" name="available_units" value="{{data.available_units}}"
+                [disabled]="status"
+                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" class="input wid80"
+                 [(ngModel)]="data.available_units" (change)="totals(data)">
+              </div>
+              <div>
+               {{data.subtotal}}
+              </div>
+              <div>
+                <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18 mr10"></a>
+                 <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
+              </div>
             </div>
-             <div class="tabletotal">
+            
+             <div class="tabletotal" *ngIf="isChange">
               <div>
                 
               </div>
@@ -136,7 +146,7 @@
                 15
               </div>
               <div>
-                3333.00
+              {{total}}
               </div>
               <div>
               </div>

@@ -29,13 +29,23 @@ export class PurchaseItemComponent implements OnInit {
     }
 
   ngOnInit(): void {
-   // this.getPurchaseDetails();
+ this.getPurchaseDetails();
   }
   getPurchaseDetails() {
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         this.purchaseAllData = res.result.response;
+        let purchaseData =[];
+for(let keys of  this.purchaseAllData){
+     console.log(keys);
+ // console.log(this.purchaseAllData[keys]);
+  for(let data of keys.purchased_item_list){
+    console.log(data);
+    purchaseData.push(data)
+  }
+console.log(purchaseData)
+}
         // this.staticPageData = res.result.response;
         // this.tempLocationList = res.result.response;
         // this.totalRecords = res.result.total_elements;

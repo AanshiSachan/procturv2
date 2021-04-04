@@ -168,7 +168,6 @@ export class ItemCmComponent implements OnInit {
       tax_percent:'',
       unit_cost:'',
       subject_name:'',
-      standard_name:''
     }
     this.catForm.resetForm(this.category_model);
     this.itemForm.resetForm(this.item);
