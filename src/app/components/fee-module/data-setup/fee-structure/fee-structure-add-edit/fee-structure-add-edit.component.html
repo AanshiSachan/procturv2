@@ -48,7 +48,7 @@
             <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
                 placeholder="Fee Structure Name">
             <span class="right relative">
-                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount | number}}</span></span>
+                <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax) ':''}}:<span>{{currencySymbol}} {{totalFeeAmount | number}}</span></span>
                 <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax | number}}</p>
             </span>
         </div>
@@ -63,7 +63,7 @@
                 </option>
             </select>
             <span class="right relative">
-                <span class="green_top">Total Amount:<span>{{currencySymbol}} {{totalFeeAmount | number }}</span></span>
+                <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax)':''}}:<span>{{currencySymbol}} {{totalFeeAmount | number }}</span></span>
                 <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax | number}}</p>
             </span>
         </div>
@@ -84,7 +84,7 @@
                             (ngModelChange)="calculateTotalFee()">
                             <option value="-1">Fee Type</option>
                             <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
-                                {{data.fee_type=='INSTALLMENT'?'Tuition Fees':data.fee_type}}
+                                {{data.fee_type | titlecase}}
                             </option>
                         </select>
                     </div>

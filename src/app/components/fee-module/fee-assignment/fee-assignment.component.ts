@@ -379,7 +379,6 @@ export class FeeAssignmentComponent implements OnInit {
 
   }
   assignFeeToSingleStudent(data) {
-    debugger
     this.student_id = data.student_id;
     this.fetchFeeStructure(false);
   }
