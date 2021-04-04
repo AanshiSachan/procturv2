@@ -98,7 +98,6 @@ export class ManageExamGradesComponent implements OnInit {
   }
 
   valAddInputFields(obj) {
-    if(this.editData)
     if(CommonUtils.isEmpty(obj.grade) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_from)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_to)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.grade_points))) {
       return false;
     } else {
@@ -107,7 +106,11 @@ export class ManageExamGradesComponent implements OnInit {
   }
 
   valEditInputFields(obj) {
-    if(this.editData)
+    if(this.isSchoolModel) {
+      obj.marks_from_percent = String(obj.marks_from_percent);
+      obj.marks_to_percent = String(obj.marks_to_percent);
+      obj.grade_points = String(obj.grade_points);
+    }
     if(CommonUtils.isEmpty(obj.grade) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_from_percent)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.marks_to_percent)) || (this.isSchoolModel && CommonUtils.isEmpty(obj.grade_points))) {
       return false;
     } else {
