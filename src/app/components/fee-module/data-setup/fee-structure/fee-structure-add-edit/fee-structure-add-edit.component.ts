@@ -79,10 +79,10 @@ export class FeeStructureAddEditComponent implements OnInit {
   showMonthDropDown: boolean = false;
   defultCountryId: number = -1;
   totalFeeAmount: number = 0;
-  currencySymbol: any = "Rs ";
+  currencySymbol: any = "";
   totalTax: number = 0;
   taxPrecent: number = 0;
-  isTemplateLinkWithCourseAndStandard: boolean = false;
+  isTemplateNotLinkWithCourseAndStandard: boolean = false;
   constructor(private apiService: FeeStrucService,
     private route: Router,
     private auth: AuthenticatorService,
@@ -103,7 +103,7 @@ export class FeeStructureAddEditComponent implements OnInit {
   ngOnInit(): void {
     this.schoolModel = this.auth.schoolModel.value;
     this.is_tax_enabled = sessionStorage.getItem("enable_tax_applicable_fee_installments") == '1' ? true : false;
-    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true';
+    this.isTemplateNotLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'?false:true;
     this.checkModel();
     this.getCountryDetails();
     this.getAllMasterCourseList();
@@ -131,9 +131,7 @@ export class FeeStructureAddEditComponent implements OnInit {
         if (data.is_default == "Y") {
           this.defultCountryId = data.id;
           this.addNewTemplate.country_id = data.id;
-          if (data.id > 1) {
             this.currencySymbol = data.currency_code
-          }
           break;
         }
       }
@@ -234,7 +232,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       this.commonService.showErrorMessage('info', '', "Please enter valid template name!");
       return;
     }
-    if (!this.isTemplateLinkWithCourseAndStandard) {
+    if (!this.isTemplateNotLinkWithCourseAndStandard) {
       if (this.schoolModel && Number(this.addNewTemplate.master_course_name) < 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid standard!");
         return;
@@ -335,7 +333,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       template_id: 0,
       template_name: this.addNewTemplate.template_name
     };
-    if (!this.isTemplateLinkWithCourseAndStandard) {
+    if (!this.isTemplateNotLinkWithCourseAndStandard) {
       if (this.isLangInstitute) {
         data.course_id = '-1';
         data.subject_id = this.addNewTemplate.course_id;

@@ -112,8 +112,8 @@ export class FeeStructureHomeComponent implements OnInit {
   totalFeeAmount: any;
   feeInstallments: any;
   totalTax: number = 0;
-  currencySymbol: string = "Rs ";
-  isTemplateLinkWithCourseAndStandard: boolean = false;
+  currencySymbol: string = "";
+  isTemplateNotLinkWithCourseAndStandard: boolean = false;
   is_default:boolean=false;
   constructor(
     private router: Router,
@@ -130,7 +130,7 @@ export class FeeStructureHomeComponent implements OnInit {
     this.enableTax = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.tax_type_without_percentage = sessionStorage.getItem("tax_type_without_percentage");
     this.is_tax_enabled = this.enableTax == "1" ? true : false;
-    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true';
+    this.isTemplateNotLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'?false:true;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -334,7 +334,7 @@ export class FeeStructureHomeComponent implements OnInit {
       this.isHeaderEdit = false
     }
     else {
-      this.commonService.showErrorMessage('error', 'Fee Template Name is Mandatory', 'Please enter a valid fee template name');
+      this.commonService.showErrorMessage('error', '', 'Please enter a valid fee structure name');
     }
   }
 

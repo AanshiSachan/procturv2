@@ -328,7 +328,7 @@ export class TemplateHomeComponent implements OnInit {
       this.isHeaderEdit = false
     }
     else {
-      this.commonService.showErrorMessage('error', 'Fee Template Name is Mandatory', 'Please enter a valid fee template name');
+      this.commonService.showErrorMessage('error', '', 'Please enter a valid fee structure name!');
     }
   }
 

@@ -11,6 +11,9 @@ export class DataSetupComponent implements OnInit {
   type: string = '';
   schoolModel: boolean = false;
   activeSession: any = 'fee_types';
+  isTemplateNotLinkWithCourseAndStandard: boolean;
+  isFeeStructLinked: boolean;
+  is_tax_enabled: boolean;
 
   constructor(private auth: AuthenticatorService,
     private router: Router) {
@@ -28,6 +31,9 @@ export class DataSetupComponent implements OnInit {
         }
       }
     )
+    this.schoolModel = this.auth.schoolModel.value;
+    this.is_tax_enabled = sessionStorage.getItem("enable_tax_applicable_fee_installments") == '1' ? true : false;
+    this.isFeeStructLinked = sessionStorage.getItem("is_fee_struct_linked")=='true';
     this.setActiveClass();
   }
 
@@ -45,14 +51,12 @@ export class DataSetupComponent implements OnInit {
       pathLastURL = get_module_name;
     }
 
-    console.log(pathLastURL);
     let routesData = {
       'fee-type': 'fee_types',
       'fee-structure': 'structure',
       'discount-reason': 'discount',
     };
     this.activeSession = routesData[pathLastURL];
-    console.log(this.activeSession);
   }
 
 }

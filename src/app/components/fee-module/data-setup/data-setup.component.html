@@ -4,7 +4,10 @@
             <ol class="breadcrumb arr-right">
                 <li style="color: #0084f6;" class="breadcrumb-item "><a routerLink="/view/fee">Fees</a></li>
                 <li class="breadcrumb-item "><a>Setup</a></li>
+                <li ><a>Tax Setting {{is_tax_enabled?"Enabled":"Disable"}}</a>
+                <li><a>Fee Structure{{isFeeStructLinked?" ":" Not "}}Linked With {{schoolModel?"Standard":"Course"}}</a></li>
             </ol>
+           
         </nav>
         <ul class="nav main-shadow">
             <li class="nav-item">

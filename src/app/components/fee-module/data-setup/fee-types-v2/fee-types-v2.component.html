@@ -20,7 +20,7 @@
           <div class="tableHeight">
           <div *ngFor="let data of feeTypeList">
             <div class="table_body">
-              <div>{{data.fee_type}}</div>
+              <div>{{data.fee_type | titlecase}}</div>
               <div>{{data.fee_type_desc}}</div>
                <div *ngIf="is_tax_enabled">{{data.fee_type_tax}}</div>
               <div><a data-toggle="modal" (click)="editFeeTypes(data)" class="pointer"><img src="../../../../../assets/images/Edit.svg"
