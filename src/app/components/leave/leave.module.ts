@@ -9,6 +9,8 @@ import { LeaveComponent } from './leave/leave.component';
 import { FormsModule } from '@angular/forms';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
 // import { ExcelService } from '../../services/excel.service';
+import { SharedModule } from '../shared/shared.module';
+
 
 
 
@@ -18,7 +20,9 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
   imports: [
     CommonModule,
     LeaveRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
+
   ],
   providers: [
     ExportToPdfService

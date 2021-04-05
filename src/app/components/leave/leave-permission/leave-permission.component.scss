@@ -252,6 +252,16 @@
     color: #fff;
     border-radius: 5px;
   }
+  .reject {
+    display: inline-block;
+    width: 100px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+    background: #f44167;
+    color: #fff;
+    border-radius: 5px;
+}
   .leave_pr .table_heading>div:first-child,.leave_pr .table_body>div:first-child{
     width: 50px;
   }
@@ -282,7 +292,7 @@
       color: rgba(0, 0, 0, 0);
       opacity: 1;
       display: block;
-      // background: url(../../../assets/img1/cal.svg) no-repeat;
+      background: url(../../../../assets/img/cal.svg) no-repeat;
       width: 20px;
       height: 20px;
       border-width: thin;

@@ -3,11 +3,12 @@
       <div class="w98 display">
         <div class="page_heading">
           <p>Leave Permission</p>
+
         </div>
         <div>
-          <a href="" class="mr10"><img src="../../../assets/img1/email.svg" title="Send Report to email"></a>
-          <a href="" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-          <a href="" class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
+          <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
         </div>
       </div>
     </div>
@@ -27,7 +28,7 @@
               <div>Status</div>
               <div>Action</div>
             </div>
-            <div class="table_body">
+            <!-- <div class="table_body">
               <div>
                 1
               </div>
@@ -54,39 +55,39 @@
                <span class="pending">Pending</span>
              </div>
               <div>
-                <a href="" class="mr10" ><img src="../../../assets/img1/approve.svg" title="Approve" class="group18"></a>
-                <a href="" ><img src="../../../assets/img1/reject.svg" title="Reject" class="group18" ></a>
+                <a  class="mr10" ><img src="../../../assets/img/approve.svg" title="Approve" class="group18"></a>
+                <a href="" ><img src="../../../assets/img/reject.svg" title="Reject" class="group18" ></a>
               </div>
-            </div>
-            <div class="table_body">
+            </div> -->
+            <div class="table_body" *ngFor="let array of leaveApplicationList;let i=index">
               <div>
-                2
-              </div>
-              <div>
-                Sunil
+                {{array.id}}
               </div>
               <div>
-                Teacher
+                {{array.applied_by_name}}
               </div>
               <div>
-                Sick Leave
+                {{array.applied_by_role}}
+              </div>
+              <div>
+                {{array.type.name}}
               </div>
              <div>
-               01-02-2020
+               {{array.applied_on}}
              </div>
              <div>
-               01-02-2020 
+               {{array.from}}
              </div>
-             <div> 02-02-2020</div>
+             <div> {{array.to}}</div>
              <div>
-               2
+               {{array.no_of_days}}
              </div>
              <div>
-               <span class="approved">Approved</span>
+               <span class="approved" [ngClass]="{'reject': array.status == 'REJECTED'}">{{array.status}}</span>
              </div>
               <div>
-                <a href="" class="mr10" ><img src="../../../assets/img1/approve.svg" title="Approve" class="group18"></a>
-                <a href="" ><img src="../../../assets/img1/reject.svg" title="Reject" class="group18" ></a>
+                <a  class="mr10" (click)="approveLeave(array.id)"><img src="../../../assets/img/approve.svg" title="Approve" class="group18"></a>
+                <a (click)="getPermissionLeave(array.id)"><img src="../../../assets/img/reject.svg" title="Reject" class="group18" ></a>
               </div>
             </div>
             </div>

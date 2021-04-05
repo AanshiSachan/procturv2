@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { AuthenticatorService, HttpService, MessageShowService } from '../../..';
 declare var $;
 
@@ -30,7 +31,9 @@ export class LeaveApplicationComponent implements OnInit {
       appliedToUserId:'',
       userType:'',
       reason:'',
+      status:'CANCELLED',
       userid:1,
+      id:0,
       pageSize:100,
       pageOffset:1,
       days:0,
@@ -45,10 +48,11 @@ export class LeaveApplicationComponent implements OnInit {
 leaveApplicationList:any[]=[]
 leaveTypeList :any[]=[]
 toApplicationList:any[]=[]
+  editResult: any;
   constructor( private msgService: MessageShowService,
     private httpService: HttpService,
     private router: Router,
-    private auth: AuthenticatorService) {
+    private auth: AuthenticatorService, private pdf: ExportToPdfService,) {
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
       this.jsonFlag.created_by = sessionStorage.getItem('userid')
 
@@ -58,15 +62,16 @@ toApplicationList:any[]=[]
     this.getAllleaveType()
     this.getAllleaveApplication()
     this.getApplicationToList()
+    this.fetchTableDataByPage(1)
 
   }
 fetchNext(){
-  this.varJson.pageIndex ++;
+  this.varJson.pageIndex++;
   this.fetchTableDataByPage(this.varJson.pageIndex)
 }
 
 fetchPrevious(){
-  this.varJson.pageIndex -- ;
+  this.varJson.pageIndex-- ;
   this.fetchTableDataByPage(this.varJson.pageIndex)
 
 }
@@ -82,12 +87,15 @@ fetchTableDataByPage(index){
 
 
   getAllleaveApplication(){
+    
     this.auth.showLoader();
     const url1 ='/api/v2/leave-application/applied/'+this.jsonFlag.institute_id+'/'+this.jsonFlag.created_by+'?'+ 'pageSize='+this.leaveApllicationmodel.pageSize+ '&' +'pageOffset='+this.leaveApllicationmodel.pageOffset;
     this.httpService.getData(url1).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
+        this.varJson.total_item = this.leaveApplicationList.length;
+        // alert(this.varJson.total_item)
         console.log("mrunali",this.leaveApplicationList)
       },
       err => {
@@ -130,8 +138,7 @@ getApplicationToList(){
 }
 
 createLeaveApplication(){
-  alert(this.leaveApllicationmodel.userType)
-   
+ 
 let obj ={
   applied_by_user_id :this.jsonFlag.created_by,
   applied_to_user_id:this.leaveApllicationmodel.applicatioName,
@@ -168,7 +175,122 @@ reason:"",
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
     }
   )
+  
+ 
+  }
+  
+
+
+
+editLeaveRow(obj){
+  
+  this.leaveApllicationmodel.id= obj.id
+  this.leaveApllicationmodel.applicatioName=obj.applied_to_user_id,
+  this.leaveApllicationmodel.categoryName = obj.type.id,
+  this.leaveApllicationmodel.from = obj.from,
+  this.leaveApllicationmodel.to = obj.to
+
+
 }
+
+deleteRow(obj){
+  this.leaveApllicationmodel.id = obj;
+}
+
+withdrowLeave(){
+  let obj ={
+    status : this.leaveApllicationmodel.status,
+    id:this.leaveApllicationmodel.id
+  }
+  this.auth.showLoader();
+  const url1 = '/api/v2/leave-application/'+this.jsonFlag.institute_id+'/'+'change-status'+'/'+this.leaveApllicationmodel.id+'?'+'status='+this.leaveApllicationmodel.status;
+  this.httpService.getData(url1).subscribe(
+    (res: any) => {
+      console.log("delet obj",obj);
+      // this.createdData=res.result
+      this.auth.hideLoader();
+
+      this.getAllleaveApplication()
+
+      this.msgService.showErrorMessage('success', '', "Leave Application withdraw successfully");
+
+    },
+    err => {
+      this.auth.hideLoader();
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+    }
+  )
+
+
+}
+
+
+
+
+
+editLeaveApplication(){
+  let obj={
+    id :this.leaveApllicationmodel.id,
+    applied_by_user_id:this.jsonFlag.created_by,
+    applied_to_user_id:this.leaveApllicationmodel.applicatioName,
+    from:this.leaveApllicationmodel.from,
+    to:this.leaveApllicationmodel.to,
+    no_of_days:this.leaveApllicationmodel.days, 
+     type :{
+      id :this.leaveApllicationmodel.id
+    },
+  institute_id: this.jsonFlag.institute_id,
+  reason:"",
+
+  }
+  this.auth.showLoader();
+  const url1 = '/api/v2/leave-application'
+  this.httpService.putData(url1, obj).subscribe(
+    (res: any) => {
+     this. editResult = res
+      console.log("edit value",obj);
+      // this.createdData=res.result
+      this.auth.hideLoader();
+
+      this.getAllleaveApplication()
+
+      this.msgService.showErrorMessage('success', '', "Leave Application updated successfully");
+
+    },
+    err => {
+      this.auth.hideLoader();
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+    }
+  )
+
+}
+ deletLeaveApplication(index:number){
+   this.leaveApplicationList.splice(index,1)
+   
+ }
+
+ downloadPdf(){
+   let tepm =[]
+   this.leaveApplicationList.map((e:any)=>{
+     let obj =[
+     e.applied_to_name,
+     e.type.name,
+     e.applied_on,
+     e.from,
+     e.to,
+     e.no_of_days,
+     e.status
+     ]
+     tepm.push(obj)
+    })
+     let row=[]
+     row=[["Application To","Category","Date Applied","From","To","Days","Status"]]
+     let column =[]
+     column=tepm
+     this.pdf.exportToPdf(row,column,'Leave_pdf')   
+
+  
+ }
 
 closePopups($event) {
   $('#addModal').modal('hide');

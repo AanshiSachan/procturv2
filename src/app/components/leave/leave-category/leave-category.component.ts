@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { AuthenticatorService, HttpService, MessageShowService } from '../../..';
@@ -22,6 +22,8 @@ export class LeaveCategoryComponent implements OnInit {
   }
 
   @Output() closePopup = new EventEmitter<boolean>();
+  @Input() isEditLeaveCategory: boolean;
+
 
 leaveSearchInput:any
 leaveSearchList:any
@@ -39,6 +41,11 @@ leaveSearchList:any
      }
 
   ngOnInit(): void {
+    // $('#addModal').modal('show');
+
+    // if(this.isEditLeaveCategory){
+    //   this.editLeaveType()
+    // }
     this.getAllleaveType()
   }
 
@@ -115,6 +122,7 @@ editLeave(obj){
     this.leaveType.name = obj.name;
 }
 editLeaveType(){
+
   let obj ={
     id :this.leaveType.id,
     name:this.leaveType.name,
@@ -129,6 +137,7 @@ this.httpService.putData(url, obj).subscribe((res :any)=>{
 
   this.msgService.showErrorMessage('success', '', "Leave updated successfully");
   this.closePopups(false);
+  this.leaveType.name=''
 
 },
 err => {
@@ -136,7 +145,7 @@ err => {
   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
 
 })
-
+  
 }
 deletLeavebyId(obj){
   this.leaveType.name = obj.name
@@ -156,7 +165,6 @@ deleteLeave(){
   this.auth.hideLoader()
 
   this.msgService.showErrorMessage('success', '', "Leave deleted successfully");
-this.cancelPopups(false)
 },
 err => {
   this.auth.hideLoader();
