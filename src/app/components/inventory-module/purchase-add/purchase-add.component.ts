@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
@@ -12,7 +12,7 @@ import { element } from 'protractor';
   templateUrl: './purchase-add.component.html',
   styleUrls: ['./purchase-add.component.scss']
 })
-export class PurchaseAddComponent implements OnInit {
+export class PurchaseAddComponent implements OnInit,DoCheck {
   categoryAllData: any = [];
   supplierAllData: any = [];
   pageIndex: number = 1;
@@ -20,21 +20,19 @@ export class PurchaseAddComponent implements OnInit {
   itemArray = [];
   itemData = [];
   total: number = 0;
+  isedit: any;
+  @ViewChild('purchaseForm', { static: false }) purchaseForm: NgForm;
   url = `/api/v1/inventory/`;
   model = {
-    id: '',
-    asset_id: '',
+    purchase_id: '',
     supplier_id: '',
-    expiry_date: '',
-    institute_id: sessionStorage.getItem('institute_id'),
-    purchase_amount: '',
     purchase_date: '',
-    purchased_by_user_id: '',
-    quantity: '',
-    service_date: '',
-    unit: '',
-    user_type: '',
-    category_id: '',
+    purchase_description: '',
+    institute_id: sessionStorage.getItem('institute_id'),
+    total_amount: 0,
+    total_paid_amount: '',
+    is_refunded: false,
+    purchased_item_list:[{ "item_id":40, "quantity":5, "unit_price":500 }, { "item_id":43, "quantity":10, "unit_price":100 } ],
   }
 
   constructor(
@@ -50,6 +48,9 @@ export class PurchaseAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVendorDetails();
+  }
+  ngDoCheck(){
+    //this.totals(obj);
   }
   getCategoryItem(obj) {
     // this.auth.showLoader();
@@ -100,7 +101,7 @@ export class PurchaseAddComponent implements OnInit {
         let data = element;
         data.subtotal = Number(data.unit_cost) * Number(data.available_units);
         console.log( data.subtotal)
-        data.Prevsubtotal = data.unit_cost * data.available_units;
+        data.Prevsubtotal = data.subtotal;
         console.log( data.Prevsubtotal)
         // this.total = this.total - data.Prevsubtotal;
         this.total = this.total + data.subtotal;
@@ -127,14 +128,92 @@ export class PurchaseAddComponent implements OnInit {
     console.log(obj.subtotal)
     obj.Prevsubtotal = obj.unit_cost * obj.available_units;
     console.log(obj.Prevsubtotal)
-    obj.Prevsubtotal = obj.subtotal;
+   
     console.log(obj.Prevsubtotal)
-    //this.total = this.total - obj.Prevsubtotal;
+    this.total = this.total - obj.Prevsubtotal;
     this.total = this.total + obj.subtotal;
-    console.log( this.total)
-    
+    obj.Prevsubtotal = obj.subtotal;
+    console.log( this.total);
+    let newdata = this.itemArray.map(data =>{
+      return { "subtotal":data.subtotal,"Prevsubtotal":data.Prevsubtotal, "total":data}
+    })
+    console.log(newdata)
   }
-  savePurchaseData(){
+  saveAssetPurchaseData() {
+    if (this.purchaseForm.valid) {
+     let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
+     this.model.institute_id=sessionStorage.getItem('institute_id');
+      const formData = new FormData();
+      let assetPurchaseStringDto:any={};
+      if(this.isedit){
+        assetPurchaseStringDto.id = this.model.id;
+       }  
+       assetPurchaseStringDto.institute_id =sessionStorage.getItem('institute_id');
+       assetPurchaseStringDto.purchase_amount =this.model.purchase_amount;   
+       assetPurchaseStringDto.quantity=this.model.quantity;
+       assetPurchaseStringDto.asset_id=this.model.asset_id;
+       assetPurchaseStringDto.purchased_by_user_id =this.model.purchased_by_user_id;
+       assetPurchaseStringDto.unit=this.model.unit;
+       assetPurchaseStringDto.user_type=this.model.user_type;
+       assetPurchaseStringDto.supplier_id=this.model.supplier_id;
+      assetPurchaseStringDto.service_date = this.model.service_date ? moment(this.model.service_date).format("YYYY-MM-DD"): null;
+      assetPurchaseStringDto.expiry_date = this.model.expiry_date ? moment(this.model.expiry_date).format("YYYY-MM-DD"): null;
+      assetPurchaseStringDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
+      
+      formData.append('assetPurchaseStringDto', JSON.stringify(assetPurchaseStringDto));
+      if (file) {
+        formData.append('billImageFile', file);
+      }
+      if (this.isedit) {
 
+    }
+    //this.isedit?this.model.id:delete(this.model.id);
+      let base = this.auth.productBaseUrl;
+      // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
+      let urlPostXlsDocument = this.isedit ? base + "/prod/api/v2/asset/purchase/update" : base + "/prod/api/v2/asset/purchase/create";
+      let newxhr = new XMLHttpRequest();
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+
+      this.isedit ? newxhr.open("PUT", urlPostXlsDocument, true) : newxhr.open("POST", urlPostXlsDocument, true);
+
+      newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("x-proc-authorization", Authorization);
+      newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
+      newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      //newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
+        newxhr.onreadystatechange = () => {
+          this.auth.hideLoader();
+          if (newxhr.readyState == 4) {
+            if (newxhr.status >= 200 && newxhr.status < 300) {
+              let msg = this.isedit ? 'Asset Purchased details is Updated Successfully' : 'Asset Purchased details is Saved Successfully';
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
+              $('#modelforpurchase').modal('hide');
+              this.getPurchaseDetails();
+              this.cancel(false)
+            } else {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
+
+              // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+            }
+          }
+        }
+        newxhr.send(formData);
+      }
+    }
+    else{
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
+
+    }
   }
+
 }
