@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import * as moment from 'moment';
+declare var $;
 @Component({
   selector: 'app-purchase-item',
   templateUrl: './purchase-item.component.html',
   styleUrls: ['./purchase-item.component.scss']
 })
 export class PurchaseItemComponent implements OnInit {
-  purchaseAllData:any=[];
-  paid:number =1;
+  isedit: any;
+  purchaseAllData: any = [];
+  paid: number = 1;
   rowColumns: any;
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
@@ -21,32 +24,53 @@ export class PurchaseItemComponent implements OnInit {
   staticPageData: any = [];
   staticPageDataSouece: any = [];
   institution_id;
+  model = {
+    purchase_id: 0,
+    supplier_id: '',
+    purchase_date: '',
+    purchase_description: '',
+    institute_id: sessionStorage.getItem('institute_id'),
+    total_amount: 100,
+    total_paid_amount: 0,
+    is_refunded: false,
+    purchased_item_list: [],
+  }
+  paymentModel = {
+    purchase_id: 1,
+     purchased_by_user_id: 18000,
+      paid_amount: '', 
+      payment_date: '',
+       reference_no: '', 
+       payment_method: '', 
+       institute_id: sessionStorage.getItem('institute_id')
+  }
   constructor(private httpService: HttpService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) { 
-      this.institution_id =sessionStorage.getItem('institution_id')
-    }
+    private excelService: ExcelService) {
+    this.institution_id = sessionStorage.getItem('institution_id')
+  }
 
   ngOnInit(): void {
- this.getPurchaseDetails();
+    this.getPurchaseDetails();
   }
+  @ViewChild('addform', { static: false }) addform: NgForm;
   getPurchaseDetails() {
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         this.purchaseAllData = res.result.response;
-        let purchaseData =[];
-for(let keys of  this.purchaseAllData){
-     console.log(keys);
- // console.log(this.purchaseAllData[keys]);
-  for(let data of keys.purchased_item_list){
-    console.log(data);
-    purchaseData.push(data)
-  }
-console.log(purchaseData)
-}
+        let purchaseData = [];
+        for (let keys of this.purchaseAllData) {
+          console.log(keys);
+          // console.log(this.purchaseAllData[keys]);
+          for (let data of keys.purchased_item_list) {
+            console.log(data);
+            purchaseData.push(data)
+          }
+          console.log(purchaseData)
+        }
         // this.staticPageData = res.result.response;
         // this.tempLocationList = res.result.response;
         // this.totalRecords = res.result.total_elements;
@@ -57,12 +81,123 @@ console.log(purchaseData)
       }
     );
   }
-  isDelete =true;
-  total=100;
-  paids=200;
+  isDelete = true;
+  total = 100;
+  paids = 200;
+ tempObj;
+  showConfirm(obj) {
+    // alert("hi")
+    // this.tempObj=obj;
+    // this.tempObj.supplier_id =obj.data.supplier_id;
+    $('#deletesModal').modal('show');
+  }
 
-  addPayment(){
-    this.isDelete =false;
+  deleteRow(obj) {
 
+    this.auth.showLoader();
+    this.httpService.deleteData('' + obj.supplier_id + '?instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('success', '', 'Purchase Item Deleted Successfully');
+        this.getPurchaseDetails();
+        $('#deletesModal').modal('hide');
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+      }
+    );
+
+  }
+  //create payment
+  addPayment() {
+     //this.router.navigate(['/view/inventory-management/purchase-item']);
+     if (this.addform.valid) {
+      let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
+      this.model.institute_id = sessionStorage.getItem('institute_id');
+      const formData = new FormData();
+      let paymentDto: any = {};
+      paymentDto.institute_id = sessionStorage.getItem('institute_id');
+      paymentDto.purchase_id = this.paymentModel.purchase_id;
+      paymentDto.purchased_by_user_id =  this.paymentModel.purchased_by_user_id;
+      paymentDto.paid_amount =  this.paymentModel.paid_amount;
+      paymentDto.payment_date = moment( this.paymentModel.payment_date).format("YYYY-MM-DD");
+      paymentDto.reference_no = this.paymentModel.reference_no;
+      paymentDto.paid_amount = this.paymentModel.paid_amount;
+      paymentDto.payment_method = this.paymentModel.payment_method;
+     formData.append('paymentDto', JSON.stringify(paymentDto));
+      if (file) {
+        formData.append('billImageFile', file);
+      }
+      if (this.isedit) {
+
+      }
+      //this.isedit?this.model.id:delete(this.model.id);
+      // let base = this.auth.productBaseUrl;
+      let base = "https://test999.proctur.com/StdMgmtWebAPI"
+      // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
+      let urlPostXlsDocument =  base + "/api/v1/inventory/payment/create";
+      let newxhr = new XMLHttpRequest();
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+     newxhr.open("POST", urlPostXlsDocument, true);
+     newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("x-proc-authorization", Authorization);
+      newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
+      newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      //newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      if (!this.auth.isRippleLoad.getValue()) {
+        this.auth.showLoader();
+        newxhr.onreadystatechange = () => {
+          this.auth.hideLoader();
+          if (newxhr.readyState == 4) {
+            if (newxhr.status >= 200 && newxhr.status < 300) {
+              let msg =  'Payment details is Saved Successfully';
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
+              $('#addpayModal').modal('hide');
+              this.getPurchaseDetails();
+              //this.cancel(false)
+            } else {
+              // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
+
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+            }
+          }
+        }
+        newxhr.send(formData);
+      }
+    }
+    else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
+
+    }
+  }
+  //validate date
+  validateFutureDate() {
+    let today = moment(new Date());
+    let selected = moment(this.paymentModel.payment_date);
+    let differ = today.diff(selected, 'days');
+    if (differ < 0) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment date is greter than today's date ");
+      this.paymentModel.payment_date = moment(new Date()).format('YYYY-MM-DD');
+    }
+    return true;
+  }
+  validatePayment(data){
+let balanced_amount =2344;
+let amount =   Number(this.paymentModel.paid_amount);
+    if(amount <1){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info,'',"Payment Amount is LESS than one")
+    }
+    if(balanced_amount<=amount ){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info,'',"Payment Amount is GREATER than Balanced Amount")
+    }
   }
 }

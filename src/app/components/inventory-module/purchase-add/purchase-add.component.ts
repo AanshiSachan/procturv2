@@ -6,13 +6,15 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { element } from 'protractor';
+import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-purchase-add',
   templateUrl: './purchase-add.component.html',
   styleUrls: ['./purchase-add.component.scss']
 })
-export class PurchaseAddComponent implements OnInit,DoCheck {
+export class PurchaseAddComponent implements OnInit, DoCheck {
   categoryAllData: any = [];
   supplierAllData: any = [];
   pageIndex: number = 1;
@@ -24,15 +26,15 @@ export class PurchaseAddComponent implements OnInit,DoCheck {
   @ViewChild('purchaseForm', { static: false }) purchaseForm: NgForm;
   url = `/api/v1/inventory/`;
   model = {
-    purchase_id: '',
+    purchase_id: 0,
     supplier_id: '',
     purchase_date: '',
     purchase_description: '',
     institute_id: sessionStorage.getItem('institute_id'),
-    total_amount: 0,
-    total_paid_amount: '',
+    total_amount: 100,
+    total_paid_amount: 0,
     is_refunded: false,
-    purchased_item_list:[{ "item_id":40, "quantity":5, "unit_price":500 }, { "item_id":43, "quantity":10, "unit_price":100 } ],
+    purchased_item_list: [],
   }
 
   constructor(
@@ -40,7 +42,9 @@ export class PurchaseAddComponent implements OnInit,DoCheck {
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private route: ActivatedRoute,
+    private router: Router) {
     this.model.institute_id = sessionStorage.getItem('institution_id');
 
   }
@@ -49,7 +53,7 @@ export class PurchaseAddComponent implements OnInit,DoCheck {
   ngOnInit(): void {
     this.getVendorDetails();
   }
-  ngDoCheck(){
+  ngDoCheck() {
     //this.totals(obj);
   }
   getCategoryItem(obj) {
@@ -92,6 +96,7 @@ export class PurchaseAddComponent implements OnInit,DoCheck {
     });
   }
   getItemData(e) {
+    
     this.itemData;
     let id = e;
     id = +id;
@@ -99,20 +104,23 @@ export class PurchaseAddComponent implements OnInit,DoCheck {
     this.itemArray.forEach(element => {
       if (element && element.item_id === id) {
         let data = element;
-        data.subtotal = Number(data.unit_cost) * Number(data.available_units);
-        console.log( data.subtotal)
-        data.Prevsubtotal = data.subtotal;
-        console.log( data.Prevsubtotal)
-        // this.total = this.total - data.Prevsubtotal;
-        this.total = this.total + data.subtotal;
-        console.log(this.total)
         this.itemData.push(data);
+        let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
+        this.model.purchased_item_list.push(purchaselist)
       }
+      console.log(this.model.purchased_item_list)
     })
     console.log(this.itemData)
   }
 
-
+  //delete item row
+  deleteItemData(id){
+  this.model.purchased_item_list.forEach((element,index)=>{
+       if(element.item_id==id) this.model.purchased_item_list.splice(index,1);
+     
+    });
+    console.log(this.model.purchased_item_list);
+    }
   status: boolean = true;
   editdata(param) {
     this.status = param;
@@ -128,49 +136,48 @@ export class PurchaseAddComponent implements OnInit,DoCheck {
     console.log(obj.subtotal)
     obj.Prevsubtotal = obj.unit_cost * obj.available_units;
     console.log(obj.Prevsubtotal)
-   
+
     console.log(obj.Prevsubtotal)
     this.total = this.total - obj.Prevsubtotal;
     this.total = this.total + obj.subtotal;
     obj.Prevsubtotal = obj.subtotal;
-    console.log( this.total);
-    let newdata = this.itemArray.map(data =>{
-      return { "subtotal":data.subtotal,"Prevsubtotal":data.Prevsubtotal, "total":data}
+    console.log(this.total);
+    let newdata = this.itemArray.map(data => {
+      return { "subtotal": data.subtotal, "Prevsubtotal": data.Prevsubtotal, "total": data }
     })
     console.log(newdata)
   }
-  saveAssetPurchaseData() {
+  savePurchaseData() {
+    //this.router.navigate(['/view/inventory-management/purchase-item']);
     if (this.purchaseForm.valid) {
-     let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
-     this.model.institute_id=sessionStorage.getItem('institute_id');
+      let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
+      this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
-      let assetPurchaseStringDto:any={};
-      if(this.isedit){
-        assetPurchaseStringDto.id = this.model.id;
-       }  
-       assetPurchaseStringDto.institute_id =sessionStorage.getItem('institute_id');
-       assetPurchaseStringDto.purchase_amount =this.model.purchase_amount;   
-       assetPurchaseStringDto.quantity=this.model.quantity;
-       assetPurchaseStringDto.asset_id=this.model.asset_id;
-       assetPurchaseStringDto.purchased_by_user_id =this.model.purchased_by_user_id;
-       assetPurchaseStringDto.unit=this.model.unit;
-       assetPurchaseStringDto.user_type=this.model.user_type;
-       assetPurchaseStringDto.supplier_id=this.model.supplier_id;
-      assetPurchaseStringDto.service_date = this.model.service_date ? moment(this.model.service_date).format("YYYY-MM-DD"): null;
-      assetPurchaseStringDto.expiry_date = this.model.expiry_date ? moment(this.model.expiry_date).format("YYYY-MM-DD"): null;
-      assetPurchaseStringDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
-      
-      formData.append('assetPurchaseStringDto', JSON.stringify(assetPurchaseStringDto));
+      let purchaseDto: any = {};
+      if (this.isedit) {
+        purchaseDto.purchase_id = this.model.purchase_id;
+      }
+      purchaseDto.institute_id = sessionStorage.getItem('institute_id');
+      purchaseDto.supplier_id = this.model.supplier_id;
+      purchaseDto.purchase_id = this.model.purchase_id;
+      purchaseDto.purchase_description = this.model.purchase_description;
+      purchaseDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
+      purchaseDto.total_amount = this.model.total_amount;
+      purchaseDto.total_paid_amount = this.model.total_paid_amount;
+      purchaseDto.is_refunded = this.model.is_refunded;
+      purchaseDto.purchased_item_list = this.model.purchased_item_list;
+      formData.append('purchaseDto', JSON.stringify(purchaseDto));
       if (file) {
         formData.append('billImageFile', file);
       }
       if (this.isedit) {
 
-    }
-    //this.isedit?this.model.id:delete(this.model.id);
-      let base = this.auth.productBaseUrl;
+      }
+      //this.isedit?this.model.id:delete(this.model.id);
+      // let base = this.auth.productBaseUrl;
+      let base = "https://test999.proctur.com/StdMgmtWebAPI"
       // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
-      let urlPostXlsDocument = this.isedit ? base + "/prod/api/v2/asset/purchase/update" : base + "/prod/api/v2/asset/purchase/create";
+      let urlPostXlsDocument = this.isedit ? base + "/api/v1/inventory/purchase/update" : base + "/api/v1/inventory/purchase/create";
       let newxhr = new XMLHttpRequest();
       let auths: any = {
         userid: sessionStorage.getItem('userid'),
@@ -195,25 +202,41 @@ export class PurchaseAddComponent implements OnInit,DoCheck {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = this.isedit ? 'Asset Purchased details is Updated Successfully' : 'Asset Purchased details is Saved Successfully';
+              let msg = this.isedit ? 'Purchased details is Updated Successfully' : 'Purchased details is Saved Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
-              $('#modelforpurchase').modal('hide');
-              this.getPurchaseDetails();
-              this.cancel(false)
+              //$('#modelforpurchase').modal('hide');
+              this.router.navigate(['/view/inventory-management/purchase-item']);
+              // this.getPurchaseDetails();
+              //this.cancel(false)
             } else {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
+              // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
-              // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
           }
         }
         newxhr.send(formData);
       }
     }
-    else{
+    else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
 
     }
+  }
+
+  editRow() {
+    this.isedit = false;
+  }
+  validateFutureDate() {
+    let today = moment(new Date());
+    let selected = moment(this.model.purchase_date);
+    let differ = today.diff(selected, 'days');
+    if (differ < 0) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Purchase date is greter than today's date ");
+      this.model.purchase_date = moment(new Date()).format('YYYY-MM-DD');
+    }
+
+    return true;
   }
 
 }

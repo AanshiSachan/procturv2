@@ -1,98 +1,97 @@
-
- <div class="page-content">
-    <div class="head_padding">
-      <div class="w98">
-        <div class="page_heading">
-          <p>Purchase Item</p>
-        </div>
+<div class="page-content">
+  <div class="head_padding">
+    <div class="w98">
+      <div class="page_heading">
+        <p>Purchase Item</p>
       </div>
     </div>
-      <div class="w98 flex">
-        <div class="div_1">
-          <div class="heading1">
-            <p>Purchase</p>
-          </div>
-              <div class="pt102" [class.has-error]="supplier_id.invalid && supplier_id.touched">
-                <select class="select wid100" name="supplier_id" id="supplier_id"
-                [(ngModel)]="model.supplier_name" #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)">
-                  <option value="">
-                    Supplier Name*
-                  </option>
-                 <option value="{{data.supplier_id}}" *ngFor="let data of supplierAllData">
-                   {{data.supplier_name}}</option>
-                </select>
-              </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!supplier_id.valid && supplier_id.touched">
-                Supplier  name is mandatory
-             </span></p>
-               <div class="pt102" >
-                  <input type="Date" class="input wid100" name="purchase_date" 
-                  placeholder="Date*"  [(ngModel)]="model.purchase_date" #purchase_date="ngModel" >
-              </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!purchase_date.valid && purchase_date.touched">
-               Date is mandatory
-             </span></p>
-              <div class="pt102">
-                  <input type="File" class="input wid100" name="billImageFile" 
-                  placeholder="Date*"
-                  [(ngModel)]="model.billImageFile">
-              </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block">
-                </span></p>
-              <div class="pt102">
-                  <textarea  class="input wid100 textarea1" name="purchase_description" 
-                  placeholder="Description"
-                  [(ngModel)]="model.purchase_description"></textarea>
-              </div>
-              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+  </div>
+  <form #purchaseForm="ngForm">
+  <div class="w98 flex">
+   <div class="div_1">
+      <div class="heading1">
+        <p>Purchase</p>
+      </div>
+      <div class="pt102" [class.has-error]="supplier_id.invalid && supplier_id.touched">
+        <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
+          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" required>
+          <option value="">
+            Supplier Name*
+          </option>
+          <option value="{{data.supplier_id}}" *ngFor="let data of supplierAllData">
+            {{data.supplier_name}}</option>
+        </select>
+      </div>
+      <p class="errormsg"><span style="height:10px;" class="help-block"
+          *ngIf="!supplier_id.valid && supplier_id.touched">
+          Supplier name is mandatory
+        </span></p>
+      <div class="pt102">
+        <input type="Date" class="input wid100" name="purchase_date" placeholder="Date*"
+          [(ngModel)]="model.purchase_date" #purchase_date="ngModel"
+          (change)="validateFutureDate($event)" required>
+      </div>
+      <p class="errormsg"><span style="height:10px;" class="help-block"
+          *ngIf="!purchase_date.valid && purchase_date.touched" >
+          Date is mandatory
+        </span></p>
+      <div class="pt102">
+        <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
+          [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
+          [(ngModel)]="bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+      </div>
+      <p class="errormsg"><span style="height:10px;" class="help-block">
+        </span></p>
+      <div class="pt102">
+        <textarea class="input wid100 textarea1" name="purchase_description" placeholder="Description"
+          [(ngModel)]="model.purchase_description"></textarea>
+      </div>
+      <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
               </span></p> -->
+    </div>
+    <div class="div_2">
+    
+        <div class="heading1">
+          <p>Purchase Item</p>
         </div>
-       <div  class="div_2">
-         <form  #purchaseForm="ngForm" >                        
-          <div class="heading1">
-            <p>Purchase Item</p>
+        <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
+          <select class="select sel1 mr10" name="categoryId" id="categoryId" [(ngModel)]="model.categoryId"
+            #category_id="ngModel" (change)="getItemAgainscat($event)">
+            <option value="">Category Name*</option>
+            <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
+              {{data.categoryName}} </option>
+          </select>
+          <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
+            [(ngModel)]="model.item_name" #item_id="ngModel">
+            <option value="">Item Name*</option>
+            <option value="{{data.item_id}}" *ngFor="let data of itemArray">
+              {{data.item_name}}</option>
+          </select>
+        </div>
+        <p><span style="height:10px;" class="help-block" *ngIf="!category_id.valid && category_id.touched">
+            Category is mandatory
+          </span></p>
+        <p><span style="height:10px;" class="help-block" *ngIf="!item_id.valid && item_id.touched">
+            Item is mandatory
+          </span></p>
+        <div class="tablehead">
+          <div>
+            Item
           </div>
-            <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
-                  <select class="select sel1 mr10"  name="categoryId" id="categoryId"
-                  [(ngModel)]="model.categoryId" #category_id="ngModel"
-                  (change)="getItemAgainscat($event)">
-                    <option value="">Category Name*</option>
-                    <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
-                      {{data.categoryName}} </option>
-                  </select>
-                   <select class="select sel1 mr10"
-                    name="item_id" id="category_id"
-                    (ngModelChange)="getItemData($event)"
-                  [(ngModel)]="model.item_name" #item_id="ngModel">
-                    <option value="">Item Name*</option>
-                    <option value="{{data.item_id}}" *ngFor="let data of itemArray">
-                      {{data.item_name}}</option>
-                  </select>
-            </div>
-            <p ><span  style="height:10px;" class="help-block" *ngIf="!category_id.valid && category_id.touched">
-              Category is mandatory
-            </span></p>
-            <p ><span  style="height:10px;" class="help-block" *ngIf="!item_id.valid && item_id.touched">
-              Item is mandatory
-            </span></p>
-            <div class="tablehead">
-              <div>
-                Item
-              </div>
-              <div>
-                Unit Price
-              </div>
-              <div>
-                Units
-              </div>
-              <div>
-                Subtotal
-              </div>
-              <div>
-                Actions
-              </div>
-            </div>
-            <!-- <div class="tablebody">
+          <div>
+            Unit Price
+          </div>
+          <div>
+            Units
+          </div>
+          <div>
+            Subtotal
+          </div>
+          <div>
+            Actions
+          </div>
+        </div>
+        <!-- <div class="tablebody">
               <div>
                 Abc
               </div>
@@ -110,104 +109,107 @@
                  <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
               </div>
             </div> -->
-            <div class="tablebody" *ngFor="let data of itemData">
-              <div>
-               {{data.item_name}}
-              </div>
-              <div>
-               <input type="text" name="unit_cost" value="{{data.unit_cost}}" [(ngModel)]="data.unit_cost"  
-                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
-                (change)="totals(data)"
-                [disabled]="status"
-                class="input wid80">
-              </div>
-              <div>
-                <input type="text" name="available_units" value="{{data.available_units}}"
-                [disabled]="status"
-                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" class="input wid80"
-                 [(ngModel)]="data.available_units" (change)="totals(data)">
-              </div>
-              <div>
-               {{data.subtotal}}
-              </div>
-              <div>
-                <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18 mr10"></a>
-                 <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
-              </div>
-            </div>
-            
-             <div class="tabletotal" *ngIf="isChange">
-              <div>
-                
-              </div>
-              <div>
-               Total
-              </div>
-              <div>
-                15
-              </div>
-              <div>
-              {{total}}
-              </div>
-              <div>
-              </div>
-            </div>
-          </form>
-       </div>
-      </div>
-      <div class="h60"></div>
-       <div class="white bottom_button bottom_pagignation">
-        <div class="display w98">
-          <div> <button class="blue_button cancel" routerLink="/view/inventory-management/purchase-item">Back </button></div>
-          <div> 
-           
-            <button style="margin-left: 10px;"class="blue_button" (click)="savePurchaseData()">Save</button>
-            
+        <div class="tablebody" *ngFor="let data of itemData">
+          <div>
+            {{data.item_name}}
+          </div>
+          <div>
+            <input type="text" name="unit_cost" value="{{data.unit_cost}}" [(ngModel)]="data.unit_cost"
+              onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" (change)="totals(data)"
+              [disabled]="status" class="input wid80">
+          </div>
+          <div>
+            <input type="text" name="available_units" value="{{data.available_units}}" [disabled]="status"
+              onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" class="input wid80"
+              [(ngModel)]="data.available_units" (change)="totals(data)">
+          </div>
+          <div>
+            {{data.subtotal}}
+          </div>
+          <div>
+            <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit"
+                class="group18 mr10"></a>
+            <a (click)="deleteItemData(data.item_id)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
           </div>
         </div>
-      <!-- pagignation div -->
-       
-    </div>    
-          <!-- use image only when page is empty,table body class element will not be present -->
 
-</div> 
-  <div class="modal" id="addpayModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" >Add Payment</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="tabletotal" *ngIf="isChange">
+          <div>
+
+          </div>
+          <div>
+            Total
+          </div>
+          <div>
+            15
+          </div>
+          <div>
+            {{total}}
+          </div>
+          <div>
+          </div>
         </div>
-        <div class="modal-body">
-          <div class="flex">
-            <div class="sec1">
-              <div class="pt10">
-                  <input type="Date" class="input wid100" name="" placeholder="Date*">
-              </div>
-              <div class="pt10">
-                  <select class="select wid100">
-                    <option>Payment Method*</option>
-                  </select>
-              </div>
-              <div class="pt10">
-                  <input type="File" class="input wid100" name="" placeholder="Date*">
-              </div>
+     
+    </div>
+    
+  </div>
+  </form>
+  <div class="h60"></div>
+  <div class="white bottom_button bottom_pagignation">
+    <div class="display w98">
+      <div> <button class="blue_button cancel" routerLink="/view/inventory-management/purchase-item">Back </button>
+      </div>
+      <div>
+
+        <button style="margin-left: 10px;" class="blue_button" (click)="savePurchaseData()" *ngIf="!isedit">Save</button>
+        <!-- <button style="margin-left: 10px;" class="blue_button" (click)="savePurchaseData()" *ngIf="isedit">Update</button> -->
+
+     
+      </div>
+    </div>
+    <!-- pagignation div -->
+
+  </div>
+  <!-- use image only when page is empty,table body class element will not be present -->
+
+</div>
+<div class="modal" id="addpayModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Payment</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="flex">
+          <div class="sec1">
+            <div class="pt10">
+              <input type="Date" class="input wid100" name="" placeholder="Date*">
             </div>
-            <div class="sec2">
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Refrence No.">
-              </div>
-              <div class="pt10">
-                  <input type="text" class="input wid100" name="" placeholder="Amount*">
-              </div>
-             
+            <div class="pt10">
+              <select class="select wid100">
+                <option>Payment Method*</option>
+              </select>
+            </div>
+            <div class="pt10">
+              <input type="File" class="input wid100" name="" placeholder="Date*">
             </div>
           </div>
-          <div class="pt10">
-            <button class="right blue_button">Save</button>
+          <div class="sec2">
+            <div class="pt10">
+              <input type="text" class="input wid100" name="" placeholder="Refrence No.">
+            </div>
+            <div class="pt10">
+              <input type="text" class="input wid100" name="" placeholder="Amount*">
+            </div>
+
           </div>
-        </div>        
+        </div>
+        <div class="pt10">
+          <button class="right blue_button">Save</button>
+        </div>
       </div>
     </div>
   </div>
-  <router-outlet></router-outlet>
+</div>
+<router-outlet></router-outlet>
