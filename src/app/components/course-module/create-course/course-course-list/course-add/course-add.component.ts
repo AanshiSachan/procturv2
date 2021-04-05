@@ -24,7 +24,7 @@ export class CourseAddComponent implements OnInit {
     course_name: '',
     start_Date: '',
     end_Date: '',
-    academic_year_id: '-1',
+    academic_year_id: '',
     allow_exam_grades: ''
   };
 
@@ -50,6 +50,9 @@ export class CourseAddComponent implements OnInit {
   examGradeFeature: any;
   divCreateNewCourse: boolean = false;
   schoolModel: boolean = false;
+  defaultAY: string='';
+  defaultAYStartDate: string;
+  defaultAYEndDate: string;
 
   constructor(
     private apiService: CourseListService,
@@ -86,6 +89,9 @@ export class CourseAddComponent implements OnInit {
     for (let acad of this.academicList) {
       if (row == null) {
         if (acad.default_academic_year == 1) {
+          this.defaultAY=acad.inst_acad_year_id;
+          this.defaultAYStartDate=moment(acad.start_date).format('YYYY-MM-DD');
+          this.defaultAYEndDate=moment(acad.end_date).format('YYYY-MM-DD');
           this.courseDetails.academic_year_id = acad.inst_acad_year_id;
           this.courseDetails.start_Date = moment(acad.start_date).format('YYYY-MM-DD');
           this.courseDetails.end_Date = moment(acad.end_date).format('YYYY-MM-DD');
@@ -177,6 +183,7 @@ export class CourseAddComponent implements OnInit {
   }
 
   getActiveTeacherList(standard_id) {
+    debugger
     this.auth.showLoader();
     this.httpService.getData('/api/v1/teachers/fetch-teacher/' + sessionStorage.getItem('institute_id') + "?standard_id=" + standard_id + "&subject_id=&is_active=Y&is_std_sub_required=true").subscribe(
       (res: any) => {
@@ -187,14 +194,23 @@ export class CourseAddComponent implements OnInit {
           this.activeTeachers.filter(teacher => {
             if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
               this.subjectList[i].allowedTeacher.push(teacher);
-              this.subjectList[i].allowedTeacher.push({
-                "is_active": "Y",
-                "standard_subject_list": [],
-                "teacher_email": null,
-                "teacher_id": "more",
-                "teacher_name": "More",
-                "teacher_phone": "7503959545"
-              })
+              let is_not_exit: boolean = true;
+              for (let data of this.subjectList[i].allowedTeacher) {
+                if (data.teacher_id == 'more') {
+                  is_not_exit = false
+                  break;
+                }
+              }
+              if (is_not_exit) {
+                this.subjectList[i].allowedTeacher.push({
+                  "is_active": "Y",
+                  "standard_subject_list": [],
+                  "teacher_email": null,
+                  "teacher_id": "more",
+                  "teacher_name": "Click Here to view more faculties",
+                  "teacher_phone": "7503959545"
+                })
+              }
             }
           })
         }
@@ -210,6 +226,7 @@ export class CourseAddComponent implements OnInit {
     obj.selected_teacher == 'more' ? (obj.allowedTeacher = this.activeTeachers) : '';
   }
   addDataToTable() {
+    debugger
     if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != ""
       && this.courseDetails.start_Date != null && this.courseDetails.end_Date != ''
       && this.courseDetails.end_Date != null) {
@@ -225,6 +242,15 @@ export class CourseAddComponent implements OnInit {
         let validateData = this.validateAllFields(this.subjectList);
         if (validateData == false) {
           return;
+        }
+        if(this.courseDetails.academic_year_id && this.courseDetails.academic_year_id=='' ){
+          let err = {
+            type: "error",
+            title: "",
+            body: "Please Select Academic Year!"
+          }
+          this.toastCtrl.popToast(err);
+          return
         }
         let obj: any = {};
         obj.course_name = this.courseDetails.course_name;
@@ -277,9 +303,9 @@ export class CourseAddComponent implements OnInit {
   clearAllFormsData() {
     this.courseDetails = {
       course_name: '',
-      start_Date: '',
-      end_Date: '',
-      academic_year_id: '-1',
+      start_Date: this.defaultAYStartDate,
+      end_Date: this.defaultAYEndDate,
+      academic_year_id: this.defaultAY,
       allow_exam_grades: ''
     };
     let bindData = this.addKeyInData(this.subjectListDataSource);
