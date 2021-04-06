@@ -193,7 +193,7 @@ export class CourseAddComponent implements OnInit {
           let is_teacher_exit: boolean = true;
           this.activeTeachers.filter(teacher => {
             if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
-              let is_teacher_exit=false;
+              is_teacher_exit=false;
               this.subjectList[i].allowedTeacher.push(teacher);
               let is_more_option_exit: boolean = true;
               for (let data of this.subjectList[i].allowedTeacher) {
@@ -202,7 +202,7 @@ export class CourseAddComponent implements OnInit {
                   break;
                 }
               }
-              if (is_teacher_exit) {
+              if (is_more_option_exit) {
                 this.subjectList[i].allowedTeacher.push({
                   "is_active": "Y",
                   "standard_subject_list": [],
