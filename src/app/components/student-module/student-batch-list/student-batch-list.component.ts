@@ -249,6 +249,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     batchChangeAlert(value, batch) {
+        if (this.checkForAssignSingleSection(value, batch.data.course_id)) {
+            return;
+        }
         for (let i = 0; i < this.dataList.length; i++) {
             if (!this.isProfessional) {
                 if (this.dataList[i].data.course_id == batch.data.course_id) {
@@ -265,7 +268,34 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             }
         }
     }
+    checkForAssignSingleSection(value: boolean, course_id: number) {
+        if (this.schoolModel && value) {
+            let isValid = false;
+            for (let data of this.dataList) {
+                if (data.isSelected && data.data.course_id != course_id) {
+                    isValid = true;
+                    break;
+                }
+            }
+            if (isValid) {
+                for (let i = 0; i < this.dataList.length; i++) {
+                    if (this.dataList[i].data.course_id == course_id) {
+                        this.dataList[i].isSelected = false;
+                        let obj = {
+                            type: 'error',
+                            title: "You can not assign multiple section to student!",
+                            body: ""
+                        }
+                        this.appC.popToast(obj);
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                        return true;
+                    }
+                }
 
+            }
+        }
+    }
     assginTemplate(batch) {
         batch.data.feeTemplateList.map((template) => {
             if (batch.data.selected_fee_template_id == template.template_id) {
