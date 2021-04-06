@@ -1298,7 +1298,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
 
   convertTOStudent(instituteEnqId) {
-    debugger
     let obj: any = {
       name: this.newEnqData.name,
       phone: this.newEnqData.phone,
@@ -1318,7 +1317,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       assigned_to: this.newEnqData.assigned_to,
       state_id: this.newEnqData.state_id,
       area_id: this.newEnqData.area_id,
-      city_id: this.newEnqData.city_id
+      city_id: this.newEnqData.city_id,
+      comments: this.newEnqData.enquiry,
     }
     if (this.schoolModel) {
         obj.birth_place = this.newEnqData.birth_place,
