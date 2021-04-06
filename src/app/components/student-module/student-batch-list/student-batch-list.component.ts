@@ -1,5 +1,5 @@
 
-import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 
@@ -43,7 +43,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         unSelectAllText: 'UnSelect All',
         itemsShowLimit: 10,
         enableCheckAll: true
-      };
+    };
     selectedSubList: any = [];
 
     @Input() dataList: any[] = [];
@@ -75,12 +75,12 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         // changes by Nalini - to handle school model conditions
         this.auth.schoolModel.subscribe(
             res => {
-              this.schoolModel = false;
-              if (res) {
-                this.schoolModel = true;
-              }
+                this.schoolModel = false;
+                if (res) {
+                    this.schoolModel = true;
+                }
             }
-          )
+        )
 
         this.countryList = JSON.parse(sessionStorage.getItem('country_data'));
     }
@@ -89,7 +89,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.cd.markForCheck();
         this.modelChanged.pipe(
             debounceTime(1000),
-            distinctUntilChanged(),)
+            distinctUntilChanged())
             .subscribe(model => {
                 this.model = model;
                 this.cd.markForCheck();
@@ -108,12 +108,12 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             }
             e.data.subject_list = [];
             e.data.optional_subject_id = [];
-            if(e.data.batchesList && e.data.batchesList.length) {
+            if (e.data.batchesList && e.data.batchesList.length) {
                 e.data.batchesList.forEach(element => {
-                    if(element.is_optional_subject) {
+                    if (element.is_optional_subject) {
                         e.data.subject_list.push(element);
                     }
-                    if(element.is_optional_subject && element.is_optional_subject_assign) {
+                    if (element.is_optional_subject && element.is_optional_subject_assign) {
                         e.data.optional_subject_id.push({
                             'subject_id': element.subject_id,
                             'subject_name': element.subject_name
@@ -207,7 +207,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     this.appC.popToast(alert);
                 }
             }
-            for(let j in this.dataList[i].data.optional_subject_id) {                
+            for (let j in this.dataList[i].data.optional_subject_id) {
                 this.selectedSubList.push(this.dataList[i].data.optional_subject_id[j].subject_id)
             }
         }
@@ -249,6 +249,10 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     batchChangeAlert(value, batch) {
+        debugger
+        if (this.checkForAssignSingleSection(value, batch.data.course_id)) {
+            return;
+        }
         for (let i = 0; i < this.dataList.length; i++) {
             if (!this.isProfessional) {
                 if (this.dataList[i].data.course_id == batch.data.course_id) {
@@ -262,6 +266,34 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     this.createUpdate(value, i, batch);
                     this.assginTemplate(batch);
                 }
+            }
+        }
+    }
+    checkForAssignSingleSection(value: boolean, course_id: number) {
+        if (this.schoolModel && value) {
+            let isValid = false;
+            for (let data of this.dataList) {
+                if (data.isSelected && data.data.course_id != course_id) {
+                    isValid = true;
+                    break;
+                }
+            }
+            if (isValid) {
+                for (let i = 0; i < this.dataList.length; i++) {
+                    if (this.dataList[i].data.course_id == course_id) {
+                        this.dataList[i].isSelected = false;
+                        let obj = {
+                            type: 'error',
+                            title: "You can not assign multiple section to student!",
+                            body: ""
+                        }
+                        this.appC.popToast(obj);
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                        return true;
+                    }
+                }
+
             }
         }
     }
@@ -282,32 +314,32 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         if (value) {
             this.dataList[index].isSelected = value;
             let todaysDate = new Date();
-                if(!(todaysDate <= new Date(this.dataList[index].data.end_date))){
-                    let msg = 'This course is already expired';
-                    if(this.isProfessional) {
-                        msg = 'This batch is already expired';
-                    }
-                    let obj = {
-                        type: 'error',
-                        title: msg,
-                        body: ""
-                      }
-                      this.appC.popToast(obj);
-                      this.dataList[index].isSelected = false;
-                      let ind: any = 0;
-                      for (let i = 0; i < this.batchList.length; i++) {
-                        if (!this.isProfessional) {
-                            if (this.batchList[i].data.course_id == batch.data.course_id) {
-                                ind = i;
-                            }
-                        } else {
-                            if (this.batchList[i].data.batch_id == batch.data.batch_id) {
-                                ind = i;
-                            }
+            if (!(todaysDate <= new Date(this.dataList[index].data.end_date))) {
+                let msg = 'This course is already expired';
+                if (this.isProfessional) {
+                    msg = 'This batch is already expired';
+                }
+                let obj = {
+                    type: 'error',
+                    title: msg,
+                    body: ""
+                }
+                this.appC.popToast(obj);
+                this.dataList[index].isSelected = false;
+                let ind: any = 0;
+                for (let i = 0; i < this.batchList.length; i++) {
+                    if (!this.isProfessional) {
+                        if (this.batchList[i].data.course_id == batch.data.course_id) {
+                            ind = i;
+                        }
+                    } else {
+                        if (this.batchList[i].data.batch_id == batch.data.batch_id) {
+                            ind = i;
                         }
                     }
-                    (document.getElementById('checkbox-' + ind) as HTMLInputElement).checked = false;
                 }
+                (document.getElementById('checkbox-' + ind) as HTMLInputElement).checked = false;
+            }
         }
         /* unchecked batch/course */
         else {
