@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
 import {role} from '../../../model/role_features'
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-online-exam-home',
@@ -21,7 +22,8 @@ export class OnlineExamHomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private http:HttpService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigateByUrl('/authPage');
@@ -129,7 +131,10 @@ checkInstSetupType(value, role): boolean {
   }
 
   openExamdesk() {
-    window.open('https://examdesk.co/');
+    this.http.getData("/api/v2/user/examdesk/SSO")
+      .subscribe((data: any) => {
+        window.open('https://uat.examdesk.co/administrator/login?token=' + data.result);
+      });
   }
 
 
