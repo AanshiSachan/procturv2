@@ -249,7 +249,16 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     batchChangeAlert(value, batch) {
+        debugger
+        let data=this.batchList;
         if (this.checkForAssignSingleSection(value, batch.data.course_id)) {
+            for(let i=0;i<this.batchList.length;i++){
+                if(this.batchList[i].data.course_id==batch.data.course_id){
+                    this.batchList[i].isSelected=false;
+                    (document.getElementById('checkbox-' + i) as HTMLInputElement).checked = false;
+                    return ;
+                }
+            }
             return;
         }
         for (let i = 0; i < this.dataList.length; i++) {
