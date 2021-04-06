@@ -43,9 +43,9 @@ leaveSearchList:any
   ngOnInit(): void {
     // $('#addModal').modal('show');
 
-    // if(this.isEditLeaveCategory){
-    //   this.editLeaveType()
-    // }
+    if(this.isEditLeaveCategory){
+      this.editLeaveType()
+    }
     this.getAllleaveType()
   }
 
@@ -60,13 +60,16 @@ leaveSearchList:any
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   }
 
 createLeaveType(){
 // if(this.leaveType.id != 0){
+
+
+
   if(this.leaveType.name.trim() != ''){
   let obj = {
 institute_id: this.jsonFlag.institute_id,
@@ -78,18 +81,19 @@ name: this.leaveType.name,
     this.auth.hideLoader();
     this.ceateLeaveData = res.result
     this.getAllleaveType()
+    this.leaveType.name=''
+
     if (res.statusCode == 200) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Leave created successfully');
       this.closePopups(false);
     //  this.leaveType.id=0,
-     this.leaveType.name=''
 
     }
  
   },
   err => {
     this.auth.hideLoader();
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
   }
 )
 } else {
@@ -135,9 +139,10 @@ this.httpService.putData(url, obj).subscribe((res :any)=>{
   this.auth.hideLoader()
   this.getAllleaveType()
 
-  this.msgService.showErrorMessage('success', '', "Leave updated successfully");
-  this.closePopups(false);
   this.leaveType.name=''
+
+  this.msgService.showErrorMessage('success', '', "Leave updated successfully");
+  // this.leaveType.name=''
 
 },
 err => {
@@ -145,7 +150,7 @@ err => {
   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
 
 })
-  
+
 }
 deletLeavebyId(obj){
   this.leaveType.name = obj.name
@@ -204,8 +209,8 @@ closePopups($event) {
 }
 
 
-cancelPopups($event){
-  $('#deleteModal').model('hide');
+cancelPopups2($event){
+  $('#editModel').model('hide');
   this.closePopup.emit(false)
 }
 }

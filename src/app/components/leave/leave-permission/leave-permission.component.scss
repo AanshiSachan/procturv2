@@ -252,13 +252,33 @@
     color: #fff;
     border-radius: 5px;
   }
-  .reject {
+  .denied {
     display: inline-block;
     width: 100px;
     font-weight: 600;
     line-height: 20px;
     text-align: center;
     background: #f44167;
+    color: #fff;
+    border-radius: 5px;
+}
+  .cancled{
+    display: inline-block;
+    width: 100px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+    background: #f44167;
+    color: #fff;
+    border-radius: 5px;
+  }
+  .reject {
+    display: inline-block;
+    width: 100px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;   
+    background: #c61111;  
     color: #fff;
     border-radius: 5px;
 }

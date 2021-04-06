@@ -38,22 +38,26 @@
                 {{ (!array.applied_to_name) ? '-' : (array.applied_to_name.length > 20) ?
               (array.applied_to_name | slice:0:20) + '...' : array.applied_to_name}}
               </div>
-              <div>
-                {{array.type.name}}
+              <div title="{{array?.type.name}}">
+                {{ (!array.type.name) ? '-' : (array.type.name.length > 20) ?
+                (array.type.name | slice:0:20) + '...' : array.type.name}}
               </div>
-             <div>
+             <div title="{{array?.applied_on}}">
                {{array.applied_on}}
              </div>
-             <div>
+             <div title="{{array?.from}}">
               {{array.from}}
             </div>
-             <div>{{array.to}}</div>
-             <div>
-              {{array.no_of_days}}
+             <div title="{{array?.to}}">{{array.to}}</div>
+             <div title="{{array?.no_of_days}}">
+              {{ array.no_of_days}}
+              <!-- {{calculateDiff(array.no_of_days)}} -->
              </div>
              <div>
     
-      <span class="pending" [ngClass]="{'denied': array.status=='CANCELLED'}">{{array.status == 'CANCELLED'  ?  'Denied' : array.status}}</span>
+      <!-- <span class="pending" [ngClass]="{'denied': array.status=='CANCELLED'}">{{array.status == 'CANCELLED'  ?  'Withdraw' : array.status}}</span> -->
+      <span  [ngClass]="{'denied' : array.status == 'CANCELLED','pending' : array.status == 'PENDING', 'approved' : array.status == 'APPROVED'}">{{array.status == 'CANCELLED'  ?  'Withdraw' : array.status}}</span>
+
              </div>
               <div>
                 <a href="" class="mr10" data-toggle="modal" data-target="#editModal" (click)="editLeaveRow(array)"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
@@ -156,8 +160,9 @@
           <div class="pt10">
             <input type="date" name="" [(ngModel)]="leaveApllicationmodel.from" class="wid100 input" placeholder="From*">
           </div>
+       
           <div class="pt10">
-            <input type="date" name="" [(ngModel)]="leaveApllicationmodel.to" class="wid100 input" placeholder="To*">
+            <input type="date" name="" [(ngModel)]="leaveApllicationmodel.to" class="wid100 input"  placeholder="To*">
           </div>
           <div class="pt10 h10">
             <button class="blue_button right" (click)="createLeaveApplication()">Apply</button>
@@ -216,7 +221,7 @@
         </div>
         <div class="modal-body">
           <div class="pt10">
-            <button class="white_button">Cancel</button>
+            <button class="white_button" data-dismiss="modal">Cancel</button>
             <button class="blue_button right" (click)="withdrowLeave()">Withdraw</button>
           </div>
         </div>        

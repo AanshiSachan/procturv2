@@ -681,7 +681,7 @@
             <a routerLink="/view/leave/leave-application">
                 <span>Leave Application</span>
         </a>
-        <a routerLink="/view/leave/leave-category">
+        <a  *ngIf="jsonFlags.isAdmin" routerLink="/view/leave/leave-category">
             <span>Leave Category</span>
     </a>
 

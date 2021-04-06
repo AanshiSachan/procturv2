@@ -11,6 +11,7 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
 // import { ExcelService } from '../../services/excel.service';
 import { SharedModule } from '../shared/shared.module';
 
+import 'moment';
 
 
 

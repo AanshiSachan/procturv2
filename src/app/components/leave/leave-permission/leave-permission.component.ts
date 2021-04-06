@@ -16,7 +16,8 @@ export class LeavePermissionComponent implements OnInit {
   jsonFlag={
     institute_id:'',
     created_by:'',
-    status :'APPROVED'
+    status :'APPROVED',
+
   }
 
 
@@ -56,13 +57,14 @@ export class LeavePermissionComponent implements OnInit {
      }
   ngOnInit(): void {
     this.getAllleaveApplication()
+
   }
 
 
   getAllleaveApplication(){
     
     this.auth.showLoader();
-    const url1 ='/api/v2/leave-application/applied/'+this.jsonFlag.institute_id+'/'+this.jsonFlag.created_by+'?'+ 'pageSize='+this.leaveApllicationmodel.pageSize+ '&' +'pageOffset='+this.leaveApllicationmodel.pageOffset;
+    const url1 ='/api/v2/leave-application/review/'+this.jsonFlag.institute_id+'/'+this.jsonFlag.created_by+'?'+ 'pageSize='+this.leaveApllicationmodel.pageSize+ '&' +'pageOffset='+this.leaveApllicationmodel.pageOffset;
     this.httpService.getData(url1).subscribe(
       (res: any) => {
         this.auth.hideLoader();
@@ -77,7 +79,7 @@ export class LeavePermissionComponent implements OnInit {
       }
     )
   }
-
+  
 getPermissionLeave(obj){
   this.leaveApllicationmodel.id = obj
   
@@ -102,7 +104,7 @@ getPermissionLeave(obj){
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       }
     )
   
@@ -131,6 +133,29 @@ getPermissionLeave(obj){
     )
 
   }
-
+  downloadPdf(){
+    let tepm =[]
+    this.leaveApplicationList.map((e:any)=>{
+      let obj =[
+      e.applied_to_name,
+      e.applied_by_role,
+      e.type.name,
+      e.applied_on,
+      e.from,
+      e.to,
+      e.no_of_days,
+      e.status
+      ]
+      tepm.push(obj)
+     })
+      let row=[]
+      row=[["Application To","Role","Category","Date Applied","From","To","Days","Status"]]
+      let column =[]
+      column=tepm
+      this.pdf.exportToPdf(row,column,'Leave_pdf')   
+ 
+   
+  }
+ 
 }
 

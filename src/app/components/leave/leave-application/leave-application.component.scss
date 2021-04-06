@@ -360,3 +360,13 @@
   border-right: 0;
   padding-right: 0;
 }
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(/./assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  right: 5px;
+  top: 30px;
+  width: 21px;
+  height: 21px;
+  z-index: 0;
+}

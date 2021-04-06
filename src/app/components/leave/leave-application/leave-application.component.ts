@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { AuthenticatorService, HttpService, MessageShowService } from '../../..';
+import { from } from 'rxjs';
 declare var $;
 
 
@@ -41,7 +42,7 @@ export class LeaveApplicationComponent implements OnInit {
       categoryName:'',
       from:moment(new Date()).format('YYYY-MM-DD'),
       to: moment(new Date()).format('YYYY-MM-DD'),
-      type:{id:''}
+      type:{id:0}
     }
 
     createdData:any[]=[]
@@ -123,7 +124,7 @@ fetchTableDataByPage(index){
 
 getApplicationToList(){
   this.auth.showLoader();
-  const url1 = '/api/v1/profiles/'+this.jsonFlag.institute_id+'/user-by-type'+'?'+'Type='+this.leaveApllicationmodel.userType
+  const url1 = '/api/v1/profiles/'+this.jsonFlag.institute_id+'/user-by-type'+'?'+'type='+this.leaveApllicationmodel.userType
   this.httpService.getData(url1).subscribe(
     (res: any) => {
       this.auth.hideLoader();
@@ -138,12 +139,17 @@ getApplicationToList(){
 }
 
 createLeaveApplication(){
- 
+  if(this.leaveApllicationmodel.userType.trim() != ''){
+    if(this.leaveApllicationmodel.applicatioName.trim() != ''){
+      if(this.leaveApllicationmodel.categoryName.trim() != ''){
+
+
 let obj ={
   applied_by_user_id :this.jsonFlag.created_by,
   applied_to_user_id:this.leaveApllicationmodel.applicatioName,
   from:this.leaveApllicationmodel.from,
   to:this.leaveApllicationmodel.to,
+   
   no_of_days:this.leaveApllicationmodel.days, 
    type :{
     id :this.leaveApllicationmodel.categoryName
@@ -160,22 +166,35 @@ reason:"",
       this.getAllleaveApplication()
 
       this.auth.hideLoader();
+      this.leaveApllicationmodel.userType=''
+      this.leaveApllicationmodel.applicatioName=''
+      this.leaveApllicationmodel.categoryName=''
+      this.leaveApllicationmodel.from=''
+      this.leaveApllicationmodel.to=''
       if (res.statusCode == 200) {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Leave applied successfully');
         this.closePopups(false)
-      this.leaveApllicationmodel.userType="",
-      this.leaveApllicationmodel.applicatioName="",
-      this.leaveApllicationmodel.from=""
-      this.leaveApllicationmodel.to=""
-  
+    
       }
     },
     err => {
       this.auth.hideLoader();
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     }
   )
-  
+  }else{
+    this.msgService.showErrorMessage('error', '', 'Please Select Category');
+
+  }}
+  else{
+    this.msgService.showErrorMessage('error', '', 'Please Select Application To');
+
+  }}
+  else{
+    this.msgService.showErrorMessage('error', '', 'Please Select Role');
+
+  }
  
   }
   
@@ -217,7 +236,7 @@ withdrowLeave(){
     },
     err => {
       this.auth.hideLoader();
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     }
   )
 
@@ -237,7 +256,7 @@ editLeaveApplication(){
     to:this.leaveApllicationmodel.to,
     no_of_days:this.leaveApllicationmodel.days, 
      type :{
-      id :this.leaveApllicationmodel.id
+    id :this.leaveApllicationmodel.categoryName
     },
   institute_id: this.jsonFlag.institute_id,
   reason:"",
@@ -253,13 +272,19 @@ editLeaveApplication(){
       this.auth.hideLoader();
 
       this.getAllleaveApplication()
+this.leaveApllicationmodel.userType='',
+this.leaveApllicationmodel.applicatioName='',
+this.leaveApllicationmodel.categoryName=''
+this.leaveApllicationmodel.from=moment(new Date()).format('YYYY-MM-DD'),
+this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD'),
+
 
       this.msgService.showErrorMessage('success', '', "Leave Application updated successfully");
 
     },
     err => {
       this.auth.hideLoader();
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
     }
   )
 
@@ -268,7 +293,7 @@ editLeaveApplication(){
    this.leaveApplicationList.splice(index,1)
    
  }
-
+ 
  downloadPdf(){
    let tepm =[]
    this.leaveApplicationList.map((e:any)=>{
@@ -291,6 +316,11 @@ editLeaveApplication(){
 
   
  }
+ calculateDiff(sentDate) {
+  let today = moment(new Date);
+  let selectedDate = moment(this.leaveApllicationmodel.to)
+  let diff = moment(selectedDate.diff(today) );
+}
 
 closePopups($event) {
   $('#addModal').modal('hide');

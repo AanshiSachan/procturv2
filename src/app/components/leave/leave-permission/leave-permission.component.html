@@ -6,8 +6,8 @@
 
         </div>
         <div>
-          <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a>
-          <a href="" class="mr10"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
+          <!-- <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a> -->
+          <a  class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
           <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
         </div>
       </div>
@@ -83,7 +83,7 @@
                {{array.no_of_days}}
              </div>
              <div>
-               <span class="approved" [ngClass]="{'reject': array.status == 'REJECTED'}">{{array.status}}</span>
+               <span [ngClass]="{'reject': array.status == 'REJECTED','pending': array.status == 'PENDING' ,'approved': array.status == 'APPROVED' ,'denied' : array.status == 'CANCELLED'}">{{array.status == 'CANCELLED'  ?  'Withdraw' : array.status}}</span>
              </div>
               <div>
                 <a  class="mr10" (click)="approveLeave(array.id)"><img src="../../../assets/img/approve.svg" title="Approve" class="group18"></a>
