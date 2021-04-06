@@ -132,7 +132,7 @@ export class OnlineExamHomeComponent implements OnInit {
   openExamdesk() {
     this.http.getData("/api/v2/user/examdesk/SSO")
       .subscribe((data: any) => {
-        window.open('https://test999.examdesk.co/administrator/login?token=' + data.result);
+        window.open('https://uat.examdesk.co/administrator/login?token=' + data.result);
       });
   }
 

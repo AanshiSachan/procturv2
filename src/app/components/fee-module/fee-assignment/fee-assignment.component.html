@@ -72,9 +72,9 @@
         </div>
         <div>Name </div>
         <div *ngIf="schoolModel">Registration No. </div>
+        <div *ngIf="schoolModel">Section</div>
         <div>{{schoolModel?'Roll No.':'Student Id' }}</div>
         <div>Total Fee</div>
-        <!-- <div>Updated Date</div> -->
         <div>Action</div>
       </div>
       <div *ngFor="let data of studentList">
@@ -93,6 +93,7 @@
           </div>
           <div>{{data.student_name}} </div>
           <div *ngIf="schoolModel">{{data.student_roll_no}} </div>
+          <div *ngIf="schoolModel">{{data.standard_name}}-{{data.course_name}} </div>
           <div>{{data.student_reg_no}}</div>
           <div>{{data.total_fee_amount}}</div>
           <div>
@@ -149,7 +150,8 @@
               <option *ngFor="let data of feeStructureList" [value]="data.template_id">{{data.template_name}}</option>
             </select>
             <span class="right relative">
-              <span class="green_top">Total Amount(Inc Of Tax):<span>{{currencySymbol}} {{totalFeeAmount | number }}</span></span>
+              <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax) ':''}}:<span>{{currencySymbol}}
+                  {{totalFeeAmount | number }}</span></span>
               <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax | number}}</p>
             </span>
           </div>
@@ -164,12 +166,12 @@
             <div *ngFor="let data of feeInstalllmentArr; let i=index;">
               <div class="table_body">
                 <div>{{i+1}}</div>
-                <div>{{feeInstalllmentArr[i].fee_type_name}}
+                <div>{{feeInstalllmentArr[i].fee_type_name | titlecase}}
                 </div>
                 <div *ngIf="schoolModel" class="field-wrapper datePickerBox">
                   <div class="dropdown-div pt-2">
-                    <input type="text" class="form-ctrl dropdown"  name="startDate"
-                      id="startDate" [(ngModel)]="feeInstalllmentArr[i].installment_date" bsDatepicker />
+                    <input type="text" class="form-ctrl dropdown" name="startDate" id="startDate"
+                      [(ngModel)]="feeInstalllmentArr[i].installment_date" bsDatepicker />
                   </div>
                 </div>
                 <div *ngIf="!schoolModel">

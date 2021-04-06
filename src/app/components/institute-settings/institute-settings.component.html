@@ -2208,8 +2208,8 @@
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox"
                                 [(ngModel)]="instituteSettingDet.is_fee_struct_link_with_cour_or_stand"
-                                id="fee_struct_link_with_cour_or_stand">
-                              <label for="taxPayEnable">Link Fee Structure With Standard/Course
+                                id="fee_struct_link_with_cour_or_stand" (click)="isFeeStructureLikedWithStudent()">
+                              <label for="taxPayEnable" (click)="isFeeStructureLikedWithStudent()">Link Fee Structure With Standard/Course
                               </label>
                             </div>
                           </div>

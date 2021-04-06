@@ -548,7 +548,7 @@
                         <div class="row">
                             <div class="col-lg-2">
                                 <span class="label ">
-                                    File Name
+                                    File Name*
                                 </span>
                             </div>
                             <div class="col-lg-4">
@@ -667,8 +667,7 @@
                                 </div>
                                 <div class="row no-gutters" *ngIf="!isProfessional">
                                     <div class="col-lg-4">
-                                        <span class="label">Standard {{schoolModel ? '*' : ''}}</span>
-                                    </div>
+                                        <span class="label">Standard {{isSchoolModel ? '*' : ''}}</span>                                    </div>
                                     <div class="col-lg-7">
                                         <select id="standard" [(ngModel)]="studentAddFormData.standard_id"
                                             name="standard" class="input-select"

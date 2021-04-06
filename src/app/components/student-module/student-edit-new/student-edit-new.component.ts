@@ -2972,11 +2972,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       }
       newxhr.send(formData);
     } else {
-      if (this.selectedFiles.length == 0) {
-        this.appC.popToast({ type: "error", body: "No file selected" })
+        this.appC.popToast({ type: "error", body: "Enter File Name!" })
         return
-      }
-
     }
     this.category_id = '';
     (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;

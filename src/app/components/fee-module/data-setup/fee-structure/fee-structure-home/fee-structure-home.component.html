@@ -101,7 +101,7 @@
             </div>
             <div class="modal-body" style="height: 422px;overflow: auto;">
                 <span class="right relative" style="margin-bottom: 12px;">
-                    <span class="green_top">Total Amount(Inc Of Tax):<span>{{currencySymbol}} {{ totalFeeAmount | number }}</span></span>
+                    <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax) ':''}}:<span>{{currencySymbol}} {{ totalFeeAmount | number }}</span></span>
                     <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax | number}}</p>
                 </span>
                 <div class="fee_new">
@@ -170,7 +170,7 @@
                             Cancel
                         </button>
                         <button class="blue_button " (click)="updateFeeStructure()">
-                            Update
+                            Save
                         </button>
                     </span>
                 </div>
