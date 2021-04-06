@@ -266,14 +266,19 @@ export class ScheduleComponent implements OnInit {
       },
       (err: any) => {
         this.auth.hideLoader();
+        let count = 0;
         if(err.error && err.error.error && err.error.error.length) {
         for(let data of err.error.error) {
           for(const key of Object.keys(this.errorsObj)) {
             if(data.onField == `${key}`) {
+              count++;
               this.errorsObj[`${key}`] = data.errorMessage;
             }
           }
         }
+      }
+      if(count == 0) {
+        this.messageService.showErrorMessage('error','', err.error.message);
       }
       }
     )
@@ -336,14 +341,19 @@ export class ScheduleComponent implements OnInit {
       },
       (err: any) => {
         console.log(err);
+        let count = 0;
         if(err.error && err.error.error && err.error.error.length) {
           for(let data of err.error.error) {
             for(const key of Object.keys(this.errorsObj)) {
               if(data.onField == `${key}`) {
+                count++;
                 this.errorsObj[`${key}`] = data.errorMessage;
               }
             }
           }
+        }
+        if(count == 0) {
+          this.messageService.showErrorMessage('error','', err.error.message);
         }
       }
     )
@@ -476,7 +486,8 @@ export class ScheduleComponent implements OnInit {
       course_id: obj.course_id,
       exam_type_id: obj.exam_type_id,
       date: obj.date,
-      class_room_id: obj.room_no_id
+      class_room_id: obj.room_no_id,
+      schedule_id:obj.schedule_id
     };
     this.updateCourseList(this.editrecord.standard_id);
     this.updateSubjectList(this.editrecord.course_id);

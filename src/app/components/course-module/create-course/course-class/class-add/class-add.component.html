@@ -26,7 +26,7 @@
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper"
                           [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
-                          <label for="smc">Select Master Course
+                          <label for="smc">Select Standard Name
                             <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id"
@@ -41,7 +41,7 @@
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
-                          <label for="sc">Select Course
+                          <label for="sc">Select Subject Name
                             <span class="text-danger">*</span>
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id"

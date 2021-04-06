@@ -469,6 +469,9 @@
                         <a routerLink="/view/course/timeTable">
                                 <span>TimeTable</span>
                         </a>
+                        <a *ngIf="!schoolModel" routerLink="/view/course/archiving">
+                            <span>Data Archiving</span>
+                        </a>
                         </div>
                      </div>
                     
