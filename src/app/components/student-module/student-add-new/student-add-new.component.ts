@@ -1660,6 +1660,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.studentAddFormData.state_id = this.enquiryData.state_id;
     this.studentAddFormData.city_id = this.enquiryData.city_id;
     this.studentAddFormData.area_id = this.enquiryData.area_id;
+    this.studentAddFormData.comments = this.enquiryData.comments;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.assigned_to_id = this.enquiryData.assigned_to;
