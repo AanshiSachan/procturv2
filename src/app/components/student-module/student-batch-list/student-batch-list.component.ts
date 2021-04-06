@@ -249,7 +249,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     batchChangeAlert(value, batch) {
-        debugger
         let data=this.batchList;
         if (this.checkForAssignSingleSection(value, batch.data.course_id)) {
             for(let i=0;i<this.batchList.length;i++){

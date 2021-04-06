@@ -232,6 +232,7 @@ export class StudentHomeComponent implements OnInit {
   stateList: any[] = [];
   cityList: any[] = [];
   attendanceCertificate: boolean = false;
+  selectedFilterData: any=null;
   /* =================================================================================================== */
   constructor(
     private prefill: FetchprefilldataService,
@@ -643,6 +644,7 @@ export class StudentHomeComponent implements OnInit {
       obj.master_course_name = "";
     }
     if (this.showQuickFilter && !this.isProfessional) {
+      this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
     } else if (
       this.searchBarData != "" &&
@@ -663,6 +665,7 @@ export class StudentHomeComponent implements OnInit {
       obj.master_course_name = "";
       obj.course_id = "-1";
       obj.standard_id = "-1";
+      this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
     } else if (
       (this.searchBarData == "" ||
@@ -672,7 +675,9 @@ export class StudentHomeComponent implements OnInit {
       !this.isProfessional
     ) {
       this.loadTableDataSource(obj);
+      this.selectedFilterData=obj;
     } else {
+      this.selectedFilterData=this.instituteData;
       this.loadTableDataSource(this.instituteData);
     }
   }
@@ -714,20 +719,12 @@ export class StudentHomeComponent implements OnInit {
         title: "",
         body: "Requested record has been removed from student list",
       };
+      debugger
       this.closeSideBar();
       this.appC.popToast(msg);
       this.closeDeletePopup();
-      this.loadTableDataSource(this.instituteData);
-    },
-    (err : any) => {
-      let msg = {
-        type: "error",
-        title: "",
-        body: err.error.message,
-      };
-      this.appC.popToast(msg);
-    }
-    );
+      this.loadTableDataSource(this.selectedFilterData!=null?this.selectedFilterData:this.instituteData);
+    });
   }
 
   /* =================================================================================================== */
@@ -1456,6 +1453,7 @@ export class StudentHomeComponent implements OnInit {
         obj.course_id = '-1';
         obj.standard_id = '-1';
       }
+      this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
     } else {
       /* If User has entered an empty value needs to be informed */
@@ -1482,6 +1480,7 @@ export class StudentHomeComponent implements OnInit {
           sorted_by: "",
           order_by: "",
         };
+        this.selectedFilterData=this.instituteData;
         this.loadTableDataSource(this.instituteData);
       } else {
       /* valid input detected, check for type of input */
@@ -1505,6 +1504,7 @@ export class StudentHomeComponent implements OnInit {
             sorted_by: "",
             order_by: "",
           };
+          this.selectedFilterData=this.instituteData;
           this.loadTableDataSource(this.instituteData);
         } /* If not string then use the data as a number*/ else {
           this.instituteData = {
@@ -1524,6 +1524,7 @@ export class StudentHomeComponent implements OnInit {
             sorted_by: "",
             order_by: "",
           };
+          this.selectedFilterData=this.instituteData;
           this.loadTableDataSource(this.instituteData);
         }
       }
