@@ -169,9 +169,9 @@
                 <div>{{i+1}}</div>
                 <div>{{feeInstalllmentArr[i].fee_type_name | titlecase}}
                 </div>
-                <div *ngIf="schoolModel" class="field-wrapper datePickerBox">
+                <div *ngIf="schoolModel" class="field-wrapper ">
                   <div class="dropdown-div pt-2">
-                    <input type="text" class="form-ctrl dropdown" name="startDate" id="startDate"
+                    <input type="text" class="input_date dropdown input" name="startDate" id="startDate"
                       [(ngModel)]="feeInstalllmentArr[i].installment_date" bsDatepicker />
                   </div>
                 </div>

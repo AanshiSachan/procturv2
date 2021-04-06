@@ -97,7 +97,7 @@
                 <input type="checkbox" name="checked" style="margin-left: 50px; appearance: checkbox;" [(ngModel)]="is_default">  Is Default
                 <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
             </div>
-            <div class="modal-body" style="height: 422px;overflow: auto;">
+            <div class="modal-body" style="height: auto;overflow: auto;">
                 <span class="right relative" style="margin-bottom: 12px;">
                     <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax) ':''}}:<span>{{currencySymbol}} {{ totalFeeAmount | number }}</span></span>
                     <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax | number}}</p>
@@ -162,7 +162,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="padding1" style="margin-top: -63px;">
+                <div class="padding1" >
                     <span class="right">
                         <button class="white_button mr10" (click)="closePopUp()">
                             Cancel

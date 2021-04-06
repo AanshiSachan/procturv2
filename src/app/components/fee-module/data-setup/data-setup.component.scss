@@ -12,9 +12,18 @@
   font-weight: 600;
   font-size: 16px;
   }
+  .right_ul>li{
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding-right: 20px;
+    list-style-type: circle;
+  }
   
-  
-  
+  .display{
+    display: flex;
+    justify-content: space-between;
+  }
   .w98 {
     width: 100%;
     margin: 0px auto;
