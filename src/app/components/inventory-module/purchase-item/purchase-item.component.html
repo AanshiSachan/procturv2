@@ -40,42 +40,44 @@
                 <div>Balance</div>
                 <div>Actions</div>
                 </div>
-                <div class="table_body">
+                <div class="table_body" *ngFor="let data of purchaseAllData">
                 <div>
-                  Category
+                 category
                 </div>
                 <div>
-                item
-                </div>
-                <div>40</div>
-                <div>
-                Abc
+                 {{data.item_name}}
                 </div>
                 <div>
-                20-02-2020
+               {{data.quantity}}
+                </div>
+                <div>
+               {{data.supplier_company_name}}
+                </div>
+                <div>
+              {{data.purchase_date}}
                 </div>
                 <div>
                 asd
                 </div>
                 <div>
-                    20000
+                    {{data.total_amount}}
                 </div>
                     <div>
-                    0
+                    {{data.total_paid_amount}}
                     </div>
                     <div>
-                    2000
+                   {{data.balanced_amount}}
                     </div>
                     <div>
                         <div class="dropdown1">
                             <img src="../../../../assets/img1/menu.svg" class="dot3">
                                 <div class="dropdown-content1">
-                                    <a  routerLink="../purchase-view">View</a>
-                                    <a routerLink="/view/inventory-management/purchase-add"(click)="editRow()">Edit</a>
-                                    <a (click)='showConfirm($event)'>Delete</a>
-                                    <a>Cancel</a>
-                                    <a data-toggle="modal" data-target="#addpayModal">Add Payment</a>
-                                    <a  data-toggle="modal" data-target="#viewpayModal">View Payment History</a>
+                                  <a routerLink="../purchase-view">View</a>
+                                  <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]">Edit</a>
+                                  <a (click)='showConfirm($event)'>Delete</a>
+                                  <a>Cancel</a>
+                                  <a data-toggle="modal" data-target="#addpayModal">Add Payment</a>
+                                  <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
                                 
                                 </div>
                         </div>
@@ -84,8 +86,8 @@
         
             </div>
         </div>
-       <div class="white bottom_button bottom_pagignation">
-                <!-- pagignation div -->
+       <!-- <div class="white bottom_button bottom_pagignation">
+              
                 <div class=" flex w98">
                 <div class="w20">
                     <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
@@ -104,7 +106,7 @@
                 <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
                 </div>
                 </div>
-        </div>     
+        </div>      -->
           <!-- use image only when page is empty,table body class element will not be present -->
 </div> 
   <div class="modal" id="addpayModal" data-backdrop="static">
@@ -210,22 +212,22 @@
               <div>Paid By</div>
               <div>File</div>
             </div>
-            <div class="table_body">
+            <div class="table_body" *ngFor="let data of paymentHistoryData;index as i">
               <div>
-               1
+               {{i}}
               </div>
               <div>
-               11-02-2020
+              {{data.payment_date}}
               </div>
-              <div>4022</div>
+              <div>{{data.reference_no}}</div>
               <div>
-               1212
-              </div>
-              <div>
-              Cash
+              {{data.paid_amount}}
               </div>
               <div>
-               <span class="file_name">file.jpg</span>
+              {{data.payment_method}}
+              </div>
+              <div>
+               <span class="file_name" target="_blank" href="{{data.bill_image_url}}" download><img src="{{data.bill_image_url}}" ></span>
               </div>
             </div>
         </div>

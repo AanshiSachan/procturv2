@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, OnChanges, OnInit, SimpleChange, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './purchase-add.component.html',
   styleUrls: ['./purchase-add.component.scss']
 })
-export class PurchaseAddComponent implements OnInit, DoCheck {
+export class PurchaseAddComponent implements OnInit, DoCheck ,OnChanges{
   categoryAllData: any = [];
   supplierAllData: any = [];
   pageIndex: number = 1;
@@ -23,6 +23,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   itemData = [];
   total: number = 0;
   isedit: any;
+  editId;
   @ViewChild('purchaseForm', { static: false }) purchaseForm: NgForm;
   url = `/api/v1/inventory/`;
   model = {
@@ -35,6 +36,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     total_paid_amount: 0,
     is_refunded: false,
     purchased_item_list: [],
+  
   }
 
   constructor(
@@ -44,7 +46,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     private _pdfService: ExportToPdfService,
     private excelService: ExcelService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private _Activatedroute:ActivatedRoute) {
     this.model.institute_id = sessionStorage.getItem('institution_id');
 
   }
@@ -52,9 +55,14 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.getVendorDetails();
+    this.editId=this._Activatedroute.snapshot.paramMap.get("id");
+    console.log(this.editId)
   }
   ngDoCheck() {
     //this.totals(obj);
+  }
+  ngOnChanges(changes:SimpleChange):void{
+
   }
   getCategoryItem(obj) {
     // this.auth.showLoader();
@@ -89,14 +97,12 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     id = +id;
     console.log(e.target.value)
     this.categoryAllData.forEach(element => {
-
-      if (element && element.categoryId === id) {
+   if (element && element.categoryId === id) {
         this.itemArray = element.items;
       }
     });
   }
   getItemData(e) {
-    
     this.itemData;
     let id = e;
     id = +id;
@@ -105,6 +111,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       if (element && element.item_id === id) {
         let data = element;
         this.itemData.push(data);
+        console.log(this.itemData)
         let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
         this.model.purchased_item_list.push(purchaselist)
       }
@@ -231,7 +238,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     let today = moment(new Date());
     let selected = moment(this.model.purchase_date);
     let differ = today.diff(selected, 'days');
-    if (differ < 0) {
+    if (differ <= 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Purchase date is greter than today's date ");
       this.model.purchase_date = moment(new Date()).format('YYYY-MM-DD');
     }

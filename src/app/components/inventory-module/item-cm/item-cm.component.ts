@@ -79,7 +79,7 @@ export class ItemCmComponent implements OnInit {
           this.auth.hideLoader();
           this.getCategoryDetails();
           if (res.statusCode == 200) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Category added successfully');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'A new category has been created in the system');
             this.getCategoryDetails();
           }
         },
@@ -95,7 +95,7 @@ export class ItemCmComponent implements OnInit {
 
   }
   getCategoryDetails() {
-    this.auth.showLoader();
+    //this.auth.showLoader();
     this.httpService.getData(this.url + 'category/all/' + this.category_model.institution_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
@@ -132,7 +132,7 @@ export class ItemCmComponent implements OnInit {
     if (this.catForm.valid) {
       this.httpService.putData(this.url + 'category', obj).subscribe(() => {
         $('#addModel').modal('hide');
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Catagory is Updated Successfully")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category has been edited from Previous details to Current edited details")
         this.getCategoryDetails();
       },
         err => {
@@ -204,7 +204,7 @@ saveItemDetails(){
         this.auth.hideLoader();
         this.getItemDetails();
         if (res.statusCode == 200) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item added successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item' + '' + this.item.item_name + ''+ 'is added succesfully');
           this.getCategoryDetails();
         }
       },
@@ -220,7 +220,7 @@ saveItemDetails(){
 }
 //get item data
 getItemDetails() {
-  this.auth.showLoader();
+ // this.auth.showLoader();
   this.httpService.getData(this.url + 'item/all/' + this.category_model.institution_id).subscribe(
     (res: any) => {
       this.auth.hideLoader();
@@ -304,7 +304,7 @@ showConfirmdelete(obj){
 }
 //delete
 deleteItem(obj) {
-    this.auth.showLoader();
+    //this.auth.showLoader();
     this.httpService.deleteData(this.url + 'item/' + obj.item_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
@@ -345,7 +345,7 @@ onMasterCourseSelection(standard_id){
 
   }
   else{
-    this.auth.showLoader();
+   // this.auth.showLoader();
     this.httpService.getData('/api/v1/subjects/standards/'+ standard_id).subscribe(
       res => {
         this.CourseList = res;
@@ -722,7 +722,7 @@ getItemAgainSubBranch(id){
 allocationHistoryData:any =[]
 getAllocationHistrory(id){
   console.log(id)
-this.auth.showLoader();
+//this.auth.showLoader();
  this.httpService.getData('/api/v1/inventory/item/txHistory/'+id).subscribe(
   res => {
     this.allocationHistoryData = res;

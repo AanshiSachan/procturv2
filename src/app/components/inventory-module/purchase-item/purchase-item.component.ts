@@ -37,12 +37,12 @@ export class PurchaseItemComponent implements OnInit {
   }
   paymentModel = {
     purchase_id: 1,
-     purchased_by_user_id: 18000,
-      paid_amount: '', 
-      payment_date: '',
-       reference_no: '', 
-       payment_method: '', 
-       institute_id: sessionStorage.getItem('institute_id')
+    purchased_by_user_id: 18000,
+    paid_amount: '',
+    payment_date: '',
+    reference_no: '',
+    payment_method: '',
+    institute_id: sessionStorage.getItem('institute_id')
   }
   constructor(private httpService: HttpService,
     private auth: AuthenticatorService,
@@ -60,14 +60,26 @@ export class PurchaseItemComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
-        this.purchaseAllData = res.result.response;
-        let purchaseData = [];
-        for (let keys of this.purchaseAllData) {
+        let purchaseData = res.result.response;
+        for (let keys of purchaseData) {
           console.log(keys);
+          console.log(keys)
           // console.log(this.purchaseAllData[keys]);
           for (let data of keys.purchased_item_list) {
-            console.log(data);
-            purchaseData.push(data)
+            let obj:any={};
+            //obj.category=keys.category_name;
+            obj.item_name=data.item_name;
+            obj.quantity=data.quantity;
+            obj.supplier_company_name=keys.supplier_company_name;
+            obj.purchase_date=keys.purchase_date;
+            obj.total_amount=keys.total_amount;
+            obj.total_paid_amount=keys.total_paid_amount;
+            obj.purchase_date=keys.purchase_date;
+            obj.balanced_amount=keys.balanced_amount;
+            obj.bill_image_url=keys.bill_image_url;
+            obj.paid_amount =keys.paid_amount;
+            console.log(obj);
+            this.purchaseAllData.push(obj)
           }
           console.log(purchaseData)
         }
@@ -81,10 +93,17 @@ export class PurchaseItemComponent implements OnInit {
       }
     );
   }
+  getAllPurchaseDetails(){
+    this.httpService.getData('/api/v1/inventory/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&&instituteId=' + this.institution_id).subscribe(
+      (res: any) => {
+        let purchaseData = res.result.response;
+      })
+
+  }
   isDelete = true;
   total = 100;
   paids = 200;
- tempObj;
+  tempObj;
   showConfirm(obj) {
     // alert("hi")
     // this.tempObj=obj;
@@ -111,21 +130,21 @@ export class PurchaseItemComponent implements OnInit {
   }
   //create payment
   addPayment() {
-     //this.router.navigate(['/view/inventory-management/purchase-item']);
-     if (this.addform.valid) {
+    //this.router.navigate(['/view/inventory-management/purchase-item']);
+    if (this.addform.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
       let paymentDto: any = {};
       paymentDto.institute_id = sessionStorage.getItem('institute_id');
       paymentDto.purchase_id = this.paymentModel.purchase_id;
-      paymentDto.purchased_by_user_id =  this.paymentModel.purchased_by_user_id;
-      paymentDto.paid_amount =  this.paymentModel.paid_amount;
-      paymentDto.payment_date = moment( this.paymentModel.payment_date).format("YYYY-MM-DD");
+      paymentDto.purchased_by_user_id = this.paymentModel.purchased_by_user_id;
+      paymentDto.paid_amount = this.paymentModel.paid_amount;
+      paymentDto.payment_date = moment(this.paymentModel.payment_date).format("YYYY-MM-DD");
       paymentDto.reference_no = this.paymentModel.reference_no;
       paymentDto.paid_amount = this.paymentModel.paid_amount;
       paymentDto.payment_method = this.paymentModel.payment_method;
-     formData.append('paymentDto', JSON.stringify(paymentDto));
+      formData.append('paymentDto', JSON.stringify(paymentDto));
       if (file) {
         formData.append('billImageFile', file);
       }
@@ -136,7 +155,7 @@ export class PurchaseItemComponent implements OnInit {
       // let base = this.auth.productBaseUrl;
       let base = "https://test999.proctur.com/StdMgmtWebAPI"
       // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
-      let urlPostXlsDocument =  base + "/api/v1/inventory/payment/create";
+      let urlPostXlsDocument = base + "/api/v1/inventory/payment/create";
       let newxhr = new XMLHttpRequest();
       let auths: any = {
         userid: sessionStorage.getItem('userid'),
@@ -145,8 +164,8 @@ export class PurchaseItemComponent implements OnInit {
         institution_id: sessionStorage.getItem('institute_id'),
       }
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
-     newxhr.open("POST", urlPostXlsDocument, true);
-     newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.open("POST", urlPostXlsDocument, true);
+      newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("x-proc-authorization", Authorization);
       newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
       newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
@@ -159,7 +178,7 @@ export class PurchaseItemComponent implements OnInit {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg =  'Payment details is Saved Successfully';
+              let msg = 'Payment details is Saved Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               $('#addpayModal').modal('hide');
               this.getPurchaseDetails();
@@ -184,20 +203,34 @@ export class PurchaseItemComponent implements OnInit {
     let today = moment(new Date());
     let selected = moment(this.paymentModel.payment_date);
     let differ = today.diff(selected, 'days');
-    if (differ < 0) {
+    if (differ <= 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment date is greter than today's date ");
       this.paymentModel.payment_date = moment(new Date()).format('YYYY-MM-DD');
     }
     return true;
   }
-  validatePayment(data){
-let balanced_amount =2344;
-let amount =   Number(this.paymentModel.paid_amount);
-    if(amount <1){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info,'',"Payment Amount is LESS than one")
+  validatePayment(data) {
+    let balanced_amount = 2344;
+    let amount = Number(this.paymentModel.paid_amount);
+    if (amount < 1) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is LESS than one")
     }
-    if(balanced_amount<=amount ){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info,'',"Payment Amount is GREATER than Balanced Amount")
+    if (balanced_amount <= amount) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is GREATER than Balanced Amount")
     }
+  }
+  paymentHistoryData = [];
+  getPaymentHistory(id) {
+    this.auth.showLoader();
+    $('#viewpayModal').modal('show');
+    this.httpService.getData('/api/v1/inventory/payment/all?purchaseId=' + id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
+      this.paymentHistoryData = res.result;
+      this.auth.hideLoader();
+    },
+    err =>{
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '',err.error.message);
+       }   )
+   
+    
   }
 }

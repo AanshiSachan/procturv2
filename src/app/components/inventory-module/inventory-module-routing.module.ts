@@ -42,6 +42,10 @@ const routes: Routes = [];
                 component:PurchaseAddComponent
             },
             {
+                path: 'edit/:id',
+                component:PurchaseAddComponent
+            },
+            {
                 path: 'purchase-view',
                 component:PurchaseViewComponent
             },
@@ -56,7 +60,9 @@ const routes: Routes = [];
             {
                 path: 'sale-view',
                 component:SaleViewComponent
-            }
+            },
+            
+    
         ]
     }
 ]
