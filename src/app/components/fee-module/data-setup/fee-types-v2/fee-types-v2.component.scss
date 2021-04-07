@@ -469,9 +469,7 @@ padding-left: 3.7rem;
   // .modal-header{
   //   padding-bottom: 0px;
   // }
-  #feetypesModal .modal-content, #discountModal .modal-content{
-    min-height: 300px;
-  }
+ 
   .left{
     float: left;
   }
@@ -481,4 +479,8 @@ padding-left: 3.7rem;
   .tableHeight{
    // height: 54vh;
     overflow-y: auto;
+  }
+  .display{
+    display: flex;
+    justify-content: space-between;
   }

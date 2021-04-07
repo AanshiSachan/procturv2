@@ -26,11 +26,11 @@
     font-size: 13px;
     font-weight: 500;
     color: #787A7D;
-     -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:210px center;
+    //  -webkit-appearance: none;
+    // -moz-appearance: none;
+    // background-image: url("../../../../assets/images/fee/arrow-down.svg");
+    // background-repeat: no-repeat;
+    // background-position:210px center;
   }
   .input{
     padding: 7px 10px;
@@ -284,28 +284,28 @@
     width: 50px;
   }
   .wid80{
-    width: 70%;
+    width: 80%;
     margin: auto;
   }
   .rrs::-webkit-input-placeholder { text-align:right; }
-  .select1{
-    color:#8e8f90;
-        -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:200px center;
-    line-height: 20px;
-  }
-  .select2{
-    color:#8e8f90;
-        -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:82px center;
-    line-height: 20px;
-  }
+  // .select1{
+  //   color:#8e8f90;
+  //       -webkit-appearance: none;
+  //   -moz-appearance: none;
+  //   background-image: url("../../../../assets/images/fee/arrow-down.svg");
+  //   background-repeat: no-repeat;
+  //   background-position:200px center;
+  //   line-height: 20px;
+  // }
+  // .select2{
+  //   color:#8e8f90;
+  //       -webkit-appearance: none;
+  //   -moz-appearance: none;
+  //   background-image: url("../../../../assets/images/fee/arrow-down.svg");
+  //   background-repeat: no-repeat;
+  //   background-position:82px center;
+  //   line-height: 20px;
+  // }
   .img{
     width: 100%;
     height: auto;
@@ -407,11 +407,11 @@
   }
   .select3{
     color:#8e8f90;
-        -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("../../../../assets/images/fee/arrow-down.svg");
-    background-repeat: no-repeat;
-    background-position:430px center;
+    //     -webkit-appearance: none;
+    // -moz-appearance: none;
+    // background-image: url("../../../../assets/images/fee/arrow-down.svg");
+    // background-repeat: no-repeat;
+    // background-position:430px center;
     line-height: 20px;
   }
   .nav>li {
@@ -459,9 +459,7 @@
     // .modal-header{
     //   padding-bottom: 0px;
     // }
-    #feetypesModal .modal-content, #discountModal .modal-content{
-      min-height: 300px;
-    }
+   
     .left{
       float: left;
     }
@@ -472,3 +470,6 @@
        height: 54vh;
       overflow-y: auto;
     }
+  .pointer{
+    cursor: pointer;
+  }

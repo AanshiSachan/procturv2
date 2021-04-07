@@ -36,15 +36,15 @@
                                     <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount | number }}</span></div>
                                     <div class="light wid50"><span class="left"></span></div>
                                 </div>
-                                <div><a (click)="studentsAssigned(data)" class="students_assigned" data-toggle="modal"
+                                <div><a (click)="studentsAssigned(data)" class="students_assigned pointer" data-toggle="modal"
                                         data-target="#myModal">{{data.totalAssignedStudent}}</a></div>
                                 <div>
                                     <!-- <a class="mr10"><img src="../../../../../assets/images/icon7.svg" title="View"
                                         class="size22"></a> -->
                                     <a class="mr10" (click)="editFeeStructure(data)"><img
-                                            src="../../../../../assets/images/EDit.png" title="Edit" class="size22"></a>
+                                            src="../../../../../assets/images/EDit.png" title="Edit" class="size22 pointer"></a>
                                     <a><img src="../../../../../assets/images/Group321.svg"
-                                            (click)="deleteFeeStructure(data)" title="Delete" class="size22"></a>
+                                            (click)="deleteFeeStructure(data)" title="Delete" class="size22 pointer"></a>
                                 </div>
                             </div>
                         </div>
