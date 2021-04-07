@@ -68,8 +68,15 @@ export class EmailReportComponent {
         visibility: true
       },
       {
-        primary_key: 'message',
+        primary_key: 'subject',
         value: "Subject",
+        charactLimit: 60,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'message',
+        value: "Message",
         charactLimit: 60,
         sorting: false,
         visibility: true
@@ -120,23 +127,27 @@ export class EmailReportComponent {
         textAlign: "left"
       },
       {
-        width: "17%",
-        textAlign: "left"
-      },
-      {
-        width: "33%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
         width: "15%",
+        textAlign: "left"
+      },
+      {
+        width: "25%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
         textAlign: "left"
       },
 
