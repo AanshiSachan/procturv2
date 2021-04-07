@@ -1035,8 +1035,8 @@ export class EnquiryHomeComponent implements OnInit {
                 }
                 else {
                     hour += 1;
-                    let formattedNumber = ("0" + hour).slice(-2);
-                    hour = formattedNumber.toString();
+                    //let formattedNumber = ("0" + hour).slice(-2);
+                    hour = hour.toString();
                 }
             }
         }
