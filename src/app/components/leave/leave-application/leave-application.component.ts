@@ -19,6 +19,7 @@ export class LeaveApplicationComponent implements OnInit {
   jsonFlag = {
   institute_id: '',
   created_by:''
+  
     };
 
     varJson:any ={
@@ -62,7 +63,7 @@ toApplicationList:any[]=[]
   ngOnInit(): void {
     this.getAllleaveType()
     this.getAllleaveApplication()
-    this.getApplicationToList()
+    // this.getApplicationToList()
     this.fetchTableDataByPage(1)
 
   }
@@ -143,8 +144,9 @@ createLeaveApplication(){
     if(this.leaveApllicationmodel.applicatioName.trim() != ''){
       if(this.leaveApllicationmodel.categoryName.trim() != ''){
 
-
-let obj ={
+        
+       let obj ={
+  
   applied_by_user_id :this.jsonFlag.created_by,
   applied_to_user_id:this.leaveApllicationmodel.applicatioName,
   from:this.leaveApllicationmodel.from,
@@ -166,16 +168,17 @@ reason:"",
       this.getAllleaveApplication()
 
       this.auth.hideLoader();
-      this.leaveApllicationmodel.userType=''
-      this.leaveApllicationmodel.applicatioName=''
-      this.leaveApllicationmodel.categoryName=''
-      this.leaveApllicationmodel.from=''
-      this.leaveApllicationmodel.to=''
+    
       if (res.statusCode == 200) {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Leave applied successfully');
         this.closePopups(false)
     
       }
+      this.leaveApllicationmodel.userType=''
+      this.leaveApllicationmodel.applicatioName=''
+      this.leaveApllicationmodel.categoryName=''
+      this.leaveApllicationmodel.from=moment(new Date()).format('YYYY-MM-DD')
+      this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD')
     },
     err => {
       this.auth.hideLoader();
@@ -202,12 +205,19 @@ reason:"",
 
 
 editLeaveRow(obj){
-  
-  this.leaveApllicationmodel.id= obj.id
-  this.leaveApllicationmodel.applicatioName=obj.applied_to_user_id,
-  this.leaveApllicationmodel.categoryName = obj.type.id,
-  this.leaveApllicationmodel.from = obj.from,
-  this.leaveApllicationmodel.to = obj.to
+alert(obj.applied_to_user_id)
+
+ this.leaveApllicationmodel.id = obj.id;
+if(obj.applied_by_role == 'Staff'){
+this.leaveApllicationmodel.userType = '0,9';
+}else if(obj.applied_by_role == 'Teacher'){
+  this.leaveApllicationmodel.userType = '3'
+}
+//this.leaveApllicationmodel.userType = obj.applied_by_role
+  this.leaveApllicationmodel.applicatioName = obj.applied_to_user_id;
+  this.leaveApllicationmodel.categoryName = obj.type.id;
+  this.leaveApllicationmodel.from = obj.from;
+  this.leaveApllicationmodel.to = obj.to;
 
 
 }
@@ -232,6 +242,7 @@ withdrowLeave(){
       this.getAllleaveApplication()
 
       this.msgService.showErrorMessage('success', '', "Leave Application withdraw successfully");
+      $('#withdrawModal').modal('hide');
 
     },
     err => {
@@ -280,6 +291,8 @@ this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD'),
 
 
       this.msgService.showErrorMessage('success', '', "Leave Application updated successfully");
+      $('#editModal').modal('hide');
+
 
     },
     err => {
@@ -316,11 +329,8 @@ this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD'),
 
   
  }
- calculateDiff(sentDate) {
-  let today = moment(new Date);
-  let selectedDate = moment(this.leaveApllicationmodel.to)
-  let diff = moment(selectedDate.diff(today) );
-}
+ 
+
 
 closePopups($event) {
   $('#addModal').modal('hide');

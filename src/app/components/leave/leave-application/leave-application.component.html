@@ -34,7 +34,7 @@
               <div>
                 {{array.id}}
               </div>
-              <div title="{{array?.applied_to_name}}">
+              <div *ngIf="jsonFlag.created_by !== array.applied_by_user_id" title="{{array?.applied_to_name}}">
                 {{ (!array.applied_to_name) ? '-' : (array.applied_to_name.length > 20) ?
               (array.applied_to_name | slice:0:20) + '...' : array.applied_to_name}}
               </div>
@@ -181,8 +181,8 @@
         <div class="modal-body">
          <div class="pt10">
             <!-- dropdown with search -->
-            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.userType">
-              <option value="">Role*</option>
+            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)">
+              <option value="" >Role*</option>
               <option value="3">Teacher</option>
               <option value="0,9">Staff</option>
 

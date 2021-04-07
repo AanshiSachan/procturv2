@@ -22,7 +22,7 @@ export class LeaveCategoryComponent implements OnInit {
   }
 
   @Output() closePopup = new EventEmitter<boolean>();
-  @Input() isEditLeaveCategory: boolean;
+
 
 
 leaveSearchInput:any
@@ -41,11 +41,7 @@ leaveSearchList:any
      }
 
   ngOnInit(): void {
-    // $('#addModal').modal('show');
-
-    if(this.isEditLeaveCategory){
-      this.editLeaveType()
-    }
+    
     this.getAllleaveType()
   }
 
@@ -65,11 +61,9 @@ leaveSearchList:any
     )
   }
 
+
 createLeaveType(){
-// if(this.leaveType.id != 0){
-
-
-
+  
   if(this.leaveType.name.trim() != ''){
   let obj = {
 institute_id: this.jsonFlag.institute_id,
@@ -78,15 +72,15 @@ name: this.leaveType.name,
   this.auth.showLoader();
   const url ='/api/v2/leave-type'
   this.httpService.postData(url, obj).subscribe((res:any) =>{
-    this.auth.hideLoader();
     this.ceateLeaveData = res.result
     this.getAllleaveType()
     this.leaveType.name=''
+    this.auth.hideLoader();
 
     if (res.statusCode == 200) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Leave created successfully');
       this.closePopups(false);
-    //  this.leaveType.id=0,
+
 
     }
  
@@ -142,7 +136,8 @@ this.httpService.putData(url, obj).subscribe((res :any)=>{
   this.leaveType.name=''
 
   this.msgService.showErrorMessage('success', '', "Leave updated successfully");
-  // this.leaveType.name=''
+  $('#editModal').modal('hide');
+
 
 },
 err => {
@@ -206,11 +201,9 @@ this.leaveSearchInput = "";
 closePopups($event) {
   $('#addModal').modal('hide');
   this.closePopup.emit(false);
+  
 }
 
 
-cancelPopups2($event){
-  $('#editModel').model('hide');
-  this.closePopup.emit(false)
-}
+
 }
