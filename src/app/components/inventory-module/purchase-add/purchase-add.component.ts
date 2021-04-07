@@ -111,8 +111,9 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     this.itemArray.forEach(elements => {
       if (elements && elements.item_id == id) {   
         this.itemData.push(elements);
-        console.log(this.itemData);
-              let purchaselist = { "item_id": elements.item_id, "quantity": elements.available_units, "unit_price": elements.unit_cost };
+        let data =elements;
+         console.log(this.itemData);
+              let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
             this.model.purchased_item_list.push(purchaselist);
       }
     })
