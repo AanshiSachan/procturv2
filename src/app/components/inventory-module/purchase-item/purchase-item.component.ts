@@ -69,6 +69,7 @@ export class PurchaseItemComponent implements OnInit {
             let obj:any={};
             //obj.category=keys.category_name;
             obj.item_name=data.item_name;
+            obj.category_name=data.category_name;
             obj.quantity=data.quantity;
             obj.supplier_company_name=keys.supplier_company_name;
             obj.purchase_date=keys.purchase_date;

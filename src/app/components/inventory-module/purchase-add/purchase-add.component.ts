@@ -36,7 +36,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     total_paid_amount: 0,
     is_refunded: false,
     purchased_item_list: [],
-  
+
   }
 
   constructor(
@@ -47,7 +47,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     private excelService: ExcelService,
     private route: ActivatedRoute,
     private router: Router,
-    private _Activatedroute:ActivatedRoute) {
+    private _Activatedroute: ActivatedRoute) {
     this.model.institute_id = sessionStorage.getItem('institution_id');
 
   }
@@ -55,7 +55,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.getVendorDetails();
-    this.editId=this._Activatedroute.snapshot.paramMap.get("id");
+    this.editId = this._Activatedroute.snapshot.paramMap.get("id");
   }
   ngDoCheck() {
     //this.totals(obj);
@@ -64,7 +64,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   getCategoryItem(obj) {
     this.itemData = [];
-    this.model.purchased_item_list=[];
+    this.model.purchased_item_list = [];
 
     // this.auth.showLoader();
     console.log(obj)
@@ -87,6 +87,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       (res: any) => {
         this.supplierAllData = res.result.response;
         this.auth.hideLoader();
+        console.log(this.supplierAllData)
       },
       err => {
         this.auth.hideLoader();
@@ -98,21 +99,23 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     id = +id;
     console.log(e.target.value)
     this.categoryAllData.forEach(element => {
-   if (element && element.categoryId === id) {
+      if (element && element.categoryId === id) {
         this.itemArray = element.items;
-        console.log( this.itemArray );
-        
+        console.log(this.itemArray);
+
       }
     });
   }
-   
+
   getItemData(id) {
-   this.itemArray.forEach(elements=>{
-  if(elements && elements.item_id ==id){
-this.itemData.push(elements)
-console.log(this.itemData)
-  }
-})
+    this.itemArray.forEach(elements => {
+      if (elements && elements.item_id == id) {   
+        this.itemData.push(elements);
+        console.log(this.itemData);
+              let purchaselist = { "item_id": elements.item_id, "quantity": elements.available_units, "unit_price": elements.unit_cost };
+            this.model.purchased_item_list.push(purchaselist);
+      }
+    })
 
 
 
@@ -124,7 +127,7 @@ console.log(this.itemData)
     //   if (element && element.item_id == id) {
     //     let data = element;
     //     this.itemData.push(data);
-      
+
     //     let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
     //     this.model.purchased_item_list.push(purchaselist);
     //   }
@@ -134,13 +137,13 @@ console.log(this.itemData)
   }
 
   //delete item row
-  deleteItemData(id){
-  this.model.purchased_item_list.forEach((element,index)=>{
-       if(element.item_id==id) this.model.purchased_item_list.splice(index,1);
-     
+  deleteItemData(id) {
+    this.model.purchased_item_list.forEach((element, index) => {
+      if (element.item_id == id) this.model.purchased_item_list.splice(index, 1);
+
     });
     console.log(this.model.purchased_item_list);
-    }
+  }
   status: boolean = true;
   editdata(param) {
     this.status = param;
