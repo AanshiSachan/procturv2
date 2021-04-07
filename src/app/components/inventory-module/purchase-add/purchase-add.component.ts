@@ -100,25 +100,37 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     this.categoryAllData.forEach(element => {
    if (element && element.categoryId === id) {
         this.itemArray = element.items;
+        console.log( this.itemArray );
+        
       }
     });
   }
-  getItemData(e) {
-    // this.itemData
-    let id = e;
-    id = +id;
-    this.isChange = true;
-    this.itemArray.forEach(element => {
-      if (element && element.item_id == id) {
-        let data = element;
-        this.itemData.push(data);
-        
-        let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
-        this.model.purchased_item_list.push(purchaselist);
-      }
-      console.log(this.model.purchased_item_list)
-    })
-    console.log(this.itemData)
+   
+  getItemData(id) {
+   this.itemArray.forEach(elements=>{
+  if(elements && elements.item_id ==id){
+this.itemData.push(elements)
+console.log(this.itemData)
+  }
+})
+
+
+
+    // // this.itemData
+    // let id = e;
+    // id = +id;
+    // this.isChange = true;
+    // this.itemArray.forEach(element => {
+    //   if (element && element.item_id == id) {
+    //     let data = element;
+    //     this.itemData.push(data);
+      
+    //     let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
+    //     this.model.purchased_item_list.push(purchaselist);
+    //   }
+    //   console.log(this.model.purchased_item_list)
+    // })
+    // console.log(this.itemData)
   }
 
   //delete item row

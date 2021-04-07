@@ -14,7 +14,7 @@
       </div>
       <div class="pt102" [class.has-error]="supplier_id.invalid && supplier_id.touched">
         <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
-          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event,model.supplier_id)" required>
+          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" required>
           <option value="">
             Supplier Name*
           </option>
