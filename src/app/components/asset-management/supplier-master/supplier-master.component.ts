@@ -217,7 +217,8 @@ export class SupplierMasterComponent implements OnInit {
 
   }
   maxlength = 10;
-  saveVendorDetails() {debugger
+  saveVendorDetails() {
+
     if (this.addVendorForm.valid) {
       let obj :any={
         active: this.model.active,
@@ -247,6 +248,13 @@ export class SupplierMasterComponent implements OnInit {
         newcat.push(category_ids[data].id);
       }
       obj.category_ids = newcat
+      if(newcat.length==0){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Category is manadatory");
+      }
+      else if(newasset.length==0){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset is manadatory ");
+    
+      }
       obj.category_id = this.selectedvalue;
       this.httpService.postMethod('api/v2/asset/supplier/create ', obj).then(
         (res: any) => {
@@ -255,10 +263,11 @@ export class SupplierMasterComponent implements OnInit {
          // this.cancel(false);
          this.getVendorDetails();
         },
-        err => {
-
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset LIST is Empty");
-         
+        err => {debugger;
+          let errmsg =err.error;
+          console.log(errmsg)
+          //console.log(errmsg.error_code)
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Supplier name/Email duplicate");      
         }
       )
     }
