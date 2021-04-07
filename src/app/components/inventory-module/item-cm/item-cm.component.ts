@@ -204,8 +204,9 @@ saveItemDetails(){
         this.auth.hideLoader();
         this.getItemDetails();
         if (res.statusCode == 200) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item' + '' + this.item.item_name + ''+ 'is added succesfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'An Item ' + this.item.item_name + ' '+ ','+ 'has been created to system, under category ' + ' ' + this.item.category_name );
           this.getCategoryDetails();
+          //
         }
       },
       err => {

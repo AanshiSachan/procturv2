@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnChanges, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { Component, DoCheck, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './purchase-add.component.html',
   styleUrls: ['./purchase-add.component.scss']
 })
-export class PurchaseAddComponent implements OnInit, DoCheck ,OnChanges{
+export class PurchaseAddComponent implements OnInit, DoCheck {
   categoryAllData: any = [];
   supplierAllData: any = [];
   pageIndex: number = 1;
@@ -32,7 +32,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck ,OnChanges{
     purchase_date: '',
     purchase_description: '',
     institute_id: sessionStorage.getItem('institute_id'),
-    total_amount: 100,
+    total_amount: 0,
     total_paid_amount: 0,
     is_refunded: false,
     purchased_item_list: [],
@@ -56,15 +56,16 @@ export class PurchaseAddComponent implements OnInit, DoCheck ,OnChanges{
   ngOnInit(): void {
     this.getVendorDetails();
     this.editId=this._Activatedroute.snapshot.paramMap.get("id");
-    console.log(this.editId)
   }
   ngDoCheck() {
     //this.totals(obj);
   }
-  ngOnChanges(changes:SimpleChange):void{
+  private _title: string;
 
-  }
   getCategoryItem(obj) {
+    this.itemData = [];
+    this.model.purchased_item_list=[];
+
     // this.auth.showLoader();
     console.log(obj)
     this.httpService.getData(this.url + 'purchase/getCategoryAndItem?supplierId=' + obj + '&instituteId=' + this.model.institute_id).subscribe(
@@ -103,17 +104,17 @@ export class PurchaseAddComponent implements OnInit, DoCheck ,OnChanges{
     });
   }
   getItemData(e) {
-    this.itemData;
+    // this.itemData
     let id = e;
     id = +id;
     this.isChange = true;
     this.itemArray.forEach(element => {
-      if (element && element.item_id === id) {
+      if (element && element.item_id == id) {
         let data = element;
         this.itemData.push(data);
-        console.log(this.itemData)
+        
         let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
-        this.model.purchased_item_list.push(purchaselist)
+        this.model.purchased_item_list.push(purchaselist);
       }
       console.log(this.model.purchased_item_list)
     })
