@@ -264,10 +264,8 @@ export class SupplierMasterComponent implements OnInit {
          this.getVendorDetails();
         },
         err => {debugger;
-          let errmsg =err.error;
-          console.log(errmsg)
-          //console.log(errmsg.error_code)
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Supplier name/Email duplicate");      
+                // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Supplier name/Email duplicate");      
         }
       )
     }
@@ -412,6 +410,7 @@ let category_names= object.data.category_names_string.split(',');
       this.getVendorDetails();
     },
       err => {
+     // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
         this.auth.hideLoader();
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select category")
       })
@@ -431,6 +430,7 @@ let category_names= object.data.category_names_string.split(',');
           this.getVendorDetails();
         },
         err => {
+           // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
           this.msgService.showErrorMessage('error', '', 'Delete when no pending asset request for supplier');
         }
       );

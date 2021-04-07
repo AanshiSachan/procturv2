@@ -281,7 +281,8 @@ export class AssetPurchaseComponent implements OnInit {
           this.getPurchaseDetails();
         },
         err => {
-          this.msgService.showErrorMessage('error', '', "err.response");
+                    // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+        this.msgService.showErrorMessage('error', '', "err.response");
          this.auth.hideLoader();
         }
       );
@@ -452,7 +453,9 @@ export class AssetPurchaseComponent implements OnInit {
               this.cancel(false)
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
-
+ 
+                     // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+         
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
           }
