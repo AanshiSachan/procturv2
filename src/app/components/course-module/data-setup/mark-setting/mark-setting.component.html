@@ -1,0 +1,182 @@
+<section class="w98">
+  <div class="row" style="margin:0em">
+    <div class="filter-item field-wrapper" style="margin-left: 0px;">
+      <select class="form-ctrl input-select" name="" [(ngModel)]="model.mark_type"
+        (ngModelChange)="changeMarkType('onChange', $event)">
+        <option value="-1">Select Mark Type</option>
+        <option title="{{marks.data_key}}" [value]="marks.data_value" *ngFor="let marks of markTypeData">
+          {{ (marks.data_key?.length > 30) ? (marks.data_key | slice:0:30) + '...' : marks.data_key }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="examTypeHeader" *ngIf="model.mark_type == '0' || model.mark_type == '1'">
+    Exam
+  </div>
+  <div class="role-container" *ngIf="model.mark_type == '0' || model.mark_type == '1'">
+    <div class="role-list-container">
+      <div *ngFor="let data of examTypeData;let i=index" class="role-data-container">
+        <div class="field-checkbox-wrapper">
+          <input type="checkbox" [(ngModel)]="data.isChecked" [checked]="data.isChecked" class="form-checkbox"
+            [id]="'checkbox-'+i">
+          <label [for]="'checkbox-'+i">{{data.exam_type}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="examTypeHeader">
+    <span *ngIf="model.mark_type == '0'">Mark Percentage</span>
+    <span *ngIf="model.mark_type == '1'">Class Wise</span>
+  </div>
+  <div class="role-container" *ngIf="model.mark_type == 0">
+    <div class="role-list-container">
+      <div *ngFor="let markType of markDistributionData;let j=index" class="role-data-container">
+        <div class="field-checkbox-wrapper">
+          <input type="checkbox" [(ngModel)]="markType.isChecked" (change)="checkMarkTotal(markType)"
+            [checked]="markType.isChecked" class="form-checkbox" [id]="'checkbox1-'+j">
+          <label [for]="'checkbox1-'+j">{{markType.marks_distribution_name}} ({{markType.marks_value_percent}})</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="max-height: 50vh;overflow-y: auto;" *ngIf="model.mark_type == 1">
+    <div *ngFor="let standard of standardData;let k=index">
+      <div class="role-list-container borderDiv" style="padding-left: 0;">
+        <div style="height: 32px;">
+          <span class="standardContainer"> {{standard.standard_name}}</span>
+        </div>
+        <div class="row" style="margin: 0;padding-left: 20px;">
+          <div *ngFor="let markType of standard[standard.standard_name];let j=index" class="role-data-container">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" [(ngModel)]="markType.isChecked" (change)="classWiseMarkTotal(standard, markType)"
+                [checked]="markType.isChecked" class="form-checkbox" [id]="'checkbox'+j +k">
+              <label [for]="'checkbox'+j +k">{{markType.marks_distribution_name}}
+                ({{markType.marks_value_percent}})</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="max-height: 50vh;overflow-y: auto;" *ngIf="model.mark_type == 2 || model.mark_type == 3">
+    <div *ngFor="let exam of examTypeData;let k=index">
+      <div class="role-list-container borderDiv" style="padding-left: 0;">
+        <div style="height: 32px;">
+          <span class="standardContainer"> {{exam.exam_type}}</span>
+        </div>
+        <div class="row" style="margin: 0;padding-left: 20px;">
+          <div *ngFor="let markType of exam[exam.exam_type];let j=index" class="role-data-container">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" [(ngModel)]="markType.isChecked" (change)="examWiseMarkTotal(exam, markType)"
+                [checked]="markType.isChecked" class="form-checkbox" [id]="'checkbox'+j +k">
+              <label [for]="'checkbox'+j +k">{{markType.marks_distribution_name}}
+                ({{markType.marks_value_percent}})</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="model.mark_type == 4">
+    <div *ngFor="let standard of standardData;let k=index">
+      <div class="examTypeHeader">
+        <span>{{standard.standard_name}}</span>
+      </div>
+      <div style="max-height: 50vh;overflow-y: auto;">
+        <div *ngFor="let subject of standard.subject_list;let j=index">
+          <div class="role-list-container borderDiv" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
+            <div style="height: 32px;">
+              <span>
+                <span style="color: #109CF1;margin: 10px;font-weight: 600;"><i _ngcontent-bkv-c164=""
+                    style="color: black;" aria-hidden="true" class="fa fa-angle-right"></i>
+                  {{subject.subject_name}}</span>
+              </span>
+            </div>
+            <div class="row" style="margin: 0;padding-left: 20px;">
+              <div *ngFor="let markType of subject[subject.subject_name];let l=index" class="role-data-container">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" [(ngModel)]="markType.isChecked"
+                    (change)="subjectWiseMarkTotal(subject, markType)" [checked]="markType.isChecked"
+                    class="form-checkbox" [id]="'checkbox'+k +j +l">
+                  <label [for]="'checkbox'+k +j +l">{{markType.marks_distribution_name}}
+                    ({{markType.marks_value_percent}})</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="model.mark_type == 5">
+    <div *ngFor="let standard of standardData;let a=index">
+      <div class="examTypeHeader">
+        <span>{{standard.standard_name}}</span>
+      </div>
+      <div style="max-height: 50vh;overflow-y: auto;">
+        <div *ngFor="let exam of standard[standard.standard_name];let b=index">
+          <div class="role-list-container borderDiv">
+            <div style="height: 32px;">
+              <span class="standardContainer"> {{exam.exam_type}}</span>
+            </div>
+            <div class="row" style="margin: 0;padding-left: 20px;">
+              <div *ngFor="let markType of exam[exam.exam_type];let c=index" class="role-data-container">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" [(ngModel)]="markType.isChecked"
+                    (change)="classExamWiseMarkTotal(standard, exam, markType)" [checked]="markType.isChecked"
+                    class="form-checkbox" [id]="'checkbox'+a +b +c +standard.standard_name">
+                  <label [for]="'checkbox'+a +b +c+standard.standard_name">{{markType.marks_distribution_name}}
+                    ({{markType.marks_value_percent}})</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="model.mark_type == 6">
+    <div *ngFor="let standard of standardData;let a=index">
+      <div class="examTypeHeader">
+        <span>{{standard.standard_name}}</span>
+      </div>
+      <div class="role-list-container borderDiv">
+        <div *ngFor="let exam of standard[standard.standard_name];let b=index">
+          <div>
+            <div style="height: 32px;">
+              <span class="standardContainer"> {{exam.exam_type}}</span>
+            </div>
+            <div *ngFor="let sub of exam[exam.exam_type];let d=index" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);margin-top: 10px;margin-bottom: 10px;">
+              <div style="width: 100%;">
+                <div style="width: 100%;">
+                  <span style="color: #109CF1;margin: 10px;font-weight: 600;"><i _ngcontent-bkv-c164=""
+                      style="color: black;" aria-hidden="true" class="fa fa-angle-right"></i>
+                    {{sub.subject_name}}</span>
+                </div>
+                <div class="row" style="margin: 0;padding-left: 20px;">
+                  <div *ngFor="let markType of sub[sub.subject_name];let c=index" class="role-data-container">
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" [(ngModel)]="markType.isChecked"
+                        (change)="classExamSubjectWiseTotal(standard, exam, sub, markType)"
+                        [checked]="markType.isChecked" class="form-checkbox"
+                        [id]="'checkbox'+a +b +c +d +standard.standard_name">
+                      <label [for]="'checkbox'+a +b +c +d +standard.standard_name">{{markType.marks_distribution_name}}
+                        ({{markType.marks_value_percent}})</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btn-section pull-right">
+    <button class="btn fullBlue" (click)="updateMarkType()">Update Mark Setting</button>
+  </div>
+</section>

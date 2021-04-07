@@ -3,15 +3,12 @@ import { Router } from '@angular/router';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-
-
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.scss']
 })
 export class StudentsComponent implements OnInit {
-
   newPaginated: any[] = [];
   getStudents: any[] = [];
   searchData: any[] = [];

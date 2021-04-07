@@ -24,6 +24,12 @@ import { UsersManagementComponent } from './users-management.component';
                         loadChildren: () => import('app/components/users-management/role-management/role-management.module').then(m => m.RoleManagementModule)
                         // loadChildren: 'app/components/users-management/role-management/role-management.module#RoleManagementModule'
                     },
+                    {
+                        path: 'attendance',
+                        loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule),
+                        pathMatch: 'prefix'
+                        // loadChildren: 'app/components/users-management/role-management/role-management.module#RoleManagementModule'
+                    },
                 ]
             }
         ])

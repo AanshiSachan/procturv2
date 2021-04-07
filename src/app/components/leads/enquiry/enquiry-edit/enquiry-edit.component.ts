@@ -13,6 +13,7 @@ import { HttpService } from '../../../../services/http.service';
 import { LoginService } from '../../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { ClosingReasonService } from '../../services/closing-reason.service';
+import { CommonApiCallService } from '../../../../services/common-api-call.service';
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -90,7 +91,24 @@ export class EnquiryEditComponent implements OnInit {
     walkin_followUpTime: '',
     courseIdArray: null,
     closing_reason_id: '-1',
-    is_follow_up_time_notification: false
+    is_follow_up_time_notification: false,
+    birth_place: '',
+    blood_group: '-1',
+    category: '-1',
+    nationality: '',
+    student_adhar_no: '',
+    parent_adhar_no: '',
+    parent_profession: '-1',
+    mother_tounge: '-1',
+    extra_curricular_activities: '',
+    educational_group: '',
+    pin_code: '',
+    inst_acad_year_id: '-1',
+    guardian_name: '',
+    guardian_phone: '',
+    guardian_email: '',
+    address: ''
+
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -135,7 +153,7 @@ export class EnquiryEditComponent implements OnInit {
     amount: null,
     paymentMode: null,
     paymentDate: null,
-    reference: null,
+    reference: null
 
   }
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
@@ -186,11 +204,14 @@ export class EnquiryEditComponent implements OnInit {
   selectedData = {
     country: '',
     state: '',
-    city:''
+    city: ''
   };
 
   permission: boolean = false;
   role_feature = role.features;
+  schoolModel: boolean = false;
+  masterDataList: any = {};
+  instAcademicYrList: any = [];
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
@@ -203,7 +224,8 @@ export class EnquiryEditComponent implements OnInit {
     private multiBranchService: MultiBranchDataService,
     private service: ClosingReasonService,
     private commonServiceFactory: CommonServiceFactory,
-    private httpService: HttpService) {
+    private httpService: HttpService,
+    private commonApiCallService: CommonApiCallService) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -223,6 +245,24 @@ export class EnquiryEditComponent implements OnInit {
       this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
       this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
     }
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+    if (this.schoolModel) {
+      commonApiCallService.fetchMasterData().subscribe(data => {
+        this.masterDataList = data;
+      })
+      commonApiCallService.getAllFinancialYear().subscribe(data => {
+        this.instAcademicYrList = data
+      })
+    }
+
+
   }
 
 
@@ -273,17 +313,17 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
-  getStateList(){
-    if(this.editEnqData.country_id != ""){
+  getStateList() {
+    if (this.editEnqData.country_id != "") {
       const url = `/api/v1/country/state?country_ids=${this.editEnqData.country_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          if(res.result.length > 0){
+          if (res.result.length > 0) {
             this.stateList = res.result[0].stateList;
           }
-          if(this.editEnqData.state_id != ""){
+          if (this.editEnqData.state_id != "") {
             this.getCityList();
           }
         },
@@ -296,16 +336,16 @@ export class EnquiryEditComponent implements OnInit {
   }
 
   // get city list as per state selection
-  getCityList(){
-    if(this.editEnqData.state_id != "" && this.editEnqData.state_id != "-1"){
+  getCityList() {
+    if (this.editEnqData.state_id != "" && this.editEnqData.state_id != "-1") {
       const url = `/api/v1/country/city?state_ids=${this.editEnqData.state_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          if(res.result.length > 0){
+          if (res.result.length > 0) {
             this.cityList = res.result[0].cityList;
-            if(this.editEnqData.city_id != ""){
+            if (this.editEnqData.city_id != "") {
               this.getAreaList();
             }
           }
@@ -320,13 +360,13 @@ export class EnquiryEditComponent implements OnInit {
 
   getAreaList() {
     // this.areaList = [];
-    if(this.editEnqData.city_id != "" && this.editEnqData.city_id != "-1"){
+    if (this.editEnqData.city_id != "" && this.editEnqData.city_id != "-1") {
       this.auth.showLoader();
       const url = `/api/v1/cityArea/area/${this.createNewReasonObj.institution_id}?city_ids=${this.editEnqData.city_id}`
       this.httpService.getData(url).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          if(res.result&&res.result.length > 0){
+          if (res.result && res.result.length > 0) {
             this.areaList = res.result[0].areaList;
           }
         },
@@ -423,11 +463,11 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData = data;
         console.log(data);
         this.editEnqData.enquiry_date = moment(data.enquiry_date).format("YYYY-MM-DD");
-        if(data.followUpDate) {
-        this.editEnqData.followUpDate = moment(data.followUpDate).format("YYYY-MM-DD");
+        if (data.followUpDate) {
+          this.editEnqData.followUpDate = moment(data.followUpDate).format("YYYY-MM-DD");
         }
-        if(data.walkin_followUpDate) {
-        this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("YYYY-MM-DD");
+        if (data.walkin_followUpDate) {
+          this.editEnqData.walkin_followUpDate = moment(data.walkin_followUpDate).format("YYYY-MM-DD");
         }
         // this.editEnqData.country_id = this.instituteCountryDetObj.country_id;
         this.countryDetails.forEach(element => {
@@ -1055,7 +1095,32 @@ export class EnquiryEditComponent implements OnInit {
                   institute_enquiry_id: this.institute_enquiry_id,
                   school_id: this.editEnqData.school_id,
                   country_id: this.editEnqData.country_id,
-                  assigned_to: this.editEnqData.assigned_to
+                  assigned_to: this.editEnqData.assigned_to,
+                  curr_address : this.editEnqData.curr_address,
+                  state_id: this.editEnqData.state_id,
+                  area_id: this.editEnqData.area_id,
+                  city_id: this.editEnqData.city_id,
+                  comments: this.editEnqData.enquiry,
+
+                }
+                if (this.schoolModel) {
+                  obj.birth_place = this.editEnqData.birth_place,
+                    obj.blood_group = this.editEnqData.blood_group,
+                    obj.category = this.editEnqData.category,
+                    obj.nationality = this.editEnqData.nationality,
+                    obj.student_adhar_no = this.editEnqData.student_adhar_no,
+                    obj.parent_adhar_no = this.editEnqData.parent_adhar_no,
+                    obj.parent_profession = this.editEnqData.parent_profession,
+                    obj.mother_tounge = this.editEnqData.mother_tounge,
+                    obj.extra_curricular_activities = this.editEnqData.extra_curricular_activities,
+                    obj.educational_group = this.editEnqData.educational_group,
+                    obj.pin_code = this.editEnqData.pin_code,
+                    obj.student_perm_addr = this.editEnqData.address,
+                    obj.guardian_name = this.editEnqData.guardian_name,
+                    obj.guardian_email = this.editEnqData.guardian_email,
+                    obj.guardian_phone = this.editEnqData.guardian_phone,
+                    obj.religion = this.editEnqData.religion
+
                 }
                 if (!this.isProfessional) {
                   obj.standard_id = this.editEnqData.standard_id;

@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+declare var $;
 
 
 @Component({
@@ -165,6 +166,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
   enable_client_website: boolean = false;
+  schoolModel: boolean = false;
+  is_zoom_integration_enable: boolean = false;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -173,7 +176,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+  }
 
   ngOnInit() {
     this.settings = sessionStorage.getItem('is_exam_grad_feature');
@@ -234,29 +246,50 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.checkInstituteType();
     this.checkManinBranch();
     this.privacy = JSON.parse(sessionStorage.getItem('privacy_alert'));
-    // var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    // var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 
-    // (function () {
+    // (function(){  
 
-    //   var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+    // var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
 
-    //   s1.async = true;
+    // s1.async=true;
 
-    //   s1.src = 'https://embed.tawk.to/5fd31bf7df060f156a8bfc37/1ep9alk8n';
+    // s1.src='https://embed.tawk.to/5fd31bf7df060f156a8bfc37/1ep9alk8n';
 
-    //   s1.charset = 'UTF-8';
+    // s1.charset='UTF-8';
 
-    //   s1.setAttribute('crossorigin', '*');
+    // s1.setAttribute('crossorigin','*');
 
-    //   s0.parentNode.insertBefore(s1, s0);
+    // s0.parentNode.insertBefore(s1,s0);
 
     // })();
-    if (sessionStorage.getItem('userType') == '3') {
+
+    // var $zoho = $zoho || {};
+    // $zoho.salesiq = $zoho.salesiq || { widgetcode: "c165a84d5f33a8c8881dd9349ebf02c00e78a8b69f169ab2a3ef7c92aaed2b8abbee2865a1f989b1aefa10a127937fae", values: {}, ready: function () { } };
+    // var d = document;
+    // var s = d.createElement("script"); s.type = "text/javascript";
+    // s.id = "zsiqscript"; s.defer = true;
+    // s.src = "https://salesiq.zoho.com/widget";
+    // var t = d.getElementsByTagName("script")[0];
+    // t.parentNode.insertBefore(s, t); d.write("<div id='zsiqwidget'></div>");
+    if(sessionStorage.getItem('userType') == '3') {
       this.facultyAccount = true;
     }
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
       this.jsonCourseFlags.isShowOnlineAssignment = true;
     }
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    this.is_zoom_integration_enable = JSON.parse(zoom);
+    $(document).ready(function() {
+      $('.sidebar-wrapper').css('width','14.5%');
+      $('.dropdown'). mouseover(
+       function(){
+           $('.sidebar-wrapper').css('width','26.5%');
+       }). mouseleave(
+       function(){
+           $('.sidebar-wrapper').css('width','14.5%');
+       });
+   });
   }
 
   ngAfterViewInit() {
@@ -267,6 +300,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.accessToHomeAndLead();
     }
   }
+
+
 
   checkpermissinForLeadDetails() {
     let userType = sessionStorage.getItem('userType');
@@ -834,6 +869,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.jsonFlags.isShowExpense = true;
       }
     }
+    sessionStorage.setItem('isShowExpense', String(this.jsonFlags.isShowExpense));
   }
 
   isLiveClassesAllow(type) {
@@ -1016,8 +1052,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
-    this.activeSession = id;
-
+    // this.activeSession = id;
+    
   }
   checkInstituteType() {
     this.auth.institute_type.subscribe(
@@ -1597,5 +1633,14 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       case 'expense': this.showExp = 'expensehide'; break;
 
     }
+  }
+  setLiveClassType(obj) {
+    if (obj != '') {
+      sessionStorage.setItem('setLiveClassType', obj);
+    }
+  }
+
+  setSetupSession(obj) {
+    sessionStorage.setItem('class', obj);
   }
 }

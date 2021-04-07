@@ -5,6 +5,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
+import CommonUtils from '../../../utils/commonUtils'
 
 @Component({
   selector: 'app-enquiry-update-popup',
@@ -74,13 +75,72 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     dob: "",
     parent_email: "",
     parent_name: "",
-    parent_phone: ""
+    parent_phone: "",
+    country_id: "",
+    state_id: "",
+    city_id: "",
+    area_id: "",
+    phone2: "",
+    email2: "",
+    curr_address: "",
+    master_course_name: "",
+    city: -1,
+    area: -1,
+    occupation_id: "-1",
+    school_id: "-1",
+    qualification: "",
+    grade: "",
+    enquiry_date: moment().format('YYYY-MM-DD'),
+    standard_id: "-1",
+    subject_id: "-1",
+    subjectIdArray: null,
+    referred_by: "-1",
+    source_id: "-1",
+    fee_committed: "",
+    discount_offered: "",
+    priority: "",
+    enquiry: "",
+    follow_type: "",
+    followUpDate: "",
+    religion: null,
+    link: "",
+    slot_id: null,
+    closedReason: "",
+    demo_by_id: "",
+    assigned_to: "-1",
+    followUpTime: "",
+    lead_id: -1,
+    enqCustomLi: [],
+    source_instituteId: -1,
+    walkin_followUpDate: '',
+    walkin_followUpTime: '',
+    courseIdArray: null,
+    closing_reason_id: '-1',
+    is_follow_up_time_notification: false,
+    birth_place: '',
+    blood_group: '-1',
+    category: '-1',
+    nationality: '',
+    student_adhar_no: '',
+    parent_adhar_no: '',
+    parent_profession: '-1',
+    mother_tounge: '-1',
+    extra_curricular_activities: '',
+    educational_group: '',
+    pin_code: '',
+    inst_acad_year_id: '-1',
+    guardian_name: '',
+    guardian_phone: '',
+    guardian_email: '',
+    address: ''
   };
   isEnquiryAdmin: boolean = false;
   isNotifyVisible: boolean = false;
 
   @Input() enqData: any;
   @Output() closePopUp = new EventEmitter<any>(null);
+  schoolModel: boolean = false;
+  isProfessional: boolean = false;
 
   constructor(
     private fetchService: FetchprefilldataService,
@@ -92,6 +152,17 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   ) {
     this.fetchDataFromServer();
     this.checkForMultiBranch();
+    this.schoolModel = this.auth.schoolModel.value;
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
   }
 
   ngOnInit() {
@@ -416,7 +487,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         if (isAdmit == true) {
           this.createObjectToStoreInfo();
           this.closeEnquiryUpdate();
-          this.router.navigate(['/view/student/add']);
+          this.router.navigate(['/view/students/add']);
         } else {
           this.closeEnquiryUpdate();
         }
@@ -461,15 +532,46 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       phone: this.enquiryDet.phone,
       email: this.enquiryDet.email,
       gender: this.enquiryDet.gender,
-      dob: moment(this.enquiryDet.dob).format("YYYY-MM-DD"),
+      dob: CommonUtils.validateDate(this.enquiryDet.dob),
       parent_email: this.enquiryDet.parent_email,
       parent_name: this.enquiryDet.parent_name,
       parent_phone: this.enquiryDet.parent_phone,
       enquiry_id: this.enquiryDet.institute_enquiry_id,
-      institute_enquiry_id: this.enquiryDet.institute_enquiry_id
+      institute_enquiry_id: this.enquiryDet.institute_enquiry_id,
+      school_id: this.enquiryDet.school_id,
+      country_id: this.enquiryDet.country_id,
+      assigned_to: this.enquiryDet.assigned_to,
+      curr_address: this.enquiryDet.curr_address,
+      state_id: this.enquiryDet.state_id,
+      area_id: this.enquiryDet.area_id,
+      city_id: this.enquiryDet.city_id
     };
+    if (this.schoolModel) {
+      obj.birth_place = this.enquiryDet.birth_place,
+        obj.blood_group = this.enquiryDet.blood_group,
+        obj.category = this.enquiryDet.category,
+        obj.nationality = this.enquiryDet.nationality,
+        obj.student_adhar_no = this.enquiryDet.student_adhar_no,
+        obj.parent_adhar_no = this.enquiryDet.parent_adhar_no,
+        obj.parent_profession = this.enquiryDet.parent_profession,
+        obj.mother_tounge = this.enquiryDet.mother_tounge,
+        obj.extra_curricular_activities = this.enquiryDet.extra_curricular_activities,
+        obj.educational_group = this.enquiryDet.educational_group,
+        obj.pin_code = this.enquiryDet.pin_code,
+        obj.student_perm_addr = this.enquiryDet.address,
+        obj.guardian_name = this.enquiryDet.guardian_name,
+        obj.guardian_email = this.enquiryDet.guardian_email,
+        obj.guardian_phone = this.enquiryDet.guardian_phone,
+        obj.religion = this.enquiryDet.religion
+    }
+    if (!this.isProfessional) {
+      obj.standard_id = this.enquiryDet.standard_id;
+    } else {
+      obj.standard_id = this.enquiryDet.master_course_name;
+    }
     sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
   }
+
 
   // Close Enquiry Pop Up
   closeEnquiryUpdate() {

@@ -24,7 +24,7 @@ export class AuthenticatorService {
     course_flag = new BehaviorSubject('0');
     instituteType_name = new BehaviorSubject('LANG');
     // changes by Nalini - to handle school model conditions
-    schoolModel: any = sessionStorage.getItem('is_institute_type_school');
+    schoolModel = new BehaviorSubject(true);
 
     public baseUrl: string = "";
     public productBaseUrl: string = "";
@@ -94,7 +94,6 @@ export class AuthenticatorService {
             this.course_flag.next(courseflag);
         }
         this.makeInstituteType(type, courseflag);
-        this.schoolModel = sessionStorage.getItem('is_institute_type_school');
     }
 
     getInstituteId() {
@@ -165,6 +164,8 @@ export class AuthenticatorService {
         } else {
             this.institute_type.next('LANG');
         }
+        let is_institute_type_school = (sessionStorage.getItem('is_institute_type_school'));
+        this.schoolModel.next(is_institute_type_school == 'true');
     }
 
     checkInternetConnection() {

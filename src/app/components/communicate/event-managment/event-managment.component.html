@@ -50,6 +50,7 @@
               <option value="2018">2018</option>
               <option value="2019">2019</option>
               <option value="2020">2020</option>
+              <option value="2021">2021</option>
             </select>
           </div>
         </div>
@@ -261,7 +262,7 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':saveDataObj.holiday_long_desc!= ''}">
             <label for="longDesc">Long Description</label>
-            <textarea style="height:95px; font-weight: 100" maxlength="500" class="side-form-ctrl" name="longDesc"
+            <textarea style="height:50px; font-weight: 100" maxlength="500" class="side-form-ctrl" name="longDesc"
               [(ngModel)]="saveDataObj.holiday_long_desc"></textarea>
           </div>
         </div>
@@ -406,7 +407,7 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_long_desc!= ''}">
             <label style="padding-top: 10px;">Long Description<span class="text-danger">*</span></label>
-            <textarea rows="5" style="height:95px; font-weight: 100" maxlength="500" name="l_desc"
+            <textarea rows="5" style="height:50px; font-weight: 100" maxlength="500" name="l_desc"
               class="side-form-ctrl" name="eventName" [(ngModel)]="newUpdateObj.holiday_long_desc"></textarea>
           </div>
         </div>

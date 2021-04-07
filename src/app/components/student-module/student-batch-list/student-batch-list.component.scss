@@ -8,7 +8,7 @@
         th {
             text-align: left;
             padding: 15px 5px 15px 5px;
-            width: 12%;
+            width: 10%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -27,9 +27,9 @@
         td {
             padding: 10px 5px;
             text-align: left;
-            width: 12%;
+            width: 10%;
             white-space: nowrap;
-            overflow: hidden;
+            // overflow: hidden;
             text-overflow: ellipsis;
             &:first-child {
                 width: 5%;
@@ -49,15 +49,15 @@
                         position: relative;
                         z-index: 1;
                         background: transparent;
-                        width: 120px;
+                        // width: 120px;
                     }
                     &:after {
                         content: '';
                         background: url("../../../../assets/images/calendar.svg") no-repeat;
                         position: absolute;
-                        left: 97px;
+                        left: 67px;
                         top: 3px;
-                        width: 21px;
+                        width: 17px;
                         height: 21px;
                         z-index: 0;
                     }

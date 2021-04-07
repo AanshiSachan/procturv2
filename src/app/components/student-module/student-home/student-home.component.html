@@ -47,13 +47,13 @@
                                     <img src="../../../../assets/images/students/Open_user.svg" alt=""> Registered Users
                                 </a>
                             </div>
-                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
+                            <div *ngIf="!schoolModel" && class="more-info-item hand_icon" routerLink='/view/students/archived_student'>
                                 <a>
                                     <img src="../../../../assets/images/students/Student_archived.svg" alt=""> Archive
                                     Students
                                 </a>
                             </div>
-                            <div class="more-info-item hand_icon" routerLink='/view/students/archived_status'
+                            <div *ngIf="!schoolModel" class="more-info-item hand_icon" routerLink='/view/students/archived_status'
                                 style="border-bottom: none;">
                                 <a>
                                     <img src="../../../../assets/images/students/Archived_reports.svg" alt=""> Archived
@@ -92,10 +92,10 @@
                         <!-- Advance Filter Trigger -->
                         <div class="c-lg-4 c-md-4 c-sm-4" style="z-index: 5;">
                             <div class="filter-right" style="float: right;">
-                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()"
+                                <a href="javascript:void(0);" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()"
                                     class="openAdFilter">Advance Filter
                                 </a>
-                                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide"
+                                <a href="javascript:void(0);" id="adFilterExit" *ngIf="!schoolModel" class="closeAdFilter hide"
                                     (click)="closeAdFilter()">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                                         <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
@@ -147,7 +147,7 @@
                         </div>
 
                         <div style="margin: 0;" class="row" *ngIf="!isProfessional">
-                            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
+                            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional && !schoolModel">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                     <label for="standard">Standard</label>
@@ -155,7 +155,7 @@
                                         (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
                                         [disabled]="advancedFilterForm.master_course_name!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
+                                        <option value="-1">Select Standard</option>
                                         <option [value]="std.standard_id" title="{{std.standard_name}}"
                                             *ngFor="let std of standardList">
                                             {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
@@ -167,29 +167,38 @@
                             <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
-                                    <label for="masterCourse">Master Courses</label>
-                                    <select id="masterCourse" name="masterCourse"
+                                    <label for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label>
+                                    <select *ngIf="!schoolModel" id="masterCourse" name="masterCourse"
                                         [(ngModel)]="advancedFilterForm.master_course_name"
                                         (ngModelChange)="updateSubCourse($event)" class="form-ctrl"
                                         [disabled]="advancedFilterForm.standard_id!=-1"
                                         [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
+                                        <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Courses'}}</option>
                                         <option [value]="mc.master_course" *ngFor="let mc of masterCourseList"
                                             title="{{mc.master_course}}">
                                             {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
                                         </option>
                                     </select>
+                                    <select *ngIf="schoolModel" id="masterCourse" name="masterCourse"
+                                    [(ngModel)]="advancedFilterForm.standard_id"
+                                    (ngModelChange)="updateCourseList($event)" class="form-ctrl">
+                                    <option value="-1">Select Standard</option>
+                                    <option [value]="mc.standard_id" *ngFor="let mc of standardList"
+                                        title="{{mc.standard_name}}">
+                                        {{ (mc.standard_name.length > 30) ? (mc.standard_name | slice:0:30) + '...' : mc.standard_name }}
+                                    </option>
+                                </select>
                                 </div>
                             </div>
 
                             <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
-                                    <label for="course">Course</label>
+                                    <label for="course">{{schoolModel ? 'Section' : 'Course'}}</label>
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
-                                        class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1"
-                                        [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
-                                        <option value="-1"></option>
+                                        class="form-ctrl" [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
+                                        [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
+                                        <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
                                         <option [value]="course.course_id" title="{{course.course_name}}"
                                             *ngFor="let course of subCourseList">
                                             {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
@@ -204,7 +213,7 @@
                                     <label for="status">Is Active</label>
                                     <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
                                         class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1">All</option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
@@ -327,7 +336,7 @@
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                         <label for="standard">Standard</label>
-                                        <select id="standard" name="standard"
+                                        <select id="standard" name="standard" *ngIF="!schoolModel"
                                             [(ngModel)]="advancedFilterForm.standard_id"
                                             (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
                                             [disabled]="advancedFilterForm.master_course_name!=-1"
@@ -338,13 +347,22 @@
                                                 {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
                                             </option>
                                         </select>
+                                        <select *ngIf="schoolModel" id="masterCourse" name="masterCourse"
+                                         [(ngModel)]="advancedFilterForm.standard_id"
+                                        (ngModelChange)="updateCourseList($event)" class="form-ctrl">
+                                        <option value="-1">Select Standard</option>
+                                        <option [value]="mc.standard_id" *ngFor="let mc of standardList"
+                                            title="{{mc.standard_name}}">
+                                            {{ (mc.standard_name.length > 30) ? (mc.standard_name | slice:0:30) + '...' : mc.standard_name }}
+                                        </option>
+                                </select>
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional && !schoolModel">
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
-                                        <label for="masterCourse">Master Courses</label>
+                                        <label for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label>
                                         <select id="masterCourse" name="masterCourse"
                                             [(ngModel)]="advancedFilterForm.master_course_name"
                                             (ngModelChange)="updateSubCourse($event)" class="form-ctrl"
@@ -362,10 +380,10 @@
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
-                                        <label for="course">Course</label>
+                                        <label for="course">{{schoolModel ? 'Section' : 'Course'}}</label>
                                         <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
-                                            class="form-ctrl" [disabled]="advancedFilterForm.standard_id!=-1"
-                                            [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}">
+                                            class="form-ctrl" [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
+                                            [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
                                             <option value="-1"></option>
                                             <option [value]="course.course_id" title="{{course.course_name}}"
                                                 *ngFor="let course of subCourseList">
@@ -379,7 +397,7 @@
                             <div class="row">
                                 <div class="c-lg-4 c-md-4 c-sm-4">
                                     <div class="field-wrapper datePickerBox">
-                                        <label>From Date</label>
+                                        <label>Admission From Date</label>
                                         <input type="text" class="form-ctrl" readonly="true" bsDatepicker
                                             [(ngModel)]="advancedFilterForm.doa_from_date">
                                         <a (click)="advancedFilterForm.doa_from_date = ''"
@@ -389,7 +407,7 @@
                                 </div>
                                 <div class="c-lg-4 c-md-4 c-sm-4">
                                     <div class="field-wrapper datePickerBox">
-                                        <label>To Date</label>
+                                        <label>Admission To Date</label>
                                         <input type="text" class="form-ctrl" readonly="true" bsDatepicker
                                             [(ngModel)]="advancedFilterForm.doa_to_date">
                                         <a (click)="advancedFilterForm.doa_to_date = ''"

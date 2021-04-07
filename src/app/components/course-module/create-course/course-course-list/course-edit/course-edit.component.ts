@@ -28,7 +28,7 @@ export class CourseEditComponent implements OnInit {
     message: '',
     tempObject: {}
   };
-
+  schoolModel:boolean=false;
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
@@ -45,6 +45,7 @@ export class CourseEditComponent implements OnInit {
         }
       }
     )
+    this.schoolModel=this.auth.schoolModel.value;
   }
 
   ngOnInit() {
@@ -176,7 +177,8 @@ export class CourseEditComponent implements OnInit {
         res => {
           this.jsonVar.callApi = true;
           this.router.navigateByUrl('/view/course/create/courselist');
-          this.messageToast('success', '', 'Course updated successfully.');
+          let msg = this.schoolModel ? 'Section' : 'Course';
+          this.messageToast('success', '', msg +' updated successfully.');
 
         },
         err => {

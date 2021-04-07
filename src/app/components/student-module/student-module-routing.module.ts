@@ -1,37 +1,41 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { StudentModuleComponent, StudentHomeComponent, StudentAddComponent, StudentBulkComponent,
-   StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent } from '.';
+import {
+  StudentModuleComponent, StudentHomeComponent, StudentAddComponent, StudentBulkComponent,
+  StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent
+} from '.';
+import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
+import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 
 const routes: Routes = [
   {
-    path:'',
-    component:StudentModuleComponent,
+    path: '',
+    component: StudentModuleComponent,
     children: [
       {
-          path: '',
-          component: StudentHomeComponent,
-          pathMatch: 'prefix',
+        path: '',
+        component: StudentHomeComponent,
+        pathMatch: 'prefix',
       },
       {
-          path: 'home',
-          component: StudentHomeComponent,
-          pathMatch: 'prefix',
+        path: 'home',
+        component: StudentHomeComponent,
+        pathMatch: 'prefix',
       },
       {
-          path: 'add',
-          component: StudentAddComponent,
-          pathMatch: 'prefix',
+        path: 'add',
+        component: StudentAddNewComponent,
+        pathMatch: 'prefix',
       },
       {
-          path: 'edit/:id',
-          component: StudentEditComponent,
-          pathMatch: 'prefix',
+        path: 'edit/:id',
+        component: StudentEditNewComponent,
+        pathMatch: 'prefix',
       },
       {
-          path: 'bulk',
-          component: StudentBulkComponent,
-          pathMatch: 'prefix',
+        path: 'bulk',
+        component: StudentBulkComponent,
+        pathMatch: 'prefix',
       },
       {
         path: 'openUser',
@@ -52,8 +56,13 @@ const routes: Routes = [
         path: 'reportcard/:id',
         component: ViewReportCardComponent,
         pathMatch: 'prefix',
+      }, 
+      {
+        path: 'addNew',
+        component: StudentAddComponent,
+        pathMatch: 'prefix',
       }
-  ] 
+    ]
   }
 ];
 

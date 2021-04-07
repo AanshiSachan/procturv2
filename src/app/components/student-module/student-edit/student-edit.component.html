@@ -296,7 +296,8 @@
                       (ngModelChange)="getNewCityList()">
                       <option value="">Select State</option>
                       <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
-                        {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
+                        {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name
+                        }}
                       </option>
                     </select>
                   </div>
@@ -363,7 +364,8 @@
                 <div class="field-wrapper" *ngIf="isAcad"
                   [ngClass]="{'has-value': studentAddFormData.standard_id!= ''}">
                   <label for="standard">Standards</label>
-                  <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
+                  <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl"
+                    (ngModelChange)="fetchCourseListByStdId($event)">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -392,9 +394,10 @@
                   <label (click)="openAssignBatch()" for="assignCourses">
                   </label>
                   <textarea style="height:107px;margin-left:-9px; background: #efefef;padding:5px;margin-top:0px"
-                    [ngModel]="assignedBatchString" placeholder="Assign Courses" name="assignCourses" class="form-ctrl"
-                    readonly="true"></textarea>
-                  <a style="cursor:pointer" (click)="openAssignBatch()">Assign Courses</a>
+                    [ngModel]="assignedBatchString" placeholder="Assign {{isSchoolModel?'Sections':'Courses'}}"
+                    name="assignCourses" class="form-ctrl" readonly="true"></textarea>
+                  <a style="cursor:pointer" (click)="openAssignBatch()">Assign
+                    {{isSchoolModel?'Sections':'Courses'}}</a>
                 </div>
 
                 <!-- ================================================================= -->
@@ -762,6 +765,7 @@
               <img src="../../../../assets/images/vert.png" style="height:16px;">
             </button>
 
+
             <div id="menuList" class="dd-list-container hide">
               <div class="dropdown-list">
                 <div class="dd-list-inner">
@@ -1095,8 +1099,8 @@
                         </div>
 
                         <div class="balance" style="margin-right:5px">
-                          <span
-                            *ngIf="installment.paid_full == 'Y'">{{instituteCountryDetObj.symbol}}&nbsp;{{ 0 }}</span>
+                          <span *ngIf="installment.paid_full == 'Y'">{{instituteCountryDetObj.symbol}}&nbsp;{{ 0
+                            }}</span>
                           <span
                             *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}
                             &nbsp;{{installment.balance_amount }}</span>
@@ -1109,8 +1113,8 @@
                         </div>
 
                         <div class="paidDate">
-                          <span
-                            *ngIf="installment.amount_paid > 0">{{installment.paid_date | date:"dd MMM yyyy"}}</span>
+                          <span *ngIf="installment.amount_paid > 0">{{installment.paid_date | date:"dd MMM
+                            yyyy"}}</span>
                         </div>
 
                         <div class="paymentMode" style="overflow: hidden;  text-overflow: ellipsis;">

@@ -98,7 +98,14 @@ export class TemplateHomeComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.fetchPrefill();
   }
 
@@ -321,7 +328,7 @@ export class TemplateHomeComponent implements OnInit {
       this.isHeaderEdit = false
     }
     else {
-      this.commonService.showErrorMessage('error', 'Fee Template Name is Mandatory', 'Please enter a valid fee template name');
+      this.commonService.showErrorMessage('error', '', 'Please enter a valid fee structure name!');
     }
   }
 

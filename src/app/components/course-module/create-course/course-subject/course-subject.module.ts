@@ -7,6 +7,7 @@ import { SubjectApiService } from '../../../../services/course-services/subject.
 import { CourseSubjectRouting } from './course-subject.routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CreateCourseModule } from '../create-course.module';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { CommonModule } from '@angular/common';
         CommonModule,
         // BsDatepickerModule,
         SharedModule,
-        CourseSubjectRouting
+        CourseSubjectRouting,
+        CreateCourseModule
     ],
     exports: [],
     declarations: [

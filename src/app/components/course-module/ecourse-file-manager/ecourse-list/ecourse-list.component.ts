@@ -23,6 +23,7 @@ export class EcourseListComponent implements OnInit {
   searchDataDataSource: any = [];
   displayBatchSize: any = 25;
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  schoolModel:boolean = false;
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
@@ -34,6 +35,14 @@ export class EcourseListComponent implements OnInit {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     console.log("EcourseListComponent");
   }
 

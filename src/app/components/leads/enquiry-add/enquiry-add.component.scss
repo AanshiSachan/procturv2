@@ -241,6 +241,11 @@
     width: 70%;
     @extend .boxPadding15;
 }
+.middle-left-auto {
+    @extend .boxPadding15;
+    height: 62vh;
+    overflow-y: auto;
+}
 
 .middle-right {
     width: 30%;

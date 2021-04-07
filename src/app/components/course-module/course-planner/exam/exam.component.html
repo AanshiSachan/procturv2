@@ -5,19 +5,19 @@
     <div>
       <h1 class="pull-left">
         <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
-          Class/Exam
+          Exam
         </a>
         <!-- <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
           Batch
         </a> -->
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        <span>Exam Planner</span>
+        <span>Schedule</span>
       </h1>
     </div>
 
   </section>
 
-  <section style="margin-top: -25px;">
+  <!-- <section style="margin-top: -25px;">
     <div class="header-section">
       <div class="header-item non-active" id="class" routerLink="/view/course/coursePlanner/class">
         <div class="img-container">
@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <section>
     <section class="filter-head">
@@ -44,7 +44,7 @@
         <div class="filter-item-1">
           <!-- FOR COURSE MODEL -->
           <div class="header-item" *ngIf="!jsonFlag.isProfessional">
-            <span>Master Course <span class="danger">*</span></span>
+            <span>{{schoolModel ? 'Standard' : 'Master Course'}}<span class="danger">*</span></span>
             <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse" (ngModelChange)="updateCoursesList()">
               <!-- changes by Nalini - to handle school model conditions -->
               <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
@@ -52,7 +52,7 @@
             </select>
           </div>
           <div class="header-item" *ngIf="!jsonFlag.isProfessional" style="width: 19%;">
-            <span>Course</span>
+            <span>{{schoolModel ? 'Section' : 'Course'}}</span>
             <!-- changes by Nalini - to handle school model conditions -->
             <select class="header-select-box" name="" [(ngModel)]="inputElements.course" (ngModelChange)="updateSubjectsList()">
               <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
@@ -214,14 +214,14 @@
             <span>Time</span>
           </div>
           <div class="table-heading-item medium">
-            <span>Course</span>
+            <span>{{schoolModel ? 'Section' : 'Course'}}</span>
           </div>
           <div class="table-heading-item medium" *ngIf="showHideColumns.subject">
             <span *ngIf="!jsonFlag.isProfessional">Subject(s)</span>
             <span *ngIf="jsonFlag.isProfessional">Batch</span>
           </div>
           <div class="table-heading-item medium" *ngIf="showHideColumns.topic">
-            <span>Topic(s)</span>
+            <span>{{schoolModel ? 'Exam Type' : 'Topic(s)'}}</span>
           </div>
           <div class="table-heading-item medium" *ngIf="showHideColumns.description">
             <span>Description</span>
@@ -314,7 +314,12 @@
               <span *ngIf="jsonFlag.isProfessional"
                 title="{{course.batch_name}}">{{ (course.batch_name.length > 50) ? (course.batch_name | slice:0:50) + '...' : course.batch_name }}</span>
             </div>
-            <div class="table-value-item medium" *ngIf="showHideColumns.topic">
+            <div class="table-value-item medium" *ngIf="schoolModel">
+              <span title="{{course.exam_type}}"
+                >{{ (course.exam_type.length > 30) ? (course.exam_type | slice:0:30) + '...' : course.exam_type }}</span>
+            </div>
+
+            <div class="table-value-item medium" *ngIf="!schoolModel && showHideColumns.topic">
               <span *ngIf="course?.topics_covered.length == 0">-</span>
               <span title="{{course.topics_covered}}"
                 *ngIf="course?.topics_covered.length != 0">{{ (course.topics_covered.length > 50) ? (course.topics_covered | slice:0:50) + '...' : course.topics_covered }}</span>
@@ -439,8 +444,7 @@
   <!-- ALL POPUP SECTION -->
   <!-- Edit Exam for course model-->
   <div id="editExamForCourse" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
+    <div class="modal-dialog" style="margin-top: 10%;">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -456,7 +460,7 @@
                 <input type="text" class="form-ctrl" name="" value="" placeholder="Enter Description"
                   [(ngModel)]="exam.exam_description">
               </div>
-              <div class="edit-input-container field-wrapper">
+              <div class="edit-input-container field-wrapper" *ngIf="!schoolModel">
                 <label for="">Topic</label>
                 <input type="text" class="form-ctrl topic-input" name="" value="" readonly [(ngModel)]="exam.topic_name"
                   (click)="fetchTopicForSubject(exam)" placeholder="Link"

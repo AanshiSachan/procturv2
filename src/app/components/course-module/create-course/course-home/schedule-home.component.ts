@@ -113,8 +113,8 @@ export class ScheduleHomeComponent implements OnInit {
   toggleCreateNewStandard() {
     if (this.createNewStandard == false) {
       this.createNewStandard = true;
-      document.getElementById('showCloseBtn').style.display = '';
-      document.getElementById('showAddBtn').style.display = 'none';
+      // document.getElementById('showCloseBtn').style.display = '';
+      // document.getElementById('showAddBtn').style.display = 'none';
     } else {
       this.newStandardDetails = {
         is_active: "Y",
@@ -122,8 +122,8 @@ export class ScheduleHomeComponent implements OnInit {
       }
       this.no_standard_name = false;
       this.createNewStandard = false;
-      document.getElementById('showCloseBtn').style.display = 'none';
-      document.getElementById('showAddBtn').style.display = '';
+      // document.getElementById('showCloseBtn').style.display = 'none';
+      // document.getElementById('showAddBtn').style.display = '';
     }
   }
 
@@ -132,6 +132,13 @@ export class ScheduleHomeComponent implements OnInit {
   addNewStandard() {
     if (this.newStandardDetails.standard_name == "") {
       this.no_standard_name = true;
+      let msg = (this.isLangInstitue != true) ? 'Please enter valid Standard Name' : 'Please enter valid Master Course';
+      let data = {
+        type: "error",
+        title: '',
+        body: msg
+      }
+      this.toastCtrl.popToast(data);
     } else {
       this.auth.showLoader();
       if (this.newStandardDetails.is_active == true || this.newStandardDetails.is_active == "Y") {

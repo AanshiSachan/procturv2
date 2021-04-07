@@ -257,16 +257,25 @@
 
 <section class="clearFix" style="padding-right: 2%;padding-top: 2px !important;">
   <!-- Header and Navigation -->
-  <section class="middle-top mb0 clearFix">
-    <h1 class="pull-left">
-      <a routerLink="/view/leads">
-        Lead
-      </a>
-      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      Manage Campaign
-    </h1>
-  </section>
-
+  <div>
+    <div class="w98 p-15">
+        <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb arr-right">
+                <li class="breadcrumb-item "><a>Lead</a></li>
+                <li class="breadcrumb-item "><a>SMS Campaign</a></li>
+            </ol>
+        </nav>
+        <!-- Nav tabs -->
+        <ul class="nav main-shadow">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" routerLink="/view/leads/campaign">Add Campaign</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" routerLink="/view/leads/manage-campaign">Manage Campaign</a>
+            </li>
+        </ul>
+    </div>
+  </div>
   <section>
     <div class="filter-container">
       <div class="filter-first-row-container" [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">

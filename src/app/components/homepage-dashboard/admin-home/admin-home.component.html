@@ -16,8 +16,10 @@
 
                     <h1 class="pull-left">Dashboard</h1>
 
-             <div class="pull-right act-right-sec">
-            <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess(role_feature.COMMUNICATE_ADD_SEND)}" (click)="addSendNotification()">
+                    <div class="pull-right act-right-sec">
+                        <button class="btn hide add_send_noti"
+                            [ngClass]="{hide : checkIfUserHadAccess(role_feature.COMMUNICATE_ADD_SEND)}"
+                            (click)="addSendNotification()">
 
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             &nbsp;
@@ -31,27 +33,32 @@
                         <ul class="actb-wrapper grid" style="height: 1473px;">
 
                             <li class="enquiry-state item" style="width: 45%;"
-                            [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_LEAD_STATS) || (userType==3)}" data-id="2">
+                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_LEAD_STATS) || (userType==3)}"
+                                data-id="2">
                                 <div class="item-content">
                                     <enquiry-widget></enquiry-widget>
                                 </div>
                             </li>
 
                             <li class="fees-state item" style="width:41%"
-                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_FEE_STATS) || (userType==3)}" data-id="3">
+                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_FEE_STATS) || (userType==3)}"
+                                data-id="3">
                                 <div class="item-content">
                                     <fee-widget></fee-widget>
                                 </div>
                             </li>
 
                             <li class="fees-state item" style="width:45%"
-                            [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_BIRTHDAY)}" data-id="4">
+                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_BIRTHDAY)}"
+                                data-id="4">
                                 <div class="item-content">
                                     <app-student-birthday></app-student-birthday>
                                 </div>
                             </li>
 
-                            <li class="schedule-state item" [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}" data-id="1">
+                            <li class="schedule-state item"
+                                [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}"
+                                data-id="1">
                                 <div class="item-content">
                                     <div>
                                         <div class="actb-top-header clearfix">
@@ -63,12 +70,11 @@
                                                     <!-- changes by Nalini - to handle school model conditions -->
                                                     <li (click)="onChanged('course')" id="courseSelectButton"
                                                         [ngClass]="{active : !isSubjectView}">{{schoolModel ? 'Section' : 'Course'}}</li>
-                                                    <li (click)="onChanged('subject')" id="subjectSelectButton"
+                                                    <li (click)="onChanged('subject')" *ngIf="!schoolModel || mark_attendance_subject_wise" id="subjectSelectButton"
                                                         [ngClass]="{active : isSubjectView}">Subject</li>
                                                 </ul>
                                                 <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
-                                            </div>
-                                            <ul class="sche-top-det">
+                                            </div>                                            <ul class="sche-top-det">
                                                 <li class="schedule-det" *ngIf="!isProfessional && isSubjectView">
                                                     <div>
                                                         <label>Total Classes :</label>
@@ -82,7 +88,7 @@
                                                 </li>
                                                 <li class="schedule-det" *ngIf="!isProfessional && !isSubjectView">
                                                     <div>
-                                                        <label>Total Courses :</label>
+                                                        <label>Total {{schoolModel ? 'Section' : 'Course'}} :</label>
                                                         <span> {{courseLevelSchedule.length}}</span>
                                                         <input style="margin-left:10%;" type="text" value=""
                                                             id="schedWidDate" class="widgetDatepicker bsDatepicker"
@@ -136,21 +142,45 @@
                                             </ul>
                                         </div>
                                         <div class="schedule-bottom">
-                                            <ul class="subjectViewHead" *ngIf="!isProfessional && isSubjectView">
+                                            <ul class="subjectViewHead"
+                                                *ngIf="!isProfessional && isSubjectView && !schoolModel">
                                                 <li class="timings" style="width: 16%;">Timings</li>
                                                 <!-- changes by Nalini - to handle school model conditions -->
-                                                <li class="course-name" style="width: 21%;">{{schoolModel? 'Section' : 'Course'}}</li>
+                                                <li class="course-name" style="width: 21%;">
+                                                    Course</li>
                                                 <li class="subject">Subject</li>
                                                 <li class="faculty-name">Faculty</li>
                                                 <li class="topic-link">Linked Topic</li>
                                                 <li class="action pull-right" style="text-align: center;">Action</li>
                                             </ul>
-                                            <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
+                                            <ul class="subjectViewHead"
+                                                *ngIf="!isProfessional && isSubjectView && schoolModel">
+                                                <li class="batch">Timings</li>
                                                 <!-- changes by Nalini - to handle school model conditions -->
-                                                <li class="batch">{{schoolModel? 'Standard' : 'Master Course'}}</li>
-                                                <li class="cls-type batch">{{schoolModel? 'Section' : 'Courses'}}</li>
+                                                <li class="course-name" style="width: 21%;">
+                                                    Section</li>
+                                                <li class="batch">Subject</li>
+                                                <li class="batch">Faculty</li>
+                                                <li class="action" style="text-align: center;">Action</li>
+                                            </ul>
+                                            <ul class="sche-head"
+                                                *ngIf="!isProfessional && !isSubjectView && !schoolModel">
+                                                <!-- changes by Nalini - to handle school model conditions -->
+                                                <li class="batch">Master Course</li>
+                                                <li class="cls-type batch">Courses</li>
                                                 <li class="batch cls-type">Timings</li>
                                                 <li class="batch">Type</li>
+                                                <li class="action" style="text-align: center;">Action</li>
+                                            </ul>
+                                            <ul class="sche-head"
+                                                *ngIf="schoolModel && !isProfessional && !isSubjectView">
+                                                <!-- changes by Nalini - to handle school model conditions -->
+                                                <li class="class_room">Standard</li>
+                                                <li class="batch">Section</li>
+                                                <li class="batch">Subject</li>
+                                                <li class="batch">Exam Type</li>
+                                                <li class="batch">Timings</li>
+                                                <li class="class_exam_type">Type</li>
                                                 <li class="action" style="text-align: center;">Action</li>
                                             </ul>
                                             <ul class="sche-head" *ngIf="isProfessional">
@@ -161,7 +191,8 @@
                                                 <li class="faculty">Faculty</li>
                                                 <li class="action" style="text-align: center;">Action</li>
                                             </ul>
-                                            <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
+                                            <div class="schedule-scroller"
+                                                *ngIf="!isProfessional && isSubjectView && !schoolModel">
                                                 <div class="subjectViewContent"
                                                     *ngFor="let class of getClassListDetails();let i = index;">
                                                     <ul class="ct-ongoing" [class.active]="i == selectedRow"
@@ -175,7 +206,9 @@
                                                         <li class="course-name" style="width: 21%;">
                                                             <div title="{{class.course_name}}">
                                                                 <span title="{{class.course_name}}">
-                                                                    {{(class.course_name?.length > 25)? (class.course_name | slice:0:25)+'..':(class.course_name) }}
+                                                                    {{(class.course_name?.length > 25)?
+                                                                    (class.course_name |
+                                                                    slice:0:25)+'..':(class.course_name) }}
                                                                 </span>
                                                             </div>
                                                         </li>
@@ -184,17 +217,21 @@
                             </li> -->
                                                         <li class="subject">
                                                             <div title="{{class.subject_name}}">
-                                                                {{(class.subject_name?.length > 10)? (class.subject_name | slice:0:10)+'..':(class.subject_name) }}
+                                                                {{(class.subject_name?.length > 5)? (class.subject_name
+                                                                | slice:0:5)+'..':(class.subject_name) }}
+                                                                <span *ngIf="class.is_optional_subject">(Optional)</span>
                                                             </div>
                                                         </li>
                                                         <li class="faculty-name">
                                                             <div title="{{class.teacher_name}}">
-                                                                {{(class.teacher_name?.length > 10)? (class.teacher_name | slice:0:10)+'..':(class.teacher_name) }}
+                                                                {{(class.teacher_name?.length > 10)? (class.teacher_name
+                                                                | slice:0:10)+'..':(class.teacher_name) }}
                                                             </div>
                                                         </li>
                                                         <li class="topic-link">
                                                             <div title="{{class.topicName}}" *ngIf="class.topicName">
-                                                                {{(class.topicName.length > 15) ? (class.topicName | slice:0:15)+'..':(class.topicName) }}
+                                                                {{(class.topicName.length > 15) ? (class.topicName |
+                                                                slice:0:15)+'..':(class.topicName) }}
                                                             </div>
                                                             <div *ngIf="!class.topicName">-</div>
                                                         </li>
@@ -229,21 +266,93 @@
 
                                                 </div>
                                             </div>
-                                            <div class="schedule-scroller" *ngIf="!isProfessional && !isSubjectView">
+                                            <div class="schedule-scroller"
+                                                *ngIf="!isProfessional && isSubjectView && schoolModel">
+                                                <div class="subjectViewContent"
+                                                    *ngFor="let class of getClassListDetails();let i = index;">
+                                                    <ul class="ct-ongoing" [class.active]="i == selectedRow"
+                                                        (click)="userScheduleSelected(i, class)">
+                                                        <li class="batch">
+                                                            <div *ngIf="!class.isExam">
+                                                                {{class.start_time}} - {{class.end_time}}
+                                                            </div>
+                                                            <p>{{class.class_room_name}}</p>
+                                                        </li>
+                                                        <li class="batch">
+                                                            <div title="{{class.course_name}}">
+                                                                <span title="{{class.course_name}}">
+                                                                    {{(class.course_name?.length > 25)?
+                                                                    (class.course_name |
+                                                                    slice:0:25)+'..':(class.course_name) }}
+                                                                </span>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="batch">
+                                                            <div title="{{class.subject_name}}">
+                                                                {{(class.subject_name?.length > 10)? (class.subject_name
+                                                                | slice:0:10)+'..':(class.subject_name) }}
+                                                                <span *ngIf="class.is_optional_subject">(Optional)</span>
+                                                            </div>
+                                                        </li>
+                                                        <li class="batch">
+                                                            <div title="{{class.teacher_name}}">
+                                                                {{(class.teacher_name?.length > 20)? (class.teacher_name
+                                                                | slice:0:10)+'..':(class.teacher_name) }}
+                                                            </div>
+                                                        </li>
+                                                        <li class="action">
+                                                            <div title="" class="pull-right">
+                                                                <img src="./assets/images/checked-att.svg"
+                                                                    alt="Mark Attendance" title="Update Attendance"
+                                                                    [ngClass]="markAttendaceHide(class.class_date, class.start_time)"
+                                                                    *ngIf="class.is_attendance_marked =='Y' "
+                                                                    (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                                                <img src="./assets/images/att.svg" alt="Mark Attendance"
+                                                                    title="Mark Attendance"
+                                                                    [ngClass]="markAttendaceHide(class.class_date, class.start_time)"
+                                                                    *ngIf="class.is_attendance_marked !='Y' "
+                                                                    (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                                                <!-- <img src="./assets/images/reschedule.svg"
+                                                                    alt="reschedule" title="Reschedule"
+                                                                    *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'"
+                                                                    (click)="initiateRescheduleClass(i, class)">
+                                                                <i class="fa fa-bell" aria-hidden="true"
+                                                                    style="color: #1283f4" title="Notify"
+                                                                    *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"'
+                                                                    (click)="initiateRemiderClass(i, class)"></i>
+                                                                <i class="fa fa-times-circle" aria-hidden="true"
+                                                                    style="color: red;" title="Cancel"
+                                                                    *ngIf='class.is_attendance_marked!="Y"'
+                                                                    (click)="initiateCancelClass(i, class)"></i> -->
+                                                            </div>
+                                                        </li>
+
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="schedule-scroller"
+                                                *ngIf=" !schoolModel && !isProfessional && !isSubjectView">
                                                 <div class="ct-disable-wrapper pos-rel"
                                                     *ngFor="let class of courseLevelSchedule;let i = index;">
                                                     <ul class="ct-ongoing" [class.active]="i == selectedRow"
                                                         (click)="userScheduleSelected(i, class)">
                                                         <li class="batch" title="{{class.master_course}}">
                                                             <div title="{{class.master_course}}">
-                                                                {{ (class.master_course?.length > 20) ? (class.master_course | slice:0:20)+'..':(class.master_course) }}
+                                                                {{ (class.master_course?.length > 20) ?
+                                                                (class.master_course |
+                                                                slice:0:20)+'..':(class.master_course) }}
                                                             </div>
                                                         </li>
                                                         <li class="batch cls-type" *ngIf="!class.isExam"
                                                             title="{{class.coursee_names}}">
                                                             <div>
-                                                                <span
-                                                                    title="{{class.coursee_names}}">{{ (class.coursee_names?.length > 20) ? (class.coursee_names | slice:0:20)+'..':(class.coursee_names) }}
+                                                                <span title="{{class.coursee_names}}">{{
+                                                                    (class.coursee_names?.length > 20) ?
+                                                                    (class.coursee_names |
+                                                                    slice:0:20)+'..':(class.coursee_names) }}
                                                                 </span>
                                                             </div>
                                                             <!-- <div *ngIf="class.isExam">
@@ -256,8 +365,10 @@
                                 <span title="{{class.coursee_names}}">{{ (class.coursee_names.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
                               </div> -->
                                                             <div *ngIf="class.isExam">
-                                                                <span
-                                                                    title="{{class.course_name}}">{{ (class.course_name?.length > 20) ? (class.course_name | slice:0:20)+'..':(class.course_name) }}
+                                                                <span title="{{class.course_name}}">{{
+                                                                    (class.course_name?.length > 20) ?
+                                                                    (class.course_name |
+                                                                    slice:0:20)+'..':(class.course_name) }}
                                                                 </span>
                                                             </div>
                                                         </li>
@@ -344,6 +455,141 @@
 
                                                 </div>
                                             </div>
+                                            <div class="schedule-scroller"
+                                                *ngIf="schoolModel && !isProfessional && !isSubjectView">
+                                                <div class="ct-disable-wrapper pos-rel"
+                                                    *ngFor="let class of courseLevelSchedule;let i = index;">
+                                                    <ul class="ct-ongoing" [class.active]="i == selectedRow"
+                                                        (click)="userScheduleSelected(i, class)">
+                                                        <li class="class_room" title="{{class.master_course}}">
+                                                            <div title="{{class.master_course}}">
+                                                                {{ (class.master_course?.length > 20) ?
+                                                                (class.master_course |
+                                                                slice:0:20)+'..':(class.master_course) }}
+                                                            </div>
+                                                        </li>
+                                                        <li class="batch" *ngIf="!class.isExam"
+                                                            title="{{class.coursee_names}}">
+                                                            <div>
+                                                                <span title="{{class.coursee_names}}">{{
+                                                                    (class.coursee_names?.length > 20) ?
+                                                                    (class.coursee_names |
+                                                                    slice:0:20)+'..':(class.coursee_names) }}
+                                                                </span>
+                                                            </div>
+
+                                                        </li>
+                                                        <li class="batch" *ngIf="class.isExam"
+                                                            title="{{class.course_name}}">
+                                                            <div *ngIf="class.isExam">
+                                                                <span title="{{class.course_name}}">{{
+                                                                    (class.course_name?.length > 20) ?
+                                                                    (class.course_name |
+                                                                    slice:0:20)+'..':(class.course_name) }}
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                        <li class="batch" title="{{class.subject}}">
+                                                            <span title="{{class.subject}}">{{
+                                                                class.isExam?(class.subject?.length > 10) ?
+                                                                (class.subject | slice:0:10)+'..':(class.subject):'--'
+                                                                }}
+                                                                <span *ngIf="class.is_optional_subject">(Optional)</span>
+                                                            </span>
+                                                        </li>
+
+                                                        <li class="batch" title="{{class.exam_type}}">
+                                                            <span title="{{class.exam_type}}">{{
+                                                                class.isExam?(class.exam_type?.length > 20) ?
+                                                                (class.exam_type |
+                                                                slice:0:20)+'..':(class.exam_type):'--' }}
+                                                            </span>
+                                                        </li>
+                                                        <li class="batch">
+                                                            <div>
+                                                                {{class.exam_start_time}} - {{class.exam_end_time}}
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="class_exam_type">
+                                                            <div *ngIf="!class.isExam">
+                                                                <span style="color: #1283f4">Class</span>
+                                                            </div>
+                                                            <div *ngIf="class.isExam">
+                                                                <span style="color: #f41237">Exam</span>
+                                                            </div>
+                                                        </li>
+                                                        <li class="action">
+                                                            <div *ngIf="!class.isExam" class="che-action pull-right">
+                                                                <img src="./assets/images/att.svg" alt="Mark Attendance"
+                                                                    [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)"
+                                                                    title="Mark Attendance" style="cursor:pointer"
+                                                                    *ngIf="class.is_attendance_marked != 'Y' &&(userType!=3)"
+                                                                    (click)="initiateCourseMarkAttendance(i, class)">
+                                                                <img src="./assets/images/checked-att.svg"
+                                                                    style="cursor:pointer" alt="Update Attendance"
+                                                                    title="Update Attendance"
+                                                                    [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)"
+                                                                    *ngIf="class.is_attendance_marked == 'Y'"
+                                                                    (click)="initiateCourseMarkAttendance(i, class)">
+                                                                <i class="fa fa-eye" aria-hidden="true"
+                                                                    style="color: #1283f4;ursor:pointer"
+                                                                    (click)="viewClassDetails(i, class)"
+                                                                    title="View Details"></i>
+                                                                <!-- <img src="./assets/images/exam-update.svg" style="cursor:pointer" alt="Update Exam Marks" title="Update Exam Marks" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)"> -->
+                                                                <i class="fa fa-bell" aria-hidden="true"
+                                                                    style="color: #1283f4;cursor:pointer" title="Notify"
+                                                                    (click)="initiateRemiderClass(i, class)"
+                                                                    *ngIf='!schoolModel && hideVisibilty() && class.is_attendance_marked!="Y"'></i>
+                                                                <i class="fa fa-times-circle" aria-hidden="true"
+                                                                    style="color: red;" title="Cancel class"
+                                                                    *ngIf='class.is_attendance_marked!="Y"'
+                                                                    (click)="initiateCourseCancelClass(i, class)"></i>
+                                                            </div>
+
+                                                            <div *ngIf="class.isExam" class="che-action pull-right">
+                                                                <img src="./assets/images/att.svg"
+                                                                    alt="Mark Exam Attendance"
+                                                                    [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)"
+                                                                    title="Mark Exam Attendance" style="cursor:pointer"
+                                                                    *ngIf="class.course_marks_update_level == '0' &&(userType!=3)"
+                                                                    (click)="markAttendanceExamCourse(class)">
+                                                                <img src="./assets/images/checked-att.svg"
+                                                                    style="cursor:pointer" alt="Update Exam Attendance"
+                                                                    [ngClass]="markAttendaceHide(courseLevelSchedDate, class.exam_start_time)"
+                                                                    title="Update Exam Attendance"
+                                                                    *ngIf="class.course_marks_update_level != '0'"
+                                                                    (click)="markAttendanceExamCourse(class)">
+                                                                <img src="./assets/images/exam-non.svg" alt="Exam Marks"
+                                                                    title="Exam Marks" style="cursor:pointer"
+                                                                    *ngIf="class.course_marks_update_level != '0' && class.course_marks_update_level != '1' && class.course_marks_update_level != '2'"
+                                                                    (click)="examMarksUpdateCourse(class)">
+                                                                <img src="./assets/images/exam-update.svg"
+                                                                    alt="Update Exam Marks" title="Update Exam Marks"
+                                                                    style="cursor:pointer"
+                                                                    *ngIf="class.course_marks_update_level == '1' || class.course_marks_update_level == '2'"
+                                                                    (click)="examMarksUpdateCourse(class)">
+                                                                <i class="fa fa-eye" aria-hidden="true"
+                                                                    style="color: #1283f4;cursor:pointer"
+                                                                    (click)="viewExamDetails(i, class)"
+                                                                    title="View Details"></i>
+                                                                <i class="fa fa-bell" aria-hidden="true"
+                                                                    style="color: #1283f4;cursor:pointer" title="Notify"
+                                                                    (click)="sendReminderForCourse(class)"
+                                                                    *ngIf='!schoolModel && class.course_marks_update_level == "0"'></i>
+                                                                <i class="fa fa-times-circle" aria-hidden="true"
+                                                                    style="color: red;" title="Cancel Exam"
+                                                                    *ngIf="!schoolModel && class.course_marks_update_level == '0'"
+                                                                    (click)="onCancelExamClickCourse(class)"></i>
+                                                            </div>
+
+                                                        </li>
+                                                    </ul>
+
+
+                                                </div>
+                                            </div>
+
                                             <div class="schedule-scroller" *ngIf="isProfessional">
                                                 <div class="ct-disable-wrapper pos-rel"
                                                     *ngFor="let class of getClassListDetails(); let i = index;">
@@ -371,15 +617,17 @@
                                                         </li>
 
                                                         <li class="batch">
-                                                            <div><span
-                                                                    title="{{class.batch_name}}">{{ (class.batch_name.length > 15) ? (class.batch_name | slice:0:15)+'..':(class.batch_name) }}
+                                                            <div><span title="{{class.batch_name}}">{{
+                                                                    (class.batch_name.length > 15) ? (class.batch_name |
+                                                                    slice:0:15)+'..':(class.batch_name) }}
                                                                 </span></div>
                                                         </li>
                                                         <li class="class_room">
 
                                                             <div title="{{class.topicName}}"
                                                                 *ngIf="class.topicName != null && class.topicName != ''">
-                                                                {{(class.topicName.length > 15) ? (class.topicName | slice:0:15)+ '..':(class.topicName)}}
+                                                                {{(class.topicName.length > 15) ? (class.topicName |
+                                                                slice:0:15)+ '..':(class.topicName)}}
                                                             </div>
                                                             <div
                                                                 *ngIf="class.topicName == '' || class.topicName == null">
@@ -459,8 +707,8 @@
                                 </div>
                             </li>
 
-                            <li [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_ACCOUNT_STATS) }" class="general-state item"
-                                style="height: 150px;" data-id="4">
+                            <li [ngClass]="{'hide' : checkIfUserHadAccess(role_feature.DASHBOARD_ACCOUNT_STATS) }"
+                                class="general-state item" style="height: 150px;" data-id="4">
                                 <div class="item-content">
                                     <general-widget [storageData]="storageData"></general-widget>
                                 </div>
@@ -1224,7 +1472,7 @@
                                 <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                                     <label for="masterCourse">{{schoolModel? 'Standard' : 'Master Course'}}</label>
                                     <div class="" style="padding: 0px;">
-                                        <select id="walkintime" class="side-form-ctrl"
+                                        <select *ngIf="!schoolModel" id="walkintime" class="side-form-ctrl"
                                             [(ngModel)]="sendNotificationCourse.master_course"
                                             (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
                                             <option value="-1"></option>
@@ -1232,6 +1480,14 @@
                                                 {{opt.master_course}}
                                             </option>
                                         </select>
+                                        <select *ngIf="schoolModel" id="walkintime" class="side-form-ctrl"
+                                        [(ngModel)]="sendNotificationCourse.standard_id"
+                                        (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
+                                        <option value=""></option>
+                                        <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                                            {{opt.masterCourse}}
+                                        </option>
+                                    </select>
                                     </div>
                                 </div>
 
@@ -1239,7 +1495,8 @@
                                     <label for="course">{{schoolModel? 'Section' : 'Course'}}</label>
                                     <div class="" style="padding: 0px;">
                                         <select id="walkintime" class="side-form-ctrl"
-                                            [(ngModel)]="sendNotificationCourse.course_id" (ngModelChange)="($event)" name="course">
+                                            [(ngModel)]="sendNotificationCourse.course_id" (ngModelChange)="($event)"
+                                            name="course">
                                             <option value="-1"></option>
                                             <option *ngFor="let opt of courseList" [value]="opt.course_id">
                                                 {{opt.course_name}}
@@ -1823,7 +2080,7 @@
             </svg>
         </span>
 
-        <h2 widget-header>Course Details
+        <h2 widget-header>{{schoolModel ? 'Section' : 'Course'}} Details
             <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.master_course}}</span>
             <span style="font-weight: 600;color: #9b9b9b;">→</span>
             <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.coursee_names}}</span>
@@ -1840,7 +2097,7 @@
                             <th>Faculty</th>
                             <th>Description</th>
                             <th>Room No</th>
-                            <th>Class Type</th>
+                            <th *ngIf="!schoolModel">Class Type</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1851,7 +2108,7 @@
                             <td>{{data.teacher_name}}</td>
                             <td>{{data.class_desc}}</td>
                             <td>{{data.room_no}}</td>
-                            <td>{{data.custom_class_type}}</td>
+                            <td *ngIf="!schoolModel">{{data.custom_class_type}}</td>
                         </tr>
                         <tr *ngIf="viewDetTable.length == 0">
                             <td colspan="7">
@@ -1907,7 +2164,7 @@
             </svg>
         </span>
 
-        <h2 widget-header>Course Details
+        <h2 widget-header>{{schoolModel ? 'Section' : 'Course'}} Details
             <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.master_course}}</span>
             <span style="font-weight: 600;color: #9b9b9b;">→</span>
             <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.coursee_names}}</span>
@@ -1924,7 +2181,7 @@
                             <th>Faculty</th>
                             <th>Description</th>
                             <th>Room No</th>
-                            <th>Class Type</th>
+                            <th *ngIf="!schoolModel">Class Type</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1935,7 +2192,7 @@
                             <td>{{data.teacher_name}}</td>
                             <td>{{data.class_desc}}</td>
                             <td>{{data.room_no}}</td>
-                            <td>{{data.custom_class_type}}</td>
+                            <td *ngIf="!schoolModel">{{data.custom_class_type}}</td>
                         </tr>
                         <tr *ngIf="viewDetTable.length == 0">
                             <td colspan="7">
@@ -1983,7 +2240,7 @@
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th>Marks</th>
-                            <th>Topic</th>
+                            <th *ngIf="!schoolModel">Topic</th>
                             <th>Description</th>
                             <th>Room No</th>
                         </tr>
@@ -1994,7 +2251,7 @@
                             <td>{{data.start_time}}</td>
                             <td>{{data.end_time}}</td>
                             <td>{{data.total_marks}}</td>
-                            <td>{{data.topic_name}}</td>
+                            <td *ngIf="!schoolModel">{{data.topic_name}}</td>
                             <td>{{data.exam_description}}</td>
                             <td>{{data.room_no}}</td>
                         </tr>
@@ -2850,25 +3107,27 @@
 <!-- Pop up for client due payment  -->
 <!--Added By: Ashwini Kumar Gupta  -->
 <section id="popup" class="popupWrapper fadeIn" *ngIf="blockClientPopUpFlag" style="z-index: 1113;">
-  <!--  -->
-  <div class="popup pos-abs popup-body-container">
-    <div class="popup-wrapper pos-rel firstDiv">
-      <div style="border-bottom: 1px solid lightgrey;padding-bottom: 20px;">
-        <h1 style="font-size: 19.5px;"><u style="font-weight: bold;">Gentle Reminder for your due payment</u></h1>
-      </div>
-      <div style="margin-top: 4%;border-bottom: 1px solid lightgrey;padding-bottom: 20px;">
-        <p style="font-size: 15px;">Amount: ₹{{amount}}</p><br>
-        <p style="font-size: 15px;">Due Date: {{due_date}}</p><br>
-        <p style="font-size: 15px;">UPI: proctur@sbi</p><br>
-        <p style="font-size: 15px;">Or pay from link: <a href="https://proctur.com/make-payment" target="_blank">https://proctur.com/make-payment</a></p><br><br>
-        <p style="font-size: 15px;">Thanks!</p><br>
-        <p style="font-size: 15px;">Team Proctur</p>
-      </div>
-      </div>
-  </div>
-  </section>
-  <!-- End Of Code -->
-  <!-- ================================ -->
+    <!--  -->
+    <div class="popup pos-abs popup-body-container">
+        <div class="popup-wrapper pos-rel firstDiv">
+            <div style="border-bottom: 1px solid lightgrey;padding-bottom: 20px;">
+                <h1 style="font-size: 19.5px;"><u style="font-weight: bold;">Gentle Reminder for your due payment</u>
+                </h1>
+            </div>
+            <div style="margin-top: 4%;border-bottom: 1px solid lightgrey;padding-bottom: 20px;">
+                <p style="font-size: 15px;">Amount: ₹{{amount}}</p><br>
+                <p style="font-size: 15px;">Due Date: {{due_date}}</p><br>
+                <p style="font-size: 15px;">UPI: proctur@sbi</p><br>
+                <p style="font-size: 15px;">Or pay from link: <a href="https://proctur.com/make-payment"
+                        target="_blank">https://proctur.com/make-payment</a></p><br><br>
+                <p style="font-size: 15px;">Thanks!</p><br>
+                <p style="font-size: 15px;">Team Proctur</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Of Code -->
+<!-- ================================ -->
 <div class="black-bg" id="black-bg" *ngIf="showExpenseToDo || blockClientPopUpFlag" (click)="closeShowList()">
 
 

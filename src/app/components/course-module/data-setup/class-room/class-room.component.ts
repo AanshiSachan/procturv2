@@ -133,11 +133,11 @@ export class ClassRoomComponent {
       }
       this.ClassList.saveClassroomDetail(classRoomobj).subscribe(
         data => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'ClassRoom added successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'Classroom added successfully');
           this.getClassList();
           this.enterclassdata = "";
           this.enterclassdataDesc = "";
-          this.toggleCreateNewList();
+          // this.toggleCreateNewList();
 
         },
         error => {
@@ -149,8 +149,8 @@ export class ClassRoomComponent {
 
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please fill Mandatory Fields');
-      this.enterclassdata = "";
-      this.enterclassdataDesc = "";
+      // this.enterclassdata = "";
+      // this.enterclassdataDesc = "";
       return;
     }
   }
@@ -188,7 +188,7 @@ export class ClassRoomComponent {
       }
       this.ClassList.updateclassListData(data).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'ClassRoom updated successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", 'Classroom updated successfully');
           this.editFlag = false;
           this.tempIndex = "";
           this.tempObj = null;

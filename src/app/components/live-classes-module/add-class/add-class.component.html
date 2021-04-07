@@ -8,7 +8,7 @@
               Live class
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            Add Live Class
+            Add {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class
           </h2>
         </div>
       </section>
@@ -17,10 +17,10 @@
         Add Live Class
       </h2> -->
 
-      <div class="border-container">
-      </div>
+      <!-- <div class="border-container">
+      </div> -->
 
-      <section class="student-tab">
+      <!-- <section class="student-tab">
         <ul class="nav-tab">
           <li id="li-one" class="active">
             <div class="navigator" id="class-icon" (click)="switchToView($event.target.id)">
@@ -35,11 +35,14 @@
             </div>
           </li>
         </ul>
-      </section>
+      </section> -->
 
       <section id="classDetails" *ngIf="isBasicActive">
         <div class="class_details_container" style="margin-right: 0;float: left;">
-          <div class="field-wrapper" style="display: flex;" *ngIf="is_zoom_integration_enable">
+          <div>
+            <span class="addClassHeader">Add {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span>
+          </div>
+          <!-- <div class="field-wrapper" style="display: flex;width: 100%;" *ngIf="is_zoom_integration_enable">
             <div class="field-radio-wrapper">
               <input class="form-radio" type="radio" name="classFor" value="1" id='live' checked
                 [(ngModel)]="live_class_for" (ngModelChange)="changeLiveClassFor()">
@@ -50,22 +53,22 @@
                 (ngModelChange)="changeLiveClassFor()">
               <label for="zoom" class="l1">Zoom</label>
             </div>
-          </div>
+          </div> -->
 
 
 
-          <div class="field-wrapper">
+          <div class="field-wrapper" style="width: 100%;float: left;">
             <label for="topicName">Topic Name<span class="text-danger">*</span> </label>
-            <input type="text" value="" id="topicName" class="form-ctrl" name="topicName" required
-              [(ngModel)]="topicName" placeholder="Enter Topic Name" />
+            <input type="text" style="width: 100%;border: none;" value="" id="topicName" class="form-ctrl"
+              name="topicName" required [(ngModel)]="topicName" placeholder="Enter Topic Name" />
           </div>
 
           <div class="field-wrapper-container">
 
-            <div class="field-wrapper datePickerBox" style="width: 25%;">
+            <div class="field-wrapper datePickerBox" style="width: 50%;">
               <label for="date">Date<span class="text-danger">*</span></label>
-              <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="scheduledateFrom"
-                (ngModelChange)="getEvent($event)" id="date" style="height: 36px;">
+              <input type="text" style="border: none;" class="form-ctrl" bsDatepicker readonly="true"
+                [(ngModel)]="scheduledateFrom" name="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date" style="height: 36px;">
               <!-- <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('date')"></i> -->
             </div>
 
@@ -108,115 +111,102 @@
             </div>
 
           </div>
-          <!-- Added the conditon for only for faculty -->
-          <div class="field-wrapper faculty_container" *ngIf="userType != 3">
-            <!-- <div class="field-wrapper faculty_container"> -->
-            <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
-            <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
-            <ng-multiselect-dropdown [placeholder]="'Select Faculty'" [settings]="facultySettings"
-              [data]="teachersAssigned" [(ngModel)]="selectedFacultyList">
-            </ng-multiselect-dropdown>
-          </div>
-
-          <div class="field-wrapper moderator_container" *ngIf="!zoom_enable">
-            <label for="moderator">Moderator Name(s) </label>
-            <ng-multiselect-dropdown [placeholder]="'Select Moderator'" [settings]="moderatorSettings"
-              [data]="userAssigned" [(ngModel)]="selectedModeratorList">
-            </ng-multiselect-dropdown>
-          </div>
-
-          <div class="field-wrapper moderator_container" *ngIf="isShowProductOption">
-            <label for="product">Product </label><br>
-            <select class="made-out" id="product" [(ngModel)]="product_id"
-              style="width: 100%;padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;"
-              (change)="onChangeProduct($event.target.value)">
-              <option value="" disabled selected="selected" hidden>Select Product</option>
-              <option *ngFor="let product of productData" [value]="product.id">
-                {{product.title}}
-              </option>
-            </select>
-          </div>
-
-          <div class="field-wrapper student_list_container" *ngIf="isShowProductOption" style="width: 72%">
-            <label for="students">User Name(s) </label>
-            <ng-multiselect-dropdown class="container" [placeholder]="'Select Users'" [settings]="userListSetting"
-              [data]="userData" [(ngModel)]="selectedUserList">
-            </ng-multiselect-dropdown>
-          </div>
-
-
-          <div class="action-button-container">
-            <div class="action-btn-item-1">
-              <!-- <button type="button" name="button" class="back-btn" (click)="cancel()">Back</button> -->
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;">
+            <!-- Added the conditon for only for faculty -->
+            <div class="field-wrapper faculty_container" style="margin-right: 5%;display: flex;flex-direction: column;"
+              *ngIf="userType != 3">
+              <!-- <div class="field-wrapper faculty_container"> -->
+              <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
+              <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
+              <ng-multiselect-dropdown [placeholder]="'Select Faculty'" [settings]="facultySettings"
+                [data]="teachersAssigned" [(ngModel)]="selectedFacultyList">
+              </ng-multiselect-dropdown>
             </div>
-            <div class="action-btn-item-2">
-              <button type="button" name="button" class="cancel-btn"
-                (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="button" name="button" class="next-btn" (click)="checkMandatoryFields()">Next</button>
+
+            <div class="field-wrapper moderator_container" style="display: flex;flex-direction: column;"
+              *ngIf="!zoom_enable">
+              <label for="moderator">Moderator Name(s) </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Moderator'" [settings]="moderatorSettings"
+                [data]="userAssigned" [(ngModel)]="selectedModeratorList">
+              </ng-multiselect-dropdown>
             </div>
           </div>
 
-        </div>
-      </section>
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;"
+            *ngIf="isShowProductOption && !schoolModel">
+            <div class="field-wrapper faculty_container" style="margin-right: 5%;display: flex;flex-direction: column;"
+              *ngIf="isShowProductOption">
+              <label for="faculty">Product(s)</label>
+              <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
+              <ng-multiselect-dropdown [placeholder]="'Select product'" [settings]="productSetting" [data]="productData"
+                [(ngModel)]="product_id" (ngModelChange)="onChangeProduct($event)">
+              </ng-multiselect-dropdown>
+            </div>
 
-      <section id="assignStudent" *ngIf="isOtherActive">
-        <div class="add_student_container" style="margin-right: 0;float: left;">
-          <!-- changes by Nalini - to handle school model conditions -->
-          <div class="field-wrapper" *ngIf="!isProfessional">
-            <label for="master_course">{{schoolModel ? 'Standard' : 'Master Course'}}<span class="text-danger">*</span>
-            </label>
-            <select class="form-ctrl" name="master_course" id="master_course" [(ngModel)]="courseValue"
-              (ngModelChange)="getCourses($event)">
-              <option value="" disabled selected="selected" hidden>Select {{schoolModel ? 'Standard' : 'Master Course'}}
-              </option>
-              <option *ngFor="let i of masters" [value]="i.master_course">
-                {{i.master_course}}
-              </option>
-            </select>
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;width: 45%;"
+              *ngIf="isShowProductOption && !schoolModel">
+              <label for="students">User Name(s) </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Users'" [settings]="userListSetting" [data]="userData"
+                [(ngModel)]="selectedUserList">
+              </ng-multiselect-dropdown>
+            </div>
           </div>
 
-          <!-- <div class="field-wrapper"  *ngIf="isProfessional">
-            <label for="batch">Batches<span class="text-danger">*</span> </label>
-            <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
-              <option value="" disabled  selected="selected" hidden>Select Batch</option>
-              <option *ngFor="let i of batches" [value]="i.batch_id">
-                  {{i.batch_name}}
-              </option>
-            </select>
-          </div> -->
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;">
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;margin-right: 5%;"
+              *ngIf="!isProfessional">
+              <label for="master_course">{{schoolModel ? 'Standard' : 'Master Course'}}<span
+                  class="text-danger">*</span> </label>
+              <select class="form-ctrl" style="border: none;" *ngIf="schoolModel" name="master_course"
+                id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
+                <option value="" disabled selected="selected">Select {{schoolModel ? 'Standard' : 'Master Course'}}
+                </option>
+                <option *ngFor="let i of masters" [value]="i">
+                  {{i}}
+                </option>
+              </select>
+              <ng-multiselect-dropdown *ngIf="!schoolModel"
+                placeholder="{{schoolModel ? 'Select Standard' : 'Select Master Course'}}"
+                [settings]="masterCourseListSetting" [data]="masters" [(ngModel)]="courseValue"
+                (ngModelChange)="getCourses($event)">
+              </ng-multiselect-dropdown>
+            </div>
 
-          <!-- <div class="field-wrapper" *ngIf="!isProfessional">
-            <label for="course">Course<span class="text-danger">*</span> </label>
-            <select class="form-ctrl" name="course" id="course" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
-              <option value=""  disabled  selected="selected" hidden>Select Course</option>
-              <option *ngFor="let i of courses" [value]="i.course_id">
-                  {{i.course_name}}
-              </option>
-            </select>
-          </div> -->
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;"
+              *ngIf="isProfessional">
+              <label for="students">Batch(s)<span class="text-danger">*</span> </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Batch'" [settings]="batchListSetting" [data]="batches"
+                [(ngModel)]="selectedBatchList" (ngModelChange)="getBatchesCoursesIds($event)">
+              </ng-multiselect-dropdown>
+            </div>
 
-          <div class="field-wrapper student_list_container" *ngIf="isProfessional">
-            <label for="students">Batch(s)<span class="text-danger">*</span> </label>
-            <ng-multiselect-dropdown class="container" [placeholder]="'Select Batch'" [settings]="batchListSetting"
-              [data]="batches" [(ngModel)]="selectedBatchList" (ngModelChange)="getBatchesCoursesIds($event)">
-            </ng-multiselect-dropdown>
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;"
+              *ngIf="!isProfessional">
+              <!-- changes by Nalini - to handle school model conditions -->
+              <label for="students">{{schoolModel ? 'Section(s)' : 'Course(s)'}}<span class="text-danger">*</span>
+              </label>
+              <ng-multiselect-dropdown placeholder="{{schoolModel ? 'Select Section' : 'Select Course'}}"
+                [settings]="courseListSetting" [data]="courses" [(ngModel)]="selectedCourseList"
+                (ngModelChange)="getBatchesCoursesIds($event)">
+              </ng-multiselect-dropdown>
+            </div>
           </div>
 
-          <div class="field-wrapper student_list_container" *ngIf="!isProfessional">
-            <!-- changes by Nalini - to handle school model conditions -->
-            <label for="students">{{schoolModel ? 'Section(s)' : 'Course(s)'}}<span class="text-danger">*</span>
-            </label>
-            <ng-multiselect-dropdown class="container"
-              placeholder="{{schoolModel ? 'Select Section' : 'Select Course'}}" [settings]="courseListSetting"
-              [data]="courses" [(ngModel)]="selectedCourseList" (ngModelChange)="getBatchesCoursesIds($event)">
-            </ng-multiselect-dropdown>
-          </div>
-
-          <div class="field-wrapper student_list_container">
-            <label for="students">Student Name(s) </label>
-            <ng-multiselect-dropdown class="container" [placeholder]="'Select Students'"
-              [settings]="studentListSettings" [data]="studentList" [(ngModel)]="selectedStudentList">
-            </ng-multiselect-dropdown>
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;">
+            <div *ngIf="schoolModel" class="field-wrapper faculty_container"
+              style="display: flex;flex-direction: column;margin-right: 5%;">
+              <!-- changes by Nalini - to handle school model conditions -->
+              <label for="students">Subjects<span class="text-danger">*</span> </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Subject'" [settings]="subjectSetting" [data]="subjectList"
+                [(ngModel)]="selectedSubjectList" (ngModelChange)="getStudentsBySubject($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;">
+              <label for="students">Student Name(s) </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Students'" [settings]="studentListSettings"
+                [data]="studentList" [(ngModel)]="selectedStudentList">
+              </ng-multiselect-dropdown>
+            </div>
           </div>
 
 
@@ -324,17 +314,17 @@
                   id="access_enable_breakout_rooms">
                 <label for="access_enable_breakout_rooms">Breakout Room</label>
                 <!-- <div class="questionInfo inline-relative">
-                                <span class="qInfoIcon i-class">i</span>
-                                <div class="tooltip-box-field">
-                                    All the students will
-                                    <br>wait in waiting room
-                                    <br> after joining the
-                                    <br> session. Teachers will
-                                    <br> have access to allow
-                                    <br> students in the
-                                    <br>meeting.
-                                </div>
-                              </div> -->
+                              <span class="qInfoIcon i-class">i</span>
+                              <div class="tooltip-box-field">
+                                  All the students will
+                                  <br>wait in waiting room
+                                  <br> after joining the
+                                  <br> session. Teachers will
+                                  <br> have access to allow
+                                  <br> students in the
+                                  <br>meeting.
+                              </div>
+                            </div> -->
               </div>
               <!-- Enable Host -->
               <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
@@ -424,11 +414,10 @@
             </div>
           </div>
 
-
           <div class="action-button-container">
-            <div class="action-btn-item-1">
-              <button type="button" name="button" class="back-btn" (click)="navigateTo('classDetails')">Back</button>
-            </div>
+            <!-- <div class="action-btn-item-1">
+                    <button type="button" name="button" class="back-btn" (click)="navigateTo('classDetails')">Back</button>
+                  </div> -->
             <div class="action-btn-item-2">
               <button type="button" name="button" class="cancel-btn"
                 (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;

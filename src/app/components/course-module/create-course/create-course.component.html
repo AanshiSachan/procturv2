@@ -1,7 +1,7 @@
 <div class="clearFix">
 
-    <section class="middle-main clearFix">
-        <div class="common-tab">
+    <!-- <section class="middle-main clearFix"> -->
+    <!-- <div class="common-tab" *ngIf="isFromSection">
             <ul>
                 <li id="liStandard" *ngIf="jsonFlags.liStandard" #liStandard (click)="switchActiveView('liStandard')" class="">
                     <a *ngIf="(isLangInstitue)" routerLink="/view/batch/create">Master Course</a>
@@ -11,32 +11,62 @@
                     <a *ngIf="(isLangInstitue)" routerLink="/view/course/create/subject">Course</a>
                     <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/subject">Subject</a>
                 </li>
-                <!-- <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
-                    <a routerLink="/view/course/courselist">Courses</a>
-                </li> -->
                 <li id="liTopic" #liTopic (click)="switchActiveView('liTopic')" class="">
-                    <!-- <a *ngIf="(isLangInstitue)" routerLink="/view/course/managebatch">Batch</a> -->
                     <a routerLink="/view/course/create/topic">Topic</a>
-
                 </li>
                 <li id="liManageBatch" *ngIf="jsonFlags.liManageBatch" #liManageBatch (click)="switchActiveView('liManageBatch')" class="">
                     <a *ngIf="(isLangInstitue)" routerLink="/view/course/create/managebatch">Batch</a>
-                    <!-- changes by Nalini - to handle school model conditions -->
                     <a *ngIf="(!isLangInstitue)" routerLink="/view/course/create/courselist">{{schoolModel ? 'Section' : 'Courses'}}</a>
                 </li>
-                <li id="liClass" #liClass (click)="switchActiveView('liClass')" *ngIf="jsonFlags.classMenu" class="" style="width:16%;">
-                    <a routerLink="/view/course/create/class" *ngIf="(isLangInstitue)">Class</a>
-                    <a routerLink="/view/course/create/class" *ngIf="(!isLangInstitue)">Class Scheduling</a>
+                <li id="liEcourseMapping" style="width: 12%;" #liEcourseMapping *ngIf="!schoolModel" (click)="switchActiveView('liEcourseMapping')" class="">
+                    <a routerLink="/view/course/create/ecoursemapping">Ecourse Mapping</a>
+
                 </li>
-                <li id="liExam" #liExam *ngIf="jsonFlags.examMenu" (click)="switchActiveView('liExam')" class="">
-                    <a routerLink="/view/course/create/exam" *ngIf="(!isLangInstitue)">Exam</a>
-                    <a routerLink="/view/course/create/exam" *ngIf="(isLangInstitue)">Exam</a>
+            </ul>
+        </div> -->
+
+    <div *ngIf="isFromSection">
+        <div class="w98 p-15">
+            <!-- Nav tabs -->
+            <ul class="nav main-shadow">
+                <li id="liManageBatch" class="nav-item" *ngIf="jsonFlags.liManageBatch" #liManageBatch
+                    (click)="switchActiveView('liManageBatch')">
+                    <a class="nav-link" [ngClass]="(activeSession == 'liManageBatch') ? 'active' : ''"
+                        *ngIf="(isLangInstitue)" routerLink="/view/course/create/managebatch">Batch</a>
+                    <!-- changes by Nalini - to handle school model conditions -->
+                    <a class="nav-link" [ngClass]="(activeSession == 'liManageBatch') ? 'active' : ''"
+                        *ngIf="(!isLangInstitue)" routerLink="/view/course/create/courselist">{{schoolModel ?
+                        'Section' : 'Courses'}}</a>
+                </li>
+                <li id="liStandard" class="nav-item" *ngIf="jsonFlags.liStandard" #liStandard
+                    (click)="switchActiveView('liStandard')">
+                    <a class="nav-link" [ngClass]="(activeSession == 'liStandard') ? 'active' : ''"
+                        *ngIf="(isLangInstitue)" routerLink="/view/batch/create">Master Course</a>
+                    <a class="nav-link" [ngClass]="(activeSession == 'liStandard') ? 'active' : ''"
+                        *ngIf="(!isLangInstitue)" routerLink="/view/course/create">Standard</a>
+                </li>
+                <li id="liSubject" class="nav-item" *ngIf="jsonFlags.liSubject" #liSubject
+                    (click)="switchActiveView('liSubject')">
+                    <a class="nav-link" [ngClass]="(activeSession == 'liSubject') ? 'active' : ''"
+                        *ngIf="(isLangInstitue)" routerLink="/view/course/create/subject">Course</a>
+                    <a class="nav-link" [ngClass]="(activeSession == 'liSubject') ? 'active' : ''"
+                        *ngIf="(!isLangInstitue)" routerLink="/view/course/create/subject">Subject</a>
+                </li>
+                <li id="liTopic" class="nav-item" #liTopic (click)="switchActiveView('liTopic')">
+                    <a class="nav-link" [ngClass]="(activeSession == 'liTopic') ? 'active' : ''"
+                        routerLink="/view/course/create/topic">Topic</a>
+                </li>
+                <li id="liEcourseMapping" class="nav-item" #liEcourseMapping *ngIf="!schoolModel"
+                    (click)="switchActiveView('liEcourseMapping')">
+                    <a class="nav-link" [ngClass]="(activeSession == 'liEcourseMapping') ? 'active' : ''"
+                         routerLink="/view/course/create/ecoursemapping">Ecourse Mapping</a>
                 </li>
             </ul>
         </div>
+    </div>
 
-        <div class="router-container">
-            <router-outlet></router-outlet>
-        </div>
-    </section>
+    <div class="router-container">
+        <router-outlet></router-outlet>
+    </div>
+    <!-- </section> -->
 </div>

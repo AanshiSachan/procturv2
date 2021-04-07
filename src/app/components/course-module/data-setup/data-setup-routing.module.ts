@@ -4,6 +4,10 @@ import { DataSetupComponent } from './data-setup.component';
 import { DataSetupHomeComponent } from './data-setup-home/data-setup-home.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 import { ClassRoomComponent } from './class-room/class-room.component';
+import { SchoolExamTypeComponent } from './school-exam-type/school-exam-type.component';
+import {MasterTagComponent} from './master-tag/master-tag.component';
+import {MarkDistributionComponent} from './mark-distribution/mark-distribution.component';
+import { MarkSettingComponent } from './mark-setting/mark-setting.component';
 
 
 @NgModule({
@@ -29,12 +33,6 @@ import { ClassRoomComponent } from './class-room/class-room.component';
                     // canLoad: [AuthGuard]
                 },
                 {
-                    path: 'teacher',
-                    loadChildren: () => import('app/components/course-module/data-setup/teacher/teacher.module').then(m => m.TeacherModule)
-                    // loadChildren: 'app/components/course-module/data-setup/teacher/teacher.module#TeacherModule',
-                    // canLoad: [AuthGuard]
-                },
-                {
                     path: 'manage-exam-grades',
                     component: ManageExamGradesComponent,
                     pathMatch: 'prefix',
@@ -43,6 +41,23 @@ import { ClassRoomComponent } from './class-room/class-room.component';
                     path: 'classroom',
                     component: ClassRoomComponent,
                     // canLoad: [AuthGuard]
+                },
+                {
+                    path: 'exam-type',
+                    component: SchoolExamTypeComponent,
+                    // canLoad: [AuthGuard]
+                },
+                {
+                    path: 'master-tag',
+                    component: MasterTagComponent
+                },
+                {
+                    path: 'mark-distribution',
+                    component: MarkDistributionComponent
+                },
+                {
+                    path: 'mark-setting',
+                    component: MarkSettingComponent
                 }
 
             ]

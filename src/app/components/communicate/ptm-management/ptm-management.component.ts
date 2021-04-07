@@ -24,7 +24,8 @@ export class PtmManagementComponent implements OnInit {
     course: "-1",
     subject: "-1",
     batch_id: "-1",
-    ptmId: "-1"
+    ptmId: "-1",
+    standard_id: '-1'
   };
 
   hrs = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
@@ -86,6 +87,7 @@ export class PtmManagementComponent implements OnInit {
   queryStatus: any;
   illustration: boolean = true;
   schoolModel: boolean = false;
+  fullResponse: any = [];
 
   constructor(
     private router: Router,
@@ -105,7 +107,14 @@ export class PtmManagementComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.ptmScheduledDate = this.today;
     if(this.jsonFlag.isProfessional){
       this.fetchBatchesList();
@@ -116,6 +125,9 @@ export class PtmManagementComponent implements OnInit {
   }
 
   fetchPreFillData(){
+    if(this.schoolModel) {
+      this.getStandard();
+    } else {
     this.auth.showLoader();
     //get master course - course - subject data  for course model
     const url = `/api/v1/courseMaster/fetch/${this.jsonFlag.institute_id}/all?isActiveNotExpire=Y`;
@@ -129,6 +141,7 @@ export class PtmManagementComponent implements OnInit {
         this.auth.hideLoader();
       }
     );
+    }
   }
 
   updateCoursesList() {
@@ -144,12 +157,75 @@ export class PtmManagementComponent implements OnInit {
   }
 
   updateSubjectsList() {
+    if(this.schoolModel) {
+      this.auth.showLoader();
+    this.subjectList = [];
+    const url = "/api/v1/courseMaster/fetch/courses/" + sessionStorage.getItem('institute_id') + '/' + this.inputElements.course;
+    this._http.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        //console.log('Subject', res);
+        this.subjectList = res.batchesList;
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+        //console.log(err);
+      }
+    )
+    } else {
     for (var i = 0; i < this.courseList.length; i++) {
       if (this.courseList[i].course_id == this.inputElements.course) {
         this.subjectList = this.courseList[i].batchesList;
         this.inputElements.subject = "-1";
         return;
       }
+    }
+  }
+  }
+
+  getStandard() {
+    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+    let keys;
+    this.auth.showLoader();
+    this._http.getData(url).subscribe(
+      (data: any) => {
+        this.masterCourseList = [];
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        // console.log("keys", keys);
+        // this.masterCourse = keys;
+        for (let i = 0; i < keys.length; i++) {
+          let obj = {
+            masterCourse: '',
+            standard_id: 0
+          }
+          obj.masterCourse = keys[i];
+          let temp = this.fullResponse[keys[i]];
+          obj.standard_id = (temp.length) ? temp[0].standard_id : '';
+          this.masterCourseList.push(obj);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
+  getCourseList(ev) {
+    this.courseList = [];
+    this.inputElements.course = '-1';
+    let master_course_obj = this.masterCourseList.filter(
+      (standard)=> (ev == standard.standard_id)
+    );
+    let temp = this.fullResponse[master_course_obj[0].masterCourse];
+    for (let i = 0; i < temp.length; i++) {
+      this.courseList.push(temp[i]);
     }
   }
 
@@ -209,7 +285,7 @@ export class PtmManagementComponent implements OnInit {
       }
     }
     else {
-      if (this.inputElements.masterCourse == "-1" || this.inputElements.course == "-1" || this.inputElements.subject == "-1") {
+      if ((!this.schoolModel && this.inputElements.masterCourse == "-1") || (this.schoolModel && this.inputElements.standard_id == "-1") || this.inputElements.course == "-1" || this.inputElements.subject == "-1") {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select all mandatory field(s)');
         validation = false;
       }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticatorService } from '../../../app/services/authenticator.service';
 import { role } from '../../model/role_features';
 
 @Component({
@@ -19,6 +20,8 @@ export class ReportsComponent implements OnInit {
   enable_online_payment: any;
   showSMSReport: boolean = false;
   showEmailReport: boolean = false;
+  isShowExpense: any = false;
+  schoolModel: any = false;
   JsonFlags = {
     biometricAttendanceEnable: false,
     isShowAttendanceReport: false,
@@ -28,11 +31,23 @@ export class ReportsComponent implements OnInit {
 
   }
   jsonEstoreFlags = {
+    isEstoreMenu: false,
     isSalesReport: false,
     isCouponReport: false
   }
 
-  constructor() { }
+  constructor(
+    private auth: AuthenticatorService
+  ) { 
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+  }
 
   ngOnInit(): void {
     if (sessionStorage.getItem('userType') == '3') {
@@ -42,6 +57,7 @@ export class ReportsComponent implements OnInit {
     this.fetchAndUpdatePermissions();
     this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
+    this.isShowExpense = sessionStorage.getItem('isShowExpense');
   }
 
   checkRoleAccess() {
@@ -77,6 +93,7 @@ export class ReportsComponent implements OnInit {
         this.isOnlineFees = true;
         this.isShowCampaignReport = true;
         if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
+          this.jsonEstoreFlags.isEstoreMenu = true;
           this.jsonEstoreFlags.isSalesReport = true;
           this.jsonEstoreFlags.isCouponReport = true;
         }

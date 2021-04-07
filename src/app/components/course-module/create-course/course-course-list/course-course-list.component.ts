@@ -50,8 +50,15 @@ export class CourseCourseListComponent implements OnInit {
     private auth: AuthenticatorService,
     private toastCtrl: AppComponent,
   ) {
-// changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+  // changes by Nalini - to handle school model conditions
+  this.auth.schoolModel.subscribe(
+    res => {
+      this.schoolModel = false;
+      if (res) {
+        this.schoolModel = true;
+      }
+    }
+  )
 
   }
 

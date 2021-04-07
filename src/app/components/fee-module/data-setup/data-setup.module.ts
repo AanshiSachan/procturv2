@@ -10,6 +10,8 @@ import { SharedModule } from '../../shared/shared.module';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule } from 'primeng/primeng';
 import { FeeStrucService } from '../../../services/feeStruc.service';
+import { FeeTypesV2Component } from './fee-types-v2/fee-types-v2.component';
+import { FeeTemplateV2Component } from './fee-template-v2/fee-template-v2.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { FeeStrucService } from '../../../services/feeStruc.service';
     DataSetupComponent,
     DiscountReasonComponent,
     MenuComponent,
-    FeeTypesComponent
+    FeeTypesComponent,
+    FeeTypesV2Component,
+    FeeTemplateV2Component
   ],
   providers:[
     CommonServiceFactory,

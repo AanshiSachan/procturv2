@@ -17,96 +17,73 @@
   <div class="c-lg-6 c-md-6 c-sm-6" style="float: right;margin-right: 1%;width: 28%;">
     <input #searchVal type="text" class="searchBox" placeholder="Search" id="search" name="searchData "
       (keyup)="searchInList(searchVal)">
-    <button class="btn" *ngIf="(isLangInstitue != true )" (click)="toggleCreateNewSubject()" value="Add Subject">Add
+    <button class="btn" *ngIf="(isLangInstitue != true )" (click)="openPopup()" value="Add Subject">Add
       Subject</button>
 
-    <button class="btn" *ngIf="(isLangInstitue == true )" (click)="toggleCreateNewSubject()" value="Add Course">Add
+    <button class="btn" *ngIf="(isLangInstitue == true )" (click)="openPopup()" value="Add Course">Add
       Course</button>
 
   </div>
 </section>
 
 <section class="">
-
-
-  <section class="clearFix create-standard-form" *ngIf="createNewSubject">
-    <div class="c-lg-10 c-sm-10 c-md-10">
-      <div class="row create-standard-field">
-
-        <div class="field-wrapper c-lg-3 c-sm-3 c-md-3">
-          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
-            <span class="text-danger">*</span>
-          </label>
-          <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
-            <span class="text-danger">*</span>
-          </label>
-          <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
-            <option value="-1"> </option>
-            <option *ngFor="let opt of standardList" [value]="opt.standard_id">
-              {{ (opt.standard_name?.length > 20) ? (opt.standard_name | slice:0:20) + '...' : opt.standard_name }}
-            </option>
-          </select>
-
-          <p>* Example English, Science</p>
-        </div>
-
-        <div class="field-wrapper c-lg-3 c-sm-3 c-md-3">
-          <label *ngIf="(isLangInstitue != true )" for="subname">
-            Subject Name
-            <span class="text-danger">*</span>
-          </label>
-          <label *ngIf="(isLangInstitue == true )" for="subname">
-            Course Name
-            <span class="text-danger">*</span>
-          </label>
-          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
-
-          <p>(Eg. Maths or Science or Accounts)</p>
-        </div>
-
-        <div class="field-wrapper c-lg-3 c-sm-3 c-md-3" *ngIf="!isLangInstitue">
-          <label for="sub_code">
-            Subject Code
-            <span class="text-danger">*</span>
-          </label>
-          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
-            [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
-        </div>
-
-        <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 10px">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active"
-              id="isAct">
-            <label for="isAct">Is Active</label>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="c-lg-2 c-sm-2 c-md-2" style="padding-top: 20px">
-      <aside class="">
-        <input type="button" value="Add" class="btn fullBlue" (click)="addNewSubject()">
-        <input type="button" value="Cancel" class="btn cancel-btn" style="" (click)="toggleCreateNewSubject()">
-
-      </aside>
-    </div>
-  </section>
-
   <div class="">
     <div class="">
       <table class="tableBodyScroll">
-        <thead>
+        <thead *ngIf="schoolModel">
+          <tr>
+            <th>
+              <label style="cursor:pointer;">ID</label>
+            </th>
+            <th>
+              <label *ngIf="isLangInstitue" style="cursor:pointer;">Master
+                Course</label>
+              <label *ngIf="!isLangInstitue" style="cursor:pointer;">Standard</label>
+            </th>
+            <th style="width: 15%;">
+              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;">Subject</label>
+              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;">Course</label>
+            </th>
+            <th *ngIf="!isLangInstitue">
+              <label>Subject Code</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" *ngIf="schoolModel">Total Marks</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" *ngIf="schoolModel">Passing Marks</label>
+            </th>
+
+            <th>
+              <label style="cursor:pointer;">Is Active</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" *ngIf="schoolModel">Optional</label>
+            </th>
+            <th>
+              <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"
+                style="font-family: FontAwesome;"></i>
+              <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down"
+                style="font-family: FontAwesome;"></i>
+              <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
+            </th>
+            <th>
+              <label>Action</label>
+            </th>
+          </tr>
+        </thead>
+        <thead *ngIf="!schoolModel">
           <tr>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('subject_id')">ID</label>
             </th>
-            <th>
+            <th style="width: 20%;">
               <label *ngIf="isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Master
                 Course</label>
               <label *ngIf="!isLangInstitue" style="cursor:pointer;"
                 (click)="sortTable('standard_name')">Standard</label>
             </th>
-            <th style="width: 30%;">
+            <th style="width: 20%;">
               <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;"
                 (click)="sortTable('subject_name')">Subject</label>
               <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;"
@@ -114,7 +91,6 @@
             </th>
             <th *ngIf="!isLangInstitue">
               <label>Subject Code</label>
-
             </th>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
@@ -127,11 +103,12 @@
               <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
             </th>
             <th>
-              <label>Edit</label>
+              <label>Action</label>
             </th>
           </tr>
         </thead>
-        <tbody *ngIf="(subjectList.length != 0)"
+
+        <tbody *ngIf="(subjectList.length != 0) && schoolModel"
           [ngStyle]="{'max-height':createNewSubject == true ? '40vh' : '55vh','min-height':createNewSubject == true ? '40vh' : '55vh' }">
           <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}"
             *ngFor="let row of subjectList; let i = index; trackBy: i;">
@@ -143,16 +120,109 @@
               {{row.standard_name}}
             </td>
 
-            <td class="view-comp" style="width: 30%;">
+            <td class="view-comp" style="width: 15%;">
               {{row.subject_name}}
             </td>
-            <td class="edit-comp" style="width: 30%;">
+            <td class="edit-comp" style="width: 15%;">
               <div class="field-wrapper">
                 <input type="text" class="form-ctrl" [(ngModel)]="row.subject_name" name="label"
                   style="width: 100%;text-align: left;">
               </div>
             </td>
+            <td class="view-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
+              {{row.subject_code}}
+            </td>
 
+            <td class="view-comp" *ngIf="schoolModel" style="padding-left: 20px;">
+              {{row.final_marks}}
+            </td>
+            <td class="view-comp" *ngIf="schoolModel" style="padding-left: 20px;">
+              {{row.passing_marks}}
+            </td>
+            <td class="edit-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
+              <div class="field-wrapper">
+                <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="row.subject_code"
+                  name="label">
+              </div>
+            </td>
+
+            <td class="view-comp" style="padding-left: 20px;">
+              {{row.is_active}}
+            </td>
+            <td class="edit-comp" style="padding-left: 20px;">
+              <div class="field-wrapper has-value">
+                <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </td>
+
+            <td class="view-comp" *ngIf="schoolModel" style="padding-left: 20px;">
+              {{row.is_optional}}
+            </td>
+            <td class="edit-comp" style="padding-left: 20px;">
+              <div class="field-wrapper has-value">
+                <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_optional">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </td>
+
+            <td style="padding-left: 20px;">
+              {{row.created_date | date:'dd-MMM-yy'}}
+            </td>
+
+            <td class="view-comp" style="padding-left: 20px;">
+              <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;color:#0084f6;    font-size: 14px;"
+                (click)="editSubject(row)" title="Edit"></i>
+              <i class="fa fa-trash" style="cursor: pointer;color: red;font-size: 14px;margin-left: 8px;"
+                (click)="deleteRow(row)" aria-hidden="true" title="Delete"></i>
+              <!-- <a style="cursor: pointer;" (click)="editRow(i)" style="margin-right: 10px;">
+                <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit"></i>Edit
+              </a>
+              <a style="cursor: pointer;" (click)="deleteRow(row)">
+                <i aria-hidden="true" title="Delete"></i>Delete
+              </a> -->
+            </td>
+            <td class="edit-comp">
+              <i class="fa fa-floppy-o" style="cursor: pointer;margin-right: 10px; font-size: 14px;color: green;"
+                (click)="updateRow(row,i)" title="Save" aria-hidden="true"></i>
+              <i class="fa fa-times" style="cursor: pointer;font-size: 14px;color: red;" (click)="cancelRow(i)"
+                title="Cancel" aria-hidden="true"></i>
+              <!-- <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)">
+                <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 15px;" title="Update"></i>
+                Update
+              </a>
+              <a style="cursor: pointer; margin-right: 10px;" (click)="cancelRow(i)">
+                <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 15px;" title="Cancel"></i>
+                Cancel
+              </a> -->
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="(subjectList.length != 0) && !schoolModel"
+          [ngStyle]="{'max-height':createNewSubject == true ? '40vh' : '55vh','min-height':createNewSubject == true ? '40vh' : '55vh' }">
+          <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}"
+            *ngFor="let row of subjectList; let i = index; trackBy: i;">
+            <td>
+              {{row.subject_id}}
+            </td>
+
+            <td style="width: 20%;">
+              {{row.standard_name}}
+            </td>
+
+            <td class="view-comp" style="width: 20%;">
+              {{row.subject_name}}
+            </td>
+            <td class="edit-comp" style="width: 20%;">
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl" [(ngModel)]="row.subject_name" name="label"
+                  style="width: 100%;text-align: left;">
+              </div>
+            </td>
             <td class="view-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
               {{row.subject_code}}
             </td>
@@ -174,14 +244,13 @@
                 </select>
               </div>
             </td>
-
             <td style="padding-left: 20px;">
               {{row.created_date | date:'dd-MMM-yy'}}
             </td>
 
             <td class="view-comp" style="padding-left: 20px;">
               <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;color:#0084f6;    font-size: 14px;"
-                (click)="editRow(i)" title="Edit"></i>
+                (click)="editSubject(row)" title="Edit"></i>
               <i class="fa fa-trash" style="cursor: pointer;color: red;font-size: 14px;margin-left: 8px;"
                 (click)="deleteRow(row)" aria-hidden="true" title="Delete"></i>
               <!-- <a style="cursor: pointer;" (click)="editRow(i)" style="margin-right: 10px;">
@@ -236,3 +305,88 @@
   </div>
 
 </section>
+<div class="modal fade" id="addUpdateSubjectdialog" role="dialog" tabindex="-1" style="margin-top: 3%;" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title" style="margin-bottom: -5px;">{{isNewSubjectAdd ? 'Add Subject' : 'Update Subject'}}
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="field-wrapper">
+          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
+            <span class="text-danger">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
+            <span class="text-danger">*</span>
+          </label>
+          <div class="dropdown-div">
+            <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
+              <option value="-1"> Select Standard</option>
+              <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                {{ (opt.standard_name?.length > 20) ? (opt.standard_name | slice:0:20) + '...' : opt.standard_name }}
+              </option>
+            </select>
+            <!-- <p>* Example English, Science</p> -->
+          </div>
+        </div>
+        <div class="field-wrapper">
+          <label *ngIf="(isLangInstitue != true )" for="subname">
+            Subject Name
+            <span class="text-danger">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="subname">
+            Course Name
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
+          <!-- <p>(Eg. Maths or Science or Accounts)</p> -->
+        </div>
+        <div class="field-wrapper">
+          <label for="sub_code">
+            Subject Code
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
+            [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
+        </div>
+        <div class="field-wrapper" *ngIf="schoolModel">
+          <label for="total_marks">Total Marks
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="newSubjectDetails.total_marks" id="total_marks"
+            name="total_marks">
+        </div>
+        <div class="field-wrapper" *ngIf="schoolModel">
+          <label for="passing_marks">Passing Marks
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="newSubjectDetails.passing_marks" id="passing_marks"
+            name="passing_marks">
+        </div>
+        <div class="field-wrapper">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active"
+              id="isAct">
+            <label for="isAct">Is Active</label>
+          </div>
+          <div class="field-checkbox-wrapper" *ngIf="schoolModel">
+            <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_optional"
+              id="is_optional">
+            <label for="is_optional">Set as Optional</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearData()">Close</button>
+          <button type="button" *ngIf="isNewSubjectAdd" class="btn btn-primary create-btn"
+            (click)="addNewSubject()">Save</button>
+          <button type="button" *ngIf="!isNewSubjectAdd" class="btn btn-primary create-btn"
+            (click)="updateSubject()">Update</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

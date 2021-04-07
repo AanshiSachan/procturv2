@@ -4,10 +4,11 @@
         <section class="middle-top clearFix bulk-header" style="padding-left: 5px;">
 
             <h1 class="pull-left">
-                <a routerLink="/view/leads" style="padding:0px;">
+                <!-- <a routerLink="/view/leads" style="padding:0px;">
                     Lead
-                </a>
-                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Enquiry List
+                </a> -->
+                Enquiries
+                <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Enquiry List
                 <a class="hide" id="enq_download"></a>
             </h1>
             <aside class="headEnq pull-right">
@@ -496,7 +497,7 @@
 
                         <div class="row">
                             <!-- masterCourse course -->
-                            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+                            <div *ngIf="!flagJSON.isProfessional && !schoolModel" class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper">
                                     <label for="editMc">Master Course</label>
                                     <select id="editMc" class="form-ctrl" name="editMc" style="border-radius: 4px;"
@@ -510,7 +511,7 @@
                             </div>
 
                             <!-- course course-->
-                            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+                            <div *ngIf="!flagJSON.isProfessional && !schoolModel" class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper">
                                     <label for="editCC">Course</label>
                                     <select id="editCC" class="form-ctrl form-ctrl-multiple" style="border-radius: 4px;"
@@ -521,7 +522,7 @@
                                 </div>
                             </div>
                             <!-- subject Course -->
-                            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+                            <div *ngIf="!flagJSON.isProfessional && !schoolModel" class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper">
                                     <label for="forSubject">Subject</label>
                                     <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple"

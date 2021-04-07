@@ -3,13 +3,13 @@
     <section class="middle-main clearFix activity-wrapper">
       <section class="row header" style="margin-right: 0px; margin-left: 0px;margin-bottom: 5px;">
         <div class="row" style="margin-left: 0px;margin-right: 0px;">
-          <h2 class="pull-left">
+          <h2 class="pull-left" style="margin-bottom: 0;">
             <a routerLink="/view/live-classes">
               Live class
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <span *ngIf="repeat_session == 1">Add Live Class</span>
-            <span *ngIf="repeat_session == 0">Edit Live Class</span>
+            <span *ngIf="repeat_session == 1">Add {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span>
+            <span *ngIf="repeat_session == 0">Edit {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span>
           </h2>
         </div>
       </section>
@@ -18,10 +18,10 @@
         Add Live Class
       </h2> -->
 
-      <div class="border-container">
-      </div>
+      <!-- <div class="border-container">
+      </div> -->
 
-      <section class="student-tab">
+      <!-- <section class="student-tab">
         <ul class="nav-tab">
           <li id="li-one" class="active">
             <div class="navigator" id="class-icon" (click)="switchToView($event.target.id)">
@@ -36,35 +36,42 @@
             </div>
           </li>
         </ul>
-      </section>
+      </section> -->
 
       <section id="classDetails" *ngIf="isBasicActive">
         <div class="class_details_container" style="margin-right: 0;float: left;">
-          <div class="field-wrapper" style="display: flex;" *ngIf="is_zoom_integration_enable">
+          <div>
+            <span class="addClassHeader">
+              <span *ngIf="repeat_session == 1">Add {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span>
+              <span *ngIf="repeat_session == 0">Edit {{(live_class_for=='2') ? 'Zoom ' : 'Live'}} Class</span></span>
+          </div>
+          <!-- <div class="field-wrapper" style="display: flex;width: 100%;" *ngIf="is_zoom_integration_enable">
             <div class="field-radio-wrapper">
-              <input class="form-radio" type="radio" name="classFor" value="1" id='live' disabled
+              <input class="form-radio" type="radio" name="classFor" value="1" id='live' checked
                 [(ngModel)]="live_class_for" (ngModelChange)="changeLiveClassFor()">
               <label for="live" class="l1">Proctur Live</label>
             </div>
             <div class="field-radio-wrapper">
-              <input class="form-radio" type="radio" name="classFor" value="2" id='zoom' disabled
-                [(ngModel)]="live_class_for" (ngModelChange)="changeLiveClassFor()">
+              <input class="form-radio" type="radio" name="classFor" value="2" id='zoom' [(ngModel)]="live_class_for"
+                (ngModelChange)="changeLiveClassFor()">
               <label for="zoom" class="l1">Zoom</label>
             </div>
-          </div>
+          </div> -->
 
-          <div class="field-wrapper">
+
+
+          <div class="field-wrapper" style="width: 100%;float: left;">
             <label for="topicName">Topic Name<span class="text-danger">*</span> </label>
-            <input type="text" value="" id="topicName" class="form-ctrl" name="topicName" required
-              [(ngModel)]="topicName" placeholder="Enter Topic Name" />
+            <input type="text" style="width: 100%;border: none;" value="" id="topicName" class="form-ctrl"
+              name="topicName" required [(ngModel)]="topicName" placeholder="Enter Topic Name" />
           </div>
 
           <div class="field-wrapper-container">
 
-            <div class="field-wrapper datePickerBox" style="width: 25%;">
+            <div class="field-wrapper datePickerBox" style="width: 50%;">
               <label for="date">Date<span class="text-danger">*</span></label>
-              <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="scheduledateFrom"
-                (ngModelChange)="getEvent($event)" id="date" style="height: 36px;">
+              <input type="text" style="border: none;" class="form-ctrl" bsDatepicker readonly="true"
+                [(ngModel)]="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date" style="height: 36px;">
               <!-- <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('date')"></i> -->
             </div>
 
@@ -108,409 +115,410 @@
 
           </div>
 
-          <div class="field-wrapper faculty_container" *ngIf="userType != 3">
-            <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
-            <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
-            <ng-multiselect-dropdown [placeholder]="'Select Faculty'"
-              [settings]="facultySettings" [data]="teachersAssigned" [(ngModel)]="selectedFacultyList">
-            </ng-multiselect-dropdown>
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;">
+            <div class="field-wrapper faculty_container" style="margin-right: 5%;display: flex;flex-direction: column;"
+              *ngIf="userType != 3">
+              <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
+              <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
+              <ng-multiselect-dropdown [placeholder]="'Select Faculty'" [settings]="facultySettings"
+                [data]="teachersAssigned" [(ngModel)]="selectedFacultyList">
+              </ng-multiselect-dropdown>
+            </div>
+
+            <div class="field-wrapper moderator_container" style="display: flex;flex-direction: column;"
+              *ngIf="!zoom_enable">
+              <label for="moderator">Moderator Name(s) </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Moderator'" [settings]="moderatorSettings"
+                [data]="userAssigned" [(ngModel)]="selectedModeratorList">
+              </ng-multiselect-dropdown>
+            </div>
           </div>
 
-          <div class="field-wrapper moderator_container" *ngIf="!zoom_enable">
-            <label for="moderator">Moderator Name(s) </label>
-            <ng-multiselect-dropdown [placeholder]="'Select Moderator'" [settings]="moderatorSettings" [data]="userAssigned"
-              [(ngModel)]="selectedModeratorList">
-            </ng-multiselect-dropdown>
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;"
+            *ngIf="isShowProductOption && !schoolModel">
+            <div class="field-wrapper faculty_container" style="margin-right: 5%;display: flex;flex-direction: column;">
+              <label for="faculty">Product(s)</label>
+              <ng-multiselect-dropdown [placeholder]="'Select product'" [settings]="productSetting" [data]="productData"
+                [(ngModel)]="product_id" (ngModelChange)="onChangeProduct($event)">
+              </ng-multiselect-dropdown>
+            </div>
+
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;width: 45%;"
+              *ngIf="isShowProductOption && !schoolModel">
+              <label for="students">User Name(s) </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Users'" [settings]="userListSetting" [data]="userList"
+                [(ngModel)]="selectedUserList">
+              </ng-multiselect-dropdown>
+            </div>
           </div>
 
-          <div class="field-wrapper moderator_container" *ngIf="isShowProductOption">
-            <label for="date">Product(s)</label><br>
-            <select class="made-out" id="product" [(ngModel)]="product_id"
-              style="padding: 6px 12px;border: 1px solid #adadad;border-radius: 4px;width: 100%;"
-              (ngModelChange)="onChangeProduct($event)">
-              <option value="" disabled selected="selected" hidden>Select Product</option>
-              <option *ngFor="let product of productData" [value]="product.id">
-                {{product.title}}
-              </option>
-            </select>
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;">
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;margin-right: 5%;"
+              *ngIf="!isProfessional">
+              <label for="master_course">{{schoolModel ? 'Standard' : 'Master Course'}}<span
+                  class="text-danger">*</span> </label>
+              <select class="form-ctrl" *ngIf="schoolModel" style="border: none;" name="master_course"
+              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
+                id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
+                <option value="" disabled selected="selected">Select {{schoolModel ? 'Standard' : 'Master Course'}}
+                </option>
+                <option *ngFor="let i of masters" [value]="i">
+                  {{i}}
+                </option>
+              </select>
+              <ng-multiselect-dropdown *ngIf="!schoolModel"
+                placeholder="{{schoolModel ? 'Select Standard' : 'Select Master Course'}}"
+                [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
+                [settings]="masterCourseListSetting" [data]="masters" [(ngModel)]="courseValue"
+                (ngModelChange)="getCourses($event)">
+              </ng-multiselect-dropdown>
+            </div>
+
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;"
+              *ngIf="isProfessional">
+              <label for="students">Batch(s)<span class="text-danger">*</span> </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Batch'" [settings]="batchListSetting" [data]="batches"
+                [(ngModel)]="selectedBatchList" [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
+                [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}"
+                (ngModelChange)="getBatchesCoursesIds($event)">
+              </ng-multiselect-dropdown>
+            </div>
+
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;"
+              *ngIf="!isProfessional">
+              <!-- changes by Nalini - to handle school model conditions -->
+              <label for="students">{{schoolModel ? 'Section(s)' : 'Course(s)'}}<span class="text-danger">*</span>
+              </label>
+              <ng-multiselect-dropdown placeholder="{{schoolModel ? 'Select Section' : 'Select Course'}}"
+                [settings]="courseListSetting" [data]="courses" [(ngModel)]="selectedCourseList"
+                [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
+                [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}"
+                (ngModelChange)="getBatchesCoursesIds($event)">
+              </ng-multiselect-dropdown>
+            </div>
           </div>
 
-          <div class="field-wrapper student_list_container" *ngIf="isShowProductOption" style="width: 73%">
-            <label for="students">User Name(s) </label>
-            <ng-multiselect-dropdown class="container" [placeholder]="'Select Users'" [data]="userList"
-              [settings]="userListSetting" [(ngModel)]="selectedUserList">
-            </ng-multiselect-dropdown>
+          <div style="display: flex;flex-direction: row;border-bottom: 1px solid #F4EBEB;padding-bottom: 5px;">
+            <div *ngIf="schoolModel" class="field-wrapper faculty_container"
+              style="display: flex;flex-direction: column;margin-right: 5%;">
+              <!-- changes by Nalini - to handle school model conditions -->
+              <label for="students">Subjects<span class="text-danger">*</span> </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Subject'" [settings]="subjectSetting" [data]="subjectList"
+                [(ngModel)]="selectedSubjectList" (ngModelChange)="getStudentsBySubject($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="field-wrapper faculty_container" style="display: flex;flex-direction: column;">
+              <label for="students">Student Name(s) </label>
+              <ng-multiselect-dropdown [placeholder]="'Select Students'"
+                style="color: #000;font-weight: bold;cursor: not-allowed;" [settings]="studentListSettings"
+                [data]="studentList" [(ngModel)]="selectedStudentList">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+
+
+          <div>
+            <div class="AdvanceSetting">
+              <span style="font-weight: 600;">Advance settings</span>
+            </div>
+            <div class="AdvanceSettingDiv">
+              <div class="field-checkbox-wrapper advance-setting-item">
+                <input type="checkbox" name="sent_notification_flag" [(ngModel)]="editData.sent_notification_flag" [value]="0"
+                  class="form-checkbox" id="sent_notification_flag">
+                <label for="sent_notification_flag">Send Notification</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    All the members in
+                    <br>meeting will recieve
+                    <br>sms notification for
+                    <br>the session.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Private Access -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                <input type="checkbox" name="private_access" [(ngModel)]="editData.private_access" [value]="0"
+                  class="form-checkbox" id="private_access">
+                <label for="private_access">Private Access</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Only the users invited
+                    <br> using e-mail ID would
+                    <br> be able to join. Direct
+                    <br> link sharing of session
+                    <br>won't work.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enable lobby -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                <input type="checkbox" name="access_enable_lobby" [(ngModel)]="editData.access_enable_lobby" [value]="0"
+                  class="form-checkbox" id="access_enable_lobby">
+                <label for="access_enable_lobby">Access Enable Lobby</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    All the students will
+                    <br>wait in waiting room
+                    <br> after joining the
+                    <br> session. Teachers will
+                    <br> have access to allow
+                    <br> students in the
+                    <br>meeting.
+                  </div>
+                </div>
+              </div>
+
+              <!-- hide all notification -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                <input type="checkbox" name="hide_recording_notifications"
+                  [(ngModel)]="editData.hide_recording_notifications" [value]="0" class="form-checkbox"
+                  id="hide_recording_notifications">
+                <label for="hide_recording_notifications">Hide all notifications in recordings </label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Remove all UI
+                    <br>notifications
+                    <br>from recordings.
+                    <br>The MP4 files will
+                    <br>not contain
+                    <br>notifications.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hide user count -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                <input type="checkbox" name="prevent_user_count" [(ngModel)]="editData.prevent_user_count" [value]="0"
+                  class="form-checkbox" id="prevent_user_count">
+                <label for="prevent_user_count">Hide user count </label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Do not show
+                    <br>how many users
+                    <br>are participating
+                    <br>to participants
+                    <br>and observers.
+                    <br>Moderators can
+                    <br>always see this.
+                    <br>This will also
+                    <br>disable join
+                    <br>meeting and leave
+                    <br>meeting messages.
+                  </div>
+                </div>
+              </div>
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
+                <input type="checkbox" name="access_enable_breakout_rooms"
+                  [(ngModel)]="editData.access_enable_breakout_rooms" [value]="0" class="form-checkbox"
+                  id="access_enable_breakout_rooms">
+                <label for="access_enable_breakout_rooms">Breakout Room</label>
+                <!-- <div class="questionInfo inline-relative">
+                                    <span class="qInfoIcon i-class">i</span>
+                                    <div class="tooltip-box-field">
+                                        All the students will
+                                        <br>wait in waiting room
+                                        <br> after joining the
+                                        <br> session. Teachers will
+                                        <br> have access to allow
+                                        <br> students in the
+                                        <br>meeting.
+                                    </div>
+                                  </div> -->
+              </div>
+              <!-- Enable Host -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                <input type="checkbox" name="host_video" [(ngModel)]="editData.host_video" [value]="0"
+                  class="form-checkbox" id="host_video">
+                <label for="host_video">Host Video</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Automatically video
+                    <br> will be started
+                    <br>once the host
+                    <br>(teacher) starts
+                    <br>the meeting.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enable Participant -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                <input type="checkbox" name="participant_video" [(ngModel)]="editData.participant_video" [value]="0"
+                  class="form-checkbox" id="participant_video">
+                <label for="participant_video">Participant Video</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Automatically video
+                    <br>will be started
+                    <br>once the participant
+                    <br>(student) joins
+                    <br>the meeting.
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Enable Join before Host -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                <input type="checkbox" name="join_before_host" [(ngModel)]="editData.join_before_host" [value]="0"
+                  class="form-checkbox" id="join_before_host">
+                <label for="join_before_host">Join Before Host</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Allow
+                    <br>participants(students)
+                    <br>to join the meeting
+                    <br> before the host starts
+                    <br> the meeting.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enable Mute Upon Entry -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                <input type="checkbox" name="mute_upon_entry" [(ngModel)]="editData.mute_upon_entry" [value]="0"
+                  class="form-checkbox" id="mute_upon_entry">
+                <label for="mute_upon_entry">Mute Upon Entry</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Automatically
+                    <br>participants(students)
+                    <br> will be muted after
+                    <br> joining the meeting.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enable Auto Recording -->
+              <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
+                <input type="checkbox" name="auto_recording" [(ngModel)]="auto_recording" [value]="0"
+                  class="form-checkbox" id="auto_recording">
+                <label for="auto_recording">Auto Recording</label>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+                    Automatically
+                    <br>recording
+                    <br> will get started
+                    <br>once host (teacher)
+                    <br> starts the meeting.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="action-button-container">
-            <div class="action-btn-item-1">
-              <!-- <button type="button" name="button" class="back-btn" (click)="cancel()">Back</button> -->
-            </div>
+            <!-- <div class="action-btn-item-1">
+                    <button type="button" name="button" class="back-btn" (click)="navigateTo('classDetails')">Back</button>
+                  </div> -->
             <div class="action-btn-item-2">
               <button type="button" name="button" class="cancel-btn"
                 (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-              <button type="button" name="button" class="next-btn" (click)="checkMandatoryFields()">Next</button>
+              <button type="button" name="button" class="next-btn" (click)="scheduleClass()">Submit</button>
             </div>
           </div>
 
         </div>
       </section>
 
-      <section id="assignStudent" *ngIf="isOtherActive">
-        <div class="add_student_container" style="margin-right: 0;float: left;">
-          <!-- changes by Nalini - to handle school model conditions -->
-          <div class="field-wrapper"  *ngIf="!isProfessional">
-            <label for="master_course">{{schoolModel ? 'Standard' : 'Master Course'}}<span class="text-danger">*</span> </label>
-            <select class="form-ctrl" name="master_course" id="master_course"  [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)" [disabled]="(userType==3 || (userType == 0 && username != 'admin'))" [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
-              <option value="Select Master Course" selected="selected" >Select {{schoolModel ? 'Standard' : 'Master Course'}}</option>
-              <option *ngFor="let i of masters" [value]="i.master_course">
-                {{i.master_course}}
-              </option>
-            </select>
-          </div>
-          <!--
-          <div class="field-wrapper"  *ngIf="isProfessional">
-            <label for="batch">Batches<span class="text-danger">*</span> </label>
-            <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
-              <option value="Select Batch" selected="selected">Select Batch</option>
-              <option *ngFor="let i of batches" [value]="i.batch_id">
-                  {{i.batch_name}}
-              </option>
-            </select>
-          </div>
-
-          <div class="field-wrapper" *ngIf="!isProfessional">
-            <label for="course">Course<span class="text-danger">*</span> </label>
-            <select class="form-ctrl" name="course" id="course" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
-              <option value="Select Course" selected="selected">Select Course</option>
-              <option *ngFor="let i of courses" [value]="i.course_id">
-                  {{i.course_name}}
-              </option>
-            </select>
-          </div> -->
-
-          <div class="field-wrapper student_list_container" *ngIf="isProfessional">
-            <label for="students">Batch(s)<span class="text-danger">*</span> </label>
-            <ng-multiselect-dropdown class="container" [placeholder]="'Select Batch'"
-              [settings]="batchListSetting" [data]="batches" [(ngModel)]="selectedBatchList"
-              (ngModelChange)="getBatchesCoursesIds($event)"
-              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
-              [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
-            </ng-multiselect-dropdown>
-          </div>
-
-          <div class="field-wrapper student_list_container" *ngIf="!isProfessional">
-            <!-- changes by Nalini - to handle school model conditions -->
-            <label for="students">{{schoolModel ? 'Section(s)' : 'Course(s)'}}<span class="text-danger">*</span> </label>
-            <ng-multiselect-dropdown class="container"
-            placeholder="{{schoolModel ? 'Select Section' : 'Select Course'}}"
-              [settings]="courseListSetting"
-              [data]="courses"
-              [(ngModel)]="selectedCourseList"
-              (ngModelChange)="getBatchesCoursesIds($event)"
-              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
-              [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}">
-            </ng-multiselect-dropdown>
-          </div>
-
-          <div class="field-wrapper student_list_container"
-            style="width: 85%;border-radius: 4px;margin-top: 5px;border-color: #c5c5cc;font-size: 14px;">
-            <label for="students" style="margin-bottom: 5px;">Student Name(s) </label>
-            <ng-multiselect-dropdown class="container" style="color: #000;
-            font-weight: bold;
-            cursor: not-allowed;" [placeholder]="'Select Students'" [settings]="studentListSettings" [data]="studentList"
-            [(ngModel)]="selectedStudentList">
-            </ng-multiselect-dropdown>
-          </div>
-
-          <div style="margin-top:10px">
-            <div class="AdvanceSetting">
-              <span style="font-weight: 600;">Advance settings</span>
-            </div>
-            <div class="AdvanceSettingDiv">
-              <div class="field-checkbox-wrapper advance-setting-item">
-                              <input type="checkbox" name="expenses" [(ngModel)]="editData.sent_notification_flag" [value]="0" class="form-checkbox" id="qun">
-                              <label for="qun">Send Notification</label>
-                              <div class="questionInfo inline-relative">
-                                <span class="qInfoIcon i-class">i</span>
-                                <div class="tooltip-box-field">
-                                    All the members in
-                                    <br>meeting will recieve
-                                    <br>sms notification for
-                                    <br>the session.
-                                </div>
-                              </div>
-                          </div>
-
-                        <!-- Private Access -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                          <input type="checkbox" name="private_access" [(ngModel)]="editData.private_access" [value]="0" class="form-checkbox" id="private_access">
-                          <label for="private_access">Private Access</label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                                Only the users invited
-                                <br> using e-mail ID would
-                                <br> be able to join. Direct
-                                <br> link sharing of session
-                                <br>won't work.
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Enable lobby -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                          <input type="checkbox" name="access_enable_lobby" [(ngModel)]="editData.access_enable_lobby" [value]="0" class="form-checkbox" id="access_enable_lobby">
-                          <label for="access_enable_lobby">Access Enable Lobby</label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                                All the students will
-                                <br>wait in waiting room
-                                <br> after joining the
-                                <br> session. Teachers will
-                                <br> have access to allow
-                                <br> students in the
-                                <br>meeting.
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- hide all notification -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                          <input type="checkbox" name="hide_recording_notifications" [(ngModel)]="editData.hide_recording_notifications" [value]="0" class="form-checkbox" id="hide_recording_notifications">
-                          <label for="hide_recording_notifications">Hide all notifications in recordings </label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                                Remove all UI
-                                <br>notifications
-                                <br>from recordings.
-                                <br>The MP4 files will
-                                <br>not contain
-                                <br>notifications.
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Hide user count -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                          <input type="checkbox" name="prevent_user_count" [(ngModel)]="editData.prevent_user_count" [value]="0" class="form-checkbox" id="prevent_user_count">
-                          <label for="prevent_user_count">Hide user count </label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                                Do not show
-                                <br>how many users
-                                <br>are participating
-                                <br>to participants
-                                <br>and observers.
-                                <br>Moderators can
-                                <br>always see this.
-                                <br>This will also
-                                <br>disable join
-                                <br>meeting and leave
-                                <br>meeting messages.
-                            </div>
-                          </div>
-                        </div>
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="!zoom_enable">
-                          <input type="checkbox" name="access_enable_breakout_rooms" [(ngModel)]="editData.access_enable_breakout_rooms" [value]="0" class="form-checkbox" id="access_enable_breakout_rooms">
-                          <label for="access_enable_breakout_rooms">Breakout Room</label>
-                          <!-- <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                                All the students will
-                                <br>wait in waiting room
-                                <br> after joining the
-                                <br> session. Teachers will
-                                <br> have access to allow
-                                <br> students in the
-                                <br>meeting.
-                            </div>
-                          </div> -->
-                        </div>
-                        <!-- Enable Host -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                          <input type="checkbox" name="host_video" [(ngModel)]="editData.host_video" [value]="0" class="form-checkbox" id="host_video">
-                          <label for="host_video">Host Video</label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                              Automatically video
-                              <br> will be started
-                              <br>once the host
-                              <br>(teacher) starts
-                              <br>the meeting.
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Enable Participant -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                          <input type="checkbox" name="participant_video" [(ngModel)]="editData.participant_video" [value]="0" class="form-checkbox" id="participant_video">
-                          <label for="participant_video">Participant Video</label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                              Automatically video
-                              <br>will be started
-                              <br>once the participant
-                              <br>(student) joins
-                              <br>the meeting.
-                            </div>
-                          </div>
-                        </div>
+      <div class="class_details_container zoomMsgSection"
+        style="color: white;background: #1283f4;width: 8%;border-radius: 4px;padding: 7px;margin-top: -3%;"
+        *ngIf="live_class_for=='2'">
+        <span data-toggle="modal" style="cursor: pointer;" data-target="#zoomFAQ">Zoom FAQs</span>
+      </div>
+    </section>
+  </aside>
+</div>
 
 
-                        <!-- Enable Join before Host -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                          <input type="checkbox" name="join_before_host" [(ngModel)]="editData.join_before_host" [value]="0" class="form-checkbox" id="join_before_host">
-                          <label for="join_before_host">Join Before Host</label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                              Allow
-                              <br>participants(students)
-                              <br>to join the meeting
-                              <br> before the host starts
-                              <br> the meeting.
-                            </div>
-                          </div>
-                        </div>
+<div id="zoomFAQ" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
-                        <!-- Enable Mute Upon Entry -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                          <input type="checkbox" name="mute_upon_entry" [(ngModel)]="editData.mute_upon_entry" [value]="0" class="form-checkbox" id="mute_upon_entry">
-                          <label for="mute_upon_entry">Mute Upon Entry</label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                              Automatically
-                              <br>participants(students)
-                              <br> will be muted after
-                              <br> joining the meeting.
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Enable Auto Recording -->
-                        <div class="field-checkbox-wrapper advance-setting-item" *ngIf="zoom_enable">
-                          <input type="checkbox" name="auto_recording" [(ngModel)]="auto_recording" [value]="0" class="form-checkbox" id="auto_recording">
-                          <label for="auto_recording">Auto Recording</label>
-                          <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon i-class">i</span>
-                            <div class="tooltip-box-field">
-                              Automatically
-                              <br>recording
-                              <br> will get started
-                              <br>once host (teacher)
-                              <br> starts the meeting.
-                            </div>
-                          </div>
-                        </div>
-                  </div>
-                </div>
-
-          <div class="action-button-container">
-            <div class="action-btn-item-1">
-              <button type="button" name="button" class="back-btn" (click)="navigateTo('classDetails')">Back</button>
-            </div>
-                <div class="action-btn-item-2">
-                  <button type="button" name="button" class="cancel-btn"
-                    (click)="cancel()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button type="button" name="button" class="next-btn" (click)="scheduleClass()">Submit</button>
-                </div>
-              </div>
-            </div>
-          </section>
-    
-          <div class="class_details_container zoomMsgSection"
-            style="color: white;background: #1283f4;width: 8%;border-radius: 4px;padding: 7px;margin-top: -3%;"
-            *ngIf="live_class_for=='2'">
-            <span data-toggle="modal" style="cursor: pointer;" data-target="#zoomFAQ">Zoom FAQs</span>
-          </div>
-        </section>
-      </aside>
-    </div>
-    
-    
-    <div id="zoomFAQ" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-    
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h2 class="modal-title">Zoom FAQs</h2>
-          </div>
-          <div class="modal-body">
-            <div class="new-modules-list">
-              <ol>
-                <li>If you see error "Error in scheduling Meeting"?
-                  <ul style="font-weight: 400; margin-top: 5px;">
-                    <li>In Proctur "My Account" -
-                      <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
-                        <li>Check JWT token should be mentioned correctly, verify from ZOOM Account as well.
-                        </li>
-                        <li>Check there should not be any blank space before email id field
-                        </li>
-                      </ul>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title">Zoom FAQs</h2>
+      </div>
+      <div class="modal-body">
+        <div class="new-modules-list">
+          <ol>
+            <li>If you see error "Error in scheduling Meeting"?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>In Proctur "My Account" -
+                  <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
+                    <li>Check JWT token should be mentioned correctly, verify from ZOOM Account as well.
+                    </li>
+                    <li>Check there should not be any blank space before email id field
                     </li>
                   </ul>
                 </li>
-    
-                <li>Asking for a password when a student joins the class?
-                  <ul style="font-weight: 400; margin-top: 5px;">
-                    <li>This usually happens when the password setting is on in ZOOM Account. Go to Zoom Account Settings in
-                      your zoom account and turn off the password for joiners. Please note this is available only in PAID
-                      Zoom accounts.
+              </ul>
+            </li>
+
+            <li>Asking for a password when a student joins the class?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>This usually happens when the password setting is on in ZOOM Account. Go to Zoom Account Settings in
+                  your zoom account and turn off the password for joiners. Please note this is available only in PAID
+                  Zoom accounts.
+                </li>
+              </ul>
+            </li>
+
+            <li>Facing issue in scheduling multiple classes at the same time?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Make sure you have a multiple host plan with zoom and check in Proctur My Accounts whether no of
+                  hosts is mentioned correctly.
+                </li>
+              </ul>
+            </li>
+
+            <li>Seeing message when you start class “You cannot start a meeting because it is hosted by another user”?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>It could be because of one of the below reasons
+                  <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
+                    <li>Another faculty meeting is still going on from different systems.
+                    </li>
+                    <li>Check the number of hosts purchased. There should be a host available to start the meeting.
                     </li>
                   </ul>
                 </li>
-    
-                <li>Facing issue in scheduling multiple classes at the same time?
-                  <ul style="font-weight: 400; margin-top: 5px;">
-                    <li>Make sure you have a multiple host plan with zoom and check in Proctur My Accounts whether no of
-                      hosts is mentioned correctly.
-                    </li>
-                  </ul>
+              </ul>
+            </li>
+
+            <li>Zoom meeting issue on Apple device (Chrome & Safari Browser)?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Go to browser setting > Content setting > Block Pop Up.
                 </li>
-    
-                <li>Seeing message when you start class “You cannot start a meeting because it is hosted by another user”?
-                  <ul style="font-weight: 400; margin-top: 5px;">
-                    <li>It could be because of one of the below reasons
-                      <ul style="font-weight: 400; margin-top: 5px;list-style: lower-roman;">
-                        <li>Another faculty meeting is still going on from different systems.
-                        </li>
-                        <li>Check the number of hosts purchased. There should be a host available to start the meeting.
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
+              </ul>
+            </li>
+
+            <li>When students click on join class and ask for a download zoom app in a customized app?
+              <ul style="font-weight: 400; margin-top: 5px;">
+                <li>Ask student to update the app, in case this doesn't resolve, your app may need updation. Connect
+                  with Proctur support team.
                 </li>
-    
-                <li>Zoom meeting issue on Apple device (Chrome & Safari Browser)?
-                  <ul style="font-weight: 400; margin-top: 5px;">
-                    <li>Go to browser setting > Content setting > Block Pop Up.
-                    </li>
-                  </ul>
-                </li>
-    
-                <li>When students click on join class and ask for a download zoom app in a customized app?
-                  <ul style="font-weight: 400; margin-top: 5px;">
-                    <li>Ask student to update the app, in case this doesn't resolve, your app may need updation. Connect
-                      with Proctur support team.
-                    </li>
-                  </ul>
-                </li>
-              </ol>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+              </ul>
+            </li>
+          </ol>
         </div>
-    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
+
+  </div>
+</div>

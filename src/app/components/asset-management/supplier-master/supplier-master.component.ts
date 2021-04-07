@@ -257,7 +257,7 @@ export class SupplierMasterComponent implements OnInit {
         },
         err => {
 
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Company Name is Duplicate");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset LIST is Empty");
          
         }
       )

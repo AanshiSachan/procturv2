@@ -374,6 +374,7 @@ export class InstituteSettingsComponent implements OnInit {
     feedback_email_ids: '',
     vimeo_storage_capacity_threshold: '',
     enable_stud_app_vimeo_offline_downloaded_video_visibility: '',
+    is_fee_struct_link_with_cour_or_stand: '',
     vimeo_video_download_visibility_filemanager: {
       student: '',
       teacher: '',
@@ -408,8 +409,8 @@ export class InstituteSettingsComponent implements OnInit {
   instituteName: any = '';
   biometricSetting: number = 0;
   vimeo_account_plan: any = false;
-  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive', 'liVdo', 'liEnquiry'];
-  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent', 'divVdoContent', 'divEnquiryContent'];
+  menuList: string[] = ['liSMS', 'liExamRep', 'liAttendance', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib', 'liExceptioneport', 'liAccess', 'lieStore', 'liLive', 'liVdo', 'liEnquiry'];
+  contenTDiv: string[] = ['divSMSContent', 'divExceptioneport', 'divExamReport', 'diveAttendanceContent', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent', 'divAccessControl', 'divLiveClassContent', 'diveStoreContent', 'divVdoContent', 'divEnquiryContent'];
 
   IPJson: any = {
     'institute_id': sessionStorage.getItem('institute_id'),
@@ -434,6 +435,10 @@ export class InstituteSettingsComponent implements OnInit {
   role_feature = role.features;
   vdocipher_watch_multiplier: any = '';
   vdocipher_live_class_watch_multiplier: any = '';
+  courseListSetting = {};
+  weekEndData: any = [];
+  selectedWeekEndList: any = [];
+  schoolModel: boolean = false;
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
@@ -445,6 +450,15 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+    this.getWeekEndData();
     this.instituteName = sessionStorage.getItem('institute_name');
     this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
@@ -463,6 +477,25 @@ export class InstituteSettingsComponent implements OnInit {
     if ((sessionStorage.getItem('enable_vdoCipher_feature') == '1') && (sessionStorage.getItem('enable_vimeo_feature') == '1')) {
       this.show_vdocipher_video_ready_sms_to_admin = true;
     }
+    this.courseListSetting = {
+      singleSelection: false,
+      idField: 'data_key',
+      textField: 'data_value',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      enableCheckAll: true
+    }
+  }
+
+  getWeekEndData() {
+    this.httpService.getData('/api/v1/masterData/type/DAY_OF_WEEK').subscribe(
+      (res: any) => {
+        this.weekEndData = res;
+      }, err => {
+        console.log(err);
+      }
+    )
   }
 
   libraryRoleSetting() {
@@ -583,8 +616,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.absenteeism_report_flag = this.convertBoolenToNumber(this.instituteSettingDet.absenteeism_report_flag);
     obj.pre_enquiry_follow_up_reminder_time = (this.instituteSettingDet.pre_enquiry_follow_up_reminder_time);
     obj.post_enquiry_follow_up_reminder_time = (this.instituteSettingDet.post_enquiry_follow_up_reminder_time);
-
-
+    obj.is_fee_struct_link_with_cour_or_stand = this.instituteSettingDet.is_fee_struct_link_with_cour_or_stand;
     obj.enable_counsellor_number_to_enquirer_in_sms = this.convertBoolenToNumber(this.instituteSettingDet.enable_counsellor_number_to_enquirer_in_sms);
     obj.course_or_batch_expiry_notification = this.convertBoolenToNumber(this.instituteSettingDet.course_or_batch_expiry_notification);
     obj.course_or_batch_expiry_notification_before_no_days = this.instituteSettingDet.course_or_batch_expiry_notification_before_no_days;
@@ -786,6 +818,14 @@ export class InstituteSettingsComponent implements OnInit {
     obj.external_lead_notification_enquirer = this.getSumOfTableField(this.instituteSettingDet.external_lead_notification_enquirer);
     obj.enable_enquiry_notification = this.instituteSettingDet.enable_enquiry_notification;
     obj.enable_topic_sorting_priority_based_study_material = this.convertBoolenToNumber(this.instituteSettingDet.enable_topic_sorting_priority_based_study_material);
+    let course_list: any[] = [];
+    this.selectedWeekEndList.map(
+      (ele: any) => {
+        course_list.push(ele.data_key.toString());
+      }
+    );
+    obj.weekend_days = course_list.join(',');
+    obj.mark_attendance_subject_wise = this.instituteSettingDet.mark_attendance_subject_wise;
     if (this.checkPhoneValidation(this.instituteSettingDet.new_student_addmission_sms_notification) == false) {
       this.commonService.showErrorMessage('error', '', 'Please enter valid contact number.');
     } else {
@@ -908,6 +948,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.cin = data.cin;
     this.instituteSettingDet.service_code = data.service_code;
     this.instituteSettingDet.tax_payable_on_reverse_charge_basis = data.tax_payable_on_reverse_charge_basis;
+    this.instituteSettingDet.is_fee_struct_link_with_cour_or_stand = data.is_fee_struct_link_with_cour_or_stand;
     this.instituteSettingDet.state_code = data.state_code;
     this.instituteSettingDet.accounting_code = data.accounting_code;
     this.instituteSettingDet.home_work_feature_enable = data.home_work_feature_enable;
@@ -1044,6 +1085,27 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_filemanager, data.vimeo_video_download_visibility_filemanager);
     this.fillTableCheckboxValue(this.instituteSettingDet.vimeo_video_download_visibility_studymaterial, data.vimeo_video_download_visibility_studymaterial);
     this.instituteSettingDet.vimeo_storage_capacity_threshold = data.vimeo_storage_capacity_threshold;
+    let userIDs: any = [];
+    let userName: any = [];
+    if (data.weekend_days != null && data.weekend_days != '') {
+      let str = data.weekend_days.split(',');
+      let temp: any[] = [];
+      for (var i = 0; i < str.length; i++) {
+        for (var j = 0; j < this.weekEndData.length; j++) {
+          if (str[i] == this.weekEndData[j].data_key) {
+            let x = {
+              data_key: 0,
+              data_value: ''
+            };
+            x.data_key = (this.weekEndData[j].data_key);
+            x.data_value = this.weekEndData[j].data_value;
+            temp.push(x)
+          }
+        }
+      }
+      this.selectedWeekEndList = temp;
+    }
+    this.instituteSettingDet.mark_attendance_subject_wise = data.mark_attendance_subject_wise;
   }
 
 
@@ -1387,5 +1449,18 @@ export class InstituteSettingsComponent implements OnInit {
         this.ipAddress = res.ip;
       });
   }
-
+  isFeeStructureLikedWithStudent() {
+    let prevVal = this.instituteSettingDet.is_fee_struct_link_with_cour_or_stand;
+    this.auth.showLoader();
+    this.httpService.getData('/api/v1/student_wise/feeStructure/isLinked/' + sessionStorage.getItem('institute_id')).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+      },
+      err => {
+        this.instituteSettingDet.is_fee_struct_link_with_cour_or_stand = prevVal;
+        this.auth.hideLoader();
+        this.msgSrvc.showErrorMessage('error', '', err.error.message);
+      }
+    );
+  }
 }

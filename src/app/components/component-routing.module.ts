@@ -151,7 +151,12 @@ import { ReportsComponent } from './reports/reports.component';
                             // loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
                         },
                         {
-                            path: 'students',
+                            path: 'zoom',
+                            loadChildren: () => import('app/components/live-classes-module/live-classes.module').then(m => m.LiveClassesModule)
+                            // loadChildren: 'app/components/live-classes-module/live-classes.module#LiveClassesModule'
+                        },
+                        {
+                            path:'students',
                             loadChildren: () => import('app/components/student-module/student-module.module').then(m => m.StudentModule2),
                             // loadChildren:'app/components/student-module/student-module.module#StudentModule2',
                             canLoad: [AuthGuard]
@@ -163,8 +168,12 @@ import { ReportsComponent } from './reports/reports.component';
                             pathMatch: 'prefix'
                         },
                         {
-                            path: 'reports',
-                            loadChildren: () => import('../components/reports/reports.module').then(m => m.ReportsModule)
+                         path: 'reports',
+                         loadChildren: () => import('../components/reports/reports.module').then(m => m.ReportsModule)
+                        },
+                        {
+                            path: 'exams',
+                            loadChildren: () => import('../components/exams-module/exams-module.module').then(m => m.ExamsModuleModule)
                         },
                         {
                             path: 'asset-management',

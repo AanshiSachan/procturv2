@@ -1,0 +1,2042 @@
+<div class="page-content gray">
+  <form #values="ngForm">
+    <div class="w98">
+      <h5 class="page_heading">Add Student</h5>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="outer-progress flex">
+            <div class="flex w40">
+              <div lass="content_img">
+                <div class="container1" *ngIf="!isFeeActive">
+                  <proctur-image  [serverImg]="studentImage" [containerWidth]="containerWidth"
+                    [containerHeight]="containerHeight" (setImage)="setImage($event)">
+                  </proctur-image>
+                </div>
+              </div>
+              <div class="caption" *ngIf="!isFeeActive">
+                <p>Add&nbsp;Profile<br>Picture</p>
+              </div>
+            </div>
+            <div class="w100">
+              <div class="container">
+                <ul class="progressbar">
+                  <li class="step1 step_active active" id="li-one" (click)="switchToView($event.target.id)">
+                    Personal&nbsp;Details</li>
+                  <li class="step2" id="li-two" [class.hide]="!quickAddStudent" (click)="switchToView($event.target.id)">
+                    Other&nbsp;Details
+                  </li>
+                  <li class="step3" id="li-three" (click)="switchToView($event.target.id)">Fee&nbsp;Details
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row no-gutters mt-9" *ngIf="isBasicActive" id="studentForm">
+        <div class="col-lg-8">
+          <div class="bg-white">
+            <div id="form1">
+              <p class="form_heading"><span>Student Details</span></p>
+              <div class="borderbottom"></div>
+              <div class="row">
+                <div class="col-lg-2">
+                  <span class="label">Student&nbsp;Name*</span>
+                </div>
+                <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
+                  <input type="text" value="" placeholder="Enter student name" class="input" id="sName"
+                    [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50" #sname="ngModel" required>
+                  <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
+                    <div *ngIf="sname.errors.required" class="text-danger">
+                      name is required.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-2">
+                  <span class="label">
+                    Contact<br>Number* </span>
+                </div>
+                <div class="col-lg-1">
+                  <select id="country_id" class="input-select width-50" [(ngModel)]="studentAddFormData.country_id"
+                    name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
+                    <option value=""></option>
+                    <option [value]="data.id" *ngFor='let data of countryDetails'>
+                      +{{data.country_calling_code}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-lg-3" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
+                  <input type="text" value="" id="cNumber" class="input" placeholder="Enter phone no."
+                    [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
+                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel" required />
+                  <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
+                    <div *ngIf="cNumber.errors.required" class="text-danger">
+                      Phone number is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label ">
+                  Email Id
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
+                <input type="text" value="" id="sEmail" class="input" placeholder="Enter email id"
+                  [(ngModel)]="studentAddFormData.student_email" name="sEmail"
+                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
+              </div>
+              <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
+                <div *ngIf="sEmail.errors.pattern" class="text-danger">
+                  Enter email in format eg. someone@xyz.com
+                </div>
+              </div>
+
+              <div class="col-lg-2">
+                <span class="label ">
+                  Gender
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
+                <select id="userGender" class="input-select" [(ngModel)]="studentAddFormData.student_sex"
+                  name="userGender">
+                  <option style="color: #a8a7a9;" value="">Select Gender</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                  <option value="Na">NA</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label ">
+                  Date Of Birth
+                </span>
+              </div>
+              <div class="col-lg-4 datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
+                <input type="text" value="" id="sdob" class="input bsDatepicker" name="sdob" placeholder="DOB"
+                  [(ngModel)]="studentAddFormData.dob" #sdob="ngModel" readonly="true" bsDatepicker />
+              </div>
+
+              <div class="col-lg-2" *ngIf="isManualDisplayId">
+                <span class="label ">
+                  {{schoolModel? 'Registration No. *' : 'Roll No *'}}
+                </span>
+              </div>
+              <div class="col-lg-4" *ngIf="isManualDisplayId"
+                [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
+                <input type="text" value="" class="input" id="manualId" [placeholder]="schoolModel? 'Enter Registration Number *' : 'Enter Roll No *'"
+                  [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel"
+                  required>
+                <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
+                  <div *ngIf="manualId.errors.required" class="text-danger">
+                    {{schoolModel? 'Registration Number *' : 'Roll No *'}} is Mandatory
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2" *ngIf="!schoolModel">
+                <span class="label ">
+                  Course&nbsp;Expiry<br>Date&nbsp;of&nbsp;student
+                </span>
+              </div>
+              <div class="col-lg-4 datePickerBox" *ngIf="!schoolModel" [ngClass]="{'has-value': studentAddFormData.expiry_date != ''}">
+                <input type="text" value="" id="studexpDate" class="input bsDatepicker" placeholder="Course expiry date"
+                  name="studexpDate" [(ngModel)]="studentAddFormData.expiry_date" #expiry_date="ngModel" readonly="true"
+                  bsDatepicker />
+              </div>
+              <div class="col-lg-2" *ngIf="enableBiometric == '1'">
+                <span class="label ">
+                  Attendance<br>Card&nbsp;Id
+                </span>
+              </div>
+              <div class="col-lg-4" *ngIf="enableBiometric == '1'"
+                [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
+                <input type="text" value="" id="cardId" class="input" placeholder="Enter atten. card id"
+                  [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard" #cardId="ngModel" />
+              </div>
+
+            </div>
+            <div class="row" *ngIf="schoolModel">
+              <div class="col-lg-2">
+                <span class="label ">
+                  Nationality
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.nationality != ''}">
+                <input type="text" value="" id="cardId" class="input" placeholder="Enter nationality"
+                  [(ngModel)]="studentAddFormData.nationality" name="nationality" #cardId="ngModel" />
+              </div>
+
+              <div class="col-lg-2">
+                <span class="label">
+                  Birth&nbsp;Place
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.birth_place != ''}">
+                <input type="text" value="" id="birth_place" class="input" placeholder="Enter birth place"
+                  [(ngModel)]="studentAddFormData.birth_place" name="birth_place" #cardId="ngModel" />
+              </div>
+            </div>
+            <div class="row" *ngIf="schoolModel">
+              <div class="col-lg-2">
+                <span class="label ">Mother Tongue</span>
+              </div>
+              <div class="col-lg-4">
+                <select id="mother_tounge" class="input-select" [(ngModel)]="studentAddFormData.mother_tounge"
+                  name="mother_tounge">
+                  <option value="">Select Mother Tongue</option>
+                  <option *ngFor="let data of masterDataList.MOTHER_TOUNGE" [value]="data.data_key">
+                    {{data.data_value}}</option>
+                </select>
+              </div>
+              <div class="col-lg-2">
+                <span class="label">
+                  Category </span>
+              </div>
+              <div class="col-lg-4">
+                <select id="category" class="input-select" [(ngModel)]="studentAddFormData.category" name="category">
+                  <option value="">Select Category</option>
+                  <option *ngFor="let data of masterDataList.CASTE_CATEGORY" [value]="data.data_key">
+                    {{data.data_value}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row" *ngIf="schoolModel">
+              <div class="col-lg-2">
+                <span class="label">
+                  Religion
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.religion != ''}">
+                <input type="text" value="" id="religion" class="input" placeholder="Enter religion"
+                  [(ngModel)]="studentAddFormData.religion" name="religion" #cardId="ngModel" />
+              </div>
+
+              <div class="col-lg-2">
+                <span class="label ">Blood Group</span>
+              </div>
+              <div class="col-lg-4">
+                <select id="blood_group" class="input-select" [(ngModel)]="studentAddFormData.blood_group"
+                  name="blood_group">
+                  <option value="">Select Blood Group</option>
+                  <option *ngFor="let data of masterDataList.BLOOD_GROUP" [value]="data.data_key">
+                    {{data.data_value}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row" *ngIf="schoolModel">
+              <div class="col-lg-2">
+                <span class="label">
+                  Aadhar No.
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.student_adhar_no != ''}">
+                <input type="text" value="" id="student_adhar_no" class="input" placeholder="Enter Aadhar No"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
+                  [(ngModel)]="studentAddFormData.student_adhar_no" name="student_adhar_no" #cardId="ngModel" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label">
+                  Current&nbsp;Address
+                </span>
+              </div>
+              <div class="col-lg-10" [ngClass]="{'has-value': studentAddFormData.student_curr_addr != ''}">
+                <textarea type="text" value="" id="currentAdd" name="currentAdd" placeholder="Enter current address"
+                  [(ngModel)]="studentAddFormData.student_curr_addr" class="input"></textarea>
+              </div>
+            </div>
+            <div class="row" *ngIf="schoolModel">
+              <div class="col-lg-2">
+                <span class="label">
+                  Residential<br>Address
+                </span>
+              </div>
+              <div class="col-lg-10" [ngClass]="{'has-value': studentAddFormData.student_perm_addr != ''}">
+                <textarea type="text" value="" id="student_perm_addr" name="student_perm_addr"
+                  placeholder="Enter residential address" [(ngModel)]="studentAddFormData.student_perm_addr"
+                  class="input"></textarea>
+              </div>
+            </div>
+
+            <p class="form_heading"><span>Parent Details</span></p>
+            <div class="borderbottom"></div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label">Parent&nbsp;Name</span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
+                <input type="text" value="" id="parentName" class="input" placeholder="Enter parent name"
+                  [(ngModel)]="studentAddFormData.parent_name" name="parentName" maxlength="50"
+                  pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
+                <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
+                  <div *ngIf="parentName.errors.pattern" class="text-danger">
+                    Name cannot have number / special characters except '.'
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-lg-2">
+                <span class="label">
+                  Contact&nbsp;Number </span>
+              </div>
+              <div class="col-lg-1">
+                <select id="country_id" class="input-select width-50" [(ngModel)]="studentAddFormData.country_id"
+                  name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
+                  <option value=""></option>
+                  <option [value]="data.id" *ngFor='let data of countryDetails'>
+                    +{{data.country_calling_code}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-lg-3">
+                <input type="text" value="" id="parentContactNo" class="input" placeholder="Enter phone no"
+                  [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel" />
+                <div *ngIf="parentContactNo.invalid && (parentContactNo.dirty || parentContactNo.touched)"
+                  class="alert invalid-alert">
+                  <div *ngIf="parentContactNo.errors.required" class="text-danger">
+                    Phone number is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label">
+                  Parent<br>Email&nbsp;Id
+                </span>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" value="" id="parentEmail" class="input" [(ngModel)]="studentAddFormData.parent_email"
+                  name="parentEmail" placeholder="Enter email id" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
+                  #parentEmail="ngModel">
+                <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)"
+                  class="alert invalid-alert">
+                  <div *ngIf="parentEmail.errors.pattern" class="text-danger">
+                    Enter email in format eg. someone@xyz.com
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="schoolModel">
+                <div class="col-lg-2">
+                  <span class="label">
+                    Parent Aadhar No.
+                  </span>
+                </div>
+                <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.parent_adhar_no != ''}">
+                  <input type="text" value="" id="parent_adhar_no" class="input" placeholder="Enter Aadhar No"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
+                    [(ngModel)]="studentAddFormData.parent_adhar_no" name="parent_adhar_no" #cardId="ngModel" />
+                </div>
+
+                <div class="col-lg-2">
+                  <span class="label ">Parent Profession</span>
+                </div>
+                <div class="col-lg-4">
+                  <select id="parent_profession" class="input-select" [(ngModel)]="studentAddFormData.parent_profession"
+                    name="parent_profession">
+                    <option value="">Select Profession</option>
+                    <option *ngFor="let data of masterDataList.PROFESSION" [value]="data.data_key">
+                      {{data.data_value}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-2">
+                <span class="label">
+                  Guardian Name
+                </span>
+              </div>
+              <div class="col-lg-4">
+
+                <input type="text" value="" id="guardianName" class="input" maxlength="50"
+                  pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName" placeholder="Enter guardian name"
+                  [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
+                <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)"
+                  class="alert invalid-alert">
+                  <div *ngIf="guardianName.errors.pattern" class="text-danger">
+                    Name cannot have number / special characters except '.'
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label">
+                  Guardian<br>Contact&nbsp;No
+                </span>
+              </div>
+              <div class="col-lg-1">
+                <select id="country_id" class="input-select width-50" [(ngModel)]="studentAddFormData.country_id"
+                  name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
+                  <option value=""></option>
+                  <option [value]="data.id" *ngFor='let data of countryDetails'>
+                    +{{data.country_calling_code}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-lg-3">
+
+                <input type="text" value="" id="guardianContact" class="input" placeholder="Enter phone no"
+                  [(ngModel)]="studentAddFormData.guardian_phone" name="guardianContact"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
+              </div>
+
+              <div class="col-lg-2">
+                <span class="label">
+                  Guardian<br>Email&nbsp;Id
+                </span>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" value="" id="guardianEmail" class="input" placeholder="Enter email id"
+                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" name="guardianEmail"
+                  [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
+                <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
+                  class="alert invalid-alert">
+                  <div *ngIf="guardianEmail.errors.pattern">
+                    Enter email in format eg. someone@xyz.com
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <p class="form_heading"><span>Other Details</span></p>
+            <div class="borderbottom"></div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label ">State</span>
+              </div>
+              <div class="col-lg-4">
+                <select id="state" class="input-select" [(ngModel)]="studentAddFormData.state_id" name="state"
+                  (ngModelChange)="getCityList()">
+                  <option value="">Select State</option>
+                  <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
+                    {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' :
+                    state.state_name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-lg-2">
+                <span class="label">
+                  City
+                </span>
+              </div>
+              <div class="col-lg-4">
+                <select id="city" class="input-select" [(ngModel)]="studentAddFormData.city_id" name="city"
+                  (ngModelChange)="getAreaList()">
+                  <option value="">Select City</option>
+                  <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">
+                    {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' :
+                    city.city_name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label ">
+                  Area
+                </span>
+              </div>
+              <div class="col-lg-4">
+                <select id="area_id" class="input-select" [(ngModel)]="studentAddFormData.area_id" name="area_id">
+                  <option value="">Select Area</option>
+                  <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">
+                    {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}
+                  </option>
+                </select>
+                <span (click)="toggleAddArea()" class="sourceI iconPlus" style="right: -13px;">+</span>
+              </div>
+              <div class="col-lg-2" *ngIf="schoolModel">
+                <span class="label">
+                  Pin Code
+                </span>
+              </div>
+              <div class="col-lg-4" *ngIf="schoolModel" [ngClass]="{'has-value': studentAddFormData.pin_code != ''}">
+                <input type="text" value="" id="pin_code" class="input" placeholder="Enter pin code"
+                  [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
+              </div>
+
+
+            </div>
+            <div class="row" *ngIf="schoolModel">
+              <div class="col-lg-2">
+                <span class="label ">
+                  Group
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.educational_group != ''}">
+                <input type="text" value="" id="educational_group" class="input" placeholder="Enter group"
+                  [(ngModel)]="studentAddFormData.educational_group" name="educational_group" #cardId="ngModel" />
+              </div>
+
+              <div class="col-lg-2">
+                <span class="label">
+                  Extra Curricular<br>Activities
+                </span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.extra_curricular_activities != ''}">
+                <input type="text" value="" id="extra_curricular_activities" class="input"
+                  placeholder="Enter Curricular Activities" [(ngModel)]="studentAddFormData.extra_curricular_activities"
+                  name="extra_curricular_activities" #cardId="ngModel" />
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-lg-2 ">
+                <span class="label ">
+                  Add Comment
+                </span>
+              </div>
+              <div class="col-lg-10">
+                <textarea type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments"
+                  id="addCommentNote" class="input"></textarea>
+              </div>
+
+            </div>
+
+            <p class="form_heading"><span>Documents</span></p>
+            <div class="borderbottom"></div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label ">
+                  File Name
+                </span>
+              </div>
+              <div class="col-lg-4">
+                <input type="text" id="category_id" [(ngModel)]="category_id" class="input" name="category_id"
+                  [maxlength]="30" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+              </div>
+              <div class="col-lg-10">
+                <p class="choose_file">Choose File To Upload</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <span class="label ">
+                  Upload<br>documents
+                </span>
+              </div>
+              <div class="col-lg-6">
+                <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" />
+              </div>
+              <div class="col-lg-2">
+                <button class="upload " (click)="uploadHandler();">Upload</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-10" *ngFor='let data of selectedFiles;let i = index'
+                style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+                <div style="padding-top: 5px;" class="uploadedData">{{data.title}} </div>
+                <div style="width: 25%;float: left;text-align: right;">
+                  <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                    title="Delete File" (click)="deletefile(data,i)"></i>
+                </div>
+              </div>
+              <!-- <div class="col-lg-10">
+                <p class="file_name">abc.jpeg<img src="img/cross.svg"></p>
+              </div>-->
+            </div>
+            <!-- <div class="row">
+                    <div class="col-lg-12">
+                      <span class="right">
+                        <button class="cancel" >Cancel</button>
+                         <button class="blue_button " id="next">Next</button>
+                      </span>
+                    </div>
+                     
+                  </div> -->
+          </div>
+          <div id="form3">
+            <!-- please use previous UI -->
+
+          </div>
+        </div>
+        <div class="col-lg-4 pl-2">
+
+          <aside class="bg-white1">
+
+            <!-- Enquiry Details official use-->
+            <section class="enquiry-detail common-right-section">
+              <p class="form_heading"><span>Administration Details</span><span
+                  style="padding-left: 5px; font-weight: 400;color: #323c47;">(official use)</span>
+              </p>
+
+              <div class="box-shadow-lite mt-top">
+                <div class="row no-gutters">
+                  <div class="col-lg-4">
+                    <span class="label">Date&nbsp;of<br>Admission</span>
+                  </div>
+                  <div class="col-lg-7 datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
+                    <input type="text" value="" id="doj" class="input bsDatepicker" bsDatepicker name="doj"
+                      readonly="true" [(ngModel)]="studentAddFormData.doj" />
+                    <!-- <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span> -->
+                  </div>
+
+                </div>
+                <div class="row no-gutters">
+                  <div class="col-lg-4">
+                    <span class="label">School&nbsp;/<br>Institution</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name"
+                      class="input-select">
+                      <option></option>
+                      <option [value]="institute.school_id" *ngFor="let institute of instituteList">
+                        {{institute.school_name}}
+                      </option>
+                    </select>
+                    <span class="sourceI iconPlus" style="right: -5%;" (click)="openInstituteAdder()">+</span>
+                  </div>
+                </div>
+                <div class="row no-gutters" *ngIf="!isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Assign To</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="assignTo"
+                      class="input-select">
+                      <option value="0"></option>
+                      <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                        {{assign.name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row no-gutters" *ngIf="!isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Standard {{schoolModel ? '*' : ''}}</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard"
+                      class="input-select" (ngModelChange)="fetchCourseListByStdId($event)">
+                      <option value="-1"></option>
+                      <option [value]="standard.standard_id" *ngFor="let standard of standardList">
+                        {{standard.standard_name}}
+                      </option>
+                    </select>
+                  </div>
+
+                </div>
+                <div class="row no-gutters" *ngIf="!isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Assign<br>{{schoolModel ? 'Sections' : 'Courses'}}</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <!-- style="height:89px;width:100%;padding:5px;margin-top:14px" -->
+                    <textarea 
+                      name="assignCoursesParent" [ngModel]="assignedBatchString"
+                      placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}" id="assignCourses"
+                      class="form-ctrl input textarea" readonly="true" cols="1" rows="1" (click)="openAssignBatch()"></textarea>
+                    <a style="cursor:pointer" (click)="openAssignBatch()">{{schoolModel ? 'Assign
+                      Sections' : 'Assign Courses'}}</a>
+                  </div>
+                </div>
+
+                <div class="row no-gutters" *ngIf="!isProfessional && schoolModel && showRollNoField">
+                  <div class="col-lg-4">
+                    <span class="label">Roll No. *</span>
+                  </div>
+                <div class="col-lg-7" 
+                [ngClass]="{'has-value': studentAddFormData.roll_no != ''}">
+                <input type="text" value="" class="input" id="roll_no" placeholder="Enter roll no"
+                  [(ngModel)]="studentAddFormData.roll_no" name="roll_no" maxlength="50" #roll_no="ngModel"
+                  required>
+                <div *ngIf="roll_no.invalid && (roll_no.dirty || roll_no.touched)" class="alert invalid-alert">
+                  <div *ngIf="roll_no.errors.required" class="text-danger">
+                    Roll Number is Mandatory
+                  </div>
+                </div>
+              </div>
+                </div>
+
+                <div class="row no-gutters" *ngIf="isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Master Course</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <select id="masterCourse" [(ngModel)]="studentAddFormData.standard_id" name="masterCourse"
+                      class="input-select" (ngModelChange)="fetchCourseFromMaster($event)">
+                      <option value="-1"></option>
+                      <option [value]="standard.standard_id" *ngFor="let standard of standardList">
+                        {{standard.standard_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row no-gutters" *ngIf="isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Course</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <select id="course" [(ngModel)]="studentAddFormData.subject_id" name="course" class="input-select">
+                      <option value="-1"></option>
+                      <option [value]="list.subject_id" *ngFor="let list of courseList">
+                        {{list.subject_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row no-gutters" *ngIf="isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Slot</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional"
+                      (click)="multiselectVisible($event.target.id)">
+                      <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="input"
+                        readonly="true" />
+                    </div>
+                    <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                      <div class="multiselect-wrapper-inner">
+                        <ul class="">
+                          <li *ngFor="let slot of slots">
+                            <div class="field-checkbox-wrapper">
+                              <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status"
+                                (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
+                              <label for="slot.id">{{slot.label}}</label>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row no-gutters" *ngIf="isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Status</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status"
+                      class="input-select">
+                      <option></option>
+                      <option *ngFor="let status of langStatus" [value]="status.data_key"
+                        [attr.selected]="status.data_key == 'admitted' ? '' : null">
+                        {{status.data_value}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row no-gutters" *ngIf="isProfessional">
+                  <div class="col-lg-4">
+                    <span class="label">Asign<br>Batch</span>
+                  </div>
+                  <div class="col-lg-7">
+                    <textarea style="height:89px;width:100%;padding:5px;background: #efefef;margin-top:14px"
+                      name="assignCoursesParent" [ngModel]="assignedBatchString" placeholder="Assign Batch"
+                      id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"
+                      (click)="openAssignBatch()"></textarea>
+                    <a style="cursor:pointer" (click)="openAssignBatch()">Assign Batch</a>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </div>
+        <div class="row">
+          <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
+            <div class="pull-left">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive"
+                  (ngModelChange)="updateFormIsActive($event)" class="form-checkbox" id="isStudentActive">
+                <label for="isStudentActive">Is Active Student</label>
+              </div>
+            </div>
+            <span class="right" style="margin-top: 10px;">
+              <button class="cancel" (click)="clearFormAndRoute(values)">Cancel</button>
+              <button class="blue_button " id="form-continue" [class.hide]="!quickAddStudent"
+                (click)="navigateTo('kyc')">Continue</button>
+              <button class="blue_button " #saveAndContinue id="form-continue" [class.hide]="quickAddStudent"
+                (click)="addStudentDataAndFetchFee(values)">Save</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- ============Others field ========== -->
+      <div class="row mt-9 no-gutters" *ngIf="isOtherActive" id="kyc">
+        <div class="col-lg-8">
+          <div class="bg-white">
+            <custom-student *ngFor="let component of customComponents">
+              <div class="row" *ngIf="component.type == 1" input-def>
+                <div class="col-lg-3">
+                  <span class="label" *ngIf="component.is_required == 'Y'">
+                    {{component.label}}*
+                  </span>
+                  <span class="label" *ngIf="component.is_required == 'N'">
+                    {{component.label}} </span>
+                </div>
+                <div class="col-lg-4">
+                  <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value"
+                    class="input" name="{{component.label}}" [maxlength]="component.data.comp_length" />
+                </div>
+              </div>
+
+              <div class="row" *ngIf="component.type == 2" input-def>
+                <div class="col-lg-3">
+                  <div class="field-checkbox-wrapper" style="background: transparent;margin: 0;margin-bottom: 10px;">
+                    <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
+                      name="{{component.label}}" value="{{component.value}}">
+                    <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                      *ngIf="component.is_required == 'Y'">
+                      {{component.label}}*
+                    </label>
+                    <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                      *ngIf="component.is_required == 'N'">
+                      {{component.label}} </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="component.type == 3" input-def>
+                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                  <div class="col-lg-3">
+                    <span class="label" *ngIf="component.is_required == 'Y'">
+                      {{component.label}}*
+                    </span>
+                    <span class="label" *ngIf="component.is_required == 'N'">
+                      {{component.label}} </span>
+                  </div>
+                  <div class="col-lg-4">
+                    <select id="{{component.id}}" class="input-select" [(ngModel)]="component.value"
+                      name="{{component.label}}">
+                      <option value=""></option>
+                      <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">
+                        {{opt.data}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="component.type == 4" input-def>
+                <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)"
+                  [ngClass]="{'has-value': component.selectedString != ''}">
+                  <div class="col-lg-3">
+                    <span class="label" *ngIf="component.is_required == 'Y'">
+                      {{component.label}}*
+                    </span>
+                    <span class="label" *ngIf="component.is_required == 'N'">
+                      {{component.label}} </span>
+                  </div>
+                  <div class="col-lg-4">
+                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString"
+                      name="{{component.label}}" class="input" readonly="true" />
+                  </div>
+                </div>
+                <div id="{{component.id}}multi" class="hide multiselect-wrapper"
+                  (mouseleave)="multiselectVisible(component.id)">
+                  <div class="multiselect-wrapper-inner">
+                    <ul class="">
+                      <li *ngFor="let opt of component.prefilled_data">
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
+                            (ngModelChange)="updateMultiSelect(opt, component.id)" class="form-checkbox">
+                          <label for="opt.data">{{opt.data}}</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="component.type == 5" input-def>
+                <div class="field-wrapper" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                  <div class="col-lg-3">
+                    <span class="label" for="{{component.id">
+                      {{component.label}}
+                    </span>
+
+                  </div>
+                  <div class="col-lg-4 datePickerBox">
+                    <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value"
+                      class="input bsDatepicker" name="{{component.label}}" bsDatepicker />
+                  </div>
+                </div>
+              </div>
+
+            </custom-student>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
+            <div class="pull-left">
+              <div class="field-checkbox-wrapper">
+                <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
+              </div>
+            </div>
+            <span class="right" style="margin-top: 10px;">
+              <button class="cancel" (click)="clearFormAndRoute(values)">Cancel</button>
+              <button #saveAndContinue id="form-kyc-continue"
+                [disabled]="!values.form.valid && (auth.isRippleLoad.getValue())" class="blue_button "
+                [class.hide]="!quickAddStudent" (click)="addStudentDataAndFetchFee(values)">Save and
+                Continue</button>
+              <button id="form-kyc-submit" [disabled]="!values.form.valid && (auth.isRippleLoad.getValue())"
+                (click)="studentQuickAdder(values)" [class.hide]="quickAddStudent" class="blue_button ">Submit</button>
+
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+  <proctur-popup [sizeWidth]="'small'" *ngIf="isShareDetails">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isShareDetails=false" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Send Fee Report </h2>
+
+    <div class="paymentWrapper" popup-content>
+      <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
+        <div>
+          <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+            <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" [value]="0">
+            <label for="batch">Student</label>
+          </div>
+          <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+            <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="1">
+            <label for="student">Parent</label>
+          </div>
+          <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+            <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="2">
+            <label for="student">Both</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="text-center popup-btn">
+          <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)"
+            class="fullBlue btn">
+          <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn"
+            (click)="isShareDetails=false">
+
+        </aside>
+      </div>
+    </div>
+
+  </proctur-popup>
+  <!-- =============== Fee Details =============================== -->
+  <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails">
+
+    <section class="fee-section-page">
+      <!--====================================middle Top section==========================-->
+      <section class="middle-top clearFix">
+        <h1 class="pull-left">
+          Fees :
+          <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
+        </h1>
+        <aside class="pull-right btn-diff">
+          <button class="btn-header" (click)="openDiscountApply()"
+            *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.feeDiscouting">
+            <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
+            <span>Discount</span>
+          </button>
+          <button class="btn-header" (click)="getPdcChequeList();isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
+            <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
+            <span>Manage Cheques</span>
+          </button>
+          <button class="btn-header" (click)="reConfigureFees($event)"
+            *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.hideReconfigure">
+            <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
+            <span>Re-configure Fees</span>
+          </button>
+        </aside>
+      </section>
+
+      <!--====================================middle <Main> section==========================-->
+      <section *ngIf="(!auth.isRippleLoad.getValue()) && checkBoxGroup.showFeeSection">
+
+        <div class="card-layout">
+
+          <div class="actual-Amount">
+            <span class="label">Fee Amount</span>
+            <br />
+            <span
+              class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
+          </div>
+          <!-- <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1"> -->
+          <div class="tax-Amount tooltipDiv" *ngIf="isTaxEnable">
+            <span class="label">{{tax_type_without_percentage}} on Installment</span>
+            <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
+            <br />
+            <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.taxAmount }}</span>
+            <span class="tooltip-content">{{tax_type_without_percentage}} component in Summary card and total
+              {{tax_type_without_percentage}} in individual Instalments may differ due to rounding off decimal
+              values.
+            </span>
+          </div>
+          <div class="discount-Amount tooltipDiv" *ngIf="checkBoxGroup.feeDiscouting">
+            <span class="label">Discount</span>
+            <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
+            <br />
+            <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.discountAmount
+              }}</span>
+            <span class="tooltip-content">The discount value is the total discount applied to the student across all
+              its course(s). This value is the
+              combination of previous discount and the new discount applied post the release of new discount feature
+              recently
+              introduced.
+            </span>
+          </div>
+
+          <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
+            <span class="label">Additional Fee
+              <span *ngIf="isTaxEnable"> (Incl of {{tax_type_without_percentage}})</span>
+            </span>
+            <br />
+            <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.additionalFees
+              }}</span>
+          </div>
+
+          <div class="total-Amount">
+            <span class="label">Total Fee
+              <span *ngIf="isTaxEnable"> (Incl. of {{tax_type_without_percentage}})</span>
+            </span>
+            <br />
+            <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountInclTax
+              }}</span>
+          </div>
+
+          <div class="amount-Paid">
+            <span class="label">Amount Paid</span>
+            <br />
+            <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.amountPaid }}</span>
+          </div>
+
+          <div class="amount-Due">
+            <span class="label">Amount Due</span>
+            <br />
+            <span class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.amountDue }}</span>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="c-sm-12 c-md-12 c-lg-12" style="margin-bottom: -12px ">
+            <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
+              <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.unpaidInstallment"
+                (ngModelChange)="onPaidOrUnpaidCheckbox(instituteCountryDetObj.id)" name="chkBoxUnpaidMain"
+                id="chkBoxUnpaidMain" />
+              <label for="chkBoxUnpaidMain">Unpaid</label>
+            </div>
+
+            <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
+              <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.paidInstallment"
+                (ngModelChange)="onPaidOrUnpaidCheckbox(instituteCountryDetObj.id)" name="chkBoxpaidMain"
+                id="chkBoxpaidMain" />
+              <label for="chkBoxpaidMain">Paid</label>
+            </div>
+            <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
+            <input style="right: 115px; margin-top:10px" type="button" value="Share"
+              (click)="isShareDetails= !isShareDetails" class="btn downloadbtn">
+            <i class="fa fa-download" (click)="studentFeeInstallment(-1)"
+              style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;"
+              placeholder="Download fee installment"></i>
+          </div>
+        </div>
+
+        <div class="table-section" style="padding-bottom: 60px" *ngIf="subjectWiseInstallmentArray.length > 0">
+          <ul>
+            <li class="table-rows title-section">
+
+              <aside class="checkbox-div">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}"
+                    [(ngModel)]="tableHeaderCheckbox" (ngModelChange)="mainTAbleCheckboxClicked($event)" />
+                  <label for="instl{{i}}">Course Name</label>
+                </div>
+              </aside>
+
+              <aside class="column-name">
+                <div class="fee-amount amount">
+                  <span>Fee
+                    <span *ngIf="isTaxEnable">(Incl. {{tax_type_without_percentage}})</span>
+                  </span>
+                </div>
+
+                <div class="discount-amount amount">
+                  <span>Discount</span>
+                </div>
+
+                <div class="tax-amount amount" *ngIf="isTaxEnable">
+                  <span>{{tax_type_without_percentage}}</span>
+                </div>
+
+                <div class="paid-amount amount">
+                  <span>Paid</span>
+                </div>
+
+                <div class="due-amount amount">
+                  <span>Due</span>
+                </div>
+
+                <div class="status">
+                  <span>Status</span>
+                </div>
+              </aside>
+
+            </li>
+          </ul>
+          <ul>
+            <li *ngFor="let data of subjectWiseInstallmentArray; let i= index" class="table-rows">
+
+              <div class="course-installment" (click)="openInstallmentListOfCourse(i ,  'open' , $event)">
+                <div class="checkbox-div">
+                  <div class="field-checkbox-wrapper hide"
+                    [ngClass]="{visibilityHidden: data.paid_Full_Installment_CourseWise == 'Paid'}">
+                    <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="data.uiSelected"
+                      (ngModelChange)="onCheckBoxSelection($event ,  'course' , data)" />
+                    <label></label>
+                  </div>
+                  <span>
+                    <i id="idDownIcon{{i}}" class="fa fa-angle-right iconStyling" aria-hidden="true"
+                      (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
+                    <i id="idUpIcon{{i}}" class="fa fa-angle-down hide iconStyling" aria-hidden="true"
+                      (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
+                    <span class="elipsisText" *ngIf="data.master_course_name != '' &&  data.master_course_name != null"
+                      title="{{data.master_course_name}} - {{data.courseName}}">{{data.master_course_name}} -
+                      {{data.courseName}}
+                    </span>
+                    <span class="elipsisText"
+                      *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
+                  </span>
+                </div>
+
+                <div class="column-name">
+                  <div class="fee-amount amount">
+                    <span>{{instituteCountryDetObj.symbol}}&nbsp; {{data.feeAmountIncludingTax}}</span>
+                  </div>
+
+                  <div class="discount-amount amount">
+                    <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.discount }}</span>
+                  </div>
+
+                  <div class="tax-amount amount" *ngIf="isTaxEnable">
+                    <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.taxAmount }}</span>
+                  </div>
+
+                  <div class="paid-amount amount">
+                    <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.paidAmount }}</span>
+                  </div>
+
+                  <div class="due-amount amount">
+                    <span>{{instituteCountryDetObj.symbol}}&nbsp;{{data.dueAmount }}</span>
+                  </div>
+
+                  <div class="status-amount">
+                    <span *ngIf="data.paid_Full_Installment_CourseWise == 'Partially Paid'"
+                      class="partial">{{data.paid_Full_Installment_CourseWise}}</span>
+                    <span *ngIf="data.paid_Full_Installment_CourseWise == 'Due'"
+                      class="due">{{data.paid_Full_Installment_CourseWise}}</span>
+                    <span *ngIf="data.paid_Full_Installment_CourseWise == 'Paid'"
+                      class="paid">{{data.paid_Full_Installment_CourseWise}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div id="installmentTable{{i}}" class="hide installment-list" style="border-bottom: 3px solid #0060a3;">
+                <ul>
+                  <li class="inner-table title-section">
+
+                    <div class="checkbox">
+                      <!-- <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" />
+                                    <label for="instl{{i}}"></label>
+                                  </div> -->
+                    </div>
+
+                    <div class="column-map">
+
+                      <div class="fee-Type">
+                        <span>Fee Type</span>
+                      </div>
+
+                      <div class="amount">
+                        <span>Amount</span>
+                      </div>
+
+                      <div class="Tax" *ngIf="isTaxEnable">
+                        <span>{{tax_type_without_percentage}}</span>
+                      </div>
+
+                      <div class="discount">
+                        <span>Discount</span>
+                      </div>
+
+                      <div class="balance" style="margin-right:5px">
+                        <span>Balance</span>
+                      </div>
+
+                      <div class="dueDate">
+                        <span>Due Date</span>
+                      </div>
+
+                      <div class="paidDate">
+                        <span>Paid Date</span>
+                      </div>
+
+                      <div class="paymentMode">
+                        <span>Mode</span>
+                      </div>
+
+                      <div class="status">
+                        <span>Status</span>
+                      </div>
+                    </div>
+
+                  </li>
+
+                  <li *ngFor="let installment of data.installmentArray; let j = index"
+                    class="inner-table installment-row">
+
+                    <div class="checkbox">
+                      <div class="field-checkbox-wrapper" [ngClass]="{visibilityHidden: installment.paid_full == 'Y'}">
+                        <input type="checkbox" value="" class="form-checkbox"
+                          id="installmentCh{{installment.installment_no}}" [(ngModel)]="installment.uiSelected"
+                          (ngModelChange)="onCheckBoxSelection($event ,  'installment' , installment)" />
+                        <label for="installmentCh{{installment.installment_no}}"></label>
+                      </div>
+                      <span>{{installment.installment_no}}</span>
+                    </div>
+
+                    <div class="column-map">
+
+                      <div class="fee-Type">
+                        <span>{{installment.fee_type_name}}</span>
+                      </div>
+
+                      <div class="amount">
+                        <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.initial_fee_amount_before_disocunt_before_tax
+                          }}</span>
+                      </div>
+
+                      <div class="Tax" *ngIf="isTaxEnable">
+                        <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.tax }}</span>
+                      </div>
+
+                      <div class="discount">
+                        <span>{{instituteCountryDetObj.symbol}}&nbsp;{{installment.discount }}</span>
+                      </div>
+
+                      <div class="balance" style="margin-right:5px">
+                        <span *ngIf="installment.paid_full == 'Y'">{{instituteCountryDetObj.symbol}}&nbsp;{{ 0 }}</span>
+                        <span
+                          *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}&nbsp;{{installment.balance_amount
+                          }}</span>
+                        <span
+                          *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{instituteCountryDetObj.symbol}}&nbsp;{{installment.fees_amount
+                          }}</span>
+                      </div>
+
+                      <div class="dueDate">
+                        <span>{{installment.due_date | date:"dd MMM yyyy"}}</span>
+                      </div>
+
+                      <div class="paidDate">
+                        <span>{{installment.paid_date | date:"dd MMM yyyy"}}</span>
+                      </div>
+
+                      <div class="paymentMode" style="overflow: hidden;  text-overflow: ellipsis;">
+                        <span>{{installment.paymentMode}}</span>
+                      </div>
+
+                      <div class="status-amount">
+                        <span class="paid"
+                          *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">Paid</span>
+                        <span class="due"
+                          *ngIf="((installment.is_referenced == 'N')&&(installment.paid_full == 'N'))">Due</span>
+                        <span class="partial"
+                          *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">
+                          Partially Paid
+                        </span>
+                      </div>
+                    </div>
+
+                  </li>
+
+                </ul>
+              </div>
+
+            </li>
+          </ul>
+        </div>
+
+      </section>
+
+      <section *ngIf="!checkBoxGroup.showFeeSection">
+
+        <h1 style="text-align: center;">
+          No Fee Template Selected, Click Configure Fees To Select A Template
+        </h1>
+
+      </section>
+
+
+      <!--====================================middle Bottom section==========================-->
+      <!-- <section class="middle-bottom fd-btm clearFix">
+
+        <aside class="pull-left" style="    margin-left: 6%;">
+          <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
+        </aside>
+
+        <aside class="pull-right">
+          <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalAmountToPay != 0">
+            Payment for {{instituteCountryDetObj.symbol}}&nbsp;{{totalAmountToPay }} to be updated
+          </div>
+          <div style="display: inline-block;" class="">
+            <input type="button" *ngIf="totalAmountToPay != 0" value="Update Payment"
+              (click)="openPaymentDetails($event)" class="btn fullBlue">
+            <input *ngIf="totalAmountToPay == 0" type="button" value="Continue" (click)="navigateTo('inventory')"
+                  class="btn fullBlue">
+          </div>
+        </aside>
+
+      </section> -->
+      <div class="row">
+        <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
+          <div class="pull-left">
+            <div class="field-checkbox-wrapper">
+              <input type="button" value="Back" class="btn" (click)="navigateTo('kyc')">
+            </div>
+          </div>
+          <span class="right" style="margin-top: 10px;">
+            <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalAmountToPay != 0">
+              Payment for {{instituteCountryDetObj.symbol}}&nbsp;{{totalAmountToPay }} to be updated
+            </div>
+            <button class="blue_button " *ngIf="totalAmountToPay != 0" (click)="openPaymentDetails($event)">Update
+              Payment</button><input *ngIf="totalAmountToPay == 0" type="button" value="Continue" (click)="cancelStudentUpload()"
+              class="btn fullBlue">
+
+          </span>
+        </div>
+      </div>
+    </section>
+
+  </section>
+  <proctur-popup *ngIf="isNewInstituteEditor">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
+        </g>
+      </svg>
+    </span>
+    <h2 popup-header> Institution List</h2>
+    <div class="institute-editor" popup-content>
+
+      <div class="row clearFix add-edit">
+        <a class="expend-box" (click)="toggleInstituteAdd()">
+          <i id="add-institute-icon">-</i>
+          <span>Add institution name</span>
+        </a>
+      </div>
+
+      <section class="row clearFix input-section" *ngIf="isNewInstitute">
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
+            <div class="field-wrapper">
+              <label for="instituteName">Institution Name</label>
+
+              <input type="text" value="" id="instituteName" class="form-ctrl"
+                [(ngModel)]="createInstitute.instituteName" name="instituteName" />
+            </div>
+          </div>
+
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right btn-grp">
+            <aside class="pull-right">
+              <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
+              <input type="button" value="Create" class="fullBlue btn" (click)="addInstituteData()">
+            </aside>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="row">
+        <div class="table-responsive institute-table">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th style="width: 50%;text-align: left;">Institution Name</th>
+                <th> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sch of instituteList">
+                <td style="width: 15%;">
+                  {{sch.school_id}}
+                </td>
+
+                <td *ngIf="!sch.edit" style="width: 65%;">
+                  <div class="inst-name" style="text-align: left;">
+                    {{sch.school_name}}
+                  </div>
+                </td>
+
+                <td *ngIf="sch.edit" style="width: 65%;">
+                  <div class="field-wrapper has-value">
+                    <input type="text" [(ngModel)]="sch.new_school_name" class="form-ctrl" name="instituteName" />
+                  </div>
+                </td>
+
+                <td class="edit-view-btn" *ngIf="!sch.edit">
+                  <div class="" style="width: 50%;float: left;">
+                    <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="cursor-icon fa fa-edit" style="color: #0084f6;" aria-hidden="true" title="Edit"></i>
+                    </a>
+                  </div>
+                  <div class="" style="width: 32%;float: left;">
+                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer;color: red;">
+                      <i class="view-icon cursor-icon fa fa-trash" style="color: red;" title="Delete" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </td>
+
+                <td class="edit-view-btn" *ngIf="sch.edit">
+                  <div class="" style="width: 30%;float: left;">
+                    <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
+                      <i aria-hidden="true"></i>Cancel
+                    </a>
+                  </div>
+                  <div class="">
+                    <a (click)="updateInstitute(sch.school_id, sch.new_school_name)" style="cursor:pointer">
+                      <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                    </a>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </proctur-popup>
+  <!-- =============== Duplicate Contact =============================== -->
+  <proctur-popup [hidden]="!isDuplicateStudent">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isDuplicateContactClose()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header>Student Username Details</h2>
+
+    <div class="duplicate-contact-form" popup-content>
+      <div class="row">
+        <h4>Student's contact number already exist for institution, Kindly specify the unique email id of the student.
+        </h4>
+      </div>
+      <div class="row">
+        <form #semail="ngForm" (ngSubmit)="registerDuplicateStudent(semail)">
+          <div class="field-wrapper">
+            <label for="sEmail2">Student's Email
+              <span class="text-danger">*</span>
+            </label>
+
+            <input type="text" value="" id="sEmail2" class="form-ctrl"
+              [(ngModel)]="studentAddFormData.student_manual_username" name="sEmail2"
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail2="ngModel" />
+            <div *ngIf="sEmail2.invalid && (sEmail2.dirty || sEmail2.touched)" class="alert invalid-alert">
+              <div *ngIf="sEmail2.errors.required">
+                name is required.
+              </div>
+              <div *ngIf="sEmail2.errors.pattern">
+                Please enter a valid email id
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+      </div>
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="isDuplicateContactClose()">
+          <input type="button" value="Ok" class="fullBlue btn" [disabled]="!semail.form.valid"
+            (click)="registerDuplicateStudent(semail)">
+        </aside>
+      </div>
+    </div>
+  </proctur-popup>
+  <!-- ======================================================== -->
+  <!-- ========================User Selects a Template here================================ -->
+  <!-- =============== Configure Fees  =============================== -->
+  <!-- commented by laxmi -21-02-20 -->
+  <!-- <proctur-popup *ngIf="isConfigureFees">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+    
+        <h2 popup-header>Configure Fees</h2>
+    
+        <div class="configureFee" popup-content>
+          <div class="row">
+            <h4>Select Fee Structure</h4>
+          </div>
+          <div class="row">
+    
+            <div class="field-wrapper">
+              <label for="feeS">Fee Structure
+                <span class="text-danger">*</span>
+              </label>
+    
+              <select id="feeS" name="feeS" [(ngModel)]="feeTempSelected" class="form-ctrl">
+                <option value="-1"></option>
+                <option *ngFor="let fee of feeTemplateStore" [value]="fee.template_id">
+                  {{fee.template_name}}
+                </option>
+              </select>
+            </div>
+    
+            <div class="field-wrapper datePickerBox has-value">
+              <label for="effD">Effective Date
+                <span class="text-danger">*</span>
+              </label>
+    
+              <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
+                name="effD" bsDatepicker readonly="true">
+              <span class="date-clear" name="followupdate" (click)="clearEffectiveDate($event)">clear</span>
+            </div>
+    
+          </div>
+        </div>
+    
+        <div class="" popup-footer>
+          <div class="clearfix">
+            <aside class="pull-right popup-btn">
+              <input type="button" value="Cancel" class="btn" (click)="closeConfigureFees($event)">
+              <input type="button" value="Apply" (click)="applyConfiguredFees($event)" class="fullBlue btn">
+            </aside>
+          </div>
+        </div>
+    
+      </proctur-popup> -->
+  <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
+  </app-add-city-area>
+
+  <!-- ======================================================== -->
+  <!-- =====================Define Fee Table Here=================================== -->
+  <!-- =============== assign fees =============================== -->
+  <student-fee-table *ngIf="isDefineFees" [countryDetails]="instituteCountryDetObj" [academicListData]="academicYear"
+    [courseDropdown]="courseDropdown" (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById"
+    [studentName]="studentName" [student_id]="student_id">
+  </student-fee-table>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- =============== Apply Discounts ============================ -->
+
+  <student-discount *ngIf="isDiscountApply" [feeObject]="feeObject" [countryDetails]="instituteCountryDetObj"
+    [totalDiscountApplied]="cardAmountObject.discountAmount"
+    [initialAmountWithoutTax]="cardAmountObject.feeAmountExclTax" (closePopup)="onDiscountPopUpClose(event)"
+    [student_id]="student_id"></student-discount>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ===============Manage PDC ============================ -->
+  <proctur-popup [sizeWidth]="'large'" *ngIf="isPdcApply">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePDCPop()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Manage Cheques for {{studentAddFormData.student_name}}</h2>
+
+    <div class="pdc-container" popup-content>
+      <div class="pdc-wrapper">
+        <div class="pdc-shell">
+          <!-- Header Installment -->
+          <div class="pdc-header">
+            <div class="pull-left">
+              Add Post Dated Cheque
+              <!-- <span class="installment-count">4</span> -->
+            </div>
+            <div class="pull-right">
+            </div>
+          </div>
+          <!-- Installment Adding Here -->
+          <div class="pdc-adder">
+            <ul>
+
+              <li>
+                <div class="form-wrapper">
+                  <input type="text" value="" placeholder="Bank Name" class="form-ctrl" id="bankName"
+                    [(ngModel)]="pdcAddForm.bank_name" name="bankName" maxlength="50" required>
+                </div>
+              </li>
+
+              <li>
+                <div class="field-wrapper">
+                  <!-- disabled="true" -->
+                  <select id="country_id" class="form-ctrl" [(ngModel)]="pdcAddForm.country_id" name="country_id"
+                    disabled="true" style="height: 29px;padding: 0">
+                    <option value=""></option>
+                    <option [value]="data.id" selected *ngFor='let data of countryDetails'>
+                      {{data.country_name}}
+                    </option>
+                  </select>
+                </div>
+              </li>
+
+              <li>
+                <div class="form-wrapper">
+                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value=""
+                    placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
+                    name="chequeno" minlength="6" maxlength="6" #chequeno="ngModel" required>
+                </div>
+              </li>
+
+              <li>
+                <div class="form-wrapper datePickerBox">
+                  <input type="text" value="" placeholder="Cheque Date" id="chequedate" class="form-ctrl bsDatepicker"
+                    name="chequedate" [(ngModel)]="pdcAddForm.cheque_date" readonly="true" #chequedate="ngModel"
+                    bsDatepicker>
+                </div>
+              </li>
+
+              <li>
+                <div class="form-wrapper">
+                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value=""
+                    id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
+                    max="6" placeholder="Amount">
+                </div>
+              </li>
+
+              <li>
+                <button (click)="addNewPDCState()" class="fullBlue btn" [disabled]="auth.isRippleLoad.getValue()">
+                  <i style="font-family: FontAwesome;" class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="pdc-data-shell">
+          <a id="hiddenAnchorAck"></a>
+          <div class="pdc-table">
+            <ul class="table-header">
+              <li></li>
+              <li>Bank
+                <span class="text-danger">*</span>
+              </li>
+              <li>Cheque Number
+                <span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span>
+              </li>
+              <li>Cheque Date
+                <span class="text-danger">*</span>
+              </li>
+              <li>Clearing Date</li>
+              <li>Cheque Amount
+                <span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span>
+              </li>
+              <li>Status</li>
+              <li>Action</li>
+            </ul>
+            <div class="table-data" *ngIf="chequePdcList.length != 0">
+              <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id'
+                *ngFor="let ch of chequePdcList; let i = index;">
+                <li>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" name="pdcGen" class="form-checkbox" [(ngModel)]="ch.uiSelected"
+                      id="pdcEditlist{{i}}">
+                    <label for="pdcEditlist{{i}}"></label>
+                  </div>
+                </li>
+
+                <li class="view-comp">
+                  {{ch.bank_name}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="ch.bank_name" name="">
+                  </div>
+                </li>
+                <!-- Cheque Number -->
+                <li class="view-comp">
+                  {{ch.cheque_no}}
+                </li>
+                <li class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="ch.cheque_no" name="cnum">
+                  </div>
+                </li>
+
+                <!-- Cheque date -->
+                <li class="view-comp">
+                  {{ch.cheque_date| procturDate}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.cheque_date"
+                      name="pdto" readonly="true" bsDatepicker>
+                  </div>
+                </li>
+
+                <!-- Clearing Date -->
+                <li class="view-comp">
+                  {{ch.clearing_date| procturDate}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.clearing_date"
+                      name="pdto" readonly="true" bsDatepicker>
+                  </div>
+                </li>
+
+                <!-- Amount -->
+                <li class="view-comp">
+                  {{ch.cheque_amount}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="ch.cheque_amount" name="cnum">
+                  </div>
+                </li>
+
+                <!-- Status -->
+                <li class="view-comp">
+                  {{ch.cheque_status}}
+                </li>
+                <li class="edit-comp ">
+                  <!-- {{ch.cheque_status}} -->
+                  <div class="field-wrapper">
+                    <select id="" class="form-ctrl" name="" [(ngModel)]="ch.cheque_status_key">
+                      <option *ngFor="let opt of pdcStatus" [value]="opt.data_key" [hidden]="opt.data_key == '3'">
+                        {{opt.data_value}}
+                      </option>
+                    </select>
+                  </div>
+                </li>
+
+                <!-- Action -->
+                <li class="view-comp actions">
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="editPDC(ch)"
+                    *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Update</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="deletePDC(ch, i)"
+                    *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Delete</a>
+                </li>
+                <li class="edit-comp">
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="updatePDC(ch)">Save</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="cancelEditPDC(ch)">Cancel</a>
+                </li>
+
+              </ul>
+            </div>
+            <div class="table-data" *ngIf="chequePdcList.length == 0">
+              <h3
+                style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">
+                No Cheque Saved</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-left popup-btn">
+          <input type="button" value="Generate Acknowledgement" (click)="generateAck()" class="fullBlue btn">
+          <input type="button" value="Send Acknowledgement" (click)="sendAck()" class="btn">
+        </aside>
+      </div>
+    </div>
+
+  </proctur-popup>
+
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- =============== Fees Payment Manager=============================== -->
+  <proctur-popup [sizeWidth]="'small'" *ngIf="isFeePaymentUpdate">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="flushPaymentPopUpData()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+              transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+              transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+            transform="translate(1012 297)" />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Student Fee Payment
+      <span>(Payment Details for {{instituteCountryDetObj.symbol}}&nbsp;{{paymentPopUpJson.immutableAmount}})</span>
+    </h2>
+
+    <div class="paymentWrapper" popup-content>
+
+      <div class="paymentForm">
+
+        <div class="row">
+
+          <div class="field-wrapper">
+            <label for="payamt">Payment for</label>
+            <input type="text" id="payamt" class="form-ctrl"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+              [(ngModel)]="paymentPopUpJson.payingAmount" name="payamt" (keyup)="totalPartialChange($event)" />
+          </div>
+
+          <div class="field-wrapper datePickerBox">
+            <label for="pd">Payment Date
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true"
+              [(ngModel)]="paymentPopUpJson.paid_date" name="pd" bsDatepicker>
+          </div>
+
+          <div class="field-wrapper">
+            <label for="pMode">Payment Mode
+              <span class="text-danger">*</span>
+            </label>
+            <!-- (ngModelChange)="paymentModeUpdate($event)" -->
+            <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl">
+              <option *ngFor="let data of Payment_Modes" [value]="data.data_key" selected>{{data.data_value}}</option>
+            </select>
+          </div>
+
+          <div class="field-wrapper">
+            <label for="ref">Reference No.</label>
+            <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="paymentPopUpJson.reference_no"
+              name="ref" />
+          </div>
+
+          <div class="field-wrapper">
+            <label for="rema">Remarks</label>
+            <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="paymentPopUpJson.remarks"
+              name="rema" />
+          </div>
+
+        </div>
+
+        <!-- Cheque Payment PDC updates -->
+        <div style="margin: 5px -5px;" class="row pdcChequePayment"
+          *ngIf="paymentPopUpJson.payment_mode == 'Cheque/PDC/DD No.'">
+          <h5></h5>
+
+          <div [ngClass]="{'hide': chequePdcList.length == 0}" class="">
+            <div class="c-lg-12">
+              <div class="field-wrapper">
+                <label for="pMode">Select PDC Cheque</label>
+                <div class="questionInfo pos-rel">
+                  <span class="qInfoIcon">?</span>
+                  <div class="tooltip-box-field">
+                    Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are
+                    added using Manage Cheques
+                  </div>
+                </div>
+                <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.selectedPdcId" class="form-ctrl"
+                  (ngModelChange)="feePdcSelected($event)">
+                  <option value=""></option>
+                  <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList"
+                    [hidden]="opt.cheque_status_key != 1">
+                    {{opt.cheque_date| procturDate}} ( {{instituteCountryDetObj.symbol}}&nbsp;{{opt.cheque_amount}} )
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-lg-12">
+            <div class="field-wrapper">
+              <label for="pdcfeepay">Bank Name
+                <span class="text-danger">*</span>
+              </label>
+              <input disabled="true" type="text" value="" id="pdcfeepay" class="form-ctrl"
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.bank_name" name="" />
+            </div>
+          </div>
+
+          <div class="c-lg-12">
+            <div class="field-wrapper datePickerBox">
+              <label for="pdcfeeselect">Cheque Date
+                <span class="text-danger">*</span>
+              </label>
+              <input *ngIf="paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect"
+                class="form-ctrl bsDatepicker" readonly="true"
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" bsDatepicker>
+              <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect"
+                class="form-ctrl bsDatepicker" readonly="true"
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="">
+            </div>
+          </div>
+
+          <div class="c-lg-12">
+            <div class="field-wrapper">
+              <label for="pdccheque">Cheque No.
+                <span class="text-danger">*</span>
+              </label>
+              <input disabled="true" id="pdccheque" type="text" minlength="6" maxlength="6"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name=""
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_no" />
+            </div>
+          </div>
+
+          <div class="c-lg-12">
+            <div class="field-wrapper">
+              <label for="pdctrue">Cheque Amount
+                <span class="text-danger">*</span>
+              </label>
+              <input readonly='true' type="text" value="" id="pdctrue"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name=""
+                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_amount" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="paymentPopUpJson.genFeeRecipt"
+                class="form-checkbox" id="isGenPdc">
+              <label for="isGenPdc">Generate Fee Receipt</label>
+            </div>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="paymentPopUpJson.emailFeeRecipt"
+                class="form-checkbox" id="emailPdc">
+              <label for="emailPdc">Email Receipt</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+
+        </aside>
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="flushPaymentPopUpData()">
+          <input type="button" #btnPayment value="Update" (click)="payFeeInstallments()" class="fullBlue btn">
+        </aside>
+      </div>
+    </div>
+
+  </proctur-popup>
+
+  <section [hidden]="alertBox">
+    <div class="confirmation_popup" style="z-index: 2001;">
+      <div class="confirm_title">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: rgba(255,0,0,0.7);"></i> &nbsp;
+        <span>Alert</span>
+      </div>
+      <div class="confirmation_msg_box">
+        <span id="confirm_msg"></span>
+      </div>
+      <br>
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" id="retrieveOldStudent" name="cb1" [(ngModel)]="retrieveOldStudent" class="form-checkbox"
+          (ngModelChange)="check(1)">
+        <label for="retrieveOldStudent"> Retrieve student data.</label>
+      </div>
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" id="createDuplicateStudent" name="cb2" [(ngModel)]="createDuplicateStudent"
+          class="form-checkbox" (ngModelChange)="check(2)">
+        <label for="createDuplicateStudent"> Add new student</label>
+      </div>
+
+      <div class="confirmation_button_container">
+        <input type="button" value="Yes" class="btn" (click)="archivedStudent()">
+        <input type="button" value="No" class="btn" (click)="closeAlert()">
+        <!-- <input type="button" value="Cancel" class="btn" (click)="closeAlert()"> -->
+      </div>
+    </div>
+  </section>
+
+  <div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">
+
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)"
+    [instituteCountryDetObj]="instituteCountryDetObj" [schedule_id]="schedule_id" [studentid]="student_id">
+  </partial-pay-history>
+
+</div>
+<student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)"
+  *ngIf="isAssignBatch" [countryId]="studentAddFormData.country_id" [dataList]="batchList"
+  [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear" [standardList]="standardList">
+</student-batch-list>

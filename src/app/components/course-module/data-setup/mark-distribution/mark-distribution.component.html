@@ -1,0 +1,57 @@
+<section class="sms-table-wrapper">
+
+    <div class="filter-item-2">
+        <button type="button" name="button" class="add-class-btn" data-target="#addExamType" data-toggle="modal"
+            (click)="isDistributionUpdate = false;" style="margin-right: 15px;">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;
+            Add Mark Distribution
+        </button>
+    </div>
+    <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+        [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'>
+    </app-basic-table>
+    <div style="padding-top: 9px;">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+            [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+        </pagination>
+    </div>
+
+
+</section>
+<div class="modal fade" id="addExamType" role="dialog" tabindex="-1" style="margin-top: 3%;" role="dialog"
+    aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width: 30%;margin-top: 8%;">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: none;padding-bottom: 0;">
+                <button type="button" class="close" (click)="clearModalData()" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="margin-bottom: 0;">{{isDistributionUpdate ? 'Edit Mark Distribution' :
+                    'Add Mark Distribution'}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="field-wrapper">
+                    <input class="reason-input" type="text" [(ngModel)]="addDistributionModel.marks_distribution_name"
+                        placeholder="Mark Distribution Type*" />
+                </div>
+                <div class="field-wrapper">
+                    <input class="reason-input" type="text" [(ngModel)]="addDistributionModel.marks_value_percent"
+                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Mark Value*" />
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" style="float: right;" class="btn btn-primary create-btn"
+                            (click)="addUpdateDistribution()">Save</button>
+                    </div>
+                    <div *ngIf="!isDistributionUpdate" style="margin-top: 10px;">
+                        <span style="font-weight: 600;">Note: </span>
+                        <span style="color: #4C6380;"> After Adding a mark percentage select this
+                            percentage in general setting to activate this new percentage on marking.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

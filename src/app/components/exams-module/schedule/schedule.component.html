@@ -1,0 +1,316 @@
+<div id="editCityArea" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="closePopup()" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title" style="margin-bottom: 0;">{{isEdit ? 'Edit Exam Schedule' : 'Add Exam Schedule'}}</h3>
+      </div>
+      <div class="modal-body" style="padding-top: 0;">
+        <div class="edit-container">
+          <div class="edit-item field-wrapper">
+            <select id="master_course" class="form-ctrl" [(ngModel)]="editrecord.standard_id"
+            (ngModelChange)="updateCourseList($event)">
+            <option value="">Standard*</option>
+            <option [value]="masterCourse.standard_id" title="{{masterCourse.masterCourse}}" *ngFor="let masterCourse of masterCourse">
+                {{ (masterCourse.masterCourse?.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
+              </option>
+        </select>
+          </div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" id="exam_type" [(ngModel)]="editrecord.exam_type_id">
+              <option value="-1">Exam Type*</option>
+              <option title="{{exams.exam_type}}" *ngFor="let exams of ExamTypeData" [value]="exams.exam_type_id">
+                {{ (exams.exam_type.length > 30) ? (exams.exam_type | slice:0:30) + '...' : exams.exam_type }}
+              </option>
+            </select>
+          </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_type_id!=''"><span>{{errorsObj.exam_type_id}}</span></div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.course_id"
+              (ngModelChange)="updateSubjectList($event)">
+              <option value="-1">Section*</option>
+              <option title="{{course.course_name}}" [value]="course.course_id" *ngFor="let course of courseList">
+                {{ (course.course_name?.length > 30) ? (course.course_name | slice:0:30) + '...' : course.course_name }}
+              </option>
+            </select>
+          </div>
+          <div class="errorDiv" *ngIf="errorsObj.course_id!=''"><span>{{errorsObj.course_id}}</span></div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.batch_id">
+              <option value="-1">Subject*</option>
+              <option title="{{subject.subject_name}}" [value]="subject.batch_id" *ngFor="let subject of subjectList">
+                {{ (subject.subject_name?.length > 30) ? (subject.subject_name | slice:0:30) + '...' :
+                subject.subject_name }}
+                <span *ngIf="subject.is_optional_subject">(Optional)</span>
+              </option>
+            </select>
+          </div>
+          <div class="errorDiv" *ngIf="errorsObj.batch_id!=''"><span>{{errorsObj.batch_id}}</span></div>
+          <div class="edit-item field-wrapper datePickerBox">
+            <input type="text" style="width: 100%;" value="" id="strtDate" placeholder="Date*"
+              class="form-ctrl bsDatepicker" [(ngModel)]="editrecord.date" readonly="true" name="strtDate" bsDatepicker>
+          </div>
+          <div class="errorDiv" *ngIf="errorsObj.course_exam_date!=''"><span>{{errorsObj.course_exam_date}}</span></div>
+          <div class="edit-item field-wrapper">
+            <!-- <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_from">
+              <option value="">Time From*</option>
+              <option *ngFor="let i of hour" [value]="i">
+                {{i}}
+              </option>
+            </select> -->
+            <select id="" class="form-ctrl" [(ngModel)]="mainStartTime.hour"
+                name="endtime">
+                <option [value]="time" *ngFor="let time of times">
+                  {{time}}
+                </option>
+              </select>
+              <select id="" class="form-ctrl" [(ngModel)]="mainStartTime.minute"
+                name="minute">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+          </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_start_time!=''"><span>{{errorsObj.exam_start_time}}</span></div>
+          <div class="edit-item field-wrapper">
+            <!-- <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_to">
+              <option value="">Time To*</option>
+              <option *ngFor="let i of hour" [value]="i">
+                {{i}}
+              </option>
+            </select> -->
+            <select id="" class="form-ctrl" [(ngModel)]="mainEndTime.hour"
+                name="endtime">
+                <option [value]="time" *ngFor="let time of times">
+                  {{time}}
+                </option>
+              </select>
+              <select id="" class="form-ctrl" [(ngModel)]="mainEndTime.minute"
+                name="minute">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+          </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_end_time!=''"><span>{{errorsObj.exam_end_time}}</span></div>
+          <div class="edit-item field-wrapper">
+            <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
+              <option value="-1">Room</option>
+              <option *ngFor="let class of classRoomData" title="{{class.class_room_name}}" [value]="class.class_room_id">
+                {{ (class.class_room_name?.length > 30) ? (class.class_room_name | slice:0:30) + '...' :
+                class.class_room_name }}
+              </option>
+            </select>
+          </div>
+          <div class="errorDiv" *ngIf="errorsObj.room_no_id!=''"><span>{{errorsObj.room_no_id}}</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="clearPrevData()" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="saveData()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="alert-title-container">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="msg-container">
+          <span>Are you sure you want to delete it?</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No, cancel!</button>
+        <button type="button" class="btn btn-default delete-btn"
+          (click)="deleteSchedule()">Yes, delete it!</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<main class="page-content" style="padding-left: 0 !important;">
+  <!-- Tab panes -->
+  <div class="tab-content" style="margin-top: 10px;">
+    <!-- <div id="Source"  class="tab-pane"> -->
+    <div class="w96">
+      <div class="row" style="margin-top: 15px;">
+        <div class="c-md-6 headerLabel">Exam Schedules</div>
+        <div class="c-md-6" style="padding: 0;">
+          <button style="float: right;" title="{{marks_dist_setting == '-1' ? 'Please update mark setting first in order to schedule exam' : ''}}" [disabled]="marks_dist_setting == '-1'" class="add_master_tag" data-toggle="modal" data-target="#editCityArea"
+            (click)="toggleAddSchedule()">Add
+            Exam Schedule</button>
+        </div>
+      </div>
+      <section class="filter-head">
+        <div class="filter-header-container">
+          <div class="filter-item-1" style="justify-content: flex-end;">
+            <div class="header-item" style="width: 25%;">
+              <span>Filter</span>
+              <div class="input-container">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+                <input type="text" name="" value="" class="filer-input" placeholder="Choose filter from dropdown">
+                <i class="fa fa-caret-down" aria-hidden="true" (click)="toggleFilter()" *ngIf="!filterShow"></i>
+                <i class="fa fa-caret-up" aria-hidden="true" (click)="toggleFilter()" *ngIf="filterShow"></i>
+              </div>
+              <span style="font-size: 10px;">From: {{coursePlannerFilters.from_date | date: 'dd-MMM-yyyy'}} &nbsp; To:
+                {{coursePlannerFilters.to_date | date: 'dd-MMM-yyyy'}}</span>
+              <div class="filter-container" *ngIf="filterShow">
+
+                <div class="date-container">
+                  <!-- <div class="date-title">
+                      <span>Date</span>
+                    </div> -->
+                  <div class="date-values-container">
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="thisWeek" name="thisWeek" [(ngModel)]="filterDateInputs.thisWeek"
+                        class="form-checkbox" (change)="updateDateFilter('thisWeek', $event)">
+                      <label for="thisWeek">This Week</label>
+                    </div>
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="lastWeek" name="lastWeek" [(ngModel)]="filterDateInputs.lastWeek"
+                        class="form-checkbox" (change)="updateDateFilter('lastWeek', $event)">
+                      <label for="lastWeek">Last Week</label>
+                    </div>
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="thisMonth" name="thisMonth" [(ngModel)]="filterDateInputs.thisMonth"
+                        class="form-checkbox" (change)="updateDateFilter('thisMonth', $event)">
+                      <label for="thisMonth">This Month</label>
+                    </div>
+                    <div class="field-checkbox-wrapper date-value-item">
+                      <input type="checkbox" id="custom" name="custom" [(ngModel)]="filterDateInputs.custom"
+                        class="form-checkbox" (change)="updateDateFilter('custom', $event)">
+                      <label for="custom">Custom</label>
+                      <input style="margin-left:10%;visibility:hidden;" type="text" value="" id="customeDate"
+                        class="widgetDatepicker bsDatepicker" name="schedWidDate" [(ngModel)]="filterDateRange"
+                        (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="header-item" style="margin-left: 10px;">
+              <span>Standard <span class="danger">*</span></span>
+              <select class="header-select-box" style="background: white;color: #787A7D;height: 30px;" name=""
+                [(ngModel)]="coursePlannerFilters.standard_id" (ngModelChange)="getData()">
+                <option value="-1">Select Standard</option>
+                <option [value]="masterCourse.standard_id" title="{{masterCourse.masterCourse}}" *ngFor="let masterCourse of masterCourse">
+                  {{ (masterCourse.masterCourse?.length > 30) ? (masterCourse.masterCourse | slice:0:30) + '...' : masterCourse.masterCourse }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div>
+        <div class="tableContainer">
+          <!-- <div> -->
+          <div class="tableHeader">
+            <div class="tableData" style="width: 5%;">
+              #
+            </div>
+            <div class="tableData">
+              Exam Type
+            </div>
+            <div class="tableData">
+              Standard
+            </div>
+            <div class="tableData">
+              Section
+            </div>
+            <div class="tableData" style="width: 15%;">
+              Subject
+            </div>
+            <div class="tableData">
+              Date
+            </div>
+            <div class="tableData">
+              Time From
+            </div>
+            <div class="tableData">
+              Time To
+            </div>
+            <div class="tableData">
+              Room
+            </div>
+            <div class="tableData">
+              <span class="right pr-40">
+                Action
+              </span>
+            </div>
+          </div>
+          <!-- </div> -->
+          <div class="section" *ngIf="coursePlannerData?.length > 0">
+            <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)"
+              *ngFor="let data of coursePlannerData; let i=index;">
+              <div class="tableData" style="width: 5%;">
+                <span>{{i + 1}}</span>
+              </div>
+              <div class="tableData">
+                <span title="{{data.exam_type}}">{{ (data.exam_type?.length > 13) ? (data.exam_type | slice:0:13 ) + '...' : data.exam_type }}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.standard_name}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.course_name}}</span>
+              </div>
+              <div class="tableData" style="width: 15%;">
+                <span>{{data.is_optional_subject?data.subject_name+'(Optional)':data.subject_name}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.date}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.start_time}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.end_time}}</span>
+              </div>
+              <div class="tableData">
+                <span>{{data.room_no}}</span>
+              </div>
+              <div class="tableData">
+                <span class="right pr-40" style="padding-right: 20px;">
+                  <a (click)="EditExam(data)" style="vertical-align: middle;cursor: pointer;">
+                    <img src="../../../../assets/images/EDit.png">
+                  </a>
+                  <!-- <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteSchedule(data)"
+                    style="cursor: pointer;" class="pl-10">
+                    <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
+                  </a> -->
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="section no-records" *ngIf="!coursePlannerData?.length && !auth.isRippleLoad.getValue()">
+            No Records found
+          </div>
+        </div>
+      </div>
+      <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+            (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+          </pagination>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+
+</main>

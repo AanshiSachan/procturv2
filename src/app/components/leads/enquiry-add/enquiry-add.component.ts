@@ -12,6 +12,8 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 import { HttpService } from '../../../services/http.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
+import { CommonApiCallService } from '../../../services/common-api-call.service';
+
 
 @Component({
   selector: 'app-enquiry-add',
@@ -93,7 +95,23 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       walkin_followUpDate: '',
       walkin_followUpTime: '',
       closing_reason_id: '',
-      is_follow_up_time_notification: false
+      is_follow_up_time_notification: false,
+      birth_place: '',
+      blood_group: '-1',
+      category: '-1',
+      nationality: '',
+      student_adhar_no: '',
+      parent_adhar_no: '',
+      parent_profession: '-1',
+      mother_tounge: '-1',
+      extra_curricular_activities: '',
+      educational_group: '',
+      pin_code: '',
+      inst_acad_year_id: '-1',
+      guardian_name: '',
+      guardian_phone: '',
+      guardian_email: '',
+      address: ''
     };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -190,13 +208,16 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   selectedData = {
     country: '',
     state: '',
-    city:''
+    city: ''
   };
   convertEnquiry: boolean = false;
   role_feature = role.features;
   schoolModel: boolean = false;
   // Changes by - Nalini to hide Add bulk Enquiry and Upload Enq for custom user (As discussed with Nitin)
-  BulkEnqHide : boolean = false;
+  BulkEnqHide: boolean = false;
+  masterDataList: any = {};
+  instAcademicYrList: any = [];
+
 
   constructor(
     private prefill: FetchprefilldataService,
@@ -206,7 +227,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
     private commonServiceFactory: CommonServiceFactory,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private commonApiCallService: CommonApiCallService
   ) {
     this.auth.institute_type.subscribe(
       res => {
@@ -218,14 +240,26 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
+    if (this.schoolModel) {
+      commonApiCallService.fetchMasterData().subscribe(data => {
+        this.masterDataList = data;
+      })
+      commonApiCallService.getAllFinancialYear().subscribe(data => {
+        this.instAcademicYrList = data
+      })
+    }
   }
-
-
-
   /* OnInit Initialized */
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
@@ -293,7 +327,24 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       walkin_followUpDate: '',
       walkin_followUpTime: '',
       closing_reason_id: '',
-      is_follow_up_time_notification: false
+      is_follow_up_time_notification: false,
+      birth_place: '',
+      blood_group: '-1',
+      category: '-1',
+      nationality: '',
+      student_adhar_no: '',
+      parent_adhar_no: '',
+      parent_profession: '-1',
+      mother_tounge: '-1',
+      extra_curricular_activities: '',
+      educational_group: '',
+      pin_code: '',
+      inst_acad_year_id: '-1',
+      guardian_name: '',
+      guardian_phone: '',
+      guardian_email: '',
+      address: ''
+
     };
 
     if (sessionStorage.getItem('enquiryPrefill') != null && sessionStorage.getItem('enquiryPrefill') != undefined) {
@@ -888,7 +939,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       enquiry: "",
       follow_type: "call",
       followUpDate: moment().format('YYYY-MM-DD'),
-      religion: null,
+      religion: '',
       link: "",
       slot_id: null,
       closedReason: "",
@@ -901,7 +952,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       walkin_followUpDate: '',
       walkin_followUpTime: '',
       closing_reason_id: '',
-      is_follow_up_time_notification: false
+      is_follow_up_time_notification: false,
+      country_id: this.country_id,
+      state_id: "",
+      city_id: "",
+      area_id: ""
     };
     this.course_standard_id = '-1'
     this.selectedSubjectIds = null;
@@ -917,7 +972,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     });
     this.isEnquirySubmit = true;
     this.fetchCustomComponentData();
-    this.fetchDataForCountryDetails();
+   // this.fetchDataForCountryDetails();
   }
 
 
@@ -1133,6 +1188,23 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             walkin_followUpDate: this.newEnqData.walkin_followUpDate,
             walkin_followUpTime: this.newEnqData.walkin_followUpTime,
             is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
+            birth_place: this.newEnqData.birth_place,
+            blood_group: this.newEnqData.blood_group,
+            category: this.newEnqData.category,
+            nationality: this.newEnqData.nationality,
+            student_adhar_no: this.newEnqData.student_adhar_no,
+            parent_adhar_no: this.newEnqData.parent_adhar_no,
+            parent_profession: this.newEnqData.parent_profession,
+            mother_tounge: this.newEnqData.mother_tounge,
+            extra_curricular_activities: this.newEnqData.extra_curricular_activities,
+            educational_group: this.newEnqData.educational_group,
+            pin_code: this.newEnqData.pin_code,
+            inst_acad_year_id: this.newEnqData.inst_acad_year_id,
+            guardian_name: this.newEnqData.guardian_name,
+            guardian_phone: this.newEnqData.guardian_phone,
+            guardian_email: this.newEnqData.guardian_email,
+            address: this.newEnqData.address
+
           }
           if (this.convertEnquiry) {
             obj.user_id = this.newEnqData.user_id
@@ -1231,7 +1303,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       phone: this.newEnqData.phone,
       email: this.newEnqData.email,
       gender: this.newEnqData.gender,
-      dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+      dob: this.fetchDate(this.newEnqData.dob),
       parent_email: this.newEnqData.parent_email,
       school_name: this.newEnqData.school_id,
       standard_id: this.newEnqData.standard_id,
@@ -1241,7 +1313,31 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       institute_enquiry_id: instituteEnqId,
       school_id: this.newEnqData.school_id,
       curr_address: this.newEnqData.curr_address,
-      country_id: this.newEnqData.country_id
+      country_id: this.newEnqData.country_id,
+      assigned_to: this.newEnqData.assigned_to,
+      state_id: this.newEnqData.state_id,
+      area_id: this.newEnqData.area_id,
+      city_id: this.newEnqData.city_id,
+      comments: this.newEnqData.enquiry,
+    }
+    if (this.schoolModel) {
+        obj.birth_place = this.newEnqData.birth_place,
+        obj.blood_group = this.newEnqData.blood_group,
+        obj.category = this.newEnqData.category,
+        obj.nationality = this.newEnqData.nationality,
+        obj.student_adhar_no = this.newEnqData.student_adhar_no,
+        obj.parent_adhar_no = this.newEnqData.parent_adhar_no,
+        obj.parent_profession = this.newEnqData.parent_profession,
+        obj.mother_tounge = this.newEnqData.mother_tounge,
+        obj.extra_curricular_activities = this.newEnqData.extra_curricular_activities,
+        obj.educational_group = this.newEnqData.educational_group,
+        obj.pin_code = this.newEnqData.pin_code,
+        obj.student_perm_addr = this.newEnqData.address,
+        obj.guardian_name = this.newEnqData.guardian_name,
+        obj.guardian_email = this.newEnqData.guardian_email,
+        obj.guardian_phone = this.newEnqData.guardian_phone,
+        obj.religion = this.newEnqData.religion
+
     }
     console.log(obj);
     if (!this.isProfessional) {
@@ -2094,7 +2190,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   }
 
   cancelForm() {
-    this.router.navigate(['/view/leads']);
+    this.router.navigate(['/view/leads/enquiry']);
     sessionStorage.removeItem('enquiryPrefill');
   }
 

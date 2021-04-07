@@ -1885,6 +1885,11 @@ input[type=number]::-webkit-outer-spin-button {
     padding-bottom: 50px;
     @extend .boxPadding15;
 }
+.middle-left-auto {
+    @extend .boxPadding15;
+    height: 62vh;
+    overflow-y: auto;
+}
 
 .middle-right {
     width: 30%;
@@ -3291,7 +3296,7 @@ homewrap {
         background: url('../../../../../assets/images/calendar.svg') no-repeat;
         position: absolute;
         // left: 71% !important;
-        right: 30px;
+        right: 60px;
         top: 28px !important;
         width: 21px;
         height: 21px;

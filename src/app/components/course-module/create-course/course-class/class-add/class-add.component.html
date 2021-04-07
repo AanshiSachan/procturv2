@@ -105,7 +105,7 @@
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                             (ngModelChange)="onCourseListSelection($event)">
-                            <option value="-1">Select {{schoolModel ? 'Standard' : 'Course'}}</option>
+                            <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
                             <option [value]="course.course_id" *ngFor="let course of courseList">
                               {{course.course_name}}
                             </option>
@@ -113,7 +113,7 @@
 
                         </div>
                       </div>
-                      <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!schoolModel">
                         <div class="field-wrapper  datePickerBox"
                           [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
                           <label for="csd">Class Schedule Date
@@ -126,12 +126,26 @@
                           <!-- <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span> -->
                         </div>
                       </div>
+                      <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="schoolModel">
+                        <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.selected_day != '-1'}">
+                          <label for="sc">Select Day
+                            <span class="text-danger">*</span>
+                          </label>
+                          <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.selected_day">
+                            <option value="-1">Select Day</option>
+                            <option [value]="course.data_key" *ngFor="let course of weekDaysListWithoutWeekend">
+                              {{course.data_value}}
+                            </option>
+                          </select>
+
+                        </div>
+                      </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <input type="button" class="fullBlue btn" style="margin-top:5%;" value="Go"
                           (click)="submitMasterCourse()" id="goInp8">
                       </div>
                     </div>
-                    <div class="row" *ngIf="courseStartDate" style="margin-top:5px;margin-left:0px;font-size: 12px;">
+                    <div class="row" *ngIf="courseStartDate && !schoolModel" style="margin-top:5px;margin-left:0px;font-size: 12px;">
                       <span>Course Duration: </span>
                       <span style="font-weight: 600;">{{courseStartDate | date: 'dd-MMM-yyyy'}} - </span>
                       <span style="font-weight: 600;">{{courseEndDate | date: 'dd-MMM-yyyy'}}</span>
@@ -177,7 +191,7 @@
                         Subject
                         <span class="text-danger">*</span>
                       </th>
-                      <th>
+                      <th *ngIf="!schoolModel">
                         Topic
                         <!--<span class="text-danger">*</span> -->
                       </th>
@@ -193,7 +207,7 @@
                         Select Faculty
                         <span class="text-danger">*</span>
                       </th>
-                      <th class="desc">
+                      <th class="desc" *ngIf="!schoolModel">
                         Description
                         <span title="Special characters not allowed in Description">
 
@@ -218,10 +232,10 @@
                       <th class="room">
                         Room No.
                       </th>
-                      <th class="cl-type">
+                      <th class="cl-type" *ngIf="!schoolModel">
                         Class Type
                       </th>
-                      <th>
+                      <th *ngIf="!schoolModel">
                         Repeat
                       </th>
                       <th>
@@ -247,7 +261,7 @@
                         </div>
                       </td>
 
-                      <td class="topic">
+                      <td class="topic" *ngIf="!schoolModel">
                         <div class="form-wrapper" *ngIf="addLinkStatus==''"
                           [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
                           <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 31px;"
@@ -319,7 +333,7 @@
                         </div>
                       </td>
 
-                      <td class="desc">
+                      <td class="desc" *ngIf="!schoolModel">
                         <div class="form-wrapper"
                           [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
                           <input type="textbox" class="side-form-ctrl viewClass" name="label"
@@ -335,7 +349,7 @@
                         </div>
                       </td>
 
-                      <td class="cl-type">
+                      <td class="cl-type" *ngIf="!schoolModel">
                         <div class="form-wrapper"
                           [ngClass]="{'has-value' : addClassDetails.custom_class_type != '-1' && addClassDetails.custom_class_type != '' }">
                           <select id="" class="side-form-ctrl" name="row.category_id"
@@ -363,7 +377,7 @@
                       <td class="subj">
                         {{row.subject_name}}
                       </td>
-                      <td class="topic" *ngIf="row.topics_covered!='0' && row.topics_covered!=''">
+                      <td class="topic" *ngIf="row.topics_covered!='0' && row.topics_covered!='' && !schoolModel">
                         <div class="form-wrapper">
                           <input type="textbox" class="side-form-ctrl topic-linked" name="label" style="height: 31px;"
                             id="classDetailsTxt9" placeholder="Linked" readonly
@@ -373,7 +387,7 @@
                             style="cursor: pointer;color: #1283f4;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
                         </div>
                       </td>
-                      <td class="topic" *ngIf="(row.topics_covered=='')||(row.topics_covered=='0')">
+                      <td class="topic" *ngIf="((row.topics_covered=='')||(row.topics_covered=='0')) && !schoolModel">
                         <div class="form-wrapper">
                           <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 31px;"
                             id="classDetailsTxt9" placeholder="Link" readonly
@@ -400,7 +414,7 @@
                           </select>
                         </div>
                       </td>
-                      <td class="desc">
+                      <td class="desc" *ngIf="!schoolModel">
                         <div class="form-wrapper">
                           <input type="text" class="side-form-ctrl editCellInput" style="background: transparent"
                             [(ngModel)]="row.class_desc" name="label" id="rowInp1">
@@ -413,7 +427,7 @@
                         </div>
                       </td>
 
-                      <td class="cl-type">
+                      <td class="cl-type" *ngIf="!schoolModel">
                         <div class="form-wrapper">
                           <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent"
                             [(ngModel)]="row.custom_class_type">
@@ -424,7 +438,7 @@
                         </div>
                       </td>
 
-                      <td>
+                      <td *ngIf="!schoolModel">
                         <div class="form-wrapper">
                           <select *ngIf="(row.class_schedule_id != 0)" id="" style="background: transparent"
                             class="side-form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event , row)">
@@ -437,7 +451,7 @@
                       <td>
                         <div class="action-box">
                           <span *ngIf="row.class_schedule_id != 0 && row.is_attendance_marked == 'N'"
-                            class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
+                            class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"> X </span>
                           <span *ngIf="row.class_schedule_id == 0" (click)="removeRowFromSchedule(i , row)"
                             title="Delete" class="delete-btn">
                             <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>

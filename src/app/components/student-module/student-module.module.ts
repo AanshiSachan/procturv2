@@ -24,6 +24,9 @@ import { ProductService } from '../../services/products.service';
 import { HttpService } from '../../services/http.service';
 import { ManageExamModule } from '../master/master.module';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
+import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 
 @NgModule({
   imports: [
@@ -38,6 +41,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     MenuModule,
     ManageExamModule,
     EditorModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     StudentAddComponent,
@@ -55,7 +59,9 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     RegisteredStudentsComponent,
     StudentsComponent,
     StudentsArchivedReportComponent,
-    ViewReportCardComponent
+    ViewReportCardComponent,
+    StudentAddNewComponent,
+    StudentEditNewComponent
   ],
   providers: [
     AddStudentPrefillService,

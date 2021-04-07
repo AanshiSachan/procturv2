@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { HttpService } from '../../../../../services/http.service';
 import { AppComponent } from '../../../../../app.component';
 import { CourseListService } from '../../../../../services/course-services/course-list.service';
 import { AuthenticatorService } from './../../../../../services/authenticator.service';
@@ -12,8 +13,8 @@ import { AuthenticatorService } from './../../../../../services/authenticator.se
 })
 export class CourseAddComponent implements OnInit {
 
-  @ViewChild('standardNameDDn',{static: false}) StandardName: ElementRef;
-  @ViewChild('masterCourseInput',{static: false}) MasterCourseDDn: ElementRef;
+  @ViewChild('standardNameDDn', { static: false }) StandardName: ElementRef;
+  @ViewChild('masterCourseInput', { static: false }) MasterCourseDDn: ElementRef;
 
   newCourseAdd: any = {
     master_course_name: '',
@@ -23,7 +24,7 @@ export class CourseAddComponent implements OnInit {
     course_name: '',
     start_Date: '',
     end_Date: '',
-    academic_year_id: '-1',
+    academic_year_id: '',
     allow_exam_grades: ''
   };
 
@@ -49,15 +50,26 @@ export class CourseAddComponent implements OnInit {
   examGradeFeature: any;
   divCreateNewCourse: boolean = false;
   schoolModel: boolean = false;
+  defaultAY: string='';
+  defaultAYStartDate: string;
+  defaultAYEndDate: string;
 
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
-    private route: Router
-  ) { 
+    private route: Router,
+    private httpService: HttpService
+  ) {
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
   ngOnInit() {
@@ -69,13 +81,38 @@ export class CourseAddComponent implements OnInit {
 
   // changes by Nalini - to check validation for add course/section
   checkAddCourseValidation() {
-   let result = this.schoolModel ? (this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) : (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1);
-   return result;
+    let result = this.schoolModel ? (this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) : (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1);
+    return result;
+  }
+
+  setStartAdEndDate(row) {
+    for (let acad of this.academicList) {
+      if (row == null) {
+        if (acad.default_academic_year == 1) {
+          this.defaultAY=acad.inst_acad_year_id;
+          this.defaultAYStartDate=moment(acad.start_date).format('YYYY-MM-DD');
+          this.defaultAYEndDate=moment(acad.end_date).format('YYYY-MM-DD');
+          this.courseDetails.academic_year_id = acad.inst_acad_year_id;
+          this.courseDetails.start_Date = moment(acad.start_date).format('YYYY-MM-DD');
+          this.courseDetails.end_Date = moment(acad.end_date).format('YYYY-MM-DD');
+          break;
+        }
+      }
+      else if (acad.inst_acad_year_id == row.academic_year_id) {
+        row.start_Date = moment(acad.start_date).format('YYYY-MM-DD');
+        row.end_Date = moment(acad.end_date).format('YYYY-MM-DD');
+        break;
+      }
+      else if (row.academic_year_id == '-1') {
+        row.start_Date = ''
+        row.end_Date = ''
+        break;
+      }
+    }
   }
 
   btnGoClickCreateCourse() {
-    console.log("standardNameList", this.standardNameList);
-    if (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) {
+    if (this.checkAddCourseValidation()) {
       for (let i = 0; i < this.standardNameList.length; i++) {
         if (this.standardNameList[i].standard_id == this.newCourseAdd.standard_id) {
           this.subjectListDataSource = this.standardNameList[i].subject_list;
@@ -94,12 +131,12 @@ export class CourseAddComponent implements OnInit {
       } else {
         this.subjectListDataSource = this.subjectListDataSource;
         let rawData = this.addKeyInData(this.subjectListDataSource);
-        if(!this.schoolModel) {
+        if (!this.schoolModel) {
           this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
         }
         this.StandardName.nativeElement.disabled = true;
         this.subjectList = rawData;
-        this.getActiveTeacherList();
+        this.getActiveTeacherList(this.newCourseAdd.standard_id);
       }
       // },
       error => {
@@ -127,6 +164,7 @@ export class CourseAddComponent implements OnInit {
     this.apiService.getAcadYear().subscribe(
       res => {
         this.academicList = res;
+        // this.setStartAdEndDate(null);
       },
       err => {
       }
@@ -144,28 +182,60 @@ export class CourseAddComponent implements OnInit {
     )
   }
 
-  getActiveTeacherList() {
-    this.apiService.getTeacherListFromServer().subscribe(
-      data => {
-        this.activeTeachers = data;
-        this.activeTeachers.sort(function (a, b) {
-          var textA = a.teacher_name.toUpperCase();
-          var textB = b.teacher_name.toUpperCase();
-          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-        });
-      },
-      error => {
-        //console.log(error);
-        let data = {
-          type: "error",
-          title: "",
-          body: "Please refresh the page."
+  getActiveTeacherList(standard_id) {
+    this.auth.showLoader();
+    this.httpService.getData('/api/v1/teachers/fetch-teacher/' + sessionStorage.getItem('institute_id') + "?standard_id=" + standard_id + "&subject_id=&is_active=Y&is_std_sub_required=true").subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.activeTeachers = res.result;
+        for (let i = 0; i < this.subjectList.length; i++) {
+          this.subjectList[i].allowedTeacher = [];
+          let is_teacher_exit: boolean = true;
+          this.activeTeachers.filter(teacher => {
+            if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
+              is_teacher_exit=false;
+              this.subjectList[i].allowedTeacher.push(teacher);
+              let is_more_option_exit: boolean = true;
+              for (let data of this.subjectList[i].allowedTeacher) {
+                if (data.teacher_id == 'more') {
+                  is_more_option_exit = false
+                  break;
+                }
+              }
+              if (is_more_option_exit) {
+                this.subjectList[i].allowedTeacher.push({
+                  "is_active": "Y",
+                  "standard_subject_list": [],
+                  "teacher_email": null,
+                  "teacher_id": "more",
+                  "teacher_name": "Click Here to view more faculties",
+                  "teacher_phone": "7503959545"
+                })
+              }
+            }
+          })
+          if(is_teacher_exit){
+            this.subjectList[i].allowedTeacher.push({
+              "is_active": "Y",
+              "standard_subject_list": [],
+              "teacher_email": null,
+              "teacher_id": "more",
+              "teacher_name": "Click Here to view more faculties",
+              "teacher_phone": "7503959545"
+            })
+          }
         }
-        this.toastCtrl.popToast(data);
+      },
+      err => {
+        this.auth.hideLoader();
+        console.log(err);
       }
     )
   }
 
+  checkMoreOption(obj) {
+    obj.selected_teacher == 'more' ? (obj.allowedTeacher = this.activeTeachers) : '';
+  }
   addDataToTable() {
     if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != ""
       && this.courseDetails.start_Date != null && this.courseDetails.end_Date != ''
@@ -182,6 +252,15 @@ export class CourseAddComponent implements OnInit {
         let validateData = this.validateAllFields(this.subjectList);
         if (validateData == false) {
           return;
+        }
+        if(this.courseDetails.academic_year_id && this.courseDetails.academic_year_id=='' ){
+          let err = {
+            type: "error",
+            title: "",
+            body: "Please Select Academic Year!"
+          }
+          this.toastCtrl.popToast(err);
+          return
         }
         let obj: any = {};
         obj.course_name = this.courseDetails.course_name;
@@ -234,9 +313,9 @@ export class CourseAddComponent implements OnInit {
   clearAllFormsData() {
     this.courseDetails = {
       course_name: '',
-      start_Date: '',
-      end_Date: '',
-      academic_year_id: '-1',
+      start_Date: this.defaultAYStartDate,
+      end_Date: this.defaultAYEndDate,
+      academic_year_id: this.defaultAY,
       allow_exam_grades: ''
     };
     let bindData = this.addKeyInData(this.subjectListDataSource);
@@ -262,11 +341,12 @@ export class CourseAddComponent implements OnInit {
       this.auth.showLoader();
       this.apiService.saveCourseDetails(dataToSend).subscribe(
         res => {
+          let msg_text = this.schoolModel ? 'Section created successfully' : 'Course created successfully';
           this.auth.hideLoader();
           let msg = {
             type: "success",
             title: "",
-            body: " Course created successfully"
+            body: msg_text
           }
           this.toastCtrl.popToast(msg);
           this.route.navigateByUrl('/view/course/create/courselist');
@@ -286,6 +366,14 @@ export class CourseAddComponent implements OnInit {
 
   constructJsonToSend() {
     let obj: any = {};
+    if (this.schoolModel) {
+      for (let i = 0; i < this.standardNameList.length; i++) {
+        if (this.standardNameList[i].standard_id == this.newCourseAdd.standard_id) {
+          this.newCourseAdd.master_course_name = this.standardNameList[i].standard_name;
+          break;
+        }
+      }
+    }
     obj.master_course = this.newCourseAdd.master_course_name;
     obj.standard_id = this.newCourseAdd.standard_id;
     obj.coursesList = [];
@@ -326,7 +414,11 @@ export class CourseAddComponent implements OnInit {
       }
       for (let y = 0; y < selectedSubjectRow.length; y++) {
         let trp: any = {};
-        trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+        if (this.schoolModel) {
+          trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+        } else {
+          trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+        }
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == null || selectedSubjectRow[y].selected_teacher == "-1") {
           let err = {
@@ -371,14 +463,14 @@ export class CourseAddComponent implements OnInit {
     if (this.divCreateNewCourse == false) {
       this.divCreateNewCourse = true;
       // changes by Nalini - to handle school model conditions
-      if(!this.schoolModel) {
+      if (!this.schoolModel) {
         document.getElementById('showCloseBtn') ? document.getElementById('showCloseBtn').style.display = '' : '';
         document.getElementById('showAddBtn') ? document.getElementById('showAddBtn').style.display = 'none' : '';
       }
     } else {
       this.divCreateNewCourse = false;
       // changes by Nalini - to handle school model conditions
-      if(!this.schoolModel) {
+      if (!this.schoolModel) {
         document.getElementById('showCloseBtn') ? document.getElementById('showCloseBtn').style.display = 'none' : '';
         document.getElementById('showAddBtn') ? document.getElementById('showAddBtn').style.display = '' : '';
       }

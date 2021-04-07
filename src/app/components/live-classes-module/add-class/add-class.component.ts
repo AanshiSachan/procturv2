@@ -27,6 +27,7 @@ export class AddClassComponent implements OnInit {
   selectedFacultyList: any[] = [];
   selectedModeratorList: any[] = [];
   selectedCourseList: any[] = [];
+  selectedSubjectList: any[] = [];
   selectedBatchList: any[] = [];
   userTy: any;
   dropdownList = [];
@@ -40,6 +41,9 @@ export class AddClassComponent implements OnInit {
   userListSetting = {};
   courseListSetting = {};
   batchListSetting = {};
+  productSetting = {};
+  masterCourseListSetting = {};
+  subjectSetting = {};
   product_id: any = "";
   productData: any[] = [];
   userData: any[] = [];
@@ -49,7 +53,7 @@ export class AddClassComponent implements OnInit {
   studentsId = [];
   eLearnCustUserIDs = [];
 
-  courseValue: any;
+  courseValue: any = '';
   batches: any[] = [];
   masters: any[] = [];
   courses: any[] = [];
@@ -82,7 +86,7 @@ export class AddClassComponent implements OnInit {
     studentIds: [],
     teacherIds: [],
     eLearnCustUserIDs: [],
-    product_id: null,
+    product_ids: null,
     private_access: false,
     access_enable_lobby: false,
     access_enable_breakout_rooms: false,
@@ -101,10 +105,12 @@ export class AddClassComponent implements OnInit {
   // Zoom
   auto_recording: boolean = false;
   is_zoom_integration_enable: boolean = true;
-  live_class_for: any = "1";
+  live_class_for: any = sessionStorage.getItem('setLiveClassType');
   singleSelectionOfFaculty: boolean = false;
   zoom_enable: boolean = false;
   schoolModel: boolean = false;
+  subjectList: any = [];
+  fullResponse: any = [];
 
   constructor(
     private auth: AuthenticatorService,
@@ -128,7 +134,14 @@ export class AddClassComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
     if (this.is_zoom_integration_enable && this.live_class_for == "2") {
@@ -140,6 +153,7 @@ export class AddClassComponent implements OnInit {
     this.getTeachers();
     this.getCustomUsers();
     this.checkIsEnableElearnFeature();
+    this.getBatchesCourses();
   }
 
   changeLiveClassFor() {
@@ -193,7 +207,7 @@ export class AddClassComponent implements OnInit {
       textField: 'student_name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 10,
+      itemsShowLimit: 2,
       enableCheckAll: true
     };
 
@@ -203,7 +217,7 @@ export class AddClassComponent implements OnInit {
       textField: 'name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 10,
+      itemsShowLimit: 2,
       enableCheckAll: true
     }
 
@@ -213,7 +227,7 @@ export class AddClassComponent implements OnInit {
       textField: 'course_name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 10,
+      itemsShowLimit: 2,
       enableCheckAll: true
     }
 
@@ -223,7 +237,37 @@ export class AddClassComponent implements OnInit {
       textField: 'batch_name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 10,
+      itemsShowLimit: 2,
+      enableCheckAll: true
+    }
+
+    this.productSetting = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'title',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 2,
+      enableCheckAll: true
+    }
+
+    this.subjectSetting = {
+      singleSelection: false,
+      idField: 'batch_id',
+      textField: 'subject_name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 2,
+      enableCheckAll: true
+    }
+
+    this.masterCourseListSetting = {
+      singleSelection: false,
+      idField: 'master_course',
+      textField: 'master_course',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 2,
       enableCheckAll: true
     }
   }
@@ -252,10 +296,11 @@ export class AddClassComponent implements OnInit {
 
   onChangeProduct(event) {
     let institute_id = sessionStorage.getItem('institute_id');
-    if (institute_id != '100058' && institute_id != '100127' && institute_id != '101924') {
+    let pro_id = Array.prototype.map.call(event, function(item) { return item.id; }).join(",");
+    if(institute_id!='100058' && institute_id!='100127' && institute_id!='101924') {
       this.selectedUserList = [];
     }
-    let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}/${event}`;
+    let url = `/api/v1/meeting_manager/userDetailByProductID/${institute_id}?productIds=${pro_id}`;
     this.auth.showLoader();
     this.http_service.getData(url).subscribe(
       (data: any) => {
@@ -277,7 +322,7 @@ export class AddClassComponent implements OnInit {
         body: "You cannot select past date"
       }
       this.appC.popToast(msg);
-      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+      this.scheduledateFrom = moment(new Date()).format();
     }
     event = (new Date(event));
     proctur_live_expiry_date = (new Date(proctur_live_expiry_date));
@@ -286,9 +331,10 @@ export class AddClassComponent implements OnInit {
     if (proctur_live_expiry_date < event && proctur_live_expiry_date != event) {
       const tempMsg = 'Your live class subscription will get expired on '.concat(moment(proctur_live_expiry_date).format('DD-MM-YYYY')).concat(' hence you will not be able create live class. Renew your subscription to conduct live classes again!');
       this.msgService.showErrorMessage('info', '', tempMsg);
-      this.scheduledateFrom = moment().format('YYYY-MM-DD')
+      this.scheduledateFrom = moment(new Date()).format();
     }
   }
+  
 
   getEventHourFrom(e) {
     if (this.hoursFrom != "" && this.hoursFrom != null && this.minuteFrom == "") {
@@ -345,28 +391,32 @@ export class AddClassComponent implements OnInit {
     if (this.userType === "3") {
       if (this.topicName != "" && this.topicName != null) {
         if (this.dateTimeStatus) {
-          this.navigateTo("assignStudent")
+          // this.navigateTo("assignStudent")
+          return true;
         }
         else {
           this.getEventHourTo();
         }
       }
       else {
-        this.appC.popToast({ type: "error", body: "All fields are required" })
+        this.appC.popToast({ type: "error", body: "All fields are required" });
+        return false;
       }
     } else {
 
 
       if (this.topicName != "" && this.topicName != null && this.selectedFacultyList.length != 0) {
         if (this.dateTimeStatus) {
-          this.navigateTo("assignStudent")
+          // this.navigateTo("assignStudent");
+          return true;
         }
         else {
           this.getEventHourTo();
         }
       }
       else {
-        this.appC.popToast({ type: "error", body: "All fields are required" })
+        this.appC.popToast({ type: "error", body: "All fields are required" });
+        return false;
       }
     }
   }
@@ -378,6 +428,20 @@ export class AddClassComponent implements OnInit {
       if (this.courseIds != null && this.courseValue != null && this.courseValue != '') {
         if (this.selectedStudentList.length != 0 || this.selectedUserList.length != 0) {
           validationFlag = true;
+          if(this.checkMandatoryFields()) {
+            if(this.schoolModel) {
+              if(this.selectedSubjectList!=null && this.selectedSubjectList.length!=0 ) {
+                validationFlag = true;
+              } else {
+                validationFlag = false;
+                this.appC.popToast({ type: "error", body: "Please select subject" })
+              }
+            } else {
+              validationFlag = true;
+            }
+          } else {
+            validationFlag = false;
+          }
         } else {
           validationFlag = false;
           this.appC.popToast({ type: "info", body: "Please select students or users" })
@@ -392,6 +456,11 @@ export class AddClassComponent implements OnInit {
       if (this.batchesIds != null) {
         if (this.selectedStudentList.length != 0 || this.selectedUserList.length != 0) {
           validationFlag = true;
+          if(this.checkMandatoryFields()) {
+            validationFlag = true;
+          } else {
+            validationFlag = false;
+          }
         } else {
           validationFlag = false;
           this.appC.popToast({ type: "info", body: "Please select students or users" })
@@ -407,6 +476,7 @@ export class AddClassComponent implements OnInit {
       this.facultyId = [];
       this.custUserIds = [];
       this.studentsId = [];
+      let product_ids = [];
 
       //Adding for faculty module so that faculty is not able to assign live classes to another faculty- Ashwini Kumar Gupta  1104
       if (userType == "3") {
@@ -421,7 +491,14 @@ export class AddClassComponent implements OnInit {
         )
       }
       // End
-
+      if(this.product_id && this.product_id.length) {
+        this.product_id.map(
+          (ele: any) => {
+            let x = ele.id.toString();
+            product_ids.push(x);
+          }
+        )
+      }
 
       this.selectedModeratorList.map(
         (ele: any) => {
@@ -437,12 +514,14 @@ export class AddClassComponent implements OnInit {
         }
       );
       let course_list: any[] = [];
+      if(!this.schoolModel) {
       this.selectedCourseList.map(
         (ele: any) => {
           let x = { 'course_id': ele.course_id.toString() }
           course_list.push(x);
         }
       );
+      }
 
       let batch_list: any = [];
       this.selectedBatchList.map(
@@ -451,7 +530,21 @@ export class AddClassComponent implements OnInit {
           batch_list.push(x);
         }
       );
-
+      if(this.schoolModel) {       
+        for(let i=0;i<this.selectedCourseList.length;i++) {
+            let x = { 'course_id': this.selectedCourseList[i].course_id.toString() }
+            course_list.push(x);
+              course_list[i].subject_list = [];
+              for(let j=0;j<this.subjectList.length;j++) {
+              for(let l=0;l<this.selectedSubjectList.length;l++) {                
+                if((this.subjectList[j].batch_id == this.selectedSubjectList[l].batch_id) && (this.subjectList[j].course_id == this.selectedCourseList[i].course_id)) {
+                    let x = { 'batch_id': this.subjectList[j].batch_id.toString() }
+                    course_list[i].subject_list.push(x);
+                  }
+                }
+              }
+          }
+      }
       this.addOnlineClass.course_list = course_list;
       this.addOnlineClass.batch_list = batch_list;
 
@@ -471,10 +564,10 @@ export class AddClassComponent implements OnInit {
       this.addOnlineClass.custUserIds = this.custUserIds;
       this.addOnlineClass.studentIds = this.studentsId;
       this.addOnlineClass.teacherIds = this.facultyId;
-      if (this.product_id != null) {
-        this.addOnlineClass.product_id = this.product_id;
+      if (product_ids != null) {
+        this.addOnlineClass.product_ids = product_ids;
       } else {
-        this.addOnlineClass.product_id = null;
+        this.addOnlineClass.product_ids = null;
       }
       this.addOnlineClass.start_datetime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hoursFrom.split(' ')[1];
       this.addOnlineClass.end_datetime = moment(this.scheduledateFrom).format('YYYY-MM-DD') + " " + this.hoursTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hoursTo.split(' ')[1];
@@ -511,12 +604,13 @@ export class AddClassComponent implements OnInit {
       console.log(this.addOnlineClass)
 
       this.auth.showLoader();
-      const url = '/api/v1/meeting_manager/create'
+      const url = '/api/v1/meeting_manager/createV2'
       this.http_service.putData(url, this.addOnlineClass).subscribe(
         (data: any) => {
           this.auth.hideLoader();
           if (data.statusCode >= 200 && data.statusCode <= 300) {
-            this.appC.popToast({ type: "success", body: "Live class session " + this.topicName + " " + "created successfully" });
+            let session = (this.live_class_for == "1") ? 'Live class session ' : 'Zoom class session ';
+            this.appC.popToast({ type: "success", body: session + this.topicName + " " + "created successfully" });
             this.navigateTo("studentForm");
             this.clearOnlineSchedulesObject();
           }
@@ -552,7 +646,7 @@ export class AddClassComponent implements OnInit {
       start_datetime: "",
       studentIds: [],
       teacherIds: [],
-      product_id: [],
+      product_ids: [],
       eLearnCustUserIDs: [],
       private_access: false,
       access_enable_lobby: false,
@@ -589,6 +683,7 @@ export class AddClassComponent implements OnInit {
     this.selectedUserList = [];
     this.selectedBatchList = [];
     this.selectedCourseList = [];
+    this.selectedSubjectList = [];
 
     this.navigateTo('classDetails');
 
@@ -645,12 +740,59 @@ export class AddClassComponent implements OnInit {
     }
     else {
       this.courseIds = ids;
-      let temp: any = [];
-      this.courseIds.forEach(element => {
-        temp.push(element.course_id);
+        let tempData: any = this.courses;
+        if(this.schoolModel) {
+        this.subjectList = [];
+        this.updateSubjectList(ids);
+      } else {
+        let temp: any = [];
+        this.courseIds.forEach(element => {
+          temp.push(element.course_id);
+        });
+        this.fetchStudentsApi(temp);
+      }
+        //End
+      // this.getStudents();
+    }
+  }
+
+  updateSubjectList(event) {
+    console.log(event);
+    this.subjectList = [];
+    if(event && event.length) {
+    let course_id = Array.prototype.map.call(event, function(item) { return item.course_id; }).join(",");
+    const url = "/api/v1/subjects/course?courseIds=" + course_id;
+    this.auth.showLoader();
+    this.http_service.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.subjectList = res.result;
+        if(this.subjectList && this.subjectList.length) {
+        this.subjectList.forEach(element => {
+          element.subject_name = element.course_name + ' - ' + element.subject_name;
+          if(element.is_optional == 'Y') {
+            element.subject_name = element.subject_name + ' (Optional)';
+          }
+        });
+      }
+      },
+      err => {
+        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+        //console.log(err);
+      }
+    )
+    }
+  }
+
+  getStudentsBySubject(obj) {
+    console.log(obj);
+    if(obj && obj.length) {
+      let temp:any = [];
+      obj.forEach(element => {
+        temp.push(element.batch_id);
       });
       this.fetchStudentsApi(temp);
-      // this.getStudents();
     }
   }
 
@@ -683,15 +825,17 @@ export class AddClassComponent implements OnInit {
     }
     else {
       let url = '';
-      if (this.userType === '3') {
+      if(this.schoolModel) {
+        url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name&is_active_not_expire=Y";
+      } else if (this.userType === '3') {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all' + '?isAllCourses=N&isActiveNotExpire=Y'; //Changed isAllCourses flay Y to N as per ticket 1103
       } else {
         url = '/api/v1/courseMaster/fetch/' + this.institution_id + '/all?isActiveNotExpire=Y';
       }
       this.http_service.getData(url).subscribe(
         (data: any) => {
-
-          this.masters = data;
+          this.fullResponse = data.result;
+          this.masters = (this.schoolModel) ? (Object.keys(data.result)) : data;
           if (this.masters && !this.masters.length) {
             this.appC.popToast({ type: "error", body: "Please check courses are active or not." });
           }
@@ -710,15 +854,30 @@ export class AddClassComponent implements OnInit {
   // api. Added By ashwini kumar gupta
   getCourses(master_course_name) {
     this.selectedCourseList = [];
+    this.selectedSubjectList = [];
+    this.courses = [];
     let tempData: any = this.masters;
-    for (let i = 0; i < tempData.length; i++) {
-      if (tempData[i].master_course === master_course_name) {
-        this.courses = tempData[i].coursesList;
+    if(this.schoolModel) {
+      let temp = this.fullResponse[master_course_name];
+      for (let i = 0; i < temp.length; i++) {
+        this.courses.push(temp[i]);
+      }
+    } else {
+      for (let i = 0; i < tempData.length; i++) {
+        for(let j=0;j< master_course_name.length; j++) {
+          if (tempData[i].master_course === master_course_name[j].master_course) {
+            console.log(tempData[i].coursesList);
+            for(let k=0;k<tempData[i].coursesList.length;k++) {
+              this.courses.push(tempData[i].coursesList[k]);
+            }
+          }
+        }
       }
     }
     //End
   }
   // End
+
 
   getStudents() {
     this.studentList = [];
@@ -750,7 +909,6 @@ export class AddClassComponent implements OnInit {
     this.http_service.postData(url, this.getPayloadBatch).subscribe(
       (data: any) => {
         this.studentList = data.studentsAssigned;
-        console.log(data.studentsAssigned)
         // this.getCheckedBox(this.studentsAssigned);
         this.auth.hideLoader();
       },

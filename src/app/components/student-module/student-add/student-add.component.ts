@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Pipe, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Console } from 'console';
 import * as moment from 'moment';
 // import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
@@ -222,7 +223,8 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     deleteCourse_SubjectUnPaidFeeSchedules: false,
     archivedStudent: false,
     studentFileUploadJson: [],
-    assigned_to_id: "0"
+    assigned_to_id: "0",
+    optional_subject_id: []
   };
 
   enqAssignTo: any = [];
@@ -347,7 +349,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     if (this.isProfessional) {
       this.updateBatchList();
     }
-    else if (!this.isProfessional) {
+    else if (!this.isProfessional && !this.schoolModel) {
       this.studentAddFormData.standard_id = (!!this.studentAddFormData.standard_id) ? this.studentAddFormData.standard_id : -1;
       this.updateMasterCourseList(this.studentAddFormData.standard_id);
     }
@@ -543,6 +545,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
         if (el.academic_year_id == '-1') {
           el.academic_year_id = this.defaultAcadYear;
         }
+        el.optional_subject_id = '';
         let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
         this.batchList.push(obj);
       });
@@ -560,7 +563,14 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
   }
 
 
@@ -930,6 +940,7 @@ export class StudentAddComponent implements OnInit, OnDestroy {
     this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = false;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
+    this.studentAddFormData.optional_subject_id = e.optional_subject_id;
   }
 
   getSlots() {
@@ -2680,7 +2691,11 @@ export class StudentAddComponent implements OnInit, OnDestroy {
       this.msgToast.showErrorMessage('success', '', "File deleted successfully");
     }
   }
-
+  fetchCourseListByStdId(standard_id){
+    if(this.schoolModel){
+      this.updateMasterCourseList(standard_id);
+    }
+  }
 }
 
 
@@ -2699,4 +2714,4 @@ export class SortPipe {
     });
     return array;
   }
-}
+  }

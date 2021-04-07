@@ -1,0 +1,103 @@
+<div class="master-wrapper clearFix">
+  <section class="header-section">
+    <div class="header-full">
+      <button class="btn fullBlue pull-right" (click)="isExamTypeUpdate = false;" style="margin-bottom: 10px;" data-target="#addExamType"
+        data-toggle="modal">
+        + Add Exam Type
+      </button>
+    </div>
+  </section>
+  <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
+    [rowColumnSetting]="rowColumns" (editView)='openEditExamTypeModal($event)' (deleteView)='deleteExamType($event)'>
+  </app-basic-table>
+</div>
+<!--add exam Type-->
+<div class="modal fade" id="addExamType" data-backdrop="static" role="dialog" tabindex="-1" style="margin-top: 3%;" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="clearData()" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title" style="margin-bottom: 0;">{{isExamTypeUpdate ? 'Update Exam Type' : 'Create Exam Type'}}
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="field-wrapper">
+          <label>Exam Type<span class="text-danger">*</span></label>
+          <div class="dropdown-div pt-2">
+            <input class="dropdown" type="text" [(ngModel)]="addExamType.exam_type" placeholder=" Enter Exam Type" />
+          </div>
+        </div>
+        <div class="field-wrapper">
+          <label>Description</label>
+          <div class="dropdown-div pt-2">
+            <input class="dropdown" type="text" [(ngModel)]="addExamType.description"
+              placeholder=" Enter Description" />
+          </div>
+        </div>
+        <div class="field-wrapper datePickerBox" style="width: 50%;">
+          <label>Date<span class="text-danger">*</span></label>
+          <div class="dropdown-div pt-2">
+            <input type="text" class="form-ctrl dropdown" style="width: 100%;" readonly="true" name="startDate"
+              id="startDate" [(ngModel)]="addExamType.date" bsDatepicker />
+          </div>
+        </div>
+        <!-- <div class="field-wrapper">
+          <label>Status</label>
+          <div class="dropdown-div">
+            <select class="dropdown" [(ngModel)]="addExamType.is_active">
+              <option value="Y">Y</option>
+              <option value="N">N</option>
+            </select>
+          </div>
+        </div> -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearData()">Close</button>
+          <button type="button" class="btn btn-primary create-btn"
+            (click)="addUpdateExamType()">{{isExamTypeUpdate?'Update':'Create'}}</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--update exam type-->
+  <div class="modal fade" id="updateExamTypeModel" role="dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Exam Type</h3>
+        </div>
+        <div class="modal-body">
+          <div class="field-wrapper">
+            <label>Exam Type</label>
+            <div class="dropdown-div pt-2">
+              <input class="dropdown" type="text" [(ngModel)]="addExamType.exam_type" />
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label>Description</label>
+            <div class="dropdown-div pt-2">
+              <input class="dropdown" type="text" [(ngModel)]="addExamType.description" />
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label>Status</label>
+            <div class="dropdown-div">
+              <select class="dropdown" [(ngModel)]="addExamType.is_active">
+                <option value="Y">Y</option>
+                <option value="N">N</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary create-btn" (click)="updateExamType()">Update</button>
+        </div>
+      </div>
+
+    </div>
+  </div>

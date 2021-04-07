@@ -79,7 +79,14 @@ export class FeeTemplateAddComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.showDefaultTemplate = sessionStorage.getItem('enable_fee_template_country_wise');
     this.tax_type_without_percentage=sessionStorage.getItem("tax_type_without_percentage");

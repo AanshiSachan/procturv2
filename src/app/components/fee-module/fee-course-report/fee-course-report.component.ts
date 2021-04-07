@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { ExcelService } from '../../../services/excel.service';
@@ -111,7 +112,8 @@ export class FeeCourseReportComponent implements OnInit {
     private putter: PostFeeService,
     private auth: AuthenticatorService,
     private pdf: ExportToPdfService,
-    private _commService:CommonServiceFactory
+    private _commService:CommonServiceFactory,
+    private httpService: HttpService
   ) {
     // this.switchActiveView('fee');
   }
@@ -131,7 +133,14 @@ export class FeeCourseReportComponent implements OnInit {
       }
     )
     // changes by Nalini - to handle school model conditions
-    this.schoolModel = this.auth.schoolModel == 'true' ? true : false;
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.fetchPrefillDetails();
 
     this.form.valueChanges
@@ -273,9 +282,35 @@ export class FeeCourseReportComponent implements OnInit {
       this.updateMasterCourseBatch();
     }
     else {
-      this.updateMasterCourse();
+      this.schoolModel ? this.getStandard() : this.updateMasterCourse();
     }
   }
+
+  getStandard() {
+    this.auth.showLoader();
+    this.httpService.getData('/api/v1/courseMaster/standard-section-list/'+sessionStorage.getItem('institute_id')).subscribe(
+      (res:any)=>{
+        this.auth.hideLoader();
+        this.standardList = res.result;
+      },
+      err => {
+        this.auth.hideLoader();
+        this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+      }
+    )
+  }
+
+  getCourseList(ev) {
+    this.courseFetchForm.subject_id = "-1";    
+    this.subjectList = [];
+    let standard_obj = this.standardList.filter(
+      (standard) => (ev == standard.standard_id)
+    );
+    if(standard_obj && standard_obj.length) {
+      this.subjectList = standard_obj[0].section_list;
+    }
+  }
+
 
 
   /* ===================================================================================================== */
@@ -489,6 +524,10 @@ export class FeeCourseReportComponent implements OnInit {
       )
     }
     else {
+      if(this.schoolModel) {
+        this.getCourseList(this.courseFetchForm.standard_id);
+        this.auth.hideLoader();
+      } else {
       let id = this.courseFetchForm.standard_id.replace(/ /g, "%20");
       this.getter.getCourseData(id).subscribe(
         res => {
@@ -502,6 +541,7 @@ export class FeeCourseReportComponent implements OnInit {
         }
       )
     }
+  }
   }
 
   applyAcademicYear(course_id) {

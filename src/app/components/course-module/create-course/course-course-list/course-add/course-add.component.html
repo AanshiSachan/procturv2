@@ -54,7 +54,7 @@
         <div class="field-wrapper">
           <!-- changes by Nalini - to handle school model conditions -->
           <label for="masterCourse">{{schoolModel ? 'Section' : 'Course'}} Name
-           <span class="text-danger">*</span>
+            <span class="text-danger">*</span>
           </label>
           <input type="text" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name"
             class="form-ctrl" />
@@ -85,10 +85,12 @@
 
       <div class="c-sm-2 c-md-2 c-lg-2">
         <div class="field-wrapper">
-          <label for="endDate">Academic Year </label>
-          <select class="form-ctrl" [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
-            <option value="-1">Select</option>
-            <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+          <label for="endDate">Academic Year
+            <span class="text-danger">*</span>
+          </label>
+          <select class="form-ctrl" [(ngModel)]="courseDetails.academic_year_id"
+            (ngModelChange)="setStartAdEndDate(courseDetails)" style="background: transparent">
+            <option *ngFor="let opt of academicList"  [value]="opt.inst_acad_year_id">
               {{opt.inst_acad_year}}
             </option>
           </select>
@@ -108,13 +110,13 @@
         <thead>
           <tr>
             <th>
-              Allocate Subject
+             Select Subject 
             </th>
             <th>
               Subject Name
             </th>
             <th>
-              Allocate Faculty <span class="text-danger">*</span>
+              Select Faculty <span class="text-danger">*</span>
             </th>
           </tr>
         </thead>
@@ -128,13 +130,13 @@
               </div>
             </td>
             <td>
-              {{row.subject_name}}
+              {{row.is_optional=='Y'?row.subject_name+'(Optional)':row.subject_name}}
             </td>
             <td>
               <div class="field-wrapper">
-                <select class="form-ctrl" [(ngModel)]="row.selected_teacher">
+                <select class="form-ctrl" [(ngModel)]="row.selected_teacher" (ngModelChange)="checkMoreOption(row)">
                   <option value="-1"></option>
-                  <option *ngFor="let opt of activeTeachers" [value]="opt.teacher_id">
+                  <option *ngFor="let opt of row.allowedTeacher" [value]="opt.teacher_id">
                     {{opt.teacher_name}}
                   </option>
                 </select>
@@ -200,7 +202,7 @@
                     <td style="width:20%">
                       <select class="form-ctrl" [(ngModel)]="row.academic_year_id">
                         <option value="-1">Select</option>
-                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                        <option *ngFor="let opt of academicList"  [selected]="opt.default_academic_year==1" [value]="opt.inst_acad_year_id">
                           {{opt.inst_acad_year}}
                         </option>
                       </select>
@@ -228,7 +230,7 @@
               <div class="row name-section">
                 <div class="field-wrapper c-sm-3 c-md-3 c-lg-3">
                   <label for="masterCourse">{{schoolModel ? 'Section' : 'Course'}} Name
-                   <span class="text-danger">*</span>
+                    <span class="text-danger">*</span>
                   </label>
                   <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="row.course_name"
                     id="masterCourse" class="form-ctrl" />
@@ -255,7 +257,8 @@
                     <label for="endDate">Academic Year </label>
                     <select class="form-ctrl" [(ngModel)]="row.academic_year_id">
                       <option value="-1">Select</option>
-                      <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                      <option *ngFor="let opt of academicList"  [selected]="opt.default_academic_year==1"
+                        [value]="opt.inst_acad_year_id">
                         {{opt.inst_acad_year}}
                       </option>
                     </select>
@@ -275,13 +278,13 @@
                   <thead>
                     <tr>
                       <th>
-                        Allocate Subject
+                        Select Subject
                       </th>
                       <th>
                         Subject Name
                       </th>
                       <th>
-                        Allocate Faculty
+                        Select Faculty
                       </th>
                     </tr>
                   </thead>

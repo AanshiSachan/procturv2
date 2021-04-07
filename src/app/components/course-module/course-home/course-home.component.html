@@ -21,7 +21,7 @@
    <!-- <div class="course-menu-item" routerLink="/view/course/create" *ngIf="jsonFlags.isShowModel">
       <div class="menu-title">
         <img src="./assets/images/course/create-course.svg" alt="create course">
-        <span>Manage Course</span>
+        <span>Manage {{schoolModel ? 'Section' : 'Course'}}</span>
       </div>
       <div class="menu-description">
         <span> Manage Standards / Subjects / Topics / Courses, along with Class & Exam Scheduling.</span>
@@ -102,7 +102,7 @@
         <span>Tags are used in Online Exams for better analysis of student performance.</span>
       </div>
     </div>-->
-    <div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping" routerLink="../ecoursemapping">
+    <div class="course-menu-item" *ngIf="jsonFlags.isShowEcourseMapping && !schoolModel" routerLink="../ecoursemapping">
       <div class="menu-title">
         <img src="./assets/images/activity/ecourse.svg" alt="">
         <span>eCourse Mapping</span>
@@ -114,7 +114,7 @@
           Products.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving">
+    <div class="course-menu-item" routerLink="/view/course/archiving" *ngIf="jsonFlags.isShowArchiving && !schoolModel">
       <div class="menu-title">
         <img src="./assets/images/activity/archive.svg" alt="archiving">
         <span>Data Archiving</span>
@@ -214,7 +214,7 @@
         <span>Student Attendance & Exam Reports for Analysis and Printing.</span>
       </div>
     </div>
-    <div class="course-menu-item" routerLink="../master-tag">
+    <div class="course-menu-item" *ngIf="!schoolModel" routerLink="../master-tag">
       <div class="menu-title">
         <img src="./assets/images/activity/manage_tag.svg" alt="">
         <span>Manage Tag</span>

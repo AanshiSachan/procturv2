@@ -66,7 +66,7 @@ export class ManageExamGradesComponent implements OnInit {
     if (this.addData.description == "" || this.addData.grade == "" || this.addData.description == null || this.addData.grade == null) {
       let msg = {
         type: "error",
-        title: "Incorrect Details",
+        title: "",
         body: "All fields Are required"
       }
       this.appC.popToast(msg);
@@ -130,7 +130,7 @@ export class ManageExamGradesComponent implements OnInit {
       error => {
         let acad = {
           type: "error",
-          title: "Incorrect Details",
+          title: "",
           body: error.error.message
         }
         this.appC.popToast(acad);
