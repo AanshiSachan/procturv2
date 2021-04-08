@@ -479,6 +479,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList() {
+    if(this.newEnqData.state_id != '') {
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -493,6 +494,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   getAreaList() {
