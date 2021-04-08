@@ -309,8 +309,8 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-            // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
+           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+           //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
         }
       )
     
@@ -352,8 +352,8 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
-           // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+          //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
+           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
        
         }
 
@@ -373,8 +373,8 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-          this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
-           // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+        //  this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
+           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
        
         });
     }
@@ -433,8 +433,8 @@ export class CategoryComponent implements OnInit {
       this.getAssetDetails();
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Code/ Name  is Duplicate");
-            // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+          //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Code/ Name  is Duplicate");
+             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
        
         })
     }
@@ -520,8 +520,8 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate");
-      // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+       //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate");
+     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
         }
 
       )
@@ -541,8 +541,8 @@ export class CategoryComponent implements OnInit {
 
       },
         err => {
-          this.msgService.showErrorMessage('warning', '', 'Asset is being assigned to an user');
-            // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+         // this.msgService.showErrorMessage('warning', '', 'Asset is being assigned to an user');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
          
         })
     }

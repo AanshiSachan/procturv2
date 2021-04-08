@@ -74,13 +74,13 @@
                    <h4 class="title-model"> Assets Category</h4>
                     <form id="form1" #assetcat="ngForm" autocomplete="off">
                     
-                            <div class="form-group" [class.has-error]="categoryCode.invalid && categoryCode.touched">
+                            <div class="form-group" >
                                 <input type="text" class="form-control" name="category_code" id="category_code"
-                                    placeholder="Code *" [(ngModel)]="category_model.category_code"
-                                    #categoryCode="ngModel" required>
+                                    placeholder="Category Code (Eg: ELEC01)" [(ngModel)]="category_model.category_code"
+                                    #categoryCode="ngModel" >
                             </div>
-                          <p class="errormsg"> <span class="help-block" *ngIf="!categoryCode.valid && categoryCode.touched">
-                                Category code is mandatory
+                          <p class="errormsg"> <span class="help-block" >
+                             
                             </span></p> 
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
                                 <input type="text" class="form-control" name="category_name" id="category_name"
@@ -115,12 +115,11 @@
                 <div class="modal-body">
                     <h4 class="title-model">Add Asset</h4>
                     <form id="form1" #assetaddForm="ngForm" autocomplete="off">
-                        <div class="form-group" [class.has-error]="asset_code.invalid && asset_code.touched">
+                        <div class="form-group">
                             <input type="text" class="form-control" name="asset_code" id="asset_code"
-                                placeholder="Code*" [(ngModel)]="model.asset_code" #asset_code="ngModel" required>
+                                placeholder="Asset Code (Eg: LATP01)" [(ngModel)]="model.asset_code" >
                         </div>
-                        <p class="errormsg"><span class="help-block" *ngIf="asset_code.invalid && asset_code.touched">Asset code  is
-                            mandatory</span></p>
+                        <p class="errormsg"><span class="help-block" ></span></p>
                         <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id" required #category_id="ngModel">

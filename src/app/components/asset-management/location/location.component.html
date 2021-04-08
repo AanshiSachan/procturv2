@@ -49,13 +49,13 @@
                        <h4 class="title-model" *ngIf="!isedit">Add Location</h4>
                         <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Location</h4>
                         <form id="form1" #locationaddForm="ngForm" autocomplete="off">
-                          <div class="form-group" [class.has-error]="locationId.invalid && locationId.touched">
+                          <div class="form-group" >
                                 <input type="text" class="form-control" name="location_code" id="location_code"
-                                    placeholder="Code* " [(ngModel)]="model.location_code" #locationId="ngModel"
-                                    required>
+                                    placeholder="Location (Eg: CH01)" [(ngModel)]="model.location_code" 
+                                   >
                             </div>
-                         <p class="errormsg"><span  class="help-block" *ngIf="!locationId.valid && locationId.touched">
-                             Location code is mandatory
+                         <p class="errormsg"><span  class="help-block">
+                            
                         </span></p> 
                             <div class="form-group" [class.has-error]="location_code.invalid && location_code.touched">
                                 <input type="text" class="form-control" name="location_name" id="location_code"

@@ -162,8 +162,8 @@ export class LocationComponent implements OnInit {
           this.getLocationDetails();
         },
         err => {
-              // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
+             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+  // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
         }
       )
     }
@@ -207,9 +207,9 @@ export class LocationComponent implements OnInit {
       },
         err => {
           
-                 // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
       
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
+          //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
          this.auth.hideLoader();
         })
     }
@@ -236,8 +236,8 @@ export class LocationComponent implements OnInit {
           this.getLocationDetails();
         },
         err => {
-                  // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-           this.msgService.showErrorMessage('error', '', 'Location can not be  deleted asset linked to this location');
+               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+         //  this.msgService.showErrorMessage('error', '', 'Location can not be  deleted asset linked to this location');
           this.auth.hideLoader();
         }
       );

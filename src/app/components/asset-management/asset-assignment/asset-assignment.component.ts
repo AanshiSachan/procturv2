@@ -244,8 +244,8 @@ export class AssetAssignmentComponent implements OnInit {
         $('#modelforassetAssign').modal('hide');
       },
         err => {
-                    // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Requested asset quantity is more than available" );
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+        //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Requested asset quantity is more than available" );
       
         })
     }
@@ -304,7 +304,7 @@ export class AssetAssignmentComponent implements OnInit {
         this.auth.showLoader();
       },
       err => {
-                 // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
             
         this.auth.hideLoader();
       }
@@ -326,7 +326,7 @@ export class AssetAssignmentComponent implements OnInit {
    
     },
       err => {
-                   // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
         
         this.auth.hideLoader();
 
