@@ -117,17 +117,19 @@
            
            <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
               onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+              (ngModelChange)="purchaselist(data,data.unit_cost,data.available_units)"
               [disabled]="status" class="input wid80">
           </div>
           <div>
           
             <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" [disabled]="status"
              [(ngModel)]="data.available_units"
+             (ngModelChange)="purchaselist(data,data.unit_cost,data.available_units)"
                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" class="input wid80"
             >
           </div>
           <div>
-            {{data.subtotal}}
+            {{data.available_units * data.unit_cost }}
           </div>
           <div>
             <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit"

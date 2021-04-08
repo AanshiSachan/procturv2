@@ -59,13 +59,14 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   }
   ngDoCheck() {
     //this.totals(obj);
+    
   }
   private _title: string;
 
   getCategoryItem(obj) {
     this.itemData = [];
     this.model.purchased_item_list = [];
-
+    this.isChange = false;
     // this.auth.showLoader();
     console.log(obj)
     this.httpService.getData(this.url + 'purchase/getCategoryAndItem?supplierId=' + obj + '&instituteId=' + this.model.institute_id).subscribe(
@@ -109,12 +110,14 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   getItemData(id) {
     this.itemArray.forEach(elements => {
-      if (elements && elements.item_id == id) {   
+      if (elements && elements.item_id == id) {
         this.itemData.push(elements);
-        let data =elements;
-         console.log(this.itemData);
-              let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
-            this.model.purchased_item_list.push(purchaselist);
+        let data = elements;
+        console.log(this.itemData);
+
+        // let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
+        // this.model.purchased_item_list.push(purchaselist);
+        // console.log(purchaselist)
       }
     })
 
@@ -123,7 +126,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     // // this.itemData
     // let id = e;
     // id = +id;
-    // this.isChange = true;
+    this.isChange = true;
     // this.itemArray.forEach(element => {
     //   if (element && element.item_id == id) {
     //     let data = element;
@@ -136,7 +139,18 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     // })
     // console.log(this.itemData)
   }
-
+  subtotal;
+  purchaselist(data, b, c) {
+    console.log(data);
+    console.log(b);
+    console.log(c);
+    this.subtotal = c * b;
+    console.log(this.subtotal);
+    this.total = this.total + this.subtotal;
+    let purchaselist = { "item_id": data.item_id, "quantity": b, "unit_price": c };
+    this.model.purchased_item_list.push(purchaselist);
+    console.log(purchaselist);
+  }
   //delete item row
   deleteItemData(id) {
     this.model.purchased_item_list.forEach((element, index) => {
@@ -154,22 +168,21 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   available_units: number
   isChange: boolean = false;
   totals(obj) {
-    console.log(obj)
-    this.isChange = true;
-    obj.subtotal = obj.unit_cost * obj.available_units;
-    console.log(obj.subtotal)
-    obj.Prevsubtotal = obj.unit_cost * obj.available_units;
-    console.log(obj.Prevsubtotal)
-
-    console.log(obj.Prevsubtotal)
-    this.total = this.total - obj.Prevsubtotal;
-    this.total = this.total + obj.subtotal;
-    obj.Prevsubtotal = obj.subtotal;
-    console.log(this.total);
-    let newdata = this.itemArray.map(data => {
-      return { "subtotal": data.subtotal, "Prevsubtotal": data.Prevsubtotal, "total": data }
-    })
-    console.log(newdata)
+    // console.log(obj)
+    // this.isChange = true;
+    // obj.subtotal = obj.unit_cost * obj.available_units;
+    // console.log(obj.subtotal)
+    // obj.Prevsubtotal = obj.unit_cost * obj.available_units;
+    // console.log(obj.Prevsubtotal)
+    // console.log(obj.Prevsubtotal)
+    // this.total = this.total - obj.Prevsubtotal;
+    // this.total = this.total + obj.subtotal;
+    // obj.Prevsubtotal = obj.subtotal;
+    // console.log(this.total);
+    // let newdata = this.itemArray.map(data => {
+    //   return { "subtotal": data.subtotal, "Prevsubtotal": data.Prevsubtotal, "total": data }
+    // })
+    // console.log(newdata)
   }
   savePurchaseData() {
     //this.router.navigate(['/view/inventory-management/purchase-item']);
