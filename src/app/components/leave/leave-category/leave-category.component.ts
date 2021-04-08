@@ -137,6 +137,8 @@ this.httpService.putData(url, obj).subscribe((res :any)=>{
 
   this.msgService.showErrorMessage('success', '', "Leave updated successfully");
   $('#editModal').modal('hide');
+  
+
 
 
 },
@@ -201,6 +203,8 @@ this.leaveSearchInput = "";
 closePopups($event) {
   $('#addModal').modal('hide');
   this.closePopup.emit(false);
+  backdrop: 'static'
+
   
 }
 

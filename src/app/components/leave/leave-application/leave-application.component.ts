@@ -97,6 +97,16 @@ fetchTableDataByPage(index){
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
         this.varJson.total_item = this.leaveApplicationList.length;
+        for(let i=0; i < this.leaveApplicationList.length;i++){
+          this.leaveApplicationList[i].no_of_days = this.leaveApllicationmodel.days;
+        var  from = moment(this.leaveApplicationList[i].from);
+         var to = moment(this.leaveApplicationList[i].to);
+        let  diff= to.diff(from, 'days') // 1
+          this.leaveApllicationmodel.days = diff;
+
+        }
+        console.log("DAYS",this.leaveApllicationmodel.days)
+
         // alert(this.varJson.total_item)
         console.log("mrunali",this.leaveApplicationList)
       },
@@ -140,6 +150,7 @@ getApplicationToList(){
 }
 
 createLeaveApplication(){
+  
   if(this.leaveApllicationmodel.userType.trim() != ''){
     if(this.leaveApllicationmodel.applicatioName.trim() != ''){
       if(this.leaveApllicationmodel.categoryName.trim() != ''){
@@ -208,12 +219,12 @@ editLeaveRow(obj){
 alert(obj.applied_to_user_id)
 
  this.leaveApllicationmodel.id = obj.id;
-if(obj.applied_by_role == 'Staff'){
-this.leaveApllicationmodel.userType = '0,9';
-}else if(obj.applied_by_role == 'Teacher'){
-  this.leaveApllicationmodel.userType = '3'
-}
-//this.leaveApllicationmodel.userType = obj.applied_by_role
+// if(obj.applied_by_role == 'Staff'){
+// this.leaveApllicationmodel.userType = '0,9';
+// }else if(obj.applied_by_role == 'Teacher'){
+//   this.leaveApllicationmodel.userType = '3'
+// }
+this.leaveApllicationmodel.userType = obj.applied_by_role
   this.leaveApllicationmodel.applicatioName = obj.applied_to_user_id;
   this.leaveApllicationmodel.categoryName = obj.type.id;
   this.leaveApllicationmodel.from = obj.from;

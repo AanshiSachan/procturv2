@@ -50,7 +50,7 @@
             </div>
              <div title="{{array?.to}}">{{array.to}}</div>
              <div title="{{array?.no_of_days}}">
-              {{ array.no_of_days}}
+              {{array.no_of_days}}
               <!-- {{calculateDiff(array.no_of_days)}} -->
              </div>
              <div>
@@ -60,7 +60,7 @@
 
              </div>
               <div>
-                <a href="" class="mr10" data-toggle="modal" data-target="#editModal" (click)="editLeaveRow(array)"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"  (click)="editLeaveRow(array)"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
                 <a href="" data-toggle="modal" data-target="#withdrawModal" (click)="deleteRow(array.id)"><img src="../../../assets/img/withdraw.svg" title="Withdraw" class="group18" ></a>
               </div>
             </div>
@@ -128,7 +128,7 @@
     </pagination>
   </div>
 </div>
- <div class="modal" id="addModal">
+ <div class="modal" id="addModal" data-backdrop="static" >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -171,7 +171,7 @@
       </div>
     </div>
   </div>
- <div class="modal" id="editModal">
+ <div class="modal" id="editModal" data-backdrop="static" >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -181,8 +181,8 @@
         <div class="modal-body">
          <div class="pt10">
             <!-- dropdown with search -->
-            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)">
-              <option value="" >Role*</option>
+            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)" >
+              <option>Role*</option>
               <option value="3">Teacher</option>
               <option value="0,9">Staff</option>
 
@@ -190,12 +190,14 @@
           </div>
           <div class="pt10">
             <select class="select wid100"  [(ngModel)]="leaveApllicationmodel.applicatioName">
-             
+              <option value="">Application To*</option>
               <option  [value]="list.user_id" *ngFor="let list of toApplicationList">{{list.name}}</option>
             </select>
           </div>
           <div class="pt10">
             <select class="select wid100" [(ngModel)]="leaveApllicationmodel.categoryName">
+              <option value="">Category*</option>
+
               <option [value]="item.id" *ngFor="let item of leaveTypeList">{{item.name}}</option>
             </select>
           </div>
