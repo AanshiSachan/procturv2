@@ -140,7 +140,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     // console.log(this.itemData)
   }
   subtotal;
-  purchaselist(data, b, c) {
+  purchaselistItem(data, b, c) {
     console.log(data);
     console.log(b);
     console.log(c);
