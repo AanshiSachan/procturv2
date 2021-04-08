@@ -1,14 +1,33 @@
  <div>
     <div class="w98 p-15">
+       <div class="display">
+       <div>
         <nav aria-label="breadcrumb ">
             <ol class="breadcrumb arr-right">
                 <li style="color: #0084f6;" class="breadcrumb-item "><a routerLink="/view/fee">Fees</a></li>
                 <li class="breadcrumb-item "><a>Setup</a></li>
-                <li ><a>Tax Setting {{is_tax_enabled?"Enabled":"Disable"}}</a>
-                <li><a>Fee Structure{{isFeeStructLinked?" ":" Not "}}Linked With {{schoolModel?"Standard":"Course"}}</a></li>
+                
             </ol>
            
         </nav>
+       </div>
+       <div>
+       <ul class="right_ul">
+            <li ><a>
+                <div class="tooltip1">Tax Setting {{is_tax_enabled?"Enabled":"Disable"}}
+                    <span class="tooltiptext1">Tooltip text</span>
+                  </div>
+            </a>
+            <li><a>
+                <div class="tooltip2">Fee Structure{{isFeeStructLinked?" ":" Not "}}Linked With {{schoolModel?"Standard":"Course"}}
+                    <span class="tooltiptext2">Tooltip text</span>
+                  </div>
+            </a></li>
+            
+       </ul>
+     
+       </div>
+       </div>
         <ul class="nav main-shadow">
             <li class="nav-item">
                 <a class="nav-link" (click)="toggle('fee_types')" routerLink="/view/fee/data-setup/fee-type"

@@ -3,7 +3,7 @@
     <div class="tab-content">
       <div id="fee_types" class="tab-pane active">
         <div class="padding1">
-          <input type="" class="input mr10" name="discountReason" [(ngModel)]="discountReason" placeholder="Discount Reason *">
+          <input type="" class="input mr10 wid240" name="discountReason" [(ngModel)]="discountReason" placeholder="Discount Reason *">
           <button class="blue_button" (click)="addNewDiscountReason()">Add</button>
         </div>
         <div class="fee_types">
@@ -18,7 +18,7 @@
               <div>{{data.reason}}</div>
               <div>{{data.created_date}}</div>
               <div><a (click)="editReason(data)"><img src="../../../../../assets/images/Edit.svg"
-                    class="size22" title="Edit"></a></div>
+                    class="size22 pointer" title="Edit"></a></div>
             </div>
           </div>
           </div>
@@ -51,7 +51,7 @@
         <div>
           <div><input type="" name="discountReason" [(ngModel)]="discountReason" class="input w100" placeholder="Discount Reason">
           </div>
-          <div class="padding1">
+          <div class="padding11">
             <span class="right">
               <button class="white_button mr10" (click)="clearData()">
                 Cancel

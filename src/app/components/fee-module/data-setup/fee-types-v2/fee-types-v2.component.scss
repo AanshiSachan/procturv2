@@ -28,9 +28,9 @@ body{
   color: #787A7D;
    -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url("../../../../../assets/images/fee/arrow-down.svg");
-  background-repeat: no-repeat;
-  background-position:210px center;
+  // background-image: url("../../../../../assets/images/fee/arrow-down.svg");
+  // background-repeat: no-repeat;
+  // background-position:210px center;
 }
 .input{
   padding: 7px 10px;
@@ -83,17 +83,23 @@ body{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 .fee_types .table_heading>div{
-  width: calc(100%  / 3);
+  width: 25%;
+  text-align: left;
+  padding-left: 20px;
 }
 .table_heading>div{
-  
-  text-align: center;
+
   font-weight: 600;
   font-size: 12px;
   color: #323C47;
  line-height: 40px;
 }
-
+.fee_types .table_heading>div:last-child,.fee_types .table_body>div:last-child{
+text-align: right;
+margin-left:auto;
+margin-right:0;
+padding-right: 50px;
+}
 .table_body{
    width: 100%;
   margin-bottom: 10px;
@@ -103,18 +109,17 @@ body{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 .table_body>div{
-  
-  text-align: center;
   font-weight: 500;
   font-size: 13px;
   color: #807C7C;
  /* padding: 5px 0px;*/
-   margin: auto;
    line-height: 40px;
 
 }
 .fee_types .table_body>div{
-  width: calc(100% / 3);
+  width: 25%;
+  text-align: left;
+  padding-left: 20px;
 }
 
 .discount .table_heading>div{
@@ -226,7 +231,7 @@ color: #0079FF;
   background-position:left center;
   text-indent: 15px;
 }
-.padding1{
+.padding11{
    margin-top: 20px;
 }
 .text{
@@ -284,6 +289,9 @@ color: #0079FF;
 }
 .fee_new .table_body>div:first-child{
   width: 50px;
+}
+.pointer{
+  cursor: pointer;
 }
 .wid80{
   width: 70%;
@@ -461,9 +469,7 @@ padding-left: 3.7rem;
   // .modal-header{
   //   padding-bottom: 0px;
   // }
-  #feetypesModal .modal-content, #discountModal .modal-content{
-    min-height: 300px;
-  }
+ 
   .left{
     float: left;
   }
@@ -471,6 +477,10 @@ padding-left: 3.7rem;
     padding-left: 50px;
   }
   .tableHeight{
-    height: 54vh;
+   // height: 54vh;
     overflow-y: auto;
+  }
+  .display{
+    display: flex;
+    justify-content: space-between;
   }

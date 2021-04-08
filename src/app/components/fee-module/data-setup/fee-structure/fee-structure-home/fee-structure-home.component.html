@@ -3,8 +3,7 @@
         <div class="tab-content">
             <div id="structure">
                 <div class="padding1">
-                    <input type="text" class="input magnifying-glass mr10" name="" placeholder="Search"
-                        [(ngModel)]="searchText" (keyup)="searchInList()">
+                    <input type="text" class="input magnifying-glass wid240" name="" placeholder="Search" [(ngModel)]="searchText" (keyup)="searchInList()">
                     <a routerLink='/view/fee/data-setup/fee-structure/add'> <button class="blue_button right">New
                             Structure</button></a>
                 </div>
@@ -37,15 +36,15 @@
                                     <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount | number }}</span></div>
                                     <div class="light wid50"><span class="left"></span></div>
                                 </div>
-                                <div><a (click)="studentsAssigned(data)" class="students_assigned" data-toggle="modal"
+                                <div><a (click)="studentsAssigned(data)" class="students_assigned pointer" data-toggle="modal"
                                         data-target="#myModal">{{data.totalAssignedStudent}}</a></div>
                                 <div>
                                     <!-- <a class="mr10"><img src="../../../../../assets/images/icon7.svg" title="View"
                                         class="size22"></a> -->
                                     <a class="mr10" (click)="editFeeStructure(data)"><img
-                                            src="../../../../../assets/images/EDit.png" title="Edit" class="size22"></a>
+                                            src="../../../../../assets/images/EDit.png" title="Edit" class="size22 pointer"></a>
                                     <a><img src="../../../../../assets/images/Group321.svg"
-                                            (click)="deleteFeeStructure(data)" title="Delete" class="size22"></a>
+                                            (click)="deleteFeeStructure(data)" title="Delete" class="size22 pointer"></a>
                                 </div>
                             </div>
                         </div>
@@ -54,14 +53,13 @@
             </div>
         </div>
     </div>
-    <div class="row filter-res pagination" style="width: 100%;">
+     <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
                 [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
             </pagination>
         </div>
-    </div>
-</div>
+      </div> 
 <!-- The Modal -->
 <div class="modal" id="myModal">
     <div class="modal-dialog">
@@ -99,7 +97,7 @@
                 <input type="checkbox" name="checked" style="margin-left: 50px; appearance: checkbox;" [(ngModel)]="is_default">  Is Default
                 <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
             </div>
-            <div class="modal-body" style="height: 422px;overflow: auto;">
+            <div class="modal-body" style="height: auto;overflow: auto;">
                 <span class="right relative" style="margin-bottom: 12px;">
                     <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax) ':''}}:<span>{{currencySymbol}} {{ totalFeeAmount | number }}</span></span>
                     <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax | number}}</p>
@@ -164,7 +162,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="padding1" style="margin-top: -63px;">
+                <div class="padding1" >
                     <span class="right">
                         <button class="white_button mr10" (click)="closePopUp()">
                             Cancel
