@@ -511,13 +511,18 @@
   
   .tooltip1 .tooltiptext1 {
     visibility: hidden;
-    width: 120px;
+    font-weight: 600;
+    font-size: 11px;
+    width: 400px;
+    line-height: 20px;
+    border: 1px solid #F1F3F6;
+    padding: 2px 6px;
     background-color: #fff;
     color: #000;
+    right: 1%;
+    top:0.6%;
     text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-  
+    border-radius: 6px;  
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
@@ -534,14 +539,18 @@
   
   .tooltip2 .tooltiptext2 {
     visibility: hidden;
-    width: 120px;
     background-color: #fff;
     color: #000;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
-    right: 10%;
-    top:1%;
+    right: 1%;
+    width: 400px;
+    top:0.8%;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 20px;
+    border: 1px solid #F1F3F6;
+    padding: 2px 6px;    
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
