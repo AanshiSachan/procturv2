@@ -24,6 +24,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   total: number = 0;
   isedit: any;
   editId;
+  isDisable=false;
+  
   @ViewChild('purchaseForm', { static: false }) purchaseForm: NgForm;
   url = `/api/v1/inventory/`;
   model = {
@@ -36,7 +38,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     total_paid_amount: 0,
     is_refunded: false,
     purchased_item_list: [],
-
+    supplier_company_name:'',
+    bill_image_url:''
   }
 
   constructor(
@@ -56,6 +59,13 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.getVendorDetails();
     this.editId = this._Activatedroute.snapshot.paramMap.get("id");
+    if(this.editId ===undefined){
+       }
+       else{
+        this.editRow(this.editId);
+        this.isDisable =true;
+       }
+    
   }
   ngDoCheck() {
     //this.totals(obj);
@@ -260,9 +270,33 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
     }
   }
-
-  editRow() {
+  dataForEdit:any=[];
+  editRow(editId) {
+    this.isChange=true;
     this.isedit = false;
+    console.log(editId);
+    this.isDisable =true;
+    this.httpService.getData('/api/v1/inventory/purchase/'+editId +'?instituteId='+this.model.institute_id).subscribe( (res: any) => {
+      this.dataForEdit = res.result;
+      this.model =this.dataForEdit;
+     console.log(this.dataForEdit)
+      this.auth.hideLoader();
+      //console.log(this.editdata)
+    this.model.purchase_id=this.dataForEdit.purchase_id;
+    this.model.supplier_id=this.dataForEdit.supplier_company_name;
+    this.model.purchase_date=this.dataForEdit.purchase_date;
+    this.model.purchase_description=this.dataForEdit.purchase_description;
+   // this.model.purchased_item_list=this.dataForEdit.purchased_item_list;
+    this.model.total_amount =this.dataForEdit.total_amount;
+    this.model.bill_image_url =this.dataForEdit.bill_image_url;
+    this.itemData =this.dataForEdit.purchased_item_list;
+    this.model.purchased_item_list=[{item_id: 40, item_name: "Bags2", purchase_id: 1, quantity: 5}];
+   
+    },
+    err => {
+      this.auth.hideLoader();
+    })
+  
   }
   validateFutureDate() {
     let today = moment(new Date());

@@ -12,7 +12,7 @@
       <div class="heading1">
         <p>Purchase</p>
       </div>
-      <div class="pt102" [class.has-error]="supplier_id.invalid && supplier_id.touched">
+      <div class="pt102"  [class.has-error]="supplier_id.invalid && supplier_id.touched">
         <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
           #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" required>
           <option value="">
@@ -38,7 +38,7 @@
       <div class="pt102">
         <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
           [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
-          [(ngModel)]="bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+          [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
       <p class="errormsg"><span style="height:10px;" class="help-block">
         </span></p>

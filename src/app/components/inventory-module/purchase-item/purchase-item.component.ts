@@ -79,6 +79,7 @@ export class PurchaseItemComponent implements OnInit {
             obj.balanced_amount=keys.balanced_amount;
             obj.bill_image_url=keys.bill_image_url;
             obj.paid_amount =keys.paid_amount;
+            obj.purchase_id=keys.purchase_id;
             console.log(obj);
             this.purchaseAllData.push(obj)
           }
