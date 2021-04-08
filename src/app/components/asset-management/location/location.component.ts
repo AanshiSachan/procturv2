@@ -17,20 +17,20 @@ declare var $;
 })
 export class LocationComponent implements OnInit {
   @ViewChild('locationaddForm', { static: false }) locationaddForm: NgForm;
-  model: Location = new Location();
-  isedit = false;
-  submitted = false;
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
   displayBatchSize: number = 25;
-  staticPageData: any = [];
+  headerSetting: any;
+  isedit = false;
   locationDataforDownload:[];
+  model: Location = new Location();
+  pageIndex: number = 1;
+  rowColumns: any;
   searchParams: any;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  staticPageData: any = [];
+  submitted = false;
+  tableSetting: any;
   tempLocationList = []; 
+  totalRecords: number = 0;
   locationData = {
     institute_id: sessionStorage.getItem('institute_id'),
     location_code: null,

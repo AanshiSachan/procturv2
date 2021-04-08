@@ -8,8 +8,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { element } from 'protractor';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
-
-@Component({
+ @Component({
   selector: 'app-purchase-add',
   templateUrl: './purchase-add.component.html',
   styleUrls: ['./purchase-add.component.scss']

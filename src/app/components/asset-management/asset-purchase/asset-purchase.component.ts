@@ -16,26 +16,26 @@ declare var $;
   styleUrls: ['./asset-purchase.component.scss']
 })
 export class AssetPurchaseComponent implements OnInit {
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
+  assetAllData: any = [];
+  assetcategoryData: any = [];
+  bill_image_url: any;
   displayBatchSize: number = 25;
+  headerSetting: any;
+  isedit: any;
+  locationAllData: any = [];
+  pageIndex: number = 1;
+  purchaseAllData: any = [];
+  purchaseby: any;
+  purchaseDataforDownload: [];
+  rowColumns: any;
+  searchParams: any;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   staticPageData: any = [];
   staticPageDataSouece: any = [];
-  isedit: any;
-  purchaseAllData: any = [];
-  searchParams: any;
-  purchaseby: any;
-  bill_image_url: any;
-  assetcategoryData: any = [];
-  assetAllData: any = [];
-  locationAllData: any = [];
-  vendorAllData: any = [];
+  tableSetting: any;
   tempLocationList: any;
-  purchaseDataforDownload: [];
+  totalRecords: number = 0;
+  vendorAllData: any = [];
   model = {
     id: '',
      asset_id: '',
@@ -281,7 +281,7 @@ export class AssetPurchaseComponent implements OnInit {
           this.getPurchaseDetails();
         },
         err => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
       //  this.msgService.showErrorMessage('error', '', "err.response");
          this.auth.hideLoader();
         }

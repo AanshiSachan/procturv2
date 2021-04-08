@@ -12,35 +12,35 @@ declare var $;
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  institute_id = sessionStorage.getItem('institute_id');
-  tempLocationList: any;
-  show: boolean = true;
-  is_asset_cat: boolean = true;
-  is_asset: boolean = false;
-  activeclass: string;
-  isadd: boolean;
-  isUpdate: boolean;
+ 
+  //basic-table declaration for category
   active: boolean = false;
   activeb: boolean = true;
-  headerSettingForAsset: any;
-  tableSettingForAsset: any;
-  rowColumnForAsset: any;
+  activeclass: string;
   assetAllData: any = [];
-  staticPageDataForAsset: any = [];
-  searchParams: any;
-  //basic-table declaration for category
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
-  displayBatchSize: number = 25;
   assetcategoryData: any = [];
-  staticPageData: any = [];
-  locationData: any = [];
   catDataToDownload:[];
- 
+  displayBatchSize: number = 25;
+  headerSetting: any;
+  headerSettingForAsset: any;
+  institute_id = sessionStorage.getItem('institute_id');
+  is_asset_cat: boolean = true;
+  is_asset: boolean = false;
+  isadd: boolean;
+  isUpdate: boolean;
+  locationData: any = [];
+  pageIndex: number = 1;
+  rowColumnForAsset: any;
+  rowColumns: any;
+  searchParams: any;
+  show: boolean = true;
+  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
+  staticPageData: any = [];
+  staticPageDataForAsset: any = [];
+  tableSetting: any;
+  tableSettingForAsset: any;
+  tempLocationList: any;
+  totalRecords: number = 0;
   @ViewChild('assetcat', { static: false }) assetcat: NgForm;
   isedit;
   submitted = false;
@@ -310,7 +310,6 @@ export class CategoryComponent implements OnInit {
       },
         err => {
            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-           //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
         }
       )
     
@@ -353,8 +352,7 @@ export class CategoryComponent implements OnInit {
       },
         err => {
           //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
-           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-       
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
 
       )
@@ -374,8 +372,8 @@ export class CategoryComponent implements OnInit {
       },
         err => {
         //  this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
-           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-       
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+      
         });
     }
   }
@@ -433,8 +431,7 @@ export class CategoryComponent implements OnInit {
       this.getAssetDetails();
       },
         err => {
-          //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Code/ Name  is Duplicate");
-             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
        
         })
     }
@@ -520,7 +517,6 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-       //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate");
      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
 
@@ -541,9 +537,8 @@ export class CategoryComponent implements OnInit {
 
       },
         err => {
-         // this.msgService.showErrorMessage('warning', '', 'Asset is being assigned to an user');
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-         
+         this.msgService.showErrorMessage('error', '', 'Asset is being assigned to an user');
+         //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         })
     }
   }
