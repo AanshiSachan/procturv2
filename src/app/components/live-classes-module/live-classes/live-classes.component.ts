@@ -1456,6 +1456,9 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         this.isUploding = false;
       }
     } else {
+      this.progress = 0;
+      this.progressBar = false;
+      this.isUploding = false;
       $('#uploadRec').modal('hide');
     }
   }

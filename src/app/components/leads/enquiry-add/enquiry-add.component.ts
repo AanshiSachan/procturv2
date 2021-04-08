@@ -498,6 +498,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
   }
 
   getAreaList() {
+    if (this.newEnqData.city_id != "" && this.newEnqData.city_id != "-1") {
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -512,6 +513,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   toggleAddArea() {
