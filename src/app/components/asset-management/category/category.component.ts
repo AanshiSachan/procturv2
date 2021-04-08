@@ -47,7 +47,7 @@ export class CategoryComponent implements OnInit {
   category_model = {
     id: '',
     active: true,
-    category_code: '',
+    category_code:null,
     category_name: '',
     institute_id: sessionStorage.getItem('institute_id')
   }
@@ -309,7 +309,7 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
            //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
         }
       )
@@ -384,7 +384,7 @@ export class CategoryComponent implements OnInit {
   model = {
     active: true,
     category_id: '-1',
-    asset_code: '',
+    asset_code:null,
     asset_condition: -1,
     location_ids: [],
     asset_name: '',
@@ -434,7 +434,7 @@ export class CategoryComponent implements OnInit {
       },
         err => {
           //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Code/ Name  is Duplicate");
-             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
        
         })
     }
@@ -521,7 +521,7 @@ export class CategoryComponent implements OnInit {
       },
         err => {
        //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate");
-     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
 
       )
@@ -739,7 +739,7 @@ assetDownloadPdf(){
     this.isedit = false;
     this.category_model = {
       active: true,
-      category_code: '',
+      category_code: null,
       category_name: '',
       institute_id: sessionStorage.getItem('institute_id'),
       id: ''
@@ -747,7 +747,7 @@ assetDownloadPdf(){
     this.model = {
       active: true,
       category_id: '-1',
-      asset_code: '',
+      asset_code:null,
       asset_condition: -1,
       location_ids: [],
       asset_name: '',

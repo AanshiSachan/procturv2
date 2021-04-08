@@ -33,7 +33,7 @@ export class LocationComponent implements OnInit {
   tempLocationList = []; 
   locationData = {
     institute_id: sessionStorage.getItem('institute_id'),
-    location_code: '',
+    location_code: null,
     location_description: '',
     location_name: '',
     active: true,
@@ -161,10 +161,11 @@ export class LocationComponent implements OnInit {
           $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },
-        err => {
-             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-  // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
-        }
+        (err:any) => {
+          console.log(err);
+    console.log(err.error);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+       }
       )
     }
     else {
@@ -206,11 +207,9 @@ export class LocationComponent implements OnInit {
         this.getLocationDetails();
       },
         err => {
-          
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-      
-          //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
-         this.auth.hideLoader();
+       
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+      this.auth.hideLoader();
         })
     }
     else {
@@ -220,7 +219,7 @@ export class LocationComponent implements OnInit {
  cancel(param) {
    this.locationaddForm.resetForm();
     this.isedit = param;
-    this.model.location_code = '';
+    this.model.location_code = null;
     this.model.location_description = '';
     this.model.location_name = '';
 
@@ -228,7 +227,7 @@ export class LocationComponent implements OnInit {
   deleteRow(obj) {
     let deleteconfirm = confirm("Are you really want to delete?");
     if (deleteconfirm == true) {
-      this.auth.showLoader();
+     // this.auth.showLoader();
       this.httpService.deleteMethod('api/v2/asset/location/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
         (res: any) => {
           this.auth.hideLoader();
@@ -236,8 +235,7 @@ export class LocationComponent implements OnInit {
           this.getLocationDetails();
         },
         err => {
-               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
-         //  this.msgService.showErrorMessage('error', '', 'Location can not be  deleted asset linked to this location');
+               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '',  "Cannot delete location because asset is mapped");
           this.auth.hideLoader();
         }
       );
