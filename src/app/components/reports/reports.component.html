@@ -143,7 +143,7 @@
             <hr class="content_hr" style="margin-left:-28px;">
           </div>
         </div>
-        <div class="row" *ngIf="JsonFlags.isShowExamReport">
+        <div class="row" *ngIf="JsonFlags.isShowExamReport && !schoolModel">
 
           <a routerLink="/view/course/reports/exam" class="icon_click"> <img
               src="./assets/images/Reporticons/examreport.png" alt=" "></a>
