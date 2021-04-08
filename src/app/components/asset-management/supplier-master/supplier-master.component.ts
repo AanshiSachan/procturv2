@@ -428,7 +428,8 @@ export class SupplierMasterComponent implements OnInit {
         },
         err => {
           // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-          this.msgService.showErrorMessage('error', '', ' Pending asset request for supplier');
+        this.msgService.showErrorMessage('error', '', ' Pending asset request for supplier');
+        this.auth.hideLoader();
         }
       );
     }

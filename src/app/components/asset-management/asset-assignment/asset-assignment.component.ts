@@ -245,8 +245,7 @@ export class AssetAssignmentComponent implements OnInit {
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-        //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Requested asset quantity is more than available" );
-      
+       
         })
     }
     else {

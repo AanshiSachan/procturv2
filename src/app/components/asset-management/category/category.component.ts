@@ -302,6 +302,9 @@ export class CategoryComponent implements OnInit {
   //crud for category
    saveCategoryDetails() {
     if (this.assetcat.valid) {
+      if(this.model.asset_code===''){
+        this.model.asset_code=null;
+      }
       this.httpService.postMethod('api/v2/asset/category/create', this.category_model).then((res) => {
         this.submitted = true;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Created Successfully ");
@@ -371,8 +374,7 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-        //  this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
       
         });
     }
@@ -503,6 +505,9 @@ export class CategoryComponent implements OnInit {
         institute_id: sessionStorage.getItem('institute_id'),
         quantity: this.model.quantity,
         id: this.model.id
+      }
+      if(this.model.asset_code===''){
+obj.asset_code = null;
       }
      let newasset: any = []
       let location_ids: any = obj.location_ids;

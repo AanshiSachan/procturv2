@@ -235,8 +235,8 @@ export class LocationComponent implements OnInit {
           this.getLocationDetails();
         },
         err => {
-               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '',  "Cannot delete location because asset is mapped");
-          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+         this.auth.hideLoader();
         }
       );
     }
