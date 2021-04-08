@@ -193,23 +193,23 @@ export class AddEditAccountComponent implements OnInit {
       return;
     }
 
-    if (this.accountDetails.accountNumber == '' && this.accountDetails.valuType == '0') {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
-      return
-    }
+    // if (this.accountDetails.accountNumber == '' && this.accountDetails.valuType == '0') {
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
+    //   return
+    // }
 
-    if (this.accountDetails.valuType == '0' && this.accountDetails.IFSC_Code == '' && this.accountDetails.accountType == '0') {
+    // if (this.accountDetails.valuType == '0' && this.accountDetails.IFSC_Code == '' && this.accountDetails.accountType == '0') {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
-      return
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
+    //   return
 
-    }
+    // }
 
-    if (this.accountDetails.accountDescription.trim() == '') {
+    // if (this.accountDetails.accountDescription.trim() == '') {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
-      return
-    }
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
+    //   return
+    // }
 
 
     if (this.accountDetails.valuType != '0' && this.accountDetails.valuType != '1') {
