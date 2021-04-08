@@ -428,6 +428,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList() {
+    if(this.newEnqData.state_id!='') {
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -442,9 +443,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   getAreaList() {
+    if(this.newEnqData.city_id!='') {
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -459,6 +462,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   toggleAddArea() {
