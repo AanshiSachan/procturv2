@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { FeeUpdateRoutingModule } from './fee-update-routing.module';
-import { FeeViewComponent } from './fee-view/fee-view.component';
-import { FeeUpdateComponent } from './fee-update/fee-update.component';
-
+import { UpdateComponent } from './update/update.component';
+import { ViewComponent } from './view/view.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [FeeViewComponent, FeeUpdateComponent],
+  declarations: [UpdateComponent, ViewComponent],
   imports: [
     CommonModule,
-    FeeUpdateRoutingModule
+    FeeUpdateRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class FeeUpdateModule { }

@@ -1,8 +1,29 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { FeeUpdateComponent } from './fee-update.component';
+import { UpdateComponent } from './update/update.component';
+import { ViewComponent } from './view/view.component';
 
-
-const routes: Routes = [];
+const routes: Routes = [
+  {
+        path: '',
+        component: FeeUpdateComponent,
+        children:[
+          {
+            path:'',
+            component: UpdateComponent
+          },
+          {
+            path: 'update-fee',
+            component: UpdateComponent
+          },
+          {
+            path: 'view-fee',
+            component: ViewComponent
+          }
+        ]
+      }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

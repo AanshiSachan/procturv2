@@ -1,0 +1,112 @@
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98">
+        <div class="page_heading">
+          <p>Fee Update</p>
+        </div>
+      </div>
+    </div>
+    <div class="w98">
+      <div class="pt15">
+        <select class="select mr10 wid160" *ngIf="schoolModel" (ngModelChange)="fetchSectionList($event)"
+          [(ngModel)]="model.standard_id">
+          <option value="-1">Standard*</option>
+          <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">{{data.standard_name}}</option>
+        </select>
+        <select class="select mr10 wid160" *ngIf="schoolModel" [(ngModel)]="model.course_id">
+          <option value="-1">Section</option>
+          <option *ngFor="let data of sectionList" [value]="data.course_id">{{data.course_name}}</option>
+        </select>
+        <select class="select mr10 wid160" *ngIf="!isProfessional && !schoolModel"
+          (ngModelChange)="fetchCoursesList($event)" [(ngModel)]="model.master_course">
+          <option value="">Master Course*</option>
+          <option *ngFor="let data of masterCourseList" [value]="data.master_course">{{data.master_course}} </option>
+        </select>
+        <select class="select mr10 wid160" *ngIf="!isProfessional && !schoolModel" [(ngModel)]="model.course_id">
+          <option value="-1">Course*</option>
+          <option *ngFor="let data of courseList" [value]="data.course_id">{{data.course_name}}</option>
+        </select>
+        <select class="select mr10 wid160" *ngIf="isProfessional" [(ngModel)]="model.standard_id"
+          (ngModelChange)="fetchBatch($event)">
+          <option value="-1">Master Course*</option>
+          <option *ngFor="let data of standardList" [value]="data.standard_id">{{data.standard_name}}</option>
+        </select>
+        <select class="select mr10 wid160" *ngIf="isProfessional" [(ngModel)]="model.batch_id">
+          <option value="-1">Batch*</option>
+          <option *ngFor="let data of batchList" [value]="data.batch_id">{{data.batch_name}}</option>
+        </select>
+        <select class="select mr10 wid160" *ngIf="countryDetails.length>1" [(ngModel)]="model.country_id"
+          style="width: 12%;">
+          <option value="-1">country</option>
+          <option [value]="data.id" *ngFor='let data of countryDetails'>
+            {{data.country_name}}
+        </select>
+        <select class="select mr10 wid160" [(ngModel)]="model.academic_yr_id" style="width: 12%;">
+          <option value="-1">Academic Year</option>
+          <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
+            {{data.inst_acad_year}}</option>
+        </select>
+        <select class="select mr10 wid160" [(ngModel)]="model.fee_assigned" style="width: 12%;">
+          <option value="-1">Fee Assigned</option>
+          <option value="1">All</option>
+          <option value="2">Y</option>
+          <option value="3">N</option>
+        </select>
+        <button class="blue_button" (click)="fetchStudentList()">Search</button>
+        <input type="text" name="" placeholder="Search" class="input wid200 right magnifying-glass">
+      </div>
+      <div class="fee_up1">
+            <div class="table_heading">
+                <div>Name </div>
+                <div *ngIf="schoolModel">Registration No. </div>
+                <div *ngIf="schoolModel">Section</div>
+                <div>{{schoolModel?'Roll No.':'Student Id' }}</div>
+                <div>Phone No.</div>
+                <div>Total Fee</div>
+                <div>Paid</div>
+                <div>Balance</div>
+                <div>Action</div>
+              </div>
+              <div *ngFor="let data of studentList">
+                <div class="table_body">
+                  <div>{{data.student_name}} </div>
+                  <div *ngIf="schoolModel">{{data.student_roll_no}} </div>
+                  <div *ngIf="schoolModel">{{data.standard_name}}-{{data.course_name}} </div>
+                  <div>{{data.student_reg_no}}</div>
+                  <div>{{data.student_phone}}</div>
+                  <div>{{data.total_fee_amount}}</div>
+                  <div>{{data.total_fee_amount}}</div>
+                  <div>{{data.total_fee_amount}}</div>
+
+                  <div>
+                    <a routerLink="../view" class="mr10"><img src="../../../../assets/img1/view.svg" title="View" ></a>
+                  </div>
+                </div>
+              </div>
+     </div>
+          <!-- use image only when page is empty,table body class element will not be present -->
+    </div>
+    <div class="white bottom_button bottom_pagignation">
+      <div class="w98">
+      <!-- pagignation div -->
+      <div class=" flex w98">
+        <div class="w20">
+          <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
+        </div>
+        <div class="w10">
+          <p>Total <span>9</span> Pages</p>
+        </div>
+        <div class="w40">
+          <p>Records per Page  
+            <select>
+            <option>9</option>
+            </select>
+          </p>
+        </div>
+        <div class="w30" >
+         <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
+        </div>
+      </div>
+    </div>
+    </div>
+</div> 
