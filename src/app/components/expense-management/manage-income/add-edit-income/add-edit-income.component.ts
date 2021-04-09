@@ -230,11 +230,13 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
       return true;
     } else if (this.paymentDetails.paymentmode == '2') {
       return true;
-    } else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
-      return true;
-    } else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
-      return true;
-    }
+    } 
+    // else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
+    //   return true;
+    // } 
+    // else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
+    //   return true;
+    // }
   }
 
   addItem() {
@@ -325,7 +327,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
 
   addIncome() {
     if (this.paymentDetails.payerName != '-1') {
-      if (this.paymentDetails.accountName != '-1') {
+      // if (this.paymentDetails.accountName != '-1') {
         if (this.addedItemList.length > 0) {
           let itemlist = [];
           for (let index = 0; index < this.addedItemList.length; index++) {
@@ -378,10 +380,10 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
         }
 
       }
-      else {
-        this.msgService.showErrorMessage('error', '', 'Please select Account Name');
-      }
-    }
+    //   else {
+    //     this.msgService.showErrorMessage('error', '', 'Please select Account Name');
+    //   }
+    // }
     else {
       this.msgService.showErrorMessage('error', '', 'Please select Payer Name');
     }

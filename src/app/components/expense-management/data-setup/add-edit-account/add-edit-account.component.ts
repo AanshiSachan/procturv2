@@ -187,7 +187,7 @@ export class AddEditAccountComponent implements OnInit {
   }
 
   validateAccountDetailsInput() {
-    if (this.accountDetails.accountName.trim() == '') {
+    if (this.accountDetails.accountName.trim() == '' && this.accountDetails.accountType !='2') {
 
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Name!');
       return;

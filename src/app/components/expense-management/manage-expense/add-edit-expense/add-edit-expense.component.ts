@@ -241,13 +241,16 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   checkPaymentModeVal() {
     if (this.paymentDetails.paymentmode == '0') {
       return true;
-    } else if (this.paymentDetails.paymentmode == '2') {
+    } 
+    else if (this.paymentDetails.paymentmode == '2') {
       return true;
-    } else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
-      return true;
-    } else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
-      return true;
-    }
+    } 
+    // else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
+    //   return true;
+    // } 
+    // else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
+    //   return true;
+    // }
   }
 
   addItem() {
@@ -341,7 +344,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
 
   addExpense() {
     if (this.paymentDetails.payeeName != '-1') {
-      if (this.paymentDetails.accountName != '-1') {
+      // if (this.paymentDetails.accountName != '-1') {
         // if (this.paymentDetails.paymentmode != "-1") {
         if (this.addedItemList.length > 0) {
 
@@ -404,10 +407,10 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       //   this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
       // }
 
-      else {
-        this.msgService.showErrorMessage('error', '', 'Please select Account Name');
-      }
-    }
+    //   else {
+    //     this.msgService.showErrorMessage('error', '', 'Please select Account Name');
+    //   }
+    // }
     else {
       this.msgService.showErrorMessage('error', '', 'Please select Payee Name');
     }
@@ -435,6 +438,16 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
 
 
     }
+  }
+  setAccountNameValu(obj){
+    if(this.payeeList && this.payeeList.length){
+      let accountValue = this.payeeList.filter(nameValue => {
+        if((nameValue.party_id == obj)){
+          this.paymentDetails.accountName = nameValue.accountNamelist
+        }
+      })
+    }
+
   }
 
 
