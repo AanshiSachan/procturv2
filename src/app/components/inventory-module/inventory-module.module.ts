@@ -17,6 +17,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RoleService } from '../.././services/user-management/role.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
 import { ExcelService } from '../../services/excel.service';
+import { ReplacenullPipe } from './replacenull.pipe';
 
 @NgModule({
   declarations: [InventoryModuleComponent,
@@ -28,6 +29,7 @@ import { ExcelService } from '../../services/excel.service';
   SaleItemComponent,
   SaleAddComponent,
   SaleViewComponent,
+  ReplacenullPipe,
 ],
   imports: [
     CommonModule,

@@ -212,6 +212,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       purchaseDto.total_amount = this.model.total_amount;
       purchaseDto.total_paid_amount = this.model.total_paid_amount;
       purchaseDto.is_refunded = this.model.is_refunded;
+      
       purchaseDto.purchased_item_list = this.model.purchased_item_list;
       formData.append('purchaseDto', JSON.stringify(purchaseDto));
       if (file) {
@@ -258,7 +259,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
             } else {
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).error[0].errorMessage);
             }
           }
         }

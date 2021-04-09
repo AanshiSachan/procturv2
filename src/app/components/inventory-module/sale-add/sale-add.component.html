@@ -6,33 +6,50 @@
         </div>
       </div>
     </div>
+    <form  #myForm="ngForm" autocomplete="off">
       <div class="w98 flex">
         <div class="div_11">
           <div class="heading1">
             <p>Sale</p>
           </div>
+         
               <div class="pt102">
-                   <input type="text" class="input wid100" name="" placeholder="Role*">
+                  <select class="select wid100" name="user_role" name="user_role" id="user_role"
+                  (change)="getUserAgainstRole($event.target.value)">
+                     <option>Role<span class="astrik">*</span></option>
+                     <option value="{{data.role_id}}" *ngFor="let data of roleAllData">{{data.role_name}}</option>
+                   </select>
               </div>
                  <div class="pt102">
-                   <input type="text" class="input wid100" name="" placeholder="User*">
+                  <select class="select wid100" name="user_id" id="user_id">
+                    <option>User<span class="astrik">*</span></option>
+                    <option value="{{datas.user_id}}" *ngFor="let datas of userALLdata">{{datas.name}}</option>
+                  </select>
               </div>
                  <div class="pt102">
-                   <input type="text" class="input wid100" name="" placeholder="Refrence No.">
+                   <input type="text" class="input wid100" name="reference_number" id="reference_number" placeholder="Refrence No.">
               </div>
                <div class="pt102">
-                  <input type="Date" class="input wid100" name="" placeholder="Date*">
+                <input type="Date" class="input wid100" name="purchase_date" placeholder="Date*"
+          [(ngModel)]="model.purchase_date" #purchase_date="ngModel"
+          (change)="validateFutureDate($event)" required>
               </div>
                  <div class="pt102">
                    <select class="select wid100">
                     <option>Payment Status*</option>
+                    <option value="Due">Due</option>
+                    <option value="Partial"> Partial</option>
+                    <option value="Partial">Paid</option>
                   </select>
               </div>
               <div class="pt102">
-                  <input type="File" class="input wid100" name="" >
+                <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
+                [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
+                [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
               </div>
               <div class="pt102">
-                  <textarea  class="input wid100 textarea1" name="" placeholder="Description"></textarea>
+                <textarea class="input wid100 textarea1" name="description" id="description" placeholder="Description"
+                [(ngModel)]="model.description"></textarea>
               </div>
         </div>
        <div  class="div_2">
@@ -40,11 +57,14 @@
             <p>Sale Item</p>
           </div>
             <div class="pt102">
-                  <select class="select sel1 mr10">
-                    <option>Category*</option>
+                  <select class="select sel1 mr10" id="category_id" name="category_id"
+                  (change)="getItemAgainstCat($event.target.value)">
+                    <option value="">Category*</option>
+                    <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">{{data.category_name}}</option>
                   </select>
-                   <select class="select sel1 mr10">
-                    <option>Item*</option>
+                   <select class="select sel1 mr10" id="item_id" name="item_id">
+                    <option value="">Item*</option>
+                    <option value="{{data.item_id}}" *ngFor="let data of itemArray">{{data.item_name}}</option>
                   </select>
             </div>
            <div class="sale_add">
@@ -73,13 +93,16 @@
                 Abc
               </div>
               <div>
-               <input type="text" name="" class="input wid80">
+                <select class="input wid80" name="sale_type" id="sale_type">
+                  <option value="Paid" selected>Paid</option>
+                  <option value="Free">Free</option>
+                </select>
               </div>
               <div>
-               <input type="text" name="" class="input wid80">
+               <input type="text" name="unit_price" id ="unit_price" class="input wid80">
               </div>
               <div>
-                <input type="text" name="" class="input wid80">
+                <input type="text" name="quantity"  id="quantity" class="input wid80">
               </div>
               <div>
                 212211
@@ -132,6 +155,7 @@
            </div>
        </div>
       </div>
+      </form>
        <div class="white bottom_button bottom_pagignation">
         <div class="display w98">
           <div></div>

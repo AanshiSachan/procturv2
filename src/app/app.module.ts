@@ -29,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NullvaluePipe } from './nullvalue.pipe';
 export function getDatepickerConfig(): BsDatepickerConfig {
   return Object.assign(new BsDatepickerConfig(), {
     dateInputFormat: 'YYYY-MM-DD',
@@ -65,7 +66,8 @@ export function getRangePickerConfig(): BsDatepickerConfig {
   ],
   declarations: [
     AppComponent,
-    AppMainLoaderComponent
+    AppMainLoaderComponent,
+    NullvaluePipe
   ],
   entryComponents: [
   ],

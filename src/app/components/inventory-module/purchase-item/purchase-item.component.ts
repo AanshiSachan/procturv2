@@ -105,18 +105,15 @@ export class PurchaseItemComponent implements OnInit {
   isDelete = true;
   total = 100;
   paids = 200;
-  tempObj;
+  purchase_id;
   showConfirm(obj) {
-    // alert("hi")
-    // this.tempObj=obj;
-    // this.tempObj.supplier_id =obj.data.supplier_id;
-    $('#deletesModal').modal('show');
+  this.purchase_id=obj.purchase_id; 
+     $('#deletesModal').modal('show');
   }
 
-  deleteRow(obj) {
-
-    this.auth.showLoader();
-    this.httpService.deleteData('' + obj.supplier_id + '?instituteId=' + this.model.institute_id, null).subscribe(
+  deleteRow() {
+ this.auth.showLoader();
+    this.httpService.deleteData('/api/v1/inventory/purchase/delete/' + this.purchase_id + '?instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Purchase Item Deleted Successfully');

@@ -74,7 +74,7 @@
                                 <div class="dropdown-content1">
                                   <a routerLink="../purchase-view">View</a>
                                   <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]">Edit</a>
-                                  <a (click)='showConfirm($event)'>Delete</a>
+                                  <a (click)='showConfirm(data)'>Delete</a>
                                   <a>Cancel</a>
                                   <a data-toggle="modal" data-target="#addpayModal">Add Payment</a>
                                   <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
@@ -184,7 +184,7 @@
            <div></div>
            <div>
             <button class="blue_button cancel" data-dismiss="modal">Cancel</button> 
-             <button class="blue_button" (click)="addPayment()">Save</button></div>
+             <button class="blue_button" (click)="addPayment(data.sale_id)">Save</button></div>
           </div>
         </div>  
         </form>      
