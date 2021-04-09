@@ -71,8 +71,8 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
                     },
                     {
                         path:'update-fee',
-                        loadChildren: () => import('app/components/fee-module/fee-update/fee-update.module').then(m => m.FeeUpdateModule)
-                        // loadChildren:'app/components/fee-module/data-setup/data-setup.module#DataSetupModule',
+                        loadChildren: () => import('app/components/fee-module/fee-update/fee-update.module').then(m => m.FeeUpdateModule),
+                        pathMatch: 'prefix'
                     },
                 ]
             }

@@ -75,11 +75,10 @@
                   <div>{{data.student_reg_no}}</div>
                   <div>{{data.student_phone}}</div>
                   <div>{{data.total_fee_amount}}</div>
-                  <div>{{data.total_fee_amount}}</div>
-                  <div>{{data.total_fee_amount}}</div>
-
+                  <div>{{data.total_paid_amount}}</div>
+                  <div>{{data.total_unpaid_amount}}</div>
                   <div>
-                    <a routerLink="../view" class="mr10"><img src="../../../../assets/img1/view.svg" title="View" ></a>
+                    <a [routerLink]="['/view/fee/update-fee/view-fee/'+data.student_id]" class="mr10"><img src="../../../../assets/img1/view.svg" title="View" ></a>
                   </div>
                 </div>
               </div>

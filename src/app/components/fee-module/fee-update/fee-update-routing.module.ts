@@ -14,11 +14,7 @@ const routes: Routes = [
             component: UpdateComponent
           },
           {
-            path: 'update-fee',
-            component: UpdateComponent
-          },
-          {
-            path: 'view-fee',
+            path: 'view-fee/:std_id',
             component: ViewComponent
           }
         ]
