@@ -43,7 +43,7 @@
 
 
             <div class="payee-item field-wrapper">
-              <label for="">Account Name<span class="danger">*</span></label>
+              <label for="">Account Name <span class="danger">*</span><span class="danger" *ngIf="accountDetails.valuType == '3'">*</span></label>
               <input type="text" name="" value="" [(ngModel)]="accountDetails.accountName"
                 placeholder="Enter Account Name" class="form-ctrl">
             </div>
@@ -56,7 +56,7 @@
               </select>
             </div>
 
-            <div class="payee-item field-wrapper" *ngIf="accountDetails.accountType == '3' || accountDetails.accountType == '0' || accountDetails.valuType == '1'">
+            <div class="payee-item field-wrapper" *ngIf="accountDetails.accountType == '3' || accountDetails.accountType == '0'">
               <!-- <label for="">Account Number<span class="danger" *ngIf="accountDetails.valuType == '0'">*</span></label> -->
               <label for="">Account Number</label>
 
@@ -66,7 +66,7 @@
 
 
 
-            <div class="payee-item field-wrapper" *ngIf="accountDetails.valuType == '0' && (accountDetails.accountType == '3' || accountDetails.accountType == '0')">
+            <div class="payee-item field-wrapper" *ngIf="accountDetails.accountType == '3' || accountDetails.accountType == '0'">
               <!-- <label for="">IFSC Code<span class="danger" *ngIf="accountDetails.valuType !== '1'">*</span></label> -->
               <label for="">IFSC Code</label>
 

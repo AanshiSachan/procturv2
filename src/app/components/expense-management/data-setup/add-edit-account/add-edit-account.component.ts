@@ -64,6 +64,7 @@ export class AddEditAccountComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.account = res;
+        console.log("Acoooooooooo",this.account)
       },
       err => {
         this.auth.hideLoader();
@@ -187,7 +188,7 @@ export class AddEditAccountComponent implements OnInit {
   }
 
   validateAccountDetailsInput() {
-    if (this.accountDetails.accountName.trim() == '' && this.accountDetails.accountType !='2') {
+    if (this.accountDetails.accountName.trim() == '') {
 
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Name!');
       return;

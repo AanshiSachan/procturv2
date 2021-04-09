@@ -72,6 +72,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     Name: '',
     Description: ''
   }
+  account_type_value:any='';
 
   constructor(
     private msgService: MessageShowService,
@@ -143,6 +144,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.auth.hideLoader();
         this.accountNamelist = res;
+        console.log("AAAAAAAAA",this.accountNamelist)
       },
       err => {
         this.auth.hideLoader();
@@ -258,7 +260,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       if (this.accountDetails.amount != 0) {
         if (this.paymentDetails.paymentmode != "-1") {
 
-          if (this.checkPaymentModeVal()) {
+          // if (this.checkPaymentModeVal()) {
 
             let obj = {
               itemName: this.categoryName,
@@ -285,11 +287,11 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
             this.paymentDetails.paymentmode = '-1'
           }
 
-          else {
-            let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
-            this.msgService.showErrorMessage('error', '', msg);
-          }
-        }
+        //   else {
+        //     let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
+        //     this.msgService.showErrorMessage('error', '', msg);
+        //   }
+        // }
 
 
         else {
@@ -344,7 +346,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
 
   addExpense() {
     if (this.paymentDetails.payeeName != '-1') {
-      // if (this.paymentDetails.accountName != '-1') {
+      if (this.paymentDetails.accountName != '-1') {
         // if (this.paymentDetails.paymentmode != "-1") {
         if (this.addedItemList.length > 0) {
 
@@ -407,10 +409,10 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       //   this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
       // }
 
-    //   else {
-    //     this.msgService.showErrorMessage('error', '', 'Please select Account Name');
-    //   }
-    // }
+      else {
+        this.msgService.showErrorMessage('error', '', 'Please select Account Name');
+      }
+    }
     else {
       this.msgService.showErrorMessage('error', '', 'Please select Payee Name');
     }
@@ -431,6 +433,9 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     if (this.accountNamelist && this.accountNamelist.length) {
       let accuntIfscObj = this.accountNamelist.filter(nameSet => {
         if ((nameSet.account_id == obj)) {
+          console.log(nameSet);
+          this.account_type_value = nameSet.type_value;
+          this.paymentDetails.paymentmode = nameSet.type;
           this.paymentDetails.accountNumber = nameSet.account_number
           this.paymentDetails.IfscCode = nameSet.ifsc_code
         }
@@ -542,6 +547,11 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       this.msgService.showErrorMessage('info', '', "Future date is not allowed");
       this.paymentDetails.paymentDate = moment(new Date).format('YYYY-MM-DD');
     }
+  }
+  changeAccount(obj){
+    // this.accountNamelist= this.accountNamelist.find(e => e.type_value == obj)
+let array = this.accountNamelist.filter(x =>x.type == this.accountNamelist)[0].type_value
+    console.log("list",array)
   }
 
   togglePayee() {

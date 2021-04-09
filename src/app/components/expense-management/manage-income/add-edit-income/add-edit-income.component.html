@@ -27,7 +27,7 @@
       </div>
 
       <div class="payment-details-item field-wrapper" *ngIf="jsonFlag.isAuthoriseUser">
-        <label for="account-name">Account Name <span class="customeAdd"
+        <label for="account-name">Account Name <span class="danger">*</span><span class="customeAdd"
             (click)="toggleAccount()">Add Account</span></label>
         <select class="form-ctrl" name="account-name" id="account-name" [(ngModel)]="paymentDetails.accountName"
           (ngModelChange)="setAccountIfscIncome($event)">

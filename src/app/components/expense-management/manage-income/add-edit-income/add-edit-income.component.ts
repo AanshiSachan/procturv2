@@ -243,7 +243,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     if (this.accountDetails.itemName != -1) {
       if (this.accountDetails.amount != 0) {
         if (this.paymentDetails.paymentmode != "-1") {
-          if (this.checkPaymentModeVal()) {
+          // if (this.checkPaymentModeVal()) {
 
             let obj = {
               itemName: this.categoryName,
@@ -269,11 +269,11 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
             this.paymentDetails.ChequeNumber = ''
           }
 
-          else {
-            let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
-            this.msgService.showErrorMessage('error', '', msg);
-          }
-        }
+        //   else {
+        //     let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
+        //     this.msgService.showErrorMessage('error', '', msg);
+        //   }
+        // }
         else {
           this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
         }
@@ -327,7 +327,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
 
   addIncome() {
     if (this.paymentDetails.payerName != '-1') {
-      // if (this.paymentDetails.accountName != '-1') {
+      if (this.paymentDetails.accountName != '-1') {
         if (this.addedItemList.length > 0) {
           let itemlist = [];
           for (let index = 0; index < this.addedItemList.length; index++) {
@@ -380,10 +380,10 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
         }
 
       }
-    //   else {
-    //     this.msgService.showErrorMessage('error', '', 'Please select Account Name');
-    //   }
-    // }
+      else {
+        this.msgService.showErrorMessage('error', '', 'Please select Account Name');
+      }
+    }
     else {
       this.msgService.showErrorMessage('error', '', 'Please select Payer Name');
     }
