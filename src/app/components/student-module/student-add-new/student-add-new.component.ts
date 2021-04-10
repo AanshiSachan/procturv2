@@ -354,7 +354,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       })
     }
     this.fetchDataForCountryDetails();
-    this.getStateList();
     this.fetchCustomComponents();
   }
   /* ========================================================================================================== */
@@ -372,6 +371,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     } else {
       this.checkStatusofStudent = true;
       this.fetchDataForCountryDetails();
+      this.getStateList();
     }
 
     if (this.isProfessional) {

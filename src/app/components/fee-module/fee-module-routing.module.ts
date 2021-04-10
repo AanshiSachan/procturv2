@@ -69,6 +69,11 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
                         path:'assign-fee',
                         component : FeeAssignmentComponent
                     },
+                    {
+                        path:'update-fee',
+                        loadChildren: () => import('app/components/fee-module/fee-update/fee-update.module').then(m => m.FeeUpdateModule),
+                        pathMatch: 'prefix'
+                    },
                 ]
             }
         ])

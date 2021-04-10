@@ -1173,8 +1173,8 @@ export class EnquiryEditComponent implements OnInit {
         }
         else {
           hour += 1;
-          let formattedNumber = (hour).slice(-2);
-          hour = formattedNumber.toString();
+          //let formattedNumber = (hour).slice(-2);
+          hour = hour.toString();
         }
       }
     }

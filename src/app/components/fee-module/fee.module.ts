@@ -19,6 +19,7 @@ import { FeeRoutingModule } from './fee-module-routing.module';
 import { FeeWidgetComponent, FeeComponent, FeeCourseReportComponent, FeeReportHomeComponent, AllDataReportComponent, InactiveStudentReportComponent, OnlinePaymentHistoryComponent, ChequeManageComponent, PaymentHistoryMainComponent, FeeReceiptComponent, ViewDetailComponent, NextDueDetailComponent, PaymentHistoryComponent, GstReportComponent } from '.';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { FeeAssignmentComponent } from './fee-assignment/fee-assignment.component';
+import { FeeUpdateComponent } from './fee-update/fee-update.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { FeeAssignmentComponent } from './fee-assignment/fee-assignment.componen
         FeeWidgetComponent,
         GstReportComponent,
         ProfitLossComponent,
-        FeeAssignmentComponent 
+        FeeAssignmentComponent,
+        FeeUpdateComponent 
     ],
     entryComponents: [
         FeeReportHomeComponent,

@@ -86,8 +86,8 @@
     width: calc(100%  / 3);
   }
   .table_heading>div{
-    
-    text-align: center;
+  
+padding-left: 20px;
     font-weight: 600;
     font-size: 12px;
     color: #323C47;
@@ -103,7 +103,7 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   }
   .table_body>div{
-    text-align: center;
+    padding-left: 20px;
     font-weight: 500;
     font-size: 13px;
     color: #807C7C;
@@ -115,7 +115,10 @@
   .fee_types .table_body>div{
     width: calc(100% / 3);
   }
-  
+  .fee_types .table_heading>div:last-child,.fee_types .table_body>div:last-child{
+   text-align: right;
+   padding-right: 50px;
+  }
   .discount .table_heading>div{
     width: calc(100% / 5);
   }
@@ -225,7 +228,7 @@
     background-position:left center;
     text-indent: 15px;
   }
-  .padding1{
+  .padding11{
      margin-top: 20px;
   }
   .text{
@@ -470,6 +473,9 @@
       padding-left: 50px;
     }
     .tableHeight{
-      height: 54vh;
+      //height: 54vh;
       overflow-y: auto;
+    }
+    .pointer{
+      cursor: pointer;
     }
