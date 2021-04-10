@@ -659,6 +659,32 @@
                      </div>
                     
                   </li>
+
+                  <li class="dropdown" [ngClass]="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
+                    <a  class="dropbtn">
+                        <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/assest-icon.svg':'./assets/images/sidemenuicon/assest-icon.svg'"
+                        alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
+                        <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'" style="color:#f2ecf8;">Assets</span><i
+                            class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a routerLink="/view/asset-management/asset-location">
+                                <span>Location</span>
+                        </a>
+                        <a routerLink="/view/asset-management/asset-category">
+                                <span>Asset</span>
+                        </a>
+                        <a routerLink="/view/asset-management/asset-supplier">
+                                <span>Supplier Master</span>
+                        </a>
+                        <a routerLink="/view/asset-management/asset-purchase">
+                                <span>Purchase Asset</span>
+                        </a>
+                        <a routerLink="/view/asset-management/asset-assignment">
+                                <span>Asset Assignment</span>
+                        </a>
+                    </div>
+                </li>
     
                   <li [ngClass]="activeSession === 'liwebsiteConf' ?'liActiveBG':''" *ngIf="enable_client_website" (click)="toggler('liwebsiteConf')" style="padding-right: 0;">
                     <a routerLink="/view/website-configuration/images">

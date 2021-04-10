@@ -16,26 +16,26 @@ declare var $;
   styleUrls: ['./asset-purchase.component.scss']
 })
 export class AssetPurchaseComponent implements OnInit {
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
+  assetAllData: any = [];
+  assetcategoryData: any = [];
+  bill_image_url: any;
   displayBatchSize: number = 25;
+  headerSetting: any;
+  isedit: any;
+  locationAllData: any = [];
+  pageIndex: number = 1;
+  purchaseAllData: any = [];
+  purchaseby: any;
+  purchaseDataforDownload: [];
+  rowColumns: any;
+  searchParams: any;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   staticPageData: any = [];
   staticPageDataSouece: any = [];
-  isedit: any;
-  purchaseAllData: any = [];
-  searchParams: any;
-  purchaseby: any;
-  bill_image_url: any;
-  assetcategoryData: any = [];
-  assetAllData: any = [];
-  locationAllData: any = [];
-  vendorAllData: any = [];
+  tableSetting: any;
   tempLocationList: any;
-  purchaseDataforDownload: [];
+  totalRecords: number = 0;
+  vendorAllData: any = [];
   model = {
     id: '',
      asset_id: '',
@@ -69,13 +69,13 @@ export class AssetPurchaseComponent implements OnInit {
   }
   setTableData() {
     this.headerSetting = [
-      {
-        primary_key: 'id',
-        value: "Id",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "Id",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: true
+      // },
       {
         primary_key: 'asset_name',
         value: "Asset",
@@ -85,7 +85,7 @@ export class AssetPurchaseComponent implements OnInit {
       },
       {
         primary_key: 'supplier_name',
-        value: "Vendor",
+        value: "Supplier",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -101,7 +101,7 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'unit',
         value: "Unit",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -115,14 +115,14 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'purchase_date',
         value: "Purchase Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
         primary_key: 'service_date',
         value: "Service Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
 
@@ -130,7 +130,7 @@ export class AssetPurchaseComponent implements OnInit {
         primary_key: 'expiry_date',
         value: "Expiry Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -157,10 +157,10 @@ export class AssetPurchaseComponent implements OnInit {
       height: "58vh"
     }
     this.rowColumns = [
-      {
-        width: "5%",
-        textAlign: "left"
-      },
+      // {
+      //   width: "5%",
+      //   textAlign: "left"
+      // },
       {
         width: "10%",
         textAlign: "left"
@@ -194,11 +194,11 @@ export class AssetPurchaseComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "13%",
+        width: "15%",
         textAlign: "left"
       },
       {
-        width: "7%",
+        width: "10%",
         textAlign: "left"
       },
 
@@ -281,7 +281,8 @@ export class AssetPurchaseComponent implements OnInit {
           this.getPurchaseDetails();
         },
         err => {
-          this.msgService.showErrorMessage('error', '', "err.response");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+      //  this.msgService.showErrorMessage('error', '', "err.response");
          this.auth.hideLoader();
         }
       );
@@ -452,8 +453,9 @@ export class AssetPurchaseComponent implements OnInit {
               this.cancel(false)
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
-
-              // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+ 
+              
+           //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
           }
         }
@@ -527,6 +529,70 @@ export class AssetPurchaseComponent implements OnInit {
     this.auth.hideLoader();
   }
 //download in excel format
+headersettingforexcel:any=[ {
+  primary_key: 'asset_name',
+  value: "Asset",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'supplier_name',
+  value: "Supplier",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'quantity',
+  value: "Quantity",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'unit',
+  value: "Unit",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'purchase_amount',
+  value: "Purchase Price",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+},
+{
+  primary_key: 'purchase_date',
+  value: "Purchase Date",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'service_date',
+  value: "Service Date",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+
+{
+  primary_key: 'expiry_date',
+  value: "Expiry Date",
+  charactLimit: 25,
+  sorting: false,
+  visibility: true
+},
+{
+  primary_key: 'purchased_by_user_display_name',
+  value: "Purchase By",
+  charactLimit: 25,
+  sorting: true,
+  visibility: true
+}]
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/purchase/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
@@ -536,7 +602,7 @@ exportToExcel(){
       this.purchaseDataforDownload.map(
       (ele: any) => {
         let json = {}
-        this.headerSetting.map((keys) => {
+        this.headersettingforexcel.map((keys) => {
           json[keys.value] = ele[keys.primary_key]
         })
         Excelarr.push(json);

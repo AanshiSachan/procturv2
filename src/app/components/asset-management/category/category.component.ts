@@ -12,42 +12,42 @@ declare var $;
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  institute_id = sessionStorage.getItem('institute_id');
-  tempLocationList: any;
-  show: boolean = true;
-  is_asset_cat: boolean = true;
-  is_asset: boolean = false;
-  activeclass: string;
-  isadd: boolean;
-  isUpdate: boolean;
+ 
+  //basic-table declaration for category
   active: boolean = false;
   activeb: boolean = true;
-  headerSettingForAsset: any;
-  tableSettingForAsset: any;
-  rowColumnForAsset: any;
+  activeclass: string;
   assetAllData: any = [];
-  staticPageDataForAsset: any = [];
-  searchParams: any;
-  //basic-table declaration for category
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
-  displayBatchSize: number = 25;
   assetcategoryData: any = [];
-  staticPageData: any = [];
-  locationData: any = [];
   catDataToDownload:[];
- 
+  displayBatchSize: number = 25;
+  headerSetting: any;
+  headerSettingForAsset: any;
+  institute_id = sessionStorage.getItem('institute_id');
+  is_asset_cat: boolean = true;
+  is_asset: boolean = false;
+  isadd: boolean;
+  isUpdate: boolean;
+  locationData: any = [];
+  pageIndex: number = 1;
+  rowColumnForAsset: any;
+  rowColumns: any;
+  searchParams: any;
+  show: boolean = true;
+  sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
+  staticPageData: any = [];
+  staticPageDataForAsset: any = [];
+  tableSetting: any;
+  tableSettingForAsset: any;
+  tempLocationList: any;
+  totalRecords: number = 0;
   @ViewChild('assetcat', { static: false }) assetcat: NgForm;
   isedit;
   submitted = false;
   category_model = {
     id: '',
     active: true,
-    category_code: '',
+    category_code:null,
     category_name: '',
     institute_id: sessionStorage.getItem('institute_id')
   }
@@ -81,13 +81,13 @@ export class CategoryComponent implements OnInit {
   //TABLE CODING FOR ASSET
  setTableDataForAsset() {
     this.headerSettingForAsset = [
-      {
-        primary_key: 'id',
-        value: "#",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "#",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: true
+      // },
       {
         primary_key: 'asset_code',
         value: "Code",
@@ -151,14 +151,10 @@ export class CategoryComponent implements OnInit {
 
       ],
       this.rowColumnForAsset = [
-        {
-          width: "5%",
-          textAlign: "left"
-        },
-        {
-          width: "15%",
-          textAlign: "left"
-        },
+        // {
+        //   width: "5%",
+        //   textAlign: "left"
+        // },
         {
           width: "15%",
           textAlign: "left"
@@ -168,7 +164,11 @@ export class CategoryComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "10%",
+          width: "15%",
+          textAlign: "left"
+        },
+        {
+          width: "12%",
           textAlign: "left"
         },
         {
@@ -176,7 +176,7 @@ export class CategoryComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "15%",
+          width: "18%",
           textAlign: "left"
         },
         {
@@ -198,13 +198,13 @@ export class CategoryComponent implements OnInit {
   }
   setTableData() {
     this.headerSetting = [
-      {
-        primary_key: 'id',
-        value: "Id",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "Id",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: true
+      // },
       {
         primary_key: 'category_code',
         value: " Code",
@@ -234,30 +234,45 @@ export class CategoryComponent implements OnInit {
 
     this.tableSetting = {
       width: "100%",
-      height: "58vh"
+      height: "58vh",
     }
 
     this.rowColumns = [
+      // {
+      //   width: "20%",
+      //   textAlign: "left"
+      // },
+      {
+        width: "40%",
+        textAlign: "left"
+        
+      },
+      {
+        width: "40%",
+        textAlign: "left"
+      },
       {
         width: "20%",
-        textAlign: "left"
-      },
-      {
-        width: "35%",
-        textAlign: "left"
-      },
-      {
-        width: "35%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
         textAlign: "left"
       },
 
 
     ]
   }
+  excelheadersettingforcat:any=[ {
+    primary_key: 'category_code',
+    value: " Code",
+    charactLimit: 25,
+    sorting: true,
+    visibility: true
+  },
+  {
+    primary_key: 'category_name',
+    value: " Name ",
+    charactLimit: 25,
+    sorting: true,
+    visibility: true
+  },]
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
@@ -287,6 +302,9 @@ export class CategoryComponent implements OnInit {
   //crud for category
    saveCategoryDetails() {
     if (this.assetcat.valid) {
+      if(this.model.asset_code===''){
+        this.model.asset_code=null;
+      }
       this.httpService.postMethod('api/v2/asset/category/create', this.category_model).then((res) => {
         this.submitted = true;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Created Successfully ");
@@ -294,8 +312,7 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-          this.errordata = err.error;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
+           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
       )
     
@@ -337,7 +354,8 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
+          //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "A Category already exists with the same Name / ID");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
 
       )
@@ -356,7 +374,8 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-          this.msgService.showErrorMessage('error', '', "Asset is Available inside this Category we can not Delete")
+       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+      
         });
     }
   }
@@ -365,7 +384,7 @@ export class CategoryComponent implements OnInit {
   model = {
     active: true,
     category_id: '-1',
-    asset_code: '',
+    asset_code:null,
     asset_condition: -1,
     location_ids: [],
     asset_name: '',
@@ -391,20 +410,31 @@ export class CategoryComponent implements OnInit {
   //save asset details
   saveAssetDetails() {
     if (this.assetaddForm.valid) {
+      let obj:any ={
+        active: this.model.active,
+        category_id:this.model.category_id,
+        asset_code: this.model.asset_code,
+        asset_condition:this.model.asset_condition,
+        location_ids: this.model.location_ids,
+        asset_name: this.model.asset_name,
+        institute_id: sessionStorage.getItem('institute_id'),
+        quantity: this.model.quantity,
+        //id: this.model.active
+      }
      let newasset: any = []
-      let location_ids: any = this.model.location_ids;
+      let location_ids: any = obj.location_ids;
       for (let data in location_ids) {
         newasset.push(location_ids[data].id);
       }
-      this.model.location_ids = newasset
-     this.httpService.postMethod('api/v2/asset/create', this.model).then((res) => {
+     obj.location_ids = newasset
+     this.httpService.postMethod('api/v2/asset/create', obj).then((res) => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset is Created Successfully ");
       $('#myModalforasset').modal('hide');
       this.getAssetDetails();
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Code/ Name  is Duplicate");
-        
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+       
         })
     }
     else {
@@ -464,20 +494,35 @@ export class CategoryComponent implements OnInit {
     if (this.assetaddForm.valid) {
       // var location_ids = JSON.parse("[" + this.model.location_ids + "]");
       // this.model.location_ids = location_ids;
+      let obj:any ={
 
-      let newasset: any = []
-      let location_ids: any = this.model.location_ids;
-      for (let data in location_ids) {
-       newasset.push(location_ids[data].id);
+        active: this.model.active,
+        category_id:this.model.category_id,
+        asset_code: this.model.asset_code,
+        asset_condition:this.model.asset_condition,
+        location_ids: this.model.location_ids,
+        asset_name: this.model.asset_name,
+        institute_id: sessionStorage.getItem('institute_id'),
+        quantity: this.model.quantity,
+        id: this.model.id
       }
-      this.model.location_ids = newasset;
-      this.httpService.putMethod('api/v2/asset/update', this.model).then(() => {
+      if(this.model.asset_code===''){
+obj.asset_code = null;
+      }
+     let newasset: any = []
+      let location_ids: any = obj.location_ids;
+      for (let data in location_ids) {
+        newasset.push(location_ids[data].id);
+      }
+     obj.location_ids = newasset
+    
+      this.httpService.putMethod('api/v2/asset/update', obj).then(() => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset  is Updated Successfully")
         $('#myModalforasset').modal('hide');
         this.getCategoryDetails();
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Asset Name/Id Duplicate")
+     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
 
       )
@@ -497,7 +542,8 @@ export class CategoryComponent implements OnInit {
 
       },
         err => {
-          this.msgService.showErrorMessage('warning', '', 'Asset is being assigned to an user');
+         this.msgService.showErrorMessage('error', '', 'Asset is being assigned to an user');
+         //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         })
     }
   }
@@ -528,7 +574,7 @@ export class CategoryComponent implements OnInit {
         this.catDataToDownload.map(
         (ele: any) => {
           let json = {}
-          this.headerSetting.map((keys) => {
+          this.excelheadersettingforcat.map((keys) => {
             json[keys.value] = ele[keys.primary_key]
           })
           Excelarr.push(json);
@@ -571,14 +617,60 @@ downloadPdf(){
     })
 
   let rows = [];
-  rows = [['Ctegory Code', ' Category Name']]
+  rows = [['Code', ' Name']]
   let columns = arr;
   this._pdfService.exportToPdf(rows, columns, 'Category List');
   this.auth.hideLoader();
 
 }
+//array to export
+excelheaderseting:any=[];
 assetDataToDownload:[];
 assetExportToExcel(){
+  this.excelheaderseting=[
+    {
+      primary_key: 'asset_code',
+      value: "Code",
+      charactLimit: 25,
+      sorting: true,
+      visibility: true
+    },
+    {
+      primary_key: 'asset_name',
+      value: "Name ",
+      charactLimit: 25,
+      sorting: true,
+      visibility: true
+    },
+    {
+      primary_key: 'category_name',
+      value: "Category ",
+      charactLimit: 25,
+      sorting: true,
+      visibility: true
+    },
+    {
+      primary_key: 'quantity',
+      value: "Quantity ",
+      charactLimit: 25,
+      sorting: true,
+      visibility: true
+    },
+    {
+      primary_key: 'asset_condition',
+      value: "Condition",
+      charactLimit: 25,
+      sorting: true,
+      visibility: true
+    },
+    {
+      primary_key: 'location_names_string',
+      value: " Locations ",
+      charactLimit: 25,
+      sorting: true,
+      visibility: true
+    },
+  ]
   this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
       this.auth.showLoader();
@@ -587,7 +679,7 @@ assetExportToExcel(){
       this.assetDataToDownload.map(
       (ele: any) => {
         let json = {}
-        this.headerSettingForAsset.map((keys) => {
+        this.excelheaderseting.map((keys) => {
           json[keys.value] = ele[keys.primary_key]
         })
         Excelarr.push(json);
@@ -625,16 +717,17 @@ assetDownloadPdf(){
     (ele: any) => {
       let json = [
         ele.asset_code,
-        ele.asset_condition,
         ele.asset_name,
         ele.category_name,
-       
+        ele.quantity,
+        ele.asset_condition,
+       ele.location_names_string
      ]
       arr.push(json);
     })
 
   let rows = [];
-  rows = [['Asset Code', 'Condition',' Asset Name','Category']]
+  rows = [['Code',' Asset Name', 'Category','Quantity','Condition','Locations']]
   let columns = arr;
   this._pdfService.exportToPdf(rows, columns, 'Asset List');
   this.auth.hideLoader();
@@ -646,7 +739,7 @@ assetDownloadPdf(){
     this.isedit = false;
     this.category_model = {
       active: true,
-      category_code: '',
+      category_code: null,
       category_name: '',
       institute_id: sessionStorage.getItem('institute_id'),
       id: ''
@@ -654,7 +747,7 @@ assetDownloadPdf(){
     this.model = {
       active: true,
       category_id: '-1',
-      asset_code: '',
+      asset_code:null,
       asset_condition: -1,
       location_ids: [],
       asset_name: '',

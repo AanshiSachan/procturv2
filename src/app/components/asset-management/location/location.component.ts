@@ -17,23 +17,23 @@ declare var $;
 })
 export class LocationComponent implements OnInit {
   @ViewChild('locationaddForm', { static: false }) locationaddForm: NgForm;
-  model: Location = new Location();
-  isedit = false;
-  submitted = false;
-  headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
-  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
-  pageIndex: number = 1;
-  totalRecords: number = 0;
   displayBatchSize: number = 25;
-  staticPageData: any = [];
+  headerSetting: any;
+  isedit = false;
   locationDataforDownload:[];
+  model: Location = new Location();
+  pageIndex: number = 1;
+  rowColumns: any;
   searchParams: any;
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  staticPageData: any = [];
+  submitted = false;
+  tableSetting: any;
   tempLocationList = []; 
+  totalRecords: number = 0;
   locationData = {
     institute_id: sessionStorage.getItem('institute_id'),
-    location_code: '',
+    location_code: null,
     location_description: '',
     location_name: '',
     active: true,
@@ -55,13 +55,13 @@ export class LocationComponent implements OnInit {
   //table setting
  setTableData() {
     this.headerSetting = [
-      {
-        primary_key: 'id',
-        value: "Id",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "Id",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: false
+      // },
       {
         primary_key: 'location_code',
         value: "Code",
@@ -81,7 +81,7 @@ export class LocationComponent implements OnInit {
         primary_key: 'location_description',
         value: "  Description",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -101,12 +101,12 @@ export class LocationComponent implements OnInit {
     }
 
     this.rowColumns = [
+      // {
+      //   width: "15%",
+      //   textAlign: "left"
+      // },
       {
-        width: "15%",
-        textAlign: "left"
-      },
-      {
-        width: "25%",
+        width: "30%",
         textAlign: "left"
       },
       {
@@ -114,11 +114,11 @@ export class LocationComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "30%",
+        width: "35%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
 
@@ -161,9 +161,11 @@ export class LocationComponent implements OnInit {
           $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },
-        err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
-        }
+        (err:any) => {
+          console.log(err);
+    console.log(err.error);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+       }
       )
     }
     else {
@@ -205,8 +207,9 @@ export class LocationComponent implements OnInit {
         this.getLocationDetails();
       },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "An Asset Location already exists with the same Name/Code ");
-         this.auth.hideLoader();
+       
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+      this.auth.hideLoader();
         })
     }
     else {
@@ -216,7 +219,7 @@ export class LocationComponent implements OnInit {
  cancel(param) {
    this.locationaddForm.resetForm();
     this.isedit = param;
-    this.model.location_code = '';
+    this.model.location_code = null;
     this.model.location_description = '';
     this.model.location_name = '';
 
@@ -224,7 +227,7 @@ export class LocationComponent implements OnInit {
   deleteRow(obj) {
     let deleteconfirm = confirm("Are you really want to delete?");
     if (deleteconfirm == true) {
-      this.auth.showLoader();
+     // this.auth.showLoader();
       this.httpService.deleteMethod('api/v2/asset/location/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
         (res: any) => {
           this.auth.hideLoader();
@@ -232,8 +235,8 @@ export class LocationComponent implements OnInit {
           this.getLocationDetails();
         },
         err => {
-          this.msgService.showErrorMessage('error', '', 'Location can not be  deleted asset linked to this location');
-          this.auth.hideLoader();
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+         this.auth.hideLoader();
         }
       );
     }
@@ -274,8 +277,8 @@ export class LocationComponent implements OnInit {
     this.locationDataforDownload.map(
       (ele: any) => {
         let json = [
-          ele.location_name,
           ele.location_code,
+          ele.location_name,
           ele.location_description,
        ]
         arr.push(json);
@@ -287,18 +290,37 @@ export class LocationComponent implements OnInit {
     this._pdfService.exportToPdf(rows, columns, 'Location List');
     this.auth.hideLoader();
   }
+
+  
 //download in excel format
+excelheaderseting:any =[];
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
+      this.excelheaderseting=[
+      {
+        primary_key: 'location_code',
+        value: "Code", 
+      },
+      {
+        primary_key: 'location_name',
+        value: "Name", 
+      },
+      {
+        primary_key: 'location_description',
+        value: "Description", 
+      },
+    ]
+
+      
       this.auth.showLoader();
       this.locationDataforDownload = res.result.response;
       let Excelarr = [];
       this.locationDataforDownload.map(
       (ele: any) => {
         let json = {}
-        this.headerSetting.map((keys) => {
-          json[keys.value] = ele[keys.primary_key]
+        this.excelheaderseting.map((keys) => {
+        json[keys.value] = ele[keys.primary_key]
         })
         Excelarr.push(json);
       }
