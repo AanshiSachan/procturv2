@@ -127,8 +127,14 @@ export class PurchaseItemComponent implements OnInit {
     );
 
   }
+  payment_purchase_id;
+  showAddPayment(purchase_id){
+this.payment_purchase_id=purchase_id;
+$('#addpayModal').modal('show');
+  }
   //create payment
-  addPayment() {
+  addPaymentPurchase() {
+    alert("hi")
     //this.router.navigate(['/view/inventory-management/purchase-item']);
     if (this.addform.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
@@ -136,7 +142,7 @@ export class PurchaseItemComponent implements OnInit {
       const formData = new FormData();
       let paymentDto: any = {};
       paymentDto.institute_id = sessionStorage.getItem('institute_id');
-      paymentDto.purchase_id = this.paymentModel.purchase_id;
+      paymentDto.purchase_id = this.payment_purchase_id;
       paymentDto.purchased_by_user_id = this.paymentModel.purchased_by_user_id;
       paymentDto.paid_amount = this.paymentModel.paid_amount;
       paymentDto.payment_date = moment(this.paymentModel.payment_date).format("YYYY-MM-DD");

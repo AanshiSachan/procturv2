@@ -61,6 +61,11 @@ const routes: Routes = [];
                 path: 'sale-view',
                 component:SaleViewComponent
             },
+           
+            {
+                path: 'editSale/:id',
+                component:SaleAddComponent
+            },
             
     
         ]

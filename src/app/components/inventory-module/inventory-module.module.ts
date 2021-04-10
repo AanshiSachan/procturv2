@@ -18,6 +18,7 @@ import { RoleService } from '../.././services/user-management/role.service';
 import { ExportToPdfService } from '../../services/export-to-pdf.service';
 import { ExcelService } from '../../services/excel.service';
 import { ReplacenullPipe } from './replacenull.pipe';
+import { OrderByPipe } from './order-by.pipe';
 
 @NgModule({
   declarations: [InventoryModuleComponent,
@@ -30,6 +31,7 @@ import { ReplacenullPipe } from './replacenull.pipe';
   SaleAddComponent,
   SaleViewComponent,
   ReplacenullPipe,
+  OrderByPipe,
 ],
   imports: [
     CommonModule,

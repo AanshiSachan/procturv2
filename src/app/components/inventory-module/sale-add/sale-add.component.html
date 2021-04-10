@@ -15,28 +15,32 @@
          
               <div class="pt102">
                   <select class="select wid100" name="user_role" name="user_role" id="user_role"
-                  (change)="getUserAgainstRole($event.target.value)">
-                     <option>Role<span class="astrik">*</span></option>
+                  (change)="getUserAgainstRole($event.target.value)" [(ngModel)]="model.user_role">
+                     <option value="">Role<span class="astrik">*</span></option>
                      <option value="{{data.role_id}}" *ngFor="let data of roleAllData">{{data.role_name}}</option>
                    </select>
               </div>
                  <div class="pt102">
-                  <select class="select wid100" name="user_id" id="user_id">
-                    <option>User<span class="astrik">*</span></option>
+                  <select class="select wid100" name="user_id" id="user_id"
+                  [(ngModel)]="model.user_id">
+                    <option value="">User<span class="astrik">*</span></option>
                     <option value="{{datas.user_id}}" *ngFor="let datas of userALLdata">{{datas.name}}</option>
                   </select>
               </div>
                  <div class="pt102">
-                   <input type="text" class="input wid100" name="reference_number" id="reference_number" placeholder="Refrence No.">
+                   <input type="text" class="input wid100" name="reference_number"
+                    id="reference_number" placeholder="Refrence No."
+                    [(ngModel)]="model.reference_number">
               </div>
                <div class="pt102">
-                <input type="Date" class="input wid100" name="purchase_date" placeholder="Date*"
-          [(ngModel)]="model.purchase_date" #purchase_date="ngModel"
+                <input type="Date" class="input wid100" name="sale_date" placeholder="Date*"
+          [(ngModel)]="model.sale_date" #purchase_date="ngModel"
           (change)="validateFutureDate($event)" required>
               </div>
                  <div class="pt102">
-                   <select class="select wid100">
-                    <option>Payment Status*</option>
+                   <select class="select wid100" name="payment_status" id="payment_status" 
+                   [(ngModel)]="model.payment_status">
+                    <option value="">Payment Status*</option>
                     <option value="Due">Due</option>
                     <option value="Partial"> Partial</option>
                     <option value="Partial">Paid</option>
@@ -62,8 +66,9 @@
                     <option value="">Category*</option>
                     <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">{{data.category_name}}</option>
                   </select>
-                   <select class="select sel1 mr10" id="item_id" name="item_id">
-                    <option value="">Item*</option>
+                   <select class="select sel1 mr10" id="item_id" name="item_id"
+                   (change)="getItemARrray()">
+                    <option value="" selected>Item*</option>
                     <option value="{{data.item_id}}" *ngFor="let data of itemArray">{{data.item_name}}</option>
                   </select>
             </div>
@@ -88,13 +93,14 @@
                 Actions
               </div>
             </div>
-            <div class="tablebody">
+            <div class="tablebody" *ngFor="!isChange">
               <div>
                 Abc
               </div>
               <div>
-                <select class="input wid80" name="sale_type" id="sale_type">
-                  <option value="Paid" selected>Paid</option>
+                <select class="input wid80" name="sale_type" id="sale_type"
+                [(ngModel)]="model.sale_type">
+                  <option value="Paid">Paid</option>
                   <option value="Free">Free</option>
                 </select>
               </div>
@@ -112,28 +118,8 @@
                  <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
               </div>
             </div>
-            <div class="tablebody">
-              <div>
-                Abc
-              </div>
-              <div>
-               <input type="text" name="" class="input wid80">
-              </div>
-              <div>
-               <input type="text" name="" class="input wid80">
-              </div>
-              <div>
-                <input type="text" name="" class="input wid80">
-              </div>
-              <div>
-                212211
-              </div>
-              <div>
-                <a href="" class="mr10"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-                 <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
-              </div>
-            </div>
-            <div class="tabletotal">
+           
+            <div class="tabletotal" *ngIf="!isChange">
               <div>
                 
               </div>
@@ -158,30 +144,14 @@
       </form>
        <div class="white bottom_button bottom_pagignation">
         <div class="display w98">
-          <div></div>
-          <div>
-            <button class="blue_button">Save</button>
+          <div> <button class="blue_button cancel" routerLink="/view/inventory-management/sale-item">Back </button>
+          </div>
+          <div style="margin-bottom: 10px;">
+            <button class="blue_button" (click)="saveSaleDetails()">Save</button>
           </div>
         </div>
       <!-- pagignation div -->
-        <div class=" flex w98">
-          <div class="w20">
-            <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-          </div>
-          <div class="w10">
-            <p>Total <span>9</span> Pages</p>
-          </div>
-          <div class="w40">
-            <p>Records per Page  
-              <select>
-              <option>9</option>
-              </select>
-            </p>
-          </div>
-          <div class="w30" >
-           <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
-          </div>
-        </div>
+      
     </div>
      
           <!-- use image only when page is empty,table body class element will not be present -->

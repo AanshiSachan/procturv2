@@ -29,9 +29,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   @ViewChild('purchaseForm', { static: false }) purchaseForm: NgForm;
   url = `/api/v1/inventory/`;
   model = {
-    purchase_id: 0,
+    purchase_id: '',
     supplier_id: '',
-    purchase_date: '',
     purchase_description: '',
     institute_id: sessionStorage.getItem('institute_id'),
     total_amount: 0,
@@ -39,7 +38,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     is_refunded: false,
     purchased_item_list: [],
     supplier_company_name:'',
-    bill_image_url:''
+    bill_image_url:'',
+    purchase_date:''
   }
 
   constructor(
@@ -285,7 +285,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       //console.log(this.editdata)
     this.model.purchase_id=this.dataForEdit.purchase_id;
     this.model.supplier_id=this.dataForEdit.supplier_company_name;
-    this.model.purchase_date=this.dataForEdit.purchase_date;
+    //this.model.purchase_date=this.dataForEdit.purchase_date;
     this.model.purchase_description=this.dataForEdit.purchase_description;
    // this.model.purchased_item_list=this.dataForEdit.purchased_item_list;
     this.model.total_amount =this.dataForEdit.total_amount;
