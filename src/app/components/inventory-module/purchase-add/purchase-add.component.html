@@ -55,15 +55,15 @@
           <p>Purchase Item</p>
         </div>
         <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
-          <select class="select sel1 mr10" name="categoryId" id="categoryId" [(ngModel)]="model.categoryId"
+          <select class="select sel1 mr10" name="categoryId" id="categoryId" ngModel
             #category_id="ngModel" (change)="getItemAgainscat($event)">
-            <option value="">Category Name*</option>
+            <option value="" selected>Category Name*</option>
             <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
               {{data.categoryName}} </option>
           </select>
           <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
-            [(ngModel)]="model.item_name" #item_id="ngModel">
-            <option value="">Item Name*</option>
+          ngModel #item_id="ngModel">
+            <option value="" selected>Item Name*</option>
             <option value="{{data.item_id}}" *ngFor="let data of itemArray">
               {{data.item_name}}</option>
           </select>
@@ -100,24 +100,26 @@
            
            <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
               onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
-              (ngModelChange)="purchaselistItem(data,data.unit_cost,data.available_units)"
-              [disabled]="status" class="input wid80">
+              (keyup)="purchaselistItem()"
+              [disabled]="status" class="input wid80"
+             >
           </div>
           <div>
           
             <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" [disabled]="status"
              [(ngModel)]="data.available_units"
-             (ngModelChange)="purchaselistItem(data,data.unit_cost,data.available_units)"
-               onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" class="input wid80"
-            >
+             (keyup)="purchaselistItem()"
+               onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+               class="input wid80"
+               >
           </div>
           <div>
-            {{data.available_units * data.unit_cost }}
+            {{data.available_units * itemData[i].unit_cost }}
           </div>
           <div>
             <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit"
                 class="group18 mr10"></a>
-            <a (click)="deleteItemData(data.item_id)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
+            <a (click)="deleteItemData(i)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
           </div>
         </div>
 
@@ -129,7 +131,7 @@
             Total
           </div>
           <div>
-            15
+           {{totalUnits}}
           </div>
           <div>
             {{total}}

@@ -80,13 +80,13 @@
                                   <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
                                 
                                 </div>
-                                <div class="dropdown-content1" *ngIf="data.balanced_amount===0">
+                                <div class="dropdown-content1" *ngIf="data.total_amount==data.paid_amount && data.balanced_amount==0">
                                   <a routerLink="../purchase-view">View</a>
                                   <a>Cancel</a>
                                   <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
                                 
                                 </div>
-                                <div class="dropdown-content1" *ngIf="data.paid_amount>=0">
+                                <div class="dropdown-content1" *ngIf="data.total_amount > data.paid_amount">
                                   <a routerLink="../purchase-view">View</a>
                                   <a>Cancel</a>
                                   <a data-toggle="modal" data-target="#addpayModal">Add Payment</a> 

@@ -119,12 +119,17 @@ export class SaleAddComponent implements OnInit {
   itemsForIterate = [];
   itemArray = [];
   getItemAgainstCat(category_id) {
+    console.log()
     this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.institution_id + '?category_id_list=' + category_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.itemAllData = res.result;
+        console.log(this.itemAllData)
+      //   this.itemAllData=[{item_id:40,item_name:'abc'},
+      // {item_id:41,item_name:'abcd'},
+      // {item_id:42,item_name:'abc'}];
         for (var index1 of this.itemAllData) {
-          console.log(index1); // prints indexes: 0, 1, 2, 3
+          console.log(index1); 
         }
       },
  err => {

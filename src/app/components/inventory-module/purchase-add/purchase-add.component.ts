@@ -24,12 +24,12 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   total: number = 0;
   isedit: any;
   editId;
-  isDisable=false;
-  
+  isDisable = false;
+
   @ViewChild('purchaseForm', { static: false }) purchaseForm: NgForm;
   url = `/api/v1/inventory/`;
   model = {
-    purchase_id: '',
+    purchase_id: 0,
     supplier_id: '',
     purchase_description: '',
     institute_id: sessionStorage.getItem('institute_id'),
@@ -37,9 +37,9 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     total_paid_amount: 0,
     is_refunded: false,
     purchased_item_list: [],
-    supplier_company_name:'',
-    bill_image_url:'',
-    purchase_date:''
+    supplier_company_name: '',
+    bill_image_url: '',
+    purchase_date: ''
   }
 
   constructor(
@@ -59,24 +59,25 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.getVendorDetails();
     this.editId = this._Activatedroute.snapshot.paramMap.get("id");
-    if(this.editId ===undefined){
-       }
-       else{
-        this.editRow(this.editId);
-        this.isDisable =true;
-       }
-    
+    if (this.editId === undefined) {
+    }
+    else {
+      this.editRow(this.editId);
+      this.isDisable = true;
+    }
+
   }
   ngDoCheck() {
     //this.totals(obj);
-    
+
   }
   private _title: string;
 
   getCategoryItem(obj) {
+    this.isChange=false;
     this.itemData = [];
     this.model.purchased_item_list = [];
-    this.isChange = false;
+  
     // this.auth.showLoader();
     console.log(obj)
     this.httpService.getData(this.url + 'purchase/getCategoryAndItem?supplierId=' + obj + '&instituteId=' + this.model.institute_id).subscribe(
@@ -106,6 +107,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     );
   }
   getItemAgainscat(e) {
+   
     let id = e.target.value;
     id = +id;
     console.log(e.target.value)
@@ -119,82 +121,65 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   }
 
   getItemData(id) {
+    this.isChange=true;
     this.itemArray.forEach(elements => {
       if (elements && elements.item_id == id) {
         this.itemData.push(elements);
         let data = elements;
         console.log(this.itemData);
-
-        // let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
-        // this.model.purchased_item_list.push(purchaselist);
-        // console.log(purchaselist)
+        //for initial total and unit
+        this.purchaselistItem();
+       console.log(this.itemData)
       }
     })
+   
 
-
-
-    // // this.itemData
-    // let id = e;
-    // id = +id;
-    this.isChange = true;
-    // this.itemArray.forEach(element => {
-    //   if (element && element.item_id == id) {
-    //     let data = element;
-    //     this.itemData.push(data);
-
-    //     let purchaselist = { "item_id": data.item_id, "quantity": data.available_units, "unit_price": data.unit_cost };
-    //     this.model.purchased_item_list.push(purchaselist);
-    //   }
-    //   console.log(this.model.purchased_item_list)
-    // })
-    // console.log(this.itemData)
   }
   subtotal;
-  purchaselistItem(data, b, c) {
-    console.log(data);
-    console.log(b);
-    console.log(c);
-    this.subtotal = c * b;
-    console.log(this.subtotal);
-    this.total = this.total + this.subtotal;
-    let purchaselist = { "item_id": data.item_id, "quantity": b, "unit_price": c };
-    this.model.purchased_item_list.push(purchaselist);
-    console.log(purchaselist);
+  totalUnits
+  purchaselistItem() {
+    let subTotal = 0;
+    let units = 0;
+    for (let data of this.itemData) {
+      subTotal += (data.available_units * data.unit_cost);
+      units +=  Number(data.available_units);
+    }
+    this.total = subTotal;
+    this.totalUnits = units
   }
   //delete item row
   deleteItemData(id) {
-    this.model.purchased_item_list.forEach((element, index) => {
-      if (element.item_id == id) this.model.purchased_item_list.splice(index, 1);
+     console.log(this.itemData)
+    alert(id)
+    //delete item one by one
+    this.itemData.forEach((element, index) => {
+     this.itemData.splice(id, 1);
 
     });
-    console.log(this.model.purchased_item_list);
+    console.log(this.itemData);
+    //call for total and totalunit after delete
+    this.purchaselistItem();
+    //when delete all data hide total row
+    let length= this.itemData.length
+    if(this.itemData.length==0){
+    this.isChange=false;
+    }
   }
   status: boolean = true;
   editdata(param) {
+    //for editrow
     this.status = param;
+   
   }
 
-  unit_cost: number;
-  available_units: number
+  
   isChange: boolean = false;
-  totals(obj) {
-    // console.log(obj)
-    // this.isChange = true;
-    // obj.subtotal = obj.unit_cost * obj.available_units;
-    // console.log(obj.subtotal)
-    // obj.Prevsubtotal = obj.unit_cost * obj.available_units;
-    // console.log(obj.Prevsubtotal)
-    // console.log(obj.Prevsubtotal)
-    // this.total = this.total - obj.Prevsubtotal;
-    // this.total = this.total + obj.subtotal;
-    // obj.Prevsubtotal = obj.subtotal;
-    // console.log(this.total);
-    // let newdata = this.itemArray.map(data => {
-    //   return { "subtotal": data.subtotal, "Prevsubtotal": data.Prevsubtotal, "total": data }
-    // })
-    // console.log(newdata)
-  }
   savePurchaseData() {
+    for(let i=0; i<this.itemData.length;i++){
+     let obj={ item_id:this.itemData[i].item_id, "quantity":this.itemData[i].available_units, "unit_price":this.itemData[i].unit_cost}
+    this.model.purchased_item_list.push(obj)
+    }
+    console.log(this.itemData);
     //this.router.navigate(['/view/inventory-management/purchase-item']);
     if (this.purchaseForm.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
@@ -209,10 +194,10 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       purchaseDto.purchase_id = this.model.purchase_id;
       purchaseDto.purchase_description = this.model.purchase_description;
       purchaseDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
-      purchaseDto.total_amount = this.model.total_amount;
+      purchaseDto.total_amount = this.total;
       purchaseDto.total_paid_amount = this.model.total_paid_amount;
       purchaseDto.is_refunded = this.model.is_refunded;
-      
+
       purchaseDto.purchased_item_list = this.model.purchased_item_list;
       formData.append('purchaseDto', JSON.stringify(purchaseDto));
       if (file) {
@@ -271,33 +256,32 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
     }
   }
-  dataForEdit:any=[];
+  dataForEdit: any = [];
   editRow(editId) {
-    this.isChange=true;
-    this.isedit = false;
+   this.isedit = false;
     console.log(editId);
-    this.isDisable =true;
-    this.httpService.getData('/api/v1/inventory/purchase/'+editId +'?instituteId='+this.model.institute_id).subscribe( (res: any) => {
+    this.isDisable = true;
+    this.httpService.getData('/api/v1/inventory/purchase/' + editId + '?instituteId=' + this.model.institute_id).subscribe((res: any) => {
       this.dataForEdit = res.result;
-      this.model =this.dataForEdit;
-     console.log(this.dataForEdit)
+      this.model = this.dataForEdit;
+      console.log(this.dataForEdit)
       this.auth.hideLoader();
       //console.log(this.editdata)
-    this.model.purchase_id=this.dataForEdit.purchase_id;
-    this.model.supplier_id=this.dataForEdit.supplier_company_name;
-    //this.model.purchase_date=this.dataForEdit.purchase_date;
-    this.model.purchase_description=this.dataForEdit.purchase_description;
-   // this.model.purchased_item_list=this.dataForEdit.purchased_item_list;
-    this.model.total_amount =this.dataForEdit.total_amount;
-    this.model.bill_image_url =this.dataForEdit.bill_image_url;
-    this.itemData =this.dataForEdit.purchased_item_list;
-    this.model.purchased_item_list=[{item_id: 40, item_name: "Bags2", purchase_id: 1, quantity: 5}];
-   
+      this.model.purchase_id = this.dataForEdit.purchase_id;
+      this.model.supplier_id = this.dataForEdit.supplier_company_name;
+      //this.model.purchase_date=this.dataForEdit.purchase_date;
+      this.model.purchase_description = this.dataForEdit.purchase_description;
+      // this.model.purchased_item_list=this.dataForEdit.purchased_item_list;
+      this.model.total_amount = this.dataForEdit.total_amount;
+      this.model.bill_image_url = this.dataForEdit.bill_image_url;
+      this.itemData = this.dataForEdit.purchased_item_list;
+      this.model.purchased_item_list = [{ item_id: 40, item_name: "Bags2", purchase_id: 1, quantity: 5 }];
+
     },
-    err => {
-      this.auth.hideLoader();
-    })
-  
+      err => {
+        this.auth.hideLoader();
+      })
+
   }
   validateFutureDate() {
     let today = moment(new Date());
