@@ -44,7 +44,8 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     IfscCode: '',
     transacId: '',
     ChequeNumber: '',
-    accountNumber: ''
+    accountNumber: '',
+    paymentValue:''
   }
 
   payerList: any[] = [];
@@ -242,7 +243,7 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
   addItem() {
     if (this.accountDetails.itemName != -1) {
       if (this.accountDetails.amount != 0) {
-        if (this.paymentDetails.paymentmode != "-1") {
+        // if (this.paymentDetails.paymentmode != "-1") {
           // if (this.checkPaymentModeVal()) {
 
             let obj = {
@@ -274,10 +275,10 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
         //     this.msgService.showErrorMessage('error', '', msg);
         //   }
         // }
-        else {
-          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
-        }
-      }
+      //   else {
+      //     this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+      //   }
+      // }
       else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
       }
@@ -486,9 +487,16 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
       let accuntIfscObj = this.accountNamelist.filter(nameSet => {
         if ((nameSet.account_id == obj)) {
           this.paymentDetails.paymentmode = nameSet.payment_mode;
+          this.paymentDetails.paymentValue =nameSet.type_value
 
           this.paymentDetails.accountNumber = nameSet.account_number
           this.paymentDetails.IfscCode = nameSet.ifsc_code
+          
+          // if( this.addedItemList.length < 1 ){
+
+          //   this.msgService.showErrorMessage('error', '', 'Please delete existing entries for changing account');
+
+          // }
         }
       })
 

@@ -29,7 +29,7 @@
       <div class="payment-details-item field-wrapper" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="account-name">Account Name <span class="danger">*</span><span class="customeAdd"
             (click)="toggleAccount()">Add Account</span></label>
-        <select class="form-ctrl" name="account-name" id="account-name" [(ngModel)]="paymentDetails.accountName"
+        <select class="form-ctrl" name="account-name" id="account-name" [disabled]="addedItemList.length == '1'" [(ngModel)]="paymentDetails.accountName"
           (ngModelChange)="setAccountIfscIncome($event)">
           <option value="-1">Select Account</option>
           <option [value]="account.account_id" *ngFor="let account of accountNamelist">{{account.display_name}}</option>
@@ -40,14 +40,14 @@
         <label for=" account-name">Account Number 
         </label>
         <input type="text" class="form-ctrl" name="account-number" disabled id="account-name"
-          [(ngModel)]="paymentDetails.accountNumber" placeholder="Enter Account Number">
+          [(ngModel)]="paymentDetails.accountNumber" placeholder="Account Number">
 
       </div>
 
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode == '3'">
         <label for="account-name">IFSC Code </label>
         <input type="text" class="form-ctrl" name="ifsc-code" disabled id="ifsc-code"
-          [(ngModel)]="paymentDetails.IfscCode" placeholder="Enter IFSC Code">
+          [(ngModel)]="paymentDetails.IfscCode" placeholder="IFSC Code">
 
       </div>
 
@@ -66,11 +66,14 @@
       </div>
 
       <div class="payment-details-item field-wrapper">
-        <label for="payment-mode">Payment Mode <span class="danger">*</span></label>
-        <select class="form-ctrl" name="payment-mode"  disabled id="payment-mode" [(ngModel)]="paymentDetails.paymentmode">
+        <label for="payment-mode">Payment Mode</label>
+        <input type="text" class="form-ctrl" name="account-name" disabled id="payment-mode"
+        [(ngModel)]="paymentDetails.paymentValue" placeholder="Payment Mode">
+
+        <!-- <select class="form-ctrl" name="payment-mode"  disabled id="payment-mode" [(ngModel)]="paymentDetails.paymentmode">
           <option value="-1">Select Payment Mode</option>
           <option [value]="mode.data_key" *ngFor="let mode of paymentModelist">{{mode.data_value}}</option>
-        </select>
+        </select> -->
       </div>
 
 

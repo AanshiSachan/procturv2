@@ -48,7 +48,8 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     IfscCode: '',
     dataKey: '',
     transacId: '',
-    ChequeNumber: ''
+    ChequeNumber: '',
+    paymentValue:''
 
   }
 
@@ -258,7 +259,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   addItem() {
     if (this.accountDetails.itemName != -1) {
       if (this.accountDetails.amount != 0) {
-        if (this.paymentDetails.paymentmode != "-1") {
+        // if (this.paymentDetails.paymentmode != "-1") {
 
           // if (this.checkPaymentModeVal()) {
 
@@ -294,10 +295,10 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
         // }
 
 
-        else {
-          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
-        }
-      }
+      //   else {
+      //     this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+      //   }
+      // }
       else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
       }
@@ -348,6 +349,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
     if (this.paymentDetails.payeeName != '-1') {
       if (this.paymentDetails.accountName != '-1') {
         // if (this.paymentDetails.paymentmode != "-1") {
+          
         if (this.addedItemList.length > 0) {
 
 
@@ -436,8 +438,16 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
           console.log(nameSet);
           // this.account_type_value = nameSet.type_value;
           this.paymentDetails.paymentmode = nameSet.payment_mode;
+          this.paymentDetails.paymentValue =nameSet.type_value
           this.paymentDetails.accountNumber = nameSet.account_number
           this.paymentDetails.IfscCode = nameSet.ifsc_code
+
+          
+          // if( this.addedItemList.length < 1 ){
+
+          //   this.msgService.showErrorMessage('error', '', 'Please delete existing entries for changing account');
+
+          // }
         }
       })
 
