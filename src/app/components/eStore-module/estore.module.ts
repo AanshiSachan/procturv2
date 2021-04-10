@@ -21,6 +21,7 @@ import { EstoreRoutingModule } from './estore-routing.module';
 import { ProductService } from '../../services/products.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import {FileUploadModule} from 'primeng/fileupload';
+import { HttpService } from '../../services/http.service';
 
 
 
@@ -58,7 +59,8 @@ import {FileUploadModule} from 'primeng/fileupload';
     ExportToPdfService,
     MessageShowService,
     TablePreferencesService,
-    ProductService
+    ProductService,
+    HttpService
   ],
   exports:[]
 })
