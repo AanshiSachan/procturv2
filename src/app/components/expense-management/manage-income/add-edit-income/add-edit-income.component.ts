@@ -44,7 +44,8 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     IfscCode: '',
     transacId: '',
     ChequeNumber: '',
-    accountNumber: ''
+    accountNumber: '',
+    paymentValue:''
   }
 
   payerList: any[] = [];
@@ -230,18 +231,20 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
       return true;
     } else if (this.paymentDetails.paymentmode == '2') {
       return true;
-    } else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
-      return true;
-    } else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
-      return true;
-    }
+    } 
+    // else if (this.paymentDetails.paymentmode == '3' && this.paymentDetails.transacId.trim() != '') {
+    //   return true;
+    // } 
+    // else if (this.paymentDetails.paymentmode == '1' && this.paymentDetails.ChequeNumber.trim() != '') {
+    //   return true;
+    // }
   }
 
   addItem() {
     if (this.accountDetails.itemName != -1) {
       if (this.accountDetails.amount != 0) {
-        if (this.paymentDetails.paymentmode != "-1") {
-          if (this.checkPaymentModeVal()) {
+        // if (this.paymentDetails.paymentmode != "-1") {
+          // if (this.checkPaymentModeVal()) {
 
             let obj = {
               itemName: this.categoryName,
@@ -267,15 +270,15 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
             this.paymentDetails.ChequeNumber = ''
           }
 
-          else {
-            let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
-            this.msgService.showErrorMessage('error', '', msg);
-          }
-        }
-        else {
-          this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
-        }
-      }
+        //   else {
+        //     let msg = (this.paymentDetails.paymentmode == '1') ? 'Enter Cheque Number' : 'Enter Transaction Id';
+        //     this.msgService.showErrorMessage('error', '', msg);
+        //   }
+        // }
+      //   else {
+      //     this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
+      //   }
+      // }
       else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
       }
@@ -483,8 +486,17 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     if (this.accountNamelist && this.accountNamelist.length) {
       let accuntIfscObj = this.accountNamelist.filter(nameSet => {
         if ((nameSet.account_id == obj)) {
+          this.paymentDetails.paymentmode = nameSet.payment_mode;
+          this.paymentDetails.paymentValue =nameSet.type_value
+
           this.paymentDetails.accountNumber = nameSet.account_number
           this.paymentDetails.IfscCode = nameSet.ifsc_code
+          
+          // if( this.addedItemList.length < 1 ){
+
+          //   this.msgService.showErrorMessage('error', '', 'Please delete existing entries for changing account');
+
+          // }
         }
       })
 
