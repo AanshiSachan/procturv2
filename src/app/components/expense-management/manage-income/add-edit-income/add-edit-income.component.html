@@ -36,21 +36,21 @@
         </select>
       </div>
 
-      <!-- <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
+      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode == '3'">
         <label for=" account-name">Account Number 
         </label>
         <input type="text" class="form-ctrl" name="account-number" disabled id="account-name"
           [(ngModel)]="paymentDetails.accountNumber" placeholder="Enter Account Number">
 
-      </div> -->
+      </div>
 
-      <!-- <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.accountName">
+      <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode == '3'">
         <label for="account-name">IFSC Code </label>
         <input type="text" class="form-ctrl" name="ifsc-code" disabled id="ifsc-code"
           [(ngModel)]="paymentDetails.IfscCode" placeholder="Enter IFSC Code">
 
       </div>
- -->
+
 
 
     </div>
@@ -67,7 +67,7 @@
 
       <div class="payment-details-item field-wrapper">
         <label for="payment-mode">Payment Mode <span class="danger">*</span></label>
-        <select class="form-ctrl" name="payment-mode" id="payment-mode" [(ngModel)]="paymentDetails.paymentmode">
+        <select class="form-ctrl" name="payment-mode"  disabled id="payment-mode" [(ngModel)]="paymentDetails.paymentmode">
           <option value="-1">Select Payment Mode</option>
           <option [value]="mode.data_key" *ngFor="let mode of paymentModelist">{{mode.data_value}}</option>
         </select>

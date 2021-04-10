@@ -434,8 +434,8 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       let accuntIfscObj = this.accountNamelist.filter(nameSet => {
         if ((nameSet.account_id == obj)) {
           console.log(nameSet);
-          this.account_type_value = nameSet.type_value;
-          this.paymentDetails.paymentmode = nameSet.type;
+          // this.account_type_value = nameSet.type_value;
+          this.paymentDetails.paymentmode = nameSet.payment_mode;
           this.paymentDetails.accountNumber = nameSet.account_number
           this.paymentDetails.IfscCode = nameSet.ifsc_code
         }
@@ -444,17 +444,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
 
     }
   }
-  setAccountNameValu(obj){
-    if(this.payeeList && this.payeeList.length){
-      let accountValue = this.payeeList.filter(nameValue => {
-        if((nameValue.party_id == obj)){
-          this.paymentDetails.accountName = nameValue.accountNamelist
-        }
-      })
-    }
-
-  }
-
+ 
 
 
 

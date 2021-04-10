@@ -485,6 +485,8 @@ export class AddEditIncomeComponent implements OnInit, OnDestroy {
     if (this.accountNamelist && this.accountNamelist.length) {
       let accuntIfscObj = this.accountNamelist.filter(nameSet => {
         if ((nameSet.account_id == obj)) {
+          this.paymentDetails.paymentmode = nameSet.payment_mode;
+
           this.paymentDetails.accountNumber = nameSet.account_number
           this.paymentDetails.IfscCode = nameSet.ifsc_code
         }
