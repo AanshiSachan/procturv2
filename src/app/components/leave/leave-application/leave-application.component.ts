@@ -25,7 +25,6 @@ export class LeaveApplicationComponent implements OnInit {
     varJson:any ={
       pageIndex:1,
       sizeArr:[5,25,50,100,150,200,500],
-      displayBatchSize:25,
       total_item:0
     }
 
@@ -36,8 +35,10 @@ export class LeaveApplicationComponent implements OnInit {
       status:'CANCELLED',
       userid:1,
       id:0,
-      pageSize:100,
+      pageSize:5 ,
       pageOffset:1,
+      pageIndex:1,
+
       days:0,
       applicatioName:'',
       categoryName:'',
@@ -68,35 +69,40 @@ toApplicationList:any[]=[]
 
   }
 fetchNext(){
-  this.varJson.pageIndex++;
-  this.fetchTableDataByPage(this.varJson.pageIndex)
+  this.leaveApllicationmodel.pageOffset++;
+  this.fetchTableDataByPage(this.leaveApllicationmodel.pageOffset)
 }
 
 fetchPrevious(){
-  this.varJson.pageIndex-- ;
-  this.fetchTableDataByPage(this.varJson.pageIndex)
+alert(this.leaveApllicationmodel.pageOffset)
+  this.leaveApllicationmodel.pageOffset-- ;
+  this.fetchTableDataByPage(this.leaveApllicationmodel.pageOffset)
 
 }
   
 fetchTableDataByPage(index){
-  this.varJson.pageIndex =index;
-  let object ={
-    "page_no":this.varJson.pageIndex,
-    "no-of-record":this.varJson.displayBatchSize
-  }
+  this.leaveApllicationmodel.pageOffset =index;
+  this.getAllleaveApplication()
+ 
+}
+updateTableBatchSize(num) {
+  this.leaveApllicationmodel.pageOffset = 1;
+  this.leaveApllicationmodel.pageSize = parseInt(num);
+  this.fetchTableDataByPage(this.leaveApllicationmodel.pageOffset);
 }
 
 
 
   getAllleaveApplication(){
-    
+   
     this.auth.showLoader();
     const url1 ='/api/v2/leave-application/applied/'+this.jsonFlag.institute_id+'/'+this.jsonFlag.created_by+'?'+ 'pageSize='+this.leaveApllicationmodel.pageSize+ '&' +'pageOffset='+this.leaveApllicationmodel.pageOffset;
     this.httpService.getData(url1).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
-        this.varJson.total_item = this.leaveApplicationList.length;
+        console.log("ASHAAAAAAAA",this.leaveApplicationList)
+        this.varJson.total_item = res.result.totalElements;
         for(let i=0; i < this.leaveApplicationList.length;i++){
           this.leaveApplicationList[i].no_of_days = this.leaveApllicationmodel.days;
         var  from = moment(this.leaveApplicationList[i].from);
@@ -105,10 +111,8 @@ fetchTableDataByPage(index){
           this.leaveApllicationmodel.days = diff;
 
         }
-        console.log("DAYS",this.leaveApllicationmodel.days)
 
-        // alert(this.varJson.total_item)
-        console.log("mrunali",this.leaveApplicationList)
+        //  alert(this.varJson.total_item)
       },
       err => {
         this.auth.hideLoader();
@@ -134,6 +138,9 @@ fetchTableDataByPage(index){
   }
 
 getApplicationToList(){
+  for(let i=0;this.toApplicationList.length;i++){
+    this.toApplicationList[i].applied_by_user_id !=this.jsonFlag.created_by
+  }
   this.auth.showLoader();
   const url1 = '/api/v1/profiles/'+this.jsonFlag.institute_id+'/user-by-type'+'?'+'type='+this.leaveApllicationmodel.userType
   this.httpService.getData(url1).subscribe(
@@ -216,14 +223,13 @@ reason:"",
 
 
 editLeaveRow(obj){
-alert(obj.applied_to_user_id)
 
  this.leaveApllicationmodel.id = obj.id;
-// if(obj.applied_by_role == 'Staff'){
-// this.leaveApllicationmodel.userType = '0,9';
-// }else if(obj.applied_by_role == 'Teacher'){
-//   this.leaveApllicationmodel.userType = '3'
-// }
+if(obj.applied_by_role == 'Staff'){
+this.leaveApllicationmodel.userType = '0,9';
+}else if(obj.applied_by_role == 'Teacher'){
+  this.leaveApllicationmodel.userType = '3'
+}
 this.leaveApllicationmodel.userType = obj.applied_by_role
   this.leaveApllicationmodel.applicatioName = obj.applied_to_user_id;
   this.leaveApllicationmodel.categoryName = obj.type.id;
@@ -346,5 +352,13 @@ this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD'),
 closePopups($event) {
   $('#addModal').modal('hide');
   this.closePopup.emit(false);
+  
 }
+clear(){
+  this.leaveApllicationmodel.userType=''
+  this.leaveApllicationmodel.applicatioName=''
+  this.leaveApllicationmodel.categoryName=''
+  this.leaveApllicationmodel.from=moment(new Date()).format('YYYY-MM-DD')
+  this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD')
+  }
 }

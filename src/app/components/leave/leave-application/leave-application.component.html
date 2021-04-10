@@ -8,7 +8,7 @@
         <div>
           <!-- <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a> -->
           <a  class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
-          <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
+          <!-- <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a> -->
         </div>
       </div>
     </div>
@@ -122,9 +122,9 @@
 <!-- </div> -->
 <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
   <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-    <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-      [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr"
-       [count]="varJson.total_item">
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="leaveApllicationmodel.pageOffset" [perPage]="leaveApllicationmodel.pageSize"  [sizeArr]="varJson.sizeArr"
+      (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_item">
     </pagination>
   </div>
 </div>
@@ -133,7 +133,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" >Apply For Leave</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="clear()">&times;</button>
         </div>
         <div class="modal-body">
           <div class="pt10">
@@ -171,7 +171,7 @@
       </div>
     </div>
   </div>
- <div class="modal" id="editModal" data-backdrop="static" >
+ <div class="modal" id="editModal" data-backdrop="static">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

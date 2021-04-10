@@ -28,8 +28,10 @@ export class LeavePermissionComponent implements OnInit {
     status:'REJECTED',
     userid:1,
     id:0,
-    pageSize:100,
+    pageSize:5,
     pageOffset:1,
+    pageIndex:1,
+
     days:0,
     applicatioName:'',
     categoryName:'',
@@ -41,7 +43,7 @@ export class LeavePermissionComponent implements OnInit {
   varJson:any ={
     pageIndex:1,
     sizeArr:[5,25,50,100,150,200,500],
-    displayBatchSize:25,
+  
     total_item:0
   }
   leaveApplicationList:any[]=[]
@@ -57,10 +59,34 @@ export class LeavePermissionComponent implements OnInit {
      }
   ngOnInit(): void {
     this.getAllleaveApplication()
+    this.fetchTableDataByPage(1)
+
 
   }
 
-
+  fetchNext(){
+    this.leaveApllicationmodel.pageOffset++;
+    this.fetchTableDataByPage(this.leaveApllicationmodel.pageOffset)
+  }
+  
+  fetchPrevious(){
+    this.leaveApllicationmodel.pageOffset-- ;
+    this.fetchTableDataByPage(this.leaveApllicationmodel.pageOffset)
+  
+  }
+    
+  fetchTableDataByPage(index){
+    this.leaveApllicationmodel.pageOffset =index;
+    this.getAllleaveApplication()
+   
+  }
+  updateTableBatchSize(num) {
+    this.leaveApllicationmodel.pageOffset = 1;
+    this.leaveApllicationmodel.pageSize = parseInt(num);
+    this.fetchTableDataByPage(this.leaveApllicationmodel.pageOffset);
+  }
+  
+  
   getAllleaveApplication(){
     
     this.auth.showLoader();
@@ -69,7 +95,7 @@ export class LeavePermissionComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
-        this.varJson.total_item = this.leaveApplicationList.length;
+        this.varJson.total_item = res.result.totalElements;
         // alert(this.varJson.total_item)
         console.log("mrunali",this.leaveApplicationList)
       },

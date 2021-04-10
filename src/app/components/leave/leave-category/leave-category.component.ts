@@ -203,11 +203,11 @@ this.leaveSearchInput = "";
 closePopups($event) {
   $('#addModal').modal('hide');
   this.closePopup.emit(false);
-  backdrop: 'static'
-
   
 }
 
-
+clear(){
+  this.leaveType.name=''
+}
 
 }

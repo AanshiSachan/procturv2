@@ -8,7 +8,7 @@
         <div>
           <!-- <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a> -->
           <a  class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
-          <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
+          <!-- <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a> -->
         </div>
       </div>
     </div>
@@ -93,28 +93,47 @@
             </div>
           </div>
           <!-- use image only when page is empty,table body class element will not be present -->
-    <div class="white bottom_button bottom_pagignation">
-      <div class="w98">
+    <!-- <div class="white bottom_button bottom_pagignation"> -->
+      <!-- <div class="w98"> -->
       <!-- pagignation div -->
-      <div class=" flex">
-        <div class="w20">
+      <!-- <div class=" flex"> -->
+        <!-- <div class="w20">
           <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
         </div>
         <div class="w10">
           <p>Total <span>9</span> Pages</p>
-        </div>
-        <div class="w40">
+        </div> -->
+        <!-- <div class="w40">
           <p>Records per Page  
             <select>
             <option>9</option>
             </select>
           </p>
-        </div>
-        <div class="w30" >
+        </div> -->
+        <!-- <div class="w30" >
          <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
+        </div> -->
+
+
+        <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+              [pagesToShow]="10" [page]="leaveApllicationmodel.pageOffset" [perPage]="leaveApllicationmodel.pageSize"  [sizeArr]="varJson.sizeArr"
+              (sizeChange)="updateTableBatchSize($event)"  [count]="varJson.total_item">
+            </pagination>
+          </div>
         </div>
-      </div>
-    </div>
-    </div>
+
+
+      <!-- </div> -->
+
+    <!-- </div> -->
+
+
+
+
+    
+  <!-- </div> -->
+
 </div>
 

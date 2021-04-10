@@ -8,7 +8,7 @@
         <div>
           <!-- <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a> -->
           <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
-          <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a>
+          <!-- <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a> -->
         </div>
       </div>
     </div>
@@ -78,7 +78,7 @@
           <h4 class="modal-title">Add Leave Category</h4>
 
 
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="clear()">&times;</button>
         </div>
         <div class="modal-body">
           <!-- <div class="pt10">
