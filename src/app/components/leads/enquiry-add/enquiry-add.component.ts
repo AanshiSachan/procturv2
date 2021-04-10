@@ -479,6 +479,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList() {
+    if(this.newEnqData.state_id != '') {
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -493,9 +494,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   getAreaList() {
+    if (this.newEnqData.city_id != "" && this.newEnqData.city_id != "-1") {
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -510,6 +513,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   toggleAddArea() {
@@ -1314,30 +1318,35 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       school_id: this.newEnqData.school_id,
       curr_address: this.newEnqData.curr_address,
       country_id: this.newEnqData.country_id,
-      assigned_to: this.newEnqData.assigned_to,
-      state_id: this.newEnqData.state_id,
-      area_id: this.newEnqData.area_id,
-      city_id: this.newEnqData.city_id,
-      comments: this.newEnqData.enquiry,
-    }
-    if (this.schoolModel) {
-        obj.birth_place = this.newEnqData.birth_place,
-        obj.blood_group = this.newEnqData.blood_group,
-        obj.category = this.newEnqData.category,
-        obj.nationality = this.newEnqData.nationality,
-        obj.student_adhar_no = this.newEnqData.student_adhar_no,
-        obj.parent_adhar_no = this.newEnqData.parent_adhar_no,
-        obj.parent_profession = this.newEnqData.parent_profession,
-        obj.mother_tounge = this.newEnqData.mother_tounge,
-        obj.extra_curricular_activities = this.newEnqData.extra_curricular_activities,
-        obj.educational_group = this.newEnqData.educational_group,
-        obj.pin_code = this.newEnqData.pin_code,
-        obj.student_perm_addr = this.newEnqData.address,
-        obj.guardian_name = this.newEnqData.guardian_name,
-        obj.guardian_email = this.newEnqData.guardian_email,
-        obj.guardian_phone = this.newEnqData.guardian_phone,
-        obj.religion = this.newEnqData.religion
-
+      phone2: this.newEnqData.phone2,
+      priority: this.newEnqData.priority,
+      qualification: this.newEnqData.qualification,
+      referred_by: this.newEnqData.referred_by,
+            religion: this.newEnqData.religion,
+            slot_id: this.newEnqData.slot_id,
+            source_id: this.newEnqData.source_id,
+            source_instituteId: this.newEnqData.source_instituteId,
+            status: this.newEnqData.status,
+            subjectIdArray: this.selectedSubjectIds,
+            walkin_followUpDate: this.newEnqData.walkin_followUpDate,
+            walkin_followUpTime: this.newEnqData.walkin_followUpTime,
+            is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification,
+            birth_place: this.newEnqData.birth_place,
+            blood_group: this.newEnqData.blood_group,
+            category: this.newEnqData.category,
+            nationality: this.newEnqData.nationality,
+            student_adhar_no: this.newEnqData.student_adhar_no,
+            parent_adhar_no: this.newEnqData.parent_adhar_no,
+            parent_profession: this.newEnqData.parent_profession,
+            mother_tounge: this.newEnqData.mother_tounge,
+            extra_curricular_activities: this.newEnqData.extra_curricular_activities,
+            educational_group: this.newEnqData.educational_group,
+            pin_code: this.newEnqData.pin_code,
+            inst_acad_year_id: this.newEnqData.inst_acad_year_id,
+            guardian_name: this.newEnqData.guardian_name,
+            guardian_phone: this.newEnqData.guardian_phone,
+            guardian_email: this.newEnqData.guardian_email,
+            address: this.newEnqData.address
     }
     console.log(obj);
     if (!this.isProfessional) {

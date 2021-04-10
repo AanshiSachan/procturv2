@@ -65,7 +65,7 @@
               src="./assets/images/Reporticons/coursewise.png" alt=" "></a>
 
           <div class="col-sm" style="margin-top:-31px;margin-left:8px;">
-            <span class="sub-head"><a routerLink="/view/fee/moduleReport">Course wise</a></span>
+            <span class="sub-head"><a routerLink="/view/fee/moduleReport">{{schoolModel ? 'Section' : 'Course'}} wise</a></span>
           </div>
           <div class="col-sm" style="margin-top:9px;margin-left:-10px;">
             <h6 class="content">Paid and Due Reports Course wise.</h6>
@@ -115,7 +115,7 @@
       <div class="menu-title">
         <img src="./assets/images/Reporticons/ch.png" alt=" ">
 
-        <span class="head-font" style="margin-top:-6px;">Course</span>
+        <span class="head-font" style="margin-top:-6px;">{{schoolModel ? 'Section' : 'Course'}}</span>
       </div>
       <div class="menu-description">
         <hr class="heading_hr">
@@ -143,7 +143,7 @@
             <hr class="content_hr" style="margin-left:-28px;">
           </div>
         </div>
-        <div class="row" *ngIf="JsonFlags.isShowExamReport">
+        <div class="row" *ngIf="JsonFlags.isShowExamReport && !schoolModel">
 
           <a routerLink="/view/course/reports/exam" class="icon_click"> <img
               src="./assets/images/Reporticons/examreport.png" alt=" "></a>

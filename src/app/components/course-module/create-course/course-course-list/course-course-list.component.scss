@@ -628,7 +628,7 @@ $color-highlight: lighten($color-base,
   background: white;
   height: auto;
   padding: 20px;
-  z-index: 100;
+  z-index: 99999999;
   border-radius: 6px;
   border-top: 4px solid rgba(255,0,0,0.7);
   box-shadow: 1px 8px 20px 5px #9c9c9c;

@@ -1688,7 +1688,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.student_adhar_no = this.enquiryData.student_adhar_no,
         this.studentAddFormData.parent_adhar_no = this.enquiryData.parent_adhar_no,
         this.studentAddFormData.parent_profession = this.enquiryData.parent_profession,
-        // this.studentAddFormData.mother_tounge = this.enquiryData.mother_tounge,
+        this.studentAddFormData.mother_tounge = this.enquiryData.mother_tounge,
         this.studentAddFormData.extra_curricular_activities = this.enquiryData.extra_curricular_activities,
         this.studentAddFormData.educational_group = this.enquiryData.educational_group,
         this.studentAddFormData.pin_code = this.enquiryData.pin_code,

@@ -57,7 +57,7 @@
                   <button class="btn fullBlue" (click)="fetchDataByName()" style="margin-top: 27px;">GO</button>
                 </div>
                 <div class="c-lg-2 form" style="margin-top: 3%" (click)="switchFilter()" *ngIf="showCourseFilter">
-                  <a *ngIf="!isProfessional">Show Course Filter</a>
+                  <a *ngIf="!isProfessional">Show {{schoolModel ? 'Section' : 'Course'}} Filter</a>
                   <a *ngIf="isProfessional">Show Batch Filter</a>
                 </div>
               </div>

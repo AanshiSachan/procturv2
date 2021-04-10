@@ -312,6 +312,7 @@ export class ShareFileComponent implements OnInit {
     this.isChecked = false;
     this.getBatch = "0";
     this.batchesId = true;
+    this.studentsId = false;
     this.dataStatus = true;
     (<HTMLFormElement>document.getElementById('batch')).checked = true;
     this.fetchBatchesData = {

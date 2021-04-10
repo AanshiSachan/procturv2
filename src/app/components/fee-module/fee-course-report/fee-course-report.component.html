@@ -9,16 +9,17 @@
                         </a><i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
                         <div style="display:inline-block;">
                          <i style="font-family: 'FontAwesome';" class=""></i>
-                            {{isProfessional? 'Batch':'Course'}} wise Report
+                           <span *ngIf="!schoolModel"> {{isProfessional? 'Batch':'Course'}} wise Report</span>
+                           <span *ngIf="schoolModel"> Section wise Report</span>
                         </div>
                         <!-- <div *ngIf=isProfessional style="display:inline-block;">
                             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Course wise Report
                         </div> -->
                     </h2>
                     <aside class="pull-left" style="position: relative;top:10px;">
-                        <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'"
-                            [customClass]="'left'">
-                        </rob-tooltip>
+                            <!-- <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'"
+                                [customClass]="'left'">
+                            </rob-tooltip> -->
                     </aside>
                 </div>
 
