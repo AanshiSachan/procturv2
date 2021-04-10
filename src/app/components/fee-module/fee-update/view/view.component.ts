@@ -18,6 +18,7 @@ export class ViewComponent implements OnInit {
   isProfessional: boolean;
   academic_yr_id: number = -1;
   stdFeeDataList: any = [];
+  masterSelected: boolean=false;
   constructor(
     private route: ActivatedRoute,
     private http: HttpService,
@@ -78,6 +79,7 @@ export class ViewComponent implements OnInit {
     this.http.getData(url).subscribe(
       (res: any) => {
         this.stdFeeDataList = res.result;
+        this.checkUncheckAll();
         this.auth.hideLoader();
       },
       (error: any) => {
@@ -88,5 +90,10 @@ export class ViewComponent implements OnInit {
       }
     )
 
+  }
+  checkUncheckAll() {
+    for (var i = 0; i < this.stdFeeDataList.a_install_li.length; i++) {
+      this.stdFeeDataList.a_install_li[i].isSelected = this.masterSelected;
+    }
   }
 }
