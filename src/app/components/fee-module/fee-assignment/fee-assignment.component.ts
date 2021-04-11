@@ -246,10 +246,6 @@ export class FeeAssignmentComponent implements OnInit {
     if (!this.validateStudentData()) {
       return;
     }
-    // if (this.feeStructureList.length > 0) {
-    //   $('#assignFeeModel').modal('show');
-    //   return
-    // }
     $('#assignFeeModel').modal('show');
     this.auth.showLoader();
     let queryParam = "";

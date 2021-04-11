@@ -40,10 +40,6 @@
                 <div class="page_heading2 ">
                     <div class="w98">
                         Installments
-                        <!-- <span class="position_c">
-            <span class="red_c"></span>
-            <span class="red_c_text">Due Date Over</span>
-            </span> -->
                         <button class="right blue_button mart" data-toggle="modal" data-target="#installmentModal">
                             Add Installment
                         </button>
@@ -55,7 +51,8 @@
                             <div>
                                 <label class="checkbox">
                                     <span class="checkbox__input">
-                                        <input type="checkbox" name="checked" [(ngModel)]="masterSelected" (change)="checkUncheckAll()">
+                                        <input type="checkbox" name="checked" [(ngModel)]="masterSelected"
+                                            (change)="checkUncheckAll()">
                                         <span class="checkbox__control">
                                             <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                                                 <path fill='none' stroke='currentColor'
@@ -90,7 +87,7 @@
                             <div *ngFor="let data of stdFeeDataList.a_install_li">
                                 <div class="table_body">
                                     <div>
-                                        <label class="checkbox">
+                                        <label class="checkbox" *ngIf="data.p_status!='Y'">
                                             <span class="checkbox__input">
                                                 <input type="checkbox" name="checked" [(ngModel)]="data.isSelected">
                                                 <span class="checkbox__control">
@@ -110,8 +107,9 @@
                                     </div>
                                     <div>
                                         <div class="tooltip1"> {{data.t_amount}}
-                                            <span class="tooltiptext"><span class="blue">Amount</span> {{data.initial_amount}} <span
-                                                    class="blue">+Tax </span>{{data.tax_amount}} - <span class="blue">Discount</span>
+                                            <span class="tooltiptext"><span class="blue">Amount</span>
+                                                {{data.initial_amount}} <span class="blue">+Tax
+                                                </span>{{data.tax_amount}} - <span class="blue">Discount</span>
                                                 {{data.disc_amount}}
                                                 <span class="blue">+ Paid </span>{{data.p_amount}}</span>
                                         </div>
@@ -123,17 +121,42 @@
                                         {{data.d_amount}}
                                     </div>
                                     <div>
-
                                         {{data.d_date}}
-
                                     </div>
-                                    <div>
+                                    <div *ngIf="data.p_status=='Y'">
                                         <span class="paid1">
                                             Paid
                                         </span>
                                     </div>
-                                    <div>
-                                         <a href="" class="mr10"><img src="../../../../../assets/img/purple_download.svg"
+                                    <div *ngIf="data.p_status=='Y'">
+                                        <a href="" class="mr10"><img src="../../../../../assets/img/purple_download.svg"
+                                                title="Download"></a>
+                                    </div>
+                                    <div *ngIf="data.p_status=='N' && !isOverdue(data.d_date) && data.p_amount==0">
+                                        <span class="due1">
+                                            Due
+                                        </span>
+                                    </div>
+                                    <div *ngIf="data.p_status=='N' && !isOverdue(data.d_date) && data.p_amount==0">
+                                        <a href="" class="mr10"><img src="../../../../../assets/img/purple_download.svg"
+                                                title="Download"></a>
+                                    </div>
+                                    <div *ngIf="data.p_status=='N' && isOverdue(data.d_date) && data.p_amount ==0 ">
+                                        <span class="overdue1">
+                                            Overdue
+                                        </span>
+                                    </div>
+                                    <div *ngIf="data.p_status=='N' && isOverdue(data.d_date) && data.p_amount ==0 ">
+                                        <a href="" class="mr10"><img src="../../../../../assets/img/purple_download.svg"
+                                                title="Download"></a>
+                                    </div>
+                                    <div *ngIf="data.p_status=='N' && data.p_amount>0">
+                                        <span class="ppaid1">
+                                            Partially paid
+                                        </span>
+                                    </div>
+                                    <div *ngIf="data.p_status=='N' && data.p_amount>0">
+                                        <a href="" class="mr10"><img src="../../../../../assets/img/purple_download.svg"
                                                 title="Download"></a>
                                     </div>
                                 </div>
@@ -145,7 +168,7 @@
                         <button class="white_button" data-toggle="modal" data-target="#largeModal">
                             Apply Discount
                         </button>
-                        <button class="white_button right" data-toggle="modal" data-target="#updateinstModal">
+                        <button class="white_button right" data-toggle="modal" (click)="openPaymentPopup()">
                             Update Payment
                         </button>
                     </div>
@@ -253,22 +276,17 @@
                                                         {{data.p_amount}}
                                                     </div>
                                                     <div>
-                                                        {{data.f_type}}
+                                                        {{data.p_method}}
                                                     </div>
-                                                    <div> {{data.f_type}}
+                                                    <div> {{data.p_method}}
                                                     </div>
                                                     <div>
-                                                        {{data.f_type}}
+                                                        {{data.p_remarks}}
                                                     </div>
                                                     <div>
                                                         <a href="" class="mr10"><img
-                                                                src="../../../../assets/img1/purple_download.svg"
+                                                                src="../../../../../assets/img/purple_download.svg"
                                                                 title="Download"></a>
-                                                        <a href="" class="mr10"><img
-                                                                src="../../../../assets/img1/edit.svg" title="Edit"></a>
-                                                        <a href="" class="mr10"><img
-                                                                src="../../../../assets/img1/delete.svg"
-                                                                title="Delete"></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -828,7 +846,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="updateinstModal">
+    <div class="modal" id="updateinstModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -837,29 +855,65 @@
                 </div>
                 <div class="modal-body">
                     <div class="pt10 pt101 grey">
-                        (Payment Details For Rs 1800)
+                        (Payment Details For Rs {{t_p_amount}})
                     </div>
                     <div class="pt10 pt101">
-                        <b>Selected Intallments:<span>5</span></b>
+                        <b>Selected Intallments:<span>{{t_selected_install}}</span></b>
                     </div>
                     <div class="pt10">
-                        <input type="text" name="" class="wid100 input" placeholder="Amount*">
+                        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                            class="wid100 input" [(ngModel)]="paymentPopUpJson.paying_amount" placeholder="Amount*">
                     </div>
                     <div class="pt10">
-                        <input type="Date" class="wid100 input" name="" placeholder="Payment Date*">
+                        <input type="Date" class="wid100 input" [(ngModel)]="paymentPopUpJson.paid_date"
+                            placeholder="Payment Date*">
                     </div>
                     <div class="pt10">
-                        <select class="select wid100">
-                            <option>Payment Mode*</option>
-                            <option>Cash</option>
-                            <option>Cheque</option>
+                        <select class="select wid100" [(ngModel)]="paymentPopUpJson.payment_mode"
+                            (ngModelChange)="getPdcChequeList($event)">
+                            <option value="">Payment Mode*</option>
+                            <option *ngFor="let data of paymentModes" [value]="data.data_key">{{data.data_value}}
+                            </option>
                         </select>
                     </div>
                     <div class="pt10">
-                        <input type="text" name="" class="wid100 input" placeholder="Reference No">
+                        <input type="text" name="" class="wid100 input" [(ngModel)]="paymentPopUpJson.reference_no"
+                            placeholder="Reference No">
                     </div>
                     <div class="pt10">
-                        <input type="text" name="" class="wid100 input" placeholder="Remarks">
+                        <input type="text" name="" class="wid100 input" [(ngModel)]="paymentPopUpJson.remarks"
+                            placeholder="Remarks">
+                    </div>
+                    <div *ngIf="paymentPopUpJson.payment_mode=='Cheque/PDC/DD No.' && chequePdcList.length>0 ">
+                        <div class="pt10">
+                            <select id="pMode" class="select wid100" name="pMode"
+                                [(ngModel)]="paymentPopUpJson.selectedPdcId" (ngModelChange)="feePdcSelected($event)">
+                                <option value=""></option>
+                                <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList"
+                                    [hidden]="opt.cheque_status_key == 1">
+                                    {{opt.cheque_date| procturDate}} ({{opt.cheque_amount}} )
+                                </option>
+                            </select>
+                        </div>
+                        <div class="pt10">
+                            <input type="text" disabled="true" class="wid100 input"
+                                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.bank_name" placeholder="Bank Name*">
+                        </div>
+                        <div class="pt10">
+                            <input type="Date" readonly="true" class="wid100 input"
+                                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" placeholder="Cheque Date*">
+                        </div>
+                        <div class="pt10">
+                            <input type="text" disabled="true" class="wid100 input"
+                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_no" placeholder="Cheque No.*">
+                        </div>
+                        <div class="pt10">
+                            <input type="text" class="wid100 input"
+                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_amount"
+                                placeholder="Cheque Amount*">
+                        </div>
                     </div>
                     <div class="pt10 ">
                         <div>
@@ -867,7 +921,8 @@
                                 <div>
                                     <label class="checkbox">
                                         <span class="checkbox__input">
-                                            <input type="checkbox" name="checked">
+                                            <input type="checkbox" name="checked"
+                                                [(ngModel)]="paymentPopUpJson.genFeeRecipt">
                                             <span class="checkbox__control">
                                                 <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                                                     <path fill='none' stroke='currentColor'
@@ -882,10 +937,10 @@
                         </div>
                         <div class="flex">
                             <div>
-
                                 <label class="checkbox">
                                     <span class="checkbox__input">
-                                        <input type="checkbox" name="checked">
+                                        <input type="checkbox" name="checked"
+                                            [(ngModel)]="paymentPopUpJson.emailFeeRecipt">
                                         <span class="checkbox__control">
                                             <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                                                 <path fill='none' stroke='currentColor'
@@ -903,8 +958,8 @@
                     <div class="pt101 display">
                         <div></div>
                         <div>
-                            <button class="white_button mr10">Back</button>
-                            <button class="blue_button ">Update</button>
+                            <button class="white_button mr10" (click)="flushPaymentPopUpData()">Cancel</button>
+                            <button class="blue_button " (click)="doPayment()">Update</button>
                         </div>
                     </div>
                 </div>

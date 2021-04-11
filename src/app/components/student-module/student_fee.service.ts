@@ -466,7 +466,50 @@ export class StudentFeeService {
             }
         }
     }
+    validatePaymentDetailsV2(data) {
+        if (Number(data.paying_amount) <= 0) {
+            this.commonService.showErrorMessage('error', 'Paying Amount', 'Please enter payment amount');
+            return false;
+        }
+        if (data.paid_date == null || data.paid_date == "") {
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter payment date');
+            return false;
+        }
+        if (sessionStorage.getItem('permissions')) {
+            let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+            if (!this.role_feature.FEE_MANAGE) {
+                if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
+                    this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
+                    return false;
+                }
+            }
+            if (!this.role_feature.FEE_MANAGE && this.role_feature.FEE_CHEQUE_MANAGE) {
+                if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
+                    this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
+                    return false;
+                }
+            }
+        }
 
+        if (data.payment_mode == "" || data.payment_mode == null) {
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter payment date');
+            return false;
+        }
+        if (data.paying_amount > data.immutable_amount) {
+            this.commonService.showErrorMessage('error', '', 'Please enter paying amount less than total amount to pay.');
+            return false;
+        }
+        if (data.payment_mode != "Cheque/PDC/DD No.") {
+            return true;
+        } else {
+            if (data.payingAmount != data.pdcSelectedForm.cheque_amount) {
+                this.commonService.showErrorMessage('error', '', 'Please enter paying amount equals to cheque amount');
+                return false;
+            } else {
+                return this.validateChequePDCJSon(data.pdcSelectedForm);
+            }
+        }
+    }
     validateChequePDCJSon(data) {
         if (data.bank_name.trim() == '') {
             this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Bank Name');
