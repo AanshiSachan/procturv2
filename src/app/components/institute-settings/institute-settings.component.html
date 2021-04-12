@@ -83,7 +83,7 @@
           </span>
         </li>
         <!-- Added By Ashwini Gupta Ticket 826 -->
-        <li id="lieStore" class="menu-item" style="cursor: pointer" (click)="changeView('lieStore','diveStoreContent')">
+        <li id="lieStore" *ngIf="!schoolModel" class="menu-item" style="cursor: pointer" (click)="changeView('lieStore','diveStoreContent')">
           <span>
             <a class="">eStore</a>
             <i class="fas fa-line-chart" style="font-family: FontAwesome"></i>
@@ -3640,7 +3640,7 @@
       </section>
 
       <!-- Added by ashwini kumar gupta Ticket 826 -->
-      <section id="diveStoreContent" class="fee-content-wrapper sectionDevideContainer">
+      <section id="diveStoreContent" *ngIf="!schoolModel" class="fee-content-wrapper sectionDevideContainer">
         <div class="row m-0">
           <div class="fee-table-wrapper">
             <div class="table-scroll-wrapper">
@@ -4175,7 +4175,7 @@
                       </td>
                     </tr>
 
-                    <tr>
+                    <tr *ngIf="!schoolModel">
                       <td>
                         <h3>Student Expiry Notification (If date specified in student details)</h3>
                         <div class="row webkitBox">
