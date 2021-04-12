@@ -719,12 +719,20 @@ export class StudentHomeComponent implements OnInit {
         title: "",
         body: "Requested record has been removed from student list",
       };
-      debugger
       this.closeSideBar();
       this.appC.popToast(msg);
       this.closeDeletePopup();
       this.loadTableDataSource(this.selectedFilterData!=null?this.selectedFilterData:this.instituteData);
-    });
+    },
+    (err:any)=>{
+      let msg = {
+        type: "error",
+        title: "",
+        body: err.error.message,
+      };
+      this.appC.popToast(msg);
+    }
+    );
   }
 
   /* =================================================================================================== */
