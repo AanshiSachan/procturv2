@@ -915,7 +915,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   isOnlineExamAllow(type) {
     if (this.jsonFlags.isAdmin) {// if user is admin
       this.jsonFlags.isShoweOnlineExam = this.checkInstSetupType(type, 4);
-    } else if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+    } else if (sessionStorage.getItem('userType') == '3' || (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin')) {
       this.jsonFlags.isShoweOnlineExam = this.role_feature.ONLINE_TESTS_MENU;
     }
   }

@@ -8,6 +8,7 @@ import { RoleManagementRouting } from './role-management.routing';
 import { RoleService } from '../../../services/user-management/role.service';
 import { AddEditRoleComponent } from './add-edit-role/add-edit-role.component';
 import { PickListModule } from 'primeng/primeng';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { PickListModule } from 'primeng/primeng';
         PickListModule
     ],
     providers: [
-        RoleService
+        RoleService,
+        AuthenticatorService
     ]
 })
 

@@ -60,13 +60,30 @@
         <span style="float: right;margin-right: 1%;">Selected Roles : {{selectedRoleLength}} </span>
       </div>
       <div class="role-list-container">
-        <div *ngFor="let item of cloneFeatureArray;let i=index" class="role-data-container">
-          <div class="field-checkbox-wrapper">
+        <div style="width: 100%;">
+          <div class="Product">
+            Proctur
+          </div>
+        <div *ngFor="let item of procturRoles;let i=index" class="role-data-container">
+          <div *ngIf="item.product == 'Proctur'" class="field-checkbox-wrapper">
             <input type="checkbox" [(ngModel)]="item.isChecked" (change)="checkLengthofRole($event.target.checked)"
               [checked]="item.isChecked" class="form-checkbox" [id]="'checkbox-'+i">
             <label [for]="'checkbox-'+i">{{item.feature_name}}</label>
           </div>
         </div>
+      </div>
+        <div style="width: 100%;">
+          <div class="Product">
+            Examdesk
+          </div>
+        <div *ngFor="let item of examDeskRoles;let i=index" class="role-data-container">
+        <div *ngIf="item.product == 'Examdesk'" class="field-checkbox-wrapper">
+          <input type="checkbox" [(ngModel)]="item.isChecked" (change)="checkLengthofRole($event.target.checked)"
+            [checked]="item.isChecked" class="form-checkbox" [id]="'checkboxio-'+i">
+          <label [for]="'checkboxio-'+i">{{item.feature_name}}</label>
+        </div>
+        </div>
+      </div>
       </div>
     </div>
 

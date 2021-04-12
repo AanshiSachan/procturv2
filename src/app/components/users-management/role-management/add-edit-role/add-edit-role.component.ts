@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RoleService } from '../../../../services/user-management/role.service';
 import { AppComponent } from '../../../../app.component';
 import { role } from '../../../../model/role_features';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-add-edit-role',
@@ -22,13 +23,16 @@ export class AddEditRoleComponent implements OnInit {
   libraryRoleInstituteId: any;
   kakadeRoleInstituteId: any;
   selectedRoleLength: any = 0;
+  examDeskRoles:any=[];
+  procturRoles:any=[];
   role_feature = role.features;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
     private apiService: RoleService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
@@ -48,8 +52,10 @@ export class AddEditRoleComponent implements OnInit {
   }
 
   getAllRolesList() {
+    this.auth.showLoader();
     this.apiService.getAllFeature().subscribe(
       res => {
+        this.auth.hideLoader();
         this.featuresArray = res;
         // Changes by Nalini - libarary role will be visible only if enabled from super admin and study material role will be visible for all users
         if (sessionStorage.getItem('enable_library_feature') != '1') {
@@ -61,11 +67,14 @@ export class AddEditRoleComponent implements OnInit {
         }
         this.cloneFeatureArray = this.keepCloning(res);
         this.cloneFeatureArray.filter(x => x.isChecked = false);
+        this.examDeskRoles = this.cloneFeatureArray.filter(x => (x.product == 'Examdesk'));
+        this.procturRoles = this.cloneFeatureArray.filter(x => (x.product == 'Proctur'));
         if (this.roleId != "-1") {
           this.getRolesOfUser(this.roleId);
         }
       },
       err => {
+        this.auth.hideLoader();
         console.log(err);
       }
     )
@@ -157,9 +166,14 @@ export class AddEditRoleComponent implements OnInit {
       obj.role_id = this.userData.role_id;
       obj.role_desc = this.userData.role_desc;
     }
-    for (let i = 0; i < this.cloneFeatureArray.length; i++) {
-      if (this.cloneFeatureArray[i].isChecked) {
-        obj.feautreList.push(this.cloneFeatureArray[i].feature_id);
+    for (let i = 0; i < this.examDeskRoles.length; i++) {
+      if (this.examDeskRoles[i].isChecked) {
+        obj.feautreList.push(this.examDeskRoles[i].feature_id);
+      }
+    }
+    for (let i = 0; i < this.procturRoles.length; i++) {
+      if (this.procturRoles[i].isChecked) {
+        obj.feautreList.push(this.procturRoles[i].feature_id);
       }
     }
     return obj;
