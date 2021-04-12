@@ -41,7 +41,7 @@
                               Date Of Joining
                           </td>
                           <td>Is Active</td>
-                          <td *ngIf="isShoweOnlineExam" class="center">Exam Desk Login</td>
+                          <!-- <td *ngIf="isShoweOnlineExam" class="center">Exam Desk Login</td> -->
                           <td>
                               <span class="right pr-40">
                                   Action
@@ -75,9 +75,9 @@
                         <span *ngIf="row?.is_active == 'Y'" class="yes">Yes</span>
                         <span *ngIf="row?.is_active == 'N'" class="no">No</span>
                       </td>
-                      <td *ngIf="isShoweOnlineExam">
+                      <!-- <td *ngIf="isShoweOnlineExam">
                         {{row.allow_exam_desk_login}}
-                      </td>
+                      </td> -->
                       <td>
                         <span class="right pr-40">
                           <a [routerLink]="['/view/course/teacher/edit',  row.teacher_id]"
