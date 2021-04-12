@@ -104,7 +104,6 @@ updateTableBatchSize(num) {
       (res: any) => {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
-console.log("aaaaashuuuuuu",this.leaveApplicationList)
         this.varJson.total_item = res.result.totalElements;
         for(let i=0; i < this.leaveApplicationList.length;i++){
           this.leaveApplicationList[i].no_of_days = this.leaveApllicationmodel.days;
@@ -131,7 +130,6 @@ console.log("aaaaashuuuuuu",this.leaveApplicationList)
       (res: any) => {
         this.auth.hideLoader();
         this.leaveTypeList = res.result;
-        console.log("AAAAAAAAAAAA",this.leaveTypeList)
       },
       err => {
         this.auth.hideLoader();
@@ -159,9 +157,7 @@ getApplicationToList(obj){
       this.toApplicationList = res.active_users;
        this.toApplicationList =this.toApplicationList.filter(item =>item.user_id != this.jsonFlag.created_by);
 
-      console.log("ApplicationList",this.toApplicationList)
-      console.log("user id",this.jsonFlag.created_by)
-
+     
     },
     err => {
       this.auth.hideLoader();
@@ -195,8 +191,7 @@ reason:"",
   const url1 = '/api/v2/leave-application'
   this.httpService.postData(url1, obj).subscribe(
     (res: any) => {
-      console.log("post data",obj)
-      // this.createdData=res.result
+     
       this.getAllleaveApplication()
 
       this.auth.hideLoader();
@@ -266,8 +261,7 @@ withdrowLeave(){
   const url1 = '/api/v2/leave-application/'+this.jsonFlag.institute_id+'/'+'change-status'+'/'+this.leaveApllicationmodel.id+'?'+'status='+this.leaveApllicationmodel.status;
   this.httpService.getData(url1).subscribe(
     (res: any) => {
-      console.log("delet obj",obj);
-      // this.createdData=res.result
+     
       this.auth.hideLoader();
 
       this.getAllleaveApplication()

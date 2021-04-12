@@ -96,8 +96,7 @@ export class LeavePermissionComponent implements OnInit {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
         this.varJson.total_item = res.result.totalElements;
-        // alert(this.varJson.total_item)
-        console.log("mrunali",this.leaveApplicationList)
+        
       },
       err => {
         this.auth.hideLoader();
@@ -119,8 +118,7 @@ getPermissionLeave(obj){
     const url1 = '/api/v2/leave-application/'+this.jsonFlag.institute_id+'/'+'change-status'+'/'+this.leaveApllicationmodel.id+'?'+'status='+this.leaveApllicationmodel.status;
     this.httpService.getData(url1).subscribe(
       (res: any) => {
-        console.log("delet obj",obj);
-        // this.createdData=res.result
+       
         this.auth.hideLoader();
   
         this.getAllleaveApplication()
@@ -143,8 +141,7 @@ getPermissionLeave(obj){
     const url1 = '/api/v2/leave-application/'+this.jsonFlag.institute_id+'/'+'change-status'+'/'+this.leaveApllicationmodel.id+'?'+'status='+this.jsonFlag.status;
     this.httpService.getData(url1).subscribe(
       (res: any) => {
-        console.log("delet obj",obj);
-        // this.createdData=res.result
+       
         this.auth.hideLoader();
   
         this.getAllleaveApplication()

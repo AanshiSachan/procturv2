@@ -167,6 +167,8 @@ deleteLeave(){
   this.auth.hideLoader()
 
   this.msgService.showErrorMessage('success', '', "Leave deleted successfully");
+  $('#deleteModal').modal('hide');
+
 },
 err => {
   this.auth.hideLoader();
