@@ -6,7 +6,7 @@
         </div>
         <div>
           <a routerLink="../purchase-add" >
-            <button class="blue_button" >Add Purchase</button>
+            <button class="blue_button"  >Add Purchase</button>
            </a>
         </div>
       </div>
@@ -71,28 +71,17 @@
                     <div>
                         <div class="dropdown1">
                             <img src="../../../../assets/img1/menu.svg" class="dot3">
-                                <div class="dropdown-content1" *ngIf="data.total_amount==data.balanced_amount">
-                                  <a routerLink="../purchase-view">View</a>
-                                  <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]">Edit</a>
-                                  <a (click)='showConfirm(data)'>Delete</a>
-                                  <!-- <a>Cancel</a>-->
-                                  <a (click)="showAddPayment(data.purchase_id)">Add Payment</a> 
+                                <div class="dropdown-content1" >
+                                  <a  (click)="viewNavigate(data.purchase_id)">View</a>
+                                  <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]"
+                                  *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
+                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>
+                                  <a *ngIf="data.total_amount !=data.balanced_amount">Cancel</a>
+                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a> 
                                   <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
                                 
                                 </div>
-                                <div class="dropdown-content1" *ngIf="data.total_amount==data.paid_amount && data.balanced_amount==0">
-                                  <a routerLink="../purchase-view">View</a>
-                                  <a>Cancel</a>
-                                  <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
-                                
-                                </div>
-                                <div class="dropdown-content1" *ngIf="data.total_amount > data.paid_amount">
-                                  <a routerLink="../purchase-view">View</a>
-                                  <a>Cancel</a>
-                                  <a data-toggle="modal" data-target="#addpayModal">Add Payment</a> 
-                                  <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
-                               </div>
-                                
+                               
                         </div>
                     </div>
                 </div>

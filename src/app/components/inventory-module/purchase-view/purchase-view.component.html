@@ -19,46 +19,46 @@
       <div class="flex30">
          <div class="flex">
            <div class="name2">From:</div>
-           <div class="value2">ABC</div>
+           <div class="value2">{{DataForView.supplier_company_name}}</div>
          </div>
          <div class="flex">
            <div class="name2">To:</div>
-           <div class="value2">ABC</div>
+           <div class="value2">{{DataForView.institute_name}}</div>
          </div>
            <div class="display">
       <div></div>
       <div class="right created_date">
-        Create Date : <b>22 Feb 2021</b>
+        Create Date : <b>{{DataForView.created_date | date : "d MMMM, y" }}</b>
       </div>
     </div>
       </div>
       <div class="flex30">
          <div class="flex">
            <div class="name2">Mobile:</div>
-           <div class="value2">13456788</div>
+           <div class="value2">{{DataForView.supplier_phone}}</div>
          </div>
-         <div class="flex">
+         <!-- <div class="flex">
            <div class="name2">Role:</div>
            <div class="value2">Student</div>
-         </div>
+         </div> -->
         <div class="flex">
            <div class="name2">Reference&nbsp;No:</div>
-           <div class="value2">13241241</div>
+           <div class="value2">{{DataForView.reference_no}}</div>
          </div>
 
       </div>
       <div class="flex30">
          <div class="flex">
            <div class="name2">Email:</div>
-           <div class="value2">support-noreply@proctur.com</div>
+           <div class="value2">{{DataForView.supplier_email}}</div>
          </div>
          <div class="flex">
            <div class="name2">Mobile:</div>
-           <div class="value2">232435436456</div>
+           <div class="value2">{{DataForView.institute_phone}}</div>
          </div>
          <div class="flex">
            <div class="name2">Payment&nbsp;Status:</div>
-           <div class="value2">Paid</div>
+           <div class="value2">{{DataForView.payment_status}}</div>
          </div>
       </div>
       <div class="flex30">
@@ -67,7 +67,7 @@
          </div>
          <div class="flex">
            <div class="name2">Email:</div>
-           <div class="value2">support-noreply@proctur.com</div>
+           <div class="value2">{{DataForView.institute_email}}</div>
          </div>
          <div class="flex">
            
@@ -90,18 +90,18 @@
                 Subtotal
               </div>
             </div>
-            <div class="tablebody">
+            <div class="tablebody" *ngFor="let data of DataForView.purchased_item_list">
               <div>
-                Abc
+               {{data.item_name}}
               </div>
               <div>
-               12333
+              {{data.unit_price}}
               </div>
               <div>
-               12233
+              {{data.quantity}}
               </div>
               <div>
-                212211
+                {{data.unit_price * data.quantity}}
               </div>
              
             </div>
@@ -116,7 +116,7 @@
                Total Amount
               </div>
               <div>
-                3333.00
+               {{DataForView.total_amount}}
               </div>
            
             </div>
@@ -131,7 +131,7 @@
                Paid (GHS)
               </div>
               <div>
-                3333.00
+               {{DataForView.total_paid_amount}} 
               </div>
               
             </div>
@@ -146,14 +146,14 @@
                Balance (GHS)
               </div>
               <div>
-                0.00
+              {{DataForView.balanced_amount}}
               </div>
           
             </div>
       </div>   
     </div>
 </div> 
-  <div class="modal" id="addpayModal">
+  <!-- <div class="modal" id="addpayModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -191,4 +191,4 @@
         </div>        
       </div>
     </div>
-  </div>
+  </div> -->

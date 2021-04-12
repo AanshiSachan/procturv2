@@ -6,6 +6,7 @@ import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import * as moment from 'moment';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 declare var $;
 
 @Component({
@@ -49,7 +50,8 @@ export class SaleItemComponent implements OnInit {
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private router:Router) {
     this.institution_id = sessionStorage.getItem('institution_id')
   }
 
@@ -232,4 +234,11 @@ export class SaleItemComponent implements OnInit {
     );
 
   }
+  viewNavigate(obj){
+    //../purchase-view
+    console.log(obj)
+    sessionStorage.setItem('viewData', obj);
+this.router.navigate(['/view/inventory-management/sale-view'])
+  }
+  viewdatas:any=[];
 }

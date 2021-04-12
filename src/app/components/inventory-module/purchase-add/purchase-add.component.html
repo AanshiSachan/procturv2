@@ -36,8 +36,8 @@
           Date is mandatory
         </span></p>
       <div class="pt102">
-        <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
-          [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
+        <input type="File" class="input wid100" id="billImageFile" name="billImageFile" placeholder="Date*" 
+         
           [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
       <p class="errormsg"><span style="height:10px;" class="help-block">
@@ -151,8 +151,8 @@
       </div>
       <div>
 
-        <button style="margin-left: 10px;" class="blue_button" (click)="savePurchaseData()" *ngIf="!isedit">Save</button>
-        <!-- <button style="margin-left: 10px;" class="blue_button" (click)="savePurchaseData()" *ngIf="isedit">Update</button> -->
+        <button style="margin-left: 10px;" class="blue_button" (click)="savePurchaseData()"  >Save</button>
+        <button style="margin-left: 10px;" class="blue_button" (click)="updatePurchaseData()"  >Update</button> 
 
      
       </div>

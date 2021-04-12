@@ -72,29 +72,16 @@
               <div>
                <div class="dropdown1">
                   <img src="../../../../assets/img1/menu.svg" class="dot3">
-                    <div class="dropdown-content1" *ngIf="data.paid_amount>0 && data.balanced_amount>0">
+                    <div class="dropdown-content1">
                       <a routerLink="../sale-view">View</a>
-                      <!-- <a  [routerLink]="['/view/inventory-management/editSale/', data.sale_id]">Edit</a>
-                      <a (click)='showConfirm(data)'>Delete</a> -->
-                      <a href="#">Cancel</a>
-                      <a (click)="showAddPaymentModel(data)">Add Payment</a>
+                      <a  [routerLink]="['/view/inventory-management/editSale/', data.sale_id]"  *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
+                      <a (click)='showConfirm(data)' *ngIf="data.total_amount==data.balanced_amount" >Delete</a> 
+                      <a  *ngIf="data.total_amount !=data.balanced_amount">Cancel</a>
+                      <a (click)="showAddPaymentModel(data)" *ngIf="data.balanced_amount!=0">Add Payment</a>
                       <a  (click)="getPaymentHistory(data.sale_id)">View Payment History</a>
                     
                     </div>
-                    <div class="dropdown-content1" *ngIf="data.balanced_amount==0">
-                      <a routerLink="../sale-view">View</a>
-                      <a href="#">Cancel</a>
-                      <a  (click)="getPaymentHistory(data.sale_id)">View Payment History</a>
-                    
-                    </div>
-                    <div class="dropdown-content1" *ngIf="data.balanced_amount==data.total_amount">
-                      <a routerLink="../sale-view">View</a>
-                      <a  [routerLink]="['/view/inventory-management/editSale/', data.sale_id]">Edit</a>
-                      <a (click)='showConfirm(data)'>Delete</a>
-                      <a (click)="showAddPaymentModel(data)">Add Payment</a>
-                      <a  (click)="getPaymentHistory(data.sale_id)">View Payment History</a>
-                    
-                    </div>
+                   
                 </div>
               </div>
             </div>

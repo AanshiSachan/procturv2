@@ -6,6 +6,7 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 declare var $;
 @Component({
   selector: 'app-purchase-item',
@@ -35,6 +36,9 @@ export class PurchaseItemComponent implements OnInit {
     is_refunded: false,
     purchased_item_list: [],
   }
+  editChange(){
+    this.isedit=false;
+  }
   paymentModel = {
     purchase_id: 1,
     purchased_by_user_id: 18000,
@@ -48,13 +52,15 @@ export class PurchaseItemComponent implements OnInit {
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) {
-    this.institution_id = sessionStorage.getItem('institution_id')
+    private excelService: ExcelService,
+    private router:Router) {
+    this.institution_id = sessionStorage.getItem('institution_id');
   }
 
   ngOnInit(): void {
     this.getPurchaseDetails();
-  }
+    this.viewdatas=sessionStorage.getItem('viewData');
+  console.log(this.viewdatas)}
   @ViewChild('addform', { static: false }) addform: NgForm;
   getPurchaseDetails() {
     this.auth.showLoader();
@@ -134,9 +140,7 @@ $('#addpayModal').modal('show');
   }
   //create payment
   addPaymentPurchase() {
-    alert("hi")
-    //this.router.navigate(['/view/inventory-management/purchase-item']);
-    if (this.addform.valid) {
+  if (this.addform.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
@@ -188,6 +192,7 @@ $('#addpayModal').modal('show');
               $('#addpayModal').modal('hide');
               this.getPurchaseDetails();
               //this.cancel(false)
+              this.addform.resetForm(this.paymentModel)
             } else {
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
@@ -238,4 +243,14 @@ $('#addpayModal').modal('show');
    
     
   }
+  viewNavigate(obj){
+    //../purchase-view
+    console.log(obj)
+    sessionStorage.setItem('viewData', obj);
+this.router.navigate(['/view/inventory-management/purchase-view'])
+  }
+  viewdatas:any=[];
+
+  
+  
 }
