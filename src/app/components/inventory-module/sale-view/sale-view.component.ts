@@ -10,7 +10,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
   templateUrl: './sale-view.component.html',
   styleUrls: ['./sale-view.component.scss']
 })
-export class SaleViewComponent implements OnInit,OnDestroy {
+export class SaleViewComponent implements OnInit {
 
   viewDatas:any =[];
   institute_id =sessionStorage.getItem('institute_id')
@@ -19,14 +19,12 @@ export class SaleViewComponent implements OnInit,OnDestroy {
     private msgService: MessageShowService,
     private _pdfService: ExportToPdfService,
     private excelService: ExcelService) { }
-  ngOnDestroy(): void {
-    sessionStorage.removeItem('viewData');
-  }
+ 
 
   ngOnInit(): void {
    this.viewDatas =sessionStorage.getItem('viewData');
   
-  // console.log(this.viewDatas);
+   console.log(this.viewDatas);
    this.getViewDataById();
   }
   DataForView=[];
@@ -42,6 +40,8 @@ getViewDataById(){
       this.auth.hideLoader();
     })
 }
-
+printData(){
+  window.print();
+}
 
 }

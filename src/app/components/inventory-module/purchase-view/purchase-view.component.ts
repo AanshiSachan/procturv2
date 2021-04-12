@@ -50,5 +50,8 @@ getViewDataById(){
 ngOnDestory(){
   sessionStorage.removeItem('viewData');
 }
+printData(){
+  window.print();
+}
 }
   

@@ -8,7 +8,7 @@
           <a href="" class="mr10"><img src="../../../../assets/img1/delete.svg" title="Card Details" class="group18"></a>
           <a href="" class="mr10"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
           <a href="" class="mr10"><img src="../../../../assets/img1/email.svg" title="Send To Email"></a>
-          <a href="" class="mr10"><img src="../../../../assets/img1/print.svg" title="Print"></a>
+          <a (click)="printData()" class="mr10"><img src="../../../../assets/img1/print.svg" title="Print"></a>
           <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
         </div>
       </div>
@@ -54,7 +54,7 @@
          </div>
         <div class="flex">
           <div class="name2">Email:</div>
-          <div class="value2">support-noreply@proctur.com</div>
+          <div class="value2">{{DataForView.user_email}}</div>
         </div>
          <div class="flex">
            <div class="name2">Payment&nbsp;Status:</div>
