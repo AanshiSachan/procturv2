@@ -47,7 +47,37 @@ export class ViewComponent implements OnInit {
     emailFeeRecipt: false
   };
   t_selected_install: number;
-  chequePdcList: any=[];
+  chequePdcList: any = [];
+  pdcAddForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_id: 0,
+    cheque_no: '',
+    cheque_status: '',
+    cheque_status_key: 0,
+    clearing_date: '',
+    institution_id: sessionStorage.getItem('institute_id'),
+    student_id: 0,
+    country_id: ''
+  };
+  selectAllChequeList: boolean = false;
+  countryDetails: any = [];
+  newPdcArr: any = [];
+  genPdcAck: boolean;
+  sendPdcAck: boolean;
+  discountInstallList: any = [];
+  max_disc_apply: number = 0;
+  discountReasonList: any = [];
+  discountPopUpForm: any = {
+    type: "1",
+    value: 0,
+    reason: "-1",
+    discountAmount: 0
+  };
+  discHistoryList: any = [];
+  isAddPDC: boolean;
+  pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
 
   constructor(
     private route: ActivatedRoute,
@@ -181,7 +211,7 @@ export class ViewComponent implements OnInit {
     if (!is_valid_payment) {
       return;
     }
-   let obj= this.preparedPaymentPayload();
+    let obj = this.preparedPaymentPayload();
     this.postService.payPartialFeeAmount(obj).subscribe(
       res => {
         // this.btnPayment.nativeElement.disabled = false;
@@ -277,32 +307,32 @@ export class ViewComponent implements OnInit {
     return install;
   }
   getPdcChequeList(payment_mode) {
-    if(payment_mode=='Cheque/PDC/DD No.'){
-    let obj = {
-      cheque_status: '',
-      student_id: this.student_id,
-      cheque_date_from: '',
-      cheque_date_to: ''
-    }
-    this.auth.showLoader();
-   // this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
-    let url="/api/v1/student_cheque/getAll/"+this.institute_id+"/"+this.student_id
-    this.http.postData(url, obj).subscribe(
-      (res :any) => {
-        this.auth.hideLoader();
-        let temp: any[] = [];
-        res.forEach(el => {
-          let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false, country_id: el.country_id };
-          temp.push(obj);
-        });
-        this.chequePdcList = temp;
-        if(this.chequePdcList.length==0){
-          this.commonService.showErrorMessage('info', '', 'No cheque available!');
-        }
+    if (payment_mode == 'Cheque/PDC/DD No.') {
+      let obj = {
+        cheque_status: '',
+        student_id: this.student_id,
+        cheque_date_from: '',
+        cheque_date_to: ''
       }
-    )
+      this.auth.showLoader();
+      // this.pdcAddForm.country_id = this.instituteCountryDetObj.id;
+      let url = "/api/v1/student_cheque/getAll/" + this.institute_id + "/" + this.student_id
+      this.http.postData(url, obj).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          let temp: any[] = [];
+          res.forEach(el => {
+            let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, isSelected: false, country_id: el.country_id };
+            temp.push(obj);
+          });
+          this.chequePdcList = temp;
+          if (this.chequePdcList.length == 0) {
+            this.commonService.showErrorMessage('info', '', 'No cheque available!');
+          }
+        }
+      )
+    }
   }
-}
   feePdcSelected(id) {
     let obj: any = {
       bank_name: '',
@@ -413,9 +443,274 @@ export class ViewComponent implements OnInit {
       genFeeRecipt: false,
       emailFeeRecipt: false
     }
-   // this.isFeePaymentUpdate = false;
+    // this.isFeePaymentUpdate = false;
   }
-  isOverdue(due_date):boolean{
-    return due_date<moment().format("YYYY-MM-DD");
+  isOverdue(due_date): boolean {
+    return due_date < moment().format("YYYY-MM-DD");
+  }
+  fetchDataForCountryDetails() {
+    let encryptedData = sessionStorage.getItem('country_data');
+    let data = JSON.parse(encryptedData);
+    if (data.length > 0) {
+      this.countryDetails = data;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
+    }
+  }
+  addCheque() {
+    debugger
+    //console.log(this.pdcAddForm);
+    let obj = {
+      bank_name: this.pdcAddForm.bank_name,
+      cheque_amount: this.pdcAddForm.cheque_amount,
+      cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"),
+      cheque_id: this.pdcAddForm.cheque_id,
+      cheque_no: this.pdcAddForm.cheque_no,
+      cheque_status: this.pdcAddForm.cheque_status,
+      cheque_status_key: this.pdcAddForm.cheque_status_key,
+      clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"),
+      institution_id: sessionStorage.getItem('institute_id'),
+      student_id: this.student_id,
+      country_id: this.pdcAddForm.country_id
+    };
+    if (this.validPdc(obj)) {
+      this.newPdcArr.push(obj);
+      this.addPdcDataToServer();
+    }
+  }
+
+  addPdcDataToServer() {
+    let temp: any[] = [];
+    this.newPdcArr.forEach(e => {
+      let obj = { cheque_no: e.cheque_no, bank_name: e.bank_name, cheque_date: e.cheque_date, student_id: this.student_id, clearing_date: e.clearing_date, institution_id: sessionStorage.getItem('institute_id'), cheque_amount: e.cheque_amount, genAck: this.genPdcAck === true ? "Y" : "N", sendAck: this.sendPdcAck === true ? "Y" : "N", country_id: e.country_id };
+      temp.push(obj);
+    });
+    this.newPdcArr = [];
+    this.genPdcAck = false;
+    this.sendPdcAck = false;
+    this.auth.showLoader();
+    this.postService.addChequePdc(temp).subscribe(
+      res => {
+        this.auth.hideLoader();
+        this.chequePdcList = [];
+        this.newPdcArr = [];
+        this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0, country_id: '' };
+        this.getPdcChequeList('Cheque/PDC/DD No.');
+        $('#chequeModal').modal('hide');
+
+      },
+      err => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', err.error.message, '');
+        this.chequePdcList = [];
+        this.getPdcChequeList('Cheque/PDC/DD No.');
+      }
+    )
+
+  }
+  validPdc(obj): boolean {
+    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
+      if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
+        this.commonService.showErrorMessage('error', '', "Please enter a valid cheque date");
+      }
+      if (obj.cheque_no.toString().length != 6) {
+        this.commonService.showErrorMessage('error', '', "Please enter a valid cheque number");
+      }
+      if (obj.cheque_amount <= 0) {
+        this.commonService.showErrorMessage('error', '', "Please enter a valid amount");
+      }
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  openDiscountPopup() {
+    if (this.validateDiscountPopup()) {
+      $('#discountInstallModel').modal('show');
+      this.fetchDiscountReason();
+    }
+
+  }
+  validateDiscountPopup() {
+    let is_intall_not_selected = true;
+    let max_disc_apply: number = 0;
+    for (let data of this.stdFeeDataList.a_install_li) {
+      if (data.isSelected) {
+        is_intall_not_selected = false;
+        max_disc_apply += data.d_amount;
+        this.discountInstallList.push(data);
+      }
+      this.max_disc_apply = max_disc_apply;
+    }
+    if (is_intall_not_selected) {
+      this.commonService.showErrorMessage('info', '', 'Please select at least one installment!');
+      return;
+    }
+    return true;
+  }
+  fetchDiscountReason() {
+    this.auth.showLoader();
+    let url = "/api/v1/discount/reason/master/all/" + this.institute_id;
+    this.http.getData(url).subscribe(
+      (res: any) => {
+        this.discountReasonList = res;
+        this.auth.hideLoader();
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', error.error.message);
+
+      }
+    )
+
+  }
+  onDiscountTypeChange(event) {
+    this.discountPopUpForm.value = 0;
+    this.discountPopUpForm.discountAmount = 0;
+  }
+
+  onDiscountAmountChange(event) {
+    event = Number(event)
+    if (event < 0) {
+      this.commonService.showErrorMessage('error', '', 'Please enter valid discount amount!');
+      this.discountPopUpForm.value = 0;
+      this.discountPopUpForm.discountAmount = 0;
+      return
+    }
+    if (this.discountPopUpForm.type == "2") {
+      if (event >= 100) {
+        this.commonService.showErrorMessage('error', '', 'Please enter valid discount percentage');
+        this.discountPopUpForm.value = 0;
+        this.discountPopUpForm.discountAmount = 0;
+        return;
+      }
+      this.discountPopUpForm.discountAmount = Math.floor(Number((this.stdFeeDataList.initial_amount * event) / 100));
+    } else {
+      this.discountPopUpForm.discountAmount = Number(this.discountPopUpForm.value);
+    }
+  }
+  applyDiscount() {
+    // common validation on the bais of amount and reason id
+    debugger;
+    this.auth.showLoader();
+    let unpaidAmount = this.max_disc_apply;
+    let isValid: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'add');
+    if (!isValid) {
+      this.auth.hideLoader();
+      return false;
+    }
+    // Condition For discount satisfy now apply discount
+    let jsonToSend: any = {
+      student_id: this.student_id,
+      discountInstllmentList: this.feeService.makeDiscountingJSONV2(this.discountInstallList, this.discountPopUpForm)
+    }
+    this.feeService.addDiscountToStudent(jsonToSend).subscribe(
+      res => {
+        this.commonService.showErrorMessage('success', '', 'Discount applied successfully!');
+        $('#discountInstallModel').modal('hide');
+        this.fetchStdFeeData(this.academic_yr_id);
+        this.clearDiscPopUpData();
+        this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', err.error.message);
+      }
+    )
+  }
+  clearDiscPopUpData() {
+    this.discountPopUpForm = {
+      type: "1",
+      value: 0,
+      reason: "-1",
+      discountAmount: 0
+    };
+  }
+
+  getDiscountHistoryDetails() {
+    this.feeService.getDiscountHistory(this.student_id).subscribe(
+      (res: any) => {
+        this.discHistoryList = res != null ? res.discountInstllmentList : this.discHistoryList;
+      },
+      err => {
+        this.commonService.showErrorMessage('error', '', err.error.message);
+      }
+    )
+  }
+  addPDCPopUp() {
+    this.isAddPDC = true;
+    $('#chequeModal').modal('show');
+
+  }
+  deletePDC(data) {
+    this.auth.showLoader();
+    if (confirm("Are you sure,you want to delete the Cheque?")) {
+      this.postService.deletePdcById(data.cheque_id).subscribe(
+        res => {
+          this.getPdcChequeList('Cheque/PDC/DD No.');
+          this.auth.hideLoader();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+  }
+  editPDC(data) {
+    debugger
+    this.isAddPDC = false;
+    this.pdcAddForm = {
+      bank_name: data.bank_name,
+      cheque_amount: data.cheque_amount,
+      cheque_date: moment(data.cheque_date,).format("YYYY-MM-DD"),
+      cheque_id: data.cheque_id,
+      cheque_no: data.cheque_no,
+      cheque_status: data.cheque_status,
+      cheque_status_key: data.cheque_status_key,
+      clearing_date: '',
+      institution_id: sessionStorage.getItem('institute_id'),
+      student_id: this.student_id,
+      country_id: data.country_id
+    };
+    $('#chequeModal').modal('show');
+
+  }
+  updateCheque() {
+    debugger
+    this.auth.showLoader();
+    let el=this.pdcAddForm;
+    if (this.validPdc(el)) {
+      let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
+      this.postService.updateFeeDetails(obj).subscribe(
+        res => {
+          this.auth.hideLoader();
+          this.getPdcChequeList('Cheque/PDC/DD No.');
+          $('#chequeModal').modal('hide');
+        },
+        err => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+  }
+  closePDCPopUp(){
+    $('#chequeModal').modal('hide');
+    this.pdcAddForm= {
+      bank_name: '',
+      cheque_amount: '',
+      cheque_date: '',
+      cheque_id: 0,
+      cheque_no: '',
+      cheque_status: '',
+      cheque_status_key: 0,
+      clearing_date: '',
+      institution_id: sessionStorage.getItem('institute_id'),
+      student_id: 0,
+      country_id: ''
+    };
   }
 }
