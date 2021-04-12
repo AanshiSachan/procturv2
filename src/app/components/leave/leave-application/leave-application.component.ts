@@ -64,7 +64,6 @@ toApplicationList:any[]=[]
   ngOnInit(): void {
     this.getAllleaveType()
     this.getAllleaveApplication()
-    // this.getApplicationToList()
     this.fetchTableDataByPage(1)
 
   }
@@ -74,7 +73,6 @@ fetchNext(){
 }
 
 fetchPrevious(){
-alert(this.leaveApllicationmodel.pageOffset)
   this.leaveApllicationmodel.pageOffset-- ;
   this.fetchTableDataByPage(this.leaveApllicationmodel.pageOffset)
 
@@ -94,14 +92,19 @@ updateTableBatchSize(num) {
 
 
   getAllleaveApplication(){
-   
+    // for(let i=0;this.toApplicationList.length;i++){
+    //   this.toApplicationList[i].show_data = true;
+    //   if(this.toApplicationList[i].applied_by_user_id == this.jsonFlag.created_by){
+    //     this.toApplicationList[i].show_data = false;
+    //   }
+    // }
     this.auth.showLoader();
     const url1 ='/api/v2/leave-application/applied/'+this.jsonFlag.institute_id+'/'+this.jsonFlag.created_by+'?'+ 'pageSize='+this.leaveApllicationmodel.pageSize+ '&' +'pageOffset='+this.leaveApllicationmodel.pageOffset;
     this.httpService.getData(url1).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
-        console.log("ASHAAAAAAAA",this.leaveApplicationList)
+console.log("aaaaashuuuuuu",this.leaveApplicationList)
         this.varJson.total_item = res.result.totalElements;
         for(let i=0; i < this.leaveApplicationList.length;i++){
           this.leaveApplicationList[i].no_of_days = this.leaveApllicationmodel.days;
@@ -119,8 +122,8 @@ updateTableBatchSize(num) {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
       }
     )
+  
   }
-
   getAllleaveType(){
     this.auth.showLoader();
     const url1 = '/api/v2/leave-type/all/'+this.jsonFlag.institute_id
@@ -137,17 +140,28 @@ updateTableBatchSize(num) {
     )
   }
 
-getApplicationToList(){
-  for(let i=0;this.toApplicationList.length;i++){
-    this.toApplicationList[i].applied_by_user_id !=this.jsonFlag.created_by
-  }
+getApplicationToList(obj){
+  // for(let i=0;this.toApplicationList.length;i++){
+  //   this.toApplicationList[i].show_data = true;
+  //   if(this.toApplicationList[i].applied_by_user_id == this.jsonFlag.created_by){
+  //     this.toApplicationList[i].show_data = false;
+  //   }
+  // }
+  // for(let i=0;this.toApplicationList.length;i++){
+  //   this.toApplicationList[i].applied_by_user_id != this.jsonFlag.created_by
+  // }
   this.auth.showLoader();
+  this.toApplicationList = [];
   const url1 = '/api/v1/profiles/'+this.jsonFlag.institute_id+'/user-by-type'+'?'+'type='+this.leaveApllicationmodel.userType
   this.httpService.getData(url1).subscribe(
     (res: any) => {
       this.auth.hideLoader();
       this.toApplicationList = res.active_users;
+       this.toApplicationList =this.toApplicationList.filter(item =>item.user_id != this.jsonFlag.created_by);
+
       console.log("ApplicationList",this.toApplicationList)
+      console.log("user id",this.jsonFlag.created_by)
+
     },
     err => {
       this.auth.hideLoader();
@@ -224,19 +238,19 @@ reason:"",
 
 editLeaveRow(obj){
 
+  
  this.leaveApllicationmodel.id = obj.id;
-if(obj.applied_by_role == 'Staff'){
-this.leaveApllicationmodel.userType = '0,9';
-}else if(obj.applied_by_role == 'Teacher'){
-  this.leaveApllicationmodel.userType = '3'
+if(obj.applied_to_role == 'Faculty'){
+  this.leaveApllicationmodel.userType= '3'
+}else if(obj.applied_to_role == 'Staff'){
+  this.leaveApllicationmodel.userType = '0,9'
 }
-this.leaveApllicationmodel.userType = obj.applied_by_role
   this.leaveApllicationmodel.applicatioName = obj.applied_to_user_id;
   this.leaveApllicationmodel.categoryName = obj.type.id;
   this.leaveApllicationmodel.from = obj.from;
   this.leaveApllicationmodel.to = obj.to;
 
-
+this.getApplicationToList(this.leaveApllicationmodel.userType)
 }
 
 deleteRow(obj){
@@ -295,21 +309,15 @@ editLeaveApplication(){
   this.httpService.putData(url1, obj).subscribe(
     (res: any) => {
      this. editResult = res
-      console.log("edit value",obj);
-      // this.createdData=res.result
+     
       this.auth.hideLoader();
 
       this.getAllleaveApplication()
-this.leaveApllicationmodel.userType='',
-this.leaveApllicationmodel.applicatioName='',
-this.leaveApllicationmodel.categoryName=''
-this.leaveApllicationmodel.from=moment(new Date()).format('YYYY-MM-DD'),
-this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD'),
 
 
       this.msgService.showErrorMessage('success', '', "Leave Application updated successfully");
       $('#editModal').modal('hide');
-
+     
 
     },
     err => {
@@ -337,7 +345,7 @@ this.leaveApllicationmodel.to=moment(new Date()).format('YYYY-MM-DD'),
      e.status
      ]
      tepm.push(obj)
-    })
+    }) 
      let row=[]
      row=[["Application To","Category","Date Applied","From","To","Days","Status"]]
      let column =[]

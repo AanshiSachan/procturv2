@@ -34,9 +34,11 @@
               <div>
                 {{array.id}}
               </div>
-              <div *ngIf="jsonFlag.created_by !== array.applied_by_user_id" title="{{array?.applied_to_name}}">
+              <div  title="{{array?.applied_to_name}}">
+              <!-- <span *ngIf="array.show_data">   -->
                 {{ (!array.applied_to_name) ? '-' : (array.applied_to_name.length > 20) ?
               (array.applied_to_name | slice:0:20) + '...' : array.applied_to_name}}
+            <!-- </span> -->
               </div>
               <div title="{{array?.type.name}}">
                 {{ (!array.type.name) ? '-' : (array.type.name.length > 20) ?
@@ -138,7 +140,7 @@
         <div class="modal-body">
           <div class="pt10">
             <!-- dropdown with search -->
-            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)">
+            <select class="select wid100" name="userType" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)">
               <option value="">Role*</option>
               <option value="3">Teacher</option>
               <option value="0,9">Staff</option>
@@ -146,9 +148,9 @@
             </select>
           </div>
           <div class="pt10">
-            <select class="select wid100"  name="" [(ngModel)]="leaveApllicationmodel.applicatioName">
-              <option value="">Application To*</option>
-              <option [value]="list.user_id" *ngFor="let list of toApplicationList">{{list.name}}</option>
+            <select class="select wid100" name="applicatioName" [(ngModel)]="leaveApllicationmodel.applicatioName">
+              <option value="" >Application To*</option>
+              <option  [value]="list.user_id" *ngFor="let list of toApplicationList">{{list.name}}</option>
             </select>
           </div>
           <div class="pt10">
@@ -176,7 +178,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" >Edit Leave Application</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="clear()">&times;</button>
         </div>
         <div class="modal-body">
          <div class="pt10">
@@ -189,7 +191,7 @@
             </select>
           </div>
           <div class="pt10">
-            <select class="select wid100"  [(ngModel)]="leaveApllicationmodel.applicatioName">
+            <select class="select wid100" name="applicatioName" id="applicatioName"  [(ngModel)]="leaveApllicationmodel.applicatioName">
               <option value="">Application To*</option>
               <option  [value]="list.user_id" *ngFor="let list of toApplicationList">{{list.name}}</option>
             </select>
