@@ -321,7 +321,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.dataList[index].isSelected = value;
             let todaysDate = new Date();
                 if(!(todaysDate <= new Date(this.dataList[index].data.end_date))){
-                    let msg = 'This course is already expired';
+                    let msg = this.schoolModel ? 'This section is already expired' : 'This course is already expired';
                     if(this.isProfessional) {
                         msg = 'This batch is already expired';
                     }
