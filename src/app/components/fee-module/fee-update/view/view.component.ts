@@ -77,10 +77,10 @@ export class ViewComponent implements OnInit {
   };
   discHistoryList: any = [];
   isAddPDC: boolean;
-  activeSession:any='';
+  activeSession: any = '';
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
-  isTemplateLinkWithCourseAndStandard: boolean=false;
-  currencySymbol:String="INR"
+  isTemplateLinkWithCourseAndStandard: boolean = false;
+  currencySymbol: String = "INR"
 
   constructor(
     private route: ActivatedRoute,
@@ -92,16 +92,21 @@ export class ViewComponent implements OnInit {
     private postService: PostStudentDataService,
 
   ) {
-    this.student_id = +this.route.snapshot.paramMap.get('std_id');
+    //this.student_id = +this.route.snapshot.paramMap.get('std_id');
+
     this.institute_id = sessionStorage.getItem("institute_id");
-    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'
-    this.fetchAcademicYearList();
+    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true'
+   // this.fetchAcademicYearList();
     this.activeSession = 'History';
   }
 
   ngOnInit(): void {
     this.schoolModel = this.auth.schoolModel.value;
     this.institute_id = sessionStorage.getItem("institute_id");
+    this.route.params.subscribe(routeParams => {
+      this.student_id=routeParams.std_id;
+      this.fetchAcademicYearList();
+    });
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -686,7 +691,7 @@ export class ViewComponent implements OnInit {
   updateCheque() {
     debugger
     this.auth.showLoader();
-    let el=this.pdcAddForm;
+    let el = this.pdcAddForm;
     if (this.validPdc(el)) {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id, country_id: el.country_id };
       this.postService.updateFeeDetails(obj).subscribe(
@@ -702,9 +707,9 @@ export class ViewComponent implements OnInit {
       )
     }
   }
-  closePDCPopUp(){
+  closePDCPopUp() {
     $('#chequeModal').modal('hide');
-    this.pdcAddForm= {
+    this.pdcAddForm = {
       bank_name: '',
       cheque_amount: '',
       cheque_date: '',
