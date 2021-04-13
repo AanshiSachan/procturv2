@@ -320,9 +320,7 @@ export class AssetAssignmentComponent implements OnInit {
       this.cancel(false)
       $('#modelforassetAssign').modal('hide');
       this.getAssignDetails();
-     
-   
-    },
+     },
       err => {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         
