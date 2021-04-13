@@ -108,40 +108,13 @@ export class SaleAddComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.categoryAllData = res;
-
-      },
+  },
       err => {
         this.auth.hideLoader();
       }
     );
   }
-  itemAllData = [];
-  itemsForIterate = [];
-  itemArray = [];
-  getItemAgainstCat(category_id) {
-    console.log()
-    this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.institution_id + '?category_id_list=' + category_id).subscribe(
-      (res: any) => {
-        this.auth.hideLoader();
-        this.itemAllData = res.result;
-        console.log(this.itemAllData)
-      //   this.itemAllData=[{item_id:40,item_name:'abc'},
-      // {item_id:41,item_name:'abcd'},
-      // {item_id:42,item_name:'abc'}];
-        for (var index1 of this.itemAllData) {
-          console.log(index1); 
-        }
-      },
- err => {
-        this.auth.hideLoader();
-      }
-    );
-
-  }
-  getItemARrray() {
-    alert("hi")
-    this.isChange = !this.isChange;
-  }
+  
   saveSaleDetails() {
     if (this.myForm.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
@@ -171,7 +144,7 @@ export class SaleAddComponent implements OnInit {
       // let base = this.auth.productBaseUrl;
       let base = "https://test999.proctur.com/StdMgmtWebAPI"
       // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
-      let urlPostXlsDocument = this.isedit ? base + "/api/v1/inventory/purchase/update" : base + "/api/v1/inventory/sale/create";
+      let urlPostXlsDocument = this.isedit ? base + "/api/v1/inventory/sale/update" : base + "/api/v1/inventory/sale/create";
       let newxhr = new XMLHttpRequest();
       let auths: any = {
         userid: sessionStorage.getItem('userid'),
@@ -216,20 +189,7 @@ export class SaleAddComponent implements OnInit {
 
     }
   }
-  editRow(editId) {
-    this.isChange = true;
-    this.isedit = false;
-    console.log(editId);
-    this.isDisable = true;
-    this.httpService.getData('/api/v1/inventory/purchase/' + editId + '?instituteId=' + this.model.institute_id).subscribe((res: any) => {
-      this.dataForEdit = res.result;
-
-    },
-      err => {
-        this.auth.hideLoader();
-      })
-
-  }
+  
 
 
 }
