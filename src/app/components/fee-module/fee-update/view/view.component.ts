@@ -77,6 +77,7 @@ export class ViewComponent implements OnInit {
   };
   discHistoryList: any = [];
   isAddPDC: boolean;
+  activeSession:any='';
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
 
   constructor(
@@ -92,7 +93,7 @@ export class ViewComponent implements OnInit {
     this.student_id = +this.route.snapshot.paramMap.get('std_id');
     this.institute_id = sessionStorage.getItem("institute_id");
     this.fetchAcademicYearList();
-
+    this.activeSession = 'History';
   }
 
   ngOnInit(): void {
