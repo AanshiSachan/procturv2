@@ -77,6 +77,7 @@ export class ViewComponent implements OnInit {
   };
   discHistoryList: any = [];
   isAddPDC: boolean;
+  activeSession:any='';
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
   isTemplateLinkWithCourseAndStandard: boolean=false;
   currencySymbol:String="INR"
@@ -95,7 +96,7 @@ export class ViewComponent implements OnInit {
     this.institute_id = sessionStorage.getItem("institute_id");
     this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'
     this.fetchAcademicYearList();
-
+    this.activeSession = 'History';
   }
 
   ngOnInit(): void {

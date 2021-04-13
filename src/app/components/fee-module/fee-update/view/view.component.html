@@ -195,19 +195,19 @@
                                 <div class="main-shadow">
                                     <button class="right blue_button" data-toggle="modal"
                                         data-target="#sendModal">Share</button>
-                                    <button class="right blue_button" data-toggle="modal" (click)="addPDCPopUp()" >Add
+                                    <button *ngIf="activeSession == 'Cheques'" class="right blue_button" data-toggle="modal" (click)="addPDCPopUp()" >Add
                                         Cheques</button>
                                     <ul class="nav ">
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" href="#one">History</a>
+                                            <a class="nav-link" (click)="activeSession = 'History'" [ngClass]="(activeSession == 'History') ? 'active' : ''" data-toggle="tab" href="#one">History</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab"
-                                                (click)="getPdcChequeList('Cheque/PDC/DD No.')" href="#two">Cheques</a>
+                                            <a class="nav-link" [ngClass]="(activeSession == 'Cheques') ? 'active' : ''" data-toggle="tab"
+                                                (click)="activeSession = 'Cheques';getPdcChequeList('Cheque/PDC/DD No.')" href="#two">Cheques</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#discHistory"
-                                                (click)="getDiscountHistoryDetails()">Discounts</a>
+                                            <a class="nav-link" [ngClass]="(activeSession == 'Discounts') ? 'active' : ''" data-toggle="tab" href="#discHistory"
+                                                (click)="activeSession = 'Discounts';getDiscountHistoryDetails()">Discounts</a>
                                         </li>
                                     </ul>
                                 </div>
