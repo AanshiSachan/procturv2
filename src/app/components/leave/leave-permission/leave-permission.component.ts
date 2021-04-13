@@ -146,7 +146,7 @@ getPermissionLeave(obj){
   
         this.getAllleaveApplication()
   
-        this.msgService.showErrorMessage('success', '', "Leave Application Rejected successfully");
+        this.msgService.showErrorMessage('success', '', "Leave Application Approved successfully");
   
       },
       err => {
