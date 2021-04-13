@@ -1313,7 +1313,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
               if (this.studentAddnMove) {
                 this.updateStudentFeeDetails();
                 sessionStorage.removeItem('studentPrefill'); // remove enquiry coverted stud --laxmi
-                this.navigateTo('feeDetails');
+                this.router.navigate(['/view/students']);
+                // this.navigateTo('feeDetails');
               }
             }
             else if (statusCode == 2) {

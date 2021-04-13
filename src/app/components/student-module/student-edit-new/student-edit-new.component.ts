@@ -1703,7 +1703,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
               this.router.navigate(['/view/students']);
             }
             else {
-              this.navigateTo('feeDetails');
+              // this.navigateTo('feeDetails');
+              this.router.navigate(['/view/students']);
               this.updateStudentFeeDetails();
             }
 

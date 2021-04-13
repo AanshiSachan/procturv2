@@ -235,9 +235,9 @@
                 <th>
                   Academic Year
                 </th>
-                <th>
+                <!-- <th>
                   Fee Template
-                </th>
+                </th> -->
               </thead>
               <tbody>
                 <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
@@ -275,7 +275,7 @@
                       </select>
                     </div>
                   </td>
-                  <td>
+                  <!-- <td>
                     <div class="field-wrapper">
                       <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"
                         style="background: transparent">
@@ -288,7 +288,7 @@
                         </option>
                       </select>
                     </div>
-                  </td>
+                  </td> -->
                 </tr>
                 <tr *ngIf="(studentList.length == 0)">
                   <td colspan="9">
