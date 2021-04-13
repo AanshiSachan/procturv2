@@ -39,7 +39,7 @@
               </div>
                  <div class="pt102">
                    <select class="select wid100" name="payment_status" id="payment_status" 
-                   [(ngModel)]="model.payment_status">
+                   [(ngModel)]="model.payment_status" required>
                     <option value="">Payment Status*</option>
                     <option value="Due">Due</option>
                     <option value="Partial"> Partial</option>
@@ -47,8 +47,8 @@
                   </select>
               </div>
               <div class="pt102">
-                <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
-                [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
+                <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" id="billImageFile"
+               style="margin-top:8px;"
                 [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
               </div>
               <div class="pt102">
@@ -66,10 +66,11 @@
                     <option value="">Category*</option>
                     <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">{{data.category_name}}</option>
                   </select>
-                   <select class="select sel1 mr10" id="item_id" name="item_id"
-                   (change)="getItemARrray()">
-                    <option value="" selected>Item*</option>
-                    <option value="{{data.item_id}}" *ngFor="let data of itemAllData">{{data.item_name}}</option>
+                  <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
+                  ngModel #item_id="ngModel">
+                    <option value="" selected>Item Name*</option>
+                    <option value="{{data.item_id}}" *ngFor="let data of itemArray">
+                      {{data.item_name}}</option>
                   </select>
             </div>
            <div class="sale_add">
@@ -87,39 +88,64 @@
                 Units
               </div>
               <div>
+                Taxes
+              </div>
+              <div>
                 Subtotal
               </div>
               <div>
                 Actions
               </div>
             </div>
-            <div class="tablebody" *ngFor="!isChange">
+            <div class="tablebody"*ngFor="let data of itemData;let i=index">
               <div>
-                Abc
+                {{data.item_name}}
               </div>
               <div>
-                <select class="input wid80" name="sale_type" id="sale_type"
-                [(ngModel)]="model.sale_type">
-                  <option value="Paid">Paid</option>
+                <select class="input wid80" [name]="'sale_type' +i " [id]="'sale_type' +i" [(ngModel)]="data.sale_type"
+                (change)="purchaselistItem()"  >
+           
+                  <option value="Paid" selected>Paid</option>
                   <option value="Free">Free</option>
                 </select>
               </div>
               <div>
-               <input type="text" name="unit_price" id ="unit_price" class="input wid80">
+              <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
+                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                (keyup)="purchaselistItem()"
+                [disabled]="status" class="input wid80"
+               >
+               
               </div>
               <div>
-                <input type="text" name="quantity"  id="quantity" class="input wid80">
+                <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" [disabled]="status"
+                [(ngModel)]="data.available_units"
+                (keyup)="purchaselistItem()"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                  class="input wid80"
+                  >
               </div>
               <div>
-                212211
+                <input type="text" [name]="'quantity'+i" [id]="'quantity'+i" readonly
+                [(ngModel)]="data.tax_percent"
+                (ngModelChange)="purchaselistItem()"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                  class="input wid80"
+                  >
               </div>
+              <div >
+              <span *ngIf="data.unit_price !=0">{{data.subtotal}}</span>  
+             <sapn *ngIf="data.unit_price==0">0</sapn>
+            </div>
+
               <div>
-                <a href="" class="mr10"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-                 <a href=""><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
+                <a (click)="editdata(false,i)"><img src="../../../../assets/img1/edit.svg" title="Edit"
+                  class="group18 mr10"></a>
+              <a (click)="deleteItemData(i)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
               </div>
             </div>
            
-            <div class="tabletotal" *ngIf="!isChange">
+            <div class="tabletotal" *ngIf="isChange">
               <div>
                 
               </div>
@@ -130,10 +156,10 @@
                Total
               </div>
               <div>
-                15
+                {{totalUnits}}
               </div>
               <div>
-                3333.00
+                {{total}}
               </div>
               <div>
               </div>
@@ -147,7 +173,8 @@
           <div> <button class="blue_button cancel" routerLink="/view/inventory-management/sale-item">Back </button>
           </div>
           <div style="margin-bottom: 10px;">
-            <button class="blue_button" (click)="saveSaleDetails()">Save</button>
+            <button class="blue_button" (click)="saveSaleDetails()" *ngIf="!isedit">Save</button>
+            <button class="blue_button" (click)="updateSaleData()" *ngIf="isedit">Update</button>
           </div>
         </div>
       <!-- pagignation div -->

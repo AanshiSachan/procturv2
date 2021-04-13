@@ -209,8 +209,7 @@ export class SaleItemComponent implements OnInit {
    
     
   }
-  
-  showConfirm(obj) {
+ showConfirm(obj) {
     alert("hi")
     console.log(obj.sale_id)
      this.sale_id =obj.sale_id;

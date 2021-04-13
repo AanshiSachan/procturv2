@@ -264,7 +264,7 @@ export class SupplierComponent implements OnInit {
   
     let item_ids =[58,40];
     this.model.item_ids =item_ids;
-      this.httpService.postData(this.url + 'supplier/create', this.model).subscribe(
+      this.httpService.postData('/api/v1/inventory/supplier/create', this.model).subscribe(
         (res: any) => {
            $('#add1Modal').modal('hide');
           this.auth.hideLoader();
@@ -275,7 +275,7 @@ export class SupplierComponent implements OnInit {
         },
         err => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].errorMessage);
         }
       )
    }
@@ -329,7 +329,7 @@ export class SupplierComponent implements OnInit {
    $('#add1Modal').modal('show');
   }
   //search filter
-  updateSupplierDetails(){debugger
+  updateSupplierDetails(){
     if(this.addVendorForm.valid){
      let obj = {
         supplier_id: this.model.supplier_id,
@@ -363,7 +363,7 @@ export class SupplierComponent implements OnInit {
         },
           err => {
             this.auth.hideLoader();
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message)
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '',  err.error.error[0].errorMessage)
           })
         }
         else{
@@ -385,7 +385,7 @@ export class SupplierComponent implements OnInit {
     this.httpService.deleteData(this.url + 'supplier/delete/' + obj.supplier_id +'?instituteId='+ this.model.institute_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Supplier Deleted Successfully');
+        this.msgService.showErrorMessage('success', '', 'Supplier details is Deleted successfully');
         this.getVendorDetails();
         $('#deletesModal').modal('hide');
       },

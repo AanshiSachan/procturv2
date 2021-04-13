@@ -24,6 +24,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   total: number = 0;
   isedit=false;
   editId;
+  bill_image_url: any;
   isDisable = false;
   isadd:any;
   @ViewChild('purchaseForm', { static: false }) purchaseForm: NgForm;
@@ -60,12 +61,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     this.getVendorDetails();
     this.editId = this._Activatedroute.snapshot.paramMap.get("id");
     this._Activatedroute.snapshot.queryParamMap.get('isedit');
-    if (this.editId === undefined) {
-     
-      this.isedit=false;
-    }
-    else {
-      this.isadd=false;
+    if (this.editId != undefined) {
+     // this.isadd=false;
       this.editRow(this.editId);
       this.isDisable = true;
      this.isedit=true;
@@ -80,9 +77,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   getCategoryItem(obj) {
     this.isChange=false;
-    this.itemData = [];
-    this.model.purchased_item_list = [];
-  
+    //this.itemData = [];
     // this.auth.showLoader();
     console.log(obj)
     this.httpService.getData(this.url + 'purchase/getCategoryAndItem?supplierId=' + obj + '&instituteId=' + this.model.institute_id).subscribe(
@@ -282,13 +277,12 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   editRow(editId) {
     this.itemData=[];
     this.isChange =true;
-    this.isedit = true;
+    // this.isedit = true;
     console.log(editId);
     this.isDisable = true;
     this.httpService.getData('/api/v1/inventory/purchase/' + editId + '?instituteId=' + this.model.institute_id).subscribe((res: any) => {
       this.dataForEdit = res.result;
       this.model = this.dataForEdit;
-      console.log(this.dataForEdit)
       this.auth.hideLoader();
       //console.log(this.editdata)
       this.model.purchase_id = this.dataForEdit.purchase_id;
@@ -340,7 +334,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
        let purchaseDto: any = {};
        purchaseDto.institute_id = sessionStorage.getItem('institute_id');
        purchaseDto.supplier_id = this.model.supplier_id;
-       purchaseDto.purchase_id = this.model.purchase_id;
+       purchaseDto.purchase_id = this.editId;
        purchaseDto.purchase_description = this.model.purchase_description;
        purchaseDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
        purchaseDto.total_amount = this.total;
@@ -371,7 +365,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
        let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
  
        //this.isedit ? newxhr.open("PUT", urlPostXlsDocument, true) : newxhr.open("POST", urlPostXlsDocument, true);
-       newxhr.open("PUT", urlPostXlsDocument, true);
+       newxhr.open("POST", urlPostXlsDocument, true);
        newxhr.setRequestHeader("Authorization", Authorization);
        newxhr.setRequestHeader("x-proc-authorization", Authorization);
        newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
@@ -405,5 +399,10 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
  
      }
+  }
+  clearFile() {
+   this.model.bill_image_url = '';
+    // this.isedit=false;
+    console.log(this.model.bill_image_url)
   }
 }
