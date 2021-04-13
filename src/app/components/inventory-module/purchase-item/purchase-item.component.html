@@ -76,7 +76,7 @@
                                   <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]"
                                   *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
                                   <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>
-                                  <a *ngIf="data.total_amount !=data.balanced_amount">Cancel</a>
+                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>
                                   <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a> 
                                   <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
                                 

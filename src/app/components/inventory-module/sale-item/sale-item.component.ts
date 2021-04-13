@@ -240,4 +240,23 @@ export class SaleItemComponent implements OnInit {
 this.router.navigate(['/view/inventory-management/sale-view'])
   }
   viewdatas:any=[];
+
+
+  cancelData(purchase_id){
+    ///api/v1/inventory/sale/cancelSale?saleId=2&instituteId=100058
+    this.httpService.getData('/api/v1/inventory/sale/cancelSale?saleId=' + purchase_id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
+     if (res.statusCode == 200) {
+         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.result);
+        this.getSaleDetails();
+       }
+       else{
+       
+       }
+     },
+     err =>{
+       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '',err.error.message);
+        }   )
+    
+ 
+   }
 }

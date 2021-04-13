@@ -316,8 +316,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Purchase date is greter than today's date ");
       this.model.purchase_date = moment(new Date()).format('YYYY-MM-DD');
     }
-
-    return true;
+  return true;
   }
   updatePurchaseData(){
     this.model.purchased_item_list=[];
