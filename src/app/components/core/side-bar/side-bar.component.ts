@@ -883,7 +883,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
+    sessionStorage.setItem('isShowLiveclass', String(this.jsonFlags.isShowLiveclass));
   }
 
   isElearnAllow(permissions) {

@@ -69,7 +69,7 @@
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
-        <li id="liLive" class="menu-item" style="cursor: pointer" (click)="changeView('liLive','divLiveClassContent')">
+        <li id="liLive" *ngIf="isShowLiveclass == 'true'" class="menu-item" style="cursor: pointer" (click)="changeView('liLive','divLiveClassContent')">
           <span>
             <a class="">Live Class</a>
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
@@ -3325,7 +3325,7 @@
 
       <!-- LIVE CLASS SETTING -->
 
-      <section id="divLiveClassContent" class="sectionDevideContainer">
+      <section id="divLiveClassContent" *ngIf="isShowLiveclass == 'true'" class="sectionDevideContainer">
         <div class="row m-0" style="width:100%">
           <div class="sms-setting-wrapper" style="margin-right: 0;">
             <div class="table-scroll-wrapper">

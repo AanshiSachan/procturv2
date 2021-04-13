@@ -439,6 +439,7 @@ export class InstituteSettingsComponent implements OnInit {
   weekEndData: any = [];
   selectedWeekEndList: any = [];
   schoolModel: boolean = false;
+  isShowLiveclass:any='';
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
@@ -459,6 +460,7 @@ export class InstituteSettingsComponent implements OnInit {
       }
     )
     this.getWeekEndData();
+    this.isShowLiveclass =  sessionStorage.getItem('isShowLiveclass');
     this.instituteName = sessionStorage.getItem('institute_name');
     this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');

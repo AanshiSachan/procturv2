@@ -1,5 +1,5 @@
 <div class="page-content gray">
-    <form #values="ngForm">
+    <form #values="ngForm" autocomplete="off">
         <div class="w98">
             <h5 class="page_heading">Update Student</h5>
             <div class="row">
@@ -1684,7 +1684,7 @@
                 </h4>
             </div>
             <div class="row">
-                <form #semail="ngForm" (ngSubmit)="registerDuplicateStudent(semail)">
+                <form #semail="ngForm" autocomplete="off" (ngSubmit)="registerDuplicateStudent(semail)">
                     <div class="field-wrapper">
                         <label for="sEmail2">Student's Email
                             <span class="text-danger">*</span>
