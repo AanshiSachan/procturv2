@@ -68,6 +68,9 @@
                             <div>
                                 Fee Type
                             </div>
+                            <div *ngIf="isTemplateLinkWithCourseAndStandard">
+                                {{isProfessional?'Subject':schoolModel?"Standard":'Course'}}
+                            </div>
                             <div>Fee</div>
                             <div>
                                 Paid
@@ -105,20 +108,23 @@
                                     <div>
                                         {{data.f_type | titlecase}}
                                     </div>
+                                    <div *ngIf="isTemplateLinkWithCourseAndStandard">
+                                        {{isProfessional?data.sub_n:schoolModel?data.stnd_n:data.c_n}}
+                                    </div>
                                     <div>
-                                        <div class="tooltip1"> {{data.t_amount}}
+                                        <div class="tooltip1"> {{currencySymbol}} {{data.t_amount | number}}
                                             <span class="tooltiptext"><span class="blue">Amount</span>
-                                                {{data.initial_amount}} <span class="blue">+Tax
-                                                </span>{{data.tax_amount}} - <span class="blue">Discount</span>
-                                                {{data.disc_amount}}
+                                                {{data.initial_amount | number}} <span class="blue">+Tax
+                                                </span>{{data.tax_amount | number}} - <span class="blue">Discount</span>
+                                                {{data.disc_amount | number}}
                                             </span>
                                         </div>
                                     </div>
                                     <div>
-                                        {{data.p_amount}}
+                                        {{currencySymbol}} {{data.p_amount | number}}
                                     </div>
                                     <div>
-                                        {{data.d_amount}}
+                                        {{currencySymbol}} {{data.d_amount | number}}
                                     </div>
                                     <div>
                                         {{data.d_date}}
@@ -232,6 +238,9 @@
                                             <div>
                                                 Fee Type
                                             </div>
+                                            <div *ngIf="isTemplateLinkWithCourseAndStandard">
+                                                {{isProfessional?'Subject':schoolModel?"Standard":'Course'}}
+                                            </div>
                                             <div>
                                                 Paid Date
                                             </div>
@@ -273,13 +282,15 @@
                                                     <div>
                                                         {{data.f_type | titlecase}}
                                                     </div>
-                                                    <div>
-
-                                                        {{data.p_date}}
-
+                                                    <div *ngIf="isTemplateLinkWithCourseAndStandard">
+                                                        {{isProfessional?data.sub_n:schoolModel?data.stnd_n:data.c_n}}
                                                     </div>
                                                     <div>
-                                                        {{data.p_amount}}
+                                                        {{data.p_date}}
+                                                    </div>
+                                                    <div>
+                                                        {{currencySymbol}} {{data.p_amount | number
+                                                        }}
                                                     </div>
                                                     <div>
                                                         {{data.p_method}}
@@ -370,7 +381,7 @@
                                                 </div>
 
                                                 <div>
-                                                    {{data.cheque_amount}}
+                                                    {{currencySymbol}} {{data.cheque_amount | number}}
                                                 </div>
                                                 <div>
                                                     <span class="cleared">{{data.cheque_status}}</span>
@@ -423,7 +434,7 @@
                                                     <div>{{data.installment_no}}</div>
 
                                                     <div>
-                                                        <span class="dis_app">{{data.discount_amount}}</span>
+                                                        <span class="dis_app"> {{currencySymbol}} {{data.discount_amount | number}}</span>
                                                     </div>
                                                     <div>
                                                         <span class="d_reason">{{data.disount_reason}}</span>
@@ -459,37 +470,37 @@
                 <div class="box box1">
                     <div>
                         <p class="name">Fees:</p>
-                        <p class="value">{{stdFeeDataList.initial_amount | number}}</p>
+                        <p class="value">{{currencySymbol}} {{stdFeeDataList.initial_amount | number}}</p>
                     </div>
                 </div>
                 <div class="box box1">
                     <div>
                         <p class="name">Tax:</p>
-                        <p class="value">{{stdFeeDataList.t_tx_amount |number}}</p>
+                        <p class="value">{{currencySymbol}} {{stdFeeDataList.t_tx_amount |number}}</p>
                     </div>
                 </div>
                 <div class="box box1">
                     <div>
                         <p class="name">Discount:</p>
-                        <p class="value">{{stdFeeDataList.t_disc_amount |number}}</p>
+                        <p class="value">{{currencySymbol}} {{stdFeeDataList.t_disc_amount |number}}</p>
                     </div>
                 </div>
                 <div class="box box2">
                     <div>
                         <p class="name">Total Fees:</p>
-                        <p class="value">{{stdFeeDataList.total_fee_amount|number}}</p>
+                        <p class="value">{{currencySymbol}} {{stdFeeDataList.total_fee_amount|number}}</p>
                     </div>
                 </div>
                 <div class="box box1">
                     <div>
                         <p class="name">Amount Paid:</p>
-                        <p class="value">{{stdFeeDataList.total_paid_amount|number}}</p>
+                        <p class="value">{{currencySymbol}} {{stdFeeDataList.total_paid_amount|number}}</p>
                     </div>
                 </div>
                 <div class="box box3">
                     <div>
                         <p class="name">Due Fees:</p>
-                        <p class="value">{{stdFeeDataList.total_unpaid_amount|number}}</p>
+                        <p class="value">{{currencySymbol}} {{stdFeeDataList.total_unpaid_amount|number}}</p>
                     </div>
                 </div>
             </div>
@@ -576,7 +587,7 @@
                                     <p class="p_note" *ngIf="discountPopUpForm.type == '2'">
                                         <span>Note :</span> (Discount Type* <b class="bold">Percentage</b> )Discount
                                         amount is calculated based on the
-                                        percentage of actual initial fee amount i.e {{stdFeeDataList.initial_amount |
+                                        percentage of actual initial fee amount i.e {{currencySymbol}} {{stdFeeDataList.initial_amount |
                                         number}}
                                     </p>
                                 </div>
@@ -584,7 +595,7 @@
                         </div>
                         <div class="fee_up7 sec70">
                             <p class="head_p">Select Installment(s) to apply discount
-                                of<b>{{discountPopUpForm.discountAmount}}</b></p>
+                                of<b>{{discountPopUpForm.discountAmount | number}}</b></p>
                             <div class="table_heading">
                                 <!-- <div>
                                     <label class="checkbox">
@@ -635,10 +646,10 @@
                                     </div>
 
                                     <div>
-                                        {{data.disc_amount}}
+                                        {{currencySymbol}} {{data.disc_amount | number}}
                                     </div>
                                     <div>
-                                        {{data.d_amount}}
+                                        {{currencySymbol}}  {{data.d_amount | number}}
                                     </div>
                                     <div>
                                         <span *ngIf="data.p_status=='N' && !isOverdue(data.d_date) && data.p_amount==0"
@@ -739,7 +750,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="pt10 pt101 grey">
-                        (Payment Details For Rs {{t_p_amount}})
+                        (Payment Details For {{currencySymbol}} {{t_p_amount | number}})
                     </div>
                     <div class="pt10 pt101">
                         <b>Selected Intallments:<span>{{t_selected_install}}</span></b>
@@ -775,7 +786,7 @@
                                 <option value=""></option>
                                 <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList"
                                     [hidden]="opt.cheque_status_key == 1">
-                                    {{opt.cheque_date| procturDate}} ({{opt.cheque_amount}} )
+                                    {{opt.cheque_date}} ({{currencySymbol}} {{opt.cheque_amount | number}} )
                                 </option>
                             </select>
                         </div>

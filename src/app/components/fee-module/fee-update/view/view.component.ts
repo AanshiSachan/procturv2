@@ -78,6 +78,8 @@ export class ViewComponent implements OnInit {
   discHistoryList: any = [];
   isAddPDC: boolean;
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
+  isTemplateLinkWithCourseAndStandard: boolean=false;
+  currencySymbol:String="INR"
 
   constructor(
     private route: ActivatedRoute,
@@ -91,6 +93,7 @@ export class ViewComponent implements OnInit {
   ) {
     this.student_id = +this.route.snapshot.paramMap.get('std_id');
     this.institute_id = sessionStorage.getItem("institute_id");
+    this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'
     this.fetchAcademicYearList();
 
   }
@@ -621,6 +624,7 @@ export class ViewComponent implements OnInit {
     )
   }
   clearDiscPopUpData() {
+    $('#discountInstallModel').modal('hide');
     this.discountPopUpForm = {
       type: "1",
       value: 0,
