@@ -250,8 +250,6 @@ $('#addpayModal').modal('show');
 this.router.navigate(['/view/inventory-management/purchase-view'])
   }
   viewdatas:any=[];
-
-  
   cancelData(purchase_id){
     ///api/v1/inventory/purchase/cancelPurchase?purchaseId=3&instituteId=100058
    this.httpService.getData('/api/v1/inventory/purchase/cancelPurchase?purchaseId=' + purchase_id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
