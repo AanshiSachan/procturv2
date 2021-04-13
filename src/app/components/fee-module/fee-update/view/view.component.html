@@ -2,7 +2,7 @@
     <div class="ws20">
         <div class="outter_flex">
             <div class=" wid50">
-
+                <a id="payMultiReciept" class="hide"></a>
                 <span class="name1">Name:</span>
                 <span class="value1">{{stdFeeDataList.student_name}}</span>
 
@@ -301,7 +301,7 @@
                                                         {{data.p_remarks}}
                                                     </div>
                                                     <div>
-                                                        <a  class="mr10"><img
+                                                        <a  (click)="downloadFeeReceipt(data.f_rec_no)" class="mr10"><img
                                                                 src="../../../../../assets/img/purple_download.svg"
                                                                 title="Download"></a>
                                                         <a  class="mr10"><img

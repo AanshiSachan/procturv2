@@ -723,4 +723,16 @@ export class ViewComponent implements OnInit {
       country_id: ''
     };
   }
+  downloadFeeReceipt(receipt_no){
+    this.auth.showLoader();
+    this.fetchService.getFeeReceiptById(this.student_id, receipt_no).subscribe(
+      (res: any) => {
+        this.downloadDocument(res);
+        this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', err.error.message);
+      });
+  }
 }
