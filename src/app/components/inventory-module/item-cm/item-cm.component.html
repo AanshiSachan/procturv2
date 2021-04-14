@@ -109,8 +109,7 @@
                     <img src="../../../assets/img1/menu.svg" class="dot3">
                   <div class="dropdown-content1">
                     <a data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a>
-                    <a  *ngIf="data.alloted_units>data.available_units" (click)="showConfirm(data)">Delete</a>
-                    <a  *ngIf="data.alloted_units-data.available_units==0" (click)="showConfirmdelete(data)">Delete</a>
+                    <a   (click)="showConfirm(data)">Delete</a>
                     <a  data-toggle="modal" data-target="#subbranchModal"(click)="allocateToSubBranch(data)">Allocate to Sub-branch</a>
                     <a    (click)="showAllocationHistory(data)">Allocation History</a>
                     <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a>
@@ -241,7 +240,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" >Manage Unit</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
         </div>
         <div class="modal-body">
           <form #history="ngForm">
@@ -403,7 +402,7 @@
             <div></div>
             <div class="align"> 
               <button type="button" class="right blue_button cancel"
-              data-dismiss="modal" >Cancel</button>
+              data-dismiss="modal"  (click)="cancel(false)" >Cancel</button>
               <button class="right blue_button" (click)="saveItemDetails(item)" *ngIf="!isedit">Save</button>
               <button class="right blue_button" (click)="updateItemDetails(item.item_id)" *ngIf="isedit">Update</button></div>
            </div>
@@ -417,7 +416,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" >Allocate to Sub-branch</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
         </div>
         <div class="modal-body">
           <form #allcateForm="ngForm" autocomplete="off">
@@ -433,7 +432,7 @@
                   <select class="select wid100" name="sub_branch_id" 
                   [(ngModel)]="allocatedata.sub_branch_id"
                   (ngModelChange)="getItemAgainSubBranch($event)" #sub_branch_id="ngModel" required>
-                    <option value="">  Sub-Branch*</option>
+                    <option value="" selected>  Sub-Branch*</option>
                     <option value="{{data.institute_id}}" *ngFor="let data of subBranchAllData">
                      {{data.institute_name}}
                     </option>
@@ -510,7 +509,7 @@
           <div class="pt10 display">
            <div></div>
            <div> 
-            <button class="right blue_button cancel" data-dismiss="modal">cancel</button>
+            <button class="right blue_button cancel" data-dismiss="modal" (click)="cancel()">cancel</button>
              <button class="right blue_button" (click)="saveAllocatedData(allocatedata)">Save</button></div>
            
           </div>

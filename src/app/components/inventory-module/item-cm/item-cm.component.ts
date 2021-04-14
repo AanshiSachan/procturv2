@@ -169,9 +169,29 @@ export class ItemCmComponent implements OnInit {
       unit_cost:'',
       subject_name:'',
     }
+    this.allocatedata ={
+      item_name:'',
+      item_id:'',
+      alloted_units:'',
+      date_of_dispatch:'',
+      available_units:'',
+      sub_branch_id:'',
+      // sub_branch_name:'',
+      sub_branch_item_id:'',
+      institution_id:sessionStorage.getItem('institution_id')
+  }
+  this.manageData={
+    item_id:'',
+    units_added:'',
+    available_units:'',
+    alloted_units:'',
+    institution_id:sessionStorage.getItem('institution_id')
+  
+  }
     this.catForm.resetForm(this.category_model);
     this.itemForm.resetForm(this.item);
-    this.history.resetForm()
+    this.history.resetForm( this.manageData);
+    this.allcateForm.resetForm(this.allocatedata);
     this.isedit = false;
 
   }
@@ -303,18 +323,27 @@ tempObj={
 }
 showConfirm(obj) {
   this.tempObj=obj;
-  this.tempObj.item_id =obj.item_id
-  $('#deleteitemModal').modal('show');
+  this.tempObj.item_id =obj.item_id;
+  if(obj.alloted_units==0 || obj.available_units==0 || obj.units_added){
+   // $('#deleteModal').modal('show');
+    $('#deleteitemModal').modal('show');
+  }
+  else if(obj.alloted_units<0 || obj.available_units>0){
+//$('#deleteitemModal').modal('show');
+$('#deleteModal').modal('show');
+  }
+  else if(obj.alloted_units>0){
+    this.msgService.showErrorMessage('error', '', "You can't delete this item since it is allocated");
+  }
+ // $('#deleteModal').modal('show');
+  //$('#deleteitemModal').modal('show');
+ 
 }
-showConfirmdelete(obj){
-  this.tempObj=obj;
-  this.tempObj.item_id =obj.item_id
-  $('#deleteModal').modal('show');
-}
+
 //delete
 deleteItem(obj) {
     //this.auth.showLoader();
-    this.httpService.deleteData(this.url + 'item/' + obj.item_id, null).subscribe(
+    this.httpService.deleteData(this.url + 'item/' + this.tempObj.item_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Item Deleted Successfully');
@@ -688,6 +717,7 @@ saveAllocatedData(){
         if (res.statusCode == 200) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Allocated successfully');
           this.getCategoryDetails();
+          this.allcateForm.resetForm();
         }
       },
       err => {
@@ -768,4 +798,5 @@ updataeManageUnit(){
       this.auth.hideLoader();
     })
 }
+
 }
