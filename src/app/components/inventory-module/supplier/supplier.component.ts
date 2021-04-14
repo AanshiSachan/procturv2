@@ -22,6 +22,7 @@ export class SupplierComponent implements OnInit {
   headerSetting: any;
   tableSetting: any;
   rowColumns: any;
+  institute_id=sessionStorage.getItem('institute_id');
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
@@ -388,9 +389,9 @@ export class SupplierComponent implements OnInit {
     $('#deletesModal').modal('show');
   }
   deleteRow(obj) {
-  
+  console.log(obj)
    this.auth.showLoader();
-    this.httpService.deleteData(this.url + 'supplier/delete/' + obj.supplier_id +'?instituteId='+ this.model.institute_id, null).subscribe(
+    this.httpService.deleteData(this.url + 'supplier/delete/' + obj.data.supplier_id +'?instituteId='+ this.institute_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Supplier details is Deleted successfully');

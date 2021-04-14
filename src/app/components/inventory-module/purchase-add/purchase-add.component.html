@@ -67,24 +67,26 @@
         </div>
         <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
           <select class="select sel1 mr10" name="categoryId" id="categoryId" ngModel
-            #category_id="ngModel" (change)="getItemAgainscat($event)">
+            #category_id="ngModel" (change)="getItemAgainscat($event)" required>
             <option value="" selected>Category Name*</option>
             <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
               {{data.categoryName}} </option>
           </select>
           <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
-          ngModel #item_id="ngModel">
+          ngModel #item_id="ngModel" required>
             <option value="" selected>Item Name*</option>
             <option value="{{data.item_id}}" *ngFor="let data of itemArray">
               {{data.item_name}}</option>
           </select>
-        </div>
-        <p><span style="height:10px;" class="help-block" *ngIf="!category_id.valid && category_id.touched">
+          <p class="errormsg" ><span style="height:10px;" class="help-block" *ngIf="!category_id.valid && category_id.touched">
             Category is mandatory
-          </span></p>
-        <p><span style="height:10px;" class="help-block" *ngIf="!item_id.valid && item_id.touched">
+          </span>
+          <span style="height:10px;" class="help-block" *ngIf="!item_id.valid && item_id.touched">
             Item is mandatory
           </span></p>
+        </div>
+        
+     
         <div class="tablehead">
           <div>
             Item
