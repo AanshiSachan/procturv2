@@ -28,11 +28,13 @@
         [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='showConfirm($event)'
         (viewView)="viewRow($event)">
         </app-basic-table>
+        
       </div>
       <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
       [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
       [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
-  </pagination>
+   </pagination>
+   
             <!-- use image only when page is empty,table body class element will not be present -->
 
 </div> 
@@ -77,8 +79,8 @@
                         </select>
                       </div> -->
                 <div class="pt10">
-                  <ng-multiselect-dropdown placeholder="Category *" [(ngModel)]="model.category_id"
-                  [data]="categoryAllData" [settings]="moderatorSettings" name="category_id"
+                  <ng-multiselect-dropdown placeholder="Category *" [(ngModel)]="model.category_ids"
+                  [data]="categoryAllData" [settings]="moderatorSettings" name="category_ids"
                   (ngModelChange)="getItemForSelectedCat($event)">
               </ng-multiselect-dropdown>
                 </div>

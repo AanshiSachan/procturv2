@@ -40,7 +40,7 @@ export class SupplierComponent implements OnInit {
        institute_id:sessionStorage.getItem('institution_id'),
        item_ids:[],  
        category_ids:[],   
-       category_id:[]
+       category_id:0
   }
   
   submitted = false;
@@ -123,7 +123,7 @@ export class SupplierComponent implements OnInit {
         charactLimit: 10,
         sorting: false,
         visibility: true,
-        view: true,
+        view: false,
         edit: true,
         delete: true,
 },
@@ -182,7 +182,6 @@ export class SupplierComponent implements OnInit {
     enableCheckAll: false,
     itemsShowLimit: 2
   };
-
   moderatorSettingsforitem: any = {
     singleSelection: false,
     idField: 'item_id',
@@ -217,13 +216,7 @@ export class SupplierComponent implements OnInit {
      categoryids.push(data.category_id)
   }
   console.log(categoryids);
- // let selectcategory =categoryids.split(',');
-  //console.log(selectcategory)
-  //  if (selectcategory === undefined) {
-  // }
-  //   else {
-      //api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id
-      this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + categoryids).subscribe(
+  this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + categoryids).subscribe(
         (res: any) => {
           let result = res.result;
           let temp:any =[];
@@ -255,6 +248,7 @@ export class SupplierComponent implements OnInit {
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.total_elements;
         this.auth.hideLoader();
+        
       },
       err => {
         this.auth.hideLoader();
@@ -263,17 +257,29 @@ export class SupplierComponent implements OnInit {
   }
 
   saveSupplierDetails(){
+
   if(this.addVendorForm.valid){
+    let obj: any = {
+      supplier_id: this.model.supplier_id,
+      company_name: this.model.company_name,
+      institute_id: sessionStorage.getItem('institute_id'),
+      supplier_name: this.model.supplier_name,
+      address: this.model.address,
+      email_id: this.model.email_id,
+      phone_no: this.model.phone_no,
+      item_ids: this.model.item_ids,
+    }
+   
     delete(this.model.category_id)
    let newasset = []
-      let item_idss:any = this.model.item_ids;
+      let item_idss:any = obj.item_ids;
      for (let data in item_idss) {
        newasset.push(item_idss[data].item_id);
       }
-      this.model.item_ids = newasset
+     obj.item_ids = newasset
    
     console.log(this.model.item_ids)
-      this.httpService.postData('/api/v1/inventory/supplier/create', this.model).subscribe(
+      this.httpService.postData('/api/v1/inventory/supplier/create', obj).subscribe(
         (res: any) => {
            $('#add1Modal').modal('hide');
           this.auth.hideLoader();
@@ -295,11 +301,7 @@ export class SupplierComponent implements OnInit {
   }
   editRow(object) {
     this.isedit = true;
-//category_ids: [48, 50]
-//category_names: "Equipments,Uniformatory"
-// item_ids: [40, 58]
-// item_names: "Bags2,sdfsdf"
-     this.isedit = true;
+   this.isedit = true;
      this.model.supplier_id = object.data.supplier_id;
      this.model.supplier_name = object.data.supplier_name;
      this.model.company_name = object.data.company_name;
@@ -307,32 +309,33 @@ export class SupplierComponent implements OnInit {
      this.model.email_id =object.data.email_id;
      //this.model.item_ids =object.data.item_ids;
      this.model.address =object.data.address;
-  //    let temp = object.data.item_ids;
-  //   let item_names = object.data.item_names.split(',');
-  //  this.model.item_ids = [];
-  //   for (let i = 0; i < temp.length; i++) {
-  //     let obj:any = {
-  //       id: '',
-  //       item_name: ''
-  //     }
-  //     obj.id = temp[i];
-  //     obj.item_name = item_names[i];
-  //     this.model.item_ids.push(obj);
+     let temp = object.data.item_ids;
+    let item_names = object.data.item_names.split(',');
+   this.model.item_ids = [];
+    for (let i = 0; i < temp.length; i++) {
+      let obj:any = {
+        item_id: '',
+        item_name: ''
+      }
+      obj.item_id = temp[i];
+      obj.item_name = item_names[i];
+      this.model.item_ids.push(obj);
 
-  //   }
-  //    let temp2 =object.data.category_ids;
-  //    console.log(temp2);
-  //    let category_names= object.data.category_names.split(',');
-  //   console.log(category_names);
-  //   for (let i = 0; i < temp2.length; i++) {
-  //     let obj2 = {
-  //       id: '',
-  //       category_name: ''
-  //     }
-  //     obj2.id = temp2[i];
-  //     obj2.category_name = category_names[i];
-  //     this.model.category_ids.push(obj2);
-  //    }
+    }
+    let temp2 = object.data.category_ids;
+    let category_names = object.data.category_names.split(',');
+    this.model.category_ids = [];
+    for (let i = 0; i < temp2.length; i++) {
+      let obj2 = {
+        category_id: '',
+        category_name: ''
+      }
+      obj2.category_id = temp2[i];
+      obj2.category_name = category_names[i];
+      this.model.category_ids.push(obj2);
+    }
+    console.log(this.model.category_ids)
+
 
 
    $('#add1Modal').modal('show');
@@ -348,20 +351,16 @@ export class SupplierComponent implements OnInit {
         address: this.model.address,
         email_id: this.model.email_id,
         phone_no: this.model.phone_no,
-        item_ids:[40,58]
+        item_ids:this.model.item_ids,
       }
-      // let newasset = [];
-      //   let item_ids: any = this.model.item_ids;
-      //   for (let data in item_ids) {
-      //    newasset.push(item_ids[data].id);
-      //   }
-      //   this.model.item_ids = newasset;
-      //  let newassetcat = [];
-      //   let category_ids: any = this.model.category_ids;
-      //  for (let data in category_ids) {
-      //     newassetcat.push(category_ids[data].id);
-      //   }
-      //   this.model.category_ids = newassetcat;
+      console.log(obj.item_ids)
+      let newasset = [];
+        let item_ids: any = obj.item_ids;
+        for (let data in item_ids) {
+         newasset.push(item_ids[data].item_id);
+        }
+       obj.item_ids = newasset;
+      
          
          $('#add1Modal').modal('show');
          this.auth.hideLoader();
@@ -419,7 +418,7 @@ export class SupplierComponent implements OnInit {
        institute_id:'',
        item_ids:[],
        category_ids:[],
-       category_id:[],
+       category_id:0,
     }
     this.addVendorForm.resetForm(this.model);
  }
@@ -516,15 +515,10 @@ let Excelarr = [];
      this.auth.hideLoader();
 
 }
-//pagination code
 fetchTableDataByPage(index) {
   this.pageIndex = index;
   let startindex = this.displayBatchSize * (index - 1);
   this.getDataFromDataSource(startindex);
-}
-
-getDataFromDataSource(startindex) {
-  this.getVendorDetails();
 }
 fetchNext() {
   this.pageIndex++;
@@ -536,6 +530,11 @@ fetchPrevious() {
     this.fetchTableDataByPage(this.pageIndex);
   }
 }
+getDataFromDataSource(startindex) {
+  this.getVendorDetails();
+
+
+}
 updateTableBatchSize(event) {
   this.pageIndex = 1;
   this.displayBatchSize = event;
@@ -546,16 +545,16 @@ searchDatabase() {
     this.searchParams = "";
     this.staticPageData = this.tempLocationList;
 
-    }
-    else {
-      let searchData = this.tempLocationList.filter(item =>
-        Object.keys(item).some(
-          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
-      );
-      this.staticPageData = searchData;
-      this.totalRecords = this.staticPageData.length;
-   
-    }
   }
+  else {
+    let searchData = this.tempLocationList.filter(item =>
+      Object.keys(item).some(
+        k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
+    );
+    this.staticPageData = searchData;
+    this.totalRecords = this.staticPageData.length;
+
+  }
+}
 
 }
