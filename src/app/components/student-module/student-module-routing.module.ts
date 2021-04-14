@@ -4,6 +4,7 @@ import {
   StudentModuleComponent, StudentHomeComponent, StudentAddComponent, StudentBulkComponent,
   StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent
 } from '.';
+import { CertificatesComponent } from './certificates/certificates.component';
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 
@@ -61,7 +62,13 @@ const routes: Routes = [
         path: 'addNew',
         component: StudentAddComponent,
         pathMatch: 'prefix',
+      },
+      {
+        path: 'certificates',
+        component: CertificatesComponent,
+        pathMatch: 'prefix',
       }
+
     ]
   }
 ];

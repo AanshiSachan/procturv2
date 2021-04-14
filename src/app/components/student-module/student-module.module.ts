@@ -27,6 +27,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
+import { CertificatesComponent } from '../student-module/certificates/certificates.component';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { StudentEditNewComponent } from './student-edit-new/student-edit-new.com
     StudentsArchivedReportComponent,
     ViewReportCardComponent,
     StudentAddNewComponent,
-    StudentEditNewComponent
+    StudentEditNewComponent,
+    CertificatesComponent
   ],
   providers: [
     AddStudentPrefillService,
