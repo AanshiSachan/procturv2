@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -37,7 +37,7 @@ export interface FeeModel {
     reference_no?: string;
     invoice_no?: any;
     course_id?: any;
-    country_id?:any;
+    country_id?: any;
     subject_id?: any;
     standard_id?: any;
     master_course?: any;
@@ -236,7 +236,7 @@ export class StudentFeeService {
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
                     amountOfInstallment = amountOfInstallment + amountDue + instal.amount_paid;
-                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax,country_id));
+                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax, country_id));
                 } else {
                     if (instal.paid_full == "N" && instal.balance_amount > 0) {
                         amountDue = Number(instal.balance_amount);
@@ -245,8 +245,8 @@ export class StudentFeeService {
                     }
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
-                    console.log('tax',this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id));
-                    console.log('value',instal.initial_fee_amount_before_disocunt_before_tax);
+                    console.log('tax', this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id));
+                    console.log('value', instal.initial_fee_amount_before_disocunt_before_tax);
                     instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id) - instal.initial_fee_amount_before_disocunt_before_tax;
                 }
                 instal.uiSelected = false;
@@ -266,7 +266,7 @@ export class StudentFeeService {
             obj.feeAmountIncludingTax = totalFeeAmount;
             obj.paidAmount = Number(paidAmount);
             obj.discount = discount;
-            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax,country_id);
+            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax, country_id);
             obj.taxAmount = Math.floor(amountOfInstallment - initAmout);
             obj.dueAmount = unPaidAmount;
             if (obj.dueAmount == 0) {
@@ -283,7 +283,7 @@ export class StudentFeeService {
         return subjectWiseSchduleArray;
     }
 
-    makeCardLayoutJson(data, tax,country_id) {
+    makeCardLayoutJson(data, tax, country_id) {
         let obj: any = {
             feeAmountInclTax: 0,
             feeAmountExclTax: 0,
@@ -324,7 +324,7 @@ export class StudentFeeService {
         );
 
 
-        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax,country_id);
+        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax, country_id);
         obj.taxAmount = installmentDueAmount - initialAmountWithoutTax;
 
 
@@ -899,50 +899,50 @@ export class StudentFeeService {
                 total_discount_percent: 0,
                 fee_template_mapping_id: 0
             }
-                if (i == installmentArray.length - 1) {
-                    perInstallmentDiscount = mutableDiscount;
-                }
-                if (element.p_amount == 0) {
-                    if (element.d_amount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
-                        return false;
-                    } else {
-                        obj.discount_amount = perInstallmentDiscount;
-                        obj.final_amount = element.d_amount - perInstallmentDiscount;
-                        obj.balance_amount = 0;
-                    }
-                    if (obj.final_amount == 0) {
-                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
-                        return false;
-                    }
+            if (i == installmentArray.length - 1) {
+                perInstallmentDiscount = mutableDiscount;
+            }
+            if (element.p_amount == 0) {
+                if (element.d_amount <= perInstallmentDiscount) {
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                    return false;
                 } else {
-                    if (element.d_amount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
-                        return false;
-                    } else {
-                        obj.discount_amount = perInstallmentDiscount;
-                        obj.final_amount = 0;
-                        obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
-                    }
-                    if (obj.balance_amount == 0) {
-                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
-                        return false;
-                    }
+                    obj.discount_amount = perInstallmentDiscount;
+                    obj.final_amount = element.d_amount - perInstallmentDiscount;
+                    obj.balance_amount = 0;
+                }
+                if (obj.final_amount == 0) {
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                    return false;
+                }
+            } else {
+                if (element.d_amount <= perInstallmentDiscount) {
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                    return false;
+                } else {
+                    obj.discount_amount = perInstallmentDiscount;
+                    obj.final_amount = 0;
+                    obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
+                }
+                if (obj.balance_amount == 0) {
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                    return false;
+                }
 
-                }
-                mutableDiscount = mutableDiscount - perInstallmentDiscount;
-                if (popUpFormObj.type == "2") {
-                    obj.total_discount_amount = Number(popUpFormObj.discountAmount);
-                    obj.total_discount_percent = Number(popUpFormObj.value);
-                } else {
-                    obj.total_discount_amount = Number(popUpFormObj.discountAmount);
-                    obj.total_discount_percent = 0;
-                }
-                discountArray.push(obj);
+            }
+            mutableDiscount = mutableDiscount - perInstallmentDiscount;
+            if (popUpFormObj.type == "2") {
+                obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                obj.total_discount_percent = Number(popUpFormObj.value);
+            } else {
+                obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                obj.total_discount_percent = 0;
+            }
+            discountArray.push(obj);
         }
         return discountArray;
     }
-    calculateInitialAmountOfRemainingAmount(amount: number, tax: number,country_id) {
+    calculateInitialAmountOfRemainingAmount(amount: number, tax: number, country_id) {
         if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
             let initialAmount: number = (amount * 100) / (100 + tax);
             return initialAmount;
@@ -1038,7 +1038,46 @@ export class StudentFeeService {
 
         return discountArray;
     }
-
+    makeRemoveDiscountJsonV2(installment, popUpFormObj) {
+        let discountArray: any = [];
+        let element: any = installment[0];
+        let obj: any = {
+            fee_schedule_id: Number(element.f_schld_id),
+            installment_no: Number(element.install_no),
+            reason_id: Number(popUpFormObj.reason),
+            discount_date: moment().format('YYYY-MM-DD'),
+            discount_amount: 0,
+            balance_amount: 0,
+            final_amount: 0,
+            discount_status: 2,
+            total_discount_amount: 0,
+            total_discount_percent: 0,
+            fee_template_mapping_id: 0
+        }
+        if (element.disc_amount < popUpFormObj.discountAmount) {
+            this.commonService.showErrorMessage('error', '', 'Installment No. ' + element.installment_no + ':  discount amount to be removed can not be more than discount provided in installment.');
+            return false;
+        }
+        if (element.p_amount == 0) {
+            obj.discount_amount = popUpFormObj.discountAmount;
+            obj.final_amount = Math.floor(element.d_amount + popUpFormObj.discountAmount);
+            obj.balance_amount = 0;
+        } else {
+            obj.discount_amount = popUpFormObj.discountAmount;
+            obj.final_amount = 0;
+            obj.balance_amount = Math.floor(element.d_amount + popUpFormObj.discountAmount);
+        }
+        if (popUpFormObj.type == "percentage") {
+            obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+            obj.total_discount_percent = Number(popUpFormObj.value);
+        } else {
+            obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+            obj.total_discount_percent = 0;
+        }
+        //  obj.fee_template_mapping_id = element.student_fee_template_mapping_id;
+        discountArray.push(obj);
+        return discountArray;
+    }
     getDiscountHistory(id) {
         let url = this.baseUrl + "/api/v1/discount/" + id;
         return this.http.get(url, { headers: this.headers }).pipe(map(

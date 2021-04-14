@@ -42,7 +42,6 @@ export class FeeAssignmentComponent implements OnInit {
   template_id: number = -1;
   totalFeeAmount: number = 0;
   totalTax: number = 0;
-  feeTypeList: any = [];
   feeInstalllmentArr: any[];
   studentIdArr: any = [];
   feeInstmentArr: any = [];

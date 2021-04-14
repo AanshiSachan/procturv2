@@ -40,9 +40,9 @@
                 <div class="page_heading2 ">
                     <div class="w98">
                         Installments
-                        <!-- <button class="right blue_button mart" data-toggle="modal" data-target="#installmentModal">
+                        <button class="right blue_button mart" data-toggle="modal" (click)="openAddInstallmentPopup()">
                             Add Installment
-                        </button> -->
+                        </button>
                     </div>
                 </div>
                 <div class="w98">
@@ -327,7 +327,8 @@
                                                 <label class="checkbox">
                                                     <span class="checkbox__input">
                                                         <input type="checkbox" name="checked"
-                                                            [(ngModel)]="isAllChequeSelected" (change)="selectAllChequeList()">
+                                                            [(ngModel)]="isAllChequeSelected"
+                                                            (change)="selectAllChequeList()">
                                                         <span class="checkbox__control">
                                                             <svg viewBox='0 0 24 24' aria-hidden="true"
                                                                 focusable="false">
@@ -360,7 +361,8 @@
                                                 <div>
                                                     <label class="checkbox">
                                                         <span class="checkbox__input">
-                                                            <input type="checkbox" name="checked" [(ngModel)]="data.isSelected"
+                                                            <input type="checkbox" name="checked"
+                                                                [(ngModel)]="data.isSelected"
                                                                 [(ngModel)]="data.isSelected">
                                                             <span class="checkbox__control">
                                                                 <svg viewBox='0 0 24 24' aria-hidden="true"
@@ -449,10 +451,13 @@
                                                     <div>
                                                         {{data.discount_status==1?'Discount Added':'Discount Removed'}}
                                                     </div>
-                                                    <div>
-                                                        <a class="mr10"><img
+                                                    <div *ngIf="!data.is_paid">
+                                                        <a (click)="removeDiscountPopup(data)" class="mr10"><img
                                                                 src="../../../../../assets/img/remove_dis.svg"
                                                                 title="Remove Discount"></a>
+                                                    </div>
+                                                    <div *ngIf="data.is_paid">
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -480,7 +485,7 @@
                         <p class="value">{{currencySymbol}} {{stdFeeDataList.initial_amount | number}}</p>
                     </div>
                 </div>
-                <div class="box box1">
+                <div class="box box1" *ngIf="is_tax_enabled">
                     <div>
                         <p class="name">Tax:</p>
                         <p class="value">{{currencySymbol}} {{stdFeeDataList.t_tx_amount |number}}</p>
@@ -513,7 +518,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="installmentModal">
+    <div class="modal" id="installmentModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -522,31 +527,79 @@
                 </div>
                 <div class="modal-body">
                     <div class="pt10">
-                        <!-- dropdown with search -->
-                        <select class="select wid100">
-                            <option>Academic Year*</option>
+                        <select class="select  wid100" [(ngModel)]="addInstall.acad_yr_id">
+                            <option value="-1">Academic Year*</option>
+                            <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
+                                {{data.inst_acad_year}}</option>
                         </select>
                     </div>
                     <div class="pt10">
-                        <select class="select wid100">
-                            <option>Fee Type*</option>
-                            <option>Sunil</option>
+                        <select class="select  wid100" [(ngModel)]="addInstall.f_type_id">
+                            <option value="-1">Fee Type*</option>
+                            <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
+                                {{data.fee_type | titlecase}}
+                            </option>
                         </select>
                     </div>
                     <div class="pt10">
-                        <input type="text" class="wid100 input" name="" placeholder="Amount*">
+                        <input type="text" class="wid100 input"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                            [(ngModel)]="addInstall.f_amount" placeholder="Amount*">
                     </div>
                     <div class="pt10 field-wrapper datePickerBox">
-                        <input type="text" name="" class="wid100 input bsDatepicker" bsDatepicker placeholder="Due Date*">
+                        <input type="text" name="" class="wid100 input bsDatepicker" [(ngModel)]="addInstall.d_date"
+                            bsDatepicker placeholder="Due Date*">
                     </div>
-                    <div class="pt10">
-                        <input type="text" name="" class="wid100 input" placeholder="Standard*">
+                    <div class="pt10" *ngIf="schoolModel && isTemplateLinkWithCourseAndStandard">
+                        <select class="select wid100" (ngModelChange)="fetchSectionList($event)"
+                            [(ngModel)]="addInstall.standard_id">
+                            <option value="-1">Standard*</option>
+                            <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">
+                                {{data.standard_name}}</option>
+                        </select>
+                    </div>
+                    <!-- <div class="pt10" *ngIf="schoolModel">
+                        <select class="select wid100" [(ngModel)]="addInstall.course_id">
+                            <option value="-1">Section</option>
+                            <option *ngFor="let data of sectionList" [value]="data.course_id">{{data.course_name}}
+                            </option>
+                        </select>
+                    </div> -->
+                    <div class="pt10" *ngIf="!isProfessional && !schoolModel && isTemplateLinkWithCourseAndStandard">
+                        <select class="select wid100" (ngModelChange)="fetchCoursesList($event)"
+                            [(ngModel)]="addInstall.master_course">
+                            <option value="">Master Course*</option>
+                            <option *ngFor="let data of masterCourseList" [value]="data.master_course">
+                                {{data.master_course}} </option>
+                        </select>
+                    </div>
+                    <div class="pt10" *ngIf="!isProfessional && !schoolModel && isTemplateLinkWithCourseAndStandard">
+                        <select class="select wid100" [(ngModel)]="addInstall.course_id">
+                            <option value="-1">Course*</option>
+                            <option *ngFor="let data of courseList" [value]="data.course_id">{{data.course_name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="pt10" *ngIf="isProfessional && isTemplateLinkWithCourseAndStandard">
+                        <select class="select wid100" [(ngModel)]="addInstall.standard_id"
+                            (ngModelChange)="fetchBatch($event)">
+                            <option value="-1">Master Course*</option>
+                            <option *ngFor="let data of standardList" [value]="data.standard_id">{{data.standard_name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="pt10" *ngIf="isProfessional && isTemplateLinkWithCourseAndStandard">
+                        <select class="select wid100" [(ngModel)]="addInstall.subject_id"
+                            (ngModelChange)="fetchBatch($event)">
+                            <option value="-1">Batch*</option>
+                            <option *ngFor="let data of batchList" [value]="data.subject_id">{{data.batch_name}}</option>
+                        </select>
                     </div>
                     <div class="pt10 display">
                         <div></div>
                         <div>
-                            <button class="white_button mr10">Back</button>
-                            <button class="blue_button ">Add Installment</button>
+                            <button class="white_button mr10" (click)="closeAddInstallPopup()">Cancel</button>
+                            <button class="blue_button " (click)="addNewInstall()">Add Installment</button>
                         </div>
                     </div>
                 </div>
@@ -557,7 +610,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Discount</h4>
+                    <h4 class="modal-title">{{isDiscountRemove? 'Remove Discount':'Add Discount'}}</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -603,7 +656,7 @@
                         </div>
                         <div class="fee_up7 sec70">
                             <p class="head_p">Select Installment(s) to apply discount
-                                of<b>{{discountPopUpForm.discountAmount | number}}</b></p>
+                                of<b> {{currencySymbol}} {{discountPopUpForm.discountAmount | number}}</b></p>
                             <div class="table_heading">
                                 <!-- <div>
                                     <label class="checkbox">
@@ -685,8 +738,11 @@
                                 <button class="white_button mr10" (click)="clearDiscPopUpData()">
                                     Cancel
                                 </button>
-                                <button class="blue_button" (click)="applyDiscount()">
+                                <button class="blue_button" *ngIf="!isDiscountRemove" (click)="applyDiscount()">
                                     Apply Discount
+                                </button>
+                                <button class="blue_button" *ngIf="isDiscountRemove" (click)="removeDiscountAction()">
+                                    Remove Discount
                                 </button>
                             </div>
                         </div>
@@ -705,8 +761,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="pt10 field-wrapper datePickerBox">
-                        <input type="text" name="" class="wid100 input bsDatepicker" bsDatepicker [(ngModel)]="pdcAddForm.cheque_date"
-                            placeholder="Cheque Date*">
+                        <input type="text" name="" class="wid100 input bsDatepicker" bsDatepicker
+                            [(ngModel)]="pdcAddForm.cheque_date" placeholder="Cheque Date*">
                     </div>
                     <div class="pt10">
                         <input type="text" class="wid100 input" [(ngModel)]="pdcAddForm.cheque_amount"
@@ -721,8 +777,8 @@
                         <input type="text" class="wid100 input" [(ngModel)]="pdcAddForm.bank_name" name="bankName"
                             maxlength="50" required placeholder="Bank*">
                     </div>
-                    <div class="pt10" *ngIf="countryDetails.length>1">
-                        <select class="select wid100" [(ngModel)]="pdcAddForm.country_id">
+                    <div class="pt10" *ngIf="countryDetails.length>0">
+                        <select disabled="true" class="select wid100" [(ngModel)]="pdcAddForm.country_id">
                             <option value=""></option>
                             <option [value]="data.id" selected *ngFor='let data of countryDetails'>
                                 {{data.country_name}}</option>
@@ -769,8 +825,8 @@
                             class="wid100 input" [(ngModel)]="paymentPopUpJson.paying_amount" placeholder="Amount*">
                     </div>
                     <div class="pt10 field-wrapper datePickerBox">
-                        <input type="text" name="" class="wid100 input bsDatepicker" bsDatepicker [(ngModel)]="paymentPopUpJson.paid_date"
-                            placeholder="Payment Date*">
+                        <input type="text" name="" class="wid100 input bsDatepicker" bsDatepicker
+                            [(ngModel)]="paymentPopUpJson.paid_date" placeholder="Payment Date*">
                     </div>
                     <div class="pt10">
                         <select class="select wid100" [(ngModel)]="paymentPopUpJson.payment_mode"
@@ -794,17 +850,17 @@
                                 [(ngModel)]="paymentPopUpJson.selectedPdcId" (ngModelChange)="feePdcSelected($event)">
                                 <option value=""></option>
                                 <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList"
-                                    [hidden]="opt.cheque_status_key == 1">
+                                    [hidden]="opt.cheque_status_key != 1">
                                     {{opt.cheque_date}} ({{currencySymbol}} {{opt.cheque_amount | number}} )
                                 </option>
                             </select>
                         </div>
-                        <div class="pt10 field-wrapper datePickerBox">
-                            <input type="text" disabled="true" class="wid100 input bsDatepicker" bsDatepicker
+                        <div class="pt10 ">
+                            <input type="text" disabled="true" class="wid100 input "
                                 [(ngModel)]="paymentPopUpJson.pdcSelectedForm.bank_name" placeholder="Bank Name*">
                         </div>
-                        <div class="pt10">
-                            <input type="text" readonly="true" class="wid100 input"
+                        <div class="pt10 field-wrapper datePickerBox">
+                            <input type="text" readonly="true" class="wid100 input bsDatepicker" bsDatepicker
                                 [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" placeholder="Cheque Date*">
                         </div>
                         <div class="pt10">

@@ -37,7 +37,7 @@
       </select>
       <select class="select mr10 wid240" *ngIf="countryDetails.length>1" [(ngModel)]="model.country_id"
         style="width: 12%;">
-        <option value="-1">country</option>
+        <!-- <option value="-1">country</option> -->
         <option [value]="data.id" *ngFor='let data of countryDetails'>
           {{data.country_name}}
       </select>
