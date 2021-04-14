@@ -61,7 +61,7 @@ export class ViewComponent implements OnInit {
     student_id: 0,
     country_id: ''
   };
-  selectAllChequeList: boolean = false;
+  isAllChequeSelected: boolean = false;
   countryDetails: any = [];
   newPdcArr: any = [];
   genPdcAck: boolean;
@@ -80,7 +80,8 @@ export class ViewComponent implements OnInit {
   activeSession: any = '';
   pdcStatus: any[] = [{ data_key: '1', data_value: 'Pending' }, { data_key: '2', data_value: 'dishonoured' }];
   isTemplateLinkWithCourseAndStandard: boolean = false;
-  currencySymbol: String = "INR"
+  currencySymbol: String = ""
+  searchElement: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -92,11 +93,8 @@ export class ViewComponent implements OnInit {
     private postService: PostStudentDataService,
 
   ) {
-    //this.student_id = +this.route.snapshot.paramMap.get('std_id');
-
     this.institute_id = sessionStorage.getItem("institute_id");
     this.isTemplateLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true'
-   // this.fetchAcademicYearList();
     this.activeSession = 'History';
   }
 
@@ -151,6 +149,7 @@ export class ViewComponent implements OnInit {
     this.http.getData(url).subscribe(
       (res: any) => {
         this.stdFeeDataList = res.result;
+        this.currencySymbol=this.stdFeeDataList.currency_code;
         this.checkUncheckAll();
         this.auth.hideLoader();
       },
@@ -734,5 +733,61 @@ export class ViewComponent implements OnInit {
         this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       });
+  }
+  generatePDCAck() {
+    let selectedChqueId = this.getSelectedRow(this.chequePdcList);
+    if (selectedChqueId.length > 0) {
+      this.fetchPDCAcknowledge(selectedChqueId.join(','), this.student_id, 'undefined');
+    }
+    else {
+      this.commonService.showErrorMessage('error', '', 'No PDC is selected!')
+    }
+  }
+
+  sendPDCAckOverEmail() {
+    let selectedChqueId = this.getSelectedRow(this.chequePdcList);
+    if (selectedChqueId.length > 0) {
+      this.fetchPDCAcknowledge(selectedChqueId.join(','), this.student_id, "Y");
+    } else {
+      this.commonService.showErrorMessage('error', 'No PDC is selected!', '')
+    }
+  }
+
+  fetchPDCAcknowledge(cheque_id, student_id, key) {
+    this.auth.showLoader();
+    this.postService.generateAcknowledge(cheque_id, student_id, key).subscribe(
+      res => {
+        this.auth.hideLoader();
+        if (key == 'Y') {
+          this.commonService.showErrorMessage('success', '', 'Sent successfullly!');
+        } else if (key == "undefined") {
+          this.downloadDocument(res);
+        }
+      },
+      err => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', err.error.message, '');
+      }
+    )
+  }
+  getSelectedRow(data) {
+    const temp = [];
+    if (data!=null && data.length > 0) {
+      data.filter(
+        element => {
+          if (element.isSelected) {
+            temp.push(element.cheque_id)
+          }
+        }
+      )
+    } 
+    return temp;
+  }
+  selectAllChequeList(){
+    if(this.chequePdcList!=null){
+     for(let data of this.chequePdcList){
+       data.isSelected=this.isAllChequeSelected;
+     }
+    }
   }
 }

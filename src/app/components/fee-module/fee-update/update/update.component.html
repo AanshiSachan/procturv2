@@ -53,7 +53,7 @@
           <option value="3">N</option>
         </select>
         <button class="blue_button" (click)="fetchStudentList()">Search</button>
-        <input type="text" name="" placeholder="Search" class="input wid200 right magnifying-glass">
+        <input type="text" name="" placeholder="Search" (keyup)="localSearch()" [(ngModel)]="searchElement" class="input wid200 right magnifying-glass">
       </div>
       <div class="fee_up1">
             <div class="table_heading">

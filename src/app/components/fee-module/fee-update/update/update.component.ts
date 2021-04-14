@@ -51,6 +51,7 @@ export class UpdateComponent implements OnInit {
   batchList: any = [];
   student_id: number = -1;
   isTemplateNotLinkWithCourseAndStandard: boolean = false;
+  searchElement: any;
 
   constructor(private auth: AuthenticatorService,
     private http: HttpService,
@@ -441,5 +442,16 @@ export class UpdateComponent implements OnInit {
   closePopUp() {
     $('#assignFeeModel').modal('hide');
     this.student_id = -1;
+  }
+  localSearch() {
+    if (this.searchElement) {
+      let searchData = this.studentList.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchElement.toLowerCase()))
+      );
+      this.studentList = searchData;
+    }else {
+
+    }
   }
 }
