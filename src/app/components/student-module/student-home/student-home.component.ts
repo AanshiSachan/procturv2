@@ -719,7 +719,6 @@ export class StudentHomeComponent implements OnInit {
         title: "Record Deleted",
         body: "Requested record has been removed from student list",
       };
-      debugger
       this.closeSideBar();
       this.appC.popToast(msg);
       this.closeDeletePopup();

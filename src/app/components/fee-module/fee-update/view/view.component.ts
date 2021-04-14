@@ -242,7 +242,6 @@ export class ViewComponent implements OnInit {
   }
 
   doPayment() {
-    debugger
     let is_valid_payment: boolean = this.feeService.validatePaymentDetailsV2(this.paymentPopUpJson);
     if (!is_valid_payment) {
       return;
@@ -633,7 +632,6 @@ export class ViewComponent implements OnInit {
     }
   }
   applyDiscount() {
-    debugger;
     this.auth.showLoader();
     let unpaidAmount = this.max_disc_apply;
     let isValid: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'add');
@@ -711,7 +709,6 @@ export class ViewComponent implements OnInit {
     }
   }
   editPDC(data) {
-    debugger
     this.isAddPDC = false;
     this.pdcAddForm = {
       bank_name: data.bank_name,
@@ -730,7 +727,6 @@ export class ViewComponent implements OnInit {
 
   }
   updateCheque() {
-    debugger
     this.auth.showLoader();
     let el = this.pdcAddForm;
     if (this.validPdc(el)) {
@@ -950,7 +946,6 @@ export class ViewComponent implements OnInit {
     }
   }
   addNewInstall() {
-    debugger
     if (this.validateInputDataForAddInstall()) {
       let obj: any = {
         d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
@@ -1017,7 +1012,6 @@ export class ViewComponent implements OnInit {
     return true;
   }
   removeDiscountPopup(data) {
-    debugger
     this.isDiscountRemove = true;
     $('#discountInstallModel').modal('show');
     this.fetchDiscountReason();
@@ -1034,7 +1028,6 @@ export class ViewComponent implements OnInit {
     }
   }
   removeDiscountAction() {
-    debugger
     this.auth.showLoader();
     if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
       this.commonService.showErrorMessage('error', '', 'Discount Amount is greater then discount given to student');
