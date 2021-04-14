@@ -273,7 +273,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
     }
   }
-  dataForEdit: any = [];
+  dataForEdit;
   editRow(editId) {
     this.itemData=[];
     this.isChange =true;

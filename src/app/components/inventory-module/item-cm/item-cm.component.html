@@ -303,7 +303,7 @@
                 <div class="pt10">
                   <select class="select wid100" name="standard_id" id="standard_id"
                   [(ngModel)]="item.standard_id" (ngModelChange)="onMasterCourseSelection($event)">
-                    <option value="">
+                    <option value="" selected>
                      Standard
                     </option>
                     <option *ngFor="let opt of masterCourseList" value="{{opt.standard_id}}">
@@ -360,7 +360,7 @@
              <div class="pt10">
               <select class="select wid100" name="subject_id" id="subject_id"
               [(ngModel)]="item.subject_id" >
-                <option value="">
+                <option value="" selected>
                 Subject
                 </option>
                 <option *ngFor="let opt of CourseList" value="{{opt.subject_id}}">

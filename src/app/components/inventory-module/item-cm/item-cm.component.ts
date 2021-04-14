@@ -239,7 +239,6 @@ getItemDetails() {
 //edit items
 editItem(data){
 this.isedit = true;
-this.item.standard_name =data.standard_name;
 this.item.item_id=data.item_id;
 this.item.category_id =data.category_id;
 this.item.item_name =data.item_name;
@@ -251,8 +250,17 @@ this.item.tax_percent =data.tax_percent;
 this.item.out_of_stock_indicator_units =data.out_of_stock_indicator_units;
 this.item.institution_id =data.institution_id;
 this.item.standard_id =data.standard_id;
-this.item.subject_id =data.subject_id;
-this.item.standard_id=data.standard_name;
+
+if(data.standard_id==-1 || data.standard_id==0){
+  this.item.standard_name ="";
+}
+this.item.standard_name =data.standard_name;
+
+this.item.standard_id =data.standard_id;
+
+if(data.subject_id==-1 || data.subject_id==0){
+  this.item.subject_name ='';
+}
 this.item.subject_name =data.subject_name;
 }
 //update item

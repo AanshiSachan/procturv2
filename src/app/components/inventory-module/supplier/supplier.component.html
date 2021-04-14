@@ -62,7 +62,7 @@
              <p  class="errormsg">
                        <span class="help-block" *ngIf="email_id.errors?.pattern">This is not a valid email!</span>
                        </p>
-                    <div class="pt10">
+                    <!-- <div class="pt10">
                         <select class="select wid100" name="category_ids" id="category_ids"
                         [(ngModel)]="model.category_ids">
                           <option value="">
@@ -75,13 +75,13 @@
                             12 test
                           </option>
                         </select>
-                      </div>
-                <!-- <div class="pt10">
+                      </div> -->
+                <div class="pt10">
                   <ng-multiselect-dropdown placeholder="Category *" [(ngModel)]="model.category_id"
                   [data]="categoryAllData" [settings]="moderatorSettings" name="category_id"
                   (ngModelChange)="getItemForSelectedCat($event)">
               </ng-multiselect-dropdown>
-                </div> -->
+                </div>
                 <p class="errormsg"> <span  style="height:10px;"class="help-block">
                  
                  </span></p>
@@ -110,7 +110,7 @@
      <span class="help-block"  *ngIf="phone_no.errors?.minlength">   Please Enter 10 digit mobile number</span>
       
     </p> 
-    <div class="pt10">
+    <!-- <div class="pt10">
       <select class="select wid100" name="item_ids" id="item_ids"
       [(ngModel)]="model.item_ids">
         <option value="">
@@ -124,12 +124,12 @@
         </option>
       </select>
     </div>
-  
-    <!-- <div class="pt10">
+   -->
+     <div class="pt10">
         <ng-multiselect-dropdown placeholder="Item*" [(ngModel)]="model.item_ids"
-        [data]="itemAllData" [settings]="moderatorSettingsforitem" name="item_ids">
+        [data]="itemAgainstCata" [settings]="moderatorSettingsforitem" name="item_ids">
        </ng-multiselect-dropdown>
-      </div> -->
+      </div> 
       <p class="errormsg"> <span  style="height:10px;" class="help-block">
        
        </span></p>

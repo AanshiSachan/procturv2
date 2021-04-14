@@ -24,7 +24,7 @@ export class SaleAddComponent implements OnInit {
   isedit = false;
   isChange: boolean = false;
   isDisable = false;
-  dataForEdit = [];
+  dataForEdit;
   saleAllData = [];
   constructor(private httpService: HttpService,
     private auth: AuthenticatorService,

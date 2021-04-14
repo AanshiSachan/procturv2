@@ -38,8 +38,9 @@ export class SupplierComponent implements OnInit {
        email_id:'',
        phone_no:'',
        institute_id:sessionStorage.getItem('institution_id'),
-       item_ids:[40,58],  
+       item_ids:[],  
        category_ids:[],   
+       category_id:[]
   }
   
   submitted = false;
@@ -207,37 +208,40 @@ export class SupplierComponent implements OnInit {
   }
 
   maxlength = 10;
- 
+ itemAgainstCata=[];
   //fordropdown
  getItemForSelectedCat(object) {
+  // alert("hii")
    let categoryids:any =[];
    for(let data of object){
      categoryids.push(data.category_id)
   }
   console.log(categoryids);
-  let selectcategory =categoryids.split(',');
-  console.log(selectcategory)
-   if (selectcategory === undefined) {
-  }
-    else {
+ // let selectcategory =categoryids.split(',');
+  //console.log(selectcategory)
+  //  if (selectcategory === undefined) {
+  // }
+  //   else {
       //api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + categoryselectedid + '&instituteId=' + this.model.institute_id
-      this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/'+this.model.institute_id + '?category_id_list='+selectcategory).subscribe(
+      this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + categoryids).subscribe(
         (res: any) => {
           let result = res.result;
-          let keys = Object.keys(result);
-          let temp: any = [];
-          for (let i = 0; i < keys.length; i++) {
-            let a = result[keys[i]];
-            for (let j = 0; j < a.length; j++) {
-              temp.push(a[j]);
-            }
-          }
-          this.itemAllData = temp;
+          let temp:any =[];
+       console.log(result);
+       for(let i=0;i<result.length;i++){
+         for(let j =0; j<result[i].items.length;j++){
+           temp.push(result[i].items[j]);
+         }
+
+   
+       }
+       this.itemAgainstCata=temp;
+       console.log(this.itemAgainstCata);
         },
         err => {
 
         })
- }
+//  }
  }
  supplierAllData:any=[];
   getVendorDetails() {
@@ -260,10 +264,15 @@ export class SupplierComponent implements OnInit {
 
   saveSupplierDetails(){
   if(this.addVendorForm.valid){
-    delete(this.model.category_ids)
-  
-    let item_ids =[58,40];
-    this.model.item_ids =item_ids;
+    delete(this.model.category_id)
+   let newasset = []
+      let item_idss:any = this.model.item_ids;
+     for (let data in item_idss) {
+       newasset.push(item_idss[data].item_id);
+      }
+      this.model.item_ids = newasset
+   
+    console.log(this.model.item_ids)
       this.httpService.postData('/api/v1/inventory/supplier/create', this.model).subscribe(
         (res: any) => {
            $('#add1Modal').modal('hide');
@@ -410,6 +419,7 @@ export class SupplierComponent implements OnInit {
        institute_id:'',
        item_ids:[],
        category_ids:[],
+       category_id:[],
     }
     this.addVendorForm.resetForm(this.model);
  }
