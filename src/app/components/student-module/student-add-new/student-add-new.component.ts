@@ -662,7 +662,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (this.student_id == 0 || this.student_id == null) {
           document.getElementById('li-one').classList.add('active');
           document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.remove('active');
+          // document.getElementById('li-three').classList.remove('active');
           // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = true;
           this.isOtherActive = false;
@@ -679,7 +679,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.add('step_active');
           document.getElementById('li-two').classList.add('active');
-          document.getElementById('li-three').classList.remove('active');
+          // document.getElementById('li-three').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
@@ -694,8 +694,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (this.student_id != 0 && this.student_id != null) {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.add('step_active');
-          document.getElementById('li-three').classList.add('active');
+          // document.getElementById('li-three').classList.add('step_active');
+          // document.getElementById('li-three').classList.add('active');
           this.isBasicActive = false;
           this.isOtherActive = false;
           this.isFeeActive = true;
@@ -1313,7 +1313,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
               if (this.studentAddnMove) {
                 this.updateStudentFeeDetails();
                 sessionStorage.removeItem('studentPrefill'); // remove enquiry coverted stud --laxmi
-                this.navigateTo('feeDetails');
+                this.router.navigate(['/view/students']);
+                // this.navigateTo('feeDetails');
               }
             }
             else if (statusCode == 2) {
@@ -1373,7 +1374,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
             this.msgToast.showErrorMessage('success', '', "Student details updated successfully");
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
-              this.navigateTo('feeDetails');
+              // this.navigateTo('feeDetails');
+              this.router.navigate(['/view/students']);
             }
           }
           else {
@@ -1412,7 +1414,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           this.getCourseDropdown(res.generated_id);
           if (this.studentAddnMove) {
             this.updateStudentFeeDetails();
-            this.navigateTo('feeDetails');
+            // this.navigateTo('feeDetails');
+            this.router.navigate(['/view/students']);
           }
         }
         else if (statusCode == 2) {
@@ -1574,7 +1577,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
             this.getCourseDropdown(res.generated_id);
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
-              this.navigateTo('feeDetails');
+              // this.navigateTo('feeDetails');
+              this.router.navigate(['/view/students']);
             }
           }
           else if (statusCode == 2) {
