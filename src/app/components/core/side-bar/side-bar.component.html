@@ -678,7 +678,7 @@
             <p >Leave</p><i class="fa fa-angle-right"></i>
             <div class="dropdown-content">
 
-            <a routerLink="/view/leave/leave-application">
+            <a  *ngIf="!jsonFlags.isAdmin" routerLink="/view/leave/leave-application">
                 <span>Leave Application</span>
         </a>
         <a  *ngIf="jsonFlags.isAdmin" routerLink="/view/leave/leave-category">

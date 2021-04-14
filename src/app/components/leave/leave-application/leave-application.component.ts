@@ -35,7 +35,7 @@ export class LeaveApplicationComponent implements OnInit {
       status:'CANCELLED',
       userid:1,
       id:0,
-      pageSize:5 ,
+      pageSize:10 ,
       pageOffset:1,
       pageIndex:1,
 
@@ -111,6 +111,7 @@ updateTableBatchSize(num) {
          var to = moment(this.leaveApplicationList[i].to);
         let  diff= to.diff(from, 'days') // 1
           this.leaveApllicationmodel.days = diff;
+          console.log("lisssssssssssttttttt",this.leaveApplicationList)
 
         }
 

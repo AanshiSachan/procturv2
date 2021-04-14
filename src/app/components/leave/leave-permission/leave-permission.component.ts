@@ -28,7 +28,7 @@ export class LeavePermissionComponent implements OnInit {
     status:'REJECTED',
     userid:1,
     id:0,
-    pageSize:5,
+    pageSize:10,
     pageOffset:1,
     pageIndex:1,
 
