@@ -61,7 +61,7 @@
 
                                             <div *ngIf="name.invalid && (name.dirty || name.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="name.errors.required">
+                                                <div class="text-danger" *ngIf="name.errors.required">
                                                     name is required.
                                                 </div>
                                             </div>
