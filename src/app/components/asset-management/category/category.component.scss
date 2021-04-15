@@ -202,7 +202,7 @@ color: #444141;
   border: 1px solid #D5D0D0;
   box-sizing: border-box;
   border-radius: 4px;
-  margin-top:20px;
+  margin-top:5px;
     }
 .btns{
   margin-top: 30px;
@@ -223,12 +223,13 @@ color: #444141;
 height: 18px;
 left: 41px;
 top: 30px;
-
+text-align: center;
 font-family: Open Sans;
 font-style: normal;
 font-weight: 600;
 font-size: 13px;
 line-height: 18px;
+margin-bottom: 25px;
 /* identical to box height */
 
 letter-spacing: 0.01em;
@@ -371,7 +372,14 @@ color: #444141;
   
 }
 .errormsg{
-  height:10px;
+  height:8px;
 }
-
+.p_title{
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 15px;
+  letter-spacing: 0.01em;
+  color: #444141;
+  margin-bottom:5px;
+  }
 
