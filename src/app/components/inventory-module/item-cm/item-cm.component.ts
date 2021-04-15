@@ -133,7 +133,9 @@ export class ItemCmComponent implements OnInit {
       this.httpService.putData(this.url + 'category', obj).subscribe(() => {
         $('#addModel').modal('hide');
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category has been edited from Previous details to Current edited details")
+        this.auth.hideLoader();
         this.getCategoryDetails();
+       
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -141,7 +143,7 @@ export class ItemCmComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory field")
     }
   }
   cancel(param) {
@@ -313,7 +315,7 @@ updateItemDetails(){
       })
   }
   else {
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory field")
   }
 
 }
@@ -748,7 +750,7 @@ getSubBranches(){
 itemfromSubbrach:any=[];
 getItemAgainSubBranch(id){
   console.log(id)
-  this.httpService.getData('/api/v1/inventory/item/all/100074').subscribe(
+  this.httpService.getData('/api/v1/inventory/item/all/' + this.item.institution_id).subscribe(
     res => {
       this.itemfromSubbrach = res;
       this.auth.hideLoader();

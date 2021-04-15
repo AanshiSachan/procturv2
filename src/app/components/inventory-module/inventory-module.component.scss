@@ -770,10 +770,28 @@
   .center{
       text-align: center;
   }
-  .astrik{
-    
-  }
+ 
   .deleteImg,li{
     float: left;
     margin:3px;
   }
+  .p_title{
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.01em;
+    color: #2B2626;;
+    margin-bottom:5px;
+    }
+    .has-error .control-label{
+      color: black;
+      }
+      .help-block{
+      color: red;
+      margin-bottom: 0%;
+      
+      }
+      .text-danger{
+        color: red;
+        padding-left:2px;
+      }

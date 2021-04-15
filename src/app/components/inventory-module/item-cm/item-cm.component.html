@@ -141,17 +141,19 @@
         <div class="modal-body">
      <form  #catForm="ngForm" autocomplete="off">
           <div class="pt10" [class.has-error]="category_name.invalid && category_name.touched">
+            <label class="p_title">Category Name<span class="text-danger">*</span></label>
             <input type="text" class="input wid100" id ="category_name"
-            name="category_name" placeholder="Category Name*"
+            name="category_name" placeholder="Enter category name"
             [(ngModel)]="category_model.category_name"
             #category_name="ngModel" required >
           </div>
-          <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!category_name.valid && category_name.touched">
+          <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!category_name.valid && category_name.touched">
             Category  name is mandatory
-         </span></p>
+         </span></p> -->
           <div class="pt10">
+            <label class="p_title">Description</label>
             <textarea class="input wid100" name="desc" id="desc"
-            [(ngModel)]="category_model.desc" placeholder="Description" ></textarea>
+            [(ngModel)]="category_model.desc" placeholder="Enter description" ></textarea>
           </div>
         
           <div class="pt10 display">
