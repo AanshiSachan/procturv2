@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { HttpService } from '../../../services/http.service';
 declare var $;
 
 
@@ -175,7 +176,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     private fetchService: FetchprefilldataService,
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private httpService: HttpService
   ) {
     this.auth.schoolModel.subscribe(
       res => {
@@ -1635,5 +1637,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   setSetupSession(obj) {
     sessionStorage.setItem('class', obj);
+  }
+
+  openExamdesk() {
+    this.httpService.getData("/api/v2/user/examdesk/SSO")
+      .subscribe((data: any) => {
+        window.open('https://test999.examdesk.co/administrator/login?token=' + data.result);
+      });
   }
 }

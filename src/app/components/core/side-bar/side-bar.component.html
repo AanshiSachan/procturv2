@@ -607,8 +607,8 @@
                     <p >Assignments</p></a>
                   </li>
 
-                  <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine')">
-                    <a routerLink="/view/online-exam">
+                  <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine');openExamdesk()">
+                    <a>
                         <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidebar_images/online_exam.svg'" alt="">
                     <p >Online Test</p></a>
                   </li>
