@@ -69,32 +69,32 @@
     <!--model for asset category-->
     <div class="modal fade" id="myModalforcat" data-backdrop="static" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content" style="height: 340px;">
+            <div class="modal-content" >
                 <div class="modal-body">
                    <h4 class="title-model"> Assets Category</h4>
                     <form id="form1" #assetcat="ngForm" autocomplete="off">
                           <div class="form-group" >
-                                <label  class="p_title">Category Code</label>
+                                <label  class="p_title">Category Code<span style="padding:2px">(Eg: ELEC01)</span></label>
                                <input type="text" class="form-control" name="category_code" id="category_code"
-                                    placeholder="Enter category code (Eg: ELEC01) here" [(ngModel)]="category_model.category_code"
+                                    placeholder="Enter category code" [(ngModel)]="category_model.category_code"
                                     #categoryCode="ngModel" >
                             </div>
-                          <p class="errormsg"> <span class="help-block" >
+                          <!-- <p class="errormsg"> <span class="help-block" >
                              
-                            </span></p> 
+                            </span></p>  -->
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
-                                <label  class="p_title"> Name*</label>
+                                <label  class="p_title"> Name<span class="stars">*</span></label>
                                 <input type="text" class="form-control" name="category_name" id="category_name"
-                                    placeholder="Enter name here*" [(ngModel)]="category_model.category_name"
+                                    placeholder="Enter name here" [(ngModel)]="category_model.category_name"
                                     #categoryNmae="ngModel" required>
                             </div>
-                            <p class="errormsg"><span  class="help-block" *ngIf="!categoryNmae.valid && categoryNmae.touched">
+                            <!-- <p class="errormsg"><span  class="help-block" *ngIf="!categoryNmae.valid && categoryNmae.touched">
                                 Category name is mandatory
-                            </span></p>
+                            </span></p> -->
                        
-                        <div style="text-align: center;">
+                        <div class="action_btn">
                             <span > <button type="button" class="btns blue_button cancel"
-                                    data-dismiss="modal" (click)="cancel()">cancel</button></span>
+                                    data-dismiss="modal" (click)="cancel()">Cancel</button></span>
                             <span > <button type="submit" class="btns blue_button"
                                     (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">
                                     Add Category</button></span>
@@ -109,6 +109,8 @@
 
         </div>
     </div>
+
+    
     <!--model for add asset -->
     <div class="modal fade" data-backdrop="static"  id="myModalforasset" role="dialog">
         <div class="modal-dialog">

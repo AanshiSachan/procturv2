@@ -1,8 +1,22 @@
-.p_title{
+
+
+.errormsg{
+    height:8px;
+  }
+  .p_title{
     font-weight: 400;
     font-size: 11px;
     line-height: 15px;
     letter-spacing: 0.01em;
-    color: #406585;
+    color: #444141;
     margin-bottom:5px;
     }
+  
+  .stars{
+    color:red;
+    padding-left: 2px;
+  }
+  .action_btn{
+    text-align: right;
+   
+  }

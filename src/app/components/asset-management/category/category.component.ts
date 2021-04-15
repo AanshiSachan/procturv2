@@ -318,7 +318,7 @@ export class CategoryComponent implements OnInit {
     
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please fill all manadatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
     }
   }
   //get category details
