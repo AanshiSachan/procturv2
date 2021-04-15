@@ -29,7 +29,7 @@
       <div class="payment-details-item field-wrapper" *ngIf="jsonFlag.isAuthoriseUser">
         <label for="account-name">Account Name <span class="danger">*</span><span class="customeAdd"
             (click)="toggleAccount()">Add Account</span></label>
-        <select class="form-ctrl" name="account-name" id="account-name" [disabled]="addedItemList.length == '1'" [(ngModel)]="paymentDetails.accountName"
+        <select class="form-ctrl" name="account-name" id="account-name" [disabled]="addedItemList.length >= 1" [(ngModel)]="paymentDetails.accountName"
           (ngModelChange)="setAccountIfscCode($event)">
           <option value="-1">Select Account</option>
           <option [value]="account.account_id" *ngFor="let account of accountNamelist">{{account.display_name}}</option>
@@ -45,7 +45,7 @@
       </div>
 
       <div class="payment-details-item field-wrapper" *ngIf="paymentDetails.paymentmode == '3'">
-        <label for="account-name">IFSC Code</label>
+        <label for="ifsc-code">IFSC Code</label>
         <input type="text" class="form-ctrl" name="account-name" disabled id="ifsc-code"
           [(ngModel)]="paymentDetails.IfscCode" placeholder="IFSC Code">
 
@@ -58,10 +58,10 @@
   <section>
     <div class="payment-details-container">
       <div class="payment-details-item field-wrapper datePickerBox" *ngIf="jsonFlag.isAuthoriseUser">
-        <label for="payee">Payment Date <span class="danger">*</span></label>
+        <label for="payment-date">Payment Date <span class="danger">*</span></label>
         <input type="text" value="" id="payment-date" class="form-ctrl widgetDatepicker bsDatepicker"
-          [(ngModel)]="paymentDetails.paymentDate" style="padding: 6px;" readonly="true" name="payment-date"
-          placeholder="Date" bsDatepicker (ngModelChange)="checkFututreDate()" />
+          [(ngModel)]="paymentDetails.paymentDate" style="padding: 6px;" readonly="true" name="paymentDate"
+          placeholder="Date"  (ngModelChange)="checkFututreDate()" bsDatepicker/>
       </div>
 
       <div class="payment-details-item field-wrapper">
@@ -140,7 +140,7 @@
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
         <div class="account-input-item field-wrapper" style="padding-top: 0;">
-          <input type="text" value="" id="item-name" class="form-ctrl" [(ngModel)]="accountDetails.amount"
+          <input type="text" value="" id="item-name" maxlength="10" class="form-ctrl" [(ngModel)]="accountDetails.amount"
             style="padding: 6px;" name="item-name" placeholder="Item Amount"
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
@@ -298,7 +298,7 @@
     <footer>
       <div class="action-container">
         <button type="button" name="button" class="cancel-btn"
-          routerLink="/view/expense/manage-expense">{{(!jsonFlag.isAuthoriseUser) ? 'Back To Expense' : 'Cancle'}}
+          routerLink="/view/expense/manage-expense">{{(!jsonFlag.isAuthoriseUser) ? 'Back To Expense' : 'Cancel'}}
         </button>
 
         <button type="button" name="button" class="save-btn" [disabled]="!jsonFlag.isAuthoriseUser"
