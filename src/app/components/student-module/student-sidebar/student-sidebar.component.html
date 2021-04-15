@@ -242,7 +242,7 @@
         <div class="modal-body">
           <div class="pt10">
             <label for="">Select Student Certificate</label><br>
-            <select class="form-ctrl">
+            <select class="form-ctrl" (change)="generateCertificate($event.target.value)">
                 <option >Select Certificates</option>
                 <option value="transfer">Transfer Certificate </option>
               <option value="character"> Conduct/Character Certificate</option>
