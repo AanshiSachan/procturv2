@@ -7,7 +7,6 @@ import * as moment from 'moment';
 import { FetchStudentService } from '../../../../services/student-services/fetch-student.service';
 import { StudentFeeService } from '../../../../components/student-module/student_fee.service';
 import { PostStudentDataService } from '../../../../services/student-services/post-student-data.service';
-import { ThirdPartyAuthComponent } from 'src/app/components/website-configuration/third-party-auth/third-party-auth.component';
 declare var $;
 
 
@@ -105,7 +104,8 @@ export class ViewComponent implements OnInit {
   isDiscountRemove: boolean = false;
   paidInstallArr: any = [];
   student_country_id: number=-1;
-  is_tax_enabled: boolean=false;;
+  is_tax_enabled: boolean=false;
+  paymentMode: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -1097,5 +1097,53 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('error', '', error.error.message);
       }
     )
+  }
+
+  checkSelectedInstallments() {
+    let is_intall_not_selected = true;
+    for (let data of this.stdFeeDataList.p_install_li) {
+      if (data.isSelected) {
+        is_intall_not_selected = false;
+      }
+    }
+    if (is_intall_not_selected) {
+      this.commonService.showErrorMessage('info', '', 'Please select at least one installment!');
+      return;
+    }
+    $('#sendModal').modal('show');
+  }
+
+  studentFeeInstallment(userType) {
+    //  this.closeMenu();
+    let object = {
+      student_ids: this.student_id,// string by ids common seperated
+      institution_id: '',
+      sendEmail: userType,
+    }
+      object['user_role'] = this.paymentMode;
+    this.auth.showLoader()
+    this.postService.getFeeInstallments(object).subscribe((res: any) => {
+      this.auth.hideLoader()
+      if (userType == -1) {
+        let byteArr = this.commonService.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        const dwldLink = document.createElement('a');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+        document.body.removeChild(dwldLink);
+      } else {
+        $('#sendModal').modal('hide');
+        this.commonService.showErrorMessage('success','','fee installement send on your mail successfully');
+      }
+    },
+      (err: any) => {
+        this.auth.hideLoader()
+        // this.commonService.showErrorMessage('error', '', err.error.message);
+        this.commonService.showErrorMessage('error','',err.error.message);
+      })
   }
 }
