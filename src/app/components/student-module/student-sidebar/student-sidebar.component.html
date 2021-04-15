@@ -106,7 +106,7 @@
 
                         <li class="action-item" *ngIf="institute_id==100058||institute_id==101196||institute_id==101197||institute_id==101198||institute_id==100127||institute_id==101281||institute_id==101282||institute_id==100292||institute_id==102026||institute_id==100135">
                             <a class="" target="_blank" data-toggle="modal" data-target="#certificateModal" class="fa fa-download">
-                               <span style="font-size: 14px;font-weight: 400;margin-left: 12px; font-family: 'Open Sans', sans-serif;"> Download Certificate</span>
+                               <span style="font-size: 14px;font-weight: 400;margin-left: 12px; font-family: 'Open Sans', sans-serif;"> Genrate Certificate</span>
                             </a>
                         </li>
 
@@ -244,14 +244,14 @@
             <label for="">Select Student Certificate</label><br>
             <select class="form-ctrl">
                 <option >Select Certificates</option>
-                <option value="Transfer">Transfer Certificate </option>
-              <option value="Character"> Conduct/Character Certificate</option>
-              <option value="Bonafied"> Bonafied Certificate</option>
-              <option value="Migration"> Migration Certificate</option>
+                <option value="transfer">Transfer Certificate </option>
+              <option value="character"> Conduct/Character Certificate</option>
+              <option value="bonafied"> Bonafied Certificate</option>
+              <option value="migration"> Migration Certificate</option>
             </select>         
          </div><br>
           <div class="pt10 h10">
-            <button type="button" style="align-items: center;" class="btn btn-default add-area-btn" >generate</button>
+            <button type="button" style="align-items: center;" class="btn btn-default add-area-btn" (click)="generateCertificate()" >generate</button>
           </div>
         </div>        
       </div>

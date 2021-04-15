@@ -238,7 +238,7 @@
                            <input type="text" name=""  class="input" placeholder="">
                          </div>
                          <div class="col-lg-3">
-                           <span class="label ">
+                           <span class="label1 ">
                             Any other remark
                            </span>
                          </div>
@@ -249,15 +249,17 @@
                
                      
                    <div class="display">
-                       <div></div>
+                       <div><button class="blue_button1 " (click)="Back()" >Back</button></div>
                      <div >
                       
                      
-                         <a href="certificate.html"> <button class="blue_button " >Genrate Certificate</button></a>
-                      
+                         <button class="blue_button " (click)="transferCertificate()" >Genrate Certificate</button>
+
                      </div>
-                      
-                   </div>
+
+                     </div>
+                   
+
                  </div>
                </div>
              
@@ -265,26 +267,10 @@
      </div>
     </div> 
     <!-- =================================start Transfer Certificate======================================== -->
-    <div>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>DEMO</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <meta charset="utf-8"> 
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="style1.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
-</head>
-<body>
+    <div *ngIf="transfer" class="body_div">
+
   
-    <div class="w96 flex">
+    <div class="w96 flex ">
       <div style="width: 30%">
         <img src="img1/logo.png" style="height: auto;width: 90%;">
       </div>
@@ -299,7 +285,7 @@
             </div>
       </div>
     </div>
-    <div class="w96 ballet">
+    <div class="w96 ballet1">
         Leaving Certificate
     </div>
     <div class="display space">
@@ -553,12 +539,11 @@
        Pricipal Stamp
      </div>
    </div>
- </body>
- </html>
+
     </div>
 
     <!-- ==============================================start bonafied certificate================================= -->
- <div>
+ <div *ngIf="bonafied">
 
  <!DOCTYPE html>
  <html>
@@ -613,7 +598,7 @@
  </html>
 </div>
 <!-- ========================star male================================================ -->
-<div>
+<div *ngIf="bonafied">
     <!DOCTYPE html>
     <html>
     <head>
@@ -669,7 +654,7 @@
 </div>
 
 <!-- ==========================================start character-female========================================== -->
-<div>
+<div *ngIf="character">
     <!DOCTYPE html>
     <html>
     <head>
@@ -724,7 +709,7 @@
     </html>
 </div>
 <!-- ======================================start male-character================================= -->
-<div>
+<div *ngIf="character">
     <!DOCTYPE html>
 <html>
 <head>
@@ -778,7 +763,7 @@ I wish him a great success in life
 </html>
 </div>
 <!-- =============================================start migration-female================================================ -->
-<div>
+<div *ngIf="migration">
     <!DOCTYPE html>
 <html>
 <head>
@@ -833,7 +818,7 @@ This school has no objection in her joining any recognized collage/institute or 
 </html>
 </div>
 <!-- =======================================start-male============================================== -->
-<div>
+<div *ngIf="migration">
 <!DOCTYPE html>
 <html>
 <head>

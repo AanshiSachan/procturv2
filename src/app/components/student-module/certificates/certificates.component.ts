@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-certificates',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CertificatesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+transfer :boolean=false
+bonafied:boolean=false
+migration:boolean=false
+character:boolean=false
 
   ngOnInit(): void {
   }
-
+transferCertificate(){
+  this.transfer=true;
+}
+Back(){
+  this.router.navigateByUrl('/view/students')
+}
 }

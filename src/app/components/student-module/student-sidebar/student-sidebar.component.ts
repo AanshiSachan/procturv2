@@ -308,5 +308,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   editCourseAllocated() {
     this.openCourseAssigned.emit(true);
   }
+  value:"bonafied"
+  generateCertificate(){
+    this.router.navigateByUrl('/view/students/certificates');
+
+  }
 
 }
