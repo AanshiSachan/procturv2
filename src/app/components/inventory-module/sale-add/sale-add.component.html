@@ -21,9 +21,9 @@
                    </select>
               </div>
                  <div class="pt102">
-                  <select class="select wid100" name="user_id" id="user_id"
+                 <select class="select wid100" name="user_id" id="user_id"
                   [(ngModel)]="model.user_id">
-                    <option value="">User<span class="astrik">*</span></option>
+                    <option value="" selected>User<span class="astrik">*</span></option>
                     <option value="{{datas.user_id}}" *ngFor="let datas of userALLdata">{{datas.name}}</option>
                   </select>
               </div>
@@ -37,13 +37,13 @@
           [(ngModel)]="model.sale_date" #purchase_date="ngModel"
           (change)="validateFutureDate($event)" required>
               </div>
-                 <div class="pt102">
+               <div class="pt102">
                    <select class="select wid100" name="payment_status" id="payment_status" 
                    [(ngModel)]="model.payment_status" required>
                     <option value="">Payment Status*</option>
-                    <option value="Due">Due</option>
-                    <option value="Partial"> Partial</option>
-                    <option value="Partial">Paid</option>
+                    <!-- <option value="Due">Due</option> -->
+                    <option value="Pending"> Pending</option>
+                    <option value="Paid">Paid</option>
                   </select>
               </div>
               <div class="pt102">
@@ -102,8 +102,9 @@
                 {{data.item_name}}
               </div>
               <div>
-                <select class="input wid80" [name]="'sale_type' +i " [id]="'sale_type' +i" [(ngModel)]="data.sale_type"
-                (change)="purchaselistItem()"  >
+                <select class="input wid80" [name]="'sale_type' +i " [id]="'sale_type' +i" 
+                [(ngModel)]="data.sale_type"
+                (ngModelChange)="purchaselistItem()">
            
                   <option value="Paid" selected>Paid</option>
                   <option value="Free">Free</option>
@@ -113,12 +114,12 @@
               <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
                 (keyup)="purchaselistItem()"
-                [disabled]="status" class="input wid80"
+                [disabled]="!data.isedit" class="input wid80"
                >
                
               </div>
               <div>
-                <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" [disabled]="status"
+                <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" [disabled]="!data.isedit"
                 [(ngModel)]="data.available_units"
                 (keyup)="purchaselistItem()"
                   onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
@@ -137,9 +138,8 @@
               <span *ngIf="data.unit_price !=0">{{data.subtotal}}</span>  
              <sapn *ngIf="data.unit_price==0">0</sapn>
             </div>
-
-              <div>
-                <a (click)="editdata(false,i)"><img src="../../../../assets/img1/edit.svg" title="Edit"
+                <div>
+                <a (click)="editdata(data)"><img src="../../../../assets/img1/edit.svg" title="Edit"
                   class="group18 mr10"></a>
               <a (click)="deleteItemData(i)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
               </div>

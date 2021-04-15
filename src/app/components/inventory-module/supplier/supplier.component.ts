@@ -383,14 +383,12 @@ export class SupplierComponent implements OnInit {
     supplier_id:''
   }
   showConfirm(obj){
-    
-    this.tempObj=obj;
+   this.tempObj=obj;
     this.tempObj.supplier_id =obj.data.supplier_id
     $('#deletesModal').modal('show');
   }
   deleteRow(obj) {
-  console.log(obj)
-   this.auth.showLoader();
+ this.auth.showLoader();
     this.httpService.deleteData(this.url + 'supplier/delete/' + obj.data.supplier_id +'?instituteId='+ this.institute_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();

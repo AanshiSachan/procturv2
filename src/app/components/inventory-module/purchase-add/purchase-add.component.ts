@@ -107,8 +107,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     );
   }
   getItemAgainscat(e) {
-   
-    let id = e.target.value;
+   let id = e.target.value;
     id = +id;
     console.log(e.target.value)
     this.categoryAllData.forEach(element => {
@@ -319,6 +318,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   return true;
   }
   updatePurchaseData(){
+    alert("hi")
     this.model.purchased_item_list=[];
     for(let i=0; i<this.itemData.length;i++){
       let obj={ "item_id":this.itemData[i].item_id, "quantity":this.itemData[i].available_units, "unit_price":this.itemData[i].unit_cost}

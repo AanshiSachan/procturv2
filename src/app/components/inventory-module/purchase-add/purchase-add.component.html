@@ -14,7 +14,7 @@
       </div>
       <div class="pt102"  [class.has-error]="supplier_id.invalid && supplier_id.touched">
         <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
-          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" [disabled]="isedit" required>
+          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" [disabled]="!isedit" >
           <option value="">
             Company Name*
           </option>
@@ -22,19 +22,19 @@
             {{data.company_name}}</option>
         </select>
       </div>
-      <p class="errormsg"><span style="height:10px;" class="help-block"
+      <!-- <p class="errormsg"><span style="height:10px;" class="help-block"
           *ngIf="!supplier_id.valid && supplier_id.touched">
           Supplier name is mandatory
-        </span></p>
+        </span></p> -->
       <div class="pt102">
         <input type="Date" class="input wid100" name="purchase_date" placeholder="Date*"
           [(ngModel)]="model.purchase_date" #purchase_date="ngModel"
-          (change)="validateFutureDate($event)" required>
+          (change)="validateFutureDate($event)" >
       </div>
-      <p class="errormsg"><span style="height:10px;" class="help-block"
+      <!-- <p class="errormsg"><span style="height:10px;" class="help-block"
           *ngIf="!purchase_date.valid && purchase_date.touched" >
           Date is mandatory
-        </span></p>
+        </span></p> -->
       <div class="pt102">
         <input type="File" class="input wid100" id="billImageFile" name="billImageFile" placeholder="Date*" 
         [disabled]="model.bill_image_url!=''&& isedit"
@@ -67,7 +67,7 @@
         </div>
         <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
           <select class="select sel1 mr10" name="categoryId" id="categoryId" ngModel
-            #category_id="ngModel" (change)="getItemAgainscat($event)" required>
+            #category_id="ngModel" (change)="getItemAgainscat($event)" >
             <option value="" selected>Category Name*</option>
             <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
               {{data.categoryName}} </option>
@@ -78,12 +78,12 @@
             <option value="{{data.item_id}}" *ngFor="let data of itemArray">
               {{data.item_name}}</option>
           </select>
-          <p class="errormsg" ><span style="height:10px;" class="help-block" *ngIf="!category_id.valid && category_id.touched">
+          <!-- <p class="errormsg" ><span style="height:10px;" class="help-block" *ngIf="!category_id.valid && category_id.touched">
             Category is mandatory
-          </span>
-          <span style="height:10px;" class="help-block" *ngIf="!item_id.valid && item_id.touched">
+          </span> -->
+          <!-- <span style="height:10px;" class="help-block" *ngIf="!item_id.valid && item_id.touched">
             Item is mandatory
-          </span></p>
+          </span></p> -->
         </div>
         
      

@@ -15,7 +15,7 @@
          <!-- Nav tabs -->
          <ul class="nav">
           <li class="nav-item" >
-            <a class="nav-link" (click)="toggle('onev',false)"  data-toggle="tab" href="#onev"  [ngClass]="(activeSession == 'onev') ? 'active' : ''">Item Category</a>
+            <a class="nav-link" (click)="toggle('onev',false)"  data-toggle="tab" href="#onev"  [ngClass]="(activeSession == 'onev') ? 'active' : ''">Category</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"  data-toggle="tab" (click)="toggle('twov',true)" href="#twov" [ngClass]="(activeSession == 'twov') ? 'active' : ''" >Item Management</a>
@@ -541,7 +541,7 @@
             </div>
             <div class="table_body" *ngFor="let data of allocationHistoryData;index as i">
               <div>
-             1
+                {{i+1}}
               </div>
               <div>
             {{data.created_date | date: 'yyyy-MM-dd'}}

@@ -56,7 +56,7 @@ export class SaleAddComponent implements OnInit {
   model: any = {
     sale_id:0,
     sale_type: '',
-    user_id: 0,
+    user_id:'',
     user_role: '',
     reference_number: '',
     bill_image_url: '',
@@ -69,7 +69,7 @@ export class SaleAddComponent implements OnInit {
   }
   getAllRoles() {
     //this.auth.showLoader();
-    this.httpService.getData('/api/v1/roleApi/allRoles/100058').subscribe((res: any) => {
+    this.httpService.getData('/api/v1/roleApi/allRoles/'+this.institution_id).subscribe((res: any) => {
       this.roleAllData = res;
       this.auth.hideLoader();
     },
@@ -122,7 +122,7 @@ export class SaleAddComponent implements OnInit {
   itemAllData: any = [];
   itemData: any = [];
   getItemAgainstCat(category_id) {
-    this.isChange = false;
+    //this.isChange = false;
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + category_id).subscribe((res: any) => {
       this.itemAllData = res.result;
@@ -138,6 +138,8 @@ export class SaleAddComponent implements OnInit {
     this.itemArray.forEach(elements => {
       if (elements && elements.item_id == id) {
         this.itemData.push(elements);
+        elements.sale_type ="Paid";
+        elements.isedit =false;
         let data = elements;
         console.log(this.itemData);
         //use to remove duplicates from array
@@ -170,28 +172,31 @@ export class SaleAddComponent implements OnInit {
     let subTotal = 0;
     let units = 0;
     for (let data of this.itemData) {
-     data.sale_type="Paid"
-        //subtotal for each row
-       data.subtotal=0;
-        if(data.available_units!=0 && data.available_units!=0){
-          data.subtotal = ((data.available_units * data.unit_cost) + (data.tax_percent / (data.available_units * data.unit_cost)) * 100);
-          //for total calculate
-          subTotal += ((data.available_units * data.unit_cost) + (data.tax_percent / (data.available_units * data.unit_cost)) * 100);
-          units += Number(data.available_units);
-  
-        
-        }
+      data.subtotal=0;
+      units += Number(data.available_units);
+     if(data.sale_type=="Paid"){
+      data.subtotal = (data.available_units *data.unit_cost) +(data.available_units *data.unit_cost) * (data.tax_percent) /100;
+        //for total calculate
+        subTotal += data.subtotal;
+     
+
+    }    //subtotal for each row
+      else {
+        data.unit_cost=0;
+      }
      
     }
     this.total = subTotal;
     this.totalUnits = units
   }
   status: boolean = true;
-  editdata(param, id) {
+  editdata(param) {
+
+    param.isedit=true
     //for editrow
-    if (id != undefined) {
-      this.status = param;
-    }
+    // if (id != undefined) {
+    //   this.status = param;
+    // }
 
 
   }
@@ -346,12 +351,14 @@ export class SaleAddComponent implements OnInit {
       this.auth.hideLoader();
       console.log(this.dataForEdit)
       this.model.user_id = this.dataForEdit.user_id;
+      console.log(this.dataForEdit.user_id)
       this.model.user_role = this.dataForEdit.user_role;
       this.model.sale_type = this.dataForEdit.sale_type;
       this.model.reference_number = this.dataForEdit.reference_number;
       this.model.bill_image_url = this.dataForEdit.bill_image_url;
       this.model.sale_date = this.dataForEdit.sale_date;
       this.model.payment_status = this.dataForEdit.payment_status;
+      console.log(this.model.payment_status);
       this.model.user_name = this.dataForEdit.user_name;
       console.log(this.model.payment_status)
       this.model.description = this.dataForEdit.description;
@@ -359,8 +366,12 @@ export class SaleAddComponent implements OnInit {
       let newData = [];
       for (let i = 0; i < this.itemData.length; i++) {
         let obj = {
-          sale_type: this.itemData[i].sale_type, item_id: this.itemData[i].item_id, item_name: this.itemData[i].item_name, "available_units": this.itemData[i].quantity, "unit_cost": this.itemData[i].unit_price,
-          "tax_percent": this.itemData[i].tax
+          sale_type: this.itemData[i].sale_type, 
+          item_id: this.itemData[i].item_id, 
+          item_name: this.itemData[i].item_name, 
+          "available_units": this.itemData[i].quantity, "unit_cost": this.itemData[i].unit_price,
+          "tax_percent": this.itemData[i].tax,
+          "isedit":false
         }
         newData.push(obj);
       }

@@ -64,20 +64,7 @@
              <p  class="errormsg">
                        <span class="help-block" *ngIf="email_id.errors?.pattern">This is not a valid email!</span>
                        </p>
-                    <!-- <div class="pt10">
-                        <select class="select wid100" name="category_ids" id="category_ids"
-                        [(ngModel)]="model.category_ids">
-                          <option value="">
-                            Category*
-                          </option>
-                          <option value="58">
-                            Books
-                          </option>
-                          <option value="122">
-                            12 test
-                          </option>
-                        </select>
-                      </div> -->
+                  
                 <div class="pt10">
                   <ng-multiselect-dropdown placeholder="Category *" [(ngModel)]="model.category_ids"
                   [data]="categoryAllData" [settings]="moderatorSettings" name="category_ids"
@@ -112,22 +99,7 @@
      <span class="help-block"  *ngIf="phone_no.errors?.minlength">   Please Enter 10 digit mobile number</span>
       
     </p> 
-    <!-- <div class="pt10">
-      <select class="select wid100" name="item_ids" id="item_ids"
-      [(ngModel)]="model.item_ids">
-        <option value="">
-          Item*
-        </option>
-        <option value="150">
-          sdfsgfdfgdfdf
-        </option>
-        <option value="86">
-          Micro controller books
-        </option>
-      </select>
-    </div>
-   -->
-     <div class="pt10">
+    <div class="pt10">
         <ng-multiselect-dropdown placeholder="Item*" [(ngModel)]="model.item_ids"
         [data]="itemAgainstCata" [settings]="moderatorSettingsforitem" name="item_ids">
        </ng-multiselect-dropdown>
@@ -147,8 +119,7 @@
             <button class="right blue_button cancel" data-dismiss="modal" (click)="cancel(false)" >Cancel</button>
               <button class="right blue_button" *ngIf="!isedit" (click)="saveSupplierDetails(model)">Save</button>
               <button class="right blue_button"  *ngIf="isedit" (click)="updateSupplierDetails(model)">Update</button></div>
-        
-          </div>
+           </div>
         </form>
         </div>        
       </div>
