@@ -240,7 +240,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
         else {
             if (JSON.parse(sessionStorage.getItem('permissions')).includes('108') ||
-                this.role_feature.EXPENSE_MENU) {
+                this.role_feature.INCOME_EXPENSE_ADMIN) {
                 return true;
             }
             else {
