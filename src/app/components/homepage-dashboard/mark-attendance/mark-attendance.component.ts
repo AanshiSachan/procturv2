@@ -67,7 +67,7 @@ export class MarkAttendanceComponent implements OnInit {
   notify_remark: boolean = true;
   topicsList : any = [];
   totalTopicsList: any = [];
-
+  schoolModel:boolean = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -94,6 +94,7 @@ export class MarkAttendanceComponent implements OnInit {
     if(sessionStorage.getItem('isSubjectView') == 'true') {
     this.isSubjectView = true;
     }
+    this.schoolModel = this.auth.schoolModel.value;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -462,11 +463,12 @@ closeTopicModal(){
             this.getCountOfAbsentPresentLeave(res);
           },
           err => {
+            let msg = (this.schoolModel) ? 'No student(s) found in the class.' : 'No student(s) in the batch';
             this.auth.hideLoader();
             let obj = {
               type: 'info',
               title: '',
-              body: "No student(s) in the batch"
+              body: msg
             }
             this.appC.popToast(obj);
           }

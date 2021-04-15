@@ -2675,7 +2675,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', "No file selected");
       }
     } else {
-      this.msgToast.showErrorMessage('error', '', "Document title is mandatory");
+      this.msgToast.showErrorMessage('error', '', "File Name is mandatory");
     }
   }
 
