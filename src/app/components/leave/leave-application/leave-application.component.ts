@@ -111,7 +111,7 @@ updateTableBatchSize(num) {
          var to = moment(this.leaveApplicationList[i].to);
         let  diff= to.diff(from, 'days') // 1
           this.leaveApllicationmodel.days = diff;
-          console.log("lisssssssssssttttttt",this.leaveApplicationList)
+          this.leaveApplicationList[i].no_of_days = diff
 
         }
 

@@ -96,6 +96,14 @@ export class LeavePermissionComponent implements OnInit {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
         this.varJson.total_item = res.result.totalElements;
+        for(let i=0; i < this.leaveApplicationList.length;i++){
+          this.leaveApplicationList[i].no_of_days = this.leaveApllicationmodel.days;
+        var  from = moment(this.leaveApplicationList[i].from);
+         var to = moment(this.leaveApplicationList[i].to);
+        let  diff= to.diff(from, 'days') // 1
+          this.leaveApllicationmodel.days = diff;
+          this.leaveApplicationList[i].no_of_days = diff;
+        }
         
       },
       err => {
