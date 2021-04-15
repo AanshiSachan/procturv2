@@ -580,4 +580,6 @@ export class SupplierMasterComponent implements OnInit {
     );
     this.auth.hideLoader();
   }
+
+  
 }

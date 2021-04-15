@@ -26,7 +26,7 @@
     <!--flex for asset category data-->
     <div class="w98">
         <div class="padding1">
-            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+            <input type="text" style="margin-top: 20px;" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()" *ngIf="is_asset">
             <span class="rights" *ngIf="is_asset">
                 <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>-->
@@ -119,55 +119,60 @@
                     <h4 class="title-model">Add Asset</h4>
                     <form id="form1" #assetaddForm="ngForm" autocomplete="off">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="asset_code" id="asset_code"
-                                placeholder="Asset Code (Eg: LATP01)" [(ngModel)]="model.asset_code" >
+                            <label  class="p_title">Asset Code<span style="padding:2px">(Eg: LATP01)</span></label>
+                                  <input type="text" class="form-control" name="asset_code" id="asset_code"
+                                placeholder="Enter asset code" [(ngModel)]="model.asset_code" >
                         </div>
-                        <p class="errormsg"><span class="help-block" ></span></p>
+                        <!-- <p class="errormsg"><span class="help-block" ></span></p> -->
                         <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
-                            <select class="form-control" name="category_id" id="category_id"
+                            <label  class="p_title">Category<span class="stars">*</span></label>
+                                  <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id" required #category_id="ngModel">
-                                <option  value="-1">Category*</option>
+                                <option  value="-1">Select Category</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>
                           </div>
-                        <p class="errormsg"><span class="help-block" *ngIf="category_id.invalid && category_id.touched">    
-                            Category is mandatory</span></p>
+                        <!-- <p class="errormsg"><span class="help-block" *ngIf="category_id.invalid && category_id.touched">    
+                            Category is mandatory</span></p> -->
                         <div class="form-group" [class.has-error]="asset_name.invalid && asset_name.touched">
+                            <label  class="p_title">Asset Name<span class="stars">*</span></label>
                             <input type="text" class="form-control" name="asset_name" id="asset_name"
-                                placeholder="Asset Name* " [(ngModel)]="model.asset_name" #asset_name="ngModel"
+                                placeholder="Enter asset name " [(ngModel)]="model.asset_name" #asset_name="ngModel"
                                 required>
                         </div>
-                        <p class="errormsg"><span class="help-block" *ngIf="asset_name.invalid && asset_name.touched">Asset Name is
-                            mandatory</span></p>
+                        <!-- <p class="errormsg"><span class="help-block" *ngIf="asset_name.invalid && asset_name.touched">Asset Name is
+                            mandatory</span></p> -->
                         <div class="form-group"  [class.has-error]="quantity.invalid && quantity.touched">
-
+                            <label  class="p_title">Asset Qty<span class="stars">*</span></label>
                             <input type="text" class="form-control" name="quantity" id="quantity"
-                                placeholder="Asset Qty* " [(ngModel)]="model.quantity"
+                                placeholder="Enter asset qty" [(ngModel)]="model.quantity"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" #quantity="ngModel"
                                 required>
                        </div>
-                       <p class="errormsg"> <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Asset Qty is
-                        mandatory</span></p>
+                       <!-- <p class="errormsg"> <span class="help-block" *ngIf="quantity.invalid && quantity.touched">Asset Qty is
+                        mandatory</span></p> -->
                       <div class="form-group"  [class.has-error]="asset_condition.invalid && asset_condition.touched">
-                            <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
+                        <label  class="p_title">Condition<span class="stars">*</span></label>
+                        <select class="form-control" [(ngModel)]="model.asset_condition" name="asset_condition"
                                 id="asset_condition" required #asset_condition="ngModel">
-                                <option value="-1" > Condition* </option>
+                                <option value="-1" > Select Condition</option>
                                 <option value="New">New</option>
                                 <option value="Used">Used</option>
                             </select>
                       </div>
-                      <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">Asset
-                        condition is mandatory</span></p>
+                      <!-- <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched">Asset
+                        condition is mandatory</span></p> -->
                        <div class="form-group multiselect">
-                            <ng-multiselect-dropdown placeholder="Location" [(ngModel)]="model.location_ids"
+                        <label  class="p_title">Location</label>
+                        <ng-multiselect-dropdown placeholder="Select Location" [(ngModel)]="model.location_ids"
                                 [data]="locationData" [settings]="moderatorSettingsforasset" name="model.location_ids">
                             </ng-multiselect-dropdown>
                         </div>
-                        <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched"></span></p>
+                        <!-- <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched"></span></p>-->
                        
-                        <div class="form-group">
-                            <div style="text-align: center;">
+                        <div class="form-group" style="margin-top: 30px;">
+                            <div class="action_btn" >
                             <span > <button type="submit" class="btns blue_button cancel"
                                     (click)="cancel()" data-dismiss="modal">Cancel</button></span>
                             <span > <button type="submit" class="btns blue_button"

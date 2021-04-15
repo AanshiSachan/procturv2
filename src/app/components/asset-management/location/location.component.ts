@@ -170,7 +170,7 @@ export class LocationComponent implements OnInit {
     }
     else {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
     }
   }
 
@@ -213,7 +213,7 @@ export class LocationComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields")
     }
   }
  cancel(param) {

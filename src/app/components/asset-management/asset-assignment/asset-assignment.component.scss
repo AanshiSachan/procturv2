@@ -19,7 +19,7 @@ body{
 }
 .modal-content{
   position: relative;
-  padding: 20px;
+ // padding: 20px;
    background: #FFFFFF;
   border-radius: 8px;
     }
@@ -28,7 +28,7 @@ body{
   margin-top: 28px;
  }
 .btns{
-margin-top: 30px;
+margin-top: 20px;
 margin-left: 10px;
 margin-right: 10px;
 }
@@ -138,9 +138,9 @@ margin-right: 10px;
 }
 
 .modal {
-  // float: left;
-  left: 30%;
-  top: 10%;
+  position:absolute;
+  left: 28%;
+  top: 15%;
   //transform: translate(-50%, -50%);
   height: auto;
 }
@@ -191,25 +191,27 @@ select{
   border: 1px solid #D5D0D0;
   box-sizing: border-box;
   border-radius: 4px;
-  margin-top:20px;
+  margin-top: 10px;
+    margin-bottom:5px;
 }
 .title-model{
-height: 18px;
-left: 41px;
-top: 30px;
-
-font-family: Open Sans;
-font-style: normal;
-font-weight: 600;
-font-size: 13px;
-line-height: 18px;
-/* identical to box height */
-
-letter-spacing: 0.01em;
-
-color: #444141;
-
-}
+  height: 18px;
+  left: 41px;
+  top: 30px;
+  text-align: center;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 13px;
+  /* identical to box height */
+  
+  letter-spacing: 0.01em;
+  
+  color: #444141;
+  
+  }
 .btns{
   margin-top: 15px;
   margin-left: 10px;
@@ -247,7 +249,7 @@ margin-top:20px;
   background: url(/./assets/images/calendar.svg) no-repeat;
   position: absolute;
   right: 50px !important;
-  top: 16.5px;
+  top: 41.5px;
   width: 21px;
   height: 21px;
   z-index: 20;
@@ -260,6 +262,7 @@ margin-top:20px;
   }
   .field-wrapper{
     // height: 31px;
+    padding-top:0px;
     margin-top:0px;
     border-radius: 4px;
     input {
@@ -283,3 +286,21 @@ margin-top:20px;
   .form-control{
     margin-top:0;
   }
+  .stars{
+    color:red;
+    padding-left: 2px;
+  }
+  .action_btn{
+    text-align: right;
+   
+  }
+
+  
+.has-error .control-label{
+  color: black;
+}
+.help-block{
+  color: red;
+  margin-bottom: 0%;
+  text-align: center;
+}

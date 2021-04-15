@@ -1,3 +1,5 @@
+@import "../asset-management.component.scss";
+
 *{
   margin: 0px;
 }
@@ -8,23 +10,23 @@ body{
   display: flex;
 }
 .title-model{
-  width: 94px;
-height: 18px;
-left: 41px;
-top: 30px;
-
-font-family: Open Sans;
-font-style: normal;
-font-weight: 600;
-font-size: 13px;
-line-height: 18px;
-/* identical to box height */
-
-letter-spacing: 0.01em;
-
-color: #444141;
-
-}
+  height: 18px;
+  left: 41px;
+  top: 30px;
+  text-align: center;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 13px;
+  /* identical to box height */
+  
+  letter-spacing: 0.01em;
+  
+  color: #444141;
+  
+  }
 .errormsg{
   height:10px;
 }
@@ -63,39 +65,28 @@ color: #444141;
   vertical-align: top;
   width:260px;
   }
-  input{
-width: 330px;
-height: 35px;
-left: 30px;
-top: 63px;
-
-background: #FFFFFF;
-border: 1px solid #D5D0D0;
-box-sizing: border-box;
-border-radius: 4px;
-margin-top:20px;
-  }
+ 
   textarea{
 width: 330px;
 height: 70px;
 left: 30px;
 top: 173px;
-margin-top:20px;
+margin-top:5px;
+margin-bottom:10px;
 background: #FFFFFF;
 border: 1px solid #D5D0D0;
 box-sizing: border-box;
 border-radius: 4px;
   }
   .modal-content{
-position: relative;
-width: 397px;
-height: 365px;
-
-background: #FFFFFF;
-border-radius: 8px;
-padding: 20px;
-  }
-
+    position: relative;
+    height:auto;
+    width: 371px;
+   // padding: 20px;
+    background: #FFFFFF;
+    border-radius: 8px;
+      }
+  
  input:focus, select:focus,button:focus{
      outline: none;
  }
@@ -144,11 +135,13 @@ padding: 20px;
 }
 .modal {
   // float: left;
-  left: 30%;
+  position:absolute;
+  left: 35%;
   top: 20%;
   //transform: translate(-50%, -50%);
   height: auto;
 }
+
 
 .has-error .control-label{
 color: black;

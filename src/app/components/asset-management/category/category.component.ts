@@ -361,7 +361,7 @@ export class CategoryComponent implements OnInit {
       )
     }
     else {
-      this.msgService.showErrorMessage('error', '', 'All Field Required');
+      this.msgService.showErrorMessage('error', '', 'Please fill all manadatory fields');
     }
   }
   //delete category
@@ -438,7 +438,7 @@ export class CategoryComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
     
     }
     

@@ -38,45 +38,50 @@
                     <div class="row">
                         <div class="field-wrapper  col-md-6" 
                         [class.has-error]="category_id.invalid && category_id.touched">
+                        <label  class="p_title">Category Name<span class="stars">*</span></label>
                             <select class="form-control" name="category_id" id="category_id"
                                 [(ngModel)]="model.category_id"  required #category_id="ngModel"
                                 (ngModelChange)="getassetsAndLocation($event)"
                                 >
-                                <option value="">Category Name*</option>
+                                <option value="">Select Category</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetcategoryData">
                                     {{data.category_name}}</option>
                             </select>
-                            <p class="errormsg"><span  class="help-block" *ngIf="!category_id.valid && category_id.touched">
+                            <!-- <p class="errormsg"><span  class="help-block" *ngIf="!category_id.valid && category_id.touched">
                                 Category name is mandatory
-                            </span></p> 
+                            </span></p>  -->
                        </div>
                          <div class="field-wrapper  col-md-6" [class.has-error]="asset_id.invalid && asset_id.touched">
-                            <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
+                            <label  class="p_title">Asset<span class="stars">*</span></label>
+                        <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
                             required #asset_id="ngModel"
                                 (ngModelChange)="getLocationData($event)">
-                                <option value="">Asset *</option>
+                                <option value=""> Select Asset</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetAllData">
                                     {{data.asset_name}}</option>
                             </select>
-                            <p class="errormsg"><span  class="help-block" *ngIf="!asset_id.valid && asset_id.touched">
+                            <!-- <p class="errormsg"><span  class="help-block" *ngIf="!asset_id.valid && asset_id.touched">
                                 Asset is mandatory
-                            </span></p> 
+                            </span></p>  -->
                        </div>
                     </div>
                     <div class="row">
                         <div class="field-wrapper  col-md-6" [class.has-error]="quantity.invalid && quantity.touched">
-                            <input type="text" class="form-control" id="inputPassword4" placeholder="Assign Quantity *"
+                            <label  class="p_title">Assign Quantity<span class="stars">*</span></label>
+                        
+                            <input type="text" class="form-control" id="inputPassword4" placeholder="Enter assign quantity"
                                 [(ngModel)]="model.quantity" name="quantity"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel">
-                                <p class="errormsg"><span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
-                                     Quantity is mandatory </span></p>
+                                <!-- <p class="errormsg"><span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
+                                     Quantity is mandatory </span></p> -->
                             </div>
                           
                         <div class="field-wrapper  col-md-6"  [class.has-error]="user_type.invalid && user_type.touched">
-                            <select class="form-control" name="user_type" id="user_type" 
+                            <label  class="p_title">Role<span class="stars">*</span></label>
+                         <select class="form-control" name="user_type" id="user_type" 
                             required #user_type="ngModel"
                             [(ngModel)]="model.user_type">
-                                <option value="" selected>Role *</option>
+                                <option value="" selected>Select Role</option>
                                 <option value="3">
                                     Teacher </option>
                                 <option value="0">
@@ -84,42 +89,47 @@
                                 <option value="0">
                                     Custom User </option>
                             </select>
-                            <p class="errormsg"> <span  class="help-block" *ngIf="user_type.invalid && user_type.touched">Role
-                               is mandatory</span></p>
+                            <!-- <p class="errormsg"> <span  class="help-block" *ngIf="user_type.invalid && user_type.touched">Role
+                               is mandatory</span></p> -->
                         </div>
                         
                     </div>
                     <div class="row">
                         <div class="field-wrapper col-md-6">
-                            <select class="form-control" name="check_out_user_id" id="check_out_user_id"
+                            <label  class="p_title">Check-Out By<span class="stars">*</span></label>
+                           <select class="form-control" name="check_out_user_id" id="check_out_user_id"
                                 [(ngModel)]="model.check_out_user_id"
                                 required #check_out_user_id="ngModel">
-                                <option value="" selected>Check-Out By *</option>
+                                <option value="" selected>Select Check-Out By</option>
                                 <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
                                     {{data.name}}</option>
                             </select>
-                            <p class="errormsg">  <span  class="help-block" *ngIf="check_out_user_id.invalid && check_out_user_id.touched">Please
-                                select Check-Out By</span></p>
+                            <!-- <p class="errormsg">  <span  class="help-block" *ngIf="check_out_user_id.invalid && check_out_user_id.touched">Please
+                                select Check-Out By</span></p> -->
                         </div>
                        
                         <div class="field-wrapper col-md-6 datePickerBox" >
+                            <label  class="p_title">Due Date</label>
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="due_date"
-                                [(ngModel)]="model.due_date" class="form-control" placeholder="Due Date" id="due_date"> 
+                                [(ngModel)]="model.due_date" class="form-control" placeholder="Select due date" id="due_date"> 
                         </div>
-                        <p class="errormsg">  <span  class="help-block"></span></p>
+                        <!-- <p class="errormsg">  <span  class="help-block"></span></p> -->
                     </div>
                     <div class="row">
                         <div class="field-wrapper col-md-6 datePickerBox"> 
-                            <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_in_date"
-                                [(ngModel)]="model.check_in_date" class="form-control" placeholder="Check In Date"
+                            <label  class="p_title">Check In Date</label>
+                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_in_date"
+                                [(ngModel)]="model.check_in_date" class="form-control" placeholder="Select check in date"
                                 id="check_in_date">
-                                <p class="errormsg">  <span  class="help-block"> </span></p>
+                                <!-- <p class="errormsg">  <span  class="help-block"> </span></p> -->
                         </div>
                         <div class="field-wrapper col-md-6 datePickerBox" [class.has-error]="check_out_date.invalid && check_out_date.touched">
+                            <label  class="p_title">Check Out Date <span class="stars">*</span></label>
                             <input type="text" class="form-ctrl" bsDatepicker readonly="false" name="check_out_date"
-                                [(ngModel)]="model.check_out_date" class="form-control" placeholder="Check Out Date *"
+                                [(ngModel)]="model.check_out_date" class="form-control" placeholder=" Select check out date"
                                 id="check_out_date" #check_out_date="ngModel" required>
-                                <p class="errormsg">  <span  *ngIf="check_out_date.invalid && check_out_date.touched" class="help-block"> Check out date is mandatory</span></p></div>
+                                <!-- <p class="errormsg">  <span  *ngIf="check_out_date.invalid && check_out_date.touched" class="help-block"> Check out date is mandatory</span></p>-->
+                                </div> 
                        
                     </div>
                   <!-- <div class="form-row">
@@ -134,12 +144,13 @@
                     </div>--> 
                     <div class="row">
                         <div class="field-wrapper col-md-12">
-                            <input type="text" class="form-ctrl" name="note" [(ngModel)]="model.note"
-                                class="form-control" placeholder="Note" id="note">
+                            <label  class="p_title">Note </label>
+                           <input type="text" class="form-ctrl" name="note" [(ngModel)]="model.note"
+                                class="form-control" placeholder="Enter note" id="note">
                         </div>
-                        <p class="errormsg">  <span  class="help-block"></span></p>
+                        <!-- <p class="errormsg">  <span  class="help-block"></span></p> -->
                     </div>
-         <div class="row" style="text-align:center;margin-top:15px;">
+         <div class="row" class="action_btn">
                         <span > <button type="button"
                                 class="btns blue_button cancel" data-dismiss="modal"
                                 (click)="cancel(false)">Cancel</button></span>

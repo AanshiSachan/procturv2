@@ -19,7 +19,7 @@
     <br>
     <div>
         <div class="">
-            <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+            <input type="text" class="input glass" style="margin-left: 10px;" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
                <span class="rights">
                 <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
@@ -50,30 +50,33 @@
                         <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Location</h4>
                         <form id="form1" #locationaddForm="ngForm" autocomplete="off">
                           <div class="form-group" >
-                                <input type="text" class="form-control" name="location_code" id="location_code"
-                                    placeholder="Location (Eg: CH01)" [(ngModel)]="model.location_code" 
+                            <label  class="p_title">Location<span style="padding:2px">(Eg: CH01)</span></label>
+                               <input type="text" class="form-control" name="location_code" id="location_code"
+                                    placeholder="Enter location code " [(ngModel)]="model.location_code" 
                                    >
                             </div>
-                         <p class="errormsg"><span  class="help-block">
+                         <!-- <p class="errormsg"><span  class="help-block">
                             
-                        </span></p> 
+                        </span></p>  -->
                             <div class="form-group" [class.has-error]="location_code.invalid && location_code.touched">
-                                <input type="text" class="form-control" name="location_name" id="location_code"
-                                    placeholder="Name *" [(ngModel)]="model.location_name" #location_code="ngModel" required>
+                                <label  class="p_title">Name<span class="stars">*</span></label>
+                               <input type="text" class="form-control" name="location_name" id="location_code"
+                                    placeholder="Enter name *" [(ngModel)]="model.location_name" #location_code="ngModel" required>
                             </div>
-                            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
+                            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
                                Location  Name is mandatory
-                            </span></p>
+                            </span></p> -->
 
                             <div>
+                                <label  class="p_title">Description</label>
                                 <textarea type="text" class="form-control" name="location_description"
-                                    id="location_description" placeholder="Description"
+                                    id="location_description" placeholder="Enter description"
                                     [(ngModel)]="model.location_description">
                             </textarea>
-                            <p class="errormsg">   <span  style="height:10px;" ></span></p>
+                            <!-- <p class="errormsg">   <span  style="height:10px;" ></span></p> -->
                             
                             </div>
-                            <div style="text-align: center;">
+                            <div class="action_btn">
                                 <span > <button type="button" class="btns blue_button cancel"
                                     data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
                                 <span > <button type="submit" class="btns blue_button"
