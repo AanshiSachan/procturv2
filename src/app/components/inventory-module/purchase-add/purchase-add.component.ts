@@ -164,9 +164,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   }
   //delete item row
   deleteItemData(id) {
-     console.log(this.itemData)
-    alert(id)
-    //delete item one by one
+     //delete item one by one
     this.itemData.forEach((element, index) => {
      this.itemData.splice(id, 1);
 
@@ -318,8 +316,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   return true;
   }
   updatePurchaseData(){
-    alert("hi")
-    this.model.purchased_item_list=[];
+   this.model.purchased_item_list=[];
     for(let i=0; i<this.itemData.length;i++){
       let obj={ "item_id":this.itemData[i].item_id, "quantity":this.itemData[i].available_units, "unit_price":this.itemData[i].unit_cost}
      this.model.purchased_item_list.push(obj)
