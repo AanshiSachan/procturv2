@@ -1194,5 +1194,8 @@ export class ViewComponent implements OnInit {
       }
     }
   }
+  closeShareFeeReceiptPopUp(){
+    $('#sendModal').modal('hide');
+  }
 }
 
