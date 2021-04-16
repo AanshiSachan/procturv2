@@ -50,7 +50,7 @@
                         <h4 class="title-model" *ngIf="isedit" style="width:200px">Update Location</h4>
                         <form id="form1" #locationaddForm="ngForm" autocomplete="off">
                           <div class="form-group" >
-                            <label  class="p_title">Location<span style="padding:2px">(Eg: CH01)</span></label>
+                            <label  class="p_title">Code<span style="padding:2px">(Eg: CH01)</span></label>
                                <input type="text" class="form-control" name="location_code" id="location_code"
                                     placeholder="Enter location code " [(ngModel)]="model.location_code" 
                                    >
@@ -81,7 +81,7 @@
                                     data-dismiss="modal" (click)="cancel(false)">Cancel</button></span>
                                 <span > <button type="submit" class="btns blue_button"
                                         (click)="saveLocationDetails(model)" *ngIf="!isedit">
-                                        Add Location</button></span>
+                                      Save</button></span>
                                <span > <button type="submit" class="btns blue_button"
                                         (click)="updateLocationDetails(model)" *ngIf="isedit">
                                         Update </button></span>
