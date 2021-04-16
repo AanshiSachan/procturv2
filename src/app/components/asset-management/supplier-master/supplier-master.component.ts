@@ -224,7 +224,7 @@ export class SupplierMasterComponent implements OnInit {
         active: this.model.active,
         address: this.model.address,
         institute_id: sessionStorage.getItem('institute_id'),
-        contact_person_name: this.model.address,
+        contact_person_name: this.model.contact_person_name,
         email_id: this.model.email_id,
         mobile_no: this.model.mobile_no,
         supplier_name: this.model.supplier_name,
@@ -376,7 +376,7 @@ export class SupplierMasterComponent implements OnInit {
       obj.active = this.model.active;
       obj.address = this.model.address;
       obj.institute_id = sessionStorage.getItem('institute_id');
-      obj.contact_person_name = this.model.address;
+      obj.contact_person_name = this.model.contact_person_name;
       obj.email_id = this.model.email_id;
       obj.mobile_no = this.model.mobile_no;
       obj.supplier_name = this.model.supplier_name;
