@@ -142,7 +142,7 @@
     </form>
 
     <div class="go-btn-container">
-        <button type="button" name="button" class="fullBlue add-class-btn" routerLink="/view/course/create/routine/list">Cancel</button>
+        <button type="button" name="button" class="fullBlue add-class-btn" (click)="backToHome()">Cancel</button>
         <button type="button" name="button" class="fullBlue gobtn" (click)="saveRoutineData()"
             [disabled]="auth.isRippleLoad.getValue()">Save</button>
     </div>

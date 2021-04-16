@@ -1102,7 +1102,8 @@ export class ClassComponent implements OnInit {
 
   redirect() {
     this.storeSession();
-    this.router.navigate(['/view/course/create/class/add']);
+    let url = this.schoolModel ? '/view/course/create/routine/create' : '/view/course/create/class/add';
+    this.router.navigate([url]);
   }
 
   storeSession() {  // Set all course planner filter values in session

@@ -88,6 +88,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     sessionStorage.removeItem('classScheduleDetails');
+    sessionStorage.setItem('isFromCoursePlanner', String(false));
   }
 
     // All day of the week
@@ -272,7 +273,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
         (res:any)=>{
           this.auth.hideLoader();
           this.messageService.showErrorMessage('success','','schedule created successfully');
-          this.router.navigate(['/view/course/create/routine/list']);
+          this.backToHome();
         },
         (err:any)=>{
           this.auth.hideLoader();
@@ -287,13 +288,18 @@ export class AddEditComponent implements OnInit, OnDestroy {
         (res:any)=>{
           this.auth.hideLoader();
           this.messageService.showErrorMessage('success','','schedule updated successfully');
-          this.router.navigate(['/view/course/create/routine/list']);
+          this.backToHome();
         },
         (err:any)=>{
           this.auth.hideLoader();
           this.messageService.showErrorMessage('error','',err.error.message);
         }
       )
+    }
+
+    backToHome() {
+      let url = (sessionStorage.getItem('isFromCoursePlanner') == 'true') ? '/view/course/coursePlanner/class' : '/view/course/create/routine/list';
+      this.router.navigate([url]);
     }
 
 }
