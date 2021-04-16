@@ -1170,7 +1170,7 @@ export class ViewComponent implements OnInit {
     }
     if (confirm(msg)) {
       let obj: any = {}
-      let url = "/api/v1/studentWise/fee/delete/installment/" + this.student_id + "/" + data.f_schld_id
+      let url = "/api/v1/studentWise/fee/delete/installment/" + this.student_id + "/" + data.f_schld_id+"/"+this.academic_yr_id
       this.auth.showLoader();
       this.http.deleteData(url, obj).subscribe(
         (data: any) => {
