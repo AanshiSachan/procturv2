@@ -100,7 +100,7 @@ export class LeavePermissionComponent implements OnInit {
           this.leaveApplicationList[i].no_of_days = this.leaveApllicationmodel.days;
         var  from = moment(this.leaveApplicationList[i].from);
          var to = moment(this.leaveApplicationList[i].to);
-        let  diff= to.diff(from, 'days') // 1
+        let  diff= 1 + to.diff(from, 'days') // 1
           this.leaveApllicationmodel.days = diff;
           this.leaveApplicationList[i].no_of_days = diff;
         }

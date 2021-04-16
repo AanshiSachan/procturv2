@@ -28,6 +28,11 @@
               <div></div>
               <div>Actions</div>
             </div>
+            <!-- ===========blank-image================ -->
+            <div class="empty_page" *ngIf="leaveTypeList.length < 0">
+              <img src="../../../assets/images/empty_image.png">
+              </div>
+
             <div class="table_body" *ngFor="let item of leaveTypeList;let i=index">
               <div>
                 {{i+1}}
