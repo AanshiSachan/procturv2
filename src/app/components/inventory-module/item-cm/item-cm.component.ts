@@ -300,8 +300,8 @@ updateItemDetails(){
     out_of_stock_indicator_units:this.item.out_of_stock_indicator_units,
     standard_id:this.item.standard_id,
     subject_id:this.item.subject_id,
-    standard_name:this.item.standard_name,
-    subject_name:this.item.subject_name,
+    //standard_name:this.item.standard_name,
+    //subject_name:this.item.subject_name,
   }
   if (this.itemForm.valid) {
     this.httpService.putData(this.url + 'item', obj).subscribe(() => {

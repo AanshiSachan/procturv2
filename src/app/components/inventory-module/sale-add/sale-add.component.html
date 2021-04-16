@@ -14,6 +14,7 @@
           </div>
          
               <div class="pt102">
+                {{data.role_id}}
                   <select class="select wid100" name="user_role" name="user_role" id="user_role"
                   (change)="getUserAgainstRole($event.target.value)" [(ngModel)]="model.user_role">
                      <option value="">Role<span class="astrik">*</span></option>
