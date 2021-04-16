@@ -143,9 +143,9 @@
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && !isOverdue(data.d_date) && data.p_amount==0">
-                                        <a class="mr10"><img src="../../../../../assets/images/Edit.svg"
+                                        <a (click)="editInstallPopUp(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
                                                 title="Edit"></a>
-                                        <a class="mr10"><img src="../../../../../assets/img/delete.svg"
+                                        <a (click)="deleteInstall(data)" class="mr10"><img src="../../../../../assets/img/delete.svg"
                                                 title="Delete"></a>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && isOverdue(data.d_date) && data.p_amount ==0 ">
@@ -154,9 +154,9 @@
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && isOverdue(data.d_date) && data.p_amount ==0 ">
-                                        <a class="mr10"><img src="../../../../../assets/images/Edit.svg"
+                                        <a  (click)="editInstallPopUp(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
                                                 title="Edit"></a>
-                                        <a class="mr10"><img src="../../../../../assets/img/delete.svg"
+                                        <a (click)="deleteInstall(data)" class="mr10"><img src="../../../../../assets/img/delete.svg"
                                                 title="Delete"></a>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && data.p_amount>0">
@@ -165,9 +165,9 @@
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && data.p_amount>0">
-                                        <a class="mr10"><img src="../../../../../assets/images/Edit.svg"
+                                        <a (click)="editInstallPopUp(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
                                                 title="Edit"></a>
-                                        <a class="mr10"><img src="../../../../../assets/img/delete.svg"
+                                        <a (click)="deleteInstall(data)" class="mr10"><img src="../../../../../assets/img/delete.svg"
                                                 title="Delete"></a>
                                     </div>
                                 </div>
@@ -311,8 +311,8 @@
                                                         <a (click)="downloadFeeReceipt(data.f_rec_no)" class="mr10"><img
                                                                 src="../../../../../assets/img/purple_download.svg"
                                                                 title="Download"></a>
-                                                        <a class="mr10"><img src="../../../../../assets/images/Edit.svg"
-                                                                title="Edit"></a>
+                                                        <!-- <a (click)="editPaidInstall(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
+                                                                title="Edit"></a> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -438,7 +438,6 @@
                                         <div class="fee_up5_scrol">
                                             <div *ngFor="let data of discHistoryList">
                                                 <div class="table_body">
-
                                                     <div>{{data.installment_no}}</div>
 
                                                     <div>
@@ -522,7 +521,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Installment</h4>
+                    <h4 class="modal-title">{{isUpdateInstall?"Update Installment":"Add Installment"}}</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -553,7 +552,7 @@
                     <div class="pt10" *ngIf="schoolModel && isTemplateLinkWithCourseAndStandard">
                         <select class="select wid100" (ngModelChange)="fetchSectionList($event)"
                             [(ngModel)]="addInstall.standard_id">
-                            <option value="-1">Standard*</option>
+                            <option value="-1">Standard</option>
                             <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">
                                 {{data.standard_name}}</option>
                         </select>
@@ -568,14 +567,14 @@
                     <div class="pt10" *ngIf="!isProfessional && !schoolModel && isTemplateLinkWithCourseAndStandard">
                         <select class="select wid100" (ngModelChange)="fetchCoursesList($event)"
                             [(ngModel)]="addInstall.master_course">
-                            <option value="">Master Course*</option>
+                            <option value="">Master Course</option>
                             <option *ngFor="let data of masterCourseList" [value]="data.master_course">
                                 {{data.master_course}} </option>
                         </select>
                     </div>
                     <div class="pt10" *ngIf="!isProfessional && !schoolModel && isTemplateLinkWithCourseAndStandard">
                         <select class="select wid100" [(ngModel)]="addInstall.course_id">
-                            <option value="-1">Course*</option>
+                            <option value="-1">Course</option>
                             <option *ngFor="let data of courseList" [value]="data.course_id">{{data.course_name}}
                             </option>
                         </select>
@@ -583,7 +582,7 @@
                     <div class="pt10" *ngIf="isProfessional && isTemplateLinkWithCourseAndStandard">
                         <select class="select wid100" [(ngModel)]="addInstall.standard_id"
                             (ngModelChange)="fetchBatch($event)">
-                            <option value="-1">Master Course*</option>
+                            <option value="-1">Master Course</option>
                             <option *ngFor="let data of standardList" [value]="data.standard_id">{{data.standard_name}}
                             </option>
                         </select>
@@ -591,7 +590,7 @@
                     <div class="pt10" *ngIf="isProfessional && isTemplateLinkWithCourseAndStandard">
                         <select class="select wid100" [(ngModel)]="addInstall.subject_id"
                             (ngModelChange)="fetchBatch($event)">
-                            <option value="-1">Batch*</option>
+                            <option value="-1">Batch</option>
                             <option *ngFor="let data of batchList" [value]="data.subject_id">{{data.batch_name}}</option>
                         </select>
                     </div>
@@ -599,7 +598,8 @@
                         <div></div>
                         <div>
                             <button class="white_button mr10" (click)="closeAddInstallPopup()">Cancel</button>
-                            <button class="blue_button " (click)="addNewInstall()">Add Installment</button>
+                            <button class="blue_button " *ngIf="!isUpdateInstall" (click)="addNewInstall()">Add Installment</button>
+                            <button class="blue_button " *ngIf="isUpdateInstall" (click)="updateInstall()">Update Installment</button>
                         </div>
                     </div>
                 </div>
@@ -810,26 +810,30 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Update Fee</h4>
+                    <h4 class="modal-title">{{isUpdatePaidInstall?'Update Fee Receipt':'Update Fee'}}</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="pt10 pt101 grey">
                         (Payment Details For {{currencySymbol}} {{t_p_amount | number}})
                     </div>
-                    <div class="pt10 pt101">
+                    <div class="pt10 pt101" *ngIf="!isUpdatePaidInstall">
                         <b>Selected Intallments:<span>{{t_selected_install}}</span></b>
                     </div>
                     <div class="pt10">
                         <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                             class="wid100 input" [(ngModel)]="paymentPopUpJson.paying_amount" placeholder="Amount*">
                     </div>
+                    <div class="pt10" *ngIf="isUpdatePaidInstall">
+                        <input type="text" disabled="true" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                            class="wid100 input" [(ngModel)]="paymentPopUpJson.due_amount" placeholder="Balance Amount*">
+                    </div>
                     <div class="pt10 field-wrapper datePickerBox">
                         <input type="text" name="" class="wid100 input bsDatepicker" bsDatepicker
                             [(ngModel)]="paymentPopUpJson.paid_date" placeholder="Payment Date*">
                     </div>
                     <div class="pt10">
-                        <select class="select wid100" [(ngModel)]="paymentPopUpJson.payment_mode"
+                        <select  class="select wid100"  *ngIf="isUpdatePaidInstall?'disabled=true': true" [(ngModel)]="paymentPopUpJson.payment_mode"
                             (ngModelChange)="getPdcChequeList($event)">
                             <option value="">Payment Mode*</option>
                             <option *ngFor="let data of paymentModes" [value]="data.data_key">{{data.data_value}}
@@ -875,6 +879,14 @@
                                 placeholder="Cheque Amount*">
                         </div>
                     </div>
+                    <div  class="pt10" *ngIf="isUpdatePaidInstall">
+                        <input type="text" name="" disabled="true" class="wid100 input" [(ngModel)]="paymentPopUpJson.receipt_no"
+                            placeholder="Receipt No*">
+                    </div>
+                    <div class="pt10" *ngIf="isUpdatePaidInstall">
+                        <input type="text" name="" class="wid100 input" [(ngModel)]="paymentPopUpJson.update_reason"
+                            placeholder="Reason for Update*">
+                    </div>
                     <div class="pt10 ">
                         <div>
                             <div class="flex">
@@ -919,7 +931,9 @@
                         <div></div>
                         <div>
                             <button class="white_button mr10" (click)="flushPaymentPopUpData()">Cancel</button>
-                            <button class="blue_button " (click)="doPayment()">Update</button>
+                            <button class="blue_button " *ngIf="!isUpdatePaidInstall" (click)="doPayment()">Update</button>
+                            <button class="blue_button " *ngIf="isUpdatePaidInstall" (click)="updatePaidInstall()">Update</button>
+
                         </div>
                     </div>
                 </div>

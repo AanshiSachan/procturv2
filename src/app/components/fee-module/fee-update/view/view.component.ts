@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { FetchStudentService } from '../../../../services/student-services/fetch-student.service';
 import { StudentFeeService } from '../../../../components/student-module/student_fee.service';
 import { PostStudentDataService } from '../../../../services/student-services/post-student-data.service';
-import { ThirdPartyAuthComponent } from 'src/app/components/website-configuration/third-party-auth/third-party-auth.component';
+import { ConfirmDialogModule } from 'primeng/primeng';
 declare var $;
 
 
@@ -34,6 +34,8 @@ export class ViewComponent implements OnInit {
     payment_mode: 'Cash',
     reference_no: '',
     remarks: "",
+    receipt_no: '',
+    update_reason: '',
     selectedPdcId: '',
     pdcSelectedForm: {
       bank_name: '',
@@ -98,14 +100,17 @@ export class ViewComponent implements OnInit {
     standard_id: -1,
     course_id: -1,
     master_course: '',
-    subject_id: -1
+    subject_id: -1,
+    f_schld_id: -1
 
   }
   totalDiscountApplied: any;
   isDiscountRemove: boolean = false;
   paidInstallArr: any = [];
-  student_country_id: number=-1;
-  is_tax_enabled: boolean=false;;
+  student_country_id: number = -1;
+  is_tax_enabled: boolean = false;
+  isUpdateInstall: boolean = false;
+  isUpdatePaidInstall: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -201,9 +206,9 @@ export class ViewComponent implements OnInit {
   }
   openPaymentPopup() {
     if (this.validatePaymentPopup()) {
+      this.isUpdatePaidInstall = false;
       $('#updateinstModal').modal('show');
       this.getPaymentModes();
-
     }
   }
   validatePaymentPopup() {
@@ -397,34 +402,6 @@ export class ViewComponent implements OnInit {
       });
     }
   }
-  makePaymentForInstallment() {
-    // let JsonToSendOnServer = this.feeService.makePaymentFinalJson(this.subjectWiseInstallmentArray, this.paymentPopUpJson);
-    // JsonToSendOnServer.student_id = this.student_id;
-    // console.log(JsonToSendOnServer);
-    this.auth.showLoader();
-    //this.btnPayment.nativeElement.disabled = true;
-    let JsonToSendOnServer;
-    this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
-      res => {
-        // this.btnPayment.nativeElement.disabled = false;
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('success', '', 'Fee details has been updated');
-        if (this.paymentPopUpJson.genFeeRecipt) {
-          this.generateFeeRecipt(res);
-        }
-        if (this.paymentPopUpJson.emailFeeRecipt) {
-          this.emailFeeReceipt(res);
-        }
-        //  this.flushDataAfterPayement();
-        // this.updateStudentFeeDetails();
-      },
-      err => {
-        // this.btnPayment.nativeElement.disabled = false;
-        this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', err.error.message);
-      }
-    )
-  }
 
   generateFeeRecipt(res) {
     this.fetchService.getFeeReceiptById(this.student_id, res.other).subscribe(
@@ -488,13 +465,12 @@ export class ViewComponent implements OnInit {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      this.pdcAddForm.country_id = this.student_country_id;          
-      
+      this.pdcAddForm.country_id = this.student_country_id;
+
     }
   }
   addCheque() {
     this.newPdcArr = [];
-    //console.log(this.pdcAddForm);
     let obj = {
       bank_name: this.pdcAddForm.bank_name,
       cheque_amount: this.pdcAddForm.cheque_amount,
@@ -574,7 +550,7 @@ export class ViewComponent implements OnInit {
     let max_disc_apply: number = 0;
     for (let data of this.stdFeeDataList.a_install_li) {
       if (data.isSelected) {
-        if (data.f_type!="INSTALLMENT") {
+        if (data.f_type != "INSTALLMENT") {
           this.commonService.showErrorMessage('info', '', 'You can only apply discount on fee type Installment!');
           return;
         }
@@ -829,7 +805,6 @@ export class ViewComponent implements OnInit {
     }
   }
   fetchFilterData() {
-   // this.fetchAcademicYearList();
     if (this.schoolModel) {
       this.fetchStandardAndSection();
     } else if (!this.isProfessional) {
@@ -896,6 +871,7 @@ export class ViewComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.standardSectionMap = data.result;
+        this.addInstall.stnd_id = this.addInstall.stnd_id;
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -919,6 +895,8 @@ export class ViewComponent implements OnInit {
       res => {
         this.auth.hideLoader();
         this.feeTypeList = res;
+        this.addInstall.f_type_id = this.addInstall.f_type_id;
+
       },
       err => {
         this.auth.hideLoader();
@@ -928,6 +906,7 @@ export class ViewComponent implements OnInit {
   }
   openAddInstallmentPopup() {
     $('#installmentModal').modal('show');
+    this.isUpdateInstall = false;
     this.fetchFilterData();
     this.getInstituteFeeTypes();
     this.addInstall.acad_yr_id = this.academic_yr_id;
@@ -969,7 +948,7 @@ export class ViewComponent implements OnInit {
       this.http.postData(url, obj).subscribe(
         (data: any) => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('success', '', "Install add successfully!");
+          this.commonService.showErrorMessage('success', '', "Installment added successfully!");
           this.fetchStdFeeData(this.academic_yr_id);
           $('#installmentModal').modal('hide');
         },
@@ -1063,7 +1042,34 @@ export class ViewComponent implements OnInit {
     )
   }
   editPaidInstall(data) {
-
+    this.isUpdatePaidInstall = true;
+    this.t_p_amount = data.p_amount;
+    this.getPaymentModes();
+    this.paymentPopUpJson = {
+      immutable_amount: data.p_amount,
+      paying_amount: data.p_amount,
+      paid_date: moment(data.p_date).format('YYYY-MM-DD'),
+      payment_mode: data.p_method,
+      reference_no: '',
+      remarks: data.p_remarks,
+      receipt_no: data.f_rec_no,
+      f_schld_id: data.f_schld_id,
+      f_tx_id: data.f_tx_id,
+      due_amount: this.getDueAmount(data.f_schld_id),
+      selectedPdcId: '',
+      pdcSelectedForm: {
+        bank_name: '',
+        cheque_amount: 0,
+        cheque_date: moment().format("YYYY-MM-DD"),
+        cheque_no: '',
+        pdc_cheque_id: ''
+      },
+      genPdcAck: false,
+      sendPdcAck: false,
+      genFeeRecipt: false,
+      emailFeeRecipt: false
+    };
+    $('#updateinstModal').modal('show');
   }
   updatePaidInstall(data) {
     this.auth.showLoader();
@@ -1088,7 +1094,7 @@ export class ViewComponent implements OnInit {
     this.http.postData(url, obj).subscribe(
       (data: any) => {
         this.auth.hideLoader();
-        this.commonService.showErrorMessage('success', '', "Install add successfully!");
+        this.commonService.showErrorMessage('success', '', "Installment added successfully!");
         this.fetchStdFeeData(this.academic_yr_id);
         $('#installmentModal').modal('hide');
       },
@@ -1098,4 +1104,95 @@ export class ViewComponent implements OnInit {
       }
     )
   }
+  editInstallPopUp(data) {
+    this.isUpdateInstall = true;
+    $('#installmentModal').modal('show');
+    this.addInstall = {
+      acad_yr_id: this.academic_yr_id,
+      f_type_id: data.f_type_id,
+      f_amount: data.d_amount,
+      d_date: moment(data.d_date).format('YYYY-MM-DD'),
+      standard_id: data.stnd_id,
+      course_id: data.c_id,
+      master_course: data.mc_n,
+      subject_id: data.sub_id,
+      f_schld_id: data.f_schld_id,
+    }
+    this.fetchFilterData();
+    this.getInstituteFeeTypes();
+    this.fetchCoursesList(data.mc_n);
+  }
+  getMC(c_id: any) {
+    throw new Error('Method not implemented.');
+  }
+  updateInstall() {
+    if (this.validateInputDataForAddInstall()) {
+      let obj: any = {
+        d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
+        t_amount: this.addInstall.f_amount,
+        f_type_id: this.addInstall.f_type_id,
+        ay_id: this.addInstall.acad_yr_id,
+        inst_id: this.institute_id,
+        f_schld_id: this.addInstall.f_schld_id,
+      }
+      if (this.isTemplateLinkWithCourseAndStandard) {
+        if (this.schoolModel) {
+          obj.stnd_id = this.addInstall.standard_id;
+        } else if (!this.schoolModel && !this.isProfessional) {
+          obj.c_id = this.addInstall.course_id;
+        }
+        else if (this.isProfessional) {
+          obj.sub_id = this.addInstall.subject_id;
+        }
+      }
+      let url = "/api/v1/studentWise/fee/update/installment/" + this.student_id;
+      this.auth.showLoader();
+      this.http.putData(url, obj).subscribe(
+        (data: any) => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('success', '', "Installment updated successfully!");
+          this.fetchStdFeeData(this.academic_yr_id);
+          $('#installmentModal').modal('hide');
+        },
+        (error: any) => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', error.error.message);
+        }
+      )
+    }
+  }
+  deleteInstall(data) {
+    let msg = "";
+    if (data.p_amount > 0) {
+      msg = "Do you want to delete this installment?\n\nNote:- This installment is partially paid. If you delete this installment then Amount Paid and Discount Applied Amount will not delete!";
+    } else {
+      msg = "Do you want to delete this installment?\n\nNote:- If you delete this installment then Discount applied on installment will also delete!";
+    }
+    if (confirm(msg)) {
+      let obj: any = {}
+      let url = "/api/v1/studentWise/fee/delete/installment/" + this.student_id + "/" + data.f_schld_id
+      this.auth.showLoader();
+      this.http.deleteData(url, obj).subscribe(
+        (data: any) => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('success', '', "Installment deleted successfully!");
+          this.fetchStdFeeData(this.academic_yr_id);
+          this.getDiscountHistoryDetails();
+          $('#installmentModal').modal('hide');
+        },
+        (error: any) => {
+          this.auth.hideLoader();
+          this.commonService.showErrorMessage('error', '', error.error.message);
+        }
+      )
+    }
+  }
+  getDueAmount(f_schld_id) {
+    for (let data of this.stdFeeDataList.a_install_li.length) {
+      if (data.f_schld_id == f_schld_id) {
+        return data.d_amount;
+      }
+    }
+  }
 }
+
