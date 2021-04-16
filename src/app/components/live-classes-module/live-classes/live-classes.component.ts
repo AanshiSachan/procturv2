@@ -1353,9 +1353,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
               this.live_class_session_recording_id = data.result.live_class_session_recording_id;
               this.patchRequest(data.result);
             } else {
-              this.msgService.showErrorMessage('error', '', data.result.message);
-              this.isVimeo = 'VDOCipher';
-              this.vimeo_title = '';
+              this.msgService.showErrorMessage('error', '', data.result.message);              
             }
           }
         }
@@ -1399,7 +1397,13 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         if (this.fileUploadXHR.status >= 200 && this.fileUploadXHR.status < 300) {
           this.auth.hideLoader();
           this.updateVimeoStatus(obj.videoId);
-          this.isVimeo = 'VDOCipher';
+          if (!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
+            if (this.proctur_live_integration_with_vimeo == '1') {
+              this.isVimeo = 'Vimeo';
+            } else if (this.proctur_live_integration_with_vimeo == '1') {
+              this.isVimeo = 'VDOCipher';
+            }
+          }
           this.vimeo_title = '';
           this.isUploding = false;
         }
@@ -1457,6 +1461,14 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
       }
     } else {
       this.progress = 0;
+      if (!(this.proctur_live_integration_with_vimeo == '1' && this.proctur_live_integration_with_vdoCipher == '1')) {
+        if (this.proctur_live_integration_with_vimeo == '1') {
+          this.isVimeo = 'Vimeo';
+        } else if (this.proctur_live_integration_with_vimeo == '1') {
+          this.isVimeo = 'VDOCipher';
+        }
+      }
+      this.vimeo_title = '';
       this.progressBar = false;
       this.isUploding = false;
       $('#uploadRec').modal('hide');
