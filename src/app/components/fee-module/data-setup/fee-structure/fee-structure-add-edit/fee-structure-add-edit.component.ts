@@ -229,7 +229,7 @@ export class FeeStructureAddEditComponent implements OnInit {
   }
   validateFeeStructureData() {
     if (this.addNewTemplate.template_name == '') {
-      this.commonService.showErrorMessage('info', '', "Please enter valid template name!");
+      this.commonService.showErrorMessage('info', '', "Please enter valid Fee Structure name!");
       return;
     }
     if (!this.isTemplateNotLinkWithCourseAndStandard) {
