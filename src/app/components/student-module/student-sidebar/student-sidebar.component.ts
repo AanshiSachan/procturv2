@@ -310,12 +310,12 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
   value:any;
   generateCertificate(){
-    //this.router.navigateByUrl('/view/students/certificates');
-    if(this.value){
     this.router.navigateByUrl('/view/students/certificates');
+    // if(this.value){
+    // this.router.navigateByUrl('/view/students/certificates');
   
-    }
-    return false
+    // }
+    // return false
   }
 
 
