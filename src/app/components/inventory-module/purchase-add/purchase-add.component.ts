@@ -272,7 +272,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   }
   dataForEdit;
   editRow(editId) {
-    this.itemData=[];
+    //this.itemData=[];
     this.isChange =true;
     // this.isedit = true;
     console.log(editId);
@@ -291,13 +291,17 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       this.itemData =this.dataForEdit.purchased_item_list;
       console.log(this.itemData);
       let newData=[];
+      let newdataforcat=[];
       for(let i=0; i<this.itemData.length;i++){
+        let objforcat={categoryId:this.itemData[i].category_id,categoryName:this.itemData[i].category_name}
         let obj={ item_id:this.itemData[i].item_id,item_name:this.itemData[i].item_name, "available_units":this.itemData[i].quantity, "unit_cost":this.itemData[i].unit_price}
        newData.push(obj);
+       newdataforcat.push(objforcat);
        }
        this.itemData =newData;
-       console.log(this.itemData);
-       //function for total and subtotal
+       this.categoryAllData =newdataforcat;
+       console.log(this.categoryAllData);
+      
        this.purchaselistItem();
     },
       err => {

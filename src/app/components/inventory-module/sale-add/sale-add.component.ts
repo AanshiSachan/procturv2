@@ -80,9 +80,6 @@ export class SaleAddComponent implements OnInit {
   }
   userALLdata = [];
   getUserAgainstRole(role_id) {
-    //'/api/v1/inventory/sale/'+ this.institution_id + '/getUserByRole?roleIds='+ role_id
-
-    console.log(role_id)
     this.httpService.getData('/api/v1/inventory/sale/' + this.institution_id + '/getUserByRole?roleIds=' + role_id).subscribe(
       (res: any) => {
         this.userALLdata = res.result;

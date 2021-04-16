@@ -73,7 +73,7 @@
               {{data.categoryName}} </option>
           </select>
           <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
-          ngModel #item_id="ngModel" required>
+          ngModel #item_id="ngModel" >
             <option value="" selected>Item Name*</option>
             <option value="{{data.item_id}}" *ngFor="let data of itemArray">
               {{data.item_name}}</option>
