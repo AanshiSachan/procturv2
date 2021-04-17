@@ -60,6 +60,7 @@ export class AddEditCategoryComponent implements OnInit {
     this.addCategory.Description = this.editCategory.category_desc;
     this.addCategory.isActive = (this.editCategory.is_active == 'Y') ? true : false;
     this.addCategory.category_id = this.editCategory.category_id;
+    this.addCategory.expense_category_type = this.editCategory.expense_category_type
   }
 
   saveCategoryDetails() {

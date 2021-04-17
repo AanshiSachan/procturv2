@@ -1,4 +1,4 @@
-<div id="addAccountModal" class="modal fade" role="dialog">
+<div id="addAccountModal" class="modal fade" role="dialog" data-backdrop="static">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -15,7 +15,7 @@
             <div class="payee-item field-wrapper">
               <label for="">Payee/Payer<span class="danger">*</span></label>
               <select class="form-ctrl" name="" [(ngModel)]="accountDetails.valuType">
-                <option value="0">Payee</option>
+                 <option value="0">Payee</option>
                 <option value="1">Payer</option>
               </select>
             </div>
@@ -36,7 +36,7 @@
             <div class="payee-item field-wrapper" *ngIf="accountDetails.valuType == '1'">
               <label for="">Payer<span class="danger">*</span></label>
               <select class="form-ctrl" name="" [(ngModel)]="accountDetails.displayPayeeName">
-                <option [value]="payeer.party_id" *ngFor="let payeer of payeerAccount">
+                 <option [value]="payeer.party_id" *ngFor="let payeer of payeerAccount">
                   {{payeer.display_name}}</option>
               </select>
             </div>
