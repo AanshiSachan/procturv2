@@ -810,8 +810,6 @@
                                 alt="">
                             <p>Reports</p>
                         </a>
-                        </div>
-                     </div>
                     
                   </li>
 <!-- ===========================asha-work============================ -->
@@ -840,20 +838,6 @@
 
         </li>
 <!-- ===============================work-end=============================== -->
-    <li [ngClass]= "activeSession ==='liSettings'?'liActiveBG':''" *ngIf="showSMSSetting" (click)="toggler('liSettings')">
-                    <a routerLink="/view/setting">
-                        <img [src]="activeSession === 'liSettings' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
-                    <p >Settings</p></a>
-                  </li> -->
-
-                    <li [ngClass]="activeSession ==='liMyAccount'?'liActiveBG':''" click)="toggler('liMyAccount')"
-                        *ngIf="hideForUsers()">
-                        <a routerLink="/view/setting">
-                            <img [[src]="activeSession === 'liMyAccount' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'"
-                                alt="">
-                            <p>My Account</p>
-                        </a>
-                    </li>
 
                 </ul>
                 <p *ngIf="jsonFlags.isShowPowerBy" class="power">Powered By <span class="proctur40">Proctur 4.0</span>
