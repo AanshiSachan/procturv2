@@ -193,8 +193,7 @@
                             <div class="space8">
                                 <!-- Nav tabs -->
                                 <div class="main-shadow">
-                                    <button class="right blue_button" data-toggle="modal"
-                                        data-target="#sendModal">Share</button>
+                                    <button *ngIf="activeSession == 'History'" class="right blue_button" (click)="checkSelectedInstallments()">Share</button>
                                     <button *ngIf="activeSession == 'Cheques'" class="right blue_button"
                                         data-toggle="modal" (click)="addPDCPopUp()">Add
                                         Cheques</button>
@@ -271,7 +270,8 @@
                                                     <div>
                                                         <label class="checkbox">
                                                             <span class="checkbox__input">
-                                                                <input type="checkbox" name="checked">
+                                                                <input type="checkbox" [(ngModel)]="data.isSelected"
+                                                                [(ngModel)]="data.isSelected" name="checked">
                                                                 <span class="checkbox__control">
                                                                     <svg viewBox='0 0 24 24' aria-hidden="true"
                                                                         focusable="false">
@@ -919,19 +919,19 @@
                 <div class="modal-body">
                     <div class="pt10">
                         <div class="field-radio-wrapper wid100px">
-                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="radioSelected">
+                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode" [value]="0">
                             <label>Student</label>
                         </div>
                     </div>
                     <div class="pt10">
                         <div class="field-radio-wrapper wid100px">
-                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="radioSelected">
+                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode" [value]="1">
                             <label>Parent</label>
                         </div>
                     </div>
                     <div class="pt10">
                         <div class="field-radio-wrapper wid100px">
-                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="radioSelected">
+                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode" [value]="2">
                             <label>Both</label>
                         </div>
                     </div>

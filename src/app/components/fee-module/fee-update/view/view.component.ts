@@ -112,6 +112,7 @@ export class ViewComponent implements OnInit {
   isUpdateInstall: boolean = false;
   isUpdatePaidInstall: boolean = false;
   stdAssignedCorseList
+  paymentMode: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -1215,6 +1216,54 @@ export class ViewComponent implements OnInit {
   }
   closeShareFeeReceiptPopUp() {
     $('#sendModal').modal('hide');
+  }
+
+  checkSelectedInstallments() {
+    let is_intall_not_selected = true;
+    for (let data of this.stdFeeDataList.p_install_li) {
+      if (data.isSelected) {
+        is_intall_not_selected = false;
+      }
+    }
+    if (is_intall_not_selected) {
+      this.commonService.showErrorMessage('info', '', 'Please select at least one installment!');
+      return;
+    }
+    $('#sendModal').modal('show');
+  }
+
+  studentFeeInstallment(userType) {
+    //  this.closeMenu();
+    let object = {
+      student_ids: this.student_id,// string by ids common seperated
+      institution_id: '',
+      sendEmail: userType,
+    }
+      object['user_role'] = this.paymentMode;
+    this.auth.showLoader()
+    this.postService.getFeeInstallments(object).subscribe((res: any) => {
+      this.auth.hideLoader()
+      if (userType == -1) {
+        let byteArr = this.commonService.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        const dwldLink = document.createElement('a');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+        document.body.removeChild(dwldLink);
+      } else {
+        $('#sendModal').modal('hide');
+        this.commonService.showErrorMessage('success','','fee installement send on your mail successfully');
+      }
+    },
+      (err: any) => {
+        this.auth.hideLoader()
+        // this.commonService.showErrorMessage('error', '', err.error.message);
+        this.commonService.showErrorMessage('error','',err.error.message);
+      })
   }
 }
 
