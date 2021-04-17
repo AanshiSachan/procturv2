@@ -39,6 +39,7 @@ export class TeacherEditComponent implements OnInit {
   uploadedFileData: any[] = [];
   teacher_user_id: any = 0;
   assigned_standard_subject_list: any[] = [];
+  type:any='';
 
   imgPrefill = 'data:image/png;base64';
   imgFile: any = '';
@@ -57,10 +58,18 @@ export class TeacherEditComponent implements OnInit {
       this.selectedTeacherId = params['id'];
     });
     console.log(this.selectedTeacherId);
-
   }
 
   ngOnInit() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.type = 'batch';
+        } else {
+          this.type = 'course';
+        }
+      }
+    )
     let type = Number(sessionStorage.getItem('institute_setup_type'));
     this.setMultiSelectSetting();
     this.fetchStandardAndSubjects();

@@ -643,53 +643,46 @@
                                 </a>
                             </div>
                         </div>
+                    
+                  </li>
 
-                    </li>
+                  <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
+                    <a routerLink="/view/course/online-assignment">
+                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidebar_images/Online_assignment.png'" alt="">
+                    <p >Assignments</p></a>
+                  </li>
 
-                    <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''"
-                        *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')">
-                        <a routerLink="/view/course/online-assignment">
-                            <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidebar_images/Online_assignment.png'"
-                                alt="">
-                            <p>Assignments</p>
+                  <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine');openExamdesk()">
+                    <a>
+                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidebar_images/online_exam.svg'" alt="">
+                    <p >Online Test</p></a>
+                  </li>
+    
+                  <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}" [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
+                    <div *ngIf="jsonCommunicateFlags.communicateMenu">
+                        <a class="dropbtn">
+                            <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidebar_images/communicate.svg'" alt="">
+                    <p >Communicate</p><i class="fa fa-angle-right"></i>
+      
+                    </a>
+                        <div class="dropdown-content">
+                            <a routerLink="/view/communicate/sms" *ngIf="jsonCommunicateFlags.showSMSReport">
+                                <span>SMS Report</span>
                         </a>
-                    </li>
-
-                    <li [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam"
-                        (click)="toggler('linine')">
-                        <a routerLink="/view/online-exam">
-                            <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidebar_images/online_exam.svg'"
-                                alt="">
-                            <p>Online Test</p>
+                       <a routerLink="/view/communicate/email" *ngIf="jsonCommunicateFlags.showEmailReport">
+                                <span>Email Report</span>
                         </a>
-                    </li>
-
-                    <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}"
-                        [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
-                        <div *ngIf="jsonCommunicateFlags.communicateMenu">
-                            <a class="dropbtn">
-                                <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidebar_images/communicate.svg'"
-                                    alt="">
-                                <p>Communicate</p><i class="fa fa-angle-right"></i>
-
-                            </a>
-                            <div class="dropdown-content">
-                                <a routerLink="/view/communicate/sms" *ngIf="jsonCommunicateFlags.showSMSReport">
-                                    <span>SMS Report</span>
-                                </a>
-                                <a routerLink="/view/communicate/email" *ngIf="jsonCommunicateFlags.showEmailReport">
-                                    <span>Email Report</span>
-                                </a>
-                                <a routerLink="/view/communicate/ptm" *ngIf="jsonCommunicateFlags.showPTM">
-                                    <span>PTM Management</span>
-                                </a>
-                                <a routerLink="/view/communicate/event" *ngIf="jsonCommunicateFlags.showEvents">
-                                    <span>Event Management</span>
-                                </a>
-                            </div>
+                        <a routerLink="/view/communicate/ptm" *ngIf="jsonCommunicateFlags.showPTM">
+                                <span>PTM Management</span>
+                        </a>
+                        <a routerLink="/view/communicate/event" *ngIf="jsonCommunicateFlags.showEvents">
+                            <span>Event Management</span>
+                        </a>
                         </div>
+                    </div>
+                    
+                </li>
 
-                    </li>
 
                     <li class="dropdown"
                         [ngStyle]="{display: (jsonEstoreFlags.isEstoreMenu && !schoolModel) ? 'block' : 'none'}"

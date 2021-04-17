@@ -92,7 +92,7 @@
                         <td style="width:10%">
                           <div class="action-box ">
                             <a style="cursor:pointer" *ngIf="jsonFlags.isShowAddStudent"
-                              (click)="addStudentToBatch(sc)">Add Student
+                              (click)="addStudentToBatch(sc, row)">Add Student
                               <!-- <i class="far fa fa-plus-square" style="font-size: 25px" alt="Add Student" title="Add Student"></i> -->
                             </a>
                           </div>
@@ -154,13 +154,13 @@
       </span>
       <div class="popup-content student-assign-popup">
         <div class="row popup-title">
-          <h2>Course Name :
+          <h2>{{schoolModel ? 'Section' : 'Course'}} Name :
             <span>{{courseDetails.course_name}}</span>
           </h2>
         </div>
 
         <div class="row filter-section">
-          <div class="c-sm-4 c-md-4 c-lg-4 radio-button">
+          <div class="c-sm-4 c-md-4 c-lg-4 radio-button" *ngIf="!schoolModel">
             <div class="field-radio-wrapper">
               <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0"
                 [(ngModel)]="searchFilter.unassignFlag" (ngModelChange)="onRadioButtonChange()">
@@ -177,9 +177,9 @@
               <label for="unassignStudent">UnAssigned</label>
             </div>
           </div>
-          <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="c-sm-6 c-md-6 c-lg-6" style="float: right;">
 
-            <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="c-sm-6 c-md-6 c-lg-6" *ngIf="!schoolModel">
               <div class="field-wrapper">
                 <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard" id="standard">
                   <option value="-1">Select Standard</option>
@@ -191,7 +191,7 @@
               </div>
             </div>
 
-            <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="c-sm-2 c-md-2 c-lg-2" *ngIf="!schoolModel">
               <button class="btn" (click)="getAllStudentList()">Go</button>
             </div>
 

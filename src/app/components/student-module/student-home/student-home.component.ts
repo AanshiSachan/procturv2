@@ -2695,6 +2695,7 @@ export class StudentHomeComponent implements OnInit {
       e.deleteCourse_SubjectUnPaidFeeSchedules;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
+    this.studentAddFormData.optional_subject_id = e.optional_subject_id;
     this.updateStudentDataOnServer();
   }
 

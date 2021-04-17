@@ -226,7 +226,7 @@
                       <td>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel">
                       <td>
 
                         Topics Covered in Class
@@ -424,7 +424,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Extra Class Notification
                         <!--<div class="questionInfo inline-relative">
@@ -521,7 +521,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Regular Class Notification
                         <!--<div class="questionInfo inline-relative">
@@ -624,7 +624,7 @@
                         </div>
                       </td>
                     </tr> -->
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Exam Schedule Notification
                         <!-- <div class="questionInfo inline-relative">
@@ -672,7 +672,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Exam Marks Notification
                         <!--<div class="questionInfo inline-relative">
@@ -1040,7 +1040,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Homework Assginment Notification
                         <!--<div class="questionInfo inline-relative">
@@ -1193,7 +1193,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Homework Reminder to Students
                         <div class="questionInfo inline-relative">
@@ -1252,7 +1252,7 @@
                         FACULTY / ADMIN NOTIFICATIONS / REPORTS
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3>Exam Attendance Not Marked (Post 2 hours of Exam Completion)
@@ -1313,7 +1313,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3>Exam Marks Not Updated (Within 5 days of Exam Completion)
@@ -1351,7 +1351,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3> Exam Attendance Not Marked (Daily Reminder Until Marked)
@@ -1389,7 +1389,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3> Class Attendance Not Marked (Post 2 hours of Class Completion)
@@ -1427,7 +1427,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3> Class Attendance Not Marked (Daily Reminder Until Marked)
@@ -1476,7 +1476,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row m-0" style="margin-top:10px">
                           <h3>Student Absenteeism Report</h3>
@@ -1646,7 +1646,7 @@
                             </div>
                           </div> -->
                         </div>
-                        <div class="row m-0 webkitBox" style="margin-top: 10px !important;">
+                        <div class="row m-0 webkitBox" *ngIf="!schoolModel"  style="margin-top: 10px !important;">
 
                           <div class="c-sm-9 c-lg-9 c-md-9" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
@@ -1693,7 +1693,7 @@
                             </div>
                           </div>
                         </div> -->
-                        <div class="row m-0">
+                        <div *ngIf="!schoolModel" class="row m-0">
                           <div class="c-sm-5 c-md-5 c-lg-5 field-wrapper"
                             [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
                             <label for="instenquiry">Email-ids to receive report (comman seperated)
@@ -1761,7 +1761,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row m-0">
                           <h3>Student Rank in Exam SMS </h3>
@@ -1811,7 +1811,7 @@
                     </tr>
                     <tr>
                       <td>
-                        <div class="row m-0">
+                        <div class="row m-0" *ngIf="!schoolModel" >
                           <h3>Grading System (Instead of Marks)</h3>
                           <div class="field-checkbox-wrapper checkbox-bundle-wrapper"
                             style="width: 100%;margin-top: 20px;">
@@ -4237,7 +4237,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="!schoolModel" >
                           <div class="c-sm-5 c-lg-5 c-md-5" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="isHomeWorkFeatureEnable" class="form-checkbox"
