@@ -214,3 +214,11 @@ text-align: center;
 }
 
 
+.display{
+  display: flex;
+justify-content: space-between;
+}
+.top33{
+  position: relative;
+  top: 10px;
+}

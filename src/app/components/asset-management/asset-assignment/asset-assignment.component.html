@@ -56,7 +56,7 @@
                         <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
                             required #asset_id="ngModel"
                                 (ngModelChange)="getLocationData($event)">
-                                <option value=""> Select Asset</option>
+                                <option value="" selected> Select Asset</option>
                                 <option value="{{data.id}}" *ngFor="let data of assetAllData">
                                     {{data.asset_name}}</option>
                             </select>
@@ -167,10 +167,10 @@
 </div>
         </div>
     </div>
-    <div class="modal" id="deletesModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
+    <div class="modal delmodal" id="deletesModal">
+        <div class="modal-dialog delmodal">
+          <div class="modal-content delmodal">
+            <div class="modal-header delmodal">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
