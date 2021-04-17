@@ -108,7 +108,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isAdmin: false,
     isShowPowerBy: false,
     isShowExpense: false,
-    isShowCourse: false
+    isShowCourse: false,
+    isShowLeave: false
   }
   jsonCourseFlags = {
     isShowSetup: false,

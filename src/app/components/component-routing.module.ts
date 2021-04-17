@@ -80,6 +80,19 @@ import { ReportsComponent } from './reports/reports.component';
                             // loadChildren: 'app/components/expense-management/expense-management.module#ExpenseManagementModule',
                             canLoad: [AuthGuard]
                         },
+
+
+
+                        {
+                            path: 'leave',
+                            loadChildren: () => import('./leave/leave.module').then(m => m.LeaveModule),
+                            pathMatch: 'prefix'
+
+                        },
+
+
+
+
                         {
                             path: 'fee',
                             loadChildren: () => import('app/components/fee-module/fee.module').then(m => m.FeeModule),

@@ -810,9 +810,37 @@
                                 alt="">
                             <p>Reports</p>
                         </a>
-                    </li>
+                        </div>
+                     </div>
+                    
+                  </li>
+<!-- ===========================asha-work============================ -->
 
-                    <!-- <li [ngClass]= "activeSession ==='liSettings'?'liActiveBG':''" *ngIf="showSMSSetting" (click)="toggler('liSettings')">
+                  <li class="dropdown">
+                    <div>
+
+                <a routerLink ="/view/leave" class="dropbtn"></a>
+                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
+
+            <p >Leave</p><i class="fa fa-angle-right"></i>
+            <div class="dropdown-content">
+
+            <a  *ngIf="!jsonFlags.isAdmin" routerLink="/view/leave/leave-application">
+                <span>Leave Application</span>
+        </a>
+        <a  *ngIf="jsonFlags.isAdmin" routerLink="/view/leave/leave-category">
+            <span>Leave Category</span>
+    </a>
+
+    <a routerLink="/view/leave/leave-permission">
+        <span>Leave Permission</span>
+</a>
+        </div>
+    </div>
+
+        </li>
+<!-- ===============================work-end=============================== -->
+    <li [ngClass]= "activeSession ==='liSettings'?'liActiveBG':''" *ngIf="showSMSSetting" (click)="toggler('liSettings')">
                     <a routerLink="/view/setting">
                         <img [src]="activeSession === 'liSettings' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
                     <p >Settings</p></a>

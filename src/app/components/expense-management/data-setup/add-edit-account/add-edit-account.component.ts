@@ -224,7 +224,6 @@ export class AddEditAccountComponent implements OnInit {
       return
     }
 
-
     return true;
   }
   closePopups($event) {
