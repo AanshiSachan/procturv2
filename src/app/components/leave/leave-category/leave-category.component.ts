@@ -52,7 +52,6 @@ leaveSearchList:any
       (res: any) => {
         this.auth.hideLoader();
         this.leaveTypeList = res.result;
-
         this.leaveSearchList = res.result;
       },
       err => {
