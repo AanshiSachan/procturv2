@@ -678,10 +678,10 @@
             <p >Leave</p><i class="fa fa-angle-right"></i>
             <div class="dropdown-content">
 
-            <a  *ngIf="!jsonFlags.isAdmin" routerLink="/view/leave/leave-application">
+            <a  *ngIf="!jsonFlags.isAdminforLeave" routerLink="/view/leave/leave-application">
                 <span>Leave Application</span>
         </a>
-        <a  *ngIf="jsonFlags.isAdmin" routerLink="/view/leave/leave-category">
+        <a  *ngIf="jsonFlags.isAdminforLeave" routerLink="/view/leave/leave-category">
             <span>Leave Category</span>
     </a>
 

@@ -96,6 +96,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   };
 
   jsonFlags = {
+    isAdminforLeave:false,
     isShowLead: false,
     isShowStudent: false,
     isShowModel: false,
@@ -291,8 +292,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
            $('.sidebar-wrapper').css('width','14%');
        });
    });
-  }
+  
+// ====================================Asha Leave worked===============
 
+if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin') {
+  this.jsonFlags.isAdminforLeave = true;
+} else {
+  this.jsonFlags.isAdminforLeave = false;
+}
+}
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
     // Patch added for specific institute to show only Home and Lead module
