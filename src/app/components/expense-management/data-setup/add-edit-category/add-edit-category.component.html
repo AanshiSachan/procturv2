@@ -1,4 +1,4 @@
-<div id="addCategory" class="modal fade" role="dialog">
+<div id="addCategory" class="modal fade" role="dialog" data-backdrop="static">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -19,8 +19,9 @@
             <input type="text" name="" value="" [(ngModel)]="addCategory.Description"
               placeholder="Enter Category Description" class="form-ctrl">
           </div>
-          <div class="payee-item field-wrapper" *ngIf="!isEditCategory && showCategoryDropdown">
-            <label for="">Category Type</label>
+          <!-- <div class="payee-item field-wrapper" *ngIf="!isEditCategory && showCategoryDropdown"> -->
+            <div class="payee-item field-wrapper">
+              <label for="">Category Type</label>
             <select class="form-ctrl" name="" [(ngModel)]="addCategory.expense_category_type">
               <option value="">Select category type</option>
               <option value="2">Expense</option>

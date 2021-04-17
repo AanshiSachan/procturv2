@@ -125,10 +125,11 @@ export class AddEditAccountComponent implements OnInit {
     this.accountDetails.accountName = this.editAccountDetails.display_name;
     this.accountDetails.accountType = this.editAccountDetails.type;
     this.accountDetails.accountDescription = this.editAccountDetails.notes;
-    this.accountDetails.accountNumber = this.editAccountDetails.account_number
-    this.accountDetails.IFSC_Code = this.editAccountDetails.ifsc_code
-    this.accountDetails.displayPayeeName = this.editAccountDetails.party_id
-    this.accountDetails.valuType = this.editAccountDetails.party_type
+    this.accountDetails.accountNumber = this.editAccountDetails.account_number;
+    this.accountDetails.IFSC_Code = this.editAccountDetails.ifsc_code;
+    this.accountDetails.displayPayeeName = this.editAccountDetails.party_id;
+    // this.accountDetails.displayPayeerName = this.editAccountDetails.party_id;
+    this.accountDetails.valuType = this.editAccountDetails.party_type;
 
   }
 
@@ -144,6 +145,8 @@ export class AddEditAccountComponent implements OnInit {
         ifsc_code: this.accountDetails.IFSC_Code,
         account_number: this.accountDetails.accountNumber,
         party_id: this.accountDetails.displayPayeeName,
+        //party_id: this.accountDetails.displayPayeerName,
+
         party_type: this.accountDetails.valuType,
         account_id: ''
       };
@@ -154,6 +157,7 @@ export class AddEditAccountComponent implements OnInit {
         this.httpService.putData(url, obj).subscribe(
           (res: any) => {
             this.auth.hideLoader();
+            console.log("post data",obj)
             if (res.statusCode == 200) {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account updated successfully');
               this.closePopups(false);
