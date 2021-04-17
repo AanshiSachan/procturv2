@@ -364,20 +364,24 @@ export class CategoryComponent implements OnInit {
       this.msgService.showErrorMessage('error', '', 'Please fill all manadatory fields');
     }
   }
+tempObjForCat ;
   //delete category
+  showCatDelete(object){
+this.tempObjForCat =object.data.id;
+   $('#deletesModal').modal('show')
+  }
   deleteRow(object) {
-    let deleteconfirm = confirm("Do you want to delete this ?");
-    if (deleteconfirm == true) {
-      this.httpService.deleteMethod('api/v2/asset/category/delete/' + object.data.id + '?instituteId=' + this.category_model.institute_id).then((res: any) => {
+    this.httpService.deleteMethod('api/v2/asset/category/delete/' + object + '?instituteId=' + this.category_model.institute_id).then((res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
         this.getCategoryDetails();
+        $('#deletesModal').modal('hide')
       },
         err => {
        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
       
         });
-    }
+   
   }
   //code for add asset table 
   @ViewChild('assetaddForm', { static: false }) assetaddForm: NgForm
@@ -531,22 +535,27 @@ obj.asset_code = null;
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
     }
   }
-  
-  //delete asset Category
+ 
+  //delete asset 
+  temObjForAsset;
+  showAssetDelete(object){
+      this.temObjForAsset =object.data.id;
+         $('#deletesAssetModal').modal('show');
+       
+  }
   deleteAssetRow(object) {
-    let deleteconfirm = confirm("Do you want to delete this ?");
-    if (deleteconfirm == true) {
-      this.httpService.deleteMethod('api/v2/asset/delete/' + object.data.id + '?instituteId=' + this.model.institute_id).then((res: any) => {
+     this.httpService.deleteMethod('api/v2/asset/delete/' + object + '?instituteId=' + this.model.institute_id).then((res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
         this.getAssetDetails();
+        $('#deletesAssetModal').modal('hide');
 
       },
         err => {
          this.msgService.showErrorMessage('error', '', 'Asset is being assigned to an user');
          //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         })
-    }
+  
   }
 
   //search asset

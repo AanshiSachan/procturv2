@@ -256,7 +256,6 @@ export class AssetPurchaseComponent implements OnInit {
     this.isedit = true;
     this.bill_image_url = object.data.bill_image_url;
     this.model.id = object.data.id;
-    this.model.asset_id = object.data.asset_id;
     this.model.supplier_id = object.data.supplier_id;
     this.model.expiry_date = object.data.expiry_date;
     this.model.institute_id = object.data.institute_id;
@@ -271,6 +270,7 @@ export class AssetPurchaseComponent implements OnInit {
    $('#modelforpurchase').modal('show');
    this.getCategoryData( this.model.supplier_id );
    this.getassets( this.model.category_id);
+   this.model.asset_id = object.data.asset_id;
  }
  tempObj
  deleteRowConfirm(object){
