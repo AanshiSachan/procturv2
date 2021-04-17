@@ -160,8 +160,8 @@
             <div class="table_heading">
               <div>#</div>
               <div>Fee Type </div>
-              <div>{{schoolModel?'Date':'Trigger Date'}}</div>
-              <div *ngIf="!schoolModel">Day/Month</div>
+              <div>{{(schoolModel || isTemplateNotLinkWithCourseAndStandard)?'Date':'Trigger Date'}}</div>
+              <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">Day/Month</div>
               <div><span class="right pl20">Fee Amount</span></div>
             </div>
             <div *ngFor="let data of feeInstalllmentArr; let i=index;">
@@ -169,13 +169,13 @@
                 <div>{{i+1}}</div>
                 <div>{{feeInstalllmentArr[i].fee_type_name | titlecase}}
                 </div>
-                <div *ngIf="schoolModel" class="field-wrapper ">
+                <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard" class="field-wrapper ">
                   <div class="dropdown-div pt-2">
                     <input type="text" class="input_date dropdown input" name="startDate" id="startDate"
                       [(ngModel)]="feeInstalllmentArr[i].installment_date" bsDatepicker />
                   </div>
                 </div>
-                <div *ngIf="!schoolModel">
+                <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
                   <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
                     (ngModelChange)="changesValuesAsPerType($event)">
                     <option value="-1">Trigger Date</option>
@@ -184,7 +184,7 @@
                     <option value="3">No of Month after CAD</option>
                   </select>
                 </div>
-                <div *ngIf="!schoolModel">
+                <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
                   <input type="text" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00" class="input wid80 rrs"
                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
                 </div>

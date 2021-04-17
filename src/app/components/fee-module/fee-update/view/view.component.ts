@@ -101,8 +101,8 @@ export class ViewComponent implements OnInit {
     course_id: -1,
     master_course: '',
     subject_id: -1,
-    f_schld_id: -1
-
+    f_schld_id: -1,
+    immutable_due_date:''
   }
   totalDiscountApplied: any;
   isDiscountRemove: boolean = false;
@@ -111,6 +111,7 @@ export class ViewComponent implements OnInit {
   is_tax_enabled: boolean = false;
   isUpdateInstall: boolean = false;
   isUpdatePaidInstall: boolean = false;
+  stdAssignedCorseList
 
   constructor(
     private route: ActivatedRoute,
@@ -921,11 +922,12 @@ export class ViewComponent implements OnInit {
       standard_id: -1,
       course_id: -1,
       master_course: '',
+      immutable_due_date: ''
 
     }
   }
   addNewInstall() {
-    if (this.validateInputDataForAddInstall()) {
+    if (this.validateInputDataForAddInstall(false)) {
       let obj: any = {
         d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
         t_amount: this.addInstall.f_amount,
@@ -950,7 +952,7 @@ export class ViewComponent implements OnInit {
           this.auth.hideLoader();
           this.commonService.showErrorMessage('success', '', "Installment added successfully!");
           this.fetchStdFeeData(this.academic_yr_id);
-          $('#installmentModal').modal('hide');
+          this.closeAddInstallPopup();
         },
         (error: any) => {
           this.auth.hideLoader();
@@ -959,7 +961,7 @@ export class ViewComponent implements OnInit {
       )
     }
   }
-  validateInputDataForAddInstall() {
+  validateInputDataForAddInstall(isUpdate) {
     if (this.addInstall.acad_yr_id <= 0) {
       this.commonService.showErrorMessage('info', '', 'Please select valid academic Yr!');
       return;
@@ -975,6 +977,17 @@ export class ViewComponent implements OnInit {
       this.commonService.showErrorMessage('info', '', 'Please select valid due date!');
       return;
     }
+    if (isUpdate) {
+      if (!this.isFutureDate(this.addInstall.d_date, this.addInstall.immutable_due_date)) {
+        this.commonService.showErrorMessage('info', '', 'Due date should be >= to current due date!');
+        return;
+      }
+    } else {
+      if (this.isPastDate(moment(this.addInstall.d_date).format("YYYY-MM-DD"))) {
+        this.commonService.showErrorMessage('info', '', 'Due date should be >= to current date!');
+        return;
+      }
+    }
     if (this.isTemplateLinkWithCourseAndStandard) {
       if (this.schoolModel && this.addInstall.standard_id <= 0) {
         this.commonService.showErrorMessage('info', '', 'Please select valid standard');
@@ -989,6 +1002,12 @@ export class ViewComponent implements OnInit {
       }
     }
     return true;
+  }
+  isPastDate(due_date): boolean {
+    return due_date < moment().format("YYYY-MM-DD");
+  }
+  isFutureDate(date1, date2): boolean {
+    return moment(date1).format("YYYY-MM-DD") >= moment(date2).format("YYYY-MM-DD");
   }
   removeDiscountPopup(data) {
     this.isDiscountRemove = true;
@@ -1096,7 +1115,7 @@ export class ViewComponent implements OnInit {
         this.auth.hideLoader();
         this.commonService.showErrorMessage('success', '', "Installment added successfully!");
         this.fetchStdFeeData(this.academic_yr_id);
-        $('#installmentModal').modal('hide');
+        this.closeAddInstallPopup();
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -1107,6 +1126,7 @@ export class ViewComponent implements OnInit {
   editInstallPopUp(data) {
     this.isUpdateInstall = true;
     $('#installmentModal').modal('show');
+    this.getInstituteFeeTypes();
     this.addInstall = {
       acad_yr_id: this.academic_yr_id,
       f_type_id: data.f_type_id,
@@ -1114,19 +1134,15 @@ export class ViewComponent implements OnInit {
       d_date: moment(data.d_date).format('YYYY-MM-DD'),
       standard_id: data.stnd_id,
       course_id: data.c_id,
-      master_course: data.mc_n,
       subject_id: data.sub_id,
       f_schld_id: data.f_schld_id,
+      immutable_due_date: moment(data.d_date).format('YYYY-MM-DD')
     }
-    this.fetchFilterData();
-    this.getInstituteFeeTypes();
-    this.fetchCoursesList(data.mc_n);
-  }
-  getMC(c_id: any) {
-    throw new Error('Method not implemented.');
+    //this.fetchFilterData();
+    //this.fetchCoursesList(data.mc_n);
   }
   updateInstall() {
-    if (this.validateInputDataForAddInstall()) {
+    if (this.validateInputDataForAddInstall(true)) {
       let obj: any = {
         d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
         t_amount: this.addInstall.f_amount,
@@ -1152,7 +1168,7 @@ export class ViewComponent implements OnInit {
           this.auth.hideLoader();
           this.commonService.showErrorMessage('success', '', "Installment updated successfully!");
           this.fetchStdFeeData(this.academic_yr_id);
-          $('#installmentModal').modal('hide');
+          this.closeAddInstallPopup();
         },
         (error: any) => {
           this.auth.hideLoader();
@@ -1170,7 +1186,7 @@ export class ViewComponent implements OnInit {
     }
     if (confirm(msg)) {
       let obj: any = {}
-      let url = "/api/v1/studentWise/fee/delete/installment/" + this.student_id + "/" + data.f_schld_id+"/"+this.academic_yr_id
+      let url = "/api/v1/studentWise/fee/delete/installment/" + this.student_id + "/" + data.f_schld_id + "/" + this.academic_yr_id
       this.auth.showLoader();
       this.http.deleteData(url, obj).subscribe(
         (data: any) => {
@@ -1178,7 +1194,6 @@ export class ViewComponent implements OnInit {
           this.commonService.showErrorMessage('success', '', "Installment deleted successfully!");
           this.fetchStdFeeData(this.academic_yr_id);
           this.getDiscountHistoryDetails();
-          $('#installmentModal').modal('hide');
         },
         (error: any) => {
           this.auth.hideLoader();
@@ -1194,7 +1209,7 @@ export class ViewComponent implements OnInit {
       }
     }
   }
-  closeShareFeeReceiptPopUp(){
+  closeShareFeeReceiptPopUp() {
     $('#sendModal').modal('hide');
   }
 }

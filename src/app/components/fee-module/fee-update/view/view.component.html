@@ -263,7 +263,7 @@
                                             <div>
                                                 Remarks
                                             </div>
-                                            <div>Actions</div>
+                                            <div>Receipt</div>
                                         </div>
                                         <div class="fee_up3_scrol">
                                             <div *ngFor="let data of stdFeeDataList.p_install_li">
@@ -310,7 +310,7 @@
                                                     <div>
                                                         <a (click)="downloadFeeReceipt(data.f_rec_no)" class="mr10"><img
                                                                 src="../../../../../assets/img/purple_download.svg"
-                                                                title="Download"></a>
+                                                                title="Download Receipt No. {{data.f_rec_no}}"></a>
                                                         <!-- <a (click)="editPaidInstall(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
                                                                 title="Edit"></a> -->
                                                     </div>

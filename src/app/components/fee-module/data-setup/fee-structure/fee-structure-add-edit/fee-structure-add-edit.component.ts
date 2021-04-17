@@ -92,10 +92,10 @@ export class FeeStructureAddEditComponent implements OnInit {
     this.newInstallment = {
       installment_no: 1,
       fee_type_id: this.defultFeeTypes,
-      month: this.schoolModel ? 1 : 0,
-      day: this.schoolModel ? 1 : 0,
+      month: (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard )? 1 : 0,
+      day: (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard ) ? 1 : 0,
       fee_amount: 0,
-      day_type: this.schoolModel ? 4 : 1,
+      day_type: (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard ) ? 4 : 1,
     };
     this.feeInstalllmentArr.push(this.newInstallment);
   }
@@ -270,7 +270,7 @@ export class FeeStructureAddEditComponent implements OnInit {
     for (let data of this.feeInstalllmentArr) {
       if (this.validateEachInstallment(data)) {
         let installment: any = {
-          day_type: this.schoolModel ? 4 : data.day_type,
+          day_type: (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard ) ? 4 : data.day_type,
           days: data.day,
           fee_type: data.fee_type_id,
           fees_amount: data.fee_amount,
@@ -296,7 +296,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       this.commonService.showErrorMessage('info', '', "Please select valid fee type!");
       return;
     }
-    if (this.schoolModel) {
+    if (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard) {
       if (data.day < 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
         return;
