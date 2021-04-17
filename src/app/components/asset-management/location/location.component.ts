@@ -20,7 +20,7 @@ export class LocationComponent implements OnInit {
   displayBatchSize: number = 25;
   headerSetting: any;
   isedit = false;
-  locationDataforDownload:[];
+  locationDataforDownload: [];
   model: Location = new Location();
   pageIndex: number = 1;
   rowColumns: any;
@@ -29,7 +29,8 @@ export class LocationComponent implements OnInit {
   staticPageData: any = [];
   submitted = false;
   tableSetting: any;
-  tempLocationList = []; 
+  tempLocationList = [];
+  tempObj;
   totalRecords: number = 0;
   locationData = {
     institute_id: sessionStorage.getItem('institute_id'),
@@ -52,8 +53,8 @@ export class LocationComponent implements OnInit {
     this.setTableData();
     this.cancel(false);
   }
-  //table setting
- setTableData() {
+  //================table setting code=========//
+  setTableData() {
     this.headerSetting = [
       // {
       //   primary_key: 'id',
@@ -101,10 +102,7 @@ export class LocationComponent implements OnInit {
     }
 
     this.rowColumns = [
-      // {
-      //   width: "15%",
-      //   textAlign: "left"
-      // },
+
       {
         width: "30%",
         textAlign: "left"
@@ -124,6 +122,7 @@ export class LocationComponent implements OnInit {
 
     ]
   }
+  
   //pagination setting
   fetchTableDataByPage(index) {
     this.pageIndex = index;
@@ -142,7 +141,7 @@ export class LocationComponent implements OnInit {
   }
   getDataFromDataSource(startindex) {
     this.getLocationDetails();
-}
+  }
   updateTableBatchSize(event) {
     this.pageIndex = 1;
     this.displayBatchSize = event;
@@ -156,16 +155,16 @@ export class LocationComponent implements OnInit {
       obj.active = true;
       this.httpService.postMethod('api/v2/asset/location/create', obj).then(
         (res: any) => {
-           this.submitted = true;
+          this.submitted = true;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location added successdully");
           $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },
-        (err:any) => {
+        (err: any) => {
           console.log(err);
-    console.log(err.error);
+          console.log(err.error);
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-       }
+        }
       )
     }
     else {
@@ -196,74 +195,70 @@ export class LocationComponent implements OnInit {
     this.model.location_code = object.data.location_code;
     this.model.location_description = object.data.location_description;
     this.model.location_name = object.data.location_name;
-  $('#modelforlocation').modal('show');
+    $('#modelforlocation').modal('show');
   }
 
   updateLocationDetails() {
     if (this.locationaddForm.valid) {
-     this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
-      $('#modelforlocation').modal('hide');
+      this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
+        $('#modelforlocation').modal('hide');
         this.getLocationDetails();
       },
         err => {
-       
+
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-      this.auth.hideLoader();
+          this.auth.hideLoader();
         })
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields")
     }
   }
- cancel(param) {
-   this.locationaddForm.resetForm();
+  cancel(param) {
+    this.locationaddForm.resetForm();
     this.isedit = param;
     this.model.location_code = null;
     this.model.location_description = '';
     this.model.location_name = '';
 
   }
-  tempObj
-  deleteRowConfirm(object){
-this.tempObj =object.data.id;
-$('#deletesModal').modal('show');
+  deleteRowConfirm(object) {
+    this.tempObj = object.data.id;
+    $('#deletesModal').modal('show');
   }
   deleteRow(obj) {
-    // let deleteconfirm = confirm("Are you really want to delete?");
-    // if (deleteconfirm == true) {
-     // this.auth.showLoader();
-      this.httpService.deleteMethod('api/v2/asset/location/delete/' + obj + '?instituteId=' + this.model.institute_id).then(
-        (res: any) => {
-          this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
-          $('#deletesModal').modal('hide');
-          this.getLocationDetails();
-        },
-        err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-         this.auth.hideLoader();
-        }
-      );
-   // }
+    this.httpService.deleteMethod('api/v2/asset/location/delete/' + obj + '?instituteId=' + this.model.institute_id).then(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
+        $('#deletesModal').modal('hide');
+        this.getLocationDetails();
+      },
+      err => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+        this.auth.hideLoader();
+      }
+    );
+    // }
   }
-  
- searchDatabase() {
- if (this.searchParams == undefined || this.searchParams == null) {
+
+  searchDatabase() {
+    if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
-         
+
     }
     else {
       let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
-     
-        this.staticPageData = searchData;
+
+      this.staticPageData = searchData;
       this.totalRecords = this.staticPageData.length;
-      
-      
+
+
     }
   }
 
@@ -272,21 +267,21 @@ $('#deletesModal').modal('show');
     this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.locationDataforDownload = res.result.response;
-    },
+      },
       err => {
         this.auth.hideLoader();
       }
-      
+
     );
     let arr = [];
-   
+
     this.locationDataforDownload.map(
       (ele: any) => {
         let json = [
           ele.location_code,
           ele.location_name,
           ele.location_description,
-       ]
+        ]
         arr.push(json);
       })
 
@@ -297,51 +292,51 @@ $('#deletesModal').modal('show');
     this.auth.hideLoader();
   }
 
-  
-//download in excel format
-excelheaderseting:any =[];
-exportToExcel(){
-  this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
-    (res: any) => {
-      this.excelheaderseting=[
-      {
-        primary_key: 'location_code',
-        value: "Code", 
-      },
-      {
-        primary_key: 'location_name',
-        value: "Name", 
-      },
-      {
-        primary_key: 'location_description',
-        value: "Description", 
-      },
-    ]
 
-      
-      this.auth.showLoader();
-      this.locationDataforDownload = res.result.response;
-      let Excelarr = [];
-      this.locationDataforDownload.map(
-      (ele: any) => {
-        let json = {}
-        this.excelheaderseting.map((keys) => {
-        json[keys.value] = ele[keys.primary_key]
-        })
-        Excelarr.push(json);
+  //download in excel format
+  excelheaderseting: any = [];
+  exportToExcel() {
+    this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.excelheaderseting = [
+          {
+            primary_key: 'location_code',
+            value: "Code",
+          },
+          {
+            primary_key: 'location_name',
+            value: "Name",
+          },
+          {
+            primary_key: 'location_description',
+            value: "Description",
+          },
+        ]
+
+
+        this.auth.showLoader();
+        this.locationDataforDownload = res.result.response;
+        let Excelarr = [];
+        this.locationDataforDownload.map(
+          (ele: any) => {
+            let json = {}
+            this.excelheaderseting.map((keys) => {
+              json[keys.value] = ele[keys.primary_key]
+            })
+            Excelarr.push(json);
+          }
+        )
+        this.excelService.exportAsExcelFile(
+          Excelarr,
+          'asset_location'
+        );
+        this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
       }
-    )
-    this.excelService.exportAsExcelFile(
-      Excelarr,
-      'asset_location'
+
     );
-     this.auth.hideLoader();
-  },
-    err => {
-      this.auth.hideLoader();
-    }
-    
-  );
-  this.auth.hideLoader();
-}
+    this.auth.hideLoader();
+  }
 }

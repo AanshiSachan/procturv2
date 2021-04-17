@@ -341,15 +341,6 @@ $('#deletesModal').modal('show');
       }
     );
 
-// console.log(obj);//id =286
-// let key = this.vendorAllData.filter(id => (id.id == obj));
-//    let category_name =key[0].category_names_string.split(',');
-//    for (let i = 0; i < key[0].category_ids.length; i++) {
-
-//     this.categorydata.push({ 'category_ids': key[0].category_ids[i], 'category_names_string': category_name[i] });
-//     console.log(this.categorydata)
-//     }
-
   }
   getassets(object){
     console.log(object)
@@ -538,65 +529,56 @@ headersettingforexcel:any=[ {
   primary_key: 'asset_name',
   value: "Asset",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+  
 },
 {
   primary_key: 'supplier_name',
   value: "Supplier",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+  
 },
 {
   primary_key: 'quantity',
   value: "Quantity",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+ 
 },
 {
   primary_key: 'unit',
   value: "Unit",
   charactLimit: 25,
-  sorting: false,
-  visibility: true
+  
 },
 {
   primary_key: 'purchase_amount',
   value: "Purchase Price",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+ 
 },
 {
   primary_key: 'purchase_date',
   value: "Purchase Date",
   charactLimit: 25,
-  sorting: false,
-  visibility: true
+
 },
 {
   primary_key: 'service_date',
   value: "Service Date",
   charactLimit: 25,
-  sorting: false,
-  visibility: true
+
 },
 
 {
   primary_key: 'expiry_date',
   value: "Expiry Date",
   charactLimit: 25,
-  sorting: false,
-  visibility: true
+  
 },
 {
   primary_key: 'purchased_by_user_display_name',
   value: "Purchase By",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+ 
 }]
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/purchase/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(

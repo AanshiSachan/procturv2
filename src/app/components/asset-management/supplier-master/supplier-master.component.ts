@@ -517,43 +517,32 @@ $('#deletesModal').modal('show');
     primary_key: 'supplier_name',
     value: " Company Name",
     charactLimit: 25,
-    sorting: true,
-    visibility: true
+   
   },
   {
     primary_key: 'email_id',
     value: " Email",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+    
   },
   {
     primary_key: 'mobile_no',
     value: "Mobile",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+   
   },
   {
     primary_key: 'address',
     value: "Address",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+    
   },
   {
     primary_key: 'contact_person_name',
     value: "Contact Person",
-    charactLimit: 25,
-    sorting: true,
-    visibility: true
+    
   },
   {
     primary_key: 'asset_names_string',
     value: "Asset Provided",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+   
   },
   ]
   exportToExcel() {
