@@ -181,11 +181,14 @@ export class CourseCourseListComponent implements OnInit {
     this.selectedRow = i;
   }
 
-  addStudentToBatch(rowDetails) {
+  addStudentToBatch(rowDetails, std_obj) {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
     console.log("courseDetails", rowDetails);
-    // this.getAllStudentList();
+    if(this.schoolModel) {
+      this.searchFilter.standard_id = std_obj.standard_id;
+      this.getAllStudentList();
+    }
     this.getAllFeeTemplate();
     // this.onRadioButtonChange();
   }
