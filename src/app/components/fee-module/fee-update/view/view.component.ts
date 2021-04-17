@@ -102,7 +102,7 @@ export class ViewComponent implements OnInit {
     master_course: '',
     subject_id: -1,
     f_schld_id: -1,
-    immutable_due_date:''
+    immutable_due_date: ''
   }
   totalDiscountApplied: any;
   isDiscountRemove: boolean = false;
@@ -213,6 +213,7 @@ export class ViewComponent implements OnInit {
     }
   }
   validatePaymentPopup() {
+    this.flushPaymentPopUpData();
     let is_intall_not_selected = true;
     let t_amount: number = 0;
     let t_selected_install: number = 0;
@@ -226,7 +227,6 @@ export class ViewComponent implements OnInit {
       this.paymentPopUpJson.paying_amount = t_amount;
       this.paymentPopUpJson.immutable_amount = t_amount;
       this.t_selected_install = t_selected_install;
-
     }
     if (is_intall_not_selected) {
       this.commonService.showErrorMessage('info', '', 'Please select at least one installment!');
@@ -256,7 +256,6 @@ export class ViewComponent implements OnInit {
     this.postService.payPartialFeeAmount(obj).subscribe(
       res => {
         // this.btnPayment.nativeElement.disabled = false;
-        $('#updateinstModal').modal('hide');
         this.auth.hideLoader();
         this.commonService.showErrorMessage('success', '', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
@@ -540,6 +539,7 @@ export class ViewComponent implements OnInit {
   openDiscountPopup() {
     if (this.validateDiscountPopup()) {
       this.isDiscountRemove = false;
+      this.clearDiscPopUpData();
       $('#discountInstallModel').modal('show');
       this.fetchDiscountReason();
     }
@@ -907,13 +907,15 @@ export class ViewComponent implements OnInit {
   }
   openAddInstallmentPopup() {
     $('#installmentModal').modal('show');
+    this.closeAddInstallPopup(true)
     this.isUpdateInstall = false;
     this.fetchFilterData();
     this.getInstituteFeeTypes();
     this.addInstall.acad_yr_id = this.academic_yr_id;
   }
-  closeAddInstallPopup() {
-    $('#installmentModal').modal('hide');
+  closeAddInstallPopup(isAdd) {
+    if (!isAdd)
+      $('#installmentModal').modal('hide');
     this.addInstall = {
       academic_yr_id: -1,
       f_type_id: -1,
@@ -927,6 +929,8 @@ export class ViewComponent implements OnInit {
     }
   }
   addNewInstall() {
+    if (this.schoolModel)
+      this.addInstall.standard_id = this.stdFeeDataList.stnd_id;
     if (this.validateInputDataForAddInstall(false)) {
       let obj: any = {
         d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
@@ -942,7 +946,7 @@ export class ViewComponent implements OnInit {
           obj.c_id = this.addInstall.course_id;
         }
         else if (this.isProfessional) {
-          obj.sub_id = this.addInstall.subject_id;
+          obj.sub_id = this.addInstall.course_id;
         }
       }
       let url = "/api/v1/studentWise/fee/add/installment/" + this.student_id;
@@ -952,7 +956,7 @@ export class ViewComponent implements OnInit {
           this.auth.hideLoader();
           this.commonService.showErrorMessage('success', '', "Installment added successfully!");
           this.fetchStdFeeData(this.academic_yr_id);
-          this.closeAddInstallPopup();
+          this.closeAddInstallPopup(false);
         },
         (error: any) => {
           this.auth.hideLoader();
@@ -1115,7 +1119,7 @@ export class ViewComponent implements OnInit {
         this.auth.hideLoader();
         this.commonService.showErrorMessage('success', '', "Installment added successfully!");
         this.fetchStdFeeData(this.academic_yr_id);
-        this.closeAddInstallPopup();
+        this.closeAddInstallPopup(false);
       },
       (error: any) => {
         this.auth.hideLoader();
@@ -1153,12 +1157,12 @@ export class ViewComponent implements OnInit {
       }
       if (this.isTemplateLinkWithCourseAndStandard) {
         if (this.schoolModel) {
-          obj.stnd_id = this.addInstall.standard_id;
+          obj.stnd_id = this.addInstall.standard_id
         } else if (!this.schoolModel && !this.isProfessional) {
           obj.c_id = this.addInstall.course_id;
         }
         else if (this.isProfessional) {
-          obj.sub_id = this.addInstall.subject_id;
+          obj.sub_id = this.addInstall.course_id;
         }
       }
       let url = "/api/v1/studentWise/fee/update/installment/" + this.student_id;
@@ -1168,7 +1172,7 @@ export class ViewComponent implements OnInit {
           this.auth.hideLoader();
           this.commonService.showErrorMessage('success', '', "Installment updated successfully!");
           this.fetchStdFeeData(this.academic_yr_id);
-          this.closeAddInstallPopup();
+          this.closeAddInstallPopup(false);
         },
         (error: any) => {
           this.auth.hideLoader();

@@ -549,49 +549,18 @@
                         <input type="text" name="" class="wid100 input bsDatepicker" [(ngModel)]="addInstall.d_date"
                             bsDatepicker placeholder="Due Date*">
                     </div>
-                    <div class="pt10" *ngIf="schoolModel && isTemplateLinkWithCourseAndStandard">
-                        <select class="select wid100" (ngModelChange)="fetchSectionList($event)"
+                    <!-- <div class="pt10" *ngIf="schoolModel && isTemplateLinkWithCourseAndStandard">
+                        <select class="select wid100"
                             [(ngModel)]="addInstall.standard_id">
-                            <option value="-1">Standard</option>
                             <option *ngFor="let data of standardSectionMap" [value]="data.standard_id">
                                 {{data.standard_name}}</option>
                         </select>
-                    </div>
-                    <!-- <div class="pt10" *ngIf="schoolModel">
-                        <select class="select wid100" [(ngModel)]="addInstall.course_id">
-                            <option value="-1">Section</option>
-                            <option *ngFor="let data of sectionList" [value]="data.course_id">{{data.course_name}}
-                            </option>
-                        </select>
                     </div> -->
-                    <div class="pt10" *ngIf="!isProfessional && !schoolModel && isTemplateLinkWithCourseAndStandard">
-                        <select class="select wid100" (ngModelChange)="fetchCoursesList($event)"
-                            [(ngModel)]="addInstall.master_course">
-                            <option value="">Master Course</option>
-                            <option *ngFor="let data of masterCourseList" [value]="data.master_course">
-                                {{data.master_course}} </option>
-                        </select>
-                    </div>
-                    <div class="pt10" *ngIf="!isProfessional && !schoolModel && isTemplateLinkWithCourseAndStandard">
+                    <div class="pt10" *ngIf="!schoolModel && isTemplateLinkWithCourseAndStandard">
                         <select class="select wid100" [(ngModel)]="addInstall.course_id">
-                            <option value="-1">Course</option>
-                            <option *ngFor="let data of courseList" [value]="data.course_id">{{data.course_name}}
+                            <option value="-1">Course*</option>
+                            <option  *ngFor="let data of stdFeeDataList.c_b_map | keyvalue" [value]="data.key">{{data.value}}
                             </option>
-                        </select>
-                    </div>
-                    <div class="pt10" *ngIf="isProfessional && isTemplateLinkWithCourseAndStandard">
-                        <select class="select wid100" [(ngModel)]="addInstall.standard_id"
-                            (ngModelChange)="fetchBatch($event)">
-                            <option value="-1">Master Course</option>
-                            <option *ngFor="let data of standardList" [value]="data.standard_id">{{data.standard_name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="pt10" *ngIf="isProfessional && isTemplateLinkWithCourseAndStandard">
-                        <select class="select wid100" [(ngModel)]="addInstall.subject_id"
-                            (ngModelChange)="fetchBatch($event)">
-                            <option value="-1">Batch</option>
-                            <option *ngFor="let data of batchList" [value]="data.subject_id">{{data.batch_name}}</option>
                         </select>
                     </div>
                     <div class="pt10 display">
