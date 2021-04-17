@@ -531,6 +531,7 @@ obj.asset_code = null;
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
     }
   }
+  
   //delete asset Category
   deleteAssetRow(object) {
     let deleteconfirm = confirm("Do you want to delete this ?");

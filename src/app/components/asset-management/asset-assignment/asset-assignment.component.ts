@@ -41,7 +41,7 @@ export class AssetAssignmentComponent implements OnInit {
   rolesListDataSource: any = [];
   model = {
     id: '',
-    asset_id: 0,
+    asset_id: '',
    check_out_date: '',
     due_date: '',
     institute_id: sessionStorage.getItem('institute_id'),
@@ -342,7 +342,7 @@ $('#deletesModal').modal('show');
     this.isedit = false;
     this.model = {
       id: '',
-      asset_id: 0,
+      asset_id: '',
      check_out_user_id: '',
       check_in_date: '',
       check_out_date: '',
