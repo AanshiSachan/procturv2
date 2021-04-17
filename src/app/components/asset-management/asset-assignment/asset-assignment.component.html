@@ -18,7 +18,7 @@
             </span>
         </div>
         <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
-            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'>
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRowConfirm($event)'>
         </app-basic-table>
         <div style="padding-top: 9px;">
             <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
@@ -33,7 +33,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
-                <h4 class="title-model">Assign Assets </h4>
+                <h4 class="title-model">Add Asset Assignment  </h4>
                 <form id="form1" #assetAssignmentForm="ngForm" autocomplete="off">
                     <div class="row">
                         <div class="field-wrapper  col-md-6" 
@@ -51,14 +51,13 @@
                                 Category name is mandatory
                             </span></p>  -->
                        </div>
-                       {{model.asset_id}}
-                         <div class="field-wrapper  col-md-6" [class.has-error]="asset_id.invalid && asset_id.touched">
+                      <div class="field-wrapper  col-md-6" [class.has-error]="asset_id.invalid && asset_id.touched">
                             <label  class="p_title">Asset<span class="stars">*</span></label>
                         <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
                             required #asset_id="ngModel"
                                 (ngModelChange)="getLocationData($event)">
                                 <option value=""> Select Asset</option>
-                                <option value="{{data.asset_id}}" *ngFor="let data of assetAllData">
+                                <option value="{{data.id}}" *ngFor="let data of assetAllData">
                                     {{data.asset_name}}</option>
                             </select>
                             <!-- <p class="errormsg"><span  class="help-block" *ngIf="!asset_id.valid && asset_id.touched">
@@ -70,7 +69,7 @@
                         <div class="field-wrapper  col-md-6" [class.has-error]="quantity.invalid && quantity.touched">
                             <label  class="p_title">Assign Quantity<span class="stars">*</span></label>
                         
-                            <input type="text" class="form-control" id="inputPassword4" placeholder="Enter assign quantity"
+                            <input type="text" class="form-control" id="inputPassword4" placeholder="Enter Quantity"
                                 [(ngModel)]="model.quantity" name="quantity"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel">
                                 <!-- <p class="errormsg"><span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
@@ -97,11 +96,11 @@
                     </div>
                     <div class="row">
                         <div class="field-wrapper col-md-6">
-                            <label  class="p_title">Check-Out By<span class="stars">*</span></label>
+                            <label  class="p_title">Checkout By<span class="stars">*</span></label>
                            <select class="form-control" name="check_out_user_id" id="check_out_user_id"
                                 [(ngModel)]="model.check_out_user_id"
                                 required #check_out_user_id="ngModel">
-                                <option value="" selected>Select Check-Out By</option>
+                                <option value="" selected> Select User</option>
                                 <option value="{{data.user_id}}" *ngFor="let data of purchaseby">
                                     {{data.name}}</option>
                             </select>
@@ -156,7 +155,7 @@
                                 class="btns blue_button cancel" data-dismiss="modal"
                                 (click)="cancel(false)">Cancel</button></span>
                         <span > <button type="submit" class="btns blue_button"
-                                (click)="saveAssetAssignDetails(model)" *ngIf="!isedit">Save</button></span>
+                                (click)="saveAssetAssignDetails(model)" *ngIf="!isedit">Assign</button></span>
                         <span > <button type="submit" class="btns blue_button" *ngIf="isedit"
                                 (click)="updateAssetAssignDetails()">Update
                             </button></span>
@@ -168,3 +167,27 @@
 </div>
         </div>
     </div>
+    <div class="modal" id="deletesModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="centers">
+                <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+              </div>
+             <div><p class="centers paradel"> Do you want to delete this ?</p>
+              </div> 
+              <div class="pt101 displays">
+                <div>
+                  <button class="white_button right"data-dismiss="modal">Cancel</button>
+                </div>
+                <div>
+                  <button class="blue_button right" (click)="deleteRow(tempObj)">Delete</button>
+                </div>
+              </div>
+            </div>        
+          </div>
+        </div>
+      </div>

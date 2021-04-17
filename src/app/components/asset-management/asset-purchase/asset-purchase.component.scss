@@ -310,4 +310,42 @@ margin-top:20px;
     text-align: right;
    
   }
+  .paradel{
+    font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 19px;
+      letter-spacing: 0.01em;
+      margin-top: 20px;
+      color: #858585;
+  }
+  .dels{
+    height: 230px !important;
+  }
+  .displays{
+    display: flex;
+    justify-content: space-between;
+  }
+  .white_button {
+    background-color: #fff;
+    color: #109CF1;
+    padding: 0px 20px;
+    font-size: 12px;
+    border:1px solid #109CF1;
+    border-radius: 5px;
+    font-weight: 500;
+    line-height: 35px;
+    cursor: pointer;
+  }
+  .centers{
+    text-align: center;
+    
+  }
+  .pt101{
+    padding-top: 30px;
+    margin: 0px 30px;
+  }
+   .flex{
+    display: flex;
+  }
   

@@ -133,8 +133,8 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'status',
-        value: "Status",
+        primary_key: 'note',
+        value: "Note",
         charactLimit: 25,
         sorting: false,
         visibility: true
@@ -238,7 +238,7 @@ export class AssetAssignmentComponent implements OnInit {
       this.model.check_in_date = this.model.check_in_date ? moment(this.model.check_in_date).format("YYYY-MM-DD"): '';
       this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD");
         this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Assigned Successfully");
        this.getAssignDetails();
         this.cancel(false);
         $('#modelforassetAssign').modal('hide');
@@ -273,6 +273,7 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   editRow(object) {
+    this.assetAllData=[];
     this.isedit = true;
     this.model.id = object.data.id;
     this.model.asset_id = object.data.asset_id;
@@ -287,20 +288,24 @@ export class AssetAssignmentComponent implements OnInit {
     this.model.note = object.data.note;
     this.model.category_id = object.data.category_id;
     this.model.check_out_user_id = object.data.check_out_user_id;
+    this.getassetsAndLocation(this.model.category_id);
     $('#modelforassetAssign').modal('show');
   }
-
+  tempObj
+  deleteRowConfirm(object){
+this.tempObj =object.data.id;
+$('#deletesModal').modal('show');
+  }
   deleteRow(obj) {
-    let deleteconfirm = confirm("Are you really want to delete?");
-    if (deleteconfirm == true) {
+    // let deleteconfirm = confirm("Are you really want to delete?");
+    // if (deleteconfirm == true) {
     this.auth.showLoader();
-    this.httpService.deleteMethod('/api/v2/asset/assignment/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
+    this.httpService.deleteMethod('/api/v2/asset/assignment/delete/' + obj + '?instituteId=' + this.model.institute_id).then(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', ' Deleted Successfully');
-
+        $('#deletesModal').modal('hide');
         this.getAssignDetails();
-        this.auth.showLoader();
       },
       err => {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
@@ -308,7 +313,7 @@ export class AssetAssignmentComponent implements OnInit {
         this.auth.hideLoader();
       }
     );
-    }
+   // }
   }
 
   updateAssetAssignDetails() {
@@ -317,7 +322,7 @@ export class AssetAssignmentComponent implements OnInit {
       this.model.check_in_date = this.model.check_in_date ? moment(this.model.check_in_date).format("YYYY-MM-DD"): '';
       this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD");
     this.httpService.putMethod('api/v2/asset/assignment/update', this.model).then(() => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success,'',"Assignment details of Asset is Updated Successfully ")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success,'',"Updated Successfully")
       this.cancel(false)
       $('#modelforassetAssign').modal('hide');
       this.getAssignDetails();
@@ -467,13 +472,13 @@ export class AssetAssignmentComponent implements OnInit {
           ele.check_in_date,
           ele.check_out_date,
           ele.due_date,
-          ele.status,
+          ele.note,
    ]
         arr.push(json);
       })
 
     let rows = [];
-    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','status']]
+    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
     this.auth.hideLoader();
@@ -483,8 +488,7 @@ headersettingforexcel:any=[  {
   primary_key: 'asset_name',
   value: "Asset",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+ 
 },
 
 
@@ -492,50 +496,43 @@ headersettingforexcel:any=[  {
   primary_key: 'quantity',
   value: "Assign Qty",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+ 
 },
 {
   primary_key: 'user_type',
   value: "Role",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+  
 },
 {
   primary_key: 'check_out_user_display_name',
   value: "Check out By",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+ 
 },
 {
   primary_key: 'check_in_date',
   value: "Check In Date",
   charactLimit: 25,
-  sorting: false,
-  visibility: true
+ 
 },
 {
   primary_key: 'check_out_date',
   value: "Check Out Date",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+ 
 },
 {
   primary_key: 'due_date',
   value: "Due Date",
   charactLimit: 25,
-  sorting: true,
-  visibility: true
+
 },
 {
-  primary_key: 'status',
-  value: "Status",
+  primary_key: 'note',
+  value: "Note",
   charactLimit: 25,
-  sorting: false,
-  visibility: true
+
 }]
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(

@@ -255,7 +255,7 @@ export class SupplierMasterComponent implements OnInit {
       obj.category_id = this.selectedvalue;
       this.httpService.postMethod('api/v2/asset/supplier/create ', obj).then(
         (res: any) => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Created Successfully");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Supplier added successfully");
           $('#modelforvendor').modal('hide');
           // this.cancel(false);
           this.getVendorDetails();
@@ -402,7 +402,7 @@ export class SupplierMasterComponent implements OnInit {
       obj.category_ids = newcat
       obj.category_id = this.selectedvalue;
       this.httpService.putMethod('api/v2/asset/supplier/update', obj).then(() => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Supplier is Updated Successfully")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
         $('#modelforvendor').modal('hide');
         this.getVendorDetails();
       },
@@ -416,23 +416,27 @@ export class SupplierMasterComponent implements OnInit {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All Required Fields")
     }
   }
+  tempObj
+  deleteRowConfirm(object){
+this.tempObj =object.data.id;
+$('#deletesModal').modal('show');
+  }
   deleteRow(obj) {
-    let deleteconfirm = confirm("Are you really want to delete?");
-    if (deleteconfirm == true) {
-      this.auth.showLoader();
-      this.httpService.deleteMethod('api/v2/asset/supplier/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
+    this.httpService.deleteMethod('api/v2/asset/supplier/delete/' + obj  + '?instituteId=' + this.model.institute_id).then(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', 'Supplier Deleted Successfully');
+          this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
           this.getVendorDetails();
+          $('#deletesModal').modal('hide');
+
         },
         err => {
-          // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-        this.msgService.showErrorMessage('error', '', ' Pending asset request for supplier');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+       //this.msgService.showErrorMessage('error', '', ' Pending asset request for supplier');
         this.auth.hideLoader();
         }
       );
-    }
+   
   }
 
   //search filter

@@ -269,16 +269,22 @@ export class AssetPurchaseComponent implements OnInit {
     this.model.user_type = object.data.user_type;
     this.model.category_id = object.data.category_id;
    $('#modelforpurchase').modal('show');
+   this.getCategoryData( this.model.supplier_id );
+   this.getassets( this.model.category_id);
+ }
+ tempObj
+ deleteRowConfirm(object){
+ this.tempObj =object.data.id;
+$('#deletesModal').modal('show');
  }
   deleteRow(obj) {
-    let deleteconfirm = confirm("Are you really want to delete?");
-    if (deleteconfirm == true) {
-      this.auth.showLoader();
-      this.httpService.deleteMethod('/api/v2/asset/purchase/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
+    this.auth.showLoader();
+      this.httpService.deleteMethod('/api/v2/asset/purchase/delete/' + obj + '?instituteId=' + this.model.institute_id).then(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', 'Purchase Deleted Successfully');
+          this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
           this.getPurchaseDetails();
+          $('#deletesModal').modal('hide');
         },
         err => {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
@@ -286,7 +292,6 @@ export class AssetPurchaseComponent implements OnInit {
          this.auth.hideLoader();
         }
       );
-    }
   }
 
   searchDatabase() {
@@ -446,7 +451,7 @@ export class AssetPurchaseComponent implements OnInit {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = this.isedit ? 'Asset Purchased details is Updated Successfully' : 'Asset Purchased details is Saved Successfully';
+              let msg = this.isedit ? 'Updated Successfully' : 'Purchase added successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               $('#modelforpurchase').modal('hide');
               this.getPurchaseDetails();

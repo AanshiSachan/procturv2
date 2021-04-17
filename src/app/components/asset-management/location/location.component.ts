@@ -157,7 +157,7 @@ export class LocationComponent implements OnInit {
       this.httpService.postMethod('api/v2/asset/location/create', obj).then(
         (res: any) => {
            this.submitted = true;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.body.result);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location added successdully");
           $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },
@@ -202,7 +202,7 @@ export class LocationComponent implements OnInit {
   updateLocationDetails() {
     if (this.locationaddForm.valid) {
      this.httpService.putMethod('api/v2/asset/location/update', this.model).then(() => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Location is Updated Successfully")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
       $('#modelforlocation').modal('hide');
         this.getLocationDetails();
       },
@@ -224,14 +224,20 @@ export class LocationComponent implements OnInit {
     this.model.location_name = '';
 
   }
+  tempObj
+  deleteRowConfirm(object){
+this.tempObj =object.data.id;
+$('#deletesModal').modal('show');
+  }
   deleteRow(obj) {
-    let deleteconfirm = confirm("Are you really want to delete?");
-    if (deleteconfirm == true) {
+    // let deleteconfirm = confirm("Are you really want to delete?");
+    // if (deleteconfirm == true) {
      // this.auth.showLoader();
-      this.httpService.deleteMethod('api/v2/asset/location/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
+      this.httpService.deleteMethod('api/v2/asset/location/delete/' + obj + '?instituteId=' + this.model.institute_id).then(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', 'Location Deleted Successfully');
+          this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
+          $('#deletesModal').modal('hide');
           this.getLocationDetails();
         },
         err => {
@@ -239,7 +245,7 @@ export class LocationComponent implements OnInit {
          this.auth.hideLoader();
         }
       );
-    }
+   // }
   }
   
  searchDatabase() {
