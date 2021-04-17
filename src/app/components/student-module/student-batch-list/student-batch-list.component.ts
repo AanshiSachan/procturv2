@@ -170,7 +170,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     if (this.isProfessional) {
                         assignedBatches.push(this.dataList[i].data.batch_id.toString());
                         batchJoiningDates.push(moment(this.dataList[i].assignDate).format('YYYY-MM-DD'));
-                        assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
+                        // assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
                         batchString.push(this.dataList[i].data.batch_name);
                         if (this.dataList[i].data.academic_year_id == null || this.dataList[i].data.academic_year_id == undefined) {
                             assignedBatchescademicYearArray.push(this.defaultAcadYear);
@@ -185,7 +185,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     else {
                         assignedBatches.push(this.dataList[i].data.course_id.toString());
                         batchJoiningDates.push(moment(this.dataList[i].assignDate).format('YYYY-MM-DD'));
-                        assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
+                        // assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
                         batchString.push(this.dataList[i].data.course_name);
                         if (this.dataList[i].data.academic_year_id == null || this.dataList[i].data.academic_year_id == undefined) {
                             assignedBatchescademicYearArray.push(this.defaultAcadYear);

@@ -2225,7 +2225,8 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   editFeePDCDetails(event) {
     sessionStorage.setItem("editPdc", "true");
-    this.router.navigate(["/view/students/edit/" + event]);
+    this.router.navigate(['/view/fee/update-fee/view-fee/'+event]);
+    // this.router.navigate(["/view/students/edit/" + event]);
   }
 
   /* =================================================================================================== */

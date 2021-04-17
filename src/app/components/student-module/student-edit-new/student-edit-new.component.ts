@@ -380,7 +380,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       this.assignTo = false;
     }
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
-      this.switchToView('feeDetails-icon');
+      // this.switchToView('feeDetails-icon');
+      this.router.navigate(['/view/students']);
     }
     else if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
       this.switchToView('inventory-icon');
@@ -575,7 +576,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
    */
   navigateTo(text) {
 
-    let classArray = ['li-one', 'li-two', 'li-three'];
+    let classArray = ['li-one', 'li-two'];
     classArray.forEach(function (className) {
       document.getElementById(className).classList.remove('active');
     });
@@ -1716,7 +1717,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
               this.router.navigate(['/view/students']);
             }
             else {
-              this.navigateTo('feeDetails');
+              // this.navigateTo('feeDetails');
+              this.router.navigate(['/view/students']);
               this.updateStudentFeeDetails();
             }
 

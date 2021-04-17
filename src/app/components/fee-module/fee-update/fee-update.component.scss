@@ -118,6 +118,9 @@
   /*.leave_cat .table_heading>div:first-child,.leave_cat .table_body>div:first-child{
     width: 50px;
   }*/
+  .fee_up1 .table_body>div,.fee_up1 .table_heading>div{
+    width: calc((100% - 200px) / 6);
+  }
   .fee_up1 .table_heading>div:last-child,.fee_up1 .table_body>div:last-child{
     width: 200px;
   }
@@ -125,9 +128,7 @@
     text-align: left;
     padding-left: 20px;
   }
-  .fee_up1 .table_body>div,.fee_up1 .table_heading>div{
-    width: calc((100% - 200px) / 7);
-  }
+ 
   
   .group18{
     width: 18px;
@@ -335,7 +336,7 @@
   .fee_up2 .table_heading>div:nth-child(2),.fee_up2 .table_body>div:nth-child(2){
     width:50px;
   }
-  .fee_up2 .table_heading>div:nth-child(3),.fee_up2 .table_body>div:nth-child(3){
+  .fee_up2 .table_heading>div:nth-child(4),.fee_up2 .table_body>div:nth-child(4){
     text-align: left;
     padding-left: 10px;
     width: 200px;
@@ -487,7 +488,7 @@
     padding-left: 10px;
   }
   .fee_up5 .table_body>div,.fee_up5 .table_heading>div{
-    width: calc((100% - 70px) /5);
+    width: calc((100% - 70px) /4);
   }
   /*.unpaid_d{
      display: inline-block;
@@ -674,16 +675,17 @@
   color: #323C47;
   }
   .fee_up2_scrol,.fee_up3_scrol,.fee_up5_scrol{
-    height: 47vh;
-    overflow-y: scroll;
+
+    max-height: 40vh;
+    overflow-y: auto; 
   }
   @media (min-width: 576px){
-  #largeModal .modal-dialog {
+  #discountInstallModel .modal-dialog {
       max-width: 1000px;
       margin: 1.75rem auto;
   }
   }
-  #largeModal .modal-dialog {
+  #discountInstallModel .modal-dialog {
      width: 1000px;
    }
    .fee_up6,.fee_up7{

@@ -715,7 +715,7 @@ export class FeeStructureHomeComponent implements OnInit {
 
   validateFeeInstallments() {
     if (this.templateName && this.templateName.trim()=='') {
-      this.commonService.showErrorMessage('info', '', "Please enter valid template name!");
+      this.commonService.showErrorMessage('info', '', "Please enter valid fee structure name!");
       return;
     }
     if (this.feeInstalllmentArr.length == 0) {

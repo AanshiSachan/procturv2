@@ -1521,7 +1521,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   actionSelected(d) {
     this.closeSearch(false);
     if (d.data.source == "Student") {
-      this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
+      console.log(d);
+      if(d.action == "studentFee") {
+        this.router.navigate(['/view/fee/update-fee/view-fee/'+d.data.id]);
+      } else {
+        this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
+      }
       // 
       this.searchBar = false;
     }

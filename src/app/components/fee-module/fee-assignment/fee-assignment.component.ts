@@ -42,7 +42,6 @@ export class FeeAssignmentComponent implements OnInit {
   template_id: number = -1;
   totalFeeAmount: number = 0;
   totalTax: number = 0;
-  feeTypeList: any = [];
   feeInstalllmentArr: any[];
   studentIdArr: any = [];
   feeInstmentArr: any = [];
@@ -65,7 +64,7 @@ export class FeeAssignmentComponent implements OnInit {
         }
       }
     )
-    this.isTemplateNotLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'?false:true;
+    this.isTemplateNotLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked") == 'true' ? false : true;
     this.fetchFilterData();
 
   }
@@ -246,19 +245,16 @@ export class FeeAssignmentComponent implements OnInit {
     if (!this.validateStudentData()) {
       return;
     }
-    // if (this.feeStructureList.length > 0) {
-    //   $('#assignFeeModel').modal('show');
-    //   return
-    // }
     $('#assignFeeModel').modal('show');
     this.auth.showLoader();
     let queryParam = "";
-    if (!this.isTemplateNotLinkWithCourseAndStandard && false)  {
-      if (this.schoolModel) {
-        queryParam = "?standard_id=" + this.model.standard_id;
-      } else if (!this.isProfessional) {
+    if (!this.isTemplateNotLinkWithCourseAndStandard) {
+      // if (this.schoolModel) {
+      //   queryParam = "?standard_id=" + this.model.standard_id;
+      // } else 
+      if (!this.isProfessional) {
         queryParam = "?course_id=" + this.model.course_id;
-      } else {
+      } else if(this.isProfessional) {
         queryParam = "?batch_id=" + this.model.batch_id;
       }
       queryParam += "&country_id=" + this.model.country_id;
@@ -317,36 +313,36 @@ export class FeeAssignmentComponent implements OnInit {
     }
   }
   assignfeeToStudent(isAssignedToSingleStudent) {
-    if(this.validateAssignFeeData()){
-    let requestPayload: any = {
-      student_ids: this.studentIdArr,
-      template_id: this.template_id,
-      academic_yr_id: this.model.academic_yr_id,
-      institute_id: this.institute_id,
-      fee_details: this.feeInstmentArr,
-    }
-    if (this.schoolModel) {
-      requestPayload.standard_id = this.model.standard_id;
-    } else if (!this.isProfessional) {
-      requestPayload.course_id = this.model.course_id;
-    } else {
-      requestPayload.batch_id = this.model.batch_id;
-    }
-    let url = "/api/v1//studentWise/fee/assign";
-    this.http.postData(url, requestPayload).subscribe(
-      (res: any) => {
-        $('#assignFeeModel').modal('hide');
-        this.commonService.showErrorMessage('success', '', 'Success!');
-        this.fetchStudentList();
-        this.auth.hideLoader();
-      },
-      err => {
-        this.commonService.showErrorMessage('error', '', err.error.message);
-        this.auth.hideLoader();
+    if (this.validateAssignFeeData()) {
+      let requestPayload: any = {
+        student_ids: this.studentIdArr,
+        template_id: this.template_id,
+        academic_yr_id: this.model.academic_yr_id,
+        institute_id: this.institute_id,
+        fee_details: this.feeInstmentArr,
       }
-    );
+      if (this.schoolModel) {
+        requestPayload.standard_id = this.model.standard_id;
+      } else if (!this.isProfessional) {
+        requestPayload.course_id = this.model.course_id;
+      } else {
+        requestPayload.batch_id = this.model.batch_id;
+      }
+      let url = "/api/v1//studentWise/fee/assign";
+      this.http.postData(url, requestPayload).subscribe(
+        (res: any) => {
+          $('#assignFeeModel').modal('hide');
+          this.commonService.showErrorMessage('success', '', 'Success!');
+          this.fetchStudentList();
+          this.auth.hideLoader();
+        },
+        err => {
+          this.commonService.showErrorMessage('error', '', err.error.message);
+          this.auth.hideLoader();
+        }
+      );
+    }
   }
-}
   validateAssignFeeData() {
     this.studentIdArr = [];
     this.feeInstmentArr = [];
@@ -427,7 +423,7 @@ export class FeeAssignmentComponent implements OnInit {
     }
 
   }
- 
+
   getCurrencyData(id) {
     for (let data of this.countryDetails) {
       if (data.id == id) {
