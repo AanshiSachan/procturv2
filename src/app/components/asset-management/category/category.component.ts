@@ -125,7 +125,7 @@ export class CategoryComponent implements OnInit {
       },
       {
         primary_key: 'location_names_string',
-        value: " Locations ",
+        value: " Location ",
         charactLimit: 25,
         sorting: true,
         visibility: true
@@ -307,7 +307,7 @@ export class CategoryComponent implements OnInit {
       }
       this.httpService.postMethod('api/v2/asset/category/create', this.category_model).then((res) => {
         this.submitted = true;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Created Successfully ");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Category added successfully");
         $('#myModalforcat').modal('hide');
         this.getCategoryDetails();
       },
@@ -318,7 +318,7 @@ export class CategoryComponent implements OnInit {
     
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please fill all manadatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
     }
   }
   //get category details
@@ -349,7 +349,7 @@ export class CategoryComponent implements OnInit {
   updateAssetCategory() {
     if (this.assetcat.valid) {
       this.httpService.putMethod('api/v2/asset/category/update', this.category_model).then(() => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Category is Updated Successfully")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
         $('#myModalforcat').modal('hide');
         this.getCategoryDetails();
       },
@@ -361,16 +361,16 @@ export class CategoryComponent implements OnInit {
       )
     }
     else {
-      this.msgService.showErrorMessage('error', '', 'All Field Required');
+      this.msgService.showErrorMessage('error', '', 'Please fill all manadatory fields');
     }
   }
   //delete category
   deleteRow(object) {
-    let deleteconfirm = confirm("Are you really want to delete?");
+    let deleteconfirm = confirm("Do you want to delete this ?");
     if (deleteconfirm == true) {
       this.httpService.deleteMethod('api/v2/asset/category/delete/' + object.data.id + '?instituteId=' + this.category_model.institute_id).then((res: any) => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Category Deleted Successfully');
+        this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
         this.getCategoryDetails();
       },
         err => {
@@ -428,7 +428,7 @@ export class CategoryComponent implements OnInit {
       }
      obj.location_ids = newasset
      this.httpService.postMethod('api/v2/asset/create', obj).then((res) => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset is Created Successfully ");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset added successfully");
       $('#myModalforasset').modal('hide');
       this.getAssetDetails();
       },
@@ -438,7 +438,7 @@ export class CategoryComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
     
     }
     
@@ -453,7 +453,7 @@ export class CategoryComponent implements OnInit {
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
        this.totalRecords = res.result.total_elements;
-        $('#myModalforasset').modal('hide');
+       // $('#myModalforasset').modal('hide');
         this.auth.hideLoader();
       },
       err => {
@@ -517,7 +517,7 @@ obj.asset_code = null;
      obj.location_ids = newasset
     
       this.httpService.putMethod('api/v2/asset/update', obj).then(() => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset  is Updated Successfully")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
         $('#myModalforasset').modal('hide');
         this.getCategoryDetails();
       },
@@ -531,13 +531,14 @@ obj.asset_code = null;
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
     }
   }
+  
   //delete asset Category
   deleteAssetRow(object) {
-    let deleteconfirm = confirm("Are you sure you want to delete this asset ?");
+    let deleteconfirm = confirm("Do you want to delete this ?");
     if (deleteconfirm == true) {
       this.httpService.deleteMethod('api/v2/asset/delete/' + object.data.id + '?instituteId=' + this.model.institute_id).then((res: any) => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Asset Deleted Successfully');
+        this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
         this.getAssetDetails();
 
       },
