@@ -41,7 +41,7 @@ export class AssetAssignmentComponent implements OnInit {
   rolesListDataSource: any = [];
   model = {
     id: '',
-    asset_id: '',
+    asset_id: 0,
    check_out_date: '',
     due_date: '',
     institute_id: sessionStorage.getItem('institute_id'),
@@ -276,6 +276,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.isedit = true;
     this.model.id = object.data.id;
     this.model.asset_id = object.data.asset_id;
+    console.log(this.model.asset_id)
     this.model.check_out_date = object.data.check_out_date;
     this.model.check_in_date = object.data.check_in_date;
     this.model.due_date = object.data.due_date;
@@ -336,7 +337,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.isedit = false;
     this.model = {
       id: '',
-      asset_id: '',
+      asset_id: 0,
      check_out_user_id: '',
       check_in_date: '',
       check_out_date: '',

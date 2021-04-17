@@ -51,13 +51,14 @@
                                 Category name is mandatory
                             </span></p>  -->
                        </div>
+                       {{model.asset_id}}
                          <div class="field-wrapper  col-md-6" [class.has-error]="asset_id.invalid && asset_id.touched">
                             <label  class="p_title">Asset<span class="stars">*</span></label>
                         <select class="form-control" name="asset_id" id="asset_id" [(ngModel)]="model.asset_id"
                             required #asset_id="ngModel"
                                 (ngModelChange)="getLocationData($event)">
                                 <option value=""> Select Asset</option>
-                                <option value="{{data.id}}" *ngFor="let data of assetAllData">
+                                <option value="{{data.asset_id}}" *ngFor="let data of assetAllData">
                                     {{data.asset_name}}</option>
                             </select>
                             <!-- <p class="errormsg"><span  class="help-block" *ngIf="!asset_id.valid && asset_id.touched">
