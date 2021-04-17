@@ -277,8 +277,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.isedit = true;
     this.model.id = object.data.id;
     this.model.asset_id = object.data.asset_id;
-    console.log(this.model.asset_id)
-    this.model.check_out_date = object.data.check_out_date;
+   this.model.check_out_date = object.data.check_out_date;
     this.model.check_in_date = object.data.check_in_date;
     this.model.due_date = object.data.due_date;
     this.model.institute_id = object.data.institute_id;
