@@ -361,7 +361,7 @@
             <div class="sidebar-content">
                 <div class="sidebar-brand">
                     <span>{{instituteName}}</span>
-                </div>
+                </div>               
                 <ul class="icons" (click)="closeMenu()">
                     <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''" (click)="toggler('lizero')">
                         <a routerLink="/view/home" class="dropbtn">
@@ -603,9 +603,13 @@
 
                     </li>
 
-                    <li class="dropdown" [ngClass]="activeSession === 'liAttendance' ? 'liActiveBG':''"
+                    <li
+                    (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE)))"
+                    (mouseleave)="mouseleave()"
+                        [ngStyle]="{display: (checkIfUserHadAccess(role_feature.ATTENDANCE_TEACHER_USER_MENU)) ? 'block' : 'none'}"
+                        [ngClass]="(checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE)) ? 'dropdown':''"
                         (click)="toggler('liAttendance');">
-                        <div>
+                        <div *ngIf="checkIfUserHadAccess(role_feature.ATTENDANCE_TEACHER_USER_MENU)">
                             <a class="dropbtn">
                                 <img [src]="activeSession === 'liAttendance' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/live_class.svg'"
                                     alt="">
@@ -614,10 +618,12 @@
 
                             </a>
                             <div class="dropdown-content">
-                                <a routerLink="/view/manage/attendance/mark-teacher-attendance/3">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE)"
+                                    routerLink="/view/manage/attendance/mark-teacher-attendance/3">
                                     <span>Teachers</span>
                                 </a>
-                                <a routerLink="/view/manage/attendance/mark-user-attendance/0">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.USER_ATTENDANCE)"
+                                    routerLink="/view/manage/attendance/mark-user-attendance/0">
                                     <span>Users</span>
                                 </a>
                             </div>
@@ -658,31 +664,32 @@
                     <p >Online Test</p></a>
                   </li>
     
-                  <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}" [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
-                    <div *ngIf="jsonCommunicateFlags.communicateMenu">
-                        <a class="dropbtn">
-                            <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidebar_images/communicate.svg'" alt="">
-                    <p >Communicate</p><i class="fa fa-angle-right"></i>
-      
-                    </a>
-                        <div class="dropdown-content">
-                            <a routerLink="/view/communicate/sms" *ngIf="jsonCommunicateFlags.showSMSReport">
-                                <span>SMS Report</span>
-                        </a>
-                       <a routerLink="/view/communicate/email" *ngIf="jsonCommunicateFlags.showEmailReport">
-                                <span>Email Report</span>
-                        </a>
-                        <a routerLink="/view/communicate/ptm" *ngIf="jsonCommunicateFlags.showPTM">
-                                <span>PTM Management</span>
-                        </a>
-                        <a routerLink="/view/communicate/event" *ngIf="jsonCommunicateFlags.showEvents">
-                            <span>Event Management</span>
-                        </a>
-                        </div>
-                    </div>
-                    
-                </li>
+                    <li class="dropdown" [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}"
+                        [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
+                        <div *ngIf="jsonCommunicateFlags.communicateMenu">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidebar_images/communicate.svg'"
+                                    alt="">
+                                <p>Communicate</p><i class="fa fa-angle-right"></i>
 
+                            </a>
+                            <div class="dropdown-content">
+                                <a routerLink="/view/communicate/sms" *ngIf="jsonCommunicateFlags.showSMSReport">
+                                    <span>SMS Report</span>
+                                </a>
+                                <a routerLink="/view/communicate/email" *ngIf="jsonCommunicateFlags.showEmailReport">
+                                    <span>Email Report</span>
+                                </a>
+                                <a routerLink="/view/communicate/ptm" *ngIf="jsonCommunicateFlags.showPTM">
+                                    <span>PTM Management</span>
+                                </a>
+                                <a routerLink="/view/communicate/event" *ngIf="jsonCommunicateFlags.showEvents">
+                                    <span>Event Management</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
 
                     <li class="dropdown"
                         [ngStyle]="{display: (jsonEstoreFlags.isEstoreMenu && !schoolModel) ? 'block' : 'none'}"
@@ -710,28 +717,34 @@
 
                     </li>
 
-                    <li class="dropdown" [ngClass]="activeSession === 'lione' ? 'liActiveBG':'' "
-                        (click)="toggler('lione')">
-                        <a class="dropbtn">
-                            <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/assest-icon.svg':'./assets/images/sidemenuicon/assest-icon.svg'"
-                                alt="" class="sideBar_centerAlign" style="width: 20px;padding-bottom: 4px;">
-                            <span [ngClass]="activeSession === 'lione' ? 'abc' : ' NavLink'"
-                                style="color:#f2ecf8;">Assets</span><i class="fa fa-angle-right" aria-hidden="true"></i>
-                        </a>
+                    <li class="dropdown"
+                        [ngStyle]="{display: (checkIfUserHadAccess(role_feature.ASSET_MANAGEMENT_MENU)) ? 'block' : 'none'}"
+                        [ngClass]="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
+                        <div *ngIf="checkIfUserHadAccess(role_feature.ASSET_MANAGEMENT_MENU)">
+                            <a class="dropbtn">
+                                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/assest-icon.svg':'./assets/images/sidemenuicon/assest-icon.svg'"
+                                    alt="">
+                                <p>Assets</p><i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
                         <div class="dropdown-content">
                             <a routerLink="/view/asset-management/asset-location">
                                 <span>Location</span>
                             </a>
-                            <a routerLink="/view/asset-management/asset-category">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ADD_ASSET)"
+                                routerLink="/view/asset-management/asset-category">
                                 <span>Asset</span>
                             </a>
-                            <a routerLink="/view/asset-management/asset-supplier">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ADD_SUPPLIER)"
+                                routerLink="/view/asset-management/asset-supplier">
                                 <span>Supplier Master</span>
                             </a>
-                            <a routerLink="/view/asset-management/asset-purchase">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ADD_PURCHASE_ASSET)"
+                                routerLink="/view/asset-management/asset-purchase">
                                 <span>Purchase Asset</span>
                             </a>
-                            <a routerLink="/view/asset-management/asset-assignment">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ASSET_ASSIGNMENT)"
+                                routerLink="/view/asset-management/asset-assignment">
                                 <span>Asset Assignment</span>
                             </a>
                         </div>
@@ -767,9 +780,9 @@
 
                     </li>
 
-                    <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowExpense ? 'block' : 'none'}"
+                    <li class="dropdown" [ngStyle]="{display: (jsonFlags.isShowExpense && checkIfUserHadAccess(role_feature.INCOME_EXPENSE_ADMIN)) ? 'block' : 'none'}"
                         [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
-                        <div *ngIf="jsonFlags.isShowExpense">
+                        <div *ngIf="jsonFlags.isShowExpense && checkIfUserHadAccess(role_feature.INCOME_EXPENSE_ADMIN)">
                             <a class="dropbtn">
                                 <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
                                     alt="">
@@ -780,10 +793,10 @@
                                 <a routerLink="/view/expense/setup">
                                     <span>Data Setup</span>
                                 </a>
-                                <a routerLink="/view/expense/manage-expense">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXPENSE_USER)" routerLink="/view/expense/manage-expense">
                                     <span>Manage Expense</span>
                                 </a>
-                                <a routerLink="/view/expense/manage-income">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.INCOME_USER)" routerLink="/view/expense/manage-income">
                                     <span>Manage Income</span>
                                 </a>
                             </div>

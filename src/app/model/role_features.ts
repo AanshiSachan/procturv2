@@ -62,7 +62,25 @@ export class role {
         DOWNLOAD_FEE_REPORT: true,
         DOWNLOAD_STUDENT_REPORT: true,
         DOWNLOAD_ENQUIRY_REPORT: true,
-        LEAD_ENQUIRY_FULL_ACCESS: true
+        LEAD_ENQUIRY_FULL_ACCESS: true,
+        ATTENDANCE_TEACHER_USER_MENU: true,
+        TEACHER_ATTENDANCE:true,
+        USER_ATTENDANCE: true,
+        LEAVE_ADMIN_USERS: true,
+        LEAVE_ADMIN_TEACHERS: true,
+        ASSET_MANAGEMENT_MENU:true,
+        ADD_ASSET:true,
+        ADD_SUPPLIER:true,
+        ADD_PURCHASE_ASSET:true,
+        ASSET_ASSIGNMENT:true,
+        INVENTORY_MENU_ITEM:true,
+        INVENTORY_ITEMS:true,
+        INVENTORY_SUPPLIER_MANAGEMENT:true,
+        INVENTORY_PURCHASE_ITEM:true,
+        INVENTORY_SALES_ITEM:true,
+        INCOME_EXPENSE_ADMIN:true,
+        EXPENSE_USER:true,
+        INCOME_USER:true,
         };
     // customPermissions : {
     // Old features
@@ -212,5 +230,23 @@ export class role {
         role.features.DOWNLOAD_STUDENT_REPORT = permissions.includes(5059) ? true : false;
         role.features.DOWNLOAD_ENQUIRY_REPORT = permissions.includes(5060) ? true : false;
         role.features.LEAD_ENQUIRY_FULL_ACCESS = permissions.includes(5061) ? true : false;
+        role.features.ATTENDANCE_TEACHER_USER_MENU = permissions.includes(5091) ? true: false;
+        role.features.TEACHER_ATTENDANCE = permissions.includes(5092) ? true: false;
+        role.features.USER_ATTENDANCE = permissions.includes(5093) ? true: false;
+        role.features.LEAVE_ADMIN_USERS = permissions.includes(5094) ? true: false;
+        role.features.LEAVE_ADMIN_TEACHERS = permissions.includes(5095) ? true: false;
+        role.features.ASSET_MANAGEMENT_MENU = permissions.includes(5068) ? true: false;
+        role.features.ADD_ASSET = permissions.includes(5069) ? true: false;
+        role.features.ADD_SUPPLIER = permissions.includes(5070) ? true: false;
+        role.features.ADD_PURCHASE_ASSET = permissions.includes(5071) ? true: false;
+        role.features.ASSET_ASSIGNMENT = permissions.includes(5072) ? true: false;
+        role.features.INVENTORY_MENU_ITEM = permissions.includes(5073) ? true: false;
+        role.features.INVENTORY_ITEMS = permissions.includes(5074) ? true: false;
+        role.features.INVENTORY_SUPPLIER_MANAGEMENT = permissions.includes(5075) ? true: false;
+        role.features.INVENTORY_PURCHASE_ITEM = permissions.includes(5076) ? true: false;
+        role.features.INVENTORY_SALES_ITEM = permissions.includes(5077) ? true: false;
+        role.features.INCOME_EXPENSE_ADMIN = permissions.includes(5084) ? true: false;
+        role.features.EXPENSE_USER = permissions.includes(5085) ? true: false;
+        role.features.INCOME_USER = permissions.includes(5086) ? true: false;
     }
 }

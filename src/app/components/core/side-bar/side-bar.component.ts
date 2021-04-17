@@ -284,13 +284,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.is_zoom_integration_enable = JSON.parse(zoom);
     $(document).ready(function() {
       $('.sidebar-wrapper').css('width','14.5%');
-      $('.dropdown'). mouseover(
+      $('.dropdown'). hover(
        function(){
            $('.sidebar-wrapper').css('width','26.5%');
-       }). mouseleave(
+       },
        function(){
-           $('.sidebar-wrapper').css('width','14.5%');
-       });
+        $('.sidebar-wrapper').css('width','14.5%');
+    });
    });
   }
 
@@ -303,7 +303,15 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
+  mouseenter(cond) {
+  if(cond) {
+    $('.sidebar-wrapper').css('width','26.5%');
+  }
+}
 
+mouseleave() {
+  $('.sidebar-wrapper').css('width','14.5%');
+}
 
   checkpermissinForLeadDetails() {
     let userType = sessionStorage.getItem('userType');
@@ -856,13 +864,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     // Expenses option are showing in all user login so need to remove-Growth Academy - 101238
     if (sessionStorage.getItem('enable_expense_management') == '1') {
       this.jsonFlags.isShowExpense = true;
-      if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
-        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
-          this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
-        }
-      } else {
-        this.jsonFlags.isShowExpense = true;
-      }
+      // if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+      //   if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+      //     this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
+      //   }
+      // } else {
+        // this.jsonFlags.isShowExpense = true;
+      // }
     }
     sessionStorage.setItem('isShowExpense', String(this.jsonFlags.isShowExpense));
   }
@@ -1649,5 +1657,17 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       .subscribe((data: any) => {
         window.open('https://test999.examdesk.co/administrator/login?token=' + data.result);
       });
+    }
+  checkIfUserHadAccess(id) {
+    this.permissionArray = sessionStorage.getItem('permissions');
+    if (this.permissionArray == "" || this.permissionArray == null || !this.permissionArray) {
+      return true;
+    } else {
+      if (id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }
