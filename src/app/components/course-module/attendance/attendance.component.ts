@@ -458,6 +458,25 @@ export class AttendanceComponent implements OnInit {
     this.router.navigate(['/view/dashboard/mark-attendance']);
   }
 
+  examMarksUpdate(data) {
+    let obj = {
+      data: data
+    }
+    let exam_info = JSON.stringify(obj)
+    sessionStorage.setItem('exam_info', btoa(exam_info));
+    sessionStorage.setItem('fromClassAttendace', 'true');
+    sessionStorage.setItem('classAttendance', this.classAttendance);
+    sessionStorage.setItem('exam_marks',this.exam_marks);
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if (this.isSubjectView || this.isProfessional) {
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else {
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
+    this.router.navigate(['/view/dashboard/exam-marks-batch']);
+  }
+
   //  Role Based Access
   checkIfUserHadAccess(id) {
     let permissionArray = sessionStorage.getItem('permissions');

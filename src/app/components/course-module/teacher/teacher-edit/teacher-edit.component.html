@@ -197,20 +197,20 @@
         </div>
         <div class="flex_box">
           <div class="w20">
-            <span class="label">Standard</span>
+            <span class="label">{{(type == 'batch') ? 'Master Course' : 'Standard'}}</span>
           </div>
           <div class="w80">
-            <ng-multiselect-dropdown class="container" placeholder="Select standard" [settings]="standardSetting"
+            <ng-multiselect-dropdown class="container" placeholder="{{(type == 'batch') ? 'Select Master Course' : 'Select Standard'}}" [settings]="standardSetting"
               [data]="StandardData" formControlName="selectedStandardList" (ngModelChange)="getSubjects($event)">
             </ng-multiselect-dropdown>
           </div>
         </div>
         <div class="flex_box">
           <div class="w20">
-            <span class="label">Subject</span>
+            <span class="label">{{(type == 'batch') ? 'Course' : 'Subject'}}</span>
           </div>
           <div class="w80">
-            <ng-multiselect-dropdown class="container" placeholder="Select Subject" [settings]="subjectSetting"
+            <ng-multiselect-dropdown class="container" placeholder="{{(type == 'batch') ? 'Select Course' : 'Select Subject'}}" [settings]="subjectSetting"
               [data]="subjectData" formControlName="selectedSubjectList">
             </ng-multiselect-dropdown>
           </div>
