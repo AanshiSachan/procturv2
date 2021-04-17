@@ -4,11 +4,11 @@
       <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
         Course
       </a>
-      <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
+      <a *ngIf="jsonFlag.isProfessional">
         Batch
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-      <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
+      <a style="padding:0px; ">
         Report
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
