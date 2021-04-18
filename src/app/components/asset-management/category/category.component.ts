@@ -119,6 +119,13 @@ export class CategoryComponent implements OnInit {
         visibility: true
       },
       {
+        primary_key: 'available',
+        value: "Available Qty ",
+        charactLimit: 25,
+        sorting: false,
+        visibility: true
+      },
+      {
         primary_key: 'asset_condition',
         value: "Condition",
         charactLimit: 25,
@@ -158,7 +165,11 @@ export class CategoryComponent implements OnInit {
         //   textAlign: "left"
         // },
         {
-          width: "15%",
+          width: "10%",
+          textAlign: "left"
+        },
+        {
+          width: "10%",
           textAlign: "left"
         },
         {
@@ -166,11 +177,7 @@ export class CategoryComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "15%",
-          textAlign: "left"
-        },
-        {
-          width: "12%",
+          width: "10%",
           textAlign: "left"
         },
         {
@@ -178,7 +185,11 @@ export class CategoryComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "18%",
+          width: "10%",
+          textAlign: "left"
+        },
+        {
+          width: "25%",
           textAlign: "left"
         },
         {
@@ -660,6 +671,11 @@ export class CategoryComponent implements OnInit {
        
       },
       {
+        primary_key: 'available',
+        value: "Available Qty ",
+       
+      },
+      {
         primary_key: 'asset_condition',
         value: "Condition",
         
@@ -719,6 +735,7 @@ export class CategoryComponent implements OnInit {
           ele.asset_name,
           ele.category_name,
           ele.quantity,
+          ele.available,
           ele.asset_condition,
           ele.location_names_string
         ]
@@ -726,7 +743,7 @@ export class CategoryComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['Code', ' Asset Name', 'Category', 'Quantity', 'Condition', 'Locations']]
+    rows = [['Code', ' Asset Name', 'Category', 'Quantity','Available Qty', 'Condition', 'Locations']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset List');
     this.auth.hideLoader();

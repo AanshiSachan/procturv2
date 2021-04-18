@@ -161,9 +161,7 @@ export class LocationComponent implements OnInit {
           this.getLocationDetails();
         },
         (err: any) => {
-          console.log(err);
-          console.log(err.error);
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
       )
     }
