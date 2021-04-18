@@ -686,7 +686,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
-          this.fetchCustomComponents();
+          // this.fetchCustomComponents();
         }
         else {
           this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
