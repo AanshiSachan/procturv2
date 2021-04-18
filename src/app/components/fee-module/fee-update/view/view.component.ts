@@ -984,12 +984,12 @@ export class ViewComponent implements OnInit {
     }
     if (isUpdate) {
       if (!this.isFutureDate(this.addInstall.d_date, this.addInstall.immutable_due_date)) {
-        this.commonService.showErrorMessage('info', '', 'Due date should be >= to current due date!');
+        this.commonService.showErrorMessage('info', '', 'Due date should be greater than or equal to current due date!');
         return;
       }
     } else {
       if (this.isPastDate(moment(this.addInstall.d_date).format("YYYY-MM-DD"))) {
-        this.commonService.showErrorMessage('info', '', 'Due date should be >= to current date!');
+        this.commonService.showErrorMessage('info', '', 'Due date should be greater than or equal to current date!');
         return;
       }
     }

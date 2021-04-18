@@ -332,7 +332,7 @@ export class FeeAssignmentComponent implements OnInit {
       this.http.postData(url, requestPayload).subscribe(
         (res: any) => {
           $('#assignFeeModel').modal('hide');
-          this.commonService.showErrorMessage('success', '', 'Success!');
+          this.commonService.showErrorMessage('success', '', 'Fee assigned successfully!');
           this.fetchStudentList();
           this.auth.hideLoader();
         },
