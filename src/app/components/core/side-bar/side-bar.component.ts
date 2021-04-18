@@ -1656,7 +1656,7 @@ mouseleave() {
   openExamdesk() {
     this.httpService.getData("/api/v2/user/examdesk/SSO")
       .subscribe((data: any) => {
-        window.open('https://test999.examdesk.co/administrator/login?token=' + data.result);
+        window.open(this.auth.examDeskUrl + '/administrator/login?token=' + data.result);
       });
     }
   checkIfUserHadAccess(id) {

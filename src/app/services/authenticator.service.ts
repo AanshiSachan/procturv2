@@ -28,11 +28,13 @@ export class AuthenticatorService {
 
     public baseUrl: string = "";
     public productBaseUrl: string = "";
+    public examDeskUrl: string = "";
     public baseUrlStudent: string = window.location.origin;
 
     constructor() {
         this.baseUrl = environment.serverUrl;
         this.productBaseUrl = environment.productUrl;
+        this.examDeskUrl = environment.examdeskUrl;
         this.getAuthToken(false);
         this.getInstituteId();
         this.getIsMainBranchValue();

@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   serverUrl: 'https://test999.proctur.com/StdMgmtWebAPI',
-  productUrl: 'https://productsit.proctur.com'
+  productUrl: 'https://productsit.proctur.com',
+  examdeskUrl: 'https://test999.examdesk.co'
 };
