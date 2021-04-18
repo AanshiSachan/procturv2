@@ -119,7 +119,7 @@
                                     (ngModelChange)="calculateTotalFee()">
                                     <option value="-1">Fee Type</option>
                                     <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
-                                        {{data.fee_type}}
+                                        {{data.fee_type | titlecase}}
                                     </option>
                                 </select>
                             </div>

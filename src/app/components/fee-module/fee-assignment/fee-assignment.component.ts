@@ -272,7 +272,7 @@ export class FeeAssignmentComponent implements OnInit {
               break;
             }
           }
-          if (this.template_id > 0) {
+          if (this.isTemplateNotLinkWithCourseAndStandard && this.template_id > 0) {
             this.fetchFeeStructureData(this.template_id);
           }
         }

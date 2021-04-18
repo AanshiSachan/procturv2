@@ -113,9 +113,13 @@
                                     </div>
                                     <div>
                                         <div class="tooltip1"> {{currencySymbol}} {{data.t_amount | number}}
-                                            <span class="tooltiptext"><span class="blue">Amount</span>
+                                            <span  *ngIf="is_tax_enabled" class="tooltiptext"><span class="blue">Amount</span>
                                                 {{data.initial_amount | number}} <span class="blue">+Tax
-                                                </span>{{data.tax_amount | number}} - <span class="blue">Discount</span>
+                                                </span>{{data.tax_amount | number}} <span class="blue">-Discount</span>
+                                                {{data.disc_amount | number}}
+                                            </span>
+                                            <span  *ngIf="!is_tax_enabled" class="tooltiptext"><span class="blue">Amount</span>
+                                                {{data.initial_amount | number}} <span class="blue">-Discount</span>
                                                 {{data.disc_amount | number}}
                                             </span>
                                         </div>
@@ -143,10 +147,10 @@
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && !isOverdue(data.d_date) && data.p_amount==0">
-                                        <a (click)="editInstallPopUp(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
-                                                title="Edit"></a>
-                                        <a (click)="deleteInstall(data)" class="mr10"><img src="../../../../../assets/img/delete.svg"
-                                                title="Delete"></a>
+                                        <a (click)="editInstallPopUp(data)" class="mr10"><img
+                                                src="../../../../../assets/images/Edit.svg" title="Edit"></a>
+                                        <a (click)="deleteInstall(data)" class="mr10"><img
+                                                src="../../../../../assets/img/delete.svg" title="Delete"></a>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && isOverdue(data.d_date) && data.p_amount ==0 ">
                                         <span class="overdue1">
@@ -154,10 +158,10 @@
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && isOverdue(data.d_date) && data.p_amount ==0 ">
-                                        <a  (click)="editInstallPopUp(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
-                                                title="Edit"></a>
-                                        <a (click)="deleteInstall(data)" class="mr10"><img src="../../../../../assets/img/delete.svg"
-                                                title="Delete"></a>
+                                        <a (click)="editInstallPopUp(data)" class="mr10"><img
+                                                src="../../../../../assets/images/Edit.svg" title="Edit"></a>
+                                        <a (click)="deleteInstall(data)" class="mr10"><img
+                                                src="../../../../../assets/img/delete.svg" title="Delete"></a>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && data.p_amount>0">
                                         <span class="ppaid1">
@@ -165,10 +169,10 @@
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='N' && data.p_amount>0">
-                                        <a (click)="editInstallPopUp(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
-                                                title="Edit"></a>
-                                        <a (click)="deleteInstall(data)" class="mr10"><img src="../../../../../assets/img/delete.svg"
-                                                title="Delete"></a>
+                                        <a (click)="editInstallPopUp(data)" class="mr10"><img
+                                                src="../../../../../assets/images/Edit.svg" title="Edit"></a>
+                                        <a (click)="deleteInstall(data)" class="mr10"><img
+                                                src="../../../../../assets/img/delete.svg" title="Delete"></a>
                                     </div>
                                 </div>
 
@@ -311,7 +315,8 @@
                                                         <a (click)="downloadFeeReceipt(data.f_rec_no)" class="mr10"><img
                                                                 src="../../../../../assets/img/purple_download.svg"
                                                                 title="Download Receipt No. {{data.f_rec_no}}"></a>
-                                                        <!-- <a (click)="editPaidInstall(data)" class="mr10"><img src="../../../../../assets/images/Edit.svg"
+                                                        <!-- <a (click)="editPaidInstall(data)" class="mr10"><img
+                                                                src="../../../../../assets/images/Edit.svg"
                                                                 title="Edit"></a> -->
                                                     </div>
                                                 </div>
@@ -401,6 +406,8 @@
                                                     <a (click)="deletePDC(data)" class="mr10"><img
                                                             src="../../../../../assets/img/delete.svg"
                                                             title="Delete"></a>
+                                                </div>
+                                                <div data.cheque_status_key!=1>
                                                 </div>
                                             </div>
                                         </div>
@@ -559,7 +566,8 @@
                     <div class="pt10" *ngIf="!schoolModel && isTemplateLinkWithCourseAndStandard">
                         <select class="select wid100" [(ngModel)]="addInstall.course_id">
                             <option value="-1">Course*</option>
-                            <option  *ngFor="let data of stdFeeDataList.c_b_map | keyvalue" [value]="data.key">{{data.value}}
+                            <option *ngFor="let data of stdFeeDataList.c_b_map | keyvalue" [value]="data.key">
+                                {{data.value}}
                             </option>
                         </select>
                     </div>
@@ -567,8 +575,10 @@
                         <div></div>
                         <div>
                             <button class="white_button mr10" (click)="closeAddInstallPopup()">Cancel</button>
-                            <button class="blue_button " *ngIf="!isUpdateInstall" (click)="addNewInstall()">Add Installment</button>
-                            <button class="blue_button " *ngIf="isUpdateInstall" (click)="updateInstall()">Update Installment</button>
+                            <button class="blue_button " *ngIf="!isUpdateInstall" (click)="addNewInstall()">Add
+                                Installment</button>
+                            <button class="blue_button " *ngIf="isUpdateInstall" (click)="updateInstall()">Update
+                                Installment</button>
                         </div>
                     </div>
                 </div>
@@ -734,11 +744,11 @@
                             [(ngModel)]="pdcAddForm.cheque_date" placeholder="Cheque Date*">
                     </div>
                     <div class="pt10">
-                        <input type="text" class="wid100 input" [(ngModel)]="pdcAddForm.cheque_amount"
+                        <input type="text" class="wid100 input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="pdcAddForm.cheque_amount"
                             placeholder="Amount*">
                     </div>
                     <div class="pt10">
-                        <input type="text" class="wid100 input" minlength="6" maxlength="6"
+                        <input type="text" class="wid100 input"onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  minlength="6" maxlength="6"
                             [(ngModel)]="pdcAddForm.cheque_no" placeholder="Cheque No.*">
                     </div>
                     <div class="pt10">
@@ -790,20 +800,21 @@
                         <b>Selected Intallments:<span>{{t_selected_install}}</span></b>
                     </div>
                     <div class="pt10">
-                        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" (keyup)="calFinalDueAmount($event)"
                             class="wid100 input" [(ngModel)]="paymentPopUpJson.paying_amount" placeholder="Amount*">
                     </div>
                     <div class="pt10" *ngIf="isUpdatePaidInstall">
-                        <input type="text" disabled="true" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                            class="wid100 input" [(ngModel)]="paymentPopUpJson.due_amount" placeholder="Balance Amount*">
+                        <input type="text" disabled="true"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="wid100 input"
+                            [(ngModel)]="paymentPopUpJson.due_amount" placeholder="Balance Amount*">
                     </div>
                     <div class="pt10 field-wrapper datePickerBox">
                         <input type="text" name="" class="wid100 input bsDatepicker" bsDatepicker
                             [(ngModel)]="paymentPopUpJson.paid_date" placeholder="Payment Date*">
                     </div>
                     <div class="pt10">
-                        <select  class="select wid100"  *ngIf="isUpdatePaidInstall?'disabled=true': true" [(ngModel)]="paymentPopUpJson.payment_mode"
-                            (ngModelChange)="getPdcChequeList($event)">
+                        <select class="select wid100" *ngIf="isUpdatePaidInstall?'disabled=true': true"
+                            [(ngModel)]="paymentPopUpJson.payment_mode" (ngModelChange)="getPdcChequeList($event)">
                             <option value="">Payment Mode*</option>
                             <option *ngFor="let data of paymentModes" [value]="data.data_key">{{data.data_value}}
                             </option>
@@ -848,9 +859,9 @@
                                 placeholder="Cheque Amount*">
                         </div>
                     </div>
-                    <div  class="pt10" *ngIf="isUpdatePaidInstall">
-                        <input type="text" name="" disabled="true" class="wid100 input" [(ngModel)]="paymentPopUpJson.receipt_no"
-                            placeholder="Receipt No*">
+                    <div class="pt10" *ngIf="isUpdatePaidInstall">
+                        <input type="text" name="" disabled="true" class="wid100 input"
+                            [(ngModel)]="paymentPopUpJson.receipt_no" placeholder="Receipt No*">
                     </div>
                     <div class="pt10" *ngIf="isUpdatePaidInstall">
                         <input type="text" name="" class="wid100 input" [(ngModel)]="paymentPopUpJson.update_reason"
@@ -900,8 +911,10 @@
                         <div></div>
                         <div>
                             <button class="white_button mr10" (click)="flushPaymentPopUpData()">Cancel</button>
-                            <button class="blue_button " *ngIf="!isUpdatePaidInstall" (click)="doPayment()">Update</button>
-                            <button class="blue_button " *ngIf="isUpdatePaidInstall" (click)="updatePaidInstall()">Update</button>
+                            <button class="blue_button " *ngIf="!isUpdatePaidInstall"
+                                (click)="doPayment()">Update</button>
+                            <button class="blue_button " *ngIf="isUpdatePaidInstall"
+                                (click)="updatePaidInstall()">Update</button>
 
                         </div>
                     </div>

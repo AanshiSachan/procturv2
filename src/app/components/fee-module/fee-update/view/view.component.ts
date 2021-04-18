@@ -440,7 +440,7 @@ export class ViewComponent implements OnInit {
     $('#updateinstModal').modal('hide');
     this.paymentPopUpJson = {
       immutableAmount: 0,
-      payingAmount: 0,
+      paying_amount: 0,
       paid_date: moment().format('YYYY-MM-DD'),
       payment_mode: 'Cash',
       reference_no: '',
@@ -1053,11 +1053,11 @@ export class ViewComponent implements OnInit {
     };
     this.feeService.addDiscountToStudent(jsonToSend).subscribe(
       res => {
-        this.auth.hideLoader();
         this.clearDiscPopUpData();
         this.commonService.showErrorMessage('success', '', 'Discount removed successfully!');
-        this.discHistoryList();
         this.fetchStdFeeData(this.academic_yr_id);
+        this.discHistoryList();
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
@@ -1208,7 +1208,7 @@ export class ViewComponent implements OnInit {
     }
   }
   getDueAmount(f_schld_id) {
-    for (let data of this.stdFeeDataList.a_install_li.length) {
+    for (let data of this.stdFeeDataList.a_install_li) {
       if (data.f_schld_id == f_schld_id) {
         return data.d_amount;
       }
@@ -1239,7 +1239,7 @@ export class ViewComponent implements OnInit {
       institution_id: '',
       sendEmail: userType,
     }
-      object['user_role'] = this.paymentMode;
+    object['user_role'] = this.paymentMode;
     this.auth.showLoader()
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
       this.auth.hideLoader()
@@ -1256,14 +1256,21 @@ export class ViewComponent implements OnInit {
         document.body.removeChild(dwldLink);
       } else {
         $('#sendModal').modal('hide');
-        this.commonService.showErrorMessage('success','','fee installement send on your mail successfully');
+        this.commonService.showErrorMessage('success', '', 'fee installement send on your mail successfully');
       }
     },
       (err: any) => {
         this.auth.hideLoader()
         // this.commonService.showErrorMessage('error', '', err.error.message);
-        this.commonService.showErrorMessage('error','',err.error.message);
+        this.commonService.showErrorMessage('error', '', err.error.message);
       })
+  }
+  calFinalDueAmount(data) {
+    if (data > this.t_p_amount) {
+      this.commonService.showErrorMessage('info', '', "You can not increase paid amount!");
+      return;
+    }
+    this.paymentPopUpJson.due_amount = this.paymentPopUpJson.due_amount + (this.t_p_amount - data);
   }
 }
 

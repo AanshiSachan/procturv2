@@ -502,7 +502,7 @@ export class StudentFeeService {
         if (data.payment_mode != "Cheque/PDC/DD No.") {
             return true;
         } else {
-            if (data.payingAmount != data.pdcSelectedForm.cheque_amount) {
+            if (data.paying_amount != data.pdcSelectedForm.cheque_amount) {
                 this.commonService.showErrorMessage('error', '', 'Please enter paying amount equals to cheque amount');
                 return false;
             } else {
@@ -517,17 +517,17 @@ export class StudentFeeService {
         }
 
         if (data.cheque_date == null || data.cheque_date == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Cheque Date');
+            this.commonService.showErrorMessage('error', '', 'Please enter Cheque Date');
             return false;
         }
 
         if (data.cheque_no.trim() == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a Cheque Number');
+            this.commonService.showErrorMessage('error', '', 'Please enter a Cheque Number');
             return false;
         }
 
         if (data.cheque_no.trim().length != 6) {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a valid Cheque Number');
+            this.commonService.showErrorMessage('error', '', 'Please enter a valid Cheque Number');
             return false;
         }
 
