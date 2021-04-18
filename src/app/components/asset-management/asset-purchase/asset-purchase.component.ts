@@ -369,7 +369,7 @@ $('#deletesModal').modal('show');
 
   //
   get_purchase_by() {
-    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,5').subscribe(
+    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3').subscribe(
       (res: any) => {
       this.purchaseby = res.active_users;
      },
