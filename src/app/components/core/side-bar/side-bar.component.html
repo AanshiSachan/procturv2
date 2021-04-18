@@ -129,7 +129,7 @@
                                 src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage
                             Inventory</span>
                     </div>
-                    <div class="side-section-item" *ngIf="!facultyAccount">
+                    <div class="side-section-item" *ngIf="!facultyAccount && !schoolModel">
                         <span class="dropSize" (click)="routerLink('/view/formField/home','setup')"><img
                                 src="./assets/images/sidebar/custom_form_field.svg" alt="phone"
                                 class="helpSection">Custom
@@ -159,7 +159,7 @@
                         </div>
                         <div class="row">
                             <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
-                                <div class="row">
+                                <div class="row" *ngIf="!facultyAccount && !schoolModel">
                                     <div class="c-lg-12">
                                         <div class="side-section-item">
                                             <span class="dropSize"

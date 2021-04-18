@@ -4249,7 +4249,7 @@
                           </div>
                         </div>
                         <div class="row"></div>
-                        <div class="field-checkbox-wrapper" style="margin-left: 10px;margin-top: 0;">
+                        <div *ngIf="!schoolModel" class="field-checkbox-wrapper" style="margin-left: 10px;margin-top: 0;">
                           <input type="checkbox" id="sendNotifctnBeforeExpiry"
                             [(ngModel)]="instituteSettingDet.course_or_batch_expiry_notification"
                             class="form-checkbox" />

@@ -398,7 +398,7 @@
                     src="../../../../assets/images/Live class/icon5.svg"></span>
                 <span *ngIf="timeLeft(today, class.startDateTime)" style="margin-right: 10px;cursor: no-drop;"><img
                     src="../../../../assets/images/Live class/icon6.svg"></span>
-                <span title="View" style="cursor: pointer;" (click)="viewClass(class)">
+                <span title="View" style="cursor: pointer;" (click)="viewClass(class)" class="mt-4">
                   <img src="../../../../assets/images/Live class/view_class.png">
                 </span>
                 <span *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) " class="borderright"></span>

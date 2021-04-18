@@ -259,6 +259,8 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
   addItem() {
     if (this.accountDetails.itemName != -1) {
       if (this.accountDetails.amount != 0) {
+        if (this.paymentDetails.accountName != '-1') {
+
         // if (this.paymentDetails.paymentmode != "-1") {
 
           // if (this.checkPaymentModeVal()) {
@@ -299,6 +301,11 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       //     this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
       //   }
       // }
+      
+      else {
+        this.msgService.showErrorMessage('error', '', 'Please select Account Name');
+      }
+    }
       else {
         this.msgService.showErrorMessage('error', '', "Enter Item Amount");
       }
@@ -347,7 +354,7 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
 
   addExpense() {
     if (this.paymentDetails.payeeName != '-1') {
-      if (this.paymentDetails.accountName != '-1') {
+      // if (this.paymentDetails.accountName != '-1') {
         // if (this.paymentDetails.paymentmode != "-1") {
           
         if (this.addedItemList.length > 0) {
@@ -411,10 +418,10 @@ export class AddEditExpenseComponent implements OnInit, OnDestroy {
       //   this.msgService.showErrorMessage('error', '', 'Please select Payment Mode');
       // }
 
-      else {
-        this.msgService.showErrorMessage('error', '', 'Please select Account Name');
-      }
-    }
+      // else {
+      //   this.msgService.showErrorMessage('error', '', 'Please select Account Name');
+      // }
+    // }
     else {
       this.msgService.showErrorMessage('error', '', 'Please select Payee Name');
     }

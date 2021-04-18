@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   serverUrl: 'https://app.proctur.com/StdMgmtWebAPI',
-  productUrl: 'https://productapi.proctur.com'
+  productUrl: 'https://productapi.proctur.com',
+  examdeskUrl: 'https://app.examdesk.co'
 };
