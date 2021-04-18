@@ -42,6 +42,7 @@ export class DataSetupComponent implements OnInit {
   }
 
   setActiveClass() {
+    debugger
     let pathLastURL;
     var str = window.location.href;
     var res = str.substring(str.lastIndexOf("/view/fee/data-setup") + 21, str.length);

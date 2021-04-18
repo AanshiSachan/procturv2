@@ -221,8 +221,8 @@ export class FeeStructureAddEditComponent implements OnInit {
   }
   createFeeStructure() {
     if (this.validateFeeStructureData()) {
-      let data = this.preparedFeeStructureData();
       this.auth.showLoader();
+      let data = this.preparedFeeStructureData();
       this.apiService.updateFeeTemplate(data).subscribe(
         res => {
           this.auth.hideLoader();

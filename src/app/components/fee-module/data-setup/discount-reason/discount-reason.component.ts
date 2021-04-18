@@ -28,12 +28,14 @@ export class DiscountReasonComponent implements OnInit {
   }
 
   getDiscountReson() {
+    this.auth.showLoader();
     this.apiService.getAllDiscountReasons().subscribe(
       res => {
         this.discountReasonArray = res;
+        this.auth.hideLoader();
       },
       err => {
-
+        this.auth.hideLoader();
       }
     )
   }

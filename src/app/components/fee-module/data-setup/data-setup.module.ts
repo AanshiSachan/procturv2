@@ -11,8 +11,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { FileUploadModule, SplitButtonModule, MenuModule } from 'primeng/primeng';
 import { FeeStrucService } from '../../../services/feeStruc.service';
 import { FeeTypesV2Component } from './fee-types-v2/fee-types-v2.component';
-import { FeeTemplateV2Component } from './fee-template-v2/fee-template-v2.component';
-
 
 @NgModule({
   imports: [
@@ -31,8 +29,7 @@ import { FeeTemplateV2Component } from './fee-template-v2/fee-template-v2.compon
     DiscountReasonComponent,
     MenuComponent,
     FeeTypesComponent,
-    FeeTypesV2Component,
-    FeeTemplateV2Component
+    FeeTypesV2Component
   ],
   providers:[
     CommonServiceFactory,
