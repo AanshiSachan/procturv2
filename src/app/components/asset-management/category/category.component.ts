@@ -12,21 +12,22 @@ declare var $;
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
- 
-  //basic-table declaration for category
   active: boolean = false;
   activeb: boolean = true;
   activeclass: string;
   assetAllData: any = [];
   assetcategoryData: any = [];
-  catDataToDownload:[];
+  assetDataToDownload: [];
+  catDataToDownload: [];
   displayBatchSize: number = 25;
+  excelheaderseting: any = [];
   headerSetting: any;
   headerSettingForAsset: any;
   institute_id = sessionStorage.getItem('institute_id');
   is_asset_cat: boolean = true;
   is_asset: boolean = false;
   isadd: boolean;
+  isedit;
   isUpdate: boolean;
   locationData: any = [];
   pageIndex: number = 1;
@@ -37,17 +38,18 @@ export class CategoryComponent implements OnInit {
   sizeArr: any[] = [2, 50, 100, 150, 200, 500, 1000];
   staticPageData: any = [];
   staticPageDataForAsset: any = [];
+  submitted = false;
   tableSetting: any;
   tableSettingForAsset: any;
   tempLocationList: any;
+  tempObjForCat;
   totalRecords: number = 0;
   @ViewChild('assetcat', { static: false }) assetcat: NgForm;
-  isedit;
-  submitted = false;
+
   category_model = {
     id: '',
     active: true,
-    category_code:null,
+    category_code: null,
     category_name: '',
     institute_id: sessionStorage.getItem('institute_id')
   }
@@ -69,7 +71,7 @@ export class CategoryComponent implements OnInit {
     this.getAssetDetails();
 
   }
- 
+
   //function for toggle view 
   toggle(param) {
     this.active = param;
@@ -79,7 +81,7 @@ export class CategoryComponent implements OnInit {
 
   }
   //TABLE CODING FOR ASSET
- setTableDataForAsset() {
+  setTableDataForAsset() {
     this.headerSettingForAsset = [
       // {
       //   primary_key: 'id',
@@ -114,6 +116,13 @@ export class CategoryComponent implements OnInit {
         value: "Quantity ",
         charactLimit: 25,
         sorting: true,
+        visibility: true
+      },
+      {
+        primary_key: 'available',
+        value: "Available Qty ",
+        charactLimit: 25,
+        sorting: false,
         visibility: true
       },
       {
@@ -156,7 +165,11 @@ export class CategoryComponent implements OnInit {
         //   textAlign: "left"
         // },
         {
-          width: "15%",
+          width: "10%",
+          textAlign: "left"
+        },
+        {
+          width: "10%",
           textAlign: "left"
         },
         {
@@ -164,11 +177,7 @@ export class CategoryComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "15%",
-          textAlign: "left"
-        },
-        {
-          width: "12%",
+          width: "10%",
           textAlign: "left"
         },
         {
@@ -176,7 +185,11 @@ export class CategoryComponent implements OnInit {
           textAlign: "left"
         },
         {
-          width: "18%",
+          width: "10%",
+          textAlign: "left"
+        },
+        {
+          width: "25%",
           textAlign: "left"
         },
         {
@@ -186,7 +199,7 @@ export class CategoryComponent implements OnInit {
       ]
 
   }
-  
+
   //multiselect
 
   moderatorSettingsforasset: any = {
@@ -229,7 +242,7 @@ export class CategoryComponent implements OnInit {
         edit: true,
         delete: true,
 
-     },
+      },
     ]
 
     this.tableSetting = {
@@ -245,7 +258,7 @@ export class CategoryComponent implements OnInit {
       {
         width: "40%",
         textAlign: "left"
-        
+
       },
       {
         width: "40%",
@@ -259,7 +272,7 @@ export class CategoryComponent implements OnInit {
 
     ]
   }
-  excelheadersettingforcat:any=[ {
+  excelheadersettingforcat: any = [{
     primary_key: 'category_code',
     value: " Code",
     charactLimit: 25,
@@ -300,10 +313,10 @@ export class CategoryComponent implements OnInit {
   }
 
   //crud for category
-   saveCategoryDetails() {
+  saveCategoryDetails() {
     if (this.assetcat.valid) {
-      if(this.model.asset_code===''){
-        this.model.asset_code=null;
+      if (this.model.asset_code === '') {
+        this.model.asset_code = null;
       }
       this.httpService.postMethod('api/v2/asset/category/create', this.category_model).then((res) => {
         this.submitted = true;
@@ -312,10 +325,10 @@ export class CategoryComponent implements OnInit {
         this.getCategoryDetails();
       },
         err => {
-           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
       )
-    
+
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
@@ -364,27 +377,31 @@ export class CategoryComponent implements OnInit {
       this.msgService.showErrorMessage('error', '', 'Please fill all manadatory fields');
     }
   }
+
   //delete category
+  showCatDelete(object) {
+    this.tempObjForCat = object.data.id;
+    $('#deletesModal').modal('show')
+  }
   deleteRow(object) {
-    let deleteconfirm = confirm("Do you want to delete this ?");
-    if (deleteconfirm == true) {
-      this.httpService.deleteMethod('api/v2/asset/category/delete/' + object.data.id + '?instituteId=' + this.category_model.institute_id).then((res: any) => {
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
-        this.getCategoryDetails();
-      },
-        err => {
-       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-      
-        });
-    }
+    this.httpService.deleteMethod('api/v2/asset/category/delete/' + object + '?instituteId=' + this.category_model.institute_id).then((res: any) => {
+      this.auth.hideLoader();
+      this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
+      this.getCategoryDetails();
+      $('#deletesModal').modal('hide')
+    },
+      err => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+
+      });
+
   }
   //code for add asset table 
   @ViewChild('assetaddForm', { static: false }) assetaddForm: NgForm
   model = {
     active: true,
     category_id: '-1',
-    asset_code:null,
+    asset_code: null,
     asset_condition: -1,
     location_ids: [],
     asset_name: '',
@@ -400,7 +417,7 @@ export class CategoryComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.locationData = res.result.response;
-     },
+      },
       err => {
         this.auth.hideLoader();
       }
@@ -410,38 +427,38 @@ export class CategoryComponent implements OnInit {
   //save asset details
   saveAssetDetails() {
     if (this.assetaddForm.valid) {
-      let obj:any ={
+      let obj: any = {
         active: this.model.active,
-        category_id:this.model.category_id,
+        category_id: this.model.category_id,
         asset_code: this.model.asset_code,
-        asset_condition:this.model.asset_condition,
+        asset_condition: this.model.asset_condition,
         location_ids: this.model.location_ids,
         asset_name: this.model.asset_name,
         institute_id: sessionStorage.getItem('institute_id'),
         quantity: this.model.quantity,
         //id: this.model.active
       }
-     let newasset: any = []
+      let newasset: any = []
       let location_ids: any = obj.location_ids;
       for (let data in location_ids) {
         newasset.push(location_ids[data].id);
       }
-     obj.location_ids = newasset
-     this.httpService.postMethod('api/v2/asset/create', obj).then((res) => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset added successfully");
-      $('#myModalforasset').modal('hide');
-      this.getAssetDetails();
+      obj.location_ids = newasset
+      this.httpService.postMethod('api/v2/asset/create', obj).then((res) => {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset added successfully");
+        $('#myModalforasset').modal('hide');
+        this.getAssetDetails();
       },
         err => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-       
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+
         })
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
-    
+
     }
-    
+
   }
 
   //get location
@@ -452,8 +469,8 @@ export class CategoryComponent implements OnInit {
         this.assetAllData = res.result.response;
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
-       this.totalRecords = res.result.total_elements;
-       // $('#myModalforasset').modal('hide');
+        this.totalRecords = res.result.total_elements;
+        // $('#myModalforasset').modal('hide');
         this.auth.hideLoader();
       },
       err => {
@@ -494,35 +511,35 @@ export class CategoryComponent implements OnInit {
     if (this.assetaddForm.valid) {
       // var location_ids = JSON.parse("[" + this.model.location_ids + "]");
       // this.model.location_ids = location_ids;
-      let obj:any ={
+      let obj: any = {
 
         active: this.model.active,
-        category_id:this.model.category_id,
+        category_id: this.model.category_id,
         asset_code: this.model.asset_code,
-        asset_condition:this.model.asset_condition,
+        asset_condition: this.model.asset_condition,
         location_ids: this.model.location_ids,
         asset_name: this.model.asset_name,
         institute_id: sessionStorage.getItem('institute_id'),
         quantity: this.model.quantity,
         id: this.model.id
       }
-      if(this.model.asset_code===''){
-obj.asset_code = null;
+      if (this.model.asset_code === '') {
+        obj.asset_code = null;
       }
-     let newasset: any = []
+      let newasset: any = []
       let location_ids: any = obj.location_ids;
       for (let data in location_ids) {
         newasset.push(location_ids[data].id);
       }
-     obj.location_ids = newasset
-    
+      obj.location_ids = newasset
+
       this.httpService.putMethod('api/v2/asset/update', obj).then(() => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
         $('#myModalforasset').modal('hide');
         this.getCategoryDetails();
       },
         err => {
-     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
         }
 
       )
@@ -531,22 +548,27 @@ obj.asset_code = null;
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All fields Required")
     }
   }
-  
-  //delete asset Category
-  deleteAssetRow(object) {
-    let deleteconfirm = confirm("Do you want to delete this ?");
-    if (deleteconfirm == true) {
-      this.httpService.deleteMethod('api/v2/asset/delete/' + object.data.id + '?instituteId=' + this.model.institute_id).then((res: any) => {
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
-        this.getAssetDetails();
 
-      },
-        err => {
-         this.msgService.showErrorMessage('error', '', 'Asset is being assigned to an user');
-         //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
-        })
-    }
+  //delete asset 
+  temObjForAsset;
+  showAssetDelete(object) {
+    this.temObjForAsset = object.data.id;
+    $('#deletesAssetModal').modal('show');
+
+  }
+  deleteAssetRow(object) {
+    this.httpService.deleteMethod('api/v2/asset/delete/' + object + '?instituteId=' + this.model.institute_id).then((res: any) => {
+      this.auth.hideLoader();
+      this.msgService.showErrorMessage('success', '', 'Deleted Successfully');
+      this.getAssetDetails();
+      $('#deletesAssetModal').modal('hide');
+
+    },
+      err => {
+        this.msgService.showErrorMessage('error', '', 'Asset is being assigned to an user');
+        //this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+      })
+
   }
 
   //search asset
@@ -565,174 +587,167 @@ obj.asset_code = null;
       this.totalRecords = this.staticPageData.length;
     }
   }
-  exportToExcel(){
+  exportToExcel() {
 
     this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe(
       (res: any) => {
         this.auth.showLoader();
         this.catDataToDownload = res.result.response;
-       let Excelarr = [];
+        let Excelarr = [];
         this.catDataToDownload.map(
-        (ele: any) => {
-          let json = {}
-          this.excelheadersettingforcat.map((keys) => {
-            json[keys.value] = ele[keys.primary_key]
-          })
-          Excelarr.push(json);
-        }
-      )
-      this.excelService.exportAsExcelFile(
-        Excelarr,
-        'asset_category'
-      );
+          (ele: any) => {
+            let json = {}
+            this.excelheadersettingforcat.map((keys) => {
+              json[keys.value] = ele[keys.primary_key]
+            })
+            Excelarr.push(json);
+          }
+        )
+        this.excelService.exportAsExcelFile(
+          Excelarr,
+          'asset_category'
+        );
         this.auth.hideLoader();
-    },
+      },
       err => {
         this.auth.hideLoader();
       }
-      
+
     );
     this.auth.hideLoader();
   }
-  
-downloadPdf(){
-  this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe(
-    (res: any) => {
-      this.catDataToDownload = res.result.response;
-      //this.auth.showLoader();
-  },
-    err => {
-      this.auth.hideLoader();
-    }
-    
-  );
-  let arr = [];
- 
-  this.catDataToDownload.map(
-    (ele: any) => {
-      let json = [
-        ele.category_code,
-        ele.category_name,
-     ]
-      arr.push(json);
-    })
 
-  let rows = [];
-  rows = [['Code', ' Name']]
-  let columns = arr;
-  this._pdfService.exportToPdf(rows, columns, 'Category List');
-  this.auth.hideLoader();
-
-}
-//array to export
-excelheaderseting:any=[];
-assetDataToDownload:[];
-assetExportToExcel(){
-  this.excelheaderseting=[
-    {
-      primary_key: 'asset_code',
-      value: "Code",
-      charactLimit: 25,
-      sorting: true,
-      visibility: true
-    },
-    {
-      primary_key: 'asset_name',
-      value: "Name ",
-      charactLimit: 25,
-      sorting: true,
-      visibility: true
-    },
-    {
-      primary_key: 'category_name',
-      value: "Category ",
-      charactLimit: 25,
-      sorting: true,
-      visibility: true
-    },
-    {
-      primary_key: 'quantity',
-      value: "Quantity ",
-      charactLimit: 25,
-      sorting: true,
-      visibility: true
-    },
-    {
-      primary_key: 'asset_condition',
-      value: "Condition",
-      charactLimit: 25,
-      sorting: true,
-      visibility: true
-    },
-    {
-      primary_key: 'location_names_string',
-      value: " Locations ",
-      charactLimit: 25,
-      sorting: true,
-      visibility: true
-    },
-  ]
-  this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
-    (res: any) => {
-      this.auth.showLoader();
-      this.assetDataToDownload = res.result.response;
-     let Excelarr = [];
-      this.assetDataToDownload.map(
-      (ele: any) => {
-        let json = {}
-        this.excelheaderseting.map((keys) => {
-          json[keys.value] = ele[keys.primary_key]
-        })
-        Excelarr.push(json);
+  downloadPdf() {
+    this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe(
+      (res: any) => {
+        this.catDataToDownload = res.result.response;
+        //this.auth.showLoader();
+      },
+      err => {
+        this.auth.hideLoader();
       }
-    )
-    this.excelService.exportAsExcelFile(
-      Excelarr,
-      'asset_data'
+
     );
-      this.auth.hideLoader();
-  },
-    err => {
-      this.auth.hideLoader();
-    }
-    
-  );
-  this.auth.hideLoader();
+    let arr = [];
 
-}
+    this.catDataToDownload.map(
+      (ele: any) => {
+        let json = [
+          ele.category_code,
+          ele.category_name,
+        ]
+        arr.push(json);
+      })
 
-assetDownloadPdf(){
-  this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
-    (res: any) => {
-      this.assetDataToDownload = res.result.response;
-      //this.auth.showLoader();
-  },
-    err => {
-      this.auth.hideLoader();
-    }
-    
-  );
-  let arr = [];
- 
-  this.assetDataToDownload.map(
-    (ele: any) => {
-      let json = [
-        ele.asset_code,
-        ele.asset_name,
-        ele.category_name,
-        ele.quantity,
-        ele.asset_condition,
-       ele.location_names_string
-     ]
-      arr.push(json);
-    })
+    let rows = [];
+    rows = [['Code', ' Name']]
+    let columns = arr;
+    this._pdfService.exportToPdf(rows, columns, 'Category List');
+    this.auth.hideLoader();
 
-  let rows = [];
-  rows = [['Code',' Asset Name', 'Category','Quantity','Condition','Locations']]
-  let columns = arr;
-  this._pdfService.exportToPdf(rows, columns, 'Asset List');
-  this.auth.hideLoader();
-}
+  }
+  //array to export
+
+  assetExportToExcel() {
+    this.excelheaderseting = [
+      {
+        primary_key: 'asset_code',
+        value: "Code",
+        
+      },
+      {
+        primary_key: 'asset_name',
+        value: "Name ",
+      
+      },
+      {
+        primary_key: 'category_name',
+        value: "Category ",
+      
+      },
+      {
+        primary_key: 'quantity',
+        value: "Quantity ",
+       
+      },
+      {
+        primary_key: 'available',
+        value: "Available Qty ",
+       
+      },
+      {
+        primary_key: 'asset_condition',
+        value: "Condition",
+        
+      },
+      {
+        primary_key: 'location_names_string',
+        value: " Locations ",
+        
+      },
+    ]
+    this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.auth.showLoader();
+        this.assetDataToDownload = res.result.response;
+        let Excelarr = [];
+        this.assetDataToDownload.map(
+          (ele: any) => {
+            let json = {}
+            this.excelheaderseting.map((keys) => {
+              json[keys.value] = ele[keys.primary_key]
+            })
+            Excelarr.push(json);
+          }
+        )
+        this.excelService.exportAsExcelFile(
+          Excelarr,
+          'asset_data'
+        );
+        this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+
+    );
+    this.auth.hideLoader();
+
+  }
+
+  assetDownloadPdf() {
+    this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+      (res: any) => {
+        this.assetDataToDownload = res.result.response;
+        //this.auth.showLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+
+    );
+    let arr = [];
+
+    this.assetDataToDownload.map(
+      (ele: any) => {
+        let json = [
+          ele.asset_code,
+          ele.asset_name,
+          ele.category_name,
+          ele.quantity,
+          ele.available,
+          ele.asset_condition,
+          ele.location_names_string
+        ]
+        arr.push(json);
+      })
+
+    let rows = [];
+    rows = [['Code', ' Asset Name', 'Category', 'Quantity','Available Qty', 'Condition', 'Locations']]
+    let columns = arr;
+    this._pdfService.exportToPdf(rows, columns, 'Asset List');
+    this.auth.hideLoader();
+  }
   //cancel 
   cancel() {
     // this.assetaddForm.resetForm();
@@ -748,7 +763,7 @@ assetDownloadPdf(){
     this.model = {
       active: true,
       category_id: '-1',
-      asset_code:null,
+      asset_code: null,
       asset_condition: -1,
       location_ids: [],
       asset_name: '',

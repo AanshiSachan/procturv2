@@ -217,9 +217,22 @@ export class SupplierMasterComponent implements OnInit {
 
   }
   maxlength = 10;
-  saveVendorDetails() {
+  validateMobile(mobile){
+    if(mobile.length<10){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please enter 10 digit mobile number");
+    }
+  }
+   ValidateEmail(mail) 
+{
+ if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail))
+  {
+    return (true)
+  }
+  this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please enter valid digit mobile number");
+}
 
-    if (this.addVendorForm.valid) {
+  saveVendorDetails() {
+ if (this.addVendorForm.valid) {
       let obj: any = {
         active: this.model.active,
         address: this.model.address,
@@ -234,13 +247,11 @@ export class SupplierMasterComponent implements OnInit {
       }
       let newasset = []
       let asset_ids: any = obj.asset_ids;
-      console.log(asset_ids);
-      for (let data in asset_ids) {
+     for (let data in asset_ids) {
         newasset.push(asset_ids[data].id);
       }
       //this.model.asset_ids = newasset
       obj.asset_ids = newasset;
-      console.log(this.model.asset_ids)
       //for cat
       let newcat = [];
       let category_ids: any = this.model.category_ids;
@@ -348,9 +359,7 @@ export class SupplierMasterComponent implements OnInit {
         asset_name: ''
       }
       obj.id = temp[i];
-      console.log(obj.id)
       obj.asset_name = asset_names[i];
-      console.log(obj.asset_name)
       this.model.asset_ids.push(obj);
 
     }
@@ -386,13 +395,11 @@ export class SupplierMasterComponent implements OnInit {
       obj.id = this.model.id;
       let newasset = []
       let asset_ids: any = obj.asset_ids;
-      console.log(asset_ids);
       for (let data in asset_ids) {
         newasset.push(asset_ids[data].id);
       }
       //this.model.asset_ids = newasset
       obj.asset_ids = newasset;
-      console.log(this.model.asset_ids)
       //for cat
       let newcat = [];
       let category_ids: any = obj.category_ids;
@@ -517,43 +524,32 @@ $('#deletesModal').modal('show');
     primary_key: 'supplier_name',
     value: " Company Name",
     charactLimit: 25,
-    sorting: true,
-    visibility: true
+   
   },
   {
     primary_key: 'email_id',
     value: " Email",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+    
   },
   {
     primary_key: 'mobile_no',
     value: "Mobile",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+   
   },
   {
     primary_key: 'address',
     value: "Address",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+    
   },
   {
     primary_key: 'contact_person_name',
     value: "Contact Person",
-    charactLimit: 25,
-    sorting: true,
-    visibility: true
+    
   },
   {
     primary_key: 'asset_names_string',
     value: "Asset Provided",
-    charactLimit: 25,
-    sorting: false,
-    visibility: true
+   
   },
   ]
   exportToExcel() {

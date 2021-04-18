@@ -515,7 +515,8 @@ export class ManageBatchComponent implements OnInit {
   saveChanges() {
     let studentUnAssigned = this.checkIfStudentUnassigned();
     if (studentUnAssigned) {
-      this.alertBox = false;
+      // this.alertBox = false;
+      this.unassign_course();
       // if (confirm("If you unassign the student from batch then corresponding unpaid fee instalments might be deleted.")) {
       //   this.saveStudentListToServer();
       // }
