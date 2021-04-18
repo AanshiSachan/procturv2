@@ -95,7 +95,7 @@
           <div *ngIf="schoolModel">{{data.student_roll_no}} </div>
           <div *ngIf="schoolModel">{{data.standard_name}}-{{data.course_name}} </div>
           <div>{{data.student_reg_no}}</div>
-          <div>{{data.total_fee_amount}}</div>
+          <div>{{data.total_fee_amount | number}}</div>
           <div>
             <span class="img__wrap">
               <a (click)="assignFeeToSingleStudent(data)" class="mr10 pointer"><img
@@ -188,7 +188,7 @@
                   <input type="text" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00" class="input wid80 rrs"
                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
                 </div>
-                <div>{{feeInstalllmentArr[i].fees_amount}}</div>
+                <div>{{feeInstalllmentArr[i].fees_amount | number}}</div>
               </div>
             </div>
           </div>
