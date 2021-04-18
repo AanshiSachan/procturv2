@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpService } from '../../../../../services/http.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../../../services/common-service';
 import { FeeStrucService } from '../../../../../services/feeStruc.service';
@@ -83,10 +84,12 @@ export class FeeStructureAddEditComponent implements OnInit {
   totalTax: number = 0;
   taxPrecent: number = 0;
   isTemplateNotLinkWithCourseAndStandard: boolean = false;
+  institute_id: string;
   constructor(private apiService: FeeStrucService,
     private route: Router,
     private auth: AuthenticatorService,
-    private commonService: CommonServiceFactory) {
+    private commonService: CommonServiceFactory,
+    private http : HttpService) {
   }
   createInstallmentGrid() {
     this.newInstallment = {
@@ -102,6 +105,7 @@ export class FeeStructureAddEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.schoolModel = this.auth.schoolModel.value;
+    this.institute_id = sessionStorage.getItem("institute_id");
     this.is_tax_enabled = sessionStorage.getItem("enable_tax_applicable_fee_installments") == '1' ? true : false;
     this.isTemplateNotLinkWithCourseAndStandard = sessionStorage.getItem("is_fee_struct_linked")=='true'?false:true;
     this.checkModel();
@@ -151,17 +155,22 @@ export class FeeStructureAddEditComponent implements OnInit {
         }
       )
     } else {
-      this.apiService.getMasterCourse().subscribe(
-        res => {
-          this.masterCourseList = res;
-          this.auth.hideLoader();
-        },
-        err => {
-          this.auth.hideLoader();
-          this.commonService.showErrorMessage('error', '', err.error.message);
-        }
-      )
+      this.fetchMCAndCourse();
     }
+  }
+  fetchMCAndCourse() {
+    this.auth.showLoader();
+    const url = "/api/v1/courseMaster/fetch/" + this.institute_id + "/all?isActiveNotExpire=Y";
+    this.http.getData(url).subscribe(
+      res => {
+        this.masterCourseList = res;
+        this.auth.hideLoader();
+      },
+      err => {
+        this.commonService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+      }
+    );
   }
   addInstallment(i) {
     this.newInstallment = {
