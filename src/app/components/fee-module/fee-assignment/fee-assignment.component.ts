@@ -92,7 +92,7 @@ export class FeeAssignmentComponent implements OnInit {
       },
       (error: any) => {
         this.auth.hideLoader();
-        console.log(error);
+        this.commonService.showErrorMessage('error', '', error.error.message);
       }
     )
   }
@@ -106,7 +106,7 @@ export class FeeAssignmentComponent implements OnInit {
       },
       (error: any) => {
         this.auth.hideLoader();
-        console.log(error);
+        this.commonService.showErrorMessage('error', '', error.error.message);
       }
     )
   }
@@ -119,7 +119,7 @@ export class FeeAssignmentComponent implements OnInit {
         this.auth.hideLoader();
       },
       err => {
-        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+        this.commonService.showErrorMessage('error', '', err.error.message);
         this.auth.hideLoader();
       }
     );
@@ -143,7 +143,7 @@ export class FeeAssignmentComponent implements OnInit {
       },
       (error: any) => {
         this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+        this.commonService.showErrorMessage('error', '', error.error.message);
       }
     )
   }
@@ -167,8 +167,7 @@ export class FeeAssignmentComponent implements OnInit {
       },
       (error: any) => {
         this.auth.hideLoader();
-        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
-
+        this.commonService.showErrorMessage('error', '', error.error.message);
       }
     )
   }
@@ -194,7 +193,7 @@ export class FeeAssignmentComponent implements OnInit {
         },
         (error: any) => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+          this.commonService.showErrorMessage('error', '', error.error.message);
         }
       )
     }
@@ -254,7 +253,7 @@ export class FeeAssignmentComponent implements OnInit {
       // } else 
       if (!this.isProfessional) {
         queryParam = "?course_id=" + this.model.course_id;
-      } else if(this.isProfessional) {
+      } else if (this.isProfessional) {
         queryParam = "?batch_id=" + this.model.batch_id;
       }
       queryParam += "&country_id=" + this.model.country_id;
@@ -279,7 +278,8 @@ export class FeeAssignmentComponent implements OnInit {
         this.auth.hideLoader();
       },
       err => {
-        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+        this.feeStructureList = [];
+        this.commonService.showErrorMessage('error', '', err.error.message);
         this.auth.hideLoader();
       }
     );
@@ -314,6 +314,7 @@ export class FeeAssignmentComponent implements OnInit {
   }
   assignfeeToStudent(isAssignedToSingleStudent) {
     if (this.validateAssignFeeData()) {
+      this.auth.showLoader();
       let requestPayload: any = {
         student_ids: this.studentIdArr,
         template_id: this.template_id,
@@ -384,6 +385,7 @@ export class FeeAssignmentComponent implements OnInit {
     }
   }
   fetchFeeStructureData(template_id) {
+    this.auth.showLoader();
     const url = "/api/v1/student_wise/feeStructure/fetch/" + this.institute_id + "/" + template_id;
     this.http.getData(url).subscribe(
       (res: any) => {
@@ -392,7 +394,8 @@ export class FeeAssignmentComponent implements OnInit {
         this.auth.hideLoader();
       },
       err => {
-        this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+        this.feeStructureDataList = [];
+        this.commonService.showErrorMessage('error', '', err.error.message);
         this.auth.hideLoader();
       }
     );
