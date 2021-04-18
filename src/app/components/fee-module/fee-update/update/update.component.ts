@@ -52,6 +52,7 @@ export class UpdateComponent implements OnInit {
   student_id: number = -1;
   isTemplateNotLinkWithCourseAndStandard: boolean = false;
   searchElement: any;
+  tempStudentList: any=[];
 
   constructor(private auth: AuthenticatorService,
     private http: HttpService,
@@ -193,12 +194,13 @@ export class UpdateComponent implements OnInit {
       this.http.postData(url, this.requestPayload).subscribe(
         (res: any) => {
           this.studentList = res.result;
+          this.tempStudentList=res.result;
           this.checkUncheckAll()
           this.auth.hideLoader();
         },
         (error: any) => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+          this.commonService.showErrorMessage('error', '', error.error.message);
         }
       )
     }
@@ -451,7 +453,8 @@ export class UpdateComponent implements OnInit {
       );
       this.studentList = searchData;
     }else {
-
+      this.studentList=this.tempStudentList;
     }
   }
+
 }
