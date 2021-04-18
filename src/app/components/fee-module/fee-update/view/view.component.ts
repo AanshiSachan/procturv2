@@ -1137,16 +1137,19 @@ export class ViewComponent implements OnInit {
       f_type_id: data.f_type_id,
       f_amount: data.d_amount,
       d_date: moment(data.d_date).format('YYYY-MM-DD'),
-      standard_id: data.stnd_id,
       course_id: data.c_id,
       subject_id: data.sub_id,
       f_schld_id: data.f_schld_id,
       immutable_due_date: moment(data.d_date).format('YYYY-MM-DD')
     }
+    if(this.schoolModel){
+      this.addInstall.standard_id=this.stdFeeDataList.stnd_id;
+    }
     //this.fetchFilterData();
     //this.fetchCoursesList(data.mc_n);
   }
   updateInstall() {
+
     if (this.validateInputDataForAddInstall(true)) {
       let obj: any = {
         d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
