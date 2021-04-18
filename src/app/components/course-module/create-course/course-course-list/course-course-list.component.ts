@@ -308,7 +308,8 @@ export class CourseCourseListComponent implements OnInit {
         }
       }
       if (!checkFlag) {
-        this.alertBox = false;
+        // this.alertBox = false;.
+        this.unassign_course();
         // if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
         //   this.apiToAllocateAndDeallocate();
         // }

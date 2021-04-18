@@ -366,7 +366,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
                 /* if index is not null */
                 if (ind != null) {
-                    this.alertBox = false;
+                    // this.alertBox = false;
+                    this.unassign_course();
                     this.unselected_checkbox_id = index;
                     // if (confirm("If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?")) {
                     //     this.dataList[index].isSelected = false;
