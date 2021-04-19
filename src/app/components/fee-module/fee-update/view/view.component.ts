@@ -27,6 +27,7 @@ export class ViewComponent implements OnInit {
   masterSelected: boolean = false;
   paymentModes: any = [];
   t_p_amount: number = 0;
+  t_d_amount: number = 0;
   paymentPopUpJson: any = {
     immutable_amount: 0,
     paying_amount: 0,
@@ -37,6 +38,7 @@ export class ViewComponent implements OnInit {
     receipt_no: '',
     update_reason: '',
     selectedPdcId: '',
+    due_amount:0,
     pdcSelectedForm: {
       bank_name: '',
       cheque_amount: 0,
@@ -1093,6 +1095,7 @@ export class ViewComponent implements OnInit {
       genFeeRecipt: false,
       emailFeeRecipt: false
     };
+    this.t_d_amount = this.paymentPopUpJson.due_amount;
     $('#updateinstModal').modal('show');
   }
   updatePaidInstall(data) {
@@ -1236,7 +1239,6 @@ export class ViewComponent implements OnInit {
   }
 
   studentFeeInstallment(userType) {
-    //  this.closeMenu();
     let object = {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
@@ -1264,16 +1266,20 @@ export class ViewComponent implements OnInit {
     },
       (err: any) => {
         this.auth.hideLoader()
-        // this.commonService.showErrorMessage('error', '', err.error.message);
         this.commonService.showErrorMessage('error', '', err.error.message);
       })
   }
   calFinalDueAmount(data) {
+    debugger
+    if(data==''){
+      data=0;
+      this.paymentPopUpJson.paying_amount=0;
+    }
     if (data > this.t_p_amount) {
       this.commonService.showErrorMessage('info', '', "You can not increase paid amount!");
       return;
     }
-    this.paymentPopUpJson.due_amount = this.paymentPopUpJson.due_amount + (this.t_p_amount - data);
+    this.paymentPopUpJson.due_amount = this.t_d_amount + (this.t_p_amount - data);
   }
 }
 

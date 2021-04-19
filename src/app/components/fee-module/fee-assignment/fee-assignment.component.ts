@@ -238,6 +238,9 @@ export class FeeAssignmentComponent implements OnInit {
     return true;
   }
   fetchFeeStructure(isAssignedToSingleStudent) {
+    this.template_id=-1;
+    this.feeStructureDataList = [];
+    this.feeInstalllmentArr=[];
     if (isAssignedToSingleStudent) {
       this.student_id = -1;
     }
@@ -264,14 +267,14 @@ export class FeeAssignmentComponent implements OnInit {
     this.http.getData(url).subscribe(
       (res: any) => {
         this.feeStructureList = res.result;
-        if (this.feeStructureList.length > 0) {
+        if ( !this.isTemplateNotLinkWithCourseAndStandard && this.feeStructureList.length > 0) {
           for (let data of this.feeStructureList) {
             if (data.is_default = 1) {
               this.template_id = data.template_id;
               break;
             }
           }
-          if (this.isTemplateNotLinkWithCourseAndStandard && this.template_id > 0) {
+          if (this.template_id > 0) {
             this.fetchFeeStructureData(this.template_id);
           }
         }

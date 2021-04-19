@@ -40,6 +40,9 @@
                 <div class="page_heading2 ">
                     <div class="w98">
                         Installments
+                        <i class="fa fa-download" (click)="studentFeeInstallment(-1)"
+                            style="font-size: 25px;color: #0084f6;position: absolute;margin-left: 10px;"
+                            title="Download fee installment"></i>
                         <button class="right blue_button mart" data-toggle="modal" (click)="openAddInstallmentPopup()">
                             Add Installment
                         </button>
@@ -113,12 +116,14 @@
                                     </div>
                                     <div>
                                         <div class="tooltip1"> {{currencySymbol}} {{data.t_amount | number}}
-                                            <span  *ngIf="is_tax_enabled" class="tooltiptext"><span class="blue">Amount</span>
+                                            <span *ngIf="is_tax_enabled" class="tooltiptext"><span
+                                                    class="blue">Amount</span>
                                                 {{data.initial_amount | number}} <span class="blue">+Tax
                                                 </span>{{data.tax_amount | number}} <span class="blue">-Discount</span>
                                                 {{data.disc_amount | number}}
                                             </span>
-                                            <span  *ngIf="!is_tax_enabled" class="tooltiptext"><span class="blue">Amount</span>
+                                            <span *ngIf="!is_tax_enabled" class="tooltiptext"><span
+                                                    class="blue">Amount</span>
                                                 {{data.initial_amount | number}} <span class="blue">-Discount</span>
                                                 {{data.disc_amount | number}}
                                             </span>
@@ -197,7 +202,8 @@
                             <div class="space8">
                                 <!-- Nav tabs -->
                                 <div class="main-shadow">
-                                    <button *ngIf="activeSession == 'History'" class="right blue_button" (click)="checkSelectedInstallments()">Share</button>
+                                    <button *ngIf="activeSession == 'History'" class="right blue_button"
+                                        (click)="checkSelectedInstallments()">Share</button>
                                     <button *ngIf="activeSession == 'Cheques'" class="right blue_button"
                                         data-toggle="modal" (click)="addPDCPopUp()">Add
                                         Cheques</button>
@@ -275,7 +281,7 @@
                                                         <label class="checkbox">
                                                             <span class="checkbox__input">
                                                                 <input type="checkbox" [(ngModel)]="data.isSelected"
-                                                                [(ngModel)]="data.isSelected" name="checked">
+                                                                    [(ngModel)]="data.isSelected" name="checked">
                                                                 <span class="checkbox__control">
                                                                     <svg viewBox='0 0 24 24' aria-hidden="true"
                                                                         focusable="false">
@@ -744,12 +750,14 @@
                             [(ngModel)]="pdcAddForm.cheque_date" placeholder="Cheque Date*">
                     </div>
                     <div class="pt10">
-                        <input type="text" class="wid100 input" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="pdcAddForm.cheque_amount"
-                            placeholder="Amount*">
+                        <input type="text" class="wid100 input"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                            [(ngModel)]="pdcAddForm.cheque_amount" placeholder="Amount*">
                     </div>
                     <div class="pt10">
-                        <input type="text" class="wid100 input"onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  minlength="6" maxlength="6"
-                            [(ngModel)]="pdcAddForm.cheque_no" placeholder="Cheque No.*">
+                        <input type="text" class="wid100 input"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="6"
+                            maxlength="6" [(ngModel)]="pdcAddForm.cheque_no" placeholder="Cheque No.*">
                     </div>
                     <div class="pt10">
                         <!-- dropdown with search -->
@@ -800,8 +808,9 @@
                         <b>Selected Intallments:<span>{{t_selected_install}}</span></b>
                     </div>
                     <div class="pt10">
-                        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" (keyup)="calFinalDueAmount($event)"
-                            class="wid100 input" [(ngModel)]="paymentPopUpJson.paying_amount" placeholder="Amount*">
+                        <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                            (keyup)="calFinalDueAmount(paymentPopUpJson.paying_amount)" class="wid100 input"
+                            [(ngModel)]="paymentPopUpJson.paying_amount" placeholder="Amount*">
                     </div>
                     <div class="pt10" *ngIf="isUpdatePaidInstall">
                         <input type="text" disabled="true"
@@ -932,19 +941,22 @@
                 <div class="modal-body">
                     <div class="pt10">
                         <div class="field-radio-wrapper wid100px">
-                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode" [value]="0">
+                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode"
+                                [value]="0">
                             <label>Student</label>
                         </div>
                     </div>
                     <div class="pt10">
                         <div class="field-radio-wrapper wid100px">
-                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode" [value]="1">
+                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode"
+                                [value]="1">
                             <label>Parent</label>
                         </div>
                     </div>
                     <div class="pt10">
                         <div class="field-radio-wrapper wid100px">
-                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode" [value]="2">
+                            <input type="radio" name="bothRadio" class="form-radio" [(ngModel)]="paymentMode"
+                                [value]="2">
                             <label>Both</label>
                         </div>
                     </div>
