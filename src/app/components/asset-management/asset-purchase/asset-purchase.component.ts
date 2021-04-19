@@ -50,6 +50,7 @@ export class AssetPurchaseComponent implements OnInit {
     unit: '',
     user_type: '',
     category_id: '',
+    bill_image_url:''
   }
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
@@ -474,7 +475,7 @@ export class AssetPurchaseComponent implements OnInit {
       unit: '',
       user_type: '',
       category_id: '',
-
+      bill_image_url:''
     }
     this.assePurchaseForm.resetForm(this.model);
 
