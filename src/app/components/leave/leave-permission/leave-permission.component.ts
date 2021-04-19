@@ -165,9 +165,13 @@ getPermissionLeave(obj){
 
   }
   downloadPdf(){
+    for(let i =0; this.leaveApplicationList.length; i++){
+      this.leaveApplicationList[i] = i+1;
+    }
     let tepm =[]
     this.leaveApplicationList.map((e:any)=>{
       let obj =[
+        e.id,
       e.applied_to_name,
       e.applied_by_role,
       e.type.name,
@@ -180,7 +184,7 @@ getPermissionLeave(obj){
       tepm.push(obj)
      })
       let row=[]
-      row=[["Application To","Role","Category","Date Applied","From","To","Days","Status"]]
+      row=[["#","Application To","Role","Category","Date Applied","From","To","Days","Status"]]
       let column =[]
       column=tepm
       this.pdf.exportToPdf(row,column,'Leave_pdf')   

@@ -20,7 +20,7 @@ export class LeaveCategoryComponent implements OnInit {
     name:"",
     id:0
   }
-
+index :0
   @Output() closePopup = new EventEmitter<boolean>();
 
 
@@ -176,16 +176,20 @@ err => {
 })
 }
    downloadPdf(){
+     
+     for(let i = 0; i < this.leaveTypeList.length; i++){
+       this.leaveTypeList[i].id = i+1;
+     }
   let temp =[]
   this.leaveTypeList.map((e:any )=>{
-    let obj=[
-      e.id,
+      let obj=[
+       e.id ,
       e.name
     ]
     temp.push(obj)
   })
   let row =[]
-  row = [['id','name']]
+  row = [['#','name']]
   let column = temp
   this.pdf.exportToPdf(row,column,'Leave_pdf')   
 }

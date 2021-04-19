@@ -55,6 +55,9 @@ export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     sessionStorage.removeItem('exam_info');
+    sessionStorage.removeItem('fromClassAttendace');
+    sessionStorage.removeItem('classAttendance');
+    sessionStorage.removeItem('exam_marks');
   }
 
   checkForCoursePlannerRoute(){

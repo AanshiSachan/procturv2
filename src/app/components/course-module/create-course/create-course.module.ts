@@ -21,6 +21,9 @@ import { SharedModule } from '../../shared/shared.module';
 
   ],
   providers: [
+  ],
+  exports: [
+    CreateCourseComponent
   ]
 })
 export class CreateCourseModule { }
