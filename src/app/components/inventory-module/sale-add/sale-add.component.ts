@@ -68,7 +68,7 @@ export class SaleAddComponent implements OnInit {
 
   }
   getAllRoles() {
-    //this.auth.showLoader();
+   //this.auth.showLoader();
     this.httpService.getData('/api/v1/roleApi/allRoles/'+this.institution_id).subscribe((res: any) => {
       this.roleAllData = res;
       this.auth.hideLoader();
@@ -80,6 +80,7 @@ export class SaleAddComponent implements OnInit {
   }
   userALLdata = [];
   getUserAgainstRole(role_id) {
+    alert(role_id)
     this.httpService.getData('/api/v1/inventory/sale/' + this.institution_id + '/getUserByRole?roleIds=' + role_id).subscribe(
       (res: any) => {
         this.userALLdata = res.result;
@@ -198,13 +199,15 @@ export class SaleAddComponent implements OnInit {
 
   }
   deleteItemData(id) {
-    console.log(this.itemData)
+   console.log(this.itemData)
     alert(id)
     //delete item one by one
     this.itemData.forEach((element, index) => {
       this.itemData.splice(id, 1);
 
     });
+    this.purchaselistItem();
+   
   }
   saveSaleDetails() {
     if (this.myForm.valid) {

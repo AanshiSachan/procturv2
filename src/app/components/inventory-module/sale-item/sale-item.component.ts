@@ -65,30 +65,31 @@ export class SaleItemComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         let saleData = res.result.response;
-        for (let keys of saleData) {
-          console.log(keys);
-          console.log(keys)
-          // console.log(this.purchaseAllData[keys]);
-          for (let data of keys.sale_item_list) {
-            let obj: any = {};
-            obj.item_name = data.item_name;
-            obj.item_name = data.item_name;
-            obj.reference_number = keys.reference_number;
-            obj.user_name = keys.user_name;
-            obj.user_role = keys.user_role;
-            obj.supplier_company_name = keys.supplier_company_name;
-            obj.sale_date = keys.sale_date;
-            obj.sale_type = data.sale_type;
-            obj.total_paid_amount = keys.total_paid_amount;
-            obj.total_amount = keys.total_amount;
-            obj.balanced_amount = keys.balanced_amount;
-            obj.bill_image_url = keys.bill_image_url;
-            obj.sale_id =keys.sale_id;
-            console.log(obj);
-            this.saleAllData.push(obj)
-          }
-          console.log(saleData)
-        }
+        this.saleAllData =saleData;
+        // for (let keys of saleData) {
+        //   console.log(keys);
+        //   console.log(keys)
+        //   // console.log(this.purchaseAllData[keys]);
+        //   for (let data of keys.sale_item_list) {
+        //     let obj: any = {};
+        //     obj.item_name = data.item_name;
+        //     obj.item_name = data.item_name;
+        //     obj.reference_number = keys.reference_number;
+        //     obj.user_name = keys.user_name;
+        //     obj.user_role = keys.user_role;
+        //     obj.supplier_company_name = keys.supplier_company_name;
+        //     obj.sale_date = keys.sale_date;
+        //     obj.sale_type = data.sale_type;
+        //     obj.total_paid_amount = keys.total_paid_amount;
+        //     obj.total_amount = keys.total_amount;
+        //     obj.balanced_amount = keys.balanced_amount;
+        //     obj.bill_image_url = keys.bill_image_url;
+        //     obj.sale_id =keys.sale_id;
+        //     console.log(obj);
+        //     this.saleAllData.push(obj)
+        //   }
+        //   console.log(saleData)
+        // }
         // this.staticPageData = res.result.response;
         // this.tempLocationList = res.result.response;
         // this.totalRecords = res.result.total_elements;

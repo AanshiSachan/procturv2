@@ -28,26 +28,26 @@
               <div>
                Reference No.
               </div>
-              <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div>
+              <!-- <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div> -->
               <div>
               Role<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
               </div>
               <div>User<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
               <div>Date<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
-              <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <!-- <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div> -->
               <div>File<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
               <div>Grand Total</div>
               <div>Paid</div>
-              <div>Balance<br>(To be Paid)</div>
+              <div>Balance (To be Paid)</div>
               <div>Actions</div>
             </div>
             <div class="table_body" *ngFor="let data of saleAllData ">
               <div>
            {{data.reference_number | replacenull}}
               </div>
-              <div>
+              <!-- <div>
              {{data.item_name}}
-              </div>
+              </div> -->
               <div>{{data.user_role}}</div>
               <div>
                 {{data.user_name}}
@@ -55,9 +55,9 @@
               <div>
             {{data.sale_date}}
               </div>
-              <div>
+              <!-- <div>
              {{data.sale_type}}
-              </div>
+              </div> -->
               <div><a href="{{data.bill_image_url}}" target="_blank" download>
                 <img src="{{data.bill_image_url}}" height="40"width="40"></a></div>
               <div>
