@@ -25,13 +25,14 @@
             </div>
             <div class="purchase">
                 <div class="table_heading" >
-                <div>
+                <!-- <div>
                 Category<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
                 </div>
                 <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div>
                 <div>
                 Units Purchased<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
-                </div>
+                </div> -->
+                <div>Reference No.<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div>
                 <div>Supplier<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
                 <div>Date<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
                 <div>File<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
@@ -40,8 +41,8 @@
                 <div>Balance</div>
                 <div>Actions</div>
                 </div>
-                <div class="table_body" *ngFor="let data of purchaseAllData">
-                <div>
+                <div class="table_body" *ngFor="let data of purchaseAllData;index as i">
+                <!-- <div>
                 {{data.category_name}}
                 </div>
                 <div>
@@ -49,7 +50,10 @@
                 </div>
                 <div>
                {{data.quantity}}
-                </div>
+                </div> -->
+                <div>
+                  {{data.reference_number}}
+                   </div>
                 <div>
                {{data.supplier_company_name}}
                 </div>
@@ -57,8 +61,8 @@
               {{data.purchase_date}}
                 </div>
                 <div>
-                asd
-                </div>
+                  <a href="{{data.bill_image_url}}" target="_blank" download><img src="{{data.bill_image_url}}" width="40" height="40"/></a>
+              </div>
                 <div>
                     {{data.total_amount}}
                 </div>

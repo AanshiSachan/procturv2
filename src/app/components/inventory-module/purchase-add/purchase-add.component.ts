@@ -40,7 +40,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     purchased_item_list: [],
     supplier_company_name: '',
     bill_image_url: '',
-    purchase_date: ''
+    purchase_date: '',
+    reference_number:''
   }
 
   constructor(
@@ -77,7 +78,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   getCategoryItem(obj) {
     this.isChange=false;
-    //this.itemData = [];
+    this.itemData = [];
     // this.auth.showLoader();
     console.log(obj)
     this.httpService.getData(this.url + 'purchase/getCategoryAndItem?supplierId=' + obj + '&instituteId=' + this.model.institute_id).subscribe(
@@ -188,6 +189,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   
   isChange: boolean = false;
   savePurchaseData() {
+    this.model.purchased_item_list=[];
     for(let i=0; i<this.itemData.length;i++){
      let obj={ item_id:this.itemData[i].item_id, "quantity":this.itemData[i].available_units, "unit_price":this.itemData[i].unit_cost}
     this.model.purchased_item_list.push(obj)
@@ -210,7 +212,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       purchaseDto.total_amount = this.total;
       purchaseDto.total_paid_amount = this.model.total_paid_amount;
       purchaseDto.is_refunded = this.model.is_refunded;
-
+     purchaseDto.reference_number =this.model.reference_number;
       purchaseDto.purchased_item_list = this.model.purchased_item_list;
       formData.append('purchaseDto', JSON.stringify(purchaseDto));
       if (file) {
@@ -338,9 +340,10 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
        purchaseDto.purchase_description = this.model.purchase_description;
        purchaseDto.purchase_date = moment(this.model.purchase_date).format("YYYY-MM-DD");
        purchaseDto.total_amount = this.total;
+       purchaseDto.reference_number =this.model.reference_number;
        purchaseDto.total_paid_amount = this.model.total_paid_amount;
        purchaseDto.is_refunded = this.model.is_refunded;
- 
+       purchaseDto.bill_image_url =this.model.bill_image_url;
        purchaseDto.purchased_item_list = this.model.purchased_item_list;
        formData.append('purchaseDto', JSON.stringify(purchaseDto));
        if (file) {

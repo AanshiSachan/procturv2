@@ -21,7 +21,7 @@ export class PurchaseItemComponent implements OnInit {
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 25;
+  displayBatchSize: number = 50;
   staticPageData: any = [];
   staticPageDataSouece: any = [];
   institution_id;
@@ -67,28 +67,30 @@ export class PurchaseItemComponent implements OnInit {
     this.httpService.getData('/api/v1/inventory/purchase/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         let purchaseData = res.result.response;
+        this.purchaseAllData =purchaseData;
+        console.log(purchaseData)
         for (let keys of purchaseData) {
           console.log(keys);
           console.log(keys)
           // console.log(this.purchaseAllData[keys]);
-          for (let data of keys.purchased_item_list) {
-            let obj:any={};
-            //obj.category=keys.category_name;
-            obj.item_name=data.item_name;
-            obj.category_name=data.category_name;
-            obj.quantity=data.quantity;
-            obj.supplier_company_name=keys.supplier_company_name;
-            obj.purchase_date=keys.purchase_date;
-            obj.total_amount=keys.total_amount;
-            obj.total_paid_amount=keys.total_paid_amount;
-            obj.purchase_date=keys.purchase_date;
-            obj.balanced_amount=keys.balanced_amount;
-            obj.bill_image_url=keys.bill_image_url;
-            obj.paid_amount =keys.paid_amount;
-            obj.purchase_id=keys.purchase_id;
-            console.log(obj);
-            this.purchaseAllData.push(obj)
-          }
+          // for (let data of keys.purchased_item_list) {
+          //   let obj:any={};
+          //   //obj.category=keys.category_name;
+          //   obj.item_name=data.item_name;
+          //   obj.category_name=data.category_name;
+          //   obj.quantity=data.quantity;
+          //   obj.supplier_company_name=keys.supplier_company_name;
+          //   obj.purchase_date=keys.purchase_date;
+          //   obj.total_amount=keys.total_amount;
+          //   obj.total_paid_amount=keys.total_paid_amount;
+          //   obj.purchase_date=keys.purchase_date;
+          //   obj.balanced_amount=keys.balanced_amount;
+          //   obj.bill_image_url=keys.bill_image_url;
+          //   obj.paid_amount =keys.paid_amount;
+          //   obj.purchase_id=keys.purchase_id;
+          //   console.log(obj);
+          //   this.purchaseAllData.push(obj)
+          // }
           console.log(purchaseData)
         }
         // this.staticPageData = res.result.response;

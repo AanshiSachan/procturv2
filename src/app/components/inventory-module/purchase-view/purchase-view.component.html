@@ -5,17 +5,18 @@
           <p>Purchase Item</p>
         </div>
         <div>
-          <a href="" class="mr10"><img src="../../../../assets/img1/card.svg" title="Card Details" ></a>
+          <!-- <a href="" class="mr10"><img src="../../../../assets/img1/card.svg" title="Card Details" ></a>
           <a href="" class="mr10"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-          <a href="" class="mr10"><img src="../../../../assets/img1/email.svg" title="Send To Email"></a>
-          <a (click)="printData()" class="mr10"><img src="../../../../assets/img1/print.svg" title="Print"></a>
-          <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-        </div>
+          <a href="" class="mr10"><img src="../../../../assets/img1/email.svg" title="Send To Email"></a> -->
+          <a (click)="printData('divforPrint')" class="mr10"><img src="../../../../assets/img1/print.svg" title="Print"></a>
+          <!-- <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>-->
+        </div> 
       </div>
     </div>
   
  
       <br>
+      <div id="divforPrint" class="printdata">
       <div class="flex30">
          <div class="flex">
            <div class="name2">From:</div>
@@ -27,8 +28,9 @@
          </div>
            <div class="display">
       <div></div>
-      <div class="right created_date">
-        Create Date : <b>{{DataForView.created_date | date : "d MMMM, y" }}</b>
+      <div class="right created_date created">
+        Create Date : <b style=" color: #FFFFFF !important;">{{DataForView.created_date | date : "d MMMM, y" }}</b>
+      <!-- <img src="/assets/img1/teal_rec.svg"/> -->
       </div>
     </div>
       </div>
@@ -76,7 +78,7 @@
       <br><br>
       <div class="w98">
       <div class="item">
-         <div class="tablehead">
+         <div class="tablehead thead">
               <div>
                 Item
               </div>
@@ -90,7 +92,7 @@
                 Subtotal
               </div>
             </div>
-            <div class="tablebody" *ngFor="let data of DataForView.purchased_item_list">
+            <div class="tablebody tbody" *ngFor="let data of DataForView.purchased_item_list">
               <div>
                {{data.item_name}}
               </div>
@@ -105,7 +107,7 @@
               </div>
              
             </div>
-            <div class="tabletotal">
+            <div class="tabletotal totalss">
               <div>
                 
               </div>
@@ -152,6 +154,7 @@
             </div>
       </div>   
     </div>
+  </div>
 </div> 
   <!-- <div class="modal" id="addpayModal">
     <div class="modal-dialog">

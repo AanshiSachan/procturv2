@@ -6,7 +6,7 @@
       </div>
     </div>
   </div>
-  <form #purchaseForm="ngForm">
+  <form #purchaseForm="ngForm" autocomplete="off">
   <div class="w98 flex">
    <div class="div_1">
       <div class="heading1">
@@ -14,7 +14,7 @@
       </div>
       <div class="pt102"  [class.has-error]="supplier_id.invalid && supplier_id.touched">
         <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
-          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" >
+          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)">
           <option value="">
             Company Name*
           </option>
@@ -30,6 +30,11 @@
         <input type="Date" class="input wid100" name="purchase_date" placeholder="Date*"
           [(ngModel)]="model.purchase_date" #purchase_date="ngModel"
           (change)="validateFutureDate($event)" >
+      </div>
+      <div class="pt102">
+        <input type="text" class="input wid100" name="reference_number" placeholder="Reference No*"
+          [(ngModel)]="model.reference_number" #reference_number="ngModel"
+          >
       </div>
       <!-- <p class="errormsg"><span style="height:10px;" class="help-block"
           *ngIf="!purchase_date.valid && purchase_date.touched" >
@@ -114,12 +119,12 @@
            <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
               onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
               (keyup)="purchaselistItem()"
-              [disabled]="status" class="input wid80"
+               class="input wid80"
              >
           </div>
           <div>
           
-            <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" [disabled]="status"
+            <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" 
              [(ngModel)]="data.available_units"
              (keyup)="purchaselistItem()"
                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
@@ -130,8 +135,8 @@
             {{data.available_units * itemData[i].unit_cost }}
           </div>
           <div>
-            <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit"
-                class="group18 mr10"></a>
+            <!-- <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit"
+                class="group18 mr10"></a> -->
             <a (click)="deleteItemData(i)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
           </div>
         </div>
