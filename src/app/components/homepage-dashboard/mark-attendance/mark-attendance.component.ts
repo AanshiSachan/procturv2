@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
@@ -17,7 +17,7 @@ import { WidgetService } from '../../../services/widget.service';
   styleUrls: ['./mark-attendance.component.scss'],
   // encapsulation: ViewEncapsulation.Emulated
 })
-export class MarkAttendanceComponent implements OnInit {
+export class MarkAttendanceComponent implements OnInit, OnDestroy {
 
   permissionArray = sessionStorage.getItem('permissions');
 
@@ -106,6 +106,12 @@ export class MarkAttendanceComponent implements OnInit {
     )
     this.fetchWidgetPrefill();
     this.getAttendanceDetails();
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('fromClassAttendace');
+    sessionStorage.removeItem('classAttendance');
+    sessionStorage.removeItem('exam_marks');
   }
 
   fetchWidgetPrefill() {
