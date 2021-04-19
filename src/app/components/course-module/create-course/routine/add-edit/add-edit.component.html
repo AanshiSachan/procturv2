@@ -15,8 +15,8 @@
                             '...' : masterCourse.standard_name }}
                         </option>
                     </select>
-                    <p class="errormsg"><span  class="help-block" *ngIf="!standard_id.valid && standard_id.touched">
-                        Standard is mandatory
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!standard_id.valid && standard_id.touched) || errorsObj.standard_id!=''">
+                        {{errorsObj.standard_id!='' ? errorsObj.standard_id : 'Standard is mandatory'}}
                     </span></p>
                 </div>
                 <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="course_id.invalid && course_id.touched">
@@ -31,8 +31,8 @@
                             course.course_name }}
                         </option>
                     </select>
-                    <p class="errormsg"><span  class="help-block" *ngIf="!course_id.valid && course_id.touched">
-                        Section is mandatory
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!course_id.valid && course_id.touched) || errorsObj.course_id!=''">
+                        {{errorsObj.course_id!='' ? errorsObj.course_id : 'Section is mandatory'}}
                     </span></p>
                 </div>
                 <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="batch_id.invalid && batch_id.touched">
@@ -47,8 +47,8 @@
                             <span *ngIf="subject.is_optional_subject">(Optional)</span>
                         </option>
                     </select>
-                    <p class="errormsg"><span  class="help-block" *ngIf="!batch_id.valid && batch_id.touched">
-                        Subject is mandatory
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!batch_id.valid && batch_id.touched) || errorsObj.batch_id!=''">
+                        {{errorsObj.batch_id!='' ? errorsObj.batch_id : 'Subject is mandatory'}}
                     </span></p>
                 </div>
 
@@ -63,8 +63,8 @@
                             day.data_value }}
                         </option>
                     </select>
-                    <p class="errormsg"><span  class="help-block" *ngIf="!day_of_week.valid && day_of_week.touched">
-                        Day is mandatory
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!day_of_week.valid && day_of_week.touched) || errorsObj.day_of_week!=''">
+                        {{errorsObj.day_of_week!='' ? errorsObj.day_of_week : 'Day is mandatory'}}
                     </span></p>
                 </div>
 
@@ -79,8 +79,8 @@
                             day.teacher_name }}
                         </option>
                     </select>
-                    <p class="errormsg"><span  class="help-block" *ngIf="!teacher_id.valid && teacher_id.touched">
-                        Teacher is mandatory
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!teacher_id.valid && teacher_id.touched) || errorsObj.teacher_id!=''">
+                        {{errorsObj.teacher_id!='' ? errorsObj.teacher_id : 'Teacher is mandatory'}}
                     </span></p>
                 </div>
 
@@ -97,6 +97,9 @@
                             {{minute}}
                         </option>
                     </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="errorsObj.start_time!=''">
+                        {{errorsObj.start_time}}
+                    </span></p>
                 </div>
 
                 <div class="col-md-12 form-group edit-item field-wrapper">
@@ -112,6 +115,9 @@
                             {{minute}}
                         </option>
                     </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="errorsObj.end_time!=''">
+                        {{errorsObj.end_time}}
+                    </span></p>
                 </div>
 
                 <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="class_room_id.invalid && class_room_id.touched">
@@ -124,8 +130,8 @@
                           class.class_room_name }}
                         </option>
                       </select>
-                      <p class="errormsg"><span  class="help-block" *ngIf="!class_room_id.valid && class_room_id.touched">
-                        Room is mandatory
+                      <p class="errormsg"><span  class="help-block" *ngIf="(!class_room_id.valid && class_room_id.touched) || errorsObj.class_room_id!=''">
+                        {{errorsObj.class_room_id!='' ? errorsObj.class_room_id : 'Room is mandatory'}}
                     </span></p>
                 </div>
 
