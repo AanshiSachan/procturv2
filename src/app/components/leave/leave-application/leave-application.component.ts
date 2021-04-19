@@ -328,9 +328,13 @@ editLeaveApplication(){
  }
  
  downloadPdf(){
+   for(let i =0;i<this.leaveApplicationList.length;i++){
+     this.leaveApplicationList[i].id = i+1
+   }
    let tepm =[]
    this.leaveApplicationList.map((e:any)=>{
      let obj =[
+       e.id,
      e.applied_to_name,
      e.type.name,
      e.applied_on,
@@ -342,7 +346,7 @@ editLeaveApplication(){
      tepm.push(obj)
     }) 
      let row=[]
-     row=[["Application To","Category","Date Applied","From","To","Days","Status"]]
+     row=[["#","Application To","Category","Date Applied","From","To","Days","Status"]]
      let column =[]
      column=tepm
      this.pdf.exportToPdf(row,column,'Leave_pdf')   

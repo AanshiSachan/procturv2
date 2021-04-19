@@ -32,7 +32,7 @@
             </div>
             <div class="table_body" *ngFor="let array of leaveApplicationList ; let i=index">
               <div>
-                {{array.id}}
+                {{i+1}}
               </div>
               <div  title="{{array?.applied_to_name}}">
               <!-- <span *ngIf="array.show_data">   -->
