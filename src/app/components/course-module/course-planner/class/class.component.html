@@ -544,11 +544,11 @@
             <button type="button" name="button" class="fullBlue gobtn" (click)="getData()">GO</button>
           </div>
         </div>
-        <div class="filter-item-2">
+        <div class="filter-item-2" style="width: 12%;">
           <button type="button" name="button" class="add-class-btn" (click)="redirect()">
             <i class="fa fa-plus" aria-hidden="true"></i>
             &nbsp;
-            Add Class
+            Add {{schoolModel ? 'Routine' : 'Class'}}
           </button>
         </div>
       </div>

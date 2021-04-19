@@ -61,7 +61,13 @@ import { CreateCourseComponent } from './create-course.component';
                     path:'ecoursemapping',
                     component: EcourseMappingComponent,
                     pathMatch:'prefix'
-                }
+                },
+                {
+                    path: 'routine',
+                    // component: AnalyticsComponent
+                    loadChildren: () => import('./routine/routine.module').then(m => m.RoutineModule),
+                    pathMatch: 'prefix',
+                  }
             ]
         }
     ])],

@@ -18,6 +18,7 @@ export class CreateCourseComponent implements OnInit {
   @ViewChild('liExam',{static: false}) liExam: ElementRef;
   @ViewChild('liTopic',{static: false}) liTopic: ElementRef;
   @ViewChild ('liEcourseMapping', {static: false}) liEcourseMapping: ElementRef;
+  @ViewChild ('liRoutine', {static:false}) liRoutine: ElementRef;
   role_feature = role.features;
   jsonFlags = {
     classMenu: false,
@@ -91,7 +92,10 @@ export class CreateCourseComponent implements OnInit {
     } else if (this.router.url.includes('ecoursemapping')) {
       this.switchActiveView('liEcourseMapping');
       this.isFromSection = true;
-    } 
+    } else if(this.router.url.includes('routine')) {
+      this.switchActiveView('liRoutine');
+      this.isFromSection = true;
+    }
   }
 
   switchActiveView(showId) {

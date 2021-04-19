@@ -56,6 +56,10 @@
                     <a class="nav-link" [ngClass]="(activeSession == 'liTopic') ? 'active' : ''"
                         routerLink="/view/course/create/topic">Topic</a>
                 </li>
+                <li id="liRoutine" *ngIf="schoolModel" class="nav-item" #liRoutine (click)="switchActiveView('liRoutine')">
+                    <a class="nav-link" data-toggle="tab" [ngClass]="(activeSession == 'liRoutine') ? 'active' : ''"
+                        routerLink="/view/course/create/routine/list">Routine</a>
+                </li>
                 <li id="liEcourseMapping" class="nav-item" #liEcourseMapping *ngIf="!schoolModel"
                     (click)="switchActiveView('liEcourseMapping')">
                     <a class="nav-link" [ngClass]="(activeSession == 'liEcourseMapping') ? 'active' : ''"
