@@ -671,7 +671,8 @@ export class ShareFileComponent implements OnInit {
     if (this.tabChoice == "student") {
 
       if (this.fetchShareOption.standard_id == "" || this.fetchShareOption.subject_id == "") {
-        this.services.showErrorMessage("error", "Incorrect Details", "Please select master course and course")
+        let temp_msg = !this.isProfessional ? 'Please select standard and subject' : 'Please select master course and course';
+        this.services.showErrorMessage("error", "", temp_msg)
       }
 
       else if (this.getBatchesData == []) {
@@ -717,9 +718,10 @@ export class ShareFileComponent implements OnInit {
         if (this.categoryId != '62') {
 
           if (this.fileSharePublic.standard_id == "" || this.fileSharePublic.subject_id == "") {
+            let temp_msg = !this.isProfessional ? 'Please select standard and subject' : 'Please select master course and course';
             let msg = {
               type: "error",
-              body: "Please select master course and course"
+              body: temp_msg
             }
             this.appC.popToast(msg);
           }
