@@ -123,13 +123,17 @@ export class ShareFileComponent implements OnInit {
         if (res) {
           this.schoolModel = true;
         }
-        this.selectTab(1);
       }
     )
   }
 
   ngOnChanges() {
     this.categoryId = this.fileName.res.category_id;
+    if(this.categoryId == '62') {
+      this.selectTab(2);
+    } else {
+      this.selectTab(1);
+    }
     this.editBatchShare = false;
     this.editInstituteShare = false;
     this.editPublicShare = false;
