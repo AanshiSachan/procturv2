@@ -151,6 +151,7 @@ export class ViewComponent implements OnInit {
   }
   fetchAcademicYearList() {
     this.auth.showLoader();
+    this.academicYrList = [];
     let url = "/api/v1/academicYear/all/" + this.institute_id;
     this.http.getData(url).subscribe(
       (res: any) => {
@@ -167,6 +168,7 @@ export class ViewComponent implements OnInit {
     )
   }
   fetchDefaultAY() {
+    this.academic_yr_id=-1;
     if (this.academicYrList != null) {
       for (let data of this.academicYrList) {
         if (data.default_academic_year == 1) {

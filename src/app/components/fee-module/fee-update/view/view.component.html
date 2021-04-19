@@ -3,26 +3,31 @@
         <div class="outter_flex">
             <div class=" wid50">
                 <a id="payMultiReciept" class="hide"></a>
-                <span class="name1">Name:</span>
+                <span class="name1">Name: </span>
                 <span class="value1">{{stdFeeDataList.student_name}}</span>
 
             </div>
             <div class=" wid50">
-                <span class="name1">Mobile:</span>
+                <span class="name1">Mobile: </span>
 
                 <span class="value1">{{stdFeeDataList.student_phone}}</span>
 
+            </div>
+            <div class=" wid50" *ngIf="schoolModel">
+                <span class="name1">Reg No.: </span>
+
+                <span class="value1">{{stdFeeDataList.student_reg_no}}</span>
+            </div>
+            <div class=" wid50" *ngIf="!schoolModel">
+                <span class="name1">Student Id: </span>
+
+                <span class="value1">{{stdFeeDataList.student_reg_no}}</span>
             </div>
             <div class=" wid50">
 
                 <!--     <span class="name1">Std/Sec:</span>
 
                 <span class="value1">{{stdFeeDataList.student_name}}</span> -->
-            </div>
-            <div class=" wid50">
-                <span class="name1">Reg No.:</span>
-
-                <span class="value1">{{stdFeeDataList.student_reg_no}}</span>
             </div>
             <div class=" wid50">
                 <select class="select right wid240" [(ngModel)]="academic_yr_id"
