@@ -64,7 +64,7 @@ export class PurchaseItemComponent implements OnInit {
   ngOnInit(): void {
     this.getPurchaseDetails();
     this.viewdatas=sessionStorage.getItem('viewData');
-  console.log(this.viewdatas)}
+  }
   @ViewChild('addform', { static: false }) addform: NgForm;
   getPurchaseDetails() {
     this.auth.showLoader();
@@ -75,8 +75,7 @@ export class PurchaseItemComponent implements OnInit {
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.totalElements;
-        console.log(purchaseData)
-        // for (let keys of purchaseData) {
+       // for (let keys of purchaseData) {
         //   console.log(keys);
         //   console.log(keys)
         //   // console.log(this.purchaseAllData[keys]);
@@ -255,7 +254,6 @@ $('#addpayModal').modal('show');
   }
   viewNavigate(obj){
     //../purchase-view
-    console.log(obj)
     sessionStorage.setItem('viewData', obj);
 this.router.navigate(['/view/inventory-management/purchase-view'])
   }

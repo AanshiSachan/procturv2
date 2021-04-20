@@ -371,7 +371,6 @@ getAllMasterCourseList() {
         this.auth.hideLoader();
       },
       err => {
-        //console.log(err);
       }
     )
   
@@ -389,7 +388,6 @@ onMasterCourseSelection(standard_id){
         this.auth.hideLoader();
       },
       err => {
-        //console.log(err);
       }
     )
   }
@@ -664,8 +662,7 @@ ItemDataForDownload=[
   },
 ]
 exportToExcelItem(){
-  alert("hi")
- let Excelarr = [];
+let Excelarr = [];
       this.itemAllData.map(
       (ele: any) => {
         let json = {}
@@ -735,22 +732,19 @@ getSubBranches(){
       this.auth.hideLoader();
     },
     err => {
-      //console.log(err);
     }
   )
 
 }
 itemfromSubbrach:any=[];
 getItemAgainSubBranch(id){
-  console.log(id)
-  this.httpService.getData('/api/v1/inventory/item/all/' + this.item.institution_id).subscribe(
+ this.httpService.getData('/api/v1/inventory/item/all/' + this.item.institution_id).subscribe(
     res => {
       this.itemfromSubbrach = res;
       this.auth.hideLoader();
     },
     err => {
-      //console.log(err);
-    }
+   }
   )
 }
 allocationHistoryData:any =[]
@@ -762,7 +756,6 @@ this.auth.showLoader();
     this.auth.hideLoader();
   },
   err => {
-    //console.log(err);
   }
 )
 }

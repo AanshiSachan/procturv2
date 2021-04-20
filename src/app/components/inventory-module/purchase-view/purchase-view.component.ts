@@ -31,8 +31,7 @@ export class PurchaseViewComponent implements OnInit {
   ngOnInit(): void {
    this.viewDatas =sessionStorage.getItem('viewData');
   
-   console.log(this.viewDatas);
-   this.getViewDataById();
+    this.getViewDataById();
   }
   DataForView=[];
 getViewDataById(){

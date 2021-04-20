@@ -13,15 +13,17 @@
     </div>
       <div class="w98">
         <div class="pt15 display">
-          <!-- <div>
-            <input type="text" class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
+          <div>
+            <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
+            #search [(ngModel)]="searchParams"
+            name="searchParams" (keyup)="searchDatabase()">
           </div>
           <div class="right">
-            <a href="" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
-            <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>
-            <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-            <a href="" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
-          </div> -->
+                                <!--   <a (click)="copydata()" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>-->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
+          </div> 
         </div>
         <div class="sale">
             <div class="table_heading">
@@ -41,7 +43,7 @@
               <div>Balance (To be Paid)</div>
               <div>Actions</div>
             </div>
-            <div class="table_body" *ngFor="let data of saleAllData ">
+            <div class="table_body" *ngFor="let data of staticPageData ">
               <div>
            {{data.reference_number | replacenull}}
               </div>
@@ -88,6 +90,10 @@
     
         </div>
       </div>
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+      [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+  </pagination> 
      <!-- <div class="white bottom_button bottom_pagignation">
      
         <div class=" flex w98">

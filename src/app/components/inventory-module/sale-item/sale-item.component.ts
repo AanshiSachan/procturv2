@@ -16,6 +16,9 @@ declare var $;
 })
 export class SaleItemComponent implements OnInit {
   rowColumns: any;
+  searchParams: any;
+  tempLocationList: any=[];
+  assignDataforDownload:[];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
@@ -66,6 +69,9 @@ export class SaleItemComponent implements OnInit {
         this.auth.hideLoader();
         let saleData = res.result.response;
         this.saleAllData =saleData;
+        this.staticPageData = res.result.response;
+        this.tempLocationList = res.result.response;
+        this.totalRecords = res.result.totalElements;
         // for (let keys of saleData) {
         //   console.log(keys);
         //   console.log(keys)
@@ -103,7 +109,6 @@ export class SaleItemComponent implements OnInit {
   sale_id;
   showAddPaymentModel(data){
     this.sale_id=data.sale_id;
-    console.log(this.sale_id)
     $('#addpayModal').modal('show');
   }
   addPayment() {
@@ -163,7 +168,7 @@ export class SaleItemComponent implements OnInit {
             } else {
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).error[0].errorMessage);
             }
           }
         }
@@ -171,7 +176,7 @@ export class SaleItemComponent implements OnInit {
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All Required Fields ");
 
     }
   }
@@ -210,9 +215,7 @@ export class SaleItemComponent implements OnInit {
     
   }
  showConfirm(obj) {
-    alert("hi")
-    console.log(obj.sale_id)
-     this.sale_id =obj.sale_id;
+   this.sale_id =obj.sale_id;
     $('#deletesModal').modal('show');
   }
 
@@ -235,8 +238,7 @@ export class SaleItemComponent implements OnInit {
   }
   viewNavigate(obj){
     //../purchase-view
-    console.log(obj)
-    sessionStorage.setItem('viewData', obj);
+     sessionStorage.setItem('viewData', obj);
 this.router.navigate(['/view/inventory-management/sale-view'])
   }
   viewdatas:any=[];
@@ -244,7 +246,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
 
   cancelData(purchase_id){
     ///api/v1/inventory/sale/cancelSale?saleId=2&instituteId=100058
-    this.httpService.getData('/api/v1/inventory/sale/cancelSale?saleId=' + purchase_id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
+    this.httpService.getData('/api/v1/inventory/sale/all?instituteId=' + this.institution_id).subscribe((res: any) => {
      if (res.statusCode == 200) {
          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.result);
         this.getSaleDetails();
@@ -259,4 +261,153 @@ this.router.navigate(['/view/inventory-management/sale-view'])
     
  
    }
+   fetchTableDataByPage(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.staticPageData = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.pageIndex++;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.pageIndex != 1) {
+      this.pageIndex--;
+      this.fetchTableDataByPage(this.pageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    this.getSaleDetails();
+  }
+  updateTableBatchSize(event) {
+    this.pageIndex = 1;
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
+  searchDatabase() {
+    if (this.searchParams == undefined || this.searchParams == null) {
+       this.searchParams = "";
+       this.staticPageData = this.tempLocationList;
+     }
+     else {
+       let searchData = this.tempLocationList.filter(item =>
+         Object.keys(item).some(
+           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
+       );
+       this.staticPageData = searchData;
+       this.totalRecords=this.staticPageData;
+     }
+   }
+   downloadPdf() {
+    ///api/v1/inventory/purchase/all?all=1 + '&&instituteId=' + this.institution_id
+    this.httpService.getData('/api/v1/inventory/sale/all?all=1&&instituteId=' + this.institution_id).subscribe(
+      (res: any) => {
+        this.assignDataforDownload = res.result.response;
+        console.log(  this.assignDataforDownload)
+        let arr = [];
+        this.assignDataforDownload.map(
+          (ele: any) => {
+            let json = [
+             ele.reference_number,
+             ele.user_role,
+              ele.user_name,
+              ele.sale_date,
+             // ele.bill_image_url,
+              ele.total_amount,
+              ele.total_paid_amount,
+              ele.balanced_amount,
+             
+       ]
+            arr.push(json);
+          })
+    
+        let rows = [];
+        rows = [['Reference No.', ' Role', ' User',
+        'Date ','Grand Total','Paid ','Balance(To be Paid)']]
+        // let columns = arr;
+        console.log('122',arr)
+        this._pdfService.exportToPdf(rows, arr, 'Inventory_sale_list');
+        this.auth.hideLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+   
+  }
+//download in excel format
+headerSetting =[{
+  primary_key: 'reference_number',
+  value: "Reference No.",
+  
+},
+{
+  primary_key: 'user_role',
+  value: "Role",
+  
+},
+{
+  primary_key: 'user_name',
+  value: "User",
+  
+},
+{
+  primary_key: 'sale_date',
+  value: "Date",
+  
+},
+// {
+//   primary_key: 'bill_image_url',
+//   value: "File",
+  
+// },
+{
+  primary_key: 'total_amount',
+  value: "Grand Total",
+  
+},
+{
+  primary_key: 'total_paid_amount',
+  value: "Paid",
+  
+},
+{
+  primary_key: 'balanced_amount',
+  value: "Balance  (To be Paid)",
+  
+}]
+
+exportToExcel(){
+  ///api/v1/inventory/sale/all?instituteId=' + this.institution_id
+  this.httpService.getData('/api/v1/inventory/sale/all?all=1&&instituteId=' + this.institution_id).subscribe(
+    (res: any) => {
+      this.auth.showLoader();
+      this.assignDataforDownload= res.result.response;
+      let Excelarr = [];
+      this.assignDataforDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSetting.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_assign'
+    );
+      this.auth.hideLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  this.auth.hideLoader();
+}
 }
