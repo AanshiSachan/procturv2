@@ -544,61 +544,8 @@ exportToExcel(){
       'asset_Supplier'
     );
      this.auth.hideLoader();
-  },
-  {
-    primary_key: 'email_id',
-    value: " Email",
-    
-  },
-  {
-    primary_key: 'mobile_no',
-    value: "Mobile",
-   
-  },
-  {
-    primary_key: 'address',
-    value: "Address",
-    
-  },
-  {
-    primary_key: 'contact_person_name',
-    value: "Contact Person",
-    
-  },
-  {
-    primary_key: 'asset_names_string',
-    value: "Asset Provided",
-   
-  },
-  ]
-  exportToExcel() {
-    this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
-      (res: any) => {
-        this.auth.showLoader();
-        this.supplierDataforDownload = res.result.response;
-        let Excelarr = [];
-        this.supplierDataforDownload.map(
-          (ele: any) => {
-            let json = {}
-            this.headersetingforexcel.map((keys) => {
-              json[keys.value] = ele[keys.primary_key]
-            })
-            Excelarr.push(json);
-          }
-        )
-        this.excelService.exportAsExcelFile(
-          Excelarr,
-          'asset_Supplier'
-        );
-        this.auth.hideLoader();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-
-    );
-    this.auth.hideLoader();
-  }
+  });
 
   
+}
 }
