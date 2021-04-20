@@ -254,7 +254,7 @@ export class FeeAssignmentComponent implements OnInit {
       // if (this.schoolModel) {
       //   queryParam = "?standard_id=" + this.model.standard_id;
       // } else 
-      if (!this.isProfessional) {
+      if (!this.isProfessional && !this.schoolModel) {
         queryParam = "?course_id=" + this.model.course_id;
       } else if (this.isProfessional) {
         queryParam = "?batch_id=" + this.model.batch_id;
