@@ -336,7 +336,10 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   editRow(object) {
-    // let object1 = object.data;
+       //category_ids: [48, 50]
+//category_names: "Equipments,Uniformatory"
+// item_ids: [40, 58]
+// item_names: "Bags2,sdfsdf"
     this.isedit = true;
     // this.model = object.data;
     this.model.active = object.data.active;
@@ -349,8 +352,9 @@ export class SupplierMasterComponent implements OnInit {
     this.model.category_id = object.data.category_id;
     this.model.id = object.data.id;
     //asset_id_for_multiselect
+    let temp2 =object.data.category_ids;
     let temp = object.data.asset_ids;
-    let temp2 = object.data.category_ids;
+    
     let asset_names = object.data.asset_names_string.split(',');
     this.model.asset_ids = [];
     for (let i = 0; i < temp.length; i++) {
@@ -519,12 +523,27 @@ $('#deletesModal').modal('show');
     this._pdfService.exportToPdf(rows, columns, 'Supplier List');
     this.auth.hideLoader();
   }
-  //download in excel format
-  headersetingforexcel: any = [{
-    primary_key: 'supplier_name',
-    value: " Company Name",
-    charactLimit: 25,
-   
+//download in excel format
+exportToExcel(){
+  this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
+    (res: any) => {
+      this.auth.showLoader();
+      this.supplierDataforDownload= res.result.response;
+     let Excelarr = [];
+     this.supplierDataforDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSetting.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_Supplier'
+    );
+     this.auth.hideLoader();
   },
   {
     primary_key: 'email_id',

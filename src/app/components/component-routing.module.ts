@@ -193,6 +193,12 @@ import { ReportsComponent } from './reports/reports.component';
                             loadChildren: () => import('../components/asset-management/asset-management.module').then(m => m.AssetManagementModule),
                             pathMatch: 'prefix'
 
+                        },
+                        {
+                            path: 'inventory-management',
+                            loadChildren: () => import('../components/inventory-module/inventory-module.module').then(m => m.InventoryModuleModule),
+                            pathMatch: 'prefix'
+
                         }
                     ]
                 },

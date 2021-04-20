@@ -14,17 +14,17 @@
           </div>
          
               <div class="pt102">
-                {{data.role_id}}
-                  <select class="select wid100" name="user_role" name="user_role" id="user_role"
+             
+                  <select class="select wid100"  name="user_role" id="user_role"
                   (change)="getUserAgainstRole($event.target.value)" [(ngModel)]="model.user_role">
                      <option value="">Role<span class="astrik">*</span></option>
-                     <option value="{{data.role_id}}" *ngFor="let data of roleAllData">{{data.role_name}}</option>
+                     <option value="{{datas.role_id}}" *ngFor="let datas of roleAllData">{{datas.role_name}}</option>
                    </select>
               </div>
                  <div class="pt102">
                  <select class="select wid100" name="user_id" id="user_id"
                   [(ngModel)]="model.user_id">
-                    <option value="" selected>User<span class="astrik">*</span></option>
+                    <option value="">User<span class="astrik">*</span></option>
                     <option value="{{datas.user_id}}" *ngFor="let datas of userALLdata">{{datas.name}}</option>
                   </select>
               </div>
@@ -115,12 +115,12 @@
               <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
                 (keyup)="purchaselistItem()"
-                [disabled]="!data.isedit" class="input wid80"
+                 class="input wid80"
                >
                
               </div>
               <div>
-                <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" [disabled]="!data.isedit"
+                <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" 
                 [(ngModel)]="data.available_units"
                 (keyup)="purchaselistItem()"
                   onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
@@ -140,8 +140,8 @@
              <sapn *ngIf="data.unit_price==0">0</sapn>
             </div>
                 <div>
-                <a (click)="editdata(data)"><img src="../../../../assets/img1/edit.svg" title="Edit"
-                  class="group18 mr10"></a>
+                <!-- <a (click)="editdata(data)"><img src="../../../../assets/img1/edit.svg" title="Edit"
+                  class="group18 mr10"></a> -->
               <a (click)="deleteItemData(i)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
               </div>
             </div>

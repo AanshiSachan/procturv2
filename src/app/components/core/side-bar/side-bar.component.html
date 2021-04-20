@@ -803,6 +803,35 @@
                         </div>
 
                     </li>
+                    <li class="dropdown" [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')">
+                        <div >
+                            <a  class="dropbtn">
+                                <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'" alt="">
+                        <p >Inventory</p><i class="fa fa-angle-right"></i>
+          
+                        </a>
+                            <div class="dropdown-content">
+                                <a  routerLink="/view/inventory-management/item-cm">
+                                    <span>Items</span>
+                            </a>
+                            <a  routerLink="/view/inventory-management/supplier">
+                                <span>Suppliers </span>
+                        </a>
+                            <a  routerLink="/view/inventory-management/purchase-item">
+                                <span>Purchases</span>
+                        </a>
+                        <a  routerLink="/view/inventory-management/sale-item">
+                            <span>Sales/Allocate </span>
+                    </a>
+                           
+                            <!-- <a routerLink="/view/course/setup/teacher/list">
+                                    <span>Leave</span>
+                            </a> -->
+                            </div>
+                         </div>
+                        
+                      </li>
+        
 
                     <li [ngClass]="activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
                         <a routerLink="/view/reports/list">

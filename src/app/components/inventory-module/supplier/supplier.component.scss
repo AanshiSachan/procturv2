@@ -1,0 +1,13 @@
+@import "../inventory-module.component.scss";
+
+#deletesModal .modal-dialog {
+    width: 350px;
+}
+@media (min-width: 576px){
+#deletesModal .modal-dialog {
+    max-width:350px;
+}
+}
+.center{
+    text-align: center;
+}
