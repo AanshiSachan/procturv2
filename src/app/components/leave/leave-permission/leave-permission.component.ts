@@ -165,8 +165,8 @@ getPermissionLeave(obj){
 
   }
   downloadPdf(){
-    for(let i =0; this.leaveApplicationList.length; i++){
-      this.leaveApplicationList[i] = i+1;
+    for(let i = 0; i < this.leaveApplicationList.length; i++){
+      this.leaveApplicationList[i].id = i+1;
     }
     let tepm =[]
     this.leaveApplicationList.map((e:any)=>{
