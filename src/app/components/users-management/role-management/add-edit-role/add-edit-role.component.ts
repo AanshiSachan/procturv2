@@ -26,6 +26,7 @@ export class AddEditRoleComponent implements OnInit {
   examDeskRoles:any=[];
   procturRoles:any=[];
   role_feature = role.features;
+  isShoweOnlineExam:boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,6 +38,7 @@ export class AddEditRoleComponent implements OnInit {
 
   ngOnInit() {
     this.instituteId = sessionStorage.getItem('institute_id');
+    this.isShoweOnlineExam = sessionStorage.getItem('isShoweOnlineExam') == 'true';
     this.libraryRoleInstituteId = 101077;
     this.kakadeRoleInstituteId = 100767;
     this.activatedRoute.params.subscribe(
