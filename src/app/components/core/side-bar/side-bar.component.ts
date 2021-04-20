@@ -937,6 +937,7 @@ mouseleave() {
     } else if (sessionStorage.getItem('userType') == '3' || (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin')) {
       this.jsonFlags.isShoweOnlineExam = this.role_feature.ONLINE_TESTS_MENU;
     }
+    sessionStorage.setItem('isShoweOnlineExam', String(this.jsonFlags.isShoweOnlineExam));
   }
 
 
