@@ -14,7 +14,7 @@
       </div>
       <div class="pt102"  [class.has-error]="supplier_id.invalid && supplier_id.touched">
         <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
-          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)">
+          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" >
           <option value="">
             Company Name*
           </option>
@@ -29,12 +29,12 @@
       <div class="pt102">
         <input type="Date" class="input wid100" name="purchase_date" placeholder="Date*"
           [(ngModel)]="model.purchase_date" #purchase_date="ngModel"
-          (change)="validateFutureDate($event)" >
+          (change)="validateFutureDate($event)" required>
       </div>
       <div class="pt102">
         <input type="text" class="input wid100" name="reference_number" placeholder="Reference No*"
           [(ngModel)]="model.reference_number" #reference_number="ngModel"
-          >
+          required>
       </div>
       <!-- <p class="errormsg"><span style="height:10px;" class="help-block"
           *ngIf="!purchase_date.valid && purchase_date.touched" >
@@ -42,7 +42,7 @@
         </span></p> -->
       <div class="pt102">
         <input type="File" class="input wid100" id="billImageFile" name="billImageFile" placeholder="Date*" 
-        [disabled]="model.bill_image_url!=''&& isedit"
+        [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
           [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
       <div class="pt102"  *ngIf="isedit && model.bill_image_url !='' && model.bill_image_url!=null">
@@ -113,7 +113,7 @@
         <div class="tablebody" *ngFor="let data of itemData;let i=index">
           <div>
             {{data.item_name}}
-            ({{data.available_units}})
+            <!-- ({{data.available_units}}) -->
           </div>
           <div>
            
@@ -176,6 +176,7 @@
      
       </div>
     </div>
+    
     <!-- pagignation div -->
 
   </div>

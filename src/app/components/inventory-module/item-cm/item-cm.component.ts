@@ -198,22 +198,21 @@ export class ItemCmComponent implements OnInit {
 
   }
   deleteRow(obj) {
-    // $('#deleteModal').modal('show');
-    let deleteconfirm = confirm("Are you really want to delete?");
-    if (deleteconfirm == true) {
+
       this.auth.showLoader();
-      this.httpService.deleteData(this.url + 'category/' + obj.data.category_id, null).subscribe(
+      this.httpService.deleteData(this.url + 'category/' + obj, null).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', 'Category Deleted Successfully');
+          this.msgService.showErrorMessage('success', '', ' Deleted Successfully');
           this.getCategoryDetails();
+          $('#deleteModalCat').modal('hide');
         },
         err => {
-          this.msgService.showErrorMessage('error', '', 'Category can not be  deleted some item linked to this category');
+         this.msgService.showErrorMessage('error', '', err.error.message);
           this.auth.hideLoader();
         }
       );
-    }
+    
   }
 
   /*======================================CRUD For Item===============*/
@@ -260,6 +259,8 @@ getItemDetails() {
 }
 //edit items
 editItem(data){
+this.getAllMasterCourseList();
+ this.onMasterCourseSelection(data.standard_id)
 this.isedit = true;
 this.item.item_id=data.item_id;
 this.item.category_id =data.category_id;
@@ -272,17 +273,8 @@ this.item.tax_percent =data.tax_percent;
 this.item.out_of_stock_indicator_units =data.out_of_stock_indicator_units;
 this.item.institution_id =data.institution_id;
 this.item.standard_id =data.standard_id;
-
-if(data.standard_id==-1 || data.standard_id==0){
-  this.item.standard_name ="";
-}
 this.item.standard_name =data.standard_name;
-
 this.item.standard_id =data.standard_id;
-
-if(data.subject_id==-1 || data.subject_id==0){
-  this.item.subject_name ='';
-}
 this.item.subject_name =data.subject_name;
 }
 //update item
@@ -326,26 +318,29 @@ tempObj={
 showConfirm(obj) {
   this.tempObj=obj;
   this.tempObj.item_id =obj.item_id;
-  if(obj.alloted_units==0 || obj.available_units==0 || obj.units_added){
+  if(obj.alloted_units==0){
    // $('#deleteModal').modal('show');
-    $('#deleteitemModal').modal('show');
+    $('#deleteModal').modal('show');
   }
-  else if(obj.alloted_units<0 || obj.available_units>0){
-//$('#deleteitemModal').modal('show');
-$('#deleteModal').modal('show');
-  }
-  else if(obj.alloted_units>0){
-    this.msgService.showErrorMessage('error', '', "You can't delete this item since it is allocated");
-  }
- // $('#deleteModal').modal('show');
-  //$('#deleteitemModal').modal('show');
  
+else{
+  this.msgService.showErrorMessage('error', '', "You can't delete this item since it is allocated");
+  
+}
+ 
+
+
+}
+tempForCat;
+showconfirmCat(obj){
+  this.tempForCat =obj.data.category_id;
+  //this.tempForCat= obj;
+  $('#deleteModalCat').modal('show');
 }
 
 //delete
 deleteItem(obj) {
-    //this.auth.showLoader();
-    this.httpService.deleteData(this.url + 'item/' + this.tempObj.item_id, null).subscribe(
+  this.httpService.deleteData(this.url + 'item/' + obj.item_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', 'Item Deleted Successfully');
@@ -354,7 +349,7 @@ deleteItem(obj) {
         $('#deleteModal').modal('hide');
       },
       err => {
-        this.msgService.showErrorMessage('error', '', err.error.message);
+        this.msgService.showErrorMessage('error', '', "error");
         this.auth.hideLoader();
       }
     );
@@ -368,6 +363,7 @@ showAllocationHistory(obj){
 }
 /*======================================APi Clla For Item===============*/
 getAllMasterCourseList() {
+  this.masterCourseList=[];
   // this.auth.showLoader();
     this.httpService.getData('/api/v1/standards/all/'+this.item.institution_id +'?active=Y').subscribe(
       res => {
@@ -381,6 +377,7 @@ getAllMasterCourseList() {
   
 }
 onMasterCourseSelection(standard_id){
+  this.CourseList=[];
   if(standard_id==undefined){
 
   }
@@ -707,19 +704,15 @@ this.allocatedata.available_units=data.available_units;
 }
 saveAllocatedData(){
   if(this.allcateForm.valid){
-    // let date:any = new Date();
-    // this.allocatedata.date_of_dispatch =date;
-      
-    // this.allocatedata.date_of_dispatch
     this.httpService.postData(this.url + 'item/allocate/subBranch', this.allocatedata).subscribe(
       (res: any) => {
          $('#subbranchModal').modal('hide');
-        this.auth.hideLoader();
-        this.getItemDetails();
+         this.getItemDetails();
+        this.auth.showLoader();
         if (res.statusCode == 200) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Allocated successfully');
-          this.getCategoryDetails();
-          this.allcateForm.resetForm();
+         this.allcateForm.resetForm();
+         this.auth.hideLoader();
         }
       },
       err => {
@@ -762,8 +755,7 @@ getItemAgainSubBranch(id){
 }
 allocationHistoryData:any =[]
 getAllocationHistrory(id){
-  console.log(id)
-//this.auth.showLoader();
+this.auth.showLoader();
  this.httpService.getData('/api/v1/inventory/item/txHistory/'+id).subscribe(
   res => {
     this.allocationHistoryData = res;

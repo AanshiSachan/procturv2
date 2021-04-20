@@ -19,7 +19,7 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
 import { ExcelService } from '../../services/excel.service';
 import { ReplacenullPipe } from './replacenull.pipe';
 import { OrderByPipe } from './order-by.pipe';
-
+import { ClipboardModule } from "@angular/cdk/clipboard";
 @NgModule({
   declarations: [InventoryModuleComponent,
   SupplierComponent,
@@ -38,6 +38,7 @@ import { OrderByPipe } from './order-by.pipe';
     InventoryModuleRoutingModule,
     FormsModule,
     SharedModule,
+    ClipboardModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
   providers:[RoleService,ExportToPdfService,ExcelService]

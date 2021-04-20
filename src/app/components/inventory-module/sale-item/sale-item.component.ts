@@ -180,19 +180,18 @@ export class SaleItemComponent implements OnInit {
     let selected = moment(this.paymentModel.payment_date);
     let differ = today.diff(selected, 'days');
     if (differ <= 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment date is greter than today's date ");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Future date is not allowed ");
       this.paymentModel.payment_date = moment(new Date()).format('YYYY-MM-DD');
     }
     return true;
   }
   validatePayment(data) {
-    let balanced_amount = 2344;
-    let amount = Number(this.paymentModel.paid_amount);
+   let amount = Number(data);
     if (amount < 1) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is LESS than one")
     }
-    if (balanced_amount <= amount) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is GREATER than Balanced Amount")
+    if (amount <= amount) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment amount is greater than remaining amount")
     }
   }
   paymentHistoryData = [];

@@ -13,15 +13,17 @@
     </div>
         <div class="w98">
             <div class="pt15 display">
-            <!-- <div>
-                <input type="text" class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
+ <div>
+                <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
+                #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
             </div>
-            <div class="right">
-                <a href="" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
-                <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>
-                <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-                <a href="" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
-            </div> -->
+ <div class="right">
+                                    <!--   <a (click)="copydata()" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>-->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
+            </div> 
             </div>
             <div class="purchase">
                 <div class="table_heading" >
@@ -41,7 +43,7 @@
                 <div>Balance</div>
                 <div>Actions</div>
                 </div>
-                <div class="table_body" *ngFor="let data of purchaseAllData;index as i">
+                <div class="table_body" *ngFor="let data of staticPageData;index as i">
                 <!-- <div>
                 {{data.category_name}}
                 </div>
@@ -82,7 +84,7 @@
                                   <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>
                                   <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>
                                   <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a> 
-                                  <a  (click)="getPaymentHistory(data.purchase_id)">View Payment History</a>
+                                  <a  (click)="getPaymentHistory(data)">View Payment History</a>
                                 
                                 </div>
                                
@@ -92,27 +94,11 @@
         
             </div>
         </div>
-      <!-- <div class="white bottom_button bottom_pagignation">
-              
-                <div class=" flex w98">
-                <div class="w20">
-                    <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
-                </div>
-                <div class="w10">
-                    <p>Total <span>9</span> Pages</p>
-                </div>
-                <div class="w40">
-                    <p>Records per Page  
-                    <select>
-                    <option>9</option>
-                    </select>
-                    </p>
-                </div>
-                <div class="w30" >
-                <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
-                </div>
-                </div>
-        </div>       -->
+              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+    [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+    [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+</pagination> 
+               
           <!-- use image only when page is empty,table body class element will not be present -->
 </div> 
   <div class="modal" id="addpayModal" data-backdrop="static">

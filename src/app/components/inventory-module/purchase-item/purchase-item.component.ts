@@ -15,16 +15,20 @@ declare var $;
 })
 export class PurchaseItemComponent implements OnInit {
   isedit: any;
+  
   purchaseAllData: any = [];
   paid: number = 1;
   rowColumns: any;
+  searchParams: any;
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
-  displayBatchSize: number = 50;
+  displayBatchSize: number = 25;
   staticPageData: any = [];
   staticPageDataSouece: any = [];
   institution_id;
+  tempLocationList: any=[];
+  assignDataforDownload: [];
   model = {
     purchase_id: 0,
     supplier_id: '',
@@ -68,31 +72,34 @@ export class PurchaseItemComponent implements OnInit {
       (res: any) => {
         let purchaseData = res.result.response;
         this.purchaseAllData =purchaseData;
+        this.staticPageData = res.result.response;
+        this.tempLocationList = res.result.response;
+        this.totalRecords = res.result.totalElements;
         console.log(purchaseData)
-        for (let keys of purchaseData) {
-          console.log(keys);
-          console.log(keys)
-          // console.log(this.purchaseAllData[keys]);
-          // for (let data of keys.purchased_item_list) {
-          //   let obj:any={};
-          //   //obj.category=keys.category_name;
-          //   obj.item_name=data.item_name;
-          //   obj.category_name=data.category_name;
-          //   obj.quantity=data.quantity;
-          //   obj.supplier_company_name=keys.supplier_company_name;
-          //   obj.purchase_date=keys.purchase_date;
-          //   obj.total_amount=keys.total_amount;
-          //   obj.total_paid_amount=keys.total_paid_amount;
-          //   obj.purchase_date=keys.purchase_date;
-          //   obj.balanced_amount=keys.balanced_amount;
-          //   obj.bill_image_url=keys.bill_image_url;
-          //   obj.paid_amount =keys.paid_amount;
-          //   obj.purchase_id=keys.purchase_id;
-          //   console.log(obj);
-          //   this.purchaseAllData.push(obj)
-          // }
-          console.log(purchaseData)
-        }
+        // for (let keys of purchaseData) {
+        //   console.log(keys);
+        //   console.log(keys)
+        //   // console.log(this.purchaseAllData[keys]);
+        //   // for (let data of keys.purchased_item_list) {
+        //   //   let obj:any={};
+        //   //   //obj.category=keys.category_name;
+        //   //   obj.item_name=data.item_name;
+        //   //   obj.category_name=data.category_name;
+        //   //   obj.quantity=data.quantity;
+        //   //   obj.supplier_company_name=keys.supplier_company_name;
+        //   //   obj.purchase_date=keys.purchase_date;
+        //   //   obj.total_amount=keys.total_amount;
+        //   //   obj.total_paid_amount=keys.total_paid_amount;
+        //   //   obj.purchase_date=keys.purchase_date;
+        //   //   obj.balanced_amount=keys.balanced_amount;
+        //   //   obj.bill_image_url=keys.bill_image_url;
+        //   //   obj.paid_amount =keys.paid_amount;
+        //   //   obj.purchase_id=keys.purchase_id;
+        //   //   console.log(obj);
+        //   //   this.purchaseAllData.push(obj)
+        //   // }
+        //   console.log(purchaseData)
+        // }
         // this.staticPageData = res.result.response;
         // this.tempLocationList = res.result.response;
         // this.totalRecords = res.result.total_elements;
@@ -198,7 +205,7 @@ $('#addpayModal').modal('show');
             } else {
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).error[0].errorMessage);
             }
           }
         }
@@ -216,7 +223,7 @@ $('#addpayModal').modal('show');
     let selected = moment(this.paymentModel.payment_date);
     let differ = today.diff(selected, 'days');
     if (differ <= 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment date is greter than today's date ");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Payment date is greter than today's date ");
       this.paymentModel.payment_date = moment(new Date()).format('YYYY-MM-DD');
     }
     return true;
@@ -225,17 +232,18 @@ $('#addpayModal').modal('show');
     let balanced_amount = 2344;
     let amount = Number(this.paymentModel.paid_amount);
     if (amount < 1) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is LESS than one")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Payment amount is less than one");
     }
     if (balanced_amount <= amount) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is GREATER than Balanced Amount")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment amount is greater than balanced amount")
     }
   }
   paymentHistoryData = [];
-  getPaymentHistory(id) {
-    this.auth.showLoader();
+  getPaymentHistory(data) {
+    if(data.paid_amount!=0){
+   this.auth.showLoader();
     $('#viewpayModal').modal('show');
-    this.httpService.getData('/api/v1/inventory/payment/all?purchaseId=' + id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
+    this.httpService.getData('/api/v1/inventory/payment/all?purchaseId=' + data.purchase_id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
       this.paymentHistoryData = res.result;
       this.auth.hideLoader();
     },
@@ -243,7 +251,7 @@ $('#addpayModal').modal('show');
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '',err.error.message);
        }   )
    
-    
+      }
   }
   viewNavigate(obj){
     //../purchase-view
@@ -269,4 +277,145 @@ this.router.navigate(['/view/inventory-management/purchase-view'])
    
 
   }
+
+  fetchTableDataByPage(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.staticPageData = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.pageIndex++;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.pageIndex != 1) {
+      this.pageIndex--;
+      this.fetchTableDataByPage(this.pageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    this.getPurchaseDetails();
+  }
+  updateTableBatchSize(event) {
+    this.pageIndex = 1;
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
+  searchDatabase() {
+    if (this.searchParams == undefined || this.searchParams == null) {
+       this.searchParams = "";
+       this.staticPageData = this.tempLocationList;
+     }
+     else {
+       let searchData = this.tempLocationList.filter(item =>
+         Object.keys(item).some(
+           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
+       );
+       this.staticPageData = searchData;
+       this.totalRecords=this.staticPageData;
+     }
+   }
+   downloadPdf() {
+    ///api/v1/inventory/purchase/all?all=1 + '&&instituteId=' + this.institution_id
+    this.httpService.getData('/api/v1/inventory/purchase/all?all=1&&instituteId=' + this.institution_id).subscribe(
+      (res: any) => {
+        this.assignDataforDownload = res.result.response;
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    let arr = [];
+   
+    this.assignDataforDownload.map(
+      (ele: any) => {
+        let json = [
+         ele.reference_number,
+          ele.supplier_company_name,
+          ele.purchase_date,
+         // ele.bill_image_url,
+          ele.total_amount,
+          ele.total_paid_amount,
+          ele.balanced_amount,
+         
+   ]
+        arr.push(json);
+      })
+
+    let rows = [];
+    rows = [['Reference No.', ' Supplier', ' Date',
+    'Grand Total ','Paid ','Balance']]
+    let columns = arr;
+    this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
+    this.auth.hideLoader();
+  }
+//download in excel format
+headerSetting =[{
+  primary_key: 'reference_number',
+  value: "Reference No.",
+  
+},
+{
+  primary_key: 'supplier_company_name',
+  value: "Supplier",
+  
+},
+{
+  primary_key: 'purchase_date',
+  value: "Date",
+  
+},
+// {
+//   primary_key: 'bill_image_url',
+//   value: "File",
+  
+// },
+{
+  primary_key: 'total_amount',
+  value: "Grand Total",
+  
+},
+{
+  primary_key: 'total_paid_amount',
+  value: "Paid",
+  
+},
+{
+  primary_key: 'balanced_amount',
+  value: "Balance",
+  
+}]
+
+exportToExcel(){
+  this.httpService.getData('/api/v1/inventory/purchase/all?all=1&&instituteId=' + this.institution_id).subscribe(
+    (res: any) => {
+      this.auth.showLoader();
+      this.assignDataforDownload= res.result.response;
+      let Excelarr = [];
+      this.assignDataforDownload.map(
+      (ele: any) => {
+        let json = {}
+        this.headerSetting.map((keys) => {
+          json[keys.value] = ele[keys.primary_key]
+        })
+        Excelarr.push(json);
+      }
+    )
+    this.excelService.exportAsExcelFile(
+      Excelarr,
+      'asset_assign'
+    );
+      this.auth.hideLoader();
+  },
+    err => {
+      this.auth.hideLoader();
+    }
+    
+  );
+  this.auth.hideLoader();
+}
 }

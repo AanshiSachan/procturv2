@@ -24,7 +24,7 @@
                  <div class="pt102">
                  <select class="select wid100" name="user_id" id="user_id"
                   [(ngModel)]="model.user_id">
-                    <option value="" selected>User<span class="astrik">*</span></option>
+                    <option value="">User<span class="astrik">*</span></option>
                     <option value="{{datas.user_id}}" *ngFor="let datas of userALLdata">{{datas.name}}</option>
                   </select>
               </div>

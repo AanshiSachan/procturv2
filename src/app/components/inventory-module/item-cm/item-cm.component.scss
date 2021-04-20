@@ -5,3 +5,16 @@
     border-radius: 4px;
     
 }
+
+#deleteModalCat .modal-dialog {
+    width: 350px;
+    text-align: center;
+}
+@media (min-width: 576px){
+ #deleteModalCat .modal-dialog {
+    max-width:350px;
+}
+}
+.alert_text{
+    text-align: center;
+}

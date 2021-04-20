@@ -54,9 +54,9 @@ export class SaleAddComponent implements OnInit {
   @ViewChild('myForm', { static: false }) myForm: NgForm;
 
   model: any = {
-    sale_id:0,
+    sale_id: 0,
     sale_type: '',
-    user_id:'',
+    user_id: '',
     user_role: '',
     reference_number: '',
     bill_image_url: '',
@@ -68,8 +68,8 @@ export class SaleAddComponent implements OnInit {
 
   }
   getAllRoles() {
-   //this.auth.showLoader();
-    this.httpService.getData('/api/v1/roleApi/allRoles/'+this.institution_id).subscribe((res: any) => {
+    //this.auth.showLoader();
+    this.httpService.getData('/api/v1/roleApi/allRoles/' + this.institution_id).subscribe((res: any) => {
       this.roleAllData = res;
       this.auth.hideLoader();
     },
@@ -80,11 +80,10 @@ export class SaleAddComponent implements OnInit {
   }
   userALLdata = [];
   getUserAgainstRole(role_id) {
-    alert(role_id)
     this.httpService.getData('/api/v1/inventory/sale/' + this.institution_id + '/getUserByRole?roleIds=' + role_id).subscribe(
       (res: any) => {
         this.userALLdata = res.result;
-        console.log(this.userALLdata)
+
       },
       err => {
         this.auth.hideLoader();
@@ -96,7 +95,7 @@ export class SaleAddComponent implements OnInit {
     let selected = moment(this.model.sale_date);
     let differ = today.diff(selected, 'days');
     if (differ <= 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Purchase date is greter than today's date ");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Future date is not allowed ");
       this.model.sale_date = moment(new Date()).format('YYYY-MM-DD');
     }
 
@@ -124,10 +123,10 @@ export class SaleAddComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + category_id).subscribe((res: any) => {
       this.itemAllData = res.result;
-      console.log(this.itemArray);
+
       this.auth.hideLoader();
       this.itemArray = this.itemAllData[0].items;
-      console.log(this.itemArray)
+
     })
 
   }
@@ -136,15 +135,15 @@ export class SaleAddComponent implements OnInit {
     this.itemArray.forEach(elements => {
       if (elements && elements.item_id == id) {
         this.itemData.push(elements);
-        elements.sale_type ="Paid";
-        elements.isedit =false;
+        elements.sale_type = "Paid";
+        elements.isedit = false;
         let data = elements;
-        console.log(this.itemData);
+
         //use to remove duplicates from array
         this.removeDuplicates(this.itemData)
         //for initial total and unit
         this.purchaselistItem();
-        console.log(this.itemData)
+
       }
     })
 
@@ -170,19 +169,19 @@ export class SaleAddComponent implements OnInit {
     let subTotal = 0;
     let units = 0;
     for (let data of this.itemData) {
-      data.subtotal=0;
+      data.subtotal = 0;
       units += Number(data.available_units);
-     if(data.sale_type=="Paid"){
-      data.subtotal = (data.available_units *data.unit_cost) +(data.available_units *data.unit_cost) * (data.tax_percent) /100;
+      if (data.sale_type == "Paid") {
+        data.subtotal = (data.available_units * data.unit_cost) + (data.available_units * data.unit_cost) * (data.tax_percent) / 100;
         //for total calculate
         subTotal += data.subtotal;
-     
 
-    }    //subtotal for each row
+
+      }    //subtotal for each row
       else {
-        data.unit_cost=0;
+        data.unit_cost = 0;
       }
-     
+
     }
     this.total = subTotal;
     this.totalUnits = units
@@ -190,7 +189,7 @@ export class SaleAddComponent implements OnInit {
   status: boolean = true;
   editdata(param) {
 
-    param.isedit=true
+    param.isedit = true
     //for editrow
     // if (id != undefined) {
     //   this.status = param;
@@ -199,15 +198,14 @@ export class SaleAddComponent implements OnInit {
 
   }
   deleteItemData(id) {
-   console.log(this.itemData)
-    alert(id)
-    //delete item one by one
     this.itemData.forEach((element, index) => {
       this.itemData.splice(id, 1);
 
     });
     this.purchaselistItem();
-   
+if(this.itemData.length ==0){
+  this.isChange =!this.isChange;
+}
   }
   saveSaleDetails() {
     if (this.myForm.valid) {
@@ -223,7 +221,6 @@ export class SaleAddComponent implements OnInit {
         }
         this.model.sale_item_list.push(obj)
       }
-      console.log(this.itemData);
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
@@ -305,9 +302,8 @@ export class SaleAddComponent implements OnInit {
         this.auth.hideLoader();
         let saleData = res.result.response;
         for (let keys of saleData) {
-          console.log(keys);
-          console.log(keys)
-          // console.log(this.purchaseAllData[keys]);
+
+
           for (let data of keys.sale_item_list) {
             let obj: any = {};
             obj.item_name = data.item_name;
@@ -323,10 +319,10 @@ export class SaleAddComponent implements OnInit {
             obj.balanced_amount = keys.balanced_amount;
             obj.bill_image_url = keys.bill_image_url;
             obj.sale_id = keys.sale_id;
-            console.log(obj);
+
             this.saleAllData.push(obj)
           }
-          console.log(saleData)
+
         }
         // this.staticPageData = res.result.response;
         // this.tempLocationList = res.result.response;
@@ -340,43 +336,41 @@ export class SaleAddComponent implements OnInit {
   }
 
   editRow(editId) {
+   
     this.itemData = [];
     this.isChange = true;
-    console.log(editId);
+
     this.isDisable = true;
 
     this.httpService.getData('/api/v1/inventory/sale/' + editId + '?instituteId=' + this.model.institute_id).subscribe((res: any) => {
       this.dataForEdit = res.result;
+      this.getUserAgainstRole(this.dataForEdit.role_id);
       // this.model = this.dataForEdit;
       this.auth.hideLoader();
-      console.log(this.dataForEdit)
       this.model.user_id = this.dataForEdit.user_id;
-      console.log(this.dataForEdit.user_id)
-      this.model.user_role = this.dataForEdit.user_role;
+     this.model.user_role = this.dataForEdit.user_role;
       this.model.sale_type = this.dataForEdit.sale_type;
       this.model.reference_number = this.dataForEdit.reference_number;
       this.model.bill_image_url = this.dataForEdit.bill_image_url;
       this.model.sale_date = this.dataForEdit.sale_date;
       this.model.payment_status = this.dataForEdit.payment_status;
-      console.log(this.model.payment_status);
       this.model.user_name = this.dataForEdit.user_name;
-      console.log(this.model.payment_status)
       this.model.description = this.dataForEdit.description;
       this.itemData = this.dataForEdit.sale_item_list;
       let newData = [];
       for (let i = 0; i < this.itemData.length; i++) {
         let obj = {
-          sale_type: this.itemData[i].sale_type, 
-          item_id: this.itemData[i].item_id, 
-          item_name: this.itemData[i].item_name, 
+          sale_type: this.itemData[i].sale_type,
+          item_id: this.itemData[i].item_id,
+          item_name: this.itemData[i].item_name,
           "available_units": this.itemData[i].quantity, "unit_cost": this.itemData[i].unit_price,
           "tax_percent": this.itemData[i].tax,
-          "isedit":false
+          "isedit": false
         }
         newData.push(obj);
       }
       this.itemData = newData;
-      console.log(this.itemData);
+
       //function for total and subtotal
       this.purchaselistItem();
     },
@@ -385,7 +379,7 @@ export class SaleAddComponent implements OnInit {
       })
 
   }
-  updateSaleData(){
+  updateSaleData() {
     if (this.myForm.valid) {
       this.model.sale_item_list = [];
       //sale_type":"paid", "item_id":43, "quantity":1, "unit_price":100, "tax":0.0
@@ -399,7 +393,7 @@ export class SaleAddComponent implements OnInit {
         }
         this.model.sale_item_list.push(obj)
       }
-      console.log(this.itemData);
+
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
@@ -428,7 +422,7 @@ export class SaleAddComponent implements OnInit {
       // let base = this.auth.productBaseUrl;
       let base = "https://test999.proctur.com/StdMgmtWebAPI"
       // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
-      let urlPostXlsDocument =  base + "/api/v1/inventory/sale/update" ;
+      let urlPostXlsDocument = base + "/api/v1/inventory/sale/update";
       let newxhr = new XMLHttpRequest();
       let auths: any = {
         userid: sessionStorage.getItem('userid'),
@@ -438,7 +432,7 @@ export class SaleAddComponent implements OnInit {
       }
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
-      newxhr.open("POST", urlPostXlsDocument, true) ;
+      newxhr.open("POST", urlPostXlsDocument, true);
 
       newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("x-proc-authorization", Authorization);
