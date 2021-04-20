@@ -37,7 +37,7 @@ export class AssetAssignmentComponent implements OnInit {
   locationAllData: any = [];
   totalRow: any;
   tempLocationList: any;
-  assignDataforDownload: [];
+  assignDataforDownload=[];
   rolesListDataSource: any = [];
   model = {
     id: '',
@@ -477,17 +477,14 @@ getRolesList() {
     this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.assignDataforDownload = res.result.response;
-    },
-      err => {
-        this.auth.hideLoader();
-      }
-      
-    );
-    let arr = [];
-   
+        let arr = [];
+   for(let i=0;i<this.assignDataforDownload.length;i++){
+     this.assignDataforDownload[i].id =i +1;
+   }
     this.assignDataforDownload.map(
       (ele: any) => {
         let json = [
+          ele.id,
          ele.asset_name,
           ele.quantity,
           ele.user_type,
@@ -501,10 +498,17 @@ getRolesList() {
       })
 
     let rows = [];
-    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
+    rows = [['#','Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
     this.auth.hideLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    
   }
 //download in excel format
 headersettingforexcel:any=[  {
