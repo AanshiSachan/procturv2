@@ -74,10 +74,10 @@
          <!--table for item-->
         <div class="item_man">
             <div class="table_heading">
-              <div>Item<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div>Category<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div>Total Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div>Available Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div (click)="sortTable('item_name')">Item<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div (click)="sortTable('category_name')">Category<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div   (click)="sortTable('alloted_units')">Total Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div  (click)="sortTable('available_units')">Available Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
               <div>
                 Buying Price<br>(Unit Price)
               </div>
