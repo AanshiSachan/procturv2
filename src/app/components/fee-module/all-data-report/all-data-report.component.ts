@@ -125,6 +125,7 @@ export class AllDataReportComponent implements OnInit {
     //         , { title: "delete", class: 'fa fa-remove deleteCss' }]
     // }
   };
+  schoolModel:boolean = false;
 
   constructor(
     private _getter: GetFeeService,
@@ -146,6 +147,7 @@ export class AllDataReportComponent implements OnInit {
     this.due_type = "seven_days_dues";
     this.dateRangeChanges(event);
     this.getAcademicYear();
+    this.schoolModel = this.auth.schoolModel.getValue();
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {

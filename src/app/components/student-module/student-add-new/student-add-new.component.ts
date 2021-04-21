@@ -1704,6 +1704,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     }
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
+    if(this.studentAddFormData.standard_id !='-1') {
+      this.fetchCourseListByStdId(this.studentAddFormData.standard_id);
+    }
   }
 
   fetchEnquiryCustomComponentDetails() {

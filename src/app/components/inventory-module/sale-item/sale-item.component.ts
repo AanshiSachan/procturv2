@@ -18,7 +18,7 @@ export class SaleItemComponent implements OnInit {
   rowColumns: any;
   searchParams: any;
   tempLocationList: any=[];
-  assignDataforDownload:[];
+  assignDataforDownload=[];
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   pageIndex: number = 1;
   totalRecords: number = 0;
@@ -160,7 +160,7 @@ export class SaleItemComponent implements OnInit {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = 'Payment details is Saved Successfully';
+              let msg = 'Payment updated successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               $('#addpayModal').modal('hide');
               this.getSaleDetails();
@@ -225,7 +225,7 @@ export class SaleItemComponent implements OnInit {
     this.httpService.deleteData('/api/v1/inventory/sale/delete/' +   this.sale_id + '?instituteId=' + this.model.institution_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Sale Item Deleted Successfully');
+        this.msgService.showErrorMessage('success', '', 'Sale Deleted Successfully');
         this.getSaleDetails();
         $('#deletesModal').modal('hide');
       },
@@ -306,11 +306,14 @@ this.router.navigate(['/view/inventory-management/sale-view'])
     this.httpService.getData('/api/v1/inventory/sale/all?all=1&&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         this.assignDataforDownload = res.result.response;
-        console.log(  this.assignDataforDownload)
+        for(let i=0;i<this.assignDataforDownload.length;i++){
+          this.assignDataforDownload[i].id =i +1;
+        }
         let arr = [];
         this.assignDataforDownload.map(
           (ele: any) => {
             let json = [
+              ele.id,
              ele.reference_number,
              ele.user_role,
               ele.user_name,
@@ -325,7 +328,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
           })
     
         let rows = [];
-        rows = [['Reference No.', ' Role', ' User',
+        rows = [['#','Reference No.', ' Role', ' User',
         'Date ','Grand Total','Paid ','Balance(To be Paid)']]
         // let columns = arr;
         console.log('122',arr)

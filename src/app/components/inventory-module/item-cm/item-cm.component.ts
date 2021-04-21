@@ -79,7 +79,7 @@ export class ItemCmComponent implements OnInit {
           this.auth.hideLoader();
           this.getCategoryDetails();
           if (res.statusCode == 200) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'A new category has been created in the system');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Category Added Successfully');
             this.getCategoryDetails();
           }
         },
@@ -131,11 +131,11 @@ export class ItemCmComponent implements OnInit {
     }
     if (this.catForm.valid) {
       this.httpService.putData(this.url + 'category', obj).subscribe(() => {
-        $('#addModel').modal('hide');
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category has been edited from Previous details to Current edited details")
+    
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category Updated Successfully")
         this.auth.hideLoader();
         this.getCategoryDetails();
-       
+        $('#addModel').modal('hide');
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -203,7 +203,7 @@ export class ItemCmComponent implements OnInit {
       this.httpService.deleteData(this.url + 'category/' + obj, null).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', ' Deleted Successfully');
+          this.msgService.showErrorMessage('success', '', 'Category Deleted Successfully');
           this.getCategoryDetails();
           $('#deleteModalCat').modal('hide');
         },
@@ -225,7 +225,7 @@ saveItemDetails(){
         this.auth.hideLoader();
         this.getItemDetails();
         if (res.statusCode == 200) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'An Item ' + this.item.item_name + ' '+ ','+ 'has been created to system, under category ' + ' ' + this.item.category_name );
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Added Successfully' );
           this.getCategoryDetails();
           //
         }
@@ -298,7 +298,7 @@ updateItemDetails(){
   if (this.itemForm.valid) {
     this.httpService.putData(this.url + 'item', obj).subscribe(() => {
       $('#itemModal').modal('hide');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Item is Updated Successfully")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Item Updated Successfully")
       this.getItemDetails();
    },
       err => {
@@ -561,16 +561,20 @@ getClassRoomTableFromSource(startindex) {
       primary_key: 'desc',
       value: "Description",
       charactLimit: 25,
-      sorting: true,
+      sorting: false,
       visibility: true
     },
   ]
   //download pdf
   downloadPdf() {
     let arr =[];
+    for(let i=0;i<this.categoryAllData.length;i++){
+      this.categoryAllData[i].id =i +1;
+    }
   this.categoryAllData.map(
       (ele: any) => {
         let json = [
+          ele.id,
           ele.category_name,
           ele.desc,
        ]
@@ -578,7 +582,7 @@ getClassRoomTableFromSource(startindex) {
       })
 
     let rows = [];
-    rows = [['Name',  ' Description']]
+    rows = [['#','Name',  ' Description']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'category List');
     this.auth.hideLoader();
@@ -604,10 +608,14 @@ exportToExcel(){
 }
 /* ==========================================Download Data for Item=============*/
 downloadPdffoItem() {
+  for(let i=0;i<this.itemAllData.length;i++){
+    this.itemAllData[i].id =i +1;
+  }
   let arrforItem =[];
 this.itemAllData.map(
     (ele: any) => {
       let json = [
+        ele.id,
         ele.item_name,
         ele.category_name,
         ele.alloted_units,
@@ -621,7 +629,7 @@ this.itemAllData.map(
     })
 
   let rows = [];
-  rows = [['Item',  ' Category','Total Units','Available Units','Buying/Unit Price','Sale Price',
+  rows = [['#','Item',  ' Category','Total Units','Available Units','Buying/Unit Price','Sale Price',
   'Taxes (%)','Low Stock indicator (Units)']]
   let columns = arrforItem;
   this._pdfService.exportToPdf(rows, columns, 'item List');
@@ -707,7 +715,7 @@ saveAllocatedData(){
          this.getItemDetails();
         this.auth.showLoader();
         if (res.statusCode == 200) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Allocated successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Allocated Successfully');
          this.allcateForm.resetForm();
          this.auth.hideLoader();
         }
@@ -779,6 +787,7 @@ updataeManageUnit(){
     $('#manageunitModal').modal('hide');
     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Units Updated Successfully")
     this.getItemDetails();
+    this.manageData.units_added='';
   },
     err => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);

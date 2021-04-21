@@ -171,7 +171,7 @@
                             <label  class="p_title">Upload File</label>
                             <input  type="file" name="billImageFile" [disabled]="bill_image_url!=''&& isedit"
                                     class="form-control" placeholder="Browse file" id="billImageFile"
-                                    [(ngModel)]="bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+                                    [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
                                   
                                 </div>
                             <div class="col-md-6" *ngIf="isedit && bill_image_url !='' && bill_image_url!=null">
@@ -215,7 +215,7 @@
             </div>
             <div class="modal-body">
               <div class="centers">
-                <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+                <span><img src="/assets/img1/alert.svg"></span><span class="alert">Alert</span>
               </div>
              <div><p class="centers paradel"> Do you want to delete this ?</p>
               </div> 

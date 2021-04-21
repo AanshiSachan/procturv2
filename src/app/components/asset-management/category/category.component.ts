@@ -17,8 +17,8 @@ export class CategoryComponent implements OnInit {
   activeclass: string;
   assetAllData: any = [];
   assetcategoryData: any = [];
-  assetDataToDownload: [];
-  catDataToDownload: [];
+  assetDataToDownload= [];
+  catDataToDownload= [];
   displayBatchSize: number = 25;
   excelheaderseting: any = [];
   headerSetting: any;
@@ -621,18 +621,15 @@ export class CategoryComponent implements OnInit {
     this.httpService.getMethod('api/v2/asset/category/all?all=1&instituteId=' + this.category_model.institute_id, null).subscribe(
       (res: any) => {
         this.catDataToDownload = res.result.response;
-        //this.auth.showLoader();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-
-    );
-    let arr = [];
+        for(let i=0;i<this.catDataToDownload.length;i++){
+          this.catDataToDownload[i].id=i+1;
+        }
+        let arr = [];
 
     this.catDataToDownload.map(
       (ele: any) => {
         let json = [
+          ele.id,
           ele.category_code,
           ele.category_name,
         ]
@@ -640,11 +637,19 @@ export class CategoryComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['Code', ' Name']]
+    rows = [['#','Code', ' Name']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Category List');
     this.auth.hideLoader();
 
+        //this.auth.showLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+
+    );
+    
   }
   //array to export
 
@@ -719,18 +724,16 @@ export class CategoryComponent implements OnInit {
     this.httpService.getMethod('api/v2/asset/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.assetDataToDownload = res.result.response;
+        for(let i=0;i<this.assetDataToDownload.length;i++){
+          this.assetDataToDownload[i].id=i+1;
+        }
         //this.auth.showLoader();
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-
-    );
-    let arr = [];
+        let arr = [];
 
     this.assetDataToDownload.map(
       (ele: any) => {
         let json = [
+          ele.id,
           ele.asset_code,
           ele.asset_name,
           ele.category_name,
@@ -743,10 +746,17 @@ export class CategoryComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['Code', ' Asset Name', 'Category', 'Quantity','Available Qty', 'Condition', 'Locations']]
+    rows = [['#','Code', ' Asset Name', 'Category', 'Quantity','Available Qty', 'Condition', 'Locations']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset List');
     this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+
+    );
+    
   }
   //cancel 
   cancel() {

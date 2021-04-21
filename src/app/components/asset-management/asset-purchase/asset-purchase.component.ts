@@ -26,7 +26,7 @@ export class AssetPurchaseComponent implements OnInit {
   pageIndex: number = 1;
   purchaseAllData: any = [];
   purchaseby: any;
-  purchaseDataforDownload: [];
+  purchaseDataforDownload=[];
   rowColumns: any;
   searchParams: any;
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
@@ -50,6 +50,7 @@ export class AssetPurchaseComponent implements OnInit {
     unit: '',
     user_type: '',
     category_id: '',
+    bill_image_url:''
   }
   constructor(private httpService: ProductService,
     private auth: AuthenticatorService,
@@ -474,7 +475,7 @@ export class AssetPurchaseComponent implements OnInit {
       unit: '',
       user_type: '',
       category_id: '',
-
+      bill_image_url:''
     }
     this.assePurchaseForm.resetForm(this.model);
 
@@ -485,35 +486,40 @@ export class AssetPurchaseComponent implements OnInit {
       (res: any) => {
         this.purchaseDataforDownload = res.result.response;
         //this.auth.showLoader();
+        for(let i=0;i<this.purchaseDataforDownload.length;i++){
+          this.purchaseDataforDownload[i].id =i +1;
+        }
+        let arr = [];
+
+        this.purchaseDataforDownload.map(
+          (ele: any) => {
+            let json = [
+              ele.id,
+              ele.asset_name,
+              ele.quantity,
+              ele.supplier_name,
+              ele.unit,
+              ele.purchase_amount,
+              ele.purchase_date,
+              ele.service_date,
+              ele.expiry_date,
+              ele.purchased_by_user_display_name,
+            ]
+            arr.push(json);
+          })
+    
+        let rows = [];
+        rows = [['#','Asset Name', ' Quantity', ' Company Name', 'Unit', ' Purchase Price', 'Purchase Date ', 'Service Date', 'Expiry Date', 'Purchase By']]
+        let columns = arr;
+        this._pdfService.exportToPdf(rows, columns, 'Asset_Purchase_List');
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
       }
 
     );
-    let arr = [];
-
-    this.purchaseDataforDownload.map(
-      (ele: any) => {
-        let json = [
-          ele.asset_name,
-          ele.quantity,
-          ele.supplier_name,
-          ele.unit,
-          ele.purchase_amount,
-          ele.purchase_date,
-          ele.service_date,
-          ele.expiry_date,
-          ele.purchased_by_user_display_name,
-        ]
-        arr.push(json);
-      })
-
-    let rows = [];
-    rows = [['Asset Name', ' Quantity', ' Company Name', 'Unit', ' Purchase Price', 'Purchase Date ', 'Service Date', 'Expiry Date', 'Purchase By']]
-    let columns = arr;
-    this._pdfService.exportToPdf(rows, columns, 'Asset_Purchase_List');
-    this.auth.hideLoader();
+   
   }
   //download in excel format
   headersettingforexcel: any = [{

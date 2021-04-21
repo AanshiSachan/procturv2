@@ -270,7 +270,7 @@
             formControlName="allow_exam_desk_login">
           <span style="margin-left: 5px;" class="allow">Allow Exam Desk Login</span>
         </div> -->
-        <div class="field-checkbox-wrapper" style="width: 30%;float: left;">
+        <div class="field-checkbox-wrapper" *ngIf="selectedTeacherId" style="width: 30%;float: left;">
           <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isActive" formControlName="is_active"
                   class="form-checkbox">

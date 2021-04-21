@@ -101,7 +101,7 @@ export class SupplierComponent implements OnInit {
         primary_key: 'phone_no',
         value: "Mobile",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -115,7 +115,7 @@ export class SupplierComponent implements OnInit {
         primary_key: 'item_names',
         value: "Item Name",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -285,7 +285,7 @@ export class SupplierComponent implements OnInit {
            $('#add1Modal').modal('hide');
           this.auth.hideLoader();
           if (res.statusCode == 200) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Supplier details is Added successfully ');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Supplier detail Added Successfully');
             this.getVendorDetails();
           }
         },
@@ -366,7 +366,7 @@ export class SupplierComponent implements OnInit {
          $('#add1Modal').modal('show');
          this.auth.hideLoader();
          this.httpService.putData('/api/v1/inventory/supplier/update',obj).subscribe(() => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Supplier is Updated Successfully")
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Supplier detail Updated Successfully")
          this.getVendorDetails();
          $('#add1Modal').modal('hide');
         },
@@ -392,7 +392,7 @@ export class SupplierComponent implements OnInit {
     this.httpService.deleteData(this.url + 'supplier/delete/' + obj.data.supplier_id +'?instituteId='+ this.institute_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Supplier details is Deleted successfully');
+        this.msgService.showErrorMessage('success', '', 'Supplier Deleted Successfully');
         this.getVendorDetails();
         $('#deletesModal').modal('hide');
       },
@@ -428,33 +428,38 @@ export class SupplierComponent implements OnInit {
     this.httpService.getData('/api/v1/inventory/supplier/all?all=1&instituteId=' + this.model.institute_id).subscribe(
       (res: any) => {
         this.supplierAllData = res.result.response;
+        for(let i=0;i<this.supplierAllData.length;i++){
+          this.supplierAllData[i].id =i +1;
+        }
+        let arrforSupplier =[];
+        this.supplierAllData.map(
+            (ele: any) => {
+              let json = [
+                ele.id,
+                ele.company_name,
+                ele.supplier_name,
+                ele.address,
+                ele.email_id,
+                ele.phone_no,
+                ele.category_names,
+                ele.item_names,
+               
+             ]
+             arrforSupplier.push(json);
+            })
+        
+          let rows = [];
+          rows = [['#','Company Name',  'Supplier Name','Address', 'Email Id','Mobile','Category Name', 'Item Name']]
+          let columns = arrforSupplier;
+          this._pdfService.exportToPdf(rows, columns, 'Supplier List');
+          this.auth.hideLoader();
     },
       err => {
         this.auth.hideLoader();
       }
       
     );
-  let arrforSupplier =[];
-this.supplierAllData.map(
-    (ele: any) => {
-      let json = [
-        ele.company_name,
-        ele.supplier_name,
-        ele.address,
-        ele.email_id,
-        ele.phone_no,
-        ele.category_names,
-        ele.item_names,
-       
-     ]
-     arrforSupplier.push(json);
-    })
-
-  let rows = [];
-  rows = [['Company Name',  'Supplier Name','Address', 'Email Id','Mobile','Category Name', 'Item Name']]
-  let columns = arrforSupplier;
-  this._pdfService.exportToPdf(rows, columns, 'Supplier List');
-  this.auth.hideLoader();
+ 
 }
 supplierDataForDownload=[
   {
