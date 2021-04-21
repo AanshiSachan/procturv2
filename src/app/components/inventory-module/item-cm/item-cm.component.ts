@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { Category, Item } from './item';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
+import * as moment from 'moment';
 declare var $;
 @Component({
   selector: 'app-item-cm',
@@ -33,6 +34,7 @@ export class ItemCmComponent implements OnInit {
   pagedItemData:any[]=[];
   pageIndex: number = 1;
   pageIndexforItem: number = 1;
+  sortingDir: string = "asc";
   rowColumns: any;
   searchData: any = [];
   searchflag: boolean = false;
@@ -412,7 +414,7 @@ onMasterCourseSelection(standard_id){
         primary_key: 'desc',
         value: "Description",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
 
@@ -854,4 +856,38 @@ updataeManageUnit(){
 
 //sorting
 headElements = ['item_name', 'category_name','alloted_units'];
+sortTable(str) {
+  if (str == "standard_name" || str == "subject_name" || str == "is_active") {
+    this.pagedItemData.sort(function (a, b) {
+      var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+      var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+
+    })
+  }
+  else if (str == "subject_id") {
+    this.pagedItemData.sort(function (a, b) {
+      return a[str] - b[str];
+    })
+  }
+  else if (str == "created_date") {
+    this.pagedItemData.sort(function (a, b) {
+      return moment(a[str]).unix() - moment(b[str]).unix();
+    })
+  }
+  if (this.sortingDir == "asc") {
+    this.sortingDir = "dec";
+  } else {
+    this.sortingDir = "asc";
+    this.pagedItemData = this.pagedItemData.reverse();
+  }
+  this.fetchTableDataByPage(this.pageIndex);
+}
 }
