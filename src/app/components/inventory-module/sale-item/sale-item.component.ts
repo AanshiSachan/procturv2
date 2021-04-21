@@ -191,7 +191,8 @@ export class SaleItemComponent implements OnInit {
     }
   }
   validatePayment(data) {
-   let amount = Number(data);
+   let amount = Number(data.paid_amount);
+   let balance=Number(data.balanced_amount)
     if (amount < 1) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is LESS than one")
     }
