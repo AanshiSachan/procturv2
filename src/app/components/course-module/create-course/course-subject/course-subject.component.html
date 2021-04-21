@@ -324,7 +324,7 @@
           </label>
           <div class="dropdown-div">
             <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
-              <option value="-1"> Select Standard</option>
+              <option value="-1"> Select {{isLangInstitue ? 'Master Course Name' : 'Standard'}}</option>
               <option *ngFor="let opt of standardList" [value]="opt.standard_id">
                 {{ (opt.standard_name?.length > 20) ? (opt.standard_name | slice:0:20) + '...' : opt.standard_name }}
               </option>
