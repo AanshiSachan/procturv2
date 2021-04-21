@@ -76,6 +76,16 @@
                                     Please Enter 10 digit mobile number
                             </sapn>
                          
+                                <div *ngIf="mobile_no.errors?.maxlength">
+                                    Enter 10 digit number only
+                                </div>
+                                <div class="help-block" *ngIf="mobile_no.errors?.minlength">
+                                   <p class="errormsg">Please Enter 10 digit mobile number</p> 
+                                </div>
+                              <p  class="errormsg"> <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
+                                    Mobile number is mandatory
+                                </span>
+                            </p> 
                             </div>
                             <div>
                                 <label  class="p_title">Address<span class="stars">*</span></label>
@@ -101,15 +111,15 @@
                                 <label  class="p_title">Category Name<span class="stars">*</span></label>
                                <ng-multiselect-dropdown placeholder="Select category" [(ngModel)]="model.category_ids"
                                     [data]="assetcategoryData" [settings]="moderatorSettings" name="category_ids"
-                                    (ngModelChange)="getAssetsForSelectedCat($event)">
+                                    (ngModelChange)="getAssetsForSelectedCat($event)"
+                                    >
                                 </ng-multiselect-dropdown>
                             </div>
                             <!-- <p class="errormsg" style="margin-top: 10px;">  <span class="help-block">
                             </span></p> -->
                             <div class="form-group multiselect">
-                                <label  class="p_title">Asset Provided<span class="stars">*</span></label>
-                               <ng-multiselect-dropdown placeholder="Select asset *" [(ngModel)]="model.asset_ids"
-                                    [data]="assetAllData" [settings]="moderatorSettingsforasset" name="model.asset_ids">
+                                <ng-multiselect-dropdown placeholder="Asset Provided *" [(ngModel)]="model.asset_ids"
+                                    [data]="assetAllData" [settings]="moderatorSettingsforasset" name="asset_ids">
                                 </ng-multiselect-dropdown>
                             </div>
                             <!-- <p class="errormsg">  <span class="help-block">
