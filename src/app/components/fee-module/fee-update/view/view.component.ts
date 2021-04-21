@@ -8,7 +8,6 @@ import { FetchStudentService } from '../../../../services/student-services/fetch
 import { StudentFeeService } from '../../../../components/student-module/student_fee.service';
 import { PostStudentDataService } from '../../../../services/student-services/post-student-data.service';
 import { ConfirmDialogModule } from 'primeng/primeng';
-import { ThirdPartyAuthComponent } from 'src/app/components/website-configuration/third-party-auth/third-party-auth.component';
 declare var $;
 
 
