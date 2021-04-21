@@ -242,7 +242,7 @@
                                             <div>
                                                 <label class="checkbox">
                                                     <span class="checkbox__input">
-                                                        <input type="checkbox" name="checked">
+                                                        <input type="checkbox" name="checked" [(ngModel)]="isSelectedAllPaidInstall" (change)="selectAllPaidInstall()">
                                                         <span class="checkbox__control">
                                                             <svg viewBox='0 0 24 24' aria-hidden="true"
                                                                 focusable="false">
@@ -286,7 +286,7 @@
                                                         <label class="checkbox">
                                                             <span class="checkbox__input">
                                                                 <input type="checkbox" [(ngModel)]="data.isSelected"
-                                                                    [(ngModel)]="data.isSelected" name="checked">
+                                                                    name="checked">
                                                                 <span class="checkbox__control">
                                                                     <svg viewBox='0 0 24 24' aria-hidden="true"
                                                                         focusable="false">
@@ -298,7 +298,7 @@
                                                         </label>
                                                     </div>
                                                     <div>
-                                                        {{data.install_no}}
+                                                        {{data.install_nos}}
                                                     </div>
 
                                                     <div>

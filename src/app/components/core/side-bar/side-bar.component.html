@@ -430,7 +430,7 @@
                     <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowFee ? 'block' : 'none'}"
                         [ngClass]="activeSession === 'lifour' ? 'liActiveBG':''" (click)="toggler('lifour')">
                         <div *ngIf="jsonFlags.isShowFee">
-                            <a routerLink="/view/fee" class="dropbtn">
+                            <a  class="dropbtn">
                                 <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidebar_images/fees.svg'"
                                     alt="">
                                 <p>Fees</p><i class="fa fa-angle-right"></i>

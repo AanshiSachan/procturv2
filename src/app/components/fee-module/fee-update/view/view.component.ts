@@ -38,7 +38,7 @@ export class ViewComponent implements OnInit {
     receipt_no: '',
     update_reason: '',
     selectedPdcId: '',
-    due_amount:0,
+    due_amount: 0,
     pdcSelectedForm: {
       bank_name: '',
       cheque_amount: 0,
@@ -115,6 +115,7 @@ export class ViewComponent implements OnInit {
   isUpdatePaidInstall: boolean = false;
   stdAssignedCorseList
   paymentMode: number = 0;
+  isSelectedAllPaidInstall: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -168,7 +169,7 @@ export class ViewComponent implements OnInit {
     )
   }
   fetchDefaultAY() {
-    this.academic_yr_id=-1;
+    this.academic_yr_id = -1;
     if (this.academicYrList != null) {
       for (let data of this.academicYrList) {
         if (data.default_academic_year == 1) {
@@ -1147,8 +1148,8 @@ export class ViewComponent implements OnInit {
       f_schld_id: data.f_schld_id,
       immutable_due_date: moment(data.d_date).format('YYYY-MM-DD')
     }
-    if(this.schoolModel){
-      this.addInstall.standard_id=this.stdFeeDataList.stnd_id;
+    if (this.schoolModel) {
+      this.addInstall.standard_id = this.stdFeeDataList.stnd_id;
     }
     //this.fetchFilterData();
     //this.fetchCoursesList(data.mc_n);
@@ -1231,6 +1232,7 @@ export class ViewComponent implements OnInit {
     for (let data of this.stdFeeDataList.p_install_li) {
       if (data.isSelected) {
         is_intall_not_selected = false;
+        break;
       }
     }
     if (is_intall_not_selected) {
@@ -1273,15 +1275,20 @@ export class ViewComponent implements OnInit {
   }
   calFinalDueAmount(data) {
     debugger
-    if(data==''){
-      data=0;
-      this.paymentPopUpJson.paying_amount=0;
+    if (data == '') {
+      data = 0;
+      this.paymentPopUpJson.paying_amount = 0;
     }
     if (data > this.t_p_amount) {
       this.commonService.showErrorMessage('info', '', "You can not increase paid amount!");
       return;
     }
     this.paymentPopUpJson.due_amount = this.t_d_amount + (this.t_p_amount - data);
+  }
+  selectAllPaidInstall(){
+    for (var i = 0; i < this.stdFeeDataList.p_install_li.length; i++) {
+        this.stdFeeDataList.p_install_li[i].isSelected = this.isSelectedAllPaidInstall;
+    }
   }
 }
 
