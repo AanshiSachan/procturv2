@@ -261,7 +261,7 @@ this.router.navigate(['/view/inventory-management/purchase-view'])
     ///api/v1/inventory/purchase/cancelPurchase?purchaseId=3&instituteId=100058
    this.httpService.getData('/api/v1/inventory/purchase/cancelPurchase?purchaseId=' + purchase_id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
     if (res.statusCode == 200) {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.result);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '','Purchase cancelled & initiated refund');
        this.getAllPurchaseDetails();
       }
       else{
