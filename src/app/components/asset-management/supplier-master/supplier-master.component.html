@@ -47,9 +47,7 @@
                                     placeholder="Enter company name* " [(ngModel)]="model.supplier_name"
                                     #supplier_name="ngModel" required>
                             </div>
-                           <!-- <p class="errormsg"> <span class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched"> Company name is
-                            mandatory 
-                            </span></p> -->
+                          
                             <div class="form-group"  [class.has-error]="email.invalid && email.touched">
                                 <label  class="p_title">Email<span class="stars">*</span></label>
                               
@@ -58,12 +56,7 @@
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                                     <span  style="height:5px;font-size:10px;text-align:left;margin-top:0px;color:red;" *ngIf="email.errors?.pattern">This is not a valid email!</span>
                             </div>
-                            <!-- <div >
-                            <p  *ngIf="email.touched">
-                               <span class="help-block" *ngIf="email.errors?.required">Email is mandatory</span>
-                               
-                                </p> 
-                            </div> -->
+                        
                             <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
                                 <label  class="p_title">Mobile<span class="stars">*</span></label>
                                 <input type="text" class="form-control" name="mobile_no" id="mobile_no" maxlength="10"
@@ -92,9 +85,6 @@
                                 <textarea type="text" class="form-control" name="address" id="address" 
                                     placeholder="Enter address" [(ngModel)]="model.address" #address="ngModel" required>
                               </textarea>
-                        <!-- <p  class="errormsg">  <span class="help-block" *ngIf="!address.valid && address.touched">
-                                    Address is mandatory..
-                                </span></p> -->
                             </div>
                             <div class="form-group">
                                 <label  class="p_title">Contact Person<span class="stars">*</span></label>
@@ -103,11 +93,7 @@
                                     id="contact_person_name" placeholder="Enter contact person name"
                                     [(ngModel)]="model.contact_person_name" #contact_person_name="ngModel" required>
                             </div>
-                          <!-- <p class="errormsg">  <span class="help-block"
-                            *ngIf="!contact_person_name.valid && contact_person_name.touched">
-                            Contact person  is mandatory
-                        </span></p> -->
-                            <div class="form-group multiselect" >
+                       <div class="form-group multiselect" >
                                 <label  class="p_title">Category Name<span class="stars">*</span></label>
                                <ng-multiselect-dropdown placeholder="Select category" [(ngModel)]="model.category_ids"
                                     [data]="assetcategoryData" [settings]="moderatorSettings" name="category_ids"

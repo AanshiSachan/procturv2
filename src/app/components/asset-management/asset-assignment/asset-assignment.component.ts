@@ -176,23 +176,23 @@ export class AssetAssignmentComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
