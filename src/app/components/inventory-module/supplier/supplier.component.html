@@ -51,41 +51,45 @@
           <div class="flex">
             <div class="sec1">
               <div class="pt10"  [class.has-error]="company_name.invalid && company_name.touched">
-                <input type="text" class="input wid100" id="company_name" name="company_name" placeholder="Company*"  [(ngModel)]="model.company_name"
+                <label class="p_title"> Company<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" id="company_name" name="company_name" placeholder="Enter Company Name"  [(ngModel)]="model.company_name"
                 #company_name="ngModel" required>
             </div>
-            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!company_name.valid && company_name.touched">
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!company_name.valid && company_name.touched">
               Company  name is mandatory
-           </span></p>
+           </span></p> -->
               <div class="pt10">
-                <input type="text" class="input wid100" id="email_id" name="email_id" placeholder="Email*"  [(ngModel)]="model.email_id"
+                <label class="p_title"> Email<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" id="email_id" name="email_id" placeholder="Enter Email ID"  [(ngModel)]="model.email_id"
                 #email_id="ngModel"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" > </div>
                
-             <p  class="errormsg">
+             <!-- <p  class="errormsg">
                        <span class="help-block" *ngIf="email_id.errors?.pattern">This is not a valid email!</span>
-                       </p>
-                  
+                       </p> -->
                 <div class="pt10">
-                  <ng-multiselect-dropdown placeholder="Category *" [(ngModel)]="model.category_ids"
+                  <label class="p_title"> Category<span class="text-danger">*</span></label>
+                 <ng-multiselect-dropdown placeholder="Select Category" [(ngModel)]="model.category_ids"
                   [data]="categoryAllData" [settings]="moderatorSettings" name="category_ids"
                   (ngModelChange)="getItemForSelectedCat($event)">
               </ng-multiselect-dropdown>
                 </div>
-                <p class="errormsg"> <span  style="height:10px;"class="help-block">
+                <!-- <p class="errormsg"> <span  style="height:10px;"class="help-block">
                  
-                 </span></p>
+                 </span></p> -->
             </div>
             <div class="sec2">
               <div class="pt10"  [class.has-error]="supplier_name.invalid && supplier_name.touched">
-                <input type="text" class="input wid100" id="supplier_name" name="supplier_name" placeholder="Supplier Name*"  [(ngModel)]="model.supplier_name"
+                <label class="p_title"> Supplier<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" id="supplier_name" name="supplier_name" placeholder="Enter Supplier Name"  [(ngModel)]="model.supplier_name"
                 #supplier_name="ngModel" required>
             </div>
-            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched">
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched">
               Supplier  name is mandatory
-           </span></p>
+           </span></p> -->
            <div class="pt10" [class.has-error]="phone_no.invalid && phone_no.touched" >
-            <input type="text" class="input wid100" id="unit_cost" 
-            name="phone_no" placeholder="Mobile*"  
+            <label class="p_title"> Mobile <span class="text-danger">*</span></label>
+           <input type="text" class="input wid100" id="unit_cost" 
+            name="phone_no" placeholder="Enter Mobile Number"  
             #phone_no="ngModel" 
             [(ngModel)]="model.phone_no"
             maxlength="10"
@@ -93,31 +97,30 @@
             onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
             required>
         </div>
-        <p  class="errormsg"> <span class="help-block" *ngIf="!phone_no.valid && phone_no.touched">
+        <!-- <p  class="errormsg"> <span class="help-block" *ngIf="!phone_no.valid && phone_no.touched">
           Mobile number is mandatory
       </span>
      <span class="help-block"  *ngIf="phone_no.errors?.minlength">   Please Enter 10 digit mobile number</span>
       
-    </p> 
+    </p>  -->
     <div class="pt10">
-        <ng-multiselect-dropdown placeholder="Item*" [(ngModel)]="model.item_ids"
+      <label class="p_title"> Item <span class="text-danger">*</span></label>
+     <ng-multiselect-dropdown placeholder="Select Item" [(ngModel)]="model.item_ids"
         [data]="itemAgainstCata" [settings]="moderatorSettingsforitem" name="item_ids">
        </ng-multiselect-dropdown>
       </div> 
-      <p class="errormsg"> <span  style="height:10px;" class="help-block">
-       
-       </span></p>
-            </div>
+       </div>
           </div>
           <div class="pt10">
-            <input type="text" class="input wid100" name="address" id="address"
-            [(ngModel)]="model.address"  placeholder="Address">
+            <label class="p_title"> Address</label>
+         <input type="text" class="input wid100" name="address" id="address"
+            [(ngModel)]="model.address"  placeholder="Enter company address">
           </div>
           <div class="pt10 display">
            <div></div>
            <div>
             <button class="right blue_button cancel" data-dismiss="modal" (click)="cancel(false)" >Cancel</button>
-              <button class="right blue_button" *ngIf="!isedit" (click)="saveSupplierDetails(model)">Save</button>
+              <button class="right blue_button" *ngIf="!isedit" (click)="saveSupplierDetails(model)">Add Supplier</button>
               <button class="right blue_button"  *ngIf="isedit" (click)="updateSupplierDetails(model)">Update</button></div>
            </div>
         </form>

@@ -14,46 +14,52 @@
           </div>
          
               <div class="pt102">
-             
-                  <select class="select wid100"  name="user_role" id="user_role"
+                <label class="p_title"> Role<span class="text-danger">*</span></label>
+             <select class="select wid100"  name="user_role" id="user_role"
                   (change)="getUserAgainstRole($event.target.value)" [(ngModel)]="model.user_role">
-                     <option value="">Role<span class="astrik">*</span></option>
+                     <option value="">Select Role</option>
                      <option value="{{datas.role_id}}" *ngFor="let datas of roleAllData">{{datas.role_name}}</option>
                    </select>
               </div>
                  <div class="pt102">
+                  <label class="p_title"> User<span class="text-danger">*</span></label>
                  <select class="select wid100" name="user_id" id="user_id"
                   [(ngModel)]="model.user_id">
-                    <option value="">User<span class="astrik">*</span></option>
+                    <option value="">Select User</option>
                     <option value="{{datas.user_id}}" *ngFor="let datas of userALLdata">{{datas.name}}</option>
                   </select>
               </div>
                  <div class="pt102">
-                   <input type="text" class="input wid100" name="reference_number"
+                  <label class="p_title"> Refrence No.<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" name="Enter Reference Number"
                     id="reference_number" placeholder="Refrence No."
                     [(ngModel)]="model.reference_number">
               </div>
                <div class="pt102">
-                <input type="Date" class="input wid100" name="sale_date" placeholder="Date*"
+                <label class="p_title"> Date<span class="text-danger">*</span></label>
+               <input type="Date" class="input wid100" name="sale_date" placeholder="Date"
           [(ngModel)]="model.sale_date" #purchase_date="ngModel"
           (change)="validateFutureDate($event)" required>
               </div>
                <div class="pt102">
-                   <select class="select wid100" name="payment_status" id="payment_status" 
+                <label class="p_title"> Payment Status<span class="text-danger">*</span></label>
+                <select class="select wid100" name="payment_status" id="payment_status" 
                    [(ngModel)]="model.payment_status" required>
-                    <option value="">Payment Status*</option>
+                    <option value="">Select Payment Status</option>
                     <!-- <option value="Due">Due</option> -->
                     <option value="Pending"> Pending</option>
                     <option value="Paid">Paid</option>
                   </select>
               </div>
               <div class="pt102">
+                <label class="p_title"> Bill Copy</label>
                 <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" id="billImageFile"
                style="margin-top:8px;"
                 [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
               </div>
               <div class="pt102">
-                <textarea class="input wid100 textarea1" name="description" id="description" placeholder="Description"
+                <label class="p_title"> Description</label>
+                <textarea class="input wid100 textarea1" name="description" id="description" placeholder="Enter Description"
                 [(ngModel)]="model.description"></textarea>
               </div>
         </div>
@@ -62,14 +68,16 @@
             <p>Sale Item</p>
           </div>
             <div class="pt102">
-                  <select class="select sel1 mr10" id="category_id" name="category_id"
+              <!-- <label class="p_title"> Category <span class="text-danger">*</span></label>-->
+                 <select class="select sel1 mr10" id="category_id" name="category_id" 
                   (change)="getItemAgainstCat($event.target.value)">
-                    <option value="">Category*</option>
+                    <option value="">Select Category*</option>
                     <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">{{data.category_name}}</option>
                   </select>
-                  <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
+              <!-- <label class="p_title"> Item <span class="text-danger">*</span></label>-->
+                 <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
                   ngModel #item_id="ngModel">
-                    <option value="" selected>Item Name*</option>
+                    <option value="" selected>Select Item*</option>
                     <option value="{{data.item_id}}" *ngFor="let data of itemArray">
                       {{data.item_name}}</option>
                   </select>
@@ -92,10 +100,10 @@
                 Taxes
               </div>
               <div>
-                Subtotal
+                Sub-total
               </div>
               <div>
-                Actions
+                Action
               </div>
             </div>
             <div class="tablebody"*ngFor="let data of itemData;let i=index">
@@ -174,7 +182,7 @@
           <div> <button class="blue_button cancel" routerLink="/view/inventory-management/sale-item">Back </button>
           </div>
           <div style="margin-bottom: 10px;">
-            <button class="blue_button" (click)="saveSaleDetails()" *ngIf="!isedit">Save</button>
+            <button class="blue_button" (click)="saveSaleDetails()" *ngIf="!isedit">Add Sale</button>
             <button class="blue_button" (click)="updateSaleData()" *ngIf="isedit">Update</button>
           </div>
         </div>
