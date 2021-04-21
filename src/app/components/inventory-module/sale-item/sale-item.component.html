@@ -205,8 +205,6 @@
     </div>
   </div>
 </div> 
- 
-    
   <div class="modal" id="viewpayModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -230,7 +228,7 @@
             </div>
             <div class="table_body" *ngFor="let data of paymentHistoryData;index as i">
               <div>
-               {{i}}
+               {{i+1}}
               </div>
               <div>
               {{data.payment_date}}
