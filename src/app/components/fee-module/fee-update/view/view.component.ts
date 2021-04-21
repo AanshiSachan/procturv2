@@ -8,6 +8,7 @@ import { FetchStudentService } from '../../../../services/student-services/fetch
 import { StudentFeeService } from '../../../../components/student-module/student_fee.service';
 import { PostStudentDataService } from '../../../../services/student-services/post-student-data.service';
 import { ConfirmDialogModule } from 'primeng/primeng';
+import { ThirdPartyAuthComponent } from 'src/app/components/website-configuration/third-party-auth/third-party-auth.component';
 declare var $;
 
 
@@ -153,6 +154,8 @@ export class ViewComponent implements OnInit {
   fetchAcademicYearList() {
     this.auth.showLoader();
     this.academicYrList = [];
+    this.chequePdcList = [];
+    this.discHistoryList = [];
     let url = "/api/v1/academicYear/all/" + this.institute_id;
     this.http.getData(url).subscribe(
       (res: any) => {
@@ -353,6 +356,7 @@ export class ViewComponent implements OnInit {
     return install;
   }
   getPdcChequeList(payment_mode) {
+    this.chequePdcList = [];
     if (payment_mode == 'Cheque/PDC/DD No.') {
       let obj = {
         cheque_status: '',
@@ -375,6 +379,10 @@ export class ViewComponent implements OnInit {
           if (this.chequePdcList.length == 0) {
             this.commonService.showErrorMessage('info', '', 'No cheque available!');
           }
+        },
+        err => {
+          this.chequePdcList = [];
+          this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
     }
@@ -649,14 +657,17 @@ export class ViewComponent implements OnInit {
       discountAmount: 0
     };
   }
-
   getDiscountHistoryDetails() {
+    this.discHistoryList = [];
+    this.auth.showLoader();
     this.feeService.getDiscountHistory(this.student_id).subscribe(
       (res: any) => {
         this.discHistoryList = res != null ? res.discountInstllmentList : this.discHistoryList;
         this.checkAnyInstallIsPaid();
+        this.auth.hideLoader();
       },
       err => {
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -1285,9 +1296,9 @@ export class ViewComponent implements OnInit {
     }
     this.paymentPopUpJson.due_amount = this.t_d_amount + (this.t_p_amount - data);
   }
-  selectAllPaidInstall(){
+  selectAllPaidInstall() {
     for (var i = 0; i < this.stdFeeDataList.p_install_li.length; i++) {
-        this.stdFeeDataList.p_install_li[i].isSelected = this.isSelectedAllPaidInstall;
+      this.stdFeeDataList.p_install_li[i].isSelected = this.isSelectedAllPaidInstall;
     }
   }
 }
