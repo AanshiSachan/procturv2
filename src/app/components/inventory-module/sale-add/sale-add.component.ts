@@ -334,19 +334,16 @@ if(this.itemData.length ==0){
   }
 
   editRow(editId) {
-   
     this.itemData = [];
     this.isChange = true;
-
     this.isDisable = true;
-
     this.httpService.getData('/api/v1/inventory/sale/' + editId + '?instituteId=' + this.model.institute_id).subscribe((res: any) => {
       this.dataForEdit = res.result;
-      this.getUserAgainstRole(this.dataForEdit.role_id);
-      // this.model = this.dataForEdit;
       this.auth.hideLoader();
+      this.model.user_role = this.dataForEdit.user_role;
+      this.model.role_id=this.dataForEdit.user_id;
+      this.getUserAgainstRole( this.model.user_role);
       this.model.user_id = this.dataForEdit.user_id;
-     this.model.user_role = this.dataForEdit.user_role;
       this.model.sale_type = this.dataForEdit.sale_type;
       this.model.reference_number = this.dataForEdit.reference_number;
       this.model.bill_image_url = this.dataForEdit.bill_image_url;
