@@ -91,15 +91,13 @@ export class SaleAddComponent implements OnInit {
     );
   }
   validateFutureDate() {
-    let today = moment(new Date());
-    let selected = moment(this.model.sale_date);
-    let differ = today.diff(selected, 'days');
-    if (differ <= 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Future date is not allowed ");
-      this.model.sale_date = moment(new Date()).format('YYYY-MM-DD');
+   let today = moment(new Date);
+    let selectedDate = moment(this.model.sale_date)
+    let diff = moment(selectedDate.diff(today))['_i'];
+    if (diff > 0) {
+      this.msgService.showErrorMessage('info', '', "Future date is not allowed");
+      this.model.sale_date = moment(new Date).format('YYYY-MM-DD');
     }
-
-    return true;
   }
   categoryAllData = [];
   getCategoryDetails() {

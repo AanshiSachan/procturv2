@@ -50,7 +50,7 @@
           [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
       <div class="pt102"  *ngIf="isedit && model.bill_image_url !='' && model.bill_image_url!=null">
-        <ul>
+        <ul class="p_title">
           <li>Bill Copy</li>
           <li (click)="clearFile()" title="Delete Bill copy"><i class="fa fa-trash" style="color:red;"></i>
           </li>
@@ -60,6 +60,7 @@
           </li>
       </ul>
         </div>
+        <br>
       <div class="pt102">
         <label class="p_title"> Description</label>
         <textarea class="input wid100 textarea1" name="purchase_description" placeholder="Enter Description"

@@ -218,14 +218,13 @@ $('#addpayModal').modal('show');
   }
   //validate date
   validateFutureDate() {
-    let today = moment(new Date());
-    let selected = moment(this.paymentModel.payment_date);
-    let differ = today.diff(selected, 'days');
-    if (differ <= 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Payment date is greter than today's date ");
-      this.paymentModel.payment_date = moment(new Date()).format('YYYY-MM-DD');
+     let today = moment(new Date);
+    let selectedDate = moment(this.paymentModel.payment_date)
+    let diff = moment(selectedDate.diff(today))['_i'];
+    if (diff > 0) {
+      this.msgService.showErrorMessage('info', '', "Future date is not allowed");
+      this.paymentModel.payment_date = moment(new Date).format('YYYY-MM-DD');
     }
-    return true;
   }
   validatePayment(data) {
     let balanced_amount = 2344;

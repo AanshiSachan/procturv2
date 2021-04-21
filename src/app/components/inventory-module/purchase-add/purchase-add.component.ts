@@ -308,14 +308,14 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   }
   validateFutureDate() {
-    let today = moment(new Date());
-    let selected = moment(this.model.purchase_date);
-    let differ = today.diff(selected, 'days');
-    if (differ <= 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Future date is not allowed ");
-      this.model.purchase_date = moment(new Date()).format('YYYY-MM-DD');
+    let today = moment(new Date);
+    let selectedDate = moment(this.model.purchase_date)
+    let diff = moment(selectedDate.diff(today))['_i'];
+    if (diff > 0) {
+      this.msgService.showErrorMessage('info', '', "Future date is not allowed");
+      this.model.purchase_date = moment(new Date).format('YYYY-MM-DD');
     }
-    return true;
+    
   }
   updatePurchaseData() {
     this.model.purchased_item_list = [];

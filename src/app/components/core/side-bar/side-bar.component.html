@@ -460,7 +460,7 @@
 
                     </li>
 
-                    <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
+                    <li *ngIf="jsonFlags.isAdminforLeave" [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                         <a routerLink="/view/course/teacher/list">
                             <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/Teacher.svg':'./assets/images/sidemenuicon/Teacher.svg'"
                                 alt="">
@@ -591,7 +591,7 @@
 
                     </li>
 
-                    <li [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''"
+                    <li *ngIf="showManageRole" [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''"
                         (click)="toggler('liManageUser')">
                         <a routerLink="/view/manage/user">
                             <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/Teacher.svg':'./assets/images/sidemenuicon/Teacher.svg'"
