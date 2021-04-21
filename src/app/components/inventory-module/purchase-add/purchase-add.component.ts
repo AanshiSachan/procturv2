@@ -222,8 +222,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
       }
       //this.isedit?this.model.id:delete(this.model.id);
-      // let base = this.auth.productBaseUrl;
-      let base = "https://test999.proctur.com/StdMgmtWebAPI"
+      let base = this.auth.baseUrl;
+    
       // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
       // let urlPostXlsDocument = this.isedit ? base + "/api/v1/inventory/purchase/update" : base + "/api/v1/inventory/purchase/create";
       let urlPostXlsDocument = base + "/api/v1/inventory/purchase/create";
@@ -350,8 +350,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
       }
       //this.isedit?this.model.id:delete(this.model.id);
-      // let base = this.auth.productBaseUrl;
-      let base = "https://test999.proctur.com/StdMgmtWebAPI"
+      let base = this.auth.baseUrl;
       // let urlPostXlsDocument = base + "/prod/api/v2/asset/purchase/create";
       // let urlPostXlsDocument = this.isedit ? base + "/api/v1/inventory/purchase/update" : base + "/api/v1/inventory/purchase/create";
       let urlPostXlsDocument = base + "/api/v1/inventory/purchase/update";
