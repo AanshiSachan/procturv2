@@ -136,11 +136,10 @@ export class ItemCmComponent implements OnInit {
     }
     if (this.catForm.valid) {
       this.httpService.putData(this.url + 'category', obj).subscribe(() => {
-    
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category Updated Successfully")
+       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category Updated Successfully")
         this.auth.hideLoader();
+        $('#addModal').modal('hide');
         this.getCategoryDetails();
-        $('#addModel').modal('hide');
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
