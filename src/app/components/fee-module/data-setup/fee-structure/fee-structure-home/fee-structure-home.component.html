@@ -131,7 +131,7 @@
                             </div>
                             <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
                                 <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
-                                    (ngModelChange)="changesValuesAsPerType($event)">
+                                    (ngModelChange)="changesValuesAsPerType($event,i)">
                                     <option value="-1">Trigger Date</option>
                                     <option value="1">Course Assign Date (CAD)</option>
                                     <option value="2">No of days after CAD</option>
@@ -146,7 +146,7 @@
                                 </select>
                             </div>
                             <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
-                                <input type="text" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00"
+                                <input type="text" [readonly]="feeInstalllmentArr[i].day_type==1" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00"
                                     class="input wid80 rrs"
                                     onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
                             </div>
