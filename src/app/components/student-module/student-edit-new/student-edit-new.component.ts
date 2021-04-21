@@ -595,7 +595,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       case "kyc": {
         document.getElementById('li-two').classList.add('active');
         document.getElementById('li-two').classList.add('step_active');
-        this.fetchCustomeComponents();
+        // this.fetchCustomeComponents();
         this.isOtherActive = true;
         break;
       }
