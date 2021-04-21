@@ -505,7 +505,6 @@
 
                     <li class="dropdown"
                         [ngStyle]="{display: (isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}"
-                        [ngClass]="activeSession === 'lithree' ?'liActiveBG':''"
                         [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')">
                         <div *ngIf="isLangInstitute && jsonFlags.isShowCourse">
                             <a class="dropbtn">
@@ -604,10 +603,10 @@
                     </li>
 
                     <li
-                    (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE)))"
+                    (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.USER_ATTENDANCE)))"
                     (mouseleave)="mouseleave()"
                         [ngStyle]="{display: (checkIfUserHadAccess(role_feature.ATTENDANCE_TEACHER_USER_MENU)) ? 'block' : 'none'}"
-                        [ngClass]="(checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE)) ? 'dropdown':''"
+                        [ngClass]="(checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.USER_ATTENDANCE)) ? 'dropdown':''"
                         (click)="toggler('liAttendance');">
                         <div *ngIf="checkIfUserHadAccess(role_feature.ATTENDANCE_TEACHER_USER_MENU)">
                             <a class="dropbtn">
@@ -803,35 +802,37 @@
                         </div>
 
                     </li>
-                    <li class="dropdown" [ngClass]="activeSession === 'liTeachers' ? 'liActiveBG':''" (click)="toggler('liTeachers')">
-                        <div >
-                            <a  class="dropbtn">
-                                <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'" alt="">
-                        <p >Inventory</p><i class="fa fa-angle-right"></i>
-          
-                        </a>
-                            <div class="dropdown-content">
-                                <a  routerLink="/view/inventory-management/item-cm">
-                                    <span>Items</span>
-                            </a>
-                            <a  routerLink="/view/inventory-management/supplier">
-                                <span>Suppliers </span>
-                        </a>
-                            <a  routerLink="/view/inventory-management/purchase-item">
-                                <span>Purchases</span>
-                        </a>
-                        <a  routerLink="/view/inventory-management/sale-item">
-                            <span>Sales/Allocate </span>
+                    <li (mouseenter)="mouseenter(checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM) || (checkIfUserHadAccess(role_feature.INVENTORY_ITEMS) || checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT) || checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM)))"(mouseleave)="mouseleave()"
+                      [ngStyle]="{display: (checkIfUserHadAccess(role_feature.INVENTORY_MENU_ITEM)) ? 'block' : 'none'}"
+                      [ngClass]="(checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM) || (checkIfUserHadAccess(role_feature.INVENTORY_ITEMS) || checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT) || checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM))) ? 'dropdown':''" (click)="toggler('liTeachers')">
+                    <div *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_MENU_ITEM)">
+                        <a  class="dropbtn">
+                            <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'" alt="">
+                    <p >Inventory</p><i class="fa fa-angle-right"></i>
+      
                     </a>
-                           
-                            <!-- <a routerLink="/view/course/setup/teacher/list">
-                                    <span>Leave</span>
-                            </a> -->
-                            </div>
-                         </div>
-                        
-                      </li>
-        
+                        <div class="dropdown-content">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_ITEMS)"  routerLink="/view/inventory-management/item-cm">
+                                <span>Items</span>
+                        </a>
+                        <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT)"  routerLink="/view/inventory-management/supplier">
+                            <span>Suppliers</span>
+                    </a>
+                        <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM)"  routerLink="/view/inventory-management/purchase-item">
+                            <span>Purchases</span>
+                    </a>
+                    <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM)"  routerLink="/view/inventory-management/sale-item">
+                        <span>Sales/Allocate</span>
+                </a>
+                       
+                        <!-- <a routerLink="/view/course/setup/teacher/list">
+                                <span>Leave</span>
+                        </a> -->
+                        </div>
+                     </div>
+                    
+                  </li>
+
 
                     <li [ngClass]="activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
                         <a routerLink="/view/reports/list">
