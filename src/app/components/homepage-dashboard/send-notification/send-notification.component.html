@@ -1,4 +1,4 @@
-<div class="page-content">
+<div class="page-content" *ngIf="addSmsForm">
   <div class="head_padding">
     <div class="w98 flex">
       <div class="page_heading">
@@ -15,7 +15,7 @@
         <div>
           <div class="linec"></div>
         </div>
-       <div>
+       <div >
          <a href="send_msg.html">
             <span class="circle_inactive">
           2
@@ -53,25 +53,29 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div>Message</div>
             <div>Actions</div>
           </div>
-          <div class="table_body">
-            <div>
-              01-12-2020 12:30PM
+          <div class="table_body" *ngFor="let row of messageList; let i = index;">
+
+            <!-- <div class="field-radio-wrapper" >
+              <input type="radio" name="one"   [(ngModel)]="row.assigned"
+              (ngModelChange)="onCheckBoxSelection(index , row)">
+             
+            </div> -->
+            <div title="{{row.date}}">
+             {{row.date}}
             </div>
-            <div>
-               Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et
-                          </div>
+            <div title="{{row.message}}">
+              {{(!row.message) ? '-':(row.message.length > 30) ?(row.message | slice :0:30) + '...' : row.message}}
+              </div>
            
             <div>
               <a href="" class="mr10"><img src="../../../../assets/img/approve.svg" title="Approve" class="group18"></a>
-              <a href="" class="mr10"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+              <a class="mr10" (click)="editSMS(row )"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
               <a href="" ><img src="../../../../assets/img/disapprove.svg" title="Disapprove" class="group18"></a>
             </div>
           </div>
           
         
-          <div class="table_body">
+          <!-- <div class="table_body">
             <div>
               01-12-2020 12:30PM
             </div>
@@ -86,9 +90,9 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <a href="" class="mr10"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
               <a href="" ><img src="../../../../assets/img/disapprove.svg" title="Disapprove" class="group18"></a>
             </div>
-          </div>
-    </div>
-       <div class="msg2 approved_tab">
+          </div> -->
+    <!-- </div> -->
+       <!-- <div class="msg2 approved_tab">
           <div class="table_heading">
             <div>
               
@@ -99,21 +103,19 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div>Message</div>
             <div>Actions</div>
           </div>
-          <div class="table_body">
+          <div class="table_body" *ngFor="let row of messageList; let i = index; trackBy: i;">
              <div>
                <div class="field-radio-wrapper">
-            <input type="radio" name="one"  class="form-radio">
+            <input type="radio" name="one"   [(ngModel)]="row.assigned"
+            (ngModelChange)="onCheckBoxSelection(index , row)">
            
           </div>
              </div>
             <div>
-              01-12-2020 12:30PM
+              {{row.date}}
             </div>
             <div>
-               Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et
-                          </div>
+              {{row.message}}        </div>
            
             <div>
            
@@ -123,7 +125,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
           </div>
           
         
-          <div class="table_body">
+        <div class="table_body">
              <div>
                <div class="field-radio-wrapper">
             <input type="radio" name="one"  class="form-radio">
@@ -144,27 +146,31 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <a href="" class="mr10"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
         
             </div>
-          </div>
+          </div> -->
     </div>
       </div>
       
       <div class="w982 ">
       <div class="w90 pending_tab">
         <h1>Create Message</h1>  
-        <textarea placeholder="Write your message here...." class="textarea_m"></textarea>
+        <textarea placeholder="Write your message here...." class="textarea_m"                                     [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
+        [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
+        ></textarea>
         <div class="display">
           <div></div>
           <div>
             <button class="white_button mr10">Back</button>
-            <button class="blue_button">Save</button>
+            <button class="blue_button"(click)="saveNewMessage()" *ngIf="!jsonFlag.editMessage">Save</button>
+            <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editMessage">Update</button>
+
           </div>
         </div>
         <div class="display space1">
           <div>
-            <span class="char_text">Character Count:<span class="char_count">0</span></span>
+            <span class="char_text">Character Count:<span class="char_count">{{newMessageText.length}}</span></span>
           </div>
           <div class="char_text">
-            <span>Message Count:&nbsp;&nbsp;<span>1</span></span>
+            <span>Message Count:<span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
           </div>
         </div>
         <div class="note_para">
@@ -217,7 +223,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
           <div></div>
           <div>
 
-           <a href="send_msg.html"> <button class="blue_button">Next</button></a>
+            <button class="blue_button" (click)="openStudentForm()">Next</button>
           </div>
         </div>
         <br>
@@ -231,7 +237,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
   </div>
 </div>
 <!-- ==================================second div======================================= -->
-<main class="page-content">
+<main class="page-content" *ngIf="selectStudentForm">
   <div class="head_padding">
     <div class="w98 flex">
       <div class="page_heading">
