@@ -34,7 +34,7 @@
           (change)="validateFutureDate($event)" required>
       </div>
       <div class="pt102">
-        <label class="p_title"> Reference Number<span class="text-danger">*</span></label>
+        <label class="p_title"> Reference No.<span class="text-danger">*</span></label>
         <input type="text" class="input wid100" name="reference_number" placeholder="Enter Reference Number"
           [(ngModel)]="model.reference_number" #reference_number="ngModel"
           required>
@@ -107,10 +107,10 @@
             Units
           </div>
           <div>
-            Subtotal
+            Sub-total
           </div>
           <div>
-            Actions
+            Action
           </div>
         </div>
       
@@ -174,7 +174,7 @@
       </div>
       <div>
 
-        <button style="margin-left: 10px;" class="blue_button" (click)="savePurchaseData()" *ngIf="!isedit" >Save</button>
+        <button style="margin-left: 10px;" class="blue_button" (click)="savePurchaseData()" *ngIf="!isedit" >Add Purchase</button>
         <button style="margin-left: 10px;" class="blue_button" (click)="updatePurchaseData()" *ngIf="isedit" >Update</button> 
 
      

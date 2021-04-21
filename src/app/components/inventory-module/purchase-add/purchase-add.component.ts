@@ -251,7 +251,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = this.isedit ? 'Purchased details is Updated Successfully' : 'Purchased Saved Successfully';
+              let msg = this.isedit ? 'Purchased Saved Successfully' : 'Purchased Saved Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               //$('#modelforpurchase').modal('hide');
               this.router.navigate(['/view/inventory-management/purchase-item']);
@@ -379,7 +379,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = 'Purchased details is Updated Successfully';
+              let msg = 'Purchase Updated Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               //$('#modelforpurchase').modal('hide');
               this.router.navigate(['/view/inventory-management/purchase-item']);

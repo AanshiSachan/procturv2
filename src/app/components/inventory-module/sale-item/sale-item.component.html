@@ -37,9 +37,9 @@
               <div>User<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
               <div>Date<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
               <!-- <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div> -->
-              <div>File<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
-              <div>Grand Total</div>
-              <div>Paid</div>
+              <div>File</div>
+              <div>Grand Total<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>Paid<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
               <div>Balance (To be Paid)</div>
               <div>Actions</div>
             </div>
@@ -131,69 +131,74 @@
         <div class="flex">
           <div class="sec1">
             <div class="pt10"  [class.has-error]="payment_date.invalid && payment_date.touched">
-                <input type="Date" class="input wid100" [(ngModel)]="paymentModel.payment_date"
+              <label class="p_title"> Date<span class="text-danger">*</span></label>
+               <input type="Date" class="input wid100" [(ngModel)]="paymentModel.payment_date"
                 name="payment_date" placeholder="Date*"
                 (change)="validateFutureDate($event)"
                 #payment_date="ngModel" required>
             </div>
-            <p class="errormsg"><span  style="height:10px;" class="help-block"
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block"
                *ngIf="!payment_date.valid && payment_date.touched">
              Date is  mandatory
-           </span></p>
+           </span></p> -->
             <div class="pt10"  [class.has-error]="payment_method.invalid && payment_method.touched">
-                <select class="select wid100" name="payment_method" id="payment_method"
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+               <select class="select wid100" name="payment_method" id="payment_method"
                 [(ngModel)]="paymentModel.payment_method"   #payment_method="ngModel"
                 required>
-                  <option value="">Payment Method*</option>
+                  <option value="">Select Payment Method</option>
                   <option value="Cash">Cash</option>
                   <option value="Cheque">Cheque</option>
                   <option value="Card">Card</option>
                   <option value="Others">Others</option>
                 </select>
             </div>
-            <p class="errormsg"> <span  style="height:10px;"  *ngIf="!payment_method.valid && payment_method.touched"
+            <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="!payment_method.valid && payment_method.touched"
               class="help-block">
               Payment method is mandatory
-             </span></p>
+             </span></p> -->
             <div class="pt10">
+              <label class="p_title"> Upload Receipt<span class="text-danger">*</span></label>
                 <input type="File" class="input wid100" placeholder="Date*"
                 type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
             [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
             [(ngModel)]="bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
             </div>
-            <p class="errormsg"> <span  style="height:10px;"  class="help-block">
+            <!-- <p class="errormsg"> <span  style="height:10px;"  class="help-block">
 
-             </span></p>
+             </span></p> -->
           </div>
           <div class="sec2">
             <div class="pt10">
+              <label class="p_title"> Reference No.<span class="text-danger">*</span></label>
                 <input type="text" class="input wid100" name="reference_no" [(ngModel)]="paymentModel.reference_no" 
-                placeholder="Reference Number">
+                placeholder="Enter Reference Number">
             </div>
             
-            <p class="errormsg"> <span  style="height:10px;"  class="help-block">
+            <!-- <p class="errormsg"> <span  style="height:10px;"  class="help-block">
 
-            </span></p>
+            </span></p> -->
             <div class="pt10" [class.has-error]="paid_amount.invalid && paid_amount.touched">
-                <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Amount*"
+              <label class="p_title"> Amount<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
                 #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
                 required
                 (change)="validatePayment(paymentModel.paid_amount)"
                 [(ngModel)]="paymentModel.paid_amount">
             </div>
-            <p class="errormsg"> <span  style="height:10px;"  
+            <!-- <p class="errormsg"> <span  style="height:10px;"  
               *ngIf="!paid_amount.valid && paid_amount.touched"
               [(ngModel)]="paymentModel.paid_amount"
               class="help-block">
               Amount* is mandatory
-             </span></p>
+             </span></p> -->
           </div>
         </div>
         <div class="pt10 display">
          <div></div>
          <div>
           <button class="blue_button cancel" data-dismiss="modal">Cancel</button> 
-           <button class="blue_button" (click)="addPayment()">Save</button></div>
+           <button class="blue_button" (click)="addPayment()">Update</button></div>
         </div>
       </div>  
       </form>      
@@ -209,7 +214,7 @@
           <h4 class="modal-title" >Payment History</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body scrollable">
           <div class="history">
             <div class="table_heading">
               <div>

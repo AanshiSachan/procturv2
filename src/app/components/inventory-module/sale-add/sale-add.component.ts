@@ -273,7 +273,7 @@ if(this.itemData.length ==0){
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = this.isedit ? 'Item Sale details is Updated successfully' : 'Item Sale details is Saved successfully';
+              let msg = this.isedit ? 'Sale Added Successfully' : 'Sale Added Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               this.router.navigate(['/view/inventory-management/sale-item']);
               //this.getPurchaseDetails();
@@ -447,7 +447,7 @@ if(this.itemData.length ==0){
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = this.isedit ? 'Item Sale details is Updated successfully' : 'Item Sale details is Saved successfully';
+              let msg = this.isedit ? 'Sale Updated Successfully' : 'Sale Updated Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               this.router.navigate(['/view/inventory-management/sale-item']);
               //this.getPurchaseDetails();

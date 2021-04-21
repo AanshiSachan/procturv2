@@ -160,7 +160,7 @@ export class SaleItemComponent implements OnInit {
           this.auth.hideLoader();
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
-              let msg = 'Payment details is Saved Successfully';
+              let msg = 'Payment updated successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               $('#addpayModal').modal('hide');
               this.getSaleDetails();
@@ -225,7 +225,7 @@ export class SaleItemComponent implements OnInit {
     this.httpService.deleteData('/api/v1/inventory/sale/delete/' +   this.sale_id + '?instituteId=' + this.model.institution_id, null).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage('success', '', 'Sale Item Deleted Successfully');
+        this.msgService.showErrorMessage('success', '', 'Sale Deleted Successfully');
         this.getSaleDetails();
         $('#deletesModal').modal('hide');
       },
