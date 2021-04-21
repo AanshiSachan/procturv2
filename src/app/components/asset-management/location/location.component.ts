@@ -20,7 +20,7 @@ export class LocationComponent implements OnInit {
   displayBatchSize: number = 25;
   headerSetting: any;
   isedit = false;
-  locationDataforDownload: [];
+  locationDataforDownload=[];
   model: Location = new Location();
   pageIndex: number = 1;
   rowColumns: any;
@@ -265,17 +265,15 @@ export class LocationComponent implements OnInit {
     this.httpService.getMethod('api/v2/asset/location/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.locationDataforDownload = res.result.response;
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-
-    );
-    let arr = [];
+        for(let i=0;i<this.locationDataforDownload.length;i++){
+          this.locationDataforDownload[i].id=i+1;
+        }
+        let arr = [];
 
     this.locationDataforDownload.map(
       (ele: any) => {
         let json = [
+          ele.id,
           ele.location_code,
           ele.location_name,
           ele.location_description,
@@ -284,10 +282,17 @@ export class LocationComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['Code', ' Name', ' Description']]
+    rows = [['#','Code', ' Name', ' Description']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Location List');
     this.auth.hideLoader();
+      },
+      err => {
+        this.auth.hideLoader();
+      }
+
+    );
+    
   }
 
 

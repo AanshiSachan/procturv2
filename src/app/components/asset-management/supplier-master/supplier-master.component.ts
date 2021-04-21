@@ -23,7 +23,7 @@ export class SupplierMasterComponent implements OnInit {
   staticPageDataSouece: any = [];
   tableSetting: any;
   totalRecords: number = 0;
-  supplierDataforDownload: [];
+  supplierDataforDownload=[];
   model = {
     id: '',
     active: true,
@@ -495,33 +495,37 @@ $('#deletesModal').modal('show');
     this.httpService.getMethod('api/v2/asset/supplier/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.supplierDataforDownload = res.result.response;
+        for(let i=0;i<this.supplierDataforDownload.length;i++){
+          this.supplierDataforDownload[i].id=i+1;
+        }
+        let arr = [];
+
+        this.supplierDataforDownload.map(
+          (ele: any) => {
+            let json = [
+              ele.id,
+              ele.supplier_name,
+              ele.email_id,
+              ele.mobile_no,
+              ele.address,
+              ele.contact_person_name,
+              ele.asset_names_string
+            ]
+            arr.push(json);
+          })
+    
+        let rows = [];
+        rows = [['#','Company Name', ' Email', ' Mobile', 'Address', 'Contact Person', 'Asset Provided']]
+        let columns = arr;
+        this._pdfService.exportToPdf(rows, columns, 'Supplier List');
+        this.auth.hideLoader();
       },
       err => {
         this.auth.hideLoader();
       }
 
     );
-    let arr = [];
-
-    this.supplierDataforDownload.map(
-      (ele: any) => {
-        let json = [
-
-          ele.supplier_name,
-          ele.email_id,
-          ele.mobile_no,
-          ele.address,
-          ele.contact_person_name,
-          ele.asset_names_string
-        ]
-        arr.push(json);
-      })
-
-    let rows = [];
-    rows = [['Company Name', ' Email', ' Mobile', 'Address', 'Contact Person', 'Asset Provided']]
-    let columns = arr;
-    this._pdfService.exportToPdf(rows, columns, 'Supplier List');
-    this.auth.hideLoader();
+   
   }
 //download in excel format
 exportToExcel(){

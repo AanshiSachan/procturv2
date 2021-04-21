@@ -2,9 +2,11 @@
 
 *{
   margin: 0px;
+  
 }
 body{
   font-family: 'Open Sans', sans-serif;
+  
 }
 .flex{
   display: flex;
@@ -256,6 +258,7 @@ margin-top:20px;
   height: 21px;
   z-index: 20;
   border-radius: 4px;
+  orientation: "auto",
   
   }
   .errormsg{
