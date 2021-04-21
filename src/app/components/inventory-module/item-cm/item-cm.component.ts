@@ -24,6 +24,8 @@ export class ItemCmComponent implements OnInit {
   is_add_item: boolean = false;
   isaddcat: boolean = true;
   isedit = false;
+  currentKey: string = '';
+  currentOrder: string = '';
   item:Item =new Item();
   itemAllData:any =[];
   masterCourseList: any = [];
@@ -41,6 +43,7 @@ export class ItemCmComponent implements OnInit {
   totalRow: number = 0;
   type: string = '';
   url = `/api/v1/inventory/`;
+  tableRows: any[] = [];
   constructor(private msgService: MessageShowService,
     private httpService: HttpService,
     private auth: AuthenticatorService,
@@ -794,5 +797,61 @@ updataeManageUnit(){
       this.auth.hideLoader();
     })
 }
+//sorting
 
+// sortByCol(key) {debugger;
+//   console.log(key)
+//  // alert("hii")
+//   let order = 'asc';
+//   if (this.currentKey != "") {
+//     if (key == this.currentKey) {
+//       if (this.currentOrder == 'desc') {
+//         order = 'asc';
+//         this.currentOrder = 'asc';
+//       }
+//       else {
+//         order = 'desc';
+//         this.currentOrder = 'desc';
+//       }
+//     }
+//     else {
+//       this.currentKey = key;
+//       this.currentOrder = 'asc';
+//       order = 'asc';
+//     }
+//   }
+//   else {
+//     order = 'asc';
+//     this.currentKey = key;
+//     this.currentOrder = 'asc';
+//   }
+//   this.pagedItemData.sort(this.compareValues(key, order));
+// }
+
+// compareValues(key, order) {
+//   return function innerSort(a, b) {
+//     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+//       // property doesn't exist on either object
+//       return 0;
+//     }
+
+//     const varA = (typeof a[key] === 'string')
+//       ? a[key].toUpperCase() : a[key];
+//     const varB = (typeof b[key] === 'string')
+//       ? b[key].toUpperCase() : b[key];
+
+//     let comparison = 0;
+//     if (varA > varB) {
+//       comparison = 1;
+//     } else if (varA < varB) {
+//       comparison = -1;
+//     }
+//     return (
+//       (order === 'desc') ? (comparison * -1) : comparison
+//     );
+//   };
+//}
+
+//sorting
+headElements = ['item_name', 'category_name','alloted_units'];
 }
