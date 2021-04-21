@@ -64,7 +64,8 @@ export class SaleItemComponent implements OnInit {
   }
   getSaleDetails() {
     this.auth.showLoader();
-    this.httpService.getData('/api/v1/inventory/sale/all?instituteId=' + this.institution_id).subscribe(
+    //pageOffset=2&pageSize=10
+    this.httpService.getData('/api/v1/inventory/sale/all?pageOffset='+this.pageIndex +'&pageSize='+ this.displayBatchSize+'&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         let saleData = res.result.response;
