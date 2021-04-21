@@ -699,7 +699,8 @@ closeTopicModal(){
     let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner');
     let fromClassAttendace = sessionStorage.getItem('fromClassAttendace');
     if(coursePlannerStatus=='true'){
-      this.router.navigate(['/view/course/coursePlanner/exam']);
+      let url = this.isSubjectView ? '/view/course/coursePlanner/class' : '/view/course/coursePlanner/exam'
+      this.router.navigate([url]);
     } else if(fromClassAttendace == 'true') {
       let url = (sessionStorage.getItem('classAttendance') == 'true') ? '/view/course/class-attendance' : '/view/course/exam-attendance';
       this.router.navigate([url]);
