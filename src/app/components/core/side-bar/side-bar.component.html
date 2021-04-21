@@ -365,14 +365,14 @@
                 <ul class="icons" (click)="closeMenu()">
                     <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''" (click)="toggler('lizero')">
                         <a routerLink="/view/home" class="dropbtn">
-                            <img [src]="activeSession === 'lizero' ? './assets/images/sidebar_images/home.svg' : './assets/images/sidebar_images/home.svg'"
+                            <img [src]="activeSession === 'lizero' ? './assets/images/sidemenuicon/Home.svg' : './assets/images/sidemenuicon/Home.svg'"
                                 alt="">
                             <p>Home</p>
                         </a>
                     </li>
                     <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                         <a routerLink="/view/dashboard">
-                            <img [src]="activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidebar_images/Dashboard.svg'"
+                            <img [src]="activeSession === 'litwelve' ? './assets/images/sidemenuicon/Dashboard.svg':'./assets/images/sidemenuicon/Dashboard.svg'"
                                 alt="">
                             <p>Dashboard</p>
                         </a>
@@ -381,7 +381,7 @@
                         [ngClass]="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
                         <div *ngIf="jsonFlags.isShowLead">
                             <a class="dropbtn">
-                                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/leadIcon2.png':'./assets/images/sidebar_images/Leads.svg'"
+                                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/Leads.png':'./assets/images/sidemenuicon/Leads.svg'"
                                     alt="">
                                 <p>Leads</p><i class="fa fa-angle-right"></i>
 
@@ -406,7 +406,7 @@
                         (click)="toggler('litwo')">
                         <div>
                             <a routerLink="/view/students">
-                                <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/studentIcon2.png':'./assets/images/sidebar_images/Student.svg'"
+                                <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/Student.svg':'./assets/images/sidebar_images/Student.svg'"
                                     alt="">
                                 <p>Students</p>
                                 <!-- <i class="fa fa-angle-right"></i> -->
@@ -431,7 +431,7 @@
                         [ngClass]="activeSession === 'lifour' ? 'liActiveBG':''" (click)="toggler('lifour')">
                         <div *ngIf="jsonFlags.isShowFee">
                             <a routerLink="/view/fee" class="dropbtn">
-                                <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidebar_images/fees.svg'"
+                                <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/Fees.svg':'./assets/images/sidemenuicon/Fees.svg'"
                                     alt="">
                                 <p>Fees</p><i class="fa fa-angle-right"></i>
 
@@ -462,7 +462,7 @@
 
                     <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                         <a routerLink="/view/course/teacher/list">
-                            <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/dashboardIcon2.png':'./assets/images/sidebar_images/Dashboard.svg'"
+                            <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/Teacher.svg':'./assets/images/sidemenuicon/Teacher.svg'"
                                 alt="">
                             <p>Teachers</p>
                         </a>
@@ -473,7 +473,7 @@
                         [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')">
                         <div *ngIf="!isLangInstitute && jsonFlags.isShowCourse">
                             <a class="dropbtn">
-                                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/Classes.svg'"
+                                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/Classes.svg':'./assets/images/sidemenuicon/Classes.svg'"
                                     alt="">
                                 <p>Classes</p><i class="fa fa-angle-right"></i>
 
@@ -509,7 +509,7 @@
                         [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')">
                         <div *ngIf="isLangInstitute && jsonFlags.isShowCourse">
                             <a class="dropbtn">
-                                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/offline_exam.svg'"
+                                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/Classes.svg':'./assets/images/sidemenuicon/Classes.svg'"
                                     alt="">
                                 <p>Batch</p><i class="fa fa-angle-right"></i>
 
@@ -538,7 +538,7 @@
                         (click)="toggler('liExam')">
                         <div>
                             <a class="dropbtn">
-                                <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/classIcon2.png':'./assets/images/sidebar_images/offline_exam.svg'"
+                                <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/Exam.svg':'./assets/images/sidemenuicon/Exam.svg'"
                                     alt="">
                                 <p>Exams</p><i class="fa fa-angle-right"></i>
 
@@ -572,7 +572,7 @@
                         [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" (click)="toggler('lifive');">
                         <div *ngIf="(jsonFlags.isShowLiveclass || is_zoom_integration_enable)">
                             <a routerLink="/view/live-classes" class="dropbtn">
-                                <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/live_class.svg'"
+                                <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/LiveClasses.svg':'./assets/images/sidemenuicon/LiveClasses.svg'"
                                     alt="">
                                 <p>Live Classes</p>
                                 <i class="fa fa-angle-right"></i>
@@ -595,7 +595,7 @@
                     <li [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''"
                         (click)="toggler('liManageUser')">
                         <a routerLink="/view/manage/user">
-                            <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/users.png'"
+                            <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/Teacher.svg':'./assets/images/sidemenuicon/Teacher.svg'"
                                 alt="">
                             <p>Users</p>
 
@@ -611,7 +611,7 @@
                         (click)="toggler('liAttendance');">
                         <div *ngIf="checkIfUserHadAccess(role_feature.ATTENDANCE_TEACHER_USER_MENU)">
                             <a class="dropbtn">
-                                <img [src]="activeSession === 'liAttendance' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidebar_images/live_class.svg'"
+                                <img [src]="activeSession === 'liAttendance' ? './assets/images/sidemenuicon/Attendance.svg':'./assets/images/sidemenuicon/Attendance.svg'"
                                     alt="">
                                 <p>Attendance</p>
                                 <i class="fa fa-angle-right"></i>
@@ -635,7 +635,7 @@
                         (click)="toggler('liforteen')">
                         <div>
                             <a class="dropbtn">
-                                <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/contentlibraryIcon2.png':'./assets/images/sidemenuicon/contentibraryIcon.png'"
+                                <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/ContentLibrary.svg':'./assets/images/sidemenuicon/ContentLibrary.svg'"
                                     alt="">
                                 <p>Content Library</p><i class="fa fa-angle-right"></i>
 
@@ -654,13 +654,13 @@
 
                   <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
                     <a routerLink="/view/course/online-assignment">
-                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/onlineassignmentIcon1(new).png':'./assets/images/sidebar_images/Online_assignment.png'" alt="">
+                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/assignment.svg':'./assets/images/sidemenuicon/assignment.svg'" alt="">
                     <p >Assignments</p></a>
                   </li>
 
                   <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine');openExamdesk()">
                     <a>
-                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/onlineexamIcon2.png':'./assets/images/sidebar_images/online_exam.svg'" alt="">
+                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/OnlineTest.svg':'./assets/images/sidemenuicon/OnlineTest.svg'" alt="">
                     <p >Online Test</p></a>
                   </li>
     
@@ -668,7 +668,7 @@
                         [ngClass]=" activeSession === 'lisix'?'liActiveBG':''" (click)="toggler('lisix')">
                         <div *ngIf="jsonCommunicateFlags.communicateMenu">
                             <a class="dropbtn">
-                                <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/communicateIcon1.png':'./assets/images/sidebar_images/communicate.svg'"
+                                <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/Communication.svg':'./assets/images/sidemenuicon/Communication.svg'"
                                     alt="">
                                 <p>Communicate</p><i class="fa fa-angle-right"></i>
 
@@ -722,7 +722,7 @@
                         [ngClass]="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
                         <div *ngIf="checkIfUserHadAccess(role_feature.ASSET_MANAGEMENT_MENU)">
                             <a class="dropbtn">
-                                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/assest-icon.svg':'./assets/images/sidemenuicon/assest-icon.svg'"
+                                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/Assets.svg':'./assets/images/sidemenuicon/Assets.svg'"
                                     alt="">
                                 <p>Assets</p><i class="fa fa-angle-right" aria-hidden="true"></i>
                             </a>
@@ -847,7 +847,7 @@
                     <div>
 
                 <a routerLink ="/view/leave" class="dropbtn"></a>
-                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
+                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/Leave.svg':'./assets/images/sidemenuicon/Leave.svg'" alt="">
 
             <p >Leave</p><i class="fa fa-angle-right"></i>
             <div class="dropdown-content">
@@ -869,7 +869,7 @@
 <!-- ===============================work-end=============================== -->
 
                 </ul>
-                <p *ngIf="jsonFlags.isShowPowerBy" class="power">Powered By <span class="proctur40">Proctur 4.0</span>
+                <p *ngIf="jsonFlags.isShowPowerBy" class="power">Powered By <span class="proctur40">Proctur V 5.0</span>
                 </p>
             </div>
         </nav>

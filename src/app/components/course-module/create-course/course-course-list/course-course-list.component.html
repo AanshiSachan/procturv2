@@ -114,7 +114,7 @@
             <tbody *ngIf="(courseList.length ==0 && dataStatus === 2)">
               <tr>
                 <td colspan="8" style="text-align:center">
-                  No Course Found
+                  No {{schoolModel? 'Section' : 'Course'}} Found
                 </td>
               </tr>
             </tbody>
