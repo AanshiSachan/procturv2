@@ -1,6 +1,6 @@
 import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/scroll/scroll-strategy';
-import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment';
 declare var $;
 
@@ -10,7 +10,7 @@ declare var $;
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnDestroy {
   
   curDate: number = moment().date();
   curMonth: string = moment().format('MMMM');
@@ -30,6 +30,7 @@ export class HomePageComponent implements OnInit {
   
   
   dates: number[][] = new Array<number[]>(5);
+  popup1:boolean = true;
 
   constructor(private router: Router) {
     if ((sessionStorage.getItem('userid') != null) && sessionStorage.getItem('institute_id') != null) {
@@ -108,6 +109,14 @@ export class HomePageComponent implements OnInit {
     this.timer = setInterval(() => {
       this.time = new Date();
     }, 1000);
+    if(sessionStorage.getItem('showSMSService') == 'true') {
+      this.popup1 = true;
+      $('#smsMsg').modal('show');
+    }
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('showSMSService');
   }
 }
 
