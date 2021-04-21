@@ -182,6 +182,8 @@ export class ViewComponent implements OnInit {
     }
   }
   fetchStdFeeData(academic_yr) {
+    this.chequePdcList = [];
+    this.discHistoryList = [];
     this.auth.showLoader();
     let url = "/api/v1/studentWise/fee/" + this.institute_id + "/students/" + this.student_id + "/" + academic_yr;
     this.http.getData(url).subscribe(
@@ -658,8 +660,12 @@ export class ViewComponent implements OnInit {
   }
   getDiscountHistoryDetails() {
     this.discHistoryList = [];
+    if(this.academic_yr_id<0){
+      this.commonService.showErrorMessage('info', '', 'Please select academic year!');
+       return ;
+    }
     this.auth.showLoader();
-    this.feeService.getDiscountHistory(this.student_id).subscribe(
+    this.feeService.getDiscountHistoryV2(this.student_id,this.academic_yr_id).subscribe(
       (res: any) => {
         this.discHistoryList = res != null ? res.discountInstllmentList : this.discHistoryList;
         this.checkAnyInstallIsPaid();
