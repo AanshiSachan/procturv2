@@ -13,10 +13,11 @@
         <p>Purchase</p>
       </div>
       <div class="pt102"  [class.has-error]="supplier_id.invalid && supplier_id.touched">
-        <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
+        <label class="p_title">  Company Name<span class="text-danger">*</span></label>
+         <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
           #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" >
           <option value="">
-            Company Name*
+            Select Company
           </option>
           <option value="{{data.supplier_id}}" *ngFor="let data of supplierAllData">
             {{data.company_name}}</option>
@@ -27,12 +28,14 @@
           Supplier name is mandatory
         </span></p> -->
       <div class="pt102">
+        <label class="p_title">  Date<span class="text-danger">*</span></label>
         <input type="Date" class="input wid100" name="purchase_date" placeholder="Date*"
           [(ngModel)]="model.purchase_date" #purchase_date="ngModel"
           (change)="validateFutureDate($event)" required>
       </div>
       <div class="pt102">
-        <input type="text" class="input wid100" name="reference_number" placeholder="Reference No*"
+        <label class="p_title"> Reference Number<span class="text-danger">*</span></label>
+        <input type="text" class="input wid100" name="reference_number" placeholder="Enter Reference Number"
           [(ngModel)]="model.reference_number" #reference_number="ngModel"
           required>
       </div>
@@ -41,7 +44,8 @@
           Date is mandatory
         </span></p> -->
       <div class="pt102">
-        <input type="File" class="input wid100" id="billImageFile" name="billImageFile" placeholder="Date*" 
+        <label class="p_title">Bill copy</label>
+       <input type="File" class="input wid100" id="billImageFile" name="billImageFile" placeholder="Date*" 
         [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
           [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
@@ -56,14 +60,11 @@
           </li>
       </ul>
         </div>
-      <p class="errormsg"><span style="height:10px;" class="help-block">
-        </span></p>
       <div class="pt102">
-        <textarea class="input wid100 textarea1" name="purchase_description" placeholder="Description"
+        <label class="p_title"> Description</label>
+        <textarea class="input wid100 textarea1" name="purchase_description" placeholder="Enter Description"
           [(ngModel)]="model.purchase_description"></textarea>
       </div>
-      <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
-              </span></p> -->
     </div>
     <div class="div_2">
     
@@ -71,15 +72,18 @@
           <p>Purchase Item</p>
         </div>
         <div class="pt102" [class.has-error]="category_id.invalid && category_id.touched">
+          <!-- <label class="p_title"> Category <span class="text-danger">*</span></label>
+          <br> -->
           <select class="select sel1 mr10" name="categoryId" id="categoryId" ngModel
             #category_id="ngModel" (change)="getItemAgainscat($event)" >
-            <option value="" selected>Category Name*</option>
+            <option value="" selected>Select Category</option>
             <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
               {{data.categoryName}} </option>
           </select>
+          <!-- <label class="p_title"> Item <span class="text-danger">*</span></label> -->
           <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
           ngModel #item_id="ngModel" >
-            <option value="" selected>Item Name*</option>
+            <option value="" selected>Select Item</option>
             <option value="{{data.item_id}}" *ngFor="let data of itemArray">
               {{data.item_name}}</option>
           </select>

@@ -141,16 +141,16 @@
         <div class="modal-body">
      <form  #catForm="ngForm" autocomplete="off">
           <div class="pt10" [class.has-error]="category_name.invalid && category_name.touched">
-            <label class="p_title">Category Name<span class="text-danger">*</span></label>
+            <label class="p_title"> Name<span class="text-danger">*</span></label>
             <input type="text" class="input wid100" id ="category_name"
-            name="category_name" placeholder="Enter category name"
+            name="category_name" placeholder="Enter Category Name"
             [(ngModel)]="category_model.category_name"
             #category_name="ngModel" required >
           </div>
           <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!category_name.valid && category_name.touched">
             Category  name is mandatory
          </span></p> -->
-          <div class="pt10">
+          <div class="pt10" >
             <label class="p_title">Description</label>
             <textarea class="input wid100" name="desc" id="desc"
             [(ngModel)]="category_model.desc" placeholder="Enter description" ></textarea>
@@ -161,7 +161,7 @@
             <div class="align"> 
               <button type="button" class="right blue_button cancel"
               data-dismiss="modal" (click)="cancel(false)">Cancel</button>
-              <button class="right blue_button" (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">Save</button>
+              <button class="right blue_button" (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">Add Category</button>
               <button class="right blue_button" (click)="updateCategoryDetails(category_model)" *ngIf="isedit">Update</button></div>
            </div>
            </form>
@@ -272,6 +272,7 @@
         <div class="modal-body">
           <form #history="ngForm">
           <div class="pt10">
+            <label class="p_title"> Available Unit<span class="text-danger">*</span></label>
             <input type="text" class="input wid100" [(ngModel)]="manageData.available_units" name="available_units" 
             [disabled]= "true" 
             placeholder="Available Units*">
@@ -283,11 +284,13 @@
                       </option>
                       <option value=""></option>
                   </select> -->
-                  <input type="number" class="input wid100" name="units_added" 
+                  <label class="p_title">Manage Units</label>
+            <input type="number" class="input wid100" name="units_added" 
             [(ngModel)]="manageData.units_added"
-            placeholder="Manage Unit*" > 
+            placeholder=" Add or Remove Units" > 
             </div>
           <div class="pt10">
+            <label class="p_title">Total units</label>
             <input type="text" class="input wid100" name="alloted_units" 
             [(ngModel)]="manageData.alloted_units"
             placeholder="Total Unit Units*"
@@ -298,7 +301,7 @@
             <div></div>
             <div> 
               <button  class="right blue_button cancel" (click)="cancel(false)" data-dismiss="modal">Cancel</button>
-              <button class="right blue_button" (click)="updataeManageUnit(manageData.item_id)">Save</button></div>
+              <button class="right blue_button" (click)="updataeManageUnit(manageData.item_id)">Update Units</button></div>
            </div>
           </form>
         </div>        
@@ -320,15 +323,16 @@
           <div class="flex">
             <div class="sec1">
               <div class="pt10"  [class.has-error]="item_name.invalid && item_name.touched">
-                  <input type="text" class="input wid100" id="item_name" name="item_name" placeholder="Item*"  [(ngModel)]="item.item_name"
+                <label class="p_title"> Item<span class="text-danger">*</span></label>
+               <input type="text" class="input wid100" id="item_name" name="item_name" placeholder="Enter Item Name"  [(ngModel)]="item.item_name"
                   #item_name="ngModel" required>
               </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!item_name.valid && item_name.touched">
+              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!item_name.valid && item_name.touched">
                 Item  name is mandatory
-             </span></p>
+             </span></p> -->
                 <div class="pt10">
-                 
-                  <select class="select wid100" name="standard_id" id="standard_id"
+                  <label class="p_title"> Standard</label>
+                 <select class="select wid100" name="standard_id" id="standard_id"
                   [(ngModel)]="item.standard_id" (ngModelChange)="onMasterCourseSelection($event)">
                     <option value="">
                      Select Standard
@@ -338,100 +342,107 @@
                     </option>
                   </select>
                 </div>
-               <p class="errormsg"><span  style="height:10px;" class="help-block">
-               </span></p>
+               <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+               </span></p> -->
               <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched" >
-                  <input type="text" class="input wid100" id="alloted_units" 
-                  name="alloted_units" placeholder="Total Units*"  
+                <label class="p_title"> Total Units<span class="text-danger">*</span></label>
+             <input type="text" class="input wid100" id="alloted_units" 
+                  name="alloted_units" placeholder="Enter Total Units"  
                   #alloted_units="ngModel" 
                   [(ngModel)]="item.alloted_units" required
                   onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
               </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!alloted_units.valid && alloted_units.touched">
+              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!alloted_units.valid && alloted_units.touched">
                 Total units are mandatory
-             </span></p>
+             </span></p> -->
               <div class="pt10" [class.has-error]="sale_price.invalid && sale_price.touched" >
-                <input type="text" class="input wid100" id="sale_price" 
-                name="sale_price" placeholder="Sale Price (Unit Price)*"  
+                <label class="p_title"> Sale Price (Unit Price)<span class="text-danger">*</span></label>
+             <input type="text" class="input wid100" id="sale_price" 
+                name="sale_price" placeholder="Enter Sale Price"  
                 #sale_price="ngModel" 
                 [(ngModel)]="item.sale_price"  
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
                 required>
             </div>
-            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
               Sale or unit price is mandatory
-           </span></p>
+           </span></p> -->
                <div class="pt10" [class.has-error]="tax_percent.invalid && tax_percent.touched" >
-                  <input type="text" class="input wid100" id="tax_percent" 
-                  name="tax_percent" placeholder="Tax(%)"  
+                <label class="p_title"> Tax (%)<span class="text-danger">*</span></label>
+               <input type="text" class="input wid100" id="tax_percent" 
+                  name="tax_percent" placeholder="Enter Tax induced"  
                   #tax_percent="ngModel" 
                   [(ngModel)]="item.tax_percent" onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
               </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block">
-             </span></p>
+              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+             </span></p> -->
             </div>
             <div class="sec2">
               <div class="pt10"  [class.has-error]="abc.invalid && abc.touched">
-                <select class="select wid100" name="category_id" id="category_id"
+                <label class="p_title"> Category<span class="text-danger">*</span></label>
+               <select class="select wid100" name="category_id" id="category_id"
                 [(ngModel)]="item.category_id"  required #abc="ngModel">
                   <option value="">
-                   Category*
+                    Select Category
                   </option>
                   <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">
                     {{data.category_name}}</option>
                 </select>
               </div>
-              <p class="errormsg"> <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
+              <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
                 Category is mandatory
-               </span></p>
+               </span></p> -->
              <div class="pt10">
-             <select class="select wid100" name="subject_id" id="subject_id"
+              <label class="p_title"> Subject</label>
+              <select class="select wid100" name="subject_id" id="subject_id"
               [(ngModel)]="item.subject_id" >
                 <option value="">
-               Select Subject
+                  Select Subject
                 </option>
                 <option *ngFor="let opt of CourseList" value="{{opt.subject_id}}">
                   {{opt.subject_name}} 
                 </option>
               </select>
             </div>
-            <p class="errormsg"><span  style="height:10px;" class="help-block">
-              </span></p>
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+              </span></p> -->
                 <div class="pt10" [class.has-error]="unit_cost.invalid && unit_cost.touched" >
-                  <input type="text" class="input wid100" id="unit_cost" 
-                  name="unit_cost" placeholder="Buying Price (Unit Price)*"  
+                  <label class="p_title"> Buying Price (Unit Price)<span class="text-danger">*</span></label>
+                 <input type="text" class="input wid100" id="unit_cost" 
+                  name="unit_cost" placeholder="Enter Buying Price"  
                   #unit_cost="ngModel" 
                   [(ngModel)]="item.unit_cost"
                   onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
               </div>
-              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
+              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
                 Buying or unit price is mandatory
-             </span></p>
+             </span></p> -->
               <div class="pt10" [class.has-error]="out_of_stock_indicator_units.invalid && out_of_stock_indicator_units.touched" >
+                <label class="p_title"> Low Stock Indicator<span class="text-danger">*</span></label>
                 <input type="text" class="input wid100" id="out_of_stock_indicator_units" 
-                name="out_of_stock_indicator_units" placeholder="Low Stock Indicator*"  
+                name="out_of_stock_indicator_units" placeholder="Enter Low stock indicator"  
                 #out_of_stock_indicator_units="ngModel" 
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
                 [(ngModel)]="item.out_of_stock_indicator_units" required>
             </div>
-            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!out_of_stock_indicator_units.valid && out_of_stock_indicator_units.touched">
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!out_of_stock_indicator_units.valid && out_of_stock_indicator_units.touched">
               Low stock indicator  is mandatory
-           </span></p>
+           </span></p> -->
             </div>
           </div>
              <div class="pt10">
-                   <textarea class="input wid100" name="desc" id="desc" placeholder="Description" [(ngModel)]="item.desc"></textarea>
+              <label class="p_title"> Description</label>
+               <textarea class="input wid100" name="desc" id="desc" placeholder="Enter Description" [(ngModel)]="item.desc"></textarea>
               </div>
           <!-- </div> -->
-          <p class="errormsg"><span  style="height:10px;" class="help-block">
-         </span></p>
-         
+          <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+         </span></p> -->
           <div class="pt10 display w98">
             <div></div>
             <div class="align"> 
               <button type="button" class="right blue_button cancel"
               data-dismiss="modal"  (click)="cancel(false)" >Cancel</button>
-              <button class="right blue_button" (click)="saveItemDetails(item)" *ngIf="!isedit">Save</button>
+              <button class="right blue_button" (click)="saveItemDetails(item)" *ngIf="!isedit">Add Item</button>
               <button class="right blue_button" (click)="updateItemDetails(item.item_id)" *ngIf="isedit">Update</button></div>
            </div>
           </form>
@@ -451,94 +462,89 @@
           <div class="flex">
             <div class="sec1">
               <div class="pt10">
-                  <input type="text" class="input wid100" name="item_name" [(ngModel)]="allocatedata.item_name" [disabled]="true" placeholder="Item*">
+                <label class="p_title"> Item<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" name="item_name" [(ngModel)]="allocatedata.item_name" [disabled]="true" placeholder="Item*">
               </div>
-              <p class="errormsg"> <span  style="height:10px;" class="help-block">
-                
-               </span></p>
               <div class="pt10" [class.has-error]="sub_branch_id.invalid && sub_branch_id.touched">
-                  <select class="select wid100" name="sub_branch_id" 
+                <label class="p_title">  Sub-Branch<span class="text-danger">*</span></label>
+                <select class="select wid100" name="sub_branch_id" 
                   [(ngModel)]="allocatedata.sub_branch_id"
                   (ngModelChange)="getItemAgainSubBranch($event)" #sub_branch_id="ngModel" required>
-                    <option value="" selected>  Sub-Branch*</option>
+                    <option value="" selected> Select sub-branch</option>
                     <option value="{{data.institute_id}}" *ngFor="let data of subBranchAllData">
                      {{data.institute_name}}
                     </option>
                   </select>
 
               </div>
-              <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_id.invalid && sub_branch_id.touched"class="help-block">
+              <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_id.invalid && sub_branch_id.touched"class="help-block">
                 Sub-Branch is mandatory
-               </span></p>
+               </span></p> -->
                <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched">
-                  <input type="text" class="input wid100" [(ngModel)]="allocatedata.alloted_units" name="alloted_units" 
-                  placeholder="Allocate Unit*"
+                <label class="p_title">  Allocate Unit<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" [(ngModel)]="allocatedata.alloted_units" name="alloted_units" 
+                  placeholder="Enter Units"
                   onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
                   required #alloted_units="ngModel" required>
               </div>
-              <p class="errormsg"> <span  
+              <!-- <p class="errormsg"> <span  
                 *ngIf="alloted_units.invalid && alloted_units.touched" style="height:10px;" class="help-block" >
                 Allocate Unit is mandatory
-              </span></p>
+              </span></p> -->
                <div class="pt10">
-                  <input type="text" class="input wid100" name="challan_no"
-                   placeholder="Challan No."
+                <label class="p_title">  Challan No</label>
+                 <input type="text" class="input wid100" name="challan_no"
+                   placeholder="Enter Challan No"
                    [(ngModel)]="allocatedata.challan_no">
               </div>
-              <p class="errormsg"> <span  style="height:10px;" class="help-block">
-                
-              </span></p>
                <div class="pt10">
-                  <input type="text" class="input wid100"   [(ngModel)]="allocatedata.challan_amount" name="challan_amount" placeholder="Challan Amount"
+                <label class="p_title">  Challan Amount</label>
+                <input type="text" class="input wid100"   [(ngModel)]="allocatedata.challan_amount" name="challan_amount" placeholder="Challan Amount"
                   onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
               </div>
-              <p class="errormsg"> <span  style="height:10px;" class="help-block">
-                
-              </span></p>
+             
             </div>
             <div class="sec2">
               <div class="pt10">
-                  <input type="text" class="input wid100"  name="available_units" [(ngModel)]="allocatedata.available_units" [disabled]="true" placeholder="Available Units">
+                <label class="p_title"> Available Units</label>
+                <input type="text" class="input wid100"  name="available_units" [(ngModel)]="allocatedata.available_units" [disabled]="true" placeholder="Available Units">
               </div>
-              <p class="errormsg"> <span  style="height:10px;" class="help-block">
-                
-              </span></p>
+             
               <div class="pt10" [class.has-error]="sub_branch_item_id.invalid && sub_branch_item_id.touched">
-                <select class="select wid100" name="sub_branch_item_id" 
+                <label class="p_title">  Sub-branch item<span class="text-danger">*</span></label>
+               <select class="select wid100" name="sub_branch_item_id" 
                 [(ngModel)]="allocatedata.sub_branch_item_id"
                #sub_branch_item_id="ngModel" required>
-                  <option value="">  Sub-Branch Item*</option>
+                  <option value="">  Select sub-branch item</option>
                   <option value="{{data.item_id}}" *ngFor="let data of itemfromSubbrach">
                   {{data.item_name}}
                   </option>
                 </select>
 
             </div>
-            <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_item_id.invalid && sub_branch_item_id.touched"class="help-block">
+            <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_item_id.invalid && sub_branch_item_id.touched"class="help-block">
               Sub-Branch item is mandatory
-             </span></p>
+             </span></p> -->
               <div class="pt10">
-                  <input type="text" class="input wid100" name="transport"
-                  [(ngModel)]="allocatedata.transport" placeholder="Tranport">
+                <label class="p_title"> Tranport</label>
+               <input type="text" class="input wid100" name="transport"
+                  [(ngModel)]="allocatedata.transport" placeholder="Enter mode of Transport">
               </div>
-              <p class="errormsg"> <span  style="height:10px;" class="help-block">
-                
-              </span></p>
+             
               <div class="pt10">
-                  <input type="date" class="input wid100" name="challan_date"
+                <label class="p_title"> Challan Date</label>
+                <input type="date" class="input wid100" name="challan_date"
                   [(ngModel)]="allocatedata.challan_date" 
-                   placeholder="Challan Date" >
+                   placeholder="Enter Challan Date" >
               </div>
-              <p class="errormsg"> <span  style="height:10px;" class="help-block">
-                
-              </span></p>
+             
             </div>
           </div>
           <div class="pt10 display">
            <div></div>
            <div> 
             <button class="right blue_button cancel" data-dismiss="modal" (click)="cancel()">cancel</button>
-             <button class="right blue_button" (click)="saveAllocatedData(allocatedata)">Save</button></div>
+             <button class="right blue_button" (click)="saveAllocatedData(allocatedata)">Allocate</button></div>
            
           </div>
         </form>

@@ -79,7 +79,7 @@ export class ItemCmComponent implements OnInit {
           this.auth.hideLoader();
           this.getCategoryDetails();
           if (res.statusCode == 200) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'A new category has been created in the system');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Category Added Successfully');
             this.getCategoryDetails();
           }
         },
@@ -132,7 +132,7 @@ export class ItemCmComponent implements OnInit {
     if (this.catForm.valid) {
       this.httpService.putData(this.url + 'category', obj).subscribe(() => {
     
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category has been edited from Previous details to Current edited details")
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category Updated Successfully")
         this.auth.hideLoader();
         this.getCategoryDetails();
         $('#addModel').modal('hide');
@@ -203,7 +203,7 @@ export class ItemCmComponent implements OnInit {
       this.httpService.deleteData(this.url + 'category/' + obj, null).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('success', '', ' Deleted Successfully');
+          this.msgService.showErrorMessage('success', '', 'Category Deleted Successfully');
           this.getCategoryDetails();
           $('#deleteModalCat').modal('hide');
         },
@@ -225,7 +225,7 @@ saveItemDetails(){
         this.auth.hideLoader();
         this.getItemDetails();
         if (res.statusCode == 200) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'An Item ' + this.item.item_name + ' '+ ','+ 'has been created to system, under category ' + ' ' + this.item.category_name );
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Added Successfully' );
           this.getCategoryDetails();
           //
         }
@@ -298,7 +298,7 @@ updateItemDetails(){
   if (this.itemForm.valid) {
     this.httpService.putData(this.url + 'item', obj).subscribe(() => {
       $('#itemModal').modal('hide');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Item is Updated Successfully")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Item Updated Successfully")
       this.getItemDetails();
    },
       err => {
@@ -561,7 +561,7 @@ getClassRoomTableFromSource(startindex) {
       primary_key: 'desc',
       value: "Description",
       charactLimit: 25,
-      sorting: true,
+      sorting: false,
       visibility: true
     },
   ]
@@ -715,7 +715,7 @@ saveAllocatedData(){
          this.getItemDetails();
         this.auth.showLoader();
         if (res.statusCode == 200) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Allocated successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Item Allocated Successfully');
          this.allcateForm.resetForm();
          this.auth.hideLoader();
         }
