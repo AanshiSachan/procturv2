@@ -28,7 +28,7 @@ export class PurchaseItemComponent implements OnInit {
   staticPageDataSouece: any = [];
   institution_id;
   tempLocationList: any=[];
-  assignDataforDownload: [];
+  assignDataforDownload=[];
   model = {
     purchase_id: 0,
     supplier_id: '',
@@ -321,35 +321,40 @@ this.router.navigate(['/view/inventory-management/purchase-view'])
     this.httpService.getData('/api/v1/inventory/purchase/all?all=1&&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         this.assignDataforDownload = res.result.response;
+        for(let i=0;i<this.assignDataforDownload.length;i++){
+          this.assignDataforDownload[i].id =i +1;
+        }
+        let arr = [];
+   
+        this.assignDataforDownload.map(
+          (ele: any) => {
+            let json = [
+              ele.id,
+             ele.reference_number,
+              ele.supplier_company_name,
+              ele.purchase_date,
+             // ele.bill_image_url,
+              ele.total_amount,
+              ele.total_paid_amount,
+              ele.balanced_amount,
+             
+       ]
+            arr.push(json);
+          })
+    
+        let rows = [];
+        rows = [['#','Reference No.', ' Supplier', ' Date',
+        'Grand Total ','Paid ','Balance']]
+        let columns = arr;
+        this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
+        this.auth.hideLoader();
     },
       err => {
         this.auth.hideLoader();
       }
       
     );
-    let arr = [];
    
-    this.assignDataforDownload.map(
-      (ele: any) => {
-        let json = [
-         ele.reference_number,
-          ele.supplier_company_name,
-          ele.purchase_date,
-         // ele.bill_image_url,
-          ele.total_amount,
-          ele.total_paid_amount,
-          ele.balanced_amount,
-         
-   ]
-        arr.push(json);
-      })
-
-    let rows = [];
-    rows = [['Reference No.', ' Supplier', ' Date',
-    'Grand Total ','Paid ','Balance']]
-    let columns = arr;
-    this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
-    this.auth.hideLoader();
   }
 //download in excel format
 headerSetting =[{

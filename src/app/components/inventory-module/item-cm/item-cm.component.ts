@@ -131,11 +131,11 @@ export class ItemCmComponent implements OnInit {
     }
     if (this.catForm.valid) {
       this.httpService.putData(this.url + 'category', obj).subscribe(() => {
-        $('#addModel').modal('hide');
+    
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Category has been edited from Previous details to Current edited details")
         this.auth.hideLoader();
         this.getCategoryDetails();
-       
+        $('#addModel').modal('hide');
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
@@ -568,9 +568,13 @@ getClassRoomTableFromSource(startindex) {
   //download pdf
   downloadPdf() {
     let arr =[];
+    for(let i=0;i<this.categoryAllData.length;i++){
+      this.categoryAllData[i].id =i +1;
+    }
   this.categoryAllData.map(
       (ele: any) => {
         let json = [
+          ele.id,
           ele.category_name,
           ele.desc,
        ]
@@ -578,7 +582,7 @@ getClassRoomTableFromSource(startindex) {
       })
 
     let rows = [];
-    rows = [['Name',  ' Description']]
+    rows = [['#','Name',  ' Description']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'category List');
     this.auth.hideLoader();
@@ -604,10 +608,14 @@ exportToExcel(){
 }
 /* ==========================================Download Data for Item=============*/
 downloadPdffoItem() {
+  for(let i=0;i<this.itemAllData.length;i++){
+    this.itemAllData[i].id =i +1;
+  }
   let arrforItem =[];
 this.itemAllData.map(
     (ele: any) => {
       let json = [
+        ele.id,
         ele.item_name,
         ele.category_name,
         ele.alloted_units,
@@ -621,7 +629,7 @@ this.itemAllData.map(
     })
 
   let rows = [];
-  rows = [['Item',  ' Category','Total Units','Available Units','Buying/Unit Price','Sale Price',
+  rows = [['#','Item',  ' Category','Total Units','Available Units','Buying/Unit Price','Sale Price',
   'Taxes (%)','Low Stock indicator (Units)']]
   let columns = arrforItem;
   this._pdfService.exportToPdf(rows, columns, 'item List');
@@ -779,6 +787,7 @@ updataeManageUnit(){
     $('#manageunitModal').modal('hide');
     this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Units Updated Successfully")
     this.getItemDetails();
+    this.manageData.units_added='';
   },
     err => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
