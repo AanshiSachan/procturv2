@@ -170,7 +170,6 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       this.itemData.splice(id, 1);
 
     });
-
     //call for total and totalunit after delete
     this.purchaselistItem();
     //when delete all data hide total row
