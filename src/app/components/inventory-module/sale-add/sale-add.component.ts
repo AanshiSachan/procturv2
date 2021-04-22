@@ -132,6 +132,8 @@ export class SaleAddComponent implements OnInit {
     this.isChange = true;
     this.itemArray.forEach(elements => {
       if (elements && elements.item_id == id) {
+        //available units replace with one
+        elements.available_units =1;
         this.itemData.push(elements);
         elements.sale_type = "Paid";
         elements.isedit = false;

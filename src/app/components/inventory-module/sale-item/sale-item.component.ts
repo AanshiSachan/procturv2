@@ -246,8 +246,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
 
 
   cancelData(purchase_id){
-    ///api/v1/inventory/sale/cancelSale?saleId=2&instituteId=100058
-    this.httpService.getData('/api/v1/inventory/sale/all?instituteId=' + this.institution_id).subscribe((res: any) => {
+    this.httpService.getData('/api/v1/inventory/sale/cancelSale?saleId='+ purchase_id +'&instituteId=' + this.institution_id).subscribe((res: any) => {
      if (res.statusCode == 200) {
          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Sale cancelled successfully');
         this.getSaleDetails();
