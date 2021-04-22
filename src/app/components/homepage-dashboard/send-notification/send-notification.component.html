@@ -34,8 +34,8 @@
       <div class="wid70">
         <div class=" display">
          <div>
-            <span class="active_but mr10" id="pending">Pending</span>
-          <span class="inactive_but" id="approved">Approved</span>
+            <span class="active_but mr10" (click)="onTabChange('open')" id="openSMSTab">Pending</span>
+          <span class="inactive_but" (click)="onTabChange('approved')" id="approvedSMSTab">Approved</span>
          </div>
          <div>
           <div class="tooltip1"><img src="../../../../assets/images/Group58.png" class="group18">
@@ -68,9 +68,9 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               </div>
            
             <div>
-              <a href="" class="mr10"><img src="../../../../assets/img/approve.svg" title="Approve" class="group18"></a>
+              <a class="mr10" (click)="approveRejectSms(row,'1')"><img src="../../../../assets/img/approve.svg" title="Approve" class="group18"></a>
               <a class="mr10" (click)="editSMS(row )"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
-              <a href="" ><img src="../../../../assets/img/disapprove.svg" title="Disapprove" class="group18"></a>
+              <a  class="mr10" (click)="approveRejectSms(row , '400')"><img src="../../../../assets/img/disapprove.svg" title="Disapprove" class="group18"></a>
             </div>
           </div>
           

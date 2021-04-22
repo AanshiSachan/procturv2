@@ -178,7 +178,74 @@ updateMessage() {
 
 }
 
+approveRejectSms(data, statusCode) {
+  let msg: any = "";
+  if (statusCode == 1) {
+    msg = "approve";
+  } else {
+    msg = "deleted";
+  }
+  if (confirm('Are you sure, You want  to ' + msg + ' the message?')) {
+    this.widgetService.changesSMSStatus({ 'status': statusCode }, data.message_id).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: '',
+          body: ''
+        }
+        if (statusCode == 1) {
+          msg.title = "SMS Approved"
+        } else {
+          msg.title = "SMS Deleted";
+        }
+        this.appC.popToast(msg);
+        //this.getOpenStatusSMS();
+        this.getAllMessageFromServer();
 
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: err.error.message
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+}
+
+onTabChange(tabname) {
+  this.jsonFlag.openMessageFlag = false;
+  this.jsonFlag.smsTabType = tabname;
+  document.getElementById('approvedSMSTab').classList.remove('active');
+  document.getElementById('openSMSTab').classList.remove('active');
+  if (tabname == 'approved') {
+    document.getElementById('approvedSMSTab').classList.add('active');
+    this.getAllMessageFromServer();
+  } else {
+    document.getElementById('openSMSTab').classList.add('active');
+    this.getOpenStatusSMS();
+  }
+}
+
+getOpenStatusSMS() {
+  this.auth.showLoader();
+  this.jsonFlag.openMessageFlag = true;
+  this.openMessageList = [];
+
+  this.widgetService.getMessageList({}).subscribe(
+    res => {
+      this.auth.hideLoader();
+      this.openMessageList = res;
+     this.messageList.push(this.openMessageList)
+    },
+    err => {
+      this.auth.hideLoader();
+      //console.log(err);
+    }
+  )
+}
 
 onCheckBoxSelection(index, data) {
   this.messageList.map(ele => {
