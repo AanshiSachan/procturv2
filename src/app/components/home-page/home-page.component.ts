@@ -30,7 +30,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   
   
   dates: number[][] = new Array<number[]>(5);
-  popup1:boolean = true;
 
   constructor(private router: Router) {
     if ((sessionStorage.getItem('userid') != null) && sessionStorage.getItem('institute_id') != null) {
@@ -110,7 +109,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.time = new Date();
     }, 1000);
     if(sessionStorage.getItem('showSMSService') == 'true') {
-      this.popup1 = true;
       $('#smsMsg').modal('show');
     }
   }
