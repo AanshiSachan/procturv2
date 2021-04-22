@@ -55,8 +55,21 @@
                 <label class="p_title"> Bill Copy</label>
                 <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" id="billImageFile"
                style="margin-top:8px;"
+               [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
                 [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
               </div>
+              <div class="pt102"  *ngIf="isedit && model.bill_image_url !='' && model.bill_image_url!=null">
+                <ul class="p_title">
+                  <li>Bill Copy</li>
+                  <li (click)="clearFile()" title="Delete Bill copy"><i class="fa fa-trash" style="color:red;font-size: 18px;"></i>
+                  </li>
+                  <li>
+                      <a href="{{model.bill_image_url}}" target="_blank" title="Download Bill copy"><i class="fa fa-download"
+                              style="color:#064d0f;font-size: 18px;"></i> </a>
+                  </li>
+              </ul>
+                </div>
+                <br>
               <div class="pt102">
                 <label class="p_title"> Description</label>
                 <textarea class="input wid100 textarea1" name="description" id="description" placeholder="Enter Description"

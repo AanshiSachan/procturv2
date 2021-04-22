@@ -32,14 +32,14 @@
               </div>
               <!-- <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div> -->
               <div>
-              Role<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
+              Role
               </div>
-              <div>User<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
-              <div>Date<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>User</div>
+              <div>Date</div>
               <!-- <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div> -->
               <div>File</div>
-              <div>Grand Total<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
-              <div>Paid<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>Grand Total</div>
+              <div>Paid</div>
               <div>Balance (To be Paid)</div>
               <div>Actions</div>
             </div>
@@ -183,7 +183,6 @@
               <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
                 #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
                 required
-                (change)="validatePayment(paymentModel.paid_amount)"
                 [(ngModel)]="paymentModel.paid_amount">
             </div>
             <!-- <p class="errormsg"> <span  style="height:10px;"  

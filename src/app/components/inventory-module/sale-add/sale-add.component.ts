@@ -132,6 +132,8 @@ export class SaleAddComponent implements OnInit {
     this.isChange = true;
     this.itemArray.forEach(elements => {
       if (elements && elements.item_id == id) {
+        //available units replace with one
+        elements.available_units =1;
         this.itemData.push(elements);
         elements.sale_type = "Paid";
         elements.isedit = false;
@@ -405,6 +407,7 @@ if(this.itemData.length ==0){
       saleDto.sale_date = moment(this.model.sale_date).format("YYYY-MM-DD");
       saleDto.sale_item_list = this.model.sale_item_list;
       saleDto.payment_status = this.model.payment_status;
+      saleDto.bill_image_url =this.model.bill_image_url;
       // saleDto.sale_type =this.model.sale_type;
       formData.append('saleDto', JSON.stringify(saleDto));
       if (file) {
@@ -462,4 +465,9 @@ if(this.itemData.length ==0){
 
     }
   }
+  clearFile() {
+    this.model.bill_image_url = '';
+    // this.isedit=false;
+  }
+
 }

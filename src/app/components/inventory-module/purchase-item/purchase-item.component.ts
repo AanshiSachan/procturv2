@@ -230,7 +230,7 @@ $('#addpayModal').modal('show');
     let balanced_amount = 2344;
     let amount = Number(this.paymentModel.paid_amount);
     if (amount < 1) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Payment amount is less than one");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment amount is less than one");
     }
     if (balanced_amount <= amount) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment amount is greater than balanced amount")

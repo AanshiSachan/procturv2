@@ -191,7 +191,8 @@ export class SaleItemComponent implements OnInit {
     }
   }
   validatePayment(data) {
-   let amount = Number(data);
+   let amount = Number(data.paid_amount);
+   let balance=Number(data.balanced_amount)
     if (amount < 1) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment Amount is LESS than one")
     }
@@ -245,8 +246,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
 
 
   cancelData(purchase_id){
-    ///api/v1/inventory/sale/cancelSale?saleId=2&instituteId=100058
-    this.httpService.getData('/api/v1/inventory/sale/all?instituteId=' + this.institution_id).subscribe((res: any) => {
+    this.httpService.getData('/api/v1/inventory/sale/cancelSale?saleId='+ purchase_id +'&instituteId=' + this.institution_id).subscribe((res: any) => {
      if (res.statusCode == 200) {
          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Sale cancelled successfully');
         this.getSaleDetails();
