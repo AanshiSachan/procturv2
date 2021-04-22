@@ -64,7 +64,6 @@ export class AddEditAccountComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.account = res;
-        console.log("Acoooooooooo",this.account)
       },
       err => {
         this.auth.hideLoader();
@@ -129,7 +128,7 @@ export class AddEditAccountComponent implements OnInit {
     this.accountDetails.IFSC_Code = this.editAccountDetails.ifsc_code;
     this.accountDetails.displayPayeeName = this.editAccountDetails.party_id;
     // this.accountDetails.displayPayeerName = this.editAccountDetails.party_id;
-    this.accountDetails.valuType = this.editAccountDetails.party_type;
+     this.accountDetails.valuType = this.editAccountDetails.party_type;
 
   }
 
@@ -147,7 +146,7 @@ export class AddEditAccountComponent implements OnInit {
         party_id: this.accountDetails.displayPayeeName,
         //party_id: this.accountDetails.displayPayeerName,
 
-        party_type: this.accountDetails.valuType,
+        // party_type: this.accountDetails.valuType,
         account_id: ''
       };
       const url = `/api/v1/account`;
