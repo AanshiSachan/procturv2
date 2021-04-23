@@ -263,10 +263,12 @@ export class ViewComponent implements OnInit {
   }
 
   doPayment() {
+    this.auth.showLoader();
     this.isUpdatePaymentClicked = true;
     let is_valid_payment: boolean = this.feeService.validatePaymentDetailsV2(this.paymentPopUpJson);
     if (!is_valid_payment) {
       this.isUpdatePaymentClicked = false;
+      this.auth.hideLoader();
       return;
     }
     let obj = this.preparedPaymentPayload();
@@ -1312,7 +1314,6 @@ export class ViewComponent implements OnInit {
       })
   }
   calFinalDueAmount(data) {
-    debugger
     if (data == '') {
       data = 0;
       this.paymentPopUpJson.paying_amount = 0;

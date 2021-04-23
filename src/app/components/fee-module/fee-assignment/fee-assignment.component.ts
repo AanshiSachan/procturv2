@@ -317,9 +317,8 @@ export class FeeAssignmentComponent implements OnInit {
   }
   assignfeeToStudent(isAssignedToSingleStudent) {
     this.isClicked=true;
-    debugger
+    this.auth.showLoader();
     if (this.validateAssignFeeData()) {
-      this.auth.showLoader();
       let requestPayload: any = {
         student_ids: this.studentIdArr,
         template_id: this.template_id,
@@ -348,6 +347,7 @@ export class FeeAssignmentComponent implements OnInit {
         }
       );
     }
+    this.auth.hideLoader();
     this.isClicked=false;
   }
   validateAssignFeeData() {
