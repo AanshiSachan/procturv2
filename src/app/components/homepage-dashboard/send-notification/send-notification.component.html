@@ -34,8 +34,12 @@
       <div class="wid70">
         <div class=" display">
          <div>
-            <span class="active_but mr10" (click)="onTabChange('open')" id="openSMSTab">Pending</span>
-          <span class="inactive_but" (click)="onTabChange('approved')" id="approvedSMSTab">Approved</span>
+          <span class="active_but mr10" (click)="penddingTab()" id="pendding">Pending</span>
+
+            <!-- <span class="active_but mr10" (click)="onTabChange('open')" id="openSMSTab">Pending</span> -->
+          <!-- <span class="inactive_but" (click)="onTabChange('approved')" id="approvedSMSTab">Approved</span> -->
+           <span class="inactive_but" (click)="approveTab()" id="approved">Approved</span>
+
          </div>
          <div>
           <div class="tooltip1"><img src="../../../../assets/images/Group58.png" class="group18">
@@ -45,7 +49,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
            
          </div>
         </div>
-        <div class="msg1 pending_tab">
+        <div class="msg1 pending_tab" *ngIf="pendingMessage">
           <div class="table_heading">
             <div>
              Date And Time
@@ -69,8 +73,8 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
            
             <div>
               <a class="mr10" (click)="approveRejectSms(row,'1')"><img src="../../../../assets/img/approve.svg" title="Approve" class="group18"></a>
-              <a class="mr10" (click)="editSMS(row )"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
-              <a  class="mr10" (click)="approveRejectSms(row , '400')"><img src="../../../../assets/img/disapprove.svg" title="Disapprove" class="group18"></a>
+              <a class="mr10" (click)="editSMS(row)"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+              <a  class="mr10" (click)="approveRejectSms(row ,'400')"><img src="../../../../assets/img/disapprove.svg" title="Disapprove" class="group18"></a>
             </div>
           </div>
           
@@ -92,7 +96,9 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
           </div> -->
     <!-- </div> -->
-       <!-- <div class="msg2 approved_tab">
+    </div>
+    <!-- ===============================approve massage Table================================ -->
+       <div class="msg2 approved_tab" *ngIf="!pendingMessage">
           <div class="table_heading">
             <div>
               
@@ -103,28 +109,35 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div>Message</div>
             <div>Actions</div>
           </div>
-          <div class="table_body" *ngFor="let row of messageList; let i = index; trackBy: i;">
+          <div class="table_body" *ngFor="let row of openMessageList; let i = index; trackBy: i;">
              <div>
-               <div class="field-radio-wrapper">
-            <input type="radio" name="one"   [(ngModel)]="row.assigned"
-            (ngModelChange)="onCheckBoxSelection(index , row)">
+              <div class="field-radio-wrapper">
+                <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRow" value="{{row.message}}" (ngModelChange)="onCheckBoxSelection(index , row)" >
+                <label></label>
+            </div>
            
-          </div>
+        
              </div>
             <div>
               {{row.date}}
             </div>
-            <div>
-              {{row.message}}        </div>
+            <div title="{{row.message}}">
+              {{(!row.message) ? '-':(row.message.length > 30) ?(row.message | slice :0:30) + '...' : row.message}}
+            </div>
            
             <div>
            
-              <a href="" class="mr10"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+              <a class="mr10" (click)="editSMS(row)"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
               
             </div>
-          </div>
+            </div>
+            </div>
+           
+          <!-- </div>
+
+          </div> -->
           
-        
+<!--         
         <div class="table_body">
              <div>
                <div class="field-radio-wrapper">
@@ -147,7 +160,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
         
             </div>
           </div> -->
-    </div>
+    <!-- </div> -->
       </div>
       
       <div class="w982 ">
@@ -159,7 +172,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
         <div class="display">
           <div></div>
           <div>
-            <button class="white_button mr10" data-dismiss="modal">Back</button>
+            <button class="white_button mr10" (click)="closeNewMessageDiv()">Back</button>
             <button class="blue_button"(click)="saveNewMessage()" *ngIf="!jsonFlag.editMessage">Save</button>
             <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editMessage">Update</button>
 
@@ -195,10 +208,10 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
         
         <div class="box1">
           <p class="selected_msg">
-          
-                             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
+          {{selectedRow}}
+                             <!-- Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
             tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et
+            eos et accusam et justo duo dolores et -->
         </p>
         </div>
        
@@ -237,7 +250,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
   </div>
 </div>
 <!-- ==================================second div======================================= -->
-<main class="page-content" *ngIf="selectStudentForm">
+<div class="page-content" *ngIf="selectStudentForm">
   <div class="head_padding">
     <div class="w98 flex">
       <div class="page_heading">
@@ -289,24 +302,34 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
          </div>
          <div class="display person" >
            <div>
-              <input type="radio" name="same1" id="option1" onclick="change(this)">
-              All Active Students
+            <div class="field-radio-wrapper">
+               <input type="radio" name="same1" id="option1" class="form-radio" onclick="change(this)">
+              <label>Active Students</label>
+              </div> 
             </div>
             <div>
-              <input type="radio" name="same1" id="option2" onclick="change(this)">
-              All Faculty
+              <div class="field-radio-wrapper">
+              <input type="radio" name="same1" id="option2" class="form-radio" onclick="change(this)">
+              <label> Faculty</label>
+              </div>
             </div>
             <div>
-              <input type="radio" name="same1" id="option3" onclick="change(this)">
-              All Inactive Students
+              <div class="field-radio-wrapper">
+              <input type="radio" name="same1" id="option3" class="form-radio" onclick="change(this)">
+              <label>Inactive Students</label> 
+              </div>
             </div>
             <div>
-              <input type="radio" name="same1" id="option4" onclick="change(this)">
-              All Allumni Students
+              <div class="field-radio-wrapper">
+              <input type="radio" name="same1" id="option4" class="form-radio" onclick="change(this)">
+              <label> Allumni Students</label>
+              </div>
             </div>
             <div>
-              <input type="radio" name="same1" id="option5" onclick="change(this)">
-             All Registered Users
+              <div class="field-radio-wrapper">
+             <input type="radio" name="same1" id="option5" class="form-radio" onclick="change(this)">
+             <label>Registered Users</label> 
+             </div>
             </div>
          </div>
        </div>
@@ -786,4 +809,4 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
   <!-- </div> -->
 
   </div>
-</main> 
+</div> 

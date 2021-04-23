@@ -17,23 +17,19 @@ import { WidgetService } from '../../../services/widget.service';
 export class SendNotificationComponent implements OnInit {
   jsonFlag: any = {
     smsTabType: 'approved',
-    showAllMessage: false,
     openMessageFlag: false,
     editMessage: false,
     messageObject: {}
   };
-selectStudentForm :boolean= false;
-addSmsForm:boolean=true;
-addNotification: boolean = false;
-openAppUserSelected = false;
-
-
-messageCount: number = 0;
-newMessageText: string = "";
-messageList: any = [];
-emailMessageList: any = [];
-openMessageList: any = [];
-  openEmailMessageList: any = [];
+  approveMessage:boolean= false;
+  pendingMessage :boolean=true;
+  selectStudentForm :boolean= false;
+  addSmsForm:boolean=true;
+  messageCount: number = 0;
+  newMessageText: string = "";
+  messageList: any = [];
+  openMessageList: any = [];
+  selectedRow:any;
 
   constructor( private router: Router,
     private auth: AuthenticatorService,
@@ -56,12 +52,21 @@ openStudentForm(){
   this.addSmsForm = false
 }
 
+approveTab(){
+  this.approveMessage = true;
+  this.pendingMessage = false;
+  this.getOpenStatusSMS();
+  
+}
+penddingTab(){
+  this.approveMessage = false;
+  this.pendingMessage = true;
 
+}
 
 getAllMessageFromServer() {
   console.log("1");
   this.messageList = [];
-  this.emailMessageList = [];
   let tempMessageList: any = [];
   this.auth.showLoader();
   let obj = {
@@ -199,8 +204,8 @@ approveRejectSms(data, statusCode) {
           msg.title = "SMS Deleted";
         }
         this.appC.popToast(msg);
-        //this.getOpenStatusSMS();
-        this.getAllMessageFromServer();
+        this.getOpenStatusSMS();
+        //this.getAllMessageFromServer();
 
       },
       err => {
@@ -215,30 +220,38 @@ approveRejectSms(data, statusCode) {
   }
 }
 
-onTabChange(tabname) {
-  this.jsonFlag.openMessageFlag = false;
-  this.jsonFlag.smsTabType = tabname;
-  document.getElementById('approvedSMSTab').classList.remove('active');
-  document.getElementById('openSMSTab').classList.remove('active');
-  if (tabname == 'approved') {
-    document.getElementById('approvedSMSTab').classList.add('active');
-    this.getAllMessageFromServer();
-  } else {
-    document.getElementById('openSMSTab').classList.add('active');
-    this.getOpenStatusSMS();
-  }
-}
-
+// onTabChange(tabname) {
+//   this.jsonFlag.openMessageFlag = false;
+//   this.jsonFlag.smsTabType = tabname;
+//   document.getElementById('approvedSMSTab').classList.remove('active');
+//   document.getElementById('openSMSTab').classList.remove('active');
+//   if (tabname == 'approved') {
+//     document.getElementById('approvedSMSTab').classList.add('active');
+//     this.getAllMessageFromServer();
+//   } else {
+//     document.getElementById('openSMSTab').classList.add('active');
+//     this.getOpenStatusSMS();
+//   }
+// }
+// ==================for approve list========================
 getOpenStatusSMS() {
   this.auth.showLoader();
   this.jsonFlag.openMessageFlag = true;
   this.openMessageList = [];
+  let tempMessageList: any = [];
+
 
   this.widgetService.getMessageList({}).subscribe(
     res => {
       this.auth.hideLoader();
-      this.openMessageList = res;
-     this.messageList.push(this.openMessageList)
+      tempMessageList = res;
+      for (let i = 0; i < tempMessageList.length; i++) {
+       
+        if (tempMessageList[i].status === 1) {
+          this.openMessageList.push(tempMessageList[i]);
+        }
+      }
+     //this.openMessageList.push(tempMessageList)
     },
     err => {
       this.auth.hideLoader();
@@ -247,14 +260,9 @@ getOpenStatusSMS() {
   )
 }
 
-onCheckBoxSelection(index, data) {
-  this.messageList.map(ele => {
-    if (ele.message_id == data.message_id) {
-      ele.assigned = true;
-    } else {
-      ele.assigned = false;
-    }
-  })
+onCheckBoxSelection(obj) {
+  console.log("selected",this.selectedRow)
+  this.selectedRow = obj.message_id
 }
 
 
