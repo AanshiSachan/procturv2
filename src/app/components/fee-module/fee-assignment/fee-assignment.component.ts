@@ -446,4 +446,9 @@ export class FeeAssignmentComponent implements OnInit {
     $('#assignFeeModel').modal('hide');
     this.student_id = -1;
   }
+  changesValuesAsPerType(row, i) {
+    if (row == 1) {
+      this.feeInstalllmentArr[i].days = 0;
+    }
+  }
 }
