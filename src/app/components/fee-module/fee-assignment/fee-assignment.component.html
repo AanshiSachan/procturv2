@@ -194,7 +194,7 @@
           <div class="h50">
             <span class="right">
               <button class="white_button mr10" (click)="closePopUp()">Cancel</button>
-              <button class="blue_button" (click)="assignfeeToStudent()">Assign Fee</button>
+              <button class="blue_button" [disabled]="isClicked" (click)="assignfeeToStudent()">Assign Fee</button>
             </span>
           </div>
         </div>

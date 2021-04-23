@@ -111,7 +111,7 @@
                     </div>
 
                     <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
-                        <input type="text" [readonly]="feeInstalllmentArr[i].day_type==1" [(ngModel)]="feeInstalllmentArr[i].day" placeholder="0"
+                        <input type="text" [disabled]="feeInstalllmentArr[i].day_type==1" [(ngModel)]="feeInstalllmentArr[i].day" placeholder="0"
                             class="input wid80 rrs" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
                     </div>
                     <div><input type="text" [(ngModel)]="feeInstalllmentArr[i].fee_amount" placeholder="00"

@@ -586,9 +586,9 @@
                         <div></div>
                         <div>
                             <button class="white_button mr10" (click)="closeAddInstallPopup()">Cancel</button>
-                            <button class="blue_button " *ngIf="!isUpdateInstall" (click)="addNewInstall()">Add
+                            <button class="blue_button " [disabled]="isAddInstallClicked" *ngIf="!isUpdateInstall" (click)="addNewInstall()">Add
                                 Installment</button>
-                            <button class="blue_button " *ngIf="isUpdateInstall" (click)="updateInstall()">Update
+                            <button class="blue_button " [disabled]="isUpdateInstallClicked"  *ngIf="isUpdateInstall" (click)="updateInstall()">Update
                                 Installment</button>
                         </div>
                     </div>
@@ -728,10 +728,10 @@
                                 <button class="white_button mr10" (click)="clearDiscPopUpData()">
                                     Cancel
                                 </button>
-                                <button class="blue_button" *ngIf="!isDiscountRemove" (click)="applyDiscount()">
+                                <button class="blue_button" *ngIf="!isDiscountRemove" [disabled]="isApplyDiscClicked" (click)="applyDiscount()">
                                     Apply Discount
                                 </button>
-                                <button class="blue_button" *ngIf="isDiscountRemove" (click)="removeDiscountAction()">
+                                <button class="blue_button" *ngIf="isDiscountRemove" [disabled]="isRemoveDiscClicked" (click)="removeDiscountAction()">
                                     Remove Discount
                                 </button>
                             </div>
@@ -925,7 +925,7 @@
                         <div></div>
                         <div>
                             <button class="white_button mr10" (click)="flushPaymentPopUpData()">Cancel</button>
-                            <button class="blue_button " *ngIf="!isUpdatePaidInstall"
+                            <button class="blue_button " [disabled]="isUpdatePaymentClicked" *ngIf="!isUpdatePaidInstall"
                                 (click)="doPayment()">Update</button>
                             <button class="blue_button " *ngIf="isUpdatePaidInstall"
                                 (click)="updatePaidInstall()">Update</button>

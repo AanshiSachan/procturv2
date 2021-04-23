@@ -116,6 +116,11 @@ export class ViewComponent implements OnInit {
   stdAssignedCorseList
   paymentMode: number = 0;
   isSelectedAllPaidInstall: boolean = false;
+  isAddInstallClicked: boolean = false;
+  isUpdatePaymentClicked: boolean = false;
+  isApplyDiscClicked: boolean = false;
+  isRemoveDiscClicked: boolean = false;
+  isUpdateInstallClicked: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -258,8 +263,10 @@ export class ViewComponent implements OnInit {
   }
 
   doPayment() {
+    this.isUpdatePaymentClicked = true;
     let is_valid_payment: boolean = this.feeService.validatePaymentDetailsV2(this.paymentPopUpJson);
     if (!is_valid_payment) {
+      this.isUpdatePaymentClicked = false;
       return;
     }
     let obj = this.preparedPaymentPayload();
@@ -283,6 +290,7 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
+    this.isUpdatePaymentClicked = false;
   }
   preparedPaymentPayload() {
     let obj = {
@@ -624,11 +632,13 @@ export class ViewComponent implements OnInit {
     }
   }
   applyDiscount() {
+    this.isApplyDiscClicked = true;
     this.auth.showLoader();
     let unpaidAmount = this.max_disc_apply;
     let isValid: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'add');
     if (!isValid) {
       this.auth.hideLoader();
+      this.isApplyDiscClicked = false;
       return false;
     }
     // Condition For discount satisfy now apply discount
@@ -648,6 +658,7 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
+    this.isApplyDiscClicked = false;
   }
   clearDiscPopUpData() {
     $('#discountInstallModel').modal('hide');
@@ -660,12 +671,12 @@ export class ViewComponent implements OnInit {
   }
   getDiscountHistoryDetails() {
     this.discHistoryList = [];
-    if(this.academic_yr_id<0){
+    if (this.academic_yr_id < 0) {
       this.commonService.showErrorMessage('info', '', 'Please select academic year!');
-       return ;
+      return;
     }
     this.auth.showLoader();
-    this.feeService.getDiscountHistoryV2(this.student_id,this.academic_yr_id).subscribe(
+    this.feeService.getDiscountHistoryV2(this.student_id, this.academic_yr_id).subscribe(
       (res: any) => {
         this.discHistoryList = res != null ? res.discountInstllmentList : this.discHistoryList;
         this.checkAnyInstallIsPaid();
@@ -928,6 +939,7 @@ export class ViewComponent implements OnInit {
     )
   }
   openAddInstallmentPopup() {
+    this.isAddInstallClicked = false;
     $('#installmentModal').modal('show');
     this.closeAddInstallPopup(true)
     this.isUpdateInstall = false;
@@ -951,6 +963,7 @@ export class ViewComponent implements OnInit {
     }
   }
   addNewInstall() {
+    this.isAddInstallClicked = true;
     if (this.schoolModel)
       this.addInstall.standard_id = this.stdFeeDataList.stnd_id;
     if (this.validateInputDataForAddInstall(false)) {
@@ -986,6 +999,7 @@ export class ViewComponent implements OnInit {
         }
       )
     }
+    this.isAddInstallClicked = false;
   }
   validateInputDataForAddInstall(isUpdate) {
     if (this.addInstall.acad_yr_id <= 0) {
@@ -1037,6 +1051,7 @@ export class ViewComponent implements OnInit {
   }
   removeDiscountPopup(data) {
     this.isDiscountRemove = true;
+    this.isRemoveDiscClicked = false;
     $('#discountInstallModel').modal('show');
     this.fetchDiscountReason();
     this.validateRemoveDiscountPopup(data.fee_schedule_id);
@@ -1052,20 +1067,24 @@ export class ViewComponent implements OnInit {
     }
   }
   removeDiscountAction() {
+    this.isRemoveDiscClicked = true;
     this.auth.showLoader();
     if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
       this.commonService.showErrorMessage('error', '', 'Discount Amount is greater then discount given to student');
       this.auth.hideLoader();
+      this.isRemoveDiscClicked = false;
       return false;
     }
     let isValid: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, this.totalDiscountApplied, 'remove');
     if (!isValid) {
       this.auth.hideLoader();
+      this.isRemoveDiscClicked = false;
       return;
     }
     let installmentList = this.feeService.makeRemoveDiscountJsonV2(this.discountInstallList, this.discountPopUpForm);
     if (installmentList.length == 0) {
       this.auth.hideLoader();
+      this.isRemoveDiscClicked = false;
       return;
     }
     let jsonToSend: any = {
@@ -1085,6 +1104,7 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
+    this.isRemoveDiscClicked = false;
   }
   editPaidInstall(data) {
     this.isUpdatePaidInstall = true;
@@ -1151,6 +1171,7 @@ export class ViewComponent implements OnInit {
     )
   }
   editInstallPopUp(data) {
+    this.isUpdateInstall
     this.isUpdateInstall = true;
     $('#installmentModal').modal('show');
     this.getInstituteFeeTypes();
@@ -1171,7 +1192,7 @@ export class ViewComponent implements OnInit {
     //this.fetchCoursesList(data.mc_n);
   }
   updateInstall() {
-
+    this.isUpdateInstallClicked = true;
     if (this.validateInputDataForAddInstall(true)) {
       let obj: any = {
         d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
@@ -1206,6 +1227,7 @@ export class ViewComponent implements OnInit {
         }
       )
     }
+    this.isUpdateInstallClicked=false;
   }
   deleteInstall(data) {
     let msg = "";

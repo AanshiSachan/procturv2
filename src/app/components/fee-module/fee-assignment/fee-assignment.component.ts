@@ -48,6 +48,7 @@ export class FeeAssignmentComponent implements OnInit {
   batchList: any = [];
   student_id: number = -1;
   isTemplateNotLinkWithCourseAndStandard: boolean = false;
+  isClicked:boolean=false;
 
   constructor(private auth: AuthenticatorService,
     private http: HttpService,
@@ -315,6 +316,8 @@ export class FeeAssignmentComponent implements OnInit {
     }
   }
   assignfeeToStudent(isAssignedToSingleStudent) {
+    this.isClicked=true;
+    debugger
     if (this.validateAssignFeeData()) {
       this.auth.showLoader();
       let requestPayload: any = {
@@ -345,6 +348,7 @@ export class FeeAssignmentComponent implements OnInit {
         }
       );
     }
+    this.isClicked=false;
   }
   validateAssignFeeData() {
     this.studentIdArr = [];
@@ -378,6 +382,7 @@ export class FeeAssignmentComponent implements OnInit {
 
   }
   assignFeeToSingleStudent(data) {
+    this.isClicked=false;
     this.student_id = data.student_id;
     this.fetchFeeStructure(false);
   }
