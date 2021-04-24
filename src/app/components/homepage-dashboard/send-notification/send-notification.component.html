@@ -207,7 +207,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
         <h1>Selected Message</h1>  
         
         <div class="box1">
-          <p class="selected_msg">
+          <p class="selected_msg"  (ngModelChange)="countNumberOfSelectedMessage()">
           {{selectedRow}}
                              <!-- Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
             tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
@@ -217,10 +217,10 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
        
         <div class="display">
           <div>
-            <span class="char_text">Character Count:<span class="char_count">0</span></span>
+            <span class="char_text">Character Count:<span class="char_count">{{selectedMessageText.length}}</span></span>
           </div>
           <div class="char_text">
-            <span>Message Count:&nbsp;&nbsp;<span>1</span></span>
+            <span>Message Count:<span [ngClass]="{'red' : messageCount >= 2}">{{selectedMessageCount}}</span></span>
           </div>
         </div>
      
@@ -286,11 +286,15 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
       <div class="wid701" >
        <div class="box1">
          <div>
-           <select class="select mr10 wid160">
-             <option>Master Course</option>
+           <select class="select mr10 wid160" [(ngModel)]="sendNotification.standard_id" (ngModelChange)="onMasterCourseSelection($event)" name="masterCourse">
+             <option value="-1">Master Course</option>
+             <option [value]="course.standard_id" *ngFor="let course of masterCourseList">{{course.master_course}}</option>
+
            </select>
-           <select class="select mr10 wid160">
-             <option>Course</option>
+           <select class="select mr10 wid160" [(ngModel)]="sendNotification.subject_id" (ngModelChange)="onCourseSelection($event)">
+             <option value="-1">Course</option>
+             <option [value]="item.subject_id" *ngFor="let item of courseList">{{item.subject_name}}</option>
+
            </select>
            <button class="blue_button">Go</button>
            <input type="text" name="" class="right input magnifying-glass" placeholder="Search">
@@ -303,7 +307,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
          <div class="display person" >
            <div>
             <div class="field-radio-wrapper">
-               <input type="radio" name="same1" id="option1" class="form-radio" onclick="change(this)">
+               <input type="radio" name="same1" id="option1" class="form-radio" (click)="chkBoxAllActiveStudent()">
               <label>Active Students</label>
               </div> 
             </div>
@@ -333,7 +337,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
          </div>
        </div>
-       <div id="myH1" class="hide">
+       <div id="myH1" *ngIf="showTableFlag">
         <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
@@ -361,7 +365,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
             <div>Email</div>
           </div>
-          <div class="table_body">
+          <div class="table_body" *ngFor="let row of studentList">
             <div>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
@@ -373,20 +377,25 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                   </span>
                 </label>
             </div>
-           <div>
-            123456
+           <div title="{{row.student_disp_id}}">
+            {{row.student_disp_id}} 
+
             </div>
-            <div>Diya Maheshwari</div>
-            <div>
-              9087654321
+            <div title="{{row.student_name}}"> 
+              {{(!row.student_name) ? '-':(row.student_name.length > 20) ?(row.student_name | slice :0:20) + '...' : row.student_name}}
             </div>
-            <div>
-             X
+            <div title="{{row.student_phone}}">
+              {{row.student_phone}}
             </div>
-            <div>
-              12-03-2020
+            <div title="{{row.student_class}}">
+              {{row.student_class}}
             </div>
-            <div>dsadfdsfgfg@gmail.com</div>
+            <div title="{{row.doj}}">
+              {{row.doj}}
+            </div>
+            <div title="{{row.student_email}}">
+              {{(!row.student_email) ? '-':(row.student_email.length > 20) ?(row.student_email | slice :0:20) + '...' : row.student_email}}
+            </div>
           </div>
        </div>
         <div id="myH2" class="hide">
@@ -810,3 +819,4 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
 
   </div>
 </div> 
+<!-- ======================== -->
