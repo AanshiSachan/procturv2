@@ -126,7 +126,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   selectedInstallment: number = 0;
   academicYearFilter: any;
   instituteCountryDetObj: any = {};
-  maxlength: number = 10;
+  maxlength: any = 10;
   country_id: number = null;
   selectedFiles: any[] = [];
   customFileArr: any[] = [];
@@ -1589,14 +1589,11 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
   studentQuickAdder(form: NgForm) {
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
+    let formValid: boolean = this.formValidator();
     /* Both Form are Valid Else there seems to
         be an error on custom component 
         */
-    if (form.valid && isCustomComponentValid) {
-
-      if (!this.formValidator()) {
-        return false;
-      }
+    if (isCustomComponentValid && formValid) {
       let customArr = [];
       this.customComponents.forEach(el => {
         /* Not Checkbox and value not empty */
@@ -1750,13 +1747,12 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       );
     }
     else {
-      let alert = {
-        type: 'error',
-        title: '',
-        body: 'Please fill all the required fields'
+      if (!isCustomComponentValid) {
+        this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
-      this.appC.popToast(alert);
-
+      // else if (!formValid) {
+      //   this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
+      // }
     }
   }
 
