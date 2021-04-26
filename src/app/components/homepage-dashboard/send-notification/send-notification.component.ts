@@ -6,6 +6,8 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { WidgetService } from '../../../services/widget.service';
+import { ProductService } from '../../../services/products.service';
+
 
 
 
@@ -41,6 +43,15 @@ export class SendNotificationComponent implements OnInit {
   selectStudentForm :boolean= false;
   addSmsForm:boolean=true;
   showTableFlag: boolean = false;
+  showFacultyTableFlag:boolean = false;
+  showInactiveStudentFlag:boolean =false;
+  showAllaluminiStudentFlag:boolean=false;
+  showallUserListFlag:boolean=false; 
+  schoolModel: boolean = false;
+
+  allChecked: boolean = true;
+
+  searchData: string = "";
 
   messageCount: number = 0;
   newMessageText: string = "";
@@ -50,6 +61,10 @@ export class SendNotificationComponent implements OnInit {
   courseList: any=[];
   batchList: any = [];
   studentList:any =[];
+  allFacultyList:any =[];
+  allInactiveStudentList:any=[];
+  allAluminiList:any=[];
+  allUserList:any=[];
   fullResponse: any = [];
 selectedActiveStudentList:any;
   selectedRow:any;
@@ -62,6 +77,8 @@ selectedActiveStudentList:any;
     private msgService: MessageShowService,
     private widgetService: WidgetService,
     private appC: AppComponent,
+    private productService: ProductService
+
 
 
     
@@ -70,9 +87,17 @@ selectedActiveStudentList:any;
     }
 
   ngOnInit(): void {
+
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     this.getAllMessageFromServer();
     this.getMaterCourseList();
-    //this.chkBoxAllActiveStudent();
   }
 openStudentForm(){
   this.selectStudentForm = true
@@ -92,6 +117,7 @@ penddingTab(){
 }
 
 getAllMessageFromServer() {
+  this.auth.showLoader();
   console.log("1");
   this.messageList = [];
   let tempMessageList: any = [];
@@ -106,7 +132,6 @@ getAllMessageFromServer() {
     res => {
       console.log("Response", res);
       this.messageList = res;
-      console.log("sgggggggg",this.messageList)
      
       this.auth.hideLoader();
     },
@@ -140,26 +165,6 @@ getAllMessageFromServer() {
       this.messageCount = count;
     }
   }
-
-  countNumberOfSelectedMessage() {
-    let uniCodeSelectFlag = this.hasUnicode(this.selectedMessageText);
-    let charLimit = 160;
-    if (uniCodeSelectFlag) {
-      charLimit = 70
-    }
-    if (this.selectedMessageText.length == 0) {
-      this.selectedMessageCount = 0;
-    }
-    else if (this.selectedMessageText.length > 0 && this.selectedMessageText.length <= charLimit) {
-      this.selectedMessageCount = 1;
-    }
-    else {
-      let count = Math.ceil(this.selectedMessageText.length / charLimit);
-      console.log("fdfgdg",count);
-      this.selectedMessageCount = count;
-    }
-  }
-
 
 saveNewMessage() {
   let obj = { message: this.newMessageText };
@@ -307,12 +312,45 @@ getOpenStatusSMS() {
 }
 // =========================all master course=====================
 
+getStandard() {
+  let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+  let keys;
+  this.auth.showLoader();
+  this.httpService.getData(url).subscribe(
+    (data: any) => {
+      this.masterCourseList = [];
+      this.auth.hideLoader();
+      this.fullResponse = data.result;
+      keys = Object.keys(data.result);
+
+      for (let i = 0; i < keys.length; i++) {
+        let obj = {
+          masterCourse: '',
+          standard_id: 0
+        }
+        obj.masterCourse = keys[i];
+        let temp = this.fullResponse[keys[i]];
+        obj.standard_id = (temp.length) ? temp[0].standard_id : '';
+        this.masterCourseList.push(obj);
+      }
+
+
+    },
+    (error: any) => {
+      this.auth.hideLoader();
+      console.log(error);
+    }
+  )
+}
+
+
+
 
 getMaterCourseList() {
-  // this.flushData();
-  // if(this.schoolModel) {
-  //   this.getStandard();
-  // } else {
+  //this.flushData();
+  if(this.schoolModel) {
+    this.getStandard();
+  } else {
   this.auth.showLoader();
   this.widgetService.getAllMasterCourse().subscribe(
     res => {
@@ -325,7 +363,7 @@ getMaterCourseList() {
       //console.log(err);
     }
   )
-  }
+  }}
 
   getCourseList(ev) {
     this.courseList = [];
@@ -337,6 +375,7 @@ getMaterCourseList() {
     for (let i = 0; i < temp.length; i++) {
       this.courseList.push(temp[i]);
     }
+    console.log("corsseeeeeeeeeeee",this.courseList)
   }
 
 
@@ -365,35 +404,17 @@ getMaterCourseList() {
       }
     )
   }
-
-
-
-
-
-
-
-
   chkBoxAllActiveStudent() {
-    // if(this.selectedActiveStudentList){
-    // this.showTableFlag =true;
-    
-
-    // this.auth.showLoader();
-    // this.widgetService.getAllActiveStudentList().subscribe(
-    //   res => {
-    //     this.auth.hideLoader();
-    //     this.studentList = res;
-    //     console.log("All active studentList",this.studentList)
-    //   },
-    //   err => {
-    //     this.auth.hideLoader();
-    //   }
-    // )
-    // }
+    this.allChecked =true;
+    this.showallUserListFlag = false;
+    this.showAllaluminiStudentFlag = false;
+   this.showInactiveStudentFlag = false;
+      this.showFacultyTableFlag = false;
         this.showTableFlag =true;
          this.auth.showLoader();
         this.widgetService.getAllActiveStudentList().subscribe(
           res => {
+
             this.auth.hideLoader();
             this.studentList = res;
             console.log("All active studentList",this.studentList)
@@ -402,33 +423,37 @@ getMaterCourseList() {
             this.auth.hideLoader();
           }
         )
-        
-}
-    
+       }
 
-
-
-  
-      
-
-
-
-
-  
-  
   onMasterCourseSelection(event) {
-    if (this.userType != 3) {
+    // if (this.userType != 3) {
+    //   this.allUserList = false
+    // }
+    if(this.schoolModel) {
+      this.getCourseList(this.sendNotificationCourse.standard_id)
+    } else {
+    if (this.sendNotificationCourse.master_course != "-1") {
+      this.auth.showLoader();
+      this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
+        (res: any) => {
+          this.showTableFlag = false;
+          this.auth.hideLoader();
+          this.courseList = res.coursesList;
+        },
+        err => {
+          this.auth.hideLoader();
+          //console.log(err);
+        }
+      )
     }
-    this.batchList = [];
-    this.courseList = [];
-    this.sendNotification.subject_id = '-1';
-    this.sendNotification.batch_id = '-1';
-    this.getMasterCourseAndBatch(this.sendNotification);
+    }
+  
+    // this.batchList = [];
+    // this.courseList = [];
+    // this.sendNotification.subject_id = '-1';
+    // this.sendNotification.batch_id = '-1';
+    // this.getMasterCourseAndBatch(this.sendNotification);
   }
-
-
-
-
 
   onCourseSelection(event) {
     if (this.userType != 3) {
@@ -439,21 +464,166 @@ getMaterCourseList() {
     this.getMasterCourseAndBatch(this.sendNotification);
   }
 
-
-
 onCheckBoxSelection(obj) {
-  console.log("selected",this.selectedRow)
-  this.selectedRow = obj.message_id
+  this.selectedRow = obj.message
+
+ let count = this.selectedRow.length
+
+ this.selectedMessageText = count
+ if (this.selectedMessageText.length != 0) {
+  this.selectedMessageCount = 1;
+}else{
+this.selectedMessageCount = 0;
 }
-
-
+}
 
 closeNewMessageDiv() {
   this.newMessageText = "";
   this.messageCount = 0;
+  this.selectedMessageCount = 0;
+
+  this.selectedMessageText =""
   this.jsonFlag.editMessage = false;
 }
 
+
+
+chkBoxAllFaculty() {
+  this.showTableFlag =false;
+  this.showallUserListFlag = false;
+  this.showAllaluminiStudentFlag = false;
+ this.showInactiveStudentFlag = false;
+    this.showFacultyTableFlag = true;
+    this.auth.showLoader();
+    this.widgetService.getAllTeacherList().subscribe(
+      res => {
+        this.auth.hideLoader();
+
+          this.allFacultyList = res;
+          console.log("facultyyyyyyyyyyyy",this.allFacultyList)
+        
+      },
+      err => {
+        this.auth.hideLoader();
+        //console.log(err);
+      }
+    )
+    }
+
+    chkBoxAllInActiveStudent() {
+      this.showFacultyTableFlag = false;
+      this.showTableFlag =false;
+      this.showallUserListFlag = false;
+      this.showAllaluminiStudentFlag = false;
+     this.showInactiveStudentFlag = true;
+        this.auth.showLoader();
+        this.studentList = [];
+        this.widgetService.getAllInActiveList().subscribe(
+          res => {
+            this.auth.hideLoader();
+             this.allInactiveStudentList = res;
+            console.log("Inactiveeeeeeeeeee",this.allInactiveStudentList)
+          },
+          err => {
+            this.auth.hideLoader();
+            //console.log(err);
+          }
+        )
+     
+    }
+
+    chkBoxAllAluminiStudent() {
+      this.showInactiveStudentFlag = false;
+      this.showFacultyTableFlag = false;
+      this.showTableFlag =false;
+      this.showallUserListFlag = false;
+
+     this.showAllaluminiStudentFlag = true;
+        this.auth.showLoader();
+        this.widgetService.getAllAluminiList().subscribe(
+          res => {
+            this.auth.hideLoader();
+  
+              this.allAluminiList = res;
+              console.log("ALLLLUMINIIIIII",this.allAluminiList)
+            
+          },
+          err => {
+            this.auth.hideLoader();
+            //console.log(err);
+          }
+        )
+    
+    }
+    chkBoxAllUsers() {
+      this.showInactiveStudentFlag = false;
+      this.showFacultyTableFlag = false;
+      this.showTableFlag =false;
+     this.showAllaluminiStudentFlag = false;
+        this.auth.showLoader();
+        let obj = {
+          "by": [
+            {
+              "column": "productId",
+              "value": ""
+            },
+            {
+              "column": "eCourseId",
+              "value": 0
+            }
+          ],
+          "start_index": 0,
+          "no_of_records": 0
+        }
+        this.productService.postMethod('user-product/get-user-details', obj).then(
+          res => {
+            this.showallUserListFlag = true;
+            this.auth.hideLoader();
+            let response = res['body'];
+  
+              this.allUserList = response.result;
+            
+          },
+          err => {
+            this.auth.hideLoader();
+            //console.log(err);
+          }
+        )
+     
+    }
+  
+    fetchDataFromFields() {
+      if (this.sendNotificationCourse.course_id != "-1") {
+        let obj:any = {
+          course_id: this.sendNotificationCourse.course_id,
+          master_course_name: this.sendNotificationCourse.master_course
+        }
+        if(this.schoolModel) {
+          obj.standard_id = this.sendNotificationCourse.standard_id;
+        }
+          this.auth.showLoader();
+        this.widgetService.getStudentListOfCourse(obj).subscribe(
+          res => {
+            this.allChecked = true;
+            this.auth.hideLoader();
+            this.showTableFlag = true;
+            //this.selectedOption = "filter";
+            this.studentList = res;
+            console.log("filterList",this.studentList)
+          },
+          err => {
+            this.auth.hideLoader();
+            //console.log(err);
+          }
+        )
+      }
+    }
+  
+
+
+
+
+   
 }
 
 
