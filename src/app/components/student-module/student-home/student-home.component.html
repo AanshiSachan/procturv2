@@ -336,7 +336,7 @@
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                         <label for="standard">Standard</label>
-                                        <select id="standard" name="standard" *ngIF="!schoolModel"
+                                        <select id="standard" name="standard" *ngIf="!schoolModel"
                                             [(ngModel)]="advancedFilterForm.standard_id"
                                             (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
                                             [disabled]="advancedFilterForm.master_course_name!=-1"
