@@ -16,11 +16,11 @@
           <div class="linec"></div>
         </div>
        <div >
-         <a href="send_msg.html">
+         <a  (click)="onClickAddselectDiv()">
             <span class="circle_inactive">
           2
         </span>
-        <p class="text_inactive">Select Students</p>
+        <p class="text_inactive" (click)="onClickSelectStudentDiv()">Select Students</p>
          </a>
        </div>
       </div>
@@ -259,7 +259,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
     <div class="pt151">
       <div class="flex">
         <div >
-         <a href="add_msg.html">
+         <a  (click)="onClickAddselectDiv()">
             <span class="circle_inactive">
           1
         </span>
@@ -273,7 +273,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
           <span class="circle_active">
           2
         </span>
-        <p class="text_active">Select Students</p>
+        <p class="text_active" (click)="onClickSelectStudentDiv()">Select Students</p>
        </div>
       </div>
     </div>
@@ -291,9 +291,9 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
              <option [value]="course.standard_id" *ngFor="let course of masterCourseList">{{course.master_course}}</option>
 
            </select>
-           <select class="select mr10 wid160" [(ngModel)]="sendNotification.course_id" name="course" (ngModelChange)="($event)">
+           <select class="select mr10 wid160" [(ngModel)]="sendNotification.subject_id" name="course"  (ngModelChange)="onCourseSelection($event)">
              <option value="-1">Course</option>
-             <option [value]="item.course_id" *ngFor="let item of courseList">{{item.course_name}}</option>
+             <option [value]="item.subject_id" *ngFor="let item of courseList">{{item.subject_name}}</option>
 
            </select>
            <button class="blue_button" (click)="fetchDataFromFields()">Go</button>
@@ -370,7 +370,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
                     <input type="checkbox"
-                    [(ngModel)]="allChecked">
+                    [(ngModel)]="allRowCheck">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -399,9 +399,9 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
 
           </div>
-          <div *ngIf="studentList.length == 0">NO Student Found</div>
 
        </div>
+       <div *ngIf="studentList.length == 0">NO Student Found</div>
 
         <div id="myH2" *ngIf="showFacultyTableFlag">
          <div class="table_heading">
@@ -697,7 +697,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                 <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" >
+                    <input type="checkbox" name="checked" [(ngModel)]="sendToStudent">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -713,7 +713,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                 <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" >
+                    <input type="checkbox" name="checked" [(ngModel)]="sendToParent" >
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -729,7 +729,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                 <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" >
+                    <input type="checkbox" name="checked" [(ngModel)]="sendTogardiunt">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -744,14 +744,14 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
         
           <div class="para">
-            <p></p>
+            <p>{{selectedRow}}</p>
           </div>
           <div class="display space1">
             <div >
-              <span class="char_text">Character Count:<span class="char_count">0</span></span>
+              <span class="char_text">Character Count:<span class="char_count">{{selectedMessageText}}</span></span>
             </div>
             <div class="char_text">
-              <span>Message Count:&nbsp;&nbsp;<span>1</span></span>
+              <span>Message Count:<span [ngClass]="{'red' : selectedMessageCount >= 2}">{{selectedMessageCount}}</span></span>
             </div>
           </div>
           <div class="lin2"></div>
@@ -761,7 +761,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" >
+                    <input type="checkbox" name="checked" [(ngModel)]="dilverSms" (click)="onclickSms($event)">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -775,7 +775,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" >
+                    <input type="checkbox" name="checked" [(ngModel)]="dilverEmail" (click)="oclickEmail($event)" >
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -788,11 +788,26 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               </div>
             </div>
           </div>
-            <div class="display space1">
+<!-- ================================Email Box================================= -->
+          <div class="row" *ngIf="dilverEmail">
+
+            <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                <label for="subject"
+                    style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                <input type="text" [(ngModel)]="messageSubject" name="subject"
+                    class="side-form-ctrl" value="" placeholder=""
+                    style=" background: #fff; border: 2px solid #77777770; width: 200%; padding: 8px 5px;"
+                    id="divSubjectMessage" />
+            </div>
+
+        </div>
+<!-- =====================================end===================================== -->
+
+            <div class="display space1" *ngIf="!dilverEmail">
               <div></div>
               <div>
-                <button class="white_button mr10">Send</button>
-                <button class="white_button">Send Push Notification</button>
+                <button class="white_button mr10" (click)="sendNotificationMessage()">Send</button>
+                <button class="white_button" (click)="sendPushNotification()">Send Push Notification</button>
               </div>
             </div>
          </div>
@@ -802,7 +817,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div>
                <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" class="checkbox__input1">
+                    <input type="checkbox" class="checkbox__input1" [(ngModel)]="sendLoginmessage">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -814,24 +829,34 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                <h1 class="h112">Send Login Message</h1> 
             </div>
           </div>
-          <div class="display sec2">
+          <div class="display sec2" *ngIf="sendLoginmessage">
             <div>
-              <input type="radio" name="same">
-              Student Only
+              <div class="field-radio-wrapper">
+               <input type="radio" name="student" class="form-radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0">
+              <label>Student Only</label> 
+              </div>
             </div>
             <div>
-              <input type="radio" name="same">
-              Parent Only
+              <div class="field-radio-wrapper">
+              <input type="radio" name="parent" value="1" class="form-radio" [(ngModel)]="loginField.checkBox">
+             <label>Parent Only</label> 
+            </div>
             </div>
             <div>
-              <input type="radio" name="same">
-              Both
+              <div class="field-radio-wrapper">
+             <input type="radio" name="both" value="2" class="form-radio" [(ngModel)]="loginField.checkBox">
+            <label> Both</label>
+            </div>
             </div>
           </div>
-          <div class="display">
+          <div class="row btn-loginGroup" *ngIf="sendLoginmessage">
             <div>
-              <button class="white_button1 mr10">Send Credentials</button>
-              <button class="white_button1">SMS for App Download</button>
+              <!-- <button class="white_button1 mr10">Send Credentials</button> -->
+              <button class="btn" (click)="sendSmsForApp('1',0)">SMS for App Download</button>
+              <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgrade</button>
+              <button class="btn" (click)="sendSmsForApp('4',0)">Send Credentials via SMS</button>
+              <button class="btn" (click)="sendSmsForApp('4',1)">Send Credentials via
+                  Email</button>
                
             </div>
           </div>

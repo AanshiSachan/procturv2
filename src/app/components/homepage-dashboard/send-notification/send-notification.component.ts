@@ -36,8 +36,10 @@ export class SendNotificationComponent implements OnInit {
     course_id: '',
     standard_id: ''
   }
-
-
+  loginField = {
+    checkBox: '0'
+  }
+sendLoginmessage:boolean=false
   approveMessage:boolean= false;
   pendingMessage :boolean=true;
   selectStudentForm :boolean= false;
@@ -48,14 +50,24 @@ export class SendNotificationComponent implements OnInit {
   showAllaluminiStudentFlag:boolean=false;
   showallUserListFlag:boolean=false; 
   schoolModel: boolean = false;
+  showEmailSubject: boolean = false;
+  chkbxSmsSend:boolean=false;
+  sendToStudent:boolean=false;
+  sendToParent:boolean=false;
+  sendTogardiunt:boolean=false;
+  dilverSms:boolean=false;
+  dilverEmail:boolean=false;
+  public isProfessional: boolean = false;
+  previowBox: boolean = false;
+
 
   allChecked: boolean = true;
-
+  allRowCheck :boolean=false
   searchData: string = "";
-
   messageCount: number = 0;
   newMessageText: string = "";
   messageList: any = [];
+  emailMessageList:any=[];
   openMessageList: any = [];
   masterCourseList: any =[];
   courseList: any=[];
@@ -66,8 +78,13 @@ export class SendNotificationComponent implements OnInit {
   allAluminiList:any=[];
   allUserList:any=[];
   fullResponse: any = [];
-selectedActiveStudentList:any;
+  selectedActiveStudentList:any;
   selectedRow:any;
+  subject: any;
+
+  previewedMessage: any;
+
+  messageSubject: any = "";
   selectedMessageText:string ="";
   selectedMessageCount:number =0;
 
@@ -96,14 +113,45 @@ selectedActiveStudentList:any;
         }
       }
     )
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.getAllMessageFromServer();
     this.getMaterCourseList();
   }
 openStudentForm(){
-  this.selectStudentForm = true
-  this.addSmsForm = false
-}
+//this.selectStudentForm = true
+  //this.addSmsForm = false
+  console.log("semected message",this.selectedRow)
 
+  if (this.selectedRow !='') {
+
+  
+  
+    let msg = {
+      type: 'error',
+      title: '',
+      body: "Please select message"
+    };
+    this.appC.popToast(msg);
+this.selectStudentForm = false;
+  this.addSmsForm = true;
+
+
+  
+
+}else
+  this.selectStudentForm = true;
+
+
+}
 approveTab(){
   this.approveMessage = true;
   this.pendingMessage = false;
@@ -382,7 +430,7 @@ getMaterCourseList() {
 
   getMasterCourseAndBatch(data) {
     this.auth.showLoader();
-    this.widgetService.fetchCombinedData(data.standard_id, data.course_id).subscribe(
+    this.widgetService.fetchCombinedData(data.standard_id, data.subject_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.combinedDataRes = res;
@@ -429,44 +477,27 @@ getMaterCourseList() {
     // if (this.userType != 3) {
     //   this.allUserList = false
     // }
-    if(this.schoolModel) {
-      this.getCourseList(this.sendNotificationCourse.standard_id)
-    } else {
-    if (this.sendNotificationCourse.master_course != "-1") {
-      this.auth.showLoader();
-      this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
-        (res: any) => {
-          this.showTableFlag = false;
-          this.auth.hideLoader();
-          this.courseList = res.coursesList;
-        },
+    this.showTableFlag = false;
+    this.sendNotification.subject_id = '-1';
+    this.sendNotification.batch_id = '-1';
+    this.showTableFlag = false;
+    this.getMasterCourseAndBatch(this.sendNotification);
+      
         err => {
           this.auth.hideLoader();
-          //console.log(err);
-        }
-      )
-    }
-    }
-  
-    // this.batchList = [];
-    // this.courseList = [];
-    // this.sendNotification.subject_id = '-1';
-    // this.sendNotification.batch_id = '-1';
-    // this.getMasterCourseAndBatch(this.sendNotification);
+        
   }
-
+  }
   onCourseSelection(event) {
-    if (this.userType != 3) {
-
-    }
+   
     this.batchList = [];
     this.sendNotification.batch_id = "-1";
     this.getMasterCourseAndBatch(this.sendNotification);
   }
-
+  slectedMessagesId:any
 onCheckBoxSelection(obj) {
   this.selectedRow = obj.message
-
+this.slectedMessagesId =obj.message_id
  let count = this.selectedRow.length
 
  this.selectedMessageText = count
@@ -517,7 +548,6 @@ chkBoxAllFaculty() {
       this.showAllaluminiStudentFlag = false;
      this.showInactiveStudentFlag = true;
         this.auth.showLoader();
-        this.studentList = [];
         this.widgetService.getAllInActiveList().subscribe(
           res => {
             this.auth.hideLoader();
@@ -618,13 +648,447 @@ chkBoxAllFaculty() {
         )
       }
     }
+    getListOfUserIds(key) {
+      let id: any = [];
+      for (let t = 0; t < this.studentList.length; t++) {
+        if (this.studentList[t].assigned == true) {
+          id.push(Number(this.studentList[t][key]));
+        }
+      }
+      return id;
+    }
+  
+    getListOfIds(key) {
+      let id: any = [];
+      for (let t = 0; t < this.studentList.length; t++) {
+        if (this.studentList[t].assigned == true) {
+          id.push(this.studentList[t][key]);
+        }
+      }
+      return id.join(',');
+    }
   
 
+    sendSmsForApp(value, delivery_mode) {
+      let type = delivery_mode == 0 ? 'SMS' : 'Email';
+      let msg = "Are you sure you want to send " + type + ' to selected users';
+      if (confirm(msg)) {
+        let obj = {
+          app_sms_type: Number(value),
+          studentArray: this.getListOfIds('student_id'),
+          userArray: this.getListOfIds('user_id'),
+          user_role: this.loginField.checkBox,
+          delivery_mode: delivery_mode
+        };
+        obj.studentArray = obj.studentArray.split(",");
+        obj.userArray = obj.userArray.split(",");
+        this.auth.showLoader();
+        this.widgetService.smsForAddDownload(obj).subscribe(
+          res => {
+            this.auth.hideLoader();
+            let tempMsg = type + ' Sent successfully';
+            let msg = {
+              type: 'success',
+              title: '',
+              body: tempMsg
+            };
+            this.appC.popToast(msg);
+          },
+          err => {
+            this.auth.hideLoader();
+            //console.log(err);
+            let msg = {
+              type: 'error',
+              title: '',
+              body: err.error.message
+            };
+            this.appC.popToast(msg);
+          }
+        )
+  
+      }
+    }
+
+    sendNotificationMessage() {
+      let messageSelected: any;
+      //messageSelected = this.selectedRow;
+
+      let configuredMessage: boolean = false;
+      let check = this.validateAllFields();
+      if (check === false) {
+        return;
+      }
+      if (this.dilverEmail = false) {
+        messageSelected = { message: this.getMessageText(), messageId: -1 };
+        console.log("1", messageSelected);
+        configuredMessage = false;
+        check = this.getSubject();
+      } else {
+        //messageSelected = this.getNotificationMessage();
+        messageSelected = this.selectedRow;
+
+        configuredMessage = true;
+        console.log("2", messageSelected);
+      }
+      if (messageSelected === false) {
+        return;
+      }
+      let delivery_mode = this.getDeliveryModeValue();
+      if (delivery_mode === false) {
+        return;
+      }
+      let destination: any;
+      if (!this.allUserList) {
+        destination = this.getDestinationValue();
+        if (destination === false) {
+          return;
+        }
+      }
+  
+      let batch_id;
+      if (this.isProfessional) {
+        batch_id = this.sendNotification.batch_id;
+      } else {
+        batch_id = this.sendNotificationCourse.course_id;
+      }
+      let studentID: any;
+      let userId: any;
+      let isTeacherSMS: number = 0;
+      if (this.showFacultyTableFlag) {
+        studentID = this.getListOfIds('teacher_id');
+        isTeacherSMS = 1;
+        destination = 0;
+      } else {
+        if (this.allUserList) {
+          userId = this.getListOfUserIds('user_id')
+        } else {
+          studentID = this.getListOfIds('student_id');
+        }
+      }
+      let isAlumini = 0;
+  
+      if (this.showAllaluminiStudentFlag) {
+        isAlumini = 1;
+      }
+  
+      let obj = {
+        delivery_mode: Number(delivery_mode),
+        notifn_message: this.selectedRow,
+        notifn_subject: check,
+        destination: Number(destination),
+        student_ids: studentID,
+        user_ids: userId,
+        cancel_date: '',
+        isEnquiry_notifn: 0,
+        isAlumniSMS: isAlumini,
+        isTeacherSMS: isTeacherSMS,
+        configuredMessage: configuredMessage,
+        message_id: this.slectedMessagesId,
+        is_user_notify: 0
+      }
+      if (this.allUserList) {
+        obj.is_user_notify = 1
+      }
+  
+      this.widgetService.sendNotification(obj).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: '',
+            body: "Sent successfully"
+          };
+          this.appC.popToast(msg);
+          //this.closeNotificationPopUp();
+        },
+        err => {
+          //console.log(err);
+          let msg = {
+            type: 'error',
+            title: '',
+            body: err.error.message
+          };
+          this.appC.popToast(msg);
+        }
+      )
+    }
+  
+    sendPushNotification() {
+      let messageSelected= this.selectedRow;
+      if (this.dilverEmail) {
+        messageSelected = { message: '', messageId: '' };
+      } else {
+        // messageSelected = this.getNotificationMessage();
+        messageSelected = this.selectedRow;
+
+      }
+      if (messageSelected === false) {
+        return
+      }
+      let student_id: any = '';
+      if (this.allUserList) {
+        student_id = this.getListOfIds('user_id')
+      } else {
+        student_id = this.getListOfIds('student_id')
+      }
+      let obj = {
+        notifn_message: messageSelected.message,
+        message_id: messageSelected.messageId,
+        student_ids: student_id,
+      }
+      this.widgetService.sendPushNotificationToServer(obj).subscribe(
+        res => {
+          //console.log(res);
+          let msg = {
+            type: 'success',
+            title: '',
+            body: "Sent successfully"
+          };
+          this.appC.popToast(msg);
+        },
+        err => {
+          //console.log(err);
+          let msg = {
+            type: 'error',
+            title: '',
+            body: err.error.message
+          };
+          this.appC.popToast(msg);
+        }
+      )
+    }
+  
+
+    getDestinationValue() {
+      console.log("getDestinationValue");
+  
+  
+      let student = this.loginField.checkBox;
+      let parent = this.loginField.checkBox;
+       let gaurdian = this.loginField.checkBox;
+      // if (student == true && parent == false && gaurdian == false) {
+      if (student == '0' && parent != '1' && gaurdian !='2' ) {
+        return 0;
+        // } else if (student == false && parent == true && gaurdian == false) {
+      } else if (student != '0' && parent == '1' && gaurdian !='2') {
+        return 1;
+        // } else if (student == false && parent == false && gaurdian == true) {
+      } else if (student != '0' && parent !='1' && gaurdian == '2') {
+        return 3;
+        // } else if (student && parent && gaurdian == false) {
+      } else if (student !='0' && parent!='1' && gaurdian != '2') {
+        return 2;
+        // } else if (student && gaurdian && parent == false) {
+      } else if (student !='0' && parent !='1' && gaurdian != '2') {
+        return 5;
+        // } else if (parent && gaurdian && student == false) {
+      } else if (parent !='1' && student !='0' && gaurdian != '2') {
+        return 6;
+      }
+      // else if (student && parent && gaurdian) {
+      else if (student && parent && gaurdian) {
+        return 4;
+      } else {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please correct option in Send SMS To.."
+        };
+        this.appC.popToast(msg);
+        return false;
+      }
+    }
 
 
 
-   
+
+    getNotificationMessage() {
+      console.log("getNotificationMessage");
+      let count = 0;
+ 
+  
+      // let sms = this.dilverSms;
+      // let email = this.dilverEmail;
+      // if (sms === true) {
+      //   for (let t = 0; t < this.messageList.length; t++) {
+      //     if (this.messageList[t].assigned == true) {
+      //       return {
+      //         message: this.messageList[t].message, messageId: this.messageList[t].message_id
+      //       };
+      //     } else {
+      //       count++;
+      //     }
+      //   }
+        if (this.selectedRow ='') {
+          let msg = {
+            type: 'error',
+            title: '',
+            body: "Please select message"
+          };
+          this.appC.popToast(msg);
+          return false;
+        }
+      }
+      // else if (email == true) {
+      //   for (let t = 0; t < this.emailMessageList.length; t++) {
+      //     if (this.emailMessageList[t].assigned == true) {
+      //       return {
+      //         message: this.emailMessageList[t].message, messageId: this.emailMessageList[t].message_id
+      //       };
+      //     } else {
+      //       count++;
+      //     }
+      //   }
+      //   if (this.emailMessageList.length == count) {
+      //     let msg = {
+      //       type: 'error',
+      //       title: '',
+      //       body: "Please select message"
+      //     };
+      //     this.appC.popToast(msg);
+      //     return false;
+      //   }
+      // }
+  
+    
+  
+    getDeliveryModeValue() {
+      console.log("getDeliveryModeValue");
+  
+  
+      let sms = this.dilverSms;
+      let email = this.dilverEmail;
+      if (sms == true && email == true) {
+        return 2;
+      } else if (sms == true && email == false) {
+        return 0;
+      } else if (sms == false && email == true) {
+        return 1;
+      } else {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please select Delivery Mode(SMS , Email)"
+        };
+        this.appC.popToast(msg);
+        return false;
+      }
+    }
+    getSubject() {
+      console.log("getSubject");
+      let text = this.messageSubject;
+      if (text.trim() == "" && text.trim() == null) {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please enter subject for email"
+        };
+        this.appC.popToast(msg);
+        return false;
+      } else {
+        return text;
+      }
+    }
+    messageArea: any = "";
+
+    getMessageText() {
+      console.log("getMessageText");
+      let text = this.messageArea;
+      if (text.trim() == "" && text.trim() == null) {
+        let msg = {
+          type: 'error',
+          title: '',
+          body: "Please enter subject for email"
+        };
+        this.appC.popToast(msg);
+        return false;
+      } else {
+        return text;
+      }
+    }
+
+    validateAllFields() {
+      console.log("validateAllFields");
+      if (this.dilverEmail) {
+        return this.getSubject();
+      }
+  
+      if (this.dilverEmail =true) {
+        return this.getMessageText();
+      }
+      return "";
+    }
+
+
+
+
+    previewMessage() {
+      let messageSelected: any;
+      let configuredMessage: boolean = false;
+      let check = this.validateAllFields();
+      if (check === false) {
+        return;
+      }
+      if (this.dilverEmail = true) {
+        messageSelected = { message: this.getMessageText(), messageId: -1 };
+        configuredMessage = false;
+        check = this.getSubject();
+      } else {
+        messageSelected = this.getNotificationMessage();
+        configuredMessage = true;
+        this.previewedMessage = messageSelected.message;
+      }
+      if (messageSelected === false) {
+        return;
+      }
+      else {
+        this.previowBox = true;
+        this.subject = check;
+      }
+    }
+    close() {
+      this.previowBox = false;
+    }
+
+
+onClickAddselectDiv(){
+  this.addSmsForm =true;
+  this.selectStudentForm =false;
+}
+onClickSelectStudentDiv(){
+  this.addSmsForm = false;
+  this.selectStudentForm = true;
 }
 
+onclickSms(event){
+  this.dilverEmail = false;
+  this.dilverSms = true;
+  event=this.dilverSms
+console.log("SSSSSSSSSSS",event)
 
+}
+oclickEmail(event){
+  this.dilverSms = false;
+  this.dilverEmail = true;
+}
 
+onCheckBoxEvent(event, row) {
+  row.assigned = event;
+  this.allChecked = this.checkCheckAllChkboxStatus();
+}
+
+checkCheckAllChkboxStatus() {
+  for (let i = 0; i < this.studentList.length; i++) {
+    if (this.studentList[i].assigned == false) {
+      return false;
+    }
+  }
+  return true;
+}
+checkAllChechboxes(event, data) {
+  data.forEach(
+    element => {
+      element.assigned = event.target.checked;
+    }
+  )
+}
+}
