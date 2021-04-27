@@ -34,15 +34,16 @@
 
 .toDoList-widget{
   position: fixed;
-  top: 33%;
-  right: 4.5%;
+  top: 20%;
+  right: 5.5%;
   width: 55%;
-  height: 310px;
+  height: 400px;
   border-radius: 6px;
   background: white;
   animation-name: 'slideInUp';
   animation-duration: 0.5s;
-  z-index: 100;
+  z-index: 100000;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .toDoList-header{
   width: 100%;
@@ -51,10 +52,12 @@
   padding: 16px;
   font-size: 16px;
   background: rgba(18,131,244,0.1);
+  padding-top: 28px;
   color: #1283f4;
   .date-selected-for-sort{
     font-size: 14px;
     padding-top: 5px;
+    
   }
   .glyphicon-repeat{
     color: gray;
@@ -107,7 +110,7 @@
   overflow: auto;
   padding-top: 10px;
   padding-bottom: 10px;
-  height: 190px;
+  height: 210px;
 }
 
 .no-toDo{
@@ -249,4 +252,25 @@
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
+}
+.textfolw{ 
+  overflow:auto;
+}
+.edit{
+  background-color: #cbcbcb;padding-left: 40px;
+  padding-left: 20px;
+}
+.close_todo{
+  position: absolute;
+    bottom: 26rem;
+    border-radius: 50%;
+    background: white;
+    top: -1%;
+    right: 1%;
+    padding: 3px;
+    font-size: 16px  !important;
+    padding-left: 732px;
+    padding-right: 13px;
+    color: #ef0808 !important;
+    float: right;
 }
