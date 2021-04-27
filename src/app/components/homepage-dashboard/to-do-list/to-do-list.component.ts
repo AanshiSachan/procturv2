@@ -129,7 +129,8 @@ export class ToDoListComponent implements OnInit {
       else {
         let obj = {
           type: 'error',
-          title: 'Please choose appropriate date',
+          //title: 'Please choose appropriate date',
+          title: 'Past date is not allowed',
           body: ''
         }
         this.appC.popToast(obj);
