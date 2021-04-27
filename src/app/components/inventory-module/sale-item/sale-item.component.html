@@ -13,51 +13,53 @@
     </div>
       <div class="w98">
         <div class="pt15 display">
-          <!-- <div>
-            <input type="text" class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
+          <div>
+            <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
+            #search [(ngModel)]="searchParams"
+            name="searchParams" (keyup)="searchDatabase()">
           </div>
           <div class="right">
-            <a href="" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
-            <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>
-            <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
-            <a href="" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
-          </div> -->
+                                <!--   <a (click)="copydata()" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>-->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
+          </div> 
         </div>
         <div class="sale">
             <div class="table_heading">
               <div>
                Reference No.
               </div>
-              <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div>
+              <!-- <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div> -->
               <div>
-              Role<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
+              Role
               </div>
-              <div>User<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
-              <div>Date<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
-              <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
-              <div>File<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div>
+              <div>User</div>
+              <div>Date</div>
+              <!-- <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div> -->
+              <div>File</div>
               <div>Grand Total</div>
               <div>Paid</div>
-              <div>Balance<br>(To be Paid)</div>
+              <div>Balance (To be Paid)</div>
               <div>Actions</div>
             </div>
-            <div class="table_body" *ngFor="let data of saleAllData ">
+            <div class="table_body" *ngFor="let data of staticPageData ">
               <div>
            {{data.reference_number | replacenull}}
               </div>
-              <div>
+              <!-- <div>
              {{data.item_name}}
-              </div>
-              <div>{{data.user_role}}</div>
+              </div> -->
+              <div>{{data.role_name}}</div>
               <div>
                 {{data.user_name}}
               </div>
               <div>
             {{data.sale_date}}
               </div>
-              <div>
+              <!-- <div>
              {{data.sale_type}}
-              </div>
+              </div> -->
               <div><a href="{{data.bill_image_url}}" target="_blank" download>
                 <img src="{{data.bill_image_url}}" height="40"width="40"></a></div>
               <div>
@@ -88,6 +90,10 @@
     
         </div>
       </div>
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+      [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+  </pagination> 
      <!-- <div class="white bottom_button bottom_pagignation">
      
         <div class=" flex w98">
@@ -125,77 +131,79 @@
         <div class="flex">
           <div class="sec1">
             <div class="pt10"  [class.has-error]="payment_date.invalid && payment_date.touched">
-                <input type="Date" class="input wid100" [(ngModel)]="paymentModel.payment_date"
+              <label class="p_title"> Date<span class="text-danger">*</span></label>
+               <input type="Date" class="input wid100" [(ngModel)]="paymentModel.payment_date"
                 name="payment_date" placeholder="Date*"
                 (change)="validateFutureDate($event)"
                 #payment_date="ngModel" required>
             </div>
-            <p class="errormsg"><span  style="height:10px;" class="help-block"
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block"
                *ngIf="!payment_date.valid && payment_date.touched">
              Date is  mandatory
-           </span></p>
+           </span></p> -->
             <div class="pt10"  [class.has-error]="payment_method.invalid && payment_method.touched">
-                <select class="select wid100" name="payment_method" id="payment_method"
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+               <select class="select wid100" name="payment_method" id="payment_method"
                 [(ngModel)]="paymentModel.payment_method"   #payment_method="ngModel"
                 required>
-                  <option value="">Payment Method*</option>
+                  <option value="">Select Payment Method</option>
                   <option value="Cash">Cash</option>
                   <option value="Cheque">Cheque</option>
                   <option value="Card">Card</option>
                   <option value="Others">Others</option>
                 </select>
             </div>
-            <p class="errormsg"> <span  style="height:10px;"  *ngIf="!payment_method.valid && payment_method.touched"
+            <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="!payment_method.valid && payment_method.touched"
               class="help-block">
               Payment method is mandatory
-             </span></p>
+             </span></p> -->
             <div class="pt10">
+              <label class="p_title"> Upload Receipt<span class="text-danger">*</span></label>
                 <input type="File" class="input wid100" placeholder="Date*"
                 type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
             [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
             [(ngModel)]="bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
             </div>
-            <p class="errormsg"> <span  style="height:10px;"  class="help-block">
+            <!-- <p class="errormsg"> <span  style="height:10px;"  class="help-block">
 
-             </span></p>
+             </span></p> -->
           </div>
           <div class="sec2">
             <div class="pt10">
+              <label class="p_title"> Reference No.<span class="text-danger">*</span></label>
                 <input type="text" class="input wid100" name="reference_no" [(ngModel)]="paymentModel.reference_no" 
-                placeholder="Reference Number">
+                placeholder="Enter Reference Number">
             </div>
             
-            <p class="errormsg"> <span  style="height:10px;"  class="help-block">
+            <!-- <p class="errormsg"> <span  style="height:10px;"  class="help-block">
 
-            </span></p>
+            </span></p> -->
             <div class="pt10" [class.has-error]="paid_amount.invalid && paid_amount.touched">
-                <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Amount*"
+              <label class="p_title"> Amount<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
                 #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
                 required
-                (change)="validatePayment(paymentModel.paid_amount)"
                 [(ngModel)]="paymentModel.paid_amount">
             </div>
-            <p class="errormsg"> <span  style="height:10px;"  
+            <!-- <p class="errormsg"> <span  style="height:10px;"  
               *ngIf="!paid_amount.valid && paid_amount.touched"
               [(ngModel)]="paymentModel.paid_amount"
               class="help-block">
               Amount* is mandatory
-             </span></p>
+             </span></p> -->
           </div>
         </div>
         <div class="pt10 display">
          <div></div>
          <div>
           <button class="blue_button cancel" data-dismiss="modal">Cancel</button> 
-           <button class="blue_button" (click)="addPayment()">Save</button></div>
+           <button class="blue_button" (click)="addPayment()">Update</button></div>
         </div>
       </div>  
       </form>      
     </div>
   </div>
 </div> 
- 
-    
   <div class="modal" id="viewpayModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -203,7 +211,7 @@
           <h4 class="modal-title" >Payment History</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body scrollable">
           <div class="history">
             <div class="table_heading">
               <div>
@@ -219,7 +227,7 @@
             </div>
             <div class="table_body" *ngFor="let data of paymentHistoryData;index as i">
               <div>
-               {{i}}
+               {{i+1}}
               </div>
               <div>
               {{data.payment_date}}

@@ -2,9 +2,11 @@
 
 *{
   margin: 0px;
+  
 }
 body{
   font-family: 'Open Sans', sans-serif;
+  
 }
 .flex{
   display: flex;
@@ -142,7 +144,7 @@ margin-right: 10px;
 .modal {
   position:absolute;
   left: 28%;
-  top: 15%;
+  top: 0%;
   //transform: translate(-50%, -50%);
   height: auto;
 }
@@ -256,6 +258,7 @@ margin-top:20px;
   height: 21px;
   z-index: 20;
   border-radius: 4px;
+  orientation: "auto",
   
   }
   .errormsg{
@@ -351,5 +354,8 @@ margin-top:20px;
  
     .delmodal{
       width:350px !important;
+      position:absolute;
+      top:15%;
+      
     }
   

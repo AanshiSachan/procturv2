@@ -47,9 +47,7 @@
                                     placeholder="Enter company name* " [(ngModel)]="model.supplier_name"
                                     #supplier_name="ngModel" required>
                             </div>
-                           <!-- <p class="errormsg"> <span class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched"> Company name is
-                            mandatory 
-                            </span></p> -->
+                          
                             <div class="form-group"  [class.has-error]="email.invalid && email.touched">
                                 <label  class="p_title">Email<span class="stars">*</span></label>
                               
@@ -58,12 +56,7 @@
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                                     <span  style="height:5px;font-size:10px;text-align:left;margin-top:0px;color:red;" *ngIf="email.errors?.pattern">This is not a valid email!</span>
                             </div>
-                            <!-- <div >
-                            <p  *ngIf="email.touched">
-                               <span class="help-block" *ngIf="email.errors?.required">Email is mandatory</span>
-                               
-                                </p> 
-                            </div> -->
+                        
                             <div class="form-group" [class.has-error]="mobile_no.invalid && mobile_no.touched">
                                 <label  class="p_title">Mobile<span class="stars">*</span></label>
                                 <input type="text" class="form-control" name="mobile_no" id="mobile_no" maxlength="10"
@@ -71,20 +64,27 @@
                                     #mobile_no="ngModel" required
                                     onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
 
-                                <sapn class="help-block" style="font-size:10px;text-align:left;margin-top:0px 0px 2px 0px;color:red;" 
+                                <!-- <sapn class="help-block" style="font-size:10px;text-align:left;margin-top:0px 0px 2px 0px;color:red;" 
                                 *ngIf="mobile_no.errors?.minlength">
                                     Please Enter 10 digit mobile number
                             </sapn>
                          
+                                <div *ngIf="mobile_no.errors?.maxlength">
+                                    Enter 10 digit number only
+                                </div>
+                                <div class="help-block" *ngIf="mobile_no.errors?.minlength">
+                                   <p class="errormsg">Please Enter 10 digit mobile number</p> 
+                                </div>
+                              <p  class="errormsg"> <span class="help-block" *ngIf="!mobile_no.valid && mobile_no.touched">
+                                    Mobile number is mandatory
+                                </span> 
+                            </p> -->
                             </div>
                             <div>
                                 <label  class="p_title">Address<span class="stars">*</span></label>
                                 <textarea type="text" class="form-control" name="address" id="address" 
                                     placeholder="Enter address" [(ngModel)]="model.address" #address="ngModel" required>
                               </textarea>
-                        <!-- <p  class="errormsg">  <span class="help-block" *ngIf="!address.valid && address.touched">
-                                    Address is mandatory..
-                                </span></p> -->
                             </div>
                             <div class="form-group">
                                 <label  class="p_title">Contact Person<span class="stars">*</span></label>
@@ -93,23 +93,19 @@
                                     id="contact_person_name" placeholder="Enter contact person name"
                                     [(ngModel)]="model.contact_person_name" #contact_person_name="ngModel" required>
                             </div>
-                          <!-- <p class="errormsg">  <span class="help-block"
-                            *ngIf="!contact_person_name.valid && contact_person_name.touched">
-                            Contact person  is mandatory
-                        </span></p> -->
-                            <div class="form-group multiselect" >
+                       <div class="form-group multiselect" >
                                 <label  class="p_title">Category Name<span class="stars">*</span></label>
                                <ng-multiselect-dropdown placeholder="Select category" [(ngModel)]="model.category_ids"
                                     [data]="assetcategoryData" [settings]="moderatorSettings" name="category_ids"
-                                    (ngModelChange)="getAssetsForSelectedCat($event)">
+                                    (ngModelChange)="getAssetsForSelectedCat($event)"
+                                    >
                                 </ng-multiselect-dropdown>
                             </div>
                             <!-- <p class="errormsg" style="margin-top: 10px;">  <span class="help-block">
                             </span></p> -->
                             <div class="form-group multiselect">
-                                <label  class="p_title">Asset Provided<span class="stars">*</span></label>
-                               <ng-multiselect-dropdown placeholder="Select asset *" [(ngModel)]="model.asset_ids"
-                                    [data]="assetAllData" [settings]="moderatorSettingsforasset" name="model.asset_ids">
+                                <ng-multiselect-dropdown placeholder="Asset Provided *" [(ngModel)]="model.asset_ids"
+                                    [data]="assetAllData" [settings]="moderatorSettingsforasset" name="asset_ids">
                                 </ng-multiselect-dropdown>
                             </div>
                             <!-- <p class="errormsg">  <span class="help-block">
@@ -139,7 +135,7 @@
             </div>
             <div class="modal-body">
               <div class="center">
-                <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+                <span><img src="/assets/img1/alert.svg"></span><span class="alert">Alert</span>
               </div>
              <div><p class="center paradel"> Do you want to delete this ?</p>
               </div> 

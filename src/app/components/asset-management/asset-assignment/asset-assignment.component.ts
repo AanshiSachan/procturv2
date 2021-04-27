@@ -37,7 +37,7 @@ export class AssetAssignmentComponent implements OnInit {
   locationAllData: any = [];
   totalRow: any;
   tempLocationList: any;
-  assignDataforDownload: [];
+  assignDataforDownload=[];
   rolesListDataSource: any = [];
   model = {
     id: '',
@@ -68,7 +68,7 @@ export class AssetAssignmentComponent implements OnInit {
     this.setTableData();
     this.getCategoryDetails();
     this.getAssetDetails();
-    this.getCheckOutBy();
+    //this.getCheckOutBy();
     this.getRolesList();
     this.getAssignDetails();
   }
@@ -176,23 +176,23 @@ export class AssetAssignmentComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
@@ -334,7 +334,7 @@ $('#deletesModal').modal('show');
       })
    }
     else{
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All  fields Required")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields")
     }
   }
   cancel(param) {
@@ -426,70 +426,65 @@ $('#deletesModal').modal('show');
     );
   }
   //purchaseby
-  getCheckOutBy() {
-    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,0').subscribe(
-      (res: any) => {
-       this.purchaseby = res.active_users;
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
-  }
+  // getCheckOutBy() {
+  //   this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,0').subscribe(
+  //     (res: any) => {
+  //      this.purchaseby = res.active_users;
+  //     },
+  //     err => {
+  //       this.auth.hideLoader();
+  //     }
+  //   );
+  // }
 
 
-  getRolesList() {
-    this.apiService.getRoles().subscribe(
-      (res: any) => {
-        this.rolesListDataSource = res;
-        this.totalRow = res.length;
-     },
-      err => {
-     }
-    )
-  }
+  // getRolesList() {
+  //   this.apiService.getRoles().subscribe(
+  //     (res: any) => {
+  //       this.rolesListDataSource = res;
+  //       this.totalRow = res.length;
+  //    },
+  //     err => {
+  //    }
+  //   )
+  // }
 //if changes required
-// role_id;
-// getCheckOutBy(obj) {
-// this.role_id=obj;
-// alert(this.role_id)
-//   this.temp.getData('/api/v1/inventory/sale/' + this.model.institute_id + '/getUserByRole?roleIds=' + this.role_id).subscribe(
-//     (res: any) => {
-//      this.purchaseby = res.result;
-//     },
-//     err => {
-//       this.auth.hideLoader();
-//     }
-//   );
-// }
+role_id;
+getCheckOutBy(obj) {
+this.role_id=obj;
+ this.temp.getData('/api/v1/inventory/sale/' + this.model.institute_id + '/getUserByRole?roleIds=' + this.role_id).subscribe(
+    (res: any) => {
+     this.purchaseby = res.result;
+    },
+    err => {
+      this.auth.hideLoader();
+    }
+  );
+}
 
 
-// getRolesList() {
-//   alert("hii")
-//   this.temp.getData('/api/v1/roleApi/allRoles/'+this.model.institute_id).subscribe(
-//     (res: any) => {
-//       this.rolesListDataSource = res;
-//       this.totalRow = res.length;
-//    },
-//     err => {
-//    }
-//   )
-// }
+getRolesList() {
+ this.temp.getData('/api/v1/roleApi/allRoles/'+this.model.institute_id).subscribe(
+    (res: any) => {
+      this.rolesListDataSource = res;
+      this.totalRow = res.length;
+   },
+    err => {
+   }
+  )
+}
   downloadPdf() {
     this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.assignDataforDownload = res.result.response;
-    },
-      err => {
-        this.auth.hideLoader();
-      }
-      
-    );
-    let arr = [];
-   
+        let arr = [];
+   for(let i=0;i<this.assignDataforDownload.length;i++){
+     this.assignDataforDownload[i].id =i +1;
+   }
     this.assignDataforDownload.map(
       (ele: any) => {
         let json = [
+          ele.id,
          ele.asset_name,
           ele.quantity,
           ele.user_type,
@@ -503,10 +498,17 @@ $('#deletesModal').modal('show');
       })
 
     let rows = [];
-    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
+    rows = [['#','Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
     this.auth.hideLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    
   }
 //download in excel format
 headersettingforexcel:any=[  {

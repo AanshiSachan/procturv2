@@ -313,8 +313,7 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'assigned_name', header: 'Assignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
         { primaryKey: 'standard', header: 'STD', priority: 11 },
-        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
-        { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 }
+        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 }
     ];
     assignMultipleForm: any = {
         enqLi: [],
@@ -371,6 +370,9 @@ export class EnquiryHomeComponent implements OnInit {
         this.auth.schoolModel.subscribe(data => {
             this.schoolModel = data;
         })
+        if(!this.schoolModel) {
+            this.enquirySettings.push({ primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 });
+        }
         this.actRoute.queryParams.subscribe(e => {
             if ((!this._commService.valueCheck(e.id))) {
                 if (this._commService.valueCheck(e.action)) {

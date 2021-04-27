@@ -5,7 +5,7 @@
         <div class="col-md-4">
           <i class="fa fa-chevron-down " (click)="toggleObject(topic)" *ngIf="topic.subTopic.length && topic.isExpand"></i>
           <i class="fa fa-chevron-up " (click)="toggleObject(topic)" *ngIf="topic.subTopic.length && (!topic.isExpand)"></i>
-          &nbsp; {{topic.topicName}}
+          &nbsp; {{topic.topicId}} &nbsp; {{topic.topicName}}
         </div>
         <div class="col-md-4">
           <span style="font-weight: 600;">Est. Time :</span> &nbsp; {{topic.estimated_time}}
@@ -59,7 +59,7 @@
         <div class="col-md-4">
           <i class="fa fa-chevron-down " (click)="toggleObject(topic)" *ngIf="topic.subTopic.length && topic.isExpand"></i>
           <i class="fa fa-chevron-up " (click)="toggleObject(topic)" *ngIf="topic.subTopic.length && (!topic.isExpand)"></i>
-          &nbsp; {{topic.topicName}}
+          &nbsp;{{topic.topicId}} &nbsp; {{topic.topicName}}
         </div>
         <div class="col-md-4">
         </div>

@@ -50,7 +50,7 @@
                       </tr>
                   </thead>
                   <!-- <div  *ngIf="teacherList.length != 0 "> -->  
-                  <tbody style="min-height: 65vh;max-height: 65vh;">
+                  <tbody style="min-height: 65vh;max-height: 65vh;" *ngIf="teacherList?.length">
                     <tr style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
                       <!-- <td>
                         {{i+1}}
@@ -92,6 +92,9 @@
                       </span>
                       </td>
                     </tr>
+                  </tbody>
+                  <tbody style="min-height: 65vh;max-height: 65vh;text-align: center;" *ngIf="!teacherList?.length && !auth.isRippleLoad.getValue()">
+                    <img src="../../../assets/images/course/teacher_no_data.png">
                   </tbody>
                 <!-- </div> -->
               </table>

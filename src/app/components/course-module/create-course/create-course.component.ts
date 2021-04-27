@@ -264,13 +264,13 @@ export class CreateCourseComponent implements OnInit {
     this.jsonFlags.classMenu = true;
     this.jsonFlags.examMenu = true;
     this.checkWhichTabIsOpen();
-    if (this.isLangInstitue) {
-      this.router.navigateByUrl('/view/batch/create/managebatch');
-      this.switchActiveView('liManageBatch');
-    } else {
-      this.router.navigateByUrl('/view/course/create/courselist');
-      this.switchActiveView('liManageBatch');
-    }
+    // if (this.isLangInstitue) {
+    //   this.router.navigateByUrl('/view/batch/create/managebatch');
+    //   this.switchActiveView('liManageBatch');
+    // } else {
+    //   this.router.navigateByUrl('/view/course/create/courselist');
+    //   this.switchActiveView('liManageBatch');
+    // }
   }
 
 }

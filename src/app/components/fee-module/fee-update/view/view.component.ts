@@ -38,7 +38,7 @@ export class ViewComponent implements OnInit {
     receipt_no: '',
     update_reason: '',
     selectedPdcId: '',
-    due_amount:0,
+    due_amount: 0,
     pdcSelectedForm: {
       bank_name: '',
       cheque_amount: 0,
@@ -115,6 +115,12 @@ export class ViewComponent implements OnInit {
   isUpdatePaidInstall: boolean = false;
   stdAssignedCorseList
   paymentMode: number = 0;
+  isSelectedAllPaidInstall: boolean = false;
+  isAddInstallClicked: boolean = false;
+  isUpdatePaymentClicked: boolean = false;
+  isApplyDiscClicked: boolean = false;
+  isRemoveDiscClicked: boolean = false;
+  isUpdateInstallClicked: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -152,6 +158,8 @@ export class ViewComponent implements OnInit {
   fetchAcademicYearList() {
     this.auth.showLoader();
     this.academicYrList = [];
+    this.chequePdcList = [];
+    this.discHistoryList = [];
     let url = "/api/v1/academicYear/all/" + this.institute_id;
     this.http.getData(url).subscribe(
       (res: any) => {
@@ -168,7 +176,7 @@ export class ViewComponent implements OnInit {
     )
   }
   fetchDefaultAY() {
-    this.academic_yr_id=-1;
+    this.academic_yr_id = -1;
     if (this.academicYrList != null) {
       for (let data of this.academicYrList) {
         if (data.default_academic_year == 1) {
@@ -179,6 +187,8 @@ export class ViewComponent implements OnInit {
     }
   }
   fetchStdFeeData(academic_yr) {
+    this.chequePdcList = [];
+    this.discHistoryList = [];
     this.auth.showLoader();
     let url = "/api/v1/studentWise/fee/" + this.institute_id + "/students/" + this.student_id + "/" + academic_yr;
     this.http.getData(url).subscribe(
@@ -253,8 +263,12 @@ export class ViewComponent implements OnInit {
   }
 
   doPayment() {
+    this.auth.showLoader();
+    this.isUpdatePaymentClicked = true;
     let is_valid_payment: boolean = this.feeService.validatePaymentDetailsV2(this.paymentPopUpJson);
     if (!is_valid_payment) {
+      this.isUpdatePaymentClicked = false;
+      this.auth.hideLoader();
       return;
     }
     let obj = this.preparedPaymentPayload();
@@ -278,6 +292,7 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
+    this.isUpdatePaymentClicked = false;
   }
   preparedPaymentPayload() {
     let obj = {
@@ -352,6 +367,7 @@ export class ViewComponent implements OnInit {
     return install;
   }
   getPdcChequeList(payment_mode) {
+    this.chequePdcList = [];
     if (payment_mode == 'Cheque/PDC/DD No.') {
       let obj = {
         cheque_status: '',
@@ -374,6 +390,10 @@ export class ViewComponent implements OnInit {
           if (this.chequePdcList.length == 0) {
             this.commonService.showErrorMessage('info', '', 'No cheque available!');
           }
+        },
+        err => {
+          this.chequePdcList = [];
+          this.commonService.showErrorMessage('error', '', err.error.message);
         }
       )
     }
@@ -614,11 +634,13 @@ export class ViewComponent implements OnInit {
     }
   }
   applyDiscount() {
+    this.isApplyDiscClicked = true;
     this.auth.showLoader();
     let unpaidAmount = this.max_disc_apply;
     let isValid: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'add');
     if (!isValid) {
       this.auth.hideLoader();
+      this.isApplyDiscClicked = false;
       return false;
     }
     // Condition For discount satisfy now apply discount
@@ -638,6 +660,7 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
+    this.isApplyDiscClicked = false;
   }
   clearDiscPopUpData() {
     $('#discountInstallModel').modal('hide');
@@ -648,14 +671,21 @@ export class ViewComponent implements OnInit {
       discountAmount: 0
     };
   }
-
   getDiscountHistoryDetails() {
-    this.feeService.getDiscountHistory(this.student_id).subscribe(
+    this.discHistoryList = [];
+    if (this.academic_yr_id < 0) {
+      this.commonService.showErrorMessage('info', '', 'Please select academic year!');
+      return;
+    }
+    this.auth.showLoader();
+    this.feeService.getDiscountHistoryV2(this.student_id, this.academic_yr_id).subscribe(
       (res: any) => {
         this.discHistoryList = res != null ? res.discountInstllmentList : this.discHistoryList;
         this.checkAnyInstallIsPaid();
+        this.auth.hideLoader();
       },
       err => {
+        this.auth.hideLoader();
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
@@ -911,6 +941,7 @@ export class ViewComponent implements OnInit {
     )
   }
   openAddInstallmentPopup() {
+    this.isAddInstallClicked = false;
     $('#installmentModal').modal('show');
     this.closeAddInstallPopup(true)
     this.isUpdateInstall = false;
@@ -934,6 +965,7 @@ export class ViewComponent implements OnInit {
     }
   }
   addNewInstall() {
+    this.isAddInstallClicked = true;
     if (this.schoolModel)
       this.addInstall.standard_id = this.stdFeeDataList.stnd_id;
     if (this.validateInputDataForAddInstall(false)) {
@@ -969,6 +1001,7 @@ export class ViewComponent implements OnInit {
         }
       )
     }
+    this.isAddInstallClicked = false;
   }
   validateInputDataForAddInstall(isUpdate) {
     if (this.addInstall.acad_yr_id <= 0) {
@@ -1020,6 +1053,7 @@ export class ViewComponent implements OnInit {
   }
   removeDiscountPopup(data) {
     this.isDiscountRemove = true;
+    this.isRemoveDiscClicked = false;
     $('#discountInstallModel').modal('show');
     this.fetchDiscountReason();
     this.validateRemoveDiscountPopup(data.fee_schedule_id);
@@ -1035,20 +1069,24 @@ export class ViewComponent implements OnInit {
     }
   }
   removeDiscountAction() {
+    this.isRemoveDiscClicked = true;
     this.auth.showLoader();
     if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
       this.commonService.showErrorMessage('error', '', 'Discount Amount is greater then discount given to student');
       this.auth.hideLoader();
+      this.isRemoveDiscClicked = false;
       return false;
     }
     let isValid: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, this.totalDiscountApplied, 'remove');
     if (!isValid) {
       this.auth.hideLoader();
+      this.isRemoveDiscClicked = false;
       return;
     }
     let installmentList = this.feeService.makeRemoveDiscountJsonV2(this.discountInstallList, this.discountPopUpForm);
     if (installmentList.length == 0) {
       this.auth.hideLoader();
+      this.isRemoveDiscClicked = false;
       return;
     }
     let jsonToSend: any = {
@@ -1068,6 +1106,7 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('error', '', err.error.message);
       }
     )
+    this.isRemoveDiscClicked = false;
   }
   editPaidInstall(data) {
     this.isUpdatePaidInstall = true;
@@ -1134,6 +1173,7 @@ export class ViewComponent implements OnInit {
     )
   }
   editInstallPopUp(data) {
+    this.isUpdateInstall
     this.isUpdateInstall = true;
     $('#installmentModal').modal('show');
     this.getInstituteFeeTypes();
@@ -1147,14 +1187,14 @@ export class ViewComponent implements OnInit {
       f_schld_id: data.f_schld_id,
       immutable_due_date: moment(data.d_date).format('YYYY-MM-DD')
     }
-    if(this.schoolModel){
-      this.addInstall.standard_id=this.stdFeeDataList.stnd_id;
+    if (this.schoolModel) {
+      this.addInstall.standard_id = this.stdFeeDataList.stnd_id;
     }
     //this.fetchFilterData();
     //this.fetchCoursesList(data.mc_n);
   }
   updateInstall() {
-
+    this.isUpdateInstallClicked = true;
     if (this.validateInputDataForAddInstall(true)) {
       let obj: any = {
         d_date: moment(this.addInstall.d_date).format('YYYY-MM-DD'),
@@ -1189,6 +1229,7 @@ export class ViewComponent implements OnInit {
         }
       )
     }
+    this.isUpdateInstallClicked=false;
   }
   deleteInstall(data) {
     let msg = "";
@@ -1231,6 +1272,7 @@ export class ViewComponent implements OnInit {
     for (let data of this.stdFeeDataList.p_install_li) {
       if (data.isSelected) {
         is_intall_not_selected = false;
+        break;
       }
     }
     if (is_intall_not_selected) {
@@ -1272,16 +1314,20 @@ export class ViewComponent implements OnInit {
       })
   }
   calFinalDueAmount(data) {
-    debugger
-    if(data==''){
-      data=0;
-      this.paymentPopUpJson.paying_amount=0;
+    if (data == '') {
+      data = 0;
+      this.paymentPopUpJson.paying_amount = 0;
     }
     if (data > this.t_p_amount) {
       this.commonService.showErrorMessage('info', '', "You can not increase paid amount!");
       return;
     }
     this.paymentPopUpJson.due_amount = this.t_d_amount + (this.t_p_amount - data);
+  }
+  selectAllPaidInstall() {
+    for (var i = 0; i < this.stdFeeDataList.p_install_li.length; i++) {
+      this.stdFeeDataList.p_install_li[i].isSelected = this.isSelectedAllPaidInstall;
+    }
   }
 }
 

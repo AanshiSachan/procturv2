@@ -521,7 +521,7 @@ export class StudentFeeService {
             return false;
         }
 
-        if (data.cheque_no== "") {
+        if (data.cheque_no == "") {
             this.commonService.showErrorMessage('info', '', 'Please enter a Cheque Number');
             return false;
         }
@@ -968,6 +968,14 @@ export class StudentFeeService {
             err => { return err }
         ))
     }
+    addDiscountToStudentV2(jsonObject, academic_yr) {
+        jsonObject.institute_id = Number(this.institute_id);
+        let url = this.baseUrl + "/api/v1/discount";
+        return this.http.post(url, jsonObject, { headers: this.headers }).pipe(map(
+            res => { return res },
+            err => { return err }
+        ))
+    }
 
     // Remove discount applied to the installment
     makeRemoveDiscountJson(installment, popUpFormObj, tax) {
@@ -1085,7 +1093,13 @@ export class StudentFeeService {
             err => { return err }
         ))
     }
-
+    getDiscountHistoryV2(id, academic_yr) {
+        let url = this.baseUrl + "/api/v1/discount/" + id + "/" + academic_yr;
+        return this.http.get(url, { headers: this.headers }).pipe(map(
+            res => { return res },
+            err => { return err }
+        ))
+    }
 
     getFeeDetailsById(i): Observable<any> {
         let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";

@@ -217,6 +217,7 @@ export class RegisteredStudentComponent implements OnInit {
 
   performAction(action) {
     if (action == 'Convert to Admission') {
+      this.selectedRecord.institute_enquiry_id = 0;
       sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRecord));
       this.router.navigate(['/view/students/add']);
     }

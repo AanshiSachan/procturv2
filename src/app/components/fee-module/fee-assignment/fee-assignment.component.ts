@@ -48,6 +48,7 @@ export class FeeAssignmentComponent implements OnInit {
   batchList: any = [];
   student_id: number = -1;
   isTemplateNotLinkWithCourseAndStandard: boolean = false;
+  isClicked:boolean=false;
 
   constructor(private auth: AuthenticatorService,
     private http: HttpService,
@@ -251,10 +252,9 @@ export class FeeAssignmentComponent implements OnInit {
     this.auth.showLoader();
     let queryParam = "";
     if (!this.isTemplateNotLinkWithCourseAndStandard) {
-      // if (this.schoolModel) {
-      //   queryParam = "?standard_id=" + this.model.standard_id;
-      // } else 
-      if (!this.isProfessional) {
+      if (this.schoolModel) {
+       queryParam = "?standard_id=" + this.model.standard_id;
+    } else if (!this.isProfessional) {
         queryParam = "?course_id=" + this.model.course_id;
       } else if (this.isProfessional) {
         queryParam = "?batch_id=" + this.model.batch_id;
@@ -316,8 +316,9 @@ export class FeeAssignmentComponent implements OnInit {
     }
   }
   assignfeeToStudent(isAssignedToSingleStudent) {
+    this.isClicked=true;
+    this.auth.showLoader();
     if (this.validateAssignFeeData()) {
-      this.auth.showLoader();
       let requestPayload: any = {
         student_ids: this.studentIdArr,
         template_id: this.template_id,
@@ -346,6 +347,8 @@ export class FeeAssignmentComponent implements OnInit {
         }
       );
     }
+    this.auth.hideLoader();
+    this.isClicked=false;
   }
   validateAssignFeeData() {
     this.studentIdArr = [];
@@ -379,6 +382,7 @@ export class FeeAssignmentComponent implements OnInit {
 
   }
   assignFeeToSingleStudent(data) {
+    this.isClicked=false;
     this.student_id = data.student_id;
     this.fetchFeeStructure(false);
   }
@@ -441,5 +445,10 @@ export class FeeAssignmentComponent implements OnInit {
   closePopUp() {
     $('#assignFeeModel').modal('hide');
     this.student_id = -1;
+  }
+  changesValuesAsPerType(row, i) {
+    if (row == 1) {
+      this.feeInstalllmentArr[i].days = 0;
+    }
   }
 }

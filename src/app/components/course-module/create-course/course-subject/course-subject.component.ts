@@ -5,7 +5,6 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { SubjectApiService } from '../../../../services/course-services/subject.service';
 import CommonUtils from '../../../../utils/commonUtils'
 declare var $;
-
 @Component({
   selector: 'app-course-subject',
   templateUrl: './course-subject.component.html',
