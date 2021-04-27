@@ -93,8 +93,17 @@
             <hr class="content_hr">
           </div>
         </div>
+        <div class="row">
+          <a routerLink="/view/fee/paymentHistory" class="icon_click"> <img
+              src="./assets/images/Reporticons/duereport.png" alt=" " style="margin-left:3px;"></a>
+          <div class="col-sm" style="margin-top:-35px;margin-left:8px">
+            <span class="sub-head"> <a routerLink="/view/fee/paymentHistory">Payment History</a></span>
+          </div>
+          <div class="col-sm" style="margin-top:9px;margin-left:-10px">
+            <h6 class="content">Date wise payment history of students for analysis, making changes and download.</h6>
+          </div>
+        </div>
         <div class="row" *ngIf="enable_online_payment == 1 && isOnlineFees">
-
           <a routerLink="/view/fee/onlinePayment" class="icon_click"> <img
               src="./assets/images/Reporticons/onlinefees.png" alt=" " style="margin-left:3px;"></a>
           <div class="col-sm" style="margin-top:-35px;margin-left:8px">

@@ -165,7 +165,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       || sessionStorage.getItem('username') == 'admin') {
       this.tableSetting.actionSetting =
         {
-          showActionButton: true,
+          showActionButton: false,
           editOption: 'button',//or popup
           condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
           { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
@@ -291,7 +291,7 @@ export class PaymentHistoryMainComponent implements OnInit {
           if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
             this.tableSetting.actionSetting =
               {
-                showActionButton: true,
+                showActionButton: false,
                 editOption: 'button',//or popup
                 condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
                 { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined}],
