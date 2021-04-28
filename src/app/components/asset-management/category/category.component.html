@@ -2,14 +2,14 @@
     <div class="page_heading">
         <div class="w98 tab">
             <div style="margin-bottom: 20px;">
-            <span *ngIf="is_asset" class="asset-title">Assets</span>
+            <span *ngIf="is_asset" class="asset-title">Asset</span>
             <span *ngIf="is_asset_cat" class="asset-title">Asset Category</span>
         </div>
            
             <span class="tab1" [ngClass]="is_asset ? 'inactive' : 'active' ">
                 <b
                     (click)="toggle(false)">Asset
-                    category</b></span>
+                    Category</b></span>
             <span><b class="tab2 " [ngClass]="is_asset_cat ? 'inactive' : 'active' "
                     (click)="toggle(true)">Asset
                 </b></span>
@@ -26,7 +26,7 @@
     <!--flex for asset category data-->
     <div class="w98">
         <div class="padding1">
-            <input type="text" style="margin-top: 20px;" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
+            <input type="text" style="margin-top: 20px;" class="searches wid240 mr10 magnifying-glass" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()" *ngIf="is_asset">
             <span class="rights" *ngIf="is_asset">
                 <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>-->

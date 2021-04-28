@@ -329,6 +329,7 @@ color: #444141;
   margin: -1rem 3.5rem;
   margin-left: 0rem;
   cursor: default;
+  padding-top: 2px;
 }
 .inactive{
   border-bottom: none;
@@ -353,4 +354,23 @@ border: 1px solid #D5D0D0;
 box-sizing: border-box;
 border-radius: 4px;
 margin-top: 20px;
+}
+.searches{
+  padding: 7px 20px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-weight: 500;
+    height:35px;
+    width:200px;
+  }
+.mr10{
+margin-right:10px;
+}
+.magnifying-glass{
+  background-image: url('/assets/images/assets/Vector.svg');
+  background-repeat: no-repeat;
+  background-position:left center;
+  text-indent: 10px;
 }

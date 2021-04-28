@@ -13,7 +13,7 @@
     </div>
         <div class="w98">
             <div class="pt15 display">
- <div>
+              <div>
                 <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
                 #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
@@ -34,13 +34,13 @@
                 <div>
                 Units Purchased<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
                 </div> -->
+                <div>File</div>
                 <div>Reference No. </div>
                 <div>Supplier</div>
                 <div>Date</div>
-                <div>File</div>
-                <div>Grand Total</div>
-                <div>Paid</div>
-                <div>Balance</div>
+                <div>Grand Total&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div>Paid &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div>Balance &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
                 <div>Actions</div>
                 </div>
                 <div class="table_body" *ngFor="let data of staticPageData;index as i">
@@ -54,17 +54,17 @@
                {{data.quantity}}
                 </div> -->
                 <div>
+                  <a href="{{data.bill_image_url}}" target="_blank" download><img src="{{data.bill_image_url}}" width="40" height="40"/></a>
+              </div>
+                <div>
                   {{data.reference_number}}
                    </div>
                 <div>
                {{data.supplier_company_name}}
                 </div>
                 <div>
-              {{data.purchase_date}}
+              {{data.purchase_date | date: 'dd-MMM-yyyy'}}
                 </div>
-                <div>
-                  <a href="{{data.bill_image_url}}" target="_blank" download><img src="{{data.bill_image_url}}" width="40" height="40"/></a>
-              </div>
                 <div>
                     {{data.total_amount}}
                 </div>
@@ -79,11 +79,13 @@
                             <img src="../../../../assets/img1/menu.svg" class="dot3">
                                 <div class="dropdown-content1" >
                                   <a  (click)="viewNavigate(data.purchase_id)">View</a>
+                                  <hr>
                                   <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]"
                                   *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
-                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>
-                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>
-                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a> 
+                                  <hr>
+                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>   <hr>
+                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>   <hr>
+                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a>    <hr>
                                   <a  (click)="getPaymentHistory(data)">View Payment History</a>
                                 
                                 </div>

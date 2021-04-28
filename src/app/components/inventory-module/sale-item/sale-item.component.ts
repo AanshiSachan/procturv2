@@ -68,12 +68,12 @@ export class SaleItemComponent implements OnInit {
     this.httpService.getData('/api/v1/inventory/sale/all?pageOffset='+this.pageIndex +'&pageSize='+ this.displayBatchSize+'&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        let saleData = res.result.response;
-        this.saleAllData =saleData;
+        this.saleAllData = res.result.response;
+       // this.saleAllData =saleData;
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.totalElements;
-        // for (let keys of saleData) {
+         // for (let keys of saleData) {
         //   console.log(keys);
         //   console.log(keys)
         //   // console.log(this.purchaseAllData[keys]);
@@ -265,6 +265,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.staticPageData = this.getDataFromDataSource(startindex);
+    
   }
 
   fetchNext() {
@@ -289,17 +290,17 @@ this.router.navigate(['/view/inventory-management/sale-view'])
   }
   searchDatabase() {
     if (this.searchParams == undefined || this.searchParams == null) {
-       this.searchParams = "";
-       this.staticPageData = this.tempLocationList;
-     }
-     else {
-       let searchData = this.tempLocationList.filter(item =>
-         Object.keys(item).some(
-           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
-       );
-       this.staticPageData = searchData;
-       this.totalRecords=this.staticPageData;
-     }
+      this.searchParams = "";
+      this.staticPageData = this.tempLocationList;
+    }
+    else {
+      let searchData = this.tempLocationList.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
+      );
+      this.staticPageData = searchData;
+      this.totalRecords=this.staticPageData;
+    }
    }
    downloadPdf() {
     ///api/v1/inventory/purchase/all?all=1 + '&&instituteId=' + this.institution_id

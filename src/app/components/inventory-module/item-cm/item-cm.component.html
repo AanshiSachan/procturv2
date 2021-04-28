@@ -79,9 +79,9 @@
               <div   (click)="sortTable('alloted_units')">Total Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
               <div  (click)="sortTable('available_units')">Available Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
               <div>
-                Buying Price<br>(Unit Price)
+                Buying Price&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)<br>(Unit Price)
               </div>
-              <div>Sale Price<br>(Unit Price)</div>
+              <div>Sale Price&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)<br>(Unit Price)</div>
               <div>Taxes (%)</div>
               <div>Low Stock<br>indicator (Units)</div>
               <div>Actions</div>
@@ -108,11 +108,11 @@
                 <div class="dropdown1">
                     <img src="../../../assets/img1/menu.svg" class="dot3">
                   <div class="dropdown-content1">
-                    <a data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a>
-                    <a   (click)="showConfirm(data)">Delete</a>
-                    <a *ngIf="data.available_units!=0" data-toggle="modal" data-target="#subbranchModal"(click)="allocateToSubBranch(data)">Allocate to Sub-branch</a>
-                    <a    (click)="showAllocationHistory(data)">Allocation History</a>
-                    <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a>
+                    <a data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a><hr>
+                    <a   (click)="showConfirm(data)">Delete</a><hr>
+                    <a *ngIf="data.available_units!=0" data-toggle="modal" data-target="#subbranchModal"(click)="allocateToSubBranch(data)">Allocate to Sub-branch</a><hr>
+                    <a    (click)="showAllocationHistory(data)">Allocation History</a><hr>
+                    <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a><hr>
                   </div>
                 </div>
               </div>

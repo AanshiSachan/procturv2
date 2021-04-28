@@ -244,7 +244,7 @@ export class SupplierComponent implements OnInit {
       (res: any) => {
         this.supplierAllData =res.result.response;
         this.staticPageData = res.result.response;
-        this.totalRow =  res.result.length;
+        //this.totalRow =  res.result.length;
         this.auth.hideLoader();
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.total_elements;
@@ -559,6 +559,7 @@ searchDatabase() {
     this.totalRecords = this.staticPageData.length;
 
   }
+  
 }
 
 }
