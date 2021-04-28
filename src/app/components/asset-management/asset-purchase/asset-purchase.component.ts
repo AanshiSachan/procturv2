@@ -171,11 +171,11 @@ export class AssetPurchaseComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "7%",
+        width: "10%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "7%",
         textAlign: "left"
       },
       {
