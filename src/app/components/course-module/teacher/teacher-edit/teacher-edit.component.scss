@@ -415,3 +415,8 @@ width: 87%;}
 .right {
   float: right;
 }
+
+
+ng-multiselect-dropdown /deep/ .multiselect-dropdown > .dropdown-list .item2{
+   position: relative !important;
+}

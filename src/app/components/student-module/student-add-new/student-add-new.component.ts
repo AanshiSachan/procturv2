@@ -540,6 +540,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   toggleAddArea() {
     if (this.addArea) {
       this.addArea = false;
+      this.getAreaList();
     }
     else {
       this.addArea = true;
