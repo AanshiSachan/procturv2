@@ -4094,7 +4094,9 @@ export class AdminHomeComponent implements OnInit {
   //End
 
   sendNotifyPage(){
+   
     this.router.navigateByUrl('/view/dashboard/send-notification')
   }
+  
 
 }

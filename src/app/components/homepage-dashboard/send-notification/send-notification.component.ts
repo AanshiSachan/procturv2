@@ -7,6 +7,7 @@ import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { WidgetService } from '../../../services/widget.service';
 import { ProductService } from '../../../services/products.service';
+import { elementAt } from 'rxjs-compat/operator/elementAt';
 
 
 
@@ -61,7 +62,7 @@ sendLoginmessage:boolean=false
   previowBox: boolean = false;
 
 
-  allChecked: boolean = true;
+  allChecked: boolean = false;
   allRowCheck :boolean=false
   searchData: string = "";
   messageCount: number = 0;
@@ -81,6 +82,11 @@ sendLoginmessage:boolean=false
   selectedActiveStudentList:any;
   selectedRow:any;
   subject: any;
+  activeRowCeckbox:boolean=false;
+  facultyCheckBox:boolean=false;
+  aluminiCheckBox:boolean=false;
+  allUserCheck:boolean=false;
+  inactiveCheck:boolean=false;
 
   previewedMessage: any;
 
@@ -124,18 +130,20 @@ sendLoginmessage:boolean=false
       }
     )
     this.getAllMessageFromServer();
-    this.getMaterCourseList();
+    //this.getMaterCourseList();
   }
 openStudentForm(){
 //this.selectStudentForm = true
-  //this.addSmsForm = false
+if (this.isProfessional) {
+  this.getMasterCourseAndBatch(this.sendNotification);
+} else {
+  this.getMaterCourseList();
+}
+  this.addSmsForm = false
   console.log("semected message",this.selectedRow)
 
-  if (this.selectedRow !='') {
-
-  
-  
-    let msg = {
+  if (this.selectedMessageText.length == 0) {
+  let msg = {
       type: 'error',
       title: '',
       body: "Please select message"
@@ -145,10 +153,10 @@ this.selectStudentForm = false;
   this.addSmsForm = true;
 
 
-  
-
-}else
-  this.selectStudentForm = true;
+  }else if(this.selectedMessageText.length !=0)
+this.selectStudentForm = true;
+// }else
+//   this.selectStudentForm = true;
 
 
 }
@@ -391,7 +399,11 @@ getStandard() {
   )
 }
 
-
+flushData() {
+  this.batchList = [];
+  this.courseList = [];
+  this.studentList = [];
+}
 
 
 getMaterCourseList() {
@@ -402,8 +414,9 @@ getMaterCourseList() {
   this.auth.showLoader();
   this.widgetService.getAllMasterCourse().subscribe(
     res => {
-      this.auth.hideLoader();
       this.masterCourseList = res;
+      this.auth.hideLoader();
+
       console.log("master course",this.masterCourseList)
     },
     err => {
@@ -411,7 +424,9 @@ getMaterCourseList() {
       //console.log(err);
     }
   )
-  }}
+  }
+
+}
 
   getCourseList(ev) {
     this.courseList = [];
@@ -452,6 +467,28 @@ getMaterCourseList() {
       }
     )
   }
+
+
+  fetchDataOnBatchBasis(event) {
+    if (this.userType != 3) {
+this.allUserList= false;
+      
+    }
+    if (this.sendNotification.batch_id == "-1") {
+      this.showTableFlag = false;
+    } else {
+      this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
+        res => {
+          this.showTableFlag = true;
+          this.studentList = res;
+        },
+        err => {
+          //console.log(err);
+        }
+      )
+    }
+  }
+
   chkBoxAllActiveStudent() {
     this.allChecked =true;
     this.showallUserListFlag = false;
@@ -473,10 +510,43 @@ getMaterCourseList() {
         )
        }
 
+
+
+       onMasterCourseChange(event) {
+        if (this.userType != 3) {
+          
+          this.allUserList = false;
+        }
+        this.flushData();
+        if(this.schoolModel) {
+          this.getCourseList(this.sendNotificationCourse.standard_id)
+        } else {
+        if (this.sendNotificationCourse.master_course != "-1") {
+          this.auth.showLoader();
+          this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
+            (res: any) => {
+              this.showTableFlag = false;
+              this.auth.hideLoader();
+              this.courseList = res.coursesList;
+            },
+            err => {
+              this.auth.hideLoader();
+              //console.log(err);
+            }
+          )
+        }
+        }
+      }
+    
+
+
+
+
+
   onMasterCourseSelection(event) {
-    // if (this.userType != 3) {
-    //   this.allUserList = false
-    // }
+    if (this.userType != 3) {
+      this.allUserList = false
+    }
     this.showTableFlag = false;
     this.sendNotification.subject_id = '-1';
     this.sendNotification.batch_id = '-1';
@@ -489,7 +559,10 @@ getMaterCourseList() {
   }
   }
   onCourseSelection(event) {
-   
+    if (this.userType != 3) {
+
+     this.allUserList = false
+    }
     this.batchList = [];
     this.sendNotification.batch_id = "-1";
     this.getMasterCourseAndBatch(this.sendNotification);
@@ -512,9 +585,17 @@ closeNewMessageDiv() {
   this.newMessageText = "";
   this.messageCount = 0;
   this.selectedMessageCount = 0;
-
+this.selectedRow ="";
   this.selectedMessageText =""
   this.jsonFlag.editMessage = false;
+  this.dilverSms = false;
+  this.showTableFlag = false
+  this.activeRowCeckbox = false;
+  this.facultyCheckBox=false;
+  this.aluminiCheckBox=false;
+  this.allUserCheck=false;
+  this.inactiveCheck=false;
+
 }
 
 
@@ -530,8 +611,8 @@ chkBoxAllFaculty() {
       res => {
         this.auth.hideLoader();
 
-          this.allFacultyList = res;
-          console.log("facultyyyyyyyyyyyy",this.allFacultyList)
+          this.studentList = res;
+          console.log("facultyyyyyyyyyyyy",this.studentList)
         
       },
       err => {
@@ -551,8 +632,8 @@ chkBoxAllFaculty() {
         this.widgetService.getAllInActiveList().subscribe(
           res => {
             this.auth.hideLoader();
-             this.allInactiveStudentList = res;
-            console.log("Inactiveeeeeeeeeee",this.allInactiveStudentList)
+             this.studentList = res;
+            console.log("Inactiveeeeeeeeeee",this.studentList)
           },
           err => {
             this.auth.hideLoader();
@@ -574,8 +655,8 @@ chkBoxAllFaculty() {
           res => {
             this.auth.hideLoader();
   
-              this.allAluminiList = res;
-              console.log("ALLLLUMINIIIIII",this.allAluminiList)
+              this.studentList = res;
+              console.log("ALLLLUMINIIIIII",this.studentList)
             
           },
           err => {
@@ -611,7 +692,7 @@ chkBoxAllFaculty() {
             this.auth.hideLoader();
             let response = res['body'];
   
-              this.allUserList = response.result;
+              this.studentList = response.result;
             
           },
           err => {
@@ -623,7 +704,7 @@ chkBoxAllFaculty() {
     }
   
     fetchDataFromFields() {
-      if (this.sendNotificationCourse.course_id != "-1") {
+      // if (this.sendNotificationCourse.course_id != "-1") {
         let obj:any = {
           course_id: this.sendNotificationCourse.course_id,
           master_course_name: this.sendNotificationCourse.master_course
@@ -634,10 +715,9 @@ chkBoxAllFaculty() {
           this.auth.showLoader();
         this.widgetService.getStudentListOfCourse(obj).subscribe(
           res => {
-            this.allChecked = true;
+            //this.allChecked = true;
             this.auth.hideLoader();
             this.showTableFlag = true;
-            //this.selectedOption = "filter";
             this.studentList = res;
             console.log("filterList",this.studentList)
           },
@@ -647,7 +727,9 @@ chkBoxAllFaculty() {
           }
         )
       }
-    }
+    //}
+
+
     getListOfUserIds(key) {
       let id: any = [];
       for (let t = 0; t < this.studentList.length; t++) {
@@ -660,9 +742,9 @@ chkBoxAllFaculty() {
   
     getListOfIds(key) {
       let id: any = [];
-      for (let t = 0; t < this.studentList.length; t++) {
-        if (this.studentList[t].assigned == true) {
-          id.push(this.studentList[t][key]);
+      for (let i = 0; i < this.studentList.length; i++) {
+        if (this.studentList[i].assigned == true) {
+          id.push(this.studentList[i][key]);
         }
       }
       return id.join(',');
@@ -670,6 +752,7 @@ chkBoxAllFaculty() {
   
 
     sendSmsForApp(value, delivery_mode) {
+      
       let type = delivery_mode == 0 ? 'SMS' : 'Email';
       let msg = "Are you sure you want to send " + type + ' to selected users';
       if (confirm(msg)) {
@@ -799,6 +882,8 @@ chkBoxAllFaculty() {
           };
           this.appC.popToast(msg);
           //this.closeNotificationPopUp();
+          this.closeNewMessageDiv()
+
         },
         err => {
           //console.log(err);
@@ -1049,7 +1134,19 @@ chkBoxAllFaculty() {
       this.previowBox = false;
     }
 
-
+  selectedId = new Array<string>();
+studentCheckboxSelection(e:any,student_disp_id:string){
+console.log(student_disp_id)
+  if(e.target.checked){
+    console.log(student_disp_id +'checked');
+    this.selectedId.push(student_disp_id)
+  }
+else{
+  console.log(student_disp_id +'unchecked');
+  this.selectedId = this.selectedId.filter(m=>m!=student_disp_id)
+}
+console.log(this.selectedId)
+}
 onClickAddselectDiv(){
   this.addSmsForm =true;
   this.selectStudentForm =false;
@@ -1084,6 +1181,7 @@ checkCheckAllChkboxStatus() {
   }
   return true;
 }
+
 checkAllChechboxes(event, data) {
   data.forEach(
     element => {

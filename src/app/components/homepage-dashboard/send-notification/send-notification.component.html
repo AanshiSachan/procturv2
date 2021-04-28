@@ -34,11 +34,11 @@
       <div class="wid70">
         <div class=" display">
          <div>
-          <span class="active_but mr10" (click)="penddingTab()" id="pendding">Pending</span>
+          <span class="mr10" [ngClass]="pendingMessage ? 'active_but' : 'inactive_but'" (click)="penddingTab()" id="pendding">Pending</span>
 
             <!-- <span class="active_but mr10" (click)="onTabChange('open')" id="openSMSTab">Pending</span> -->
           <!-- <span class="inactive_but" (click)="onTabChange('approved')" id="approvedSMSTab">Approved</span> -->
-           <span class="inactive_but" (click)="approveTab()" id="approved">Approved</span>
+           <span [ngClass]="approveMessage ? 'active_but' : 'inactive_but'"  (click)="approveTab()" id="approved">Approved</span>
 
          </div>
          <div>
@@ -284,11 +284,46 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
     
     <div class="flex">
       <div class="wid701" >
-       <div class="box1">
-         <div>
+       <div class="box1" >
+      <div *ngIf="!isProfessional">
+            <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+            <label for="masterCourse">{{schoolModel? 'Standard' : 'Master Course'}}</label>
+             <select *ngIf="!schoolModel" class="select mr10 wid160" [(ngModel)]="sendNotificationCourse.master_course" (ngModelChange)="onMasterCourseSelection($event)" name="masterCourse">
+              <option value="-1">Master Course</option>
+              <option [value]="course.master_course" *ngFor="let course of masterCourseList">{{course.master_course}}</option>
+             </select>
+             <select *ngIf="schoolModel" class="select mr10 wid160"
+              [(ngModel)]="sendNotificationCourse.standard_id"
+              (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
+              <option value=""></option>
+              <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                  {{opt.masterCourse}}
+              </option>
+             </select>
+         </div>
+          <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+            <label for="course">{{schoolModel? 'Section' : 'Course'}}</label>
+            <select class="select mr10 wid160" [(ngModel)]="sendNotification.subject_id" name="course" (ngModelChange)="($event)">
+              <option value="-1"></option>
+              <option [value]="item.course_id" *ngFor="let item of courseList">{{item.course_name}}</option>
+ 
+            </select>
+
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3">
+          <button class="blue_button" style="margin-top: 21px;" (click)="fetchDataFromFields()">Go</button>&nbsp;
+          </div>
+          
+          <input type="text" name="" class="right input magnifying-glass" style="margin-left: 560px;" [(ngModel)]="searchData" placeholder="Search">
+
+
+        </div>
+        
+
+         <div *ngIf="isProfessional">
            <select class="select mr10 wid160" [(ngModel)]="sendNotification.standard_id" (ngModelChange)="onMasterCourseSelection($event)" name="masterCourse">
              <option value="-1">Master Course</option>
-             <option [value]="course.standard_id" *ngFor="let course of masterCourseList">{{course.master_course}}</option>
+             <option [value]="course.standard_id" *ngFor="let course of masterCourseList">{{course.standard_name}}</option>
 
            </select>
            <select class="select mr10 wid160" [(ngModel)]="sendNotification.subject_id" name="course"  (ngModelChange)="onCourseSelection($event)">
@@ -296,7 +331,17 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
              <option [value]="item.subject_id" *ngFor="let item of courseList">{{item.subject_name}}</option>
 
            </select>
-           <button class="blue_button" (click)="fetchDataFromFields()">Go</button>
+
+
+
+           <select class="select mr10 wid160" [(ngModel)]="sendNotification.batch_id" name="batch" (ngModelChange)="fetchDataOnBatchBasis($event)">
+            <option value="-1">Batch</option>
+            <option *ngFor="let opt of batchList" [value]="opt.batch_id">{{opt.batch_name}}</option>
+
+           </select>
+
+
+           <!-- <button class="blue_button" (click)="fetchDataFromFields()">Go</button> -->
            <input type="text" name="" class="right input magnifying-glass" [(ngModel)]="searchData" placeholder="Search">
          </div>
          <div class="flex">
@@ -307,31 +352,31 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
          <div class="display person" >
            <div>
             <div class="field-radio-wrapper">
-               <input type="radio" name="same1" id="option1" class="form-radio" (click)="chkBoxAllActiveStudent()">
+               <input type="radio" name="activeRowCeckbox" id="option1" class="form-radio" [(ngModel)]="activeRowCeckbox"  (click)="chkBoxAllActiveStudent()">
               <label>Active Students</label>
               </div> 
             </div>
             <div>
               <div class="field-radio-wrapper">
-              <input type="radio" name="same1" id="option2" class="form-radio" (click)="chkBoxAllFaculty()">
+              <input type="radio" name="facultyCheckBox" id="option2" class="form-radio" [(ngModel)]="facultyCheckBox" (click)="chkBoxAllFaculty()">
               <label> Faculty</label>
               </div>
             </div>
             <div>
               <div class="field-radio-wrapper">
-              <input type="radio" name="same1" id="option3" class="form-radio" (click)="chkBoxAllInActiveStudent()">
+              <input type="radio" name="inactiveCheck" id="option3" class="form-radio" [(ngModel)]="inactiveCheck" (click)="chkBoxAllInActiveStudent()">
               <label>Inactive Students</label> 
               </div>
             </div>
             <div>
               <div class="field-radio-wrapper">
-              <input type="radio" name="same1" id="option4" class="form-radio" (click)="chkBoxAllAluminiStudent()">
+              <input type="radio" name="aluminiCheckBox" id="option4" class="form-radio" [(ngModel)]="aluminiCheckBox" (click)="chkBoxAllAluminiStudent()">
               <label> Allumni Students</label>
               </div>
             </div>
             <div>
               <div class="field-radio-wrapper">
-             <input type="radio" name="same1" id="option5" class="form-radio" (click)="chkBoxAllUsers()">
+             <input type="radio" name="allUserCheck" id="option5" class="form-radio" [(ngModel)]="allUserCheck" (click)="chkBoxAllUsers()">
              <label>Registered Users</label> 
              </div>
             </div>
@@ -342,7 +387,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
           <div>
             <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked">
+                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -370,7 +415,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
                     <input type="checkbox"
-                    [(ngModel)]="allRowCheck">
+                     [(ngModel)]="row.assigned">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -399,16 +444,16 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
 
           </div>
+          <div *ngIf="studentList.length == 0">NO Student Found</div>
 
        </div>
-       <div *ngIf="studentList.length == 0">NO Student Found</div>
 
         <div id="myH2" *ngIf="showFacultyTableFlag">
          <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked" >
+                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)" >
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -427,11 +472,11 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
             <div> Is Active</div>
           </div>
-          <div class="table_body" *ngFor="let faculty of (allFacultyList | searchPipe:searchData);let i=index;">
+          <div class="table_body" *ngFor="let faculty of (studentList | searchPipe:searchData);let i=index;">
             <div>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked">
+                    <input type="checkbox" name="checked"  [(ngModel)]="faculty.assigned">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -454,14 +499,14 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div title="{{faculty.is_active}}"> {{faculty.is_active}}
             </div>
           </div>
-        <div *ngIf="allFacultyList.length == 0">No Faculty Found</div>
+        <div *ngIf="studentList.length == 0">No Faculty Found</div>
        </div>
         <div id="myH3" *ngIf="showInactiveStudentFlag"> 
         <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked" >
+                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)" >
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -484,11 +529,11 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
             <div>Email</div>
           </div>
-          <div class="table_body" *ngFor="let inactive of (allInactiveStudentList | searchPipe:searchData); let i=index;">
+          <div class="table_body" *ngFor="let inactive of (studentList | searchPipe:searchData); let i=index;">
             <div>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked">
+                    <input type="checkbox" name="checked" [(ngModel)]="inactive.assigned">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -514,7 +559,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div title="{{inactive.student_email}}">
               {{(!inactive.student_email) ? '-' : (inactive.student_email.length > 20) ? (inactive.student_email | slice :0:20) + '...' : inactive.student_email}}
             </div>
-            <div *ngIf="allInactiveStudentList.length == 0">No Student Found</div>
+            <div *ngIf="studentList.length == 0">No Student Found</div>
           </div>
        </div>
      <div id="myH4" *ngIf="showAllaluminiStudentFlag">
@@ -522,7 +567,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
           <div>
             <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked">
+                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -545,11 +590,11 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
             <div>Email</div>
           </div>
-          <div class="table_body" *ngFor="let alumini of (allAluminiList | searchPipe:searchData);let i = index;">
+          <div class="table_body" *ngFor="let alumini of (studentList | searchPipe:searchData);let i = index;">
             <div>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked">
+                    <input type="checkbox" name="checked" [(ngModel)]="alumini.assigned">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -577,14 +622,14 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               {{(!alumini.student_email) ? '-':(alumini.student_email.length > 10) ?(alumini.student_email | slice :0:20) + '...' : alumini.student_email}}
             </div>
           </div>
-          <div *ngIf="allAluminiList.length == 0">No Alumini Found</div>
+          <div *ngIf="studentList.length == 0">No Alumini Found</div>
        </div>
         <div id="myH5" *ngIf="showallUserListFlag">
          <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked">
+                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -607,11 +652,11 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
             <div>Email</div>
           </div>
-          <div class="table_body" *ngFor="let user of (allUserList | searchPipe:searchData);let i=index;">
+          <div class="table_body" *ngFor="let user of (studentList | searchPipe:searchData);let i=index;">
             <div>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="allChecked">
+                    <input type="checkbox" name="checked" [(ngModel)]="user.assigned">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -639,7 +684,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
 
             </div>
           </div>
-          <div *ngIf="allUserList.length == 0">No Student Found</div>
+          <div *ngIf="studentList.length == 0">No Student Found</div>
        </div>
         <!-- <div class="msg1 pending_tab">
           <div class="table_heading">
@@ -799,8 +844,10 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                     style=" background: #fff; border: 2px solid #77777770; width: 200%; padding: 8px 5px;"
                     id="divSubjectMessage" />
             </div>
-
+            
         </div>
+        <button class="white_button" *ngIf="dilverEmail"
+            (click)="previewMessage()">Preview</button>
 <!-- =====================================end===================================== -->
 
             <div class="display space1" *ngIf="!dilverEmail">
@@ -808,6 +855,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <div>
                 <button class="white_button mr10" (click)="sendNotificationMessage()">Send</button>
                 <button class="white_button" (click)="sendPushNotification()">Send Push Notification</button>
+                
               </div>
             </div>
          </div>
