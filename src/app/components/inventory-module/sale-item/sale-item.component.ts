@@ -25,6 +25,7 @@ export class SaleItemComponent implements OnInit {
   displayBatchSize: number = 25;
   staticPageData: any = [];
   staticPageDataSouece: any = [];
+  sortingDir: string = "asc";
   institution_id;
   saleAllData = [];
   @ViewChild('addform', { static: false }) addform: NgForm;
@@ -414,4 +415,38 @@ exportToExcel(){
   );
   this.auth.hideLoader();
 }
+// sortTable(str) {
+//   if (str == "reference_number") {
+//     this.staticPageData.sort(function (a, b) {
+//       var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+//       var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+//       if (nameA < nameB) {
+//         return -1;
+//       }
+//       if (nameA > nameB) {
+//         return 1;
+//       }
+//       // names must be equal
+//       return 0;
+
+//     })
+//   }
+//   else if (str == "total_amount" ||str == "total_paid_amount" ||str == "balanced_amount") {
+//     this.staticPageData.sort(function (a, b) {
+//       return a[str] - b[str];
+//     })
+//   }
+//   else if (str == "sale_date") {
+//     this.staticPageData.sort(function (a, b) {
+//       return moment(a[str]).unix() - moment(b[str]).unix();
+//     })
+//   }
+//   if (this.sortingDir == "asc") {
+//     this.sortingDir = "dec";
+//   } else {
+//     this.sortingDir = "asc";
+//     this.staticPageData = this.staticPageData.reverse();
+//   }
+//   this.fetchTableDataByPage(this.pageIndex);
+// }
 }

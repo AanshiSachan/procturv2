@@ -86,7 +86,7 @@
                       <a  *ngIf="data.total_amount !=data.balanced_amount"  (click)="cancelData(data.sale_id)">Cancel</a>
                       <hr>
                       <a (click)="showAddPaymentModel(data)" *ngIf="data.balanced_amount!=0">Add Payment</a>
-                      <hr>
+                        <hr>
                       <a  (click)="getPaymentHistory(data.sale_id)">View Payment History</a>
                     
                     </div>
@@ -94,14 +94,12 @@
                 </div>
               </div>
             </div>
-    
-        </div>
+       </div>
       </div>
-      <br>
       <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
-                [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
-                [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
-            </pagination> 
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+      [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+  </pagination> 
      <!-- <div class="white bottom_button bottom_pagignation">
      
         <div class=" flex w98">
