@@ -312,7 +312,7 @@ approveRejectSms(data, statusCode) {
         }
         this.appC.popToast(msg);
         this.getOpenStatusSMS();
-        //this.getAllMessageFromServer();
+        this.getAllMessageFromServer();
 
       },
       err => {
@@ -595,6 +595,9 @@ this.selectedRow ="";
   this.aluminiCheckBox=false;
   this.allUserCheck=false;
   this.inactiveCheck=false;
+  this.batchList=[];
+  this.masterCourseList=[];
+  this.courseList=[];
 
 }
 
