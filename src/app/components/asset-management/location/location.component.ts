@@ -7,6 +7,8 @@ import { Location } from './location';
 import { NgForm } from '@angular/forms';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
+import  CommonUtils   from '../../../utils/commonUtils';
+import { AppComponent } from '../../../app.component';
 //import { $ } from 'protractor';
 declare var $;
 
@@ -46,7 +48,8 @@ export class LocationComponent implements OnInit {
     private msgService: MessageShowService,
     private currentRout: ActivatedRoute,
     private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private toastCtrl: AppComponent,) { }
 
   ngOnInit(): void {
     this.getLocationDetails();
@@ -342,4 +345,5 @@ export class LocationComponent implements OnInit {
     );
     this.auth.hideLoader();
   }
+  
 }
