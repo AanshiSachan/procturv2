@@ -1405,6 +1405,7 @@ mouseleave() {
     sessionStorage.setItem('enable_vdoCipher_feature', res.enable_vdoCipher_feature);
     sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
     sessionStorage.setItem('enable_client_website', res.enable_client_website);
+    sessionStorage.setItem('is_fee_struct_linked', res.is_fee_struct_linked);
 
   }
 
