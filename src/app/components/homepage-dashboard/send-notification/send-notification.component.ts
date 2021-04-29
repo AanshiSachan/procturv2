@@ -186,10 +186,17 @@ getAllMessageFromServer() {
   }
   this.widgetService.getMessageList(obj).subscribe(
     res => {
+  
       console.log("Response", res);
-      this.messageList = res;
-     
       this.auth.hideLoader();
+
+      tempMessageList = res;
+      for(let i =0; i< tempMessageList.length; i++){
+         if(tempMessageList[i].status === 0){
+           this.messageList.push(tempMessageList[i]);
+         }
+      }
+     
     },
     err => {
       this.auth.hideLoader();
