@@ -1281,7 +1281,7 @@
                 Name</span><span class="value">Zoom Recording Account</span></p>
           </div>
           <div class="col-lg-3 image-container">
-            <!-- <img src="../../../../assets/images/Group240.svg" class="img_doc"> -->
+            <img (click)="copyToClipboard(viewClassData)" *ngIf="(!liveClassFor && !timeLeft(today, viewClassData.startDateTime)) && viewClassData.live_meeting_with == 'Zoom'" style="cursor: pointer;" src="../../../../assets/images/Group240.svg" class="img_doc">
           </div>
         </div>
         <div class="div-border"></div>
