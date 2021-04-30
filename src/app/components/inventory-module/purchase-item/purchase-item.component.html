@@ -27,14 +27,7 @@
             </div>
             <div class="purchase">
                 <div class="table_heading" >
-                <!-- <div>
-                Category<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
-                </div>
-                <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div>
-                <div>
-                Units Purchased<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
-                </div> -->
-                <div>File</div>
+                <div>#</div>
                 <div>Reference No. </div>
                 <div>Supplier</div>
                 <div>Date</div>
@@ -44,18 +37,11 @@
                 <div>Actions</div>
                 </div>
                 <div class="table_body" *ngFor="let data of staticPageData;index as i">
+            
                 <!-- <div>
-                {{data.category_name}}
-                </div>
-                <div>
-                 {{data.item_name}}
-                </div>
-                <div>
-               {{data.quantity}}
-                </div> -->
-                <div>
                   <a href="{{data.bill_image_url}}" target="_blank" download><img src="{{data.bill_image_url}}" width="40" height="40"/></a>
-              </div>
+              </div> -->
+              <div>{{i +1}}</div>
                 <div>
                   {{data.reference_number}}
                    </div>
@@ -96,7 +82,7 @@
         
             </div>
         </div>
-              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"(goPrev)="fetchPrevious()"
     [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
     [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
 </pagination> 

@@ -21,6 +21,7 @@ export class SaleAddComponent implements OnInit {
   roleAllData = [];
   sale_type;
   editId;
+  isStudent=false;
   isedit = false;
   isChange: boolean = false;
   isDisable = false;
@@ -80,15 +81,39 @@ export class SaleAddComponent implements OnInit {
   }
   userALLdata = [];
   getUserAgainstRole(role_id) {
-    this.httpService.getData('/api/v1/inventory/sale/' + this.institution_id + '/getUserByRole?roleIds=' + role_id).subscribe(
-      (res: any) => {
-        this.userALLdata = res.result;
-
-      },
-      err => {
-        this.auth.hideLoader();
+    if(role_id==0){
+      let obj:any={
+        page_no:0,
+        user_Type:"1",
+        page_offset:"10",
+        master_course_name:"",
+        course_id:0
       }
-    );
+      this.auth.showLoader()
+      this.httpService.postData('/api/v1/profiles/all/' + this.institution_id + '?active=Y',obj).subscribe(
+        (res: any) => {
+          this.userALLdata = res;
+          this.auth.hideLoader();
+          
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
+    }
+    else{
+     
+      this.httpService.getData('/api/v1/inventory/sale/' + this.institution_id + '/getUserByRole?roleIds=' + role_id).subscribe(
+        (res: any) => {
+          this.userALLdata = res.result;
+  
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
+    }
+ 
   }
   validateFutureDate() {
    let today = moment(new Date);
@@ -215,9 +240,9 @@ if(this.itemData.length ==0){
         let obj = {
           sale_type: this.itemData[i].sale_type,
           item_id: this.itemData[i].item_id,
-          "quantity": this.itemData[i].available_units,
-          "unit_price": this.itemData[i].unit_cost,
-          "tax": this.itemData[i].tax_percent
+          quantity: this.itemData[i].available_units,
+          unit_price: this.itemData[i].unit_cost,
+          tax: this.itemData[i].tax_percent
         }
         this.model.sale_item_list.push(obj)
       }

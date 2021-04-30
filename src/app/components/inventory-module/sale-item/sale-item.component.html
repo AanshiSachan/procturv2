@@ -27,7 +27,7 @@
         </div>
         <div class="sale">
             <div class="table_heading">
-              <div>File</div>
+              <div>#</div>
               <div>
                Reference No.
               </div>
@@ -44,9 +44,10 @@
               <div>Balance &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
               <div>Actions</div>
             </div>
-            <div class="table_body" *ngFor="let data of staticPageData ">
-              <div><a href="{{data.bill_image_url}}" target="_blank" download>
-                <img src="{{data.bill_image_url}}" height="40"width="40"></a></div>
+            <div class="table_body" *ngFor="let data of staticPageData;index as i ">
+              <div>{{i + 1}}</div>
+              <!-- <div><a href="{{data.bill_image_url}}" target="_blank" download>
+                <img src="{{data.bill_image_url}}" height="40"width="40"></a></div> -->
               <div>
            {{data.reference_number | replacenull}}
               </div>
