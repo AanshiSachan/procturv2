@@ -661,10 +661,10 @@ export class EditClassComponent implements OnInit {
     let temp: any[] = [];
     for (var i = 0; i < userIDs.length; i++) {
       let x = {
-        user_id: '',
+        user_id: 0,
         name: ''
       };
-      x.user_id = userIDs[i];
+      x.user_id = Number(userIDs[i]);
       x.name = userName[i];
       temp.push(x)
     }
