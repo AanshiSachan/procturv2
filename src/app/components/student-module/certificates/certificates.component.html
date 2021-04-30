@@ -1,4 +1,4 @@
-<div class="page-content">
+<div class="page-content" *ngIf="transferCertificates">
     <div class="head_padding">
        <div class="w98">
          <div class="page_heading">
@@ -268,280 +268,310 @@
     </div> 
     <!-- =================================start Transfer Certificate======================================== -->
     <div *ngIf="transfer" class="body_div">
-
-  
-    <div class="w96 flex ">
-      <div style="width: 30%">
-        <img src="assets/img/logo.png" style="height: auto;width: 90%;">
-      </div>
-      <div style="width: 70%" >
-           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
-           <div>
-           <span class="sm_heading"><b>Phone:</b>000000000</span>
-            <span class="sm_heading"><b>Email:</b>schoolname@hmail.com</span>
-            </div>
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>DEMO</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <meta charset="utf-8"> 
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+          <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+          <link rel="stylesheet" type="text/css" href="style1.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+      </head>
+      <body>
+      
+        <div class="gradient">
+          <div>
+            <div></div>
             <div>
-           <span class="sm_heading"><b>Address</b> S No. 2/1/5 Archway, Office 101-102, Baner - Balewadi Rd, Pune, Maharashtra 411045</span>
+             <a href=""  class="mr20"> <img src="../../../../assets/images/print.svg"></a>
+             <a href=""  class="mr20"> <img src="../../../../assets/images/download.svg"></a>
+             <a routerLink='/view/students'  class="mr20"> <img src="../../../../assets/images/close.svg"></a>
             </div>
+          </div>
+        </div>
+          <br>
+        <div class="body">
+          
+          <div class="w96 flex">
+            <div style="width: 30%">
+              <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+            </div>
+            <div style="width: 70%" >
+                 <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+                 <div>
+                 <span class="sm_heading"><b>Phone:</b>000000000</span>
+                  <span class="sm_heading"><b>Email:</b>schoolname@hmail.com</span>
+                  </div>
+                  <div>
+                 <span class="sm_heading"><b>Address</b> S No. 2/1/5 Archway, Office 101-102, Baner - Balewadi Rd, Pune, Maharashtra 411045</span>
+                  </div>
+            </div>
+          </div>
+          <div class="w96 ballet">
+              Leaving Certificate
+          </div>
+          <div class="display space">
+            <div >
+              <span class="name"> Affiliation No.</span>
+               <span class="value"> 3233233</span>
+            </div>
+            <div >
+             <span class="name"> Addmission No.</span>
+               <span class="value"> 3233233</span>
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              <span class="name"> School Code.</span>
+               <span class="value"> 3233233</span>
+            </div>
+            <div >
+             <span class="name"> Book No.</span>
+               <span class="value"> 3233233</span>
+            </div>
+          </div>
+          <br>
+          <div class="display space">
+            <div >
+              1. Name Of pupil
+            </div>
+            <div class="value1">
+              Vishakha Lalit Badiye
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              2. Father's / Guardian's Name
+      
+            </div>
+            <div class="value1">
+              Lalit Badiye
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              3. Mother's Name
+      
+            </div>
+            <div class="value1">
+              Vandana Badiye
+            </div>
+          </div>
+          
+          <div class="display space">
+            <div >
+              4. Date of Birth
+      
+            </div>
+            <div class="value1">
+              
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+             5. Nationality
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+             6. Whether belongs to SC/ST/OBC
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              7. Date of Admission in School with Class
+            </div>
+            <div class="value1">
+              20-09-2001
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              8. Class in which the pupil last studied
+            </div>
+            <div class="value1">
+              X
+          </div>
+        </div>
+          <div class="display space">
+            <div >
+              9. School/Board Annual Examination last taken with result
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              10. Whether failed, if so once/twice in same class
+      
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              11. Subject Studied
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              12. Whether qualified for promotion to higher class if so, to which class
+      
+            </div>
+            <div class="value1">
+              
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              13. Month upto which the pupil has paid school dues
+      
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              14. Any fee concession availed If so, the nature of such concessions
+      
+      
+            </div>
+            <div class="value1">
+              
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              15. Total No. of working days in academic session
+            </div>
+            <div class="value1">
+              
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              16. Total No. of working days pupil present
+      
+            </div>
+            <div class="value1">
+              
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              17. Whether NCC cadet/Boy Scout/Girl Guide (details may be given)
+      
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          
+          <div class="display space">
+            <div >
+             18. General Conduct / Character
+      
+      
+            </div>
+            <div class="value1">
+              
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+             19. Date on which Pupil left the school
+      
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+             20. Date of application for certificate
+      
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              21. Date of Issue of certificate
+      
+            </div>
+            <div class="value1">
+              20-09-2001
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              22. Reason for leaving the school
+      
+            </div>
+            <div class="value1">
+              
+          </div>
+        </div>
+          <div class="display space">
+            <div >
+              23.Any other remark
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div>
+          <br>
+         <div class="display prepared">
+           <div >
+             <span>Prepared By:</span>
+           </div>
+           <div >
+             <span>Principal: V. K. Bajaj</span>
+           </div>
+         </div>
+         <div class="line"></div>
+         <div class="bottom display">
+           <div>
+             
+           </div>
+           <div>
+             Pricipal Stamp
+           </div>
+         </div>
+        </div>
+      </body>
+      </html>
       </div>
-    </div>
-    <div class="w96 ballet1">
-        Leaving Certificate
-    </div>
-    <div class="display space">
-      <div >
-        <span class="name"> Affiliation No.</span>
-         <span class="value"> 3233233</span>
-      </div>
-      <div >
-       <span class="name"> Addmission No.</span>
-         <span class="value"> 3233233</span>
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        <span class="name"> School Code.</span>
-         <span class="value"> 3233233</span>
-      </div>
-      <div >
-       <span class="name"> Book No.</span>
-         <span class="value"> 3233233</span>
-      </div>
-    </div>
-    <br>
-    <div class="display space">
-      <div >
-        1. Name Of pupil
-      </div>
-      <div class="value1">
-        Vishakha Lalit Badiye
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        2. Father's / Guardian's Name
-
-      </div>
-      <div class="value1">
-        Lalit Badiye
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        3. Mother's Name
-
-      </div>
-      <div class="value1">
-        Vandana Badiye
-      </div>
-    </div>
-    
-    <div class="display space">
-      <div >
-        4. Date of Birth
-
-      </div>
-      <div class="value1">
-        
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-       5. Nationality
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-       6. Whether belongs to SC/ST/OBC
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        7. Date of Admission in School with Class
-      </div>
-      <div class="value1">
-        20-09-2001
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        8. Class in which the pupil last studied
-      </div>
-      <div class="value1">
-        X
-    </div>
-  </div>
-    <div class="display space">
-      <div >
-        9. School/Board Annual Examination last taken with result
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        10. Whether failed, if so once/twice in same class
-
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        11. Subject Studied
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        12. Whether qualified for promotion to higher class if so, to which class
-
-      </div>
-      <div class="value1">
-        
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        13. Month upto which the pupil has paid school dues
-
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        14. Any fee concession availed If so, the nature of such concessions
-
-
-      </div>
-      <div class="value1">
-        
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        15. Total No. of working days in academic session
-      </div>
-      <div class="value1">
-        
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        16. Total No. of working days pupil present
-
-      </div>
-      <div class="value1">
-        
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        17. Whether NCC cadet/Boy Scout/Girl Guide (details may be given)
-
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    
-    <div class="display space">
-      <div >
-       18. General Conduct / Character
-
-
-      </div>
-      <div class="value1">
-        
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-       19. Date on which Pupil left the school
-
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-       20. Date of application for certificate
-
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        21. Date of Issue of certificate
-
-      </div>
-      <div class="value1">
-        20-09-2001
-      </div>
-    </div>
-    <div class="display space">
-      <div >
-        22. Reason for leaving the school
-
-      </div>
-      <div class="value1">
-        
-    </div>
-  </div>
-    <div class="display space">
-      <div >
-        23.Any other remark
-
-      </div>
-      <div class="value1">
-       
-      </div>
-    </div>
-    <br>
-   <div class="display prepared">
-     <div >
-       <span>Prepared By:</span>
-     </div>
-     <div >
-       <span>Principal: V. K. Bajaj</span>
-     </div>
-   </div>
-   <div class="line"></div>
-   <div class="bottom display">
-     <div>
-       
-     </div>
-     <div>
-       Pricipal Stamp
-     </div>
-   </div>
-
-    </div>
-
     <!-- ==============================================start bonafied certificate================================= -->
  <div *ngIf="bonafied">
 

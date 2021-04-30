@@ -13,10 +13,12 @@ transfer :boolean=false
 bonafied:boolean=false
 migration:boolean=false
 character:boolean=false
+transferCertificates:boolean=true
 
   ngOnInit(): void {
   }
 transferCertificate(){
+  this.transferCertificates = false
   this.transfer=true;
 }
 Back(){

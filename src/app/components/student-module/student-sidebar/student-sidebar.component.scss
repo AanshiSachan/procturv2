@@ -503,3 +503,128 @@
   .modal-backdrop.in,.modal-backdrop {
     display: none !important;
 }
+// ================================================certificate-popups===================================
+.modal-header h4{
+    text-align: center;
+     font-weight: 500;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 0.01em;
+    padding-left: 31%;
+    color: #2B2626;
+
+  }
+     
+      .center{
+        background: #FFFFFF;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      text-align: center;
+      margin: 10px;
+      padding-top: 10px;
+      height: 81px;
+      }
+       .center>p{
+        font-weight: 400;
+font-size: 11px;
+line-height: 15px;
+text-align: center;
+letter-spacing: 0.01em;
+padding-top: 10px;
+color: #373434;
+       }
+       .center:hover{
+        background: #F3FBFF;
+        cursor: pointer;
+       }
+       .center:hover>p{
+        font-weight: 600;
+font-size: 11px;
+line-height: 15px;
+text-align: center;
+letter-spacing: 0.01em;
+color: #5AA3CF;
+
+       }
+       .header{
+        // background: url(../../../../assets/images/header_img);
+        // background-repeat: no-repeat;
+        // background-size: contain;
+        // background-position: left;
+       }
+@media (min-width: 576px)
+{
+.modal-dialog {
+  max-width: 400px;
+
+}
+}
+.modal-dialog {
+  width: 400px;
+
+}
+// ==========================conduct-certificate=====================
+*{
+	margin: 0px;
+	color: #403e40;
+	font-size: 15px;
+	text-transform: uppercase;
+}
+.gradient{
+	background: linear-gradient(90deg, #04498A 19.01%, #52C8E6 94.66%);
+}
+.gradient>div{
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	margin: 0px auto;
+	padding: 20px 0px;
+}
+
+.mr20{
+	margin-right: 20px;
+}
+.body {
+	width: 1000px;
+	border: 2px solid #403e40!important;
+	height: 700px;
+	border-radius: 5px;
+		margin: auto;
+        margin-left: 88px;
+}
+
+.w96{
+	width:96%; 
+	margin: 0px auto;
+}
+.flex{
+	display: flex;
+}
+
+.sm_heading{
+	padding-right: 15px;
+}
+.ballet{
+	font-family: 'Alex Brush', cursive;
+	font-weight: 900;
+	font-size: 60px;
+	text-transform: capitalize;
+	text-align: center;
+	margin-top:40px ;
+}
+.display{
+	display: flex;
+	justify-content: space-between;
+}
+
+.content{
+	margin: 60px 20px 20px 20px;
+	
+}
+.space{
+margin: 10px 20px;
+}
+.dated{
+	margin-bottom: 100px;
+}
+// =====================end===========================================

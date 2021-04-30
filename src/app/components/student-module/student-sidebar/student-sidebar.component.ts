@@ -50,6 +50,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   allowEdit = false;
   role_feature = role.features;
   studentReport: boolean = false;
+  conductCertificateFlag:boolean = false;
 
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
@@ -318,5 +319,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     // return false
   }
 
-
+OnConductCertificate(){
+this.conductCertificateFlag = true;
+}
 }
