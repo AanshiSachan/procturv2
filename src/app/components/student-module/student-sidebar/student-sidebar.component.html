@@ -267,13 +267,13 @@
            <div class="col-6 ">
               <div class="center">
                  <img src="../../../../assets/images/transfer.png"><br>
-                 <a routerLink ='/view/students/certificates'>Transfer Certificate</a>
+                 <a (click)="generateCertificate()">Transfer Certificate</a>
                    <!-- Transfer Certificate -->
                 
               </div>
             
            </div>
-           <div class="col-6 ">
+           <div class="col-6 " *ngIf="studentDetails.student_sex == 'M'">
              <div class="center">
                  <img src="../../../../assets/images/conduct.png"><br>
                <p data-toggle="modal" data-target="#conductCertificate">
@@ -282,24 +282,58 @@
               
             </div>
            </div>
+           <!-- ====================female======== -->
+           <div class="col-6 " *ngIf="studentDetails.student_sex == 'F'">
+            <div class="center">
+                <img src="../../../../assets/images/conduct.png"><br>
+              <p data-toggle="modal" data-target="#conductCertificateF">
+                Conduct<br>/ Character Certificate
+              </p>
+             </div>
+          </div>
+           <!-- ===============end============== -->
          </div>
          <div class="row no-gutters">
-           <div class="col-6 ">
+           <div class="col-6 " *ngIf="studentDetails.student_sex == 'M'">
              <div class="center">
-                 <img src="../../../../assets/images/bonafide.png">
-               <p data-target="modal" data-target="#bonafiedCertificate">
-                Bonafide Certificate
-               </p>
+         
+                <img src="../../../../assets/images/bonafide.png"><br>
+                <p data-toggle="modal" data-target="#bonafiedCertificate">
+                 Bonafide Certificate
+                </p>
+           
             </div>
            </div>
-           <div class="col-6 ">
+           <!-- =================female-bonafied========= -->
+           <div class="col-6 " *ngIf="studentDetails.student_sex == 'F'">
+            <div class="center">
+        
+               <img src="../../../../assets/images/bonafide.png"><br>
+               <p data-toggle="modal" data-target="#bonafiedCertificateF">
+                Bonafide Certificate
+               </p>
+          
+           </div>
+          </div>
+           <!-- =======================end================== -->
+           <div class="col-6 " *ngIf="studentDetails.student_sex == 'M'">
              <div class="center">
                  <img src="../../../../assets/images/migration.png">
-               <p>
+               <p data-toggle="modal" data-target="#migrationCertificate">
                  Migration Certificate
                </p>
             </div>
            </div>
+           <!-- ===================migration-female============ -->
+           <div class="col-6 " *ngIf="studentDetails.student_sex == 'F'">
+            <div class="center">
+                <img src="../../../../assets/images/migration.png">
+              <p data-toggle="modal" data-target="#migrationCertificateF">
+                Migration Certificate
+              </p>
+           </div>
+          </div>
+           <!-- ============end================== -->
          </div>
         </div>
       </div>
@@ -313,7 +347,7 @@
   </html>
   <!-- =========================================character-certificates-male====================================== -->
 
-<div  class="modal" style="margin-left: 170px;width:1290px ;" id="conductCertificate"> 
+<div  class="modal" style="margin-left: 181px;width:1290px ;" id="conductCertificate"> 
   <!DOCTYPE html >
 <html>
 <head>
@@ -335,9 +369,9 @@
     <div>
       <div></div>
       <div>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/print.svg"></a>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/download.svg"></a>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/close.svg"></a>
+       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
+       <a class="mr20" (click)="getCharacterCertificate()" > <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
@@ -350,11 +384,11 @@
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:</b>000000000</span>
-            <span class="sm_heading"><b>Email:</b>schoolname@hmail.com</span>
+           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address</b> S No. 2/1/5 Archway, Office 101-102, Baner - Balewadi Rd, Pune, Maharashtra 411045</span>
+           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
             </div>
       </div>
     </div>
@@ -363,7 +397,7 @@
     </div>
     <div>
      <p class="content">
-       This is to certify that <b>"Student Name" s/o "Father Name" & "Mother Name"</b>, was a bonafied student of since<b> "DD-MM-YYYY" (Date of joining)</b> to till date.
+       This is to certify that <b>"{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b>, was a bonafied student of since<b> "{{studentDetails.doj}}"</b> to till date.
 We found him to be well behaved & bears a good moral character. We found him to be regular to school and his conduct is satisfactory.
 I wish him a great success in life
      </p>
@@ -380,8 +414,8 @@ I wish him a great success in life
 </html>
 </div>
 <!-- =========================================character certificate-female============================================== -->
-<div>
-    <!DOCTYPE html>
+<div  class="modal" style="margin-left: 181px;width:1290px ;" id="conductCertificateF"> 
+  <!DOCTYPE html>
     <html>
     <head>
       <title>DEMO</title>
@@ -402,9 +436,9 @@ I wish him a great success in life
         <div>
           <div></div>
           <div>
-           <a href=""  class="mr20"> <img src="../../../../assets/images/print.svg"></a>
-           <a href=""  class="mr20"> <img src="../../../../assets/images/download.svg"></a>
-           <a href=""  class="mr20"> <img src="../../../../assets/images/close.svg"></a>
+           <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
+           <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+           <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
           </div>
         </div>
       </div>
@@ -418,8 +452,8 @@ I wish him a great success in life
           <div style="width: 70%" >
                <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
                <div>
-               <span class="sm_heading"><b>Phone:</b>000000000</span>
-                <span class="sm_heading"><b>Email:</b>schoolname@hmail.com</span>
+               <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
+                <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
                 </div>
                 <div>
                <span class="sm_heading"><b>Address</b> S No. 2/1/5 Archway, Office 101-102, Baner - Balewadi Rd, Pune, Maharashtra 411045</span>
@@ -431,7 +465,7 @@ I wish him a great success in life
         </div>
         <div>
          <p class="content">
-          This is to certify that<b> "Student Name" d/o "Father Name" & "Mother Name"</b>, was a bonafied student of since<b> "DD-MM-YYYY" (Date of joining)</b> to till date.
+          This is to certify that<b> "{{studentDetails.student_name}}" d/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b>, was a bonafied student of since<b> "{{studentDetails.doj}}"</b> to till date.
     We found her to be well behaved & bears a good moral character. We found her to be regular to school and her conduct is satisfactory.
     I wish her a great success in life
          </p>
@@ -448,7 +482,7 @@ I wish him a great success in life
     </html>  
 </div>
 <!-- ============================================bonafied-certificate-male==================================== -->
-<div  class="modal" style="margin-left: 170px;width:1290px ;" id="bonafiedCertificate"> 
+<div  class="modal" style="margin-left: 181px;width:1290px ;" id="bonafiedCertificate"> 
     <!DOCTYPE html>
 <html>
 <head>
@@ -471,9 +505,9 @@ I wish him a great success in life
     <div>
       <div></div>
       <div>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/print.svg"></a>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/download.svg"></a>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/close.svg"></a>
+       <a (click)="printPage()"  class="mr20" > <img src="../../../../assets/images/certifcateimg/print.svg"></a>
+       <a (click)="bonafiedCertificates()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
@@ -486,11 +520,11 @@ I wish him a great success in life
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:</b>000000000</span>
-            <span class="sm_heading"><b>Email:</b>schoolname@hmail.com</span>
+           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address</b> S No. 2/1/5 Archway, Office 101-102, Baner - Balewadi Rd, Pune, Maharashtra 411045</span>
+           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
             </div>
       </div>
     </div>
@@ -499,9 +533,9 @@ I wish him a great success in life
     </div>
     <div>
      <p class="content">
-      This is to certify that<b> "Student Name" s/o "Father Name" & "Mother Name"</b> residing at <b>"City Name"</b>, is a bonafide student and is studying at class<b> "Standart - Section (i.e. X-A)" </b>in this school.
-He was admitted in this school on<b> "DD-MM-YYYY"</b> and his admission number is <b>"Student ID"</b>
-His DOB as per our school record is<b> "DD-MM-YYYY"</b>
+      This is to certify that<b> "{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b> residing at <b>"City Name"</b>, is a bonafide student and is studying at class<b> "Standart - Section (i.e. X-A)" ({{studentDetails.standard}} - {{studentDetails.standardName}}) </b>in this school.
+He was admitted in this school on<b> "{{studentDetails.doj}}"</b> and his admission number is <b>"{{studentDetails.student_disp_id}}"</b>
+His DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
      </p>
      <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
    </div>
@@ -512,6 +546,210 @@ His DOB as per our school record is<b> "DD-MM-YYYY"</b>
    </div>
  </div>
  <br>
+</body>
+</html>
+</div>
+<!-- ========================================bonafied-female======================================= -->
+<div  class="modal" style="margin-left: 181px;width:1290px ;" id="bonafiedCertificateF"> 
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>DEMO</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <meta charset="utf-8"> 
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <div class="gradient">
+    <div>
+      <div></div>
+      <div>
+       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
+       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a data-dismiss="modal"  class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
+      </div>
+    </div>
+  </div>
+    <br>
+    <div class="body">
+    <div class="w96 flex">
+      <div style="width: 30%">
+        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+      </div>
+      <div style="width: 70%" >
+           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div>
+           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+            </div>
+            <div>
+           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+            </div>
+      </div>
+    </div>
+    <div class="w96 ballet">
+        Bonafide Certificate
+    </div>
+    <div>
+     <p class="content">
+      This is to certify that <b>"{{studentDetails.student_name}}" d/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b> residing at <b>"City Name"</b>, is a bonafide student and is studying at class <b>"Standart - Section (i.e. X-A)" ({{studentDetails.standard}} - {{studentDetails.standardName}})</b> in this school.
+She was admitted in this school on <b>"{{studentDetails.doj}}"</b> and her admission number is <b>"{{studentDetails.student_disp_id}}"</b>
+Her DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
+     </p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+   </div>
+   <div class="display space">
+     <div><b>Place</b>
+      <p>Pune</p></div>
+     <div><b>Principal Signature</b></div>
+   </div>
+ </div>
+ <br>
+</body>
+</html>
+</div>
+<!-- ====================================migration-male================================================ -->
+<div class="modal" style="margin-left: 181px;width:1290px ;" id="migrationCertificate">
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>DEMO</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <meta charset="utf-8"> 
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="gradient">
+    <div>
+      <div></div>
+      <div>
+       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
+       <a (click)="migrationCertificates()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
+      </div>
+    </div>
+  </div>
+    <br>
+  <div class="body">
+      <div class="w96 flex">
+      <div style="width: 30%">
+        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+      </div>
+      <div style="width: 70%" >
+           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div>
+           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+            </div>
+            <div>
+           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+            </div>
+      </div>
+    </div>
+    <div class="w96 ballet">
+        Character Certificate
+    </div>
+    <div>
+     <p class="content">
+      Registration Number: <b>"{{studentDetails.student_disp_id}}"</b><br> 
+This is to certify that <b>"{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}" </b>is a student of <b>"{{studentDetails.school_name}}"</b> an institute affiliated with the<b> "CBSC / ICES / State" Board. </b><br>
+He has successfully passed <b>"Standard {{studentDetails.standard}}"</b> examination conducted under this board.
+This school has no objection in his joining any recognized collage/institute or taking examination of any University or Board established by law.
+     </p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+   </div>
+   <div class="display space">
+     <div><b>Place</b>
+      <p>Pune</p></div>
+     <div>Principal</div>
+   </div>
+  </div>
+  <br>
+</body>
+</html>
+</div>
+<!-- ==========================================migration-female========================================= -->
+<div class="modal" style="margin-left: 181px;width:1290px ;" id="migrationCertificateF">
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>DEMO</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <meta charset="utf-8"> 
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="gradient">
+    <div>
+      <div></div>
+      <div>
+       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
+       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
+      </div>
+    </div>
+  </div>
+    <br>
+<div class="body">
+    <div class="w96 flex">
+      <div style="width: 30%">
+        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+      </div>
+      <div style="width: 70%" >
+           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div>
+           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+            </div>
+            <div>
+           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+            </div>
+      </div>
+    </div>
+    <div class="w96 ballet">
+       Character Certificate
+    </div>
+    <div>
+     <p class="content">
+     Registration Number: <b>"{{studentDetails.student_disp_id}}"</b> <br>
+This is to certify that<b> "{{studentDetails.student_name}}" d/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b> is a student of<b> "{{studentDetails.school_name}}"</b> an institute affiliated with the<b>"CBSC / ICES / State" Board. </b><br>
+She has successfully passed <b>"Standard {{studentDetails.standard}}"</b> Examination conducted under this board.
+This school has no objection in her joining any recognized collage/institute or taking examination of any University or Board established by law.
+     </p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+   </div>
+   <div class="display space">
+     <div><b>Place</b>
+      <p>Pune</p></div>
+     <div><b>Principal Signature</b></div>
+   </div>  
+</div>
+<br>
 </body>
 </html>
 </div>

@@ -524,7 +524,7 @@
       padding-top: 10px;
       height: 81px;
       }
-       .center>p{
+       .center p{
         font-weight: 400;
 font-size: 11px;
 line-height: 15px;
@@ -533,11 +533,14 @@ letter-spacing: 0.01em;
 padding-top: 10px;
 color: #373434;
        }
+       a{
+           text-decoration: none;
+       }
        .center:hover{
         background: #F3FBFF;
         cursor: pointer;
        }
-       .center:hover>p{
+       .center:hover p{
         font-weight: 600;
 font-size: 11px;
 line-height: 15px;
@@ -577,12 +580,15 @@ color: #5AA3CF;
 	display: flex;
 	justify-content: space-between;
 	width: 90%;
-	margin: 0px auto;
-	padding: 20px 0px;
+	// margin: 0px auto;
+	// padding: 20px 0px;
+    margin: 26px auto;
+    padding: 25px 30px;
 }
 
 .mr20{
 	margin-right: 20px;
+
 }
 .body {
 	width: 1000px;

@@ -17,18 +17,6 @@ body{
   font-weight: 500;
   cursor: pointer;
 }
-// ================back-button=========
-.blue_button1 {
-  background-color: #109CF1;
-  color: white;
-  padding: 9px 20px;
-  font-size: 12px;
-  border: none;
-  border-radius: 5px;
-  font-weight: 500;
-  cursor: pointer;
-}
-// =================================
  .select{
   padding: 7px 20px;
   border: 1px solid #ccc;
@@ -37,16 +25,22 @@ body{
   font-size: 13px;
   font-weight: 500;
  color: #B6B5B1;
+  //  -webkit-appearance: none;
+  // -moz-appearance: none;
+  // background-image: url("../../../../assets/img/arrow-down.svg");
+  // background-repeat: no-repeat;
+  // background-position:210px center;
 }
 .input{
   padding: 7px 10px;
   font-size: 13px;
   width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  background: #FAFAFA;
+border: 1px solid #F0EDED;
+box-sizing: border-box;
+border-radius: 5px;
   font-weight: 500;
-  color: #B6B5B1;
+  color: #323c47;
   height: 35px;
   }
  input:focus, select:focus,button:focus{
@@ -75,11 +69,14 @@ body{
 .pageheadingspace{
   margin-bottom: 7px;
 }
-.label1{
+.label{
  
-  font-weight: 400;
-  color: #323C47;
-  font-size: 13px;
+  font-weight: 500;
+font-size: 13px;
+/* identical to box height */
+letter-spacing: 0.01em;
+color: #000000;
+
   position:relative;
   top: 5px;
   padding-left: 10px;
@@ -93,14 +90,14 @@ line-height: 1.1;
   width: 100%;
   margin: 8px 0;
   padding: 8px 0px;
+    background: #FAFAFA;
   border: 1px solid #F0EDED;
-  border-radius: 4px;
+  box-sizing: border-box;
+  border-radius: 5px;
   box-sizing: border-box;
   font-size: 13px;
   font-weight: 500;
   border-radius: 4px;
-  background-color: #F4F3F8;
-  color: #B6B5B1;
   text-indent: 4px;
 }
 .width-50{
@@ -113,14 +110,14 @@ line-height: 1.1;
     color: rgba(0, 0, 0, 0);
     opacity: 1;
     display: block;
-    background: url(../../../../assets/img/cal.svg) no-repeat;
+    background: url(../../../../assets/images/Icon.svg) no-repeat;
     width: 20px;
     height: 20px;
     border-width: thin;
     padding: 2px 0px;
 }
-input::placeholder{
-  color: #B6B5B1;
+input::placeholder,select:placeholder{
+  color: #323c47;
 }
 
 input[type="date"]{
@@ -128,9 +125,15 @@ input[type="date"]{
   margin-right: 10px;
   text-indent: 4px;
 }
-.display{
-  display: flex;
-  justify-content: space-between;
+.blue_button1 {
+  background-color: #109CF1;
+  color: white;
+  padding: 9px 20px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
 }
 // ========================================transfer style=========================
 *{

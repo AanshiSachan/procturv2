@@ -6,6 +6,7 @@ import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { role } from '../../../model/role_features';
+import {ActivatedRoute} from '@angular/router'; 
 
 @Component({
   selector: 'student-sidebar',
@@ -14,6 +15,8 @@ import { role } from '../../../model/role_features';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StudentSidebarComponent implements OnInit, OnChanges {
+
+
 
   isProfessional: boolean;
   @Input() rowData: any;
@@ -76,7 +79,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     private router: Router,
     private _http: HttpService,
     private _commService: CommonServiceFactory,
-    private PostStudService: PostStudentDataService
+    private PostStudService: PostStudentDataService,
+    private activatedRoute : ActivatedRoute
   ) {
     this.auth.institute_type.subscribe(
       res => {
@@ -105,9 +109,15 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.auth.schoolModel.subscribe(data=>{
       this.isSchoolModel=data='true'?true:false;
       })
+      // this.activatedRoute.params.subscribe(
+      //   (res: any) => {
+      //     this.rowData.student_id = res['student_id'];
+      //   }
+      // )
   }
 
   ngOnInit() {
+
   }
 
   ngOnChanges() {
@@ -312,14 +322,128 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   value:any;
   generateCertificate(){
     this.router.navigateByUrl('/view/students/certificates');
-    // if(this.value){
-    // this.router.navigateByUrl('/view/students/certificates');
-  
-    // }
-    // return false
-  }
+    console.log("iddddddd",this.rowData.student_id)
+    
+}
+getCharacterCertificate(){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/character/'+this.rowData.student_id;
+  this.PostStudService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      console.log("character",resp)
 
-OnConductCertificate(){
-this.conductCertificateFlag = true;
+      this.auth.hideLoader();
+      if(res){
+         
+      
+      if(resp.document != "" ){
+        let docArry = this._commService.convertBase64ToArray(resp.document);
+        let fileName = resp.docTitle;//response.docTitle
+        let file = new Blob([docArry], { type: 'application/pdf;' });
+        let urlcert =URL .createObjectURL(file);
+        let downloadLink = document.getElementById('downloadFileClick1');
+        downloadLink.setAttribute("href",urlcert);
+        downloadLink.setAttribute("download",fileName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+
+      }
+      else {
+        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+      }
+    } else {
+      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    }
+  },
+  err => {
+    console.log(err);
+    this.showToggleLoader.emit(false);
+  }
+)
+
+}
+bonafiedCertificates(){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/bonafide/'+this.rowData.student_id;
+  this.PostStudService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      console.log("bonafied",resp)
+
+      this.auth.hideLoader();
+      if(res){
+         
+      
+      if(resp.document != "" ){
+        let docArry = this._commService.convertBase64ToArray(resp.document);
+        let fileName = resp.docTitle;//response.docTitle
+        let file = new Blob([docArry], { type: 'application/pdf;' });
+        let urlcert =URL .createObjectURL(file);
+        let downloadLink = document.getElementById('downloadFileClick1');
+        downloadLink.setAttribute("href",urlcert);
+        downloadLink.setAttribute("download",fileName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+
+      }
+      else {
+        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+      }
+    } else {
+      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    }
+  },
+  err => {
+    console.log(err);
+    this.showToggleLoader.emit(false);
+  }
+)
+
+}
+migrationCertificates(){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/migration/'+this.rowData.student_id;
+  this.PostStudService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      console.log("migration",resp)
+
+      this.auth.hideLoader();
+      if(res){
+         
+      
+      if(resp.document != "" ){
+        let docArry = this._commService.convertBase64ToArray(resp.document);
+        let fileName = resp.docTitle;//response.docTitle
+        let file = new Blob([docArry], { type: 'application/pdf;' });
+        let urlcert =URL .createObjectURL(file);
+        let downloadLink = document.getElementById('downloadFileClick1');
+        downloadLink.setAttribute("href",urlcert);
+        downloadLink.setAttribute("download",fileName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+
+      }
+      else {
+        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+      }
+    } else {
+      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    }
+  },
+  err => {
+    console.log(err);
+    this.showToggleLoader.emit(false);
+  }
+)
+
+}
+printPage(){
+  window.print();
+ console.log("clicked")
 }
 }
