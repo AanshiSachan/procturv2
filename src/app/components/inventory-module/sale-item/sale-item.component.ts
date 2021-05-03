@@ -110,7 +110,7 @@ export class SaleItemComponent implements OnInit {
   }
   sale_id;
   showAddPaymentModel(data){
-    document.getElementById('action_btn').style.display="none";
+    //document.getElementById('action_btn').style.display="none";
     this.sale_id=data.sale_id;
     $('#addpayModal').modal('show');
   }
@@ -205,7 +205,7 @@ export class SaleItemComponent implements OnInit {
   }
   paymentHistoryData = [];
   getPaymentHistory(id) {
-    document.getElementById('action_btn').style.display="none";
+   // document.getElementById('action_btn').style.display="none";
     this.auth.showLoader();
     ///api/v1/inventory/sale/payment/all?instituteId=100058&saleId=3
     $('#viewpayModal').modal('show');
@@ -220,13 +220,14 @@ export class SaleItemComponent implements OnInit {
     
   }
  showConfirm(obj) {
-  document.getElementById('action_btn').style.display="none";
+  
    this.sale_id =obj.sale_id;
     $('#deletesModal').modal('show');
+    document.getElementById('action_btn').style.display="none";
   }
 
   deleteRow() {
-    document.getElementById('action_btn').style.display="none";
+    //document.getElementById('action_btn').style.display="none";
 ///api/v1/inventory/sale/delete/5?instituteId=100058
     this.auth.showLoader();
     this.httpService.deleteData('/api/v1/inventory/sale/delete/' +   this.sale_id + '?instituteId=' + this.model.institution_id, null).subscribe(

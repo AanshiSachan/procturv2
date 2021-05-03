@@ -51,8 +51,8 @@ export class ItemCmComponent implements OnInit {
     private auth: AuthenticatorService,
     private _pdfService: ExportToPdfService,
     private excelService: ExcelService) {
-    this.category_model.institution_id = sessionStorage.getItem('institution_id');
-    this.item.institution_id = sessionStorage.getItem('institution_id');
+    this.category_model.institution_id = sessionStorage.getItem('institute_id');
+    this.item.institution_id = sessionStorage.getItem('institute_id');
     this.getSubBranches();
   }
 
@@ -119,7 +119,7 @@ export class ItemCmComponent implements OnInit {
   editRow(object) {
     this.isedit = true;
     this.category_model.id = object.data.id;
-    this.category_model.institution_id = object.data.institution_id;
+    //this.category_model.institution_id = object.data.institution_id;
     this.category_model.category_name = object.data.category_name;
     this.category_model.desc = object.data.desc;
     this.category_model.category_id = object.data.category_id;
@@ -154,7 +154,7 @@ export class ItemCmComponent implements OnInit {
     this.category_model ={
       category_name:'',
       desc:'',
-      institution_id:sessionStorage.getItem('institution_id'),
+      institution_id:sessionStorage.getItem('institute_id'),
       id:'',
       category_id:''
     }
@@ -164,7 +164,7 @@ export class ItemCmComponent implements OnInit {
       alloted_units:'',
       category_id:'',
       desc:'',
-      institution_id:sessionStorage.getItem('institution_id'),
+      institution_id:sessionStorage.getItem('institute_id'),
       item_id:'',
       item_name:'',
       out_of_stock_indicator_units:'',
@@ -184,14 +184,14 @@ export class ItemCmComponent implements OnInit {
       sub_branch_id:'',
       // sub_branch_name:'',
       sub_branch_item_id:'',
-      institution_id:sessionStorage.getItem('institution_id')
+      institution_id:sessionStorage.getItem('institute_id')
   }
   this.manageData={
     item_id:'',
     units_added:'',
     available_units:'',
     alloted_units:'',
-    institution_id:sessionStorage.getItem('institution_id')
+    institution_id:sessionStorage.getItem('institute_id')
   
   }
     this.catForm.resetForm(this.category_model);
@@ -264,22 +264,26 @@ getItemDetails() {
 //edit items
 editItem(data){
 this.getAllMasterCourseList();
- this.onMasterCourseSelection(data.standard_id)
-this.isedit = true;
-this.item.item_id=data.item_id;
-this.item.category_id =data.category_id;
-this.item.item_name =data.item_name;
-this.item.desc =data.desc;
-this.item.alloted_units =data.alloted_units;
-this.item.unit_cost =data.unit_cost;
-this.item.sale_price =data.sale_price;
-this.item.tax_percent =data.tax_percent;
-this.item.out_of_stock_indicator_units =data.out_of_stock_indicator_units;
-this.item.institution_id =data.institution_id;
-this.item.standard_id =data.standard_id;
-this.item.standard_name =data.standard_name;
-this.item.standard_id =data.standard_id;
-this.item.subject_name =data.subject_name;
+ this.onMasterCourseSelection(data.standard_id);
+ if(this.onMasterCourseSelection.length>0){
+  this.isedit = true;
+  this.item.item_id=data.item_id;
+  this.item.category_id =data.category_id;
+  this.item.item_name =data.item_name;
+  this.item.desc =data.desc;
+  this.item.alloted_units =data.alloted_units;
+  this.item.unit_cost =data.unit_cost;
+  this.item.sale_price =data.sale_price;
+  this.item.tax_percent =data.tax_percent;
+  this.item.out_of_stock_indicator_units =data.out_of_stock_indicator_units;
+  //this.item.institution_id =data.institution_id;
+  //this.item.standard_id =data.standard_id;
+  this.item.standard_name =data.standard_name;
+  this.item.standard_id =data.standard_id;
+  this.item.subject_name =data.subject_name;
+  this.item.subject_id =data.subject_id;
+ }
+
 }
 //update item
 updateItemDetails(){
@@ -381,7 +385,7 @@ getAllMasterCourseList() {
 }
 onMasterCourseSelection(standard_id){
   this.CourseList=[];
-  if(standard_id==undefined){
+  if(standard_id==undefined || standard_id ==''){
 
   }
   else{
@@ -701,7 +705,7 @@ allocatedata ={
     sub_branch_id:'',
     // sub_branch_name:'',
     sub_branch_item_id:'',
-    institution_id:sessionStorage.getItem('institution_id')
+    institution_id:sessionStorage.getItem('institute_id')
 }
 subBranchAllData:any=[];
 
@@ -713,6 +717,7 @@ this.allocatedata.available_units=data.available_units;
 }
 saveAllocatedData(){
   if(this.allcateForm.valid){
+    this.getSubBranches();
     this.httpService.postData(this.url + 'item/allocate/subBranch', this.allocatedata).subscribe(
       (res: any) => {
          $('#subbranchModal').modal('hide');
@@ -776,7 +781,7 @@ manageData={
   units_added:'',
   available_units:'',
   alloted_units:'',
-  institution_id:sessionStorage.getItem('institution_id')
+  institution_id:sessionStorage.getItem('institute_id')
 
 }
 //manage units

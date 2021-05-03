@@ -64,6 +64,7 @@ export class SupplierComponent implements OnInit {
     this.setTableData();
     this.getCategoryDetails();
     this.getVendorDetails();
+    //console.log(this.totalRecords)
   }
 
   setTableData() {
@@ -242,6 +243,7 @@ export class SupplierComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/supplier/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&sortBy=supplierName&instituteId=' + this.model.institute_id).subscribe(
       (res: any) => {
+        
         this.supplierAllData =res.result.response;
         this.staticPageData = res.result.response;
         //this.totalRow =  res.result.length;
@@ -258,8 +260,7 @@ export class SupplierComponent implements OnInit {
   }
 
   saveSupplierDetails(){
-
-  if(this.addVendorForm.valid){
+  if(this.addVendorForm.valid ){
     let obj: any = {
       supplier_id: this.model.supplier_id,
       company_name: this.model.company_name,
@@ -279,7 +280,7 @@ export class SupplierComponent implements OnInit {
       }
      obj.item_ids = newasset
    
-    console.log(this.model.item_ids)
+   
       this.httpService.postData('/api/v1/inventory/supplier/create', obj).subscribe(
         (res: any) => {
            $('#add1Modal').modal('hide');
@@ -296,6 +297,7 @@ export class SupplierComponent implements OnInit {
       )
    }
    else{
+   
     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields"); 
    } 
 
@@ -559,7 +561,12 @@ searchDatabase() {
     this.totalRecords = this.staticPageData.length;
 
   }
-  
 }
+validateMobile(phone_no){
+  if(this.model.phone_no.length!=10){
+    this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please enter 10 digit  phone number"); 
 
+   }
+  return true;
+    }
 }

@@ -27,8 +27,8 @@
         </div>
         <div class="sale">
             <div class="table_heading">
-              <div>#</div>
-              <div>
+              <!-- <div>#</div> -->
+              <div style="padding-left:20px;">
                Reference No.
               </div>
               <!-- <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div> -->
@@ -45,10 +45,10 @@
               <div>Actions</div>
             </div>
             <div class="table_body" *ngFor="let data of staticPageData;index as i ">
-              <div>{{i + 1}}</div>
+              <!-- <div>{{i + 1}}</div> -->
               <!-- <div><a href="{{data.bill_image_url}}" target="_blank" download>
                 <img src="{{data.bill_image_url}}" height="40"width="40"></a></div> -->
-              <div>
+              <div >
            {{data.reference_number | replacenull}}
               </div>
               <!-- <div>
@@ -82,7 +82,7 @@
                      
                       <a  [routerLink]="['/view/inventory-management/editSale/', data.sale_id]"  *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
                    
-                      <a (click)='showConfirm(data)' *ngIf="data.total_amount==data.balanced_amount" >Delete</a> 
+                      <a (click)='showConfirm(data)' *ngIf="data.total_amount == data.balanced_amount" >Delete</a> 
                      
                       <a  *ngIf="data.total_amount !=data.balanced_amount"  (click)="cancelData(data.sale_id)">Cancel</a>
                      
@@ -220,8 +220,8 @@
         </div>
         <div class="modal-body scrollable">
           <div class="history">
-            <div class="table_heading">
-              <div>
+            <div class="table_heading" style="line-height: 30px;">
+              <div style="padding-left: 10px;"> 
                 #
               </div>
               <div>Date </div>
@@ -232,8 +232,8 @@
               <div>Paid By</div>
               <div>File</div>
             </div>
-            <div class="table_body" *ngFor="let data of paymentHistoryData;index as i">
-              <div>
+            <div class="table_body" style="margin:-3px 0px;padding:10px" *ngFor="let data of paymentHistoryData;index as i">
+              <div  style="padding-left: 10px;">
                {{i+1}}
               </div>
               <div>

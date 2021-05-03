@@ -38,7 +38,7 @@
             <!-- use image only when page is empty,table body class element will not be present -->
 
 </div> 
-  <div class="modal" id="add1Modal">
+  <div class="modal" id="add1Modal" data-backdrop="static">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -89,9 +89,11 @@
            <div class="pt10" [class.has-error]="phone_no.invalid && phone_no.touched" >
             <label class="p_title"> Mobile <span class="text-danger">*</span></label>
            <input type="text" class="input wid100" id="unit_cost" 
-            name="phone_no" placeholder="Enter Mobile Number"  
+            name="phone_no" placeholder="Enter Mobile Number"   maxlength="10"
             #phone_no="ngModel" 
+            (change)="validateMobile(this.model.phone_no)"
             [(ngModel)]="model.phone_no"
+            
             maxlength="10"
             minlength="10"
             onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
