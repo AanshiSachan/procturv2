@@ -61,17 +61,17 @@
                    {{data.balanced_amount}}
                     </div>
                     <div>
-                        <div class="dropdown1">
+                        <div class="dropdown1" style="padding-left: 10px;">
                             <img src="../../../../assets/img1/menu.svg" class="dot3">
-                                <div class="dropdown-content1" >
+                                <div class="dropdown-content1" id="action_btn" >
                                   <a  (click)="viewNavigate(data.purchase_id)">View</a>
-                                  <hr>
+                                
                                   <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]"
                                   *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
-                                  <hr>
-                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>   <hr>
-                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>   <hr>
-                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a>    <hr>
+                                 
+                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>   
+                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>  
+                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a>   
                                   <a  (click)="getPaymentHistory(data)">View Payment History</a>
                                 
                                 </div>
@@ -169,7 +169,7 @@
           <div class="pt10 display">
            <div></div>
            <div>
-            <button class="blue_button cancel" data-dismiss="modal">Cancel</button> 
+            <button class="blue_button cancel" (click)="cancel()" data-dismiss="modal">Cancel</button> 
              <button class="blue_button" (click)="addPaymentPurchase(payment_purchase_id)">Update</button></div>
           </div>
         </div>  
@@ -213,8 +213,9 @@
               {{data.payment_method}}
               </div>
               <div>
-                <a href="{{data.bill_image_url}}" target="_blank" class="mr10"><img src="../../../../assets/images/View.png" title="View Receipt"></a>
-               </div>
+                <a *ngIf="data.bill_image_url==null "  class="mr10">--</a>
+                <a  *ngIf="data.bill_image_url!=null " href="{{data.bill_image_url}}" class="mr10"><img src="../../../../assets/images/View.png" title="View Receipt"></a>
+ </div>
             </div>
         </div>
         </div>        

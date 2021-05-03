@@ -175,7 +175,7 @@ export class SupplierComponent implements OnInit {
   
   //crud for location
   @ViewChild('addVendorForm', { static: false }) addVendorForm: NgForm;
-  
+  titles="select role"
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'category_id',

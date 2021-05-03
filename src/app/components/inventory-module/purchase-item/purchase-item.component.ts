@@ -44,8 +44,8 @@ export class PurchaseItemComponent implements OnInit {
     this.isedit=false;
   }
   paymentModel = {
-    purchase_id: 1,
-    purchased_by_user_id: 18000,
+    purchase_id: 0,
+    purchased_by_user_id: 0,
     paid_amount: '',
     payment_date: '',
     reference_no: '',
@@ -121,8 +121,10 @@ export class PurchaseItemComponent implements OnInit {
   paids = 200;
   purchase_id;
   showConfirm(obj) {
+  document.getElementById('action_btn').style.display="none"
   this.purchase_id=obj.purchase_id; 
      $('#deletesModal').modal('show');
+
   }
 
   deleteRow() {
@@ -143,6 +145,7 @@ export class PurchaseItemComponent implements OnInit {
   }
   payment_purchase_id;
   showAddPayment(purchase_id){ 
+    document.getElementById('action_btn').style.display="none"
 this.payment_purchase_id=purchase_id;
 $('#addpayModal').modal('show');
   }
@@ -198,6 +201,7 @@ $('#addpayModal').modal('show');
               let msg = 'Payment details is Saved Successfully';
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
               $('#addpayModal').modal('hide');
+              this.cancel();
               this.getPurchaseDetails();
               //this.cancel(false)
               this.addform.resetForm(this.paymentModel)
@@ -238,11 +242,19 @@ $('#addpayModal').modal('show');
   }
   paymentHistoryData = [];
   getPaymentHistory(data) {
+    document.getElementById('action_btn').style.display="none";
     if(data.paid_amount!=0){
    this.auth.showLoader();
-    $('#viewpayModal').modal('show');
+    
     this.httpService.getData('/api/v1/inventory/payment/all?purchaseId=' + data.purchase_id + '&instituteId=' + this.paymentModel.institute_id).subscribe((res: any) => {
       this.paymentHistoryData = res.result;
+      if(this.paymentHistoryData.length==0){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Payment history not available under this record")
+   }
+      else{
+        $('#viewpayModal').modal('show');
+      }
+     
       this.auth.hideLoader();
     },
     err =>{
@@ -253,6 +265,7 @@ $('#addpayModal').modal('show');
   }
   viewNavigate(obj){
     //../purchase-view
+    document.getElementById('action_btn').style.display="none"
     sessionStorage.setItem('viewData', obj);
 this.router.navigate(['/view/inventory-management/purchase-view'])
   }
@@ -420,5 +433,17 @@ exportToExcel(){
   );
   this.auth.hideLoader();
 }
-
+cancel(){
+  
+  this.paymentModel={
+    purchase_id: 0,
+    purchased_by_user_id: 0,
+    paid_amount: '',
+    payment_date: '',
+    reference_no: '',
+    payment_method: '',
+    institute_id: sessionStorage.getItem('institute_id')
+  } 
+  this.addform.resetForm( this.paymentModel)
+}
 }

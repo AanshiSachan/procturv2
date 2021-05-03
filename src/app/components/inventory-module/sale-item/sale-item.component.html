@@ -79,15 +79,15 @@
                   <img src="../../../../assets/img1/menu.svg" class="dot3">
                     <div class="dropdown-content1">
                       <a (click)="viewNavigate(data.sale_id)">View</a>
-                      <hr>
+                     
                       <a  [routerLink]="['/view/inventory-management/editSale/', data.sale_id]"  *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
-                      <hr>
+                   
                       <a (click)='showConfirm(data)' *ngIf="data.total_amount==data.balanced_amount" >Delete</a> 
-                      <hr>
+                     
                       <a  *ngIf="data.total_amount !=data.balanced_amount"  (click)="cancelData(data.sale_id)">Cancel</a>
-                      <hr>
+                     
                       <a (click)="showAddPaymentModel(data)" *ngIf="data.balanced_amount!=0">Add Payment</a>
-                        <hr>
+                     
                       <a  (click)="getPaymentHistory(data.sale_id)">View Payment History</a>
                     
                     </div>
@@ -248,7 +248,9 @@
               </div>
               <div>
                <span class="file_name">
-                <a href="{{data.bill_image_url}}" target="_blank" class="mr10"><img src="../../../../assets/images/View.png" title="View Receipt"></a>
+                <a *ngIf="data.bill_image_url==null "  class="mr10">--</a>
+            
+                <a  *ngIf="data.bill_image_url!=null " href="{{data.bill_image_url}}" class="mr10"><img src="../../../../assets/images/View.png" title="View Receipt"></a>
               </span>
               </div>
             </div>

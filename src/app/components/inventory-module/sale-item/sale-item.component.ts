@@ -110,10 +110,12 @@ export class SaleItemComponent implements OnInit {
   }
   sale_id;
   showAddPaymentModel(data){
+    document.getElementById('action_btn').style.display="none";
     this.sale_id=data.sale_id;
     $('#addpayModal').modal('show');
   }
   addPayment() {
+    document.getElementById('action_btn').style.display="none";
     //this.router.navigate(['/view/inventory-management/purchase-item']);
     if (this.addform.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
@@ -203,6 +205,7 @@ export class SaleItemComponent implements OnInit {
   }
   paymentHistoryData = [];
   getPaymentHistory(id) {
+    document.getElementById('action_btn').style.display="none";
     this.auth.showLoader();
     ///api/v1/inventory/sale/payment/all?instituteId=100058&saleId=3
     $('#viewpayModal').modal('show');
@@ -217,11 +220,13 @@ export class SaleItemComponent implements OnInit {
     
   }
  showConfirm(obj) {
+  document.getElementById('action_btn').style.display="none";
    this.sale_id =obj.sale_id;
     $('#deletesModal').modal('show');
   }
 
   deleteRow() {
+    document.getElementById('action_btn').style.display="none";
 ///api/v1/inventory/sale/delete/5?instituteId=100058
     this.auth.showLoader();
     this.httpService.deleteData('/api/v1/inventory/sale/delete/' +   this.sale_id + '?instituteId=' + this.model.institution_id, null).subscribe(
@@ -247,6 +252,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
 
 
   cancelData(purchase_id){
+    document.getElementById('action_btn').style.display="none";
     this.httpService.getData('/api/v1/inventory/sale/cancelSale?saleId='+ purchase_id +'&instituteId=' + this.institution_id).subscribe((res: any) => {
      if (res.statusCode == 200) {
          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Sale cancelled successfully');
