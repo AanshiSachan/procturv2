@@ -412,10 +412,10 @@ export class BasicInfoComponent implements OnInit {
             this.msgService.showErrorMessage('error', resp.body.error[0].error_message, '');
           }
         },
-        (err) => {
+        (err:any) => {
 
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          this.msgService.showErrorMessage('error', err.error.error[0].error_message, '');
         });
     }
 
@@ -437,9 +437,10 @@ export class BasicInfoComponent implements OnInit {
             this.msgService.showErrorMessage('error', resp.body.error[0].error_message, '');
           }
         },
-        (err) => {
+        (err:any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          this.msgService.showErrorMessage('error', err.error.error[0].error_message, '');
+          this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
         });
     }
   }

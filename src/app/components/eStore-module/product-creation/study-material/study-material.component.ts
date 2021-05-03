@@ -101,7 +101,8 @@ export class StudyMaterialComponent implements OnInit {
         "status": this.prodForm.status,
         "is_advance_product": this.prodForm.is_advance_product,
         "item_list": this.testlist,
-        "description": this.description
+        "description": this.description,
+        "is_paid" : this.prodForm.is_paid
       }
       this.auth.showLoader();
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
@@ -344,7 +345,8 @@ export class StudyMaterialComponent implements OnInit {
         "source_subject_id": object.subjectId,
         "course_type_id": object.course_type_id,
         "parent_topic_id": object.parent_topic_id,
-        "slug": object.slug
+        "slug": object.slug,
+        "category_id": object.category_id
       }
       this.testlist.push(obj);
     } else {

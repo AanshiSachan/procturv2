@@ -105,7 +105,8 @@ export class ClassroomClassComponent implements OnInit {
       let obj = {
         "page_type": "Classroom_Class",
         "item_list": [],
-        "description": this.description
+        "description": this.description,
+        "is_paid" : this.prodForm.is_paid
       }
       this.auth.showLoader();
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
