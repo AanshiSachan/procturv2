@@ -6,6 +6,7 @@ import {
 } from '.';
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
+import { StudentHomev2Component } from './student-homev2/student-homev2.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: StudentHomeComponent,
+        //component: StudentHomeComponent,
+        component:StudentHomev2Component,
         pathMatch: 'prefix',
       },
       {

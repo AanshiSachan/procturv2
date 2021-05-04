@@ -1,0 +1,122 @@
+
+<div class="page-content">
+    <div class="w98">
+     <div class="row drop-shadow">
+       <div class="col-lg-4" *ngIf="showQuickFilter == false && !isAdvFilter">
+         <input #search type="text" name="searchData" class="input magnifying-glass mr10 wid20 text-indent"
+          placeholder="search" id="basic-search"
+          [(ngModel)]="searchBarData"
+          name="searchData" (keyup.enter)="searchDatabase()" >
+         <input type="button" class="blue_button" value="Search"
+         (click)="searchDatabase()" />
+        </div>
+       
+       <div class="col-lg-4">
+         <button class="filter mr10" id="click">Quick Filter<img src="/assets/img/filter.svg"></button>
+         <a href="advancefilter.html"> <button class="filter ">Advance Filter<img src="/assets/img/filter.svg"></button></a>
+       </div>
+       <div class="col-lg-4">
+         <span class="right">
+            <a href="add_student.html"><button class="blue_button mt-9 mr10" >Add Student</button></a>
+            <!-- <a href=""></button></a> -->
+            <div class="dropdown1">
+              <button  class="blue_button mt-9 dropbtn1">More<img src="/assets/img/Group319.svg"></button>
+                <div class="dropdown-content1">
+                  <a href="#">Upload Student</a>
+                  <a href="#">Export student</a>
+                  <a href="#">Registered Student</a>
+                  <a href="#">Active student</a>
+                  <a href="#">Archeived status report</a>
+                </div>
+            </div>
+         </span>
+       </div>
+     </div>
+     <br>
+     <div>
+      <!-- form -->
+      <div class="row" id="form-tab">
+        <div class="col-lg-2">
+          <select class="input-select1">
+          <option>Standard</option>
+        </select>
+        </div>
+        <div class="col-lg-2">
+        <select class="input-select1">
+          <option>Master Course</option>
+        </select>
+        </div>
+        <div class="col-lg-2">
+        <select class="input-select1">
+          <option>course</option>
+        </select>
+        </div>
+       <div class="col-lg-2">
+        <select class="input-select1">
+          <option>Is Active</option>
+        </select>
+        </div>
+        <div class="col-lg-2">
+        <button class="blue_button mt-9">Search</button>
+        </div>
+      </div>
+       <!-- heading div -->
+       <div class="table_heading">
+         <div>
+          <div >
+          
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+              <span class="checkmark"></span>
+              
+           </div>
+         </div>
+         <div>#</div>
+         <div>Roll No/ID</div>
+         <div>Student Name</div>
+         <div>Contact NO.</div>
+         <div>Parent Name</div>
+         
+         <div>Contact No</div>
+         <div>Standard</div>
+         <div>Action</div>
+       </div>
+       <!-- table row -->
+       <div class="table_row" *ngFor="let data of studentDataSource;index as i">
+         <div>
+          <div >
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+          </div>
+         </div>
+         <div><img src="{{data.thumbnail_url}}" class="photo"></div>
+         <div>{{data.student_disp_id}}</div>
+         <div>{{data.student_name}}</div>
+         <div>{{data.student_phone}}</div>
+         <div>{{data.parent_name}}</div>
+         
+         <div>{{data.parent_contact_number}}</div>
+         <div>{{data.student_class}}</div>
+         <div>
+          <a href=""><img src="/assets/img/Group44.svg" class="pl-10"></a>
+          <a href=""><img src="/assets/img/group1.svg" class="pl-10"></a>
+          <a href=""><img src="/assets/img/Group321.svg" class="pl-10"></a>
+        </div>
+       </div>
+     </div>
+    </div>
+</div> 
