@@ -576,10 +576,10 @@ export class ViewComponent implements OnInit {
     let max_disc_apply: number = 0;
     for (let data of this.stdFeeDataList.a_install_li) {
       if (data.isSelected) {
-        if (data.f_type != "INSTALLMENT") {
-          this.commonService.showErrorMessage('info', '', 'You can only apply discount on fee type Installment!');
-          return;
-        }
+        // if (data.f_type != "INSTALLMENT") {
+        //   this.commonService.showErrorMessage('info', '', 'You can only apply discount on fee type Installment!');
+        //   return;
+        // }
         is_intall_not_selected = false;
         max_disc_apply += data.d_amount;
         this.discountInstallList.push(data);
