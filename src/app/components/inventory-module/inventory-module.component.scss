@@ -576,7 +576,7 @@
       font-size: 16px;
   }
   .created_date{
-    background:url(../../../assets/img1/teal_rec.svg);
+   // background:url(../../../assets/img1/teal_rec.svg);
     background-repeat: no-repeat;
     background-size: cover;
     width: 194px;
@@ -584,7 +584,7 @@
     font-size: 13px;
     line-height: 30px;
     letter-spacing: 0.01em;
-    color: #FFFFFF;
+    color: #323C47;
     text-align: center;
   
   }
@@ -608,19 +608,19 @@
   .name2{
     width: 34%;
       font-weight: 600;
-    font-size: 13px;
+    font-size: 12px;
   
     letter-spacing: 0.01em;
-    color: #8B817E;
+    color: #323C47;
   
   }
   .value2{
     width: 66%;
     font-weight: 400;
-  font-size: 13px;
+  font-size: 12px;
   
   letter-spacing: 0.01em;
-  color: #4C555E;
+  color:  #323C47;
   
   }
  
@@ -701,6 +701,7 @@
         font-weight: 600;
         color: #405877;
         padding-bottom: 8px;
+        padding-top: 10px;
         cursor: pointer;
         font-size: 13px;
         float: left;

@@ -59,7 +59,7 @@
     <div id="twov" class="tab-pane">
       <!-- two -->
       <div class="w98">
-        <div class="pt15 display">
+        <div class="pt15 display" style="padding-bottom: 15px;">
           <div>
             <input type="text" name="search" [(ngModel)]="searchTextforItem" (keyup)="searchDatabaseforItem()"
             class="input wid240 mr10 magnifying-glass" name="" placeholder="Search" >
@@ -75,15 +75,15 @@
         <div class="item_man">
             <div class="table_heading">
               <div (click)="sortTable('item_name')" style="padding-left: 20px;">Item<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div (click)="sortTable('category_name')">Category<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div   (click)="sortTable('alloted_units')">Total Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div  (click)="sortTable('available_units')">Available Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
-              <div style="padding-top: 3px;">
+              <div (click)="sortTable('category_name')" >Category<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div   (click)="sortTable('alloted_units')" style="text-align: center;">Total Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div  (click)="sortTable('available_units')" style="text-align: center;">Available Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div style="padding-top: 3px;text-align: center;">
                 Buying Price&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)<br><span style="font-size:10px;text-align: center;">(Unit Price)</span>
               </div>
-              <div style="padding-top: 3px;">Sale Price&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)<br><span style="font-size:10px;">(Unit Price)</span></div>
-              <div title="Tax on selling price">Tax (%)</div>
-              <div style="padding-top: 3px;">Low Stock<br>indicator <span style="font-size:10px;text-align: center;">(Unit Price)</span></div>
+              <div style="padding-top: 3px;text-align: center;">Sale Price&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)<br><span style="font-size:10px;">(Unit Price)</span></div>
+              <div title="Tax on selling price" style="text-align: center;">Tax (%)</div>
+              <div style="padding-top: 3px;text-align: center;">Low Stock<br>indicator <span style="font-size:10px;text-align: center;">(Unit Price)</span></div>
               <div style="text-align: center;">Actions</div>
             </div>
             <div class="table_body" *ngFor="let data of pagedItemData">
@@ -94,15 +94,15 @@
              <div>
               {{data.category_name}}
              </div>
-             <div>  {{data.alloted_units}}</div>
-             <div [ngClass]="{'lowstock':data.available_units <= data.out_of_stock_indicator_units }">
+             <div style="text-align: center;">  {{data.alloted_units}}</div>
+             <div style="text-align: center;" [ngClass]="{'lowstock':data.available_units <= data.out_of_stock_indicator_units }">
                 {{data.available_units}}            <!--<i  class="fa  fa-warning" data-toggle="tooltip" data-placement="left" title="Purchase Inventory Name, 
               your current inventory count is going below the set threshold units"></i>  -->
              </div>
-             <div>{{data.unit_cost}}</div>
-             <div>{{data.sale_price}}</div>
-             <div>{{data.tax_percent}}</div>
-             <div>{{data.out_of_stock_indicator_units}}</div>
+             <div style="text-align: center;">{{data.unit_cost}}</div>
+             <div style="text-align: center;">{{data.sale_price}}</div>
+             <div style="text-align: center;">{{data.tax_percent}}</div>
+             <div style="text-align: center;">{{data.out_of_stock_indicator_units}}</div>
               <div style="text-align: center;">
                 
                 <div class="dropdown1">

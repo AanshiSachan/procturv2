@@ -12,7 +12,7 @@
       </div>
     </div>
       <div class="w98">
-        <div class="pt15 display">
+        <div class="pt15 display" style="padding-bottom: 15px;">
           <div>
             <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
             #search [(ngModel)]="searchParams"
@@ -39,16 +39,16 @@
               <div>Date</div>
               <!-- <div>Sale Type<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span></div> -->
              
-              <div>Grand Total&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
-              <div>Paid&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
-              <div>Balance &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
-              <div>Actions</div>
+              <div style="text-align: center;">Grand Total&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+              <div style="text-align: center;">Paid&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+              <div style="text-align: center;">Balance &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+              <div style="text-align: center;">Actions</div>
             </div>
             <div class="table_body" *ngFor="let data of staticPageData;index as i ">
               <!-- <div>{{i + 1}}</div> -->
               <!-- <div><a href="{{data.bill_image_url}}" target="_blank" download>
                 <img src="{{data.bill_image_url}}" height="40"width="40"></a></div> -->
-              <div >
+              <div style="padding-left:20px;">
            {{data.reference_number | replacenull}}
               </div>
               <!-- <div>
@@ -65,16 +65,16 @@
              {{data.sale_type}}
               </div> -->
              
-              <div>
+              <div style="text-align: center;">
                {{data.total_amount}}
               </div>
-             <div>
+             <div style="text-align: center;">
            {{data.total_paid_amount}}
              </div>
-             <div>
+             <div style="text-align: center;">
               {{data.balanced_amount}}
              </div>
-              <div>
+              <div style="text-align: center;">
                <div class="dropdown1">
                   <img src="../../../../assets/img1/menu.svg" class="dot3">
                     <div class="dropdown-content1">
