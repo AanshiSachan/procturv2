@@ -159,6 +159,7 @@ export class LoginService {
       res => {
         let result: any = res;
         this.poweredBy.next(result.show_powered_by_proctur);
+        sessionStorage.setItem('custom_text_for_power_by_proctur', result.custom_text_for_power_by_proctur);
         return res;
       },
       err => { return err; }

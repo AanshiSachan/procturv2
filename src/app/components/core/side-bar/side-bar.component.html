@@ -872,6 +872,7 @@
                 </ul>
                 <p *ngIf="jsonFlags.isShowPowerBy" class="power">Powered By <span class="proctur40">Proctur V 5.0</span>
                 </p>
+                <p *ngIf="!jsonFlags.isShowPowerBy" class="power">{{(custom_text_for_power_by_proctur != 'null') ? custom_text_for_power_by_proctur : ''}}</p>
             </div>
         </nav>
     </div>
