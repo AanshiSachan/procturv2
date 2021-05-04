@@ -227,7 +227,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       this.createCustomSidenav();
     });
     this.custom_text_for_power_by_proctur = sessionStorage.getItem('custom_text_for_power_by_proctur');
-    console.log(this.custom_text_for_power_by_proctur!='null');
     this.log.poweredByStatus.subscribe(res => {
       let result: any = res;
       if (result == 1) {
