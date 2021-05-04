@@ -109,11 +109,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.auth.schoolModel.subscribe(data=>{
       this.isSchoolModel=data='true'?true:false;
       })
-      // this.activatedRoute.params.subscribe(
-      //   (res: any) => {
-      //     this.rowData.student_id = res['student_id'];
-      //   }
-      // )
+      
   }
 
   ngOnInit() {
@@ -319,11 +315,14 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   editCourseAllocated() {
     this.openCourseAssigned.emit(true);
   }
-  value:any;
+id:any
   generateCertificate(){
+    this.showToggleLoader.emit(true);
+    this.id = this.rowData.student_id
+     sessionStorage.setItem('students_id',JSON.stringify(this.id))
     this.router.navigateByUrl('/view/students/certificates');
-    console.log("iddddddd",this.rowData.student_id)
-    
+    this.showToggleLoader.emit(false);
+
 }
 getCharacterCertificate(){
   this.auth.showLoader();
@@ -442,6 +441,7 @@ migrationCertificates(){
 )
 
 }
+
 printPage(){
   window.print();
  console.log("clicked")
