@@ -1194,11 +1194,12 @@ export class ViewComponent implements OnInit {
       f_schld_id: data.f_schld_id,
       immutable_due_date: moment(data.d_date).format('YYYY-MM-DD')
     }
+    if(this.isProfessional){
+      this.addInstall.course_id=data.sub_id;
+    }
     if (this.schoolModel) {
       this.addInstall.standard_id = this.stdFeeDataList.stnd_id;
     }
-    //this.fetchFilterData();
-    //this.fetchCoursesList(data.mc_n);
   }
   updateInstall() {
     this.isUpdateInstallClicked = true;
