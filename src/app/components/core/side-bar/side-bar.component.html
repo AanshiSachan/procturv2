@@ -360,7 +360,8 @@
         <nav id="sidebar" class="sidebar-wrapper">
             <div class="sidebar-content">
                 <div class="sidebar-brand">
-                    <span>{{instituteName}}</span>
+                    <span title="{{instituteName}}">{{(instituteName?.length > 65) ? (instituteName | slice:0:65) + '...' : instituteName}}
+                    </span>
                 </div>               
                 <ul class="icons" (click)="closeMenu()">
                     <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''" (click)="toggler('lizero')">
