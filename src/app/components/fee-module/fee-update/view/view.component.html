@@ -227,8 +227,9 @@
                                         <li class="nav-item">
                                             <a class="nav-link"
                                                 [ngClass]="(activeSession == 'Discounts') ? 'active' : ''"
-                                                data-toggle="tab" href="#discHistory"
-                                                (click)="activeSession = 'Discounts';getDiscountHistoryDetails()">Discounts</a>
+                                                data-toggle="tab"
+                                                (click)="activeSession = 'Discounts';getDiscountHistoryDetails()"
+                                                href="#discHistory">Discounts</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -408,7 +409,9 @@
                                                     {{currencySymbol}} {{data.cheque_amount | number}}
                                                 </div>
                                                 <div>
-                                                    <span class="cleared">{{data.cheque_status}}</span>
+                                                    <span [ngClass]="{'cleared': data.cheque_status == 'Cleared',
+                                                    'overdue1': data.cheque_status == 'Pending',
+                                                    'due1': data.cheque_status == 'dishonoured'}" class="cleared">{{data.cheque_status}}</span>
                                                 </div>
                                                 <div *ngIf="data.cheque_status_key==1">
                                                     <a (click)="editPDC(data)" class="mr10"><img

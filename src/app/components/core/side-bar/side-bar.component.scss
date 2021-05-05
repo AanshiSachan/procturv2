@@ -814,7 +814,7 @@ width:20px;
   width: calc(100%);
   position: absolute;
   left: 0;
-  top: 50px;
+  top: 60px;
 }
 
 .sidebar-wrapper a {
@@ -992,7 +992,8 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
   display: flex;
   text-align: center;
   align-items: center;
-  height: 7%;
+  // height: 7%;
+  max-height: 11%;
   border-bottom:2px solid #81868e;
   position: fixed;
   left: 10px;
@@ -1005,7 +1006,7 @@ background: linear-gradient(270deg, #109CF1 55.09%, rgba(16, 156, 241, 0) 113.05
   flex-grow: 1;
   color: #fff;
   font-size: 14px;
-  padding: 10px;
+  padding: 2px;
 }
 
 .sidebar-wrapper .sidebar-brand #close-sidebar {

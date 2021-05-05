@@ -136,7 +136,7 @@
     </div> -->
   </div>
   <div class="modal" id="assignFeeModel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width: 70%;max-width: 800px;">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Assign Fee</h4>
@@ -175,7 +175,7 @@
                   </div>
                 </div>
                 <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
-                  <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
+                  <select style="width: 95%;" class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
                     (ngModelChange)="changesValuesAsPerType($event,i)">
                     <option value="-1">Trigger Date</option>
                     <option value="1">Course Assign Date (CAD)</option>

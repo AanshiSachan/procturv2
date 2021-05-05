@@ -217,8 +217,8 @@
                             </li> -->
                                                         <li class="subject">
                                                             <div title="{{class.subject_name}}">
-                                                                {{(class.subject_name?.length > 5)? (class.subject_name
-                                                                | slice:0:5)+'..':(class.subject_name) }}
+                                                                {{(class.subject_name?.length > 15)? (class.subject_name
+                                                                | slice:0:15)+'..':(class.subject_name) }}
                                                                 <span *ngIf="class.is_optional_subject">(Optional)</span>
                                                             </div>
                                                         </li>
@@ -290,8 +290,8 @@
 
                                                         <li class="batch">
                                                             <div title="{{class.subject_name}}">
-                                                                {{(class.subject_name?.length > 10)? (class.subject_name
-                                                                | slice:0:10)+'..':(class.subject_name) }}
+                                                                {{(class.subject_name?.length > 20)? (class.subject_name
+                                                                | slice:0:20)+'..':(class.subject_name) }}
                                                                 <span *ngIf="class.is_optional_subject">(Optional)</span>
                                                             </div>
                                                         </li>

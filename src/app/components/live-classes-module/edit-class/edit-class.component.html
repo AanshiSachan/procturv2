@@ -158,7 +158,8 @@
               <label for="master_course">{{schoolModel ? 'Standard' : 'Master Course'}}<span
                   class="text-danger">*</span> </label>
               <select class="form-ctrl select" *ngIf="schoolModel" style="border: none;" name="master_course"
-              [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
+                [disabled]="(userType==3 || (userType == 0 && username != 'admin'))"
+                [ngClass]="{'disabled':(userType==3 || (userType == 0 && username != 'admin'))}"
                 id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
                 <option value="" disabled selected="selected">Select {{schoolModel ? 'Standard' : 'Master Course'}}
                 </option>

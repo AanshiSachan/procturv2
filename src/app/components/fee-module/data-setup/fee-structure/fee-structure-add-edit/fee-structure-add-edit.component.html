@@ -95,7 +95,7 @@
                         </select>
                     </div>
                     <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
-                        <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
+                        <select style="width: 90%;" class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
                             (ngModelChange)="changesValuesAsPerType($event,i)">
                             <option value="-1">Trigger Date</option>
                             <option value="1">Course Assign Date (CAD)</option>
