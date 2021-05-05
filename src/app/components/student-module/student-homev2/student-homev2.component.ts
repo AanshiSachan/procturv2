@@ -723,6 +723,7 @@ export class StudentHomev2Component implements OnInit {
       this.closeSideBar();
       this.appC.popToast(msg);
       this.closeDeletePopup();
+      $('#popup').modal('hide');
       this.loadTableDataSource(this.selectedFilterData!=null?this.selectedFilterData:this.instituteData);
     },
     (err:any)=>{
@@ -732,6 +733,8 @@ export class StudentHomev2Component implements OnInit {
         body: err.error.message,
       };
       this.appC.popToast(msg);
+      $('#popup').modal('hide');
+     
     }
     );
   }
@@ -757,6 +760,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   deleteStudentOpen(row) {
+    $('#popup').modal('show')
     this.selectedRow = row;
     if (this.selectedRow.noOfBatchesAssigned == 0) {
       this.isDeleteStudentPrompt = true;
@@ -3153,7 +3157,15 @@ export class StudentHomev2Component implements OnInit {
     }
   }
 //===========================app table check box function===============//
-isAllChecked(): boolean {
-  return this.studentDataSource.every(_ => _.uiSelected);
+
+//new code by manisha
+highlightedDiv: number;
+toggleClass(newValue: number) {
+  if (this.highlightedDiv === newValue) {
+    this.highlightedDiv = 0;
+  }
+  else {
+    this.highlightedDiv = newValue;
+  }
 }
 }

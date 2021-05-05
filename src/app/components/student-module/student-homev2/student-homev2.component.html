@@ -12,21 +12,24 @@
         </div>
        
        <div class="col-lg-4">
-         <button class="filter mr10" id="click">Quick Filter<img src="/assets/img/filter.svg"></button>
-         <a href="advancefilter.html"> <button class="filter ">Advance Filter<img src="/assets/img/filter.svg"></button></a>
+        <!-- <button class="filter mr10" id="click" (click)="toggleClass(1)" [ngClass]="{'red': highlightedDiv === 1}">Quick Filter<img src="/assets/img/filter.svg"></button>
+         href="advancefilter.html" -->
+         <button class="filter mr10" id="click" *ngIf="!isProfessional">Quick Filter<img src="/assets/img/filter.svg"></button>
+         <a href="javascript:void(0);" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()"> <button class="filter ">Advance Filter<img src="/assets/img/filter.svg"></button></a>
        </div>
        <div class="col-lg-4">
          <span class="right">
-            <a href="add_student.html"><button class="blue_button mt-9 mr10" >Add Student</button></a>
+            <a ><button class="blue_button mt-9 mr10"  name="button" routerLink='./add' *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)">Add Student</button></a>
             <!-- <a href=""></button></a> -->
-            <div class="dropdown1">
-              <button  class="blue_button mt-9 dropbtn1">More<img src="/assets/img/Group319.svg"></button>
-                <div class="dropdown-content1">
-                  <a href="#">Upload Student</a>
-                  <a href="#">Export student</a>
-                  <a href="#">Registered Student</a>
-                  <a href="#">Active student</a>
-                  <a href="#">Archeived status report</a>
+            <div class="dropdown1" >
+              <button  class="blue_button mt-9 dropbtn1" name="button" (click)="isOptions = !isOptions">More<img src="/assets/img/Group319.svg"></button>
+                <div class="dropdown-content1" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
+                <div *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'><a> Upload Student</a></div>  
+                  <div (click)="downloadAllStudent()"
+                  *ngIf="downloadStudentReportAccess"><a >Export student</a></div>
+                 <div routerLink='/view/students/openUser' *ngIf="!schoolModel"><a >Registered Student</a></div> 
+                 <div  *ngIf="!schoolModel" routerLink='/view/students/archived_student'><a >Archive student</a></div> 
+                 <div *ngIf="!schoolModel" routerLink='/view/students/archived_status'><a >Archeived status report</a></div> 
                 </div>
             </div>
          </span>
@@ -35,29 +38,34 @@
      <br>
      <div>
       <!-- form -->
-      <div class="row" id="form-tab">
+      <div class="row" id="form-tab" *ngIf="!isProfessional">
         <div class="col-lg-2">
           <select class="input-select1">
           <option>Standard</option>
         </select>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2" *ngIf="!isProfessional">
         <select class="input-select1">
           <option>Master Course</option>
         </select>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2"  *ngIf="!isProfessional">
         <select class="input-select1">
           <option>course</option>
         </select>
         </div>
+        <div class="col-lg-2"  *ngIf="isProfessional" >
+          <select class="input-select1">
+            <option>Section</option>
+          </select>
+          </div>
        <div class="col-lg-2">
         <select class="input-select1">
           <option>Is Active</option>
         </select>
         </div>
-        <div class="col-lg-2">
-        <button class="blue_button mt-9">Search</button>
+        <div class="col-lg-2" >
+        <button class="blue_button mt-9" (click)="searchDatabase()" >Search</button>
         </div>
       </div>
        <!-- heading div -->
@@ -79,13 +87,16 @@
            </div>
          </div>
          <div>#</div>
-         <div>Roll No/ID</div>
-         <div>Student Name</div>
-         <div>Contact NO.</div>
-         <div>Parent Name</div>
-         
-         <div>Contact No</div>
-         <div>Standard</div>
+         <div>Student ID</div>
+         <div> Name</div>
+         <div>Contact No.</div>
+         <div *ngIf="schoolModel">Parent Name</div>
+         <div *ngIf="schoolModel">Contact No.</div>
+         <div *ngIf="!isProfessional">Standard</div>
+        <div *ngIf="!schoolModel">Course Assigned</div>
+         <div *ngIf="isProfessional">Master Course</div>
+         <div *ngIf="isProfessional">Batch Assigned</div>
+         <div *ngIf="schoolModel" >Section  Assigned</div> 
          <div>Action</div>
        </div>
        <!-- table row -->
@@ -105,18 +116,66 @@
          </div>
          <div><img src="{{data.thumbnail_url}}" class="photo"></div>
          <div>{{data.student_disp_id}}</div>
-         <div>{{data.student_name}}</div>
+         <div title="{{data.student_name}}">{{data.student_name| slice:0:20}} {{data.student_name.length > 20 ? '...' : ''}}</div>
          <div>{{data.student_phone}}</div>
-         <div>{{data.parent_name}}</div>
+         <div *ngIf="schoolModel" title="{{data.parent_name}}">{{data.parent_name | slice:0:20}} {{data.parent_name.length > 20 ? '...' : ''}}</div>
          
-         <div>{{data.parent_contact_number}}</div>
-         <div>{{data.student_class}}</div>
+         <div *ngIf="schoolModel">{{data.parent_contact_number}}</div>
+         <div *ngIf="!isProfessional">{{data.student_class}}</div>
+         <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:20}} {{data.batchesAssigned.length > 20 ? '...' : ''}}</div>
+         <!--class="scroll_height"-->
          <div>
           <a href=""><img src="/assets/img/Group44.svg" class="pl-10"></a>
-          <a href=""><img src="/assets/img/group1.svg" class="pl-10"></a>
-          <a href=""><img src="/assets/img/Group321.svg" class="pl-10"></a>
+          <a (click)="editStudent(data.student_id)" title="Edit"><img src="/assets/img/group1.svg" class="pl-10"></a>
+          <a (click)="deleteStudentOpen(data)" title="Delete"><img src="/assets/img/Group321.svg" class="pl-10"></a>
         </div>
        </div>
+       <!--page-illutration-->
+       <section class="no-data" *ngIf="studentDataSource.length == 0">
+        <div class="illustration-container">
+          <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+        </div>
+      </section>
      </div>
+    </div>
+     <!-- Paginator Here -->
+     <div id="paginator" class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
+              (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex"
+              [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
+              (sizeChange)="updateTableBatchSize($event)">
+          </pagination>
+      </div>
+  </div>
+
+  <!----delete-popup-->
+    
+
+    <div class="modal" id="popup" *ngIf="isDeleteStudentPrompt" >
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" (click)="closeDeletePopup()">&times;</button>
+          </div>
+          <div class="modal-body" style="height:150px;">
+            <div class="center">
+              <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+            </div>
+            <div ><p>
+              Are you sure you want to delete this data? Ones deleted cannot be recovered later.</p>
+            </div> 
+            <div class="pt101 display" >
+              
+              <div>
+                <button class="blue_button right"(click)="deleteStudent()">Delete</button>
+              </div>
+              <div>
+                <button class="blue_button right cancel"  data-dismiss="modal"  (click)="closeDeletePopup()">Cancel</button>
+              </div>
+            </div>
+          </div>        
+        </div>
+      </div>
     </div>
 </div> 
