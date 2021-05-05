@@ -1071,8 +1071,8 @@ export class ViewComponent implements OnInit {
   removeDiscountAction() {
     this.isRemoveDiscClicked = true;
     this.auth.showLoader();
-    if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
-      this.commonService.showErrorMessage('error', '', 'Discount Amount is greater then discount given to student');
+    if (this.discountPopUpForm.discountAmount >= this.totalDiscountApplied) {
+      this.commonService.showErrorMessage('error', '', 'Discount Amount should not be greater than or equal to discount given to student!');
       this.auth.hideLoader();
       this.isRemoveDiscClicked = false;
       return false;
@@ -1176,6 +1176,7 @@ export class ViewComponent implements OnInit {
     this.isUpdateInstall
     this.isUpdateInstall = true;
     $('#installmentModal').modal('show');
+    if(this.feeTypeList.length<=0)
     this.getInstituteFeeTypes();
     this.addInstall = {
       acad_yr_id: this.academic_yr_id,

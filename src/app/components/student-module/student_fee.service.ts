@@ -904,7 +904,7 @@ export class StudentFeeService {
             }
             if (element.p_amount == 0) {
                 if (element.d_amount <= perInstallmentDiscount) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount );
                     return false;
                 } else {
                     obj.discount_amount = perInstallmentDiscount;
@@ -912,12 +912,12 @@ export class StudentFeeService {
                     obj.balance_amount = 0;
                 }
                 if (obj.final_amount == 0) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
                     return false;
                 }
             } else {
                 if (element.d_amount <= perInstallmentDiscount) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' +element.d_amount);
                     return false;
                 } else {
                     obj.discount_amount = perInstallmentDiscount;
@@ -925,7 +925,7 @@ export class StudentFeeService {
                     obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
                 }
                 if (obj.balance_amount == 0) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.balance_amount)));
+                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
                     return false;
                 }
 
