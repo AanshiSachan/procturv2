@@ -254,10 +254,6 @@ export class ManageAssignmentComponent implements OnInit {
     if(!this.jsonFlag.isProfessional && !this.schoolModel){
       this.assignmentDetails.masterCourse = this.editAssignmentDetails.master_course_name;
     }
-    if(this.jsonFlag.isProfessional) {
-      this.assignmentDetails.masterCourse = this.editAssignmentDetails.standard_id;
-      this.assignmentDetails.batch = this.editAssignmentDetails.batch_id;
-    }
     // else{
     //   this.assignmentDetails.masterCours
     // }
@@ -335,16 +331,12 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   getBatchList(){
-    this.batchList = [];
     this.auth.showLoader();
     const url = `/api/v1/batches/fetchCombinedBatchData/${this.jsonFlag.institute_id}/?standard_id=-1&subject_id=-1&assigned=Y`;
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.masterCourseList = res.standardLi;
-        if(this.sectionName == 'Edit'){
-          this.updateCoursesList();
-        }
         this.batchList = res.batchLi;
       },
       err => {
@@ -355,8 +347,6 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   updateCoursesList(){
-    this.batchList = [];
-    this.courseList = [];
       const url = `/api/v1/batches/fetchCombinedBatchData/${this.jsonFlag.institute_id}/?standard_id=${this.assignmentDetails.masterCourse}&subject_id=-1&assigned=Y`;
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -377,7 +367,6 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   updateSubjectsList(){
-    this.batchList = [];
     this.auth.showLoader();
     const url = `/api/v1/batches/fetchCombinedBatchData/${this.jsonFlag.institute_id}/?standard_id=${this.assignmentDetails.masterCourse}&subject_id=${this.assignmentDetails.course}&assigned=Y`;
     this.auth.showLoader();
@@ -387,9 +376,6 @@ export class ManageAssignmentComponent implements OnInit {
         let result: any;
         result = res;
         this.batchList = result.batchLi;
-        if(this.sectionName == 'Edit') {
-          this.getTopic();
-        }
       },
       err => {
         this.auth.hideLoader();
@@ -408,17 +394,6 @@ export class ManageAssignmentComponent implements OnInit {
         let result: any;
         result = res;
         this.studentsList = result;
-        if(this.sectionName == 'Edit'){
-          let studentArr = [];
-            for(let i = 0; i < this.studentsList.length; i++){
-              for(let j = 0; j < this.editAssignmentDetails.studentId_lists.length; j++){
-                if(this.studentsList[i].student_id == this.editAssignmentDetails.studentId_lists[j]){
-                  studentArr.push(this.studentsList[i])
-                }
-              }
-            }
-            this.selectedStudentList = studentArr;
-        }
       },
       err => {
         this.auth.hideLoader();
