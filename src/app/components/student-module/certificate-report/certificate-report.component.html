@@ -8,20 +8,20 @@
      </div>
       <div class="w98"> 
         <div class="pt15">
-         <input type="text" name="" [(ngModel)]="reportModel.date" class="input wid240 mr10" placeholder="21-03-2021 to 21-03-2021">
+         <input type="text" name="currentDate" [(ngModel)]="reportModel.currentDate" class="input wid240 mr10" placeholder="21-03-2021 to 21-03-2021">
            <span class="or mr10">or</span>
            
            <div class="dropdown11">
    <button class="filter dropbtn11"><img src="../../../../assets/images/certifcateimg/filter.svg"></button>
-   <div class="dropdown-content11">
-     <a href="#">Transfer Certificate</a>
+   <div class="dropdown-content11" >
+     <a href="">Transfer Certificate</a>
      <a href="#">Conduct / Character Certificate</a>
      <a href="#">Bonafide Certificate</a>
       <a href="#">Migration Certificate</a>
-   </div>
+   </div>&nbsp;&nbsp;&nbsp;&nbsp;
  </div>
 
-         <input type="text" name="" [(ngModel)]="searchInput" placeholder="Search" class="input wid240 right magnifying-glass">
+         <input type="text" name="searchInput" [(ngModel)]="searchInput" (keyup)="searchItem(search)" placeholder="Search" class="input wid240 right magnifying-glass" #search>
        </div>
        <div class="c_report">
              <div class="table_heading">
@@ -43,18 +43,18 @@
              </div>
        
              <div class="table_body" *ngFor="let item of reportData">
-               <div>
-                 {{item.student_id}}
+               <div title="{{item.student_id}}">
+                {{(!item.student_id) ? '-' : (item.student_id.length > 20) ? (item.student_id | slice:0:20) + '...' : item.student_id}}
                </div>
-               <div>
-                  {{item.student_name}}
-               </div>
-              <div>
-              {{item.certificate_type}}
+               <div title="{{item.student_name}}">
+                {{(!item.student_name) ? '-' : (item.student_name.length > 20) ? (item.student_name | slice:0:20) + '...' : item.student_name}}
               </div>
-               <div>{{item.generated_date}}</div>
-              <div>
-              {{item.generated_by}}
+              <div title="{{item.certificate_type}}">
+                {{(!item.certificate_type) ? '-' : (item.certificate_type.length > 20) ? (item.certificate_type | slice:0:20) + '...' : item.certificate_type}}
+              </div>
+               <div title="{{item.generated_date}}">{{item.generated_date}}</div>
+              <div title="{{item.generated_by}}">
+              {{(!item.generated_by) ? '-' : (item.generated_by.length > 20) ? (item.generated_by | slice:0:20) + '...' : item.generated_by}}
               </div>
                <div>
                  <a href="" class="mr10"><img src="../../../../assets/images/certifcateimg/view.png" title="View" ></a>
@@ -66,4 +66,5 @@
            </div>
            <!-- use image only when page is empty,table body class element will not be present -->
      </div>
-    </div>  
+    </div> 
+    <div *ngIf="reportData.length == '0'">No Record</div> 

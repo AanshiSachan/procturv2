@@ -15,7 +15,8 @@ jsonFlag ={
   institute_id:''
 }
 reportModel={
-  date:moment().format('DD-MM-YYYY')
+  currentDate: moment(new Date()).format('DD-MM-YYYY'),
+
 
 }
   constructor(private router: Router,
@@ -52,9 +53,13 @@ searchItem(){
   if(this.searchInput == undefined || this.searchInput == null){
     this.searchInput ="";
   }else{
-    let searchData = this.reportSearch.filter(item =>Object.keys(item).some(k =>item[k]!=null && item[k].toString().toLowerCase().includes(this.searchInput.toLowerCase()))); 
-    this.reportSearch = searchData;
+    let searchData = this.reportData.filter(item =>Object.keys(item).some(k =>item[k] != null && item[k].toString().toLowerCase().includes(this.searchInput.toLowerCase()))); 
+    this.reportData = searchData;
   }
+
+}
+filterCertificate(filterValue : string){
+  this.reportData.filter = filterValue.trim().toLocaleLowerCase(); 
 
 }
 }

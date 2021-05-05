@@ -317,10 +317,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 id:any
   generateCertificate(){
+    
     this.showToggleLoader.emit(true);
     this.id = this.rowData.student_id
      sessionStorage.setItem('students_id',JSON.stringify(this.id))
-    this.router.navigateByUrl('/view/students/certificates');
+    this.router.navigate(['/view/students/certificates']);
     this.showToggleLoader.emit(false);
 
 }
@@ -442,8 +443,31 @@ migrationCertificates(){
 
 }
 
-printPage(){
-  window.print();
- console.log("clicked")
+PrintPage(){
+  var divToPrint = document.getElementById("bonafiedCertificate")
+  let newWin = window.open("");
+  newWin.document.write(divToPrint.outerHTML);
+  newWin.print();
+  newWin.close();
+  console.log("print")
+//  window.print();
+}
+migrationPrintPage(){
+  var divToPrint2 = document.getElementById("migrationCertificate")
+  let newWin = window.open("");
+  newWin.document.write(divToPrint2.outerHTML);
+  newWin.print();
+  newWin.close()
+  console.log("print")
+
+}
+characterPrintPage(){
+  var divToPrint3 = document.getElementById("conductCertificate")
+  let newWinchar = window.open("");
+  newWinchar.document.write(divToPrint3.outerHTML);
+  newWinchar.print();
+  newWinchar.close()
+  console.log("print")
+
 }
 }

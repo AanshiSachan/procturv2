@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { PostStudentDataService } from '../../..//services/student-services/post-student-data.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import { Location } from '@angular/common'
+
 import * as moment from 'moment';
 
 
@@ -14,8 +16,7 @@ import * as moment from 'moment';
 })
 export class CertificatesComponent implements OnInit {
 
-  @Input() rowData: any;
-  @Input() studentDetails: any;
+  
 
 
 jsonFlag={
@@ -25,7 +26,7 @@ transferCertificateModel={
   dateOfBirth:'',
   student_name:'',
   father_name:'',
-  doj:moment(new Date).format('DD-MM-YY'),
+  doj:moment(new Date),
   whetherBelongsTo:'',
   studentLast_class:'',
   student_id:'',
@@ -36,7 +37,7 @@ transferCertificateModel={
   last_school_dues_paid_month:'',
   last_date:'',
   last_annual_exam_result:'',
-  certificate_issue_date:'',
+  certificate_issue_date: moment(new Date).format("YYYY-MM-DD"),
   total_present_days:'',
   total_working_days:'',
   reasonLeaveSchool:'',
@@ -57,7 +58,8 @@ studentTransferData:any=[]
   constructor(private router: Router,
     private PostStudService: PostStudentDataService,
     private auth: AuthenticatorService,
-    private _commService: CommonServiceFactory) { 
+    private _commService: CommonServiceFactory,
+    private location: Location) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.transferCertificateModel.student_id = sessionStorage.getItem('students_id')
     }
@@ -66,19 +68,15 @@ transfer :boolean=false
 transferCertificates:boolean=true
 
   ngOnInit(): void {
+    console.log("date",this.transferCertificateModel.certificate_issue_date)
     this.getTransferData();
   }
-  ngOnChanges() {
-    this.rowData;
-    this.studentDetails;
-  }
+ 
 transferCertificate(){
   this.transferCertificates = false
   this.transfer=true;
 }
-Back(){
-  this.router.navigateByUrl('/view/students')
-}
+
 getTransferData(){
 this.auth.showLoader();
 let url = '/api/v1/certificate/transferDetails/'+this.jsonFlag.institute_id+'/'+this.transferCertificateModel.student_id;
@@ -169,14 +167,43 @@ generateTransferCertificates(){
 }
 
 downloadTransferCertificates(){
+let obj ={
+    institute_id : this.jsonFlag.institute_id,
+    student_id :this.transferCertificateModel.student_id,
+    student_name : this.transferCertificateModel.student_name,
+    student_administration_number :this.transferCertificateModel.student_administration_number,
+    father_name : this.transferCertificateModel.father_name,
+    mother_name : this.transferCertificateModel.mother_name,
+    dob : this.transferCertificateModel.dateOfBirth,
+    nationality : this.transferCertificateModel.nationality,
+    category : this.transferCertificateModel.belongsTo,
+    doj : this.transferCertificateModel.doj,
+    last_studied_class : this.transferCertificateModel.last_studied_class,
+    last_annual_exam_result:this.transferCertificateModel.last_annual_exam_result,
+    exam_failure_times : this .transferCertificateModel.failedClass,
+    subject_names : this.transferCertificateModel.subject_names,
+    promotion_class :this.transferCertificateModel.promotionToClass,
+    last_school_dues_paid_month : this.transferCertificateModel.last_school_dues_paid_month,
+    nature_of_concession:this.transferCertificateModel.feeConcession,
+    total_working_days :this.transferCertificateModel.total_working_days,
+    total_present_days:this.transferCertificateModel.total_present_days,
+    ncc_cadet_scout_guide_detail:this.transferCertificateModel.whetherNcc,
+    general_character:this.transferCertificateModel.genCharacter,
+    last_date :this.transferCertificateModel.last_date,
+    application_date:this.transferCertificateModel.application_date,
+    issue_date :this.transferCertificateModel.certificate_issue_date,
+    leaving_reason:this.transferCertificateModel.reasonLeaveSchool,
+    remark:this.transferCertificateModel.remark
 
+  
+}
   this.auth.showLoader();
   let url ='/api/v1/certificate/transfer';
-  this.PostStudService.stdGetData(url).subscribe(
+  this.PostStudService.stdPostData(url,obj).subscribe(
     (res:any) =>{
       let resp =res.result;
-      console.log("transfer",resp)
-
+      console.log("transfer denerated",resp)
+this.auth.hideLoader();
       if(res){
          
       
@@ -206,5 +233,13 @@ downloadTransferCertificates(){
     }
   )
 
+}
+Back(){
+
+  this.router.navigateByUrl('/view/students')
+}
+cloaseCertificate(){
+  this.transfer = false;
+  this.transferCertificates = true;
 }
 }

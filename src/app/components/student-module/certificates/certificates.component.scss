@@ -1,5 +1,6 @@
 *{
   margin: 0px;
+
 }
 body{
   font-family: 'Open Sans', sans-serif;
@@ -135,12 +136,29 @@ input[type="date"]{
   font-weight: 500;
   cursor: pointer;
 }
+
+.field-wrapper .form-ctrl{
+  border-radius: 4px;
+  border-color: #ccc;
+  // background-color: #FAFAFA;
+  width: 265px;
+  height: 36px;
+}
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(../../../../assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  right: 14px;
+  top: 17px;
+  width: 21px;
+  height: 21px;
+  z-index: 0;
+}
 // ========================================transfer style=========================
 *{
 	margin: 0px;
 	color: #403e40;
 	font-size: 15px;
-	text-transform: uppercase;
 }
 .gradient{
 	background: linear-gradient(90deg, #04498A 19.01%, #52C8E6 94.66%);
