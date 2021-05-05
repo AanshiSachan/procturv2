@@ -828,7 +828,6 @@ export class StudentFeeService {
                     perInstallmentDiscount = mutableDiscount;
                 }
                 if (element.balance_amount == 0) {
-
                     if (element.fees_amount <= perInstallmentDiscount) {
                         this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;

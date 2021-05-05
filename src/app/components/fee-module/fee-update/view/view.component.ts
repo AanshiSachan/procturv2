@@ -644,9 +644,15 @@ export class ViewComponent implements OnInit {
       return false;
     }
     // Condition For discount satisfy now apply discount
+    let discountInstllmentList=this.feeService.makeDiscountingJSONV2(this.discountInstallList, this.discountPopUpForm);
+    if(!discountInstllmentList){
+      this.auth.hideLoader();
+      this.isApplyDiscClicked = false;
+      return false;
+    }
     let jsonToSend: any = {
       student_id: this.student_id,
-      discountInstllmentList: this.feeService.makeDiscountingJSONV2(this.discountInstallList, this.discountPopUpForm)
+      discountInstllmentList: discountInstllmentList
     }
     this.feeService.addDiscountToStudent(jsonToSend).subscribe(
       res => {
@@ -1084,7 +1090,7 @@ export class ViewComponent implements OnInit {
       return;
     }
     let installmentList = this.feeService.makeRemoveDiscountJsonV2(this.discountInstallList, this.discountPopUpForm);
-    if (installmentList.length == 0) {
+    if (!installmentList) {
       this.auth.hideLoader();
       this.isRemoveDiscClicked = false;
       return;
