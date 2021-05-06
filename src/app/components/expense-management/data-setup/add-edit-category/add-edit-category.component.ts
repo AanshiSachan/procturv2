@@ -70,6 +70,8 @@ export class AddEditCategoryComponent implements OnInit {
         category_name: this.addCategory.Name,
         category_desc: this.addCategory.Description,
         is_active: 'Y',
+        expense_category_type:this.addCategory.expense_category_type
+
       }
       if (this.isEditCategory) {
         obj.category_id = this.addCategory.category_id;
