@@ -673,6 +673,22 @@
                         <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
                     <p >Reports</p></a>
                   </li>
+                  <!-- ======asha-edited========== -->
+                  <li class="dropdown" [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
+                  <div>
+                    <a routerLink="/view/sms-gateway">
+                        <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidemenuicon/reportIcon1.png'" alt="">
+                        <p>Configuration</p><i class="fa fa-angle-right"></i>
+                        </a>
+                        <div class="dropdown-content">
+                            <a routerLink="/view/sms-gateway/sms-configuration">
+                                <span>SMS Configuration</span>
+                        </a>
+                    </div>
+                    </div>
+                  </li>
+                  
+                  <!-- ========================= -->
     
                   <li [ngClass]= "activeSession ==='liSettings'?'liActiveBG':''" *ngIf="showSMSSetting" (click)="toggler('liSettings')">
                     <a routerLink="/view/setting">

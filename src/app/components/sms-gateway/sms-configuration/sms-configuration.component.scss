@@ -1,0 +1,158 @@
+*{
+    margin-left: auto;
+      box-sizing: border-box;
+  
+    }
+    
+    input[type=text], select, textarea {
+      width: 89%;
+      padding: 7px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    
+    label {
+      padding: 13px 18px 15px 0;
+      display: inline-block;
+      margin-left: 128px;
+    }
+    
+    input[type=submit] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+    }
+    
+    input[type=submit]:hover {
+      background-color:aqua;
+    }
+    
+    .container {
+      border-radius: 5px;
+      // background-color: #f2f2f2;
+      padding: 20px;
+    }
+    
+    .col-25 {
+      float: left;
+      width: 23%;
+      margin-top: 6px;
+    }
+    
+    .col-75 {
+      float: left;
+      width: 75%;
+      margin-top: 6px;
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    input[type=password], select, textarea {
+      width: 89%;
+      padding: 7px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+    }
+    // =============checkbox================
+  
+    .blue_button {
+      background-color: #109CF1;
+      color: white;
+      padding: 9px 20px;
+      font-size: 12px;
+      border: none;
+      border-radius: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      display:flex;
+  justify-content:space-between;
+  
+  
+    }
+    input:checked {
+      height: 50px;
+      width: 50px;
+    }
+  mark{
+    background-color: #ccc
+    // color: black;
+    
+  }
+  .mrk{
+  //background-color:blue ;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 15px;
+  /* or 115% */
+  
+  letter-spacing: 0.01em;
+  
+  color: #334D6E;
+  
+  }
+  .mrk2{
+    font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 15px;
+  /* or 115% */
+  
+  letter-spacing: 0.01em;
+  
+  color: #334D6E;
+  }
+  
+  .blue_button1 {
+    background-color: white;
+    color:blue;
+    padding: 9px 20px;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    display:flex;
+  justify-content:space-between;
+  
+  
+  }
+  .heder{
+    background: #F3F4F6;
+  border: 1px solid #DCDCDC;
+  box-sizing: border-box;
+  position: absolute;
+  width: 242px;
+  height: 620px;
+  left: 204px;
+  top: 72px;
+  display:flex;
+  justify-content:space-between;
+  
+  
+  
+  }
+  .header{
+   color:  #0097F9;
+
+  }
