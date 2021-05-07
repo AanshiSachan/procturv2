@@ -5,7 +5,7 @@
         <label for="gatewayName">Gateway Name<span class="danger">*</span></label>
       </div>
       <div class="col-75">
-        <input type="text" id="gateway_name" name="gateway_name"[(ngModel)]=" smsGatewatModel.gateway_name" placeholder="gateway name..">
+        <input type="text" id="gateway_name" disabled name="gateway_name"[(ngModel)]=" smsGatewatModel.gateway_name" placeholder="gateway name..">
       </div>
     </div>
     
@@ -41,15 +41,44 @@
             <div class="col-75">
               <input type="text" id="brandName" name="brand_name" [(ngModel)]=" smsGatewatModel.brand_name" placeholder="brand name..">
             </div>
-            </div>
+          </div>
+
+
+              <!-- <div class="field-radio-wrapper">
+
+                <input type="checkbox" style="white-space: normal;" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
+                <label for="ative">Is Active</label>
+
+
+            </div> -->
             <div class="row">
-              <div class="col-25">
-                <label for="smsId">Is Active</label>
+            <div class="col-25">
+              <label for="ative">Is Active</label>
               </div>
-              <div class="col-25">
-                <input type="checkbox" id="smsId" name="is_active" [(ngModel)]="smsGatewatModel.is_active">
-              </div>
+              <label class="checkbox"> 
+
+                <span class="checkbox__input">
+                  <div class="col-75">
+
+                  <input type="checkbox" name="checked" [(ngModel)]="smsGatewatModel.is_active" >
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                  </div>
+                </span>
+              </label>
+            
             </div>
+                <!-- <div class="col-75"> -->
+                <!-- <div class="field-radio-wrapper">
+
+                  <input type="radio" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
+                  <label for="ative">Is Active</label>
+
+
+              </div> -->
+              
 
 
             <div class="row">
@@ -57,19 +86,19 @@
                 <label for="smsId">Important note</label>
               </div>
               <div class="col-75">
-               <p> If is active checkbox <mark class="mrk">Disable</mark> then SMS will be deliver from PROCTUR sender id and with same brand name.</p>
-                <p>If is active checkbox <mark class="mar2">Enable</mark> then take all the details from Proctur side or raise a ticket for username and password.</p>
+               <p class="para"> If is active checkbox <mark class="mrk">Disable</mark> then SMS will be deliver from PROCTUR sender id and with same brand name.</p>&nbsp;
+                <p class="para">If is active checkbox <mark class="mrk">Enable</mark> then take all the details from Proctur side or raise a ticket for username and password.</p>
 
               </div>
             </div>
 
             <div class="row">
               <div class="col-25">
-                <label for="dlt"><mark>dlt process steps</mark></label>
+                <label for="dlt"><mark class="mrk1">Dlt process steps</mark></label> 
               </div>
               <div class="col-75">
-               <p>As per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be registered with DTL platform. We have been observing that some of our clients are not able to send SMS. To facilitate extended service to Proctur’s clients, We have come up with option 1 as an extended process.
-                Option 1- For immediate sending SMS, clients can use Sender Id as “PRCTUR”, but in this case brand name will be Proctur, for each SMS.
+               <p class="para">As per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be registered with DTL platform. We have been observing that some of our clients are not able to send SMS. To facilitate extended service to Proctur’s clients, We have come up with option 1 as an extended process.
+                <p class="para">Option 1-For immediate sending SMS, clients can use Sender Id as “PRCTUR”, but in this case brand name will be Proctur, for each SMS.</p>
 
               </div>
 
@@ -81,7 +110,7 @@
                 <span class="right">
               
                 <button class="blue_button" (click)="createSMSgateway()"*ngIf="!iscreated" >Save Setting</button>
-                <button class="blue_button" (click)="createSMSgateway()" *ngIf="iscreated" >Update Setting</button>
+                <button class="blue_button" (click)="updateSMSgateway()" *ngIf="iscreated" >Update Setting</button>
 
 
                 </span>

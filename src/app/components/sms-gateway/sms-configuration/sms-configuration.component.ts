@@ -22,24 +22,30 @@ smsGatewatModel={
   promotional_password:'',
   sender_id:'',
   brand_name:'',
-  is_active:'Y'
+  is_active:'Y',
+  gateway_id:''
 }
 iscreated:boolean=false
 allSMSData:any=[];
 
 constructor(private auth:AuthenticatorService,
   private _http: HttpService,private msgService: MessageShowService) { 
-this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
+this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
+
   }
   ngOnInit(): void {
-    alert(this.iscreated)
+    // if(this.allSMSData.length){
+    //   this.iscreated = true
+    //   alert(this.iscreated)
+    //   console.log("is value",this.allSMSData.length)
 
-if(this.allSMSData == ''){
-  this.iscreated = true
-}else {
-  this.iscreated = false
-}
-this.getAllSmsData()
+    // }else {
+    //   this.iscreated = false
+    //   console.log("no value",this.allSMSData.length)
+
+
+    // }
+this.getAllSmsData();
 
   }
   getAllSmsData(){
@@ -48,14 +54,28 @@ this.getAllSmsData()
      this._http.getData(url).subscribe(
       (res:any)=>{
         this.allSMSData = res.result;
+       
+        for(let i =0; i<this.allSMSData.length;i++){
+         this.smsGatewatModel.gateway_id= this.allSMSData[i].gateway_id
+        
+        }
+        if(this.allSMSData.length){
+          this.iscreated = true
+        }else  {
+          this.iscreated = false
+          
+        }
+        console.log("SMS DDDDDDDD",this.allSMSData.length)
         console.log("SMS DDDDDDDD",this.allSMSData)
+
+
         this.auth.hideLoader();
       }
     )
   
   }
   createSMSgateway(){
-    if(this.validationInputs() && this.iscreated){
+    if(this.validationInputs() || this.iscreated){
     let obj ={
       institute_id : this.jsonFlag.institute_id,
       gateway_name : this.smsGatewatModel.gateway_name,
@@ -75,7 +95,7 @@ this.getAllSmsData()
    (res : any) =>{
      this.auth.hideLoader();
     this.msgService.showErrorMessage('success', '', "SMS Created successfully");
-    // this.clearFun()
+    this.clearFun()
 
   },
   err => {
@@ -101,7 +121,7 @@ this.getAllSmsData()
   
       }
     
-    )
+    ) 
   }
   updateSMSgateway(){
     if(this.iscreated){
@@ -111,8 +131,8 @@ this.getAllSmsData()
       gateway_name : this.smsGatewatModel.gateway_name,
       transaction_username : this.smsGatewatModel.transaction_username,
       transaction_password : this.smsGatewatModel.transaction_password,
-      promotional_username : this.smsGatewatModel.promotional_username,
-      promotional_password : this.smsGatewatModel.promotional_password,
+      promotional_username : this.smsGatewatModel.transaction_username,
+      promotional_password : this.smsGatewatModel.transaction_password,
       sender_id : this.smsGatewatModel.sender_id,
       brand_name : this.smsGatewatModel.brand_name,
       is_active : this.smsGatewatModel.is_active
@@ -120,7 +140,7 @@ this.getAllSmsData()
     }
 
     this.auth.showLoader();
-    const url = `/api/v1/institutes/sms-gateway/update/${this.smsGatewatModel.sender_id}`
+    const url = `/api/v1/institutes/sms-gateway/update/${this.smsGatewatModel.gateway_id}`
     this._http.putData(url,obj).subscribe(
       (res : any) =>{
         this.auth.hideLoader();
@@ -159,13 +179,27 @@ this.getAllSmsData()
   
    clearFun(){
       // this.smsGatewatModel.gateway_name= "",
-      this.smsGatewatModel.transaction_password = "",
-      this.smsGatewatModel.transaction_username ="",
-      this.smsGatewatModel.brand_name= "",
+      this.smsGatewatModel.transaction_password = ""
+      this.smsGatewatModel.transaction_username =""
+      this.smsGatewatModel.brand_name= ""
       this.smsGatewatModel.sender_id =""
       
     }
   
-   
+   trueFlag(){
+    // if(this.allSMSData.length == 0){
+    //   this.iscreated = true
+    //   alert(this.iscreated)
+    //   console.log("no value",this.allSMSData.length)
+
+    //   console.log("no value")
+    // }else if(this.allSMSData.length != 0){
+    //   this.iscreated = false
+    //   console.log("no value",this.allSMSData.length)
+
+    //   console.log("is value")
+
+    // }
+   }
 }
 
