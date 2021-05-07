@@ -15,7 +15,7 @@ jsonFlag ={
   institute_id:''
 }
 reportModel={
-  currentDate: moment(new Date()).format('DD-MM-YYYY'),
+  currentDate: moment(new Date()).format('YYYY-MM-DD'),
   certificate_url:''
 
 

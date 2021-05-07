@@ -204,3 +204,20 @@
   .dropdown11:hover .dropdown-content11 {display: block;}
   
   
+.field-wrapper .form-ctrl{
+  border-radius: 4px;
+  border-color: #ccc;
+  // background-color: #FAFAFA;
+  width: 265px;
+  height: 36px;
+}
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(../../../../assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  right: 14px;
+  top: 17px;
+  width: 21px;
+  height: 21px;
+  z-index: 0;
+}
