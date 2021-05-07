@@ -16,6 +16,7 @@ jsonFlag ={
 }
 reportModel={
   currentDate: moment(new Date()).format('DD-MM-YYYY'),
+  certificate_url:''
 
 
 }
@@ -39,7 +40,9 @@ getCertificateReportData(){
     (res : any) =>{
       this. reportData = res.result;
       this.reportSearch = res.result;
-
+for(let i=0; i< this.reportData.length;i++){
+  this.reportModel.certificate_url = this.reportData[i].certificate_url
+}
       console.log("reppppppppppp",this.reportData)
       this.auth.hideLoader();
     },
@@ -48,6 +51,29 @@ getCertificateReportData(){
     }
     )
 }
+downloadCertificates(){
+  let docArry = this._commService.convertBase64ToArray(this.reportModel.certificate_url);
+  let fileName = 'certificate.pdf';//response.docTitle
+  let file = new Blob([docArry], { type: 'application/pdf;' });
+  let urlcert =URL .createObjectURL(file);
+  let downloadLink = document.getElementById('downloadFileClick1');
+  downloadLink.setAttribute("href",urlcert);
+  downloadLink.setAttribute("download",fileName);
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+
+console.log("downloded")
+
+// else {
+//   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+// }
+// } else {
+// this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+// }
+
+}
+
+
 searchItem(){
   this.reportData = this.reportSearch;
   if(this.searchInput == undefined || this.searchInput == null){
