@@ -146,7 +146,7 @@
           <div>
             <select class="select wid140 mr10 select2" [(ngModel)]="template_id"
               (ngModelChange)="fetchFeeStructureData($event)">
-              <option value="-1">Select Template</option>
+              <option value="-1">Select Fee Structure</option>
               <option *ngFor="let data of feeStructureList" [value]="data.template_id">{{data.template_name}}</option>
             </select>
             <span class="right relative">
