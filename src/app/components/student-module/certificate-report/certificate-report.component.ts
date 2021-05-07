@@ -40,9 +40,7 @@ getCertificateReportData(){
     (res : any) =>{
       this. reportData = res.result;
       this.reportSearch = res.result;
-for(let i=0; i< this.reportData.length;i++){
-  this.reportModel.certificate_url = this.reportData[i].certificate_url
-}
+
       console.log("reppppppppppp",this.reportData)
       this.auth.hideLoader();
     },
