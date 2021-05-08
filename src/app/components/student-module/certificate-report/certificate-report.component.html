@@ -18,11 +18,11 @@
            
            <div class="dropdown11">
    <button class="filter dropbtn11"><img src="../../../../assets/images/certifcateimg/filter.svg"></button>
-   <div class="dropdown-content11" (click)="filterCertificate(t)">
-     <a >Transfer Certificate</a>
-     <a href="#">Conduct / Character Certificate</a>
-     <a href="#">Bonafide Certificate</a>
-      <a href="#">Migration Certificate</a>
+   <div class="dropdown-content11"  (click) ="filterCertificate()" #search>
+     <a value="">Transfer Certificate</a>
+     <a >Conduct / Character Certificate</a>
+     <a >Bonafide Certificate</a>
+      <a>Migration Certificate</a>
    </div>&nbsp;&nbsp;&nbsp;&nbsp;
  </div>
 
@@ -62,8 +62,8 @@
               {{(!item.generated_by) ? '-' : (item.generated_by.length > 20) ? (item.generated_by | slice:0:20) + '...' : item.generated_by}}
               </div>
                <div>
-                 <a href="{{item.certificate_url}}" class="mr10" target="_blank"><img src="../../../../assets/images/certifcateimg/view.png" title="View" ></a>
-                 <a href="" class="mr10"><img src="../../../../assets/images/certifcateimg/print1.svg" title="Print" ></a>
+                 <a (click)="viewAndPrintPdf(item.certificate_url)" class="mr10" target="_blank"><img src="../../../../assets/images/certifcateimg/view.png" title="View" ></a>
+                 <a (click)="viewAndPrintPdf(item.certificate_url)" class="mr10"><img src="../../../../assets/images/certifcateimg/print1.svg" title="Print" ></a>
                  <a href="{{item.certificate_url}}" class="mr10"><img src="../../../../assets/images/certifcateimg/download1.svg" title="Download" ></a>
                  
                </div>

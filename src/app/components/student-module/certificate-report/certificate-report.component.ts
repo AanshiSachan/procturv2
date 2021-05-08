@@ -16,7 +16,8 @@ jsonFlag ={
 }
 reportModel={
   currentDate: moment(new Date()).format('YYYY-MM-DD'),
-  certificate_url:''
+  certificate_url:'',
+  certificate_type:''
 
 
 }
@@ -33,6 +34,8 @@ reportModel={
   reportData:any=[]
   reportSearch:any=[]
   searchInput:any;
+  filterCertificates:any=[];
+  selectedOption:any
 getCertificateReportData(){
   this.auth.showLoader();
   let url='/api/v1/certificate/report/'+this.jsonFlag.institute_id;
@@ -51,28 +54,14 @@ for(let i=0; i<this.reportData.length;i++){
     }
     )
 }
-downloadCertificates(){
-  let docArry = this._commService.convertBase64ToArray(this.reportModel.certificate_url);
-  let fileName = 'certificate.pdf';//response.docTitle
-  let file = new Blob([docArry], { type: 'application/pdf;' });
-  let urlcert =URL .createObjectURL(file);
-  let downloadLink = document.getElementById('downloadFileClick1');
-  downloadLink.setAttribute("href",urlcert);
-  downloadLink.setAttribute("download",fileName);
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
 
-console.log("downloded")
 
-// else {
-//   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-// }
-// } else {
-// this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-// }
+viewAndPrintPdf(certificate_url){  
+ window.open('https://docs.google.com/viewer?url=' + certificate_url);
+ // window.open(certificate_url).print();
+
 
 }
-
 
 searchItem(){
   this.reportData = this.reportSearch;
@@ -84,9 +73,13 @@ searchItem(){
   }
 
 }
-filterCertificate(string:any){
-  this.reportData =this.reportData.filter(element =>element.certificate_type.trim().toLocaleLowerCase().charAt(0) === string); 
+filterCertificate(){
+  alert(this.filterCertificates)
+ this.filterCertificates =this.reportData.filter(element => element.certificate_type);
 
+this.getCertificateReportData()
 
 }
+
+
 }
