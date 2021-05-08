@@ -318,12 +318,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 id:any
   generateCertificate(){
     
-    this.showToggleLoader.emit(true);
     this.id = this.rowData.student_id
      sessionStorage.setItem('students_id',JSON.stringify(this.id))
-    this.router.navigate(['/view/students/certificates']);
-    this.showToggleLoader.emit(false);
-
+    this.router.navigateByUrl('/view/students/certificates');
 }
 getCharacterCertificate(){
   this.auth.showLoader();

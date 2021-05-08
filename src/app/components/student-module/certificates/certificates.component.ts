@@ -37,7 +37,7 @@ transferCertificateModel={
   last_school_dues_paid_month:'',
   last_date:'',
   last_annual_exam_result:'',
-  certificate_issue_date: moment(new Date).format("YYYY-MM-DD"),
+  certificate_issue_date: moment(new Date()).format("YYYY-MM-DD"),
   total_present_days:'',
   total_working_days:'',
   reasonLeaveSchool:'',
@@ -84,7 +84,6 @@ this.PostStudService.stdGetData(url).subscribe(
   (res:any) =>{
     let response = res;
     this.studentTransferData = res.result;
-    // for(let i =0; i<this.studentTransferData.length;i++){
       this.transferCertificateModel.student_name=this.studentTransferData.student_name;
       this.transferCertificateModel.father_name= this.studentTransferData.father_name 
       this.transferCertificateModel.dateOfBirth=this.studentTransferData.dob
@@ -234,6 +233,15 @@ this.auth.hideLoader();
   )
 
 }
+
+previewCertificate(download_link){
+    window.open('https://docs.google.com/viewer?url=' + download_link);
+
+}
+
+
+
+
 Back(){
 
   this.router.navigateByUrl('/view/students')

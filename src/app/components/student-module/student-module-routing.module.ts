@@ -66,7 +66,7 @@ const routes: Routes = [
       {
         path: 'certificates',
         component: CertificatesComponent,
-        pathMatch: 'prefix',
+         pathMatch: 'prefix',
       },
       {
         path: 'certificate-report',
