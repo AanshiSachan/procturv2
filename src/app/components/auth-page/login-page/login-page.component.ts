@@ -993,7 +993,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   openGetAdvice() {
-    let url = "https://proctur.com/contact-us";
+    let url = "https://proctur.com/request-callback.php";
     window.open(url);
   }
 
