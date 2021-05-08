@@ -40,7 +40,9 @@ getCertificateReportData(){
     (res : any) =>{
       this. reportData = res.result;
       this.reportSearch = res.result;
-
+for(let i=0; i<this.reportData.length;i++){
+  this.reportModel.certificate_url = this.reportData[i].certificate_url
+}
       console.log("reppppppppppp",this.reportData)
       this.auth.hideLoader();
     },
@@ -82,8 +84,9 @@ searchItem(){
   }
 
 }
-filterCertificate(filterValue : string){
-  this.reportData.filter = filterValue.trim().toLocaleLowerCase(); 
+filterCertificate(string:any){
+  this.reportData =this.reportData.filter(element =>element.certificate_type.trim().toLocaleLowerCase().charAt(0) === string); 
+
 
 }
 }

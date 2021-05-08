@@ -18,8 +18,8 @@
            
            <div class="dropdown11">
    <button class="filter dropbtn11"><img src="../../../../assets/images/certifcateimg/filter.svg"></button>
-   <div class="dropdown-content11" >
-     <a href="">Transfer Certificate</a>
+   <div class="dropdown-content11" (click)="filterCertificate(t)">
+     <a >Transfer Certificate</a>
      <a href="#">Conduct / Character Certificate</a>
      <a href="#">Bonafide Certificate</a>
       <a href="#">Migration Certificate</a>
@@ -64,7 +64,7 @@
                <div>
                  <a href="{{item.certificate_url}}" class="mr10" target="_blank"><img src="../../../../assets/images/certifcateimg/view.png" title="View" ></a>
                  <a href="" class="mr10"><img src="../../../../assets/images/certifcateimg/print1.svg" title="Print" ></a>
-                 <a href="{{item.certificate_url}}" class="mr10" target="_blank"><img src="../../../../assets/images/certifcateimg/download1.svg" title="Download" ></a>
+                 <a href="{{item.certificate_url}}" class="mr10"><img src="../../../../assets/images/certifcateimg/download1.svg" title="Download" ></a>
                  
                </div>
              </div>
