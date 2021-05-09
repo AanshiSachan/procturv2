@@ -142,7 +142,7 @@
                                 <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)"
                                     class="alert invalid-alert">
                                     <div *ngIf="manualId.errors.required" class="text-danger">
-                                        {{isSchoolModel? 'Registration Number *' : 'Roll No *'}} is Mandatory
+                                        {{isSchoolModel? 'Registration Number' : 'Roll No'}} is Mandatory
                                     </div>
                                 </div>
                             </div>
@@ -1697,7 +1697,7 @@
                             <div *ngIf="sEmail2.errors.required">
                                 name is required.
                             </div>
-                            <div *ngIf="sEmail2.errors.pattern">
+                            <div class="text-danger" *ngIf="sEmail2.errors.pattern">
                                 Please enter a valid email id
                             </div>
                         </div>

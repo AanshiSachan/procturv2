@@ -223,10 +223,11 @@ export class ScheduleHomeComponent implements OnInit {
     this.auth.showLoader();
     this.apiService.updateStanadardRowData(data, row.standard_id).subscribe(
       data => {
+        let tempMsg = this.isLangInstitue ? 'Master Course Updated Successfully' : 'Standard Updated Successfully!';
         let msg = {
           type: "success",
-          title: "Standard Updated",
-          body: "Standard Updated Successfully!"
+          title: "",
+          body: tempMsg
         }
         this.toastCtrl.popToast(msg);
         this.cancelRow(id);

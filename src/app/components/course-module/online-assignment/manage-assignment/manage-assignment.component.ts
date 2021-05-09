@@ -1216,15 +1216,15 @@ export class ManageAssignmentComponent implements OnInit {
 
   createMasterTag(){
       if(this.newTagName == ''){
-          this.msgService.showErrorMessage('info','',"Enter tag name");
+          this.msgService.showErrorMessage('error','',"Enter tag name");
           return false;
       }
       if(this.newTagName.length > 100){
-          this.msgService.showErrorMessage('info','',"Tag name cannot be so long");
+          this.msgService.showErrorMessage('error','',"Tag name cannot be so long");
           return false;
       }
       if(this.newTagDescription.length > 500){
-          this.msgService.showErrorMessage('info','',"Description cannot be so long");
+          this.msgService.showErrorMessage('error','',"Description cannot be so long");
           return false;
       }
      // else {

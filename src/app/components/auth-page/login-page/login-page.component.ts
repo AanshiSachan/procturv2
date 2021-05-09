@@ -263,7 +263,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           if (res.data && !this.validInstituteCheck(res)) {
             this.route.navigateByUrl('/authPage');
             //console.log('Institute ID Not Found');
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "There is no access for Open User login in web..Kindly access the same through APP");
             sessionStorage.clear();
             localStorage.clear();
             return
@@ -470,7 +470,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
       //console.log('Institute ID Not Found');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "There is no access for Open User login in web..Kindly access the same through APP");
       sessionStorage.clear();
       localStorage.clear();
       return
