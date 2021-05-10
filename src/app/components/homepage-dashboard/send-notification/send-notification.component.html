@@ -34,11 +34,12 @@
       <div class="wid70">
         <div class=" display">
          <div>
+          <span [ngClass]="approveMessage ? 'active_but' : 'inactive_but'"  (click)="approveTab()" id="approved">Approved</span>&nbsp;
+
           <span class="mr10" [ngClass]="pendingMessage ? 'active_but' : 'inactive_but'" (click)="penddingTab()" id="pendding">Pending</span>
 
             <!-- <span class="active_but mr10" (click)="onTabChange('open')" id="openSMSTab">Pending</span> -->
           <!-- <span class="inactive_but" (click)="onTabChange('approved')" id="approvedSMSTab">Approved</span> -->
-           <span [ngClass]="approveMessage ? 'active_but' : 'inactive_but'"  (click)="approveTab()" id="approved">Approved</span>
 
          </div>
          <div>
@@ -98,7 +99,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
     <!-- </div> -->
     </div>
     <!-- ===============================approve massage Table================================ -->
-       <div class="msg2 approved_tab" *ngIf="!pendingMessage">
+       <div class="msg2 approved_tab" *ngIf="approveMessage">
           <div class="table_heading">
             <div>
               
@@ -165,11 +166,11 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
       
       <div class="w982 ">
       <div class="w90 pending_tab">
-        <h1>Create Message</h1>  
+        <h1 *ngIf="pendingMessage">Create Message</h1>  
         <textarea placeholder="Write your message here...." class="textarea_m"                                     [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
-        [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
-        ></textarea>
-        <div class="display">
+        [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()" *ngIf="pendingMessage">
+      </textarea>
+        <div class="display" *ngIf="pendingMessage">
           <div></div>
           <div>
             <button class="white_button mr10" (click)="closeNewMessageDiv()">Back</button>
@@ -178,7 +179,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
 
           </div>
         </div>
-        <div class="display space1">
+        <div class="display space1" *ngIf="pendingMessage">
           <div>
             <span class="char_text">Character Count:<span class="char_count">{{newMessageText.length}}</span></span>
           </div>
@@ -186,7 +187,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <span>Message Count:<span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
           </div>
         </div>
-        <div class="note_para">
+        <div class="note_para" *ngIf="pendingMessage">
           <h1>Note:</h1>
                     <p>1. Always start with "Dear Student, Dear Parent, Dear Faculty etc". </p>
         <p>2. Please check spelling and grammar of the SMS. </p>
@@ -198,10 +199,10 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
        <div class="w90 approved_tab">
         <div class="sec1">
           <div >
-            Transactional : 5,00,000
+            Transactional : {{transactionalSmsm}}
           </div>
            <div >
-            Promotional : 70
+            Promotional : {{pramotionalSms}}
           </div>
         </div>
         <h1>Selected Message</h1>  
@@ -738,7 +739,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             Send to:
            </div>
             <div class="display person">
-              <div class="flex">
+              <div class="flex" *ngIf="!showFacultyTableFlag">
                 <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
@@ -754,7 +755,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                 Student
               </div>
               </div>
-              <div class="flex">
+              <div class="flex" *ngIf="!showFacultyTableFlag">
                 <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
@@ -770,7 +771,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                 Parent
               </div>
               </div>
-              <div class="flex">
+              <div class="flex" *ngIf="!showFacultyTableFlag">
                 <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
@@ -806,7 +807,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="dilverSms" (click)="onclickSms($event)">
+                    <input type="checkbox" name="checked" [(ngModel)]="dilverSms">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>

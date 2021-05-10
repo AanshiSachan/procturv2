@@ -41,8 +41,8 @@ export class SendNotificationComponent implements OnInit {
     checkBox: '0'
   }
 sendLoginmessage:boolean=false
-  approveMessage:boolean= false;
-  pendingMessage :boolean=true;
+  approveMessage:boolean= true;
+  pendingMessage :boolean=false;
   selectStudentForm :boolean= false;
   addSmsForm:boolean=true;
   showTableFlag: boolean = false;
@@ -53,10 +53,10 @@ sendLoginmessage:boolean=false
   schoolModel: boolean = false;
   showEmailSubject: boolean = false;
   chkbxSmsSend:boolean=false;
-  sendToStudent:boolean=false;
+  sendToStudent:boolean=true;
   sendToParent:boolean=false;
   sendTogardiunt:boolean=false;
-  dilverSms:boolean=false;
+  dilverSms:boolean=true;
   dilverEmail:boolean=false;
   public isProfessional: boolean = false;
   previowBox: boolean = false;
@@ -89,6 +89,8 @@ sendLoginmessage:boolean=false
   inactiveCheck:boolean=false;
 
   previewedMessage: any;
+  transactionalSmsm:any;
+  pramotionalSms:any;
 
   messageSubject: any = "";
   selectedMessageText:string ="";
@@ -107,6 +109,11 @@ sendLoginmessage:boolean=false
     
     ) {
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
+      this.transactionalSmsm = sessionStorage.getItem('smsTransaction')
+      console.log("hhhhhhhhhh",this.transactionalSmsm)
+      this.pramotionalSms = sessionStorage.getItem('pramotionValu')
+      console.log("pramotional",this.pramotionalSms)
+
     }
 
   ngOnInit(): void {
@@ -129,7 +136,8 @@ sendLoginmessage:boolean=false
         }
       }
     )
-    this.getAllMessageFromServer();
+    // this.getAllMessageFromServer();
+    this.getOpenStatusSMS()
     //this.getMaterCourseList();
   }
 openStudentForm(){
@@ -169,6 +177,7 @@ approveTab(){
 penddingTab(){
   this.approveMessage = false;
   this.pendingMessage = true;
+  this.getAllMessageFromServer()
 
 }
 
@@ -191,6 +200,7 @@ getAllMessageFromServer() {
       this.auth.hideLoader();
 
       tempMessageList = res;
+
       for(let i =0; i< tempMessageList.length; i++){
          if(tempMessageList[i].status === 0){
            this.messageList.push(tempMessageList[i]);
@@ -488,6 +498,7 @@ this.allUserList= false;
         res => {
           this.showTableFlag = true;
           this.studentList = res;
+          console.log("hgjhg",this.studentList)
         },
         err => {
           //console.log(err);
@@ -497,6 +508,10 @@ this.allUserList= false;
   }
 
   chkBoxAllActiveStudent() {
+    this. aluminiCheckBox=false;
+    this. allUserCheck=false;
+     this.inactiveCheck=false;
+     this.facultyCheckBox = false
     this.allChecked =true;
     this.showallUserListFlag = false;
     this.showAllaluminiStudentFlag = false;
@@ -595,13 +610,19 @@ closeNewMessageDiv() {
 this.selectedRow ="";
   this.selectedMessageText =""
   this.jsonFlag.editMessage = false;
-  this.dilverSms = false;
+  //  this.dilverSms = false;
   this.showTableFlag = false
+  this.showallUserListFlag=false
+  this.showFacultyTableFlag=false;
+  this.showAllaluminiStudentFlag=false;
+  this.showallUserListFlag=false;
+  this.showInactiveStudentFlag=false;
   this.activeRowCeckbox = false;
   this.facultyCheckBox=false;
   this.aluminiCheckBox=false;
   this.allUserCheck=false;
   this.inactiveCheck=false;
+  // this.sendToStudent=false;
   this.batchList=[];
   this.masterCourseList=[];
   this.courseList=[];
@@ -611,6 +632,10 @@ this.selectedRow ="";
 
 
 chkBoxAllFaculty() {
+ this. aluminiCheckBox=false;
+ this. allUserCheck=false;
+  this.inactiveCheck=false;
+  this.activeRowCeckbox = false
   this.showTableFlag =false;
   this.showallUserListFlag = false;
   this.showAllaluminiStudentFlag = false;
@@ -633,6 +658,10 @@ chkBoxAllFaculty() {
     }
 
     chkBoxAllInActiveStudent() {
+      this. allUserCheck=false;
+       this.activeRowCeckbox = false
+       this.facultyCheckBox = false
+      this.aluminiCheckBox = false
       this.showFacultyTableFlag = false;
       this.showTableFlag =false;
       this.showallUserListFlag = false;
@@ -654,6 +683,11 @@ chkBoxAllFaculty() {
     }
 
     chkBoxAllAluminiStudent() {
+      this. allUserCheck=false;
+      this.inactiveCheck=false;
+      this.activeRowCeckbox = false
+      this.facultyCheckBox = false
+      
       this.showInactiveStudentFlag = false;
       this.showFacultyTableFlag = false;
       this.showTableFlag =false;
@@ -677,6 +711,11 @@ chkBoxAllFaculty() {
     
     }
     chkBoxAllUsers() {
+      this. allUserCheck=false;
+       this.inactiveCheck=false;
+       this.activeRowCeckbox = false
+       this.facultyCheckBox = false
+       this.aluminiCheckBox= false
       this.showInactiveStudentFlag = false;
       this.showFacultyTableFlag = false;
       this.showTableFlag =false;
@@ -1166,13 +1205,13 @@ onClickSelectStudentDiv(){
   this.selectStudentForm = true;
 }
 
-onclickSms(event){
-  this.dilverEmail = false;
-  this.dilverSms = true;
-  event=this.dilverSms
-console.log("SSSSSSSSSSS",event)
+// onclickSms(){
+//   this.dilverEmail = false;
+//   this.dilverSms = true;
+//   event=this.dilverSms
+// console.log("SSSSSSSSSSS",this.dilverSms)
 
-}
+// }
 oclickEmail(event){
   this.dilverSms = false;
   this.dilverEmail = true;
