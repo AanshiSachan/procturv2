@@ -3043,8 +3043,9 @@ export class StudentHomev2Component implements OnInit {
       );
     }
   }
-
+  isVisited:boolean=false;
   openQuickFilter() {
+    this.isVisited = !this.isVisited;
     this.isAdvFilter = false;
     this.searchBarData = "";
     if(!this.schoolModel) {

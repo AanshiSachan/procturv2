@@ -6,15 +6,14 @@
          <input #search type="text" name="searchData" class="input magnifying-glass mr10 wid20 text-indent"
           placeholder="search" id="basic-search"
           [(ngModel)]="searchBarData"
-          name="searchData" (keyup.enter)="searchDatabase()" >
+          name="searchData" (keyup.enter)="searchDatabase()">
          <input type="button" class="blue_button" value="Search"
          (click)="searchDatabase()" />
         </div>
-       
        <div class="col-lg-4">
         <!-- <button class="filter mr10" id="click" (click)="toggleClass(1)" [ngClass]="{'red': highlightedDiv === 1}">Quick Filter<img src="/assets/img/filter.svg"></button>
          href="advancefilter.html" -->
-         <button class="filter mr10" id="click" *ngIf="!isProfessional">Quick Filter<img src="/assets/img/filter.svg"></button>
+         <button class="filter mr10 " id="click" *ngIf="!isProfessional" [class.visited] = "isVisited == true" (click)="openQuickFilter()" >Quick Filter<img src="/assets/img/filter.svg"></button>
          <a href="javascript:void(0);" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()"> <button class="filter ">Advance Filter<img src="/assets/img/filter.svg"></button></a>
        </div>
        <div class="col-lg-4">
@@ -37,35 +36,75 @@
      </div>
      <br>
      <div>
-      <!-- form -->
-      <div class="row" id="form-tab" *ngIf="!isProfessional">
-        <div class="col-lg-2">
-          <select class="input-select1">
-          <option>Standard</option>
+      <!-- Quick -filter-form -->
+      <div class="row" id="form-tab" *ngIf="!isProfessional && isVisited">
+        <div class="col-lg-2" *ngIf="!isProfessional && !schoolModel">
+          <div  [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+            <!-- <label class="p_title">Standard</label> -->
+          <select class="input-select1" id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
+          (ngModelChange)="fetchCourseForMaster($event)" [disabled]="advancedFilterForm.master_course_name!=-1"
+          [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
+          <option value="-1">Select Standard</option>
+          <option [value]="std.standard_id" title="{{std.standard_name}}"
+              *ngFor="let std of standardList">
+              {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
+          </option>
         </select>
+        </div>
         </div>
         <div class="col-lg-2" *ngIf="!isProfessional">
-        <select class="input-select1">
-          <option>Master Course</option>
+          <div [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
+            <!-- <label class="p_title" for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label> -->
+        <select class="input-select1" *ngIf="!schoolModel" id="masterCourse" name="masterCourse"
+        [(ngModel)]="advancedFilterForm.master_course_name"
+        (ngModelChange)="updateSubCourse($event)" [disabled]="advancedFilterForm.standard_id!=-1"
+        [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}" >
+        <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Courses'}}</option>
+        <option [value]="mc.master_course" *ngFor="let mc of masterCourseList"
+            title="{{mc.master_course}}">
+            {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
+        </option>
         </select>
+        <select *ngIf="schoolModel" id="masterCourse" name="masterCourse"
+        [(ngModel)]="advancedFilterForm.standard_id"
+        (ngModelChange)="updateCourseList($event)" class="input-select1">
+        <option value="-1">Select Standard</option>
+        <option [value]="mc.standard_id" *ngFor="let mc of standardList"
+            title="{{mc.standard_name}}">
+            {{ (mc.standard_name.length > 30) ? (mc.standard_name | slice:0:30) + '...' : mc.standard_name }}
+        </option>
+    </select>
+      </div>
         </div>
         <div class="col-lg-2"  *ngIf="!isProfessional">
-        <select class="input-select1">
-          <option>course</option>
+          <div  [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
+            <!-- <label  class="p_title" for="course">{{schoolModel ? 'Section' : 'Course'}}</label> -->
+            <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
+            class="input-select1" [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
+            [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
+            <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
+            <option [value]="course.course_id" title="{{course.course_name}}"
+                *ngFor="let course of subCourseList">
+                {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
+            </option>
         </select>
+      </div>
         </div>
-        <div class="col-lg-2"  *ngIf="isProfessional" >
-          <select class="input-select1">
-            <option>Section</option>
-          </select>
-          </div>
-       <div class="col-lg-2">
-        <select class="input-select1">
-          <option>Is Active</option>
-        </select>
+       <div class="col-lg-2"  *ngIf="!isProfessional">
+         <div  [class.has-value]="advancedFilterForm.is_active_status != ''">
+          <!-- <label  class="p_title" for="status">Is Active</label> -->
+          <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
+          class="input-select1">
+          <option value="-1">All</option>
+          <option value="1">Active</option>
+          <option value="0">Inactive</option>
+      </select>
+      </div>
         </div>
+       
         <div class="col-lg-2" >
-        <button class="blue_button mt-9" (click)="searchDatabase()" >Search</button>
+         
+        <button class="blue_button mt-9"  *ngIf="!isProfessional" (click)="searchDatabase()" >Search</button>
         </div>
       </div>
        <!-- heading div -->
@@ -75,7 +114,7 @@
           
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked>
+                  <input type="checkbox" name="checked" (change)="userRowSelect($event)">
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -105,7 +144,7 @@
           <div >
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked>
+                  <input type="checkbox" name="checked" >
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
