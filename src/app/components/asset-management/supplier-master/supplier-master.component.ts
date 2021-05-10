@@ -420,7 +420,7 @@ export class SupplierMasterComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All Required Fields")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory fields")
     }
   }
   tempObj
