@@ -49,7 +49,8 @@ transferCertificateModel={
   promotionToClass:'',
   subject_names:'',
   application_date:'',
-  remark:''
+  remark:'',
+  awsDownloadLink:''
 
 
 }
@@ -201,7 +202,12 @@ let obj ={
   this.PostStudService.stdPostData(url,obj).subscribe(
     (res:any) =>{
       let resp =res.result;
-      console.log("transfer denerated",resp)
+      this.transferCertificateModel.awsDownloadLink = resp.awsDownloadLink
+      console.log("transfer generated",resp)     
+       console.log("transfe url",this.transferCertificateModel.awsDownloadLink)
+
+
+
 this.auth.hideLoader();
       if(res){
          
@@ -234,10 +240,56 @@ this.auth.hideLoader();
 
 }
 
-previewCertificate(download_link){
-    window.open('https://docs.google.com/viewer?url=' + download_link);
+previewCertificate(){
+  let obj ={
+    institute_id : this.jsonFlag.institute_id,
+    student_id :this.transferCertificateModel.student_id,
+    student_name : this.transferCertificateModel.student_name,
+    student_administration_number :this.transferCertificateModel.student_administration_number,
+    father_name : this.transferCertificateModel.father_name,
+    mother_name : this.transferCertificateModel.mother_name,
+    dob : this.transferCertificateModel.dateOfBirth,
+    nationality : this.transferCertificateModel.nationality,
+    category : this.transferCertificateModel.belongsTo,
+    doj : this.transferCertificateModel.doj,
+    last_studied_class : this.transferCertificateModel.last_studied_class,
+    last_annual_exam_result:this.transferCertificateModel.last_annual_exam_result,
+    exam_failure_times : this .transferCertificateModel.failedClass,
+    subject_names : this.transferCertificateModel.subject_names,
+    promotion_class :this.transferCertificateModel.promotionToClass,
+    last_school_dues_paid_month : this.transferCertificateModel.last_school_dues_paid_month,
+    nature_of_concession:this.transferCertificateModel.feeConcession,
+    total_working_days :this.transferCertificateModel.total_working_days,
+    total_present_days:this.transferCertificateModel.total_present_days,
+    ncc_cadet_scout_guide_detail:this.transferCertificateModel.whetherNcc,
+    general_character:this.transferCertificateModel.genCharacter,
+    last_date :this.transferCertificateModel.last_date,
+    application_date:this.transferCertificateModel.application_date,
+    issue_date :this.transferCertificateModel.certificate_issue_date,
+    leaving_reason:this.transferCertificateModel.reasonLeaveSchool,
+    remark:this.transferCertificateModel.remark
 
+  
 }
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/transfer';
+  this.PostStudService.stdPostData(url,obj).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      this.transferCertificateModel.awsDownloadLink = resp.awsDownloadLink
+      this.auth.hideLoader();
+window.open('https://docs.google.com/viewer?url=' +this.transferCertificateModel.awsDownloadLink);
+console.log("preview",obj)
+
+},
+err => {
+  console.log(err);
+  this.auth.hideLoader();
+}
+)
+
+
+} 
 
 
 

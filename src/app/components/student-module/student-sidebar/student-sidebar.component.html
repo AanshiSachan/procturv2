@@ -267,13 +267,13 @@
            <div class="col-6 ">
               <div class="center">
                  <img src="../../../../assets/images/transfer.png"><br>
-                 <a (click)="generateCertificate()">Transfer Certificate</a>
+                 <p (click)="generateCertificate()">Transfer Certificate</p>
                    <!-- Transfer Certificate -->
                 
               </div>
             
            </div>
-           <div class="col-6 " *ngIf="studentDetails.student_sex == 'M'">
+           <div class="col-6 ">
              <div class="center">
                  <img src="../../../../assets/images/conduct.png"><br>
                <p data-toggle="modal" data-target="#conductCertificate">
@@ -282,19 +282,10 @@
               
             </div>
            </div>
-           <!-- ====================female======== -->
-           <div class="col-6 " *ngIf="studentDetails.student_sex == 'F'">
-            <div class="center">
-                <img src="../../../../assets/images/conduct.png"><br>
-              <p data-toggle="modal" data-target="#conductCertificateF">
-                Conduct<br>/ Character Certificate
-              </p>
-             </div>
-          </div>
-           <!-- ===============end============== -->
+          
          </div>
          <div class="row no-gutters">
-           <div class="col-6 " *ngIf="studentDetails.student_sex == 'M'">
+           <div class="col-6 ">
              <div class="center">
          
                 <img src="../../../../assets/images/bonafide.png"><br>
@@ -304,19 +295,8 @@
            
             </div>
            </div>
-           <!-- =================female-bonafied========= -->
-           <div class="col-6 " *ngIf="studentDetails.student_sex == 'F'">
-            <div class="center">
-        
-               <img src="../../../../assets/images/bonafide.png"><br>
-               <p data-toggle="modal" data-target="#bonafiedCertificateF">
-                Bonafide Certificate
-               </p>
           
-           </div>
-          </div>
-           <!-- =======================end================== -->
-           <div class="col-6 " *ngIf="studentDetails.student_sex == 'M'">
+           <div class="col-6 ">
              <div class="center">
                  <img src="../../../../assets/images/migration.png">
                <p data-toggle="modal" data-target="#migrationCertificate">
@@ -324,16 +304,7 @@
                </p>
             </div>
            </div>
-           <!-- ===================migration-female============ -->
-           <div class="col-6 " *ngIf="studentDetails.student_sex == 'F'">
-            <div class="center">
-                <img src="../../../../assets/images/migration.png">
-              <p data-toggle="modal" data-target="#migrationCertificateF">
-                Migration Certificate
-              </p>
-           </div>
-          </div>
-           <!-- ============end================== -->
+          
          </div>
         </div>
       </div>
@@ -401,7 +372,7 @@
 We found him to be well behaved & bears a good moral character. We found him to be regular to school and his conduct is satisfactory.
 I wish him a great success in life
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
@@ -469,7 +440,7 @@ I wish him a great success in life
     We found her to be well behaved & bears a good moral character. We found her to be regular to school and her conduct is satisfactory.
     I wish her a great success in life
          </p>
-         <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+         <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
        </div>
        <div class="display space">
          <div><b>Place</b>
@@ -537,7 +508,7 @@ I wish him a great success in life
 He was admitted in this school on<b> "{{studentDetails.doj}}"</b> and his admission number is <b>"{{studentDetails.student_disp_id}}"</b>
 His DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
@@ -605,7 +576,7 @@ His DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
 She was admitted in this school on <b>"{{studentDetails.doj}}"</b> and her admission number is <b>"{{studentDetails.student_disp_id}}"</b>
 Her DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
@@ -673,7 +644,7 @@ This is to certify that <b>"{{studentDetails.student_name}}" s/o "{{studentDetai
 He has successfully passed <b>"Standard {{studentDetails.standard}}"</b> examination conducted under this board.
 This school has no objection in his joining any recognized collage/institute or taking examination of any University or Board established by law.
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
@@ -741,7 +712,7 @@ This is to certify that<b> "{{studentDetails.student_name}}" d/o "{{studentDetai
 She has successfully passed <b>"Standard {{studentDetails.standard}}"</b> Examination conducted under this board.
 This school has no objection in her joining any recognized collage/institute or taking examination of any University or Board established by law.
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>02-09-2020</b></span></p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>

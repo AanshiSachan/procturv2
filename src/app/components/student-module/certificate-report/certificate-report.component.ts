@@ -44,10 +44,7 @@ getCertificateReportData(){
     (res : any) =>{
       this. reportData = res.result;
       this.reportSearch = res.result;
-      this.filterCertificates = res.result;
-for(let i=0; i<this.reportData.length;i++){
-  this.reportModel.certificate_url = this.reportData[i].certificate_url
-}
+
       console.log("reppppppppppp",this.reportData)
       this.auth.hideLoader();
     },
@@ -75,32 +72,12 @@ searchItem(){
   }
 
 }
-filterTransfer(){
+filterTransfer(obj){
 
-//  let filterData = this.reportData.filter(name=>name.certificate_type === 'Transfer' || name.certificate_type == 'Bonafide' || name.certificate_type == 'Migration' || name.certificate_type == 'Character')
-let filterData = this.reportData.filter(name=>name.certificate_type === 'Transfer')
+let filterData = this.reportSearch.filter(name=>name.certificate_type === obj)
 
 this.reportData = filterData; 
 console.log("selected",filterData)
 }
-filterBonafied(){
-  let filterBonafied = this.reportData.filter(name=>name.certificate_type === 'Bonafide')
 
-  this.reportData = filterBonafied;
-  console.log("selected bonafied",filterBonafied)
-}
-characterFilter(){
-  let character = this.reportData.filter(names=>names.certificate_type === 'Character')
-  console.log("character",character)
-
-  
-
-}
-migrationFilter(obj){
-  let migrattion = this.reportData.filter(name=>name.certificate_type === 'Migration')
-  this.reportData=[]
-
-  this.reportData = migrattion
-  console.log("migration",migrattion)
-}
 }

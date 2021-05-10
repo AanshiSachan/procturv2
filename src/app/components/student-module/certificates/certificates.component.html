@@ -167,7 +167,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="text" name="" [(ngModel)]="transferCertificateModel.total_working_days" class="input" placeholder="">
+                       <input type="number" name="" [(ngModel)]="transferCertificateModel.total_working_days" class="input" placeholder="">
                      </div>
                    </div>
                    <div class="row">
@@ -177,7 +177,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="text" name="" [(ngModel)]="transferCertificateModel.total_present_days" class="input" placeholder="">
+                       <input type="number" name="" [(ngModel)]="transferCertificateModel.total_present_days" class="input" placeholder="">
                      </div>
                      
                      <div class="col-lg-3 ">
@@ -262,7 +262,7 @@
                      <div >
                       
                      
-                         <button class="blue_button " (click)="downloadTransferCertificates()" >Genrate Certificate</button>
+                         <button class="blue_button " (click)="previewCertificate()" >Genrate Certificate</button>
 
                      </div>
 
