@@ -399,6 +399,7 @@ export class ManageAssignmentComponent implements OnInit {
   }
 
   getStudentsListForBatch(){
+    if(this.assignmentDetails.batch != '-1') {
     this.auth.showLoader();
     const url = `/api/v1/studentBatchMap/batches/${this.assignmentDetails.batch}`;
     this.auth.showLoader();
@@ -425,6 +426,7 @@ export class ManageAssignmentComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
        }
     );
+    }
   }
 
   getMasterCourse(){
@@ -623,7 +625,7 @@ export class ManageAssignmentComponent implements OnInit {
         this.assignmentDetails.students = [];
       }
     }
-
+    if(url !='') {
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
         (res: any) => {
@@ -638,6 +640,7 @@ export class ManageAssignmentComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
         }
       )
+    }
   }
 
   getSubTopic(){
