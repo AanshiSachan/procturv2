@@ -451,7 +451,7 @@ export class AssetPurchaseComponent implements OnInit {
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
 
     }
   }

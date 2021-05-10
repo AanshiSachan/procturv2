@@ -276,7 +276,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory fields");
 
     }
   }

@@ -147,7 +147,7 @@ export class ItemCmComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory field")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
     }
   }
   cancel(param) {
@@ -241,7 +241,7 @@ saveItemDetails(){
     )
  }
  else{
-  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields"); 
+  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field"); 
  }
 }
 //get item data
@@ -315,7 +315,7 @@ updateItemDetails(){
       })
   }
   else {
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory field")
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
   }
 
 }
@@ -736,7 +736,7 @@ saveAllocatedData(){
     )
   }
   else{
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
      
   }
  

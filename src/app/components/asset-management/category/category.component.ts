@@ -331,7 +331,7 @@ export class CategoryComponent implements OnInit {
 
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
     }
   }
   //get category details
@@ -374,7 +374,7 @@ export class CategoryComponent implements OnInit {
       )
     }
     else {
-      this.msgService.showErrorMessage('error', '', 'Please fill all mandatory fields');
+      this.msgService.showErrorMessage('error', '', 'Please fill all mandatory field');
     }
   }
 
@@ -455,7 +455,7 @@ export class CategoryComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
 
     }
 
