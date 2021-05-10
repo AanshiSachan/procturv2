@@ -112,7 +112,7 @@
                     <a   (click)="showConfirm(data)">Delete</a>
                     <a *ngIf="data.available_units!=0" data-toggle="modal" data-target="#subbranchModal"(click)="allocateToSubBranch(data)">Allocate to Sub-branch</a>
                     <a    (click)="showAllocationHistory(data)">Allocation History</a>
-                    <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a>
+                    <!-- <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a> -->
                   </div>
                 </div>
               </div>
@@ -344,26 +344,26 @@
                 </div>
                <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
                </span></p> -->
-              <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched" >
+              <!-- <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched" >
                 <label class="p_title"> Total Units<span class="text-danger">*</span></label>
              <input type="text" class="input wid100" id="alloted_units" 
                   name="alloted_units" placeholder="Enter Total Units"  
                   #alloted_units="ngModel" 
                   [(ngModel)]="item.alloted_units" required
                   onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
-              </div>
+              </div> -->
               <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!alloted_units.valid && alloted_units.touched">
                 Total units are mandatory
              </span></p> -->
-              <div class="pt10" [class.has-error]="sale_price.invalid && sale_price.touched" >
-                <label class="p_title"> Sale Price (Unit Price)<span class="text-danger">*</span></label>
-             <input type="text" class="input wid100" id="sale_price" 
-                name="sale_price" placeholder="Enter Sale Price"  
-                #sale_price="ngModel" 
-                [(ngModel)]="item.sale_price"  
-                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
-                required>
-            </div>
+         
+            <div class="pt10" [class.has-error]="unit_cost.invalid && unit_cost.touched" >
+              <label class="p_title"> Buying Price (Unit Price)<span class="text-danger">*</span></label>
+             <input type="text" class="input wid100" id="unit_cost" 
+              name="unit_cost" placeholder="Enter Buying Price"  
+              #unit_cost="ngModel" 
+              [(ngModel)]="item.unit_cost"
+              onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
+          </div>
             <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
               Sale or unit price is mandatory
            </span></p> -->
@@ -407,14 +407,15 @@
             </div>
             <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
               </span></p> -->
-                <div class="pt10" [class.has-error]="unit_cost.invalid && unit_cost.touched" >
-                  <label class="p_title"> Buying Price (Unit Price)<span class="text-danger">*</span></label>
-                 <input type="text" class="input wid100" id="unit_cost" 
-                  name="unit_cost" placeholder="Enter Buying Price"  
-                  #unit_cost="ngModel" 
-                  [(ngModel)]="item.unit_cost"
-                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
-              </div>
+              <div class="pt10" [class.has-error]="sale_price.invalid && sale_price.touched" >
+                <label class="p_title"> Sale Price (Unit Price)<span class="text-danger">*</span></label>
+             <input type="text" class="input wid100" id="sale_price" 
+                name="sale_price" placeholder="Enter Sale Price"  
+                #sale_price="ngModel" 
+                [(ngModel)]="item.sale_price"  
+                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                required>
+            </div>
               <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
                 Buying or unit price is mandatory
              </span></p> -->

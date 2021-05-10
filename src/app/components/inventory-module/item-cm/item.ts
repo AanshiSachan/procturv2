@@ -2,7 +2,7 @@ export class Item {
     item_name;
     desc;
     category_id;
-    alloted_units;
+    //alloted_units;
     unit_cost;
     sale_price;
     tax_percent;

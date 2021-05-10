@@ -60,6 +60,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.getVendorDetails();
+    this.getCategoryItem();
     this.editId = this._Activatedroute.snapshot.paramMap.get("id");
     this._Activatedroute.snapshot.queryParamMap.get('isedit');
     if (this.editId != undefined) {
@@ -76,15 +77,15 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   }
   private _title: string;
 
-  getCategoryItem(obj) {
+  getCategoryItem() {
     this.isChange = false;
     this.itemData = [];
     // this.auth.showLoader();
-
-    this.httpService.getData(this.url + 'purchase/getCategoryAndItem?supplierId=' + obj + '&instituteId=' + this.model.institute_id).subscribe(
+///api/v1/inventory/category/all/' + this.institution_id
+    this.httpService.getData('/api/v1/inventory/category/all/' + this.model.institute_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.categoryAllData = res.result;
+        this.categoryAllData = res;
         let items: any = [];
         this.auth.hideLoader();
       },
@@ -109,13 +110,23 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     let id = e.target.value;
     id = +id;
 
-    this.categoryAllData.forEach(element => {
-      if (element && element.categoryId === id) {
-        this.itemArray = element.items;
+    // this.categoryAllData.forEach(element => {
+    //   if (element && element.categoryId === id) {
+    //     this.itemArray = element.items;
 
 
-      }
-    });
+    //   }
+    // });
+     //this.isChange = false;
+     this.auth.showLoader();
+     this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + id).subscribe((res: any) => {
+       this.itemArray = res.result;
+ 
+       this.auth.hideLoader();
+       this.itemArray = this.itemArray[0].items;
+ 
+     })
+ 
   }
 
   getItemData(id) {

@@ -105,20 +105,20 @@ export class SupplierComponent implements OnInit {
         sorting: false,
         visibility: true
       },
-      {
-        primary_key: 'category_names',
-        value: "Category Name",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'item_names',
-        value: "Item Name",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'category_names',
+      //   value: "Category Name",
+      //   charactLimit: 25,
+      //   sorting: false,
+      //   visibility: true
+      // },
+      // {
+      //   primary_key: 'item_names',
+      //   value: "Item Name",
+      //   charactLimit: 25,
+      //   sorting: false,
+      //   visibility: true
+      // },
       {
         primary_key: 'action',
         value: "Action",
@@ -138,23 +138,11 @@ export class SupplierComponent implements OnInit {
 
     this.rowColumns = [
       {
-        width: "13%",
+        width: "16%",
         textAlign: "left"
       },
       {
-        width: "13%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
@@ -162,9 +150,21 @@ export class SupplierComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "20%",
         textAlign: "left"
       },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      // {
+      //   width: "20%",
+      //   textAlign: "left"
+      // },
+      // {
+      //   width: "15%",
+      //   textAlign: "left"
+      // },
       {
         width: "10%",
         textAlign: "left"
@@ -437,21 +437,21 @@ export class SupplierComponent implements OnInit {
         this.supplierAllData.map(
             (ele: any) => {
               let json = [
-                ele.id,
+                // ele.id,
                 ele.company_name,
                 ele.supplier_name,
                 ele.address,
                 ele.email_id,
                 ele.phone_no,
-                ele.category_names,
-                ele.item_names,
+                // ele.category_names,
+                // ele.item_names,
                
              ]
              arrforSupplier.push(json);
             })
         
           let rows = [];
-          rows = [['#','Company Name',  'Supplier Name','Address', 'Email Id','Mobile','Category Name', 'Item Name']]
+          rows = [['Company Name',  'Supplier Name','Address', 'Email Id','Mobile']]
           let columns = arrforSupplier;
           this._pdfService.exportToPdf(rows, columns, 'Supplier List');
           this.auth.hideLoader();
@@ -484,14 +484,14 @@ supplierDataForDownload=[
     primary_key: 'phone_no',
     value: "Mobile",
    },
-   {
-    primary_key: 'category_names',
-    value: "Category Name",
-   },
-  {
-    primary_key: 'item_names',
-    value: "Item Name",
-  },
+  //  {
+  //   primary_key: 'category_names',
+  //   value: "Category Name",
+  //  },
+  // {
+  //   primary_key: 'item_names',
+  //   value: "Item Name",
+  // },
  
 ]
 exportToExcel(){

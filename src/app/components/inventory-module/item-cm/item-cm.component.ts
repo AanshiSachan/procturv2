@@ -161,7 +161,7 @@ export class ItemCmComponent implements OnInit {
     this.item ={
       category_name:'',
       standard_name:'',
-      alloted_units:'',
+      //alloted_units:'',
       category_id:'',
       desc:'',
       institution_id:sessionStorage.getItem('institute_id'),
@@ -271,7 +271,7 @@ this.getAllMasterCourseList();
   this.item.category_id =data.category_id;
   this.item.item_name =data.item_name;
   this.item.desc =data.desc;
-  this.item.alloted_units =data.alloted_units;
+ // this.item.alloted_units =data.alloted_units;
   this.item.unit_cost =data.unit_cost;
   this.item.sale_price =data.sale_price;
   this.item.tax_percent =data.tax_percent;
@@ -293,7 +293,7 @@ updateItemDetails(){
     item_name:this.item.item_name,
     desc:this.item.desc,
     category_id:this.item.category_id,
-    alloted_units:this.item.alloted_units,
+    //alloted_units:this.item.alloted_units,
     unit_cost:this.item.unit_cost,
     sale_price:this.item.sale_price,
     tax_percent:this.item.tax_percent,
