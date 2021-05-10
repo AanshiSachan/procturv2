@@ -1551,7 +1551,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
-
+    if(this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " ") {
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
       if (isNaN(this.studentAddFormData.student_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone, this.maxlength, this.country_id) == true) {
         if (this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != "") {
@@ -1585,14 +1585,19 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       this.commonServiceFactory.showErrorMessage('error', '', 'Please enter contact number');
       return false;
     }
+  } else {
+    this.commonServiceFactory.showErrorMessage('error', '', 'Please enter name');
+    return false;
+  }
 
   }
   studentQuickAdder(form: NgForm) {
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
+    let formValid: boolean = this.formValidator();
     /* Both Form are Valid Else there seems to
         be an error on custom component 
         */
-    if (form.valid && isCustomComponentValid) {
+    if (isCustomComponentValid && formValid) {
 
       if (!this.formValidator()) {
         return false;
@@ -1750,12 +1755,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       );
     }
     else {
-      let alert = {
-        type: 'error',
-        title: '',
-        body: 'Please fill all the required fields'
+      if (!isCustomComponentValid) {
+        this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
-      this.appC.popToast(alert);
 
     }
   }
