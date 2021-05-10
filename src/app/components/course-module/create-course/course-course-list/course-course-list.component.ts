@@ -367,7 +367,7 @@ export class CourseCourseListComponent implements OnInit {
     // console.log(dataToSend)
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
-        this.messageToast('success', '', 'Student\'(s) added successfully');
+        this.messageToast('success', '', 'Student\'(s) updated successfully');
         this.studentList = [];
         this.addStudentPopUp = false;
         this.auth.hideLoader();
