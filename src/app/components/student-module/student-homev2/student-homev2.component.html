@@ -1,220 +1,293 @@
 
+
+<!----------------------------new-page-content----------------------------->
+
 <div class="page-content">
-    <div class="w98">
-     <div class="row drop-shadow">
-       <div class="col-lg-4" *ngIf="showQuickFilter == false && !isAdvFilter">
-         <input #search type="text" name="searchData" class="input magnifying-glass mr10 wid20 text-indent"
-          placeholder="search" id="basic-search"
-          [(ngModel)]="searchBarData"
-          name="searchData" (keyup.enter)="searchDatabase()">
-         <input type="button" class="blue_button" value="Search"
-         (click)="searchDatabase()" />
-        </div>
-       <div class="col-lg-4">
-        <!-- <button class="filter mr10" id="click" (click)="toggleClass(1)" [ngClass]="{'red': highlightedDiv === 1}">Quick Filter<img src="/assets/img/filter.svg"></button>
-         href="advancefilter.html" -->
-         <button class="filter mr10 " id="click" *ngIf="!isProfessional" [class.visited] = "isVisited == true" (click)="openQuickFilter()" >Quick Filter<img src="/assets/img/filter.svg"></button>
-         <a href="javascript:void(0);" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()"> <button class="filter ">Advance Filter<img src="/assets/img/filter.svg"></button></a>
-       </div>
-       <div class="col-lg-4">
-         <span class="right">
-            <a ><button class="blue_button mt-9 mr10"  name="button" routerLink='./add' *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)">Add Student</button></a>
-            <!-- <a href=""></button></a> -->
-            <div class="dropdown1" >
-              <button  class="blue_button mt-9 dropbtn1" name="button" (click)="isOptions = !isOptions">More<img src="/assets/img/Group319.svg"></button>
-                <div class="dropdown-content1" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
-                <div *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'><a> Upload Student</a></div>  
-                  <div (click)="downloadAllStudent()"
-                  *ngIf="downloadStudentReportAccess"><a >Export student</a></div>
-                 <div routerLink='/view/students/openUser' *ngIf="!schoolModel"><a >Registered Student</a></div> 
-                 <div  *ngIf="!schoolModel" routerLink='/view/students/archived_student'><a >Archive student</a></div> 
-                 <div *ngIf="!schoolModel" routerLink='/view/students/archived_status'><a >Archeived status report</a></div> 
-                </div>
-            </div>
-         </span>
-       </div>
+  <div class="w98">
+   <!------------------------------basic search-------------------------------->
+   <div class="row drop-shadow">
+     <div class="col-lg-5">
+       <input #search type="text" name="searchData"  id="basic-search"
+       [(ngModel)]="searchBarData"
+       name="searchData" (keyup.enter)="searchDatabase()" class="magnifying-glass text-indent search mt-9 mr10 btn_shadow" placeholder="search">
+       <button  class=" blue_button btn_shadow"  (click)="searchDatabase()">Search</button>
+   </div> 
+     
+     <div class="col-lg-7">
+       <span class="right">
+          <!------------------------------Students Selected option-------------------------------->
+          <div class="dropdown3 mr10">
+              <button  class="mr10 bw_button dropbtn3 btn_shadow">0 Students Selected</button>
+              <div class="dropdown-content3">
+                <a href="#" >Send Notification</a>
+                <a href="#">Admission Form</a>
+                <a href="#" >Fee Installment</a>
+                <a href="#">Download ID card</a>
+                 <a href="#">Assign Standard</a>
+              </div>
+          </div>
+           <!------------------------------Quick and Advanced  Filter openclose  buttons-------------------------------->
+        <span id="qfilter" class="mr10"  *ngIf="!isProfessional && isVisited" (click)="closeQuickFilter()">Quick Filter<img src="/assets/img2/close.svg"></span>
+          <div class="dropdown2 mr10">
+            <button  class="white_button mt-9 dropbtn2">Filter<img src="/assets/img2/filter.svg"></button>
+              <div class="dropdown-content2">
+                <a  id="click"  *ngIf="!isProfessional"  (click)="openQuickFilter()">Quick Filter</a>
+                <a  data-toggle="modal" data-target="#exampleModal2"  id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
+              </div>
+          </div>
+             <!------------------------------more button-------------------------------->
+       
+          <span class="line11"></span>
+          <div class="dropdown1">
+            <button  class="white_button mt-9 dropbtn1 mr10" name="button" (click)="isOptions = !isOptions">More<img src="/assets/img2/more.svg"></button>
+              <div class="dropdown-content1" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
+                <a *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'>Upload Student</a>
+                <a (click)="downloadAllStudent()"
+                *ngIf="downloadStudentReportAccess">Export student</a>
+                <a routerLink='/view/students/openUser' *ngIf="!schoolModel">Registered Student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'>Archive student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'>Archeived status report</a>
+              </div>
+
+          </div>
+          
+            <a><button class="blue_button mt-9 btn_shadow"  name="button" routerLink='./add' *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)">Add Student</button></a>
+       </span>
      </div>
-     <br>
-     <div>
-      <!-- Quick -filter-form -->
-      <div class="row" id="form-tab" *ngIf="!isProfessional && isVisited">
-        <div class="col-lg-2" *ngIf="!isProfessional && !schoolModel">
-          <div  [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
-            <!-- <label class="p_title">Standard</label> -->
-          <select class="input-select1" id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
-          (ngModelChange)="fetchCourseForMaster($event)" [disabled]="advancedFilterForm.master_course_name!=-1"
-          [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
-          <option value="-1">Select Standard</option>
-          <option [value]="std.standard_id" title="{{std.standard_name}}"
-              *ngFor="let std of standardList">
-              {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
-          </option>
-        </select>
-        </div>
-        </div>
-        <div class="col-lg-2" *ngIf="!isProfessional">
-          <div [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
-            <!-- <label class="p_title" for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label> -->
-        <select class="input-select1" *ngIf="!schoolModel" id="masterCourse" name="masterCourse"
-        [(ngModel)]="advancedFilterForm.master_course_name"
-        (ngModelChange)="updateSubCourse($event)" [disabled]="advancedFilterForm.standard_id!=-1"
-        [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}" >
-        <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Courses'}}</option>
-        <option [value]="mc.master_course" *ngFor="let mc of masterCourseList"
-            title="{{mc.master_course}}">
-            {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
-        </option>
-        </select>
-        <select *ngIf="schoolModel" id="masterCourse" name="masterCourse"
-        [(ngModel)]="advancedFilterForm.standard_id"
-        (ngModelChange)="updateCourseList($event)" class="input-select1">
+   </div>
+    <!------------------------------Quick Filter Form-------------------------------->
+    <div class="row" id="form-tab" *ngIf="!isProfessional && isVisited">
+      <div class="col-lg-2" *ngIf="!isProfessional && !schoolModel">
+        <div  [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+          <!-- <label class="p_title">Standard</label> -->
+        <select class="input-select1" id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
+        (ngModelChange)="fetchCourseForMaster($event)" [disabled]="advancedFilterForm.master_course_name!=-1"
+        [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
         <option value="-1">Select Standard</option>
-        <option [value]="mc.standard_id" *ngFor="let mc of standardList"
-            title="{{mc.standard_name}}">
-            {{ (mc.standard_name.length > 30) ? (mc.standard_name | slice:0:30) + '...' : mc.standard_name }}
+        <option [value]="std.standard_id" title="{{std.standard_name}}"
+            *ngFor="let std of standardList">
+            {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
         </option>
-    </select>
-      </div>
-        </div>
-        <div class="col-lg-2"  *ngIf="!isProfessional">
-          <div  [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
-            <!-- <label  class="p_title" for="course">{{schoolModel ? 'Section' : 'Course'}}</label> -->
-            <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
-            class="input-select1" [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
-            [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
-            <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
-            <option [value]="course.course_id" title="{{course.course_name}}"
-                *ngFor="let course of subCourseList">
-                {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
-            </option>
-        </select>
-      </div>
-        </div>
-       <div class="col-lg-2"  *ngIf="!isProfessional">
-         <div  [class.has-value]="advancedFilterForm.is_active_status != ''">
-          <!-- <label  class="p_title" for="status">Is Active</label> -->
-          <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
-          class="input-select1">
-          <option value="-1">All</option>
-          <option value="1">Active</option>
-          <option value="0">Inactive</option>
       </select>
       </div>
-        </div>
-       
-        <div class="col-lg-2" >
-         
-        <button class="blue_button mt-9"  *ngIf="!isProfessional" (click)="searchDatabase()" >Search</button>
-        </div>
       </div>
-       <!-- heading div -->
-       <div class="table_heading">
-         <div>
-          <div >
-          
-            <label class="checkbox">
-                <span class="checkbox__input">
-                  <input type="checkbox" name="checked" (change)="userRowSelect($event)">
-                  <span class="checkbox__control">
-                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                  </span>
-                </span>
-              </label>
-              <span class="checkmark"></span>
-              
-           </div>
+      <div class="col-lg-2" *ngIf="!isProfessional">
+        <div [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
+          <!-- <label class="p_title" for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label> -->
+      <select class="input-select1" *ngIf="!schoolModel" id="masterCourse" name="masterCourse"
+      [(ngModel)]="advancedFilterForm.master_course_name"
+      (ngModelChange)="updateSubCourse($event)" [disabled]="advancedFilterForm.standard_id!=-1"
+      [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}" >
+      <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Courses'}}</option>
+      <option [value]="mc.master_course" *ngFor="let mc of masterCourseList"
+          title="{{mc.master_course}}">
+          {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
+      </option>
+      </select>
+      <select *ngIf="schoolModel" id="masterCourse" name="masterCourse"
+      [(ngModel)]="advancedFilterForm.standard_id"
+      (ngModelChange)="updateCourseList($event)" class="input-select1">
+      <option value="-1">Select Standard</option>
+      <option [value]="mc.standard_id" *ngFor="let mc of standardList"
+          title="{{mc.standard_name}}">
+          {{ (mc.standard_name.length > 30) ? (mc.standard_name | slice:0:30) + '...' : mc.standard_name }}
+      </option>
+  </select>
+    </div>
+      </div>
+      <div class="col-lg-2"  *ngIf="!isProfessional">
+        <div  [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
+          <!-- <label  class="p_title" for="course">{{schoolModel ? 'Section' : 'Course'}}</label> -->
+          <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
+          class="input-select1" [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
+          [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
+          <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
+          <option [value]="course.course_id" title="{{course.course_name}}"
+              *ngFor="let course of subCourseList">
+              {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
+          </option>
+      </select>
+    </div>
+      </div>
+     <div class="col-lg-2"  *ngIf="!isProfessional">
+       <div  [class.has-value]="advancedFilterForm.is_active_status != ''">
+        <!-- <label  class="p_title" for="status">Is Active</label> -->
+        <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
+        class="input-select1">
+        <option value="-1">All</option>
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+    </select>
+    </div>
+      </div>
+     
+      <div class="col-lg-2" >
+       
+      <button class="blue_button mt-9"  *ngIf="!isProfessional" (click)="searchDatabase()" >Search</button>
+      </div>
+    </div>
+   <div>
+ 
+  
+     <!-- heading div -->
+     <div class="table_heading">
+       <div>
+        <div >
+        
+            <input type="checkbox" >
+            <span class="checkmark"></span>
+            
          </div>
-         <div>#</div>
+       </div>
+       <div>#</div>
          <div>Student ID</div>
          <div> Name</div>
          <div>Contact No.</div>
          <div *ngIf="schoolModel">Parent Name</div>
          <div *ngIf="schoolModel">Contact No.</div>
          <div *ngIf="!isProfessional">Standard</div>
-        <div *ngIf="!schoolModel">Course Assigned</div>
+         <div *ngIf="!schoolModel">Course Assigned</div>
          <div *ngIf="isProfessional">Master Course</div>
          <div *ngIf="isProfessional">Batch Assigned</div>
          <div *ngIf="schoolModel" >Section  Assigned</div> 
          <div>Action</div>
+     </div>
+     <!-- table row -->
+     <div class="table_row" *ngFor="let data of studentDataSource;index as i">
+       <div>
+        <div >
+          <input type="checkbox" value="" >
+        </div>
        </div>
-       <!-- table row -->
-       <div class="table_row" *ngFor="let data of studentDataSource;index as i">
-         <div>
-          <div >
-            <label class="checkbox">
-                <span class="checkbox__input">
-                  <input type="checkbox" name="checked" >
-                  <span class="checkbox__control">
-                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                  </span>
-                </span>
-              </label>
-          </div>
-         </div>
-         <div><img src="{{data.thumbnail_url}}" class="photo"></div>
+       <div><img src="{{data.thumbnail_url}}" class="photo"></div>
          <div>{{data.student_disp_id}}</div>
          <div title="{{data.student_name}}">{{data.student_name| slice:0:20}} {{data.student_name.length > 20 ? '...' : ''}}</div>
          <div>{{data.student_phone}}</div>
          <div *ngIf="schoolModel" title="{{data.parent_name}}">{{data.parent_name | slice:0:20}} {{data.parent_name.length > 20 ? '...' : ''}}</div>
-         
          <div *ngIf="schoolModel">{{data.parent_contact_number}}</div>
          <div *ngIf="!isProfessional">{{data.student_class}}</div>
          <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:20}} {{data.batchesAssigned.length > 20 ? '...' : ''}}</div>
-         <!--class="scroll_height"-->
-         <div>
-          <a href=""><img src="/assets/img/Group44.svg" class="pl-10"></a>
-          <a (click)="editStudent(data.student_id)" title="Edit"><img src="/assets/img/group1.svg" class="pl-10"></a>
-          <a (click)="deleteStudentOpen(data)" title="Delete"><img src="/assets/img/Group321.svg" class="pl-10"></a>
-        </div>
+       <div>
+        <a><img src="/assets/img2/visit.svg" class="pl-10"></a>
+        <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
+        <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
+      </div>
+     </div>
+   </div>
+  </div>
+</div>  
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+<div class="modal-dialog modal-dialog-slideout  modal-sm" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Advance Filter</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+     <p class="label_p">Standard</p>
+     <select>
+       <option>Select Standard</option>
+     </select>
+     <p class="label_p">Master Course</p>
+     <select>
+       <option>Select Master Course</option>
+     </select>
+       <p class="label_p"> Course</p>
+     <select>
+       <option>Select Course</option>
+     </select>
+     <div class="display">
+       <div>
+        <p class="label_p"> From Date</p>
+         <input type="date" name="">
        </div>
-       <!--page-illutration-->
-       <section class="no-data" *ngIf="studentDataSource.length == 0">
-        <div class="illustration-container">
-          <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
-        </div>
-      </section>
+       <div>
+        <p class="label_p"> To Date</p>
+         <input type="date" name="">
+       </div>
+     </div>
+      <div class="flex">
+                 <div>
+                   <label class="checkbox top22">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" stroke-width="2" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="label_p">
+                  Is Active
+                   </p>
+                 </div>
+               </div>
+     <p class="label_p">Institutional/Custom2</p>
+      <select>
+       <option>Select </option>
+     </select>
+     <div class="display">
+       <div>
+              <p class="label_p">Country</p>
+          <select>
+           <option>Select </option>
+         </select>
+       </div>
+        <div>
+              <p class="label_p">State</p>
+          <select>
+           <option>Select </option>
+         </select>
+       </div>
+     </div>
+     <p class="label_p">
+       City
+     </p>
+     <input type="" class="input1" name="">
+    </div>
+    <div class="modal-footer">
+    <div class=" display">
+       <div>
+       
+     </div>
+     <div>
+      <button class="bw_button">Clear Filter</button>
+       <button class="blue_button"> Apply</button>
      </div>
     </div>
-     <!-- Paginator Here -->
-     <div id="paginator" class="row filter-res pagination" style="width: 100%;">
-      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
-              (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex"
-              [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
-              (sizeChange)="updateTableBatchSize($event)">
-          </pagination>
-      </div>
-  </div>
-
-  <!----delete-popup-->
-    
-
-    <div class="modal" id="popup" *ngIf="isDeleteStudentPrompt" >
-      <div class="modal-dialog" >
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" (click)="closeDeletePopup()">&times;</button>
-          </div>
-          <div class="modal-body" style="height:150px;">
-            <div class="center">
-              <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
-            </div>
-            <div ><p>
-              Are you sure you want to delete this data? Ones deleted cannot be recovered later.</p>
-            </div> 
-            <div class="pt101 display" >
-              
-              <div>
-                <button class="blue_button right"(click)="deleteStudent()">Delete</button>
-              </div>
-              <div>
-                <button class="blue_button right cancel"  data-dismiss="modal"  (click)="closeDeletePopup()">Cancel</button>
-              </div>
-            </div>
-          </div>        
-        </div>
-      </div>
     </div>
-</div> 
+  </div>
+</div>
+</div>
+
+<!-- page-wrapper -->
+
+<script type="text/javascript">
+$("#show-sidebar").click(function() {
+  if($(".page-wrapper").hasClass('toggled')){
+    $(".page-wrapper").removeClass("toggled");
+  } else {
+    $(".page-wrapper").addClass("toggled");
+  }
+});
+</script>
+<script type="text/javascript">
+$( document ).ready(function() {
+  $("#form-tab").hide();
+   $("#qfilter").hide();
+  $("#click").click(function() {
+     $("#form-tab").show();
+      $("#qfilter").show();
+  });
+  $("#qfilter").click(function() {
+     $("#form-tab").hide();
+     $("#qfilter").hide();
+    
+  });
+});
+</script>
+

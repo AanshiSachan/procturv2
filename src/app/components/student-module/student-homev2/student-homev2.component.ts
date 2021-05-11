@@ -3074,6 +3074,7 @@ export class StudentHomev2Component implements OnInit {
   }
 
   closeQuickFilter() {
+    this.isVisited = !this.isVisited;
     this.showQuickFilter = false;
     this.advancedFilterForm.standard_id = "-1";
     this.advancedFilterForm.subject_id = "-1";
