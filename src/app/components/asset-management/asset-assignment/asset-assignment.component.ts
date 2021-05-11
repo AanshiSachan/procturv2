@@ -484,7 +484,7 @@ getRolesList() {
     this.assignDataforDownload.map(
       (ele: any) => {
         let json = [
-          ele.id,
+          // ele.id,
          ele.asset_name,
           ele.quantity,
           ele.user_type,
@@ -498,7 +498,7 @@ getRolesList() {
       })
 
     let rows = [];
-    rows = [['#','Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
+    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
     this.auth.hideLoader();

@@ -276,7 +276,7 @@ export class LocationComponent implements OnInit {
     this.locationDataforDownload.map(
       (ele: any) => {
         let json = [
-          ele.id,
+          // ele.id,
           ele.location_code,
           ele.location_name,
           ele.location_description,
@@ -285,7 +285,7 @@ export class LocationComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['#','Code', ' Name', ' Description']]
+    rows = [['Code', ' Name', ' Description']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Location List');
     this.auth.hideLoader();
