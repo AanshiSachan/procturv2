@@ -10,7 +10,7 @@
           <span class="circle_active">
           1
         </span>
-        <p class="text_active">Add/Select Message</p>
+        <p class="text_active">Add/Select Message</p><br>
         </div>
         <div>
           <div class="linec"></div>
@@ -20,7 +20,7 @@
             <span class="circle_inactive">
           2
         </span>
-        <p class="text_inactive" (click)="onClickSelectStudentDiv()">Select Students</p>
+        <p class="text_inactive" (click)="onClickSelectStudentDiv()">Select Students/Users</p>
          </a>
        </div>
       </div>
@@ -166,11 +166,12 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
       
       <div class="w982 ">
       <div class="w90 pending_tab">
-        <h1 *ngIf="pendingMessage">Create Message</h1>  
-        <textarea placeholder="Write your message here...." class="textarea_m"                                     [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
-        [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()" *ngIf="pendingMessage">
+        <h1 *ngIf="jsonFlag.editMessage ">Update Message</h1>  
+        <h1 *ngIf="pendingMessage ">Create Message</h1>  
+        <textarea placeholder="Write your message here...." class="textarea_m" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
+         *ngIf="pendingMessage || jsonFlag.editMessage">
       </textarea>
-        <div class="display" *ngIf="pendingMessage">
+        <div class="display" *ngIf="pendingMessage || jsonFlag.editMessage">
           <div></div>
           <div>
             <button class="white_button mr10" (click)="closeNewMessageDiv()">Back</button>
@@ -179,7 +180,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
 
           </div>
         </div>
-        <div class="display space1" *ngIf="pendingMessage">
+        <div class="display space1" *ngIf="pendingMessage || jsonFlag.editMessage">
           <div>
             <span class="char_text">Character Count:<span class="char_count">{{newMessageText.length}}</span></span>
           </div>
@@ -274,7 +275,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
           <span class="circle_active">
           2
         </span>
-        <p class="text_active" (click)="onClickSelectStudentDiv()">Select Students</p>
+        <p class="text_active" (click)="onClickSelectStudentDiv()">Select Students/Users</p>
        </div>
       </div>
     </div>
@@ -289,7 +290,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
       <div *ngIf="!isProfessional">
             <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
             <label for="masterCourse">{{schoolModel? 'Standard' : 'Master Course'}}</label>
-             <select *ngIf="!schoolModel" class="select mr10 wid160" [(ngModel)]="sendNotificationCourse.master_course" (ngModelChange)="onMasterCourseSelection($event)" name="masterCourse">
+             <select *ngIf="!schoolModel" class="select mr10 wid160" [(ngModel)]="sendNotificationCourse.master_course" (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
               <option value="-1">Master Course</option>
               <option [value]="course.master_course" *ngFor="let course of masterCourseList">{{course.master_course}}</option>
              </select>
@@ -383,7 +384,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
          </div>
        </div>
-       <div id="myH1" *ngIf="showTableFlag">
+       <div id="myH1" *ngIf="showTableFlag" style="overflow-y:scroll; height:406px;">
         <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
@@ -411,7 +412,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
             <div>Email</div>
           </div>
-          <div class="table_body" *ngFor="let row of (studentList | searchPipe:searchData);let i = index;">
+          <div class="table_body"  *ngFor="let row of (studentList | searchPipe:searchData);let i = index;">
             <div>
               <label class="checkbox checkbox1">
                   <span class="checkbox__input">
@@ -443,11 +444,9 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div title="{{row.student_email}}">
               {{(!row.student_email) ? '-':(row.student_email.length > 20) ?(row.student_email | slice :0:20) + '...' : row.student_email}}
             </div>
-
-          </div>
-          <div *ngIf="studentList.length == 0">NO Student Found</div>
-
-       </div>
+             </div>
+             <div *ngIf="studentList.length == 0">No Student Found</div>
+             </div>
 
         <div id="myH2" *ngIf="showFacultyTableFlag">
          <div class="table_heading">

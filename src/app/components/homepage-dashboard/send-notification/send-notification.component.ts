@@ -288,6 +288,8 @@ updateMessage() {
       };
       this.appC.popToast(msg);
       this.getAllMessageFromServer();
+         this. getOpenStatusSMS();
+  
       this.closeNewMessageDiv()
       // this.closeNewMessageDiv();
       // this.onTabChange(this.jsonFlag.smsTabType);
@@ -424,7 +426,7 @@ flushData() {
 
 
 getMaterCourseList() {
-  //this.flushData();
+  this.flushData();
   if(this.schoolModel) {
     this.getStandard();
   } else {
