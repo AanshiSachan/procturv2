@@ -142,8 +142,10 @@
           </div>
           <div class="row" style="margin:0;">
             <div class="field-wrapper has-value password">
-              <input class="form-ctrl" type="password" [(ngModel)]="loginDataForm.password" name="password"
+              <input class="form-ctrl" type="{{passwordType}}" [(ngModel)]="loginDataForm.password" name="password"
                 id="password" #password="ngModel" placeholder="Password" required (keyup.enter)="loginViaServer()">
+                <i style=" margin-left: -30px;
+                cursor: pointer;" class="{{passwordClass}}" id="togglePassId" (click)="togglePassword()"></i>
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert invalid-alert">
                 <div *ngIf="password.errors.required">
                   Please enter password
@@ -178,8 +180,8 @@
           <div class="row agreement-row" *ngIf="isProcturVisible">
             <p>
               By signing in, you agree to
-              <a style="cursor:pointer" href="https://proctur.com/privacy-policy" target="_blank">Privacy Policy</a> and
-              <a style="cursor:pointer" href="https://proctur.com/terms" target="_blank">Terms of Use</a>.
+              <a style="cursor:pointer" href="https://proctur.com/website/privacy-policy" target="_blank">Privacy Policy</a> and
+              <a style="cursor:pointer" href="https://proctur.com/website/terms" target="_blank">Terms of Use</a>.
             </p>
           </div>
           <div class="row" style="width: 80%;margin: 0 auto;" *ngIf="isProcturVisible">

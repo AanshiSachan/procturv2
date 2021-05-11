@@ -105,6 +105,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   multiWindowLogin: boolean = false;
   isKominaInstitute: boolean = false;
   Role_features: role = new role();
+  passwordType:any='password';
+  passwordClass:any='fa fa-eye';
   constructor(
     private login: LoginService,
     private route: Router,
@@ -1073,6 +1075,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
     else if (test === "web.proctur.com") {
       return "https://web.proctur.com";
+    }
+  }
+
+  togglePassword(){
+    if(this.passwordType == 'password'){
+      this.passwordType = 'text';
+      this.passwordClass = 'fa fa-eye-slash';
+    } else {
+      this.passwordType = 'password';
+      this.passwordClass = 'fa fa-eye';
     }
   }
 
