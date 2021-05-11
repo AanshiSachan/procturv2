@@ -760,7 +760,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   deleteStudentOpen(row) {
-    $('#popup').modal('show')
+   // $('#popup').modal('show')
     this.selectedRow = row;
     if (this.selectedRow.noOfBatchesAssigned == 0) {
       this.isDeleteStudentPrompt = true;

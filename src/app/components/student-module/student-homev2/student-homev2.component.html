@@ -17,8 +17,8 @@
        <span class="right">
           <!------------------------------Students Selected option-------------------------------->
           <div class="dropdown3 mr10">
-              <button  class="mr10 bw_button dropbtn3 btn_shadow">0 Students Selected</button>
-              <div class="dropdown-content3">
+              <button  class="mr10 bw_button dropbtn3 btn_shadow">0 Students Selected&nbsp;&nbsp;<i class="fa fa-caret-down dr"></i></button>
+              <div class="dropdown-content3  mr10">
                 <a href="#" >Send Notification</a>
                 <a href="#">Admission Form</a>
                 <a href="#" >Fee Installment</a>
@@ -132,12 +132,15 @@
      <!-- heading div -->
      <div class="table_heading">
        <div>
-        <div >
-        
-            <input type="checkbox" >
-            <span class="checkmark"></span>
-            
-         </div>
+        <label class="checkbox">
+          <span class="checkbox__input">
+            <input type="checkbox" name="checked" checked>
+            <span class="checkbox__control">
+             <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+            </span>
+          </span>
+        </label>
        </div>
        <div>#</div>
          <div>Student ID</div>
@@ -155,11 +158,19 @@
      <!-- table row -->
      <div class="table_row" *ngFor="let data of studentDataSource;index as i">
        <div>
-        <div >
-          <input type="checkbox" value="" >
-        </div>
+          <div>
+        <label class="checkbox">
+          <span class="checkbox__input">
+            <input type="checkbox" name="checked" checked>
+            <span class="checkbox__control">
+             <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+            </span>
+          </span>
+        </label>
        </div>
-       <div><img src="{{data.thumbnail_url}}" class="photo"></div>
+       </div>
+       <div><img src="{{data.thumbnail_url}}" class="photo imgRound"></div>
          <div>{{data.student_disp_id}}</div>
          <div title="{{data.student_name}}">{{data.student_name| slice:0:20}} {{data.student_name.length > 20 ? '...' : ''}}</div>
          <div>{{data.student_phone}}</div>
@@ -263,7 +274,44 @@
   </div>
 </div>
 </div>
-
+    <!-- Delete PopUp -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isDeleteStudentPrompt">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                                    transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                                    transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
+                                width="16" height="16" transform="translate(1012 297)" />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Delete Student - Student Name: {{selectedRow.student_name}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history">
+                            <h4>Are you sure you want to delete this data? Ones deleted cannot be recovered later.</h4>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input style="margin-right: 10px;" type="button" value="Cancel" class="bw_button" (click)="closeDeletePopup()">
+                                    <input type="button" value="Delete" class="blue_button mt10" (click)="deleteStudent()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 <!-- page-wrapper -->
 
 <script type="text/javascript">
