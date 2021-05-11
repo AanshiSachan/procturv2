@@ -594,3 +594,10 @@ transform-origin: bottom left;
 + .checkbox__control svg {
 transform: scale(1);
 }
+.pos-rel{
+  position: relative;
+  top: 10%;
+}
+.popup-content{
+  font-weight: 500;
+}
