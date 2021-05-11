@@ -1,4 +1,183 @@
 <div class="middle-section clearFix" id="enquiryList" style="margin-top: -9px;">
+  <section class="middle-top clearFix bulk-header">    
+    <div class="row">
+ <h1 class="pull-left">
+  Upload Student
+ </h1>
+ <div class="flex outter_div">
+  <div class="upload_section">
+      <div class="display space">
+          <div>
+              <h1 class="title">Select a file to upload</h1>
+          </div>
+          <div>
+            <a id="template_link">
+              <button class="blue_button" value="Download Template" (click)="downloadTemplate()"><img src="../../../../assets/images/Group.svg">Download Template</button>
+              </a>
+          </div>
+      </div>
+      <div class="upload" *ngIf="!isUploadingXls">
+          <div class="one">
+              <h1>Upload Student Details</h1>
+              <img src="../../../../assets/images/Group479.svg">
+              
+          </div>
+          <div class="two">
+              <p>Darg files to upload, or</p>
+              <!-- <button class="blue_button">Choose File</button> -->
+              <p-fileUpload customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
+              </p-fileUpload>
+          </div>
+      </div>
+
+      <!-- <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+        <div class="file-uploaded">
+          {{fileLoading}}
+        </div>
+        <div class="progress-bar-wrapper">
+          <div class="upload-bar">
+            <div id="progress-width"></div>
+          </div>
+          <span>{{progress}} %</span>
+        </div>
+      </div> -->
+
+
+      <div class="after_upload" *ngIf="isUploadingXls">
+          <h1>File Upload</h1>
+          <p>{{fileLoading}}</p>
+          <div>
+              <p class="file_name">{{progress}}%</p>
+             <div class="display">
+                 <div>
+                  <p class="progress1"></p>
+                 </div>
+                 <div>
+                     <img src="../../../../assets/images/cross.svg" >
+                
+                     
+                 </div>
+             </div>
+             <div class="display">
+              <div>
+              
+              </div>
+              <div>
+                
+                  <p class="time"></p>
+                  
+              </div>
+          </div>
+          </div>
+          <!-- <div class="center">
+              <button class="blue_button">Done</button>
+          </div> -->
+      </div>
+    </div>
+  <div class="note">
+      <h1>Note : Instructions to be followed</h1>
+      <div class="line"></div>
+      <ol start="1">
+          <li>
+              Please click on the <b>"Download Template"</b> button for uploading student data.
+              </li>
+              <li>
+                  Note the same file needs to be uploaded which was downloaded.
+              </li>
+              <li>
+                  First read the Instructions mentioned on the downloaded file 
+                 <b> (Sheet 1)</b> carefully.
+              </li>
+              <li>
+                  Before adding any data, please select all cells and choose the format of cells as <b>"Text".</b>
+              </li>
+              <li>
+                  Check mandatory fields should be filled properly.
+              </li>
+              <li>
+                  Check uploaded file status report from <b>“Student Upload Report”.</b> 
+              </li>
+              <li>
+                  If Student upload gets failed then download the sheet report from the<b> “Student Upload Report”</b> by clicking on<b> “Failure Count”</b> and check the failed reason in the last column. 
+
+          </li>
+      </ol>
+  </div>
+  <!-- table -->
+
+</div>
+<div class="outter_div" >
+  <h1 class="title">Student Upload Report</h1>
+  <div class="tablehead">
+      <div>
+          Created Date
+      </div>
+      <div>
+          Status
+      </div>
+      <div>
+          Total Count
+      </div>
+      <div>
+          Success Count
+      </div>
+      <div>
+          Failure Count
+      </div>
+  </div>
+  <div class="tablebody"  *ngFor="let record of bulkUploadRecords">
+      <div>
+        {{record.created_date}}      </div>
+      <div>
+         <span class="completed">{{record.statusValue}}</span>
+      </div>
+      <div>
+        {{record.total_count}}
+      </div>
+      <div>
+        <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && record.success_path.includes('https://s3-')"
+        id="success{{record.list_id}}" itle="Download Success Report" href="{{record.success_path}}">
+        {{record.success_count}}
+      </a>
+      <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && !record.success_path.includes('https://s3-')"
+        id="success{{record.list_id}}" itle="Download Success Report" (click)="downloadSuccess(record)">
+        {{record.success_count}}
+      </a>
+      <a *ngIf="record.success_count != 0 && !downloadStudentReportAccess" id="success{{record.list_id}}">
+        {{record.success_count}}
+      </a>
+      <span *ngIf="record.success_count == 0">
+        {{record.success_count}}
+      </span>
+      </div>
+      <div>
+        <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && record.failure_path.includes('https://s3-')"
+        id="failure{{record.list_id}}" title="Download Failure Report" href="{{record.failure_path}}">
+        {{record.failure_count}}
+      </a>
+      <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && !record.failure_path.includes('https://s3-')"
+        id="failure{{record.list_id}}" title="Download Failure Report" (click)="downloadFailure(record)">
+        {{record.failure_count}}
+      </a>
+      <a *ngIf="record.failure_count != 0 && !downloadStudentReportAccess" id="failure{{record.list_id}}">
+        {{record.failure_count}}
+      </a>
+      <span *ngIf="record.failure_count == 0">
+        {{record.failure_count}}
+      </span>
+      </div>
+  </div>
+ 
+</div>
+</div>
+</section>
+</div>
+
+
+
+
+
+<!-- <div class="middle-section clearFix" id="enquiryList" style="margin-top: -9px;">
   <section class="middle-top clearFix bulk-header">
 
     <div class="row">
@@ -14,18 +193,18 @@
       </aside>
     </div>
 
-  </section>
+  </section> -->
 
   <!--====================================middle <Main> section==========================-->
-  <section class="middle-main clearFix" id="bulkEnquiryMain">
+  <!-- <section class="middle-main clearFix" id="bulkEnquiryMain">
     <div class="file-upload-box">
       <div class="select-file-upload">
         <h5>Select a file to upload</h5>
         <div class="file-wrapper">
           <ul>
-            <li>
+            <li> -->
               <!-- accept="application/vnd.ms-excel" -->
-              <p-fileUpload customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
+              <!-- <p-fileUpload customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
               </p-fileUpload>
 
               <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
@@ -45,11 +224,11 @@
       </div>
 
     </div>
-  </section>
+  </section> -->
 
   <!-- ================================================================================= -->
   <!-- ========================= Bulk Update Status =================================== -->
-  <proctur-popup [hidden]="!isBulkUploadStatus">
+  <!-- <proctur-popup [hidden]="!isBulkUploadStatus">
 
     <span class="closePopup pos-abs fbold " id="popupCloseBtn" (click)="closeBulkStatus()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -76,9 +255,9 @@
             <thead>
               <tr>
                 <th>Created Date</th>
-                <th>Status</th>
+                <th>Status</th> -->
                 <!-- <th>Comments</th> -->
-                <th>Total Count</th>
+                <!-- <th>Total Count</th>
                 <th>Success Count</th>
                 <th>Failure Count</th>
               </tr>
@@ -130,4 +309,4 @@
 
   </proctur-popup>
 
-</div>
+</div> -->
