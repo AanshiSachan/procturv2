@@ -50,7 +50,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
            
          </div>
         </div>
-        <div class="msg1 pending_tab" *ngIf="pendingMessage">
+        <div class="msg1 pending_tab" style="overflow-y:scroll; height:406px;" *ngIf="pendingMessage">
           <div class="table_heading">
             <div>
              Date And Time
@@ -99,7 +99,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
     <!-- </div> -->
     </div>
     <!-- ===============================approve massage Table================================ -->
-       <div class="msg2 approved_tab" *ngIf="approveMessage">
+       <div class="msg2 approved_tab" style="overflow-y:scroll; height:406px;" *ngIf="approveMessage">
           <div class="table_heading">
             <div>
               
@@ -166,12 +166,13 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
       
       <div class="w982 ">
       <div class="w90 pending_tab">
-        <h1 *ngIf="jsonFlag.editMessage ">Update Message</h1>  
-        <h1 *ngIf="pendingMessage ">Create Message</h1>  
+        <h1  *ngIf="pendingMessage || jsonFlag.editMessage">Create Message</h1>  
         <textarea placeholder="Write your message here...." class="textarea_m" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
          *ngIf="pendingMessage || jsonFlag.editMessage">
       </textarea>
-        <div class="display" *ngIf="pendingMessage || jsonFlag.editMessage">
+
+
+        <div class="display" *ngIf="pendingMessage  || jsonFlag.editMessage">
           <div></div>
           <div>
             <button class="white_button mr10" (click)="closeNewMessageDiv()">Back</button>
@@ -206,16 +207,16 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             Promotional : {{pramotionalSms}}
           </div>
         </div>
-        <h1>Selected Message</h1>  
+        <h1>Selected Message</h1> 
+        <textarea placeholder="your selected message here...." class="textarea_m" >{{selectedRow}}</textarea>
+ 
         
-        <div class="box1">
+        <!-- <div class="box1">
           <p class="selected_msg">
           {{selectedRow}}
-                             <!-- Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et -->
+                             
         </p>
-        </div>
+        </div> -->
        
         <div class="display">
           <div>
@@ -448,7 +449,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
              <div *ngIf="studentList.length == 0">No Student Found</div>
              </div>
 
-        <div id="myH2" *ngIf="showFacultyTableFlag">
+        <div id="myH2" style="overflow-y:scroll; height:406px;" *ngIf="showFacultyTableFlag">
          <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
@@ -500,8 +501,8 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
           </div>
         <div *ngIf="studentList.length == 0">No Faculty Found</div>
-       </div>
-        <div id="myH3" *ngIf="showInactiveStudentFlag"> 
+      </div>
+        <div id="myH3" style="overflow-y:scroll; height:406px;" *ngIf="showInactiveStudentFlag"> 
         <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
@@ -562,7 +563,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             <div *ngIf="studentList.length == 0">No Student Found</div>
           </div>
        </div>
-     <div id="myH4" *ngIf="showAllaluminiStudentFlag">
+     <div id="myH4" style="overflow-y:scroll; height:406px;" *ngIf="showAllaluminiStudentFlag">
          <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
@@ -624,7 +625,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
           </div>
           <div *ngIf="studentList.length == 0">No Alumini Found</div>
        </div>
-        <div id="myH5" *ngIf="showallUserListFlag">
+        <div id="myH5" style="overflow-y:scroll; height:406px;" *ngIf="showallUserListFlag">
          <div class="table_heading">
           <div>
             <label class="checkbox checkbox1">
@@ -806,7 +807,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
               <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="dilverSms">
+                    <input type="checkbox" name="checked" [(ngModel)]="dilverSms" (click)="oclickEmail()">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -820,7 +821,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                <div>
                  <label class="checkbox">
                   <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="dilverEmail" (click)="oclickEmail($event)" >
+                    <input type="checkbox" name="checked" [(ngModel)]="dilverEmail" (click)="onSms()">
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -838,10 +839,10 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
 
             <div class="form-wrapper datepicker c-sm-6 c-xs-6">
                 <label for="subject"
-                    style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                    style=" font-size: 14px; font-weight: 400; font-family: inherit;font-style: bold; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; " >Subject</label>
                 <input type="text" [(ngModel)]="messageSubject" name="subject"
                     class="side-form-ctrl" value="" placeholder=""
-                    style=" background: #fff; border: 2px solid #77777770; width: 200%; padding: 8px 5px;"
+                    style=" background: #fff; border: 2px solid #77777770; width: 232%; padding: 21px 5px;"
                     id="divSubjectMessage" />
             </div>
             
@@ -877,7 +878,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
                <h1 class="h112">Send Login Message</h1> 
             </div>
           </div>
-          <div class="display sec2" *ngIf="sendLoginmessage">
+          <div class="display sec2" *ngIf="showTableFlag">
             <div>
               <div class="field-radio-wrapper">
                <input type="radio" name="student" class="form-radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0">
@@ -897,7 +898,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             </div>
             </div>
           </div>
-          <div class="row btn-loginGroup" *ngIf="sendLoginmessage">
+          <div class="row btn-loginGroup"  *ngIf="showTableFlag">
             <div>
               <!-- <button class="white_button1 mr10">Send Credentials</button> -->
               <button class="btn" (click)="sendSmsForApp('1',0)">SMS for App Download</button>

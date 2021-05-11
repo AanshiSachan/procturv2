@@ -22,7 +22,9 @@ export class SendNotificationComponent implements OnInit {
     smsTabType: 'approved',
     openMessageFlag: false,
     editMessage: false,
-    messageObject: {}
+    editApprovedMsg:false,
+    messageObject: {},
+    approveMessageObject:{}
   };
   combinedDataRes: any = {};
   userType:any
@@ -67,6 +69,7 @@ sendLoginmessage:boolean=false
   searchData: string = "";
   messageCount: number = 0;
   newMessageText: string = "";
+  approveMessageText:string="";
   messageList: any = [];
   emailMessageList:any=[];
   openMessageList: any = [];
@@ -1214,9 +1217,13 @@ onClickSelectStudentDiv(){
 // console.log("SSSSSSSSSSS",this.dilverSms)
 
 // }
-oclickEmail(event){
-  this.dilverSms = false;
-  this.dilverEmail = true;
+oclickEmail(){
+  this.dilverSms = true;
+  this.dilverEmail = false;
+}
+onSms(){
+  this.dilverEmail = true
+  this.dilverSms = false
 }
 
 onCheckBoxEvent(event, row) {
