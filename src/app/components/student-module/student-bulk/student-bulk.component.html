@@ -30,7 +30,7 @@
           </div>
       </div>
 
-      <!-- <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+      <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
         <div class="file-uploaded">
           {{fileLoading}}
         </div>
@@ -40,17 +40,17 @@
           </div>
           <span>{{progress}} %</span>
         </div>
-      </div> -->
+      </div>
 
 
-      <div class="after_upload" *ngIf="isUploadingXls">
+      <!-- <div class="after_upload" *ngIf="isUploadingXls">
           <h1>File Upload</h1>
           <p>{{fileLoading}}</p>
           <div>
-              <p class="file_name">{{progress}}%</p>
+              <p class="file_name"></p>
              <div class="display">
                  <div>
-                  <p class="progress1"></p>
+                  <p id="progress1-width">{{progress}}%</p>
                  </div>
                  <div>
                      <img src="../../../../assets/images/cross.svg" >
@@ -68,11 +68,11 @@
                   
               </div>
           </div>
-          </div>
+          </div> -->
           <!-- <div class="center">
               <button class="blue_button">Done</button>
           </div> -->
-      </div>
+      <!-- </div> -->
     </div>
   <div class="note">
       <h1>Note : Instructions to be followed</h1>
@@ -126,12 +126,12 @@
       </div>
   </div>
   <div class="tablebody"  *ngFor="let record of bulkUploadRecords">
-      <div>
-        {{record.created_date}}      </div>
-      <div>
-         <span class="completed">{{record.statusValue}}</span>
+      <div title="{{record.created_date}}">
+        {{record.created_date}} </div>
+      <div title="{{record.statusValue}}">
+         <span [ngClass]="{'completed': record.statusValue =='Completed','pending': record.statusValue == 'Pending'}">{{record.statusValue}}</span>
       </div>
-      <div>
+      <div title="{{record.total_count}}">
         {{record.total_count}}
       </div>
       <div>
@@ -150,16 +150,16 @@
         {{record.success_count}}
       </span>
       </div>
-      <div>
-        <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && record.failure_path.includes('https://s3-')"
+      <div >
+        <a [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && record.failure_path.includes('https://s3-')"
         id="failure{{record.list_id}}" title="Download Failure Report" href="{{record.failure_path}}">
         {{record.failure_count}}
       </a>
-      <a *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && !record.failure_path.includes('https://s3-')"
+      <a  [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && !record.failure_path.includes('https://s3-')"
         id="failure{{record.list_id}}" title="Download Failure Report" (click)="downloadFailure(record)">
         {{record.failure_count}}
       </a>
-      <a *ngIf="record.failure_count != 0 && !downloadStudentReportAccess" id="failure{{record.list_id}}">
+      <a [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && !downloadStudentReportAccess" id="failure{{record.list_id}}">
         {{record.failure_count}}
       </a>
       <span *ngIf="record.failure_count == 0">

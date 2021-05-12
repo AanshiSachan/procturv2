@@ -159,6 +159,14 @@ letter-spacing: 0.01em;
 
 color: #D0820D;
 }
+.failurCount{
+    font-weight: bold;
+font-size: 12px;
+
+letter-spacing: 0.01em;
+
+color:red;
+}
 .after_upload{
     border: 1px dashed #EFEFEF;
 box-sizing: border-box;
@@ -181,6 +189,7 @@ color: #000000;
     font-weight: 400;
 font-size: 10px;
 line-height: 14px;
+background-color: blue;
 
 /* identical to box height */
 
@@ -198,15 +207,18 @@ letter-spacing: 0.01em;
 color: #334D6E;
 }
 .progress1{
-    font-weight: 400;
-font-size: 13px;
-line-height: 18px;
-color: blue;
+     font-weight: 400;
+  float: left;
+
+ font-size: 13px;
+ line-height: 18px;
+width:80% ;
+//color: blue;
 /* identical to box height */
 
 letter-spacing: 0.01em;
 
-color: #334D6E;
+// color: #334D6E;
 }
 .time{
     font-weight:400;
@@ -236,6 +248,11 @@ color: #0097F9;
     }
 
 
+  
+    .ui-fileupload-buttonbar .ui-widget-header .ui-corner-top {
+        background-color: transparent;
+        border: none;
+    }
 // @import "./src/assets/css/common/variables.scss";
 // // @import "./src/app/components/leads/enquiry/enquiry-add/enquiry-add.component.scss";
 // .bulk-update-report {
@@ -488,3 +505,54 @@ color: #0097F9;
 //     }
 // }
 // =======================file================================
+
+    
+.file-uploaded {
+            margin: 25px 0 30px;
+            font-weight: 600;
+            font-size: 16px;
+            span {
+                display: inline-block;
+                vertical-align: middle;
+                cursor: pointer;
+                svg {
+                    margin-right: 10px;
+                    width: 15px;
+                    .cls-1 {
+                        stroke: #888;
+                        stroke-width: 2;
+                    }
+                    // &:hover {
+                    //     .cls-1 {
+                    //         stroke: $common-blue;
+                    //     }
+                    // }
+                }
+            }
+        }
+    
+    
+.upload-bar {
+        position: relative;
+        height: 8px;
+        width: 100%;
+        background: #ccc;
+        border-radius: 0;
+        overflow: hidden;
+        margin: 10px 0 5px;
+        &>div {
+            position: absolute;
+            height: 100%;
+            width: 0%;
+            left: 0;
+            background: blue;
+            top: 0;
+            border-radius: 0;
+            transition: all 0.5s ease;
+        }
+    }
+    
+.progress-bar-wrapper {
+    float: left;
+    width: 80%;
+}
