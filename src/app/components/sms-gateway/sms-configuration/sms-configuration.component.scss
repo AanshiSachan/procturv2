@@ -131,6 +131,13 @@
   letter-spacing: 0.01em;
   
   color: #334D6E;
+
+
+
+
+
+
+  
   
   }
   .mrk2{
@@ -253,6 +260,11 @@
 //     color: #0084f6;
 // }
 .para{
+//   position: absolute;
+// width: 752px;
+// height: 45px;
+// left: 183px;
+// top: 341px;
   font-family: Open Sans;
 font-style: normal;
 font-weight: normal;
@@ -260,7 +272,7 @@ font-size: 13px;
 line-height: 15px;
 /* or 115% */
 
-letter-spacing: 0.01em;
+letter-spacing: 0.01em;                                              
 
 color: #334D6E;
 }
@@ -415,4 +427,35 @@ color: #0097F9;
 }
 .flex11>div:nth-child(2){
   width: 75%;
+}
+// .container{
+//   display: flex;
+//    flex-direction: row;
+// }
+
+
+
+.payee-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+  .payee-item{
+    width: 49%;
+  }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-ctrl{
+  border: 1px solid #ccc;
+}
+.modal-dialog {
+  width: 800px;
+  margin: 30px auto;
 }
