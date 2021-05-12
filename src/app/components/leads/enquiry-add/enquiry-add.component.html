@@ -243,7 +243,7 @@
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
                                             <label for="pin_code">Pin code</label>
-                                            <input type="text" value="" id="pin_code" class="form-ctrl"
+                                            <input type="text" value="" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="pin_code" class="form-ctrl"
                                                 [(ngModel)]="newEnqData.pin_code" name="pin_code" #pin_code="ngModel"
                                                 style="border-radius: 4px;width: 20rem;" />
                                         </div>
@@ -575,7 +575,7 @@
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- school -->
                                         <div class="field-wrapper">
-                                            <label for="institutionName">Institution Name</label>
+                                            <label for="institutionName">{{schoolModel ? 'School' : 'Institution'}} Name</label>
                                             <select id="institutionName" class="form-ctrl"
                                                 [(ngModel)]="newEnqData.school_id" name="institutename"
                                                 style="border-radius: 4px;width: 20rem;">

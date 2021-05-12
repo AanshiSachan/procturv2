@@ -463,7 +463,7 @@
                 </span>
               </div>
               <div class="col-lg-4" *ngIf="schoolModel" [ngClass]="{'has-value': studentAddFormData.pin_code != ''}">
-                <input type="text" value="" id="pin_code" class="input" placeholder="Enter pin code"
+                <input type="text" value="" id="pin_code" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input" placeholder="Enter pin code"
                   [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
               </div>
 
