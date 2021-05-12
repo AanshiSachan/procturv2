@@ -1,125 +1,152 @@
-<div class="container">
-    <div class="row">
-        <h2 class="header">SMS Configuration</h2>
-      <div class="col-25">
+<div class="main_div">
+  <div>
+    <div class="settings">
+      <span>
+        <img src="../../../../assets/img1/settings.svg">
+        <span class="position">  Settings</span>
+      </span>
+    </div>
+    <ul class="menu">
+      <li class="selected"><a>SMS Configuration</a></li>
+  
+    </ul>
+  </div>
+  <div>
+    <div class="flex1">
+      <div>
+        <span class="ellipse">G</span><span class="blue_line"></span>
+      </div>
+      <div>
+        <p class="blue_settings">
+          SMS Configuration
+        </p>
+      </div>
+    </div>
+    <div class="flex11">
+      <div>
         <label for="gatewayName">Gateway Name<span class="danger">*</span></label>
       </div>
-      <div class="col-75">
+      <div>
         <input type="text" id="gateway_name" disabled name="gateway_name"[(ngModel)]=" smsGatewatModel.gateway_name" placeholder="gateway name..">
       </div>
     </div>
-    
+    <div class="container">
 
-    <div class="row">
-     
-      <div class="col-25">
-        <label for="userName">Username<span class="danger">*</span></label>
-      </div>
-      <div class="col-25">
-        <input type="text" id="userName" name="transaction_username" [(ngModel)]=" smsGatewatModel.transaction_username" placeholder="user name..">
-      </div>
     
-      <div class="col-25">
-        <label for="password">Password <span class="danger">*</span></label>
-      </div>
-      <div class="col-25">
-        <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password" placeholder="password..">
-      </div>
-      </div>
+      
+  
       <div class="row">
+       
         <div class="col-25">
-          <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
+          <label for="userName">Username<span class="danger">*</span></label>
         </div>
         <div class="col-25">
-          <input type="text" id="smsId" name="sender_id" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Sender id..">
+          <input type="text" id="userName" name="transaction_username" [(ngModel)]=" smsGatewatModel.transaction_username" placeholder="user name..">
+        </div>
+      
+        <div class="col-25">
+          <label for="password">Password <span class="danger">*</span></label>
+        </div>
+        <div class="col-25">
+          <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password" placeholder="password..">
         </div>
         </div>
         <div class="row">
-            <div class="col-25">
-              <label for="brandName">Brand Name<span class="danger">*</span></label>
-            </div>
-            <div class="col-75">
-              <input type="text" id="brandName" name="brand_name" [(ngModel)]=" smsGatewatModel.brand_name" placeholder="brand name..">
-            </div>
+          <div class="col-25">
+            <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
           </div>
-
-
-              <!-- <div class="field-radio-wrapper">
-
-                <input type="checkbox" style="white-space: normal;" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
-                <label for="ative">Is Active</label>
-
-
-            </div> -->
-            <div class="row">
-            <div class="col-25">
-              <label for="ative">Is Active</label>
+          <div class="col-25">
+            <input type="text" id="smsId" name="sender_id" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Sender id..">
+          </div>
+          </div>
+          <div class="row">
+              <div class="col-25">
+                <label for="brandName">Brand Name<span class="danger">*</span></label>
               </div>
-              <label class="checkbox"> 
-
-                <span class="checkbox__input">
-                  <div class="col-75">
-
-                  <input type="checkbox" disabled name="checked" [(ngModel)]="smsGatewatModel.is_active" >
-                  <span class="checkbox__control">
-                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                  </span>
-                  </div>
-                </span>
-              </label>
-            
+              <div class="col-75">
+                <input type="text" id="brandName" name="brand_name" [(ngModel)]=" smsGatewatModel.brand_name" placeholder="brand name..">
+              </div>
             </div>
-                <!-- <div class="col-75"> -->
+  
+  
                 <!-- <div class="field-radio-wrapper">
-
-                  <input type="radio" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
+  
+                  <input type="checkbox" style="white-space: normal;" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
                   <label for="ative">Is Active</label>
-
-
+  
+  
               </div> -->
-              
-
-
-            <div class="row">
+              <div class="row">
               <div class="col-25">
-                <label for="smsId">Important note</label>
-              </div>
-              <div class="col-75">
-               <p class="para"> If is active checkbox <mark class="mrk">Disable</mark> then SMS will be deliver from PROCTUR sender id and with same brand name.</p>&nbsp;
-                <p class="para">If is active checkbox <mark class="mrk">Enable</mark> then take all the details from Proctur side or raise a ticket for username and password.</p>
-
-              </div>
-            </div> 
-
-            <div class="row">
-              <div class="col-25">
-                <label for="dlt"><mark class="mrk1">Dlt process steps</mark></label> 
-              </div>
-              <div class="col-75">
-               <p class="para">As per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be registered with DTL platform. We have been observing that some of our clients are not able to send SMS. To facilitate extended service to Proctur’s clients, We have come up with option 1 as an extended process.
-                <p class="para">Option 1-For immediate sending SMS, clients can use Sender Id as “PRCTUR”, but in this case brand name will be Proctur, for each SMS.</p>
-
-              </div>
-
-            </div>
-            
-
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="right">
+                <label for="ative">Is Active</label>
+                </div>
+                <label class="checkbox"> 
+  
+                  <span class="checkbox__input">
+                    <div class="col-75">
+  
+                    <input type="checkbox" disabled name="checked" [(ngModel)]="smsGatewatModel.is_active" >
+                    <span class="checkbox__control">
+                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                    </span>
+                    </div>
+                  </span>
+                </label>
               
-                <button class="blue_button" (click)="createSMSgateway()"*ngIf="!iscreated" >Save Setting</button>
-                <button class="blue_button" (click)="updateSMSgateway()" *ngIf="iscreated" >Update Setting</button>
-
-
-                </span>
-              </div>  
-            </div>
-
-
-            
-            </div>
+              </div>
+                  <!-- <div class="col-75"> -->
+                  <!-- <div class="field-radio-wrapper">
+  
+                    <input type="radio" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
+                    <label for="ative">Is Active</label>
+  
+  
+                </div> -->
+                
+  
+  
+              <div>
+                <div class="col-25">
+                  <label for="smsId">Important note</label>
+                </div>
+                <div class="col-75">
+                 <p class="para"> If is active checkbox <mark class="mrk">Disable</mark> then SMS will be deliver from PROCTUR sender id and with same brand name.</p>&nbsp;
+                  <p class="para">If is active checkbox <mark class="mrk">Enable</mark> then take all the details from Proctur side or raise a ticket for username and password.</p>
+  
+                </div>
+              </div> 
+  
+              <div>
+                <div class="col-25">
+                  <label for="dlt"><mark class="mrk1">Dlt process steps</mark></label> 
+                </div>
+                <div class="col-75">
+                 <p class="para">As per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be registered with DTL platform. We have been observing that some of our clients are not able to send SMS. To facilitate extended service to Proctur’s clients, We have come up with option 1 as an extended process.
+                  <p class="para">Option 1-For immediate sending SMS, clients can use Sender Id as “PRCTUR”, but in this case brand name will be Proctur, for each SMS.</p>
+  
+                </div>
+  
+              </div>
+              
+  
+              <div class="row">
+                <div class="col-lg-12">
+                  <span class="right">
+                
+                  <button class="blue_button" (click)="createSMSgateway()"*ngIf="!iscreated" >Save Setting</button>
+                  <button class="blue_button" (click)="updateSMSgateway()" *ngIf="iscreated" >Update Setting</button>
+  
+  
+                  </span>
+                </div>  
+              </div>
+  
+  
+              
+              </div>
+  </div>
+</div>
 
             
              
