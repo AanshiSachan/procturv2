@@ -594,11 +594,12 @@ this.allUserList= false;
     this.sendNotification.batch_id = "-1";
     this.getMasterCourseAndBatch(this.sendNotification);
   }
-  slectedMessagesId:any
+  slectedMessagesId:''
 onCheckBoxSelection(obj) {
   this.selectedRow = obj.message
 this.slectedMessagesId =obj.message_id
  let count = this.selectedRow.length
+ console.log("massageid",this.slectedMessagesId)
 
  this.selectedMessageText = count
  if (this.selectedMessageText.length != 0) {
@@ -970,9 +971,11 @@ chkBoxAllFaculty() {
         student_id = this.getListOfIds('student_id')
       }
       let obj = {
-        notifn_message: messageSelected.message,
-        message_id: messageSelected.messageId,
+       notifn_message:this.selectedRow,
+        // message_id: messageSelected.messageId,
         student_ids: student_id,
+        message_id:this.slectedMessagesId 
+
       }
       this.widgetService.sendPushNotificationToServer(obj).subscribe(
         res => {
@@ -983,6 +986,7 @@ chkBoxAllFaculty() {
             body: "Sent successfully"
           };
           this.appC.popToast(msg);
+          this.closeNewMessageDiv()
         },
         err => {
           //console.log(err);
