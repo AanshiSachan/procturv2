@@ -29,86 +29,65 @@
       <div>
         <input type="text" id="gateway_name" disabled name="gateway_name"[(ngModel)]=" smsGatewatModel.gateway_name" placeholder="gateway name..">
       </div>
-    </div>
-    <div class="container">
-
-      <div class="row">
-       
-        <div class="col-25">
+    </div>       
+        <div class="flex11">
+          <div style="width: 25%;">
           <label for="userName">Username<span class="danger">*</span></label>
-        </div>
-        <div class="col-25">
+          </div>
+      
+          <div style="width: 25%;">
           <input type="text" id="userName" name="transaction_username" [(ngModel)]=" smsGatewatModel.transaction_username" placeholder="user name..">
         </div>
-      
-        <div class="col-25">
+
+        <div style="width: 25%;">
           <label for="password">Password <span class="danger">*</span></label>
+       
         </div>
-        <div class="col-25">
-          <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password" placeholder="password..">
+       <div style="width: 25%;">  
+        <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password" placeholder="password..">
         </div>
-        </div>
-        </div>
-        <div class="row">
-          <div class="col-25">
+
+      </div>
+      
+        <div class="flex11">
+          <div>
             <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
           </div>
-          <div class="col-25">
+          <div style="width: 25%;">
             <input type="text" id="smsId" name="sender_id" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Sender id..">
           </div>
           </div>
-          <div class="row">
-              <div class="col-25">
+          <div class="flex11">
+              <div >
                 <label for="brandName">Brand Name<span class="danger">*</span></label>
               </div>
-              <div class="col-75">
+              <div>
                 <input type="text" id="brandName" name="brand_name" [(ngModel)]=" smsGatewatModel.brand_name" placeholder="brand name..">
               </div>
             </div>
   
-
-
-
-
-
-  
-                <!-- <div class="field-radio-wrapper">
-  
-                  <input type="checkbox" style="white-space: normal;" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
-                  <label for="ative">Is Active</label>
-  
-  
-              </div> -->
-              <div class="row">
-              <div class="col-25">
-                <label for="ative">Is Active</label>
-                </div>
+              <div class="flex111">
+                <div></div>
+              <div >
                 <label class="checkbox"> 
   
                   <span class="checkbox__input">
-                    <div class="col-75">
+                    
   
                     <input type="checkbox" disabled name="checked" [(ngModel)]="smsGatewatModel.is_active" >
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
                     </span>
-                    </div>
+                    
                   </span>
                 </label>
               
+              
+                </div>
+                <div><label for="ative" style="margin-left:-10px;">Is Active</label></div>
               </div>
-                  <!-- <div class="col-75"> -->
-                  <!-- <div class="field-radio-wrapper">
-  
-                    <input type="radio" id="isactiv" name="iactive"  class="form-radio" [(ngModel)]="smsGatewatModel.is_active">
-                    <label for="ative">Is Active</label>
-  
-  
-                </div> -->
                 
-  
-  
               <div>
                 <div class="col-25">
                   <label for="smsId">Important note</label>

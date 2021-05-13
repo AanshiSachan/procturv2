@@ -79,11 +79,12 @@
       clear: both;
     }
     input[type=password], select, textarea {
-      width: 89%;
+      width: 100%;
       padding: 7px;
       border: 1px solid #ccc;
       border-radius: 4px;
       resize: vertical;
+      border-color: black;
     }
     
     /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
@@ -130,7 +131,8 @@
   
   letter-spacing: 0.01em;
   
-  color: #334D6E;
+  color:white;
+  background-color: blue;
 
 
 
@@ -150,7 +152,8 @@
   
   letter-spacing: 0.01em;
   
-  color: #334D6E;
+  color: white;
+  background-color: blue;
   }
   
   .blue_button1 {
@@ -193,6 +196,8 @@
     padding: 14px;
     padding-right: 3px;
     padding-left: 3px;
+    color: white;
+    background-color: blue;
   }
   // =======================:checked==============
 //   .field-checkbox-wrapper,
@@ -435,27 +440,26 @@ color: #0097F9;
 
 
 
-.payee-container{
+.container{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  padding-bottom: 10px;
-  flex-wrap: wrap;
-  .payee-item{
-    width: 49%;
-  }
+  // justify-content: space-between;
+  // padding-bottom: 10px;
+  // flex-wrap: wrap;
+  
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
 .form-ctrl{
   border: 1px solid #ccc;
+  margin-left: 97px
+  // width: auto;
+
 }
-.modal-dialog {
-  width: 800px;
-  margin: 30px auto;
+
+.flex111{
+  display: flex;
+}
+.flex111>div:first-child{
+  width:25%;
 }
