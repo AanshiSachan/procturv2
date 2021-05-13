@@ -79,11 +79,12 @@
       clear: both;
     }
     input[type=password], select, textarea {
-      width: 89%;
+      width: 100%;
       padding: 7px;
       border: 1px solid #ccc;
       border-radius: 4px;
       resize: vertical;
+      border-color: black;
     }
     
     /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
@@ -130,7 +131,15 @@
   
   letter-spacing: 0.01em;
   
-  color: #334D6E;
+  color:white;
+  background-color: blue;
+
+
+
+
+
+
+  
   
   }
   .mrk2{
@@ -143,7 +152,8 @@
   
   letter-spacing: 0.01em;
   
-  color: #334D6E;
+  color: white;
+  background-color: blue;
   }
   
   .blue_button1 {
@@ -186,6 +196,8 @@
     padding: 14px;
     padding-right: 3px;
     padding-left: 3px;
+    color: white;
+    background-color: blue;
   }
   // =======================:checked==============
 //   .field-checkbox-wrapper,
@@ -253,6 +265,11 @@
 //     color: #0084f6;
 // }
 .para{
+//   position: absolute;
+// width: 752px;
+// height: 45px;
+// left: 183px;
+// top: 341px;
   font-family: Open Sans;
 font-style: normal;
 font-weight: normal;
@@ -260,7 +277,7 @@ font-size: 13px;
 line-height: 15px;
 /* or 115% */
 
-letter-spacing: 0.01em;
+letter-spacing: 0.01em;                                              
 
 color: #334D6E;
 }
@@ -415,4 +432,34 @@ color: #0097F9;
 }
 .flex11>div:nth-child(2){
   width: 75%;
+}
+// .container{
+//   display: flex;
+//    flex-direction: row;
+// }
+
+
+
+.container{
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  // padding-bottom: 10px;
+  // flex-wrap: wrap;
+  
+}
+
+
+.form-ctrl{
+  border: 1px solid #ccc;
+  margin-left: 97px
+  // width: auto;
+
+}
+
+.flex111{
+  display: flex;
+}
+.flex111>div:first-child{
+  width:25%;
 }
