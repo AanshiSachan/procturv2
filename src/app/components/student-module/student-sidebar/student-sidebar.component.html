@@ -342,7 +342,7 @@
       <div>
        <a class="mr20" (click)="characterPrintPage()"><img src="../../../../assets/images/certifcateimg/print.svg"></a>
        <a class="mr20" (click)="getCharacterCertificate()" > <img src="../../../../assets/images/certifcateimg/download.svg"></a>
-       <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
+       <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
@@ -355,11 +355,11 @@
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{studentDetails.student_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{studentDetails.student_curr_addr}}</span>
             </div>
       </div>
     </div>
@@ -368,7 +368,7 @@
     </div>
     <div>
      <p class="content">
-       This is to certify that <b>"{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b>, was a bonafied student of since<b> "{{studentDetails.doj}}"</b> to till date.
+       This is to certify that <b>"{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}"</b>, was a bonafied student of since<b> "{{studentDetails.doj}}"</b> to till date.
 We found him to be well behaved & bears a good moral character. We found him to be regular to school and his conduct is satisfactory.
 I wish him a great success in life
      </p>
@@ -478,7 +478,7 @@ I wish him a great success in life
       <div>
        <a (click)="PrintPage()"  class="mr20" > <img src="../../../../assets/images/certifcateimg/print.svg"></a>
        <a (click)="bonafiedCertificates()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
-       <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
+       <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
@@ -491,11 +491,11 @@ I wish him a great success in life
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{studentDetails.student_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{studentDetails.student_curr_addr}}</span>
             </div>
       </div>
     </div>
@@ -613,7 +613,7 @@ Her DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
       <div>
        <a (click)="migrationPrintPage()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
        <a (click)="migrationCertificates()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
-       <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
+       <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
@@ -626,11 +626,11 @@ Her DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{studentDetails.student_phone}}</span>
+            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{studentDetails.student_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{studentDetails.student_curr_addr}}</span>
             </div>
       </div>
     </div>

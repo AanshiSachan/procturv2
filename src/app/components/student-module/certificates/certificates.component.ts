@@ -4,6 +4,8 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { PostStudentDataService } from '../../..//services/student-services/post-student-data.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { Location } from '@angular/common'
+import { MessageShowService } from '../../../services/message-show.service';
+
 
 import * as moment from 'moment';
 
@@ -17,7 +19,7 @@ import * as moment from 'moment';
 export class CertificatesComponent implements OnInit {
 
   
-
+  today= moment(new Date);
 
 jsonFlag={
   institute_id:''
@@ -35,9 +37,9 @@ transferCertificateModel={
   last_studied_class:'',
   nationality:'',
   last_school_dues_paid_month:'',
-  last_date:'',
+  last_date: moment(new Date()).format('YYYY-MM-DD'),
   last_annual_exam_result:'',
-  certificate_issue_date: moment(new Date()).format("YYYY-MM-DD"),
+  certificate_issue_date: moment(new Date()).format("DD-MM-YYYY"),
   total_present_days:'',
   total_working_days:'',
   reasonLeaveSchool:'',
@@ -60,6 +62,7 @@ studentTransferData:any=[]
     private PostStudService: PostStudentDataService,
     private auth: AuthenticatorService,
     private _commService: CommonServiceFactory,
+    private msgService:MessageShowService,
     private location: Location) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.transferCertificateModel.student_id = sessionStorage.getItem('students_id')
@@ -288,11 +291,7 @@ err => {
 }
 )
 
-
 } 
-
-
-
 
 Back(){
 
@@ -302,4 +301,20 @@ cloaseCertificate(){
   this.transfer = false;
   this.transferCertificates = true;
 }
+onfuturDateSelection(){
+
+ let today= moment(new Date);
+ let selectedDate = moment(this.transferCertificateModel.dateOfBirth)
+ let diff = moment(today.diff(selectedDate))['-i'];
+ console.log("date",diff)
+
+ if(diff > 0){
+  this.msgService.showErrorMessage('info', '', "Future date is not allowed");
+  this.transferCertificateModel.dateOfBirth = moment(new Date).format('YYYY-MM-DD')
+  console.log("daterrrrrrrr",this.transferCertificateModel.dateOfBirth)
+
+
+ }
+}
+
 }

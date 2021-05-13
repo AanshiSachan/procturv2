@@ -7,6 +7,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { role } from '../../../model/role_features';
 import {ActivatedRoute} from '@angular/router'; 
+declare var $;
 
 @Component({
   selector: 'student-sidebar',
@@ -445,7 +446,8 @@ PrintPage(){
   let newWin = window.open("");
   newWin.document.write(divToPrint.outerHTML);
   newWin.print();
-  newWin.close();
+  newWin.history.back();
+  //newWin.close();
   console.log("print")
 //  window.print();
 }
@@ -454,7 +456,10 @@ migrationPrintPage(){
   let newWin = window.open("");
   newWin.document.write(divToPrint2.outerHTML);
   newWin.print();
-  newWin.close()
+  newWin.history.back(); 
+
+
+  //newWin.close()
   console.log("print")
 
 }
@@ -463,8 +468,22 @@ characterPrintPage(){
   let newWinchar = window.open("");
   newWinchar.document.write(divToPrint3.outerHTML);
   newWinchar.print();
-  newWinchar.close()
+   //newWinchar.close()
+  //  $('#conductCertificate').modal('hide');
+
+
+  newWinchar.history.back(); 
+
   console.log("print")
+
+}
+closePopups(){
+   $('#myModal1').modal('hide');
+  $('#conductCertificate').modal('hide');
+  $('#bonafiedCertificate').modal('hide');
+  $('#migrationCertificate').modal('hide');
+
+
 
 }
 }

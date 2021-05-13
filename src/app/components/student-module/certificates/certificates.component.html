@@ -59,7 +59,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="date" name="" [(ngModel)]="transferCertificateModel.dateOfBirth"  class="input">
+                       <input type="date" name="dateOfBirth"  max="{{today |date:'yyyy-MM-dd'}}"  [(ngModel)]="transferCertificateModel.dateOfBirth" class="input">
                      </div>
                      
                      <div class="col-lg-3">
@@ -206,18 +206,20 @@
                            </span>
                          </div>
                           <div class="col-lg-3">
-                           <input type="date" name="" [(ngModel)]="transferCertificateModel.last_date" class="input" placeholder="">
+                           <input type="date" name="today" max="{{today|date:'yyyy-MM-dd'}}" [(ngModel)]="transferCertificateModel.last_date" class="input" placeholder="">
                          </div>
                        </div>
-                       <div class="row">
-                         <div class="col-lg-3">
+                       <!-- <div class="row"> -->
+                         <!-- <div class="col-lg-3">
                            <span class="label1 ">
                              Date of application for certificate
                            </span>
                          </div>
                           <div class="col-lg-3">
                            <input type="date" name="" [(ngModel)]="transferCertificateModel.application_date" class="input" placeholder="">
-                         </div>
+                         </div> -->
+
+<!--                          
                          <div class="col-lg-3">
                            <span class="label1 ">
                             Date of Issue of certificate
@@ -225,7 +227,9 @@
                          </div>
                           <div class="col-lg-3">
                            <input type="date" name="certificate_issue_date" [(ngModel)]="transferCertificateModel.certificate_issue_date" class="input" placeholder="">
-                         </div>
+                         </div> -->
+
+
                          <!-- ================= -->
                          <!-- <div class="field-wrapper datePickerBox">
                           <input type="text" id="certificate_issue_date" class="form-ctrl widgetDatepicker"
@@ -235,7 +239,7 @@
                          <!-- ============================ -->
 
 
-                       </div>
+                       <!-- </div> -->
                         
                               <div class="row">
                          <div class="col-lg-3">
