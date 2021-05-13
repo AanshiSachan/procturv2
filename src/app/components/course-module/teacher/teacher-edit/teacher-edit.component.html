@@ -20,16 +20,16 @@
         </div>
         <div class="flex_box">
           <div class="w20">
-            <span class="label">Faculty Name <span class="text-danger">*</span></span>
+            <span class="label">Teacher Name <span class="text-danger">*</span></span>
           </div>
           <div class="w80">
             <input type="text" class="form-control input" formControlName="teacher_name" name="name"
-              placeholder="Faculty Name">
+              placeholder="Teacher Name">
             <div
               *ngIf="editTeacherForm.controls['teacher_name'].invalid && (editTeacherForm.controls['teacher_name'].dirty || editTeacherForm.controls['teacher_name'].touched)"
               class="alert alert-danger">
               <div *ngIf="editTeacherForm.controls['teacher_name'].hasError('required')">
-                Faculty Name is required.
+                Teacher Name is required.
               </div>
             </div>
           </div>

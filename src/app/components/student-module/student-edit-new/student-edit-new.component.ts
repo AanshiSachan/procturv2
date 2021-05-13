@@ -1406,6 +1406,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.standard_id = data.standard_id;
         this.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
+        this.studentAddFormData.roll_no = (data.roll_no == 0) ? '' : data.roll_no;
         this.studentAddFormData.doj = CommonUtils.validateDate(data.doj);
         this.studentAddFormData.dob = CommonUtils.validateDate(data.dob);
         this.studentAddFormData.expiry_date = CommonUtils.validateDate(data.expiry_date);
