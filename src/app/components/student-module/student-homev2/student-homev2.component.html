@@ -2,7 +2,396 @@
 
 <!----------------------------new-page-content----------------------------->
 
+<!---student-selected send notification-->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="isNotifyStudent" style="    top: 14%;">
+  <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+          <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotifyStudent()">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                  <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                      <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                              transform="translate(992.81 305.77) rotate(45)" />
+                          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                              transform="translate(978.81 305.77) rotate(45)" />
+                      </g>
+                      <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
+                          width="16" height="16" transform="translate(1012 297)" />
+                  </g>
+              </svg>
+          </span>
+          <div class="popup-content">
+              <h2>Send Notification</h2>
+
+              <div class="notification-content-wrapper">
+
+                  <div class="marginTenPixel">
+                      <div class="field-checkbox-wrapper">
+                          <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx"
+                              name="loginMessage" class="form-checkbox" id="loginMessage">
+                          <label for="loginMessage">Send Login Details</label>
+                      </div>
+                  </div>
+
+                  <div id="divDeliveryOptions" *ngIf="!sendNotification.loginMessageChkbx"
+                      class="content-delivery marginTenPixel">
+                      <h3>Delivery Mode</h3>
+
+                      <div class="row marginTenPixel">
+                          <div id="" class="c-sm-4 c-md-4 c-lg-4">
+                              <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                                  <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value=""
+                                      (click)="smsCheckBoxClick($event)" name="sms" class="form-checkbox"
+                                      id="smsC">
+                                  <label for="smsC">SMS</label>
+                              </div>
+                              <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                                  <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx"
+                                      (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox"
+                                      id="mailC">
+                                  <label for="mailC">Mail</label>
+                              </div>
+                          </div>
+                          <div id="" class="c-sm-6 c-md-6 c-lg-6">
+                              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                  <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value=""
+                                      name="student" class="form-checkbox" id="studentC">
+                                  <label for="studentC">Student</label>
+                              </div>
+                              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                  <input type="checkbox" value="" name="parent"
+                                      [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox"
+                                      id="parentC">
+                                  <label for="parentC">Parent</label>
+                              </div>
+                              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                  <input type="checkbox" value="" name="guardian"
+                                      [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox"
+                                      id="guardianC">
+                                  <label for="guardianC">Guardian</label>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="row marginTenPixel" *ngIf="sendNotification.emailChkbx == true">
+
+                          <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                              <label for="subject"
+                                  style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                              <input type="text" id="subject" name="subject" class="side-form-ctrl" value=""
+                                  placeholder=""
+                                  style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                                  [(ngModel)]="sendNotification.subjectMessage" id="divSubjectMessage" />
+                          </div>
+
+                      </div>
+
+                      <div class="row marginTenPixel">
+                          <a (click)="getAllSavedMessages()">See All Messages</a>
+
+                          <div class="message-table-wrapper">
+                              <table class="message-table">
+                                  <thead>
+                                      <tr>
+                                          <th>
+                                          </th>
+                                          <th>
+                                              Date
+                                          </th>
+                                          <th>
+                                              Message
+                                          </th>
+                                      </tr>
+                                  </thead>
+                                  <tbody *ngIf="sendNotification.emailChkbx == false">
+                                      <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                                          <td>
+                                              <div class="field-checkbox-wrapper">
+                                                  <input type="checkbox" class="form-checkbox"
+                                                      [(ngModel)]="row.assigned"
+                                                      (ngModelChange)="onCheckBoxSelection(index , row)">
+                                                  <label></label>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              {{row.date}}
+                                          </td>
+                                          <td>
+                                              <span [innerHTML]="row.message"></span>
+                                          </td>
+                                      </tr>
+                                      <tr *ngIf=" messageList.length ==0">
+                                          <td colspan="3">
+                                              No Notification Available
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                                  <tbody *ngIf="sendNotification.emailChkbx == true">
+                                      <tr *ngFor="let row of emailMessageList; let i = index; trackBy: i;">
+                                          <td>
+                                              <div class="field-checkbox-wrapper">
+                                                  <input type="checkbox" class="form-checkbox"
+                                                      [(ngModel)]="row.assigned"
+                                                      (ngModelChange)="onCheckBoxSelection(index , row)">
+                                                  <label></label>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              {{row.date}}
+                                          </td>
+                                          <td>
+                                              <span [innerHTML]="row.message"></span>
+                                          </td>
+                                      </tr>
+                                      <tr *ngIf=" emailMessageList.length ==0">
+                                          <td colspan="3">
+                                              No Notification Available
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+
+                      </div>
+
+                      <div class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == false">
+                          <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                          <button class="btn" (click)="sendPushNotification()">Send Push Notification</button>
+                      </div>
+
+                      <div class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == true">
+                          <button class="btn" (click)="previewMessage()">Preview</button>
+                      </div>
+                      <section id="popup" class="popupWrapper fadeIn" *ngIf="previewBox">
+                          <div class="popup pos-abs">
+                              <div class="popup-wrapper pos-rel">
+                                  <span class="closePopup pos-abs fbold show" id="popupCloseBtn"
+                                      (click)="close()">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                                          <g id="Group_1228" data-name="Group 1228"
+                                              transform="translate(8298 1888)">
+                                              <g id="Group_1213" data-name="Group 1213"
+                                                  transform="translate(34.189 -7.77)">
+                                                  <line id="Line_274" data-name="Line 274" class="cls-1"
+                                                      y2="19.798"
+                                                      transform="translate(992.81 305.77) rotate(45)" />
+                                                  <line id="Line_275" data-name="Line 275" class="cls-1"
+                                                      x1="19.798"
+                                                      transform="translate(978.81 305.77) rotate(45)" />
+                                              </g>
+                                              <rect id="Rectangle_686" data-name="Rectangle 686"
+                                                  style="stroke:none;" class="cls-2" width="16" height="16"
+                                                  transform="translate(1012 297)" />
+                                          </g>
+                                      </svg>
+                                  </span>
+                                  <div class="popup-content">
+                                      <h2>Email Preview</h2>
+
+                                      <div class="notification-content-wrapper">
+                                          <div class="" widget-content>
+                                              <textarea [(ngModel)]="sendNotification.subjectMessage"
+                                                  style="width: 100%;" disabled></textarea>
+
+                                              <editor [init]="editorConf"
+                                                  apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                                                  [disabled]="true" [(ngModel)]="previewedMessage">
+                                              </editor>
+                                          </div>
+                                      </div>
+                                      <div>
+                                          <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                                          <!-- <button class="btn" (click)="sendPushNotification()">Send Push
+                                              Notification</button> -->
+                                      </div>
+
+
+                                  </div>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+
+                  <div id="divSendLogin" *ngIf="sendNotification.loginMessageChkbx" class="marginTenPixel">
+
+                      <div class="marginTenPixel">
+                          <div class="radio-options">
+                              <div class="field-radio-wrapper">
+                                  <input type="radio" [checked]="(loginField.checkBox == '0')"
+                                      [(ngModel)]="loginField.checkBox" value="0" name="student"
+                                      class="form-radio">
+                                  <label for="student">Student Only</label>
+                              </div>
+                              <div class="field-radio-wrapper">
+                                  <input type="radio" [(ngModel)]="loginField.checkBox" value="1" name="parent"
+                                      class="form-radio">
+                                  <label for="parent">Parent Only</label>
+                              </div>
+                              <div class="field-radio-wrapper">
+                                  <input type="radio" [(ngModel)]="loginField.checkBox" value="2" name="both"
+                                      class="form-radio">
+                                  <label for="both">Both</label>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="marginTenPixel">
+                          <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                          <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgrade</button>
+                          <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Details
+                          </button>
+                          <button class="btn" (click)="sendSmsForApp('4')">SMS Credentials</button>
+                      </div>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+  </div>
+</section>
+<!-----------model Assign Popup-------->
+<div id="assignStandard" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="margin-top: 8%">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Assign {{labelForAssignStandard}}</h4>
+          </div>
+          <div class="modal-body">
+              <div class="field-wrapper" style="width: 50%; padding-bottom: 10px;">
+                  <label for="masterCourse">{{labelForAssignStandard}}</label>
+                  <select id="masterCourse" name="masterCourse" [(ngModel)]="assignedStandard" class="form-ctrl">
+                      <option value="-1">Select {{labelForAssignStandard}}</option>
+                      <option [value]="std.standard_id" *ngFor="let std of standardList">
+                          {{std.standard_name}}
+                      </option>
+                  </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-default" (click)="assignStandard()">Save</button>
+          </div>
+      </div>
+
+  </div>
+</div>
 <div class="page-content">
+  <!-----model for advance filter-->
+  <div class="modal" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-slideout  modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Advance Filter</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+         <p class="label_p">{{schoolModel ? 'Master Courses' : 'Standard'}}</p>
+         <select id="masterCourse" name="masterCourse"
+                                            [(ngModel)]="advancedFilterForm.standard_id"
+                                            (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl">
+                                            <option value="-1">{{schoolModel ? 'Master Courses' : 'Standard'}}</option>
+                                            <option [value]="std.standard_id" *ngFor="let std of standardList">
+                                                {{std.standard_name}}
+                                            </option>
+                                        </select>
+        </div>
+        <!-- <div>
+         <p class="label_p">Master Course</p>
+         <select>
+           <option>Select Master Course</option>
+         </select>
+        </div> -->
+        <div  [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
+           <p class="label_p"> Course</p>
+          <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id">
+           <option value="-1">Select Course</option>
+           <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+            {{subject.subject_name}}
+        </option>
+         </select>
+         </div>
+         <div class="display">
+           <div  [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+            <p class="label_p"> From Date</p>
+             <input type="date" readonly="true" bsDatepicker
+             [(ngModel)]="advancedFilterForm.doa_from_date">
+           </div>
+           <div>
+            <p class="label_p"> To Date</p>
+             <input type="date" name="" readonly="true" bsDatepicker
+             [(ngModel)]="advancedFilterForm.doa_to_date">
+           </div>
+         </div>
+          <div>
+                     <div>
+                      <p for="status" class="label_p">Is Active</p>
+                      <select id="active" [(ngModel)]="advancedFilterForm.is_active_status"
+                          name="sFilter" >
+                          <option value=""></option>
+                          <option value="1">Active</option>
+                          <option value="2">Inactive</option>
+                          <option value="3">Both</option>
+                      </select>
+                     </div>
+                    
+                   </div>
+         <p class="label_p">Institutional/Custom2</p>
+          <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id">
+            <option value="-1">Select</option>
+            <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                {{sch.school_name}}
+            </option>
+         </select>
+         <div class="display">
+           <div  [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
+                  <p class="label_p">Country</p>
+              <select id="state" [(ngModel)]="advancedFilterForm.country_id"
+              name="state" (ngModelChange)="getStateList()">
+              <option value="-1">Select Country</option>
+              <option title="{{country.country_name}}" [value]="country.id"
+                  *ngFor="let country of countryList">
+                  {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
+              </option>
+             </select>
+           </div>
+            <div  [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
+                  <p class="label_p">State</p>
+              <select id="state" [(ngModel)]="advancedFilterForm.state_id"
+              name="state" (ngModelChange)="getCityList()">
+              <option value="-1">Select State</option>
+              <option title="{{state.state_name}}" [value]="state.state_id"
+                  *ngFor="let state of stateList">
+                  {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
+              </option>
+             </select>
+           </div>
+         </div>
+         <p class="label_p">
+           City
+         </p>
+         <input type="" class="input1" name="">
+        </div>
+        <div class="modal-footer">
+        <div class=" display">
+           <div>
+           
+         </div>
+         <div>
+          <button class="bw_button">Clear Filter</button>
+           <button class="blue_button"  style="margin-left:8px;"> Apply</button>
+         </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
   <div class="w98">
    <!------------------------------basic search-------------------------------->
    <div class="row drop-shadow">
@@ -16,14 +405,17 @@
      <div class="col-lg-7">
        <span class="right">
           <!------------------------------Students Selected option-------------------------------->
-          <div class="dropdown3 mr10">
-              <button  class="mr10 bw_button dropbtn3 btn_shadow">0 Students Selected&nbsp;&nbsp;<i class="fa fa-caret-down dr"></i></button>
+          <a id="hiddenAnchorTag" class="hide">Element Made For Admission Form Download</a>
+          <a id="hiddenAnchorTag2" class="hide">Element Made For Fee Installment Download</a>
+
+          <div class="dropdown3 mr10"  *ngIf="rowSelectedCount != 0">
+              <button  class="mr10 bw_button dropbtn3 btn_shadow">{{rowSelectedCount}} Students Selected&nbsp;&nbsp;<i class="fa fa-caret-down dr"></i></button>
               <div class="dropdown-content3  mr10">
-                <a href="#" >Send Notification</a>
-                <a href="#">Admission Form</a>
-                <a href="#" >Fee Installment</a>
-                <a href="#">Download ID card</a>
-                 <a href="#">Assign Standard</a>
+                <a (click)="notifySelectedStudent()">Send Notification</a>
+                <a (click)="downloadStudentAdmissionForm()">Admission Form</a>
+                <a (click)="studentFeeInstallment()">Fee Installment</a>
+                <a (click)="downloadStudentIDCard()">Download ID card</a>
+                 <a (click)="openAssign()">Assign Standard</a>
               </div>
           </div>
            <!------------------------------Quick and Advanced  Filter openclose  buttons-------------------------------->
@@ -32,7 +424,7 @@
             <button  class="white_button mt-9 dropbtn2">Filter<img src="/assets/img2/filter.svg"></button>
               <div class="dropdown-content2">
                 <a  id="click"  *ngIf="!isProfessional"  (click)="openQuickFilter()">Quick Filter</a>
-                <a  data-toggle="modal" data-target="#exampleModal2"  id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
+                <a  data-toggle="modal"   id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
               </div>
           </div>
              <!------------------------------more button-------------------------------->
@@ -130,11 +522,12 @@
  
   
      <!-- heading div -->
-     <div class="table_heading">
+     <div class="table_heading" >
        <div>
         <label class="checkbox">
           <span class="checkbox__input">
-            <input type="checkbox" name="checked" checked>
+            <input #headerCheckbox type="checkbox" value="" name="check"
+            [checked]="isAllChecked()" (change)="selectAllRows($event)"  (click)="getRowCount($event)">
             <span class="checkbox__control">
              <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                 <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -156,12 +549,17 @@
          <div>Action</div>
      </div>
      <!-- table row -->
-     <div class="table_row" *ngFor="let data of studentDataSource;index as i">
+     <div class="overflows">
+     <div  class="table_row" *ngFor="let data of studentDataSource;index as i">
        <div>
           <div>
         <label class="checkbox">
           <span class="checkbox__input">
-            <input type="checkbox" name="checked" checked>
+            <input value="" name="check"
+            type="checkbox"
+             [(ngModel)]="data.uiSelected"
+            (ngModelChange)="rowCheckboxChange(data)" 
+           >
             <span class="checkbox__control">
              <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                 <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -184,96 +582,20 @@
         <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
       </div>
      </div>
+    </div>
    </div>
+   <div id="paginator" class="row filter-res pagination" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
+            (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex"
+            [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
+            (sizeChange)="updateTableBatchSize($event)">
+        </pagination>
+    </div>
+</div>
   </div>
 </div>  
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-<div class="modal-dialog modal-dialog-slideout  modal-sm" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Advance Filter</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">×</span>
-      </button>
-    </div>
-    <div class="modal-body">
-     <p class="label_p">Standard</p>
-     <select>
-       <option>Select Standard</option>
-     </select>
-     <p class="label_p">Master Course</p>
-     <select>
-       <option>Select Master Course</option>
-     </select>
-       <p class="label_p"> Course</p>
-     <select>
-       <option>Select Course</option>
-     </select>
-     <div class="display">
-       <div>
-        <p class="label_p"> From Date</p>
-         <input type="date" name="">
-       </div>
-       <div>
-        <p class="label_p"> To Date</p>
-         <input type="date" name="">
-       </div>
-     </div>
-      <div class="flex">
-                 <div>
-                   <label class="checkbox top22">
-                      <span class="checkbox__input">
-                        <input type="checkbox" name="checked" checked="">
-                        <span class="checkbox__control">
-                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <path fill="none" stroke="currentColor" stroke-width="2" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
-                        </span>
-                      </span>
-                    </label>
-                 </div>
-                  <div>
-                   <p class="label_p">
-                  Is Active
-                   </p>
-                 </div>
-               </div>
-     <p class="label_p">Institutional/Custom2</p>
-      <select>
-       <option>Select </option>
-     </select>
-     <div class="display">
-       <div>
-              <p class="label_p">Country</p>
-          <select>
-           <option>Select </option>
-         </select>
-       </div>
-        <div>
-              <p class="label_p">State</p>
-          <select>
-           <option>Select </option>
-         </select>
-       </div>
-     </div>
-     <p class="label_p">
-       City
-     </p>
-     <input type="" class="input1" name="">
-    </div>
-    <div class="modal-footer">
-    <div class=" display">
-       <div>
-       
-     </div>
-     <div>
-      <button class="bw_button">Clear Filter</button>
-       <button class="blue_button"> Apply</button>
-     </div>
-    </div>
-    </div>
-  </div>
-</div>
-</div>
+
     <!-- Delete PopUp -->
     <!-- =============================================================================== -->
     <section id="popup" class="popupWrapper fadeIn" *ngIf="isDeleteStudentPrompt">

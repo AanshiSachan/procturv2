@@ -33,7 +33,7 @@ export class StudentHomev2Component implements OnInit {
   @ViewChild("mySidenav", { static: true }) mySidenav: ElementRef;
   @ViewChild("optMenu", { static: true }) optMenu: ElementRef;
 
-  sizeArr: any[] = [50, 100, 250, 500, 1000];
+  sizeArr: any[] = [25,50, 100, 250, 500, 1000];
   private enqstatus: any = [];
   emailMessageList: any = [];
   subject: any;
@@ -70,7 +70,7 @@ export class StudentHomev2Component implements OnInit {
   PageIndex: number = 1;
   maxPageSize: number = 0;
   totalRow: number = 0;
-  selectedRowCount: number = 0;
+  selectedRowCount = 0;
   loading_message: number = 1;
   paymentMode: number = 0;
   isConfirmBulkDelete: boolean;
@@ -822,19 +822,20 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
-    this.isAdvFilter = true;
-    this.showQuickFilter = false;
-    this.searchBarData = "";
-    this.closeSideBar();
-    //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
-    document.getElementById("adFilterOpen").classList.add("hide");
-    if (document.getElementById("basic-search")) {
-      document.getElementById("basic-search").classList.add("hide");
-    }
-    document.getElementById("adFilterExit").classList.remove("hide");
-    // document.getElementById('black-bg').classList.remove('hide');
-    document.getElementById("advanced-filter-section").classList.remove("hide");
-    this.fetchStudentPrefill();
+    $('#exampleModal2').modal('show');
+    // this.isAdvFilter = true;
+    // this.showQuickFilter = false;
+    // this.searchBarData = "";
+    // this.closeSideBar();
+    // //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+    // document.getElementById("adFilterOpen").classList.add("hide");
+    // if (document.getElementById("basic-search")) {
+    //   document.getElementById("basic-search").classList.add("hide");
+    // }
+    // document.getElementById("adFilterExit").classList.remove("hide");
+    // // document.getElementById('black-bg').classList.remove('hide');
+    // document.getElementById("advanced-filter-section").classList.remove("hide");
+    // this.fetchStudentPrefill();
   }
 
   /* Function to close advanced filter */
@@ -1689,7 +1690,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getRowCount(ev) {
-    //console.log(ev);
+    console.log(this.selectedRowCount);
     this.selectedRowCount = ev;
   }
 
@@ -2809,8 +2810,10 @@ export class StudentHomev2Component implements OnInit {
   }
 
   downloadStudentAdmissionForm() {
+    
     let obj: any = {
-      studentIds: this.selectedRowGroup.join(","),
+      //studentIds: this.selectedRowGroup.join(","),
+      studentIds: this.rowSelectedId.join(","),
     };
     this.auth.showLoader();
     this.postService.downloadAdmissionForm(obj).subscribe(
@@ -2837,7 +2840,8 @@ export class StudentHomev2Component implements OnInit {
   studentFeeInstallment(userType) {
     console.log("studentFeeInstallment");
     let object = {
-      student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
+      //student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
+      student_ids: this.rowSelectedId.toString(), // string by ids common seperated
       institution_id: "",
       sendEmail: userType,
     };
@@ -3169,5 +3173,77 @@ toggleClass(newValue: number) {
   else {
     this.highlightedDiv = newValue;
   }
+}
+
+//===========checkbox code ngrob
+rowIdArr;
+rowSelectedCount: number = 0;
+rowSelectedId: any[] = [];
+userIdArray: any = [];
+
+isAllChecked(): boolean {
+  return this.studentDataSource.every(_ => _.uiSelected);
+}
+//selected count
+rowsSelected;
+rowUserId
+selectAllRows(ev){
+  
+  if (ev.target.checked) {
+    this.studentDataSource.forEach(x => x.uiSelected = ev.target.checked);
+    this.rowSelectedCount = this.studentDataSource.length;
+    this.selectedRowCount =this.studentDataSource.length
+    this.rowsSelected = this.studentDataSource.length;;
+  this.getSelectedRows();
+}
+else {
+    this.studentDataSource.forEach(x => x.uiSelected = ev.target.checked);
+    this.rowSelectedCount = 0;
+     this.rowsSelected=this.rowSelectedCount;
+     this.selectedRowCount=this.rowSelectedCount;
+     this.getSelectedRows();
+}
+}
+rowCheckboxChange(eve) {
+
+  // this.cd.markForCheck();
+  let status = eve.uiSelected;
+  /* if the checkbox is already checked uncheck it and perform operation */
+  if (status == false) {
+      eve.uiSelected = false;
+      this.rowSelectedCount--;
+       this.rowSelectedId = this.removeFromSelectedArr(eve.student_id);
+      this.rowIdArr =this.rowSelectedId;
+      this.rowsSelected =this.rowSelectedCount;
+  }
+  else if (status == true) {
+      eve.uiSelected = true;
+       this.rowSelectedCount++;
+       this.rowSelectedId.push(eve.student_id);
+       this.rowIdArr =this.rowSelectedId;
+       this.rowsSelected =this.rowSelectedCount;
+  }
+  this.getSelectedRows();
+}
+removeFromSelectedArr(id): any[] {
+  return this.rowSelectedId.filter(e => e != id);
+}
+getSelectedRows() {
+ this.rowSelectedId = [];
+  this.userIdArray = [];
+  this.studentDataSource.forEach(e => {
+      if (e.uiSelected) {
+        
+          this.rowSelectedId.push(e.student_id);
+          this.userIdArray.push(e.user_id);
+      }
+  });
+ this.rowIdArr=this.rowSelectedId;
+ this.rowUserId=this.userIdArray;
+ console.log(this.rowSelectedId);
+
+}
+openAssign(){
+  $("#assignStandard").modal("show");
 }
 }

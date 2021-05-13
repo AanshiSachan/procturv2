@@ -206,7 +206,7 @@ margin: 10px 0px;
 .dropdown-content3 a:hover {background-color: #ddd;}
 
 .dropdown3:hover .dropdown-content3 {display: block;
-  width:173px;
+ 
 }
 
 .drop-shadow{
@@ -253,6 +253,7 @@ padding-left: 0.2vw;
   padding-top: 10px;
 padding-bottom: 0px;
 border-bottom: 1px solid #EFF0F5;
+
 }
 .table_row>div{
 line-height: 30px;
@@ -261,7 +262,29 @@ line-height: 30px;
   text-align: center;
   color: #6B5D5D;
 }
+.overflows{
+  overflow-y: scroll;
+max-height: 64vh;
+}
+/* width */
+// .modal::-webkit-scrollbar {
+//   width: 15px;
+// }
 
+// /* Track */
+// .modal::-webkit-scrollbar-track {
+//   background: #f1f1f1; 
+// }
+ 
+// /* Handle */
+// .modal::-webkit-scrollbar-thumb {
+//   background: #888; 
+// }
+
+// /* Handle on hover */
+// .modal::-webkit-scrollbar-thumb:hover {
+//   background: #555; 
+// }
 .table_row>div:nth-child(2), .table_heading>div:nth-child(2){
   width: 40px;
 
@@ -381,6 +404,9 @@ text-align: center;
 letter-spacing: 0.01em;
 margin-right: 20px;
 color: #334D6E;
+}
+.modal{
+  z-index: 9999999999;
 }
 .modal-dialog-slideout {min-height: 100%; margin: 0 0 0 auto;background: #fff;}
 .modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(100%,0)scale(1);transform: translate(100%,0)scale(1);}
@@ -598,6 +624,118 @@ transform: scale(1);
   position: relative;
   top: 10%;
 }
+
 .popup-content{
   font-weight: 500;
+}
+.notification-content-wrapper {
+  .marginTenPixel {
+      margin: 10px 0px;
+
+      .btn{
+          margin-bottom: 5px;
+      }
+
+      .radio-options {
+          .field-checkbox-wrapper,
+          .field-radio-wrapper {
+              position: relative;
+              padding-left: 25px;
+              margin-bottom: 10px;
+          }
+          .field-radio-wrapper .form-radio {
+              opacity: 0;
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 20px;
+              height: 20px;
+              z-index: 1;
+          }
+          .field-radio-wrapper .form-radio+label {
+              vertical-align: middle;
+              transition: all 0.1s;
+          }
+          .field-radio-wrapper .form-radio+label:after {
+              content: '';
+              width: 16px;
+              height: 16px;
+              border: 2px solid #ccc;
+              border-radius: 50%;
+              position: absolute;
+              left: 0;
+              top: 0;
+              transition: all 0.1s;
+          }
+          .field-radio-wrapper .form-radio:checked+label:after {
+              border: 2px solid #0084f6;
+          }
+          .field-radio-wrapper .form-radio+label:before {
+              transition: all 0.1s;
+              width: 1px;
+              height: 1px;
+              left: 9px;
+              top: 9px;
+              position: absolute;
+              content: '';
+          }
+          .field-radio-wrapper .form-radio:checked+label:before {
+              content: '';
+              width: 8px;
+              height: 8px;
+              background: #0084f6;
+              border-radius: 50%;
+              left: 4px;
+              top: 4px;
+          }
+          .field-radio-wrapper .form-radio:checked+label {
+              color: #0084f6;
+          }
+      }
+
+      .field-checkbox-wrapper .form-checkbox+label {
+          vertical-align: middle;
+          font-size: 14px;
+          display: inline-block;
+          margin-left: 10px;
+      }
+
+  }
+  .content-delivery {
+      .message-table-wrapper {
+          max-height: 210px;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          table {
+              &.message-table {
+                  max-height: 200px;
+                  thead {
+                      tr {
+                          th {
+                              padding: 5px 5px !important;
+                          }
+                      }
+                  }
+                  tbody {
+                      tr {
+                          padding: 0px 0px !important;
+                          td {
+                              padding: 5px 5px !important;
+                          }
+                      }
+                  }
+              }
+          }
+          ::-webkit-scrollbar {
+              display: block;
+              width: 7px;
+              height: 7px;
+          }
+      }
+  }
+}
+
+#assignStandard{
+  position: relative;
+  left: 35%;
 }
