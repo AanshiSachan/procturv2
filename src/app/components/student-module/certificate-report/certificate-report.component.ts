@@ -18,9 +18,10 @@ reportModel={
   currentDate: moment(new Date()).format('YYYY-MM-DD'),
   certificate_url:'',
   certificate_type:''
-
-
 }
+startDate:any;
+endDate:any;
+dateFilterRange:any
   constructor(private router: Router,
     private PostStudService: PostStudentDataService,
     private auth: AuthenticatorService,
@@ -39,7 +40,8 @@ reportModel={
 
 getCertificateReportData(){
   this.auth.showLoader();
-  let url='/api/v1/certificate/report/'+this.jsonFlag.institute_id;
+  let url='/api/v1/certificate/report/'+this.jsonFlag.institute_id+'?fromDate='+this.startDate+'&toDate='+this.endDate;
+  
   this.PostStudService.stdGetData(url).subscribe(
     (res : any) =>{
       this. reportData = res.result;
@@ -79,5 +81,9 @@ let filterData = this.reportSearch.filter(name=>name.certificate_type === obj)
 this.reportData = filterData; 
 console.log("selected",filterData)
 }
-
+dateRangeChange(e) {
+  this.startDate = moment(e[0]).format("YYYY-MM-DD");
+  this.endDate = moment(e[1]).format("YYYY-MM-DD");
+  this.getCertificateReportData()
+}
 }

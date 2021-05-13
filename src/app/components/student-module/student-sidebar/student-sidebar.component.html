@@ -276,9 +276,10 @@
            <div class="col-6 ">
              <div class="center">
                  <img src="../../../../assets/images/conduct.png"><br>
-               <p data-toggle="modal" data-target="#conductCertificate">
+                 <p (click)="viewCharacterCertificate(awsDownloadLink)">Conduct<br>/ Character Certificate</p>
+               <!-- <p data-toggle="modal" data-target="#conductCertificate">
                  Conduct<br>/ Character Certificate
-               </p>
+               </p> -->
               
             </div>
            </div>
@@ -289,9 +290,10 @@
              <div class="center">
          
                 <img src="../../../../assets/images/bonafide.png"><br>
-                <p data-toggle="modal" data-target="#bonafiedCertificate">
+                <p (click)="viewBonafaiedCertificate(awsDownloadLink)">Bonafide Certificate</p>
+                <!-- <p data-toggle="modal" data-target="#bonafiedCertificate">
                  Bonafide Certificate
-                </p>
+                </p> -->
            
             </div>
            </div>
@@ -299,9 +301,10 @@
            <div class="col-6 ">
              <div class="center">
                  <img src="../../../../assets/images/migration.png">
-               <p data-toggle="modal" data-target="#migrationCertificate">
+                 <p (click)="viewMigrationCertificate(awsDownloadLink)">Migration Certificate</p>
+               <!-- <p data-toggle="modal" data-target="#migrationCertificate">
                  Migration Certificate
-               </p>
+               </p> -->
             </div>
            </div>
           
@@ -340,7 +343,7 @@
     <div>
       <div></div>
       <div>
-       <a class="mr20" (click)="characterPrintPage()"><img src="../../../../assets/images/certifcateimg/print.svg"></a>
+       <a class="mr20" (click)="characterPrintPage('conductCertificate')"><img src="../../../../assets/images/certifcateimg/print.svg"></a>
        <a class="mr20" (click)="getCharacterCertificate()" > <img src="../../../../assets/images/certifcateimg/download.svg"></a>
        <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>

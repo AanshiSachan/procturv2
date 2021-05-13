@@ -7,16 +7,21 @@
        </div>
      </div>
       <div class="w98"> 
-        <div class="pt15">
-          <!-- <div class="field-wrapper datePickerBox">
-                          <input type="text" id="currentDate" class="form-ctrl widgetDatepicker"
-                              [(ngModel)]="reportModel.currentDate" style="padding: 6px;" readonly="true"
-                              name="currentDate" bsDatepicker />
-                      </div> -->
-         <input type="date" name="currentDate" [(ngModel)]="reportModel.currentDate" class="input wid240 mr10" placeholder="21-03-2021 to 21-03-2021">
+        <div class="pt15" style="display: -webkit-box;-webkit-box-align: center;">
+          <div class="col-sm-3 filter-item field-wrapper datePickerBox" style="margin-left: 10px;">
+          <label for="date-range">Select Date Range</label>
+          <input type="text" value="" id="date-range" (ngModelChange)="dateRangeChange($event)"  [(ngModel)]="dateFilterRange"
+             class="form-ctrl widgetDatepicker bsDatepicker"
+            style="padding: 6px;" readonly="true" name="date-range" placeholder="Date" bsDaterangepicker />
+
+        </div>
+
+        <!-- </div> -->
+         <!-- <input type="date" name="currentDate" [(ngModel)]="reportModel.currentDate" class="input wid240 mr10" placeholder="21-03-2021 to 21-03-2021"> -->
+
            <span class="or mr10">or</span>
            
-           <div class="dropdown11">
+           <div class="col-sm-1 dropdown11" >
    <button class="filter dropbtn11"><img src="../../../../assets/images/certifcateimg/filter.svg"></button>
    <div class="dropdown-content11"  >
      <a (click)="filterTransfer('Transfer')">Transfer Certificate</a>
@@ -25,8 +30,9 @@
       <a (click)="filterTransfer('Migration')">Migration Certificate</a>
    </div>&nbsp;&nbsp;&nbsp;&nbsp;
  </div>
-
+ <div class="col-sm-7" style="text-align: right;">
          <input type="text" name="searchInput" [(ngModel)]="searchInput" (keyup)="searchItem(search)" placeholder="Search" class="input wid240 right magnifying-glass" #search>
+        </div>
        </div>
        <div class="c_report">
              <div class="table_heading">

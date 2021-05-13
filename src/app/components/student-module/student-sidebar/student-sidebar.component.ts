@@ -71,7 +71,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     course_id: -1,
   };
   isSchoolModel: boolean=false;
-
+  awsDownloadLink:any
 
   constructor(
     private eRef: ElementRef,
@@ -114,7 +114,6 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-
   }
 
   ngOnChanges() {
@@ -329,6 +328,7 @@ getCharacterCertificate(){
   this.PostStudService.stdGetData(url).subscribe(
     (res:any) =>{
       let resp =res.result;
+      this.awsDownloadLink=resp.awsDownloadLink
       console.log("character",resp)
 
       this.auth.hideLoader();
@@ -441,6 +441,76 @@ migrationCertificates(){
 
 }
 
+viewCharacterCertificate(awsDownloadLink){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/character/'+this.rowData.student_id;
+  this.PostStudService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      this.awsDownloadLink = resp.awsDownloadLink
+      console.log("res",resp)
+      console.log("link",awsDownloadLink)
+      this.auth.hideLoader();
+      window.open('https://docs.google.com/viewer?url=' + this.awsDownloadLink);
+
+
+},
+err => {
+  console.log(err);
+  this.auth.hideLoader();
+}
+)
+
+} 
+viewBonafaiedCertificate(awsDownloadLink){
+
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/bonafide/'+this.rowData.student_id;
+  this.PostStudService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      let awsDownloadLink = resp.awsDownloadLink
+      console.log("res",resp)
+      console.log("link",awsDownloadLink)
+      this.auth.hideLoader();
+      window.open('https://docs.google.com/viewer?url=' + awsDownloadLink);
+
+
+},
+err => {
+  console.log(err);
+  this.auth.hideLoader();
+}
+)
+
+} 
+viewMigrationCertificate(awsDownloadLink){
+
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/migration/'+this.rowData.student_id;
+  this.PostStudService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      let awsDownloadLink = resp.awsDownloadLink
+      console.log("res",resp)
+      console.log("link",awsDownloadLink)
+      this.auth.hideLoader();
+      window.open('https://docs.google.com/viewer?url=' + awsDownloadLink);
+
+
+},
+err => {
+  console.log(err);
+  this.auth.hideLoader();
+}
+)
+
+
+
+}
+
+
+
 PrintPage(){
   var divToPrint = document.getElementById("bonafiedCertificate")
   let newWin = window.open("");
@@ -463,8 +533,8 @@ migrationPrintPage(){
   console.log("print")
 
 }
-characterPrintPage(){
-  var divToPrint3 = document.getElementById("conductCertificate")
+characterPrintPage(popupName){
+  var divToPrint3 = document.getElementById(popupName)
   let newWinchar = window.open("");
   newWinchar.document.write(divToPrint3.outerHTML);
   newWinchar.print();
@@ -483,7 +553,6 @@ closePopups(){
   $('#bonafiedCertificate').modal('hide');
   $('#migrationCertificate').modal('hide');
 
-
-
 }
+
 }
