@@ -25,6 +25,10 @@ export class UrlComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.pageModel = res.result;
+        if(this.pageModel.subdomain_name != '' && !this.pageModel.subdomain_name.includes('https://')) {
+          let temp = 'https://' + this.pageModel.subdomain_name;
+          this.pageModel.subdomain_name = temp;
+        }
         //this.fetchTableDataByPage(this.pageIndex);
       },
       err => {

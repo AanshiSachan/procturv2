@@ -3,7 +3,7 @@
 <!-- <span style="position: fixed;top: 50%;left: 50%;font-weight: 600;font-size: 16px;">Coming soon...</span> -->
 <div class="container-fluid product-wrapper p-0">
   <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
-    <div class="col-md-8" style="padding-left: 0;">
+    <div class="col-md-12" style="padding-left: 0;">
       <section class="middle-top clearFix bulk-header">
         <div>
           <h1 class="pull-left" style="margin-bottom: 10px;">
@@ -13,6 +13,10 @@
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
             <span>Third Party Integration</span>
           </h1>
+          <div style="float: right;margin-right: 10px;margin-top: 7px;">
+            <span> <i class="fa fa-info-circle infomation-icon"
+                style="cursor: pointer; font-size: 20px;" title="Please do not include script tags." aria-hidden="true"></i></span>
+          </div>
         </div>
       </section>
     </div>
@@ -22,7 +26,7 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12 form-group">
-          <label class="text-bold"> Chatbot Code
+          <label class="text-bold"> Chatbot URL / Other Script URL
             <!-- <span class="text-danger">*</span> -->
           </label>
           <textarea placeholder="Chat" [(ngModel)]="pageModel.chat_key" class="form-control form-control-sm">
@@ -46,7 +50,7 @@
         </div>
 
         <div class="col-md-12 form-group">
-          <label class="text-bold"> Google Verification
+          <label class="text-bold"> Other Scripts
             <!-- <span class="text-danger">*</span> -->
           </label>
           <textarea placeholder="Google Verification" [(ngModel)]="pageModel.google_verfication_key" class="form-control form-control-sm">
