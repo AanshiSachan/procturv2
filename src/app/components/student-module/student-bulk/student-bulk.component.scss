@@ -74,7 +74,7 @@ border: 1px dashed #C5BDBD;
 box-sizing: border-box;
 box-shadow: 0px 10px 15px rgba(26, 35, 52, 0.1);
 border-radius: 10px;
-margin: 20px 0px;
+
 }
 .upload .one{
     background: url(../../../../assets/images/Group480.svg);
@@ -556,3 +556,17 @@ color: #0097F9;
     float: left;
     width: 80%;
 }
+.scroll1{
+    max-height: 150px;
+    overflow-y: auto;
+}
+::ng-deep .ui-fileupload-buttonbar {
+    background: #fff;
+    border: none;
+  }
+  ::ng-deep .ui-widget-content {
+      border: none;
+  }
+  .pull-left{
+      margin-top: 10px;
+  }

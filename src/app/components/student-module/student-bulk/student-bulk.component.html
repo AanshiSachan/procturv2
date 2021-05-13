@@ -1,7 +1,7 @@
 <div class="middle-section clearFix" id="enquiryList" style="margin-top: -9px;">
   <section class="middle-top clearFix bulk-header">    
     <div class="row">
- <h1 class="pull-left">
+<h1 class="pull-left">
   Upload Student
  </h1>
  <div class="flex outter_div">
@@ -125,48 +125,50 @@
           Failure Count
       </div>
   </div>
+ <div class="scroll1">
   <div class="tablebody"  *ngFor="let record of bulkUploadRecords">
-      <div title="{{record.created_date}}">
-        {{record.created_date}} </div>
-      <div title="{{record.statusValue}}">
-         <span [ngClass]="{'completed': record.statusValue =='Completed','pending': record.statusValue == 'Pending'}">{{record.statusValue}}</span>
-      </div>
-      <div title="{{record.total_count}}">
-        {{record.total_count}}
-      </div>
-      <div>
-        <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && record.success_path.includes('https://s3-')"
-        id="success{{record.list_id}}" itle="Download Success Report" href="{{record.success_path}}">
-        {{record.success_count}}
-      </a>
-      <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && !record.success_path.includes('https://s3-')"
-        id="success{{record.list_id}}" itle="Download Success Report" (click)="downloadSuccess(record)">
-        {{record.success_count}}
-      </a>
-      <a *ngIf="record.success_count != 0 && !downloadStudentReportAccess" id="success{{record.list_id}}">
-        {{record.success_count}}
-      </a>
-      <span *ngIf="record.success_count == 0">
-        {{record.success_count}}
-      </span>
-      </div>
-      <div >
-        <a [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && record.failure_path.includes('https://s3-')"
-        id="failure{{record.list_id}}" title="Download Failure Report" href="{{record.failure_path}}">
-        {{record.failure_count}}
-      </a>
-      <a  [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && !record.failure_path.includes('https://s3-')"
-        id="failure{{record.list_id}}" title="Download Failure Report" (click)="downloadFailure(record)">
-        {{record.failure_count}}
-      </a>
-      <a [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && !downloadStudentReportAccess" id="failure{{record.list_id}}">
-        {{record.failure_count}}
-      </a>
-      <span *ngIf="record.failure_count == 0">
-        {{record.failure_count}}
-      </span>
-      </div>
-  </div>
+    <div title="{{record.created_date}}">
+      {{record.created_date}} </div>
+    <div title="{{record.statusValue}}">
+       <span [ngClass]="{'completed': record.statusValue =='Completed','pending': record.statusValue == 'Pending'}">{{record.statusValue}}</span>
+    </div>
+    <div title="{{record.total_count}}">
+      {{record.total_count}}
+    </div>
+    <div>
+      <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && record.success_path.includes('https://s3-')"
+      id="success{{record.list_id}}" itle="Download Success Report" href="{{record.success_path}}">
+      {{record.success_count}}
+    </a>
+    <a *ngIf="record.success_count != 0 && downloadStudentReportAccess && !record.success_path.includes('https://s3-')"
+      id="success{{record.list_id}}" itle="Download Success Report" (click)="downloadSuccess(record)">
+      {{record.success_count}}
+    </a>
+    <a *ngIf="record.success_count != 0 && !downloadStudentReportAccess" id="success{{record.list_id}}">
+      {{record.success_count}}
+    </a>
+    <span *ngIf="record.success_count == 0">
+      {{record.success_count}}
+    </span>
+    </div>
+    <div >
+      <a [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && record.failure_path.includes('https://s3-')"
+      id="failure{{record.list_id}}" title="Download Failure Report" href="{{record.failure_path}}">
+      {{record.failure_count}}
+    </a>
+    <a  [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && downloadStudentReportAccess  && !record.failure_path.includes('https://s3-')"
+      id="failure{{record.list_id}}" title="Download Failure Report" (click)="downloadFailure(record)">
+      {{record.failure_count}}
+    </a>
+    <a [ngClass]="{'failurCount':record.failure_count != 0}" *ngIf="record.failure_count != 0 && !downloadStudentReportAccess" id="failure{{record.list_id}}">
+      {{record.failure_count}}
+    </a>
+    <span *ngIf="record.failure_count == 0">
+      {{record.failure_count}}
+    </span>
+    </div>
+</div>
+ </div>
  
 </div>
 </div>
