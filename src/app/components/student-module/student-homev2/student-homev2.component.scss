@@ -111,6 +111,9 @@ text-indent: 20px;
 .mt-9{
 margin: 10px 0px;
 }
+.mt-10{
+margin-left: 8px;
+}
 /*dropdown for more*/
 
 .dropdown1 {
@@ -468,7 +471,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: rgba(0, 0, 0, 0);
     opacity: 1;
     display: block;
-    background: url('/assets/img2/date.svg') no-repeat;
+    background: url('/assets/img2/delete.svg') no-repeat;
     background-position:10 center ;
     width: 25px;
     height: 25px;
@@ -734,8 +737,27 @@ transform: scale(1);
       }
   }
 }
-
 #assignStandard{
   position: relative;
   left: 35%;
+}
+.pos-abs{
+  position: absolute;
+  top:0%;
+}
+
+.illustration-container {
+  display: block;
+  .illustration-img {
+    width: 40%;
+    margin-left: 25%;
+  }
+} 
+//css old
+.popup-wrapper h2 {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+.marginTenPixel1{
+  margin-left: 10px;
 }

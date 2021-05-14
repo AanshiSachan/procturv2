@@ -565,7 +565,8 @@ export class StudentHomev2Component implements OnInit {
 
   downloadStudentIDCard() {
     console.log(this.selectedUserId);
-    let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
+    //let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
+    let studentId = this.getListOfIds(this.rowSelectedId).split(",");
     const url = "/admit-card/download";
     this.auth.showLoader();
     this.postService.stdPostData(url, studentId).subscribe(
@@ -843,12 +844,14 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
-    document.getElementById("adFilterExit").classList.add("hide");
+   // document.getElementById("adFilterExit").classList.add("hide");
     // document.getElementById('basic-search').classList.remove('hide');
-    document.getElementById("adFilterOpen").classList.remove("hide");
+    //document.getElementById("adFilterOpen").classList.remove("hide");
     // document.getElementById('black-bg').classList.add('hide');
-    document.getElementById("advanced-filter-section").classList.add("hide");
+   // document.getElementById("advanced-filter-section").classList.add("hide");
     this.isAdvFilter = false;
+    $('#assignStandard').modal('hide');
+    //document.getElementById('#assignStandard').style.display ='none';
   }
 
   /* update the advanced filter forn */
@@ -916,6 +919,7 @@ export class StudentHomev2Component implements OnInit {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     this.loadTableDataSource(this.instituteData);
+   
     this.closeAdFilter();
     this.isAdvFilter=true;
   }
@@ -2509,6 +2513,7 @@ export class StudentHomev2Component implements OnInit {
       notifn_subject: this.sendNotification.subjectMessage.trim(),
       destination: Number(this.getDestinationValue()),
       student_ids: this.getListOfIds(this.selectedRowGroup),
+      
       batch_id: "-1",
       cancel_date: "",
       isEnquiry_notifn: 0,
@@ -2621,7 +2626,9 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getListOfIds(data) {
-    return data.join(",");
+   // rowSelectedId
+  //  return data.join(",");
+  return this.rowSelectedId.join(",")
   }
 
   /* =================================================================================================== */
@@ -2813,7 +2820,7 @@ export class StudentHomev2Component implements OnInit {
     
     let obj: any = {
       //studentIds: this.selectedRowGroup.join(","),
-      studentIds: this.rowSelectedId.join(","),
+      studentIds: this.selectedRowGroup.join(","),
     };
     this.auth.showLoader();
     this.postService.downloadAdmissionForm(obj).subscribe(
@@ -2841,7 +2848,7 @@ export class StudentHomev2Component implements OnInit {
     console.log("studentFeeInstallment");
     let object = {
       //student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
-      student_ids: this.rowSelectedId.toString(), // string by ids common seperated
+      student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
       institution_id: "",
       sendEmail: userType,
     };
@@ -3230,20 +3237,61 @@ removeFromSelectedArr(id): any[] {
 }
 getSelectedRows() {
  this.rowSelectedId = [];
-  this.userIdArray = [];
+  this.selectedUserId = [];
   this.studentDataSource.forEach(e => {
       if (e.uiSelected) {
         
           this.rowSelectedId.push(e.student_id);
-          this.userIdArray.push(e.user_id);
+          this.selectedUserId.push(e.user_id);
+          // selectedUserId
       }
   });
  this.rowIdArr=this.rowSelectedId;
- this.rowUserId=this.userIdArray;
+ this.rowUserId=this.selectedUserId;
+ this.selectedRowGroup= this.rowSelectedId;
  console.log(this.rowSelectedId);
 
 }
 openAssign(){
   $("#assignStandard").modal("show");
+}
+
+//sorting
+//sorting
+sortingDir: string = "asc";
+headElements = ['student_name'];
+sortTable(str) {
+  if (str == "student_name") {
+    this.studentDataSource.sort(function (a, b) {
+      var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+      var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+
+    })
+  }
+  else if (str == "subject_id") {
+    this.studentDataSource.sort(function (a, b) {
+      return a[str] - b[str];
+    })
+  }
+  else if (str == "created_date") {
+    this.studentDataSource.sort(function (a, b) {
+      return moment(a[str]).unix() - moment(b[str]).unix();
+    })
+  }
+  if (this.sortingDir == "asc") {
+    this.sortingDir = "dec";
+  } else {
+    this.sortingDir = "asc";
+    this.studentDataSource = this.studentDataSource.reverse();
+  }
+  //this.fectchTableDataByPage(this.PageIndex);
 }
 }
