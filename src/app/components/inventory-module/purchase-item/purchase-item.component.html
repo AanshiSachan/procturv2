@@ -79,7 +79,11 @@
                         </div>
                     </div>
                 </div>
-        
+                <section class="no-data" *ngIf="staticPageData.length == 0">
+                  <div class="illustration-container">
+                    <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+                  </div>
+                </section>
             </div>
         </div>
               <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"(goPrev)="fetchPrevious()"
@@ -187,7 +191,7 @@
         <div class="modal-body scrollable">
           <div class="history">
             <div class="table_heading" style="line-height: 30px;">
-              <div style="padding-left: 10px;">
+              <div style="padding-left: 18px;">
                 #
               </div>
               <div>Date </div>
@@ -199,7 +203,7 @@
               <div>File</div>
             </div>
             <div class="table_body tbl-history" style="margin:-3px 0px;padding:10px" *ngFor="let data of paymentHistoryData;index as i">
-              <div style="padding-left: 10px;">
+              <div style="padding-left: 8px;">
                {{i+1}}
               </div>
               <div>

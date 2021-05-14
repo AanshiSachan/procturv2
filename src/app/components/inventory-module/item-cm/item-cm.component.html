@@ -117,14 +117,20 @@
                 </div>
               </div>
             </div>
+            <section class="no-data" *ngIf="pagedItemData.length == 0">
+              <div class="illustration-container">
+                <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+              </div>
+            </section>
         </div>
       </div>
       <!--pagination for item-->
-    <pagination (goPage)="fetchTableDataByPageforItem($event)" (goNext)="fetchNextItem()" (goPrev)="fetchPreviousItem()"
-        [pagesToShow]="10" [page]="pageIndexforItem" [perPage]="displayBatchSize" [count]="totalItemRow" [sizeArr]="sizeArr"
-        (sizeChange)="updateTableBatchSize($event)">
-      </pagination> </div>
+   </div>
   </div>
+  <pagination (goPage)="fetchTableDataByPageforItem($event)" (goNext)="fetchNextItem()" (goPrev)="fetchPreviousItem()"
+  [pagesToShow]="10" [page]="pageIndexforItem" [perPage]="displayBatchSize" [count]="totalItemRow" [sizeArr]="sizeArr"
+  (sizeChange)="updateTableBatchSize($event)">
+</pagination>
      
           <!-- use image only when page is empty,table body class element will not be present -->
 
@@ -564,7 +570,7 @@
         <div class="modal-body scrollable" >
            <div class="allo_history">
             <div class="table_heading">
-              <div>
+              <div style="padding-left:8px;">
                #
               </div>
               <div>Date</div>
@@ -575,8 +581,8 @@
               <div>Quantity</div>
               <div>In/Out</div>
             </div>
-            <div class="table_body" *ngFor="let data of allocationHistoryData;index as i" >
-              <div>
+            <div class="table_body" *ngFor="let data of allocationHistoryData;index as i" style="line-height: 3;" >
+              <div style="padding-left: 8px;">
                 {{i+1}}
               </div>
               <div>
@@ -584,8 +590,8 @@
               </div>
               <div>
                 <span  *ngIf="data.user_name==''" >--</span>
-                <span  *ngIf="data.user_name!=''" >{{data.user_name}}</span>
-            
+                <span  *ngIf="data.user_name!=''"  title="{{data.user_name}}">{{(data.user_name.length >15)?(data.user_name | slice:0:15)+ '...':data.user_name}}</span>
+                
               </div>
              <div>
               <span  *ngIf="data.contact_no=='' ||data.user_name==null" >--</span>

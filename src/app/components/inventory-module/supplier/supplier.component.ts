@@ -39,7 +39,7 @@ export class SupplierComponent implements OnInit {
        email_id:'',
        phone_no:'',
        institute_id:sessionStorage.getItem('institution_id'),
-       item_ids:[],  
+       //item_ids:[],  
        category_ids:[],   
        category_id:0
   }
@@ -269,16 +269,16 @@ export class SupplierComponent implements OnInit {
       address: this.model.address,
       email_id: this.model.email_id,
       phone_no: this.model.phone_no,
-      item_ids: this.model.item_ids,
+     // item_ids: this.model.item_ids,
     }
    
     delete(this.model.category_id)
-   let newasset = []
-      let item_idss:any = obj.item_ids;
-     for (let data in item_idss) {
-       newasset.push(item_idss[data].item_id);
-      }
-     obj.item_ids = newasset
+  //  let newasset = []
+  //     let item_idss:any = obj.item_ids;
+  //    for (let data in item_idss) {
+  //      newasset.push(item_idss[data].item_id);
+  //     }
+  //    obj.item_ids = newasset
    
    
       this.httpService.postData('/api/v1/inventory/supplier/create', obj).subscribe(
@@ -312,32 +312,32 @@ export class SupplierComponent implements OnInit {
      this.model.email_id =object.data.email_id;
      //this.model.item_ids =object.data.item_ids;
      this.model.address =object.data.address;
-     let temp = object.data.item_ids;
+     //let temp = object.data.item_ids;
     let item_names = object.data.item_names.split(',');
-   this.model.item_ids = [];
-    for (let i = 0; i < temp.length; i++) {
-      let obj:any = {
-        item_id: '',
-        item_name: ''
-      }
-      obj.item_id = temp[i];
-      obj.item_name = item_names[i];
-      this.model.item_ids.push(obj);
+  //  this.model.item_ids = [];
+  //   for (let i = 0; i < temp.length; i++) {
+  //     let obj:any = {
+  //       item_id: '',
+  //       item_name: ''
+  //     }
+  //     obj.item_id = temp[i];
+  //     obj.item_name = item_names[i];
+  //     this.model.item_ids.push(obj);
 
-    }
-    let temp2 = object.data.category_ids;
-    let category_names = object.data.category_names.split(',');
-    this.model.category_ids = [];
-    for (let i = 0; i < temp2.length; i++) {
-      let obj2 = {
-        category_id: '',
-        category_name: ''
-      }
-      obj2.category_id = temp2[i];
-      obj2.category_name = category_names[i];
-      this.model.category_ids.push(obj2);
-    }
-    console.log(this.model.category_ids)
+  //   }
+  //   let temp2 = object.data.category_ids;
+  //   let category_names = object.data.category_names.split(',');
+  //   this.model.category_ids = [];
+  //   for (let i = 0; i < temp2.length; i++) {
+  //     let obj2 = {
+  //       category_id: '',
+  //       category_name: ''
+  //     }
+  //     obj2.category_id = temp2[i];
+  //     obj2.category_name = category_names[i];
+  //     this.model.category_ids.push(obj2);
+  //   }
+  //   console.log(this.model.category_ids)
 
 
 
@@ -354,15 +354,15 @@ export class SupplierComponent implements OnInit {
         address: this.model.address,
         email_id: this.model.email_id,
         phone_no: this.model.phone_no,
-        item_ids:this.model.item_ids,
+        //item_ids:this.model.item_ids,
       }
-      console.log(obj.item_ids)
-      let newasset = [];
-        let item_ids: any = obj.item_ids;
-        for (let data in item_ids) {
-         newasset.push(item_ids[data].item_id);
-        }
-       obj.item_ids = newasset;
+      // console.log(obj.item_ids)
+      // let newasset = [];
+      //   let item_ids: any = obj.item_ids;
+      //   for (let data in item_ids) {
+      //    newasset.push(item_ids[data].item_id);
+      //   }
+      //  obj.item_ids = newasset;
       
          
          $('#add1Modal').modal('show');
@@ -417,7 +417,7 @@ export class SupplierComponent implements OnInit {
        email_id:'',
        phone_no:'',
        institute_id:'',
-       item_ids:[],
+      // item_ids:[],
        category_ids:[],
        category_id:0,
     }
