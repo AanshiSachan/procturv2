@@ -320,7 +320,7 @@ id:any
     
     this.id = this.rowData.student_id
      sessionStorage.setItem('students_id',JSON.stringify(this.id))
-    this.router.navigateByUrl('/view/students/certificates');
+    this.router.navigateByUrl("/view/students/certificates");
 }
 getCharacterCertificate(){
   this.auth.showLoader();
