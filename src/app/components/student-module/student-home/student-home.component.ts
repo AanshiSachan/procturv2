@@ -2033,7 +2033,7 @@ export class StudentHomeComponent implements OnInit {
       );
     } else {
     /* For Course Model fetch the Student Courses */
-      this.studentPrefill.fetchStudentCourseDetails(id, "-1").subscribe(
+      this.studentPrefill.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
         (res) => {
           this.studentbatchList = [];
           if (res != null) {

@@ -252,9 +252,11 @@ export class ClassComponent implements OnInit {
 
     sessionStorage.setItem('isFromCoursePlanner', String(false));
     sessionStorage.setItem('coursePlannerFilter', '');
-    setTimeout(() => {
-      this.getData();
-    }, 2000);
+    if(this.coursePlannerFilters.master_course_name!='-1' || this.coursePlannerFilters.standard_id!='-1') {
+      setTimeout(() => {
+        this.getData();
+      }, 2000);
+    }
   }
 
 

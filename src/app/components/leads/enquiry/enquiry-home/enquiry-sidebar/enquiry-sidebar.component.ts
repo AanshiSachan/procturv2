@@ -76,6 +76,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   openEnquiryFeature: string = '0';
   minuteArr: any[] = ['', '00', '15', '30', '45'];
   role_feature = role.features;
+  schoolModel: boolean = false;
 
   @Input() enquiryRow: any;
   @Input() priorityArr: any;
@@ -132,6 +133,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
 
   ngOnInit() {
     this.openEnquiryFeature = sessionStorage.getItem('open_enq_Visibility_feature');
+    this.schoolModel = this.auth.schoolModel.getValue();
   }
 
   ngOnDestroy() {

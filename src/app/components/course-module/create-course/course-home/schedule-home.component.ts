@@ -216,6 +216,16 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   updateRow(row, id) {
+    if (row.standard_name == "") {
+      this.no_standard_name = true;
+      let msg = (this.isLangInstitue != true) ? 'Please enter valid Standard Name' : 'Please enter valid Master Course';
+      let data = {
+        type: "error",
+        title: '',
+        body: msg
+      }
+      this.toastCtrl.popToast(data);
+    } else {
     let data: any = {};
     data.is_active = row.is_active;
     data.standard_name = row.standard_name;
@@ -223,10 +233,11 @@ export class ScheduleHomeComponent implements OnInit {
     this.auth.showLoader();
     this.apiService.updateStanadardRowData(data, row.standard_id).subscribe(
       data => {
+        let tempMsg = this.isLangInstitue ? 'Master Course Updated Successfully' : 'Standard Updated Successfully!';
         let msg = {
           type: "success",
-          title: "Standard Updated",
-          body: "Standard Updated Successfully!"
+          title: "",
+          body: tempMsg
         }
         this.toastCtrl.popToast(msg);
         this.cancelRow(id);
@@ -243,6 +254,7 @@ export class ScheduleHomeComponent implements OnInit {
 
       }
     )
+    }
   }
 
   clickSN() {

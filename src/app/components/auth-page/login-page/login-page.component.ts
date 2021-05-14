@@ -105,6 +105,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   multiWindowLogin: boolean = false;
   isKominaInstitute: boolean = false;
   Role_features: role = new role();
+  passwordType:any='password';
+  passwordClass:any='fa fa-eye';
   constructor(
     private login: LoginService,
     private route: Router,
@@ -263,7 +265,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           if (res.data && !this.validInstituteCheck(res)) {
             this.route.navigateByUrl('/authPage');
             //console.log('Institute ID Not Found');
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "There is no access for Open User login in web..Kindly access the same through APP");
             sessionStorage.clear();
             localStorage.clear();
             return
@@ -470,7 +472,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
       //console.log('Institute ID Not Found');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "There is no access for Open User login in web..Kindly access the same through APP");
       sessionStorage.clear();
       localStorage.clear();
       return
@@ -993,7 +995,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   openGetAdvice() {
-    let url = "https://proctur.com/request-callback.php";
+    let url = "https://proctur.com/website/contact-us";
     window.open(url);
   }
 
@@ -1073,6 +1075,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
     else if (test === "web.proctur.com") {
       return "https://web.proctur.com";
+    }
+  }
+
+  togglePassword(){
+    if(this.passwordType == 'password'){
+      this.passwordType = 'text';
+      this.passwordClass = 'fa fa-eye-slash';
+    } else {
+      this.passwordType = 'password';
+      this.passwordClass = 'fa fa-eye';
     }
   }
 

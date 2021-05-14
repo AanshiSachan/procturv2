@@ -142,7 +142,7 @@
                                 <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)"
                                     class="alert invalid-alert">
                                     <div *ngIf="manualId.errors.required" class="text-danger">
-                                        {{isSchoolModel? 'Registration Number *' : 'Roll No *'}} is Mandatory
+                                        {{isSchoolModel? 'Registration Number' : 'Roll No'}} is Mandatory
                                     </div>
                                 </div>
                             </div>
@@ -293,8 +293,7 @@
                             <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                                 <input type="text" value="" id="parentName" class="input"
                                     placeholder="Enter parent name" [(ngModel)]="studentAddFormData.parent_name"
-                                    name="parentName" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+"
-                                    #parentName="ngModel">
+                                    name="parentName" maxlength="50" #parentName="ngModel">
                                 <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)"
                                     class="alert invalid-alert">
                                     <div *ngIf="parentName.errors.pattern" class="text-danger">
@@ -498,7 +497,7 @@
                             </div>
                             <div class="col-lg-4" *ngIf="isSchoolModel"
                                 [ngClass]="{'has-value': studentAddFormData.pin_code != ''}">
-                                <input type="text" value="" id="pin_code" class="input" placeholder="Enter pin code"
+                                <input type="text" value="" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="pin_code" class="input" placeholder="Enter pin code"
                                     [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
                             </div>
 
@@ -657,7 +656,7 @@
                                     </div>
                                     <div class="col-lg-7">
                                         <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id"
-                                            name="standard" class="input-select">
+                                            name="assignTo" class="input-select">
                                             <option value="0"></option>
                                             <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
                                                 {{assign.name}}
@@ -1697,7 +1696,7 @@
                             <div *ngIf="sEmail2.errors.required">
                                 name is required.
                             </div>
-                            <div *ngIf="sEmail2.errors.pattern">
+                            <div class="text-danger" *ngIf="sEmail2.errors.pattern">
                                 Please enter a valid email id
                             </div>
                         </div>

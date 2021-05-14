@@ -31,7 +31,7 @@
         <button class="btn btn-wide-blue" (click)="getSettingDetails()" style="border-radius: 4px;">VDOCipher
           Setting</button>
       </div>
-      <div style="margin-top: 15px;">
+      <div *ngIf="enable_vdoCipher_feature" style="margin-top: 15px;">
         <button class="btn btn-wide-blue" routerLink="/view/course/analytics" style="border-radius: 4px;">VDOCipher
           Analytics</button>
       </div>

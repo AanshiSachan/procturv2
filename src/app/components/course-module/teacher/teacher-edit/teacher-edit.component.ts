@@ -657,14 +657,17 @@ export class TeacherEditComponent implements OnInit {
   }
 
   downloadIdCard() {
+    this.auth.showLoader();
     this.ApiService.downloadDocument(this.selectedTeacherId).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         // this.idCardImg.nativeElement.src = 'data:image/png;base64,' + res.document;
         this.anchTag.nativeElement.href = 'data:image/png;base64,' + res.document;
         this.anchTag.nativeElement.download = res.docTitle;
         this.anchTag.nativeElement.click();
       },
       err => {
+        this.auth.hideLoader();
         this.messageToast('error', '', err.error.message);
       }
     )

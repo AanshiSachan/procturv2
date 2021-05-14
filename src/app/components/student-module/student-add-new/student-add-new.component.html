@@ -134,7 +134,7 @@
                   required>
                 <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
                   <div *ngIf="manualId.errors.required" class="text-danger">
-                    {{schoolModel? 'Registration Number *' : 'Roll No *'}} is Mandatory
+                    {{schoolModel? 'Registration Number' : 'Roll No'}} is Mandatory
                   </div>
                 </div>
               </div>
@@ -275,7 +275,7 @@
               <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                 <input type="text" value="" id="parentName" class="input" placeholder="Enter parent name"
                   [(ngModel)]="studentAddFormData.parent_name" name="parentName" maxlength="50"
-                  pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
+                  #parentName="ngModel">
                 <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
                   <div *ngIf="parentName.errors.pattern" class="text-danger">
                     Name cannot have number / special characters except '.'
@@ -463,7 +463,7 @@
                 </span>
               </div>
               <div class="col-lg-4" *ngIf="schoolModel" [ngClass]="{'has-value': studentAddFormData.pin_code != ''}">
-                <input type="text" value="" id="pin_code" class="input" placeholder="Enter pin code"
+                <input type="text" value="" id="pin_code" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input" placeholder="Enter pin code"
                   [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
               </div>
 
@@ -1489,7 +1489,7 @@
               <div *ngIf="sEmail2.errors.required">
                 name is required.
               </div>
-              <div *ngIf="sEmail2.errors.pattern">
+              <div class="text-danger" *ngIf="sEmail2.errors.pattern">
                 Please enter a valid email id
               </div>
             </div>

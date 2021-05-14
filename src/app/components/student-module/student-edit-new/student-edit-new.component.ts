@@ -463,7 +463,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList() {
-    if (this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != "") {
+    if (this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != "" && this.studentAddFormData.state_id != null) {
       const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -485,7 +485,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
 
   getAreaList() {
-    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "" && this.studentAddFormData.city_id != null) {
       const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -1406,6 +1406,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.standard_id = data.standard_id;
         this.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
+        this.studentAddFormData.roll_no = (data.roll_no == 0) ? '' : data.roll_no;
         this.studentAddFormData.doj = CommonUtils.validateDate(data.doj);
         this.studentAddFormData.dob = CommonUtils.validateDate(data.dob);
         this.studentAddFormData.expiry_date = CommonUtils.validateDate(data.expiry_date);
@@ -1551,7 +1552,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
-
+    if(this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " ") {
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
       if (isNaN(this.studentAddFormData.student_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone, this.maxlength, this.country_id) == true) {
         if (this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != "") {
@@ -1585,6 +1586,10 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       this.commonServiceFactory.showErrorMessage('error', '', 'Please enter contact number');
       return false;
     }
+  } else {
+    this.commonServiceFactory.showErrorMessage('error', '', 'Please enter name');
+    return false;
+  }
 
   }
   studentQuickAdder(form: NgForm) {
@@ -1594,6 +1599,10 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         be an error on custom component 
         */
     if (isCustomComponentValid && formValid) {
+
+      if (!this.formValidator()) {
+        return false;
+      }
       let customArr = [];
       this.customComponents.forEach(el => {
         /* Not Checkbox and value not empty */
@@ -1750,9 +1759,6 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       if (!isCustomComponentValid) {
         this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
-      // else if (!formValid) {
-      //   this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
-      // }
     }
   }
 

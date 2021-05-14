@@ -10,11 +10,11 @@
 
     <div class="row" popup-header>
         <div class="c-lg-9">
-            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="!isProfessional">{{schoolModel?'Sections':'Courses'}} and Fee Assignment</h2>
-            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="isProfessional">Batch and Fee Assignment</h2>
+            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="!isProfessional">{{schoolModel?'Sections':'Courses'}}</h2>
+            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="isProfessional">Batch</h2>
         </div>
         <div class="c-lg-3">
-            <div *ngIf="isShowCountry" class="field-wrapper header-select" style="padding: 0px 10px 10px 10px;">
+            <!-- <div *ngIf="isShowCountry" class="field-wrapper header-select" style="padding: 0px 10px 10px 10px;">
                 <select [disabled]="is_country_disabled"  [(ngModel)]="country_id" class="form-ctrl" 
                 [ngClass]="{'disable_css': is_country_disabled}">
                     <option value="-1">Select Country</option>
@@ -22,7 +22,7 @@
                         {{country.country_name}} 
                     </option>
                 </select>
-            </div>
+            </div> -->
         </div>
     </div>
 

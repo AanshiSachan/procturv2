@@ -132,6 +132,7 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
   }
 
   linkAlreadyUploadedVideo($event) {
+    if(this.jsonData.selectedVideo!='') {
     let url = "/api/v1/instFileSystem/linkVideos";
     let object = {
       "institute_id": this.institute_id,
@@ -163,6 +164,9 @@ export class UploadFileComponent implements OnInit, AfterViewChecked {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
       });
     }
+  } else {
+    this.msgService.showErrorMessage('error','','Please select Video');
+  }
 
   }
 
