@@ -5,15 +5,21 @@
   
     }
     
-    input[type=text], select, textarea {
+    input[type=text],   input[type=password],   select, textarea {
       width: 100%;
       padding: 7px;
       resize: vertical;
       border: 0.5px solid #5A5A5A;
       box-sizing: border-box;
       border-radius: 5px;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 18px;
+      /* identical to box height */
+      letter-spacing: 0.01em;
+      color: #334D6E;
     }
-    input[type=text]::placeholder, select::placeholder, textarea::placeholder,input[type=password]::placeholder, {
+    input[type=text]::placeholder, input[type=password]::placeholder,  select::placeholder, textarea::placeholder,input[type=password]::placeholder, {
       font-weight: 400;
       font-size: 13px;
       line-height: 18px;
@@ -117,44 +123,21 @@
     
   }
   .mrk{
-  //background-color:blue ;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 15px;
-  padding: 8px;
-    padding-right: 23px;
-    padding-left: 21px;
-    border-radius: 17px;
-  /* or 115% */
-  
-  letter-spacing: 0.01em;
-  
-  color:white;
-  background-color: blue;
+    background: #0097F9;
+    border-radius: 10px;
+    height: 19px;
+    font-weight: 600;
+font-size: 13px;
+line-height: 15px;
+/* or 115% */
+padding: 0px 5px;
+letter-spacing: 0.01em;
 
-
-
-
-
-
+color: #FFFFFF;
   
   
   }
-  .mrk2{
-    font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  line-height: 15px;
-  /* or 115% */
   
-  letter-spacing: 0.01em;
-  
-  color: white;
-  background-color: blue;
-  }
   
   .blue_button1 {
     background-color: white;
@@ -191,13 +174,16 @@
 
   }
   .mrk1{
-    background-color: #ccc;
-    border-radius: 26px;
-    padding: 14px;
-    padding-right: 3px;
-    padding-left: 3px;
-    color: white;
-    background-color: blue;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 20px;
+    /* or 154% */
+    background: #E8E8E8;
+border-radius: 20px;
+    letter-spacing: 0.01em;
+ padding: 10px 10px;
+    color: #4D4D4D;
+    margin-bottom: 20px;
   }
   // =======================:checked==============
 //   .field-checkbox-wrapper,
@@ -462,4 +448,27 @@ color: #0097F9;
 }
 .flex111>div:first-child{
   width:25%;
+}
+.display{
+  justify-content: space-between;
+  display: flex;
+  width: 98%;
+  margin: 0 auto;
+}
+.w25,{
+  width: 25%;
+}
+b{
+  font-weight: 600;
+  font-size: 13px;
+line-height: 20px;
+/* or 154% */
+
+letter-spacing: 0.01em;
+
+color: #334D6E;
+}
+.space{
+  margin-left: 65px;
+  margin-top: 120px;
 }
