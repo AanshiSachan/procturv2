@@ -293,8 +293,7 @@
                             <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                                 <input type="text" value="" id="parentName" class="input"
                                     placeholder="Enter parent name" [(ngModel)]="studentAddFormData.parent_name"
-                                    name="parentName" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+"
-                                    #parentName="ngModel">
+                                    name="parentName" maxlength="50" #parentName="ngModel">
                                 <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)"
                                     class="alert invalid-alert">
                                     <div *ngIf="parentName.errors.pattern" class="text-danger">
