@@ -100,7 +100,9 @@ this.getAllSmsData();
   },
   err => {
     this.auth.hideLoader();
+
     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+
   }
   
   )
@@ -150,6 +152,7 @@ this.getAllSmsData();
       },
       err=>{
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message)
+        this.auth.hideLoader();
       }
       
     )
