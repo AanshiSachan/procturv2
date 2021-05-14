@@ -451,6 +451,8 @@ viewCharacterCertificate(awsDownloadLink){
       console.log("res",resp)
       console.log("link",awsDownloadLink)
       this.auth.hideLoader();
+      $('#myModal1').modal('hide');
+
       window.open('https://docs.google.com/viewer?url=' + this.awsDownloadLink);
 
 
@@ -473,6 +475,8 @@ viewBonafaiedCertificate(awsDownloadLink){
       console.log("res",resp)
       console.log("link",awsDownloadLink)
       this.auth.hideLoader();
+      $('#myModal1').modal('hide');
+
       window.open('https://docs.google.com/viewer?url=' + awsDownloadLink);
 
 
@@ -495,6 +499,8 @@ viewMigrationCertificate(awsDownloadLink){
       console.log("res",resp)
       console.log("link",awsDownloadLink)
       this.auth.hideLoader();
+      $('#myModal1').modal('hide');
+
       window.open('https://docs.google.com/viewer?url=' + awsDownloadLink);
 
 

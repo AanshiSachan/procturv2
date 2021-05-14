@@ -19,7 +19,7 @@ import * as moment from 'moment';
 export class CertificatesComponent implements OnInit {
 
   
-  today= moment(new Date);
+  today= moment((new Date)).format('YYYY-MM-DD');
 
 jsonFlag={
   institute_id:''
@@ -28,7 +28,7 @@ transferCertificateModel={
   dateOfBirth:'',
   student_name:'',
   father_name:'',
-  doj:moment(new Date),
+  doj:'',
   whetherBelongsTo:'',
   studentLast_class:'',
   student_id:'',
@@ -37,7 +37,7 @@ transferCertificateModel={
   last_studied_class:'',
   nationality:'',
   last_school_dues_paid_month:'',
-  last_date: moment(new Date()).format('YYYY-MM-DD'),
+  last_date:  moment(new Date()).format("YYYY-MM-DD"),
   last_annual_exam_result:'',
   certificate_issue_date: moment(new Date()).format("DD-MM-YYYY"),
   total_present_days:'',
@@ -72,7 +72,7 @@ transfer :boolean=false
 transferCertificates:boolean=true
 
   ngOnInit(): void {
-    console.log("date",this.transferCertificateModel.certificate_issue_date)
+    
     this.getTransferData();
   }
  
@@ -91,7 +91,6 @@ this.PostStudService.stdGetData(url).subscribe(
       this.transferCertificateModel.student_name=this.studentTransferData.student_name;
       this.transferCertificateModel.father_name= this.studentTransferData.father_name 
       this.transferCertificateModel.dateOfBirth=this.studentTransferData.dob
-
       this.transferCertificateModel.doj=this.studentTransferData.doj
       this.transferCertificateModel.student_administration_number=this.studentTransferData.student_administration_number
       this.transferCertificateModel.mother_name=this.studentTransferData.mother_name
@@ -105,11 +104,21 @@ this.PostStudService.stdGetData(url).subscribe(
       this.transferCertificateModel.total_present_days = this.studentTransferData.total_present_days 
       this.transferCertificateModel.total_working_days = this.studentTransferData.total_working_days
 
-    
-    console.log("transfer",response)
+    if(this.transferCertificateModel.last_date == null){
+      this. transferCertificateModel.last_date = this.today
+      console.log("datedddd",this.today)
+    }else{
+      this.transferCertificateModel.last_date
+    }
+    if(this.transferCertificateModel.doj == null){
+       this.transferCertificateModel.doj = this.today
+    }else{
+      this.transferCertificateModel.doj
+    }
+    console.log("transfer",this.studentTransferData)
     this.auth.hideLoader();
 
-
+    //}
 
 
 },
@@ -305,7 +314,9 @@ onfuturDateSelection(){
 
  let today= moment(new Date);
  let selectedDate = moment(this.transferCertificateModel.dateOfBirth)
- let diff = moment(today.diff(selectedDate))['-i'];
+ let diff = moment(selectedDate.diff(today))['_i'];
+ console.log(today);
+ console.log(selectedDate);
  console.log("date",diff)
 
  if(diff > 0){
@@ -316,5 +327,37 @@ onfuturDateSelection(){
 
  }
 }
+onAddmithinDate(){
+  
+ let today= moment(new Date);
+ let selectedDate = moment(this.transferCertificateModel.doj)
+ let diff = moment(selectedDate.diff(today))['_i'];
+ console.log(today);
+ console.log(selectedDate);
+ console.log("date",diff)
 
+ if(diff > 0){
+  this.msgService.showErrorMessage('info', '', "Future date is not allowed");
+  this.transferCertificateModel.last_date = moment(new Date).format('YYYY-MM-DD')
+  console.log("daterrrrrrrr",this.transferCertificateModel.doj)
+
+
+}}
+onLastDate(){
+  
+  let today= moment(new Date);
+  let selectedDate = moment(this.transferCertificateModel.last_date)
+  let diff = moment(selectedDate.diff(today))['_i'];
+  console.log(today);
+  console.log(selectedDate);
+  console.log("date",diff)
+ 
+  if(diff > 0){
+   this.msgService.showErrorMessage('info', '', "Future date is not allowed");
+   this.transferCertificateModel.last_date = moment(new Date).format('YYYY-MM-DD')
+   console.log("daterrrrrrrr",this.transferCertificateModel.last_date)
+ 
+ 
+ }
+}
 }

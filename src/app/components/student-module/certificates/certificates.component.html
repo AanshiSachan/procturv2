@@ -1,4 +1,4 @@
-<div class="page-content"  *ngIf="transferCertificates">
+<div class="page-content" >
     <div class="head_padding">
        <div class="w98">
          <div class="page_heading">
@@ -58,9 +58,18 @@
                        Date Of Birth
                      </span>
                      </div>
-                     <div class="col-lg-3">
+
+                     <div class="field-wrapper datePickerBox col-lg-3">
+                      <!-- <label for="payee">Payment Date <span class="danger">*</span></label> -->
+                      <input type="text" value="" id="dateOfBirth" class="form-ctrl widgetDatepicker bsDatepicker"
+                        [(ngModel)]="transferCertificateModel.dateOfBirth" style="padding: 6px;" readonly="true" name="dateOfBirth"
+                        placeholder="Date" bsDatepicker (ngModelChange)="onfuturDateSelection()" />
+                    </div><br>
+
+
+                     <!-- <div class="col-lg-3">
                        <input type="date" name="dateOfBirth"  max="{{today |date:'yyyy-MM-dd'}}"  [(ngModel)]="transferCertificateModel.dateOfBirth" class="input">
-                     </div>
+                     </div> -->
                      
                      <div class="col-lg-3">
                        <span class="label1 ">
@@ -87,10 +96,16 @@
                       Date&nbsp;of&nbsp;Admission in&nbsp;School&nbsp;with&nbsp;Class
                      </span>
                      </div>
-                     <div class="col-lg-3">
-                        <input type="text" name="" [(ngModel)]="transferCertificateModel.doj" class="input">
+
+                     <div class="field-wrapper datePickerBox col-lg-3">
+                      <input type="text" value="" id="doj" class="form-ctrl widgetDatepicker bsDatepicker"
+                        [(ngModel)]="transferCertificateModel.doj" style="padding: 6px;" readonly="true" name="doj"
+                        placeholder="Date" (ngModelChange)="onAddmithinDate()" bsDatepicker/>
+                    </div><br>
+                     <!-- <div class="col-lg-3">
+                        <input type="date" name="" [(ngModel)]="transferCertificateModel.doj" class="input">
                      </div>
-                    
+                     -->
                    </div>
                    <div class="row">
                      <div class="col-lg-3">
@@ -205,9 +220,16 @@
                              Date on which Pupil left the school
                            </span>
                          </div>
-                          <div class="col-lg-3">
-                           <input type="date" name="today" max="{{today|date:'yyyy-MM-dd'}}" [(ngModel)]="transferCertificateModel.last_date" class="input" placeholder="">
-                         </div>
+
+                         <div class="field-wrapper datePickerBox col-lg-3">
+                          <input type="text" value="" id="last_date" class="form-ctrl widgetDatepicker bsDatepicker"
+                            [(ngModel)]="transferCertificateModel.last_date" style="padding: 6px;" readonly="true" name="last_date"
+                            placeholder="Date" (ngModelChange)="onLastDate()" bsDatepicker/>
+                        </div><br>
+
+                          <!-- <div class="col-lg-3">
+                           <input type="text"  [(ngModel)]="transferCertificateModel.last_date" class="input" placeholder="">
+                         </div> -->
                        </div>
                        <!-- <div class="row"> -->
                          <!-- <div class="col-lg-3">

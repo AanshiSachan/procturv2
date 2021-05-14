@@ -154,6 +154,7 @@
   }
   .wid240{
     width: 240px;
+    margin-bottom:10px
   }
   .or{
     font-weight: 400;
@@ -171,6 +172,7 @@
   border-radius: 4px;
   background-color: #fff;
   cursor: pointer;
+  //margin-top: 13px;
   }
   
   .dropdown11 {
@@ -215,13 +217,26 @@
   content: '';
   background: url(../../../../assets/images/calendar.svg) no-repeat;
   position: absolute;
-  right: 860px;
+  // right: 860px;
   top: 36px;
   width: 21px;
   height: 21px;
   z-index: 0;
 }
 
+.column {
+  float: left;
+  width: 29%;
+  //padding: 10px;
+  //height: 0px; /* Should be removed. Only for demonstration */
+  margin-left: 36px;
+    margin-top: 27px;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
 
 
