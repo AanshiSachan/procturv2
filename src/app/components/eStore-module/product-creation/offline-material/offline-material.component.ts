@@ -169,7 +169,8 @@ export class OfflineMaterialComponent implements OnInit {
             "source_subject_id": "",
             "course_type_id": "",
             "parent_topic_id": "",
-            "slug": "Offline_Material"
+            "slug": "Offline_Material",
+            "category_id": 0
           }
           objectArray.push(object);
         }
@@ -183,7 +184,8 @@ export class OfflineMaterialComponent implements OnInit {
           "status": this.prodForm.status,
           "is_advance_product": this.prodForm.is_advance_product,
           "item_list": objectArray,
-          "description": this.description
+          "description": this.description,
+          "is_paid" : this.prodForm.is_paid
         }
         this.auth.showLoader();
         this.http.postMethod('product-item/update/' + this.entity_id, obj).then(

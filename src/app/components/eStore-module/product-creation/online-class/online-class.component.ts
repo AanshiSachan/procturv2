@@ -113,7 +113,8 @@ export class OnlineClassComponent implements OnInit {
         "status": this.prodForm.status,
         "is_advance_product": this.prodForm.is_advance_product,
         "item_list": [],
-        "description": this.description
+        "description": this.description,
+        "is_paid" : this.prodForm.is_paid
       }
       this.auth.showLoader();
       this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
