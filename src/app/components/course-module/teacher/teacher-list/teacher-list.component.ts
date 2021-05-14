@@ -57,11 +57,12 @@ export class TeacherListComponent implements OnInit {
         this.auth.hideLoader();
         this.totalRow = data.length;
         this.teacherListDataSource = data;
-        this.teacherListDataSource.forEach(element => {
-          if (element.date_of_joining != "") {
-            element.date_of_joining = moment(element.date_of_joining).format('DD-MM-YYYY');
+        for(let i=0;i<this.teacherListDataSource.length;i++){
+          this.teacherListDataSource[i].teacher_user_id = i+1;
+          if (this.teacherListDataSource[i].date_of_joining != "") {
+            this.teacherListDataSource[i].date_of_joining = moment(this.teacherListDataSource[i].date_of_joining).format('DD-MM-YYYY');
           }
-        });
+        }
         this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
