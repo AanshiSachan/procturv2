@@ -170,7 +170,7 @@ export class StudentBulkComponent implements OnInit {
       if (e.lengthComputable) {
         this.progress = Math.round((e.loaded * 100) / e.total);
         document.getElementById('progress-width').style.width = this.progress + '%';
-        this.fileLoading = "Student Data Upload";
+        this.fileLoading = "File Upload";
       }
     }, false);
     //Call function when onload.
