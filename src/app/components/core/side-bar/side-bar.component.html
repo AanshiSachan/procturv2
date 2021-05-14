@@ -67,8 +67,8 @@
         <app-manage-expenses></app-manage-expenses>
     </div>
     <div class="toDoList-container" id="toDoList-container" *ngIf="showToDo">
-        <button type="button" name="button" class="close_todo" (click)="closeShowList()">X</button>
-        <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
+       <!--<button type="button" name="button" class="close_todo" (click)="closeShowList()">X</button>-->
+        <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"> <button type="button" name="button" class="close_todo" (click)="closeShowList()">X</button></app-to-do-list>
     </div>
 
     <div class="spacer"></div>

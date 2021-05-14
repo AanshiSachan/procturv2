@@ -117,6 +117,7 @@ export class ToDoListComponent implements OnInit {
                 this.appC.popToast(obj);
                 this.editDate[index] = "";
                 this.getAllTask();
+                this.editbtn =false;
               },
               err => {
                 console.log(err)
@@ -128,7 +129,8 @@ export class ToDoListComponent implements OnInit {
       else {
         let obj = {
           type: 'error',
-          title: 'Please choose appropriate date',
+          //title: 'Please choose appropriate date',
+          title: 'Past date is not allowed',
           body: ''
         }
         this.appC.popToast(obj);
@@ -222,8 +224,10 @@ export class ToDoListComponent implements OnInit {
     this.is_edit = false;
     this.getAllTask();
   }
-
-  editToDo(task_id) {
+editbtn:boolean=false;
+  editToDo(task_id,i) {
+//change by manisha flagfor editbtn
+this.defaultToDoList[i].editbtn=true;
     document.getElementById("name_" + task_id).style.display = "none";
     document.getElementById(task_id).style.display = "block";
     document.getElementById(task_id).focus();
@@ -238,6 +242,9 @@ export class ToDoListComponent implements OnInit {
       res => {
         // res = this.commonService.changeUiSelectedKeyValue(res,'date',new Date);
         this.defaultToDoList = res;
+        console.log( this.defaultToDoList)
+        //chnage by manisha editflag
+       this.defaultToDoList.map(key => key.editbtn = false)
         if (this.defaultToDoList.length > 0) {
           this.noRecord = true;
         }
