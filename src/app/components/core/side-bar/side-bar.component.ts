@@ -171,6 +171,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   enable_client_website: boolean = false;
   schoolModel: boolean = false;
   is_zoom_integration_enable: boolean = false;
+  custom_text_for_power_by_proctur:any = '';
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -225,7 +226,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.log.currentUsername.subscribe(res => {
       this.createCustomSidenav();
     });
-
+    this.custom_text_for_power_by_proctur = sessionStorage.getItem('custom_text_for_power_by_proctur');
     this.log.poweredByStatus.subscribe(res => {
       let result: any = res;
       if (result == 1) {
