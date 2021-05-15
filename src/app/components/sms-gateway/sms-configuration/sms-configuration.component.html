@@ -1,3 +1,4 @@
+
 <div class="main_div">
   <div>
     <div class="settings">
@@ -11,6 +12,7 @@
   
     </ul>
   </div>
+
   <div>
     <div class="flex1">
       <div>
@@ -22,6 +24,7 @@
         </p>
       </div>
     </div>
+    <form id="form1" #semail="ngForm" autocomplete="off">
     <div class="flex11">
       <div>
         <label for="gatewayName">Gateway Name<span class="danger">*</span></label>
@@ -29,26 +32,28 @@
       <div>
         <input type="text" id="gateway_name" disabled name="gateway_name"[(ngModel)]=" smsGatewatModel.gateway_name" placeholder="gateway name..">
       </div>
-    </div>       
-        <div class="flex111">
+    </div>    
+
+        <div class="flex111" >
           <div class="w25">
-          <label for="userName">Username<span class="danger">*</span></label>
+          <label for="userName" >Username<span class="danger">*</span></label>
           </div>
       
-          <div class="w25">
-          <input type="text" id="userName" name="transaction_username" [(ngModel)]=" smsGatewatModel.transaction_username" placeholder="user name..">
+          <div class="w25" >
+          <input type="text"  id="userName" name="userName" #userName="ngModel" autocomplete="off"  [(ngModel)]=" smsGatewatModel.transaction_username"    placeholder="user name.." >
         </div>
 
         <div class="w25">
           <label for="password">Password <span class="danger">*</span></label>
        
         </div>
+        
        <div class="w25">  
-        <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password" placeholder="password..">
+        <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password"  placeholder="password.." >
         </div>
 
       </div>
-      
+
         <div class="flex11">
           <div>
             <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
@@ -87,7 +92,6 @@
                 </div>
                 <div><label for="ative" style="margin-left:-10px;">Is&nbsp;Active</label></div>
               </div>
-                
               <div>
                 <div class="col-25">
                   <label for="smsId">Important note</label>
@@ -115,7 +119,7 @@
               
   
              
-  
+  </form>
 
               </div>
   <!-- </div> -->
@@ -134,5 +138,7 @@
   
      
     </div>  
+    
   </div>
+  
 </div>
