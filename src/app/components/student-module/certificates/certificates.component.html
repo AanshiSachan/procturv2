@@ -27,7 +27,7 @@
                     
                      <div class="col-lg-3">
                        
-                        <input type="text" name=""  class="input" [(ngModel)]="transferCertificateModel.student_administration_number" placeholder="">
+                        <input type="text" name="" maxlength="50" class="input" [(ngModel)]="transferCertificateModel.student_administration_number" placeholder="">
                       
                      </div>
                     
@@ -40,7 +40,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="text" name=""  class="input" [(ngModel)]="transferCertificateModel.father_name" placeholder="Name">
+                       <input type="text" name="" maxlength="50" class="input" [(ngModel)]="transferCertificateModel.father_name" placeholder="Name">
                      </div>
                      
                      <div class="col-lg-3">
@@ -49,7 +49,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                         <input type="text" name=""  class="input"[(ngModel)]="transferCertificateModel.mother_name" placeholder="Name">
+                         <input type="text" name="" maxlength="50"  class="input"[(ngModel)]="transferCertificateModel.mother_name" placeholder="Name">
                      </div>
                     
                    </div>
@@ -78,7 +78,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                        <input type="text" name="" [(ngModel)]="transferCertificateModel.nationality"  class="input" placeholder="">
+                        <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.nationality"  class="input" placeholder="">
                      </div>
                     
                    </div>
@@ -89,7 +89,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="text" name="" [(ngModel)]="transferCertificateModel.belongsTo" class="input" placeholder="No">
+                       <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.belongsTo" class="input" placeholder="No">
                      </div>
                      
                      <div class="col-lg-3">
@@ -113,7 +113,7 @@
                        <span class="label1 ">Class&nbsp;in&nbsp;which the&nbsp;pupil&nbsp;last studied</span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="text" name="" [(ngModel)]="transferCertificateModel.last_studied_class" class="input" placeholder="">
+                       <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.last_studied_class" class="input" placeholder="">
                      </div>
                      
                      <div class="col-lg-3">
@@ -123,7 +123,7 @@
                      </div>
                     
                      <div class="col-lg-3">
-                        <input type="text" name="" [(ngModel)]="transferCertificateModel.last_annual_exam_result" class="input" placeholder="">
+                        <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.last_annual_exam_result" class="input" placeholder="">
                       </div>
                    </div>
                    <div class="row">
@@ -133,7 +133,7 @@
                        </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="text" name=""  [(ngModel)]="transferCertificateModel.failedClass" class="input" placeholder="">
+                       <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.failedClass" class="input" placeholder="">
                      </div>
                      
                      <div class="col-lg-3">
@@ -142,7 +142,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                        <input type="text" name="" [(ngModel)]="transferCertificateModel.subject_names" class="input" placeholder="">
+                        <input type="text" name=""  maxlength="70" [(ngModel)]="transferCertificateModel.subject_names" class="input" placeholder="">
                      </div>
                     
                    </div>
@@ -155,7 +155,7 @@
                       
                      <div class="col-lg-3">
                        
-                        <input type="text" name="" [(ngModel)]="transferCertificateModel.promotionToClass" class="input" placeholder="">
+                        <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.promotionToClass" class="input" placeholder="">
                       
                      </div>
                      
@@ -165,7 +165,7 @@
                      </span>
                     </div>
                      <div class="col-lg-3">
-                        <input type="text" name="" [(ngModel)]="transferCertificateModel.last_school_dues_paid_month" class="input" placeholder="">
+                        <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.last_school_dues_paid_month" class="input" placeholder="">
                      </div>
                     
                     </div>
@@ -175,7 +175,7 @@
                        <span class="label1 ">Any fee concession availed If so, the nature of such concessions</span>
                      </div>
                      <div class="col-lg-3">
-                   <input type="text" name="" [(ngModel)]="transferCertificateModel.feeConcession" class="input" placeholder="">
+                   <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.feeConcession" class="input" placeholder="">
                      </div>
                      <div class="col-lg-3">
                        <span class="label1">
@@ -183,7 +183,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="number" name="" [(ngModel)]="transferCertificateModel.total_working_days" class="input" placeholder="">
+                       <input type="number" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.total_working_days" class="input" placeholder="">
                      </div>
                    </div>
                    <div class="row">
@@ -193,7 +193,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                       <input type="number" name="" [(ngModel)]="transferCertificateModel.total_present_days" class="input" placeholder="">
+                       <input type="number" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.total_present_days" class="input" placeholder="">
                      </div>
                      
                      <div class="col-lg-3 ">
@@ -202,7 +202,7 @@
                      </span>
                      </div>
                      <div class="col-lg-3">
-                          <input type="text" name="" [(ngModel)]="transferCertificateModel.whetherNcc" class="input" placeholder="">
+                          <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.whetherNcc" class="input" placeholder="">
                      </div>
                      
                    </div>
@@ -214,7 +214,7 @@
                            </span>
                          </div>
                           <div class="col-lg-3">
-                           <input type="text" name="" [(ngModel)]="transferCertificateModel.genCharacter" class="input" placeholder="">
+                           <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.genCharacter" class="input" placeholder="">
                          </div>
                          <div class="col-lg-3">
                            <span class="label1 ">
@@ -271,7 +271,7 @@
                            </span>
                          </div>
                           <div class="col-lg-3">
-                           <input type="text" name="" [(ngModel)]="transferCertificateModel.reasonLeaveSchool" class="input" placeholder="">
+                           <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.reasonLeaveSchool" class="input" placeholder="">
                          </div>
                          <div class="col-lg-3">
                            <span class="label1 ">
@@ -279,7 +279,7 @@
                            </span>
                          </div>
                           <div class="col-lg-3">
-                           <input type="text" name="" [(ngModel)]="transferCertificateModel.remark" class="input" placeholder="">
+                           <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.remark" class="input" placeholder="">
                          </div>
                        </div>
                
