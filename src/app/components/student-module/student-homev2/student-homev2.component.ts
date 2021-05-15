@@ -1449,7 +1449,9 @@ export class StudentHomev2Component implements OnInit {
       ) {
         obj.name = "";
         obj.mobile = "";
-        if (!this.showQuickFilter) {
+        //changes by mj
+        //if(!this.showQuickFilter)
+        if (this.showQuickFilter) {
           obj.master_course_name = "";
           obj.course_id = "-1";
           obj.standard_id = "-1";

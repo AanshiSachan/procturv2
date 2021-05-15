@@ -282,7 +282,7 @@
 </div>
 <div class="page-content">
   <!-----model for advance filter-->
-  <div class="modal" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div  class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
     <div class="modal-dialog modal-dialog-slideout  modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -424,6 +424,150 @@
       </div>
     </div>
     </div>
+    <div class="modal " id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-slideout " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Advance Filter</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             
+            <div class="display">
+                 <div>
+                    <p class="label_p">  Is Active</p>
+                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status"
+                    name="sFilter" >
+                    <option value=""></option>
+                    <option value="1">Active</option>
+                    <option value="2">Inactive</option>
+                    <option value="3">Both</option>
+                </select>
+                 </div>
+               <div></div>
+               </div>
+               <div class="display">
+                 <div>
+                    <p class="label_p">Standard</p>
+             <select>
+               <option>Select Standard</option>
+             </select>
+                 </div>
+                  <div>
+                 <p class="label_p">Master Course</p>
+             <select>
+               <option>Select Master Course</option>
+             </select>
+              </div>
+               </div>
+             <div class="display">
+                 <div>
+                    <p class="label_p"> Course</p>
+                    <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id">
+                        <option value="-1">Select Course</option>
+                        <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+                         {{subject.subject_name}}
+                     </option>
+                      </select>
+                 </div>
+                 <div>
+                     <p class="label_p">Institutional/Custom2</p>
+                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id">
+                        <option value="-1">Select</option>
+                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                            {{sch.school_name}}
+                        </option>
+                     </select>
+                 </div>
+               </div>
+           
+             
+             <div class="display">
+               <div>
+                <p class="label_p">Admission From Date</p>
+                <input type="date" name="" readonly="true" bsDatepicker
+                [(ngModel)]="advancedFilterForm.doa_to_date">
+                <!-- <a (click)="advancedFilterForm.doa_to_date = ''"
+                style="float:right;cursor: pointer;">Clear</a> -->
+               </div>
+               <div>
+                <p class="label_p">Admission To Date</p>
+                <input type="date" name="" readonly="true" bsDatepicker
+                [(ngModel)]="advancedFilterForm.doa_to_date">
+                <a (click)="advancedFilterForm.doa_to_date = ''"
+                style="float:right;cursor: pointer;">Clear</a>
+               </div>
+             </div>
+             
+             <div class="display">
+               <div>
+                      <p class="label_p">Country</p>
+                      <select id="state" [(ngModel)]="advancedFilterForm.country_id"
+                      name="state" (ngModelChange)="getStateList()">
+                      <option value="-1">Select Country</option>
+                      <option title="{{country.country_name}}" [value]="country.id"
+                          *ngFor="let country of countryList">
+                          {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
+                      </option>
+                     </select>
+               </div>
+                <div>
+                      <p class="label_p">State</p>
+                      <select id="state" [(ngModel)]="advancedFilterForm.state_id"
+                      name="state" (ngModelChange)="getCityList()">
+                      <option value="-1">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id"
+                          *ngFor="let state of stateList">
+                          {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
+                      </option>
+                     </select>
+               </div>
+             </div>
+              <div class="display">
+              <div>
+                <p class="label_p">
+               City
+             </p>
+             <select id="city"  [(ngModel)]="advancedFilterForm.city_id"
+             name="city" (ngModelChange)="getAreaList()">
+             <option value="-1">Select City</option>
+             <option title="{{city.city_name}}" [value]="city.city_id"
+                 *ngFor="let city of cityList">
+                 {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}
+             </option>
+         </select>
+              </div>
+              <div>
+                 <p class="label_p">
+              Assign To
+             </p>
+             <select id="assignTo" class="form-ctrl"
+                                            [(ngModel)]="advancedFilterForm.assign_to" name="assign_to">
+                                            <option value="0"> Select Assign To</option>
+                                            <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                                                {{assign.name}}
+                                            </option>
+                                        </select>
+              </div>
+               </div>
+           
+            </div>
+            <div class="modal-footer">
+            <div class=" display">
+               <div>
+               
+             </div>
+             <div>
+              <button class="bw_button mr10" (click)='clearAdvancedFilterForm()'>Clear Filter</button>
+               <button class="blue_button" (click)='advancedSearch()'> Apply</button>
+             </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
   <div class="w98">
    <!------------------------------basic search-------------------------------->
    <div class="row drop-shadow">
@@ -455,7 +599,7 @@
           <div class="dropdown2 mr10">
             <button  class="white_button mt-9 dropbtn2">Filter<img src="/assets/img2/filter.svg"></button>
               <div class="dropdown-content2">
-                <a  id="click"  *ngIf="!isProfessional"  (click)="openQuickFilter()">Quick Filter</a>
+                <a  id="click"   *ngIf="!showQuickFilter && !isProfessional"   (click)="openQuickFilter()">Quick Filter</a>
                 <a  data-toggle="modal"   id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
               </div>
           </div>
@@ -569,15 +713,15 @@
        </div>
        <div>#</div>
          <div>Student ID</div>
-         <div (click)="sortTable('student_name')"> Name <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
+         <div (click)="sortTable('student_name')" style="cursor: pointer;text-align: left;"> Name <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
          <div>Contact No.</div>
          <div *ngIf="schoolModel">Parent Name</div>
          <div *ngIf="schoolModel">Contact No.</div>
          <div *ngIf="!isProfessional">Standard</div>
-         <div *ngIf="!schoolModel">Course Assigned</div>
-         <div *ngIf="isProfessional">Master Course</div>
-         <div *ngIf="isProfessional">Batch Assigned</div>
-         <div *ngIf="schoolModel" >Section  Assigned</div> 
+         <div *ngIf="!schoolModel" style="text-align: left;">Course Assigned</div>
+         <div *ngIf="isProfessional" style="text-align: left;">Master Course</div>
+         <div *ngIf="isProfessional" style="text-align: left;">Batch Assigned</div>
+         <div *ngIf="schoolModel" style="text-align: left;" >Section  Assigned</div> 
          <div>Action</div>
      </div>
      <!-- table row -->
@@ -602,25 +746,25 @@
        </div>
        <div><img src="{{data.thumbnail_url}}" class="photo imgRound"></div>
          <div>{{data.student_disp_id}}</div>
-         <div title="{{data.student_name}}">{{data.student_name| slice:0:20}} {{data.student_name.length > 20 ? '...' : ''}}</div>
+         <div title="{{data.student_name}}" style="text-align: left;">{{data.student_name| slice:0:15}} {{data.student_name.length > 15 ? '...' : ''}}</div>
          <div>{{data.student_phone}}</div>
-         <div *ngIf="schoolModel" title="{{data.parent_name}}">{{data.parent_name | slice:0:20}} {{data.parent_name.length > 20 ? '...' : ''}}</div>
+         <div *ngIf="schoolModel" title="{{data.parent_name}}">{{data.parent_name | slice:0:15}} {{data.parent_name.length > 15 ? '...' : ''}}</div>
          <div *ngIf="schoolModel">{{data.parent_contact_number}}</div>
          <div *ngIf="!isProfessional">{{data.student_class}}</div>
-         <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:20}} {{data.batchesAssigned.length > 20 ? '...' : ''}}</div>
+         <div title="{{data.batchesAssigned}}" style="text-align: left;">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
        <div>
-        <a><img src="/assets/img2/visit.svg" class="pl-10"></a>
+        <a  [routerLink]="['reportcard', data.student_id]"><img src="/assets/img2/visit.svg" class="pl-10"></a>
         <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
         <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
       </div>
      </div>
     </div>
-    <section class="no-data" *ngIf="studentDataSource.length == 0">
-        <div class="illustration-container">
-          <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
-        </div>
-      </section>
    </div>
+   <section class="no-data" *ngIf="studentDataSource.length == 0">
+    <div class="illustration-container">
+      <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+    </div>
+  </section>
    <div id="paginator" class="row filter-res pagination" style="width: 100%;">
     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
