@@ -403,7 +403,7 @@
                   [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
                 <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
                   class="alert invalid-alert">
-                  <div *ngIf="guardianEmail.errors.pattern">
+                  <div class="text-danger" *ngIf="guardianEmail.errors.pattern">
                     Enter email in format eg. someone@xyz.com
                   </div>
                 </div>
