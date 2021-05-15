@@ -56,8 +56,8 @@
      </div>
    </div>
     <!------------------------------Quick Filter Form-------------------------------->
-    <div class="row" id="form-tab" *ngIf="!isProfessional && isVisited">
-      <div class="col-lg-2" *ngIf="!isProfessional && !schoolModel">
+    <div class="flex" id="form-tab" *ngIf="!isProfessional && isVisited">
+      <div class="mr10" *ngIf="!isProfessional && !schoolModel">
         <div  [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
           <!-- <label class="p_title">Standard</label> -->
         <select class="input-select1" id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
@@ -71,7 +71,7 @@
       </select>
       </div>
       </div>
-      <div class="col-lg-2" *ngIf="!isProfessional">
+      <div class="mr10" *ngIf="!isProfessional">
         <div [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
           <!-- <label class="p_title" for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label> -->
       <select class="input-select1" *ngIf="!schoolModel" id="masterCourse" name="masterCourse"
@@ -95,7 +95,7 @@
   </select>
     </div>
       </div>
-      <div class="col-lg-2"  *ngIf="!isProfessional">
+      <div class="mr10"  *ngIf="!isProfessional">
         <div  [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
           <!-- <label  class="p_title" for="course">{{schoolModel ? 'Section' : 'Course'}}</label> -->
           <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
@@ -109,7 +109,7 @@
       </select>
     </div>
       </div>
-     <div class="col-lg-2"  *ngIf="!isProfessional">
+     <div class="mr10"  *ngIf="!isProfessional">
        <div  [class.has-value]="advancedFilterForm.is_active_status != ''">
         <!-- <label  class="p_title" for="status">Is Active</label> -->
         <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
@@ -121,7 +121,7 @@
     </div>
       </div>
      
-      <div class="col-lg-2" >
+      <div  >
        
       <button class="blue_button mt-9"  *ngIf="!isProfessional" (click)="searchDatabase()" >Search</button>
       </div>
@@ -152,7 +152,7 @@
          <div *ngIf="!schoolModel">Course Assigned</div>
          <div *ngIf="isProfessional">Master Course</div>
          <div *ngIf="isProfessional">Batch Assigned</div>
-         <div *ngIf="schoolModel" >Section  Assigned</div> 
+         <div *ngIf="schoolModel" >Section &nbsp;Assigned</div> 
          <div>Action</div>
      </div>
      <!-- table row -->
