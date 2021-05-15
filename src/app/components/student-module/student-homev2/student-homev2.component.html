@@ -19,11 +19,11 @@
           <div class="dropdown3 mr10">
               <button  class="mr10 bw_button dropbtn3 btn_shadow">0 Students Selected&nbsp;&nbsp;<i class="fa fa-caret-down dr"></i></button>
               <div class="dropdown-content3  mr10">
-                <a href="#" >Send Notification</a>
-                <a href="#">Admission Form</a>
-                <a href="#" >Fee Installment</a>
-                <a href="#">Download ID card</a>
-                 <a href="#">Assign Standard</a>
+                <a href="#" ><img src="../../../../assets/icons/Send_Notification.svg" class="d_icons">Send Notification</a>
+                <a href="#"><img src="../../../../assets/icons/Admission_Form.svg" class="d_icons">Admission Form</a>
+                <a href="#" ><img src="../../../../assets/icons/Fees.svg" class="d_icons">Fee Installment</a>
+                <a href="#"><img src="../../../../assets/icons/Download_ID_Card.svg" class="d_icons">Download ID card</a>
+                 <a href="#"><img src="../../../../assets/icons/Assign_Standard.svg" class="d_icons">Assign Standard</a>
               </div>
           </div>
            <!------------------------------Quick and Advanced  Filter openclose  buttons-------------------------------->
@@ -41,12 +41,12 @@
           <div class="dropdown1">
             <button  class="white_button mt-9 dropbtn1 mr10" name="button" (click)="isOptions = !isOptions">More<img src="/assets/img2/more.svg"></button>
               <div class="dropdown-content1" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
-                <a *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'>Upload Student</a>
+                <a *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'><img src="../../../../assets/icons/Upload_Student.svg" class="d_icons"> Upload Student</a>
                 <a (click)="downloadAllStudent()"
-                *ngIf="downloadStudentReportAccess">Export student</a>
-                <a routerLink='/view/students/openUser' *ngIf="!schoolModel">Registered Student</a>
-                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'>Archive student</a>
-                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'>Archeived status report</a>
+                *ngIf="downloadStudentReportAccess"> <img src="../../../../assets/icons/Export_Students.svg" class="d_icons"> Export student</a>
+                <a routerLink='/view/students/openUser' *ngIf="!schoolModel"> <img src="../../../../assets/icons/Registered_Users.svg" class="d_icons"> Registered Student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'> <img src="../../../../assets/icons/Archive_Students.svg" class="d_icons"> Archive student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'> <img src="../../../../assets/icons/Archived_Status_Report.svg" class="d_icons">  Archeived status report</a>
               </div>
 
           </div>
@@ -188,7 +188,7 @@
   </div>
 </div>  
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-<div class="modal-dialog modal-dialog-slideout  modal-sm" role="document">
+<div class="modal-dialog modal-dialog-slideout" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="exampleModalLabel">Advance Filter</h5>
