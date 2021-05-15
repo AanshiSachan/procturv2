@@ -1422,7 +1422,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   searchDatabase() {
-    
+  //  $('#exampleModal2').modal('hide');
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     let obj: any = {
@@ -1459,6 +1459,7 @@ export class StudentHomev2Component implements OnInit {
           this.advancedFilterForm.course_id = "-1";
           this.advancedFilterForm.standard_id = "-1";
         }
+      
       } else {
         this.searchBarData = this.searchBarData.trim();
         /* If input is of type string then validate string validity*/
@@ -1476,6 +1477,7 @@ export class StudentHomev2Component implements OnInit {
       }
       this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
+      $('#exampleModal2').modal('hide');
     } else {
       /* If User has entered an empty value needs to be informed */
       if (
@@ -1550,6 +1552,7 @@ export class StudentHomev2Component implements OnInit {
         }
       }
     }
+  
   }
 
   /* update the latest comment for the selected student */
