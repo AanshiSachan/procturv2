@@ -89,6 +89,14 @@ margin: 8px 0px;
 .flex{
   display:flex;
 }
+.divw{
+  width:55%;
+  margin: 10px auto;
+}
+.divw>div{
+  width:calc(100% / 3);
+  
+}
 .display{
   display: flex;
   justify-content: space-between;
@@ -418,13 +426,14 @@ color: #334D6E;
 .modal{
   z-index: 9999999999;
 }
-.modal-dialog-slideout {min-height: 100%; margin: 0 0 0 auto;background: #fff;}
+.modal-dialog-slideout {height: 100%; margin: 0 0 0 auto;background: #fff;}
 .modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(100%,0)scale(1);transform: translate(100%,0)scale(1);}
 .modal.fade.show .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(0,0);transform: translate(0,0);display: flex;align-items: stretch;-webkit-box-align: stretch;height: 100%;}
 .modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body{overflow-y: auto;overflow-x: hidden;}
-.modal-dialog-slideout .modal-content{border: 0;}
+.modal-dialog-slideout .modal-content{border: 0;height: 100%;}
 .modal-dialog-slideout .modal-header, .modal-dialog-slideout .modal-footer {display: block;} 
 .modal-dialog-slideout .modal-header h5 {float:left;}
+.modal-dialog-slideout .modal-footer {position: relative;bottom: -30px;} 
 .modal-title{
   font-weight: 600;
 font-size: 12px;
@@ -488,6 +497,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 input[type="date"]{
   color: #787A7D;
   cursor: pointer;
+  
 }
 input:focus{
   outline: none;
@@ -745,7 +755,7 @@ transform: scale(1);
   }
 }
 #assignStandard{
-  position: relative;
+  // position: relative;
   left: 35%;
 }
 .pos-abs{
@@ -771,3 +781,24 @@ transform: scale(1);
 .d_icons{
   margin-right: 8px;
 }
+//css added for bsdatepicker
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(/./assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  //right: 50px !important;
+  top: 56%;
+  width: 21px;
+  height: 21px;
+  z-index: 20;
+  border-radius: 4px;
+  
+  }
+  .date1{
+    width:270px !important;
+    
+  }
+  .date1 input{
+    width:270px !important;
+  }
+  

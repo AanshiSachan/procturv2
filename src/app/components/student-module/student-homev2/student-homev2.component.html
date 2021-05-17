@@ -155,9 +155,9 @@
 
                       </div>
 
-                      <div class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == false">
-                          <button class="btn" (click)="sendNotificationMessage()">Send</button>
-                          <button class="btn" (click)="sendPushNotification()">Send Push Notification</button>
+                      <div  class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == false">
+                          <button class="btn mt-10"  (click)="sendNotificationMessage()">Send</button>
+                          <button class="btn" style="margin-left: 10px !important;" (click)="sendPushNotification()">Send Push Notification</button>
                       </div>
 
                       <div class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == true">
@@ -216,7 +216,7 @@
                   <div id="divSendLogin" *ngIf="sendNotification.loginMessageChkbx" class="marginTenPixel">
 
                       <div class="marginTenPixel">
-                          <div class="radio-options">
+                          <div class="radio-options flex divw">
                               <div class="field-radio-wrapper">
                                   <input type="radio" [checked]="(loginField.checkBox == '0')"
                                       [(ngModel)]="loginField.checkBox" value="0" name="student"
@@ -251,8 +251,11 @@
       </div>
   </div>
 </section>
-<!-----------model Assign Popup-------->
-<div id="assignStandard" class="modal fade" role="dialog">
+
+
+<div class="page-content">
+    <!-----------model Assign Popup-------->
+    <div id="assignStandard" class="modal fade" role="dialog">
   <div class="modal-dialog" style="margin-top: 8%">
 
       <!-- Modal content-->
@@ -280,150 +283,8 @@
 
   </div>
 </div>
-<div class="page-content">
-  <!-----model for advance filter-->
-  <div  class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-slideout  modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Advance Filter</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">X</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
-         <p class="label_p">{{schoolModel ? 'Master Courses' : 'Standard'}}</p>
-         <select id="masterCourse" name="masterCourse"
-                                            [(ngModel)]="advancedFilterForm.standard_id"
-                                            (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl">
-                                            <option value="-1">{{schoolModel ? 'Master Courses' : 'Standard'}}</option>
-                                            <option [value]="std.standard_id" *ngFor="let std of standardList">
-                                                {{std.standard_name}}
-                                            </option>
-                                        </select>
-        </div>
-        <!-- <div>
-         <p class="label_p">Master Course</p>
-         <select>
-           <option>Select Master Course</option>
-         </select>
-        </div> -->
-        <div  [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
-           <p class="label_p"> Course</p>
-          <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id">
-           <option value="-1">Select Course</option>
-           <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
-            {{subject.subject_name}}
-        </option>
-         </select>
-         </div>
-         <div class="display">
-           <div  [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
-            <p class="label_p"> Admission From Date</p>
-             <input type="date" readonly="true" bsDatepicker
-             [(ngModel)]="advancedFilterForm.doa_from_date">
-             <a (click)="advancedFilterForm.doa_from_date = ''"
-             style="float:right;cursor: pointer;">Clear</a>
-           </div>
-           <div>
-            <p class="label_p"> Admission To Date</p>
-             <input type="date" name="" readonly="true" bsDatepicker
-             [(ngModel)]="advancedFilterForm.doa_to_date">
-             <a (click)="advancedFilterForm.doa_to_date = ''"
-             style="float:right;cursor: pointer;">Clear</a>
-           </div>
-         </div>
-          <div>
-                     <div>
-                      <p for="status" class="label_p">Is Active</p>
-                      <select id="active" [(ngModel)]="advancedFilterForm.is_active_status"
-                          name="sFilter" >
-                          <option value=""></option>
-                          <option value="1">Active</option>
-                          <option value="2">Inactive</option>
-                          <option value="3">Both</option>
-                      </select>
-                     </div>
-                    
-                   </div>
-         <p class="label_p">Institutional/Custom2</p>
-          <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id">
-            <option value="-1">Select</option>
-            <option [value]="sch.school_id" *ngFor="let sch of schoolList">
-                {{sch.school_name}}
-            </option>
-         </select>
-         <div class="display">
-           <div  [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
-                  <p class="label_p">Country</p>
-              <select id="state" [(ngModel)]="advancedFilterForm.country_id"
-              name="state" (ngModelChange)="getStateList()">
-              <option value="-1">Select Country</option>
-              <option title="{{country.country_name}}" [value]="country.id"
-                  *ngFor="let country of countryList">
-                  {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
-              </option>
-             </select>
-           </div>
-            <div  [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
-                  <p class="label_p">State</p>
-              <select id="state" [(ngModel)]="advancedFilterForm.state_id"
-              name="state" (ngModelChange)="getCityList()">
-              <option value="-1">Select State</option>
-              <option title="{{state.state_name}}" [value]="state.state_id"
-                  *ngFor="let state of stateList">
-                  {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
-              </option>
-             </select>
-           </div>
-         </div>
-         <!-- <p class="label_p">
-           City
-         </p>
-         <input type="" class="input1" name=""> -->
-         <div>
-            <div>
-             <p for="status" class="label_p">City</p>
-             <select id="city"  [(ngModel)]="advancedFilterForm.city_id"
-             name="city" (ngModelChange)="getAreaList()">
-             <option value="-1">Select City</option>
-             <option title="{{city.city_name}}" [value]="city.city_id"
-                 *ngFor="let city of cityList">
-                 {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}
-             </option>
-         </select>
-            </div>
-           
-          </div>
-          <div>
-            <div [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
-             <p for="status" class="label_p">Assign To</p>
-             <select id="assignTo" class="form-ctrl"
-                                            [(ngModel)]="advancedFilterForm.assign_to" name="assign_to">
-                                            <option value="0"> Select Assign To</option>
-                                            <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
-                                                {{assign.name}}
-                                            </option>
-                                        </select>
-            </div>
-           
-          </div>
-        </div>
-        <div class="modal-footer">
-        <div class=" display">
-           <div>
-           
-         </div>
-         <div>
-          <button class="bw_button" (click)='clearAdvancedFilterForm()'>Clear Filter</button>
-           <button class="blue_button"  style="margin-left:8px;"  (click)='advancedSearch()'> Apply</button>
-         </div>
-        </div>
-        </div>
-      </div>
-    </div>
-    </div>
+    <!-- /// For Download of report -->
+    <a id="student_download" class="hide"></a>
      <!------------------------------New Advance  search-------------------------------->
     <div class="modal " id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog modal-dialog-slideout " role="document">
@@ -500,19 +361,19 @@
            
              
              <div class="display">
-               <div >
+               <div class="field-wrapper datePickerBox date1" >
                 <p class="label_p">Admission From Date</p>
-                <input style="width:270px !important;" type="date" name="" readonly="true" bsDatepicker
-                [(ngModel)]="advancedFilterForm.doa_to_date">
-                <!-- <a (click)="advancedFilterForm.doa_to_date = ''"
-                style="float:right;cursor: pointer;">Clear</a> -->
+                <input  type="date" name="" readonly="true" bsDatepicker
+                [(ngModel)]="advancedFilterForm.doa_from_date">
+                <a (click)="advancedFilterForm.doa_from_date = ''"
+                style="float:right;cursor: pointer;">Clear</a>
                </div>
-               <div>
+               <div  class="field-wrapper datePickerBox date1" style="width:270px !important;">
                 <p class="label_p">Admission To Date</p>
-                <input  style="width:270px !important;" type="date" name="" readonly="true" bsDatepicker
+                <input   type="date" name="" readonly="true" bsDatepicker
                 [(ngModel)]="advancedFilterForm.doa_to_date">
-                <!-- <a (click)="advancedFilterForm.doa_to_date = ''"
-                style="float:right;cursor: pointer;">Clear</a> -->
+                <a (click)="advancedFilterForm.doa_to_date = ''"
+                style="float:right;cursor: pointer;">Clear</a>
                </div>
              </div>
              
@@ -604,7 +465,7 @@
               <div class="dropdown-content3  mr10">
                 <a (click)="notifySelectedStudent()" ><img src="../../../../assets/icons/Send_Notification.svg" class="d_icons">Send Notification</a>
                 <a (click)="downloadStudentAdmissionForm()"><img src="../../../../assets/icons/Admission_Form.svg" class="d_icons">Admission Form</a>
-                <a (click)="studentFeeInstallment()" ><img src="../../../../assets/icons/Fees.svg" class="d_icons">Fee Installment</a>
+                <a (click)="studentFeeInstallment(-1)" ><img src="../../../../assets/icons/Fees.svg" class="d_icons">Fee Installment</a>
                 <a (click)="downloadStudentIDCard()"><img src="../../../../assets/icons/Download_ID_Card.svg" class="d_icons">Download ID card</a>
                  <a (click)="openAssign()"><img src="../../../../assets/icons/Assign_Standard.svg" class="d_icons">Assign Standard</a>
               </div>
@@ -615,7 +476,7 @@
             <button  class="white_button mt-9 dropbtn2">Filter<img src="/assets/img2/filter.svg"></button>
               <div class="dropdown-content2">
                 <a  id="click"   *ngIf="!showQuickFilter && !isProfessional"   (click)="openQuickFilter()">Quick Filter</a>
-                <a  data-toggle="modal"   id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
+                <a  data-toggle="modal"   data-target="#exampleModal2" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
               </div>
           </div>
              <!------------------------------more button-------------------------------->

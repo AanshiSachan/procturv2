@@ -566,7 +566,7 @@ export class StudentHomev2Component implements OnInit {
   downloadStudentIDCard() {
     console.log(this.selectedUserId);
     //let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
-    let studentId = this.getListOfIds(this.rowSelectedId).split(",");
+    let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
     const url = "/admit-card/download";
     this.auth.showLoader();
     this.postService.stdPostData(url, studentId).subscribe(
@@ -823,7 +823,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
-    $('#exampleModal2').modal('show');
+    //$('#exampleModal2').modal('show');
     // this.isAdvFilter = true;
     // this.showQuickFilter = false;
     // this.searchBarData = "";
@@ -858,6 +858,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   advancedSearch() {
+    
     let tempCustomArr: any[] = [];
     this.filterCustomComponent.forEach((el) => {
       //console.log(el);
@@ -919,7 +920,7 @@ export class StudentHomev2Component implements OnInit {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     this.loadTableDataSource(this.instituteData);
-   
+    $('#exampleModal2').modal('hide');
     this.closeAdFilter();
     this.isAdvFilter=true;
   }
@@ -1422,7 +1423,8 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   searchDatabase() {
-  //  $('#exampleModal2').modal('hide');
+    //alert("hi");
+   
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     let obj: any = {
@@ -3248,13 +3250,14 @@ getSelectedRows() {
         
           this.rowSelectedId.push(e.student_id);
           this.selectedUserId.push(e.user_id);
+          this.selectedRowGroup.push(e.user_id);
           // selectedUserId
       }
   });
  this.rowIdArr=this.rowSelectedId;
  this.rowUserId=this.selectedUserId;
  this.selectedRowGroup= this.rowSelectedId;
- console.log(this.rowSelectedId);
+ console.log(this.selectedRowGroup);
 
 }
 openAssign(){
