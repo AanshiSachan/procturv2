@@ -36,20 +36,20 @@
 
         <div class="flex111" >
           <div class="w25">
-          <label for="userName" >Username<span class="danger">*</span></label>
+          <label for="transaction_username" >Username<span class="danger">*</span></label>
           </div>
       
           <div class="w25" >
-          <input type="text"  id="userName" name="userName" #userName="ngModel" autocomplete="off"  [(ngModel)]=" smsGatewatModel.transaction_username"    placeholder="user name.." >
+          <input type="text" autocomplete="nope"  id="transaction_username" name="transaction_username"  [(ngModel)]="smsGatewatModel.transaction_username" placeholder="user name.." >
         </div>
 
         <div class="w25">
-          <label for="password">Password <span class="danger">*</span></label>
+          <label for="transaction_password">Password <span class="danger">*</span></label>
        
         </div>
         
        <div class="w25">  
-        <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password"  placeholder="password.." >
+        <input type="password" autocomplete="new-password" id="transaction_password" name="transaction_password" [(ngModel)]="smsGatewatModel.transaction_password"  placeholder="password.." >
         </div>
 
       </div>
@@ -92,6 +92,7 @@
                 </div>
                 <div><label for="ative" style="margin-left:-10px;">Is&nbsp;Active</label></div>
               </div>
+            </form>
               <div>
                 <div class="col-25">
                   <label for="smsId">Important note</label>
@@ -119,7 +120,6 @@
               
   
              
-  </form>
 
               </div>
   <!-- </div> -->
