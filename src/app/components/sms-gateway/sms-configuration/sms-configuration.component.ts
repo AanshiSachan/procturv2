@@ -140,27 +140,10 @@ this.getAllSmsData();
 }
 
   validationInputs(){
-    if(CommonUtils.isMandatoryValidEmailId(this.smsGatewatModel.transaction_username)){
-      let data ={
-        type:"error",
-        title:"",
-        body:"Please enter username"
-        
-      }
-      this.toastCtrl.popToast(data)
-  return false;
+    if(this.smsGatewatModel.transaction_username.trim() ==""){
+     this.msgService.showErrorMessage(this.msgService.toastTypes.error,'','Please enter username!')           
+  return;
     }
-// if(CommonUtils.isOptionalValidEmailId(this.smsGatewatModel.transaction_username !="")){
-    
-//       let data ={
-//         type:"error",
-//         title:"",
-//         body:"Please enter valid username"
-        
-//       }
-//       this.toastCtrl.popToast(data)
-//   return false;
-//     }
 
     if(CommonUtils.isEmpty(this.smsGatewatModel.transaction_password)){
       let data ={
