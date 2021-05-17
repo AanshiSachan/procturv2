@@ -602,11 +602,11 @@
           <div class="dropdown3 mr10"  *ngIf="rowSelectedCount != 0">
               <button  class="mr10 bw_button dropbtn3 btn_shadow">{{rowSelectedCount}} Students Selected&nbsp;&nbsp;<i class="fa fa-caret-down dr"></i></button>
               <div class="dropdown-content3  mr10">
-                <a href="#" ><img src="../../../../assets/icons/Send_Notification.svg" class="d_icons">Send Notification</a>
-                <a href="#"><img src="../../../../assets/icons/Admission_Form.svg" class="d_icons">Admission Form</a>
-                <a href="#" ><img src="../../../../assets/icons/Fees.svg" class="d_icons">Fee Installment</a>
-                <a href="#"><img src="../../../../assets/icons/Download_ID_Card.svg" class="d_icons">Download ID card</a>
-                 <a href="#"><img src="../../../../assets/icons/Assign_Standard.svg" class="d_icons">Assign Standard</a>
+                <a (click)="notifySelectedStudent()" ><img src="../../../../assets/icons/Send_Notification.svg" class="d_icons">Send Notification</a>
+                <a (click)="downloadStudentAdmissionForm()"><img src="../../../../assets/icons/Admission_Form.svg" class="d_icons">Admission Form</a>
+                <a (click)="studentFeeInstallment()" ><img src="../../../../assets/icons/Fees.svg" class="d_icons">Fee Installment</a>
+                <a (click)="downloadStudentIDCard()"><img src="../../../../assets/icons/Download_ID_Card.svg" class="d_icons">Download ID card</a>
+                 <a (click)="openAssign()"><img src="../../../../assets/icons/Assign_Standard.svg" class="d_icons">Assign Standard</a>
               </div>
           </div>
            <!------------------------------Quick and Advanced  Filter openclose  buttons-------------------------------->
