@@ -586,14 +586,14 @@
   <div class="w98">
    <!------------------------------basic search-------------------------------->
    <div class="row drop-shadow">
-     <div class="col-lg-5">
+     <div class="col-lg-4">
        <input #search type="text" name="searchData"  id="basic-search"
        [(ngModel)]="searchBarData"
        name="searchData" (keyup.enter)="searchDatabase()" class="magnifying-glass text-indent search mt-9 mr10 btn_shadow" placeholder="Search By Name/Contact No.">
        <button  class=" blue_button btn_shadow"  (click)="searchDatabase()">Search</button>
    </div> 
      
-     <div class="col-lg-7">
+     <div class="col-lg-8">
        <span class="right">
           <!------------------------------Students Selected option-------------------------------->
           <a id="hiddenAnchorTag" class="hide">Element Made For Admission Form Download</a>
@@ -602,11 +602,11 @@
           <div class="dropdown3 mr10"  *ngIf="rowSelectedCount != 0">
               <button  class="mr10 bw_button dropbtn3 btn_shadow">{{rowSelectedCount}} Students Selected&nbsp;&nbsp;<i class="fa fa-caret-down dr"></i></button>
               <div class="dropdown-content3  mr10">
-                <a (click)="notifySelectedStudent()">Send Notification</a>
-                <a (click)="downloadStudentAdmissionForm()">Admission Form</a>
-                <a (click)="studentFeeInstallment()">Fee Installment</a>
-                <a (click)="downloadStudentIDCard()">Download ID card</a>
-                 <a (click)="openAssign()">Assign Standard</a>
+                <a href="#" ><img src="../../../../assets/icons/Send_Notification.svg" class="d_icons">Send Notification</a>
+                <a href="#"><img src="../../../../assets/icons/Admission_Form.svg" class="d_icons">Admission Form</a>
+                <a href="#" ><img src="../../../../assets/icons/Fees.svg" class="d_icons">Fee Installment</a>
+                <a href="#"><img src="../../../../assets/icons/Download_ID_Card.svg" class="d_icons">Download ID card</a>
+                 <a href="#"><img src="../../../../assets/icons/Assign_Standard.svg" class="d_icons">Assign Standard</a>
               </div>
           </div>
            <!------------------------------Quick and Advanced  Filter openclose  buttons-------------------------------->
@@ -624,12 +624,12 @@
           <div class="dropdown1">
             <button  class="white_button mt-9 dropbtn1 mr10" name="button" (click)="isOptions = !isOptions">More<img src="/assets/img2/more.svg"></button>
               <div class="dropdown-content1" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
-                <a *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'>Upload Student</a>
+                <a *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'><img src="../../../../assets/icons/Upload_Student.svg" class="d_icons"> Upload Student</a>
                 <a (click)="downloadAllStudent()"
-                *ngIf="downloadStudentReportAccess">Export student</a>
-                <a routerLink='/view/students/openUser' *ngIf="!schoolModel">Registered Student</a>
-                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'>Archive student</a>
-                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'>Archeived status report</a>
+                *ngIf="downloadStudentReportAccess"> <img src="../../../../assets/icons/Export_Students.svg" class="d_icons"> Export student</a>
+                <a routerLink='/view/students/openUser' *ngIf="!schoolModel"> <img src="../../../../assets/icons/Registered_Users.svg" class="d_icons"> Registered Student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'> <img src="../../../../assets/icons/Archive_Students.svg" class="d_icons"> Archive student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'> <img src="../../../../assets/icons/Archived_Status_Report.svg" class="d_icons">  Archeived status report</a>
               </div>
 
           </div>
@@ -639,8 +639,8 @@
      </div>
    </div>
     <!------------------------------Quick Filter Form-------------------------------->
-    <div class="row" id="form-tab" *ngIf="!isProfessional && isVisited">
-      <div class="col-lg-2" *ngIf="!isProfessional && !schoolModel">
+    <div class="flex" id="form-tab" *ngIf="!isProfessional && isVisited">
+      <div class="mr10" *ngIf="!isProfessional && !schoolModel">
         <div  [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
           <!-- <label class="p_title">Standard</label> -->
         <select class="input-select1" id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
@@ -654,7 +654,7 @@
       </select>
       </div>
       </div>
-      <div class="col-lg-2" *ngIf="!isProfessional">
+      <div class="mr10" *ngIf="!isProfessional">
         <div [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
           <!-- <label class="p_title" for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label> -->
       <select class="input-select1" *ngIf="!schoolModel" id="masterCourse" name="masterCourse"
@@ -678,7 +678,7 @@
   </select>
     </div>
       </div>
-      <div class="col-lg-2"  *ngIf="!isProfessional">
+      <div class="mr10"  *ngIf="!isProfessional">
         <div  [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
           <!-- <label  class="p_title" for="course">{{schoolModel ? 'Section' : 'Course'}}</label> -->
           <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
@@ -692,7 +692,7 @@
       </select>
     </div>
       </div>
-     <div class="col-lg-2"  *ngIf="!isProfessional">
+     <div class="mr10"  *ngIf="!isProfessional">
        <div  [class.has-value]="advancedFilterForm.is_active_status != ''">
         <!-- <label  class="p_title" for="status">Is Active</label> -->
         <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
@@ -704,7 +704,7 @@
     </div>
       </div>
      
-      <div class="col-lg-2" >
+      <div  >
        
       <button class="blue_button mt-9"  *ngIf="!isProfessional" (click)="searchDatabase()" >Search</button>
       </div>

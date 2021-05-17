@@ -40,9 +40,9 @@ body{
 }
 
 .magnifying-glass{
-  background-image: url('/assets/img/Vector1.png');
+  background-image: url('/assets/img1/Vector.svg');
   background-repeat: no-repeat;
-  background-position:left center;
+  background-position:1% center;
   text-indent: 5px;
 }
 a:hover { 
@@ -71,6 +71,7 @@ margin: 8px 0px;
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
+  height: 34px;
 }
 .cancel{
   background-color: #fff;
@@ -235,7 +236,8 @@ margin-left: 8px;
 .table_heading>div{
 font-weight: 600;
 font-size: 12px;
-text-align: center;
+text-align: left;
+padding-left: 10px;
 }
 .table_heading>div:first-child,.table_row>div:first-child{
     padding-right: 20px;
@@ -262,7 +264,8 @@ border-bottom: 1px solid #EFF0F5;
 line-height: 30px;
   font-weight: 400;
   font-size: 12px;
-  text-align: center;
+  text-align: left;
+  padding-left: 10px;
   color: #6B5D5D;
 }
 .overflows{
@@ -290,7 +293,7 @@ max-height: 64vh;
 // }
 .table_row>div:nth-child(2), .table_heading>div:nth-child(2){
   width: 40px;
-
+  text-align: center;
 }
 .table_row>div:nth-child(4), .table_heading>div:nth-child(4){
   width: 200px;
@@ -310,7 +313,7 @@ max-height: 64vh;
   top: -2px;
 }
 .pl-10{
-  padding-left: 10px
+  padding-right: 10px
 }
 
 .input:focus {
@@ -327,11 +330,9 @@ button:focus{
     .input{
       background-color: #fff;
     }
-    .pl-10{
-  padding-left: 10px
-}
+
 .input-select1{
-  width: 100%;
+  width: 200px;
   margin: 8px 0;
   padding: 7px 0px;
   border: 1px solid #F0EDED;
@@ -341,8 +342,9 @@ button:focus{
   font-weight: 400;
   border-radius: 4px;
   background-color: #fff;
-  color: #323C47;
+  color: #6B5D5D;
   text-indent: 5px;
+  height: 37px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 .top{
@@ -364,13 +366,14 @@ letter-spacing: 0.01em;
 color: #334D6E;
 border:none;
 outline: none;
+height: 35px;
 }
 .white_button>img{
   margin-left: 10px;
 }
 .search{
-width: 260px;
-height: 35px;
+width: 240px;
+height: 36px;
 border: 1px solid #E3DADB;
 box-sizing: border-box;
 border-radius: 5px;
@@ -398,6 +401,10 @@ letter-spacing: 0.01em;
 margin-right: 20px;
 color: #334D6E;
 cursor: pointer;
+}
+#qfilter>img{
+ position: relative;
+ top:5px;
 }
 .students{
  font-weight: 400;
@@ -561,7 +568,7 @@ text-align: center;
 letter-spacing: 0.01em;
 cursor: pointer;
 color: #109CF1;
-
+height: 35px;
 }
 .mr10{
   margin-right: 10px;
@@ -760,4 +767,7 @@ transform: scale(1);
 }
 .marginTenPixel1{
   margin-left: 10px;
+}
+.d_icons{
+  margin-right: 8px;
 }
