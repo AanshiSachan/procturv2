@@ -55,7 +55,7 @@ export class RoleService {
     // Add Edit 
 
     getAllFeature() {
-        let url = this.baseUrl + "/api/v1/roleApi/allFeatures";
+        let url = this.baseUrl + "/api/v1/roleApi/allFeatures?categoryWise=true";
         return this.http.get(url, { headers: this.headers }).pipe(map(
             res => { return res; },
             err => { return err; }

@@ -389,7 +389,7 @@
                             </a>
 
                             <div class="dropdown-content">
-                                <a routerLink="/view/leads/setup">
+                                <a routerLink="/view/leads/setup" *ngIf="checkIfUserHadAccess(role_feature.LEAD_SETUP)">
                                     <span>Setup</span>
                                 </a>
                                 <a routerLink="/view/leads/enquiry" *ngIf="jsonRolesFlags.isShowManageEnquiry">
@@ -480,23 +480,22 @@
 
                             </a>
                             <div class="dropdown-content">
-                                <a (click)="setSetupSession('class')" routerLink="/view/course/setup/academic">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_SETUP)" (click)="setSetupSession('class')" routerLink="/view/course/setup/academic">
                                     <span>Setup</span>
                                 </a>
-                                <a routerLink="/view/course/create-section/courselist">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_COURSES)" routerLink="/view/course/create-section/courselist">
                                     <span>{{schoolModel ? 'Section' : 'Courses'}}</span>
                                 </a>
-                                <a routerLink="/view/course/coursePlanner/class"
-                                    *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)" routerLink="/view/course/coursePlanner/class">
                                     <span> Schedule</span>
                                 </a>
-                                <a routerLink="/view/course/class-attendance">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_ATTENDANCE)" routerLink="/view/course/class-attendance">
                                     <span> Attendance</span>
                                 </a>
-                                <a routerLink="/view/course/timeTable">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)" routerLink="/view/course/timeTable">
                                     <span>TimeTable</span>
                                 </a>
-                                <a *ngIf="!schoolModel" routerLink="/view/course/archiving">
+                                <a *ngIf="!schoolModel && checkIfUserHadAccess(role_feature.CLASSES_DATA_ARCHIVING)" routerLink="/view/course/archiving">
                                     <span>Data Archiving</span>
                                 </a>
                             </div>
@@ -526,7 +525,7 @@
                                     *ngIf="jsonCourseFlags.isShowClassPlanner ">
                                     <span>Class/Exam Planner</span>
                                 </a>
-                                <a routerLink="/view/batch/timeTable">
+                                <a routerLink="/view/batch/timeTable" *ngIf="checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)">
                                     <span>Timetable</span>
                                 </a>
                             </div>
@@ -544,18 +543,18 @@
 
                             </a>
                             <div class="dropdown-content">
-                                <a (click)="setSetupSession('exam')"
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAMS_SETUP)" (click)="setSetupSession('exam')"
                                     routerLink="/view/course/exam-setup/manage-exam-grades">
                                     <span>Setup</span>
                                 </a>
-                                <a
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAMS_SCHEDULE)"
                                     routerLink="{{schoolModel ? '/view/exams/schedule' : '/view/course/coursePlanner/exam'}}">
                                     <span>Schedule</span>
                                 </a>
-                                <a routerLink="/view/course/exam-attendance">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAMS_ATTENDANCE)" routerLink="/view/course/exam-attendance">
                                     <span>Attendance</span>
                                 </a>
-                                <a
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAM_MARKS)"
                                     routerLink="{{schoolModel ? '/view/exams/marks/schedule-list' : '/view/course/exam-marks'}}">
                                     <span>Marks</span>
                                 </a>
@@ -631,9 +630,9 @@
 
                     </li>
 
-                    <li class="dropdown" [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''"
+                    <li [ngStyle]="{display: (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_MENU)) ? 'block' : 'none'}" [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''"
                         (click)="toggler('liforteen')">
-                        <div>
+                        <div *ngIf="checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_MENU)">
                             <a class="dropbtn">
                                 <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/ContentLibrary.svg':'./assets/images/sidemenuicon/ContentLibrary.svg'"
                                     alt="">
@@ -641,10 +640,10 @@
 
                             </a>
                             <div class="dropdown-content">
-                                <a routerLink="/view/course/ecourse-file-manager/ecourses">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.STUDY_MATERIAL_MENU)" routerLink="/view/course/ecourse-file-manager/ecourses">
                                     <span>Study Material</span>
                                 </a>
-                                <a routerLink="/view/course/file-manager/drive">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_FILE_MANAGER)" routerLink="/view/course/file-manager/drive">
                                     <span>File/Doc. Manager</span>
                                 </a>
                             </div>
@@ -652,7 +651,7 @@
                     
                   </li>
 
-                  <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment" (click)="toggler('lithirteen')" >
+                  <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment && checkIfUserHadAccess(role_feature.ASSIGNMENTS)" (click)="toggler('lithirteen')" >
                     <a routerLink="/view/course/online-assignment">
                         <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/assignment.svg':'./assets/images/sidemenuicon/assignment.svg'" alt="">
                     <p >Assignments</p></a>

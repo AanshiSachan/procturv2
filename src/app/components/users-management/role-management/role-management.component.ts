@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
-import { RoleService } from '../../../services/user-management/role.service';
+import { RoleService } from '../../../services/user-management/role.service'; 
+declare var $; 
 
 @Component({
   selector: 'app-role-management',
@@ -82,6 +83,7 @@ export class RoleManagementComponent implements OnInit {
       this.apiService.getAssignedUserList(data.role_id).subscribe(
         res => {
           this.showUserListPopUp = true;
+          $('#myModal').modal('show');
           this.userList = res;
         },
         err => {

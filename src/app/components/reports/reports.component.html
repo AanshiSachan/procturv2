@@ -18,7 +18,7 @@
         <hr class="heading_hr">
 
 
-        <div class="row " *ngIf="isShowEnqReport">
+        <div class="row " *ngIf="isShowEnqReport && checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)">
           <a routerLink="/view/leads/enquiryReport/counsellor" class="icon_click"><img
               src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
 
@@ -219,7 +219,7 @@
 
 
   </div>
-  <div class="leads-menu-section-container" *ngIf="isShowExpense == 'true'">
+  <div class="leads-menu-section-container" *ngIf="isShowExpense == 'true' && checkIfUserHadAccess(role_feature.REPORT_INCOME_EXPENSE_REPORT)">
     <div class="leads-menu-item pleads-menu-item">
       <div class="menu-title">
         <!--  <img src="./assets/images/leads/data-setup.svg" alt="data setup">-->

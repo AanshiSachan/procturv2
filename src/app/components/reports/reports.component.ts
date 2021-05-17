@@ -127,4 +127,17 @@ export class ReportsComponent implements OnInit {
     }
   }
 
+  checkIfUserHadAccess(id) {
+    let permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null || !permissionArray) {
+      return true;
+    } else {
+      if (id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
 }

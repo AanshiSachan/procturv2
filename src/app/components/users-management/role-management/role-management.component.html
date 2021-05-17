@@ -99,46 +99,30 @@
 <!-- ///////// POPUP/////////////////////////////////// -->
 <!-- ///////// POPUP/////////////////////////////////// -->
 
-<section id="popup " class="popupWrapper fadeIn " *ngIf="showUserListPopUp">
-  <div class="popup pos-abs popup-body-container ">
-    <div class="popup-wrapper pos-rel ">
-      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopUp()">
-        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
-                      rotate(45) " />
-              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
-                      rotate(45) " />
-            </g>
-            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                      " height="16 " transform="translate(1012 297) " />
-          </g>
-        </svg>
-      </span>
-      <div class="popup-content">
-        <h2>Assigned User list</h2>
-        <div class="roles-table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email Id</th>
-                <th>Contact Number</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let s of userList">
-                <td>{{s.name}}</td>
-                <td>{{s.email_id}}</td>
-                <td>{{s.phone}}</td>
-                <td>{{s.username}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+
+<div class="modal" id="myModal" style="top: 10%;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" >Assigned User List</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+         <div class="rolepopup">
+          <div class="table_heading">
+            <div>Name</div>
+            <div>Email Id</div>
+            <div>Contact No</div>
+            <div>Username</div>
+          </div>
+          <div *ngFor="let s of userList" class="table_body">
+            <div>{{s.name}}</div>
+            <div>{{s.email_id}}</div>
+            <div>{{s.phone}}</div>
+            <div>{{s.username}}</div>
+          </div>
+      </div>
       </div>
     </div>
   </div>
-</section>
+</div>
