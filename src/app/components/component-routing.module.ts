@@ -199,7 +199,15 @@ import { ReportsComponent } from './reports/reports.component';
                             loadChildren: () => import('../components/inventory-module/inventory-module.module').then(m => m.InventoryModuleModule),
                             pathMatch: 'prefix'
 
+                        },
+
+                        {
+                            path: 'payrole',
+                            loadChildren: () => import('../components/payrole/payrole.module').then(m => m.PayroleModule),
+                            pathMatch: 'prefix'
+
                         }
+
                     ]
                 },
             ]
