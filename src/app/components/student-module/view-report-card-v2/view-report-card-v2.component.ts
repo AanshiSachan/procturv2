@@ -11,8 +11,9 @@ export class ViewReportCardV2Component implements OnInit {
 
   ngOnInit(): void {
   }
+  a=1;
   isActiveTab ='profile';
-openTab(param){
+openTab(param){ 
   alert(param)
   this.isActiveTab =param;
 }
