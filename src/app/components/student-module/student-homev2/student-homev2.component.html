@@ -311,7 +311,7 @@
                <div></div>
                </div>
                <div class="display" >
-                 <div [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                 <div [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}" >
                     <p class="label_p">Standard</p>
                     <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
                     (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
@@ -589,15 +589,15 @@
        </div>
        <div>#</div>
          <div>Student ID</div>
-         <div (click)="sortTable('student_name')" style="cursor: pointer;text-align: left;"> Name <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
+         <div (click)="sortTable('student_name')" style="cursor: pointer;"> Name <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
          <div>Contact No.</div>
          <div *ngIf="schoolModel">Parent Name</div>
          <div *ngIf="schoolModel">Contact No.</div>
          <div *ngIf="!isProfessional">Standard</div>
-         <div *ngIf="!schoolModel" style="text-align: left;">Course Assigned</div>
-         <div *ngIf="isProfessional" style="text-align: left;">Master Course</div>
-         <div *ngIf="isProfessional" style="text-align: left;">Batch Assigned</div>
-         <div *ngIf="schoolModel" style="text-align: left;" >Section  Assigned</div> 
+         <div *ngIf="!schoolModel && !isProfessional" >Course Assigned</div>
+         <div *ngIf="isProfessional" >Master Course</div>
+         <div *ngIf="isProfessional">Batch Assigned</div>
+         <div *ngIf="schoolModel" >Section  Assigned</div> 
          <div>Action</div>
      </div>
      <!-- table row -->
@@ -622,12 +622,13 @@
        </div>
        <div><img src="{{data.thumbnail_url}}" class="photo imgRound"></div>
          <div>{{data.student_disp_id}}</div>
-         <div title="{{data.student_name}}" style="text-align: left;">{{data.student_name| slice:0:15}} {{data.student_name.length > 15 ? '...' : ''}}</div>
+         <div title="{{data.student_name}}">{{data.student_name| slice:0:15}} {{data.student_name.length > 15 ? '...' : ''}}</div>
          <div>{{data.student_phone}}</div>
          <div *ngIf="schoolModel" title="{{data.parent_name}}">{{data.parent_name | slice:0:15}} {{data.parent_name.length > 15 ? '...' : ''}}</div>
          <div *ngIf="schoolModel">{{data.parent_contact_number}}</div>
          <div *ngIf="!isProfessional">{{data.student_class}}</div>
-         <div title="{{data.batchesAssigned}}" style="text-align: left;">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
+         <div *ngIf="isProfessional">{{data.student_class}}</div>
+         <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
        <div>
         <a  [routerLink]="['reportcard', data.student_id]"><img src="/assets/img2/visit.svg" class="pl-10"></a>
         <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>

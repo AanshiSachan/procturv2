@@ -259,6 +259,7 @@ export class StudentHomev2Component implements OnInit {
     )
     this.auth.institute_type.subscribe(
       res => {
+     
         if (res == 'LANG') {
           this.isProfessional = true; // batch module
           this.labelForAssignStandard = 'Master Course';
