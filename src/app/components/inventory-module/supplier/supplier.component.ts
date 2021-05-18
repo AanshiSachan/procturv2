@@ -288,6 +288,7 @@ export class SupplierComponent implements OnInit {
           if (res.statusCode == 200) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Supplier detail Added Successfully');
             this.getVendorDetails();
+            this.cancel(false);
           }
         },
         err => {
@@ -313,7 +314,7 @@ export class SupplierComponent implements OnInit {
      //this.model.item_ids =object.data.item_ids;
      this.model.address =object.data.address;
      //let temp = object.data.item_ids;
-    let item_names = object.data.item_names.split(',');
+  //  let item_names = object.data.item_names.split(',');
   //  this.model.item_ids = [];
   //   for (let i = 0; i < temp.length; i++) {
   //     let obj:any = {
