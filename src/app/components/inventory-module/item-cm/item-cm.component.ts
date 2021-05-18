@@ -246,7 +246,7 @@ saveItemDetails(){
 }
 //get item data
 getItemDetails() {
- // this.auth.showLoader();
+ this.auth.showLoader();
   this.httpService.getData(this.url + 'item/all/' + this.category_model.institution_id).subscribe(
     (res: any) => {
       this.auth.hideLoader();
@@ -372,7 +372,7 @@ showAllocationHistory(obj){
 /*======================================APi Clla For Item===============*/
 getAllMasterCourseList() {
   this.masterCourseList=[];
-  // this.auth.showLoader();
+  this.auth.showLoader();
     this.httpService.getData('/api/v1/standards/all/'+this.item.institution_id +'?active=Y').subscribe(
       res => {
         this.masterCourseList = res;
@@ -384,6 +384,7 @@ getAllMasterCourseList() {
   
 }
 onMasterCourseSelection(standard_id){
+  this.auth.showLoader();
   this.CourseList=[];
   if(standard_id==undefined || standard_id ==''){
 
@@ -396,6 +397,7 @@ onMasterCourseSelection(standard_id){
         this.auth.hideLoader();
       },
       err => {
+        this.auth.showLoader();
       }
     )
   }
