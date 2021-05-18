@@ -129,6 +129,7 @@ export class AddEditRoleComponent implements OnInit {
           for (let j = 0; j < this.cloneFeatureArray[t].category_list.length; j++) {
             if(arr[i] == this.cloneFeatureArray[t].category_list[j].category_id) {
               this.cloneFeatureArray[t].category_list[j].isToggleChecked = true;
+              this.selectedRoleLength++;
             }
             for (let feature = 0; feature < this.cloneFeatureArray[t].category_list[j].feature_list.length; feature++) {
               if (arr[i] == this.cloneFeatureArray[t].category_list[j].feature_list[feature].feature_id) {
@@ -244,12 +245,15 @@ export class AddEditRoleComponent implements OnInit {
 
   sliderChanges(obj) {
     if (!obj.isToggleChecked) {
+      this.selectedRoleLength--;
       for (let i = 0; i < obj.feature_list.length; i++) {
         if (obj.feature_list[i].isChecked) {
           obj.feature_list[i].isChecked = false;
           this.selectedRoleLength--;
         }
       }
+    } else {
+      this.selectedRoleLength++;
     }
   }
 }
