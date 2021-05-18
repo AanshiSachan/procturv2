@@ -27,7 +27,6 @@ form-horizontal .control-label {
     border-radius: 3px;
     width: 93%;
     margin-left: 31px;
-    // box-shadow: 0px 1px 3px rgb(0 0 0 / 10%);
 }
 .btn.btn-success {
     color: #fff;
@@ -41,6 +40,7 @@ form-horizontal .control-label {
 .table-bordered > tbody > tr > td {
     border-color: #E2E7EB;
     font-size: 12px;
+    text-align: initial;
 }
 .table-bordered {
     border: 1px solid #E2E7EB;
@@ -52,17 +52,17 @@ form-horizontal .control-label {
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
-.box-header .box-title {
-    display: inline-block;
-    padding: 15px;
-    margin: 0;
-    font-size: 14px;
-    font-weight: 400;
-    float: left;
-    cursor: default;
-    color: #FFFFFF;
-    font-family: "OpenSans Regular";
-}
+// .box-header .box-title {
+//     display: inline-block;
+//     padding: 15px;
+//     margin: 0;
+//     font-size: 14px;
+//     font-weight: 400;
+//     float: left;
+//     cursor: default;
+//     color: #FFFFFF;
+//     font-family: "OpenSans Regular";
+// }
 .box-title {
     display: inline-block;
     padding: 15px;
@@ -109,4 +109,8 @@ table>tbody>tr>td, .table>tfoot>tr>td {
     line-height: 1.428571429;
     vertical-align: top;
     border-top: 1px solid #ddd;
+}
+
+.input[type="text"][disabled] {
+     //background: transparent !important; 
 }

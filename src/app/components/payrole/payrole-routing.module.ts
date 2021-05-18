@@ -5,6 +5,7 @@ import { HourlyTemplateComponent } from './hourly-template/hourly-template.compo
 import { MakePaymentComponent } from './make-payment/make-payment.component';
 import { ManageSalaryComponent } from './manage-salary/manage-salary.component';
 import { SalaryTemplateComponent } from './salary-template/salary-template.component';
+import { ViewSalaryTemplateComponent } from './view-salary-template/view-salary-template.component';
 
 
 
@@ -13,7 +14,13 @@ const routes: Routes = [
   {path :'hourly-template',component:HourlyTemplateComponent},
   {path :'make-payment',component:MakePaymentComponent},
   {path :'manage-salary',component:ManageSalaryComponent},
-  {path :'add-edit-salary',component:AddEditSalaryComponent}
+  {path :'add-salary',component:AddEditSalaryComponent,pathMatch: 'prefix'
+},
+  {path :'edit-salary/:id',component:AddEditSalaryComponent,pathMatch: 'prefix'
+},
+
+  {path :'view-salary-template/:id',component:ViewSalaryTemplateComponent}
+
 
 
 
