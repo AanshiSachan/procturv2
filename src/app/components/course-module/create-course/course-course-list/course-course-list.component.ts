@@ -490,16 +490,19 @@ export class CourseCourseListComponent implements OnInit {
   checkTabSelection() {
     setTimeout(() => {
       this.hideAllTabs();
-      document.getElementById('liManageBatch').classList.add('active');
+      if(document.getElementById('liManageBatch')) {
+        document.getElementById('liManageBatch').classList.add('active');
+      }
     }, 200)
   }
 
-  hideAllTabs() {
-    document.getElementById('liStandard').classList.remove('active');
-    document.getElementById('liSubject').classList.remove('active');
-    document.getElementById('liManageBatch').classList.remove('active');
-    // document.getElementById('liExam').classList.add('hide');
-    document.getElementById('liClass').classList.remove('active');
+  hideAllTabs() {    
+    let lists =['liStandard','liSubject','liManageBatch','liExam'];
+    lists.forEach((object)=>{
+      if(this[object]) {
+        this[object].nativeElement.classList.remove('active');
+      }
+    })
   }
 
 }
