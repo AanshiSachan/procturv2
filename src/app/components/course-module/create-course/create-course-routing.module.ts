@@ -41,7 +41,7 @@ import { CreateCourseComponent } from './create-course.component';
                 },
                 {
                     path: 'courselist',
-                    loadChildren: () => import('app/components/course-module/create-course/course-course-list/course-list.module').then(m => m.CourseListModule),
+                    loadChildren: () => import('./course-course-list-v2/course-course-list-v2.module').then(m => m.CourseCourseListV2Module),
                     // loadChildren: "app/components/course-module/create-course/course-course-list/course-list.module#CourseListModule",
                     pathMatch: 'prefix',
                 },

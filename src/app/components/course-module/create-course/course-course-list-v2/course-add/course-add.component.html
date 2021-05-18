@@ -1,0 +1,129 @@
+<div class="tab-content">
+    <div id="one" class="tab-pane active">
+      <div class="w98">
+        <div class="pt25 flex">
+           <div class="flex">
+              <div class="master_c">
+                Master Course :
+              </div>
+              <div>
+                <span class="mc_name">11 Science</span>
+              </div>
+            </div>
+            <div class="flex space_flex">
+              <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+              <div class="std">Standard: 11th</div>
+              <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="pt15 ">
+           <input type="text" name="" placeholder="Course Name*" class="input mr10 wid217">
+           <input type="date" name="" placeholder="Start date*" class="input mr10 wid180">
+           <input type="date" name="" placeholder="End date*"  class="input mr10 wid180">
+           <select class="select mr10 wid180">
+             <option>Academic Year</option>
+           </select>
+        </div>
+        <div class="subject">
+          <div class="table_head">
+            <div>Select Subject</div>
+            <div>Subject Name</div>
+            <div>Allocate Faculty *</div>
+          </div>
+          <div class="table_body">
+            <div>
+              <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" >
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div>
+              Maths
+            </div>
+            <div>
+              <select class="select width_s">
+                <option>Mrs. Ankusha S</option>
+              </select>
+            </div>
+          </div>
+      </div>
+          <!-- use image only when page is empty,table body class element will not be present -->
+          <div class="add_subject">
+            <span>
+              <a href="" data-toggle="modal" data-target="#subjectModal">Add New Subject</a>
+            </span>
+          </div>
+          <div class="white bottom_pagignation ">
+            <div class="display">
+              <div><button class="white_button">Back</button></div>
+               <div><button class="blue_button">Save</button></div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="subjectModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Add Subject</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="pt10">
+           <select class="select wid100">
+             <option>X</option>
+           </select>
+          </div>
+          <div class="pt10">
+            <input type="text" class="wid100 input" name="" placeholder="Subject Name*">
+          </div>
+          <div class="pt10">
+            <input type="text" class="wid100 input" name="" placeholder="Subject Code*">
+          </div>
+         
+           <div class="pt101 display">
+          <div></div>
+          <div>
+           
+          <button class="blue_button mr10">Add Subject</button>
+          <button class="white_button ">Back</button>
+        </div>
+        </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="standardModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Add Standard</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+         
+          <div class="pt10">
+            <input type="text" class="wid100 input" name="" placeholder="Standard*">
+          </div>
+          
+         
+           <div class="pt101 display">
+          <div></div>
+          <div>
+           
+          <button class="blue_button mr10">Add Standard</button>
+          <button class="white_button">Back</button>
+        </div>
+        </div>
+        </div>        
+      </div>
+    </div>
+  </div>

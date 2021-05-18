@@ -1,0 +1,126 @@
+<div class="tab-content">
+    <div id="one" class="tab-pane active">
+      <div class="w98">
+        <div class="pt15 display">
+          <div>
+          
+            <div>
+              <select class="select w200" [(ngModel)]="master_course_id" (ngModelChange)="fetchCourseDetails($event)">
+                <option value="-1">Select Master Course*</option>
+                <option value="{{mc.master_course_id}}" *ngFor="let mc of masterCourseData">{{mc.master_course_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div>
+           <a href="" data-toggle="modal" data-target="#courseModal"> <button class="blue_button">Add Master Course</button></a>
+          </div>
+        </div>
+         <div class="pt15 flex">
+           <div class="flex">
+              <div class="master_c">
+                Master Course :
+              </div>
+              <div>
+                <span class="mc_name" style="top: -6px;">11 Science</span><img src="../../../../assets/img1/edit.svg" class="pointer">
+              </div>
+           </div>
+           <div class="flex space_flex">
+             <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+             <div class="std">Standard: 11th</div>
+              <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+           </div>
+         </div>
+          <!-- use image only when page is empty,table body class element will not be present -->
+          <br>
+        <div class="outter_flex">
+          <div class="firstchild">
+            <a routerLink="../add">
+              <div>
+                <span>
+                  <p>+</p>
+                <p>Add Course</p>
+                </span>
+              </div>
+            </a>
+          </div>
+          <div *ngFor="let course of courseData">
+            <div class="display name">
+              <div >{{course.course_name}}</div>
+              <div><a routerLink="../edit"><img src="../../../../assets/img1/edit.svg"></a></div>
+            </div>
+            <div class="name1"></div>
+              <div class="flex">
+                <div class="name2">
+                  Start Date :
+                </div>
+                <div class="value2">
+                  {{course.start_date}}
+                </div>
+              </div>
+              <div class="flex">
+                <div class="name2">
+                  End Date :
+                </div>
+                <div class="value2">
+                  {{course.end_date}}
+                </div>
+              </div>
+              <div class="flex">
+                <div class="name2">
+                  Subjects :
+                </div>
+                <div class="value2">
+                  {{course.subject_list}}
+                </div>
+              </div>
+              <div class="flex">
+                <div class="name2">
+                  Academic Year :
+                </div>
+                <div class="value2">
+                  {{course.academic_year}}
+                </div>
+              </div>
+              <div class="flex">
+                <div class="name2">
+                  Total Students :   
+                </div>
+                <div class="value2 display">
+                  <div>{{course.total_students}}</div> <div class="add_s">Add</div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="courseModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Add Master Course</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+         
+          <div class="pt10">
+            <input type="text" class="wid100 input" name="" placeholder="Master Course*">
+          </div>
+          <div class="pt10">
+            <select class="wid100 select"  >
+              <option>Standard Name*</option>
+            </select>
+          </div>
+         
+           <div class="pt101 display">
+          <div></div>
+          <div>
+           
+          <button class="blue_button mr10">Add</button>
+          <button class="white_button">Back</button>
+        </div>
+        </div>
+        </div>        
+      </div>
+    </div>
+  </div>
