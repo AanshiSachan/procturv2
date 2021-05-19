@@ -91,7 +91,7 @@
       <div  class="w80" >
         <div  class="w96">
           <div class="box">
-             <div class="box_active" [ngClass]="isActiveTab === 'profile' ? 'box_active' : ''" id="profile" (click)="openTab('profile')">Profile</div>
+             <div [ngClass]="isActiveTab === 'profile' ? 'box_active' : ''" id="profile" (click)="openTab('profile')">Profile</div>
              <div id="parent" [ngClass]="isActiveTab == 'parent' ? 'box_active' : ''" (click)="openTab('parent')">Parent</div>
              <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''" (click)="openTab('attendance')">Attendance</div>
              <div id="fees"  [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>

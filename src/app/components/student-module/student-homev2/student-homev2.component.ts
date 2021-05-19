@@ -456,7 +456,7 @@ export class StudentHomev2Component implements OnInit {
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
-    console.log(obj);
+    //console.log(obj);
     this.auth.showLoader();
     this.selectedRow = null;
     this.selectedRowGroup = [];
@@ -473,7 +473,7 @@ export class StudentHomev2Component implements OnInit {
             //  this._commService.contactNoPatternChange(res);
             this.contactNoPatternChange(res);
             this.studentDataSource = res;
-            console.log(this.studentDataSource)
+           // console.log(this.studentDataSource)
           } else {
             let alert = {
               type: "info",
@@ -565,7 +565,7 @@ export class StudentHomev2Component implements OnInit {
   }
 
   downloadStudentIDCard() {
-    console.log(this.selectedUserId);
+    //console.log(this.selectedUserId);
     //let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
     let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
     const url = "/admit-card/download";
@@ -1702,7 +1702,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getRowCount(ev) {
-    console.log(this.selectedRowCount);
+    //console.log(this.selectedRowCount);
     this.selectedRowCount = ev;
   }
 
@@ -2296,7 +2296,7 @@ export class StudentHomev2Component implements OnInit {
     this.widgetService.getMessageList(obj).subscribe(
       (res) => {
         this.auth.hideLoader();
-        console.log("Message List Get All message", res);
+      //  console.log("Message List Get All message", res);
         tempMessageList = res;
         for (let i = 0; i < tempMessageList.length; i++) {
           if (tempMessageList[i].source === "EMAIL") {
@@ -2796,7 +2796,7 @@ export class StudentHomev2Component implements OnInit {
       .quickEditStudent(this.studentAddFormData, this.selectedRow.student_id)
       .subscribe(
         (res: any) => {
-          console.log(res);
+         // console.log(res);
           let alert = {
             type: "success",
             title: "Student Details Updated",
@@ -2853,7 +2853,7 @@ export class StudentHomev2Component implements OnInit {
 
   //get all selected studnet fee installment
   studentFeeInstallment(userType) {
-    console.log("studentFeeInstallment");
+    //console.log("studentFeeInstallment");
     let object = {
       //student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
       student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
@@ -2902,8 +2902,8 @@ export class StudentHomev2Component implements OnInit {
     let url1 = `/api/v1/enquiry/fetchCustomEnquiryComponents/${institute_id}?id=${event}&isSearhable=undefined&student_enq_id=undefined&page=2`;
     this.http.getCertificateData(url).subscribe(
       (res: any) => {
-        console.log("Url", url);
-        console.log("Response", res);
+        //console.log("Url", url);
+//console.log("Response", res);
         this.studentData = res;
         if (this.studentData.dateFrom != null) {
           this.studentData.dateFrom = moment(this.studentData.dateFrom).format(
@@ -2916,23 +2916,23 @@ export class StudentHomev2Component implements OnInit {
           );
         }
         this.http.getCertificateData(url1).subscribe((res: any) => {
-          console.log("Response 2", res);
+          //console.log("Response 2", res);
           for (let i = 0; i < res.length; i++) {
             if (res[i].label === "Certificate Number") {
               this.studentCustomField.certificateNo = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+             // console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Registered Number") {
               this.studentCustomField.registeredNo = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+             // console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Grade") {
               this.studentCustomField.grade = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+            //  console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Course Name") {
               this.studentCustomField.courseName = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+            //  console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Academic Year") {
               this.studentCustomField.academicYear = res[i].enq_custom_value;
@@ -2956,7 +2956,7 @@ export class StudentHomev2Component implements OnInit {
       document.getElementById("dvContainer_one").className =
         "certificate-outer-container";
       const doc = new jsPDF("l", "in", "a4");
-      console.log(doc);
+     // console.log(doc);
       doc.internal.scaleFactor = 1;
       doc.addHTML(this.content.nativeElement, function () {
         doc.save("certificate.pdf");
@@ -2967,18 +2967,18 @@ export class StudentHomev2Component implements OnInit {
         document.getElementById("dvContainer_two").className =
           "cert-outer-container";
         const doc = new jsPDF("l", "in", "a4");
-        console.log(doc);
+        //console.log(doc);
         doc.internal.scaleFactor = 1;
         doc.addHTML($("#dvContainer_two"), function () {
           doc.save("certificate.pdf");
         });
         document.getElementById("dvContainer_two").className = "hide";
       } else if (institute_id == "101238") {
-        console.log("Growth");
+       // console.log("Growth");
         document.getElementById("dvContainer_three").className =
           "cert-outer-container";
         const doc = new jsPDF("l", "in", "a4");
-        console.log(doc);
+        //console.log(doc);
         doc.internal.scaleFactor = 1;
 
         doc.addHTML($("#dvContainer_three"), function () {
@@ -2988,7 +2988,7 @@ export class StudentHomev2Component implements OnInit {
       } else {
         document.getElementById("dvContainer").className = "outer-container";
         const doc = new jsPDF("l", "in", "a4");
-        console.log(doc);
+       // console.log(doc);
         doc.internal.scaleFactor = 1;
 
         doc.addHTML($("#dvContainer"), function () {
@@ -3005,7 +3005,7 @@ export class StudentHomev2Component implements OnInit {
     if (data && data.length > 0) {
       this.countryList = data;
     }
-    console.log(this.countryList);
+   // console.log(this.countryList);
   }
 
   getStateList() {
@@ -3154,7 +3154,7 @@ export class StudentHomev2Component implements OnInit {
     }
     let messageSelected: any = this.getNotificationMessage();
     this.previewedMessage = messageSelected.message;
-    console.log("messageSelected", messageSelected.message);
+   // console.log("messageSelected", messageSelected.message);
     this.previewBox = true;
 
     if (messageSelected === false) {
@@ -3258,7 +3258,7 @@ getSelectedRows() {
  this.rowIdArr=this.rowSelectedId;
  this.rowUserId=this.selectedUserId;
  this.selectedRowGroup= this.rowSelectedId;
- console.log(this.selectedRowGroup);
+ //console.log(this.selectedRowGroup);
 
 }
 openAssign(){

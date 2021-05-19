@@ -13,10 +13,10 @@ export class ViewReportCardV2Component implements OnInit {
   }
   //For tab active
   isActiveTab ='profile';
-  isActiveClass ='A';
+ 
 openTab(param){ 
   this.isActiveTab =param;
-  this.isActiveClass ='B';
+  
 
 }
 
