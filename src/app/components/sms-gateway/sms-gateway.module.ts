@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SmsGatewayRoutingModule } from './sms-gateway-routing.module';
 import { SmsConfigurationComponent } from './sms-configuration/sms-configuration.component';
 import { SmsGatewayComponent } from './sms-gateway.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,8 +14,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     SmsGatewayRoutingModule,
-    FormsModule
-    
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SmsGatewayModule { }

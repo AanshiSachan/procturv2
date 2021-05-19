@@ -1,3 +1,4 @@
+
 <div class="main_div">
   <div>
     <div class="settings">
@@ -11,6 +12,7 @@
   
     </ul>
   </div>
+
   <div>
     <div class="flex1">
       <div>
@@ -30,10 +32,11 @@
       <div>
         <input type="text" id="gateway_name" disabled name="gateway_name"[(ngModel)]=" smsGatewatModel.gateway_name" placeholder="Enter Gateway Name">
       </div>
-    </div>       
-        <div class="flex111">
+    </div>    
+
+        <div class="flex111" >
           <div class="w25">
-          <label for="userName">Username<span class="danger">*</span></label>
+          <label for="transaction_username" >Username<span class="danger">*</span></label>
           </div>
       
           <div class="w25">
@@ -42,14 +45,22 @@
 
         <div class="w25" >
           <label for="password" class="right">Password <span class="danger">*</span></label>
+          <div class="w25" >
+          <input type="text" autocomplete="nope"  id="transaction_username" name="transaction_username"  [(ngModel)]="smsGatewatModel.transaction_username" placeholder="user name.." >
+        </div>
+
+        <div class="w25">
+          <label for="transaction_password">Password <span class="danger">*</span></label>
        
         </div>
+        
        <div class="w25">  
         <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password" placeholder="Enter Password">
+        <input type="password" autocomplete="new-password" id="transaction_password" name="transaction_password" [(ngModel)]="smsGatewatModel.transaction_password"  placeholder="password.." >
         </div>
 
       </div>
-      
+
         <div class="flex11">
           <div>
             <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
@@ -75,7 +86,7 @@
                   <span class="checkbox__input">
                     
   
-                    <input type="checkbox" disabled name="checked" [(ngModel)]="smsGatewatModel.is_active" >
+                    <input type="checkbox"  name="is_active" [(ngModel)]="smsGatewatModel.is_active" >
                     <span class="checkbox__control">
                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                         <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -88,7 +99,7 @@
                 </div>
                 <div><label for="ative" style="margin-left:-10px;">Is&nbsp;Active</label></div>
               </div>
-                
+            </form>
               <div>
                 <div class="col-25">
                   <label for="smsId" class="top22">Important note</label>
@@ -116,7 +127,6 @@
               
   
              
-  
 
               </div>
   <!-- </div> -->
@@ -135,5 +145,7 @@
   
      
     </div>  
+    
   </div>
+  
 </div>

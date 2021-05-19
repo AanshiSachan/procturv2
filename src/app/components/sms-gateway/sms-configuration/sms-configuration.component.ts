@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthenticatorService } from './../../../services/authenticator.service';
 import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
+import CommonUtils from './../../../utils/commonUtils'
+import { AppComponent } from './../../../app.component';
+import { NgForm } from '@angular/forms';
+
+
 
 
 @Component({
@@ -10,6 +15,9 @@ import { MessageShowService } from '../../../services/message-show.service';
   styleUrls: ['./sms-configuration.component.scss']
 })
 export class SmsConfigurationComponent implements OnInit {
+  // @ViewChild('form', { static: false }) semail: any;
+  @ViewChild('form', { static: false }) semail: NgForm;
+
   
 jsonFlag={
   institute_id:''
@@ -22,29 +30,20 @@ smsGatewatModel={
   promotional_password:'',
   sender_id:'',
   brand_name:'',
-  is_active:'Y',
+  is_active:true,
   gateway_id:''
 }
 iscreated:boolean=false
 allSMSData:any=[];
 
 constructor(private auth:AuthenticatorService,
-  private _http: HttpService,private msgService: MessageShowService) { 
+  private _http: HttpService,private msgService: MessageShowService,
+  private toastCtrl: AppComponent) { 
 this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
 
   }
   ngOnInit(): void {
-    // if(this.allSMSData.length){
-    //   this.iscreated = true
-    //   alert(this.iscreated)
-    //   console.log("is value",this.allSMSData.length)
 
-    // }else {
-    //   this.iscreated = false
-    //   console.log("no value",this.allSMSData.length)
-
-
-    // }
 this.getAllSmsData();
 
   }
@@ -54,22 +53,16 @@ this.getAllSmsData();
      this._http.getData(url).subscribe(
       (res:any)=>{
         this.allSMSData = res.result;
-       
+        console.log(this.allSMSData);
         for(let i =0; i<this.allSMSData.length;i++){
-         this.smsGatewatModel.gateway_id= this.allSMSData[i].gateway_id
-        
+          this.smsGatewatModel = this.allSMSData[i];
+          this.smsGatewatModel.is_active = (this.allSMSData[i].is_active == 'Y') ? true : false; 
         }
+         this.iscreated = false;
         if(this.allSMSData.length){
-          this.iscreated = true
-        }else  {
-          this.iscreated = false
-          
+          this.iscreated = true;
         }
-        console.log("SMS DDDDDDDD",this.allSMSData.length)
-        console.log("SMS DDDDDDDD",this.allSMSData)
-
-
-        this.auth.hideLoader();
+          this.auth.hideLoader();
       }
     )
   
@@ -85,7 +78,7 @@ this.getAllSmsData();
       promotional_password : this.smsGatewatModel.transaction_password,
       sender_id : this.smsGatewatModel.sender_id,
       brand_name : this.smsGatewatModel.brand_name,
-      is_active : this.smsGatewatModel.is_active
+      is_active : (this.smsGatewatModel.is_active == true) ? 'Y' :'N'
     }
     this.iscreated = true
 
@@ -94,37 +87,24 @@ this.getAllSmsData();
   this._http.postData(url,obj).subscribe(
    (res : any) =>{
      this.auth.hideLoader();
+     this.getAllSmsData();
     this.msgService.showErrorMessage('success', '', "SMS Created successfully");
-    this.clearFun()
+    this.clearFun();
 
   },
   err => {
     this.auth.hideLoader();
+
     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
+
   }
   
   )
   }
    }
-  deleteSmsGateway(){
-    this.auth.showLoader();
-    const url = `/api/v1/institutes/sms-gateway/delete/${this.jsonFlag.institute_id}/${this.smsGatewatModel.sender_id}`
-    this._http.deleteDataById(url).subscribe(
-      (res : any) =>{
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage('success','','SMS Deleted Successfully')
-    
-      },
-      err=>{
-        this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-  
-      }
-    
-    ) 
-  }
+ 
   updateSMSgateway(){
-    if(this.iscreated){
+    if(this.iscreated && this.validationInputs()){
       
     let obj ={
       institute_id : this.jsonFlag.institute_id,
@@ -135,7 +115,7 @@ this.getAllSmsData();
       promotional_password : this.smsGatewatModel.transaction_password,
       sender_id : this.smsGatewatModel.sender_id,
       brand_name : this.smsGatewatModel.brand_name,
-      is_active : this.smsGatewatModel.is_active
+      is_active : (this.smsGatewatModel.is_active == true) ? 'Y' :'N'
   
     }
 
@@ -147,9 +127,12 @@ this.getAllSmsData();
         this.clearFun()
 
         this.msgService.showErrorMessage('success','','SMS Updated successfully');
+        this.getAllSmsData()
+
       },
       err=>{
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message)
+        this.auth.hideLoader();
       }
       
     )
@@ -157,49 +140,51 @@ this.getAllSmsData();
 }
 
   validationInputs(){
-    if (this.smsGatewatModel.gateway_name.trim() == '') {
-  
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please Enter UserName!');
-      return;
-    }
-    if(this.smsGatewatModel.transaction_password.trim() == ''){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'','Please Enter Password!');
+    if(this.smsGatewatModel.transaction_username.trim() ==""){
+     this.msgService.showErrorMessage(this.msgService.toastTypes.error,'','Please enter username!')           
   return;
-      
     }
-    if(this.smsGatewatModel.sender_id.trim() == ''){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'','Please Enter Sender id!');
-  return;
-      }if(this.smsGatewatModel.brand_name.trim() == ''){
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error,'','Please Enter brand name!');
-        return;
+
+    if(CommonUtils.isEmpty(this.smsGatewatModel.transaction_password)){
+      let data ={
+        type:"error",
+        title:"",
+        body:"Please enter password"
+        
+      }
+      this.toastCtrl.popToast(data)
+  return false;
+      }
+       
+    if(CommonUtils.isEmpty(this.smsGatewatModel.sender_id)){
+      let data ={
+        type:"error",
+        title:"",
+        body:"Please enter sender id"
+        
+      }
+      this.toastCtrl.popToast(data)
+  return false;
+      }
+     
+      if (CommonUtils.isEmpty(this.smsGatewatModel.brand_name)) {
+        let data = {
+          type: "error",
+          title: "",
+          body: "Please enter brand name!"
+        }
+        this.toastCtrl.popToast(data);
+        return false;
       }
       return true;
     }
   
    clearFun(){
-      // this.smsGatewatModel.gateway_name= "",
-      this.smsGatewatModel.transaction_password = ""
-      this.smsGatewatModel.transaction_username =""
-      this.smsGatewatModel.brand_name= ""
-      this.smsGatewatModel.sender_id =""
-      
-    }
-  
-   trueFlag(){
-    // if(this.allSMSData.length == 0){
-    //   this.iscreated = true
-    //   alert(this.iscreated)
-    //   console.log("no value",this.allSMSData.length)
-
-    //   console.log("no value")
-    // }else if(this.allSMSData.length != 0){
-    //   this.iscreated = false
-    //   console.log("no value",this.allSMSData.length)
-
-    //   console.log("is value")
-
-    // }
-   }
+      this.smsGatewatModel.gateway_name= "",
+      this.smsGatewatModel.transaction_password = "";
+      this.smsGatewatModel.transaction_username ="";
+      this.smsGatewatModel.brand_name= "";
+      this.smsGatewatModel.sender_id ="";  
+    }   
 }
 
