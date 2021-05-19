@@ -255,6 +255,10 @@ text-align: center;
 .table_heading>div:nth-child(2) {
 padding-left: 0.2vw;
 }
+.table_heading>div:last-child{
+ text-align: left;
+ padding-left: 20px;
+}
 .table_row{
    background: #fff;
   display: flex;
@@ -277,7 +281,7 @@ line-height: 30px;
   color: #6B5D5D;
 }
 .overflows{
-  overflow-y: scroll;
+  overflow-y: auto;
 height: 64vh;
 }
 /* width */
@@ -426,7 +430,7 @@ color: #334D6E;
 .modal{
   z-index: 9999999999;
 }
-.modal-dialog-slideout {height: 100%; margin: 0 0 0 auto;background: #fff;}
+.modal-dialog-slideout {height: 100%; margin: auto 0 auto auto;background: #fff;}
 .modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(100%,0)scale(1);transform: translate(100%,0)scale(1);}
 .modal.fade.show .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(0,0);transform: translate(0,0);display: flex;align-items: stretch;-webkit-box-align: stretch;height: 100%;}
 .modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body{overflow-y: auto;overflow-x: hidden;}
@@ -801,4 +805,7 @@ transform: scale(1);
   .date1 input{
     width:270px !important;
   }
-  
+  .center1{
+ display: flex;
+ justify-content: center;
+  }

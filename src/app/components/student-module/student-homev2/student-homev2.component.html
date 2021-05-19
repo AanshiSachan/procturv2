@@ -632,19 +632,20 @@
          <div *ngIf="!isProfessional">{{data.student_class}}</div>
          <div *ngIf="isProfessional">{{data.student_class}}</div>
          <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
-       <div>
+       <div class="center1">
         <a  [routerLink]="['reportcard', data.student_id]"><img src="/assets/img2/visit.svg" class="pl-10"></a>
         <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
         <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
       </div>
      </div>
+     <section class="no-data" *ngIf="studentDataSource.length == 0">
+        <div class="illustration-container">
+          <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+        </div>
+      </section>
     </div>
    </div>
-   <section class="no-data" *ngIf="studentDataSource.length == 0">
-    <div class="illustration-container">
-      <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
-    </div>
-  </section>
+
    <div id="paginator" class="row filter-res pagination" style="width: 100%;">
     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
