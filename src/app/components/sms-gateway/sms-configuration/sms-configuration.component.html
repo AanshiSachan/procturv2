@@ -8,7 +8,7 @@
       </span>
     </div>
     <ul class="menu">
-      <li class="selected"><a>SMS Configuration</a></li>
+      <li class="selected"><a>SMS Settings</a></li>
   
     </ul>
   </div>
@@ -16,15 +16,15 @@
   <div>
     <div class="flex1">
       <div>
-        <span class="ellipse">G</span><span class="blue_line"></span>
+        <span class="ellipse">S</span><span class="blue_line"></span>
       </div>
       <div>
         <p class="blue_settings">
-          SMS Configuration
+          SMS Settings
         </p>
       </div>
-    </div>
-    <br>
+    </div><br>
+    <form id="form1" #semail="ngForm" autocomplete="off">
     <div class="flex11">
       <div>
         <label for="gatewayName">Gateway Name<span class="danger">*</span></label>
@@ -39,24 +39,17 @@
           <label for="transaction_username" >Username<span class="danger">*</span></label>
           </div>
       
-          <div class="w25">
-          <input type="text" id="userName" name="transaction_username" [(ngModel)]=" smsGatewatModel.transaction_username" placeholder="Enter Username">
-        </div>
-
-        <div class="w25" >
-          <label for="password" class="right">Password <span class="danger">*</span></label>
           <div class="w25" >
-          <input type="text" autocomplete="nope"  id="transaction_username" name="transaction_username"  [(ngModel)]="smsGatewatModel.transaction_username" placeholder="user name.." >
+          <input type="text" autocomplete="nope"  id="transaction_username" name="transaction_username"  [(ngModel)]="smsGatewatModel.transaction_username" placeholder="Enter Username" >
         </div>
 
         <div class="w25">
-          <label for="transaction_password">Password <span class="danger">*</span></label>
+          <label for="transaction_password" class="right">Password <span class="danger">*</span></label>
        
         </div>
         
        <div class="w25">  
-        <input type="password" id="lname" name="transaction_password" [(ngModel)]=" smsGatewatModel.transaction_password" placeholder="Enter Password">
-        <input type="password" autocomplete="new-password" id="transaction_password" name="transaction_password" [(ngModel)]="smsGatewatModel.transaction_password"  placeholder="password.." >
+        <input type="password" autocomplete="new-password" id="transaction_password" name="transaction_password" [(ngModel)]="smsGatewatModel.transaction_password"  placeholder="Enter Password" >
         </div>
 
       </div>
@@ -66,7 +59,7 @@
             <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
           </div>
           <div class="w25" style="width: 25%;">
-            <input type="text" id="smsId" name="sender_id" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Sender ID">
+            <input type="text" id="smsId" name="sender_id" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Enter Sender ID">
           </div>
           </div>
           <div class="flex11">
@@ -81,7 +74,7 @@
               <div class="flex111">
                 <div></div>
               <div >
-                <label class="checkbox" style="margin-left:2px;"> 
+                <label class="checkbox" > 
   
                   <span class="checkbox__input">
                     
@@ -100,9 +93,10 @@
                 <div><label for="ative" style="margin-left:-10px;">Is&nbsp;Active</label></div>
               </div>
             </form>
+            <div class="line"></div>
               <div>
                 <div class="col-25">
-                  <label for="smsId" class="top22">Important note</label>
+                  <label for="smsId" class="position">Important note</label>
                 </div>
                 <div class="col-75">
                  <p class="para"> If is active checkbox <mark class="mrk">Disable</mark> then SMS will be deliver from PROCTUR sender id and with same brand name.</p>&nbsp;
@@ -113,12 +107,12 @@
   
               <div >              
                 <div class="space">
-                  <p for="dlt" style="margin-bottom: 20px;"><mark class="mrk1">Dlt process steps</mark></p>
+                  <p for="dlt"><mark class="mrk1">Dlt process steps</mark></p> 
                  <p class="para">As per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be registered with DTL platform. We have been observing that some of our clients are not able to send SMS. To facilitate extended service to Proctur’s clients, We have come up with option 1 as an extended process.
                   <p class="para"><b>Option 1</b> -For immediate sending SMS, clients can use Sender Id as “PRCTUR”, but in this case brand name will be Proctur, for each SMS.</p>
                   <p class="para">• The option 1 is valid for a limited period only till your SMS Content Templates separately approved from DLT.
                     <p class="para"> • This is New process introduced by TRAI. We are also making efforts to smoothen the process from Proctur end .</p>
-                      <p class="para"><b>Option 2- </b>Institute who are looking for SMS delivery with their own brand name. Please download the document. <a href="https://bit.ly/2RjEcUs" class="link">https://bit.ly/2RjEcUs</a> and follow the process.</p>
+                      <p class="para"><b>Option 2- </b>Institute who are looking for SMS delivery with their own brand name. Please download the document. <a class="link" href="https://bit.ly/2RjEcUs">https://bit.ly/2RjEcUs</a> and follow the process.</p>
 
   
                 </div>
