@@ -85,7 +85,7 @@ export class SaleAddComponent implements OnInit {
       let obj:any={
         page_no:0,
         user_Type:"1",
-        page_offset:"0",
+        page_offset:0,
         master_course_name:"",
         course_id:0
       }
