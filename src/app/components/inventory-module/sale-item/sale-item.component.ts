@@ -115,7 +115,7 @@ export class SaleItemComponent implements OnInit {
     $('#addpayModal').modal('show');
   }
   addPayment() {
-    document.getElementById('action_btn').style.display="none";
+   // document.getElementById('action_btn').style.display="none";
     //this.router.navigate(['/view/inventory-management/purchase-item']);
     if (this.addform.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
