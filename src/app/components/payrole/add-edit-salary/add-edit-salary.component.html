@@ -145,9 +145,15 @@
             </div>
         </div>
 
-        <div>
+        <div *ngIf="!isEdit">
             <input class="blue_button pull-right" type="button" id="addSalaryTemplate" (click)="createSalary()" value="Add Salary Template">
         </div>
+        <div *ngIf="isEdit">
+            <h2>update</h2>
+            <input class="blue_button pull-right" type="button" id="updateSalaryTemplate" (click)="updateSalary()" value="Update Salary Template">
+        </div>
+
+
 
     </div>
 </form>

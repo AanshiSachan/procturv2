@@ -52,17 +52,17 @@ form-horizontal .control-label {
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
-// .box-header .box-title {
-//     display: inline-block;
-//     padding: 15px;
-//     margin: 0;
-//     font-size: 14px;
-//     font-weight: 400;
-//     float: left;
-//     cursor: default;
-//     color: #FFFFFF;
-//     font-family: "OpenSans Regular";
-// }
+.box-header .box-title {
+    display: inline-block;
+    padding: 15px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    float: left;
+    cursor: default;
+    color: #FFFFFF;
+    font-family: "OpenSans Regular";
+}
 .box-title {
     display: inline-block;
     padding: 15px;
@@ -113,4 +113,33 @@ table>tbody>tr>td, .table>tfoot>tr>td {
 
 .input[type="text"][disabled] {
      //background: transparent !important; 
+}
+.row {
+    margin-left: -15px;
+    margin-right: 0px;
+}
+.box .box-header {
+    position: relative;
+    background-color: #23292F;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom: 0px solid #f4f4f4;
+    color: #444;
+}
+box .box-body {
+    padding: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }

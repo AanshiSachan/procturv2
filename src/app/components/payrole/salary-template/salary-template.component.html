@@ -17,7 +17,7 @@
     <div class="w98">
         <div class="pt15">
             <label for="serach">Search:&nbsp;</label>
-          <input type="text" class="input wid240 mr10" name="" placeholder="search">
+          <input type="text" class="input wid240 mr10" [(ngModel)]="searchInput" (keyup)="searchFun(search)" name="" placeholder="search" #search>
             <button class="blue_button" (click)="addSalaryPage()">Add Salary Template</button>
         </div>
         <div class="leave_cat">
@@ -49,7 +49,6 @@
          </div>
     </div>
         
-          <!-- use image only when page is empty,table body class element will not be present -->
     
    
 
@@ -81,3 +80,4 @@
       </div>
     </div>
   </div> 
+  <div *ngIf="salrayDataList.length == '0'">No Record Found</div>

@@ -23,8 +23,11 @@ varJson:any={
   pageSize:5,
   pageOffset:1,
 }
-template_id:any
+template_id:any;
+searchInput:any;
 salrayDataList:any=[]
+tempList:any=[]
+
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
@@ -35,7 +38,7 @@ salrayDataList:any=[]
     }
 
   ngOnInit(): void {
-    this.getAllSalaryData()
+   // this.getAllSalaryData()
     this.fetchTableDataByPage(1)
   }
 
@@ -67,8 +70,10 @@ this.auth.showLoader();
 let url = '/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/all'+'?ageOffset='+this.varJson.pageOffset+'&pageSize='+this.varJson.pageSize
 this.http.getData(url).subscribe(
   (res :any)=>{
-this.salrayDataList=res.result
- this.varJson.total_item =res.result.totalElements
+this.salrayDataList=res.result.response;
+ this.varJson.total_item =res.result.totalElements;
+this.tempList = res.result.response;
+ console.log("page",res.result)
 this.auth.hideLoader();
 for(let i=0; i<this.salrayDataList.length;i++){
   this.template_id = this.salrayDataList[i].template_id
@@ -108,8 +113,25 @@ deletSalary(){
   }
 onClickEdit(id){
   this.router.navigateByUrl('/view/payrole/edit-salary/' +id);
-  console.log("idddddd",id)
 }
+
+searchFun(){
+ this.salrayDataList=this.tempList 
+        if(this.searchInput == undefined || this.searchInput == null){
+          this.searchInput ="";
+
+        }else{
+          let searchData = this.salrayDataList.filter(item=>Object.keys(item).some(k=>item[k]!=null && item[k].toString().toLowerCase().includes
+          (this.searchInput.toLowerCase())));
+          this.salrayDataList = searchData
+        }
+
+
+}
+
+
+
+
 downloadPdf(){
   for(let i=0; i<this.salrayDataList.length;i++){
     this.salrayDataList[i].template_id = i+1

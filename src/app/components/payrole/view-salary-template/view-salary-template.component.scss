@@ -10,6 +10,20 @@
     font-family: "OpenSans Regular";
 }
 .row {
-    margin-right: -15px;
-    margin-left: -15px;
+    margin-right: -2px;
+    margin-left: 0px;
+}
+.info-box span {
+    width: 50%;
+    display: inline-block;
+}
+.box {
+    position: relative;
+    background: #ffffff;
+    margin-bottom: 20px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 100%;
+    // box-shadow: 0px 1px 3px rgb(0 0 0 / 10%);
 }
