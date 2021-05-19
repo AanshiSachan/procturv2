@@ -36,33 +36,32 @@
 
         <div class="flex111" >
           <div class="w25">
-          <label for="transaction_username" >Username<span class="danger">*</span></label>
+               <label for="transaction_username" >Username<span class="danger">*</span></label>
           </div>
       
           <div class="w25" >
-          <input type="text" autocomplete="nope"  id="transaction_username" name="transaction_username"  [(ngModel)]="smsGatewatModel.transaction_username" placeholder="Enter Username" >
-        </div>
+             <input type="text" autocomplete="nope"  id="transaction_username" name="transaction_username"  [(ngModel)]="smsGatewatModel.transaction_username" placeholder="Enter Username" >
+          </div>
 
-        <div class="w25">
-          <label for="transaction_password" class="right">Password <span class="danger">*</span></label>
-       
-        </div>
+          <div class="w25">
+            <label for="transaction_password" class="right">Password <span class="danger">*</span></label>
         
-       <div class="w25">  
-        <input type="password" autocomplete="new-password" id="transaction_password" name="transaction_password" [(ngModel)]="smsGatewatModel.transaction_password"  placeholder="Enter Password" >
-        </div>
+          </div>
+          
+          <div class="w25">  
+            <input type="password" autocomplete="new-password" id="transaction_password" name="transaction_password" [(ngModel)]="smsGatewatModel.transaction_password"  placeholder="Enter Password" >
+          </div>
 
-      </div>
+        </div>
 
         <div class="flex11">
           <div>
             <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
           </div>
-          <div class="w25">
-            <input type="text" id="smsId" name="sender_id" maxlength="6" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Sender id..">
-          <div class="w25" style="width: 25%;">
-            <input type="text" id="smsId" name="sender_id" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Enter Sender ID">
-          </div>
+         
+            <div class="w25" style="width: 25%;">
+              <input type="text" id="smsId" name="sender_id" maxlength="6" [(ngModel)]=" smsGatewatModel.sender_id" placeholder="Enter Sender ID">
+            </div>
           </div>
           <div class="flex11">
               <div >
