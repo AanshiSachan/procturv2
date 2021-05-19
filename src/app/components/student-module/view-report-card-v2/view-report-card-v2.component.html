@@ -290,16 +290,32 @@
            <div id="attendance_tab" *ngIf="isActiveTab =='attendance'" >
             <!-- Attendance -->
              <div class="row radio_div no-gutters">
-             <div class="col-lg-6">
-               <label class="radio_label">
-                <input type="radio"  name="date" value="current" onchange="checkRadio(this)">Current Month
+             <div class="col-lg-6 flex">
+               
+              <div class="field-radio-wrapper">
+                <input type="radio"  class="form-radio" name="date" value="current" onchange="checkRadio(this)">
+                <label class="radio_label">
+                  Current Month
+                </label> 
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio"  class="form-radio" name="date" value="current" onchange="checkRadio(this)">
+                <label class="radio_label">
+                  Till Date
+                </label> 
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio"  class="form-radio" name="date" value="current" onchange="checkRadio(this)">
+                <label class="radio_label">
+                  Date Range
+                </label> 
+              </div>
+              <!-- <label class="radio_label">
+                <input type="radio"  name="date" value="till_date" onchange="checkRadio(this)">
               </label>
               <label class="radio_label">
-                <input type="radio"  name="date" value="till_date" onchange="checkRadio(this)">Till Date
-              </label>
-              <label class="radio_label">
-                <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">Date Range
-              </label>
+                <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
+              </label> -->
              </div>
              <div class="col-lg-6 mt-20">
                <span class="right selectt" id="range1">
