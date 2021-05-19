@@ -9,6 +9,7 @@
       width: 100%;
       padding: 7px;
       resize: vertical;
+    
       border: 0.5px solid #5A5A5A;
       box-sizing: border-box;
       border-radius: 5px;
@@ -27,10 +28,10 @@
 
       letter-spacing: 0.01em;
 
-      color: #334D6E;
+      color: #8E939A;
     }
     label {
-      padding: 13px 18px 15px 0;
+      padding: 0px 18px 30px 0;
       display: inline-block;
       font-weight: bold;
       font-size: 13px;
@@ -84,14 +85,14 @@
       display: table;
       clear: both;
     }
-    input[type=password], select, textarea {
-      width: 100%;
-      padding: 7px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      resize: vertical;
-      border-color: black;
-    }
+    // input[type=password], select, textarea {
+    //   width: 100%;
+    //   padding: 7px;
+    //   border: 1px solid #ccc;
+    //   border-radius: 4px;
+    //   resize: vertical;
+    //   border-color: black;
+    // }
     
     /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
     @media screen and (max-width: 600px) {
@@ -264,7 +265,7 @@ line-height: 15px;
 /* or 115% */
 
 letter-spacing: 0.01em;                                              
-
+margin-bottom: 0px;
 color: #334D6E;
 }
 // ==============rough===============
@@ -278,6 +279,7 @@ color: #334D6E;
       font-size: 2rem;
       color: var(--color);
       margin-right: -5px;
+      margin-left:0px;
   }
   .checkbox__input input {
       opacity: 0;
@@ -375,7 +377,7 @@ color: #0097F9;
 }
 .position{
   position: relative;
-  top: -7px;
+  top: -5px;
 }
 .blue_settings{
   font-weight: 600;
@@ -470,8 +472,10 @@ color: #334D6E;
 }
 .space{
   margin-left: 65px;
-  margin-top: 120px;
+  margin-top: 100px;
+  
 }
+
 .white1{
   position: fixed;
   bottom: 0px;
@@ -481,4 +485,24 @@ color: #334D6E;
   border-top:1px solid #EAEAEA;
 box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
 
+}
+.top22{
+  position: relative;
+  top: -20px;
+}
+.right{
+  float: right;
+}
+.link{
+color: #109CF1;
+}
+.link{
+  color: #109CF1;
+}
+.line{
+  border-bottom: 1px solid  rgba(29, 29, 29, 0.5);
+  margin-bottom: 30px;
+}
+.space1{
+  margin-bottom: 20px;
 }
