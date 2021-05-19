@@ -126,11 +126,12 @@
       </div>
       <!--pagination for item-->
    </div>
+   <pagination (goPage)="fetchTableDataByPageforItem($event)" (goNext)="fetchNextItem()" (goPrev)="fetchPreviousItem()"
+   [pagesToShow]="10" [page]="pageIndexforItem" [perPage]="displayBatchSize" [count]="totalItemRow" [sizeArr]="sizeArr"
+   (sizeChange)="updateTableBatchSize($event)">
+ </pagination>
   </div>
-  <pagination (goPage)="fetchTableDataByPageforItem($event)" (goNext)="fetchNextItem()" (goPrev)="fetchPreviousItem()"
-  [pagesToShow]="10" [page]="pageIndexforItem" [perPage]="displayBatchSize" [count]="totalItemRow" [sizeArr]="sizeArr"
-  (sizeChange)="updateTableBatchSize($event)">
-</pagination>
+
      
           <!-- use image only when page is empty,table body class element will not be present -->
 
