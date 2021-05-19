@@ -91,15 +91,15 @@
       <div  class="w80" >
         <div  class="w96">
           <div class="box">
-             <div class="box_active" id="profile" (click)="openTab('profile')">Profile</div>
-             <div id="parent" (click)="openTab('parent')">Parent</div>
-             <div id="attendance" (click)="openTab('attendance')">Attendance</div>
-             <div id="fees" (click)="openTab('fees')">Fees </div>
-             <div id="documents" (click)="openTab('documents')">Documents</div>
-             <div id="inventory" (click)="openTab('inventory')">Inventory</div>
-             <div id="ptm" (click)="openTab('ptm')">PTM</div>
-             <div id="biometric" (click)="openTab('biometric')">Biometric</div>
-             <div id="exam" (click)="openTab('exam')">Exam</div>
+             <div class="box_active" [ngClass]="isActiveTab === 'profile' ? 'box_active' : ''" id="profile" (click)="openTab('profile')">Profile</div>
+             <div id="parent" [ngClass]="isActiveTab == 'parent' ? 'box_active' : ''" (click)="openTab('parent')">Parent</div>
+             <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''" (click)="openTab('attendance')">Attendance</div>
+             <div id="fees"  [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
+             <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Documents</div>
+             <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div>
+             <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
+             <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>
+             <div id="exam" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
         </div>
            <div id="profile_tab" *ngIf="isActiveTab =='profile'">
             <!-- Profile -->

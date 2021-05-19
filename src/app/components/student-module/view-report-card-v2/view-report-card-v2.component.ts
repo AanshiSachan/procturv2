@@ -11,10 +11,13 @@ export class ViewReportCardV2Component implements OnInit {
 
   ngOnInit(): void {
   }
-  a=1;
+  //For tab active
   isActiveTab ='profile';
+  isActiveClass ='A';
 openTab(param){ 
-  alert(param)
   this.isActiveTab =param;
+  this.isActiveClass ='B';
+
 }
+
 }
