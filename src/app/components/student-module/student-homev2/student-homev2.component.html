@@ -344,10 +344,11 @@
                     <select id="course" name="course"
                     [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
                     [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
-                        <option value="-1">Select Course</option>
-                        <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
-                         {{subject.subject_name}}
-                     </option>
+                    <option value="-1">Select Course</option>
+                    <option [value]="course.course_id" title="{{course.course_name}}"
+                        *ngFor="let course of subCourseList">
+                        {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
+                    </option>
                       </select>
                  </div>
                  <div>
