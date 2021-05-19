@@ -8,6 +8,7 @@ import {AuthPageRoutingModule} from './auth-page-routing.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginPageComponent } from './login-page/login-page.component';
 import { SharedModule } from '../shared/shared.module';
+import { NotConfiguredComponent } from './not-configured/not-configured.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
       ],
     declarations: [
         AuthPageComponent,
-        LoginPageComponent
+        LoginPageComponent,
+        NotConfiguredComponent
     ],
     entryComponents: [
       ],

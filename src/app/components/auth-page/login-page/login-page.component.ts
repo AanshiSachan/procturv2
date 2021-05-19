@@ -221,6 +221,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             this.titleService.setTitle(res[0].title + " Login");
             sessionStorage.setItem('institute_title_web', res[0].title + " Login");
           }
+        } else {
+          this.route.navigate(['/authPage/not-configured']);
         }
       },
       err => {
