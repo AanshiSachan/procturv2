@@ -33,6 +33,7 @@ export class ViewSalaryTemplateComponent implements OnInit {
 
   template_id:any
   salrayDataList:any=[]
+  template_allowances_map_dtos:any=[]
   constructor( private http: HttpService, 
     private auth :AuthenticatorService,
     private msgToast :MessageShowService,) { 
@@ -52,9 +53,10 @@ getsalaryById(){
   this.salrayDataList=res.result
   this.auth.hideLoader();
     this.salaryModel=res.result
+    this.template_allowances_map_dtos = res.result.template_allowances_map_dtos
     console.log("data",this.salaryModel)
   
-  console.log("salary viewwwwww",this.salaryModel)
+  console.log("salary viewwwwww",this.template_allowances_map_dtos)
   
     },
     err => {

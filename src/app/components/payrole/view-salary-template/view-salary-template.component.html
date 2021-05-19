@@ -35,10 +35,10 @@
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-sm-12" id="allowances">
-                    <div class="info-box">
-                     <p><span>House Rent</span>
-                        </p>
+                <div class="col-sm-12" id="allowances" *ngFor="let i of template_allowances_map_dtos">
+                    <div class="info-box" >
+                     <p><span>{{i.allowance}}</span>
+                       {{i.allowance_amount}} </p>
                     </div>
                 </div>
             </div>
@@ -54,10 +54,11 @@
         <!-- form start -->
         <div class="box-body">
             <div class="row">
-                <div class="col-sm-12" id="deductions">
-                    <div class="info-box">
-                 <p> <span>Provident Fund</span>
-                    </p>
+                <div class="col-sm-12" id="deductions" *ngFor="let a of template_allowances_map_dtos">
+                    <div class="info-box" >
+                 <p> <span>{{a.deduction}}</span>
+                     {{a.deduction_amount}}</p>
+                   
                  </div>
                 </div>
             </div>

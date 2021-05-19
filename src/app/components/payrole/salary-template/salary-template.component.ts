@@ -168,4 +168,9 @@ downloaExcel(){
   this.excel.exportAsExcelFile(temp,'Salary_template')
 
 }
+
+
+
+
+
 }

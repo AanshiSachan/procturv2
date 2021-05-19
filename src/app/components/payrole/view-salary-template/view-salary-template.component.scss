@@ -27,3 +27,8 @@
     width: 100%;
     // box-shadow: 0px 1px 3px rgb(0 0 0 / 10%);
 }
+.table-bordered > tbody > tr > td {
+    border-color: #E2E7EB;
+    font-size: 12px;
+    text-align: initial;
+}

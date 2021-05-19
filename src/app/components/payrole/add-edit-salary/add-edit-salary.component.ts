@@ -30,9 +30,13 @@ export class AddEditSalaryComponent implements OnInit {
     typeA:'A',
     typeD:'D',
     template_id:'',
-    gross_salary:''
+    gross_salary:'',
+    total_deduction:'',
+    net_salary:'',
   }
-
+  
+  sectionName='';
+  editExpenseId:string;
   isEdit:boolean=false
   salrayDataList:any=[]
   addedList:any
@@ -48,9 +52,19 @@ export class AddEditSalaryComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.getAllSalaryData()
-    this.getEditSaralyData();
-    console.log("fag",this.isEdit)
+
+    let currentURL = window.location.href;
+    if (currentURL.includes('add-salary')) {
+      this.sectionName = 'Add';
+    }
+    else {
+      this.sectionName = 'Edit';
+      let splitURL = currentURL.split("/");
+      this.editExpenseId = splitURL[splitURL.length - 1];
+      this.getEditSaralyData();
+    }
+      this.getAllSalaryData()
+
     
   }
 
@@ -74,6 +88,7 @@ export class AddEditSalaryComponent implements OnInit {
     )
     }
     addAllowonceDeduction(type){
+      this.template_allowances_map_dtos=[]
       let obj={
 
         type:type,
@@ -84,7 +99,7 @@ export class AddEditSalaryComponent implements OnInit {
       }
       this.template_allowances_map_dtos.push(obj)
       console.log("added list",this.template_allowances_map_dtos)
-
+      
   }
   createSalary(){
     if(this.validInput()){
@@ -115,23 +130,23 @@ export class AddEditSalaryComponent implements OnInit {
   }
   getEditSaralyData(){
     this.auth.showLoader();
-    let url ='/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/'+this.salaryModel.template_id
+    this.isEdit = true
+    let url ='/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/'+this.editExpenseId
     this.http.getData(url).subscribe(
       (res :any)=>{
         this.auth.hideLoader();
-        this. editResponce = res;
+        this. editResponce = res.result;
         this.salaryModel.basic_salary = this.editResponce.basic_salary
         this.salaryModel.gross_salary = this.editResponce.gross_salary
         this.salaryModel.salary_grade = this.editResponce.salary_grade
-        this.salaryModel.salary_type = this.editResponce.salary_type
-// for(let i=0; i < this.editResponce.template_allowances_map_dtos.length;i++){
-//   let obj={
-//   allowance:this.editResponce.template_allowances_map_dtos[i].allowance,
-//   allowance_amount:this.editResponce.template_allowances_map_dtos[i].allowance_amount,
-//   deduction:this.editResponce.template_allowances_map_dtos[i].deduction,
-//   deduction_amount:this.editResponce.template_allowances_map_dtos[i].deduction_amount
-//   }
-  // this.addedList.push(obj)
+        this.salaryModel.salary_type = this.editResponce.salary_type;
+        this.salaryModel.total_deduction = this.editResponce.total_deduction;
+        this.salaryModel.overtime_rate = this.editResponce.overtime_rate;
+
+        this.salaryModel.net_salary = this.editResponce.net_salary;
+
+        this.template_allowances_map_dtos = this.editResponce.template_allowances_map_dtos;
+
   console.log("edit",this.editResponce)
   console.log("id",this.salaryModel.template_id)
   
@@ -153,9 +168,8 @@ updateSalary(){
     overtime_rate:this.salaryModel.overtime_rate,
     template_allowances_map_dtos: this.template_allowances_map_dtos
   }
+
   let url='/api/v1/payroll/template/salary/update'
- if(this.isEdit){
-   alert(this.isEdit)
    this.auth.showLoader();
   this.http.putData(url,obj).subscribe(
       res=>{
@@ -163,13 +177,21 @@ updateSalary(){
         this.msgToast.showErrorMessage('success', '', "Salary Updated successfully");
         this.router.navigate(['/view/payrole/salary-template']);
         this.getAllSalaryData()
+        if (this.sectionName == 'Edit') {
+          this.updateSalary()
+            
+        }
+        else {
+          this.createSalary();
+        }
+
       },
       err => {
         this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
       }
     )
-    }
+    
 }
 
 
@@ -190,24 +212,24 @@ updateSalary(){
     this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Overtime Rate!');
   return;
 }
-    if (CommonUtils.isEmpty(this.salaryModel.salary_grade)) {
-      let data = {
-        type: "error",
-        title: "",
-        body: "Please enter Salary Grade!"
-      }
-      this.toastCtrl.popToast(data);
-      return false;
-    }
-    if (CommonUtils.isEmpty(this.salaryModel.basic_salary)) {
-      let data = {
-        type: "error",
-        title: "",
-        body: "Please enter Basic Salary!"
-      }
-      this.toastCtrl.popToast(data);
-      return false;
-    }
+    // if (CommonUtils.isEmpty(this.salaryModel.salary_grade)) {
+    //   let data = {
+    //     type: "error",
+    //     title: "",
+    //     body: "Please enter Salary Grade"
+    //   }
+    //   this.toastCtrl.popToast(data);
+    //   return false;
+    // }
+    // if (CommonUtils.isEmpty(this.salaryModel.basic_salary)) {
+    //   let data = {
+    //     type: "error",
+    //     title: "",
+    //     body: "Please enter Basic Salary"
+    //   }
+    //   this.toastCtrl.popToast(data);
+    //   return false;
+    // }
     // if (CommonUtils.isEmpty(this.salaryModel.overtime_rate)) {
     //   let data = {
     //     type: "error",
