@@ -217,8 +217,8 @@ color: #444141;
 
 .modal {
  
-  left: 35%;
-  top: 20%;
+  // left: 35%;
+  // top: 20%;
   //transform: translate(-50%, -50%);
   height: auto;
 }
@@ -387,4 +387,16 @@ padding-left: 0;
 color: #334D6E;
 font-weight: 600;
 font-size: 16px;
+}
+@media (min-width: 768px)
+{
+  .modal-dialog {
+    width: 371px;
+    
+}
+}
+.modal-dialog {
+  width: 371px;
+  margin:0px auto;
+  margin-top: 60px;
 }
