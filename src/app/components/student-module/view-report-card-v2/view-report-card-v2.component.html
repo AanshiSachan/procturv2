@@ -1,0 +1,1364 @@
+<div class="page-content">
+    <div class=" shadow">
+      <div class="w98">
+        <div class="flex p20" >
+          <div class="w50">
+            <p class="page_heading">View Student Details</p>
+          </div>
+          <div class="w50">
+            <span class="right">
+              <a href=""><img src="../../../assets/img_view/image17.svg" class="ml-10"></a>
+              <a href=""><img src="../../../assets/img_view/document.svg" class="ml-10"></a>
+              <a href=""><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex mt20" >
+      <div  class="w20">
+        <div class="blue-background">
+          <div class=" inner_flex w60" >
+            <img src="../../../assets/img_view/Group380.svg" >
+          </div>
+          <div class="w40">
+            <span class="rollno">Reg&nbsp;No.<br><span class="number">124</span></span>
+          </div>
+        </div>
+        <div class="wm70">
+          <div class="flex5">
+            <div>
+              <div class="circle"></div>
+            </div>
+            <div class="padding1">
+              <p class="blue_text">Student Name</p>
+              <p class="black_text">Abhishek Joshi</p>
+            </div>
+          </div>
+          <div class="width80"></div>
+        </div>
+        <div class="width70">
+          <div class="flex6" >
+            <div>
+              <div class="circle"></div>
+            </div>
+            <div class="padding">
+              <p class="blue_text">Mobile</p>
+              <p class="black_text">+91 2993939399</p>
+            </div>
+          </div>
+          <div class="width80"></div>
+        </div>
+        <div class="wm70">
+          <div class="flex7" >
+            <div>
+              <div class="circle"></div>
+            </div>
+            <div class="padding">
+              <p class="blue_text">Standard</p>
+              <p class="black_text">10TH</p>
+            </div>
+          </div>
+        </div>
+        <div class="width80"></div>
+        <div class="padding4">
+          <p class="course_text">Course assigned:</p>
+          <div class="tag_wrapper">
+            <div class="tag ">Bio</div>
+            <div class="tag ">Course Name 1</div>
+            <div class="tag ">12th</div>
+          
+            <div class="tag ">Stone_1</div>
+            <div class="tag ">Testbugmaster1</div>
+     
+            <div class="tag ">Sanitacoursw</div>
+            <div class="tag ">sev</div>
+            <div class="tag ">PCB</div>
+          </div>
+        </div>
+        <div class="padding4">
+          <p class="course_text">Download:</p>
+          <div >
+            <a class="mr15"><img src="../../../assets/img_view/Group345.svg" title="Report Card"></a>
+            <a class="mr15"><img src="../../../assets/img_view/Group343.svg" title="Manage Fees"></a>
+            <a class="mr15"><img src="../../../assets/img_view/Group344.svg" title="ID Card"></a>
+            <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
+            <a class="mr15"><img src="../../../assets/img_view/Group347.svg" title="View Report"></a>
+          </div>
+        </div>
+        <br>
+       </div>
+      <div  class="w80" >
+        <div  class="w96">
+          <div class="box">
+             <div [ngClass]="isActiveTab === 'profile' ? 'box_active' : ''" id="profile" (click)="openTab('profile')">Profile</div>
+             <div id="parent" [ngClass]="isActiveTab == 'parent' ? 'box_active' : ''" (click)="openTab('parent')">Parent</div>
+             <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''" (click)="openTab('attendance')">Attendance</div>
+             <div id="fees"  [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
+             <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Documents</div>
+             <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div>
+             <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
+             <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>
+             <div id="exam" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
+        </div>
+           <div id="profile_tab" *ngIf="isActiveTab =='profile'">
+            <!-- Profile -->
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Roll No.:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">2828</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Birth Place:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">Nagpur</span>                  
+                </div>
+              </div>
+               <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Religion:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Hindu</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Aadhar Card:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">234456778</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Group:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">ABC</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Optional Subject:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">Sanskrit</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Date Of Birth:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">22-01-1998</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Gender:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">Male</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Blood Group:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">AB+</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Email:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">abc@gmail.com</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">State:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Maharashtra</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Country:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">India</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Category:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Open</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Remark:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Good</span>                  
+                </div>
+              </div>
+               <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Mother Tongue:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Hindi</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Address:</span>                  
+                </div>
+                <div class="w85">
+                  <span class="value1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dumm</span>                  
+                </div>
+              </div>
+            </div>
+           <div id="parent_tab" *ngIf="isActiveTab =='parent'" >
+            <!-- Parent -->
+               <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Parent Name:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Abhaya</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Parent Contact:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">9876543210</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Parent Email ID:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">abc@gmail.com</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Parent Aadhar Card:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">29987399</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Parent Profession:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Housewife</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Guardian Name:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">Yash</span>                  
+                </div>
+                <div class="w15">
+                  <span class="name1">Guardian Contact No.:</span>                  
+                </div>
+                 <div class="w35">
+                  <span class="value1">9876543210</span>                  
+                </div>
+              </div>
+               <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Guardian Email ID:</span>                  
+                </div>
+                <div class="w35">
+                  <span class="value1">yash@gmail.com</span>                  
+                </div>
+              </div>
+              <div class="outter_flex">
+                <div class="w15">
+                  <span class="name1">Address:</span>                  
+                </div>
+                <div class="w85">
+                  <span class="value1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dumm</span>                  
+                </div>
+              </div>
+            </div>
+           <div id="attendance_tab" *ngIf="isActiveTab =='attendance'" >
+            <!-- Attendance -->
+             <div class="row radio_div no-gutters">
+             <div class="col-lg-6 flex">
+               
+              <div class="field-radio-wrapper">
+                <input type="radio"  class="form-radio" name="date" value="current" onchange="checkRadio(this)">
+                <label class="radio_label">
+                  Current Month
+                </label> 
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio"  class="form-radio" name="date" value="current" onchange="checkRadio(this)">
+                <label class="radio_label">
+                  Till Date
+                </label> 
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio"  class="form-radio" name="date" value="current" onchange="checkRadio(this)">
+                <label class="radio_label">
+                  Date Range
+                </label> 
+              </div>
+              <!-- <label class="radio_label">
+                <input type="radio"  name="date" value="till_date" onchange="checkRadio(this)">
+              </label>
+              <label class="radio_label">
+                <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
+              </label> -->
+             </div>
+             <div class="col-lg-6 mt-20">
+               <span class="right selectt" id="range1">
+                
+               </span>
+               <span class="right till_date selectt" >
+                 
+               </span>
+               <span class="right current selectt" >
+                 
+               </span>
+             </div>
+            </div>
+             <div class="attendance_table">
+                <div class="table_heading">
+                  <div>
+                   Subject
+                  </div>
+                 
+                  <div>
+                   Present
+                  </div>
+                  <div>
+                   Absent
+                  </div>
+                  <div>
+                   Leave
+                  </div>
+                  <div>
+                    Attendance
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    Maths
+                  </div>
+                 
+                  <div>
+                    24
+                  </div>
+                  <div>
+                    0
+                  </div>
+                   <div>
+                   2
+                  </div>
+                  <div>
+                    80%
+                  </div>
+                </div>
+              </div>
+            </div>
+           <div id="fees_tab" *ngIf="isActiveTab =='fees'" >
+            <!-- Fees -->
+            <div class="table_title">
+              <span >Payment History</span>
+            </div>
+              <div class="payment_history">
+                <div class="table_heading">
+                  <div>
+                    Paid<br>ON
+                  </div>
+                  <div>
+                    Instal<br>No
+                  </div>
+                  <div>
+                    Fee<br>Type
+                  </div>
+                  <div>
+                   <span class="top"> Amount</span>
+                  </div>
+                  <div>
+                    Discount<br>Amount
+                  </div>
+                  <div>
+                    Total<br>Amount
+                  </div>
+                  <div>
+                    Amount<br>Paid
+                  </div>
+                  <div>
+                    Amount<br>Due
+                  </div>
+                  <div>
+                    Payment<br>Mode
+                  </div>
+                  <div>
+                    Refrence<br>No
+                  </div>
+                  <div>
+                    <span class="top">Remark</span>
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    01-04-2020
+                  </div>
+                  <div>
+                    01
+                  </div>
+                  <div>
+                    Installment
+                  </div>
+                  <div>
+                    1695
+                  </div>
+                  <div>
+                    0
+                  </div>
+                  <div>
+                    2000
+                  </div>
+                  <div>
+                    2000
+                  </div>
+                  <div>
+                    0
+                  </div>
+                  <div>
+                    Cash
+                  </div>
+                  <div>
+                    111332
+                  </div>
+                  <div>
+                    Remark
+                  </div>
+                </div>
+              </div>
+              <div class="table_title">
+                <span >Past Fee Due Details</span>
+              </div>
+              <div class="past_due">
+                <div class="table_heading">
+                  <div>
+                    Installment<br>No
+                  </div>
+                  <div>
+                    Fee<br>Type
+                  </div>
+                  <div>
+                   <span class="top"> Due Date</span>
+                  </div>
+                  <div>
+                   <span class="top"> Amount</span>
+                  </div>
+                  <div>
+                    Discount<br>Amount
+                  </div>
+                  <div>
+                    Total<br>Amount
+                  </div>
+                  <div>
+                    Amount<br>Paid
+                  </div>
+                  <div>
+                    Amount<br>Due
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    01
+                  </div>
+                  <div>
+                    Installment
+                  </div>
+                  <div>
+                    19-09-2020
+                  </div>
+                  <div>
+                   1555
+                  </div>
+                  <div>
+                    280
+                  </div>
+                  <div>
+                    1335
+                  </div>
+                  <div>
+                    0
+                  </div>
+                  <div>
+                    1835
+                  </div>
+                </div>
+              </div>
+              <div class="table_title">
+                <span >Next Fee Due Details</span>
+              </div>
+              <div class="next_due">
+                <div class="table_heading">
+                  <div>
+                    Installment<br>No
+                  </div>
+                  <div>
+                    Fee<br>Type
+                  </div>
+                  <div>
+                   <span class="top"> Due Date</span>
+                  </div>
+                  <div>
+                   <span class="top"> Amount</span>
+                  </div>
+                  <div>
+                    Discount<br>Amount
+                  </div>
+                  <div>
+                    Total<br>Amount
+                  </div>
+                  <div>
+                    Amount<br>Paid
+                  </div>
+                  <div>
+                    Amount<br>Due
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    01
+                  </div>
+                  <div>
+                    Installment
+                  </div>
+                  <div>
+                    19-09-2020
+                  </div>
+                  <div>
+                   1555
+                  </div>
+                  <div>
+                    280
+                  </div>
+                  <div>
+                   0
+                  </div>
+                  <div>
+                    1335
+                  </div>
+                  <div>
+                    1835
+                  </div>
+                </div>
+              </div>
+            </div>
+           <div id="documents_tab" *ngIf="isActiveTab =='documents'">
+            <!-- Documents -->
+            <div class="add_doc right">
+              <span class="right">
+                <button class="blue_button" data-toggle="modal" data-target="#myModal">Add Document</button>
+              </span>
+            </div>
+             <div class="documents_table">
+                <div class="table_heading">
+                  <div>
+                   #
+                  </div>
+                  <div>
+                    Title
+                  </div>
+                  <div>
+                   Date
+                  </div>
+                  <div>
+                   Action
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    01
+                  </div>
+                  <div>
+                    Pan Card
+                  </div>
+                  <div>
+                    04-21-2020
+                  </div>
+                  <div>
+                      <a  class="mr10"><img class="size22" src="../../../assets/img_view/download.svg" title="Download"></a>
+                    <a><img class="size22" src="../../../assets/img_view/Group272.svg" title="delete"></a>
+                  
+                  </div>
+                </div>
+              </div>
+           </div>
+           <div id="inventory_tab"  *ngIf="isActiveTab =='inventory'" >
+            <!-- Inventory -->
+              <div class="inventory_table">
+                <div class="table_heading">
+                  <div>
+                   Item
+                  </div>
+                  <div>
+                    Category
+                  </div>
+                  <div>
+                   Allocated Units
+                  </div>
+                  <div>
+                   Action
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    Maths Notes
+                  </div>
+                  <div>
+                    Study Material
+                  </div>
+                  <div>
+                    01
+                  </div>
+                  <div>
+                   <a><img src="../../../assets/img_view/Group272.svg" class="size22" title="delete"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+           <div id="ptm_tab" *ngIf="isActiveTab =='ptm'">
+            <!-- PTM -->
+             <div class="table_title">
+              <span >History</span>
+              </div>
+               <div class="ptm_table">
+                <div class="table_heading">
+                  <div>
+                   <span class="top">Subject</span>
+                  </div>
+                  <div>
+                   <span class="top">Date</span>
+                  </div>
+                  <div>
+                   <span class="top">Attendance</span>
+                  </div>
+                  <div>
+                   Teacher /Institute Remarks
+                  </div>
+                  <div>
+                   <span class="top"> Parent Remarks</span>
+                  </div>
+                  <div>
+                    <span class="top">Status</span>
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    12th commer-Academic Year-ii-maths
+                  </div>
+                  <div>
+                    10-12-2019
+                  </div>
+                  <div>
+                   A
+                  </div>
+                  <div>
+                   
+                  </div>
+                  <div>
+                   
+                  </div>
+                  <div>
+                   <div class="pending">Pending</div>
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    12th commer-Academic Year-ii-maths
+                  </div>
+                  <div>
+                   10-12-2019
+                  </div>
+                  <div>
+                   A
+                  </div>
+                  <div>
+                   
+                  </div>
+                  <div>
+                   
+                  </div>
+                  <div>
+                 <div class="inprogress">In progress</div>
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    12th commer-Academic Year-ii-maths
+                  </div>
+                  <div>
+                    10-12-2019
+                  </div>
+                  <div>
+                   A
+                  </div>
+                  <div>
+                   
+                  </div>
+                  <div>
+                   
+                  </div>
+                  <div>
+                   <div class="resolved">Resolved</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="biometrics_tab"  *ngIf="isActiveTab =='biometric'" >
+            <!-- Biometrics -->
+              <div class="row radio_div no-gutters">
+                <div class="col-lg-10">
+                  <select class="select" id="dateselector" onchange="changeFunction(this.options[this.selectedIndex].value)">
+                   <option>Previous Month</option>
+                   <option>Previous Week</option>
+                   <option value="range">By Range</option>
+                  </select>
+                  <span id="range_tab">
+                       <input type="date" name="" class="input ">
+                       <input type="date" name="" class="input ">
+                  </span>
+                  <button class="blue_button">GO</button>
+                </div>
+                <div class="col-lg-2 ">
+                    <a><img src="../../../assets/img_view/Group239.svg" class="right mt10" title="download"></a>
+                </div>
+              </div>
+              <div class="biometrics_table">
+                <div class="table_heading">
+                  <div>
+                  Date
+                  </div>
+                  <div>
+                    In Time
+                  </div>
+                  <div>
+                   Out Time
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div>
+                    02-10-21
+                  </div>
+                  <div>
+                    10:02 AM
+                  </div>
+                  <div>
+                   06:02 PM
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="exam_tab" *ngIf="isActiveTab =='exam'"  >
+            <!-- EXAM -->
+              <div class="table_border" >
+                <div >
+                  <div class="first_section">
+                    <div class="head">
+                      <p>Subject</p>
+                    </div>
+                    <div class="table_text" >
+                      <p>Physics</p>
+                    </div>
+                    <div class="table_text">
+                      <p>Chemistry</p>
+                    </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                   <!-- last section -->
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Total</p></div>
+                        <div class="marks">
+                          <div class="table_text_heading right_border"><p>Marks</p></div>
+                          <div class="table_text_heading right_border"><p>Points</p></div>
+                        <div class="table_text_heading"><p>Grades</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text   right_border width50"><p>1<p></div>
+                         <div class="table_text right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text  right_border width50"><p>1</p></div>
+                         <div class="table_text  right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width50"><p>1</p></div>
+                         <div class="table_text width50"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="table_border" >
+                <div >
+                  <div class="first_section">
+                    <div class="head">
+                      <p>Subject</p>
+                    </div>
+                    <div class="table_text" >
+                      <p>Physics</p>
+                    </div>
+                    <div class="table_text">
+                      <p>Chemistry</p>
+                    </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                   <!-- last section -->
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Total</p></div>
+                        <div class="marks">
+                          <div class="table_text_heading right_border"><p>Marks</p></div>
+                          <div class="table_text_heading right_border"><p>Points</p></div>
+                        <div class="table_text_heading"><p>Grades</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text   right_border width50"><p>1<p></div>
+                         <div class="table_text right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text  right_border width50"><p>1</p></div>
+                         <div class="table_text  right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width50"><p>1</p></div>
+                         <div class="table_text width50"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="table_border" >
+                <div >
+                  <div class="first_section">
+                    <div class="head">
+                      <p>Subject</p>
+                    </div>
+                    <div class="table_text" >
+                      <p>Physics</p>
+                    </div>
+                    <div class="table_text">
+                      <p>Chemistry</p>
+                    </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                   <!-- last section -->
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Total</p></div>
+                        <div class="marks">
+                          <div class="table_text_heading right_border"><p>Marks</p></div>
+                          <div class="table_text_heading right_border"><p>Points</p></div>
+                        <div class="table_text_heading"><p>Grades</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text   right_border width50"><p>1<p></div>
+                         <div class="table_text right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text  right_border width50"><p>1</p></div>
+                         <div class="table_text  right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width50"><p>1</p></div>
+                         <div class="table_text width50"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="table_border" >
+                <div >
+                  <div class="first_section">
+                    <div class="head">
+                      <p>Subject</p>
+                    </div>
+                    <div class="table_text" >
+                      <p>Physics</p>
+                    </div>
+                    <div class="table_text">
+                      <p>Chemistry</p>
+                    </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
+                        <div class="table_text_heading"><p>Obtained marks</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text width75  right_border"><p>1<p></div>
+                         <div class="table_text width75 right_border"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width75"><p>1</p></div>
+                         <div class="table_text width75"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                  <!-- last section -->
+                  <div class="section">
+                      <div class="width95">
+                        <div class="head2"><p>Total</p></div>
+                        <div class="marks">
+                          <div class="table_text_heading right_border"><p>Marks</p></div>
+                          <div class="table_text_heading right_border"><p>Points</p></div>
+                        <div class="table_text_heading"><p>Grades</p></div></div>
+                      </div>
+                      <div class="flex">
+                       <div>
+                         <div class="table_text   right_border width50"><p>1<p></div>
+                         <div class="table_text right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text  right_border width50"><p>1</p></div>
+                         <div class="table_text  right_border width50"><p>2</p></div>
+                       </div>
+                       <div>
+                         <div class="table_text width50"><p>1</p></div>
+                         <div class="table_text width50"><p>2</p></div>
+                       </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+</div> 
+  <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Documents Upload</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <input type="text" class="input" placeholder="Doc Title*" name="">
+            </div>
+          </div>
+          <div class="row no-gutters mt20">
+            <div class="col-lg-12">
+               <input type="file" name=""  class="input file" placeholder=" Browse File">
+            </div>
+          </div> 
+          <br>
+          <div>
+            <span class="right"> <button class="white_button mr10">Back</button><button class="blue_button">Upload</button></span>
+          </div>
+          <br>      
+        </div>
+    </div>
+  </div>  

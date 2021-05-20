@@ -7,6 +7,7 @@ import {
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 import { StudentHomev2Component } from './student-homev2/student-homev2.component';
+import { ViewReportCardV2Component } from './view-report-card-v2/view-report-card-v2.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,7 @@ const routes: Routes = [
       {
         path: 'reportcard/:id',
         component: ViewReportCardComponent,
+       // component:ViewReportCardV2Component,
         pathMatch: 'prefix',
       }, 
       {

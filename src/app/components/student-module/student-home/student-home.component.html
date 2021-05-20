@@ -671,8 +671,7 @@
                         class="large-icon" style="fill: currentColor"></path>
                 </svg>
             </a>
-
-            <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent"
+      <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent"
                 [studentDetails]="studentDetailsById" (closeSide)="closeSideBar($event)"
                 (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
                 (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)"

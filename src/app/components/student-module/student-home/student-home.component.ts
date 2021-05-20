@@ -2804,6 +2804,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
   downloadStudentAdmissionForm() {
+    
     let obj: any = {
       studentIds: this.selectedRowGroup.join(","),
     };
