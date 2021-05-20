@@ -21,12 +21,12 @@
                 Master Course :
               </div>
               <div>
-                <span class="mc_name" style="top: -6px;">11 Science</span><img src="../../../../assets/img1/edit.svg" class="pointer">
+                <span class="mc_name" style="top: -6px;">{{createMasterCourseModel.master_course_name}}</span><img data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg" (click)="EditMasterCourse()" class="pointer">
               </div>
            </div>
            <div class="flex space_flex">
              <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
-             <div class="std">Standard: 11th</div>
+             <div class="std">Standard: {{createMasterCourseModel.standard_name}}</div>
               <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
            </div>
          </div>

@@ -14,12 +14,12 @@ export class CourseCourseListV2Component implements OnInit {
   masterCourseData: any = [];
   courseData: any = [];
   standardList: any = [];
-  createMasterCourseModel={
+  createMasterCourseModel = {
     "master_course_name": "",
     "institute_id": this.institute_id,
     "is_active": "Y",
-    "standard_id":'-1'
-}
+    "standard_id": '-1'
+  }
 
 
   constructor(
@@ -35,7 +35,7 @@ export class CourseCourseListV2Component implements OnInit {
 
   getMasterCourseData() {
     this._auth.showLoader();
-    this._httpService.getData('/api/v1/master-course/fetch/' + this.institute_id + '?is_active=Y').subscribe(
+    this._httpService.getData('/api/v1/master-course/fetch-master-course/' + this.institute_id + '?is_active=Y').subscribe(
       (res: any) => {
         this._auth.hideLoader();
         this.masterCourseData = res.result;
@@ -48,18 +48,22 @@ export class CourseCourseListV2Component implements OnInit {
   }
 
   fetchCourseDetails(obj) {
-    this._auth.showLoader();
-    let url = `/api/v1/fetch-all-course/${this.institute_id}/${this.master_course_id}?is_active=Y`;
-    this._httpService.getData(url).subscribe(
-      (res: any) => {
-        this._auth.hideLoader();
-        this.courseData = res.result;
-      },
-      (err: any) => {
-        this._auth.hideLoader();
-        this._msgService.showErrorMessage('error', '', err.error.message);
-      }
-    )
+    if (this.master_course_id != '-1') {
+      this._auth.showLoader();
+      let url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}/${this.master_course_id}?is_active=Y`;
+      this._httpService.getData(url).subscribe(
+        (res: any) => {
+          this._auth.hideLoader();
+          let stdObj = this.masterCourseData.filter(mc=>(mc.master_course_id == this.master_course_id));
+          this.createMasterCourseModel = stdObj[0];
+          this.courseData = res.result;
+        },
+        (err: any) => {
+          this._auth.hideLoader();
+          this._msgService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
   }
 
   fetchStandard() {
@@ -80,13 +84,13 @@ export class CourseCourseListV2Component implements OnInit {
   createMasterCourse() {
     this._auth.showLoader();
     this._httpService.postData('/api/v1/master-course/create', this.createMasterCourseModel).subscribe(
-      (res:any)=>{
+      (res: any) => {
         this._auth.hideLoader();
-        this._msgService.showErrorMessage('success','','Master course added successfully');
+        this._msgService.showErrorMessage('success', '', 'Master course added successfully');
       },
-      (err:any)=>{
+      (err: any) => {
         this._auth.hideLoader();
-        this._msgService.showErrorMessage('error','',err.error.message);
+        this._msgService.showErrorMessage('error', '', err.error.message);
       }
     )
   }
