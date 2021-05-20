@@ -438,17 +438,34 @@ color: #334D6E;
 .modal-dialog-slideout .modal-header, .modal-dialog-slideout .modal-footer {display: block;} 
 .modal-dialog-slideout .modal-header h5 {float:left;}
 .modal-dialog-slideout .modal-footer {padding-top: 30px;} 
-#exampleModal2  .modal-dialog.modal-dialog-slideout{
- 
-  -webkit-transform: translate3d(0, 25%, 0);
-  transform: translate3d(0, 25%, 0);
+.modal {
+  animation: slideIn .8s linear;
 }
 
-.modal.fade:not(.in) .modal-dialog {
-  -webkit-transform: translate3d(25%, 0, 0);
-  transform: translate3d(25%, 0, 0);
+@keyframes slideIn {
+  0% {
+    transform: translateX(400px);
+    animation-timing-function: ease-out;
+  }
+  60% {
+    transform: translateX(-30px);
+    animation-timing-function: ease-in;
+  }
+  80% {
+    transform: translateX(10px);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: translateX(0px);
+    animation-timing-function: ease-in;
+  }
 }
 
+
+
+.field-wrapper {
+  padding-top: 0px;
+}
 .modal-title{
   font-weight: 600;
 font-size: 12px;
@@ -456,6 +473,7 @@ line-height: 18px;
 /* identical to box height */
 letter-spacing: 0.01em;
 color: #334D6E;
+margin-bottom: 0px;
 }
 .label_p{
 font-weight: normal;
