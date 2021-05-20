@@ -30,7 +30,7 @@ smsGatewatModel={
   promotional_password:'',
   sender_id:'',
   brand_name:'',
-  is_active:true,
+  is_active:false,
   gateway_id:''
 }
 iscreated:boolean=false
@@ -43,7 +43,6 @@ this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
 
   }
   ngOnInit(): void {
-
 this.getAllSmsData();
 
   }
@@ -141,7 +140,7 @@ this.getAllSmsData();
 
   validationInputs(){
     if(this.smsGatewatModel.transaction_username.trim() ==""){
-     this.msgService.showErrorMessage(this.msgService.toastTypes.error,'','Please enter username!')           
+     this.msgService.showErrorMessage(this.msgService.toastTypes.error,'','Please enter username')           
   return;
     }
 
@@ -171,7 +170,7 @@ this.getAllSmsData();
         let data = {
           type: "error",
           title: "",
-          body: "Please enter brand name!"
+          body: "Please enter brand name"
         }
         this.toastCtrl.popToast(data);
         return false;
