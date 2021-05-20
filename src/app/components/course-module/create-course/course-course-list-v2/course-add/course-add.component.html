@@ -21,8 +21,11 @@
            <input type="text" name="" placeholder="Course Name*" class="input mr10 wid217">
            <input type="date" name="" placeholder="Start date*" class="input mr10 wid180">
            <input type="date" name="" placeholder="End date*"  class="input mr10 wid180">
-           <select class="select mr10 wid180">
+           <select class="select mr10 wid180" [(ngModel)]="courseDetails.academic_year_id" (ngModelChange)="setStartAdEndDate(courseDetails)">
              <option>Academic Year</option>
+             <option *ngFor="let opt of academicList"  [value]="opt.inst_acad_year_id">
+              {{opt.inst_acad_year}}
+            </option>
            </select>
         </div>
         <div class="subject">

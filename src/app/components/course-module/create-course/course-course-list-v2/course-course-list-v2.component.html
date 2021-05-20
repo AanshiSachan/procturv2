@@ -104,11 +104,12 @@
         <div class="modal-body">
          
           <div class="pt10">
-            <input type="text" class="wid100 input" name="" placeholder="Master Course*">
+            <input type="text" class="wid100 input" [(ngModel)]="createMasterCourseModel.master_course_name" name="" placeholder="Master Course*">
           </div>
           <div class="pt10">
-            <select class="wid100 select"  >
-              <option>Standard Name*</option>
+            <select class="wid100 select" [(ngModel)]="createMasterCourseModel.standard_id">
+              <option value="-1">Standard Name*</option>
+              <option value="{{std.standard_id}}" *ngFor="let std of standardList">{{std.standard_name}} </option>
             </select>
           </div>
          
@@ -116,7 +117,7 @@
           <div></div>
           <div>
            
-          <button class="blue_button mr10">Add</button>
+          <button (click)="createMasterCourse()" class="blue_button mr10">Add</button>
           <button class="white_button">Back</button>
         </div>
         </div>
