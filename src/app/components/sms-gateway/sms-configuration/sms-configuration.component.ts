@@ -87,7 +87,7 @@ this.getAllSmsData();
    (res : any) =>{
      this.auth.hideLoader();
      this.getAllSmsData();
-    this.msgService.showErrorMessage('success', '', "SMS Created successfully");
+    this.msgService.showErrorMessage('success', '', "SMS configuration details added successfully");
     this.clearFun();
 
   },
@@ -125,7 +125,7 @@ this.getAllSmsData();
         this.auth.hideLoader();
         this.clearFun()
 
-        this.msgService.showErrorMessage('success','','SMS Updated successfully');
+        this.msgService.showErrorMessage('success','','SMS configuration details updated successfully');
         this.getAllSmsData()
 
       },
