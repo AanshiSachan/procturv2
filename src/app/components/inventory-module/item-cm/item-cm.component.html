@@ -127,8 +127,9 @@
       <!--pagination for item-->
       <pagination (goPage)="fetchTableDataByPageforItem($event)" (goNext)="fetchNextItem()" (goPrev)="fetchPreviousItem()"
       [pagesToShow]="10" [page]="pageIndexforItem" [perPage]="displayBatchSize" [count]="totalItemRow" [sizeArr]="sizeArr"
-      (sizeChange)="updateTableBatchSize($event)">
+      (sizeChange)="updateTableBatchSizeForItem($event)">
     </pagination>
+    
    </div>
    <!--gfdfdfg-->
    <!-- <h1>hjfghfg</h1> -->

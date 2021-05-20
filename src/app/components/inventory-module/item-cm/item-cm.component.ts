@@ -483,7 +483,11 @@ getClassRoomTableFromSource(startindex) {
       return t;
     }
   }
-
+  updateTableBatchSize(event) {
+    this.pageIndex = 1;
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
  /* ==========================================pagination for item=============*/
 
   fetchTableDataByPageforItem(index) {
@@ -556,6 +560,11 @@ getClassRoomTableFromSource(startindex) {
       this.totalItemRow = this.itemAllData.length;
 
     }
+  }
+  updateTableBatchSizeForItem(event) {
+    this.pageIndex = 1;
+    this.displayBatchSize = event;
+    this.fetchTableDataByPageforItem(this.pageIndexforItem);
   }
  /* ==========================================Download Data for category=============*/
   categoryDataForDownload=[
