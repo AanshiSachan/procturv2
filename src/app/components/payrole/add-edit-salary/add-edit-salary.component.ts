@@ -30,11 +30,12 @@ export class AddEditSalaryComponent implements OnInit {
     typeA:'A',
     typeD:'D',
     template_id:'',
+
     gross_salary:'',
     total_deduction:'',
     net_salary:'',
   }
-  
+
   sectionName='';
   editExpenseId:string;
   isEdit:boolean=false
@@ -95,9 +96,11 @@ export class AddEditSalaryComponent implements OnInit {
         deduction_amount:this.salaryModel.deduction_amount
       }
       this.template_allowances_map_dtos.push(obj);
-      this.salaryModel.allowance = '';
+     
       console.log("added list",this.template_allowances_map_dtos)
-      
+      this.salaryModel.allowance = '';
+      this.salaryModel.allowance_amount = '';
+
   }
   
   createSalary(){
@@ -159,9 +162,10 @@ export class AddEditSalaryComponent implements OnInit {
   }
 
 updateSalary(){
-  if(this.sectionName == 'Edit'){
-  let obj ={
+  // if(this.sectionName == 'Edit'){
+  let obje ={
     institute_id :this.jsonFlag.institute_id,
+    template_id:this.salaryModel.template_id,
     salary_type:this.salaryModel.salary_type,
     salary_grade:this.salaryModel.salary_grade,
     basic_salary:this.salaryModel.basic_salary,
@@ -171,10 +175,11 @@ updateSalary(){
 
   let url='/api/v1/payroll/template/salary/update'
    this.auth.showLoader();
-  this.http.putData(url,obj).subscribe(
+  this.http.putData(url,obje).subscribe(
       res=>{
         this.auth.hideLoader()
         this.msgToast.showErrorMessage('success', '', "Salary Updated successfully");
+        console.log("pass id",obje)
         this.router.navigate(['/view/payrole/salary-template']);
         this.getAllSalaryData()
         // if (this.sectionName == 'Edit') {
@@ -192,7 +197,7 @@ updateSalary(){
       }
     )
     
-}}
+}
 removeList(x){
   this.template_allowances_map_dtos.splice(x,1)
   console.log("remove list",this.template_allowances_map_dtos)
