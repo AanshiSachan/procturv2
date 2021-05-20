@@ -75,10 +75,8 @@ export class AddEditSalaryComponent implements OnInit {
       (res :any)=>{
     this.salrayDataList=res.result.response
     this.auth.hideLoader();
-    console.log("salaryyyyyy",this.salrayDataList)
     for(let i =0; i< this.salrayDataList.length;i++){
       this.salaryModel.template_id = this.salrayDataList[i].template_id
-      console.log("iddddd",this.salaryModel.template_id)
     }
       },
       err => {
@@ -88,7 +86,6 @@ export class AddEditSalaryComponent implements OnInit {
     )
     }
     addAllowonceDeduction(type){
-      this.template_allowances_map_dtos=[]
       let obj={
 
         type:type,
@@ -97,10 +94,12 @@ export class AddEditSalaryComponent implements OnInit {
         deduction:this.salaryModel.deduction,
         deduction_amount:this.salaryModel.deduction_amount
       }
-      this.template_allowances_map_dtos.push(obj)
+      this.template_allowances_map_dtos.push(obj);
+      this.salaryModel.allowance = '';
       console.log("added list",this.template_allowances_map_dtos)
       
   }
+  
   createSalary(){
     if(this.validInput()){
     let obj ={
@@ -130,8 +129,7 @@ export class AddEditSalaryComponent implements OnInit {
   }
   getEditSaralyData(){
     this.auth.showLoader();
-    this.isEdit = true
-    let url ='/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/'+this.editExpenseId
+    let url ='/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/'+this.salaryModel.template_id
     this.http.getData(url).subscribe(
       (res :any)=>{
         this.auth.hideLoader();
@@ -142,6 +140,7 @@ export class AddEditSalaryComponent implements OnInit {
         this.salaryModel.salary_type = this.editResponce.salary_type;
         this.salaryModel.total_deduction = this.editResponce.total_deduction;
         this.salaryModel.overtime_rate = this.editResponce.overtime_rate;
+        this.salaryModel.deduction_amount = this.editResponce.deduction_amount
 
         this.salaryModel.net_salary = this.editResponce.net_salary;
 
@@ -160,6 +159,7 @@ export class AddEditSalaryComponent implements OnInit {
   }
 
 updateSalary(){
+  if(this.sectionName == 'Edit'){
   let obj ={
     institute_id :this.jsonFlag.institute_id,
     salary_type:this.salaryModel.salary_type,
@@ -177,13 +177,13 @@ updateSalary(){
         this.msgToast.showErrorMessage('success', '', "Salary Updated successfully");
         this.router.navigate(['/view/payrole/salary-template']);
         this.getAllSalaryData()
-        if (this.sectionName == 'Edit') {
-          this.updateSalary()
+        // if (this.sectionName == 'Edit') {
+        //   this.updateSalary()
             
-        }
-        else {
-          this.createSalary();
-        }
+        // }
+        // else {
+        //   this.createSalary();
+        // }
 
       },
       err => {
@@ -192,8 +192,11 @@ updateSalary(){
       }
     )
     
+}}
+removeList(x){
+  this.template_allowances_map_dtos.splice(x,1)
+  console.log("remove list",this.template_allowances_map_dtos)
 }
-
 
 
 

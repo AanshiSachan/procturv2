@@ -73,7 +73,7 @@
                             
                         </div>
                         <!-- ===========itrate-Allownce-div=============== -->
-                        <div *ngFor="let record of template_allowances_map_dtos">
+                        <div *ngFor="let record of template_allowances_map_dtos; let i=index">
                             <!-- <div class="form-group allowancesfield"> -->
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="allowanceslabel1" [(ngModel)]="record.allowance" name="allowanceslabel1" value="House Rent" placeholder="Enter Allowances Label">
@@ -87,7 +87,7 @@
                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add">&nbsp;
                                         <i class="fa fa-plus"></i>
                                     </button>
-                                    <a ><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                                    <a (click)="removeList(i)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
 
                                    </div> 
                                    <!-- <div class="col-sm-1">
@@ -134,6 +134,31 @@
                                                                             </span>
                             </div>
                         </div>
+                        <!-- ==========deduction-itrate============= -->
+                        <div *ngFor="let record of template_allowances_map_dtos; let i=index">
+                        <div class="col-sm-12" id="deductions">
+                            <div class="form-group deductionsfield">
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="deductionslabel1" name="deductionslabel1" [(ngModel)]="salaryModel.deduction" value="Provident Fund" placeholder="Enter Deductions Label">
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control deductionsamount" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1" value="" placeholder="Enter Deductions Value">
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-deductions-add" (click)="addAllowonceDeduction('D')" id="salary-btn-deductions-add">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+
+                                <span class="col-sm-12 errorpointdeductions" id="deductionserror1">
+                                                                            </span>
+                            </div>
+                        </div>
+
+                        </div>
+                        <!-- =========end============= -->
                     </div>
                 </div>
             </div>
@@ -152,19 +177,19 @@
                                 <tbody><tr>
                                     <td class="col-sm-8" style="line-height: 36px">Gross Salary</td>
 
-                                    <td class="col-sm-4"><input class="form-control" id="gross_salary" type="number" disabled="disabled" name="gross_salary" value="{{salaryModel.basic_salary + salaryModel.allowance_amount}}"></td>
+                                    <td class="col-sm-4"><input class="form-control" id="gross_salary" type="number" disabled="disabled" name="gross_salary" [(ngModel)]="salaryModel.gross_salary" value="{{salaryModel.basic_salary + salaryModel.allowance_amount}}"></td>
                                 </tr>
 
                                 <tr>
                                     <td class="col-sm-8" style="line-height: 36px">Total Deduction</td>
 
-                                    <td class="col-sm-4"><input class="form-control" id="total_deduction" type="number" disabled="disabled" name="total_deduction" value="{{salaryModel.total_deduction}}"></td>
+                                    <td class="col-sm-4"><input class="form-control" id="total_deduction" type="number" disabled="disabled" name="total_deduction" [(ngModel)]="salaryModel.total_deduction" value="{{salaryModel.deduction_amount}}"></td>
                                 </tr>
 
                                 <tr>
                                     <td class="col-sm-8" style="line-height: 36px">Net Salary</td>
 
-                                    <td class="col-sm-4"><input class="form-control" id="net_salary" type="number" disabled="disabled" name="net_salary" value="{{salaryModel.net_salary}}"></td>
+                                    <td class="col-sm-4"><input class="form-control" id="net_salary" type="number" disabled="disabled" name="net_salary" [(ngModel)]="salaryModel.net_salary" value="{{(salaryModel.basic_salary + salaryModel.allowance_amount)-salaryModel.deduction_amount}}"></td>
                                 </tr>
                             </tbody></table>
                         </div>
@@ -173,7 +198,7 @@
             </div>
         </div>
 
-        <div *ngIf="!isEdit">
+        <div *ngIf="sectionName == 'Add'">
             <input class="blue_button pull-right" type="button" id="addSalaryTemplate" (click)="createSalary()" value="Add Salary Template">
         </div>
         <div *ngIf="sectionName == 'Edit'">
