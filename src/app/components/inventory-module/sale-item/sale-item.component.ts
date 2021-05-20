@@ -307,7 +307,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
       );
       this.staticPageData = searchData;
-      this.totalRecords=this.staticPageData;
+      this.totalRecords=this.staticPageData.length;
     }
    }
    downloadPdf() {
