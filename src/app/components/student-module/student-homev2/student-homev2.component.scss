@@ -802,8 +802,13 @@ transform: scale(1);
   .illustration-img {
     width: 40%;
     margin-left: 25%;
+    margin-top: 5%;
   }
+  
 } 
+.no-data{
+  overflow-y: hidden;
+}
 //css old
 .popup-wrapper h2 {
   margin-bottom: 15px;
