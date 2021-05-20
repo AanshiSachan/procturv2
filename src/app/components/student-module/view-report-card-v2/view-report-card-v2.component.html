@@ -19,10 +19,11 @@
       <div  class="w20">
         <div class="blue-background">
           <div class=" inner_flex w60" >
-            <img src="../../../assets/img_view/Group380.svg" >
+            <!--img when not exist-->
+            <img src="{{studentCommanData.student_thumbnail ==null?'../../../assets/img_view/Group380.svg':studentCommanData.student_thumbnail}}" class="img-round" >
           </div>
-          <div class="w40">
-            <span class="rollno">Reg&nbsp;No.<br><span class="number">124</span></span>
+          <div class="w40"  *ngIf="schoolModel">
+            <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
           </div>
         </div>
         <div class="wm70">
@@ -32,7 +33,7 @@
             </div>
             <div class="padding1">
               <p class="blue_text">Student Name</p>
-              <p class="black_text">Abhishek Joshi</p>
+              <p class="black_text">{{studentCommanData.student_name}}</p>
             </div>
           </div>
           <div class="width80"></div>
@@ -44,7 +45,7 @@
             </div>
             <div class="padding">
               <p class="blue_text">Mobile</p>
-              <p class="black_text">+91 2993939399</p>
+              <p class="black_text">{{studentCommanData.student_phone}}</p>
             </div>
           </div>
           <div class="width80"></div>
@@ -56,7 +57,7 @@
             </div>
             <div class="padding">
               <p class="blue_text">Standard</p>
-              <p class="black_text">10TH</p>
+              <p class="black_text">{{studentCommanData.standard}}</p>
             </div>
           </div>
         </div>
@@ -64,7 +65,7 @@
         <div class="padding4">
           <p class="course_text">Course assigned:</p>
           <div class="tag_wrapper">
-            <div class="tag ">Bio</div>
+            <div class="tag">Bio</div>
             <div class="tag ">Course Name 1</div>
             <div class="tag ">12th</div>
           
@@ -75,6 +76,9 @@
             <div class="tag ">sev</div>
             <div class="tag ">PCB</div>
           </div>
+          <!-- <div class="tag_wrapper" *ngFor="let data of assignedCourses;index as i">
+            <div class="tag " >{{data}}</div>
+          </div> -->
         </div>
         <div class="padding4">
           <p class="course_text">Download:</p>

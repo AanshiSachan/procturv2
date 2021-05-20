@@ -704,3 +704,10 @@
 //     color: #0084f6;
 // }
 
+//fit image
+.img-round {
+  width: 100%;
+  height : 100%;
+  object-fit: contain;
+  border-radius: 50%;
+ }

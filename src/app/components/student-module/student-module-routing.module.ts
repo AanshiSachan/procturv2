@@ -56,9 +56,14 @@ const routes: Routes = [
         pathMatch: 'prefix',
       },
       {
-        path: 'reportcard/:id',
-       // component: ViewReportCardComponent,
+        path: 'reportcardV2/:id',
+        
        component:ViewReportCardV2Component,
+        pathMatch: 'prefix',
+      }, 
+      {
+        path: 'reportcard/:id',
+         component: ViewReportCardComponent,
         pathMatch: 'prefix',
       }, 
       {
