@@ -314,6 +314,7 @@ this.router.navigate(['/view/inventory-management/purchase-view'])
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.pageIndex);
   }
+  
   searchDatabase() {
     if (this.searchParams == undefined || this.searchParams == null) {
        this.searchParams = "";

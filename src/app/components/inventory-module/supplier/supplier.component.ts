@@ -249,7 +249,7 @@ export class SupplierComponent implements OnInit {
         //this.totalRow =  res.result.length;
         this.auth.hideLoader();
         this.tempLocationList = res.result.response;
-        this.totalRecords = res.result.total_elements;
+        this.totalRecords = res.result.totalElements;
         this.auth.hideLoader();
         
       },
@@ -371,6 +371,7 @@ export class SupplierComponent implements OnInit {
          this.httpService.putData('/api/v1/inventory/supplier/update',obj).subscribe(() => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Supplier detail Updated Successfully")
          this.getVendorDetails();
+         this.cancel(false);
          $('#add1Modal').modal('hide');
         },
           err => {

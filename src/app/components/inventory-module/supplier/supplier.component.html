@@ -134,7 +134,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
         </div>
         <div class="modal-body">
           <div class="center">
@@ -145,7 +145,7 @@
           </div> 
           <div class="pt101 display">
             <div>
-              <button class="white_button right"data-dismiss="modal">Cancel</button>
+              <button class="white_button right"data-dismiss="modal" (click)="cancel(false)">Cancel</button>
             </div>
             <div>
               <button class="blue_button right" (click)="deleteRow(tempObj)">Proceed</button>
