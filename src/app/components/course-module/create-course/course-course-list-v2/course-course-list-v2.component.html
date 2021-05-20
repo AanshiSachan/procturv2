@@ -16,15 +16,15 @@
           </div>
         </div>
          <div class="pt15 flex">
-           <div class="flex">
+           <div class="flex" *ngIf="createMasterCourseModel.master_course_name!=''">
               <div class="master_c">
                 Master Course :
               </div>
               <div>
-                <span class="mc_name" style="top: -6px;">{{createMasterCourseModel.master_course_name}}</span><img data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg" (click)="EditMasterCourse()" class="pointer">
+                <span class="mc_name" style="top: -6px;">{{createMasterCourseModel.master_course_name}}</span><img data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg" (click)="editMasterC=true;" class="pointer">
               </div>
            </div>
-           <div class="flex space_flex">
+           <div class="flex space_flex" *ngIf="createMasterCourseModel.standard_name!=''">
              <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
              <div class="std">Standard: {{createMasterCourseModel.standard_name}}</div>
               <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
@@ -33,7 +33,7 @@
           <!-- use image only when page is empty,table body class element will not be present -->
           <br>
         <div class="outter_flex">
-          <div class="firstchild">
+          <div class="firstchild" *ngIf="master_course_id!='-1'">
             <a routerLink="../add">
               <div>
                 <span>
@@ -98,7 +98,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" >Add Master Course</h4>
+          <h4 class="modal-title" >{{editMasterC ? 'Edit' : 'Add'}} Master Course</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
@@ -117,8 +117,8 @@
           <div></div>
           <div>
            
-          <button (click)="createMasterCourse()" class="blue_button mr10">Add</button>
-          <button class="white_button">Back</button>
+          <button (click)="saveMasterC()" class="blue_button mr10">{{editMasterC ? 'Update' : 'Add'}}</button>
+          <button data-dismiss="modal" class="white_button">Back</button>
         </div>
         </div>
         </div>        
