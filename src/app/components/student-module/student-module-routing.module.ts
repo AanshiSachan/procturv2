@@ -57,8 +57,8 @@ const routes: Routes = [
       },
       {
         path: 'reportcard/:id',
-        component: ViewReportCardComponent,
-       // component:ViewReportCardV2Component,
+       // component: ViewReportCardComponent,
+       component:ViewReportCardV2Component,
         pathMatch: 'prefix',
       }, 
       {
