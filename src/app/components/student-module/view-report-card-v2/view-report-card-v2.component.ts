@@ -24,6 +24,7 @@ parentProfileDocData:any=[];
 studentCommanData:any=[];
 assignedCourses:any=[];
 studentId: any = -1;
+optionalSubjects:any=[];
 
 schoolModel:boolean;
 isLangInstitue: boolean = false;
@@ -70,12 +71,14 @@ getParentProfileDoc() {
     (res: any) => {
       this.parentProfileDocData =res.result;
       this.studentCommanData =res.result;
-      console.log(this.studentCommanData.student_photo);
-      console.log(this.assignedCourses =this.studentCommanData.assignedCourses);
-      let course = this.assignedCourses.split();
+      let course = this.studentCommanData.assignedCourses.split();
       this.assignedCourses =course;
-     // this.assignedCourses.split('');
-      console.log(this.assignedCourses);
+     
+      let optionalSubject =this.studentCommanData.optionalSubjects;
+      if(this.studentCommanData.optionalSubjects!=null){
+         optionalSubject =this.studentCommanData.optionalSubjects.split();
+      }
+     this.optionalSubjects= optionalSubject;
       this.auth.hideLoader();
     },
     err => {

@@ -118,7 +118,7 @@
                   <span class="name1">Birth Place:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">{{studentCommanData.birth_place===null?'---':'studentCommanData.birth_place'}}</span>
+                  <span class="value1">{{studentCommanData.birth_place==''?'---':studentCommanData.birth_place}}</span>
                </div>
               </div>
                <div class="outter_flex">
@@ -126,27 +126,27 @@
                   <span class="name1">Religion:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">{{studentCommanData.religion==''?'---':'studentCommanData.religion'}}</span>
+                  <span class="value1" title="{{studentCommanData.religion}}">{{studentCommanData.religion==''?'---':studentCommanData.religion}}</span>
                </div>
                 <div class="w15">
                   <span class="name1">Aadhar Card:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">{{studentCommanData.student_adhar_card==null?'---':'studentCommanData.student_adhar_card'}}</span>
-               </div>
+              <span class="value1" title="{{studentCommanData.student_adhar_card}}">{{studentCommanData.student_adhar_card==''?'---':studentCommanData.student_adhar_card}}</span>
+               </div> 
               </div>
               <div class="outter_flex">
                 <div class="w15">
                   <span class="name1">Group:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">{{studentCommanData.group==null?'---':'studentCommanData.group'}}</span>
+          <span class="value1">{{studentCommanData.group==''?'---':studentCommanData.group}}</span> 
              </div>
                 <div class="w15" *ngIf="schoolModel">
                   <span class="name1">Optional Subject:</span>                  
                 </div>
-                 <div class="w35">
-                  <span class="value1">Sanskrit</span>                  
+                 <div class="w35" *ngFor="let data of optionalSubjects">
+                  <span class="value1">{{data}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
@@ -154,13 +154,13 @@
                   <span class="name1">Date Of Birth:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">22-01-1998</span>                  
+                  <span class="value1">{{studentCommanData.dob}}</span>                  
                 </div>
                 <div class="w15">
                   <span class="name1">Gender:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">Male</span>                  
+                  <span class="value1">{{studentCommanData.gender}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
@@ -168,13 +168,13 @@
                   <span class="name1">Blood Group:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">AB+</span>                  
+                  <span class="value1">{{studentCommanData.blood_group==null ||studentCommanData.blood_group=="-1" || studentCommanData.blood_group=="" ?'---':studentCommanData.blood_group}}</span>                  
                 </div>
                 <div class="w15">
                   <span class="name1">Email:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">abc@gmail.com</span>                  
+                  <span class="value1"> {{studentCommanData.student_email==null?'---':studentCommanData.student_email}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
@@ -182,13 +182,13 @@
                   <span class="name1">State:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Maharashtra</span>                  
+                  <span class="value1">{{studentCommanData.state==null?'---':studentCommanData.state}}</span>                  
                 </div>
                 <div class="w15">
                   <span class="name1">Country:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">India</span>                  
+                  <span class="value1">{{studentCommanData.country==null?'---':studentCommanData.country}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
@@ -196,13 +196,16 @@
                   <span class="name1">Category:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Open</span>                  
+                  <span class="value1">{{studentCommanData.category==null ||studentCommanData.category=="-1" || studentCommanData.blood_group=="" ?'---':studentCommanData.category}}
+                   </span>                  
                 </div>
                 <div class="w15">
-                  <span class="name1">Remark:</span>                  
+                 <span class="name1">Remark:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Good</span>                  
+                  <span class="value1" *ngIf="studentCommanData.remark=='' || studentCommanData.remark==null ">---</span>
+                  <span class="value1" *ngIf="studentCommanData.remark!=null">{{ (studentCommanData.remark.length > 30) ? (studentCommanData.remark| slice:0:30) + '...' : studentCommanData.remark }}
+                  </span>                  
                 </div>
               </div>
                <div class="outter_flex">
@@ -210,15 +213,17 @@
                   <span class="name1">Mother Tongue:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Hindi</span>                  
+                  <span class="value1"> {{studentCommanData.mother_tongue==null ||studentCommanData.mother_tongue=="-1" || studentCommanData.mother_tongue=="" ?'---':studentCommanData.mother_tongue}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
                 <div class="w15">
                   <span class="name1">Address:</span>                  
                 </div>
-                <div class="w85">
-                  <span class="value1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dumm</span>                  
+                <div class="w85"> 
+                  <span class="value1" *ngIf="studentCommanData.permanent_address=='' || studentCommanData.permanent_address==null ">---</span>
+                  <span class="value1" title="{{studentCommanData.permanent_address}}" *ngIf="studentCommanData.permanent_address!=null">{{ (studentCommanData.permanent_address.length > 100) ? (studentCommanData.permanent_address| slice:0:100) + '...' : studentCommanData.permanent_address }}</span>
+                                 
                 </div>
               </div>
             </div>
