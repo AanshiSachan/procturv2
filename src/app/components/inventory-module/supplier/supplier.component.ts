@@ -565,10 +565,9 @@ searchDatabase() {
   }
 }
 validateMobile(phone_no){
-  if(this.model.phone_no.length!=10){
-    this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please enter 10 digit  phone number"); 
-
-   }
+  if(this.model.phone_no.length<10){
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Enter 10 digit Mobile Number"); 
+  }
   return true;
     }
 }
