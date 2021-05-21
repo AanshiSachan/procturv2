@@ -21,26 +21,28 @@ export class AddEditSalaryComponent implements OnInit {
   salaryModel={
     salary_type:'M',
     salary_grade:'',
-    basic_salary:'',
+    basic_salary:0,
     overtime_rate:'',
     allowance:'',
     allowance_amount:'',
     deduction:'',
-    deduction_amount:'',
+    deduction_amount:0,
     typeA:'A',
     typeD:'D',
     template_id:'',
 
-    gross_salary:'',
-    total_deduction:'',
-    net_salary:'',
+    gross_salary:0,
+    total_deduction:0,
+    net_salary:0,
   }
 
   sectionName='';
   editExpenseId:string;
   isEdit:boolean=false
   salrayDataList:any=[]
-  addedList:any
+  addedListAllownc:any=[]
+  addedListDeduct:any=[]
+
   template_allowances_map_dtos:any=[]
   editResponce:any
   constructor( private http: HttpService, 
@@ -49,7 +51,7 @@ export class AddEditSalaryComponent implements OnInit {
     private router: Router,
     private toastCtrl: AppComponent,) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
-     this.salaryModel.template_id=sessionStorage.getItem('id')
+     this.salaryModel.template_id = sessionStorage.getItem('id')
     }
 
   ngOnInit(): void {
@@ -76,9 +78,11 @@ export class AddEditSalaryComponent implements OnInit {
       (res :any)=>{
     this.salrayDataList=res.result.response
     this.auth.hideLoader();
-    for(let i =0; i< this.salrayDataList.length;i++){
-      this.salaryModel.template_id = this.salrayDataList[i].template_id
-    }
+    // for(let i =0; i< this.salrayDataList.length;i++){
+    //   this.salaryModel.template_id = this.salrayDataList[i].template_id
+
+   // }
+
       },
       err => {
         this.auth.hideLoader();
@@ -88,23 +92,57 @@ export class AddEditSalaryComponent implements OnInit {
     }
     addAllowonceDeduction(type){
       let obj={
-
         type:type,
         allowance:this.salaryModel.allowance,
         allowance_amount:this.salaryModel.allowance_amount,
-        deduction:this.salaryModel.deduction,
-        deduction_amount:this.salaryModel.deduction_amount
+       
       }
-      this.template_allowances_map_dtos.push(obj);
-     
-      console.log("added list",this.template_allowances_map_dtos)
+      // if(this.salaryModel.typeA){
+      this.addedListAllownc.push(obj);
+      console.log(this.addedListAllownc);
+      this.calculateGrossSalary();
       this.salaryModel.allowance = '';
       this.salaryModel.allowance_amount = '';
-
-  }
-  
+      // }
+    }
+    dedutAllown(type){
+       let obj2 ={
+        type:type,
+        deduction:this.salaryModel.deduction,
+        deduction_amount:this.salaryModel.deduction_amount,
+       }
+      //  if(this.salaryModel.typeD){
+this.addedListDeduct.push(obj2)
+this.calculateDeduction();
+console.log("deduction",this.addedListDeduct)
+this.salaryModel.deduction ='',
+this.salaryModel.deduction_amount=0
+//this.template_allowances_map_dtos=this.addedListDeduct + this.addedListAllownc
+  // }
+}
   createSalary(){
+    
+    // if(this.sectionName =='Add'){
     if(this.validInput()){
+      this.template_allowances_map_dtos=[]
+      for(let i=0; i<this.addedListAllownc.length;i++){
+        let item ={
+          type:this.salaryModel.typeA,
+          allowance:this.addedListAllownc[i].allowance,
+          allowance_amount:this.addedListAllownc[i].allowance_amount   
+        }
+        this.template_allowances_map_dtos.push(item)
+      }
+      for(let i=0; i<this.addedListDeduct.length;i++){
+        let item2={
+          type:this.salaryModel.typeD,
+          deduction:this.addedListDeduct[i].deduction,
+          deduction_amount:this.addedListDeduct[i].deduction_amount,
+        }
+this.template_allowances_map_dtos.push(item2)
+      }
+
+     
     let obj ={
       institute_id :this.jsonFlag.institute_id,
       salary_type:this.salaryModel.salary_type,
@@ -112,8 +150,9 @@ export class AddEditSalaryComponent implements OnInit {
       basic_salary:this.salaryModel.basic_salary,
       overtime_rate:this.salaryModel.overtime_rate,
       template_allowances_map_dtos: this.template_allowances_map_dtos
+      
     }
-   
+    
     this.auth.showLoader();
     let url ='/api/v1/payroll/template/salary/create'
     this.http.postData(url,obj).subscribe(
@@ -131,7 +170,7 @@ export class AddEditSalaryComponent implements OnInit {
     }
   }
   getEditSaralyData(){
-    this.auth.showLoader();
+     this.auth.showLoader();
     let url ='/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/'+this.salaryModel.template_id
     this.http.getData(url).subscribe(
       (res :any)=>{
@@ -144,13 +183,29 @@ export class AddEditSalaryComponent implements OnInit {
         this.salaryModel.total_deduction = this.editResponce.total_deduction;
         this.salaryModel.overtime_rate = this.editResponce.overtime_rate;
         this.salaryModel.deduction_amount = this.editResponce.deduction_amount
-
         this.salaryModel.net_salary = this.editResponce.net_salary;
 
-        this.template_allowances_map_dtos = this.editResponce.template_allowances_map_dtos;
+for(let i= 0; i<this.editResponce.template_allowances_map_dtos.length;i++){
+  if(this.salaryModel.typeD){
 
-  console.log("edit",this.editResponce)
-  console.log("id",this.salaryModel.template_id)
+        let obj ={
+          deduction:this.editResponce.template_allowances_map_dtos[i].deduction,
+          deduction_amount:this.editResponce.template_allowances_map_dtos[i].deduction_amount,
+         }
+    this.addedListDeduct.push(obj)
+      }
+      if(this.salaryModel.typeA){
+        let obj2={
+        allowance:this.editResponce.template_allowances_map_dtos[i].allowance,
+        allowance_amount:this.editResponce.template_allowances_map_dtos[i].allowance_amount,
+         }
+    this.addedListAllownc.push(obj2)
+      }
+}
+ //this.addedListDeduct = this.editResponce.template_allowances_map_dtos;
+
+  console.log("edit",this.addedListDeduct)
+  console.log("id",this.editResponce)
   
       },
       err => {
@@ -199,8 +254,8 @@ updateSalary(){
     
 }
 removeList(x){
-  this.template_allowances_map_dtos.splice(x,1)
-  console.log("remove list",this.template_allowances_map_dtos)
+  this.addedListAllownc.splice(x,1)
+  console.log("remove list",this.addedListAllownc)
 }
 
 
@@ -209,45 +264,47 @@ removeList(x){
 
   validInput(){
     if(this.salaryModel.allowance.trim() !="" && this.salaryModel.allowance_amount ==""){
-      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce_amount!');
+      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce_amount');
     return;
   }
   if(this.salaryModel.allowance_amount !="" && this.salaryModel.allowance ==""){
-    this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce!');
+    this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce');
   return;
 }
   if(this.salaryModel.overtime_rate.trim() ==""){
-    this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Overtime Rate!');
+    this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Overtime Rate');
   return;
 }
-    // if (CommonUtils.isEmpty(this.salaryModel.salary_grade)) {
-    //   let data = {
-    //     type: "error",
-    //     title: "",
-    //     body: "Please enter Salary Grade"
-    //   }
-    //   this.toastCtrl.popToast(data);
-    //   return false;
-    // }
-    // if (CommonUtils.isEmpty(this.salaryModel.basic_salary)) {
-    //   let data = {
-    //     type: "error",
-    //     title: "",
-    //     body: "Please enter Basic Salary"
-    //   }
-    //   this.toastCtrl.popToast(data);
-    //   return false;
-    // }
-    // if (CommonUtils.isEmpty(this.salaryModel.overtime_rate)) {
-    //   let data = {
-    //     type: "error",
-    //     title: "",
-    //     body: "Please enter Overtime Rate!"
-    //   }
-    //   this.toastCtrl.popToast(data);
-    //   return false;
-    // }
-
+if(this.salaryModel.salary_grade.trim() ==""){
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Salary ');
+return;
+}
+if(this.salaryModel.basic_salary == 0){
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Basic Salary ');
+return;
+} 
 return true;
+}
+back(){
+  this.router.navigateByUrl("/view/payrole/salary-template")
+}
+calculateGrossSalary() {
+  this.salaryModel.gross_salary = 0;
+  this.salaryModel.gross_salary = Number(this.salaryModel.gross_salary) + Number(this.salaryModel.basic_salary);
+  this.addedListAllownc.forEach(element => {
+    this.salaryModel.gross_salary = Number(this.salaryModel.gross_salary) + Number(element.allowance_amount);
+  });
+  this.salaryModel.net_salary = Number(this.salaryModel.gross_salary) - Number(this.salaryModel.total_deduction);
+}
+calculateDeduction(){
+   this.salaryModel.deduction_amount = 0;
+   this.salaryModel.total_deduction = 0;
+   console.log(this.addedListDeduct);
+  this.addedListDeduct.forEach(element => {
+    console.log('ded_amo',Number(element.deduction_amount))
+    this.salaryModel.total_deduction = Number(this.salaryModel.total_deduction) + Number(element.deduction_amount);
+  });
+  console.log("aded",this.salaryModel.deduction_amount);
+  this.salaryModel.net_salary = Number(this.salaryModel.gross_salary) - Number(this.salaryModel.total_deduction);
 }
 }

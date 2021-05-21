@@ -50,7 +50,7 @@ fetchNext(){
 
 
 fetchPrevious(){
-  this.varJson.pageOffset++;
+  this.varJson.pageOffset--;
   this.fetchTableDataByPage(this.varJson.pageOffset)
 }
 fetchTableDataByPage(index){
@@ -67,7 +67,7 @@ addSalaryPage(){
 }
 getAllSalaryData(){
 this.auth.showLoader();
-let url = '/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/all'+'?ageOffset='+this.varJson.pageOffset+'&pageSize='+this.varJson.pageSize
+let url = '/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/all'+'?pageOffset='+this.varJson.pageOffset+'&pageSize='+this.varJson.pageSize
 this.http.getData(url).subscribe(
   (res :any)=>{
 this.salrayDataList=res.result.response;
@@ -88,7 +88,6 @@ console.log("salaryyyyyy",this.salrayDataList)
 }
 
 onclickView(id){
-  sessionStorage.setItem('id',JSON.stringify(id))
   this.router.navigateByUrl('/view/payrole/view-salary-template/' +id)
 
 }
@@ -112,7 +111,11 @@ deletSalary(){
   
   }
 onClickEdit(id){
+  sessionStorage.setItem('id',JSON.stringify(id))
+
   this.router.navigateByUrl('/view/payrole/edit-salary/' +id);
+  console.log("session id",id)
+
 }
 
 searchFun(){
