@@ -234,13 +234,13 @@
                   <span class="name1">Parent Name:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Abhaya</span>                  
+                  <span class="value1">{{studentCommanData.parent_name==null || studentCommanData.parent_name=="" ?'---':studentCommanData.parent_name}}</span>                  
                 </div>
                 <div class="w15">
                   <span class="name1">Parent Contact:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">9876543210</span>                  
+                  <span class="value1">{{studentCommanData.parent_phone==null || studentCommanData.parent_phone=="" ?'---':studentCommanData.parent_phone}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
@@ -248,13 +248,13 @@
                   <span class="name1">Parent Email ID:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">abc@gmail.com</span>                  
+                  <span class="value1">{{studentCommanData.parent_email==null || studentCommanData.parent_email=="" ?'---':studentCommanData.parent_email}}</span>                  
                 </div>
                 <div class="w15">
                   <span class="name1">Parent Aadhar Card:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">29987399</span>                  
+                  <span class="value1">{{studentCommanData.parent_adhar_card==null || studentCommanData.parent_adhar_card=="" ?'---':studentCommanData.parent_adhar_card}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
@@ -262,7 +262,7 @@
                   <span class="name1">Parent Profession:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Housewife</span>                  
+                  <span class="value1">{{studentCommanData.parent_profession==null || studentCommanData.parent_profession=="-1" || studentCommanData.parent_profession=="" ?'---':studentCommanData.parent_profession}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
@@ -270,13 +270,13 @@
                   <span class="name1">Guardian Name:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Yash</span>                  
+                  <span class="value1">{{studentCommanData.guardian_name==null || studentCommanData.guardian_name=="" ?'---':studentCommanData.guardian_name}}</span>                  
                 </div>
                 <div class="w15">
                   <span class="name1">Guardian Contact No.:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">9876543210</span>                  
+                  <span class="value1">{{studentCommanData.guardian_phone==null || studentCommanData.guardian_phone=="" ?'---':studentCommanData.guardian_phone}}</span>                  
                 </div>
               </div>
                <div class="outter_flex">
@@ -284,15 +284,17 @@
                   <span class="name1">Guardian Email ID:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">yash@gmail.com</span>                  
+                  <span class="value1">{{studentCommanData.guardian_email==null || studentCommanData.guardian_email=="" ?'---':studentCommanData.guardian_email}}</span>                  
                 </div>
               </div>
               <div class="outter_flex">
                 <div class="w15">
-                  <span class="name1">Address:</span>                  
+                  <span class="name1">Residential Address:</span>                  
                 </div>
                 <div class="w85">
-                  <span class="value1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dumm</span>                  
+                  <span class="value1" *ngIf="studentCommanData.current_address=='' || studentCommanData.current_address==null ">---</span>
+                  <span class="value1" title="{{studentCommanData.current_address}}" *ngIf="studentCommanData.current_address!=null">{{ (studentCommanData.current_address.length > 100) ? (studentCommanData.current_address| slice:0:100) + '...' : studentCommanData.current_address }}</span>
+                               
                 </div>
               </div>
             </div>
@@ -591,15 +593,15 @@
                    Action
                   </div>
                 </div>
-                <div class="table_body">
+                <div class="table_body" *ngFor="let data of studentFile;index as i">
                   <div>
-                    01
+                   {{i+1}}
                   </div>
                   <div>
-                    Pan Card
+                   {{ data.title}}
                   </div>
                   <div>
-                    04-21-2020
+                   {{data.createdDate}}
                   </div>
                   <div>
                       <a  class="mr10"><img class="size22" src="../../../assets/img_view/download.svg" title="Download"></a>

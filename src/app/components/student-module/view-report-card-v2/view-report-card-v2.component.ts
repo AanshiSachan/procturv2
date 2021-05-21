@@ -25,7 +25,7 @@ studentCommanData:any=[];
 assignedCourses:any=[];
 studentId: any = -1;
 optionalSubjects:any=[];
-
+studentFile:any=[];
 schoolModel:boolean;
 isLangInstitue: boolean = false;
 institute_id=sessionStorage.getItem('institute_id');
@@ -73,7 +73,8 @@ getParentProfileDoc() {
       this.studentCommanData =res.result;
       let course = this.studentCommanData.assignedCourses.split();
       this.assignedCourses =course;
-     
+     this.studentFile =this.studentCommanData.studentFile ;
+     //console.log(this.studentFile)
       let optionalSubject =this.studentCommanData.optionalSubjects;
       if(this.studentCommanData.optionalSubjects!=null){
          optionalSubject =this.studentCommanData.optionalSubjects.split();
