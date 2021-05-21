@@ -1158,8 +1158,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             demo_by_id: this.newEnqData.demo_by_id,
             discount_offered: this.newEnqData.discount_offered,
             dob: this.newEnqData.dob,
-            email: this.newEnqData.email,
-            email2: this.newEnqData.email2,
+            email: this.newEnqData.email.trim(),
+            email2: this.newEnqData.email2.trim(),
             enqCustomLi: this.newEnqData.enqCustomLi,
             enquiry: this.newEnqData.enquiry,
             enquiry_date: this.newEnqData.enquiry_date,
@@ -1173,7 +1173,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             link: this.newEnqData.link,
             name: this.newEnqData.name,
             occupation_id: this.newEnqData.occupation_id,
-            parent_email: this.newEnqData.parent_email,
+            parent_email: this.newEnqData.parent_email.trim(),
             parent_name: this.newEnqData.parent_name,
             parent_phone: this.newEnqData.parent_phone,
             phone: this.newEnqData.phone,
@@ -1206,7 +1206,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             inst_acad_year_id: this.newEnqData.inst_acad_year_id,
             guardian_name: this.newEnqData.guardian_name,
             guardian_phone: this.newEnqData.guardian_phone,
-            guardian_email: this.newEnqData.guardian_email,
+            guardian_email: this.newEnqData.guardian_email.trim(),
             address: this.newEnqData.address
 
           }
