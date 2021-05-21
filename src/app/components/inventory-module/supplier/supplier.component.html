@@ -59,9 +59,9 @@
               Company  name is mandatory
            </span></p> -->
               <div class="pt10">
-                <label class="p_title"> Email<span class="text-danger">*</span></label>
+                <label class="p_title"> Email Id<span class="text-danger">*</span></label>
                 <input type="text" class="input wid100" id="email_id" name="email_id" placeholder="Enter Email Like(abc@gmail.com)"  [(ngModel)]="model.email_id"
-                #email_id="ngModel"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" > </div>
+                #email_id="ngModel"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" email> </div>
                
              <p  class="errormsg">
                        <span class="help-block" *ngIf="email_id.errors?.pattern">Please enter a valid email address !</span>

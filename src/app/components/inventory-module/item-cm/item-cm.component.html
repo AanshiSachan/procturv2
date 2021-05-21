@@ -338,10 +338,10 @@
                <input type="text" class="input wid100" id="item_name" name="item_name" placeholder="Enter Item Name"  [(ngModel)]="item.item_name"
                   #item_name="ngModel" required>
               </div>
-              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!item_name.valid && item_name.touched">
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!item_name.valid && item_name.touched">
                 Item  name is mandatory
-             </span></p> -->
-                <div class="pt10">
+             </span></p>
+                <!-- <div class="pt10">
                   <label class="p_title"> Standard</label>
                  <select class="select wid100" name="standard_id" id="standard_id"
                   [(ngModel)]="item.standard_id" (ngModelChange)="onMasterCourseSelection($event)">
@@ -352,7 +352,7 @@
                       {{opt.standard_name}} 
                     </option>
                   </select>
-                </div>
+                </div> -->
                <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
                </span></p> -->
               <!-- <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched" >
@@ -375,9 +375,9 @@
               [(ngModel)]="item.unit_cost"
               onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
           </div>
-            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
-              Sale or unit price is mandatory
-           </span></p> -->
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
+              Buying Price or unit price is mandatory
+           </span></p>
                <div class="pt10" [class.has-error]="tax_percent.invalid && tax_percent.touched" >
                 <label class="p_title" title="Tax on sale price"> Tax (%)<span class="text-danger">*</span></label>
                <input type="text" class="input wid100" id="tax_percent" 
@@ -385,8 +385,8 @@
                   #tax_percent="ngModel" 
                   [(ngModel)]="item.tax_percent" onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
               </div>
-              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
-             </span></p> -->
+              <p class="errormsg"><span  style="height:10px;" *ngIf="tax_percent.invalid && tax_percent.touched" class="help-block">Tax is mandatory
+             </span> </p>
             </div>
             <div class="sec2">
               <div class="pt10"  [class.has-error]="abc.invalid && abc.touched">
@@ -400,10 +400,10 @@
                     {{data.category_name}}</option>
                 </select>
               </div>
-              <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
+              <p class="errormsg"> <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
                 Category is mandatory
-               </span></p> -->
-             <div class="pt10">
+               </span></p>
+             <!-- <div class="pt10">
             
               <label class="p_title"> Subject</label>
               <select class="select wid100" name="subject_id" id="subject_id"
@@ -415,7 +415,7 @@
                   {{opt.subject_name}} 
                 </option>
               </select>
-            </div>
+            </div> -->
             <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
               </span></p> -->
               <div class="pt10" [class.has-error]="sale_price.invalid && sale_price.touched" >
@@ -427,9 +427,9 @@
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
                 required>
             </div>
-              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
-                Buying or unit price is mandatory
-             </span></p> -->
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
+                Sale Price or unit price is mandatory
+             </span></p>
               <div class="pt10" [class.has-error]="out_of_stock_indicator_units.invalid && out_of_stock_indicator_units.touched" >
                 <label class="p_title"> Low Stock Indicator<span class="text-danger">*</span></label>
                 <input type="text" class="input wid100" id="out_of_stock_indicator_units" 
@@ -438,9 +438,9 @@
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
                 [(ngModel)]="item.out_of_stock_indicator_units" required>
             </div>
-            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!out_of_stock_indicator_units.valid && out_of_stock_indicator_units.touched">
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!out_of_stock_indicator_units.valid && out_of_stock_indicator_units.touched">
               Low stock indicator  is mandatory
-           </span></p> -->
+           </span></p>
             </div>
           </div>
              <div class="pt10">
