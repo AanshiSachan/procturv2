@@ -60,7 +60,7 @@
            </span></p> -->
               <div class="pt10">
                 <label class="p_title"> Email Id<span class="text-danger">*</span></label>
-                <input type="text" class="input wid100" id="email_id" name="email_id" placeholder="Enter Email Like(abc@gmail.com)"  [(ngModel)]="model.email_id"
+                <input type="text" class="input wid100" id="email_id" name="email_id" placeholder=" For Ex. abc@gmail.com"  [(ngModel)]="model.email_id"
                 #email_id="ngModel"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" email> </div>
                
              <p  class="errormsg">
@@ -79,7 +79,7 @@
            <div class="pt10" [class.has-error]="phone_no.invalid && phone_no.touched" >
             <label class="p_title"> Mobile <span class="text-danger">*</span></label>
            <input type="text" class="input wid100" id="unit_cost" 
-            name="phone_no" placeholder="Enter Mobile Number"   maxlength="15"
+            name="phone_no" placeholder="Enter Mobile Number"  maxlength="10"
             #phone_no="ngModel" 
             (change)="validateMobile(this.model.phone_no)"
             [(ngModel)]="model.phone_no"

@@ -566,7 +566,7 @@ searchDatabase() {
 }
 validateMobile(phone_no){
   if(this.model.phone_no.length<10){
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Enter 10 digit Mobile Number"); 
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Enter 10 Digit Mobile Number"); 
   }
   return true;
     }
