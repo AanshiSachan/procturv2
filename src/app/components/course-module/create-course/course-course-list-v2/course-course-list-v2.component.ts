@@ -70,7 +70,7 @@ export class CourseCourseListV2Component implements OnInit {
   }
 
   fetchStandard() {
-    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + '?is_active=Y';
+    let url = "/api/v1/standards/standard-subject-list/" + this.institute_id + '?is_active=Y&is_subject_required=true';
     this._auth.showLoader();
     this._httpService.getData(url).subscribe(
       (data: any) => {
@@ -133,6 +133,12 @@ export class CourseCourseListV2Component implements OnInit {
         }
       )
     }
+  }
+
+  setAddCourseSession() {
+    sessionStorage.setItem('cretaCourse', JSON.stringify(this.createMasterCourseModel));
+    let sub_list = this.standardList.filter(sub=>(sub.standard_id == this.createMasterCourseModel.standard_id));
+    sessionStorage.setItem('subjectList', JSON.stringify(sub_list[0]));
   }
 
 }

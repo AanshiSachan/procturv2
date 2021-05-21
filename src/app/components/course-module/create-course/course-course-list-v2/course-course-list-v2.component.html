@@ -34,7 +34,7 @@
           <br>
         <div class="outter_flex">
           <div class="firstchild" *ngIf="master_course_id!='-1'">
-            <a routerLink="../add">
+            <a routerLink="../add" (click)="setAddCourseSession()">
               <div>
                 <span>
                   <p>+</p>

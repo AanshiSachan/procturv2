@@ -7,22 +7,23 @@
                 Master Course :
               </div>
               <div>
-                <span class="mc_name">11 Science</span>
+                <span class="mc_name">{{courseDetails.master_course_name}}</span>
               </div>
             </div>
             <div class="flex space_flex">
               <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
-              <div class="std">Standard: 11th</div>
+              <div class="std">Standard: {{courseDetails.standard_name}}</div>
               <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
             </div>
         </div>
         <div class="line"></div>
         <div class="pt15 ">
-           <input type="text" name="" placeholder="Course Name*" class="input mr10 wid217">
-           <input type="date" name="" placeholder="Start date*" class="input mr10 wid180">
-           <input type="date" name="" placeholder="End date*"  class="input mr10 wid180">
+           <input type="text" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name" placeholder="Course Name*" class="input mr10 wid217">
+           <input type="text" class="form-ctrl bsDatepicker input mr10 wid180"
+           [(ngModel)]="courseDetails.start_Date" name="startDate" id="startDate" bsDatepicker placeholder="Start date*">
+           <input type="text" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
            <select class="select mr10 wid180" [(ngModel)]="courseDetails.academic_year_id" (ngModelChange)="setStartAdEndDate(courseDetails)">
-             <option>Academic Year</option>
+             <option value="">Academic Year</option>
              <option *ngFor="let opt of academicList"  [value]="opt.inst_acad_year_id">
               {{opt.inst_acad_year}}
             </option>
@@ -34,11 +35,11 @@
             <div>Subject Name</div>
             <div>Allocate Faculty *</div>
           </div>
-          <div class="table_body">
+          <div class="table_body" *ngFor="let row of subjectList ; let i= index; trackBy: index">
             <div>
               <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" >
+                      <input type="checkbox" id="{{row.subject_id}}" [(ngModel)]="row.uiSelected" name="checked" >
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -47,11 +48,13 @@
                   </label>
             </div>
             <div>
-              Maths
+              {{row.is_optional=='Y'?row.subject_name+'(Optional)':row.subject_name}}
             </div>
             <div>
-              <select class="select width_s">
-                <option>Mrs. Ankusha S</option>
+              <select class="select width_s" [(ngModel)]="row.selected_teacher" (ngModelChange)="checkMoreOption(row)">
+                <option *ngFor="let opt of row.allowedTeacher" [value]="opt.teacher_id">
+                  {{opt.teacher_name}}
+                </option>
               </select>
             </div>
           </div>

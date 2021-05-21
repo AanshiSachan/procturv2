@@ -9,6 +9,7 @@ import * as moment from 'moment';
 })
 export class CourseAddComponent implements OnInit {
   academicList:any=[];
+  subjectList:any=[];
   courseDetails: any = {
     course_name: '',
     start_Date: '',
@@ -23,12 +24,17 @@ export class CourseAddComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let createCourse = JSON.parse(sessionStorage.getItem('cretaCourse'));
+    this.subjectList = JSON.parse(sessionStorage.getItem('subjectList'));
+    this.courseDetails = createCourse;
+    console.log(this.courseDetails);
+    // sessionStorage.removeItem('cretaCourse');
     this.getAcademicYearDetails();
   }
 
   getAcademicYearDetails() {
     this.academicList = [];
-    this._httpService.getData('/api/v1/academicYear/all/').subscribe(
+    this._httpService.getData('/api/v1/academicYear/all/'+sessionStorage.getItem('institute_id')).subscribe(
       res => {
         this.academicList = res;
       },
