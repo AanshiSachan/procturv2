@@ -64,9 +64,9 @@
         <div class="width80"></div>
         <div class="padding4">
           <p class="course_text">Course assigned:</p>
-          <div class="tag_wrapper">
-            <div class="tag">Bio</div>
-            <div class="tag ">Course Name 1</div>
+          <div class="tag_wrapper"  *ngFor="let data of assignedCourses;index as i">
+            <div class="tag" >{{data}}</div>
+            <!-- <div class="tag ">Course Name 1</div>
             <div class="tag ">12th</div>
           
             <div class="tag ">Stone_1</div>
@@ -74,7 +74,7 @@
      
             <div class="tag ">Sanitacoursw</div>
             <div class="tag ">sev</div>
-            <div class="tag ">PCB</div>
+            <div class="tag ">PCB</div> -->
           </div>
           <!-- <div class="tag_wrapper" *ngFor="let data of assignedCourses;index as i">
             <div class="tag " >{{data}}</div>
@@ -112,37 +112,37 @@
                   <span class="name1">Roll No.:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">2828</span>                  
+                  <span class="value1">{{studentCommanData.roll_no}} </span>                  
                 </div>
                 <div class="w15">
                   <span class="name1">Birth Place:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">Nagpur</span>                  
-                </div>
+                  <span class="value1">{{studentCommanData.birth_place===null?'---':'studentCommanData.birth_place'}}</span>
+               </div>
               </div>
                <div class="outter_flex">
                 <div class="w15">
                   <span class="name1">Religion:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">Hindu</span>                  
-                </div>
+                  <span class="value1">{{studentCommanData.religion==''?'---':'studentCommanData.religion'}}</span>
+               </div>
                 <div class="w15">
                   <span class="name1">Aadhar Card:</span>                  
                 </div>
                  <div class="w35">
-                  <span class="value1">234456778</span>                  
-                </div>
+                  <span class="value1">{{studentCommanData.student_adhar_card==null?'---':'studentCommanData.student_adhar_card'}}</span>
+               </div>
               </div>
               <div class="outter_flex">
                 <div class="w15">
                   <span class="name1">Group:</span>                  
                 </div>
                 <div class="w35">
-                  <span class="value1">ABC</span>                  
-                </div>
-                <div class="w15">
+                  <span class="value1">{{studentCommanData.group==null?'---':'studentCommanData.group'}}</span>
+             </div>
+                <div class="w15" *ngIf="schoolModel">
                   <span class="name1">Optional Subject:</span>                  
                 </div>
                  <div class="w35">

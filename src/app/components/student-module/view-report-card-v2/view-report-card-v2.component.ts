@@ -72,8 +72,8 @@ getParentProfileDoc() {
       this.studentCommanData =res.result;
       console.log(this.studentCommanData.student_photo);
       console.log(this.assignedCourses =this.studentCommanData.assignedCourses);
-      let newArray = this.assignedCourses.split();
-      this.assignedCourses =newArray;
+      let course = this.assignedCourses.split();
+      this.assignedCourses =course;
      // this.assignedCourses.split('');
       console.log(this.assignedCourses);
       this.auth.hideLoader();
