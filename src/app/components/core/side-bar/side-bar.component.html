@@ -533,9 +533,11 @@
 
                     </li>
 
-                    <li class="dropdown" [ngClass]="activeSession === 'liExam' ?'liActiveBG':''"
+                    <li class="dropdown"
+                    [ngStyle]="{display: (jsonCourseFlags.isShowExam) ? 'block' : 'none'}"
+                     [ngClass]="activeSession === 'liExam' ?'liActiveBG':''"
                         (click)="toggler('liExam')">
-                        <div>
+                        <div *ngIf="jsonCourseFlags.isShowExam">
                             <a class="dropbtn">
                                 <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/Exam.svg':'./assets/images/sidemenuicon/Exam.svg'"
                                     alt="">

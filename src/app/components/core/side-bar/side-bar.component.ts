@@ -393,7 +393,7 @@ mouseleave() {
       }
       if (this.role_feature.EXAMS_MENU) {
         this.jsonCourseFlags.isShowExam = true;
-        this.jsonFlags.isShowCourse = true;
+        // this.jsonFlags.isShowCourse = true;
       }
     }
     if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
@@ -412,9 +412,9 @@ mouseleave() {
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
       this.jsonCourseFlags.isShowOnlineAssignment = true;
     }
-    if (this.role_feature.SETUP_MENU) {
-      this.jsonFlags.isShowCourse = true;
-    }
+    // if (this.role_feature.SETUP_MENU) {
+    //   this.jsonFlags.isShowCourse = true;
+    // }
   }
 
   checkpermissionOfCommunicate() {
@@ -776,7 +776,7 @@ mouseleave() {
         remove the first and last char and validate if its admin or not */
         this.hasLead(this.permissionData);
         this.hasStudent(this.permissionData);
-        this.hasCourse(this.permissionData);
+        // this.hasCourse(this.permissionData);
         // this.hasProducts(this.permissionData);
       }
 
