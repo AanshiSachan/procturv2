@@ -16,10 +16,10 @@
          </select> -->
          <div class="col-lg-4 pl0">
           <label for="role_name" class="role_name">Role Name <span class="text-danger">*</span></label>
-           <input type="" name="roleName" [(ngModel)]="roleName" class="input w100" placeholder="Role*"></div>
+           <input type="" name="roleName" [(ngModel)]="roleName" class="input w100" placeholder="Role"></div>
          <div class="col-lg-4 pl0">
-          <label for="role_name" class="role_name">Role Description</label>
-           <input type="" name="roleDesc" [(ngModel)]="roleDesc" class="input w100" placeholder="Role Description*"></div>
+          <label for="role_name" class="role_name">Role Description<span class="text-danger">*</span></label>
+           <input type="" name="roleDesc" [(ngModel)]="roleDesc" class="input w100" placeholder="Role Description"></div>
        </div>
        <div class="col-lg-8 pl0 webkit" *ngIf="roleId != '-1'">
         <!-- <a href="#" data-toggle="modal" data-target="#rolemyModal"><span class="add_role">Add Role</span></a>
@@ -64,9 +64,13 @@
                </div>
              </div>
             </div>
+            <br>
              <!-- Exam Desk Settings --> 
-             <p class="form_heading"><span>Exam Desk Settings (Online Exam)</span></p>
-             <div class="borderbottom"></div>
+             <div class="flex1">
+              <p class="form_heading"><span>Exam Desk Settings (Online Exam)</span></p>
+              <div class="borderbottom"></div>
+             </div>
+            
              <div class="head_border" *ngFor="let roleTitle of examDeskRoles;let j=index">
               <div class="section_heading">
                  <label class="switch">
