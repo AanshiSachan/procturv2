@@ -307,4 +307,9 @@ calculateDeduction(){
   console.log("aded",this.salaryModel.deduction_amount);
   this.salaryModel.net_salary = Number(this.salaryModel.gross_salary) - Number(this.salaryModel.total_deduction);
 }
+removeRow(d){
+  // if(this.addedListAllownc.length){
+  //   this.addedListAllownc.splice(d,1)
+  // }
+}
 }

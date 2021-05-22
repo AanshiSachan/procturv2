@@ -58,13 +58,11 @@
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add">
+                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" >
                                         <i class="fa fa-plus"></i>
+
                                     </button>
-
-                                    
-                                    <!-- <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a> -->
-
+                                    <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
                                 </div>
 
                                 <span class="col-sm-12 errorpointallowances" id="allowanceserror1">
@@ -84,18 +82,17 @@
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add">
+                                    <div class="col-sm-1">
+                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" *ngIf="addedListAllownc.length ==0">
                                         <i class="fa fa-plus"></i>
                                     </button>
-                                   
+                                    <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
 
-                                    <a (click)="removeList(i)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                                      </div>
+                                      
+                                    <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
 
-                                   </div> 
-                                   <!-- <div class="col-sm-1">
-                                    <a ><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
-                                 
-                                </div> -->
+                                 </div>
 
                                 <span class="col-sm-12 errorpointallowances" id="allowanceserror1">
                                                                             </span>
