@@ -352,14 +352,14 @@ export class StudentHomeComponent implements OnInit {
           this.downloadStudentAdmissionForm();
         },
       },
-      {
-        label: "Fee Installment",
-        icon: "fa fa-dollar",
-        command: () => {
-          this.studentFeeInstallment(-1); // because fee install ment at multiple student has some issues
-          // this.isShareDetails = true;
-        },
-      },
+      // {
+      //   label: "Fee Installment",
+      //   icon: "fa fa-dollar",
+      //   command: () => {
+      //     this.studentFeeInstallment(-1); // because fee install ment at multiple student has some issues
+      //     // this.isShareDetails = true;
+      //   },
+      // },
       {
         label: "Download ID card",
         icon: "fa fa-download",
