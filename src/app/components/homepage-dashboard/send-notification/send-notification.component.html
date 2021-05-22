@@ -167,7 +167,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
       <div class="w982 ">
       <div class="w90 pending_tab">
         <h1  *ngIf="pendingMessage || jsonFlag.editMessage">Create Message</h1>  
-        <textarea placeholder="Write your message here...." class="textarea_m" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
+        <textarea placeholder=" Write your message here...." class="textarea_m" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
          *ngIf="pendingMessage || jsonFlag.editMessage">
       </textarea>
 
@@ -198,7 +198,7 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
         <p>5. Get approval for your SMS content on DLT platform: Find the link of Proctur system generated SMS, which is expected to approved from DLT. (Download the template-“ <a href="https://bit.ly/3sDxMgx ">https://bit.ly/3sDxMgx </a> ”).</p>
         </div>
       </div>
-       <div class="w90 approved_tab">
+       <div class="w90 approved_tab" *ngIf="approveMessage">
         <div class="sec1">
           <div >
             Transactional : {{transactionalSmsm}}
@@ -207,8 +207,8 @@ elitr, sed diam nonumy eirmod tempor invidunt.</span>
             Promotional : {{pramotionalSms}}
           </div>
         </div>
-        <h1>Selected Message</h1> 
-        <textarea placeholder="your selected message here...." class="textarea_m" >{{selectedRow}}</textarea>
+        <h1 *ngIf="approveMessage">Selected Message</h1> 
+        <textarea placeholder="your selected message here...." class="textarea_m" *ngIf="approveMessage">{{selectedRow}}</textarea>
  
         
         <!-- <div class="box1">

@@ -182,7 +182,6 @@ penddingTab(){
   this.pendingMessage = true;
   this.selectedRow ="";
   this.selectedMessageText="";
-  
   this.getAllMessageFromServer()
 
 }
@@ -427,7 +426,9 @@ getStandard() {
 flushData() {
   this.batchList = [];
   this.courseList = [];
-  this.studentList = [];
+ // this.studentList = [];
+  //this.batchList=[];
+  //this.masterCourseList=[];
 }
 
 
@@ -532,6 +533,7 @@ this.allUserList= false;
 
             this.auth.hideLoader();
             this.studentList = res;
+            this.flushData()
             console.log("All active studentList",this.studentList)
           },
           err => {
@@ -649,23 +651,25 @@ chkBoxAllFaculty() {
   this.showallUserListFlag = false;
   this.showAllaluminiStudentFlag = false;
  this.showInactiveStudentFlag = false;
-    this.showFacultyTableFlag = true;
+   this.showFacultyTableFlag = true;
     this.auth.showLoader();
     this.widgetService.getAllTeacherList().subscribe(
       res => {
         this.auth.hideLoader();
 
           this.studentList = res;
+          this.flushData()
+
           console.log("facultyyyyyyyyyyyy",this.studentList)
         
       },
       err => {
         this.auth.hideLoader();
-        //console.log(err);
+        //this.flushData()
       }
     )
     }
-
+  
     chkBoxAllInActiveStudent() {
       this. allUserCheck=false;
        this.activeRowCeckbox = false
@@ -681,6 +685,8 @@ chkBoxAllFaculty() {
           res => {
             this.auth.hideLoader();
              this.studentList = res;
+             this.flushData()
+
             console.log("Inactiveeeeeeeeeee",this.studentList)
           },
           err => {
@@ -709,6 +715,8 @@ chkBoxAllFaculty() {
             this.auth.hideLoader();
   
               this.studentList = res;
+              this.flushData()
+
               console.log("ALLLLUMINIIIIII",this.studentList)
             
           },
@@ -751,7 +759,8 @@ chkBoxAllFaculty() {
             let response = res['body'];
   
               this.studentList = response.result;
-            
+              this.flushData()
+
           },
           err => {
             this.auth.hideLoader();
@@ -763,6 +772,8 @@ chkBoxAllFaculty() {
   
     fetchDataFromFields() {
       // if (this.sendNotificationCourse.course_id != "-1") {
+       
+      // this.showFacultyTableFlag = false;
         let obj:any = {
           course_id: this.sendNotificationCourse.course_id,
           master_course_name: this.sendNotificationCourse.master_course
@@ -777,6 +788,15 @@ chkBoxAllFaculty() {
             this.auth.hideLoader();
             this.showTableFlag = true;
             this.studentList = res;
+            this.showFacultyTableFlag=false;
+            this. showAllaluminiStudentFlag= false
+            this.showallUserListFlag = false
+           this.showInactiveStudentFlag = false;
+           this. aluminiCheckBox=false;
+           this. allUserCheck=false;
+            this.inactiveCheck=false;
+            this.facultyCheckBox = false
+           //this.flushData()
             console.log("filterList",this.studentList)
           },
           err => {
@@ -803,6 +823,7 @@ chkBoxAllFaculty() {
       for (let i = 0; i < this.studentList.length; i++) {
         if (this.studentList[i].assigned == true) {
           id.push(this.studentList[i][key]);
+          console.log("iddddddd",id)
         }
       }
       return id.join(',');
@@ -894,21 +915,25 @@ chkBoxAllFaculty() {
       }
       let studentID: any;
       let userId: any;
+
       let isTeacherSMS: number = 0;
       if (this.showFacultyTableFlag) {
         studentID = this.getListOfIds('teacher_id');
         isTeacherSMS = 1;
         destination = 0;
       } else {
-        if (this.allUserList) {
+        if (this.showallUserListFlag) {
           userId = this.getListOfUserIds('user_id')
-        } else {
+        }
+         if(this.showTableFlag){
           studentID = this.getListOfIds('student_id');
         }
       }
       let isAlumini = 0;
   
       if (this.showAllaluminiStudentFlag) {
+        studentID = this.getListOfIds('student_id');
+
         isAlumini = 1;
       }
   
@@ -925,12 +950,15 @@ chkBoxAllFaculty() {
         isTeacherSMS: isTeacherSMS,
         configuredMessage: configuredMessage,
         message_id: this.slectedMessagesId,
-        is_user_notify: 0
+        is_user_notify:0
       }
-      if (this.allUserList) {
+      if (this.showallUserListFlag) {
         obj.is_user_notify = 1
+     
+      }else{
+        obj.is_user_notify =0
       }
-  
+      console.log("studenidd",obj.student_ids)
       this.widgetService.sendNotification(obj).subscribe(
         res => {
           let msg = {
@@ -941,6 +969,7 @@ chkBoxAllFaculty() {
           this.appC.popToast(msg);
           this.closeNewMessageDiv()
           this.addSmsForm = true;
+          this.selectStudentForm=false;
 
         },
         err => {
