@@ -180,6 +180,9 @@ approveTab(){
 penddingTab(){
   this.approveMessage = false;
   this.pendingMessage = true;
+  this.selectedRow ="";
+  this.selectedMessageText="";
+  
   this.getAllMessageFromServer()
 
 }
@@ -319,7 +322,7 @@ approveRejectSms(data, statusCode) {
   } else {
     msg = "deleted";
   }
-  if (confirm('Are you sure, You want  to ' + msg + ' the message?')) {
+  if (confirm('Are you sure, You want to ' + msg + ' the message?')) {
     this.widgetService.changesSMSStatus({ 'status': statusCode }, data.message_id).subscribe(
       res => {
         let msg = {
@@ -936,8 +939,8 @@ chkBoxAllFaculty() {
             body: "Sent successfully"
           };
           this.appC.popToast(msg);
-          //this.closeNotificationPopUp();
           this.closeNewMessageDiv()
+          this.addSmsForm = true;
 
         },
         err => {
@@ -987,6 +990,7 @@ chkBoxAllFaculty() {
           };
           this.appC.popToast(msg);
           this.closeNewMessageDiv()
+          this.addSmsForm = true;
         },
         err => {
           //console.log(err);
