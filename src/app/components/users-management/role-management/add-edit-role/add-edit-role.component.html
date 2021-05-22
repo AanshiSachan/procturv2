@@ -7,7 +7,7 @@
      </div>
   </div>
      <div class="w98">
-     <div class="row mt15" >
+     <div class="row mt15 g-0" >
        <div class="col-lg-8 pl0 webkit" *ngIf="roleId == '-1'">
          <!-- <a href="#" data-toggle="modal" data-target="#rolemyModal"><span class="add_role">Add Role</span></a>
          <select id="selector" class="select" [(ngModel)]="roleId" (ngModelChange)="getRolesOfUser($event)">
@@ -16,10 +16,10 @@
          </select> -->
          <div class="col-lg-4 pl0">
           <label for="role_name" class="role_name">Role Name <span class="text-danger">*</span></label>
-           <input type="" name="roleName" [(ngModel)]="roleName" class="input w100" placeholder="Role*"></div>
+           <input type="" name="roleName" [(ngModel)]="roleName" class="input w100" placeholder="Role"></div>
          <div class="col-lg-4 pl0">
-          <label for="role_name" class="role_name">Role Description</label>
-           <input type="" name="roleDesc" [(ngModel)]="roleDesc" class="input w100" placeholder="Role Description*"></div>
+          <label for="role_name" class="role_name">Role Description<span class="text-danger">*</span></label>
+           <input type="" name="roleDesc" [(ngModel)]="roleDesc" class="input w100" placeholder="Role Description"></div>
        </div>
        <div class="col-lg-8 pl0 webkit" *ngIf="roleId != '-1'">
         <!-- <a href="#" data-toggle="modal" data-target="#rolemyModal"><span class="add_role">Add Role</span></a>
@@ -29,13 +29,14 @@
         </select> -->
         <div class="col-lg-4 pl0"><span><b>Role Name : <span class="text-danger">*</span></b> {{userData.role_name}}</span></div>
         <div class="col-lg-4 pl0">
-          <label for="role_name" class="role_name">Role Description</label>
-          <input type="" name="roleDesc" [(ngModel)]="userData.role_desc" class="input w100" placeholder="Role Description*"></div>
+          <label for="role_name" class="role_name">Role Description</label><span class="text-danger">*</span>
+          <input type="" name="roleDesc" [(ngModel)]="userData.role_desc" class="input w100" placeholder="Role Description"></div>
       </div>
-       <div class="col-lg-4">
-         <span class="right"><p class="select_no">No of Selections: <span>{{selectedRoleLength}}</span></p></span>
+       <div class="col-lg-4 g-0">
+         <span class="right"><p class="select_no">No. of Selections: <span>{{selectedRoleLength}}</span></p></span>
        </div>
      </div>
+     <br>
      <div class="global">
                 <!--  Global -->
             <div class="head_border" *ngFor="let roleTitle of procturRoles;let j=index">
@@ -54,7 +55,7 @@
                              <input type="checkbox" name="checked" [id]="'checkbox-'+i+j" [disabled]="!roleTitle.isToggleChecked" [checked]="feature.isChecked" [(ngModel)]="feature.isChecked" (change)="checkLengthofRole($event.target.checked)">
                              <span class="checkbox__control" [ngStyle]="{'cursor':!roleTitle.isToggleChecked ? 'no-drop' : 'pointer'}">
                               <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                                 <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                                 <path fill='none' stroke='currentColor'  d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
                              </span>
                            </span>
                          </label>
@@ -63,9 +64,13 @@
                </div>
              </div>
             </div>
+            <br>
              <!-- Exam Desk Settings --> 
-             <p class="form_heading"><span>Exam Desk Settings (Online Exam)</span></p>
-             <div class="borderbottom"></div>
+             <div class="flex1">
+              <p class="form_heading"><span>Exam Desk Settings (Online Exam)</span></p>
+              <div class="borderbottom"></div>
+             </div>
+            
              <div class="head_border" *ngFor="let roleTitle of examDeskRoles;let j=index">
               <div class="section_heading">
                  <label class="switch">
@@ -82,7 +87,7 @@
                             <input type="checkbox" name="checked" [id]="'checkboxe-'+i+j" [disabled]="!roleTitle.isToggleChecked" [checked]="feature.isChecked" [(ngModel)]="feature.isChecked" (change)="checkLengthofRole($event.target.checked)">
                             <span class="checkbox__control">
                              <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                                <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                                <path fill='none' stroke='currentColor'  d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
                             </span>
                           </span>
                         </label>
