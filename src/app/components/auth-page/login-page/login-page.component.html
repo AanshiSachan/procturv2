@@ -145,7 +145,7 @@
               <input class="form-ctrl" type="{{passwordType}}" [(ngModel)]="loginDataForm.password" name="password"
                 id="password" #password="ngModel" placeholder="Password" required (keyup.enter)="loginViaServer()">
                 <i style=" margin-left: -30px;
-                cursor: pointer;" class="{{passwordClass}}" id="togglePassId" (click)="togglePassword()"></i>
+                cursor: pointer;color: #7d848c;" class="{{passwordClass}}" id="togglePassId" (click)="togglePassword()"></i>
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert invalid-alert">
                 <div *ngIf="password.errors.required">
                   Please enter password
