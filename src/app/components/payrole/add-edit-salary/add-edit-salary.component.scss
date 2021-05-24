@@ -28,7 +28,7 @@ form-horizontal .control-label {
     border-radius: 3px;
     width: 93%;
     margin-left: 31px;
-    box-shadow: 0px 1px 3px;
+   // box-shadow: 0px 1px 3px;
 }
 .btn.btn-success {
     color: #fff;
@@ -151,11 +151,4 @@ table>tbody>tr>td, .table>tfoot>tr>td {
     border-bottom-left-radius: 0;
     border-bottom: 0px solid #f4f4f4;
     color: #444;
-}
-box .box-body {
-    padding: 15px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
 }

@@ -20,7 +20,7 @@ varJson:any={
   pageIndex:1,
   sizeArr:[5,25,50,100,150,200,500],
   total_item:0,
-  pageSize:5,
+  pageSize:10,
   pageOffset:1,
 }
 template_id:any;
@@ -35,6 +35,7 @@ tempList:any=[]
     private pdf :ExportToPdfService,
     private excel :ExcelService,) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
+      this.template_id = sessionStorage.getItem('id')
     }
 
   ngOnInit(): void {
@@ -88,6 +89,8 @@ console.log("salaryyyyyy",this.salrayDataList)
 }
 
 onclickView(id){
+  sessionStorage.setItem('id',JSON.stringify(id))
+
   this.router.navigateByUrl('/view/payrole/view-salary-template/' +id)
 
 }
@@ -100,8 +103,9 @@ deletSalary(){
       res=>{
         console.log("delet",this.template_id)
         this.auth.hideLoader()
-        this.msgToast.showErrorMessage('success', '', "Salary delete successfully");
         this.getAllSalaryData()
+
+        this.msgToast.showErrorMessage('success', '', "Salary delete successfully");
       },
       err => {
         this.auth.hideLoader();

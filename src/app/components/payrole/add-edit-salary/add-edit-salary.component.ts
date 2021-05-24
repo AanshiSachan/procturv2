@@ -42,6 +42,8 @@ export class AddEditSalaryComponent implements OnInit {
   salrayDataList:any=[]
   addedListAllownc:any=[]
   addedListDeduct:any=[]
+  remove:boolean=false;
+  removeAllownce:boolean=false;
 
   template_allowances_map_dtos:any=[]
   editResponce:any
@@ -124,8 +126,9 @@ this.salaryModel.deduction_amount=0
     
     // if(this.sectionName =='Add'){
     if(this.validInput()){
-      this.template_allowances_map_dtos=[]
+      //this.template_allowances_map_dtos=[]
       for(let i=0; i<this.addedListAllownc.length;i++){
+        if(this.salaryModel.typeA){
         let item ={
           type:this.salaryModel.typeA,
           allowance:this.addedListAllownc[i].allowance,
@@ -133,7 +136,10 @@ this.salaryModel.deduction_amount=0
         }
         this.template_allowances_map_dtos.push(item)
       }
+    }
+    
       for(let i=0; i<this.addedListDeduct.length;i++){
+        if(this.salaryModel.typeD){
         let item2={
           type:this.salaryModel.typeD,
           deduction:this.addedListDeduct[i].deduction,
@@ -141,7 +147,7 @@ this.salaryModel.deduction_amount=0
         }
 this.template_allowances_map_dtos.push(item2)
       }
-
+    }
      
     let obj ={
       institute_id :this.jsonFlag.institute_id,
@@ -185,29 +191,27 @@ this.template_allowances_map_dtos.push(item2)
         this.salaryModel.deduction_amount = this.editResponce.deduction_amount
         this.salaryModel.net_salary = this.editResponce.net_salary;
 
-for(let i= 0; i<this.editResponce.template_allowances_map_dtos.length;i++){
-  if(this.salaryModel.typeD){
-
-        let obj ={
+    for(let i= 0; i<this.editResponce.template_allowances_map_dtos.length;i++){
+      if(this.editResponce.template_allowances_map_dtos[i].type == 'D') {
+         let obj ={
+          type:this.salaryModel.typeD,
           deduction:this.editResponce.template_allowances_map_dtos[i].deduction,
           deduction_amount:this.editResponce.template_allowances_map_dtos[i].deduction_amount,
          }
-    this.addedListDeduct.push(obj)
-      }
-      if(this.salaryModel.typeA){
-        let obj2={
-        allowance:this.editResponce.template_allowances_map_dtos[i].allowance,
-        allowance_amount:this.editResponce.template_allowances_map_dtos[i].allowance_amount,
+           this.addedListDeduct.push(obj)
+        } else {
+             let obj2={
+          type:this.salaryModel.typeA,
+         allowance:this.editResponce.template_allowances_map_dtos[i].allowance,
+         allowance_amount:this.editResponce.template_allowances_map_dtos[i].allowance_amount,
+        
          }
-    this.addedListAllownc.push(obj2)
-      }
-}
- //this.addedListDeduct = this.editResponce.template_allowances_map_dtos;
-
-  console.log("edit",this.addedListDeduct)
-  console.log("id",this.editResponce)
-  
-      },
+       console.log("edit",this.template_allowances_map_dtos)
+       this.addedListAllownc.push(obj2)  
+        }
+  }
+      
+  },
       err => {
         this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
@@ -218,6 +222,26 @@ for(let i= 0; i<this.editResponce.template_allowances_map_dtos.length;i++){
 
 updateSalary(){
   // if(this.sectionName == 'Edit'){
+     for(let i= 0; i<this.addedListDeduct.length;i++){
+      if(this.salaryModel.typeD){
+ 
+
+      let obj ={
+        type:this.salaryModel.typeD,
+        deduction:this.addedListDeduct[i].deduction,
+        deduction_amount:this.addedListDeduct[i].deduction_amount,
+       }
+  this.template_allowances_map_dtos.push(obj)
+      }}
+    for(let i=0; i<this.addedListAllownc.length; i++){
+      if(this.salaryModel.typeA){
+      let obj2={
+        type:this.salaryModel.typeA,
+      allowance:this.addedListAllownc[i].allowance,
+      allowance_amount:this.addedListAllownc[i].allowance_amount,
+       }
+  this.template_allowances_map_dtos.push(obj2)
+    }}
   let obje ={
     institute_id :this.jsonFlag.institute_id,
     template_id:this.salaryModel.template_id,
@@ -234,7 +258,7 @@ updateSalary(){
       res=>{
         this.auth.hideLoader()
         this.msgToast.showErrorMessage('success', '', "Salary Updated successfully");
-        console.log("pass id",obje)
+        console.log("editeeeeeee",obje.template_allowances_map_dtos)
         this.router.navigate(['/view/payrole/salary-template']);
         this.getAllSalaryData()
         // if (this.sectionName == 'Edit') {
@@ -253,14 +277,23 @@ updateSalary(){
     )
     
 }
+
 removeList(x){
   this.addedListAllownc.splice(x,1)
   console.log("remove list",this.addedListAllownc)
 }
+removeListDeduct(b){
+  this.addedListDeduct.splice(b,1)
+  console.log("dection remove",this.addedListDeduct)
 
+}
+reomeEow(){
+      this.addedListDeduct.splice()
 
+      console.log("delete",this.addedListDeduct)
+  
 
-
+}
 
   validInput(){
     if(this.salaryModel.allowance.trim() !="" && this.salaryModel.allowance_amount ==""){
@@ -276,13 +309,22 @@ removeList(x){
   return;
 }
 if(this.salaryModel.salary_grade.trim() ==""){
-  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Salary ');
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Salary');
 return;
 }
 if(this.salaryModel.basic_salary == 0){
-  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Basic Salary ');
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Basic Salary');
 return;
 } 
+if(this.salaryModel.deduction_amount !=0 && this.salaryModel.deduction.trim() ==""){
+this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction');
+return
+}
+if(this.salaryModel.deduction_amount ==0 && this.salaryModel.deduction !=""){
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction Amount');
+  return
+  }
+
 return true;
 }
 back(){
