@@ -28,7 +28,7 @@ transferCertificateModel={
   dateOfBirth:'',
   student_name:'',
   father_name:'',
-  doj:'',
+  doj: '',
   whetherBelongsTo:'',
   studentLast_class:'',
   student_id:'',
@@ -72,8 +72,7 @@ transfer :boolean=false
 transferCertificates:boolean=true
 
   ngOnInit(): void {
-    
-    this.getTransferData();
+  this.getTransferData();
   }
  
 transferCertificate(){
@@ -90,8 +89,8 @@ this.PostStudService.stdGetData(url).subscribe(
     this.studentTransferData = res.result;
       this.transferCertificateModel.student_name=this.studentTransferData.student_name;
       this.transferCertificateModel.father_name= this.studentTransferData.father_name 
-      this.transferCertificateModel.dateOfBirth=this.studentTransferData.dob
-      this.transferCertificateModel.doj=this.studentTransferData.doj
+      this.transferCertificateModel.dateOfBirth=this.studentTransferData.dob;
+      this.transferCertificateModel.doj=this.studentTransferData.doj;
       this.transferCertificateModel.student_administration_number=this.studentTransferData.student_administration_number
       this.transferCertificateModel.mother_name=this.studentTransferData.mother_name
       this.transferCertificateModel.last_studied_class = this.studentTransferData.last_studied_class
@@ -165,10 +164,7 @@ generateTransferCertificates(){
     (res:any) =>{
       let resp =res.result;
       console.log("transfer",resp)
-
-      this.auth.hideLoader();
-      
-    
+      this.auth.hideLoader();  
   },
   err => {
     console.log(err);
@@ -205,9 +201,7 @@ let obj ={
     application_date:this.transferCertificateModel.application_date,
     issue_date :this.transferCertificateModel.certificate_issue_date,
     leaving_reason:this.transferCertificateModel.reasonLeaveSchool,
-    remark:this.transferCertificateModel.remark
-
-  
+    remark:this.transferCertificateModel.remark  
 }
   this.auth.showLoader();
   let url ='/api/v1/certificate/transfer';
@@ -222,9 +216,7 @@ let obj ={
 
 this.auth.hideLoader();
       if(res){
-         
-      
-        if(resp.document != "" ){
+          if(resp.document != "" ){
           let docArry = this._commService.convertBase64ToArray(resp.document);
           let fileName = resp.docTitle;//response.docTitle
           let file = new Blob([docArry], { type: 'application/pdf;' });
@@ -234,8 +226,6 @@ this.auth.hideLoader();
           downloadLink.setAttribute("download",fileName);
           document.body.appendChild(downloadLink);
           downloadLink.click();
-  
-  
         }
         else {
           this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
@@ -260,10 +250,10 @@ previewCertificate(){
     student_administration_number :this.transferCertificateModel.student_administration_number,
     father_name : this.transferCertificateModel.father_name,
     mother_name : this.transferCertificateModel.mother_name,
-    dob : this.transferCertificateModel.dateOfBirth,
+    dob : moment(this.transferCertificateModel.dateOfBirth).format("YYYY-MM-DD"),
     nationality : this.transferCertificateModel.nationality,
     category : this.transferCertificateModel.belongsTo,
-    doj : this.transferCertificateModel.doj,
+    doj : moment(this.transferCertificateModel.doj).format("YYYY-MM-DD"),
     last_studied_class : this.transferCertificateModel.last_studied_class,
     last_annual_exam_result:this.transferCertificateModel.last_annual_exam_result,
     exam_failure_times : this .transferCertificateModel.failedClass,
@@ -275,13 +265,11 @@ previewCertificate(){
     total_present_days:this.transferCertificateModel.total_present_days,
     ncc_cadet_scout_guide_detail:this.transferCertificateModel.whetherNcc,
     general_character:this.transferCertificateModel.genCharacter,
-    last_date :this.transferCertificateModel.last_date,
+    last_date : moment(this.transferCertificateModel.last_date).format("YYYY-MM-DD"),
     application_date:this.transferCertificateModel.application_date,
     issue_date :this.transferCertificateModel.certificate_issue_date,
     leaving_reason:this.transferCertificateModel.reasonLeaveSchool,
-    remark:this.transferCertificateModel.remark
-
-  
+    remark:this.transferCertificateModel.remark  
 }
   this.auth.showLoader();
   let url ='/api/v1/certificate/transfer';
@@ -291,7 +279,7 @@ previewCertificate(){
       this.transferCertificateModel.awsDownloadLink = resp.awsDownloadLink
       this.auth.hideLoader();
 window.open('https://docs.google.com/viewer?url=' +this.transferCertificateModel.awsDownloadLink);
-console.log("preview",obj)
+console.log("preview",obj.doj)
 
 },
 err => {
@@ -303,61 +291,37 @@ err => {
 } 
 
 Back(){
-
-  this.router.navigateByUrl('/view/students')
+this.router.navigateByUrl('/view/students')
 }
 cloaseCertificate(){
   this.transfer = false;
   this.transferCertificates = true;
 }
 onfuturDateSelection(){
-
- let today= moment(new Date);
+let today= moment(new Date);
  let selectedDate = moment(this.transferCertificateModel.dateOfBirth)
  let diff = moment(selectedDate.diff(today))['_i'];
- console.log(today);
- console.log(selectedDate);
- console.log("date",diff)
-
  if(diff > 0){
   this.msgService.showErrorMessage('info', '', "Future date is not allowed");
   this.transferCertificateModel.dateOfBirth = moment(new Date).format('YYYY-MM-DD')
   console.log("daterrrrrrrr",this.transferCertificateModel.dateOfBirth)
-
-
- }
+}
 }
 onAddmithinDate(){
-  
- let today= moment(new Date);
+  let today= moment(new Date);
  let selectedDate = moment(this.transferCertificateModel.doj)
  let diff = moment(selectedDate.diff(today))['_i'];
- console.log(today);
- console.log(selectedDate);
- console.log("date",diff)
-
- if(diff > 0){
+  if(diff > 0){
   this.msgService.showErrorMessage('info', '', "Future date is not allowed");
   this.transferCertificateModel.last_date = moment(new Date).format('YYYY-MM-DD')
-  console.log("daterrrrrrrr",this.transferCertificateModel.doj)
-
-
 }}
 onLastDate(){
-  
   let today= moment(new Date);
   let selectedDate = moment(this.transferCertificateModel.last_date)
   let diff = moment(selectedDate.diff(today))['_i'];
-  console.log(today);
-  console.log(selectedDate);
-  console.log("date",diff)
- 
   if(diff > 0){
    this.msgService.showErrorMessage('info', '', "Future date is not allowed");
    this.transferCertificateModel.last_date = moment(new Date).format('YYYY-MM-DD')
-   console.log("daterrrrrrrr",this.transferCertificateModel.last_date)
- 
- 
  }
 }
 }
