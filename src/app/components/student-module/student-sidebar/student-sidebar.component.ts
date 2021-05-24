@@ -50,6 +50,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   allowEdit = false;
   role_feature = role.features;
   studentReport: boolean = false;
+  Fee_menu: boolean = false;
 
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
@@ -97,9 +98,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
       this.isSubAdmin = true;
       this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
       this.allowEdit = this.role_feature.STUDENT_MANAGE;
+      this.Fee_menu = this.role_feature.FEE_MENU;
     } else {
       this.studentReport = true;
       this.allowEdit = true;
+      this.Fee_menu = true;
     }
     this.auth.schoolModel.subscribe(data=>{
       this.isSchoolModel=data='true'?true:false;

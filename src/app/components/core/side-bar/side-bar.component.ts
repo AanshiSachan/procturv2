@@ -886,6 +886,7 @@ mouseleave() {
     }
     if (this.jsonFlags.isShowLiveclass) {
       if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+        this.jsonFlags.isShowLiveclass = false;
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
           this.jsonFlags.isShowLiveclass = this.role_feature.LIVE_CLASS_MENU ? true : false;
         }

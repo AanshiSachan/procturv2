@@ -573,9 +573,9 @@
                     </li>
 
                     <li class="dropdown"
-                        [ngStyle]="{display: (jsonFlags.isShowLiveclass || is_zoom_integration_enable) ? 'block' : 'none'}"
+                        [ngStyle]="{display: ((jsonFlags.isShowLiveclass || is_zoom_integration_enable) && checkIfUserHadAccess(role_feature.LIVE_CLASS_MENU)) ? 'block' : 'none'}"
                         [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" (click)="toggler('lifive');">
-                        <div *ngIf="(jsonFlags.isShowLiveclass || is_zoom_integration_enable)">
+                        <div *ngIf="((jsonFlags.isShowLiveclass || is_zoom_integration_enable) && checkIfUserHadAccess(role_feature.LIVE_CLASS_MENU))">
                             <a routerLink="/view/live-classes" class="dropbtn">
                                 <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/LiveClasses.svg':'./assets/images/sidemenuicon/LiveClasses.svg'"
                                     alt="">
