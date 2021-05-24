@@ -900,7 +900,7 @@ chkBoxAllFaculty() {
         return;
       }
       let destination: any;
-      if (!this.allUserList) {
+      if (!this.showallUserListFlag) {
         destination = this.getDestinationValue();
         if (destination === false) {
           return;
