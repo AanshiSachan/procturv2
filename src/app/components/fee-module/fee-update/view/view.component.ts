@@ -1295,6 +1295,7 @@ export class ViewComponent implements OnInit {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
       sendEmail: userType,
+      academic_year_id: [String(this.academic_yr_id)]
     }
     object['user_role'] = this.paymentMode;
     this.auth.showLoader()
