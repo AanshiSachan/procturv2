@@ -40,7 +40,7 @@
             <div class="side-section" id="quick">
                 <div class="side-section-item">
 
-                    <span class="dropSize" *ngIf="!facultyAccount"
+                    <span class="dropSize" *ngIf="!facultyAccount && checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)"
                         (click)="routerLink('/view/students/add','setting');activeSession=null">
                         Add Student
                     </span>
@@ -91,7 +91,7 @@
                 (click)="showSubSection('help1')"></a> -->
         <!-- Setting -->
 
-        <a mat-button style="margin-left: -15px;" routerLink="/view/setting">
+        <a mat-button style="margin-left: -15px;" *ngIf="showSMSSetting" routerLink="/view/setting">
             <img src="./assets/images/sidebar/Vector.svg" title="Settings" alt="">
         </a>
         <!-- My Account -->
@@ -378,8 +378,10 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowLead ? 'block' : 'none'}"
-                        [ngClass]="activeSession === 'lione' ? 'liActiveBG':'' " (click)="toggler('lione')">
+                    <li (mouseenter)="mouseenter(((checkIfUserHadAccess(role_feature.LEAD_SETUP)) || jsonRolesFlags.isShowManageEnquiry || jsonRolesFlags.isShowCampaign))"
+                    (mouseleave)="mouseleave()"
+                    [ngClass]="((checkIfUserHadAccess(role_feature.LEAD_SETUP)) || jsonRolesFlags.isShowManageEnquiry || jsonRolesFlags.isShowCampaign) ? 'dropdown':''"
+                        [ngStyle]="{display: jsonFlags.isShowLead ? 'block' : 'none'}" (click)="toggler('lione')">
                         <div *ngIf="jsonFlags.isShowLead">
                             <a class="dropbtn">
                                 <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/Leads.png':'./assets/images/sidemenuicon/Leads.svg'"
@@ -396,7 +398,7 @@
                                     <span>Enquiries</span>
                                 </a>
                                 <a routerLink="/view/leads/campaign"
-                                    *ngIf="jsonRolesFlags.isShowAddCampaign || jsonRolesFlags.isShowCampaign">
+                                    *ngIf="jsonRolesFlags.isShowCampaign">
                                     <span>SMS Campaign</span>
                                 </a>
                             </div>
@@ -428,8 +430,10 @@
 
                     </li>
 
-                    <li class="dropdown" [ngStyle]="{display: jsonFlags.isShowFee ? 'block' : 'none'}"
-                        [ngClass]="activeSession === 'lifour' ? 'liActiveBG':''" (click)="toggler('lifour')">
+                    <li (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.FEE_SETUP)) || (checkIfUserHadAccess(role_feature.FEE_ASSIGN)) || (checkIfUserHadAccess(role_feature.FEE_UPDATE)) || (checkIfUserHadAccess(role_feature.FEE_CHEQUE_MANAGE)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.FEE_SETUP)) || (checkIfUserHadAccess(role_feature.FEE_ASSIGN)) || (checkIfUserHadAccess(role_feature.FEE_UPDATE)) || (checkIfUserHadAccess(role_feature.FEE_CHEQUE_MANAGE))) ? 'dropdown':''" [ngStyle]="{display: jsonFlags.isShowFee ? 'block' : 'none'}"
+                        (click)="toggler('lifour')">
                         <div *ngIf="jsonFlags.isShowFee">
                             <a  class="dropbtn">
                                 <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidebar_images/fees.svg'"
@@ -438,13 +442,13 @@
 
                             </a>
                             <div class="dropdown-content">
-                                <a routerLink="/view/fee/data-setup/fee-type">
+                                <a routerLink="/view/fee/data-setup/fee-type" *ngIf="checkIfUserHadAccess(role_feature.FEE_SETUP)">
                                     <span>Setup</span>
                                 </a>
-                                <a routerLink="/view/fee/assign-fee">
+                                <a routerLink="/view/fee/assign-fee" *ngIf="checkIfUserHadAccess(role_feature.FEE_ASSIGN)">
                                     <span>Assign</span>
                                 </a>
-                                <a routerLink="/view/fee/update-fee">
+                                <a routerLink="/view/fee/update-fee" *ngIf="checkIfUserHadAccess(role_feature.FEE_UPDATE)">
                                     <span>Update</span>
                                 </a>
                                 <!-- <a routerLink="/view/fee/monitoring-dashboard/home">
@@ -453,7 +457,7 @@
                         <a routerLink="/view/fee/monitoring-dashboard/home">
                                 <span>Update</span>
                         </a> -->
-                                <a routerLink="/view/fee/cheque">
+                                <a routerLink="/view/fee/cheque" *ngIf="checkIfUserHadAccess(role_feature.FEE_CHEQUE_MANAGE)">
                                     <span>Cheques</span>
                                 </a>
                             </div>
@@ -471,7 +475,7 @@
 
                     <li class="dropdown"
                         [ngStyle]="{display: (!isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}"
-                        [ngClass]="activeSession === 'lithree' ?'liActiveBG':''" (click)="toggler('lithree')">
+                        (click)="toggler('lithree')">
                         <div *ngIf="!isLangInstitute && jsonFlags.isShowCourse">
                             <a class="dropbtn">
                                 <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/Classes.svg':'./assets/images/sidemenuicon/Classes.svg'"
@@ -632,7 +636,10 @@
 
                     </li>
 
-                    <li [ngStyle]="{display: (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_MENU)) ? 'block' : 'none'}" [ngClass]="activeSession === 'liforteen' ? 'liActiveBG':''"
+                    <li [ngStyle]="{display: (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_MENU)) ? 'block' : 'none'}"
+                        (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.STUDY_MATERIAL_MENU)) || (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_FILE_MANAGER)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.STUDY_MATERIAL_MENU)) || (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_FILE_MANAGER))) ? 'dropdown':''"
                         (click)="toggler('liforteen')">
                         <div *ngIf="checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_MENU)">
                             <a class="dropbtn">
@@ -729,7 +736,8 @@
                             </a>
                         </div>
                         <div class="dropdown-content">
-                            <a routerLink="/view/asset-management/asset-location">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ASSET_LOCATION)"
+                                routerLink="/view/asset-management/asset-location">
                                 <span>Location</span>
                             </a>
                             <a *ngIf="checkIfUserHadAccess(role_feature.ADD_ASSET)"

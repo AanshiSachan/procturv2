@@ -97,6 +97,10 @@ export class role {
         ASSIGNMENTS:true,
         REPORT_LEAD_ENQUIRY_REPORT:true,
         REPORT_INCOME_EXPENSE_REPORT:true,
+        FEE_SETUP: true,
+        FEE_ASSIGN:true,
+        FEE_UPDATE:true,
+        ASSET_LOCATION:true
         };
     // customPermissions : {
     // Old features
@@ -252,6 +256,7 @@ export class role {
         role.features.LEAVE_ADMIN_USERS = permissions.includes(5094) ? true: false;
         role.features.LEAVE_ADMIN_TEACHERS = permissions.includes(5095) ? true: false;
         role.features.ASSET_MANAGEMENT_MENU = permissions.includes(5068) ? true: false;
+        role.features.ASSET_LOCATION = permissions.includes(5121) ? true: false;
         role.features.ADD_ASSET = permissions.includes(5069) ? true: false;
         role.features.ADD_SUPPLIER = permissions.includes(5070) ? true: false;
         role.features.ADD_PURCHASE_ASSET = permissions.includes(5071) ? true: false;
@@ -280,6 +285,9 @@ export class role {
         role.features.ASSIGNMENTS = permissions.includes(5116) ? true: false;
         role.features.REPORT_LEAD_ENQUIRY_REPORT = permissions.includes(5120) ? true: false;
         role.features.REPORT_INCOME_EXPENSE_REPORT = permissions.includes(5117) ? true: false;
+        role.features.FEE_SETUP = permissions.includes(5063) ? true: false;
+        role.features.FEE_ASSIGN = permissions.includes(5102) ? true: false;
+        role.features.FEE_UPDATE = permissions.includes(5103) ? true: false;
         // role.features.EXAMS_SETUP = permissions.includes(5110) ? true: false;
     }
 }

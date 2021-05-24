@@ -340,10 +340,6 @@ mouseleave() {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
       }
-      // enquiry  admin --115
-      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
-        this.jsonRolesFlags.isShowAddCampaign = true;
-      }
       if (this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
       }
@@ -537,28 +533,28 @@ mouseleave() {
         }
         this.showManageRole = this.role_feature.USERS_MENU;
 
-        if (this.role_feature.SETUP_MENU) {
+        // if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divTeacherTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divTeacherTag'], '');      // Swapnil
-          this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
-        }
+          // this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
+        // }
         if (this.role_feature.FEE_MENU) {
           this.jsonFlags.isShowFee = true;
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
-        if (this.role_feature.SETUP_MENU && this.isProfessional) {
+        // if (this.role_feature.SETUP_MENU && this.isProfessional) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divSlotTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divSlotTag'], '');       // Swapnil
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
-        }
-        if (this.role_feature.SETUP_MENU) {
+        // }
+        // if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divAcademicTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divAcademicTag'], '');      // Swapnil
-          this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
-        }
+          // this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
+        // }
         if (this.role_feature.MY_ACCOUNTS_MENU) {
           // this.divSettingTag.nativeElement.style.display = '';
           // this.divMyAccountTag.nativeElement.style.display = '';
@@ -585,10 +581,6 @@ mouseleave() {
           this.setNativeElementValue(['divManageUsers'], '');       // Swapnil
         } else {
           this.setNativeElementValue(['divManageUsers'], 'none');
-        }
-        if (this.role_feature.SETUP_MENU) {
-          // this.setNativeElementValue(['divClassRoomTag'], '');          // Swapnil
-          // this.divClassRoomTag.nativeElement.style.display = '';
         }
       }
     }
@@ -888,6 +880,10 @@ mouseleave() {
     this.jsonFlags.isShowLiveclass = false;
     // if user is not admin
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    if (JSON.parse(zoom)) {
+      this.jsonFlags.isShowLiveclass = true;
+    }
     if (this.jsonFlags.isShowLiveclass) {
       if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
@@ -1032,8 +1028,7 @@ mouseleave() {
     this.jsonFlags.isShowModel = false;
     this.jsonFlags.isShowCourse = false;
     if (this.role_feature.EXAMS_MENU ||
-      this.role_feature.CLASS_MENU ||
-      this.role_feature.SETUP_MENU) {
+      this.role_feature.CLASS_MENU) {
       this.jsonFlags.isShowModel = true;
       this.jsonFlags.isShowCourse = true;
     }

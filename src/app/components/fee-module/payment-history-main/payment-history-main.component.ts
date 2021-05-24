@@ -139,7 +139,6 @@ export class PaymentHistoryMainComponent implements OnInit {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (this.role_feature.FEE_MANAGE) {//	Fee Transaction Change if enambled then edit button will show
         this.tableSetting.actionSetting =
           {
             showActionButton: true,
@@ -148,17 +147,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
             // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
             options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
-          }
-      }
-      else {
-        this.tableSetting.actionSetting =
-          {
-            showActionButton: false,
-            editOption: '',
-            condition: [],
-            options: []
-          }
-      }
+          }      
 
     }
     if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
