@@ -81,6 +81,7 @@ export class role {
         INCOME_EXPENSE_ADMIN:true,
         EXPENSE_USER:true,
         INCOME_USER:true,
+        WEBSITE_MANAGEMENT:true
         };
     // customPermissions : {
     // Old features
@@ -248,5 +249,6 @@ export class role {
         role.features.INCOME_EXPENSE_ADMIN = permissions.includes(5084) ? true: false;
         role.features.EXPENSE_USER = permissions.includes(5085) ? true: false;
         role.features.INCOME_USER = permissions.includes(5086) ? true: false;
+        role.features.WEBSITE_MANAGEMENT = permissions.includes(5122) ? true : false;
     }
 }
