@@ -266,7 +266,7 @@ previewCertificate(){
     ncc_cadet_scout_guide_detail:this.transferCertificateModel.whetherNcc,
     general_character:this.transferCertificateModel.genCharacter,
     last_date : moment(this.transferCertificateModel.last_date).format("YYYY-MM-DD"),
-    application_date:this.transferCertificateModel.application_date,
+    //application_date:this.transferCertificateModel.application_date,
     issue_date :this.transferCertificateModel.certificate_issue_date,
     leaving_reason:this.transferCertificateModel.reasonLeaveSchool,
     remark:this.transferCertificateModel.remark  
