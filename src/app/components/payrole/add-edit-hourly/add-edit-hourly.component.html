@@ -35,11 +35,11 @@
       </span>
      
     </div>
-    <div class="col-sm-4" >
+    <div class="col-sm-4" *ngIf="!selectedId">
         <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="createHourly()" value="Add Hourly Template">
     </div>
-    <div class="col-sm-4" *ngIf="sectionName == 'Edit'" >
-        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="createHourly()" value="Update Hourly Template">
+    <div class="col-sm-4" *ngIf="selectedId">
+        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="updateHourly()" value="Update Hourly Template">
     </div>
     </div>
     </div>

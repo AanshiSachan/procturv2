@@ -5,6 +5,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
+declare var $;
 
 @Component({
   selector: 'app-hourly-template',
@@ -22,9 +23,10 @@ export class HourlyTemplateComponent implements OnInit {
     pageSize:10,
     pageOffset:1,
   }
-  template_id:'';
+  template_id:any;
   hourlyDataList:any=[]
   tempList:any=[]
+  searchInput:any
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
@@ -32,6 +34,8 @@ export class HourlyTemplateComponent implements OnInit {
     private pdf :ExportToPdfService,
     private excel :ExcelService,) { 
       this.jsonFlag.institute_id=sessionStorage.getItem('institute_id')
+      this.template_id = sessionStorage.getItem('id')
+
     }
 
   ngOnInit(): void {
@@ -75,8 +79,8 @@ getAllHourlyData(){
   this.hourlyDataList=res.result.response;
    this.varJson.total_item =res.result.totalElements;
   this.tempList = res.result.response;
-  for(let i=0; i < this.hourlyDataList.length;i++){
-    this.template_id=this.hourlyDataList[i].template_id
+  for(let i=0; i<this.hourlyDataList.length;i++){
+    this.template_id = this.hourlyDataList[i].template_id
   }
    console.log("page",res.result)
   this.auth.hideLoader();
@@ -99,6 +103,9 @@ getAllHourlyData(){
         this.auth.hideLoader()
         this.getAllHourlyData()
         this.msgToast.showErrorMessage('success', '', "Hourly deleted successfully");
+        $('#deleteModal').modal('hide');
+
+
         console.log("delete idddd",this.template_id)
       },
       err => {
@@ -143,5 +150,18 @@ getAllHourlyData(){
   
   }
   
+  searchFun(){
+  this.hourlyDataList=this.tempList 
+         if(this.searchInput == undefined || this.searchInput == null){
+           this.searchInput ="";
+ 
+         }else{
+           let searchData = this.hourlyDataList.filter(item=>Object.keys(item).some(k=>item[k]!=null && item[k].toString().toLowerCase().includes
+           (this.searchInput.toLowerCase())));
+           this.hourlyDataList = searchData
+         }
+ 
+ 
+ }
   
 }

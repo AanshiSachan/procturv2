@@ -1,10 +1,106 @@
-<div class="form-group">                       
-    <label for="hourly_grades" class="col-sm-4 control-label">
-       Hourly Grades <span class="text-red">*</span>
-   </label>
-   <div class="col-sm-4">
-       <input type="text" class="form-control" id="hourly_grades" [(ngModel)]="hourlyModel.hourly_grade"  name="hourly_grades">
-   </div>
-   <span class="col-sm-4 control-label" id="hourly_grades_error">
-    </span>
-</div>
+
+
+
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Manage Salary</p>
+        </div>
+        <div>
+          <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a>
+          <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+          <a (click)="downloaExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Print Report"></a>
+          <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+
+        </div>
+      </div>
+    </div>
+    <div class="w98">
+        <div class="pt15">
+            <label for="serach">Search:&nbsp;</label>
+          <input type="text" class="input wid240 mr10" name="" placeholder="search" >
+            <!-- <button class="blue_button" (click)="addSalaryPage()">Add Salary Template</button> -->
+        </div>
+
+<!-- ===================== -->
+<!-- <div class="page_heading">
+    <p>Hourly Template</p>
+  </div> -->
+ <div class="form-group">                       
+        
+        <div class="col-sm-4" style="padding: 28px;">
+            <label for="hourly_grades">
+                Role<span class="text-red">*</span>
+            </label>
+            <select class="form-control" id="hourly_grades"  name="hourly_grades">
+                <option>Select Role</option>
+                <option [value]="teacher.role_id"*ngFor="let teacher of teacherList">{{teacher.role_name}}</option>
+                </select>
+        </div>
+        <span class="col-sm-4 control-label" id="hourly_grades_error">
+         </span>
+    </div>
+    
+    <div class="table_heading">
+        <!-- <div>
+          <label class="checkbox checkbox1">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" >
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div> -->
+          <div>
+          #
+          </div>
+          <div>Photo</div>
+          <div>
+            Name
+          </div>
+          <div>
+            Email
+          </div>
+          <div>
+            Joining Date
+          </div>
+          <div>Actions</div>
+        </div>
+        <div class="table_body">
+          <!-- <div>
+            <label class="checkbox checkbox1">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" >
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+          </div> -->
+         <div>
+          1
+          </div>
+          <div>photo</div>
+          <div>
+            Abhishek
+          </div>
+          <div>
+           proct@gmail.com
+          </div>
+          <div>
+            12-03-2020
+          </div>
+          <div>
+            <a  class="mr10" (click)="onclickView()"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
+            <a  class="mr10"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
+            <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+          </div>
+          </div>
+          </div>
+          </div>
+          
+        
