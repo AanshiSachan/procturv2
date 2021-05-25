@@ -233,26 +233,7 @@
   .leave_app .table_body>div:nth-child(5), .leave_app .table_heading>div:nth-child(5) {
       width: 300px;
   }
-  .pending{
-    display: inline-block;
-    width: 100px;
-    font-weight: 600;
-    line-height: 20px;
-    text-align: center;
-    background: #f99500;
-    color: #fff;
-    border-radius: 5px;
-  }
-  .approved{
-    display: inline-block;
-    width: 100px;
-    font-weight: 600;
-    line-height: 20px;
-    text-align: center;
-    background: #61C611;
-    color: #fff;
-    border-radius: 5px;
-  }
+  
   .leave_pr .table_heading>div:first-child,.leave_pr .table_body>div:first-child{
     width: 100px;
   }
