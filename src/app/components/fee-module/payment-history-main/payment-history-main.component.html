@@ -164,8 +164,8 @@
         </div>
 
         <div class="table table-responsive" style="margin-top: 10px">
-          <data-display-table #child [displayKeys]="tableSetting" [displayData]="allPaymentRecords">
-            <!-- (editView)='optionSelected($event)'> -->
+          <data-display-table #child [displayKeys]="tableSetting" [displayData]="allPaymentRecords"
+            (editView)='optionSelected($event)'>
           </data-display-table>
         </div>
       </div>
@@ -226,10 +226,10 @@
               {{d.installment_no}}
             </td>
             <td>
-              {{d.fee_type_name}}
+              {{d.fee_type_name | titlecase}}
             </td>
             <td>
-              {{d.fees_amount}}
+              {{d.fees_amount | number}}
             </td>
             <td>
               <div class="field-wrapper">
@@ -245,7 +245,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="row" class="field-made">
+      <div class="row" >
         <div class="c-lg-6 field-wrapper datePickerBox">
           <label>Payment Date</label>
           <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="updatedResult.paid_date">
@@ -254,8 +254,8 @@
           <label>Payment Mode</label>
           <select class="form-ctrl" name="paymentMode" [(ngModel)]="updatedResult.paymentMode" [disabled]="true"
             (ngModelChange)="payModeUpdated($event)">
-            <option *ngFor="let mode of paymentMode" value={{mode}}>
-              {{mode}}
+            <option *ngFor="let mode of paymentMode" value={{mode.data_key}}>
+              {{mode.data_value}}
             </option>
           </select>
         </div>
