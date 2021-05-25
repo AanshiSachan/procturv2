@@ -96,6 +96,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   };
 
   jsonFlags = {
+    isAdminforSmsGateway:false,
     isShowLead: false,
     isShowStudent: false,
     isShowModel: false,
@@ -290,6 +291,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
            $('.sidebar-wrapper').css('width','14%');
        });
    });
+   if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin'){
+     this.jsonFlags.isAdminforSmsGateway = true;
+   }else{
+     this.jsonFlags.isAdminforSmsGateway = false;
+   }
   }
 
   ngAfterViewInit() {

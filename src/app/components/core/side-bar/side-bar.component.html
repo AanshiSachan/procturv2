@@ -676,7 +676,7 @@
                   <!-- ======asha-edited========== -->
                   <li class="dropdown" [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
                   <div>
-                    <a routerLink="/view/sms-gateway">
+                    <a routerLink="/view/sms-gateway" *ngIf="jsonFlags.isAdminforSmsGateway">
                         <img [src]="'./assets/images/Configuration.svg'" alt="">
                         <p>Configuration</p><i class="fa fa-angle-right"></i>
                         </a>
