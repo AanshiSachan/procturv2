@@ -45,16 +45,16 @@
                         Add Student
                     </span>
                 </div>
-                <div class="side-section-item" routerLink="/view/leads/add">
+                <div *ngIf="jsonFlags.isShowLead" class="side-section-item" routerLink="/view/leads/add">
 
                     <span class="dropSize">Add Enquiry</span>
 
                 </div>
-                <div class="side-section-item" routerLink="/view/course/teacher/add">
+                <div *ngIf="jsonFlags.isAdminforLeave" class="side-section-item" routerLink="/view/course/teacher/add">
 
                     <span class="dropSize">Add Faculty</span>
                 </div>
-                <div class="side-section-item" routerLink="/view/manage/user/addedit">
+                <div *ngIf="showManageRole" class="side-section-item" routerLink="/view/manage/user/addedit">
 
                     <span class="dropSize">Add User</span>
                 </div>
@@ -129,7 +129,7 @@
                                 src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage
                             Inventory</span>
                     </div>
-                    <div class="side-section-item" *ngIf="!facultyAccount && !schoolModel">
+                    <div class="side-section-item" *ngIf="jsonFlags.isAdminforLeave && !schoolModel">
                         <span class="dropSize" (click)="routerLink('/view/formField/home','setup')"><img
                                 src="./assets/images/sidebar/custom_form_field.svg" alt="phone"
                                 class="helpSection">Custom
@@ -371,7 +371,7 @@
                             <p>Home</p>
                         </a>
                     </li>
-                    <li [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
+                    <li *ngIf="checkIfUserHadAccess(role_feature.DASHBOARD_MENU)" [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                         <a routerLink="/view/dashboard">
                             <img [src]="activeSession === 'litwelve' ? './assets/images/sidemenuicon/Dashboard.svg':'./assets/images/sidemenuicon/Dashboard.svg'"
                                 alt="">
@@ -391,14 +391,14 @@
                             </a>
 
                             <div class="dropdown-content">
-                                <a routerLink="/view/leads/setup" *ngIf="checkIfUserHadAccess(role_feature.LEAD_SETUP)">
+                                <a routerLink="/view/leads/setup" *ngIf="checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_SETUP)">
                                     <span>Setup</span>
                                 </a>
-                                <a routerLink="/view/leads/enquiry" *ngIf="jsonRolesFlags.isShowManageEnquiry">
+                                <a routerLink="/view/leads/enquiry" *ngIf="checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowManageEnquiry">
                                     <span>Enquiries</span>
                                 </a>
                                 <a routerLink="/view/leads/campaign"
-                                    *ngIf="jsonRolesFlags.isShowCampaign">
+                                    *ngIf="checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowCampaign">
                                     <span>SMS Campaign</span>
                                 </a>
                             </div>
@@ -564,7 +564,7 @@
                                     routerLink="{{schoolModel ? '/view/exams/marks/schedule-list' : '/view/course/exam-marks'}}">
                                     <span>Marks</span>
                                 </a>
-                                <a *ngIf="!schoolModel" routerLink="/view/course/reports/exam-dashboard">
+                                <a *ngIf="!schoolModel && checkIfUserHadAccess(role_feature.EXAM_MARKS)" routerLink="/view/course/reports/exam-dashboard">
                                     <span>Exam Dashboard</span>
                                 </a>
                             </div>
