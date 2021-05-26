@@ -420,8 +420,8 @@ mouseleave() {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
         // Changes done by Nalini - To handle role based commuicate menu conditions
-        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
-        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
         this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
         this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
         this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;

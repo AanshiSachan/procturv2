@@ -7,7 +7,7 @@
   </section>
 
 
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isShowCampaignReport || (isShowEnqReport && checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)) || (enable_online_payment == 1 && isOnlineFees))">
     <div class="leads-menu-item eleads-menu-item">
       <div class="menu-title"><br>
         <img src="./assets/images/Reporticons/eh.png" alt="">
@@ -18,7 +18,7 @@
         <hr class="heading_hr">
 
 
-        <div class="row " *ngIf="isShowEnqReport && checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)">
+        <div class="row " *ngIf="checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)">
           <a routerLink="/view/leads/enquiryReport/counsellor" class="icon_click"><img
               src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
 
@@ -51,7 +51,7 @@
 
 
   </div>
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isCourseWise || isFeeDues || (is_tax_enabled=='1' && isGstReport) || (checkIfUserHadAccess(role_feature.FEE_PAYMENT_HISTORY))) ">
     <div class="leads-menu-item fleads-menu-item">
       <div class="menu-title">
         <img src="./assets/images/Reporticons/fh.png" alt=" ">
@@ -72,7 +72,7 @@
             <hr class="content_hr">
           </div>
         </div>
-        <div class="row" *ngIf="isFeeDues">
+        <div class="row" *ngIf="checkIfUserHadAccess(role_feature.REPORT_FEES_DUE_REPORT)">
           <a routerLink="/view/fee/allDueReport" class="icon_click"><img src="./assets/images/Reporticons/duereport.png"
               alt=" "></a>
           <div class="col-sm" style="margin-top:-32px;margin-left:8px;">
@@ -83,7 +83,7 @@
             <hr class="content_hr">
           </div>
         </div>
-        <div class="row" *ngIf="is_tax_enabled=='1' && isGstReport">
+        <div class="row" *ngIf="is_tax_enabled=='1' && isGstReport && checkIfUserHadAccess(role_feature.REPORT_FEE_GST_REPORT)">
           <a routerLink="/view/fee/gst" class="icon_click"> <img src="./assets/images/Reporticons/gst.png" alt=" "></a>
           <div class="col-sm" style="margin-top:-27px;margin-left:8px;">
             <span class="sub-head"><a routerLink="/view/fee/gst">GST Report</a></span>
@@ -93,7 +93,7 @@
             <hr class="content_hr">
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="checkIfUserHadAccess(role_feature.FEE_PAYMENT_HISTORY)">
           <a routerLink="/view/fee/paymentHistory" class="icon_click"> <img
               src="./assets/images/Reporticons/duereport.png" alt=" " style="margin-left:3px;"></a>
           <div class="col-sm" style="margin-top:-35px;margin-left:8px">
@@ -104,7 +104,7 @@
             <hr class="content_hr">
           </div>
         </div>
-        <div class="row" *ngIf="enable_online_payment == 1 && isOnlineFees">
+        <div class="row" *ngIf="enable_online_payment == 1 && isOnlineFees && checkIfUserHadAccess(role_feature.REPORT_FEES_ONLINE_FEES)">
           <a routerLink="/view/fee/onlinePayment" class="icon_click"> <img
               src="./assets/images/Reporticons/onlinefees.png" alt=" " style="margin-left:3px;"></a>
           <div class="col-sm" style="margin-top:-35px;margin-left:8px">
@@ -120,7 +120,7 @@
 
 
   </div>
-  <div class="leads-menu-section-container">
+  <div class="leads-menu-section-container" *ngIf="JsonFlags.isShowAttendanceReport || JsonFlags.showBiomentricR || (JsonFlags.isShowExamReport && !schoolModel)">
     <div class="leads-menu-item  cleads-menu-item">
       <div class="menu-title">
         <img src="./assets/images/Reporticons/ch.png" alt=" ">
@@ -182,7 +182,7 @@
 
 
   </div>
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount && !schoolModel && jsonEstoreFlags.isEstoreMenu">
+  <div class="leads-menu-section-container" *ngIf="(!facultyAccount && !schoolModel && jsonEstoreFlags.isEstoreMenu) && (jsonEstoreFlags.isSalesReport || jsonEstoreFlags.isCouponReport)">
     <div class="leads-menu-item pleads-menu-item">
       <div class="menu-title">
         <!--  <img src="./assets/images/leads/data-setup.svg" alt="data setup">-->

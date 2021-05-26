@@ -68,13 +68,6 @@ export class AddEditRoleComponent implements OnInit {
         this.auth.hideLoader();
         this.featuresArray = res;
         // Changes by Nalini - libarary role will be visible only if enabled from super admin and study material role will be visible for all users
-        if (sessionStorage.getItem('enable_library_feature') != '1') {
-          for (let t = 0; t < this.featuresArray.length; t++) {
-            if (this.featuresArray[t].feature_id == 5031) {
-              this.featuresArray.splice(t, 1);
-            }
-          }
-        }
         this.cloneFeatureArray = this.keepCloning(res);
         for (let i = 0; i < this.cloneFeatureArray.length; i++) {
           if (this.cloneFeatureArray[i].product_name == 'Examdesk') {
@@ -82,6 +75,24 @@ export class AddEditRoleComponent implements OnInit {
           } else if (this.cloneFeatureArray[i].product_name == 'Proctur') {
             this.procturRoles = this.cloneFeatureArray[i].category_list;
           }
+        }
+        if (sessionStorage.getItem('enable_library_feature') != '1') {
+          this.checkSuperAdminSettings(5031);
+        }
+        if (sessionStorage.getItem('isShowLiveclass') != '1') {
+          this.checkSuperAdminSettings(5022);
+        }
+        if(!this.isShoweOnlineExam) {
+          this.checkSuperAdminSettings(5033);
+        }
+        if(sessionStorage.getItem('enable_eLearn_feature') != '1') {
+          this.checkSuperAdminSettings(5027);
+        }
+        if(sessionStorage.getItem('enable_client_website') != 'true') {
+          this.checkSuperAdminSettings(5122);
+        }
+        if(sessionStorage.getItem('enable_online_assignment_feature') != '1') {
+          this.checkSuperAdminSettings(5116);
         }
         if (this.roleId != "-1") {
           this.getRolesOfUser(this.roleId);
@@ -92,6 +103,14 @@ export class AddEditRoleComponent implements OnInit {
         console.log(err);
       }
     )
+  }
+
+  checkSuperAdminSettings(category_id) {
+    for (let t = 0; t < this.procturRoles.length; t++) {
+      if (this.procturRoles[t].category_id == category_id) {
+        this.procturRoles.splice(t, 1);
+      }
+    }
   }
 
   getRolesOfUser(id) {

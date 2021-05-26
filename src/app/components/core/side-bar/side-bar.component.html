@@ -180,7 +180,7 @@
 
                             </div>
                             <div class="c-lg-6">
-                                <div class="row" *ngIf="jsonFlags.isShowExpense">
+                                <div class="row" *ngIf="jsonFlags.isShowExpense && checkIfUserHadAccess(role_feature.INCOME_EXPENSE_ADMIN)">
                                     <div class="c-lg-12">
                                         <div class="side-section-item">
                                             <span class="dropSize" (click)="showExpensesList()">
@@ -518,15 +518,15 @@
 
                             </a>
                             <div class="dropdown-content">
-                                <a (click)="setSetupSession('class')" *ngIf="jsonCourseFlags.isShowSetup "
+                                <a (click)="setSetupSession('class')" *ngIf="checkIfUserHadAccess(role_feature.CLASSES_SETUP) "
                                     routerLink="/view/course/setup/academic">
                                     <span>Setup</span>
                                 </a>
-                                <a routerLink="/view/batch/create" *ngIf="jsonCourseFlags.isShowModel ">
+                                <a routerLink="/view/batch/create" *ngIf="checkIfUserHadAccess(role_feature.CLASSES_COURSES)">
                                     <span>Batches</span>
                                 </a>
                                 <a routerLink="/view/batch/coursePlanner/class"
-                                    *ngIf="jsonCourseFlags.isShowClassPlanner ">
+                                    *ngIf="jsonCourseFlags.isShowClassPlanner && checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)">
                                     <span>Class/Exam Planner</span>
                                 </a>
                                 <a routerLink="/view/batch/timeTable" *ngIf="checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)">
@@ -564,7 +564,7 @@
                                     routerLink="{{schoolModel ? '/view/exams/marks/schedule-list' : '/view/course/exam-marks'}}">
                                     <span>Marks</span>
                                 </a>
-                                <a *ngIf="!schoolModel && checkIfUserHadAccess(role_feature.EXAM_MARKS)" routerLink="/view/course/reports/exam-dashboard">
+                                <a *ngIf="!schoolModel && checkIfUserHadAccess(role_feature.REPORT_COURSE_EXAM_DASHBOARD)" routerLink="/view/course/reports/exam-dashboard">
                                     <span>Exam Dashboard</span>
                                 </a>
                             </div>
@@ -844,7 +844,7 @@
                   </li>
 
 
-                    <li [ngClass]="activeSession ==='lieleven'?'liActiveBG':''" (click)="toggler('lieleven')">
+                    <li [ngClass]="activeSession ==='lieleven'?'liActiveBG':''" *ngIf="checkIfUserHadAccess(role_feature.REPORTS_MENU)" (click)="toggler('lieleven')">
                         <a routerLink="/view/reports/list">
                             <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidebar_images/Reports.svg'"
                                 alt="">

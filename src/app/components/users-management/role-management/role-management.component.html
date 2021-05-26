@@ -69,7 +69,7 @@
           <div class="value-item">
             <div class="action-menu" style="font-size: 14px;">
               <a [routerLink]='["./addedit" , data.role_id]' title="Edit"><i class="fa fa-edit"></i></a>
-              <a (click)="deleteRole(data)" title="Delete" style="color: red;"><i class="fa fa-trash"></i> </a>
+              <a *ngIf="data.master_role_id == 0" (click)="deleteRole(data)" title="Delete" style="color: red;"><i class="fa fa-trash"></i> </a>
             </div>
           </div>
         </div>
