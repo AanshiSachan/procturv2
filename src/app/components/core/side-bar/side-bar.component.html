@@ -1,15 +1,19 @@
 <mat-toolbar class="tool mattoolbar" id="topMenu">
     <div class="c-lg-12 sbox">
-        <form autocomplete="off" #form="ngForm">
-            <img src="./assets/images/sidebar/searchIco.svg" alt=""
-                style="    margin-left: 6px;position: absolute;margin-top: 11px;">
-            <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
-                [ngClass]="{'has-focus': isResultDisplayed}" (click)="triggerSearchBox($event)" autocomplete="off"
-                placeholder="Search here..." style="padding-left: 3%;margin-left:0%;"
-                class="search-input searchbox form-ctrl-head search-item searchBox effect ">
-
-        </form>
-
+        <div class="col-lg-10">
+            <form autocomplete="off" #form="ngForm">
+                <img src="./assets/images/sidebar/searchIco.svg" alt=""
+                    style="    margin-left: 6px;position: absolute;margin-top: 11px;">
+                <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
+                    [ngClass]="{'has-focus': isResultDisplayed}" (click)="triggerSearchBox($event)" autocomplete="off"
+                    placeholder="Search here..." style="padding-left: 3%;margin-left:0%;"
+                    class="search-input searchbox form-ctrl-head search-item searchBox effect ">
+    
+            </form>
+        </div>
+        <div class="col-lg-2">
+           <button class="download_app" data-toggle="modal" data-target="#appModal">Download App  <i class="fa fa-caret-down"></i></button>
+        </div>
     </div>
     <!--Datasetup-->
     <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
@@ -331,7 +335,30 @@
 
     </div>
 
-
+    <div class="modal" tabindex="-1" role="dialog" id="appModal">
+        <div class="modal-dialog" >
+          <div class="modal-content">
+          
+            <div class="modal-body">
+              <p>Did you know that Proctur Admin App can save educator's time and efforts by 50%?
+                Download the Admin App now!</p>
+                
+                <div class="display">
+                    <div>
+                        <a href="https://bit.ly/2F3cbdy"><img src="../../../../assets/modal/android.svg"></a>
+                    </div>
+                    <div>
+                        <a href="https://apple.co/3vlW2Fw"><img src="../../../../assets/modal/apple.svg"></a>
+                    </div>
+                </div>
+                <p class="space1">Get a link to download app</p>
+              <span class="input"> +91 </span><input  placeholder="Enter Your Number"><button class="blue_button">Send App Link</button>
+                <p>For More Details Watch Demo Video Of Admin App <br>-<a href="https://bit.ly/3vpmL3M"> Click here</a></p>
+            </div>
+          
+          </div>
+        </div>
+      </div>
 
 
 </mat-toolbar>

@@ -1099,3 +1099,98 @@ a:hover {
     font-size: 16px;
   }
 }
+.download_app, .download_app i{
+  font-weight: 600;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+letter-spacing: 0.01em;
+color: #0097F9;
+background-color: #fff;
+border:none;
+}
+.download_app i{
+  float: initial;
+  padding-top: 0px;
+  text-indent: 0px;
+}
+.download_app{
+  margin-left:20%;
+  border:1px solid #0097F9;
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+@media (min-width: 768px)
+{#appModal .modal-dialog {
+    width: 350px;
+}
+}
+ .modal.in .modal-dialog {
+
+  transform: translate(115%,0);
+}
+#appModal .modal-body {
+  white-space: pre-wrap;
+}
+#appModal .modal-body p{
+line-height: 20px;
+}
+.display{
+  display: flex;
+  justify-content: space-between;
+}
+#appModal .modal-body img{
+  width: 140px;
+  height: auto;
+}
+#appModal .modal-body .input{
+  
+  box-sizing: border-box;
+  background: #F5F5F5;
+  border-radius: 2px;
+ display: inline-block;
+  margin-bottom: 10px;
+font-weight: 400;
+font-size: 12px;
+height: 35px;
+line-height: 36px;
+letter-spacing: 0.01em;
+border:none;
+outline: none;
+text-indent: 10px;
+color: #323C47;
+}
+.blue_button {
+  background-color: #109CF1;
+  color: white;
+  padding: 3px 15px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  height: 35px;
+}
+#appModal .modal-body input::placeholder{
+  color: #8e939a ;
+}
+#appModal .modal-body input{
+  background: #F5F5F5;
+  border-radius: 2px;
+  width: 164px;
+  height: 34px;
+
+  margin-bottom: 10px;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+letter-spacing: 0.01em;
+border:none;
+outline: none;
+margin-right: 10px;
+color: #323C47;
+}
+#appModal .modal-body .space1{
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
