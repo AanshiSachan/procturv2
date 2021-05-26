@@ -8,6 +8,7 @@ import { ManageSalaryComponent } from './manage-salary/manage-salary.component';
 import { SalaryTemplateComponent } from './salary-template/salary-template.component';
 import { ViewManageTemplateComponent } from './view-manage-template/view-manage-template.component';
 import { ViewSalaryTemplateComponent } from './view-salary-template/view-salary-template.component';
+import { AddEditManageComponent } from './add-edit-manage/add-edit-manage.component';
 
 
 
@@ -21,7 +22,9 @@ const routes: Routes = [
   {path :'view-salary-template/:id',component:ViewSalaryTemplateComponent},
   {path :'add-hourly',component:AddEditHourlyComponent},
   {path :'edit-hourly/:id',component:AddEditHourlyComponent,pathMatch:'prefix'},
-  {path :'view-manage-template',component:ViewManageTemplateComponent}
+  {path :'view-manage-template',component:ViewManageTemplateComponent},
+  {path :'add-edit-manage',component:AddEditManageComponent}
+
 
 
 

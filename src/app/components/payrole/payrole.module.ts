@@ -16,10 +16,11 @@ import { ExcelService } from './../../services/excel.service';
 import { SharedModule } from '../shared/shared.module';
 import { AddEditHourlyComponent } from './add-edit-hourly/add-edit-hourly.component';
 import { ViewManageTemplateComponent } from './view-manage-template/view-manage-template.component';
+import { AddEditManageComponent } from './add-edit-manage/add-edit-manage.component';
 
 
 @NgModule({
-  declarations: [PayroleComponent, SalaryTemplateComponent, AddEditSalaryComponent, HourlyTemplateComponent, ManageSalaryComponent, MakePaymentComponent, ViewSalaryTemplateComponent, AddEditHourlyComponent, ViewManageTemplateComponent],
+  declarations: [PayroleComponent, SalaryTemplateComponent, AddEditSalaryComponent, HourlyTemplateComponent, ManageSalaryComponent, MakePaymentComponent, ViewSalaryTemplateComponent, AddEditHourlyComponent, ViewManageTemplateComponent, AddEditManageComponent],
   imports: [
     CommonModule,
     PayroleRoutingModule,

@@ -1,0 +1,54 @@
+<form class="form-horizontal" role="form"  id="templateDataForm">
+    <section class="middle-top mb0 clearFix">
+        <h1 class="pull-left">
+          <a routerLink="/view/payrole/manage-salary">
+            Manage Salary
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+         <span>Add Manage Salary</span> 
+          <!-- <span *ngIf="selectedId">Update Hourly Template</span> -->
+        </h1>
+      </section>
+    <div class="row">
+     <div class="col-sm-12" style="margin-bottom: 10px;">
+    <div class="form-group">                       
+         <label for="hourly_grades" class="col-sm-2 control-label">
+            Salary <span class="text-red">*</span>
+        </label>
+        <div class="col-sm-4">
+            <select class="form-control" id="hourly_grades"  name="hourly_grades">
+                <option>Select Salary</option>
+                <option>Hourly</option>
+                <option>Monthly</option>
+                </select>
+        </div>
+        <span class="col-sm-4 control-label" id="hourly_grades_error">
+         </span>
+    </div>
+
+    <div class="form-group">                       
+         <label for="hourly_rates" class="col-sm-2 control-label">
+            Template <span class="text-red">*</span>
+        </label>
+        <div class="col-sm-4">
+            <select class="form-control" id="hourly_rates"  name="hourly_rates">
+                <option>Select Template</option>
+                <option>A</option>
+                <option>AB</option>
+                </select>
+              </div>
+        
+        <span class="col-sm-4 control-label" id="hourly_rates_error">
+            
+      </span>
+     
+    </div>
+    <div class="col-sm-4">
+        <input class="blue_button pull-left" type="button" id="addHourlyTemplate"  value="Add Salary Template">
+    </div>
+    <!-- <div class="col-sm-4" *ngIf="selectedId">
+        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" value="Update Hourly Template">
+    </div> -->
+    </div>
+    </div>
+    </form>
