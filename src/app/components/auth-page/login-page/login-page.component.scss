@@ -82,7 +82,7 @@
 .login-box {
     position: absolute;
     margin: auto;
-    top: 10%;
+    top: 8%;
     width: 45%;    
     // width: 320px; //height: 85%;
     border-radius: 4px;
@@ -755,11 +755,19 @@ table tr:nth-child(odd):hover{
 .bg_img{
     float: right;
     width: 55%;
-    background:url(../../../../assets/images/Group1.png);
+    background:url(../../../../assets/images/LoginScreen_bgImage.svg);
     background-repeat: no-repeat;
-    height: 680px;
+    height: 500px;
     background-size: cover;
     background-position: left top;
+    margin-top: 5%;
+}
+.procturImgDiv {
+    float: right;
+    padding: 10px 10px;
+    position: fixed;
+    top: 0;
+    right: 0;
 }
 .line{
     margin-top: -20px;
