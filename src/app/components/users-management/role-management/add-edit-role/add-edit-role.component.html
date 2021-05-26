@@ -60,6 +60,15 @@
                            </span>
                          </label>
                          <label for="'checkbox-'+i+j" class="label1">{{feature.feature_unique_name}}</label>
+                         <div class="tooltip-box-field">
+                          " This section is used to manage the location at which the management stores its assets."
+                       </div>
+                       <div *ngIf="feature.help_msg!='' && feature.help_msg!=null" class="questionInfo inline-relative">
+                        <span data-toggle="tooltip" class="helpIcon" data-placement="right"><img src="../../../assets/images/InfoIcon.svg"></span>
+                        <div class="tooltip-box-field">
+                           {{feature.help_msg}}
+                        </div>
+                    </div>
                  </div>
                </div>
              </div>
@@ -93,6 +102,12 @@
                           </span>
                         </label>
                         <label for="'checkboxe-'+i+j" class="label1">{{feature.feature_unique_name}}</label>
+                        <div *ngIf="feature.help_msg!='' && feature.help_msg!=null" class="questionInfo inline-relative">
+                          <span data-toggle="tooltip" class="helpIcon" data-placement="right"><img src="../../../assets/images/InfoIcon.svg"></span>
+                          <div class="tooltip-box-field">
+                             {{feature.help_msg}}
+                          </div>
+                      </div>
                 </div>
               </div>
             </div>
