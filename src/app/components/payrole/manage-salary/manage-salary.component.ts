@@ -43,4 +43,7 @@ this.auth.hideLoader()
   }
 )
   }
+  getAlluserData(){
+    
+  }
 }
