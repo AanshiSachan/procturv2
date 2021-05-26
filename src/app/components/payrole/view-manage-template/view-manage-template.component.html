@@ -100,6 +100,15 @@
 </div>                    </div>
     </div>
 </section> -->
+<section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+     <a routerLink="/view/payrole/manage-salary">
+       Manage Salary Template
+     </a>
+     <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+     View Salary Template
+   </h1>
+ </section>
 <div class="col-sm-3">
     <div class="box box-primary">
         <div class="box-body box-profile">
@@ -122,27 +131,27 @@
 
 <div class="col-sm-9">
     <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
+        <!-- <ul class="nav nav-tabs">
             <li class="active"><a href="#salaryinfo" data-toggle="tab">Salary Info</a></li>
-        </ul>
+        </ul> -->
 
         <div class="tab-content">
             <div class="active tab-pane" id="salaryinfo">
                 <br>
-                                                <div class="row">
+                    <div class="row">
                         <div class="col-sm-6" style="margin-bottom: 10px;">
                             <div class="info-box">
                                 <p style="margin:0 0 20px">
                                     <span>Salary Grades</span>
-                                    Ab </p>
+                                 {{ManageSalaryModel.salary_grade}} </p>
 
                                 <p style="margin:0 0 20px">
                                     <span>Basic Salary</span>
-                                    70,000.00  </p>
+                                    {{ManageSalaryModel.basic_salary}}  </p>
 
                                 <p style="margin:0 0 20px">
                                     <span>Overtime Rate (Per Hour)</span>
-                                    200.00  </p>
+                                    {{ManageSalaryModel.overtime_rate}}  </p>
                             </div>
                         </div>
                     </div>
@@ -155,9 +164,12 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="row">
-                                        <div class="col-sm-12" id="allowances">
+                                        <div class="col-sm-12" id="allowances" *ngFor="let i of addedListAllownc">
                                             <div class="info-box">
-                                                                                                        </div>
+                                                <p>
+                                                    <span> {{i.allowance}}</span>
+                                                    {{i.allowance_amount}} </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -172,11 +184,11 @@
                                 <!-- form start -->
                                 <div class="box-body">
                                     <div class="row">
-                                        <div class="col-sm-12" id="deductions">
+                                        <div class="col-sm-12" id="deductions" *ngFor="let a of addedListDeduct">
                                             <div class="info-box">
                                                 <p>
-                                              <span>Provident Fund</span>
-                                                        4,000.00</p>
+                                              <span>{{a.deduction}}</span>
+                                              {{a.deduction_amount}} </p>
                                                 </div>
                                         </div>
                                     </div>
@@ -195,19 +207,19 @@
                                     <table class="table table-bordered">
                                         <tbody><tr>
                                             <td class="col-sm-8" style="line-height: 36px">Gross Salary</td>
-                                            <td class="col-sm-4" style="line-height: 36px">70,000.00</td>
+                                            <td class="col-sm-4" style="line-height: 36px">{{ManageSalaryModel.gross_salary}}</td>
                                         </tr>
 
                                         <tr>
                                             <td class="col-sm-8" style="line-height: 36px">Total Deduction</td>
 
-                                            <td class="col-sm-4" style="line-height: 36px">4,000.00</td>
+                                            <td class="col-sm-4" style="line-height: 36px">{{ManageSalaryModel.total_deduction}}</td>
                                         </tr>
 
                                         <tr>
                                             <td class="col-sm-8" style="line-height: 36px">Net Salary</td>
 
-                                            <td class="col-sm-4" style="line-height: 36px"><b>66,000.00</b></td>
+                                            <td class="col-sm-4" style="line-height: 36px"><b>{{ManageSalaryModel.net_salary}}</b></td>
                                         </tr>
                                     </tbody></table>
                                 </div>

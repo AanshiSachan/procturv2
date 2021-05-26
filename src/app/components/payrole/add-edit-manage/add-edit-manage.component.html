@@ -5,8 +5,8 @@
             Manage Salary
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-         <span>Add Manage Salary</span> 
-          <!-- <span *ngIf="selectedId">Update Hourly Template</span> -->
+         <span *ngIf="!selectedId">Add Manage Salary</span> 
+          <span *ngIf="selectedId">Update Manage Salary</span>
         </h1>
       </section>
     <div class="row">
@@ -16,10 +16,10 @@
             Salary <span class="text-red">*</span>
         </label>
         <div class="col-sm-4">
-            <select class="form-control" id="hourly_grades"  name="hourly_grades">
+            <select class="form-control" id="hourly_grades" [(ngModel)]="slaryType" name="hourly_grades" (ngModelChange)="onselectSalaryDropdown()">
                 <option>Select Salary</option>
-                <option>Hourly</option>
-                <option>Monthly</option>
+                <option value="H">Hourly</option>
+                <option value="M">Monthly</option>
                 </select>
         </div>
         <span class="col-sm-4 control-label" id="hourly_grades_error">
@@ -31,10 +31,10 @@
             Template <span class="text-red">*</span>
         </label>
         <div class="col-sm-4">
-            <select class="form-control" id="hourly_rates"  name="hourly_rates">
+            <select class="form-control" id="hourly_rates"  [(ngModel)]="template_id" name="template_id" >
                 <option>Select Template</option>
-                <option>A</option>
-                <option>AB</option>
+                <option [value]="hourly.template_id" *ngFor="let hourly of templateList">{{slaryType == 'M' ? hourly.salary_grade : hourly.hourly_grade}}</option>
+                <!-- <option [value]="salary.template_id" *ngFor="let salary of salrayDataList" >{{salary.salary_grade}}</option> -->
                 </select>
               </div>
         
@@ -43,12 +43,12 @@
       </span>
      
     </div>
-    <div class="col-sm-4">
-        <input class="blue_button pull-left" type="button" id="addHourlyTemplate"  value="Add Salary Template">
+    <div class="col-sm-4" *ngIf="!selectedId">
+        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="assigneTemplateEmployee()"  value="Add Manage Salary">
     </div>
-    <!-- <div class="col-sm-4" *ngIf="selectedId">
-        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" value="Update Hourly Template">
-    </div> -->
+    <div class="col-sm-4" *ngIf="selectedId">
+        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="updateManageTemp()"value="Update Manage Salary">
+    </div>
     </div>
     </div>
     </form>

@@ -22,8 +22,10 @@ const routes: Routes = [
   {path :'view-salary-template/:id',component:ViewSalaryTemplateComponent},
   {path :'add-hourly',component:AddEditHourlyComponent},
   {path :'edit-hourly/:id',component:AddEditHourlyComponent,pathMatch:'prefix'},
-  {path :'view-manage-template',component:ViewManageTemplateComponent},
-  {path :'add-edit-manage',component:AddEditManageComponent}
+  {path :'view-manage-template/:id:selectedRolId',component:ViewManageTemplateComponent},
+  {path :'add-manage',component:AddEditManageComponent},
+  {path :'edit-manage/:id',component:AddEditManageComponent}
+
 
 
 

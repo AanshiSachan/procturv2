@@ -33,31 +33,22 @@
             <label for="hourly_grades">
                 Role<span class="text-red">*</span>
             </label>
-            <select class="form-control" id="hourly_grades"  name="hourly_grades">
+            <select class="form-control" id="hourly_grades" [(ngModel)]="selectedId"  name="hourly_grades" (ngModelChange)="getAlluserData()">
                 <option>Select Role</option>
-                <option [value]="teacher.role_id"*ngFor="let teacher of teacherList">{{teacher.role_name}}</option>
+                <option value="0">Teacher</option>
+               <option [value]="teacher.role_id" *ngFor="let teacher of teacherList">{{teacher.role_name}}</option>
                 </select>
         </div>
         <span class="col-sm-4 control-label" id="hourly_grades_error">
          </span>
     </div>
-    
-    <div class="table_heading">
-        <!-- <div>
-          <label class="checkbox checkbox1">
-                <span class="checkbox__input">
-                  <input type="checkbox" name="checked" >
-                  <span class="checkbox__control">
-                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                  </span>
-                </span>
-              </label>
-        </div> -->
+
+    <div class="table_heading" >
+       
           <div>
           #
           </div>
-          <div>Photo</div>
+          <!-- <div>Photo</div> -->
           <div>
             Name
           </div>
@@ -69,38 +60,45 @@
           </div>
           <div>Actions</div>
         </div>
-        <div class="table_body">
-          <!-- <div>
-            <label class="checkbox checkbox1">
-                <span class="checkbox__input">
-                  <input type="checkbox" name="checked" >
-                  <span class="checkbox__control">
-                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                  </span>
-                </span>
-              </label>
-          </div> -->
+        <div class="table_body" *ngFor="let user of allUserDataList;let i=index">
+          
          <div>
-          1
+          {{i+1}}
           </div>
-          <div>photo</div>
+          <!-- <div>photo</div> -->
           <div>
-            Abhishek
-          </div>
-          <div>
-           proct@gmail.com
+            {{user.user_name}}
           </div>
           <div>
-            12-03-2020
+           {{user.user_email}}
           </div>
           <div>
-            <a  class="mr10" (click)="onclickView()"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
-            <a  class="mr10"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-            <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+            {{user.joining_date}}
+          </div>
+          <div>
+            <a *ngIf="user.is_template_assigned == false" (click)="onClickAdd()"class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a>
+            <a *ngIf="user.is_template_assigned == false" class="mr10" (click)="onclickView(user.user_id)"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
+            <a  *ngIf="!user.is_template_assigned == false"class="mr10" (click)="onClickEdit(user.user_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
+            <a *ngIf="!user.is_template_assigned == false" data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
           </div>
           </div>
           </div>
           </div>
+          <div class="modal" id="deleteModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" >you are about to delete a record. This cannot be undone. are you sure?</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <div class="pt10 h10">
+                    <button class="white_button" data-dismiss="modal">Cancel</button>
+                    <button class="blue_button right" (click)="removeTemplate()">Delete</button>
+                  </div>
+                </div>        
+              </div>
+            </div>
+          </div> 
           
         

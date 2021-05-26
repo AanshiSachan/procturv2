@@ -1,1 +1,104 @@
-<p>make-payment works!</p>
+
+
+
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Make Payment</p>
+        </div>
+        <div>
+          <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a>
+          <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+          <a (click)="downloaExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Print Report"></a>
+          <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+
+        </div>
+      </div>
+    </div>
+    <div class="w98">
+        <div class="pt15">
+            <label for="serach">Search:&nbsp;</label>
+          <input type="text" class="input wid240 mr10" name="" placeholder="search" >
+            <!-- <button class="blue_button" (click)="addSalaryPage()">Add Salary Template</button> -->
+        </div>
+
+<!-- ===================== -->
+<!-- <div class="page_heading">
+    <p>Hourly Template</p>
+  </div> -->
+ <div class="form-group">                       
+        
+        <div class="col-sm-4" style="padding: 28px;">
+            <label for="hourly_grades">
+                Role<span class="text-red">*</span>
+            </label>
+            <select class="form-control" id="hourly_grades"  name="hourly_grades">
+                <option>Select Role</option>
+                <option value="0">Teacher</option>
+               <option >Teacher</option>
+                </select>
+        </div>
+        <span class="col-sm-4 control-label" id="hourly_grades_error">
+         </span>
+    </div>
+
+    <div class="table_heading" >
+       
+          <div>
+          #
+          </div>
+          <!-- <div>Photo</div> -->
+          <div>
+            Name
+          </div>
+          <div>
+            Email
+          </div>
+          <div>
+            Joining Date
+          </div>
+          <div>Actions</div>
+        </div>
+        <div class="table_body">
+          
+         <div>
+          1
+          </div>
+          <!-- <div>photo</div> -->
+          <div>
+            Mrunali
+          </div>
+          <div>
+           monu@gmail.com
+          </div>
+          <div>
+            25-2021
+          </div>
+          <div>
+            <a class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a>
+            <a class="mr10"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
+            <a class="mr10" (click)="onClickEdit(user.user_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
+            <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+          </div>
+          </div>
+          </div>
+          </div>
+          <div class="modal" id="deleteModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" >you are about to delete a record. This cannot be undone. are you sure?</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <div class="pt10 h10">
+                    <button class="white_button" data-dismiss="modal">Cancel</button>
+                    <button class="blue_button right" >Delete</button>
+                  </div>
+                </div>        
+              </div>
+            </div>
+          </div> 
+          
+        
