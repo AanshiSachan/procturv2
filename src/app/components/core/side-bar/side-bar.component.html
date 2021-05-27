@@ -82,7 +82,7 @@
             </button></a>
 
         <!-- Quick Add -->
-        <a mat-button (click)="showSubSection('quick')"> <img src="./assets/images/sidebar/newQuickAdd.svg"
+        <a *ngIf="(!facultyAccount && checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)) || jsonFlags.isShowLead || jsonFlags.isAdminforLeave || showManageRole" mat-button (click)="showSubSection('quick')"> <img src="./assets/images/sidebar/newQuickAdd.svg"
                 title="Quick Add" alt="">
         </a>
 
