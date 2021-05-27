@@ -120,6 +120,7 @@ export class ReportsComponent implements OnInit {
       this.showSMSReport = (this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
       this.showEmailReport = (this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
       if (sessionStorage.getItem('enable_eLearn_feature') == '1') {
+        this.jsonEstoreFlags.isEstoreMenu = this.role_feature.ESTORE_MENU;
         this.jsonEstoreFlags.isSalesReport = this.role_feature.REPORT_PRODUCT_SALES;
         this.jsonEstoreFlags.isCouponReport = this.role_feature.REPORT_PRODUCT_COUPON;
       }
