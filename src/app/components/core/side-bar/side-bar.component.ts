@@ -165,6 +165,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   showSMSSetting: boolean = false;
   showManageRole: boolean = false;
   role_feature = role.features;
+  Role_features: role = new role();
 
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
@@ -1402,6 +1403,18 @@ mouseleave() {
     sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
     sessionStorage.setItem('enable_client_website', res.enable_client_website);
     sessionStorage.setItem('is_fee_struct_linked', res.is_fee_struct_linked);
+
+    // Changes done by Nalini to handle role in case of branch switch
+    if (res.permission_id_list == undefined || res.permission_id_list == undefined || res.permission_id_list == null) {
+      sessionStorage.setItem('permissions', '');
+      this.log.changePermissions('');
+      this.Role_features.checkPermissions();
+    }
+    else {
+      sessionStorage.setItem('permissions', JSON.stringify(res.permission_id_list));
+      this.log.changePermissions(JSON.stringify(res.permission_id_list));
+      this.Role_features.checkPermissions();
+    }
 
   }
 
