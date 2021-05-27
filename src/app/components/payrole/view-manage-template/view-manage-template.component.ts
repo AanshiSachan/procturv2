@@ -29,10 +29,17 @@ export class ViewManageTemplateComponent implements OnInit {
     net_salary:'',
     typeA:'A',
     typeD:'D',
-    template_id:''
+    template_id:'',
+    user_gender:'',
+    user_dob:'',
+    user_phone:'',
+    user_name:'',
+    user_role:''
+
+
   }
-  selectedRolId:any
-  selectedId:any
+  selectedTeacherId:any
+  userId:any
   template_id:any
   salrayDataList:any=[]
   addedListAllownc:any=[]
@@ -42,33 +49,28 @@ export class ViewManageTemplateComponent implements OnInit {
     private auth :AuthenticatorService,
     private msgToast :MessageShowService, private routeParam: ActivatedRoute) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
-      this.selectedRolId = sessionStorage.getItem('teacher_id')
-      this.selectedId = sessionStorage.getItem('id')
+      this.selectedTeacherId = sessionStorage.getItem('teacher_id')
+      //this.selectedId = sessionStorage.getItem('id')
     }
   ngOnInit(): void {
-    // this.routeParam.params.subscribe(params => {
-    //   this.selectedId = params['id'];
-    // });
-    if(this.selectedId){
-    this.selectedRolId =0
-    }
-    else if(this.selectedRolId){
-    this.selectedId =0
-  }
+    this.routeParam.params.subscribe(params => {
+      this.selectedTeacherId = params['teacher_id'];
+      this.userId =params['user_id']
+    });
     this.getsalaryById()
   }
-  getsalaryById(){
-    
 
-    this.auth.showLoader();
-    let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/view/'+this.selectedId+'/'+this.selectedRolId
+
+  getsalaryById(){
+     this.auth.showLoader();
+    let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/view/'+this.userId+'/'+this.selectedTeacherId
     this.http.getData(url).subscribe(
       (res :any)=>{
     this.salrayDataList=res.result
     this.auth.hideLoader();
       this.ManageSalaryModel=res.result
     
-    for(let i= 0; i<this.salrayDataList.template_allowances_map_dtos.length;i++){
+    for(let i= 0; i < this.salrayDataList.template_allowances_map_dtos.length; i++){
       if(this.salrayDataList.template_allowances_map_dtos[i].type == 'D') {
          let obj ={
           type:this.ManageSalaryModel.typeD,
@@ -84,12 +86,13 @@ export class ViewManageTemplateComponent implements OnInit {
         
          }
          this.addedListAllownc.push(obj2)  
-         console.log("teacherid",this.selectedRolId)
-        }}
+        }
+        console.log("edit response",this.salrayDataList)
+      }
       },
       err => {
         this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
       }
     )
   }

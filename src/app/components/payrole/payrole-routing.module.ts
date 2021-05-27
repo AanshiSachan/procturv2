@@ -9,6 +9,7 @@ import { SalaryTemplateComponent } from './salary-template/salary-template.compo
 import { ViewManageTemplateComponent } from './view-manage-template/view-manage-template.component';
 import { ViewSalaryTemplateComponent } from './view-salary-template/view-salary-template.component';
 import { AddEditManageComponent } from './add-edit-manage/add-edit-manage.component';
+import { AddSalaryPaymentComponent } from './add-salary-payment/add-salary-payment.component';
 
 
 
@@ -22,9 +23,11 @@ const routes: Routes = [
   {path :'view-salary-template/:id',component:ViewSalaryTemplateComponent},
   {path :'add-hourly',component:AddEditHourlyComponent},
   {path :'edit-hourly/:id',component:AddEditHourlyComponent,pathMatch:'prefix'},
-  {path :'view-manage-template/:id:selectedRolId',component:ViewManageTemplateComponent},
-  {path :'add-manage',component:AddEditManageComponent},
-  {path :'edit-manage/:id',component:AddEditManageComponent}
+  {path :'view-manage-template/:teacher_id/:user_id',component:ViewManageTemplateComponent},
+  {path :'add-manage/:teacher_id/:user_id',component:AddEditManageComponent},
+  {path :'edit-manage/:teacher_id/:user_id',component:AddEditManageComponent},
+  {path :'add-salary-payment/:teacher_id/:user_id',component:AddSalaryPaymentComponent},
+
 
 
 

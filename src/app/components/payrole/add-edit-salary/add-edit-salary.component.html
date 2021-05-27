@@ -67,7 +67,7 @@
 
                                 <div class="col-sm-2" style="padding: 0px;">
                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" >
-                                        <i class="fa fa-plus" style="margin-right: -6px;margin-left: -8px;"></i>
+                                        <i class="fa fa-plus"></i>
 
                                     </button>
                                     <a (click)="removeAllownce = true;" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
@@ -90,13 +90,11 @@
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <!-- <div class="col-sm-1">
-                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" *ngIf="addedListAllownc.length ==0">
+                                    <!-- <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" *ngIf="addedListAllownc.length ==0">
                                         <i class="fa fa-plus"></i>
-                                    </button>
-                                    <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                                    </button> -->
+                                    <!-- <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a> -->
 
-                                      </div> -->
                                       
                                     <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
 
@@ -132,7 +130,7 @@
 
                                 <div class="col-sm-2" style="padding: 0px;">
                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-deductions-add" (click)="dedutAllown('D')" id="salary-btn-deductions-add">
-                                        <i class="fa fa-plus" style="margin-right: -6px;margin-left: -8px;"></i>
+                                        <i class="fa fa-plus"></i>
                                     </button>
                                      <a (click)="remove = true;" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
                                 </div>

@@ -33,10 +33,10 @@
             <label for="hourly_grades">
                 Role<span class="text-red">*</span>
             </label>
-            <select class="form-control" id="hourly_grades"  name="hourly_grades">
+            <select class="form-control" id="hourly_grades" [(ngModel)]="selectedId" name="hourly_grades" (ngModelChange)="getAlluserData()">
                 <option>Select Role</option>
                 <option value="0">Teacher</option>
-               <option >Teacher</option>
+               <option [value]="role.role_id" *ngFor="let role of teacherList">{{role.role_name}}</option>
                 </select>
         </div>
         <span class="col-sm-4 control-label" id="hourly_grades_error">
@@ -60,26 +60,28 @@
           </div>
           <div>Actions</div>
         </div>
-        <div class="table_body">
+        <div class="table_body" *ngFor="let user of allUserDataList;let i=index">
           
          <div>
-          1
+          {{i+1}}
           </div>
           <!-- <div>photo</div> -->
           <div>
-            Mrunali
+            {{user.user_name}}
           </div>
           <div>
-           monu@gmail.com
+            {{user.user_email}}
           </div>
           <div>
-            25-2021
+            {{user.joining_date}}
           </div>
           <div>
-            <a class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a>
+            <button class="blue_button1 right" (click)="onclickMakePayment(user)">Make Payement</button>
+
+            <!-- <a class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a>
             <a class="mr10"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
             <a class="mr10" (click)="onClickEdit(user.user_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-            <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+            <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a> -->
           </div>
           </div>
           </div>

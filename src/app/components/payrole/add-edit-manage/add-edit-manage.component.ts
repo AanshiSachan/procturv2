@@ -19,8 +19,9 @@ export class AddEditManageComponent implements OnInit {
   }
   slaryType:any
   template_id:any
+  userId:any
   selectedId:any
-  selectedRolId:any
+  selectedTeacherId:any
   templateList:any=[];
   constructor( private router: Router,
     private http: HttpService, 
@@ -29,13 +30,16 @@ export class AddEditManageComponent implements OnInit {
     private pdf :ExportToPdfService,
     private excel :ExcelService,private routeParam: ActivatedRoute) { 
       this.jsonFlag.institute_id=sessionStorage.getItem('institute_id')
-      this.selectedRolId = sessionStorage.getItem('teacher_id')
+     this.selectedTeacherId = sessionStorage.getItem('teacher_id')
 
     }
   ngOnInit(): void {
     this.routeParam.params.subscribe(params => {
-      this.selectedId = params['id'];
+      this.selectedTeacherId = params['teacher_id'];
+      this.userId =params['user_id']
+     
     });
+    console.log("teacher iddd",this.selectedId)
   }
   getAllHourlyData(){
     this.auth.showLoader();
@@ -71,8 +75,8 @@ export class AddEditManageComponent implements OnInit {
       assigneTemplateEmployee(){
         let obj={
           template_id:this.template_id,
-          user_id:this.selectedId,
-          teacher_id:this.selectedRolId,
+          user_id:this.userId,
+          teacher_id:this.selectedTeacherId,
           institute_id:this.jsonFlag.institute_id
 
         }
@@ -90,6 +94,8 @@ export class AddEditManageComponent implements OnInit {
           err => {
             this.auth.hideLoader();
             this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
+            this.router.navigate(['/view/payrole/manage-salary']);
+
           }
         )
 
@@ -98,7 +104,7 @@ export class AddEditManageComponent implements OnInit {
       let obj={
         template_id:this.template_id,
         user_id:this.selectedId,
-        teacher_id:this.selectedRolId,
+        teacher_id:this.selectedTeacherId,
         institute_id:this.jsonFlag.institute_id
 
       }

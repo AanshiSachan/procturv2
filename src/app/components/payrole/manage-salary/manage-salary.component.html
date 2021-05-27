@@ -76,10 +76,10 @@
             {{user.joining_date}}
           </div>
           <div>
-            <a *ngIf="user.is_template_assigned == false" (click)="onClickAdd()"class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a>
-            <a *ngIf="user.is_template_assigned == false" class="mr10" (click)="onclickView(user.user_id)"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
-            <a  *ngIf="!user.is_template_assigned == false"class="mr10" (click)="onClickEdit(user.user_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-            <a *ngIf="!user.is_template_assigned == false" data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+            <a *ngIf="user.is_template_assigned == false" (click)="onClickAdd(user)"class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a>
+            <a *ngIf="!user.is_template_assigned == false" class="mr10" (click)="onclickView(user)"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
+            <a  *ngIf="!user.is_template_assigned == false"class="mr10" (click)="onClickEdit(user)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
+            <a *ngIf="!user.is_template_assigned == false" (click)="setDeleteData(user)" data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
           </div>
           </div>
           </div>

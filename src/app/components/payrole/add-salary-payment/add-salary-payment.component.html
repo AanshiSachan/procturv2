@@ -1,0 +1,177 @@
+<section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+     <a routerLink="/view/payrole/make-payment">
+       Salary Payemnt
+     </a>
+     <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+     Make Payemnt
+   </h1>
+ </section>
+<div class="col-sm-3">
+    <div class="box" >
+       
+    <div class="box box-primary">
+        <div class="box-body box-profile">
+            <img src="https://original.proctur.com/uploads/images/default.png" class="profile-user-img img-responsive img-circle" style="margin-left: 103px;" alt="">                        <h3 class="student-username text-center">Vinod</h3>
+            <p class="text-muted text-center">Teacher</p>
+            <ul class="list-group list-group-unbordered">
+                <li class="list-group-item" style="background-color: #FFF">
+                    <b>Gender</b> <a class="pull-right">Male</a>
+                </li>
+                <li class="list-group-item" style="background-color: #FFF">
+                    <b>Date of Birth</b> <a class="pull-right">29 Jan 1980</a>
+                </li>
+                <li class="list-group-item" style="background-color: #FFF">
+                    <b>Phone</b> <a class="pull-right"></a>
+                </li>
+            </ul>
+        </div>
+        <!-- ==========second-div========== -->
+        
+        <div class="box" style="margin-bottom: 25px;">
+            <div class="box-header">
+                <h3 class="box-title"><i class="fa fa-money"></i> Make Payment</h3>
+            </div><!-- /.box-header -->
+            <!-- form start -->
+            <div class="box-body">
+                <form >
+                    <div class="form-group ">
+                        <label for="gross_salary">Gross Salary <span class="text-red">*</span></label>
+                        <input type="text" name="gross_salary" class="form-control" id="gross_salary" value="0" disabled="">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="total_deduction">Total Deduction <span class="text-red">*</span></label>
+                        <input type="text" name="total_deduction" class="form-control" id="total_deduction" value="4000" disabled="">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="net_salary">Net Salary <span class="text-red">*</span></label>
+                        <input type="text" name="net_salary" class="form-control" id="net_salary" value="66000" disabled="">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="month">Month <span class="text-red">*</span></label>
+                        <input type="type" name="month" class="form-control" id="month" [(ngModel)]="historyModel.month" value="05-2021">
+                        <span class="text-red">
+                                                        </span>
+                    </div>
+
+                    
+                    <div class="form-group ">
+                        <label for="payment_amount">Payment Amount <span class="text-red">*</span></label>                            
+                         <input type="text" name="payment_amount" class="form-control" id="payment_amount" [(ngModel)]="historyModel.payment_amount">
+                        <span class="text-red">
+                        </span>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="payment_method">Payment Method <span class="text-red">*</span></label>
+                        <select name="payment_method" id="payment_method" [(ngModel)]="historyModel.payment_method" class="form-control">
+                        <option value="0">Select Payment Method</option>
+                        <option value="1">Cash</option>
+                         <option value="2">Cheque</option>
+                            </select>
+                        <span class="text-red">
+                         </span>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="comments">Comments</label>
+                        <input type="text" name="comments" [(ngModel)]="historyModel.comment" class="form-control" id="comments">
+                    </div>
+
+                    <button class="blue_button right" (click)="createSalaryPayment()" >Add Payement</button>
+                </form>
+            </div>
+        </div>
+        <!-- ==========end======= -->
+    </div>
+    </div>
+</div>
+<div class="col-sm-9">
+    <div class="head_padding">
+        <div class="w98 display">
+          <div class="page_heading">
+            <p>Payment History</p>
+          </div>
+          <div>
+            <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a>
+            <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+            <a (click)="downloaExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Print Report"></a>
+            <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+  
+          </div>
+        </div>
+      </div>
+      <div class="w98">
+          <div class="pt15">
+              <label for="serach">Search:&nbsp;</label>
+            <input type="text" class="input wid240 mr10" name="" placeholder="search" >
+              <!-- <button class="blue_button" (click)="addSalaryPage()">Add Salary Template</button> -->
+          </div>
+  
+    <div class="table_heading" >
+       
+        <div>
+        #
+        </div>
+        <!-- <div>Photo</div> -->
+        <div>
+          Month
+        </div>
+        <div>
+          Date
+        </div>
+        <div>
+          Net Salary
+        </div>
+        <div>
+        Payment Amount
+          </div>
+        <div>Actions</div>
+      </div>
+      <div class="table_body" *ngFor="let item of allHistoryPementList;let i=index">
+        
+       <div>
+        {{i+1}}
+        </div>
+        <!-- <div>photo</div> -->
+        <div>
+            {{item.month}}
+        </div>
+        <div>
+            {{item.date}}
+        </div>
+        <div>
+        {{item.net_salary}}
+        </div>
+        <div>
+            {{item.payment_amount}}
+        </div>
+        <div>
+          <!-- <a  class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a> -->
+          <a  class="mr10"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
+          <!-- <a  class="mr10" (click)="onClickEdit(user.user_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a> -->
+          <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+        </div>
+        </div>
+        <!-- </div> -->
+        </div>
+        <div class="modal" id="deleteModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" >you are about to delete a record. This cannot be undone. are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="pt10 h10">
+                  <button class="white_button" data-dismiss="modal">Cancel</button>
+                  <button class="blue_button right">Delete</button>
+                </div>
+              </div>        
+            </div>
+          </div>
+        </div> 
+        

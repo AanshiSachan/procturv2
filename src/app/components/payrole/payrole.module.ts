@@ -17,10 +17,12 @@ import { SharedModule } from '../shared/shared.module';
 import { AddEditHourlyComponent } from './add-edit-hourly/add-edit-hourly.component';
 import { ViewManageTemplateComponent } from './view-manage-template/view-manage-template.component';
 import { AddEditManageComponent } from './add-edit-manage/add-edit-manage.component';
+import { ViewSalaryPaymentComponent } from './view-salary-payment/view-salary-payment.component';
+import { AddSalaryPaymentComponent } from './add-salary-payment/add-salary-payment.component';
 
 
 @NgModule({
-  declarations: [PayroleComponent, SalaryTemplateComponent, AddEditSalaryComponent, HourlyTemplateComponent, ManageSalaryComponent, MakePaymentComponent, ViewSalaryTemplateComponent, AddEditHourlyComponent, ViewManageTemplateComponent, AddEditManageComponent],
+  declarations: [PayroleComponent, SalaryTemplateComponent, AddEditSalaryComponent, HourlyTemplateComponent, ManageSalaryComponent, MakePaymentComponent, ViewSalaryTemplateComponent, AddEditHourlyComponent, ViewManageTemplateComponent, AddEditManageComponent, ViewSalaryPaymentComponent, AddSalaryPaymentComponent],
   imports: [
     CommonModule,
     PayroleRoutingModule,

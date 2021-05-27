@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
+declare var $;
 
 @Component({
   selector: 'app-manage-salary',
@@ -20,32 +21,65 @@ jsonFlag={
 //is_template_assigned:boolean=false
 selectedId:any
 teacher_id:any
+userId:any
 teacherList:any=[]
+selectedTeacherId:any
 allUserDataList:any=[]
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
     private msgToast :MessageShowService,
     private pdf :ExportToPdfService,
-    private excel :ExcelService,) { 
+    private excel :ExcelService,private routeParam: ActivatedRoute) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
+      this.selectedId = JSON.parse(sessionStorage.getItem('selectedId'));
+      
     }
   ngOnInit(): void {
+  
     this.getAllUserRol();
   }
-onClickAdd(){
-  this.router.navigateByUrl('/view/payrole/add-manage')
+  setDeleteData(obj) {
+    this.selectedTeacherId = obj.teacher_id;
+    this.userId = obj.user_id;
+  }
+onClickAdd(obj){
+  let user_id;
+  let teacher_id;
+  if(this.selectedId == 0) {
+    teacher_id = obj.teacher_id;
+    user_id = 0;
+  } else {
+    teacher_id = 0;
+    user_id = obj.user_id;
+  }
+  this.router.navigateByUrl('/view/payrole/add-manage/' +teacher_id + '/' + user_id);
 }
-  onclickView(id){
-    sessionStorage.setItem('id',JSON.stringify(id))
-    console.log("user id",id)
-
-    this.router.navigateByUrl('/view/payrole/view-manage-template/'+id)
+  onclickView(obj){
+   // sessionStorage.setItem('id',JSON.stringify(id))
+   let user_id;
+   let teacher_id;
+   if(this.selectedId == 0) {
+     teacher_id = obj.teacher_id;
+     user_id = 0;
+   } else {
+     teacher_id = 0;
+     user_id = obj.user_id;
+   }
+    this.router.navigateByUrl('/view/payrole/view-manage-template/'+teacher_id + '/' + user_id)
   }
-  onClickEdit(id){
-    this.router.navigateByUrl('/view/payrole/edit-manage/' +id);
-  
-  }
+  onClickEdit(obj){
+    let user_id;
+   let teacher_id;
+   if(this.selectedId == 0) {
+     teacher_id = obj.teacher_id;
+     user_id = 0;
+   } else {
+     teacher_id = 0;
+     user_id = obj.user_id;
+   }  
+    this.router.navigateByUrl('/view/payrole/edit-manage/' +teacher_id + '/' + user_id);
+   }
   
   getAllUserRol(){
     this.auth.showLoader();
@@ -53,9 +87,7 @@ onClickAdd(){
 this.http.getData(url).subscribe(
   (res:any)=>{
 this.teacherList = res;
-this.selectedId = res.role_id
-
-
+this.selectedId = res.role_id;
 this.auth.hideLoader();
 console.log("teacherlisttttttt",this.teacherList)
   },
@@ -72,16 +104,7 @@ console.log("teacherlisttttttt",this.teacherList)
     this.http.getData(url).subscribe(
       (res:any)=>{
     this.allUserDataList = res.result;
-    for(let i=0; i<this.allUserDataList.length;i++){
-       this.teacher_id = this.allUserDataList[i].teacher_id 
-
-    }
-    sessionStorage.setItem('teacher_id',JSON.stringify(this.teacher_id))
-    console.log("idddddddd",this.teacher_id)
-    this.auth.hideLoader()
-
-    console.log("teacher id",this.allUserDataList)
-
+     this.auth.hideLoader()
       }, err => {
         this.auth.hideLoader();
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
@@ -91,8 +114,8 @@ console.log("teacherlisttttttt",this.teacherList)
   }
   removeTemplate(){
     let obj ={
-      user_id:this.selectedId,
-      teacher_id:this.teacher_id,
+      user_id:this.userId,
+      teacher_id:this.selectedTeacherId,
       institute_id:this.jsonFlag.institute_id
     }
     this.auth.showLoader();
@@ -100,10 +123,10 @@ console.log("teacherlisttttttt",this.teacherList)
     this.http.putData(url,obj).subscribe(
       (res :any)=>{
     // this.templateList=res.result.response;
-     this.auth.hideLoader();
      this.msgToast.showErrorMessage('success', '', "Template Removed  successfully");
-this.getAlluserData()
-    //console.log("salaryyyyyy",this.templateList)
+     $('#deleteModal').modal('hide');
+     this.auth.hideLoader();
+     this.getAlluserData()
       },
       err => {
         this.auth.hideLoader();
