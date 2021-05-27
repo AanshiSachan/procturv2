@@ -424,7 +424,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   // this sued for edit
   optionSelected(e) {
     if(this.paymentMode.length==0){
-      this.getPaymentModes;
+      this.getPaymentModes();
     }
     this.personData = e.data;
     this.updatedResult.paid_date = moment(e.data.paid_date).format("YYYY-MM-DD");
@@ -440,6 +440,8 @@ export class PaymentHistoryMainComponent implements OnInit {
           this.perPersonData = data.feeSchedule_TxLst;
           this.updatedResult.paymentMode = this.perPersonData[0].paymentMode;
           this.updatedResult.fee_receipt_update_reason = " ";
+          this.updatedResult.remarks = data.remarks;
+          this.updatedResult.reference_no= data.reference_no;
           let totalAmount = 0;
           this.perPersonData.forEach((element, index) => {
             totalAmount += element.amount_paid;
