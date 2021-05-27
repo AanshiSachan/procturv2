@@ -13,7 +13,7 @@ import { HttpService } from '../../../services/http.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonApiCallService } from '../../../services/common-api-call.service';
-
+import CommonUtils from '../../../utils/commonUtils'
 
 @Component({
   selector: 'app-enquiry-add',
@@ -1142,6 +1142,23 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
           this.newEnqData.is_follow_up_time_notification = 0;
         }
 
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.email)) {
+          this.showErrorMessage('error', '', "Please enter valid email id");
+          return;
+        }
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.email2)) {
+          this.showErrorMessage('error', '', "Please enter valid alternate email ID");
+          return;
+        }
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.parent_email)) {
+          this.showErrorMessage('error', '', "Please enter valid parent email ID");
+          return;
+        }
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.guardian_email)) {
+          this.showErrorMessage('error', '', "Please enter valid guardian email ID");
+          return;
+        }
+  
         if (!this.isProfessional && (this.isEnquirySubmit)) {
           this.isEnquirySubmit = false;
           let obj: any = {

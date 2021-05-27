@@ -14,6 +14,7 @@ import { LoginService } from '../../../../services/login-services/login.service'
 import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { ClosingReasonService } from '../../services/closing-reason.service';
 import { CommonApiCallService } from '../../../../services/common-api-call.service';
+import CommonUtils from '../../../../utils/commonUtils'
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -1004,6 +1005,23 @@ export class EnquiryEditComponent implements OnInit {
         this.showErrorMessage('error', '', 'Please enter closing reason of enquiry.');
         return;
       }
+    }
+
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.email)) {
+      this.showErrorMessage('error', '', "Please enter valid email id");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.email2)) {
+      this.showErrorMessage('error', '', "Please enter valid alternate email ID");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.parent_email)) {
+      this.showErrorMessage('error', '', "Please enter valid parent email ID");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.guardian_email)) {
+      this.showErrorMessage('error', '', "Please enter valid guardian email ID");
+      return;
     }
 
     /* Upload Data if the formData is valid */
