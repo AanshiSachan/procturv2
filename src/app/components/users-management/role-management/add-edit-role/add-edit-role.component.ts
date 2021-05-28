@@ -79,7 +79,7 @@ export class AddEditRoleComponent implements OnInit {
         if (sessionStorage.getItem('enable_library_feature') != '1') {
           this.checkSuperAdminSettings(5031);
         }
-        if (sessionStorage.getItem('isShowLiveclass') != '1') {
+        if (sessionStorage.getItem('isShowLiveclass') != 'true') {
           this.checkSuperAdminSettings(5022);
         }
         if(!this.isShoweOnlineExam) {
