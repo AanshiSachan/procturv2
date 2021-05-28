@@ -1196,7 +1196,6 @@ mouseleave() {
         this.multiBranchService.subBranchSelected.next(true);
         this.fillSessionStorageCommonFields(res);
         sessionStorage.setItem('mainBranchId', this.mainBranchId);
-        sessionStorage.setItem('permissions', '');
         this.getCountryData(data.institute_id);
         this.router.navigateByUrl('/authPage');
       },
@@ -1259,7 +1258,6 @@ mouseleave() {
 
   mainBranchLogin(res) {
     sessionStorage.setItem('religion_feature', res.religion_feature);
-    sessionStorage.setItem('permissions', '');
     this.router.navigateByUrl('/authPage');
   }
 
@@ -1337,9 +1335,40 @@ mouseleave() {
 
   fillSessionStorageCommonFields(res) {
     sessionStorage.clear();
-    let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
-    sessionStorage.setItem('Authorization', Authorization);
-    this.auth.changeAuthenticationKey(Authorization);
+    // Changes done by Nalini to handle role in case of branch switch
+    if (res.userType != '1' && res.userType != '99') {
+      let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
+      sessionStorage.setItem('Authorization', Authorization);
+      this.auth.changeAuthenticationKey(Authorization);
+    }
+    else {
+      if (res.single_login_login_check) {
+        sessionStorage.setItem('single_device_login', 'true');
+        let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id + ":" + res.device_id + ":WEB");
+        sessionStorage.setItem('Authorization', Authorization);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+      else {
+        sessionStorage.setItem('single_device_login', 'false');
+        let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
+        sessionStorage.setItem('Authorization', Authorization);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+    }
+    console.log(res.permission_id_list);
+     if (res.permission_id_list == undefined || res.permission_id_list == undefined || res.permission_id_list == null) {
+      sessionStorage.setItem('permissions', '');
+      this.log.changePermissions('');
+      this.Role_features.checkPermissions();
+    }
+    else {
+      sessionStorage.setItem('permissions', JSON.stringify(res.permission_id_list));
+      this.log.changePermissions(JSON.stringify(res.permission_id_list));
+      this.Role_features.checkPermissions();
+    }
+    // this.log.currentUsername.subscribe(res => {
+      this.createCustomSidenav();
+    // });
     sessionStorage.setItem('institute_id', res.institution_id);
     sessionStorage.setItem('institution_id', res.institution_id);
     this.auth.changeInstituteId(res.institution_id);
@@ -1403,19 +1432,6 @@ mouseleave() {
     sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
     sessionStorage.setItem('enable_client_website', res.enable_client_website);
     sessionStorage.setItem('is_fee_struct_linked', res.is_fee_struct_linked);
-
-    // Changes done by Nalini to handle role in case of branch switch
-    if (res.permission_id_list == undefined || res.permission_id_list == undefined || res.permission_id_list == null) {
-      sessionStorage.setItem('permissions', '');
-      this.log.changePermissions('');
-      this.Role_features.checkPermissions();
-    }
-    else {
-      sessionStorage.setItem('permissions', JSON.stringify(res.permission_id_list));
-      this.log.changePermissions(JSON.stringify(res.permission_id_list));
-      this.Role_features.checkPermissions();
-    }
-
   }
 
   // closeSubMenu(){
