@@ -52,6 +52,7 @@
             </div>
             <div>
               <select class="select width_s" [(ngModel)]="row.selected_teacher" (ngModelChange)="checkMoreOption(row)">
+                <option value="-1"></option>
                 <option *ngFor="let opt of row.allowedTeacher" [value]="opt.teacher_id">
                   {{opt.teacher_name}}
                 </option>
@@ -62,51 +63,104 @@
           <!-- use image only when page is empty,table body class element will not be present -->
           <div class="add_subject">
             <span>
-              <a href="" data-toggle="modal" data-target="#subjectModal">Add New Subject</a>
+              <a href="" data-toggle="modal" data-target="#addUpdateSubjectdialog">Add New Subject</a>
             </span>
           </div>
           <div class="white bottom_pagignation ">
             <div class="display">
               <div><button class="white_button">Back</button></div>
-               <div><button class="blue_button" (click)="addDataToTable()">Save</button></div>
+               <div><button class="blue_button" (click)="addDataToTable()">{{(selectedCourseID) ? 'Update' : 'Save'}}</button></div>
             </div>
           </div>
       </div>
     </div>
   </div>
 
-  <div class="modal" id="subjectModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" >Add Subject</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="pt10">
-           <select class="select wid100">
-             <option>X</option>
-           </select>
-          </div>
-          <div class="pt10">
-            <input type="text" class="wid100 input" name="" placeholder="Subject Name*">
-          </div>
-          <div class="pt10">
-            <input type="text" class="wid100 input" name="" placeholder="Subject Code*">
-          </div>
-         
-           <div class="pt101 display">
-          <div></div>
-          <div>
-           
-          <button class="blue_button mr10">Add Subject</button>
-          <button class="white_button ">Back</button>
-        </div>
-        </div>
-        </div>        
+  <div class="modal fade" id="addUpdateSubjectdialog" role="dialog" tabindex="-1" style="margin-top: 3%;" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title" style="margin-bottom: -5px;">{{isNewSubjectAdd ? 'Add Subject' : 'Update Subject'}}
+        </h3>
       </div>
+      <div class="modal-body">
+        <div class="field-wrapper">
+          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
+            <span class="text-danger">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
+            <span class="text-danger">*</span>
+          </label>
+          <div class="dropdown-div">
+            <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
+              <option value="-1"> Select {{isLangInstitue ? 'Master Course Name' : 'Standard'}}</option>
+              <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                {{ (opt.standard_name?.length > 70) ? (opt.standard_name | slice:0:70) + '...' : opt.standard_name }}
+              </option>
+            </select>
+            <!-- <p>* Example English, Science</p> -->
+          </div>
+        </div>
+        <div class="field-wrapper">
+          <label *ngIf="(isLangInstitue != true )" for="subname">
+            Subject Name
+            <span class="text-danger">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="subname">
+            Course Name
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
+          <!-- <p>(Eg. Maths or Science or Accounts)</p> -->
+        </div>
+        <div class="field-wrapper">
+          <label for="sub_code">
+            Subject Code
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
+            [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
+        </div>
+        <div class="field-wrapper" *ngIf="schoolModel">
+          <label for="total_marks">Total Marks
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="newSubjectDetails.total_marks" id="total_marks"
+            name="total_marks">
+        </div>
+        <div class="field-wrapper" *ngIf="schoolModel">
+          <label for="passing_marks">Passing Marks
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="newSubjectDetails.passing_marks" id="passing_marks"
+            name="passing_marks">
+        </div>
+        <div class="field-wrapper">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active"
+              id="isAct">
+            <label for="isAct">Is Active</label>
+          </div>
+          <div class="field-checkbox-wrapper" *ngIf="schoolModel">
+            <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_optional"
+              id="is_optional">
+            <label for="is_optional">Set as Optional</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearData()">Close</button>
+          <button type="button" *ngIf="isNewSubjectAdd" class="btn btn-primary create-btn"
+            (click)="addNewSubject()">Save</button>
+          <button type="button" *ngIf="!isNewSubjectAdd" class="btn btn-primary create-btn"
+            (click)="updateSubject()">Update</button>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
   <div class="modal" id="standardModal">
     <div class="modal-dialog">
       <div class="modal-content">

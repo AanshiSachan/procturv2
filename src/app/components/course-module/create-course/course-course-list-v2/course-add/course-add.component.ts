@@ -3,7 +3,8 @@ import { HttpService } from '../../../../../services/http.service';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../../services/message-show.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import CommonUtils from '../../../../../utils/commonUtils';
 
 @Component({
   selector: 'app-course-add',
@@ -16,6 +17,8 @@ export class CourseAddComponent implements OnInit {
   activeTeachers: any = [];
   mainArrayForTable:any=[];
   schoolModel:boolean = false;
+  isLangInstitue:boolean = false;
+  selectedCourseID:any = '';
   courseDetails: any = {
     course_name: '',
     start_Date: '',
@@ -24,16 +27,39 @@ export class CourseAddComponent implements OnInit {
     master_course_id: '',
     inst_id: sessionStorage.getItem('institute_id')
   };
+  newSubjectDetails: any = {
+    is_active: "Y",
+    standard_id: "-1",
+    subject_name: '',
+    subject_code: '',
+    is_optional: false,
+    total_marks: '',
+    passing_marks: ''
+  }
 
   constructor(
     private _httpService: HttpService,
     private _auth: AuthenticatorService,
     private _msgService: MessageShowService,
+    private routeParam: ActivatedRoute,
     private router : Router
-  ) { }
+  ) { 
+    this.routeParam.params.subscribe(params => {
+      this.selectedCourseID = params['id'];
+    });
+  }
 
   ngOnInit(): void {
     this.schoolModel = this._auth.schoolModel.getValue();
+    this._auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitue = true;
+        } else {
+          this.isLangInstitue = false;
+        }
+      }
+    )
     this.courseDetails = JSON.parse(sessionStorage.getItem('cretaCourse'));
     let sub_list = JSON.parse(sessionStorage.getItem('subjectList'));
     this.subjectList = sub_list.subject_list;
@@ -41,7 +67,46 @@ export class CourseAddComponent implements OnInit {
     console.log(this.subjectList);
     // sessionStorage.removeItem('cretaCourse');
     this.getAcademicYearDetails();
+    if(this.selectedCourseID) {
+      this.getSelectedCourse(this.selectedCourseID);
+    }
   }
+
+  getSelectedCourse(id) {
+    let url = `/api/v1/courseMaster/fetch-course/${sessionStorage.getItem('institute_id')}/${id}`
+    this._httpService.getData(url).subscribe(
+      (res: any) => {
+        this.courseDetails = res.result;
+        this.courseDetails.start_Date = moment(this.courseDetails.start_date).format('YYYY-MM-DD');
+        this.courseDetails.end_Date = moment(this.courseDetails.end_date).format('YYYY-MM-DD');
+        // this.subjectList = res.result.subject_list;
+        // this.getMetaDataForTable(this.courseDetails);
+        // this.dummyArray.push("Selected Course");
+        this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
+      },
+      error => {
+        //console.log(error);
+        this._msgService.showErrorMessage('error', '', error.error.message);
+      }
+    )
+  }
+
+  manipulateNestedTableDataSource(data) {
+    let test: any = data;
+    let nestedTableDataSource = this.keepCloning(this.subjectList);
+    for (let i = 0; i < test.length; i++) {
+      for (let y = 0; y < nestedTableDataSource.length; y++) {
+        if (test[i].subject_id == nestedTableDataSource[y].subject_id) {
+          nestedTableDataSource[y].uiSelected = true;
+          nestedTableDataSource[y].selected_teacher = test[i].teacher_id;
+          nestedTableDataSource[y].isAssigned = test[i].isAssigned;
+          nestedTableDataSource[y].otherDetails = test[i];
+        }
+      }
+    }
+    this.subjectList = nestedTableDataSource;
+  }
+
 
   getAcademicYearDetails() {
     this.academicList = [];
@@ -136,6 +201,7 @@ export class CourseAddComponent implements OnInit {
   }
 
   validateAllFields(data) {
+    console.log(data);
     let selected: number = 0;
     for (let i = 0; i < data.length; i++) {
       if (data[i].uiSelected == true) {
@@ -176,7 +242,7 @@ export class CourseAddComponent implements OnInit {
         obj.allow_exam_grades = this.courseDetails.allow_exam_grades;
         obj.subjectListArray = this.keepCloning(this.subjectList);
         this.mainArrayForTable.push(obj);  
-        this.submitCourseDetails();
+        (!this.selectedCourseID) ? this.submitCourseDetails() : this.updateEditedDetails();
       }
     } else {
       this._msgService.showErrorMessage('error','',"You haven't filled mandatory details.");
@@ -292,4 +358,107 @@ export class CourseAddComponent implements OnInit {
     return obj;
   }
 
+  updateEditedDetails() {
+    let dataToSend: any = this.constructJsonToSend();
+    if (dataToSend == false) {
+      return
+    }
+
+    // if (this.jsonVar.callApi) {
+      // this.jsonVar.callApi = false;
+      let url = `/api/v1/courseMaster/update-course/${this.selectedCourseID}`
+      this._httpService.putData(url, dataToSend).subscribe(
+        res => {
+          this.router.navigateByUrl('/view/course/create/courselist');
+          let msg = this.schoolModel ? 'Section' : 'Course';
+          this._msgService.showErrorMessage('success', '', msg +' updated successfully.');
+
+        },
+        err => {
+          //console.log(err);
+          this._msgService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    // }
+  }
+
+  validateUserInput() {
+    if (this.newSubjectDetails.standard_id == '-1') {
+      this._msgService.showErrorMessage('error','', "Please select standard!");
+      return false;
+    }
+    if (CommonUtils.isEmpty(this.newSubjectDetails.subject_name)) {
+      this._msgService.showErrorMessage('error','', "Please enter subject name!");
+      return false;
+    }
+    if (!this.isLangInstitue && CommonUtils.isEmpty(this.newSubjectDetails.subject_code)) {
+      this._msgService.showErrorMessage('error','', "Please enter subject code!");
+      return false;
+    }
+    return this.validateSchoolModelField();
+  }
+  validateSchoolModelField() {
+    if (this.schoolModel) {
+      if (Number(this.newSubjectDetails.total_marks) <= 0) {
+        this._msgService.showErrorMessage('error','','Please enter total marks!');
+        return false;
+      }
+      if (Number(this.newSubjectDetails.passing_marks <= 0)) {
+        let data = {
+          type: "error",
+          title: "",
+          body: ""
+        }
+        this._msgService.showErrorMessage('error','',"Total marks can't be less than passing marks!");
+        return false;
+      }
+      if (Number(this.newSubjectDetails.total_marks) < Number(this.newSubjectDetails.passing_marks)) {
+        this._msgService.showErrorMessage('error','',"Total marks can't be less than passing marks!");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  successMsg() {
+    let msg = "";
+    if (this.isLangInstitue) {
+      msg = "Course created successfully!";
+    } else {
+      msg = "Subject created successfully";
+    }
+    this._msgService.showErrorMessage('success','',msg);
+    // $('#addUpdateSubjectdialog').modal('hide');
+    // this.getAllSubjectList();
+    // this.clearData();
+  }
+
+  preparedSubjectRequestPayload(): object {
+    let obj: any = {
+      is_active: (this.newSubjectDetails.is_active == true || this.newSubjectDetails.is_active == "Y") ? "Y" : "N",
+      standard_id: this.newSubjectDetails.standard_id,
+      subject_name: this.newSubjectDetails.subject_name,
+    }
+    if (!this.isLangInstitue) {
+      obj.subject_code = this.newSubjectDetails.subject_code.toUpperCase();
+    }
+    if (this.schoolModel) {
+      obj.is_optional = (this.newSubjectDetails.is_optional) ? 'Y' : 'N';
+      obj.final_marks = this.newSubjectDetails.total_marks;
+      obj.passing_marks = this.newSubjectDetails.passing_marks;
+    }
+    return obj;
+  }
+  
+  addNewSubject() {
+    if (this.validateUserInput()) {
+      this._httpService.postData('/api/v1/subjects', this.preparedSubjectRequestPayload()).subscribe(
+        res => {
+          this.successMsg();
+        },
+        err => {         
+          this._msgService.showErrorMessage('error','',err.error.message);
+        })
+    }
+  }
 }

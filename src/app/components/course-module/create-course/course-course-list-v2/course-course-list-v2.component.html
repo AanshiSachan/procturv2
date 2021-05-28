@@ -16,17 +16,17 @@
           </div>
         </div>
          <div class="pt15 flex">
-           <div class="flex" *ngIf="createMasterCourseModel.master_course_name!=''">
+           <div class="flex" *ngIf="masterCourseObj.master_course_name!=''">
               <div class="master_c">
                 Master Course :
               </div>
               <div>
-                <span class="mc_name" style="top: -6px;">{{createMasterCourseModel.master_course_name}}</span><img data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg" (click)="editMasterC=true;" class="pointer">
+                <span class="mc_name" style="top: -6px;">{{masterCourseObj.master_course_name}}</span><img data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg" (click)="editMasterC=true;createMasterCourseModel=masterCourseObj;" class="pointer">
               </div>
            </div>
-           <div class="flex space_flex" *ngIf="createMasterCourseModel.standard_name!=''">
+           <div class="flex space_flex" *ngIf="masterCourseObj.standard_name!=''">
              <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
-             <div class="std">Standard: {{createMasterCourseModel.standard_name}}</div>
+             <div class="std">Standard: {{masterCourseObj.standard_name}}</div>
               <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
            </div>
          </div>
@@ -46,7 +46,7 @@
           <div *ngFor="let course of courseData">
             <div class="display name">
               <div >{{course.course_name}}</div>
-              <div><a routerLink="../edit"><img src="../../../../assets/img1/edit.svg"></a></div>
+              <div><a routerLink="../edit/{{course.course_id}}" (click)="setAddCourseSession()"><img src="../../../../assets/img1/edit.svg"></a></div>
             </div>
             <div class="name1"></div>
               <div class="flex">
@@ -118,7 +118,7 @@
           <div>
            
           <button (click)="saveMasterC()" class="blue_button mr10">{{editMasterC ? 'Update' : 'Add'}}</button>
-          <button data-dismiss="modal" class="white_button">Back</button>
+          <button data-dismiss="modal" (click)="clearMasterCourse()" class="white_button">Back</button>
         </div>
         </div>
         </div>        

@@ -23,6 +23,13 @@ export class CourseCourseListV2Component implements OnInit {
     "standard_id": '-1',
     "standard_name":''
   }
+  masterCourseObj: any = {
+    "master_course_name": "",
+    "institute_id": this.institute_id,
+    "is_active": "Y",
+    "standard_id": '-1',
+    "standard_name":''
+  }
 
 
   constructor(
@@ -58,7 +65,7 @@ export class CourseCourseListV2Component implements OnInit {
         (res: any) => {
           this._auth.hideLoader();
           let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.master_course_id));
-          this.createMasterCourseModel = stdObj[0];
+          this.masterCourseObj = stdObj[0];
           this.courseData = res.result;
         },
         (err: any) => {
@@ -136,9 +143,20 @@ export class CourseCourseListV2Component implements OnInit {
   }
 
   setAddCourseSession() {
-    sessionStorage.setItem('cretaCourse', JSON.stringify(this.createMasterCourseModel));
-    let sub_list = this.standardList.filter(sub=>(sub.standard_id == this.createMasterCourseModel.standard_id));
+    sessionStorage.setItem('cretaCourse', JSON.stringify(this.masterCourseObj));
+    let sub_list = this.standardList.filter(sub=>(sub.standard_id == this.masterCourseObj.standard_id));
     sessionStorage.setItem('subjectList', JSON.stringify(sub_list[0]));
   }
+
+  clearMasterCourse() {
+    this.editMasterC = false;
+    this.createMasterCourseModel = {
+      "master_course_name": "",
+      "institute_id": this.institute_id,
+      "is_active": "Y",
+      "standard_id": '-1',
+      "standard_name":''
+    }
+}
 
 }

@@ -19,11 +19,11 @@ const routes: Routes = [];
             component: CourseAddComponent,
             pathMatch: 'prefix'
         },
-        // {
-        //     path: ':course_name',
-        //     component: CourseEditComponent,
-        //     pathMatch: 'prefix'
-        // }
+        {
+            path: 'edit/:id',
+            component: CourseAddComponent,
+            pathMatch: 'prefix'
+        }
     ])
 ],
   exports: [RouterModule]
