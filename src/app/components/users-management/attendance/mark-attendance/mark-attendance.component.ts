@@ -194,12 +194,10 @@ export class MarkAttendanceComponent implements OnInit {
         e.phoneNo,
         e.emailId,
         e.attendance_status,
-        //this.lastAttendanceUpdatedDate = moment(e.last_attendance_updated_date).format('DD-MM-YYYY')
       ]
 
       temp.push(obj)
     })
-    //let updated : this.lastAttendanceUpdatedDate
       let row = []
     row = [['Name', 'Mobaile No', 'Email', 'Attendance-Status']]
     let columns = temp
