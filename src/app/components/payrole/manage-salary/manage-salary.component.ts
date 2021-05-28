@@ -22,7 +22,9 @@ jsonFlag={
 selectedId:any
 teacher_id:any
 userId:any
+searchInput:any
 teacherList:any=[]
+tempList:any=[]
 selectedTeacherId:any
 allUserDataList:any=[]
   constructor( private router: Router,
@@ -36,7 +38,7 @@ allUserDataList:any=[]
       
     }
   ngOnInit(): void {
-  
+   
     this.getAllUserRol();
   }
   setDeleteData(obj) {
@@ -104,6 +106,7 @@ console.log("teacherlisttttttt",this.teacherList)
     this.http.getData(url).subscribe(
       (res:any)=>{
     this.allUserDataList = res.result;
+    this.tempList = res.result;
      this.auth.hideLoader()
       }, err => {
         this.auth.hideLoader();
@@ -170,4 +173,16 @@ console.log("teacherlisttttttt",this.teacherList)
     this.excel.exportAsExcelFile(temp,'Manage_Salary')
   
   }
+  searchFun(){
+    this.allUserDataList=this.tempList 
+           if(this.searchInput == undefined || this.searchInput == null){
+             this.searchInput ="";
+           }else{
+             let searchData = this.allUserDataList.filter(item=>Object.keys(item).some(k=>item[k]!=null && item[k].toString().toLowerCase().includes
+             (this.searchInput.toLowerCase())));
+             this.allUserDataList = searchData
+           }
+   
+   
+   }
 }

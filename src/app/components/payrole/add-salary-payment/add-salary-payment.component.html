@@ -1,10 +1,10 @@
 <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
      <a routerLink="/view/payrole/make-payment">
-       Salary Payemnt
+       Salary Payement
      </a>
      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-     Make Payemnt
+     View Payemnt History
    </h1>
  </section>
 <div class="col-sm-3">
@@ -69,8 +69,8 @@
                         <label for="payment_method">Payment Method <span class="text-red">*</span></label>
                         <select name="payment_method" id="payment_method" [(ngModel)]="historyModel.payment_method" class="form-control">
                         <option value="0">Select Payment Method</option>
-                        <option value="1">Cash</option>
-                         <option value="2">Cheque</option>
+                        <option value="cash">Cash</option>
+                         <option value="cheque">Cheque</option>
                             </select>
                         <span class="text-red">
                          </span>
@@ -151,9 +151,9 @@
         </div>
         <div>
           <!-- <a  class="btn btn-primary btn-xs mrg" data-placement="top" title="Add" ><i class="fa fa-plus" ></i></a> -->
-          <a  class="mr10"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
+          <a  class="mr10" (click)="onclickView(item.history_id)"><img src="../../../assets/img1/view.svg" title="View" class="group18"></a>
           <!-- <a  class="mr10" (click)="onClickEdit(user.user_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a> -->
-          <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+          <a  (click)="deletPayemt(item.history_id)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
         </div>
         </div>
         <!-- </div> -->

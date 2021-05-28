@@ -21,6 +21,8 @@ export class AddEditManageComponent implements OnInit {
   template_id:any
   userId:any
   selectedId:any
+  sectionName='';
+
   selectedTeacherId:any
   templateList:any=[];
   constructor( private router: Router,
@@ -37,6 +39,14 @@ export class AddEditManageComponent implements OnInit {
     this.routeParam.params.subscribe(params => {
       this.selectedTeacherId = params['teacher_id'];
       this.userId =params['user_id']
+      let currentURL = window.location.href;
+      if (currentURL.includes('edit-manage')) {
+        this.sectionName = 'edit';
+        console.log("editName",this.sectionName)
+
+      }else{
+        this.sectionName='Add'
+      }
      
     });
     console.log("teacher iddd",this.selectedId)

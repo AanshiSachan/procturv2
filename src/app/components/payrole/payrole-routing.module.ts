@@ -27,6 +27,8 @@ const routes: Routes = [
   {path :'add-manage/:teacher_id/:user_id',component:AddEditManageComponent},
   {path :'edit-manage/:teacher_id/:user_id',component:AddEditManageComponent},
   {path :'add-salary-payment/:teacher_id/:user_id',component:AddSalaryPaymentComponent},
+  {path :'view-salary-payment/:id',component:AddSalaryPaymentComponent},
+
 
 
 

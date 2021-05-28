@@ -16,11 +16,13 @@ export class MakePaymentComponent implements OnInit {
     institute_id:''
   }
   teacherList:any=[]
+  tempList:any=[]
   allUserDataList:any[]
   selectedId:any
   teacher_id:any
   selectedTeacherId:any
   userId:any
+  searchInput:any
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
@@ -68,6 +70,7 @@ getAlluserData(){
    this.http.getData(url).subscribe(
      (res:any)=>{
    this.allUserDataList = res.result;
+   this.tempList = res.result;
    for(let i=0; i<this.allUserDataList.length;i++){
       this.teacher_id = this.allUserDataList[i].teacher_id 
 
@@ -87,4 +90,53 @@ getAlluserData(){
    
    )
 }
+downloadPdf(){
+  for(let i=0; i<this.allUserDataList.length;i++){
+    this.allUserDataList[i].template_id = i+1
+  }
+  let temp=[]
+  this.allUserDataList.map((e:any)=>{
+    let obj =[
+    e.template_id,
+    e.user_name,
+    e.user_email,
+    e.joining_date,
+    ]
+    temp.push(obj)
+  })
+  let row = []
+  row = [["#","Name","Email","Joining Date"]]
+  let column = temp
+  this.pdf.exportToPdf(row,column,'Salary_payment')
+}
+downloaExcel(){
+  for(let i=0; i<this.allUserDataList.length;i++){
+    this.allUserDataList[i].template_id = i+1
+  }
+  let temp:any[]=[]
+  temp = this.allUserDataList.map(e =>{
+    let obj :any ={
+      template_id:e.template_id,
+      user_name:e.user_name,
+      user_email: e.user_email,
+      joining_date: e.joining_date,
+  }
+  return obj
+  })
+  this.excel.exportAsExcelFile(temp,'Salary_payment')
+
+}
+searchFun(){
+  this.allUserDataList=this.tempList 
+         if(this.searchInput == undefined || this.searchInput == null){
+           this.searchInput ="";
+ 
+         }else{
+           let searchData = this.allUserDataList.filter(item=>Object.keys(item).some(k=>item[k]!=null && item[k].toString().toLowerCase().includes
+           (this.searchInput.toLowerCase())));
+           this.allUserDataList = searchData
+         }
+ 
+ 
+ }
 }

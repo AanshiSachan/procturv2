@@ -19,7 +19,7 @@
     <div class="w98">
         <div class="pt15">
             <label for="serach">Search:&nbsp;</label>
-          <input type="text" class="input wid240 mr10" name="" placeholder="search" >
+          <input type="text" class="input wid240 mr10" name="" [(ngModel)]="searchInput" (keyup)="searchFun(search)" placeholder="search" #search>
             <!-- <button class="blue_button" (click)="addSalaryPage()">Add Salary Template</button> -->
         </div>
 
@@ -102,5 +102,6 @@
               </div>
             </div>
           </div> 
+          <!-- <div *ngIf="allUserDataList.length == '0'">No Record Found</div> -->
           
         

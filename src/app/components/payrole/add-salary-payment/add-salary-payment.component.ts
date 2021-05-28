@@ -23,6 +23,7 @@ export class AddSalaryPaymentComponent implements OnInit {
     payment_amount:'',
     payment_method:'',
     comment:'',
+    history_id:''
 
   }
   allHistoryPementList:any=[]
@@ -39,17 +40,19 @@ export class AddSalaryPaymentComponent implements OnInit {
       this.selectedId = JSON.parse(sessionStorage.getItem('selectedId'));
       this.selectedTeacherId = sessionStorage.getItem('teacher_id')
       this.userId = sessionStorage.getItem('user_id')
+    
     }
   ngOnInit(): void {
     this.routeParam.params.subscribe(params => {
       this.selectedTeacherId = params['teacher_id'];
       this.userId =params['user_id']
+      console.log("rolr id",this.selectedId)
     });
  console.log("iddddd", this.selectedTeacherId)
     this.getHistoryPayement()
   }
 getHistoryPayement(){
-  let url='/api/v1/payroll/payment/history/'+this.jsonFlag.institute_id+'/paymentHistories/'+this.userId+'/0'
+  let url='/api/v1/payroll/payment/history/'+this.jsonFlag.institute_id+'/paymentHistories/'+this.userId+'/'+this.selectedTeacherId
   this.http.getData(url).subscribe(
     (res:any)=>{
       this.allHistoryPementList = res.result;
@@ -80,7 +83,7 @@ createSalaryPayment(){
     res=>{
       this.auth.hideLoader()
       this.msgToast.showErrorMessage('success', '', "Salary Payment Added  successfully");
-      this.router.navigate(['/view/payrole/make-salary']);
+      //this.router.navigate(['/view/payrole/make-salary']);
       this.getHistoryPayement()
     },
     err => {
@@ -88,5 +91,27 @@ createSalaryPayment(){
       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
     }
   )
+  }
+  deletPayemt(obj){
+    let history_id = obj
+    this.historyModel.history_id = history_id
+    this.auth.showLoader()
+    let url='/api/v1/payroll/payment/history/'+this.jsonFlag.institute_id+'/delete/'+this.historyModel.history_id
+    this.http.deleteDataById(url).subscribe(
+      res=>{
+        this.auth.hideLoader()
+        this.msgToast.showErrorMessage('success', '', "Salary Payment deleted successfully");
+       // this.router.navigate(['/view/payrole/make-salary']);
+        this.getHistoryPayement()
+      },
+      err => {
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
+      }
+    )
+  }
+  onclickView(id){
+    this.router.navigateByUrl('view/payrole/view-salary-payment/'+id)
+
   }
 }
