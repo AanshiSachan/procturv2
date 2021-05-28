@@ -66,7 +66,7 @@ createHourly(){
     },
     err => {
       this.auth.hideLoader();
-      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
+      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.error[0].errorMessage);
     }
   )
   }

@@ -1,11 +1,11 @@
-import { Component, OnInit, ɵclearResolutionOfComponentResourcesQueue } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
-
+declare var $;
 
 @Component({
   selector: 'app-salary-template',
@@ -35,7 +35,7 @@ tempList:any=[]
     private pdf :ExportToPdfService,
     private excel :ExcelService,) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
-      this.template_id = sessionStorage.getItem('id')
+     // this.template_id = sessionStorage.getItem('id')
     }
 
   ngOnInit(): void {
@@ -94,7 +94,9 @@ onclickView(id){
   this.router.navigateByUrl('/view/payrole/view-salary-template/' +id)
 
 }
-
+deletById(obj){
+  this,this.template_id = obj
+}
 deletSalary(){
  
     this.auth.showLoader();
@@ -106,6 +108,9 @@ deletSalary(){
         this.getAllSalaryData()
 
         this.msgToast.showErrorMessage('success', '', "Salary delete successfully");
+        $('#deleteModal').modal('hide');
+
+
       },
       err => {
         this.auth.hideLoader();
@@ -115,7 +120,7 @@ deletSalary(){
   
   }
 onClickEdit(id){
-  sessionStorage.setItem('id',JSON.stringify(id))
+  //sessionStorage.setItem('id',JSON.stringify(id))
 
   this.router.navigateByUrl('/view/payrole/edit-salary/' +id);
   console.log("session id",id)

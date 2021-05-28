@@ -29,6 +29,8 @@
               <div>Salary Grads </div>
               <div>Basic Salary</div>
               <div>Overtime Rate</div>
+              <div>Total Deduction</div>
+
               <div>Actions</div>
             </div>
             <div class="table_body" *ngFor="let item of salrayDataList ; let i=index">
@@ -40,10 +42,12 @@
               </div>
              <div>{{item.basic_salary}}</div>
              <div>{{item.overtime_rate}}</div>
+             <div>{{item.total_deduction}}</div>
+
               <div>
                 <a  class="mr10" (click)="onclickView(item.template_id)"><img src="../../../assets/img1/view.svg" title="Edit" class="group18"></a>
                 <a  class="mr10" (click)="onClickEdit(item.template_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-                <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                <a  data-toggle="modal" data-target="#deleteModal" (click)="deletById(item.template_id)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
               </div>
             </div>
          </div>

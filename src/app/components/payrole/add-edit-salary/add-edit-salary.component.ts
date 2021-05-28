@@ -170,7 +170,7 @@ this.template_allowances_map_dtos.push(item2)
       },
       err => {
         this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.error[0].errorMessage);
       }
     )
     }

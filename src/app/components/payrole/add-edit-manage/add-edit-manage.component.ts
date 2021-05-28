@@ -83,6 +83,7 @@ export class AddEditManageComponent implements OnInit {
       )
       }
       assigneTemplateEmployee(){
+        if(this.validInput()){
         let obj={
           template_id:this.template_id,
           user_id:this.userId,
@@ -97,19 +98,18 @@ export class AddEditManageComponent implements OnInit {
          this.templateList=res.result.response;
          this.auth.hideLoader();
          this.msgToast.showErrorMessage('success', '', "Template Assigne  successfully");
-
-
+         this.router.navigate(['/view/payrole/manage-salary']);
         console.log("salaryyyyyy",this.templateList)
           },
           err => {
             this.auth.hideLoader();
             this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
-            this.router.navigate(['/view/payrole/manage-salary']);
 
           }
         )
 
       }
+    }
      updateManageTemp(){
       let obj={
         template_id:this.template_id,
@@ -125,8 +125,7 @@ export class AddEditManageComponent implements OnInit {
        this.templateList=res.result.response;
        this.auth.hideLoader();
        this.msgToast.showErrorMessage('success', '', "Template Updated successfully");
-
-
+       this.router.navigate(['/view/payrole/manage-salary']);
       console.log("salaryyyyyy",this.templateList)
         },
         err => {
@@ -136,6 +135,17 @@ export class AddEditManageComponent implements OnInit {
       )
 
      }
+     validInput(){
+       if(this.slaryType == ""){
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Salary Template');
+        return
+       }
+       if(this.template_id == ""){
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select  Template');
+         return
+     }
+       return true
+    }
       onselectSalaryDropdown(){
         if(this.slaryType == 'M'){
           this.getAllSalaryData();

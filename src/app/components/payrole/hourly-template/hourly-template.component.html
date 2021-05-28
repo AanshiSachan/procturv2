@@ -39,7 +39,7 @@
            <div>{{item.hourly_rate}}</div>
            <div>
               <a  class="mr10" (click)="onEdit(item.template_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-              <a  data-toggle="modal" data-target="#deleteModal"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+              <a  data-toggle="modal" data-target="#deleteModal" (click)="deleteById(item.template_id)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
             </div>
           </div>
        </div>

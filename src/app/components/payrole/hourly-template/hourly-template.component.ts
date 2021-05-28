@@ -34,7 +34,7 @@ export class HourlyTemplateComponent implements OnInit {
     private pdf :ExportToPdfService,
     private excel :ExcelService,) { 
       this.jsonFlag.institute_id=sessionStorage.getItem('institute_id')
-      this.template_id = sessionStorage.getItem('id')
+     // this.template_id = sessionStorage.getItem('id')
 
     }
 
@@ -92,6 +92,9 @@ getAllHourlyData(){
       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
     }
   )
+  }
+  deleteById(obj){
+    this.template_id = obj
   }
   deleteHourly(){
 
