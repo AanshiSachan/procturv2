@@ -187,8 +187,7 @@ export class MarkAttendanceComponent implements OnInit {
 
   }
   downloadPdf() {
-    
-    let temp = []
+  let temp = []
     this.allMarkAttendanceList.map((e: any) => {
       let obj = [
         e.name,
@@ -196,20 +195,19 @@ export class MarkAttendanceComponent implements OnInit {
         e.emailId,
         e.attendance_status,
         //this.lastAttendanceUpdatedDate = moment(e.last_attendance_updated_date).format('DD-MM-YYYY')
-
       ]
 
       temp.push(obj)
     })
-    let row = []
-
-    //let AttendaceUpdatedOn=this.lastAttendanceUpdatedDate
+    //let updated : this.lastAttendanceUpdatedDate
+      let row = []
     row = [['Name', 'Mobaile No', 'Email', 'Attendance-Status']]
     let columns = temp
+    
 
     console.log(row);
     console.log(columns);
-    this.pdf.exportToPdf(row, columns, 'Attendance_pdf');
+    this.pdf.exportToPdf(row, columns,'Attendance_pdf');
 
   }
   searchDataList() {
