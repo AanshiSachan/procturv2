@@ -69,7 +69,7 @@ export class MarkAttendanceComponent implements OnInit {
 
         this.allMarkAttendanceList = res.result;
         this.attendanceList = res.result;
-        this.lastAttendanceUpdatedDate = this.allMarkAttendanceList[0].last_attendance_updated_date;
+        this.lastAttendanceUpdatedDate = moment(this.allMarkAttendanceList[0].last_attendance_updated_date).format('DD-MM-YYYY');
         if (this.lastAttendanceUpdatedDate == null) {
           for (let i = 0; this.allMarkAttendanceList.length; i++) {
             this.allMarkAttendanceList[i].attendance_status = 'Present'
@@ -187,18 +187,23 @@ export class MarkAttendanceComponent implements OnInit {
 
   }
   downloadPdf() {
+    
     let temp = []
     this.allMarkAttendanceList.map((e: any) => {
       let obj = [
         e.name,
         e.phoneNo,
         e.emailId,
-        e.attendance_status
+        e.attendance_status,
+        //this.lastAttendanceUpdatedDate = moment(e.last_attendance_updated_date).format('DD-MM-YYYY')
 
       ]
+
       temp.push(obj)
     })
     let row = []
+
+    //let AttendaceUpdatedOn=this.lastAttendanceUpdatedDate
     row = [['Name', 'Mobaile No', 'Email', 'Attendance-Status']]
     let columns = temp
 
