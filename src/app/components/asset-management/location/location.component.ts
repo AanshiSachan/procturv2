@@ -156,7 +156,7 @@ export class LocationComponent implements OnInit {
       this.httpService.postMethod('api/v2/asset/location/create', obj).then(
         (res: any) => {
           this.submitted = true;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location added successdully");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Location added successfully");
           $('#modelforlocation').modal('hide');
           this.getLocationDetails();
         },

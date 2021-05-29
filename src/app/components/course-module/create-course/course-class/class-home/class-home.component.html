@@ -45,7 +45,7 @@
                           <div class="field-radio-wrapper">
                             <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)"
                               name="sFilter" value="Teacher" class="form-radio" id="idTeacher">
-                            <label for="idTeacher">Faculty</label>
+                            <label for="idTeacher">Teacher</label>
                           </div>
                           <div class="field-radio-wrapper">
                             <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)"
@@ -57,7 +57,7 @@
                       <div class="c-sm-8 c-md-8 c-lg-8">
                         <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="selectedRadioButton == 'Teacher'">
                           <div class="field-wrapper fieldPro">
-                            <label for="sc">Select Faculty</label>
+                            <label for="sc">Select Teacher</label>
                             <select id="sc" class="form-ctrl" [(ngModel)]="fetchBatchModule.teacher_id">
                               <option value="-1"></option>
                               <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
@@ -158,7 +158,7 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper">
-                        <label for="selectteacher">Select Faculty</label>
+                        <label for="selectteacher">Select Teacher</label>
                         <select id="selectteacher" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
                           <option value="-1"></option>
                           <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
@@ -350,7 +350,7 @@
                   <th style="width:15%">Subject</th>
                   <th style="width:10%">Start Time</th>
                   <th style="width:10%">End Time</th>
-                  <th style="width:15%">Faculty</th>
+                  <th style="width:15%">Teacher</th>
                   <th style="width:15%" *ngIf="!schoolModel">Topic</th>
                   <th style="width:15%">Action</th>
                 </tr>

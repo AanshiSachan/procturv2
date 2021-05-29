@@ -1039,7 +1039,7 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.email2 = this.editEnqData.email2.trim();
         this.editEnqData.email = this.editEnqData.email.trim();
         this.editEnqData.parent_email = this.editEnqData.parent_email.trim();
-        this.editEnqData.guardian_email = this.editEnqData.guardian_email.trim();
+        this.editEnqData.guardian_email = (this.editEnqData.guardian_email) ? this.editEnqData.guardian_email.trim() : '';
 
         if (this.editEnqData.courseIdArray == '-1') {
           this.editEnqData.courseIdArray = null;

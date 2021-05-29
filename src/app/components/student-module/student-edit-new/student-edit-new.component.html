@@ -384,14 +384,11 @@
                             <div class="col-lg-4">
 
                                 <input type="text" value="" id="guardianName" class="input" maxlength="50"
-                                    pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
+                                    name="guardianName"
                                     placeholder="Enter guardian name" [(ngModel)]="studentAddFormData.guardian_name"
                                     #guardianName="ngModel" />
                                 <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)"
                                     class="alert invalid-alert">
-                                    <div *ngIf="guardianName.errors.pattern" class="text-danger">
-                                        Name cannot have number / special characters except '.'
-                                    </div>
                                 </div>
                             </div>
 

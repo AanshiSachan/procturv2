@@ -31,7 +31,7 @@
           </span>
             <input type="text" style="width: 75%;" value="" id="mobile_no"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
-              [(ngModel)]="editLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
+              [(ngModel)]="editLead.phone" name="name" autocomplete="off" maxlength="10" required placeholder="Contact Number" />
           </div>
 
           <div class="form-item field-wrapper">
@@ -127,7 +127,7 @@
           </span>
             <input type="text" style="width: 75%;" value="" id="mobile_no"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
-              [(ngModel)]="addLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
+              [(ngModel)]="addLead.phone" autocomplete="off" name="name" maxlength="10" required placeholder="Contact Number" />
           </div>
 
           <div class="form-item field-wrapper">
