@@ -159,7 +159,7 @@
                         </div>
                         <div class="row">
                             <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
-                                <div class="row" *ngIf="!facultyAccount && !schoolModel">
+                                <div class="row" *ngIf="jsonFlags.isAdminforLeave && !facultyAccount && !schoolModel">
                                     <div class="c-lg-12">
                                         <div class="side-section-item">
                                             <span class="dropSize"
@@ -304,7 +304,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="jsonFlags.isAdminforLeave && !schoolModel">
                                     <div class="c-lg-12">
                                         <div class="side-section-item">
                                             <span class="dropSize"
