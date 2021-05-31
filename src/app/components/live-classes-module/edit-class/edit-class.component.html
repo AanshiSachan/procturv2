@@ -118,9 +118,9 @@
           <div style="display: flex;flex-direction: row;padding-bottom: 5px;">
             <div class="field-wrapper faculty_container" style="margin-right: 5%;display: flex;flex-direction: column;"
               *ngIf="userType != 3">
-              <label for="faculty">Faculty Name(s)<span class="text-danger">*</span> </label>
+              <label for="faculty">Teacher Name(s)<span class="text-danger">*</span> </label>
               <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
-              <ng-multiselect-dropdown [placeholder]="'Select Faculty'" [settings]="facultySettings"
+              <ng-multiselect-dropdown [placeholder]="'Select Teacher'" [settings]="facultySettings"
                 [data]="teachersAssigned" [(ngModel)]="selectedFacultyList" class="select">
               </ng-multiselect-dropdown>
             </div>

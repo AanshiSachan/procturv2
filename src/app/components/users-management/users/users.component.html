@@ -63,7 +63,7 @@
             <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.role" (ngModelChange)="clearData()">
               <option value="-1"></option>
               <option value="0">Custom User</option>
-              <option value="3">Faculty</option>
+              <option value="3">Teacher</option>
               <option value="1">Student</option>
               <option value="5">Parent</option>
               <option value="99" *ngIf="!schoolModel">Registered User</option>
