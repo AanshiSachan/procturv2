@@ -76,6 +76,7 @@ export class AddEditRoleComponent implements OnInit {
             this.procturRoles = this.cloneFeatureArray[i].category_list;
           }
         }
+        // hide super admin feature condition based -- Nalini
         if (sessionStorage.getItem('enable_library_feature') != '1') {
           this.checkSuperAdminSettings(5031);
         }
@@ -94,6 +95,9 @@ export class AddEditRoleComponent implements OnInit {
         if(sessionStorage.getItem('enable_online_assignment_feature') != '1') {
           this.checkSuperAdminSettings(5116);
         }
+
+        // Manage branch menu hide -- Nalini
+        this.checkSuperAdminSettings(5052);
         if (this.roleId != "-1") {
           this.getRolesOfUser(this.roleId);
         }
