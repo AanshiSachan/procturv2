@@ -7,7 +7,9 @@
           Salary Template
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-        Add Salary Template
+       <span *ngIf="!salaryModel.template_id">Add Salary Template</span>
+       <span *ngIf="salaryModel.template_id">Update Salary Template</span>
+
       </h1>
     </section>
     <div class="row">
@@ -70,7 +72,7 @@
                                         <i class="fa fa-plus"></i>
 
                                     </button>
-                                    <a (click)="removeAllownce = true;" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                                    <a (click)="removeAllownce = true;" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18"  style="margin-bottom: -6px;"></a>
                                 </div>
 
                                 <span class="col-sm-12 errorpointallowances" id="allowanceserror1">
@@ -80,7 +82,9 @@
                         </div>
                         <!-- ===========itrate-Allownce-div=============== -->
                         <div *ngFor="let record of addedListAllownc; let i=index">
-                            <!-- <div class="form-group allowancesfield"> -->
+                            <div class="col-sm-12" id="allowance">
+
+                             <div class="form-group allowancesfield">
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" [id]="'allowanceslabel1'+i" [(ngModel)]="record.allowance" [name]="'allowanceslabel1'+i" placeholder="Enter Allowances Label">
                                 </div>
@@ -90,19 +94,20 @@
                                 </div>
 
                                 <div class="col-sm-2">
-                                    <!-- <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" *ngIf="addedListAllownc.length ==0">
+                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" *ngIf="removeAllownce">
                                         <i class="fa fa-plus"></i>
-                                    </button> -->
+                                    </button>
                                     <!-- <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a> -->
 
                                       
-                                    <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                                    <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18"  style="margin-bottom: -6px;"></a>
 
                                  </div>
 
                                 <span class="col-sm-12 errorpointallowances" id="allowanceserror1">
-                                                                            </span>
-                            <!-- </div> -->
+                                </span>
+                            </div>
+                            </div>
                         </div>
                         <!-- ==============end========== -->
                     </div>
@@ -125,14 +130,14 @@
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control deductionsamount" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1" placeholder="Enter Deductions Value">
+                                    <input type="number" class="form-control deductionsamount" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1"  placeholder="Enter Deductions Value">
                                 </div>
 
                                 <div class="col-sm-2" style="padding: 0px;">
                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-deductions-add" (click)="dedutAllown('D')" id="salary-btn-deductions-add">
                                         <i class="fa fa-plus"></i>
                                     </button>
-                                     <a (click)="remove = true;" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                                     <a (click)="remove = true;" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" style="margin-bottom: -6px;"></a>
                                 </div>
 
                                 <span class="col-sm-12 errorpointdeductions" id="deductionserror1">
@@ -153,12 +158,11 @@
 
                                 <div class="col-sm-2">
 
-                                    <!-- <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-deductions-add" (click)="dedutAllown('D')" id="salary-btn-deductions-add" *ngIf="addedListDeduct.length == 0">
+                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-deductions-add" (click)="dedutAllown('D')" id="salary-btn-deductions-add" *ngIf="remove">
                                         <i class="fa fa-plus"></i>
-                                    </button> -->
-                                    <!-- <a (click)="reomeEow(i)" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a> -->
+                                    </button>
                                     
-                                    <a (click)="removeListDeduct(i)" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+                                    <a (click)="removeListDeduct(i)" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" style="margin-bottom: -6px;"></a>
 
                                 </div>
 
@@ -193,7 +197,7 @@
                                 <tr>
                                     <td class="col-sm-8" style="line-height: 36px">Total Deduction</td>
 
-                                    <td class="col-sm-4"><input class="form-control" id="total_deduction" type="number" disabled="disabled" name="total_deduction" [(ngModel)]="salaryModel.total_deduction"></td>
+                                    <td class="col-sm-4"><input class="form-control" id="total_deduction" type="number" disabled="disabled" name="total_deduction" [(ngModel)]="salaryModel.total_deduction" ></td>
                                 </tr>
 
                                 <tr>
@@ -208,10 +212,10 @@
             </div>
         </div>
 
-        <div *ngIf="sectionName == 'Add'">
+        <div *ngIf="!salaryModel.template_id">
             <input class="blue_button pull-right" type="button" id="addSalaryTemplate" (click)="createSalary()" value="Add Salary Template">
         </div>
-        <div *ngIf="sectionName == 'Edit'">
+        <div *ngIf="salaryModel.template_id">
             <input class="blue_button pull-right" type="button" id="updateSalaryTemplate" (click)="updateSalary()" value="Update Salary Template">
         </div>
 <!-- ===back======== -->

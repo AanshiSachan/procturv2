@@ -805,8 +805,8 @@
                     </li>
                      <!-- ==========payrole==================== -->
                      <li class="dropdown"
-                     [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
-                     <div>
+                     [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')" >
+                     <div *ngIf="jsonFlags.isAdminforPayroll">
                          <a class="dropbtn">
                              <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
                                  alt="">

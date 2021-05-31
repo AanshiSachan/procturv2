@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import CommonUtils from './../../../utils/commonUtils'
 import { AppComponent } from './../../../app.component';
 
@@ -51,26 +51,19 @@ export class AddEditSalaryComponent implements OnInit {
     private auth :AuthenticatorService,
     private msgToast :MessageShowService,
     private router: Router,
-    private toastCtrl: AppComponent,) { 
+    private toastCtrl: AppComponent,private routeParam: ActivatedRoute) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
-     this.salaryModel.template_id = sessionStorage.getItem('id')
+     //this.salaryModel.template_id = sessionStorage.getItem('id')
     }
 
   ngOnInit(): void {
-
-    let currentURL = window.location.href;
-    if (currentURL.includes('add-salary')) {
-      this.sectionName = 'Add';
-    }
-    else {
-      this.sectionName = 'Edit';
-      let splitURL = currentURL.split("/");
-      this.editExpenseId = splitURL[splitURL.length - 1];
+    this.routeParam.params.subscribe(params => {
+      this.salaryModel.template_id = params['id'];
       this.getEditSaralyData();
-    }
-      this.getAllSalaryData()
 
-    
+    })
+    this.getAllSalaryData()
+
   }
 
   getAllSalaryData(){
@@ -80,10 +73,7 @@ export class AddEditSalaryComponent implements OnInit {
       (res :any)=>{
     this.salrayDataList=res.result.response
     this.auth.hideLoader();
-    // for(let i =0; i< this.salrayDataList.length;i++){
-    //   this.salaryModel.template_id = this.salrayDataList[i].template_id
-
-   // }
+  
 
       },
       err => {
@@ -113,20 +103,15 @@ export class AddEditSalaryComponent implements OnInit {
         deduction:this.salaryModel.deduction,
         deduction_amount:this.salaryModel.deduction_amount,
        }
-      //  if(this.salaryModel.typeD){
 this.addedListDeduct.push(obj2)
 this.calculateDeduction();
 console.log("deduction",this.addedListDeduct)
 this.salaryModel.deduction ='',
 this.salaryModel.deduction_amount=0
-//this.template_allowances_map_dtos=this.addedListDeduct + this.addedListAllownc
-  // }
 }
   createSalary(){
     
-    // if(this.sectionName =='Add'){
     if(this.validInput()){
-      //this.template_allowances_map_dtos=[]
       for(let i=0; i<this.addedListAllownc.length;i++){
         if(this.salaryModel.typeA){
         let item ={
@@ -221,7 +206,6 @@ this.template_allowances_map_dtos.push(item2)
   }
 
 updateSalary(){
-  // if(this.sectionName == 'Edit'){
      for(let i= 0; i<this.addedListDeduct.length;i++){
       if(this.salaryModel.typeD){
  
@@ -261,18 +245,12 @@ updateSalary(){
         console.log("editeeeeeee",obje.template_allowances_map_dtos)
         this.router.navigate(['/view/payrole/salary-template']);
         this.getAllSalaryData()
-        // if (this.sectionName == 'Edit') {
-        //   this.updateSalary()
-            
-        // }
-        // else {
-        //   this.createSalary();
-        // }
+       
 
       },
       err => {
         this.auth.hideLoader();
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
+        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.error[0].errorMessage);
       }
     )
     
@@ -287,13 +265,7 @@ removeListDeduct(b){
   console.log("dection remove",this.addedListDeduct)
 
 }
-reomeEow(){
-      this.addedListDeduct.splice()
 
-      console.log("delete",this.addedListDeduct)
-  
-
-}
 
   validInput(){
     if(this.salaryModel.allowance.trim() !="" && this.salaryModel.allowance_amount ==""){
@@ -345,13 +317,12 @@ calculateDeduction(){
   this.addedListDeduct.forEach(element => {
     console.log('ded_amo',Number(element.deduction_amount))
     this.salaryModel.total_deduction = Number(this.salaryModel.total_deduction) + Number(element.deduction_amount);
+    console.log("aded total deduction",this.salaryModel.total_deduction);
+
   });
-  console.log("aded",this.salaryModel.deduction_amount);
+  //console.log("aded total deduction",this.salaryModel.total_deduction);
   this.salaryModel.net_salary = Number(this.salaryModel.gross_salary) - Number(this.salaryModel.total_deduction);
+  console.log("added n",Number(this.salaryModel.net_salary))
 }
-removeRow(d){
-  // if(this.addedListAllownc.length){
-  //   this.addedListAllownc.splice(d,1)
-  // }
-}
+
 }

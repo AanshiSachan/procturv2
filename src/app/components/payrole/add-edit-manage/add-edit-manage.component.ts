@@ -137,7 +137,7 @@ export class AddEditManageComponent implements OnInit {
      }
      validInput(){
        if(this.slaryType == ""){
-        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Salary Template');
+       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Salary Template');
         return
        }
        if(this.template_id == ""){

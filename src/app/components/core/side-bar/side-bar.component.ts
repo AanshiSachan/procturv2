@@ -97,6 +97,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   };
 
   jsonFlags = {
+    isAdminforPayroll: false,
     isAdminforLeave:false,
     isShowLead: false,
     isShowStudent: false,
@@ -303,6 +304,13 @@ if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('usernam
 } else {
   this.jsonFlags.isAdminforLeave = false;
 }
+// =======payrollAccess===========
+if(sessionStorage.getItem('userType') =='0' && sessionStorage.getItem('username') == 'admin' || sessionStorage.getItem('userType')=='0' && sessionStorage.getItem('username') != 'admin'){
+  this.jsonFlags.isAdminforPayroll = true;
+}else{
+  this.jsonFlags.isAdminforPayroll = false;
+}
+// ============end==============
 }
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
