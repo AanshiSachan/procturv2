@@ -50,11 +50,10 @@
                         <input type="text" name="net_salary" class="form-control" id="net_salary" value="66000" disabled="">
                     </div>
 
-                    <div class="form-group ">
+                    <div class="field-wrapper datePickerBox form-group ">
                         <label for="month">Month <span class="text-red">*</span></label>
-                        <input type="text" name="month" class="form-control" id="month" [(ngModel)]="historyModel.month" value="05-2021">
-                        <span class="text-red">
-                                                        </span>
+                        <input type="text" name="month" class="form-ctrl widgetDatepicker bsDatepicker"  style="padding: 6px;" readonly="true" id="month" [(ngModel)]="historyModel.month"  bsDatepicker/>
+                        <span class="text-red"></span>
                     </div>
 
                     

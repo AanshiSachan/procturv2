@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ModuleWithComponentFactories, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class AddSalaryPaymentComponent implements OnInit {
     institute_id:'',
   }
   historyModel={
-    month:'',
+    month:moment(new Date()).format("YYYY-MM-DD"),
     total_hours:'',
     overtime_hours:'',
     payment_amount:'',

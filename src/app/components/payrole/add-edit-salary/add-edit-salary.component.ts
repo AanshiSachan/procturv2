@@ -59,9 +59,12 @@ export class AddEditSalaryComponent implements OnInit {
   ngOnInit(): void {
     this.routeParam.params.subscribe(params => {
       this.salaryModel.template_id = params['id'];
+
+    });
+    if(this.salaryModel.template_id){
       this.getEditSaralyData();
 
-    })
+    }
     this.getAllSalaryData()
 
   }
