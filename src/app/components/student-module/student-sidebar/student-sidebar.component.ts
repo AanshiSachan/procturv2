@@ -98,7 +98,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
       this.isSubAdmin = true;
       this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
       this.allowEdit = this.role_feature.STUDENT_MANAGE;
-      this.Fee_menu = this.role_feature.FEE_MENU;
+      if(this.role_feature.FEE_MENU && this.role_feature.FEE_UPDATE) {
+        this.Fee_menu = true;
+      }
     } else {
       this.studentReport = true;
       this.allowEdit = true;
