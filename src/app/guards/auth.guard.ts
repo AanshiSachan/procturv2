@@ -159,12 +159,8 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (this.role_feature.SETUP_MENU ||
-                this.role_feature.EXAMS_MENU ||
-                this.role_feature.CLASS_MENU ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('203') ||
-                JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
-
+            if (this.role_feature.EXAMS_MENU ||
+                this.role_feature.CLASS_MENU) {
 
                 return true;
             }
@@ -297,14 +293,6 @@ export class AuthGuard implements CanActivate, CanLoad {
         if (sessionStorage.getItem('permissions') == '') {
             return true;
         }
-        else {
-            if (this.role_feature.SETUP_MENU) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
     }
 
     hasFeeAccess() {
@@ -312,7 +300,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (this.role_feature.FEE_MENU || this.role_feature.FEE_MANAGE) {
+            if (this.role_feature.FEE_MENU) {
                 return true;
             }
             else {

@@ -22,9 +22,9 @@ export class UserService {
             this.headers = new HttpHeaders(
                 { "Content-Type": "application/json", "Authorization": this.Authorization });
         })
-        this.auth.currentInstituteId.subscribe(id => {
-            this.institute_id = id;
-        });
+        // this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = sessionStorage.getItem('institute_id');
+        // });
         this.baseUrl = this.auth.getBaseUrl();
     }
 

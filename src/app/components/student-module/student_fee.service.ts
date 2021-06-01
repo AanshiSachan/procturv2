@@ -433,13 +433,13 @@ export class StudentFeeService {
         }
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!this.role_feature.FEE_MANAGE) {
+            if (!this.role_feature.FEE_MENU) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;
                 }
             }
-            if (!this.role_feature.FEE_MANAGE && this.role_feature.FEE_CHEQUE_MANAGE) {
+            if (!this.role_feature.FEE_MENU && this.role_feature.FEE_CHEQUE_MANAGE) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;
@@ -477,13 +477,13 @@ export class StudentFeeService {
         }
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!this.role_feature.FEE_MANAGE) {
+            if (!this.role_feature.FEE_MENU) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('info', '', "you are not allowed to select past payment date ");
                     return false;
                 }
             }
-            if (!this.role_feature.FEE_MANAGE && this.role_feature.FEE_CHEQUE_MANAGE) {
+            if (!this.role_feature.FEE_MENU && this.role_feature.FEE_CHEQUE_MANAGE) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('info', '', "you are not allowed to select past payment date ");
                     return false;

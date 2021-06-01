@@ -2,6 +2,7 @@ export class role {
 
     static features = {
         // New features
+        DASHBOARD_MENU: true,
         DASHBOARD_SCHEDULE: true,
         DASHBOARD_FEE_STATS: true,
         DASHBOARD_ACCOUNT_STATS: true,
@@ -81,6 +82,26 @@ export class role {
         INCOME_EXPENSE_ADMIN:true,
         EXPENSE_USER:true,
         INCOME_USER:true,
+        LEAD_SETUP:true,
+        CLASSES_SETUP:true,
+        CLASSES_COURSES:true,
+        CLASSES_SCHEDULE:true,
+        CLASSES_ATTENDANCE:true,
+        CLASSES_TIMETABLE:true,
+        CLASSES_DATA_ARCHIVING:true,
+        EXAMS_SETUP:true,
+        EXAMS_SCHEDULE:true,
+        EXAMS_ATTENDANCE:true,
+        EXAM_MARKS:true,
+        CONTENT_LIBRARY_MENU:true,
+        CONTENT_LIBRARY_FILE_MANAGER:true,
+        ASSIGNMENTS:true,
+        REPORT_LEAD_ENQUIRY_REPORT:true,
+        REPORT_INCOME_EXPENSE_REPORT:true,
+        FEE_SETUP: true,
+        FEE_ASSIGN:true,
+        FEE_UPDATE:true,
+        ASSET_LOCATION:true
         };
     // customPermissions : {
     // Old features
@@ -169,6 +190,7 @@ export class role {
         permissions = JSON.parse(session_permission);
         }
         console.log(permissions);
+        role.features.DASHBOARD_MENU = permissions.includes(5000) ? true : false;
         role.features.DASHBOARD_SCHEDULE = permissions.includes(5001) ? true : false;
         role.features.DASHBOARD_FEE_STATS = permissions.includes(5002) ? true : false;
         role.features.DASHBOARD_ACCOUNT_STATS = permissions.includes(5003) ? true : false;
@@ -186,7 +208,7 @@ export class role {
         role.features.FEE_MANAGE = permissions.includes(5015) ? true : false;
         role.features.FEE_CHEQUE_MANAGE = permissions.includes(5016) ? true : false;
         role.features.FEE_DUE_DETAILS = permissions.includes(5017) ? true : false;
-        role.features.FEE_PAYMENT_HISTORY = permissions.includes(5018) ? true : false;
+        role.features.FEE_PAYMENT_HISTORY = permissions.includes(5123) ? true : false;
         role.features.CLASS_MENU = permissions.includes(5019) ? true : false;
         role.features.EXAMS_MENU = permissions.includes(5020) ? true : false;
         role.features.STUDY_MATERIAL_MENU = permissions.includes(5021) ? true : false;
@@ -236,6 +258,7 @@ export class role {
         role.features.LEAVE_ADMIN_USERS = permissions.includes(5094) ? true: false;
         role.features.LEAVE_ADMIN_TEACHERS = permissions.includes(5095) ? true: false;
         role.features.ASSET_MANAGEMENT_MENU = permissions.includes(5068) ? true: false;
+        role.features.ASSET_LOCATION = permissions.includes(5121) ? true: false;
         role.features.ADD_ASSET = permissions.includes(5069) ? true: false;
         role.features.ADD_SUPPLIER = permissions.includes(5070) ? true: false;
         role.features.ADD_PURCHASE_ASSET = permissions.includes(5071) ? true: false;
@@ -248,5 +271,25 @@ export class role {
         role.features.INCOME_EXPENSE_ADMIN = permissions.includes(5084) ? true: false;
         role.features.EXPENSE_USER = permissions.includes(5085) ? true: false;
         role.features.INCOME_USER = permissions.includes(5086) ? true: false;
+        role.features.LEAD_SETUP = permissions.includes(5119) ? true: false;
+        role.features.CLASSES_SETUP = permissions.includes(5104) ? true: false;
+        role.features.CLASSES_COURSES = permissions.includes(5105) ? true: false;
+        role.features.CLASSES_SCHEDULE = permissions.includes(5106) ? true: false;
+        role.features.CLASSES_ATTENDANCE = permissions.includes(5107) ? true: false;
+        role.features.CLASSES_TIMETABLE = permissions.includes(5108) ? true: false;
+        role.features.CLASSES_DATA_ARCHIVING = permissions.includes(5109) ? true: false;
+        role.features.EXAMS_SETUP = permissions.includes(5110) ? true: false;
+        role.features.EXAMS_SCHEDULE = permissions.includes(5111) ? true: false;
+        role.features.EXAMS_ATTENDANCE = permissions.includes(5112) ? true: false;
+        role.features.EXAM_MARKS = permissions.includes(5113) ? true: false;
+        role.features.CONTENT_LIBRARY_MENU = permissions.includes(5114) ? true: false;
+        role.features.CONTENT_LIBRARY_FILE_MANAGER = permissions.includes(5115) ? true: false;
+        role.features.ASSIGNMENTS = permissions.includes(5116) ? true: false;
+        role.features.REPORT_LEAD_ENQUIRY_REPORT = permissions.includes(5120) ? true: false;
+        role.features.REPORT_INCOME_EXPENSE_REPORT = permissions.includes(5117) ? true: false;
+        role.features.FEE_SETUP = permissions.includes(5063) ? true: false;
+        role.features.FEE_ASSIGN = permissions.includes(5102) ? true: false;
+        role.features.FEE_UPDATE = permissions.includes(5103) ? true: false;
+        // role.features.EXAMS_SETUP = permissions.includes(5110) ? true: false;
     }
 }

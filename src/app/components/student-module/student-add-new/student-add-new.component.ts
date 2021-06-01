@@ -384,14 +384,14 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (this.role_feature.FEE_MANAGE) { //fee reconfiguration
+      if (this.role_feature.FEE_MENU) { //fee reconfiguration
         this.checkBoxGroup.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (!this.role_feature.FEE_MANAGE) {//1.	Fee Payment for Past Dates
+      if (!this.role_feature.FEE_MENU) {//1.	Fee Payment for Past Dates
         this.checkBoxGroup.showFeeSection = false;
       }
-      if (this.role_feature.FEE_MANAGE) { //1.	Fee discount
+      if (this.role_feature.FEE_MENU) { //1.	Fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
       if (this.role_feature.FEE_CHEQUE_MANAGE) { //update payment and manage cheque,pdc
@@ -1850,7 +1850,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!this.role_feature.FEE_MANAGE) {
+            if (!this.role_feature.FEE_MENU) {
               this.checkBoxGroup.hideReconfigure = false;
             }
           }
@@ -1861,7 +1861,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (this.role_feature.FEE_MANAGE) {
+            if (this.role_feature.FEE_MENU) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
@@ -1869,7 +1869,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.hideReconfigure = false;
             }
 
-            if (this.role_feature.FEE_MANAGE) {
+            if (this.role_feature.FEE_MENU) {
               this.checkBoxGroup.feeDiscouting = true;
             }
 

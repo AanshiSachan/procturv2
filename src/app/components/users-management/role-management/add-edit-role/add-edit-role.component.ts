@@ -23,10 +23,11 @@ export class AddEditRoleComponent implements OnInit {
   libraryRoleInstituteId: any;
   kakadeRoleInstituteId: any;
   selectedRoleLength: any = 0;
-  examDeskRoles:any=[];
-  procturRoles:any=[];
+  examDeskRoles: any = [];
+  procturRoles: any = [];
   role_feature = role.features;
-  isShoweOnlineExam:boolean = false;
+  isShoweOnlineExam: boolean = false;
+  existingRolesData: any = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -44,6 +45,7 @@ export class AddEditRoleComponent implements OnInit {
     this.activatedRoute.params.subscribe(
       (res: any) => {
         this.getAllRolesList();
+        // this.getAllExistingRoles();
         if (res.hasOwnProperty('id')) {
           this.roleId = res.id;
         } else {
@@ -53,6 +55,12 @@ export class AddEditRoleComponent implements OnInit {
     )
   }
 
+  getAllExistingRoles() {
+    this.apiService.getRoles().subscribe((data: any) => {
+      this.existingRolesData = data;
+    });
+  }
+
   getAllRolesList() {
     this.auth.showLoader();
     this.apiService.getAllFeature().subscribe(
@@ -60,17 +68,36 @@ export class AddEditRoleComponent implements OnInit {
         this.auth.hideLoader();
         this.featuresArray = res;
         // Changes by Nalini - libarary role will be visible only if enabled from super admin and study material role will be visible for all users
-        if (sessionStorage.getItem('enable_library_feature') != '1') {
-          for (let t = 0; t < this.featuresArray.length; t++) {
-            if (this.featuresArray[t].feature_id == 5031) {
-              this.featuresArray.splice(t, 1);
-            }
+        this.cloneFeatureArray = this.keepCloning(res);
+        for (let i = 0; i < this.cloneFeatureArray.length; i++) {
+          if (this.cloneFeatureArray[i].product_name == 'Examdesk') {
+            this.examDeskRoles = this.cloneFeatureArray[i].category_list;
+          } else if (this.cloneFeatureArray[i].product_name == 'Proctur') {
+            this.procturRoles = this.cloneFeatureArray[i].category_list;
           }
         }
-        this.cloneFeatureArray = this.keepCloning(res);
-        this.cloneFeatureArray.filter(x => x.isChecked = false);
-        this.examDeskRoles = this.cloneFeatureArray.filter(x => (x.product == 'Examdesk'));
-        this.procturRoles = this.cloneFeatureArray.filter(x => (x.product == 'Proctur'));
+        // hide super admin feature condition based -- Nalini
+        if (sessionStorage.getItem('enable_library_feature') != '1') {
+          this.checkSuperAdminSettings(5031);
+        }
+        if (sessionStorage.getItem('isShowLiveclass') != 'true') {
+          this.checkSuperAdminSettings(5022);
+        }
+        if(!this.isShoweOnlineExam) {
+          this.checkSuperAdminSettings(5033);
+        }
+        if(sessionStorage.getItem('enable_eLearn_feature') != '1') {
+          this.checkSuperAdminSettings(5027);
+        }
+        if(sessionStorage.getItem('enable_client_website') != 'true') {
+          this.checkSuperAdminSettings(5122);
+        }
+        if(sessionStorage.getItem('enable_online_assignment_feature') != '1') {
+          this.checkSuperAdminSettings(5116);
+        }
+
+        // Manage branch menu hide -- Nalini
+        this.checkSuperAdminSettings(5052);
         if (this.roleId != "-1") {
           this.getRolesOfUser(this.roleId);
         }
@@ -82,36 +109,67 @@ export class AddEditRoleComponent implements OnInit {
     )
   }
 
+  checkSuperAdminSettings(category_id) {
+    for (let t = 0; t < this.procturRoles.length; t++) {
+      if (this.procturRoles[t].category_id == category_id) {
+        this.procturRoles.splice(t, 1);
+      }
+    }
+  }
+
   getRolesOfUser(id) {
+    this.auth.showLoader();
     this.apiService.getPerticularRoles(id).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.userData = res;
         let role: any = this.keepCloning(res);
+        // for (let t = 0; t < this.cloneFeatureArray.length; t++) {
+        //   for (let j = 0; j < this.cloneFeatureArray[t].category_list.length; j++) {
+        //     for (let feature = 0; feature < this.cloneFeatureArray[t].category_list[j].feature_list.length; feature++) {
+        //       this.cloneFeatureArray[t].category_list[j].isToggleChecked = false;
+        //       this.cloneFeatureArray[t].category_list[j].feature_list[feature].isChecked = false;
+        //       this.selectedRoleLength++;
+        //     }
+        //   }
+        // }
         this.makeTargetArray(role.feautreList);
       },
       err => {
+        this.auth.hideLoader();
         console.log(err);
       }
     )
   }
 
   makeTargetArray(arr) {
+    this.auth.showLoader();
     this.targetFeatures = [];
+    this.selectedRoleLength = 0;
     if (arr.length > 0) {
-      //console.log(this.featuresArray);
       for (let i = 0; i < arr.length; i++) {
         for (let t = 0; t < this.cloneFeatureArray.length; t++) {
-          if (arr[i] == this.cloneFeatureArray[t].feature_id) {
-            // this.targetFeatures.push(this.cloneFeatureArray[t]);
-            // this.cloneFeatureArray.splice(t, 1);
-            this.cloneFeatureArray[t].isChecked = true;
-            this.selectedRoleLength++;
+          for (let j = 0; j < this.cloneFeatureArray[t].category_list.length; j++) {
+            if(arr[i] == this.cloneFeatureArray[t].category_list[j].category_id) {
+              this.cloneFeatureArray[t].category_list[j].isToggleChecked = true;
+              this.selectedRoleLength++;
+            }
+            for (let feature = 0; feature < this.cloneFeatureArray[t].category_list[j].feature_list.length; feature++) {
+              if (arr[i] == this.cloneFeatureArray[t].category_list[j].feature_list[feature].feature_id) {
+                this.cloneFeatureArray[t].category_list[j].isToggleChecked = true;
+                this.cloneFeatureArray[t].category_list[j].feature_list[feature].isChecked = true;
+                this.selectedRoleLength++;
+              }
+            }
           }
         }
       }
+      this.auth.hideLoader();
     } else {
       this.targetFeatures = [];
+      this.auth.hideLoader();
     }
+    
   }
 
   createNewRole() {
@@ -168,14 +226,16 @@ export class AddEditRoleComponent implements OnInit {
       obj.role_id = this.userData.role_id;
       obj.role_desc = this.userData.role_desc;
     }
-    for (let i = 0; i < this.examDeskRoles.length; i++) {
-      if (this.examDeskRoles[i].isChecked) {
-        obj.feautreList.push(this.examDeskRoles[i].feature_id);
-      }
-    }
-    for (let i = 0; i < this.procturRoles.length; i++) {
-      if (this.procturRoles[i].isChecked) {
-        obj.feautreList.push(this.procturRoles[i].feature_id);
+    for (let t = 0; t < this.cloneFeatureArray.length; t++) {
+      for (let j = 0; j < this.cloneFeatureArray[t].category_list.length; j++) {
+        if (this.cloneFeatureArray[t].category_list[j].isToggleChecked) {
+          obj.feautreList.push(this.cloneFeatureArray[t].category_list[j].category_id);
+        }
+        for (let feature = 0; feature < this.cloneFeatureArray[t].category_list[j].feature_list.length; feature++) {
+          if (this.cloneFeatureArray[t].category_list[j].feature_list[feature].isChecked) {
+            obj.feautreList.push(this.cloneFeatureArray[t].category_list[j].feature_list[feature].feature_id);
+          }
+        }
       }
     }
     return obj;
@@ -204,5 +264,19 @@ export class AddEditRoleComponent implements OnInit {
 
   checkLengthofRole(event) {
     event ? this.selectedRoleLength++ : this.selectedRoleLength--;
+  }
+
+  sliderChanges(obj) {
+    if (!obj.isToggleChecked) {
+      this.selectedRoleLength--;
+      for (let i = 0; i < obj.feature_list.length; i++) {
+        if (obj.feature_list[i].isChecked) {
+          obj.feature_list[i].isChecked = false;
+          this.selectedRoleLength--;
+        }
+      }
+    } else {
+      this.selectedRoleLength++;
+    }
   }
 }
