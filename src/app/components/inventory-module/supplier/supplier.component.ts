@@ -570,4 +570,10 @@ validateMobile(phone_no){
   }
   return true;
     }
+    
+    maxlenth(data,limit){
+      if(data.length>limit){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "characters only");
+      }
+      }
 }

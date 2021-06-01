@@ -275,7 +275,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
             } else {
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).error[0].errorMessage);
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
           }
         }
@@ -423,5 +423,9 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     // this.isedit=false;
   }
 
-
+  maxlenth(data,limit){
+    if(data.length>limit){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "characters only");
+    }
+    }
 }

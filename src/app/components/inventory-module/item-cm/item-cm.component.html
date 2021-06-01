@@ -153,7 +153,7 @@
      <form  #catForm="ngForm" autocomplete="off">
           <div class="pt10" [class.has-error]="category_name.invalid && category_name.touched">
             <label class="p_title"> Name<span class="text-danger">*</span></label>
-            <input type="text" class="input wid100" id ="category_name"
+            <input type="text" class="input wid100" (keyup)="maxlenth(category_model.category_name,30)" id ="category_name"
             name="category_name" placeholder="Enter Category Name"
             [(ngModel)]="category_model.category_name"
             #category_name="ngModel" required >
@@ -164,7 +164,7 @@
           <div class="pt10" >
             <label class="p_title">Description</label>
             <textarea class="input wid100" name="desc" id="desc"
-            [(ngModel)]="category_model.desc" placeholder="Enter description" ></textarea>
+            [(ngModel)]="category_model.desc" (keyup)="maxlenth(category_model.desc,70)" placeholder="Enter description" ></textarea>
           </div>
         
           <div class="pt10 display">
@@ -335,12 +335,14 @@
             <div class="sec1">
               <div class="pt10"  [class.has-error]="item_name.invalid && item_name.touched">
                 <label class="p_title"> Item<span class="text-danger">*</span></label>
-               <input type="text" class="input wid100" id="item_name" name="item_name" placeholder="Enter Item Name"  [(ngModel)]="item.item_name"
+               <input type="text" class="input wid100" id="item_name" (keyup)="maxlenth(item.item_name,30)" name="item_name" placeholder="Enter Item Name"  [(ngModel)]="item.item_name"
                   #item_name="ngModel" required>
               </div>
               <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!item_name.valid && item_name.touched">
                 Item  name is mandatory
-             </span></p>
+             </span>
+             
+            </p>
                 <!-- <div class="pt10">
                   <label class="p_title"> Standard</label>
                  <select class="select wid100" name="standard_id" id="standard_id"
@@ -370,7 +372,7 @@
             <div class="pt10" [class.has-error]="unit_cost.invalid && unit_cost.touched" >
               <label class="p_title"> Buying Price (Unit Price)<span class="text-danger">*</span></label>
              <input type="text" class="input wid100" id="unit_cost" 
-              name="unit_cost" placeholder="Enter Buying Price"  
+              name="unit_cost" placeholder="Enter Buying Price"  (keyup)="maxlenth(item.unit_cost,10)"
               #unit_cost="ngModel" 
               [(ngModel)]="item.unit_cost"
               onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
@@ -381,7 +383,7 @@
                <div class="pt10" [class.has-error]="tax_percent.invalid && tax_percent.touched" >
                 <label class="p_title" title="Tax on sale price"> Tax (%)<span class="text-danger">*</span></label>
                <input type="text"  class="input wid100" id="tax_percent" 
-                  name="tax_percent" placeholder="Enter tax on selling price"  
+                  name="tax_percent" placeholder="Enter tax on selling price"  (keyup)="maxlenth(item.tax_percent,10)"
                   #tax_percent="ngModel" 
                   [(ngModel)]="item.tax_percent" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
                   event.charCode == 46 || event.charCode == 0 " required>
@@ -421,7 +423,7 @@
               </span></p> -->
               <div class="pt10" [class.has-error]="sale_price.invalid && sale_price.touched" >
                 <label class="p_title"> Sale Price (Unit Price)<span class="text-danger">*</span></label>
-             <input type="text" class="input wid100" id="sale_price" 
+             <input type="text" class="input wid100" id="sale_price" (keyup)="maxlenth(item.sale_price,10)"
                 name="sale_price" placeholder="Enter Sale Price"  
                 #sale_price="ngModel" 
                 [(ngModel)]="item.sale_price"  
@@ -434,7 +436,7 @@
               <div class="pt10" [class.has-error]="out_of_stock_indicator_units.invalid && out_of_stock_indicator_units.touched" >
                 <label class="p_title"> Low Stock Indicator<span class="text-danger">*</span></label>
                 <input type="text" class="input wid100" id="out_of_stock_indicator_units" 
-                name="out_of_stock_indicator_units" placeholder="Enter Low stock indicator"  
+                name="out_of_stock_indicator_units" placeholder="Enter Low stock indicator"  (keyup)="maxlenth(item.out_of_stock_indicator_units,10)"
                 #out_of_stock_indicator_units="ngModel" 
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
                 [(ngModel)]="item.out_of_stock_indicator_units" required>
@@ -446,7 +448,7 @@
           </div>
              <div class="pt10">
               <label class="p_title"> Description</label>
-               <textarea class="input wid100" name="desc" id="desc" placeholder="Enter Description" [(ngModel)]="item.desc"></textarea>
+               <textarea class="input wid100" (keyup)="maxlenth(item.desc,70)" name="desc" id="desc" placeholder="Enter Description" [(ngModel)]="item.desc"></textarea>
               </div>
           <!-- </div> -->
           <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">

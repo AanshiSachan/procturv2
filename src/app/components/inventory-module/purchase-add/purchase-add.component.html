@@ -35,7 +35,7 @@
       </div>
       <div class="pt102">
         <label class="p_title"> Reference No.<span class="text-danger">*</span></label>
-        <input type="text" class="input wid100" name="reference_number" placeholder="Enter Reference Number"
+        <input type="text" class="input wid100"  (keyup)="maxlenth(model.reference_number,30)" name="reference_number" placeholder="Enter Reference Number"
           [(ngModel)]="model.reference_number" #reference_number="ngModel"
           required>
       </div>
@@ -63,7 +63,7 @@
         <br>
       <div class="pt102">
         <label class="p_title"> Description</label>
-        <textarea class="input wid100 textarea1" name="purchase_description" placeholder="Enter Description"
+        <textarea class="input wid100 textarea1"  (keyup)="maxlenth(model.purchase_description,70)" name="purchase_description" placeholder="Enter Description"
           [(ngModel)]="model.purchase_description"></textarea>
       </div>
     </div>
