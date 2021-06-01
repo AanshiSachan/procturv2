@@ -6,6 +6,8 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
 import { HomePageComponent } from './home-page/home-page.component';
 import { ReportsComponent } from './reports/reports.component';
 
+
+
 @NgModule({
     imports: [
         RouterModule.forChild(
@@ -199,7 +201,13 @@ import { ReportsComponent } from './reports/reports.component';
                             loadChildren: () => import('../components/inventory-module/inventory-module.module').then(m => m.InventoryModuleModule),
                             pathMatch: 'prefix'
 
-                        }
+                        },
+                        {
+                            path: 'sms-gateway',
+                            loadChildren: () => import('../components/sms-gateway/sms-gateway.module').then(m => m.SmsGatewayModule),
+                            pathMatch: 'prefix'
+
+                        },
                     ]
                 },
             ]

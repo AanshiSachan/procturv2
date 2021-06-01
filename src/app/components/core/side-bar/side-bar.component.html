@@ -860,6 +860,23 @@
                         </a>
                     
                   </li>
+
+                   <!-- ======asha-edited========== -->
+                   <li class="dropdown" [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
+                    <div>
+                      <a routerLink="/view/sms-gateway" *ngIf="jsonFlags.isAdminforSmsGateway">
+                          <img [src]="'./assets/images/Configuration.svg'" alt="">
+                          <p>Configuration</p><i class="fa fa-angle-right"></i>
+                          </a>
+                          <div class="dropdown-content">
+                              <a routerLink="/view/sms-gateway/sms-configuration">
+                                  <span>SMS Configuration</span>
+                          </a>
+                      </div>
+                      </div>
+                    </li>
+                    
+                    <!-- ========================= -->
 <!-- ===========================asha-work============================ -->
 
                   <li class="dropdown">

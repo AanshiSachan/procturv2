@@ -98,6 +98,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   jsonFlags = {
     isAdminforLeave:false,
+    isAdminforSmsGateway:false,
     isShowLead: false,
     isShowStudent: false,
     isShowModel: false,
@@ -295,9 +296,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
        function(){
         $('.sidebar-wrapper').css('width','14.5%');
     });
-   });
-  
-// ====================================Asha Leave worked===============
+  });
+   if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin'){
+     this.jsonFlags.isAdminforSmsGateway = true;
+   }else{
+     this.jsonFlags.isAdminforSmsGateway = false;
+   }
 
 if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin') {
   this.jsonFlags.isAdminforLeave = true;
