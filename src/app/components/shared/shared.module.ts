@@ -25,7 +25,6 @@ import { CustomNamePipe } from './quick-filter/custom-name.pipe';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
 import { BasicTableComponent } from './basic-table/basic-table.component';
-import { NgSelectModule } from '@ng-select/ng-select';
 export function getDatepickerConfig(): BsDatepickerConfig {
     return Object.assign(new BsDatepickerConfig(), {
       dateInputFormat: 'YYYY-MM-DD',
@@ -45,8 +44,7 @@ export function getDatepickerConfig(): BsDatepickerConfig {
     imports: [
         CommonModule,
         FormsModule,
-        TooltipModule.forRoot(),
-        NgSelectModule 
+        TooltipModule.forRoot() 
         // BsDatepickerModule
     ],
     declarations: [
