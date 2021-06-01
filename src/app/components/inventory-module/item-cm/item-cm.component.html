@@ -380,10 +380,11 @@
            </span></p>
                <div class="pt10" [class.has-error]="tax_percent.invalid && tax_percent.touched" >
                 <label class="p_title" title="Tax on sale price"> Tax (%)<span class="text-danger">*</span></label>
-               <input type="text" class="input wid100" id="tax_percent" 
+               <input type="text"  class="input wid100" id="tax_percent" 
                   name="tax_percent" placeholder="Enter tax on selling price"  
                   #tax_percent="ngModel" 
-                  [(ngModel)]="item.tax_percent" onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
+                  [(ngModel)]="item.tax_percent" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                  event.charCode == 46 || event.charCode == 0 " required>
               </div>
               <p class="errormsg"><span  style="height:10px;" *ngIf="tax_percent.invalid && tax_percent.touched" class="help-block">Tax is mandatory
              </span> </p>
