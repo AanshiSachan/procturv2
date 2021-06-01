@@ -104,7 +104,7 @@
                 Sale Type
               </div>
               <div>
-                Unit Price
+                Sale Price
               </div>
               <div>
                 Units
@@ -133,7 +133,7 @@
                 </select>
               </div>
               <div>
-              <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
+              <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.sale_price"
                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
                 (keyup)="purchaselistItem()"
                  class="input wid80"
@@ -157,8 +157,8 @@
                   >
               </div>
               <div >
-              <span *ngIf="data.unit_price !=0">{{data.subtotal}}</span>  
-             <sapn *ngIf="data.unit_price==0">0</sapn>
+              <span *ngIf="data.sale_price !=0">{{data.subtotal}}</span>  
+             <sapn *ngIf="data.sale_price==0">0</sapn>
             </div>
                 <div>
                 <!-- <a (click)="editdata(data)"><img src="../../../../assets/img1/edit.svg" title="Edit"

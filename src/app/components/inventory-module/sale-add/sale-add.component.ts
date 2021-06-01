@@ -197,14 +197,14 @@ export class SaleAddComponent implements OnInit {
       data.subtotal = 0;
       units += Number(data.available_units);
       if (data.sale_type == "Paid") {
-        data.subtotal = (data.available_units * data.unit_cost) + (data.available_units * data.unit_cost) * (data.tax_percent) / 100;
+        data.subtotal = (data.available_units * data.sale_price) + (data.available_units * data.sale_price) * (data.tax_percent) / 100;
         //for total calculate
         subTotal += data.subtotal;
 
 
       }    //subtotal for each row
       else {
-        data.unit_cost = 0;
+        data.sale_price = 0;
       }
 
     }
@@ -241,7 +241,7 @@ if(this.itemData.length ==0){
           sale_type: this.itemData[i].sale_type,
           item_id: this.itemData[i].item_id,
           quantity: this.itemData[i].available_units,
-          unit_price: this.itemData[i].unit_cost,
+          unit_price: this.itemData[i].sale_price,
           tax: this.itemData[i].tax_percent
         }
         this.model.sale_item_list.push(obj)
@@ -385,7 +385,7 @@ if(this.itemData.length ==0){
           sale_type: this.itemData[i].sale_type,
           item_id: this.itemData[i].item_id,
           item_name: this.itemData[i].item_name,
-          "available_units": this.itemData[i].quantity, "unit_cost": this.itemData[i].unit_price,
+          "available_units": this.itemData[i].quantity, "sale_price": this.itemData[i].unit_price,
           "tax_percent": this.itemData[i].tax,
           "isedit": false
         }
@@ -410,7 +410,7 @@ if(this.itemData.length ==0){
           sale_type: this.itemData[i].sale_type,
           item_id: this.itemData[i].item_id,
           "quantity": this.itemData[i].available_units,
-          "unit_price": this.itemData[i].unit_cost,
+          "unit_price": this.itemData[i].sale_price,
           "tax": this.itemData[i].tax_percent
         }
         this.model.sale_item_list.push(obj)
