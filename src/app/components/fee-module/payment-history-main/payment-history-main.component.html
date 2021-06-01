@@ -100,6 +100,41 @@
                         {{ _commService.currency_default_symbol}}{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}
                       </div>
                     </div>
+                    <div class="c-lg-4  text-change"
+                    *ngIf="newData[0].hasOwnProperty('Other')  && allPaymentRecords.length > 0">
+                    <span class="made-out"> Other</span>
+                    <div class="font-element">
+                      {{ _commService.currency_default_symbol}}{{newData[0]['Other'].toLocaleString('en-IN') }}
+                    </div>
+                  </div>
+                  <div class="c-lg-4  text-change"
+                    *ngIf="newData[0].hasOwnProperty('UPI')  && allPaymentRecords.length > 0">
+                    <span class="made-out"> UPI</span>
+                    <div class="font-element">
+                      {{ _commService.currency_default_symbol}}{{newData[0]['UPI'].toLocaleString('en-IN') }}
+                    </div>
+                  </div>
+                  <div class="c-lg-4  text-change"
+                    *ngIf="newData[0].hasOwnProperty('Wallet')  && allPaymentRecords.length > 0">
+                    <span class="made-out"> Wallet</span>
+                    <div class="font-element">
+                      {{ _commService.currency_default_symbol}}{{newData[0]['Wallet'].toLocaleString('en-IN') }}
+                    </div>
+                  </div>
+                  <div class="c-lg-4  text-change"
+                    *ngIf="newData[0].hasOwnProperty('NEFT/RTGS')  && allPaymentRecords.length > 0">
+                    <span class="made-out">NEFT/RTGS</span>
+                    <div class="font-element">
+                      {{ _commService.currency_default_symbol}}{{newData[0]['NEFT/RTGS'].toLocaleString('en-IN') }}
+                    </div>
+                  </div>
+                  <div class="c-lg-4  text-change"
+                    *ngIf="newData[0].hasOwnProperty('Card Swipe')  && allPaymentRecords.length > 0">
+                    <span class="made-out">Card Swipe</span>
+                    <div class="font-element">
+                      {{ _commService.currency_default_symbol}}{{newData[0]['Card Swipe'].toLocaleString('en-IN') }}
+                    </div>
+                  </div>
                     <div class="c-lg-4  text-change">
                       <span class="made-out">Total Fees Collection</span>
                       <div class="font-element">
@@ -164,8 +199,8 @@
         </div>
 
         <div class="table table-responsive" style="margin-top: 10px">
-          <data-display-table #child [displayKeys]="tableSetting" [displayData]="allPaymentRecords">
-            <!-- (editView)='optionSelected($event)'> -->
+          <data-display-table #child [displayKeys]="tableSetting" [displayData]="allPaymentRecords"
+            (editView)='optionSelected($event)'>
           </data-display-table>
         </div>
       </div>
@@ -226,10 +261,10 @@
               {{d.installment_no}}
             </td>
             <td>
-              {{d.fee_type_name}}
+              {{d.fee_type_name | titlecase}}
             </td>
             <td>
-              {{d.fees_amount}}
+              {{d.fees_amount | number}}
             </td>
             <td>
               <div class="field-wrapper">
@@ -245,7 +280,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="row" class="field-made">
+      <div class="row" >
         <div class="c-lg-6 field-wrapper datePickerBox">
           <label>Payment Date</label>
           <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="updatedResult.paid_date">
@@ -254,8 +289,8 @@
           <label>Payment Mode</label>
           <select class="form-ctrl" name="paymentMode" [(ngModel)]="updatedResult.paymentMode" [disabled]="true"
             (ngModelChange)="payModeUpdated($event)">
-            <option *ngFor="let mode of paymentMode" value={{mode}}>
-              {{mode}}
+            <option *ngFor="let mode of paymentMode" value={{mode.data_key}}>
+              {{mode.data_value}}
             </option>
           </select>
         </div>
