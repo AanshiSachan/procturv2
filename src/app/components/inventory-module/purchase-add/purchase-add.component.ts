@@ -428,4 +428,16 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "characters only");
     }
     }
+    filesize;
+    filetype;
+    readFile(fileEvent: any) {
+      const file = fileEvent.target.files[0];
+     this.filesize= file.size;
+     const fileSizeInKB = Math.round(this.filesize / 1024);
+     if(fileSizeInKB > 1024){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "File size is to big");
+    
+     }
+    this.filetype = file.type;
+   }
 }
