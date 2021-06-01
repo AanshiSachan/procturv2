@@ -7,6 +7,8 @@ import { Location } from './location';
 import { NgForm } from '@angular/forms';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
+import  CommonUtils   from '../../../utils/commonUtils';
+import { AppComponent } from '../../../app.component';
 //import { $ } from 'protractor';
 declare var $;
 
@@ -46,7 +48,8 @@ export class LocationComponent implements OnInit {
     private msgService: MessageShowService,
     private currentRout: ActivatedRoute,
     private _pdfService: ExportToPdfService,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService,
+    private toastCtrl: AppComponent,) { }
 
   ngOnInit(): void {
     this.getLocationDetails();
@@ -167,7 +170,7 @@ export class LocationComponent implements OnInit {
     }
     else {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
     }
   }
 
@@ -210,7 +213,7 @@ export class LocationComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
     }
   }
   cancel(param) {
@@ -273,7 +276,7 @@ export class LocationComponent implements OnInit {
     this.locationDataforDownload.map(
       (ele: any) => {
         let json = [
-          ele.id,
+          // ele.id,
           ele.location_code,
           ele.location_name,
           ele.location_description,
@@ -282,7 +285,7 @@ export class LocationComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['#','Code', ' Name', ' Description']]
+    rows = [['Code', ' Name', ' Description']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Location List');
     this.auth.hideLoader();
@@ -342,4 +345,5 @@ export class LocationComponent implements OnInit {
     );
     this.auth.hideLoader();
   }
+  
 }

@@ -12,8 +12,8 @@
       </div>
     </div>
         <div class="w98">
-            <div class="pt15 display">
- <div>
+            <div class="pt15 display" style="padding-bottom: 15px;">
+              <div>
                 <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
                 #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
@@ -27,63 +27,51 @@
             </div>
             <div class="purchase">
                 <div class="table_heading" >
-                <!-- <div>
-                Category<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
-                </div>
-                <div>Item<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span> </div>
-                <div>
-                Units Purchased<span class="space33"><img src="../../../../assets/img1/down1a.svg"></span>
-                </div> -->
-                <div>Reference No. </div>
+                <!-- <div>#</div> -->
+                <div style="padding-left: 20px;">Reference No. </div>
                 <div>Supplier</div>
                 <div>Date</div>
-                <div>File</div>
-                <div>Grand Total</div>
-                <div>Paid</div>
-                <div>Balance</div>
-                <div>Actions</div>
+                <div style="text-align: center;">Grand Total&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div style="text-align: center;">Paid &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div style="text-align: center;">Balance &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div style="text-align: center;">Actions</div>
                 </div>
                 <div class="table_body" *ngFor="let data of staticPageData;index as i">
+            
                 <!-- <div>
-                {{data.category_name}}
-                </div>
-                <div>
-                 {{data.item_name}}
-                </div>
-                <div>
-               {{data.quantity}}
-                </div> -->
-                <div>
+                  <a href="{{data.bill_image_url}}" target="_blank" download><img src="{{data.bill_image_url}}" width="40" height="40"/></a>
+              </div> -->
+              <!-- <div>{{i +1}}</div> -->
+                <div style="padding-left: 20px;">
                   {{data.reference_number}}
                    </div>
                 <div>
                {{data.supplier_company_name}}
                 </div>
                 <div>
-              {{data.purchase_date}}
+              {{data.purchase_date | date: 'dd-MMM-yyyy'}}
                 </div>
-                <div>
-                  <a href="{{data.bill_image_url}}" target="_blank" download><img src="{{data.bill_image_url}}" width="40" height="40"/></a>
-              </div>
-                <div>
+                <div style="text-align: center;">
                     {{data.total_amount}}
                 </div>
-                    <div>
+                    <div style="text-align: center;">
                     {{data.total_paid_amount}}
                     </div>
-                    <div>
+                    <div style="text-align: center;">
                    {{data.balanced_amount}}
                     </div>
-                    <div>
+                    <div style="text-align: center;">
                         <div class="dropdown1">
-                            <img src="../../../../assets/img1/menu.svg" class="dot3">
-                                <div class="dropdown-content1" >
+                           <span style="text-align: space-beetween;"><img src="../../../../assets/img1/menu.svg"  class="dot3"/></span> 
+                                <div class="dropdown-content1"   id="action_btn" >
                                   <a  (click)="viewNavigate(data.purchase_id)">View</a>
+                                
                                   <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]"
                                   *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
-                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>
-                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>
-                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a> 
+                                 
+                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>   
+                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>  
+                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a>   
                                   <a  (click)="getPaymentHistory(data)">View Payment History</a>
                                 
                                 </div>
@@ -91,10 +79,14 @@
                         </div>
                     </div>
                 </div>
-        
+                <section class="no-data" *ngIf="staticPageData.length == 0">
+                  <div class="illustration-container">
+                    <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+                  </div>
+                </section>
             </div>
         </div>
-              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"(goPrev)="fetchPrevious()"
     [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
     [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
 </pagination> 
@@ -181,7 +173,7 @@
           <div class="pt10 display">
            <div></div>
            <div>
-            <button class="blue_button cancel" data-dismiss="modal">Cancel</button> 
+            <button class="blue_button cancel" (click)="cancel()" data-dismiss="modal">Cancel</button> 
              <button class="blue_button" (click)="addPaymentPurchase(payment_purchase_id)">Update</button></div>
           </div>
         </div>  
@@ -189,7 +181,7 @@
       </div>
     </div>
   </div>
-  <div class="modal" id="viewpayModal">
+  <div class="modal" id="viewpayModal" data-backdrop="static">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -198,8 +190,8 @@
         </div>
         <div class="modal-body scrollable">
           <div class="history">
-            <div class="table_heading">
-              <div>
+            <div class="table_heading" style="line-height: 30px;">
+              <div style="padding-left: 18px;">
                 #
               </div>
               <div>Date </div>
@@ -210,8 +202,8 @@
               <div>Paid By</div>
               <div>File</div>
             </div>
-            <div class="table_body" *ngFor="let data of paymentHistoryData;index as i">
-              <div>
+            <div class="table_body tbl-history" style="margin:-3px 0px;padding:10px" *ngFor="let data of paymentHistoryData;index as i">
+              <div style="padding-left: 8px;">
                {{i+1}}
               </div>
               <div>
@@ -225,15 +217,16 @@
               {{data.payment_method}}
               </div>
               <div>
-               <span class="file_name" target="_blank" href="{{data.bill_image_url}}" download><img src="{{data.bill_image_url}}" height="40" width="40" ></span>
-              </div>
+                <a *ngIf="data.bill_image_url==null "  class="mr10">--</a>
+                <a  *ngIf="data.bill_image_url!=null " href="{{data.bill_image_url}}" class="mr10"><img src="../../../../assets/images/View.png" title="View Receipt"></a>
+ </div>
             </div>
         </div>
         </div>        
       </div>
     </div>
   </div>
-  <div class="modal" id="deletesModal">
+  <div class="modal" id="deletesModal" data-backdrop="static">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

@@ -1,0 +1,25 @@
+//@import "~@ng-select/ng-select/themes/material.theme.css";
+@import "~@ng-select/ng-select/themes/ant.design.theme.css";
+.pt102{
+    padding-bottom:20px;
+  }
+  .input{
+    padding: 7px 20px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-weight: 500;
+      height:35px;
+    }
+    .wid100{
+        width: 100%;
+      }
+      .p_title{
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 15px;
+        letter-spacing: 0.01em;
+        color: #2B2626;;
+        margin-bottom:5px;
+        }

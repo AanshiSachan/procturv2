@@ -25,6 +25,7 @@ export class SaleItemComponent implements OnInit {
   displayBatchSize: number = 25;
   staticPageData: any = [];
   staticPageDataSouece: any = [];
+  sortingDir: string = "asc";
   institution_id;
   saleAllData = [];
   @ViewChild('addform', { static: false }) addform: NgForm;
@@ -68,12 +69,12 @@ export class SaleItemComponent implements OnInit {
     this.httpService.getData('/api/v1/inventory/sale/all?pageOffset='+this.pageIndex +'&pageSize='+ this.displayBatchSize+'&instituteId=' + this.institution_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        let saleData = res.result.response;
-        this.saleAllData =saleData;
+        this.saleAllData = res.result.response;
+       // this.saleAllData =saleData;
         this.staticPageData = res.result.response;
         this.tempLocationList = res.result.response;
         this.totalRecords = res.result.totalElements;
-        // for (let keys of saleData) {
+         // for (let keys of saleData) {
         //   console.log(keys);
         //   console.log(keys)
         //   // console.log(this.purchaseAllData[keys]);
@@ -109,10 +110,12 @@ export class SaleItemComponent implements OnInit {
   }
   sale_id;
   showAddPaymentModel(data){
+    //document.getElementById('action_btn').style.display="none";
     this.sale_id=data.sale_id;
     $('#addpayModal').modal('show');
   }
   addPayment() {
+   // document.getElementById('action_btn').style.display="none";
     //this.router.navigate(['/view/inventory-management/purchase-item']);
     if (this.addform.valid) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
@@ -177,7 +180,7 @@ export class SaleItemComponent implements OnInit {
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All Required Fields ");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field ");
 
     }
   }
@@ -202,6 +205,7 @@ export class SaleItemComponent implements OnInit {
   }
   paymentHistoryData = [];
   getPaymentHistory(id) {
+   // document.getElementById('action_btn').style.display="none";
     this.auth.showLoader();
     ///api/v1/inventory/sale/payment/all?instituteId=100058&saleId=3
     $('#viewpayModal').modal('show');
@@ -216,11 +220,14 @@ export class SaleItemComponent implements OnInit {
     
   }
  showConfirm(obj) {
+  
    this.sale_id =obj.sale_id;
     $('#deletesModal').modal('show');
+    document.getElementById('action_btn').style.display="none";
   }
 
   deleteRow() {
+    //document.getElementById('action_btn').style.display="none";
 ///api/v1/inventory/sale/delete/5?instituteId=100058
     this.auth.showLoader();
     this.httpService.deleteData('/api/v1/inventory/sale/delete/' +   this.sale_id + '?instituteId=' + this.model.institution_id, null).subscribe(
@@ -246,6 +253,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
 
 
   cancelData(purchase_id){
+    document.getElementById('action_btn').style.display="none";
     this.httpService.getData('/api/v1/inventory/sale/cancelSale?saleId='+ purchase_id +'&instituteId=' + this.institution_id).subscribe((res: any) => {
      if (res.statusCode == 200) {
          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Sale cancelled successfully');
@@ -265,6 +273,7 @@ this.router.navigate(['/view/inventory-management/sale-view'])
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.staticPageData = this.getDataFromDataSource(startindex);
+    
   }
 
   fetchNext() {
@@ -289,17 +298,17 @@ this.router.navigate(['/view/inventory-management/sale-view'])
   }
   searchDatabase() {
     if (this.searchParams == undefined || this.searchParams == null) {
-       this.searchParams = "";
-       this.staticPageData = this.tempLocationList;
-     }
-     else {
-       let searchData = this.tempLocationList.filter(item =>
-         Object.keys(item).some(
-           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
-       );
-       this.staticPageData = searchData;
-       this.totalRecords=this.staticPageData;
-     }
+      this.searchParams = "";
+      this.staticPageData = this.tempLocationList;
+    }
+    else {
+      let searchData = this.tempLocationList.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
+      );
+      this.staticPageData = searchData;
+      this.totalRecords=this.staticPageData.length;
+    }
    }
    downloadPdf() {
     ///api/v1/inventory/purchase/all?all=1 + '&&instituteId=' + this.institution_id
@@ -413,4 +422,38 @@ exportToExcel(){
   );
   this.auth.hideLoader();
 }
+// sortTable(str) {
+//   if (str == "reference_number") {
+//     this.staticPageData.sort(function (a, b) {
+//       var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+//       var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+//       if (nameA < nameB) {
+//         return -1;
+//       }
+//       if (nameA > nameB) {
+//         return 1;
+//       }
+//       // names must be equal
+//       return 0;
+
+//     })
+//   }
+//   else if (str == "total_amount" ||str == "total_paid_amount" ||str == "balanced_amount") {
+//     this.staticPageData.sort(function (a, b) {
+//       return a[str] - b[str];
+//     })
+//   }
+//   else if (str == "sale_date") {
+//     this.staticPageData.sort(function (a, b) {
+//       return moment(a[str]).unix() - moment(b[str]).unix();
+//     })
+//   }
+//   if (this.sortingDir == "asc") {
+//     this.sortingDir = "dec";
+//   } else {
+//     this.sortingDir = "asc";
+//     this.staticPageData = this.staticPageData.reverse();
+//   }
+//   this.fetchTableDataByPage(this.pageIndex);
+// }
 }

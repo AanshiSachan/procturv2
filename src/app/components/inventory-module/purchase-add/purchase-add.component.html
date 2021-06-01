@@ -15,7 +15,7 @@
       <div class="pt102"  [class.has-error]="supplier_id.invalid && supplier_id.touched">
         <label class="p_title">  Company Name<span class="text-danger">*</span></label>
          <select class="select wid100" name="supplier_id" id="supplier_id" [(ngModel)]="model.supplier_id"
-          #supplier_id="ngModel" (ngModelChange)="getCategoryItem($event)" >
+          #supplier_id="ngModel" >
           <option value="">
             Select Company
           </option>
@@ -35,7 +35,7 @@
       </div>
       <div class="pt102">
         <label class="p_title"> Reference No.<span class="text-danger">*</span></label>
-        <input type="text" class="input wid100" name="reference_number" placeholder="Enter Reference Number"
+        <input type="text" class="input wid100"  (keyup)="maxlenth(model.reference_number,30)" name="reference_number" placeholder="Enter Reference Number"
           [(ngModel)]="model.reference_number" #reference_number="ngModel"
           required>
       </div>
@@ -45,7 +45,7 @@
         </span></p> -->
       <div class="pt102">
         <label class="p_title">Bill copy</label>
-       <input type="File" class="input wid100" id="billImageFile" name="billImageFile" placeholder="Date*" 
+       <input type="File" class="input wid100" id="billImageFile" title="PDF/Jpeg/png/svg.." (change)="readFile($event)" name="billImageFile" placeholder="Date*" 
         [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
           [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
@@ -63,7 +63,7 @@
         <br>
       <div class="pt102">
         <label class="p_title"> Description</label>
-        <textarea class="input wid100 textarea1" name="purchase_description" placeholder="Enter Description"
+        <textarea class="input wid100 textarea1"  (keyup)="maxlenth(model.purchase_description,70)" name="purchase_description" placeholder="Enter Description"
           [(ngModel)]="model.purchase_description"></textarea>
       </div>
     </div>
@@ -78,8 +78,8 @@
           <select class="select sel1 mr10" name="categoryId" id="categoryId" ngModel
             #category_id="ngModel" (change)="getItemAgainscat($event)" >
             <option value="" selected>Select Category</option>
-            <option value="{{data.categoryId}}" *ngFor="let data of categoryAllData">
-              {{data.categoryName}} </option>
+            <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">
+              {{data.category_name}} </option>
           </select>
           <!-- <label class="p_title"> Item <span class="text-danger">*</span></label> -->
           <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
@@ -188,7 +188,7 @@
   <!-- use image only when page is empty,table body class element will not be present -->
 
 </div>
-<div class="modal" id="addpayModal">
+<div class="modal" id="addpayModal" data-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

@@ -331,7 +331,7 @@ export class CategoryComponent implements OnInit {
 
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
     }
   }
   //get category details
@@ -374,7 +374,7 @@ export class CategoryComponent implements OnInit {
       )
     }
     else {
-      this.msgService.showErrorMessage('error', '', 'Please fill all manadatory fields');
+      this.msgService.showErrorMessage('error', '', 'Please fill all mandatory field');
     }
   }
 
@@ -455,7 +455,7 @@ export class CategoryComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
 
     }
 
@@ -629,7 +629,7 @@ export class CategoryComponent implements OnInit {
     this.catDataToDownload.map(
       (ele: any) => {
         let json = [
-          ele.id,
+          // ele.id,
           ele.category_code,
           ele.category_name,
         ]
@@ -637,7 +637,7 @@ export class CategoryComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['#','Code', ' Name']]
+    rows = [['Code', ' Name']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Category List');
     this.auth.hideLoader();
@@ -733,7 +733,7 @@ export class CategoryComponent implements OnInit {
     this.assetDataToDownload.map(
       (ele: any) => {
         let json = [
-          ele.id,
+          // ele.id,
           ele.asset_code,
           ele.asset_name,
           ele.category_name,
@@ -746,7 +746,7 @@ export class CategoryComponent implements OnInit {
       })
 
     let rows = [];
-    rows = [['#','Code', ' Asset Name', 'Category', 'Quantity','Available Qty', 'Condition', 'Locations']]
+    rows = [['Code', ' Asset Name', 'Category', 'Quantity','Available Qty', 'Condition', 'Locations']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset List');
     this.auth.hideLoader();

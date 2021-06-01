@@ -9,8 +9,8 @@
             <div class="questionInfo inline-relative">
                 <span data-toggle="tooltip" data-placement="right">Location<img
                         src="assets/images/assets/Group1.svg"></span>
-                <i class="fa fa-info-circle infomation-icon" aria-hidden="true"></i>
-                <div class="tooltip-box-field">
+                <i class="fa fa-info-circle infomation-icon"  aria-hidden="true"></i>
+                <div class="tooltip-box-field" style="height: 70px;width:200px;">
                    " This section is used to manage the location at which the management stores its assets."
                 </div>
             </div>
@@ -19,7 +19,7 @@
     <br>
     <div>
         <div class="">
-            <input type="text" class="input glass" style="margin-left: 10px;" placeholder="search" #search [(ngModel)]="searchParams"
+            <input type="text" class="searches wid240 mr10 magnifying-glass" style="margin-left: 10px;" placeholder="search" #search [(ngModel)]="searchParams"
                 name="searchParams" (keyup)="searchDatabase()">
                <span class="rights">
                 <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
@@ -53,6 +53,7 @@
                             <label  class="p_title">Code<span style="padding:2px">(Eg: CH01)</span></label>
                                <input type="text" class="form-control" name="location_code" id="location_code"
                                     placeholder="Enter Code" [(ngModel)]="model.location_code" 
+                                  
                                    >
                             </div>
                          <!-- <p class="errormsg"><span  class="help-block">

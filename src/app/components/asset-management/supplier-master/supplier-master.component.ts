@@ -420,7 +420,7 @@ export class SupplierMasterComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All Required Fields")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
     }
   }
   tempObj
@@ -499,7 +499,7 @@ $('#deletesModal').modal('show');
         this.supplierDataforDownload.map(
           (ele: any) => {
             let json = [
-              ele.id,
+              // ele.id,
               ele.supplier_name,
               ele.email_id,
               ele.mobile_no,
@@ -511,7 +511,7 @@ $('#deletesModal').modal('show');
           })
     
         let rows = [];
-        rows = [['#','Company Name', ' Email', ' Mobile', 'Address', 'Contact Person', 'Asset Provided']]
+        rows = [['Company Name', ' Email', ' Mobile', 'Address', 'Contact Person', 'Asset Provided']]
         let columns = arr;
         this._pdfService.exportToPdf(rows, columns, 'Supplier List');
         this.auth.hideLoader();
