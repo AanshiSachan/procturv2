@@ -74,7 +74,7 @@ getParentProfileDoc() {
       let course = this.studentCommanData.assignedCourses.split();
       this.assignedCourses =course;
      this.studentFile =this.studentCommanData.studentFile ;
-     //console.log(this.studentFile)
+     // console.log(this.studentFile)
       let optionalSubject =this.studentCommanData.optionalSubjects;
       if(this.studentCommanData.optionalSubjects!=null){
          optionalSubject =this.studentCommanData.optionalSubjects.split();
