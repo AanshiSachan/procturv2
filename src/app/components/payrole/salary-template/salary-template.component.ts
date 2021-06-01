@@ -25,6 +25,7 @@ varJson:any={
 }
 template_id:any;
 searchInput:any;
+basic_salary:any
 salrayDataList:any=[]
 tempList:any=[]
 
@@ -76,8 +77,8 @@ this.salrayDataList=res.result.response;
 this.tempList = res.result.response;
  console.log("page",res.result)
 this.auth.hideLoader();
-for(let i=0; i<this.salrayDataList.length;i++){
-  this.template_id = this.salrayDataList[i].template_id
+for(let i=0; i < this.salrayDataList.length; i++){
+  this.salrayDataList[i].total_deduction = i+1;
 }
 console.log("salaryyyyyy",this.salrayDataList)
   },
@@ -95,7 +96,7 @@ onclickView(id){
 
 }
 deletById(obj){
-  this,this.template_id = obj
+  this.template_id = obj
 }
 deletSalary(){
  
