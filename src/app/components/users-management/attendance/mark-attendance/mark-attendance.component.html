@@ -53,15 +53,15 @@
                 <div>Name </div>
                 <div>Mobile</div>
                 <div>Email Id</div>
-                <div>Mark</div>
-                <div>
-                    <!-- View -->
-                </div>
+                <div>Mark Attendance</div>
+                <!-- <div>
+                    View
+                </div> -->
             </div>
             <div class="table_body" *ngFor="let item of allMarkAttendanceList ;let i=index">
                 <div><span title="{{item.name}}"> {{ (!item.name) ? '-' : (item.name.length > 20) ?
                         (item.name | slice:0:20) + '...' : item.name}}</span></div>
-                <div> <span title="{{item.phoneNo}}">{{ (!item.phoneNo) ? '-' : (item.phoneNo.length > 20) ?
+                <div> <span title="{{item.phoneNo}}">+91-{{ (!item.phoneNo) ? '-' : (item.phoneNo.length > 20) ?
                         (item.phoneNo | slice:0:20) + '...' : item.phoneNo}}</span></div>
                 <div> <span title="{{item.emailId}}">{{ (!item.emailId) ?'-' : (item.emailId.length > 20) ?
                         (item.emailId | slice:0:20)+ '...' : item.emailId}}</span></div>
@@ -90,9 +90,9 @@
 
 
                 </div>
-                <div>
-                    <!-- <img src="../../../../../assets/img/Group2.svg" title="View" (click)="viewUser(item.user_id)"> -->
-                </div>
+                <!-- <div>
+                    <img src="../../../../../assets/img/Group2.svg" title="View" (click)="viewUser(item.user_id)">
+                </div> -->
             </div>
 
             <!-- <div>
