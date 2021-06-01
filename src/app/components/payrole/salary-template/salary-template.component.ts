@@ -77,9 +77,6 @@ this.salrayDataList=res.result.response;
 this.tempList = res.result.response;
  console.log("page",res.result)
 this.auth.hideLoader();
-for(let i=0; i < this.salrayDataList.length; i++){
-  this.salrayDataList[i].total_deduction = i+1;
-}
 console.log("salaryyyyyy",this.salrayDataList)
   },
   err => {
