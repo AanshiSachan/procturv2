@@ -309,7 +309,7 @@ calculateGrossSalary() {
   this.salaryModel.gross_salary = 0;
   this.salaryModel.gross_salary = Number(this.salaryModel.gross_salary) + Number(this.salaryModel.basic_salary);
   this.addedListAllownc.forEach(element => {
-    this.salaryModel.gross_salary = Number(this.salaryModel.gross_salary) + Number(element.allowance_amount);
+  this.salaryModel.gross_salary = Number(this.salaryModel.gross_salary) + Number(element.allowance_amount);
   });
   this.salaryModel.net_salary = Number(this.salaryModel.gross_salary) - Number(this.salaryModel.total_deduction);
 }

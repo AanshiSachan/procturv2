@@ -101,7 +101,14 @@ export class role {
         FEE_SETUP: true,
         FEE_ASSIGN:true,
         FEE_UPDATE:true,
-        ASSET_LOCATION:true
+        ASSET_LOCATION:true,
+        PAYROLL_MENU:true,
+        PAYROLL_MONTHLY_TEMPLATE:true,
+        PAYROLL_HOURLY_TEMPLATE:true,
+        PAYROLL_MANAGE_SALARY:true,
+        PAYROLL_SALARY_PAYMENT:true,
+
+
         };
     // customPermissions : {
     // Old features
@@ -291,5 +298,11 @@ export class role {
         role.features.FEE_ASSIGN = permissions.includes(5102) ? true: false;
         role.features.FEE_UPDATE = permissions.includes(5103) ? true: false;
         // role.features.EXAMS_SETUP = permissions.includes(5110) ? true: false;
+        role.features. PAYROLL_MENU = permissions.includes(5078) ? true: false;
+        role.features.PAYROLL_MONTHLY_TEMPLATE = permissions.includes(5079) ? true: false;
+        role.features.PAYROLL_HOURLY_TEMPLATE = permissions.includes(5080) ? true: false;
+        role.features.PAYROLL_MANAGE_SALARY = permissions.includes(5081) ? true: false;
+        role.features.PAYROLL_SALARY_PAYMENT = permissions.includes(5082) ? true: false;
+
     }
 }

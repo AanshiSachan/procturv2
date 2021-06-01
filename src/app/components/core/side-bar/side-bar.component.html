@@ -823,7 +823,7 @@
                      <!-- ==========payrole==================== -->
                      <li class="dropdown"
                      [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')" >
-                     <div *ngIf="jsonFlags.isAdminforPayroll">
+                     <div *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MENU)" >
                          <a class="dropbtn">
                              <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
                                  alt="">
@@ -831,17 +831,17 @@
 
                          </a>
                          <div class="dropdown-content">
-                             <a routerLink="/view/payrole/salary-template">
-                                 <span>Salary Template</span>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MONTHLY_TEMPLATE)" routerLink="/view/payrole/salary-template">
+                                 <span>Monthly Template</span>
                              </a>
-                             <a routerLink="/view/payrole/hourly-template">
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_HOURLY_TEMPLATE)" routerLink="/view/payrole/hourly-template">
                                  <span>Hourly Template</span>
                              </a>
-                             <a  routerLink="/view/payrole/manage-salary">
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)" routerLink="/view/payrole/manage-salary">
                                  <span>Manage Salary</span>
                              </a>
-                             <a  routerLink="/view/payrole/make-payment">
-                                <span>Make Payment</span>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT )" routerLink="/view/payrole/make-payment">
+                                <span>Salary Payment</span>
                             </a>
 
                          </div>
