@@ -1542,10 +1542,10 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
 
   setImage(e) {
-    if (e != null && e != "") {
+    // if (e != null && e != "") {
       this.studentServerImage = e;
       this.thumbnailAvailable = false;
-    }
+    // }
 
   }
 

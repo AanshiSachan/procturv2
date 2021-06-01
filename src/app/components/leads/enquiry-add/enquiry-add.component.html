@@ -146,7 +146,7 @@
 
                                             <div *ngIf="email.invalid && (email.dirty || email.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="email.errors.pattern">
+                                                <div class="text-danger" *ngIf="email.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>
@@ -306,7 +306,7 @@
 
                                             <div *ngIf="email2.invalid && (email2.dirty || email2.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="email2.errors.pattern">
+                                                <div class="text-danger"*ngIf="email2.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>
@@ -445,7 +445,7 @@
 
                                             <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="guardianEmail.errors.pattern">
+                                                <div class="text-danger" *ngIf="guardianEmail.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>
@@ -517,7 +517,7 @@
                                                 #guardian_email="ngModel" style="border-radius: 4px;width: 20rem;" />
                                                 <div *ngIf="guardian_email.invalid && (guardian_email.dirty || guardianEmail.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="guardian_email.errors.pattern">
+                                                <div class="text-danger" *ngIf="guardian_email.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>

@@ -314,11 +314,11 @@ export class ReviewProductComponent implements OnInit {
       return;
     }
     if (this.prodForm.purchase_limit == 0) {
-      this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+      this.msgService.showErrorMessage('error', 'product sell limit should be greater than zero', '');
       return;
     }
     if (this.prodForm.country_id == 0) {
-      this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+      this.msgService.showErrorMessage('error', 'product sell limit should be greater than zero', '');
       return;
     }
 

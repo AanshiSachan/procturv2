@@ -145,7 +145,7 @@
               <input class="form-ctrl" type="{{passwordType}}" [(ngModel)]="loginDataForm.password" name="password"
                 id="password" #password="ngModel" placeholder="Password" required (keyup.enter)="loginViaServer()">
                 <i style=" margin-left: -30px;
-                cursor: pointer;" class="{{passwordClass}}" id="togglePassId" (click)="togglePassword()"></i>
+                cursor: pointer;color: #7d848c;" class="{{passwordClass}}" id="togglePassId" (click)="togglePassword()"></i>
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert invalid-alert">
                 <div *ngIf="password.errors.required">
                   Please enter password
@@ -182,6 +182,11 @@
               By signing in, you agree to
               <a style="cursor:pointer" href="https://proctur.com/website/privacy-policy" target="_blank">Privacy Policy</a> and
               <a style="cursor:pointer" href="https://proctur.com/website/terms" target="_blank">Terms of Use</a>.
+            </p>
+          </div>
+          <div class="row" style="width: 80%;margin: auto;">
+            <p>
+              Need help? Contact us on <span style="font-weight:600">9971839153</span>
             </p>
           </div>
           <div class="row" style="width: 80%;margin: 0 auto;" *ngIf="isProcturVisible">
@@ -324,7 +329,7 @@
       </div>
     </div>
     <div class="bg_img" *ngIf="isProcturVisible">
-      <img src="./assets/images/procturlogo2.png" style="float: right;padding: 10px 10px;">
+      <img src="./assets/images/procturlogo2.png" class="procturImgDiv">
     </div>
   </div>
 </div>

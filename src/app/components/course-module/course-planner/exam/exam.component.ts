@@ -549,6 +549,8 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.auth.hideLoader();
+          this.coursePlannerData = [];
+          this.totalCount = 0;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       );

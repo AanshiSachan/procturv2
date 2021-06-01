@@ -359,13 +359,10 @@
               <div class="col-lg-4">
 
                 <input type="text" value="" id="guardianName" class="input" maxlength="50"
-                  pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName" placeholder="Enter guardian name"
+                  name="guardianName" placeholder="Enter guardian name"
                   [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
                 <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)"
                   class="alert invalid-alert">
-                  <div *ngIf="guardianName.errors.pattern" class="text-danger">
-                    Name cannot have number / special characters except '.'
-                  </div>
                 </div>
               </div>
 
@@ -403,7 +400,7 @@
                   [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
                 <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
                   class="alert invalid-alert">
-                  <div *ngIf="guardianEmail.errors.pattern">
+                  <div class="text-danger" *ngIf="guardianEmail.errors.pattern">
                     Enter email in format eg. someone@xyz.com
                   </div>
                 </div>

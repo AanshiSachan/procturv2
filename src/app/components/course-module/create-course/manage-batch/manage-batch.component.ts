@@ -341,7 +341,7 @@ export class ManageBatchComponent implements OnInit {
             return;
           }
         } else {
-          this.messageToast('error', '', 'Provide  faculty name');
+          this.messageToast('error', '', 'Provide  Teacher name');
           return;
         }
       }
@@ -384,7 +384,7 @@ export class ManageBatchComponent implements OnInit {
       return;
     }
     if (rowDetails.teacher_id == 0 || rowDetails.teacher_id == null || rowDetails.teacher_id == "") {
-      this.messageToast('error', '', 'Please enter the faculty for the batch.');
+      this.messageToast('error', '', 'Please enter the teacher for the batch.');
       return;
     }
     this.auth.showLoader();
