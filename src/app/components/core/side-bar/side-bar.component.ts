@@ -165,6 +165,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   showSMSSetting: boolean = false;
   showManageRole: boolean = false;
   role_feature = role.features;
+  Role_features: role = new role();
 
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
@@ -341,10 +342,6 @@ mouseleave() {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
       }
-      // enquiry  admin --115
-      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
-        this.jsonRolesFlags.isShowAddCampaign = true;
-      }
       if (this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
       }
@@ -394,7 +391,7 @@ mouseleave() {
       }
       if (this.role_feature.EXAMS_MENU) {
         this.jsonCourseFlags.isShowExam = true;
-        this.jsonFlags.isShowCourse = true;
+        // this.jsonFlags.isShowCourse = true;
       }
     }
     if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
@@ -413,9 +410,9 @@ mouseleave() {
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
       this.jsonCourseFlags.isShowOnlineAssignment = true;
     }
-    if (this.role_feature.SETUP_MENU) {
-      this.jsonFlags.isShowCourse = true;
-    }
+    // if (this.role_feature.SETUP_MENU) {
+    //   this.jsonFlags.isShowCourse = true;
+    // }
   }
 
   checkpermissionOfCommunicate() {
@@ -425,8 +422,8 @@ mouseleave() {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
         // Changes done by Nalini - To handle role based commuicate menu conditions
-        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
-        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
         this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
         this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
         this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
@@ -538,28 +535,28 @@ mouseleave() {
         }
         this.showManageRole = this.role_feature.USERS_MENU;
 
-        if (this.role_feature.SETUP_MENU) {
+        // if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divTeacherTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divTeacherTag'], '');      // Swapnil
-          this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
-        }
+          // this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
+        // }
         if (this.role_feature.FEE_MENU) {
           this.jsonFlags.isShowFee = true;
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
-        if (this.role_feature.SETUP_MENU && this.isProfessional) {
+        // if (this.role_feature.SETUP_MENU && this.isProfessional) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divSlotTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divSlotTag'], '');       // Swapnil
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
-        }
-        if (this.role_feature.SETUP_MENU) {
+        // }
+        // if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divAcademicTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divAcademicTag'], '');      // Swapnil
-          this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
-        }
+          // this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
+        // }
         if (this.role_feature.MY_ACCOUNTS_MENU) {
           // this.divSettingTag.nativeElement.style.display = '';
           // this.divMyAccountTag.nativeElement.style.display = '';
@@ -586,10 +583,6 @@ mouseleave() {
           this.setNativeElementValue(['divManageUsers'], '');       // Swapnil
         } else {
           this.setNativeElementValue(['divManageUsers'], 'none');
-        }
-        if (this.role_feature.SETUP_MENU) {
-          // this.setNativeElementValue(['divClassRoomTag'], '');          // Swapnil
-          // this.divClassRoomTag.nativeElement.style.display = '';
         }
       }
     }
@@ -777,7 +770,7 @@ mouseleave() {
         remove the first and last char and validate if its admin or not */
         this.hasLead(this.permissionData);
         this.hasStudent(this.permissionData);
-        this.hasCourse(this.permissionData);
+        // this.hasCourse(this.permissionData);
         // this.hasProducts(this.permissionData);
       }
 
@@ -889,8 +882,13 @@ mouseleave() {
     this.jsonFlags.isShowLiveclass = false;
     // if user is not admin
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    if (JSON.parse(zoom)) {
+      this.jsonFlags.isShowLiveclass = true;
+    }
     if (this.jsonFlags.isShowLiveclass) {
       if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+        this.jsonFlags.isShowLiveclass = false;
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
           this.jsonFlags.isShowLiveclass = this.role_feature.LIVE_CLASS_MENU ? true : false;
         }
@@ -1033,8 +1031,7 @@ mouseleave() {
     this.jsonFlags.isShowModel = false;
     this.jsonFlags.isShowCourse = false;
     if (this.role_feature.EXAMS_MENU ||
-      this.role_feature.CLASS_MENU ||
-      this.role_feature.SETUP_MENU) {
+      this.role_feature.CLASS_MENU) {
       this.jsonFlags.isShowModel = true;
       this.jsonFlags.isShowCourse = true;
     }
@@ -1200,7 +1197,6 @@ mouseleave() {
         this.multiBranchService.subBranchSelected.next(true);
         this.fillSessionStorageCommonFields(res);
         sessionStorage.setItem('mainBranchId', this.mainBranchId);
-        sessionStorage.setItem('permissions', '');
         this.getCountryData(data.institute_id);
         this.router.navigateByUrl('/authPage');
       },
@@ -1263,7 +1259,6 @@ mouseleave() {
 
   mainBranchLogin(res) {
     sessionStorage.setItem('religion_feature', res.religion_feature);
-    sessionStorage.setItem('permissions', '');
     this.router.navigateByUrl('/authPage');
   }
 
@@ -1341,9 +1336,40 @@ mouseleave() {
 
   fillSessionStorageCommonFields(res) {
     sessionStorage.clear();
-    let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
-    sessionStorage.setItem('Authorization', Authorization);
-    this.auth.changeAuthenticationKey(Authorization);
+    // Changes done by Nalini to handle role in case of branch switch
+    if (res.userType != '1' && res.userType != '99') {
+      let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
+      sessionStorage.setItem('Authorization', Authorization);
+      this.auth.changeAuthenticationKey(Authorization);
+    }
+    else {
+      if (res.single_login_login_check) {
+        sessionStorage.setItem('single_device_login', 'true');
+        let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id + ":" + res.device_id + ":WEB");
+        sessionStorage.setItem('Authorization', Authorization);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+      else {
+        sessionStorage.setItem('single_device_login', 'false');
+        let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
+        sessionStorage.setItem('Authorization', Authorization);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+    }
+    console.log(res.permission_id_list);
+     if (res.permission_id_list == undefined || res.permission_id_list == undefined || res.permission_id_list == null) {
+      sessionStorage.setItem('permissions', '');
+      this.log.changePermissions('');
+      this.Role_features.checkPermissions();
+    }
+    else {
+      sessionStorage.setItem('permissions', JSON.stringify(res.permission_id_list));
+      this.log.changePermissions(JSON.stringify(res.permission_id_list));
+      this.Role_features.checkPermissions();
+    }
+    // this.log.currentUsername.subscribe(res => {
+      this.createCustomSidenav();
+    // });
     sessionStorage.setItem('institute_id', res.institution_id);
     sessionStorage.setItem('institution_id', res.institution_id);
     this.auth.changeInstituteId(res.institution_id);
@@ -1407,7 +1433,6 @@ mouseleave() {
     sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
     sessionStorage.setItem('enable_client_website', res.enable_client_website);
     sessionStorage.setItem('is_fee_struct_linked', res.is_fee_struct_linked);
-
   }
 
   // closeSubMenu(){

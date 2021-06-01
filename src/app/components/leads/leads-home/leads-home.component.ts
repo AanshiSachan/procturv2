@@ -78,9 +78,9 @@ export class LeadsHomeComponent implements OnInit {
         this.jsonRolesFlags.isShowAddEnquiry = true;
       }
       // enquiry  admin --115
-      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
-        this.jsonRolesFlags.isShowAddCampaign = true;
-      }
+      // if (this.role_feature.LEAD_ADD_CAMPAIGN) {
+      //   this.jsonRolesFlags.isShowAddCampaign = true;
+      // }
       if(this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
       }
