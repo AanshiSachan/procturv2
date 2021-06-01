@@ -118,6 +118,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     //   }
     // });
      //this.isChange = false;
+     if(id != '' && id != 0) {
      this.auth.showLoader();
      this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + id).subscribe((res: any) => {
        this.itemArray = res.result;
@@ -125,7 +126,12 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
        this.auth.hideLoader();
        this.itemArray = this.itemArray[0].items;
  
-     })
+     },
+     (err:any)=>{
+       this.auth.hideLoader();
+     }
+     )
+    }
  
   }
 
@@ -204,6 +210,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     }
 
     if (this.purchaseForm.valid) {
+      if(this.itemData.length) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
@@ -274,6 +281,9 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
         }
         newxhr.send(formData);
       }
+    } else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select category and Item for purchase");
+    }
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory fields");
@@ -302,7 +312,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       let newData = [];
       let newdataforcat = [];
       for (let i = 0; i < this.itemData.length; i++) {
-        let objforcat = { categoryId: this.itemData[i].category_id, categoryName: this.itemData[i].category_name }
+        let objforcat = { category_id: this.itemData[i].category_id, category_name: this.itemData[i].category_name }
         let obj = { item_id: this.itemData[i].item_id, item_name: this.itemData[i].item_name, "available_units": this.itemData[i].quantity, "unit_cost": this.itemData[i].unit_price }
         newData.push(obj);
         newdataforcat.push(objforcat);
