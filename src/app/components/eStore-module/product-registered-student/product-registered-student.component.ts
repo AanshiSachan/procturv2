@@ -105,7 +105,7 @@ export class RegisteredStudentComponent implements OnInit {
     this.getProductList();
     this.getEcourseList();
     for(let i=0;i<this.menuOptions.length;i++){
-      if(!this.role_feature.STUDENT_MENU_ITEM && this.menuOptions[i].key == 'student') {
+      if(!this.role_feature.STUDENT_ADD_UPLOAD && this.menuOptions[i].key == 'student') {
         this.menuOptions.splice(i,1);
       }
       if(!this.role_feature.LEAD_MENU_ITEM  && this.menuOptions[i].key == 'enquiry') {

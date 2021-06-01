@@ -95,7 +95,9 @@ export class AddEditRoleComponent implements OnInit {
         if(sessionStorage.getItem('enable_online_assignment_feature') != '1') {
           this.checkSuperAdminSettings(5116);
         }
-
+        if(sessionStorage.getItem('isShowExpense') != '1') {
+          this.checkSuperAdminSettings(5084);
+        }
         // Manage branch menu hide -- Nalini
         this.checkSuperAdminSettings(5052);
         if (this.roleId != "-1") {
