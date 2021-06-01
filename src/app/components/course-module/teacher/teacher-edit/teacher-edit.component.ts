@@ -523,7 +523,7 @@ export class TeacherEditComponent implements OnInit {
       }
     }
     if (formData.teacher_name == "" || formData.teacher_name == null) {
-      this.messageToast('error', '', 'Faculty Name is required.');
+      this.messageToast('error', '', 'Teacher Name is required.');
       return;
     }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
@@ -551,7 +551,7 @@ export class TeacherEditComponent implements OnInit {
     this.ApiService.addNewTeacherDetails(formData).subscribe(
       data => {
         this.auth.hideLoader();
-        this.messageToast('success', '', 'Faculty added successfully.');
+        this.messageToast('success', '', 'Teacher added successfully.');
         this.route.navigateByUrl('/view/course/teacher');
       },
       err => {
@@ -593,7 +593,7 @@ export class TeacherEditComponent implements OnInit {
       }
     }
     if (formData.teacher_name == "" || formData.teacher_name == null) {
-      this.messageToast('error', '', 'Faculty Name is required.');
+      this.messageToast('error', '', 'Teacher Name is required.');
       return;
     }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
