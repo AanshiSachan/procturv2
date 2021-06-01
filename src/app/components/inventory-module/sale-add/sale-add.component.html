@@ -53,10 +53,10 @@
               </div>
               <div class="pt102">
                 <label class="p_title"> Bill Copy</label>
-                <input type="File" class="input wid100" name="billImageFile" placeholder="Date*" id="billImageFile"
+                <input type="File" class="input wid100" title="PDF/Jpeg/png/svg.." (change)="readFile($event)" name="billImageFile" placeholder="Date*" id="billImageFile"
                style="margin-top:8px;"
                [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
-                [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+                [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/">
               </div>
               <div class="pt102"  *ngIf="isedit && model.bill_image_url !='' && model.bill_image_url!=null">
                 <ul class="p_title">
