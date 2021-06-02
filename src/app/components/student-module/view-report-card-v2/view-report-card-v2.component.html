@@ -399,6 +399,9 @@
                    <span class="top"> Amount</span>
                   </div>
                   <div>
+                    Tax
+                  </div>
+                  <div>
                     Discount<br>Amount
                   </div>
                   <div>
@@ -420,45 +423,54 @@
                     <span class="top">Remark</span>
                   </div>
                 </div>
-                <div class="table_body">
+                <div class="table_body" *ngFor="let data of PastFeeList">
                   <div>
-                    01-04-2020
+                    {{data.paid_date}}
                   </div>
                   <div>
-                    01
+                    {{data.installment_no}}
                   </div>
                   <div>
-                    Installment
+                    {{data.fee_type_name}}
                   </div>
                   <div>
-                    1695
+                    {{data.total_initial_amount}}
                   </div>
                   <div>
-                    0
+                    {{data.total_tax_applied}}
                   </div>
                   <div>
-                    2000
+                    {{data.total_discount}}
+                  </div>
+                  <div>{{data.total_amount_after_discount_after_tax}}</div>
+                  <div>
+                    {{data.total_amt_paid}}
                   </div>
                   <div>
-                    2000
+                    {{data.total_balance_amt}}
                   </div>
                   <div>
-                    0
+                    {{data.paymentMode}}
                   </div>
                   <div>
-                    Cash
+                    {{data.reference_no}}
                   </div>
                   <div>
-                    111332
+                    {{data.remarks}}
                   </div>
-                  <div>
-                    Remark
-                  </div>
+                </div>
+                <div  class="table_body"  *ngIf="PastFeeList.length == 0">
+                  <tr>
+                    <td colspan="11" style="text-align: center">
+                      No Record Of Payment History
+                    </td>
+                  </tr>
                 </div>
               </div>
               <div class="table_title">
                 <span >Past Fee Due Details</span>
               </div>
+             
               <div class="past_due">
                 <div class="table_heading">
                   <div>
@@ -473,6 +485,7 @@
                   <div>
                    <span class="top"> Amount</span>
                   </div>
+                  <div>Tax</div>
                   <div>
                     Discount<br>Amount
                   </div>
@@ -486,36 +499,47 @@
                     Amount<br>Due
                   </div>
                 </div>
-                <div class="table_body">
+                <div class="table_body"  *ngFor="let data of paymentHistoryList">
                   <div>
-                    01
+                    {{data.installment_no}}
                   </div>
                   <div>
-                    Installment
+                    {{data.fee_type_name}}
                   </div>
                   <div>
-                    19-09-2020
+                    {{data.due_date}}
                   </div>
                   <div>
-                   1555
+                    {{data.total_initial_amount}}
                   </div>
                   <div>
-                    280
+                    {{data.total_tax_applied}}
                   </div>
                   <div>
-                    1335
+                    {{data.total_discount}}
                   </div>
                   <div>
-                    0
+                    {{data.total_amount_after_discount_after_tax}}
                   </div>
                   <div>
-                    1835
+                    {{data.total_amt_paid}}
                   </div>
+                  <div>
+                    {{data.total_balance_amt}}
+                  </div>
+                </div>
+                <div  class="table_body" *ngIf="paymentHistoryList.length == 0">
+                  <tr>
+                    <td colspan="11" style="text-align: center">
+                      No Record Of Past Fee Due Found
+                    </td>
+                  </tr>
                 </div>
               </div>
               <div class="table_title">
                 <span >Next Fee Due Details</span>
               </div>
+             
               <div class="next_due">
                 <div class="table_heading">
                   <div>
@@ -531,6 +555,9 @@
                    <span class="top"> Amount</span>
                   </div>
                   <div>
+                    <span class="top"> Tax</span>
+                   </div>
+                  <div>
                     Discount<br>Amount
                   </div>
                   <div>
@@ -543,31 +570,41 @@
                     Amount<br>Due
                   </div>
                 </div>
-                <div class="table_body">
+                <div class="table_body"  *ngFor="let data of FutureFeeList">
                   <div>
-                    01
+                    {{data.installment_no}}
                   </div>
                   <div>
-                    Installment
+                    {{data.fee_type_name}}
+                  </div>
+                  <div>  
+                    {{data.due_date}}
                   </div>
                   <div>
-                    19-09-2020
+                    {{data.total_initial_amount}}
                   </div>
                   <div>
-                   1555
+                    {{data.total_tax_applied}}
                   </div>
                   <div>
-                    280
+                    {{data.total_discount}}
                   </div>
                   <div>
-                   0
+                    {{data.total_amount_after_discount_after_tax}}
                   </div>
                   <div>
-                    1335
+                    {{data.total_amt_paid}}
                   </div>
                   <div>
-                    1835
+                    {{data.total_balance_amt}}
                   </div>
+                </div>
+                <div  class="table_body">
+                  <tr *ngIf="FutureFeeList.length == 0">
+                    <td colspan="11" style="text-align: center">
+                      No Record Of Next Fee Due Details
+                    </td>
+                  </tr>
                 </div>
               </div>
             </div>
@@ -605,9 +642,16 @@
                   </div>
                   <div>
                       <a class="mr10" href="{{data.fileUrl}}"><img class="size22" src="../../../assets/img_view/download.svg" title="Download"></a>
-                    <a><img class="size22" src="../../../assets/img_view/Group272.svg" title="delete"  ></a>
+                    <a><img class="size22" src="../../../assets/img_view/Group272.svg"  title="Delete File" (click)="deletefile(data.id)" ></a>
                   
                   </div>
+                </div>
+                <div  class="table_body"  *ngIf="studentFile.length == 0">
+                  <tr>
+                    <td colspan="11" style="text-align: center">
+                      No data available
+                    </td>
+                  </tr>
                 </div>
               </div>
            </div>
@@ -1357,17 +1401,19 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-lg-12">
-              <input type="text" class="input" placeholder="Doc Title*" name="">
+              <input type="text" class="input" placeholder="Doc Title*" type="text" id="category_id" [(ngModel)]="category_id" class="input"
+              name="category_id" [maxlength]="30">
             </div>
           </div>
           <div class="row no-gutters mt20">
             <div class="col-lg-12">
-               <input type="file" name=""  class="input file" placeholder=" Browse File">
+               <input type="file" name=""  id="uploadFileControl" (change)="storeFiles()"
+               name="uploadFileBox" class="input file" placeholder=" Browse File">
             </div>
           </div> 
           <br>
           <div>
-            <span class="right"> <button class="white_button mr10">Back</button><button class="blue_button">Upload</button></span>
+            <span class="right"> <button class="white_button mr10" data-dismiss="modal">Back</button><button class="blue_button" (click)="uploadHandler();">Upload</button></span>
           </div>
           <br>      
         </div>

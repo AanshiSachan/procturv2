@@ -376,9 +376,15 @@
   .radio_div{
       margin: 15px 0px;
   }
+ 
   .attendance_table .table_heading>div, .attendance_table .table_body>div{
-     width: calc(100% / 5);
-  }
+    width: calc(60% / 4);
+ }
+ .attendance_table .table_heading>div:first-child, .attendance_table .table_body>div:first-child{
+    width:40%;
+    text-align: left;
+    padding-left: 10px;
+ }
   .attendance_table{
      height: 63vh;
   }
