@@ -6,6 +6,8 @@ import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
 import { StudentReportService } from '../../../services/report-services/student-report-service/student-report.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -25,10 +27,14 @@ export class ViewReportCardV2Component implements OnInit {
     private appC: AppComponent,
     private router: Router,
     private route: ActivatedRoute,
+    private PostStudService: PostStudentDataService,
+    private _commService: CommonServiceFactory,
+
    ) { 
     this.student_id = this.route.snapshot.paramMap.get('id');
 
    }
+   PTMDetList: any = [];
    selectedFiles: any[] = [];
    category_id: number | string = "";
 parentProfileDocData:any=[];
@@ -271,6 +277,53 @@ messageNotifier(type, title, msg) {
     body: msg
   }
   this.toastCtrl.popToast(data);
+}
+//============================PTM Details==============================//
+
+getPTMDetails() {
+  this.auth.showLoader();
+  this.apiService.getPTMDetails(this.studentId).subscribe(
+    res => {
+      this.auth.hideLoader();
+      this.PTMDetList = res;
+    },
+    err => {
+      this.auth.hideLoader();
+      this.messageNotifier('error', '', err.error.message);
+    }
+  )
+}
+//============================Download Student Report card==============================//
+downloadStudentReportCard() {
+  this.auth.showLoader();
+  let url = '/api/v1/reports/Student/downloadReportCard/' + sessionStorage.getItem('institute_id') + '/' + this.student_id;
+  this.PostStudService.stdGetData(url).subscribe(
+    (res: any) => {
+      console.log(res);
+      this.auth.hideLoader();
+      if (res) {
+        if (res.document != "") {
+          let byteArr = this._commService.convertBase64ToArray(res.document);
+          let fileName = res.docTitle;
+          let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+          let url = URL.createObjectURL(file);
+          let dwldLink = document.getElementById('downloadFileClick1');
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          document.body.appendChild(dwldLink);
+          dwldLink.click();
+        }
+        else {
+          this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+        }
+      }
+      else { this._commService.showErrorMessage('info', 'Info', "Document does not have any data."); }
+    },
+    err => {
+      console.log(err);
+      this._commService.showErrorMessage('info', 'Info', err.error.message);
+      this.auth.hideLoader();
+    })
 }
 
 }

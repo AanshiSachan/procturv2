@@ -82,8 +82,8 @@
         </div>
         <div class="padding4">
           <p class="course_text">Download:</p>
-          <div >
-            <a class="mr15"><img src="../../../assets/img_view/Group345.svg" title="Report Card"></a>
+          <div>
+            <a class="mr15" id="downloadFileClick1" (click)="downloadStudentReportCard()"   ><img src="../../../assets/img_view/Group345.svg"   title="Report Card"></a>
             <a class="mr15"><img src="../../../assets/img_view/Group343.svg" title="Manage Fees"></a>
             <a class="mr15"><img src="../../../assets/img_view/Group344.svg" title="ID Card"></a>
             <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
@@ -696,9 +696,11 @@
                <div class="ptm_table">
                 <div class="table_heading">
                   <div>
-                   <span class="top">Subject</span>
+                    <span  class="top" *ngIf="isLangInstitue">Batch</span>
+                    <span  class="top" *ngIf="!isLangInstitue">Subject</span>
                   </div>
                   <div>
+                    
                    <span class="top">Date</span>
                   </div>
                   <div>
@@ -714,66 +716,34 @@
                     <span class="top">Status</span>
                   </div>
                 </div>
-                <div class="table_body">
+                <div class="table_body" *ngFor="let data of PTMDetList">
                   <div>
-                    12th commer-Academic Year-ii-maths
+                    {{data.batch_name}}
                   </div>
                   <div>
-                    10-12-2019
+                    {{data.ptm_date}}
                   </div>
                   <div>
-                   A
+                    {{data.attendance}}
                   </div>
                   <div>
-                   
+                    {{data.total_initial_amount}}
                   </div>
                   <div>
-                   
+                    {{data.parent_remark}}
                   </div>
                   <div>
-                   <div class="pending">Pending</div>
-                  </div>
-                </div>
-                <div class="table_body">
-                  <div>
-                    12th commer-Academic Year-ii-maths
-                  </div>
-                  <div>
-                   10-12-2019
-                  </div>
-                  <div>
-                   A
-                  </div>
-                  <div>
-                   
-                  </div>
-                  <div>
-                   
-                  </div>
-                  <div>
-                 <div class="inprogress">In progress</div>
+                   <div  [ngClass]="{'pending':status=='Pending', 'inprogress': status=='In progress', 'resolved':status=='Resolved'}">abc</div>
                   </div>
                 </div>
-                <div class="table_body">
-                  <div>
-                    12th commer-Academic Year-ii-maths
-                  </div>
-                  <div>
-                    10-12-2019
-                  </div>
-                  <div>
-                   A
-                  </div>
-                  <div>
-                   
-                  </div>
-                  <div>
-                   
-                  </div>
-                  <div>
-                   <div class="resolved">Resolved</div>
-                  </div>
-                </div>
+                <div>
+                <tr *ngIf="PTMDetList?.length == 0">
+                  <td colspan="6" style="text-align: center">
+                    No Record Of PTM Found
+                  </td>
+                </tr>
+              </div>
+                 
               </div>
             </div>
             <div id="biometrics_tab"  *ngIf="isActiveTab =='biometric'" >
