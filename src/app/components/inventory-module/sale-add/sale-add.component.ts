@@ -144,7 +144,7 @@ export class SaleAddComponent implements OnInit {
   getItemAgainstCat(category_id) {
     //this.isChange = false;
     this.auth.showLoader();
-    this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + category_id).subscribe((res: any) => {
+    this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + category_id + '&source=sale').subscribe((res: any) => {
       this.itemAllData = res.result;
 
       this.auth.hideLoader();
