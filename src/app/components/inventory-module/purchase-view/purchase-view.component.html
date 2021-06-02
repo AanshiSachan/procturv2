@@ -8,7 +8,7 @@
           <!-- <a href="" class="mr10"><img src="../../../../assets/img1/card.svg" title="Card Details" ></a>
           <a href="" class="mr10"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
           <a href="" class="mr10"><img src="../../../../assets/img1/email.svg" title="Send To Email"></a> -->
-          <a *ngIf="DataForView.bill_image_url.length !=0" href="{{DataForView.bill_image_url}}"  target="_blank" class="mr10"><img src="../../../../assets/images/viewicon.png" title="View Bill Copy"></a>
+          <a *ngIf="DataForView.bill_image_url?.length !=0" href="{{DataForView.bill_image_url}}"  target="_blank" class="mr10"><img src="../../../../assets/images/viewicon.png" title="View Bill Copy"></a>
           <a (click)="printData('divforPrint')" class="mr10"><img src="../../../../assets/img1/print.svg" title="Print"></a>
           <!-- <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>-->
         </div> 
