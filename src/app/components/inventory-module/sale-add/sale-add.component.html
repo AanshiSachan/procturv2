@@ -47,6 +47,7 @@
                    [(ngModel)]="model.payment_status" required>
                     <option value="">Select Payment Status</option>
                     <!-- <option value="Due">Due</option> -->
+                    <option value="Due"> Due</option>
                     <option value="Pending"> Pending</option>
                     <option value="Paid">Paid</option>
                   </select>
@@ -187,9 +188,38 @@
               </div>
             </div>
            </div>
+           <!-- <div *ngIf="model.payment_status =='Paid' "style="display:flex;justify-content: space-around;margin-top:10px;" class="hi">
+             <div> <div class="pt102">
+              <label class="p_title"> Refrence No.<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100" name="reference_no" [(ngModel)]="paymentModel.reference_no" 
+              placeholder="Enter Reference Number">
+          </div></div>
+             <div> <div class="pt102">
+              <label class="p_title"> Amount<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
+              #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+              required
+              [(ngModel)]="paymentModel.paid_amount">
+          </div></div>
+             <div> <div class="pt102">
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+              <select class="select wid100" name="payment_method" id="payment_method"
+                [(ngModel)]="paymentModel.payment_method"   #payment_method="ngModel"
+                required>
+                  <option value="">Select Payment Method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="Card">Card</option>
+                  <option value="Others">Others</option>
+                </select>
+            </div></div>
+           </div> -->
        </div>
+     
       </div>
+     
       </form>
+      
        <div class="white bottom_button bottom_pagignation">
         <div class="display w98">
           <div> <button class="blue_button cancel" routerLink="/view/inventory-management/sale-item">Back </button>

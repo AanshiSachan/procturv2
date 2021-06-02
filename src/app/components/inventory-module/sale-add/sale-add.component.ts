@@ -511,4 +511,14 @@ if(this.itemData.length ==0){
      }
     this.filetype = file.type;
    }
+
+   paymentModel = {
+    sale_id: '',
+    purchased_by_user_id: 18000,
+    paid_amount: '',
+    payment_date: '',
+    reference_no: '',
+    payment_method: '',
+    institute_id: sessionStorage.getItem('institute_id')
+  }
 }
