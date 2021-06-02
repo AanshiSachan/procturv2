@@ -63,12 +63,12 @@
           <!-- use image only when page is empty,table body class element will not be present -->
           <div class="add_subject">
             <span>
-              <a href="" data-toggle="modal" data-target="#addUpdateSubjectdialog">Add New Subject</a>
+              <a href="" data-toggle="modal" (click)="getAllStandardSubjectList()" data-target="#addUpdateSubjectdialog">Add New Subject</a>
             </span>
           </div>
           <div class="white bottom_pagignation ">
             <div class="display">
-              <div><button class="white_button">Back</button></div>
+              <div><button routerLink="/view/course/create/courselist" class="white_button">Back</button></div>
                <div><button class="blue_button" (click)="addDataToTable()">{{(selectedCourseID) ? 'Update' : 'Save'}}</button></div>
             </div>
           </div>
@@ -82,7 +82,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title" style="margin-bottom: -5px;">{{isNewSubjectAdd ? 'Add Subject' : 'Update Subject'}}
+        <h3 class="modal-title" style="margin-bottom: -5px;">Add Subject
         </h3>
       </div>
       <div class="modal-body">
@@ -151,10 +151,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearData()">Close</button>
-          <button type="button" *ngIf="isNewSubjectAdd" class="btn btn-primary create-btn"
+          <button type="button" class="btn btn-primary create-btn"
             (click)="addNewSubject()">Save</button>
-          <button type="button" *ngIf="!isNewSubjectAdd" class="btn btn-primary create-btn"
-            (click)="updateSubject()">Update</button>
         </div>
       </div>
 
