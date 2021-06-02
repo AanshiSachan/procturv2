@@ -45,7 +45,7 @@
                         Add Student
                     </span>
                 </div>
-                <div *ngIf="jsonFlags.isShowLead" class="side-section-item" routerLink="/view/leads/add">
+                <div *ngIf="(checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_MANAGE_ENQUIRY))" class="side-section-item" routerLink="/view/leads/add">
 
                     <span class="dropSize">Add Enquiry</span>
 
@@ -82,7 +82,7 @@
             </button></a>
 
         <!-- Quick Add -->
-        <a *ngIf="(!facultyAccount && checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)) || jsonFlags.isShowLead || jsonFlags.isAdminforLeave || showManageRole" mat-button (click)="showSubSection('quick')"> <img src="./assets/images/sidebar/newQuickAdd.svg"
+        <a *ngIf="(!facultyAccount && checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_MANAGE_ENQUIRY)) || jsonFlags.isAdminforLeave || showManageRole" mat-button (click)="showSubSection('quick')"> <img src="./assets/images/sidebar/newQuickAdd.svg"
                 title="Quick Add" alt="">
         </a>
 
