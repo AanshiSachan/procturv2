@@ -36,7 +36,7 @@ export class MarkAttendanceComponent implements OnInit {
   updateAttendanceList: any[] = []
   attendance_dto_list: any[] = []
   createAttendanceList: any[] = []
-  lastAttendanceUpdatedDate: string = "";
+  lastAttendanceUpdatedDate: string = null;
 
   constructor(private msgService: MessageShowService,
     private httpService: HttpService,
@@ -65,6 +65,7 @@ export class MarkAttendanceComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.allMarkAttendanceList = res.result;
+        if(this.allMarkAttendanceList.length>0){
         this.attendanceList = res.result;
         this.lastAttendanceUpdatedDate = moment(this.allMarkAttendanceList[0].last_attendance_updated_date).format('DD-MM-YYYY');
         if (this.lastAttendanceUpdatedDate == null) {
@@ -73,10 +74,11 @@ export class MarkAttendanceComponent implements OnInit {
           }
 
         }
+      }
       },
       err => {
         this.auth.hideLoader();
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].errorMessage);
       }
     )
   }
