@@ -267,7 +267,7 @@ if(paid>total){
       //data when paid
       let payment_dto :any ={};
       payment_dto.paid_amount =this.model.paid_amount;
-      payment_dto.payment_date =this.model.sale_date;
+      payment_dto.payment_date =this.model.payment_date;
       payment_dto.reference_no =this.model.reference_no;
       payment_dto.payment_method =this.model.payment_method;
       payment_dto.institute_id =sessionStorage.getItem('institute_id');
@@ -453,10 +453,11 @@ if(paid>total){
       //data when paid
       let payment_dto :any ={};
       payment_dto.paid_amount =this.model.paid_amount;
-      payment_dto.payment_date =this.model.sale_date;
+      payment_dto.payment_date =this.model.payment_date;
       payment_dto.reference_no =this.model.reference_no;
       payment_dto.payment_method =this.model.payment_method;
       payment_dto.institute_id =sessionStorage.getItem('institute_id');
+      payment_dto.paymentBill =this.model.paymentBill;
       // if (this.isedit) {
       //   saleDto.sale_id = this.model.sale_id;
       // }
