@@ -674,9 +674,9 @@
                     <p >Reports</p></a>
                   </li>
                   <!-- ======asha-edited========== -->
-                  <li class="dropdown" [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
-                  <div>
-                    <a routerLink="/view/sms-gateway" *ngIf="jsonFlags.isAdminforSmsGateway">
+                  <li class="dropdown" [ngStyle]="{display: jsonFlags.isAdminforSmsGateway ? 'block' : 'none'}" [ngClass]= "activeSession ==='liConfig'?'liActiveBG':''"(click)="toggler('liConfig')">
+                  <div  *ngIf="jsonFlags.isAdminforSmsGateway">
+                    <a routerLink="/view/sms-gateway" class="dropbtn">
                         <img [src]="'./assets/images/Configuration.svg'" alt="">
                         <p>Configuration</p><i class="fa fa-angle-right"></i>
                         </a>
