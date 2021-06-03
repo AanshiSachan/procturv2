@@ -139,21 +139,21 @@ export class CreateCourseComponent implements OnInit {
           if(this.role_feature.CLASS_MENU) {
             this.jsonFlags.classMenu = true;
             // if(!this.role_feature.SETUP_MENU) {
-            //   this.router.navigateByUrl('/view/course/create/class/home');
-            //   this.switchActiveView('liClass');
+              // this.router.navigateByUrl('/view/course/create/class/home');
+              // this.switchActiveView('liClass');
             // }
           }
           if(this.role_feature.EXAMS_MENU) {
             this.jsonFlags.examMenu = true;
-            // if(!this.role_feature.CLASS_MENU) {
-            //   this.router.navigateByUrl('/view/course/create/exam');
-            //   this.switchActiveView('liExam');
+            // if(!this.role_feature.CLASS_MENU && !this.role_feature.SETUP_MENU) {
+              // this.router.navigateByUrl('/view/course/create/exam');
+              // this.switchActiveView('liExam');
             // }
           }
           if(sessionStorage.getItem('isFromCoursePlanner') == 'true') {
             this.isFromSection = false;
           }
-            // if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU) {
+            // if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU && !this.role_feature.SETUP_MENU) {
             //   this.switchActiveView('liTopic');
             //   this.router.navigateByUrl('/view/course/create/topic/home');
             // }
@@ -205,7 +205,7 @@ export class CreateCourseComponent implements OnInit {
             }
             if(this.role_feature.CLASS_MENU) {
               this.jsonFlags.classMenu = false;
-              this.isFromSection = false;
+              // this.isFromSection = false;
               // if(!this.role_feature.SETUP_MENU) {
               //   this.router.navigateByUrl('/view/course/create/class/home');
               //   this.switchActiveView('liClass');
@@ -213,13 +213,16 @@ export class CreateCourseComponent implements OnInit {
             }
           if (this.role_feature.EXAMS_MENU) {
             this.jsonFlags.examMenu = true;
-            this.isFromSection = false;
-            // if(!this.role_feature.CLASS_MENU) {
+            // this.isFromSection = false;
+            // if(!this.role_feature.SETUP_MENU && !this.role_feature.CLASS_MENU) {
             //   this.router.navigateByUrl('/view/course/create/exam');
             //   this.switchActiveView('liExam');
             // }
           }
-            // if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU) {
+          if(sessionStorage.getItem('isFromCoursePlanner') == 'true') {
+            this.isFromSection = false;
+          }
+            // if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU && !this.role_feature.SETUP_MENU) {
             //   this.switchActiveView('liTopic');
             //   this.router.navigateByUrl('/view/course/create/topic/home');
             // }

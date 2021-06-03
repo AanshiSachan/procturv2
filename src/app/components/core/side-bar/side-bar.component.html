@@ -862,9 +862,9 @@
                   </li>
 
                    <!-- ======asha-edited========== -->
-                   <li class="dropdown" [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
-                    <div>
-                      <a routerLink="/view/sms-gateway" *ngIf="jsonFlags.isAdminforSmsGateway">
+                   <li class="dropdown" [ngStyle]="{display: (jsonFlags.isAdminforSmsGateway) ? 'block' : 'none'}" (click)="toggler('liten')">
+                    <div *ngIf="jsonFlags.isAdminforSmsGateway">
+                      <a routerLink="/view/sms-gateway">
                           <img [src]="'./assets/images/Configuration.svg'" alt="">
                           <p>Configuration</p><i class="fa fa-angle-right"></i>
                           </a>

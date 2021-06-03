@@ -15,25 +15,25 @@ export default class CommonUtils {
   }
   public static isNotEmpty(val: string): boolean {
     if (val && val.trim() != '') {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
   public static isEmpty(val: string): boolean {
     return this.isNotEmpty(val) ? false : true;
   }
   public static isOptionalValidEmailId(email: string): boolean {
     if (this.isEmpty(email) || this.emailRegExp.test(email)) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
   public static isMandatoryValidEmailId(email: string): boolean {
     //test(myForm.emailAddr.value)
     if (this.isNotEmpty(email) && this.emailRegExp.test(email)) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
   // check numeric type data
   public static isNumeric(data:number):boolean{
