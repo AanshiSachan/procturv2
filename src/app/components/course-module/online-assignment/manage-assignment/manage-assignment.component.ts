@@ -628,7 +628,7 @@ export class ManageAssignmentComponent implements OnInit {
     }
     else{
       this.subTopicList = [];
-      this.studentsList = [];
+      // this.studentsList = [];
       this.selectedStudentList = [];
       this.assignmentDetails.subtopic = "-1";
       this.assignmentDetails.students = [];
