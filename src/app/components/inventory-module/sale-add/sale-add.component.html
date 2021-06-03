@@ -188,23 +188,24 @@
               </div>
             </div>
            </div>
-           <!-- <div *ngIf="model.payment_status =='Paid' "style="display:flex;justify-content: space-around;margin-top:10px;" class="hi">
+           <div *ngIf="model.payment_status =='Paid' ">
+            <div style="display:flex;justify-content: space-around;margin-top:10px;" class="hi">
              <div> <div class="pt102">
               <label class="p_title"> Refrence No.<span class="text-danger">*</span></label>
-              <input type="text" class="input wid100" name="reference_no" [(ngModel)]="paymentModel.reference_no" 
+              <input type="text" class="input wid100 a" name="reference_no" [(ngModel)]="model.reference_no" 
               placeholder="Enter Reference Number">
           </div></div>
              <div> <div class="pt102">
               <label class="p_title"> Amount<span class="text-danger">*</span></label>
-              <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
-              #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+              <input type="text" class="input wid100 a" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
+              #paid_amount="ngModel" (keyup)="amountValid(total,model.paid_amount)" onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
               required
-              [(ngModel)]="paymentModel.paid_amount">
+              [(ngModel)]="model.paid_amount">
           </div></div>
              <div> <div class="pt102">
               <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
-              <select class="select wid100" name="payment_method" id="payment_method"
-                [(ngModel)]="paymentModel.payment_method"   #payment_method="ngModel"
+              <select class="select wid100 a" name="payment_method" id="payment_method"
+                [(ngModel)]="model.payment_method"   #payment_method="ngModel"
                 required>
                   <option value="">Select Payment Method</option>
                   <option value="Cash">Cash</option>
@@ -213,7 +214,44 @@
                   <option value="Others">Others</option>
                 </select>
             </div></div>
-           </div> -->
+            <div> <div class="pt102">
+              <label class="p_title"> Upload Receipt</label>
+              <input type="File" class="input wid100 a" placeholder="Date*"
+                type="File" class="input wid100" name="paymentBill" placeholder="Date*" name="paymentBill"
+            [disabled]="paymentBill  !=''&& isedit" id="paymentBill  " 
+            [(ngModel)]="paymentBill  " accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+            </div></div>
+           </div> 
+          <!-- <div style="display:flex;justify-content: space-around;" class="hi">
+           
+            <div> <div class="pt102">
+              <label class="p_title"> Upload Receipt</label>
+              <input type="File" class="input wid100" placeholder="Date*"
+                type="File" class="input wid100" name="paymentBill" placeholder="Date*" name="paymentBill"
+            [disabled]="paymentBill  !=''&& isedit" id="paymentBill  " 
+            [(ngModel)]="paymentBill  " accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+            </div></div>
+            <div> <div class="pt10" style="display:none;"  [class.has-error]="payment_date.invalid && payment_date.touched">
+              <label class="p_title"> Date<span class="text-danger">*</span></label>
+               <input type="Date" class="input wid100" [(ngModel)]="model.payment_date"
+                name="payment_date" placeholder="Date*"
+                (change)="validateFutureDate($event)"
+                #payment_date="ngModel" required>
+            </div></div>
+            <div> <div class="pt102"  style="display:none;">
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+              <select class="select wid100" name="payment_method" id="payment_method"
+                [(ngModel)]="model.payment_method"   #payment_method="ngModel"
+                required>
+                  <option value="">Select Payment Method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="Card">Card</option>
+                  <option value="Others">Others</option>
+                </select>
+            </div></div>
+          </div> -->
+          </div>
        </div>
      
       </div>

@@ -65,9 +65,15 @@ export class SaleAddComponent implements OnInit {
     payment_status: '',
     description: '',
     institute_id: sessionStorage.getItem('institution_id'),
-    sale_item_list: []
-
+    sale_item_list: [],
+    purchased_by_user_id: 0,
+    paid_amount: '',
+    payment_date: '',
+    reference_no: '',
+    payment_method: '',
+    paymentBill  :''
   }
+  
   getAllRoles() {
     //this.auth.showLoader();
     this.httpService.getData('/api/v1/roleApi/allRoles/' + this.institution_id).subscribe((res: any) => {
@@ -232,6 +238,12 @@ if(this.itemData.length ==0){
   this.isChange =!this.isChange;
 }
   }
+  amountValid(total,paid){
+if(paid>total){
+  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Amount is greater than total amount');
+     
+}
+  }
   saveSaleDetails() {
     if (this.myForm.valid) {
       this.model.sale_item_list = [];
@@ -244,12 +256,21 @@ if(this.itemData.length ==0){
           unit_price: this.itemData[i].sale_price,
           tax: this.itemData[i].tax_percent
         }
+        
         this.model.sale_item_list.push(obj)
       }
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
       let saleDto: any = {};
+      //data when paid
+      let payment_dto :any ={};
+      payment_dto.paid_amount =this.model.paid_amount;
+      payment_dto.payment_date =this.model.sale_date;
+      payment_dto.reference_no =this.model.reference_no;
+      payment_dto.payment_method =this.model.payment_method;
+      payment_dto.institute_id =sessionStorage.getItem('institute_id');
+
       if (this.isedit) {
         saleDto.sale_id = this.model.sale_id;
       }
@@ -262,7 +283,16 @@ if(this.itemData.length ==0){
       saleDto.sale_item_list = this.model.sale_item_list;
       saleDto.payment_status = this.model.payment_status;
       // saleDto.sale_type =this.model.sale_type;
-      formData.append('saleDto', JSON.stringify(saleDto));
+      if(this.model.payment_status =="Paid"){
+        saleDto.payment_dto = payment_dto;
+         formData.append('saleDto', JSON.stringify(saleDto)); 
+        //formData.append('payment_dto', JSON.stringify(payment_dto)); 
+         formData.append('paymentBill', file);
+      }
+      else{
+        formData.append('saleDto', JSON.stringify(saleDto));
+      }
+      
       if (file) {
         formData.append('billImageFile', file);
       }
@@ -284,8 +314,7 @@ if(this.itemData.length ==0){
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
       this.isedit ? newxhr.open("PUT", urlPostXlsDocument, true) : newxhr.open("POST", urlPostXlsDocument, true);
-
-      newxhr.setRequestHeader("Authorization", Authorization);
+    newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("x-proc-authorization", Authorization);
       newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
       newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
@@ -512,13 +541,5 @@ if(this.itemData.length ==0){
     this.filetype = file.type;
    }
 
-   paymentModel = {
-    sale_id: '',
-    purchased_by_user_id: 18000,
-    paid_amount: '',
-    payment_date: '',
-    reference_no: '',
-    payment_method: '',
-    institute_id: sessionStorage.getItem('institute_id')
-  }
+   
 }

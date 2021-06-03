@@ -43,7 +43,7 @@ export class SaleItemComponent implements OnInit {
   }
   paymentModel = {
     sale_id: '',
-    purchased_by_user_id: 18000,
+    purchased_by_user_id: 0,
     paid_amount: '',
     payment_date: '',
     reference_no: '',
