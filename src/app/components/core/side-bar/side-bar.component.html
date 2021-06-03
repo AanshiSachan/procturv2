@@ -1455,8 +1455,8 @@
     </div>
 </div>
 
- <!-- <div class="query_popup">
-    <div>
+  <div class="query_popup" *ngIf="showMaximizedPopup">
+    <div (click)="showMaximizedPopup = false">
         <span class="white"></span>
     </div>
     <div class="img1">
@@ -1479,11 +1479,11 @@
         <p class="one">Write us on </p>
         <p><img src="../../../../assets/query_popup/email.svg">support@proctur.com</p>
     </div>
-</div>  -->
-<div class="query_mini">
+</div>
+<div class="query_mini" *ngIf="!showMaximizedPopup">
     <div>
         <span>Chat with Us</span>
         <img src="../../../../assets/query_popup/question.svg">
-        <span class="white"></span>
+        <span (click)="showMaximizedPopup = true" class="white"></span>
     </div>
 </div>
