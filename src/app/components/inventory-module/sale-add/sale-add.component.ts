@@ -245,8 +245,7 @@ if(paid>total){
 }
   }
   saveSaleDetails() {
-
-    if (this.myForm.valid ||  this.readFile(this.model.bill_image_url,'billImageFile') ) {
+ if (this.myForm.valid ||  this.readFile(this.model.bill_image_url,'billImageFile') ) {
       this.model.sale_item_list = [];
       //sale_type":"paid", "item_id":43, "quantity":1, "unit_price":100, "tax":0.0
       for (let i = 0; i < this.itemData.length; i++) {
