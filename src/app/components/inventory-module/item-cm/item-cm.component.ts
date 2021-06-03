@@ -263,8 +263,8 @@ getItemDetails() {
 }
 //edit items
 editItem(data){
-this.getAllMasterCourseList();
- this.onMasterCourseSelection(data.standard_id);
+//this.getAllMasterCourseList();
+ //this.onMasterCourseSelection(data.standard_id);
  if(this.onMasterCourseSelection.length>0){
   this.isedit = true;
   this.item.item_id=data.item_id;
