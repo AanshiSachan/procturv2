@@ -54,7 +54,7 @@
               </div>
               <div class="pt102">
                 <label class="p_title"> Bill Copy</label>
-                <input type="File" class="input wid100" title="PDF/Jpeg/png/svg.." (change)="readFile($event)" name="billImageFile" placeholder="Date*" id="billImageFile"
+                <input type="File" class="input wid100"  title="Allowed file format PDF/Jpeg/png/svg/jpg and allowed  file size upto 5Mb"  name="billImageFile" placeholder="Date*" id="billImageFile"
                style="margin-top:8px;"
                [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
                 [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/">
@@ -218,7 +218,6 @@
               <label class="p_title"> Upload Receipt</label>
               <input type="File" class="input wid100 a" placeholder="Date*"
                 type="File" class="input wid100" name="paymentBill" placeholder="Date*" name="paymentBill"
-            [disabled]="paymentBill  !=''&& isedit" id="paymentBill  " 
             [(ngModel)]="paymentBill  " accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
             </div></div>
            </div> 

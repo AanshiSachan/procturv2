@@ -245,7 +245,8 @@ if(paid>total){
 }
   }
   saveSaleDetails() {
-    if (this.myForm.valid) {
+
+    if (this.myForm.valid ||  this.readFile(this.model.bill_image_url,'billImageFile') ) {
       this.model.sale_item_list = [];
       //sale_type":"paid", "item_id":43, "quantity":1, "unit_price":100, "tax":0.0
       for (let i = 0; i < this.itemData.length; i++) {
@@ -449,6 +450,13 @@ if(paid>total){
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
       let saleDto: any = {};
+      //data when paid
+      let payment_dto :any ={};
+      payment_dto.paid_amount =this.model.paid_amount;
+      payment_dto.payment_date =this.model.sale_date;
+      payment_dto.reference_no =this.model.reference_no;
+      payment_dto.payment_method =this.model.payment_method;
+      payment_dto.institute_id =sessionStorage.getItem('institute_id');
       // if (this.isedit) {
       //   saleDto.sale_id = this.model.sale_id;
       // }
@@ -463,7 +471,16 @@ if(paid>total){
       saleDto.payment_status = this.model.payment_status;
       saleDto.bill_image_url =this.model.bill_image_url;
       // saleDto.sale_type =this.model.sale_type;
-      formData.append('saleDto', JSON.stringify(saleDto));
+      if(this.model.payment_status =="Paid"){
+        saleDto.payment_dto = payment_dto;
+         formData.append('saleDto', JSON.stringify(saleDto)); 
+        //formData.append('payment_dto', JSON.stringify(payment_dto)); 
+         formData.append('paymentBill', file);
+      }
+      else{
+        formData.append('saleDto', JSON.stringify(saleDto));
+      }
+     // formData.append('saleDto', JSON.stringify(saleDto));
       if (file) {
         formData.append('billImageFile', file);
       }
@@ -530,15 +547,34 @@ if(paid>total){
     }
     filesize;
     filetype;
-    readFile(fileEvent: any) {
+    readFile(fileEvent: any,id) {
       const file = fileEvent.target.files[0];
      this.filesize= file.size;
      const fileSizeInKB = Math.round(this.filesize / 1024);
-     if(fileSizeInKB > 1024){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "File size is to big");
-    
+     if(fileSizeInKB > 5242880){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
      }
     this.filetype = file.type;
+   var image =(<HTMLInputElement>document.getElementById(id)).value;
+   if(image!='')
+    {
+          var checkimg = image.toLowerCase();
+         if (!checkimg.match(/(\.jpg|\.png|\.JPG|\.PNG|\.jpeg|\.JPEG|\.PDF|\.pdf|\.svg |\.SVG)$/)){ // validation of file extension using regular expression before file upload
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not allowed");
+      return false;
+          }
+           var img = (<HTMLInputElement>document.getElementById(id)); 
+           //alert(img.files[0].size);
+          //  if(img.files[0].size > 5,242,880)  // validation according to file size
+          //  {
+          //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
+    
+          //  //document.getElementById("errorName5").innerHTML="Image size too short";
+          //  return false;
+          //   }
+            return true;
+     }
+
    }
 
    
