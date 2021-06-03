@@ -505,7 +505,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         if (sessionStorage.getItem('permissions') == undefined ||
             sessionStorage.getItem('permissions') == ''
-            || sessionStorage.getItem('username') == 'admin') {
+            || sessionStorage.getItem('username') == 'admin' || this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
             this.varJson.showDownloadSummary = true;
         }
         this.checkRoleAccess();

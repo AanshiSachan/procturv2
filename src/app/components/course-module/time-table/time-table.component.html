@@ -3,8 +3,8 @@
     <section class="middle-main clearFix attendance-container" id="filterWrap">
       <section class="middle-top mb0 clearFix sms-header">
         <h2 class="pull-left" style="font-weight: bold;">
-         <a routerLink="/view/course" *ngIf="!isProfessional" style="padding:0px; ">
-          <a>Class</a>
+         <a *ngIf="!isProfessional" style="padding:0px; ">
+          <a>Classes</a>
          </a>
           <a *ngIf="isProfessional" style="padding:0px; ">
             Batch
@@ -27,7 +27,7 @@
               <div class="field-radio-wrapper row-val" *ngIf="userType!=3">
                 <input class="form-radio" type="radio" name="filter" id='r2' [checked]="selectData=='teacher'"
                   (change)="radiochangeData('teacher')">
-                <label for="r2">Faculty</label>
+                <label for="r2">Teacher</label>
               </div>
               <div class="field-radio-wrapper row-val" style="margin-left: 15% !important;">
                 <input class="form-radio" type="radio" name="filter" id='r3' [checked]="selectData=='batch'"
@@ -105,7 +105,7 @@
               </select>
             </div>
             <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper" *ngIf="userType!=3">
-              <label>Faculty
+              <label>Teacher
                 <span class="text-danger">*</span>
               </label>
               <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.teacher_id">

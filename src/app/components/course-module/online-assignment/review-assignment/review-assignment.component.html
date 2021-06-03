@@ -117,11 +117,11 @@
                 </select>
               </div> -->
               <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && !assignmentDetails.enable_grade">
-                <label for="state-date" style="font-size: 12px;">Faculty Marks</label>
-                <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Faculty Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
+                <label for="state-date" style="font-size: 12px;">Teacher Marks</label>
+                <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Teacher Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
               </div>
               <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && assignmentDetails.enable_grade">
-                <label for="state-date" style="font-size: 12px;">Faculty Grade</label>
+                <label for="state-date" style="font-size: 12px;">Teacher Grade</label>
                 <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.grade_id" style="width:78%; margin-top: 5px;">
                   <option value="">Select</option>
                   <option value="{{data.grade_id}}" *ngFor="let data of gradeDetails">{{data.grade}}</option>
@@ -130,8 +130,8 @@
 
               <div class="marks-remarks-container">
                 <div class="remarks-container field-wrapper">
-                  <label for="state-date" style="font-size: 12px;">Faculty Remarks</label>
-                  <textarea name="name" rows="4" cols="40" class="form-ctrl" placeholder="Faculty Remarks"
+                  <label for="state-date" style="font-size: 12px;">Teacher Remarks</label>
+                  <textarea name="name" rows="4" cols="40" class="form-ctrl" placeholder="Teacher Remarks"
                     [(ngModel)]="editStatus.teacher_comment"></textarea>
                 </div>
               </div>

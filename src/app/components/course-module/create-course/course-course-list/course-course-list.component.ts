@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { role } from '../../../../model/role_features';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CourseListService } from '../../../../services/course-services/course-list.service';
@@ -44,6 +45,7 @@ export class CourseCourseListComponent implements OnInit {
     isShowAddCourse: false
   }
   schoolModel: boolean = false;
+  role_feature = role.features;
 
   constructor(
     private apiService: CourseListService,
@@ -87,7 +89,7 @@ export class CourseCourseListComponent implements OnInit {
     }
     else {
       if (permissionArray != undefined) {
-        if (permissionArray.indexOf('505') != -1) {
+        if (this.role_feature.CLASSES_COURSES) {
           // MASTER-Course - 505 has all access
           this.jsonFlags.isShowAddCourse = true;
           this.jsonFlags.isShowAddStudent = true;

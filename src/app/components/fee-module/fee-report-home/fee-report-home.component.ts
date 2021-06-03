@@ -53,7 +53,7 @@ export class FeeReportHomeComponent implements OnInit {
       if (this.role_feature.FEE_CHEQUE_MANAGE) { //update payment and manage cheque,pdc  hide download
         this.showChart = false;
       }
-      if (this.role_feature.FEE_MANAGE || this.role_feature.FEE_MENU) {
+      if (this.role_feature.FEE_MENU) {
         this.showChart = true;
       }
       // Changes done by Nalini - To handle role based conditions

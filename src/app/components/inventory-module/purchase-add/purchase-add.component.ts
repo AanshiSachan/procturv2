@@ -60,6 +60,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.getVendorDetails();
+    this.getCategoryItem();
     this.editId = this._Activatedroute.snapshot.paramMap.get("id");
     this._Activatedroute.snapshot.queryParamMap.get('isedit');
     if (this.editId != undefined) {
@@ -76,15 +77,15 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   }
   private _title: string;
 
-  getCategoryItem(obj) {
+  getCategoryItem() {
     this.isChange = false;
     this.itemData = [];
     // this.auth.showLoader();
-
-    this.httpService.getData(this.url + 'purchase/getCategoryAndItem?supplierId=' + obj + '&instituteId=' + this.model.institute_id).subscribe(
+///api/v1/inventory/category/all/' + this.institution_id
+    this.httpService.getData('/api/v1/inventory/category/all/' + this.model.institute_id).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.categoryAllData = res.result;
+        this.categoryAllData = res;
         let items: any = [];
         this.auth.hideLoader();
       },
@@ -109,13 +110,29 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     let id = e.target.value;
     id = +id;
 
-    this.categoryAllData.forEach(element => {
-      if (element && element.categoryId === id) {
-        this.itemArray = element.items;
+    // this.categoryAllData.forEach(element => {
+    //   if (element && element.categoryId === id) {
+    //     this.itemArray = element.items;
 
 
-      }
-    });
+    //   }
+    // });
+     //this.isChange = false;
+     if(id != '' && id != 0) {
+     this.auth.showLoader();
+     this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + id).subscribe((res: any) => {
+       this.itemArray = res.result;
+ 
+       this.auth.hideLoader();
+       this.itemArray = this.itemArray[0].items;
+ 
+     },
+     (err:any)=>{
+       this.auth.hideLoader();
+     }
+     )
+    }
+ 
   }
 
   getItemData(id) {
@@ -193,6 +210,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     }
 
     if (this.purchaseForm.valid) {
+      if(this.itemData.length) {
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
@@ -257,15 +275,18 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
             } else {
               // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not suported");
 
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).error[0].errorMessage);
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
           }
         }
         newxhr.send(formData);
       }
+    } else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select category and Item for purchase");
+    }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory fields");
 
     }
   }
@@ -291,7 +312,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       let newData = [];
       let newdataforcat = [];
       for (let i = 0; i < this.itemData.length; i++) {
-        let objforcat = { categoryId: this.itemData[i].category_id, categoryName: this.itemData[i].category_name }
+        let objforcat = { category_id: this.itemData[i].category_id, category_name: this.itemData[i].category_name }
         let obj = { item_id: this.itemData[i].item_id, item_name: this.itemData[i].item_name, "available_units": this.itemData[i].quantity, "unit_cost": this.itemData[i].unit_price }
         newData.push(obj);
         newdataforcat.push(objforcat);
@@ -402,5 +423,21 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     // this.isedit=false;
   }
 
-
+  maxlenth(data,limit){
+    if(data.length>limit){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "characters only");
+    }
+    }
+    filesize;
+    filetype;
+    readFile(fileEvent: any) {
+      const file = fileEvent.target.files[0];
+     this.filesize= file.size;
+     const fileSizeInKB = Math.round(this.filesize / 1024);
+     if(fileSizeInKB > 1024){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "File size is to big");
+    
+     }
+    this.filetype = file.type;
+   }
 }

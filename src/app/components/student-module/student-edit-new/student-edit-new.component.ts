@@ -401,11 +401,11 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.showFeeSection = false;
         this.checkBoxGroup.hideReconfigure = false;
       }
-      if (this.role_feature.FEE_MANAGE) {
+      if (this.role_feature.FEE_MENU) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (this.role_feature.FEE_MANAGE) {  //fee discount
+      if (this.role_feature.FEE_MENU) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
       if (sessionStorage.getItem('permissions') == undefined
@@ -1542,10 +1542,10 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
 
   setImage(e) {
-    if (e != null && e != "") {
+    // if (e != null && e != "") {
       this.studentServerImage = e;
       this.thumbnailAvailable = false;
-    }
+    // }
 
   }
 
@@ -2028,14 +2028,14 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (this.role_feature.FEE_MANAGE) {
+            if (this.role_feature.FEE_MENU) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (this.role_feature.FEE_MANAGE) {  //fee discount
+            if (this.role_feature.FEE_MENU) {  //fee discount
               this.checkBoxGroup.feeDiscouting = true;
             }
             if (sessionStorage.getItem('permissions') == undefined

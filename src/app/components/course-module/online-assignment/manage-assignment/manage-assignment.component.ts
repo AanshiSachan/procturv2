@@ -778,7 +778,7 @@ export class ManageAssignmentComponent implements OnInit {
           }
           }
          } else {
-            this.msgService.showErrorMessage('error', '', "Please select Faculty");
+            this.msgService.showErrorMessage('error', '', "Please select Teacher");
           }
         }
           else{

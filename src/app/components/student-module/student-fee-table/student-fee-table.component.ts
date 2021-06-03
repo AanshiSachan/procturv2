@@ -265,7 +265,7 @@ export class StudentFeeTableComponent implements OnInit {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
 
-      if ((!this.role_feature.FEE_MANAGE) || (this.role_feature.FEE_CHEQUE_MANAGE)) {
+      if ((!this.role_feature.FEE_MENU) || (this.role_feature.FEE_CHEQUE_MANAGE)) {
         let isError = false;
         for (let i = 0; i < customFees.length; i++) {
           if (customFees[i].temp_due_date) {

@@ -128,7 +128,7 @@ export class CreateCourseComponent implements OnInit {
         // if (permissionArray != null && permissionArray != "") {
           // Changes done by Nalini - To handle role based conditions
           this.isFromSection = false;
-          if (this.role_feature.SETUP_MENU) {
+          if (this.role_feature.CLASS_MENU) {
             this.jsonFlags.liManageBatch = true;
             this.jsonFlags.liStandard = true;
             this.jsonFlags.liSubject = true;
@@ -195,7 +195,7 @@ export class CreateCourseComponent implements OnInit {
         // if (permissionArray != null && permissionArray != "") {
           // Changes done by Nalini - To handle role based conditions
           this.isFromSection = true;
-          if (this.role_feature.SETUP_MENU) {
+          if (this.role_feature.CLASS_MENU) {
             this.jsonFlags.liSubject = true;
             this.jsonFlags.liStandard = true;
             this.jsonFlags.liManageBatch = true;
@@ -205,7 +205,7 @@ export class CreateCourseComponent implements OnInit {
             }
             if(this.role_feature.CLASS_MENU) {
               this.jsonFlags.classMenu = false;
-              this.isFromSection = false;
+              // this.isFromSection = false;
               // if(!this.role_feature.SETUP_MENU) {
               //   this.router.navigateByUrl('/view/course/create/class/home');
               //   this.switchActiveView('liClass');
@@ -213,11 +213,14 @@ export class CreateCourseComponent implements OnInit {
             }
           if (this.role_feature.EXAMS_MENU) {
             this.jsonFlags.examMenu = true;
-            this.isFromSection = false;
+            // this.isFromSection = false;
             // if(!this.role_feature.SETUP_MENU && !this.role_feature.CLASS_MENU) {
             //   this.router.navigateByUrl('/view/course/create/exam');
             //   this.switchActiveView('liExam');
             // }
+          }
+          if(sessionStorage.getItem('isFromCoursePlanner') == 'true') {
+            this.isFromSection = false;
           }
             // if(!this.role_feature.CLASS_MENU && !this.role_feature.EXAMS_MENU && !this.role_feature.SETUP_MENU) {
             //   this.switchActiveView('liTopic');

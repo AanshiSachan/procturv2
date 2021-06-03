@@ -72,9 +72,9 @@ export class MessageShowService {
     },
     batchMsg: {
       notSelect: "Batch Not Selected",
-      inValid: 'Subject And Batch Invalid',
-      notStandard: 'Standard Not Selected',
-      selectAll: 'Standard, Subject And Batch Not Selected',
+      inValid: 'Course And Batch Invalid',
+      notStandard: 'Master course Not Selected',
+      selectAll: 'Master course, Course And Batch Not Selected',
     },
     loginMsg: {
       invalid: {

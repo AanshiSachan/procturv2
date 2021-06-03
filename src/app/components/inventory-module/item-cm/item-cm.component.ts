@@ -51,8 +51,8 @@ export class ItemCmComponent implements OnInit {
     private auth: AuthenticatorService,
     private _pdfService: ExportToPdfService,
     private excelService: ExcelService) {
-    this.category_model.institution_id = sessionStorage.getItem('institution_id');
-    this.item.institution_id = sessionStorage.getItem('institution_id');
+    this.category_model.institution_id = sessionStorage.getItem('institute_id');
+    this.item.institution_id = sessionStorage.getItem('institute_id');
     this.getSubBranches();
   }
 
@@ -119,7 +119,7 @@ export class ItemCmComponent implements OnInit {
   editRow(object) {
     this.isedit = true;
     this.category_model.id = object.data.id;
-    this.category_model.institution_id = object.data.institution_id;
+    //this.category_model.institution_id = object.data.institution_id;
     this.category_model.category_name = object.data.category_name;
     this.category_model.desc = object.data.desc;
     this.category_model.category_id = object.data.category_id;
@@ -147,24 +147,24 @@ export class ItemCmComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory field")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
     }
   }
   cancel(param) {
     this.category_model ={
       category_name:'',
       desc:'',
-      institution_id:sessionStorage.getItem('institution_id'),
+      institution_id:sessionStorage.getItem('institute_id'),
       id:'',
       category_id:''
     }
     this.item ={
       category_name:'',
       standard_name:'',
-      alloted_units:'',
+      //alloted_units:'',
       category_id:'',
       desc:'',
-      institution_id:sessionStorage.getItem('institution_id'),
+      institution_id:sessionStorage.getItem('institute_id'),
       item_id:'',
       item_name:'',
       out_of_stock_indicator_units:'',
@@ -184,14 +184,14 @@ export class ItemCmComponent implements OnInit {
       sub_branch_id:'',
       // sub_branch_name:'',
       sub_branch_item_id:'',
-      institution_id:sessionStorage.getItem('institution_id')
+      institution_id:sessionStorage.getItem('institute_id')
   }
   this.manageData={
     item_id:'',
     units_added:'',
     available_units:'',
     alloted_units:'',
-    institution_id:sessionStorage.getItem('institution_id')
+    institution_id:sessionStorage.getItem('institute_id')
   
   }
     this.catForm.resetForm(this.category_model);
@@ -241,12 +241,12 @@ saveItemDetails(){
     )
  }
  else{
-  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields"); 
+  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field"); 
  }
 }
 //get item data
 getItemDetails() {
- // this.auth.showLoader();
+ this.auth.showLoader();
   this.httpService.getData(this.url + 'item/all/' + this.category_model.institution_id).subscribe(
     (res: any) => {
       this.auth.hideLoader();
@@ -264,22 +264,26 @@ getItemDetails() {
 //edit items
 editItem(data){
 this.getAllMasterCourseList();
- this.onMasterCourseSelection(data.standard_id)
-this.isedit = true;
-this.item.item_id=data.item_id;
-this.item.category_id =data.category_id;
-this.item.item_name =data.item_name;
-this.item.desc =data.desc;
-this.item.alloted_units =data.alloted_units;
-this.item.unit_cost =data.unit_cost;
-this.item.sale_price =data.sale_price;
-this.item.tax_percent =data.tax_percent;
-this.item.out_of_stock_indicator_units =data.out_of_stock_indicator_units;
-this.item.institution_id =data.institution_id;
-this.item.standard_id =data.standard_id;
-this.item.standard_name =data.standard_name;
-this.item.standard_id =data.standard_id;
-this.item.subject_name =data.subject_name;
+ this.onMasterCourseSelection(data.standard_id);
+ if(this.onMasterCourseSelection.length>0){
+  this.isedit = true;
+  this.item.item_id=data.item_id;
+  this.item.category_id =data.category_id;
+  this.item.item_name =data.item_name;
+  this.item.desc =data.desc;
+ // this.item.alloted_units =data.alloted_units;
+  this.item.unit_cost =data.unit_cost;
+  this.item.sale_price =data.sale_price;
+  this.item.tax_percent =data.tax_percent;
+  this.item.out_of_stock_indicator_units =data.out_of_stock_indicator_units;
+  //this.item.institution_id =data.institution_id;
+  //this.item.standard_id =data.standard_id;
+  this.item.standard_name =data.standard_name;
+  this.item.standard_id =data.standard_id;
+  this.item.subject_name =data.subject_name;
+  this.item.subject_id =data.subject_id;
+ }
+
 }
 //update item
 updateItemDetails(){
@@ -289,7 +293,7 @@ updateItemDetails(){
     item_name:this.item.item_name,
     desc:this.item.desc,
     category_id:this.item.category_id,
-    alloted_units:this.item.alloted_units,
+    //alloted_units:this.item.alloted_units,
     unit_cost:this.item.unit_cost,
     sale_price:this.item.sale_price,
     tax_percent:this.item.tax_percent,
@@ -311,7 +315,7 @@ updateItemDetails(){
       })
   }
   else {
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory field")
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
   }
 
 }
@@ -368,7 +372,7 @@ showAllocationHistory(obj){
 /*======================================APi Clla For Item===============*/
 getAllMasterCourseList() {
   this.masterCourseList=[];
-  // this.auth.showLoader();
+  this.auth.showLoader();
     this.httpService.getData('/api/v1/standards/all/'+this.item.institution_id +'?active=Y').subscribe(
       res => {
         this.masterCourseList = res;
@@ -380,8 +384,9 @@ getAllMasterCourseList() {
   
 }
 onMasterCourseSelection(standard_id){
+  this.auth.showLoader();
   this.CourseList=[];
-  if(standard_id==undefined){
+  if(standard_id==undefined || standard_id ==''){
 
   }
   else{
@@ -392,6 +397,7 @@ onMasterCourseSelection(standard_id){
         this.auth.hideLoader();
       },
       err => {
+        this.auth.showLoader();
       }
     )
   }
@@ -477,7 +483,11 @@ getClassRoomTableFromSource(startindex) {
       return t;
     }
   }
-
+  updateTableBatchSize(event) {
+    this.pageIndex = 1;
+    this.displayBatchSize = event;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
  /* ==========================================pagination for item=============*/
 
   fetchTableDataByPageforItem(index) {
@@ -550,6 +560,11 @@ getClassRoomTableFromSource(startindex) {
       this.totalItemRow = this.itemAllData.length;
 
     }
+  }
+  updateTableBatchSizeForItem(event) {
+    this.pageIndex = 1;
+    this.displayBatchSize = event;
+    this.fetchTableDataByPageforItem(this.pageIndexforItem);
   }
  /* ==========================================Download Data for category=============*/
   categoryDataForDownload=[
@@ -701,7 +716,7 @@ allocatedata ={
     sub_branch_id:'',
     // sub_branch_name:'',
     sub_branch_item_id:'',
-    institution_id:sessionStorage.getItem('institution_id')
+    institution_id:sessionStorage.getItem('institute_id')
 }
 subBranchAllData:any=[];
 
@@ -713,6 +728,7 @@ this.allocatedata.available_units=data.available_units;
 }
 saveAllocatedData(){
   if(this.allcateForm.valid){
+    this.getSubBranches();
     this.httpService.postData(this.url + 'item/allocate/subBranch', this.allocatedata).subscribe(
       (res: any) => {
          $('#subbranchModal').modal('hide');
@@ -731,7 +747,7 @@ saveAllocatedData(){
     )
   }
   else{
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields");
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
      
   }
  
@@ -776,7 +792,7 @@ manageData={
   units_added:'',
   available_units:'',
   alloted_units:'',
-  institution_id:sessionStorage.getItem('institution_id')
+  institution_id:sessionStorage.getItem('institute_id')
 
 }
 //manage units
@@ -798,60 +814,6 @@ updataeManageUnit(){
       this.auth.hideLoader();
     })
 }
-//sorting
-
-// sortByCol(key) {debugger;
-//   console.log(key)
-//  // alert("hii")
-//   let order = 'asc';
-//   if (this.currentKey != "") {
-//     if (key == this.currentKey) {
-//       if (this.currentOrder == 'desc') {
-//         order = 'asc';
-//         this.currentOrder = 'asc';
-//       }
-//       else {
-//         order = 'desc';
-//         this.currentOrder = 'desc';
-//       }
-//     }
-//     else {
-//       this.currentKey = key;
-//       this.currentOrder = 'asc';
-//       order = 'asc';
-//     }
-//   }
-//   else {
-//     order = 'asc';
-//     this.currentKey = key;
-//     this.currentOrder = 'asc';
-//   }
-//   this.pagedItemData.sort(this.compareValues(key, order));
-// }
-
-// compareValues(key, order) {
-//   return function innerSort(a, b) {
-//     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-//       // property doesn't exist on either object
-//       return 0;
-//     }
-
-//     const varA = (typeof a[key] === 'string')
-//       ? a[key].toUpperCase() : a[key];
-//     const varB = (typeof b[key] === 'string')
-//       ? b[key].toUpperCase() : b[key];
-
-//     let comparison = 0;
-//     if (varA > varB) {
-//       comparison = 1;
-//     } else if (varA < varB) {
-//       comparison = -1;
-//     }
-//     return (
-//       (order === 'desc') ? (comparison * -1) : comparison
-//     );
-//   };
-//}
 
 //sorting
 headElements = ['item_name', 'category_name','alloted_units'];
@@ -888,5 +850,10 @@ sortTable(str) {
     this.pagedItemData = this.pagedItemData.reverse();
   }
   this.fetchTableDataByPage(this.pageIndex);
+}
+maxlenth(data,limit){
+if(data.length>limit){
+  this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "character only");
+}
 }
 }

@@ -545,7 +545,7 @@
                 Live Class”</span> </li>
             <li style="font-weight: 100;">
               Add Mandatory Fields:<span style="font-weight: 600;">“Topic Name”, “Date”, Time (“From” & “To”),
-                Faculty Name.</span>
+                Teacher Name.</span>
             </li>
             <li style="font-weight: 100;">
               Add Mandatory Fields:<span style="font-weight: 600;">“Master Course”, “Course”, “Student”.</span>
@@ -1278,7 +1278,7 @@
               <span *ngIf="viewClassData.live_meeting_with == 'Zoom'" class="zoom2">(Zoom)</span>
             </p>
             <p *ngIf="viewClassData.live_meeting_with == 'Zoom'" class="mb-0"><span class="name">Account
-                Name</span><span class="value">Zoom Recording Account</span></p>
+                Name</span><span class="value">{{viewClassData.account_name}}</span></p>
           </div>
           <div class="col-lg-3 image-container">
             <img (click)="copyToClipboard(viewClassData)" *ngIf="(!liveClassFor && !timeLeft(today, viewClassData.startDateTime)) && viewClassData.live_meeting_with == 'Zoom'" style="cursor: pointer;" src="../../../../assets/images/Group240.svg" class="img_doc">
@@ -1287,7 +1287,7 @@
         <div class="div-border"></div>
         <div class="row">
           <div class="col-lg-9">
-            <p class="name mb-0">Faculty Name:</p>
+            <p class="name mb-0">Teacher Name:</p>
             <p class="value"><span title="{{viewClassData.teachersName}}">{{ (viewClassData.teachersName?.length>70) ?
                 (viewClassData.teachersName | slice:0:70 ) + '...' :(viewClassData.teachersName) }}</span></p>
           </div>

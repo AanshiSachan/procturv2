@@ -595,14 +595,14 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         /* Error */
         /*  */
         else if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.notSelect, 'Please select valid input');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.notSelect, '');
 
         }
       }
       /* subject not selected */
       else if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined) {
 
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.inValid, 'Please select valid input');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.inValid, '');
       }
     }
     /* standard not selected */
@@ -610,7 +610,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
 
       /* subject selected  */
       if (this.fetchMasterBatchModule.subject_id != '-1' && this.fetchMasterBatchModule.subject_id != undefined) {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.notStandard, 'Please select valid input');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.notStandard, '');
       }
       /* subject not selected  */
       else if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined) {
@@ -625,7 +625,7 @@ export class ClassAddComponent implements OnInit, OnDestroy {
         /* Error */
         /*  */
         else if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.selectAll, 'Please select valid input');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.selectAll, '');
         }
       }
     }

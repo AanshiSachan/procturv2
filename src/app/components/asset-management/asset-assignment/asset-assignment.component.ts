@@ -249,7 +249,7 @@ export class AssetAssignmentComponent implements OnInit {
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All  Required Field");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
     
     }
 
@@ -334,7 +334,7 @@ $('#deletesModal').modal('show');
       })
    }
     else{
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
     }
   }
   cancel(param) {
@@ -484,7 +484,7 @@ getRolesList() {
     this.assignDataforDownload.map(
       (ele: any) => {
         let json = [
-          ele.id,
+          // ele.id,
          ele.asset_name,
           ele.quantity,
           ele.user_type,
@@ -498,7 +498,7 @@ getRolesList() {
       })
 
     let rows = [];
-    rows = [['#','Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
+    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
     this.auth.hideLoader();

@@ -39,7 +39,7 @@ export class SupplierComponent implements OnInit {
        email_id:'',
        phone_no:'',
        institute_id:sessionStorage.getItem('institution_id'),
-       item_ids:[],  
+       //item_ids:[],  
        category_ids:[],   
        category_id:0
   }
@@ -64,6 +64,7 @@ export class SupplierComponent implements OnInit {
     this.setTableData();
     this.getCategoryDetails();
     this.getVendorDetails();
+    //console.log(this.totalRecords)
   }
 
   setTableData() {
@@ -104,20 +105,20 @@ export class SupplierComponent implements OnInit {
         sorting: false,
         visibility: true
       },
-      {
-        primary_key: 'category_names',
-        value: "Category Name",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'item_names',
-        value: "Item Name",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'category_names',
+      //   value: "Category Name",
+      //   charactLimit: 25,
+      //   sorting: false,
+      //   visibility: true
+      // },
+      // {
+      //   primary_key: 'item_names',
+      //   value: "Item Name",
+      //   charactLimit: 25,
+      //   sorting: false,
+      //   visibility: true
+      // },
       {
         primary_key: 'action',
         value: "Action",
@@ -137,23 +138,11 @@ export class SupplierComponent implements OnInit {
 
     this.rowColumns = [
       {
-        width: "13%",
+        width: "16%",
         textAlign: "left"
       },
       {
-        width: "13%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
@@ -161,9 +150,21 @@ export class SupplierComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "15%",
+        width: "20%",
         textAlign: "left"
       },
+      {
+        width: "20%",
+        textAlign: "left"
+      },
+      // {
+      //   width: "20%",
+      //   textAlign: "left"
+      // },
+      // {
+      //   width: "15%",
+      //   textAlign: "left"
+      // },
       {
         width: "10%",
         textAlign: "left"
@@ -175,7 +176,7 @@ export class SupplierComponent implements OnInit {
   
   //crud for location
   @ViewChild('addVendorForm', { static: false }) addVendorForm: NgForm;
-  
+  titles="select role"
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'category_id',
@@ -242,12 +243,13 @@ export class SupplierComponent implements OnInit {
     this.auth.showLoader();
     this.httpService.getData('/api/v1/inventory/supplier/all?pageOffset=' + this.pageIndex + '&pageSize=' + this.displayBatchSize + '&sortBy=supplierName&instituteId=' + this.model.institute_id).subscribe(
       (res: any) => {
+        
         this.supplierAllData =res.result.response;
         this.staticPageData = res.result.response;
-        this.totalRow =  res.result.length;
+        //this.totalRow =  res.result.length;
         this.auth.hideLoader();
         this.tempLocationList = res.result.response;
-        this.totalRecords = res.result.total_elements;
+        this.totalRecords = res.result.totalElements;
         this.auth.hideLoader();
         
       },
@@ -258,8 +260,7 @@ export class SupplierComponent implements OnInit {
   }
 
   saveSupplierDetails(){
-
-  if(this.addVendorForm.valid){
+  if(this.addVendorForm.valid ){
     let obj: any = {
       supplier_id: this.model.supplier_id,
       company_name: this.model.company_name,
@@ -268,18 +269,18 @@ export class SupplierComponent implements OnInit {
       address: this.model.address,
       email_id: this.model.email_id,
       phone_no: this.model.phone_no,
-      item_ids: this.model.item_ids,
+     // item_ids: this.model.item_ids,
     }
    
     delete(this.model.category_id)
-   let newasset = []
-      let item_idss:any = obj.item_ids;
-     for (let data in item_idss) {
-       newasset.push(item_idss[data].item_id);
-      }
-     obj.item_ids = newasset
+  //  let newasset = []
+  //     let item_idss:any = obj.item_ids;
+  //    for (let data in item_idss) {
+  //      newasset.push(item_idss[data].item_id);
+  //     }
+  //    obj.item_ids = newasset
    
-    console.log(this.model.item_ids)
+   
       this.httpService.postData('/api/v1/inventory/supplier/create', obj).subscribe(
         (res: any) => {
            $('#add1Modal').modal('hide');
@@ -287,6 +288,7 @@ export class SupplierComponent implements OnInit {
           if (res.statusCode == 200) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Supplier detail Added Successfully');
             this.getVendorDetails();
+            this.cancel(false);
           }
         },
         err => {
@@ -296,7 +298,8 @@ export class SupplierComponent implements OnInit {
       )
    }
    else{
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all manadatory fields"); 
+   
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field"); 
    } 
 
   }
@@ -310,32 +313,32 @@ export class SupplierComponent implements OnInit {
      this.model.email_id =object.data.email_id;
      //this.model.item_ids =object.data.item_ids;
      this.model.address =object.data.address;
-     let temp = object.data.item_ids;
-    let item_names = object.data.item_names.split(',');
-   this.model.item_ids = [];
-    for (let i = 0; i < temp.length; i++) {
-      let obj:any = {
-        item_id: '',
-        item_name: ''
-      }
-      obj.item_id = temp[i];
-      obj.item_name = item_names[i];
-      this.model.item_ids.push(obj);
+     //let temp = object.data.item_ids;
+  //  let item_names = object.data.item_names.split(',');
+  //  this.model.item_ids = [];
+  //   for (let i = 0; i < temp.length; i++) {
+  //     let obj:any = {
+  //       item_id: '',
+  //       item_name: ''
+  //     }
+  //     obj.item_id = temp[i];
+  //     obj.item_name = item_names[i];
+  //     this.model.item_ids.push(obj);
 
-    }
-    let temp2 = object.data.category_ids;
-    let category_names = object.data.category_names.split(',');
-    this.model.category_ids = [];
-    for (let i = 0; i < temp2.length; i++) {
-      let obj2 = {
-        category_id: '',
-        category_name: ''
-      }
-      obj2.category_id = temp2[i];
-      obj2.category_name = category_names[i];
-      this.model.category_ids.push(obj2);
-    }
-    console.log(this.model.category_ids)
+  //   }
+  //   let temp2 = object.data.category_ids;
+  //   let category_names = object.data.category_names.split(',');
+  //   this.model.category_ids = [];
+  //   for (let i = 0; i < temp2.length; i++) {
+  //     let obj2 = {
+  //       category_id: '',
+  //       category_name: ''
+  //     }
+  //     obj2.category_id = temp2[i];
+  //     obj2.category_name = category_names[i];
+  //     this.model.category_ids.push(obj2);
+  //   }
+  //   console.log(this.model.category_ids)
 
 
 
@@ -352,15 +355,15 @@ export class SupplierComponent implements OnInit {
         address: this.model.address,
         email_id: this.model.email_id,
         phone_no: this.model.phone_no,
-        item_ids:this.model.item_ids,
+        //item_ids:this.model.item_ids,
       }
-      console.log(obj.item_ids)
-      let newasset = [];
-        let item_ids: any = obj.item_ids;
-        for (let data in item_ids) {
-         newasset.push(item_ids[data].item_id);
-        }
-       obj.item_ids = newasset;
+      // console.log(obj.item_ids)
+      // let newasset = [];
+      //   let item_ids: any = obj.item_ids;
+      //   for (let data in item_ids) {
+      //    newasset.push(item_ids[data].item_id);
+      //   }
+      //  obj.item_ids = newasset;
       
          
          $('#add1Modal').modal('show');
@@ -368,6 +371,7 @@ export class SupplierComponent implements OnInit {
          this.httpService.putData('/api/v1/inventory/supplier/update',obj).subscribe(() => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', " Supplier detail Updated Successfully")
          this.getVendorDetails();
+         this.cancel(false);
          $('#add1Modal').modal('hide');
         },
           err => {
@@ -415,7 +419,7 @@ export class SupplierComponent implements OnInit {
        email_id:'',
        phone_no:'',
        institute_id:'',
-       item_ids:[],
+      // item_ids:[],
        category_ids:[],
        category_id:0,
     }
@@ -435,21 +439,21 @@ export class SupplierComponent implements OnInit {
         this.supplierAllData.map(
             (ele: any) => {
               let json = [
-                ele.id,
+                // ele.id,
                 ele.company_name,
                 ele.supplier_name,
                 ele.address,
                 ele.email_id,
                 ele.phone_no,
-                ele.category_names,
-                ele.item_names,
+                // ele.category_names,
+                // ele.item_names,
                
              ]
              arrforSupplier.push(json);
             })
         
           let rows = [];
-          rows = [['#','Company Name',  'Supplier Name','Address', 'Email Id','Mobile','Category Name', 'Item Name']]
+          rows = [['Company Name',  'Supplier Name','Address', 'Email Id','Mobile']]
           let columns = arrforSupplier;
           this._pdfService.exportToPdf(rows, columns, 'Supplier List');
           this.auth.hideLoader();
@@ -482,14 +486,14 @@ supplierDataForDownload=[
     primary_key: 'phone_no',
     value: "Mobile",
    },
-   {
-    primary_key: 'category_names',
-    value: "Category Name",
-   },
-  {
-    primary_key: 'item_names',
-    value: "Item Name",
-  },
+  //  {
+  //   primary_key: 'category_names',
+  //   value: "Category Name",
+  //  },
+  // {
+  //   primary_key: 'item_names',
+  //   value: "Item Name",
+  // },
  
 ]
 exportToExcel(){
@@ -560,5 +564,16 @@ searchDatabase() {
 
   }
 }
-
+validateMobile(phone_no){
+  if(this.model.phone_no.length<10){
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Enter 10 Digit Mobile Number"); 
+  }
+  return true;
+    }
+    
+    maxlenth(data,limit){
+      if(data.length>limit){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "characters only");
+      }
+      }
 }

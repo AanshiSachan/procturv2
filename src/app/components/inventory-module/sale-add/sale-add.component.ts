@@ -21,6 +21,7 @@ export class SaleAddComponent implements OnInit {
   roleAllData = [];
   sale_type;
   editId;
+  isStudent=false;
   isedit = false;
   isChange: boolean = false;
   isDisable = false;
@@ -84,7 +85,7 @@ export class SaleAddComponent implements OnInit {
       let obj:any={
         page_no:0,
         user_Type:"1",
-        page_offset:"10",
+        page_offset:0,
         master_course_name:"",
         course_id:0
       }
@@ -93,7 +94,7 @@ export class SaleAddComponent implements OnInit {
         (res: any) => {
           this.userALLdata = res;
           this.auth.hideLoader();
-
+          
         },
         err => {
           this.auth.hideLoader();
@@ -101,17 +102,18 @@ export class SaleAddComponent implements OnInit {
       );
     }
     else{
-
+     
       this.httpService.getData('/api/v1/inventory/sale/' + this.institution_id + '/getUserByRole?roleIds=' + role_id).subscribe(
         (res: any) => {
           this.userALLdata = res.result;
-
+  
         },
         err => {
           this.auth.hideLoader();
         }
       );
     }
+ 
   }
   validateFutureDate() {
    let today = moment(new Date);
@@ -195,14 +197,14 @@ export class SaleAddComponent implements OnInit {
       data.subtotal = 0;
       units += Number(data.available_units);
       if (data.sale_type == "Paid") {
-        data.subtotal = (data.available_units * data.unit_cost) + (data.available_units * data.unit_cost) * (data.tax_percent) / 100;
+        data.subtotal = (data.available_units * data.sale_price) + (data.available_units * data.sale_price) * (data.tax_percent) / 100;
         //for total calculate
         subTotal += data.subtotal;
 
 
       }    //subtotal for each row
       else {
-        data.unit_cost = 0;
+        data.sale_price = 0;
       }
 
     }
@@ -238,9 +240,9 @@ if(this.itemData.length ==0){
         let obj = {
           sale_type: this.itemData[i].sale_type,
           item_id: this.itemData[i].item_id,
-          "quantity": this.itemData[i].available_units,
-          "unit_price": this.itemData[i].unit_cost,
-          "tax": this.itemData[i].tax_percent
+          quantity: this.itemData[i].available_units,
+          unit_price: this.itemData[i].sale_price,
+          tax: this.itemData[i].tax_percent
         }
         this.model.sale_item_list.push(obj)
       }
@@ -312,7 +314,7 @@ if(this.itemData.length ==0){
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please Fill All  Required Fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all  mandatory field");
 
     }
   }
@@ -383,7 +385,7 @@ if(this.itemData.length ==0){
           sale_type: this.itemData[i].sale_type,
           item_id: this.itemData[i].item_id,
           item_name: this.itemData[i].item_name,
-          "available_units": this.itemData[i].quantity, "unit_cost": this.itemData[i].unit_price,
+          "available_units": this.itemData[i].quantity, "sale_price": this.itemData[i].unit_price,
           "tax_percent": this.itemData[i].tax,
           "isedit": false
         }
@@ -408,7 +410,7 @@ if(this.itemData.length ==0){
           sale_type: this.itemData[i].sale_type,
           item_id: this.itemData[i].item_id,
           "quantity": this.itemData[i].available_units,
-          "unit_price": this.itemData[i].unit_cost,
+          "unit_price": this.itemData[i].sale_price,
           "tax": this.itemData[i].tax_percent
         }
         this.model.sale_item_list.push(obj)
@@ -484,7 +486,7 @@ if(this.itemData.length ==0){
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Fill All  Required Fields");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Fill all  mandatory field");
 
     }
   }
@@ -492,5 +494,21 @@ if(this.itemData.length ==0){
     this.model.bill_image_url = '';
     // this.isedit=false;
   }
-
+  maxlenth(data,limit){
+    if(data.length>limit){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "characters only");
+    }
+    }
+    filesize;
+    filetype;
+    readFile(fileEvent: any) {
+      const file = fileEvent.target.files[0];
+     this.filesize= file.size;
+     const fileSizeInKB = Math.round(this.filesize / 1024);
+     if(fileSizeInKB > 1024){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "File size is to big");
+    
+     }
+    this.filetype = file.type;
+   }
 }

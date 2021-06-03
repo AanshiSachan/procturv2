@@ -87,7 +87,7 @@ export class TeacherListComponent implements OnInit {
           let data = {
             type: "success",
             title: "",
-            body: "Faculty Deleted Successfully"
+            body: "Teacher Deleted Successfully"
           }
           this.toastCtrl.popToast(data);
           this.getDataFromServer();

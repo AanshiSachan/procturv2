@@ -1,0 +1,146 @@
+
+<div class="main_div">
+  <div>
+    <div class="settings">
+      <span>
+        <img src="../../../../assets/img/settings.svg">
+        <span class="position">  Settings</span>
+      </span>
+    </div>
+    <ul class="menu">
+      <li class="selected"><a>SMS configuration</a></li>
+  
+    </ul>
+  </div>
+
+  <div>
+    <div class="flex1">
+      <div>
+        <span class="ellipse">S</span><span class="blue_line"></span>
+      </div>
+      <div>
+        <p class="blue_settings">
+          SMS Settings
+        </p>
+      </div>
+    </div><br>
+    <form id="form1" #semail="ngForm" autocomplete="off">
+    <div class="flex11">
+      <div>
+        <label for="gatewayName">Gateway Name<span class="danger">*</span></label>
+      </div>
+      <div>
+        <input type="text" id="gateway_name" disabled name="gateway_name"[(ngModel)]=" smsGatewatModel.gateway_name" placeholder="Enter Gateway Name">
+      </div>
+    </div>    
+
+        <div class="flex111" >
+          <div class="w25">
+               <label for="transaction_username" >Username<span class="danger">*</span></label>
+          </div>
+      
+          <div class="w25" >
+             <input type="text" autocomplete="nope"  id="transaction_username" name="transaction_username" [disabled]="!smsGatewatModel.is_active" [(ngModel)]="smsGatewatModel.transaction_username" placeholder="{{smsGatewatModel.is_active ?'Enter Username':''}}" >
+          </div>
+
+          <div class="w25">
+            <label for="transaction_password" class="right">Password <span class="danger">*</span></label>
+        
+          </div>
+          
+          <div class="w25">  
+            <input type="text" autocomplete="new-password" id="transaction_password" [disabled]="!smsGatewatModel.is_active" name="transaction_password" [(ngModel)]="smsGatewatModel.transaction_password"  placeholder="{{smsGatewatModel.is_active ? 'Enter Password' :''}}" >
+          </div>
+
+        </div>
+
+        <div class="flex11">
+          <div>
+            <label for="smsId">SMS Sender ID<span class="danger">*</span></label>
+          </div>
+         
+            <div class="w25" style="width: 25%;">
+              <input type="text" id="smsId" name="sender_id" maxlength="6" [(ngModel)]=" smsGatewatModel.sender_id"  placeholder="{{smsGatewatModel.is_active ? 'Enter Sender ID':'PRCTUR'}}">
+            </div>
+          </div>
+          <div class="flex11">
+              <div >
+                <label for="brandName">Brand Name<span class="danger">*</span></label>
+              </div>
+              <div>
+                <input type="text" id="brandName" name="brand_name" [(ngModel)]=" smsGatewatModel.brand_name" placeholder="{{smsGatewatModel.is_active ? 'Enter Brand Name' : 'PROCTUR '}}">
+              </div>
+            </div>
+  
+              <div class="flex111">
+                <div></div>
+              <div >
+                <label class="checkbox" > 
+  
+                  <span class="checkbox__input">
+                    
+  
+                    <input type="checkbox"  name="is_active" [(ngModel)]="smsGatewatModel.is_active" >
+                    <span class="checkbox__control">
+                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                    </span>
+                    
+                  </span>
+                </label>
+              
+              
+                </div>
+                <div><label for="ative" style="margin-left:-10px;">Is&nbsp;Active</label></div>
+              </div>
+            </form>
+            <div class="line"></div>
+              <div>
+                <div class="col-25">
+                  <label for="smsId" class="position">Important note</label>
+                </div>
+                <div class="col-75">
+                 <p class="para"> If is active checkbox <mark class="mrk">Disable</mark> then SMS will be deliver from PROCTUR sender id and with same brand name.</p>&nbsp;
+                  <p class="para">If is active checkbox <mark class="mrk">Enable</mark> then take all the details from Proctur side or raise a ticket for username and password.</p>
+  
+                </div>
+              </div> 
+  
+              <div >              
+                <div class="space">
+                  <p for="dlt" class="space1"><mark class="mrk1">DLT Process Steps:</mark></p> 
+                 <p class="para">As per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be registered with DTL platform. We have been observing that some of our clients are not able to send SMS. To facilitate extended service to Proctur’s clients, We have come up with option 1 as an extended process.</p>&nbsp;
+                  <p class="para"><b>Option 1</b> -For immediate sending SMS, clients can use Sender Id as “PRCTUR”, but in this case brand name will be Proctur, for each SMS.</p>
+                  <p class="para">• The option 1 is valid for a limited period only till your SMS Content Templates separately approved from DLT.
+                    <p class="para"> • This is New process introduced by TRAI. We are also making efforts to smoothen the process from Proctur end .</p>&nbsp;
+                      <p class="para"><b>Option 2- </b>Institute who are looking for SMS delivery with their own brand name. Please download the document. <a class="link" href="https://bit.ly/2RjEcUs">https://bit.ly/2RjEcUs</a> and follow the process.</p>
+
+  
+                </div>
+  
+              </div>
+              
+  
+             
+
+              </div>
+  <!-- </div> -->
+</div>
+
+<br><br>
+<div class="white1">
+  <div class="display">
+    <div></div>
+    <div >
+     
+    
+      <button class="blue_button" (click)="createSMSgateway()"*ngIf="!iscreated &&(smsGatewatModel.is_active)" >Save Setting</button>
+      <button class="blue_button" (click)="updateSMSgateway()" *ngIf="iscreated" >Update Setting</button>
+  
+  
+     
+    </div>  
+    
+  </div>
+  
+</div>

@@ -14,6 +14,7 @@ import { LoginService } from '../../../../services/login-services/login.service'
 import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { ClosingReasonService } from '../../services/closing-reason.service';
 import { CommonApiCallService } from '../../../../services/common-api-call.service';
+import CommonUtils from '../../../../utils/commonUtils'
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -1006,6 +1007,23 @@ export class EnquiryEditComponent implements OnInit {
       }
     }
 
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.email)) {
+      this.showErrorMessage('error', '', "Please enter valid email id");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.email2)) {
+      this.showErrorMessage('error', '', "Please enter valid alternate email ID");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.parent_email)) {
+      this.showErrorMessage('error', '', "Please enter valid parent email ID");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.guardian_email)) {
+      this.showErrorMessage('error', '', "Please enter valid guardian email ID");
+      return;
+    }
+
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
@@ -1018,6 +1036,10 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.dob = this.fetchDate(this.editEnqData.dob);
         this.editEnqData.enquiry_date = this.fetchDate(this.editEnqData.enquiry_date);
         this.editEnqData.followUpDate = this.fetchDate(this.editEnqData.followUpDate);
+        this.editEnqData.email2 = this.editEnqData.email2.trim();
+        this.editEnqData.email = this.editEnqData.email.trim();
+        this.editEnqData.parent_email = this.editEnqData.parent_email.trim();
+        this.editEnqData.guardian_email = (this.editEnqData.guardian_email) ? this.editEnqData.guardian_email.trim() : '';
 
         if (this.editEnqData.courseIdArray == '-1') {
           this.editEnqData.courseIdArray = null;

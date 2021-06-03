@@ -171,11 +171,11 @@ export class AssetPurchaseComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "7%",
+        width: "10%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "7%",
         textAlign: "left"
       },
       {
@@ -451,7 +451,7 @@ export class AssetPurchaseComponent implements OnInit {
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Fields Required");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
 
     }
   }
@@ -494,7 +494,7 @@ export class AssetPurchaseComponent implements OnInit {
         this.purchaseDataforDownload.map(
           (ele: any) => {
             let json = [
-              ele.id,
+              // ele.id,
               ele.asset_name,
               ele.quantity,
               ele.supplier_name,
@@ -509,7 +509,7 @@ export class AssetPurchaseComponent implements OnInit {
           })
     
         let rows = [];
-        rows = [['#','Asset Name', ' Quantity', ' Company Name', 'Unit', ' Purchase Price', 'Purchase Date ', 'Service Date', 'Expiry Date', 'Purchase By']]
+        rows = [['Asset Name', ' Quantity', ' Company Name', 'Unit', ' Purchase Price', 'Purchase Date ', 'Service Date', 'Expiry Date', 'Purchase By']]
         let columns = arr;
         this._pdfService.exportToPdf(rows, columns, 'Asset_Purchase_List');
         this.auth.hideLoader();

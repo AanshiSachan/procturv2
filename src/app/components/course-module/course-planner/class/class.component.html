@@ -3,10 +3,10 @@
 
     <div>
       <h1 class="pull-left">
-        <a  routerLink="/view/course"*ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+        <a *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
           Classes
         </a>
-        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
+        <a *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
           Batch
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
@@ -65,9 +65,9 @@
               [(ngModel)]="editClass.homework">
           </div>
           <div class="edit-input-container field-wrapper" *ngIf="!jsonFlag.isProfessional">
-            <label for="">Faculty<span class="danger">*</span></label>
+            <label for="">Teacher<span class="danger">*</span></label>
             <select class="dropdown form-ctrl" name="" [(ngModel)]="editClass.faculty">
-              <option value="-1">Select Faculty</option>
+              <option value="-1">Select Teacher</option>
               <option [value]="faculty.teacher_id" *ngFor="let faculty of facultyList">{{faculty.teacher_name}}</option>
             </select>
           </div>
@@ -143,14 +143,14 @@
   <!-- Reschedule pop -->
   <!-- Modal -->
   <div class="modal fade" id="rescheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true" *ngIf="isReschedulePop">
+    aria-hidden="true" *ngIf="isReschedulePop" style="margin-top: 5%;">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h5 class="modal-title" id="exampleModalLongTitle">{{classMarkedForAction.batch_name}}</h5>
+          <h5 class="modal-title" style="font-weight: 500;font-size: 14px;" id="exampleModalLongTitle">{{classMarkedForAction.batch_name}}</h5>
         </div>
         <div class="modal-body">
           <div class="row dueDate" style="margin-left: -15px;">
@@ -526,12 +526,12 @@
 
               <div class="faculty-container" *ngIf="userType!=3">
                 <div class="faculty-title">
-                  <span>Faculty</span>
+                  <span>Teacher</span>
                 </div>
                 <div class="faculty-dropdown-container">
                   <select class="faculty-select-box" name="" [(ngModel)]="inputElements.faculty"
                     (ngModelChange)="updateFacultyInFilter()">
-                    <option value="-1">Select Faculty</option>
+                    <option value="-1">Select Teacher</option>
                     <option [value]="faculty.teacher_id" *ngFor="let faculty of facultyList">{{faculty.teacher_name}}
                     </option>
                   </select>
