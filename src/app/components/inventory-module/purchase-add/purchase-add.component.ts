@@ -430,14 +430,33 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
     }
     filesize;
     filetype;
-    readFile(fileEvent: any) {
+    readFile(fileEvent: any,id) {
       const file = fileEvent.target.files[0];
      this.filesize= file.size;
      const fileSizeInKB = Math.round(this.filesize / 1024);
-     if(fileSizeInKB > 1024){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "File size is to big");
-    
+     if(fileSizeInKB > 5242880){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
      }
     this.filetype = file.type;
+   var image =(<HTMLInputElement>document.getElementById(id)).value;
+   if(image!='')
+    {
+          var checkimg = image.toLowerCase();
+         if (!checkimg.match(/(\.jpg|\.png|\.JPG|\.PNG|\.jpeg|\.JPEG|\.PDF|\.pdf|\.svg |\.SVG)$/)){ // validation of file extension using regular expression before file upload
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not allowed");
+      return false;
+          }
+           var img = (<HTMLInputElement>document.getElementById(id)); 
+           //alert(img.files[0].size);
+          //  if(img.files[0].size > 5,242,880)  // validation according to file size
+          //  {
+          //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
+    
+          //  //document.getElementById("errorName5").innerHTML="Image size too short";
+          //  return false;
+          //   }
+            return true;
+     }
+
    }
 }

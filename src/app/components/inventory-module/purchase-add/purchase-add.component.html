@@ -45,8 +45,8 @@
         </span></p> -->
       <div class="pt102">
         <label class="p_title">Bill copy</label>
-       <input type="File" class="input wid100" id="billImageFile" title="PDF/Jpeg/png/svg.." (change)="readFile($event)" name="billImageFile" placeholder="Date*" 
-        [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
+       <input type="File" class="input wid100" id="billImageFile" title="PDF/Jpeg/png/svg.." (change)="readFile($event,'bill_image_url')" name="billImageFile" placeholder="Date*" 
+        [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null" id="bill_image_url"
           [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
       <div class="pt102"  *ngIf="isedit && model.bill_image_url !='' && model.bill_image_url!=null">
