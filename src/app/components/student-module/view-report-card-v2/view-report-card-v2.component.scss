@@ -378,7 +378,6 @@
   }
  
   .attendance_table .table_heading>div, .attendance_table .table_body>div{
-<<<<<<< HEAD
     width: calc(60% / 4);
  }
  .attendance_table .table_heading>div:first-child, .attendance_table .table_body>div:first-child{
@@ -386,19 +385,6 @@
     text-align: left;
     padding-left: 10px;
  }
-=======
-    width: calc((100% - 35%) / 8);
- }
- .attendance_table .table_heading>div:first-child, .attendance_table .table_body>div:first-child{
-    width:30%;
-    text-align: left;
-    padding-left: 10px;
- }
- .attendance_table .table_heading>div:last-child, .attendance_table .table_body>div:last-child{
-  width:5%;
-  cursor: pointer;
- }
->>>>>>> vishakha_student_management
   .attendance_table{
      height: 63vh;
   }
