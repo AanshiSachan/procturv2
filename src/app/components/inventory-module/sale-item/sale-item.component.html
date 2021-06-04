@@ -102,10 +102,12 @@
             </section>
        </div>
       </div>
+      <div style="margin-top: 20px;">
       <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
       [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
       [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
   </pagination> 
+</div>
      <!-- <div class="white bottom_button bottom_pagignation">
      
         <div class=" flex w98">

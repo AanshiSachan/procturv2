@@ -86,10 +86,12 @@
                 </section>
             </div>
         </div>
+        <div style="margin-top: 20px;">
               <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"(goPrev)="fetchPrevious()"
     [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
     [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
 </pagination> 
+</div>
                
           <!-- use image only when page is empty,table body class element will not be present -->
 </div> 
