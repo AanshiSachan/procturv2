@@ -1102,47 +1102,47 @@ a:hover {
 
 
 
-.download_app, .download_app i{
-  font-weight: 600;
-  font-size: 10px;
+.download_app{
+  font-weight: 400;
+  font-size: 12px;
   line-height: 14px;
   /* identical to box height */
   
   letter-spacing: 0.01em;
-  
+  background-color: #fff;
+  padding: 0px 8px;
+  height: 30px;
+  font-family: 'Poppins', sans-serif;
+   border: 1px solid #323C47;
+   box-sizing: border-box;
+   border-radius: 5px;
+   margin-left: 15%;
   color: #323C47;
-  
-  
+
 }
-.download_app i{
-  float: initial;
-  padding-top: 0px;
-  text-indent: 0px;
- 
+.download_app img{
+position: relative;
+top: -1px;
+height: 5px;
+width: auto; 
+padding-left: 5px;
+padding-right: 10px;
 }
-.download_app{
- background-color: #fff;
- padding: 7px 16px;
- height: 30px;
-  border: 1px solid #323C47;
-  box-sizing: border-box;
-  border-radius: 5px;
-  margin-left: 30%;
-}
+
 @media (min-width: 768px)
 {#appModal .modal-dialog {
   border-radius: 10px;
-  width: 340px;
+  width: 320px;
 }
 }
 #appModal .modal-dialog {
   border-radius: 10px;
-  width: 340px;
-  height: 301px;
+  width: 320px;
+  // height: 301px;
 }
  .modal.in .modal-dialog {
 
-  transform: translate(115%,0);
+  transform: translate(155%,0);
 }
 #appModal .modal-body {
   white-space: pre-wrap;
@@ -1169,11 +1169,16 @@ a:hover {
 }
 .display1{
   display: flex;
+  justify-content: space-between;
 }
-#appModal .modal-body img{
-  width: 121px;
-  height: 35px;
+.icon_app img{
+height: 40px;
+width: auto;
 }
+// #appModal .modal-body img{
+//   width: 121px;
+//   height: 35px;
+// }
 #appModal .modal-body .input{
   font-weight: normal;
 font-size: 10px;
@@ -1189,7 +1194,7 @@ margin-right: 10px;
 height: 30px;
 }
 #appModal .modal-body input{
-  width: 115px;
+  width: 63%;
 }
 .blue_button {
   background-color: #109CF1;
@@ -1225,7 +1230,7 @@ color: #000000;
 }
 #appModal .modal-body p.two a{
   font-weight: bold;
-font-size: 10px;
+font-size: 12px;
 line-height: 14px;
 /* identical to box height */
 
