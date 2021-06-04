@@ -624,6 +624,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('single_device', institute_data.single_device_login);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
       sessionStorage.setItem('enable_client_website', institute_data.enable_client_website);
+      sessionStorage.setItem('enable_chat_with_parent', institute_data.enable_chat_with_parent);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
       sessionStorage.setItem('mark_attendance_subject_wise', res.data.mark_attendance_subject_wise);
       sessionStorage.setItem('marks_dist_setting', institute_data.marks_dist_setting);
