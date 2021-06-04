@@ -548,13 +548,13 @@ if(paid>total){
     filesize;
     filetype;
     readFile(fileEvent: any,id) {
-      const file = fileEvent.target.files[0];
-     this.filesize= file.size;
-     const fileSizeInKB = Math.round(this.filesize / 1024);
-     if(fileSizeInKB > 5242880){
+     // const file = fileEvent.target.files[0];
+    // this.filesize= file.size;
+    // const fileSizeInKB = Math.round(this.filesize / 1024);
+     if(img.files[0].size > 5,242,880){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
      }
-    this.filetype = file.type;
+   // this.filetype = file.type;
    var image =(<HTMLInputElement>document.getElementById(id)).value;
    if(image!='')
     {
