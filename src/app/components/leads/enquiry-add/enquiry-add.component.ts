@@ -1176,7 +1176,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             discount_offered: this.newEnqData.discount_offered,
             dob: this.newEnqData.dob,
             email: this.newEnqData.email.trim(),
-            email2: this.newEnqData.email2.trim(),
+            email2: this.newEnqData.email2,
             enqCustomLi: this.newEnqData.enqCustomLi,
             enquiry: this.newEnqData.enquiry,
             enquiry_date: this.newEnqData.enquiry_date,
@@ -1190,7 +1190,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             link: this.newEnqData.link,
             name: this.newEnqData.name,
             occupation_id: this.newEnqData.occupation_id,
-            parent_email: this.newEnqData.parent_email.trim(),
+            parent_email: this.newEnqData.parent_email,
             parent_name: this.newEnqData.parent_name,
             parent_phone: this.newEnqData.parent_phone,
             phone: this.newEnqData.phone,
@@ -1223,10 +1223,13 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             inst_acad_year_id: this.newEnqData.inst_acad_year_id,
             guardian_name: this.newEnqData.guardian_name,
             guardian_phone: this.newEnqData.guardian_phone,
-            guardian_email: this.newEnqData.guardian_email.trim(),
+            guardian_email: this.newEnqData.guardian_email,
             address: this.newEnqData.address
 
           }
+          this.newEnqData.parent_email = (this.newEnqData.parent_email) ? this.newEnqData.parent_email.trim() : '';
+          this.newEnqData.guardian_email = (this.newEnqData.guardian_email) ? this.newEnqData.guardian_email.trim() : '';
+          this.newEnqData.email2 = (this.newEnqData.email2) ? this.newEnqData.email2.trim() : '';
           if (this.convertEnquiry) {
             obj.user_id = this.newEnqData.user_id
           }
