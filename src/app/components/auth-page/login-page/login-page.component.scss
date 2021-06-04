@@ -82,7 +82,7 @@
 .login-box {
     position: absolute;
     margin: auto;
-    top: 8%;
+    top: 2%;
     width: 45%;    
     // width: 320px; //height: 85%;
     border-radius: 4px;
@@ -783,4 +783,10 @@ table tr:nth-child(odd):hover{
     flex-direction: column;
     margin-top: 80px;
     width: 245px;  
+}
+.contctDiv {
+    width: 80%;
+    margin: auto !important;
+    margin-top: 20px !important;
+    font-weight: 700; 
 }

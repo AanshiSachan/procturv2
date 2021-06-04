@@ -95,6 +95,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     start_index: '0',
     batch_size: '6'
   };
+  contact_no:any = '';
 
   jsonFlags = {
     isAdminforLeave:false,
@@ -174,6 +175,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   schoolModel: boolean = false;
   is_zoom_integration_enable: boolean = false;
   custom_text_for_power_by_proctur:any = '';
+  showMaximizedPopup:boolean = true;
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -1710,5 +1712,37 @@ mouseleave() {
         return false;
       }
     }
+  }
+  // =============download-app-api======================
+  downloadApp(){
+    if(this.validInput()){
+    this.auth.showLoader()
+    let obj={
+      contact_no:this.contact_no
+    }
+    let url ='/api/v1/career/apply/msgSend'
+    this.httpService.postData(url,obj).subscribe(
+      (res:any)=>{
+    this.auth.hideLoader()
+    this.commonService.showErrorMessage('success', '', "Link Send successfully");
+    $('#appModal').modal('hide');   
+    },
+      err => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', err.error.message);
+      }
+    )
+    }
+
+}
+validInput(){
+  if(this.contact_no.length != 10){
+   
+      this.commonService.showErrorMessage('error', '', "Please Enter 10 digit Number");
+      $('#appModal').modal('hide');   
+
+      return false;
+    }
+    return true
   }
 }
