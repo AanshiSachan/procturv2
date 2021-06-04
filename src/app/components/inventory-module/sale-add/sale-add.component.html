@@ -159,7 +159,7 @@
                   >
               </div>
               <div >
-              <span *ngIf="data.sale_price !=0">{{data.subtotal}}</span>  
+              <span *ngIf="data.sale_price !=0">{{(data.subtotal).toFixed(2)}}</span>  
              <sapn *ngIf="data.sale_price==0">0</sapn>
             </div>
                 <div>

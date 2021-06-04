@@ -214,7 +214,7 @@ export class SaleAddComponent implements OnInit {
       }
 
     }
-    this.total = subTotal;
+    this.total = subTotal.toFixed(2);
     this.totalUnits = units
   }
   status: boolean = true;

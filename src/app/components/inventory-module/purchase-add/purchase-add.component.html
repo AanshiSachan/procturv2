@@ -139,7 +139,7 @@
                >
           </div>
           <div>
-            {{data.available_units * itemData[i].unit_cost }}
+            {{(data.available_units * itemData[i].unit_cost).toFixed(2) }}
           </div>
           <div>
             <!-- <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit"

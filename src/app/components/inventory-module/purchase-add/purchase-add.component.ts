@@ -21,7 +21,7 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
   displayBatchSize: number = 25;
   itemArray = [];
   itemData = [];
-  total: number = 0;
+  total: any;
   isedit = false;
   editId;
   bill_image_url: any;
@@ -175,7 +175,8 @@ export class PurchaseAddComponent implements OnInit, DoCheck {
       subTotal += (data.available_units * data.unit_cost);
       units += Number(data.available_units);
     }
-    this.total = subTotal;
+    this.total = subTotal.toFixed(2);
+    //num.toFixed(2);
     this.totalUnits = units
   }
   //delete item row
