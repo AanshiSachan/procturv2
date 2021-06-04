@@ -73,7 +73,13 @@
       .val{
         padding-left: 30px;
       }
+      @page :footer {
+        display: none;
+    }
 
+    @page :header {
+        display: none;
+    }
 // .backbtn{
 //   display: none;
 // }
@@ -84,3 +90,12 @@
     .tablebody>div{
       line-height: 45px; 
     }
+  //   @media print {
+  //     @page :footer {
+  //         display: none;
+  //     }
+  
+  //     @page :header {
+  //         display: none;
+  //     }
+  // }
