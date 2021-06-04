@@ -2,7 +2,7 @@
 @import "../inventory-module.component.scss";
 @media print {
 
-
+  .header, .hide { visibility: hidden }
     .name2{
     
   color: #8B817E !important;
