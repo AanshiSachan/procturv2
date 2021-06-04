@@ -123,7 +123,8 @@
           <div>
            
            <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
-              onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+           onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+           event.charCode == 46 || event.charCode == 0 "
               (keyup)="purchaselistItem()"
                class="input wid80"
              >

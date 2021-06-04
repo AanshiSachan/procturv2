@@ -195,7 +195,8 @@
             <div class="pt10" [class.has-error]="paid_amount.invalid && paid_amount.touched">
               <label class="p_title"> Amount<span class="text-danger">*</span></label>
               <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
-                #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+                #paid_amount="ngModel"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 "
                 required
                 [(ngModel)]="paymentModel.paid_amount">
             </div>

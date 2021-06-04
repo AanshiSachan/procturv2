@@ -135,7 +135,8 @@
               </div>
               <div>
               <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.sale_price"
-                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+              event.charCode == 46 || event.charCode == 0 "
                 (keyup)="purchaselistItem()"
                  class="input wid80"
                >
@@ -198,7 +199,8 @@
              <div> <div class="pt102">
               <label class="p_title"> Amount<span class="text-danger">*</span></label>
               <input type="text" class="input wid100 a" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
-              #paid_amount="ngModel" (keyup)="amountValid(total,model.paid_amount)" onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+              #paid_amount="ngModel" (keyup)="amountValid(total,model.paid_amount)" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+              event.charCode == 46 || event.charCode == 0 "
               required
               [(ngModel)]="model.paid_amount">
           </div></div>
