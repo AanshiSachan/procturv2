@@ -246,6 +246,7 @@ if(paid>total){
   }
   saveSaleDetails() {
  if (this.myForm.valid) {
+  if(this.itemData.length) {
       this.model.sale_item_list = [];
       //sale_type":"paid", "item_id":43, "quantity":1, "unit_price":100, "tax":0.0
       for (let i = 0; i < this.itemData.length; i++) {
@@ -341,6 +342,9 @@ if(paid>total){
         }
         newxhr.send(formData);
       }
+    } else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select category and Item for purchase");
+    }
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all  mandatory field");
