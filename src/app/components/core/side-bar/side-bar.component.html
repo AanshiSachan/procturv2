@@ -356,8 +356,8 @@
                 <!-- <select class="input">
                     <option>IND +91</option>
                 </select> -->
-              <input  placeholder="Enter Your Number" class="input">
-              <button class="blue_button">Send App Link</button>
+              <input  placeholder="Enter Your Number" [(ngModel)]="contact_no" class="input">
+              <button class="blue_button" (click)="downloadApp()">Send App Link</button>
                </div>
                <div class="line">
 
