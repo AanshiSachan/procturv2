@@ -65,9 +65,15 @@ export class SaleAddComponent implements OnInit {
     payment_status: '',
     description: '',
     institute_id: sessionStorage.getItem('institution_id'),
-    sale_item_list: []
-
+    sale_item_list: [],
+    purchased_by_user_id: 0,
+    paid_amount: '',
+    payment_date: '',
+    reference_no: '',
+    payment_method: '',
+    paymentBill  :''
   }
+  
   getAllRoles() {
     //this.auth.showLoader();
     this.httpService.getData('/api/v1/roleApi/allRoles/' + this.institution_id).subscribe((res: any) => {
@@ -144,7 +150,7 @@ export class SaleAddComponent implements OnInit {
   getItemAgainstCat(category_id) {
     //this.isChange = false;
     this.auth.showLoader();
-    this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + category_id).subscribe((res: any) => {
+    this.httpService.getData('/api/v1/inventory/item/getItemsByCategory/' + this.model.institute_id + '?categoryIdList=' + category_id + '&source=sale').subscribe((res: any) => {
       this.itemAllData = res.result;
 
       this.auth.hideLoader();
@@ -208,7 +214,7 @@ export class SaleAddComponent implements OnInit {
       }
 
     }
-    this.total = subTotal;
+    this.total = subTotal.toFixed(2);
     this.totalUnits = units
   }
   status: boolean = true;
@@ -232,8 +238,14 @@ if(this.itemData.length ==0){
   this.isChange =!this.isChange;
 }
   }
+  amountValid(total,paid){
+if(paid>total){
+  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Amount is greater than total amount');
+     
+}
+  }
   saveSaleDetails() {
-    if (this.myForm.valid) {
+ if (this.myForm.valid) {
       this.model.sale_item_list = [];
       //sale_type":"paid", "item_id":43, "quantity":1, "unit_price":100, "tax":0.0
       for (let i = 0; i < this.itemData.length; i++) {
@@ -244,12 +256,21 @@ if(this.itemData.length ==0){
           unit_price: this.itemData[i].sale_price,
           tax: this.itemData[i].tax_percent
         }
+        
         this.model.sale_item_list.push(obj)
       }
       let file = (<HTMLFormElement>document.getElementById('billImageFile')).files[0];
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
       let saleDto: any = {};
+      //data when paid
+      let payment_dto :any ={};
+      payment_dto.paid_amount =this.model.paid_amount;
+      payment_dto.payment_date =this.model.payment_date;
+      payment_dto.reference_no =this.model.reference_no;
+      payment_dto.payment_method =this.model.payment_method;
+      payment_dto.institute_id =sessionStorage.getItem('institute_id');
+
       if (this.isedit) {
         saleDto.sale_id = this.model.sale_id;
       }
@@ -262,7 +283,16 @@ if(this.itemData.length ==0){
       saleDto.sale_item_list = this.model.sale_item_list;
       saleDto.payment_status = this.model.payment_status;
       // saleDto.sale_type =this.model.sale_type;
-      formData.append('saleDto', JSON.stringify(saleDto));
+      if(this.model.payment_status =="Paid"){
+        saleDto.payment_dto = payment_dto;
+         formData.append('saleDto', JSON.stringify(saleDto)); 
+        //formData.append('payment_dto', JSON.stringify(payment_dto)); 
+         formData.append('paymentBill', file);
+      }
+      else{
+        formData.append('saleDto', JSON.stringify(saleDto));
+      }
+      
       if (file) {
         formData.append('billImageFile', file);
       }
@@ -284,8 +314,7 @@ if(this.itemData.length ==0){
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
 
       this.isedit ? newxhr.open("PUT", urlPostXlsDocument, true) : newxhr.open("POST", urlPostXlsDocument, true);
-
-      newxhr.setRequestHeader("Authorization", Authorization);
+    newxhr.setRequestHeader("Authorization", Authorization);
       newxhr.setRequestHeader("x-proc-authorization", Authorization);
       newxhr.setRequestHeader("x-prod-inst-id", sessionStorage.getItem('institute_id'));
       newxhr.setRequestHeader("x-prod-user-id", sessionStorage.getItem('userid'));
@@ -403,6 +432,7 @@ if(this.itemData.length ==0){
   }
   updateSaleData() {
     if (this.myForm.valid) {
+      if(this.itemData.length) {
       this.model.sale_item_list = [];
       //sale_type":"paid", "item_id":43, "quantity":1, "unit_price":100, "tax":0.0
       for (let i = 0; i < this.itemData.length; i++) {
@@ -420,6 +450,14 @@ if(this.itemData.length ==0){
       this.model.institute_id = sessionStorage.getItem('institute_id');
       const formData = new FormData();
       let saleDto: any = {};
+      //data when paid
+      let payment_dto :any ={};
+      payment_dto.paid_amount =this.model.paid_amount;
+      payment_dto.payment_date =this.model.payment_date;
+      payment_dto.reference_no =this.model.reference_no;
+      payment_dto.payment_method =this.model.payment_method;
+      payment_dto.institute_id =sessionStorage.getItem('institute_id');
+      payment_dto.paymentBill =this.model.paymentBill;
       // if (this.isedit) {
       //   saleDto.sale_id = this.model.sale_id;
       // }
@@ -434,7 +472,16 @@ if(this.itemData.length ==0){
       saleDto.payment_status = this.model.payment_status;
       saleDto.bill_image_url =this.model.bill_image_url;
       // saleDto.sale_type =this.model.sale_type;
-      formData.append('saleDto', JSON.stringify(saleDto));
+      if(this.model.payment_status =="Paid"){
+        saleDto.payment_dto = payment_dto;
+         formData.append('saleDto', JSON.stringify(saleDto)); 
+        //formData.append('payment_dto', JSON.stringify(payment_dto)); 
+         formData.append('paymentBill', file);
+      }
+      else{
+        formData.append('saleDto', JSON.stringify(saleDto));
+      }
+     // formData.append('saleDto', JSON.stringify(saleDto));
       if (file) {
         formData.append('billImageFile', file);
       }
@@ -484,6 +531,9 @@ if(this.itemData.length ==0){
         }
         newxhr.send(formData);
       }
+      } else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select category and Item for purchase");
+    }
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Fill all  mandatory field");
@@ -501,14 +551,34 @@ if(this.itemData.length ==0){
     }
     filesize;
     filetype;
-    readFile(fileEvent: any) {
+    readFile(fileEvent: any,id) {
       const file = fileEvent.target.files[0];
      this.filesize= file.size;
      const fileSizeInKB = Math.round(this.filesize / 1024);
-     if(fileSizeInKB > 1024){
-      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "File size is to big");
-    
+     if(fileSizeInKB > 5242880){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
      }
     this.filetype = file.type;
+   var image =(<HTMLInputElement>document.getElementById(id)).value;
+   if(image!='')
+    {
+          var checkimg = image.toLowerCase();
+         if (!checkimg.match(/(\.jpg|\.png|\.JPG|\.PNG|\.jpeg|\.JPEG|\.PDF|\.pdf|\.svg |\.SVG)$/)){ // validation of file extension using regular expression before file upload
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File format is not allowed");
+      return false;
+          }
+           var img = (<HTMLInputElement>document.getElementById(id)); 
+           //alert(img.files[0].size);
+          //  if(img.files[0].size > 5,242,880)  // validation according to file size
+          //  {
+          //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
+    
+          //  //document.getElementById("errorName5").innerHTML="Image size too short";
+          //  return false;
+          //   }
+            return true;
+     }
+
    }
+   
 }

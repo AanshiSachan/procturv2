@@ -47,13 +47,14 @@
                    [(ngModel)]="model.payment_status" required>
                     <option value="">Select Payment Status</option>
                     <!-- <option value="Due">Due</option> -->
+                    <option value="Due"> Due</option>
                     <option value="Pending"> Pending</option>
                     <option value="Paid">Paid</option>
                   </select>
               </div>
               <div class="pt102">
                 <label class="p_title"> Bill Copy</label>
-                <input type="File" class="input wid100" title="PDF/Jpeg/png/svg.." (change)="readFile($event)" name="billImageFile" placeholder="Date*" id="billImageFile"
+                <input type="File" class="input wid100" (change)="readFile($event,'billImageFile')" title="Allowed file format PDF/Jpeg/png/svg/jpg and allowed  file size upto 5Mb"  name="billImageFile" placeholder="Date*" id="billImageFile"
                style="margin-top:8px;"
                [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
                 [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/">
@@ -134,7 +135,8 @@
               </div>
               <div>
               <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.sale_price"
-                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+              event.charCode == 46 || event.charCode == 0 "
                 (keyup)="purchaselistItem()"
                  class="input wid80"
                >
@@ -157,7 +159,7 @@
                   >
               </div>
               <div >
-              <span *ngIf="data.sale_price !=0">{{data.subtotal}}</span>  
+              <span *ngIf="data.sale_price !=0">{{(data.subtotal).toFixed(2)}}</span>  
              <sapn *ngIf="data.sale_price==0">0</sapn>
             </div>
                 <div>
@@ -187,9 +189,72 @@
               </div>
             </div>
            </div>
+           <div *ngIf="model.payment_status =='Paid' ">
+            <div style="display:flex;justify-content: space-around;margin-top:10px;" class="hi">
+             <div> <div class="pt102">
+              <label class="p_title"> Refrence No.<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100 a" name="reference_no" [(ngModel)]="model.reference_no" 
+              placeholder="Enter Reference Number">
+          </div></div>
+             <div> <div class="pt102">
+              <label class="p_title"> Amount<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100 a" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
+              #paid_amount="ngModel" (keyup)="amountValid(total,model.paid_amount)" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+              event.charCode == 46 || event.charCode == 0 "
+              required
+              [(ngModel)]="model.paid_amount">
+          </div></div>
+             <div> <div class="pt102">
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+              <select class="select wid100 a" name="payment_method" id="payment_method"
+                [(ngModel)]="model.payment_method"   #payment_method="ngModel"
+                required>
+                  <option value="">Select Payment Method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="Card">Card</option>
+                  <option value="Others">Others</option>
+                </select>
+            </div></div>
+            
+           </div> 
+          <div style="display:flex;justify-content: space-around;" class="hi">
+           
+            
+            <div> <div class="pt10"  [class.has-error]="payment_date.invalid && payment_date.touched">
+              <label class="p_title"> Date<span class="text-danger">*</span></label>
+               <input type="Date" class="input wid100" [(ngModel)]="model.payment_date"
+                name="payment_date" placeholder="Date*"
+                (change)="validateFutureDate($event)"
+                #payment_date="ngModel" required>
+            </div></div>
+            <div> <div class="pt102">
+              <label class="p_title"> Upload Receipt</label>
+              <input type="File" class="input wid100" placeholder="Date*"  (change)="readFile($event,'paymentBill')" title="Allowed file format PDF/Jpeg/png/svg/jpg and allowed  file size upto 5Mb"
+                type="File" class="input wid100" placeholder="Date*" name="paymentBill"
+            [disabled]="paymentBill  !=''&& isedit" id="paymentBill" 
+            [(ngModel)]="paymentBill  " accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+            </div></div>
+            <div> <div class="pt102"  style="display:none;">
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+              <select class="select wid100" name="payment_method" id="payment_method"
+                [(ngModel)]="model.payment_method"   #payment_method="ngModel"
+                required>
+                  <option value="">Select Payment Method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="Card">Card</option>
+                  <option value="Others">Others</option>
+                </select>
+            </div></div>
+          </div> 
+          </div>
        </div>
+     
       </div>
+     
       </form>
+      
        <div class="white bottom_button bottom_pagignation">
         <div class="display w98">
           <div> <button class="blue_button cancel" routerLink="/view/inventory-management/sale-item">Back </button>

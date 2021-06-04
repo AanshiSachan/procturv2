@@ -2,7 +2,7 @@
 @import "../inventory-module.component.scss";
 @media print {
 
-
+  .header, .hide { visibility: hidden }
     .name2{
     
   color: #8B817E !important;
@@ -73,7 +73,16 @@
       .val{
         padding-left: 30px;
       }
+      @page :footer {
+        display: none;
+    }
 
+    @page :header {
+        display: none;
+    }
+// .backbtn{
+//   display: none;
+// }
     }
     .tabletotal>div{
       line-height: 45px;
@@ -81,3 +90,12 @@
     .tablebody>div{
       line-height: 45px; 
     }
+  //   @media print {
+  //     @page :footer {
+  //         display: none;
+  //     }
+  
+  //     @page :header {
+  //         display: none;
+  //     }
+  // }
