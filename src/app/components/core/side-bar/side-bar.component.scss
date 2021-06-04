@@ -1132,12 +1132,12 @@ padding-right: 10px;
 @media (min-width: 768px)
 {#appModal .modal-dialog {
   border-radius: 10px;
-  width: 320px;
+  width: 325px;
 }
 }
 #appModal .modal-dialog {
   border-radius: 10px;
-  width: 320px;
+  width: 325px;
   // height: 301px;
 }
  .modal.in .modal-dialog {
@@ -1189,7 +1189,7 @@ letter-spacing: 0.01em;
 border: 1px solid #CCD4DD;
 box-sizing: border-box;
 border-radius: 5px;
-color: #323C47;
+// color: #323C47;
 margin-right: 10px;
 height: 30px;
 }
@@ -1241,7 +1241,7 @@ color: #109CF1;
 }
 #appModal .modal-body .space1{
   font-weight: normal;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 14px;
   /* identical to box height */
   
@@ -1339,7 +1339,7 @@ background: #FFFFFF;
 }
 .query_mini{
   width: 165px;
-  height: 25px;
+  height: 22px;
   background: linear-gradient(180deg, #0079FF 0%, rgba(53, 29, 203, 0.88) 100%);
   position: fixed;
   bottom: 0px;

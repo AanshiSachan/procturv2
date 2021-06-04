@@ -79,10 +79,9 @@
     <div style="margin-right: 4%;">
 
         <!-- DataSetup-->
-        <a style="color: white;">
-            <button class="btn helpIcon">
-                <img src="./assets/images/sidebar/Announcement.svg" title="What's New ?" alt="">
-            </button></a>
+        <a mat-button style="margin-right: 0;margin-left: 9px;">
+                <img style="width: auto;" src="./assets/images/sidebar/Announcement.svg" title="What's New ?" alt="">
+        </a>
 
         <!-- Quick Add -->
         <a *ngIf="(!facultyAccount && checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_MANAGE_ENQUIRY)) || jsonFlags.isAdminforLeave || showManageRole" mat-button (click)="showSubSection('quick')"> <img src="./assets/images/sidebar/newQuickAdd.svg"
@@ -356,7 +355,7 @@
                 <!-- <select class="input">
                     <option>IND +91</option>
                 </select> -->
-              <input  placeholder="Enter Your Number" [(ngModel)]="contact_no" class="input">
+              <input  placeholder="Enter Your Number" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="contact_no" class="input">
               <button class="blue_button" (click)="downloadApp()">Send App Link</button>
                </div>
                <div class="line">
@@ -1490,7 +1489,7 @@
 
   <div class="query_popup" *ngIf="showMaximizedPopup">
     <div (click)="showMaximizedPopup = false">
-        <span class="white"></span>
+        <div class="white"></div>
     </div>
     <div class="img1">
         <img src="../../../../assets/query_popup/headset.svg">
@@ -1514,9 +1513,9 @@
     </div>
 </div>
 <div class="query_mini" *ngIf="!showMaximizedPopup">
-    <div>
+    <div style="cursor: pointer;" (click)="showMaximizedPopup = true">
         <span>Chat with Us</span>
         <img src="../../../../assets/query_popup/question.svg">
-        <span (click)="showMaximizedPopup = true" class="white"></span>
+        <span class="white"></span>
     </div>
 </div>
