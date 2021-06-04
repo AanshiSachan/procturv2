@@ -104,6 +104,9 @@ export class RegisteredStudentComponent implements OnInit {
   ngOnInit() {
     this.getProductList();
     this.getEcourseList();
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    if (sessionStorage.getItem('permissions') != '' && userType == '0' && username != 'admin') {
     for(let i=0;i<this.menuOptions.length;i++){
       if(!this.role_feature.STUDENT_ADD_UPLOAD && this.menuOptions[i].key == 'student') {
         this.menuOptions.splice(i,1);
@@ -112,6 +115,7 @@ export class RegisteredStudentComponent implements OnInit {
         this.menuOptions.splice(i,1);
       }
     }
+  }
   }
 
   getProductList() {

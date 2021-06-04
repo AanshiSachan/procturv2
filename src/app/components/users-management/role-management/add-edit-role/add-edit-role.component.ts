@@ -28,6 +28,7 @@ export class AddEditRoleComponent implements OnInit {
   role_feature = role.features;
   isShoweOnlineExam: boolean = false;
   existingRolesData: any = [];
+  schoolModel: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,6 +39,7 @@ export class AddEditRoleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.schoolModel = this.auth.schoolModel.getValue();
     this.instituteId = sessionStorage.getItem('institute_id');
     this.isShoweOnlineExam = sessionStorage.getItem('isShoweOnlineExam') == 'true';
     this.libraryRoleInstituteId = 101077;
@@ -95,8 +97,19 @@ export class AddEditRoleComponent implements OnInit {
         if(sessionStorage.getItem('enable_online_assignment_feature') != '1') {
           this.checkSuperAdminSettings(5116);
         }
-        if(sessionStorage.getItem('isShowExpense') != '1') {
+        if(sessionStorage.getItem('isShowExpense') != 'true') {
           this.checkSuperAdminSettings(5084);
+          this.checkSuperAdminSettingsSubRole(5034, 5117);
+        }
+        // if(sessionStorage.getItem('enable_chat_with_parent') != '1') {
+        //   this.checkSuperAdminSettingsSubRole(9999, 5066); 
+        // }
+        if(this.schoolModel) {
+          this.checkSuperAdminSettings(5027);
+          this.checkSuperAdminSettingsSubRole(5019, 5109);
+          this.checkSuperAdminSettingsSubRole(5020, 5047);
+          this.checkSuperAdminSettingsSubRole(5034, 5048);
+          this.checkSuperAdminSettingsSubRole(5034, 5049);
         }
         // Manage branch menu hide -- Nalini
         this.checkSuperAdminSettings(5052);
@@ -115,6 +128,18 @@ export class AddEditRoleComponent implements OnInit {
     for (let t = 0; t < this.procturRoles.length; t++) {
       if (this.procturRoles[t].category_id == category_id) {
         this.procturRoles.splice(t, 1);
+      }
+    }
+  }
+
+  checkSuperAdminSettingsSubRole(category_id, feature_id) {
+    for (let t = 0; t < this.procturRoles.length; t++) {
+      if (this.procturRoles[t].category_id == category_id) {
+        for(let feature = 0; feature < this.procturRoles[t].feature_list.length; feature++) {
+          if(this.procturRoles[t].feature_list[feature].feature_id == feature_id) {
+            this.procturRoles[t].feature_list.splice(feature, 1);
+          }
+        }
       }
     }
   }

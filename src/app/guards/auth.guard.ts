@@ -131,7 +131,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         else {
             if (this.role_feature.LEAD_MANAGE_ENQUIRY ||
                 this.role_feature.LEAD_MENU_ITEM ||
-                this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
+                this.role_feature.LEAD_ENQUIRY_FULL_ACCESS || this.role_feature.REPORTS_MENU) {
                 return true;
             }
             else {
@@ -160,7 +160,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
         else {
             if (this.role_feature.EXAMS_MENU ||
-                this.role_feature.CLASS_MENU) {
+                this.role_feature.CLASS_MENU || this.role_feature.REPORTS_MENU) {
 
                 return true;
             }
@@ -204,7 +204,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (this.role_feature.REPORT_COURSE_ATTENDANCE ||
+            if (this.role_feature.REPORT_COURSE_ATTENDANCE || this.role_feature.REPORTS_MENU ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('202') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('203') ||
                 JSON.parse(sessionStorage.getItem('permissions')).includes('722')) {
@@ -236,7 +236,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
         else {
             if (JSON.parse(sessionStorage.getItem('permissions')).includes('108') ||
-                this.role_feature.INCOME_EXPENSE_ADMIN) {
+                this.role_feature.INCOME_EXPENSE_ADMIN || this.role_feature.REPORT_INCOME_EXPENSE_REPORT) {
                 return true;
             }
             else {
@@ -300,7 +300,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             return true;
         }
         else {
-            if (this.role_feature.FEE_MENU) {
+            if (this.role_feature.FEE_MENU || this.role_feature.REPORTS_MENU) {
                 return true;
             }
             else {
