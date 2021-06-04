@@ -218,13 +218,18 @@
       </h1>
     </div>
   </section>
-
+  <div class="stat-item"  *ngIf="assignmentDetails">
+      <span class="stat-heading" style="margin-left: 16px;font-weight: 600;">Assignment Title : </span>
+      <span
+        title="{{assignmentDetails.title}}">{{ (assignmentDetails?.title.length > 70) ? (assignmentDetails.title | slice:0:70) + '...' : assignmentDetails.title }}</span>
+    </div>
   <section class="stats-container" *ngIf="assignmentDetails">
-    <div class="stat-item">
+
+    <!-- <div class="stat-item">
       <span class="stat-heading">Assignment Title : </span>
       <span
-        title="{{assignmentDetails.title}}">{{ (assignmentDetails?.title.length > 20) ? (assignmentDetails.title | slice:0:20) + '...' : assignmentDetails.title }}</span>
-    </div>
+        title="{{assignmentDetails.title}}">{{ (assignmentDetails?.title.length > 70) ? (assignmentDetails.title | slice:0:70) + '...' : assignmentDetails.title }}</span>
+    </div> -->
     <div class="stat-item">
       <span class="stat-heading">Start Date : </span>
       <span>{{assignmentDetails?.start_date}} {{assignmentDetails.start_time}}</span>

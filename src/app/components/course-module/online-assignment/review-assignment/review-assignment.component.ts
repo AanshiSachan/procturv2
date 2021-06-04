@@ -606,6 +606,7 @@ export class ReviewAssignmentComponent implements OnInit {
 
   isAllChecked(): boolean {
     return this.studentList.every(_ => _.uiSelected);
+    
   }
 
   removeFromSelectedArr(id): any[] {
