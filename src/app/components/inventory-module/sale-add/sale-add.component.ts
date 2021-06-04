@@ -432,6 +432,7 @@ if(paid>total){
   }
   updateSaleData() {
     if (this.myForm.valid) {
+      if(this.itemData.length) {
       this.model.sale_item_list = [];
       //sale_type":"paid", "item_id":43, "quantity":1, "unit_price":100, "tax":0.0
       for (let i = 0; i < this.itemData.length; i++) {
@@ -530,6 +531,9 @@ if(paid>total){
         }
         newxhr.send(formData);
       }
+      } else {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select category and Item for purchase");
+    }
     }
     else {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Fill all  mandatory field");
@@ -548,13 +552,13 @@ if(paid>total){
     filesize;
     filetype;
     readFile(fileEvent: any,id) {
-     // const file = fileEvent.target.files[0];
-    // this.filesize= file.size;
-    // const fileSizeInKB = Math.round(this.filesize / 1024);
+     const file = fileEvent.target.files[0];
+    this.filesize= file.size;
+    const fileSizeInKB = Math.round(this.filesize / 1024);
      if(img.files[0].size > 5,242,880){
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file upto 5MB");
      }
-   // this.filetype = file.type;
+   this.filetype = file.type;
    var image =(<HTMLInputElement>document.getElementById(id)).value;
    if(image!='')
     {
