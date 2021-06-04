@@ -61,7 +61,7 @@ export class ItemCmComponent implements OnInit {
     this.setTableData();
     this.getAllMasterCourseList();
     this.getItemDetails();
-
+this.checkManinBranch();
   }
  toggle(id, param) {
     this.activeSession = id;
