@@ -8,6 +8,7 @@ import { ProductService } from '../../../services/products.service';
 import { StudentReportService } from '../../../services/report-services/student-report-service/student-report.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+import * as moment from 'moment';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -34,6 +35,10 @@ export class ViewReportCardV2Component implements OnInit {
     this.student_id = this.route.snapshot.paramMap.get('id');
 
    }
+   tempData: any = [];
+   attendanceDetPopUp: boolean = false;
+   attendanceList: any = [];
+   examType: any = '0';
    PTMDetList: any = [];
    selectedFiles: any[] = [];
    category_id: number | string = "";
@@ -325,5 +330,82 @@ downloadStudentReportCard() {
       this.auth.hideLoader();
     })
 }
+//============================Attendence==============================//
+viewAttendancePayload: any = {
+  batch_id: -1,
+  standard_id: -1,
+  enddate: moment().format('YYYY-MM-DD'),
+  startdate: moment().format('YYYY-MM-DD'),
+  student_id: -1,
+  subject_id: -1,
+  teacher_id: -1,
+  type: '0'
+};
 
+onRadioButtonSelectionExam() {
+  if (this.examType == "0") {
+
+  } else {
+
+  }
+}
+onRadioButtonSelection() {
+  this.attendanceList = [];
+  if (this.viewAttendancePayload.type == '2') {
+    return;
+  } else {
+    this.goBtnAttendaceClick();
+  }
+}
+goBtnAttendaceClick() {
+  this.viewAttendancePayload.student_id =this.studentId;
+  console.log(this.viewAttendancePayload)
+  let check = this.validateDataAttendance(this.viewAttendancePayload);
+  if (check) {
+    this.auth.showLoader();
+    this.apiService.fetchAttendance(this.viewAttendancePayload).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.attendanceList = res.attendanceReportJsonList;
+      },
+      err => {
+        this.auth.hideLoader();
+        this.messageNotifier('error', '', err.error.message);
+      }
+    )
+  } else {
+    return;
+  }
+}
+
+validateDataAttendance(data) {
+  if (data.type == '2') {
+    if (data.startdate == "" || data.startdate == null) {
+      this.messageNotifier('error', '', 'Please enter start date');
+      return false;
+    } else {
+      data.startdate = moment(data.startdate).format('YYYY-MM-DD');
+    }
+    if (data.enddate == "" || data.enddate == null) {
+      this.messageNotifier('error', '', 'Please enter end date');
+      return false;
+    } else {
+      data.enddate = moment(data.enddate).format('YYYY-MM-DD');
+    }
+  } else {
+    data.startdate = "";
+    data.enddate = "";
+  }
+  return true;
+}
+//============================Attendence==============================//
+viewAttendanceDet(rowData) {
+  this.attendanceDetPopUp = true;
+  this.tempData = rowData;
+}
+
+closePopup() {
+  this.attendanceDetPopUp = false;
+  this.tempData = [];
+}
 }
