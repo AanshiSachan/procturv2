@@ -70,7 +70,7 @@ export class I1 implements HttpInterceptor {
                             this.router.navigateByUrl('/authPage');
                         }
 
-                        return observableThrowError({ error: 'No retry' });
+                        return observableThrowError({ error: err.error });
                     }),
                     take(1),
                     //.concat(next.handle(req));
