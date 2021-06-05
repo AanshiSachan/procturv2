@@ -47,15 +47,17 @@ export class StudentBulkComponent implements OnInit {
     this.auth.showLoader();
     this.fetchData.fetchDownloadTemplate().subscribe(
       res => {
+        let dwldLink = document.getElementById('template_link');
+        dwldLink.removeAttribute("href");
         let byteArr = this.commonService.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById('template_link');
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
         dwldLink.click();
+        dwldLink.removeAttribute("href");
         this.auth.hideLoader();
       },
       err => {
