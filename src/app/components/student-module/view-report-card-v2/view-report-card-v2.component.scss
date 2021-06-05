@@ -729,6 +729,13 @@
   width: 1000px;
  
 }
+@media (min-width: 768px)
+{
+  #myModal  .modal-dialog {
+
+    margin: 10% auto;
+  }
+}
 .table_body.inactive{
   background: #eaeaea;
 }
@@ -744,4 +751,6 @@
   margin-top: 10px;
   border:2px solid rgb(248, 245, 245);
   padding: 10px;
+}.mar-adjust{
+  margin:0px 17px;
 }
