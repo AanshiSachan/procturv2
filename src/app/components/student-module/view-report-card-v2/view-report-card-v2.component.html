@@ -103,8 +103,10 @@
              <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div>
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
              <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>
-             <div id="exam" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
-        </div>
+             <div id="exam" *ngIf="isLangInstitue == false" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
+             <div id="exam_course" *ngIf="isLangInstitue == true" [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
+       
+            </div>
            <div id="profile_tab" *ngIf="isActiveTab =='profile'">
             <!-- Profile -->
               <div class="outter_flex">
@@ -411,6 +413,8 @@
                   </div>
                 </div>
               </div>
+              <p *ngIf="attendanceList.length > 0" style="margin-left:10px;margin-top: 10px;">* Old/History batches are shown with grey background</p>
+
             </div>
            <div id="fees_tab" *ngIf="isActiveTab =='fees'" >
             <!-- Fees -->
@@ -1390,6 +1394,151 @@
                 </div>
               </div>
             </div>
+            <!---------------------Exam tab for course----------------------------------------->
+              <div id="exam_tab_course" *ngIf="isActiveTab =='exam_course'">
+                   <!-- EXAM -->
+                  <br>
+                  <div class="row radio_div no-gutters">
+                    <div class="col-lg-6 ">
+                      <div class="flex">
+                        <div class="field-radio-wrapper">
+                          <input type="radio" class="form-radio"id="idSubjectRadio" [checked]="(examType == '0')" value="0" [(ngModel)]="examType" name="idSubjectRadio" (ngModelChange)="onRadioButtonSelectionExam()">
+                          <label class="radio_label">Subject Wise</label>
+                        </div>
+                         <div class="field-radio-wrapper">
+                          <input id="idCourseRadio" type="radio" value="1" [(ngModel)]="examType" name="idCourseRadio" class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
+                          <label class="radio_label">Course Wise</label>
+                        </div>
+                         <div class="field-radio-wrapper">
+                          <input id="idNextWeek" type="radio" value="2" [(ngModel)]="examType" name="idNextWeek" class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
+                          <label class="radio_label">Upcoming Exam</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mt-20">
+                       <span class="right selectt subject" >
+                       
+                       </span>
+                       <span class="right course selectt" *ngIf="examType == '1'" >
+                         <button class="blue_button1" (click)="expandCollapseAll()">
+                           Open All/Close All
+                         </button>
+                       </span>
+                       <span class="right upcoming selectt" >
+                         
+                       </span>
+                    </div>
+                  </div> 
+                    <div class="subject selectt" *ngIf="examType == '0'" id="examPrint">
+                    
+                       <div class="tablehead1">
+                          <div> <span *ngIf="isLangInstitue">Batch</span>
+                    <span *ngIf="!isLangInstitue">Subject</span></div>
+                          <div>Exam Date</div>
+                          <div>Exam Description</div>
+                          <div>Timings</div>
+                          <div>Marks Obtained</div>
+                          <div>Grade</div>
+                          <div>Rank</div>
+                          <div>Highest Mark</div>
+                           <div>Lowest Mark</div>
+                          <div>Average Marks</div>
+                        </div> 
+                        <div class="tablebody1" *ngFor="let data of examList">
+                          <div>{{data.batch_name}}</div>
+                          <div>{{data.exam_date}}</div>
+                          <div>{{data.exam_desc}}</div>
+                          <div>{{data.start_time}}-{{data.end_time}}</div>
+                          <div>   
+                             <span *ngIf="data.attendance_status == 'L'">Leave</span>
+                            <span *ngIf="data.attendance_status == 'A'">Absent</span>
+                            <span *ngIf="data.attendance_status != 'L' && data.attendance_status != 'A' ">{{data.marks_obtained}}/{{data.total_marks}}</span>
+                         </div>
+                          <div>
+                            <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+                              --
+                            </span>
+                            <span  class="grade" *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                              {{data.grade}}
+                            </span>
+                          </div>
+                          <div> 
+                             <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+                            --
+                          </span>
+                          <span *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                            {{data.rank}}
+                          </span></div>
+                          <div> <img src="assets/img1/highest.svg">{{data.highest_marks}}</div>
+                           <div> <img src="assets/img1/lowest.svg">{{data.lowest_marks}}</div>
+                          <div>{{data.average_marks}}</div>
+                        </div> 
+                        <div class="nodata" *ngIf="examList.length ==0">
+                        <tr >
+                          <td colspan="12" style="text-align: center">
+                            No Exam List Of Student Found
+                          </td>
+                        </tr>
+                      </div>
+                    </div>
+                   
+                    <div class="course selectt" *ngIf="examType == '1'" id="examPrint">
+              
+                        <div class="table_head">
+                          
+                          <div> Master Course</div>
+                          <div> Course</div>
+                          <div>Exam Date</div>
+                          <div>Timing</div>
+                          <div>Marks</div>
+                          <div>Rank</div>
+                          <div></div>
+                        </div>
+                        <div class="table_body1 collapsible">
+                          
+                          <div>Demo Master Course</div>
+                          <div>Demo Course</div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                           <div (click)="showhideInnerTable(i)">
+                             <i *ngIf="!show"  id="plusIcon{{i}}" class="fa fa-angle-down"  (click)="showArrow(true)"></i>
+                             <i  *ngIf="show" id="minusIcon{{i}}" class="fa fa-angle-up"  (click)="showArrow(false)"></i></div>
+                        </div>
+                       <div class="content" class="hide">
+                           <div class="table_body1">
+                            <div></div>
+                            <div></div>
+                            <div> <span class="date"><img src="assets/img1/date.svg">22-02-2020</span></div>
+                            <div><img src="assets/img1/time.svg"> 11:00 PM - 11:30 PM</div>
+                            <div> 40/100</div>
+                            <div><span>1</span></div>
+                          </div>
+                      
+                      </div>
+                    </div>
+                    <div class="upcoming selectt" *ngIf="examType == '2'" id="examPrint">
+
+                       <div class="tablehead1">
+                         
+                          <div>Exam Date</div>
+                           <div>Subject</div>
+                          
+                          <div>Timings</div>
+                         
+                        </div> 
+                        <div class="tablebody1">
+                         
+                          <div>02-Apr-2021</div>
+                           <div>15-Master course1-15 -course-chemistry and its molecules and organic chemistry</div>
+                         
+                          <div>12:00 PM-1:00 PM</div>
+                         
+                        </div> 
+                    </div>
+            </div>
+          
       </div>
     </div>
     <!-- The Modal1 -->

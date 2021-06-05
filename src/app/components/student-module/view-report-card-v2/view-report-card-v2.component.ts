@@ -35,6 +35,19 @@ export class ViewReportCardV2Component implements OnInit {
     this.student_id = this.route.snapshot.paramMap.get('id');
 
    }
+   studentDetJson: any = {
+    student_name: '',
+    student_disp_id: '',
+    student_phone: '',
+    doj: '',
+    photo: ''
+  };
+  displayImage: any = '';
+   coursesAssignedlist: any = [];
+   futureExamSch: any = [];
+   studentReportInfo: any;
+   examList: any = [];
+   courseLevelExamList: any = [];
    tempData: any = [];
    attendanceDetPopUp: boolean = false;
    attendanceList: any = [];
@@ -407,5 +420,80 @@ viewAttendanceDet(rowData) {
 closePopup() {
   this.attendanceDetPopUp = false;
   this.tempData = [];
+}
+//============================Exam for course==============================//
+expandCollapseAll() {
+  for (let i = 0; i < this.courseLevelExamList.length; i++) {
+    this.showhideInnerTable(i);
+  }
+}
+showhideInnerTable(ind) {
+  document.getElementById('showMarksInnerTable' + ind).classList.toggle('hide');
+  document.getElementById('plusIcon' + ind).classList.toggle('hide');
+  document.getElementById('minusIcon' + ind).classList.toggle('hide');
+}
+getStudentInfo() {
+  this.auth.showLoader();
+  this.apiService.fetchStudentReportDet(this.studentId).subscribe(
+    (res: any) => {
+      this.auth.hideLoader();
+      this.studentReportInfo = res;
+      if (res.attendanceReportJsonList != null) {
+        if (res.attendanceReportJsonList.length > 0) {
+          this.attendanceList = res.attendanceReportJsonList;
+        }
+      }
+      if (res.studentExamJsonList != null) {
+        if (res.studentExamJsonList.length > 0) {
+          this.examList = res.studentExamJsonList;
+        }
+        if (res.pastCourseExamSchdJson != null) {
+          if (res.pastCourseExamSchdJson.length > 0) {
+            for (let i = 0; i < res.pastCourseExamSchdJson.length; i++) {
+              if (res.pastCourseExamSchdJson[i].pastCourseExamList.length > 0) {
+                for (let j = 0; j < res.pastCourseExamSchdJson[i].pastCourseExamList.length; j++) {
+                  if (res.pastCourseExamSchdJson[i].pastCourseExamList[j].subjectWiseExamSchdList == null) {
+                    let obj: any = {
+                      course_Name: res.pastCourseExamSchdJson[i].course_Name,
+                      master_course_name: res.pastCourseExamSchdJson[i].master_course_name,
+                      pastCourseExamList: []
+                    }
+                    obj.pastCourseExamList.push(res.pastCourseExamSchdJson[i].pastCourseExamList[j]);
+                    this.courseLevelExamList.push(obj);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if (res.batchExamSchdJsons.otherSchd != null) {
+        if (res.batchExamSchdJsons.otherSchd.length > 0) {
+          this.futureExamSch = res.batchExamSchdJsons.otherSchd;
+        }
+      }
+      if (this.isLangInstitue) {
+        if (res.assignBatchList != "" && res.assignBatchList != null) {
+          this.coursesAssignedlist = res.assignBatchList.split(' , ');
+        }
+      } else {
+        if (res.assignCourseList != "" && res.assignCourseList != null) {
+          this.coursesAssignedlist = res.assignCourseList.split(' , ');
+        }
+      }
+      this.studentDetJson = res.studentJson;
+      if (res.studentJson.photo != null && res.studentJson.photo != "") {
+        this.displayImage = res.studentJson.photo;
+      }
+    },
+    err => {
+      this.auth.hideLoader();
+      this.messageNotifier('error', '', err.error.message);
+    }
+  )
+}
+show:boolean=false;
+showArrow(param){
+this.show =param;
 }
 }
