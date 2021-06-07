@@ -69,10 +69,20 @@ export class CourseCourseListV2Component implements OnInit {
           if(!this.schoolModel) {
             let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.master_course_id));
             this.masterCourseObj = stdObj[0];
+          } else {
+            let stdObj = this.standardList.filter(mc => (mc.standard_id == this.master_course_id));
+            this.masterCourseObj = stdObj[0];
           }
           this.courseData = res.result;
         },
         (err: any) => {
+          if(!this.schoolModel) {
+            let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.master_course_id));
+            this.masterCourseObj = stdObj[0];
+          } else {
+            let stdObj = this.standardList.filter(mc => (mc.standard_id == this.master_course_id));
+            this.masterCourseObj = stdObj[0];
+          }
           this._auth.hideLoader();
           this._msgService.showErrorMessage('error', '', err.error.message);
         }

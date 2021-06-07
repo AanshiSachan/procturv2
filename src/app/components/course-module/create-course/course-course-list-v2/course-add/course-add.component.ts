@@ -130,6 +130,7 @@ export class CourseAddComponent implements OnInit {
         for (let i = 0; i < this.subjectList.length; i++) {
           this.subjectList[i].allowedTeacher = [];
           let is_teacher_exit: boolean = true;
+          if(!this.selectedCourseID) {
           this.activeTeachers.filter(teacher => {
             if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
               is_teacher_exit = false;
@@ -163,6 +164,9 @@ export class CourseAddComponent implements OnInit {
               "teacher_phone": "7503959545"
             })
           }
+        } else {
+          this.subjectList[i].allowedTeacher = this.activeTeachers;
+        }
         }
       },
       err => {
@@ -199,6 +203,7 @@ export class CourseAddComponent implements OnInit {
   }
 
   checkMoreOption(obj) {
+    console.log(obj);
     obj.selected_teacher == 'more' ? (obj.allowedTeacher = this.activeTeachers) : '';
   }
 
@@ -221,6 +226,7 @@ export class CourseAddComponent implements OnInit {
   }
 
   addDataToTable() {
+    this.mainArrayForTable = [];
     if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != ""
       && this.courseDetails.start_Date != null && this.courseDetails.end_Date != ''
       && this.courseDetails.end_Date != null) {
@@ -305,11 +311,15 @@ export class CourseAddComponent implements OnInit {
     //     }
     //   }
     // }
-    obj.master_course_id = this.courseDetails.master_course_id;
+    if(this.schoolModel) {
+      obj.standard_id = this.courseDetails.standard_id;
+    } else {
+      obj.master_course_id = this.courseDetails.master_course_id;
+    }
     obj.inst_id = sessionStorage.getItem('institute_id');
-    // obj.standard_id = this.courseDetails.standard_id;
     // obj.coursesList = [];
     for (let i = 0; i < this.mainArrayForTable.length; i++) {
+      console.log(this.mainArrayForTable);
       let test: any = {};
       obj.academic_year_id = this.mainArrayForTable[i].academic_year_id;
       obj.course_name = this.mainArrayForTable[i].course_name;
@@ -343,7 +353,7 @@ export class CourseAddComponent implements OnInit {
       for (let y = 0; y < selectedSubjectRow.length; y++) {
         let trp: any = {};
         if (this.schoolModel) {
-          trp.batch_name = this.courseDetails.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+          trp.batch_name = this.courseDetails.standard_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         } else {
           trp.batch_name = this.courseDetails.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         }

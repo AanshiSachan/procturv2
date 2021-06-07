@@ -2,7 +2,7 @@
     <div id="one" class="tab-pane active">
       <div class="w98">
         <div class="pt25 flex">
-           <div class="flex">
+           <div class="flex" *ngIf="!schoolModel">
               <div class="master_c">
                 Master Course :
               </div>
@@ -19,9 +19,9 @@
         <div class="line"></div>
         <div class="pt15 ">
            <input type="text" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name" placeholder="Course Name*" class="input mr10 wid217">
-           <input type="text" class="form-ctrl bsDatepicker input mr10 wid180"
+           <input *ngIf="!schoolModel" type="text" class="form-ctrl bsDatepicker input mr10 wid180"
            [(ngModel)]="courseDetails.start_Date" name="startDate" id="startDate" bsDatepicker placeholder="Start date*">
-           <input type="text" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
+           <input *ngIf="!schoolModel" type="text" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
            <select class="select mr10 wid180" [(ngModel)]="courseDetails.academic_year_id" (ngModelChange)="setStartAdEndDate(courseDetails)">
              <option value="">Academic Year</option>
              <option *ngFor="let opt of academicList"  [value]="opt.inst_acad_year_id">
