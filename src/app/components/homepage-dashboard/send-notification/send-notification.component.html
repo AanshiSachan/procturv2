@@ -1,924 +1,131 @@
-<div class="page-content" *ngIf="addSmsForm">
-  <div class="head_padding">
-    <div class="w98 flex">
-      <div class="page_heading">
-        <p>Add/Send Notification</p>
-      </div>
-       <div class="pt151">
-      <div class="flex">
-        <div >
-          <span class="circle_active">
-          1
-        </span>
-        <p class="text_active">Add/Select Message</p><br>
-        </div>
-        <div>
-          <div class="linec"></div>
-        </div>
-       <div >
-         <a  (click)="onClickAddselectDiv()">
-            <span class="circle_inactive">
-          2
-        </span>
-        <p class="text_inactive" (click)="onClickSelectStudentDiv()">Select Students/Users</p>
-         </a>
-       </div>
-      </div>
-    </div>
-    </div>
+<div class="page-content">
+  <div class="display">
+   <div class="links">
+      <a class="selected" href="#">SMS</a>
+      <a  href="#">Email</a>
+      <a  href="#">Push</a>
+   </div>
+   <div class="create">
+      <a  href="#"> + Create New SMS  </a>
   </div>
-  <div class="w98">
-   <br>
-    
-    <div class="flex">
-      <div class="wid70">
-        <div class=" display">
-         <div>
-          <span [ngClass]="approveMessage ? 'active_but' : 'inactive_but'"  (click)="approveTab()" id="approved">Approved</span>&nbsp;
-
-          <span class="mr10" [ngClass]="pendingMessage ? 'active_but' : 'inactive_but'" (click)="penddingTab()" id="pendding">Pending</span>
-
-            <!-- <span class="active_but mr10" (click)="onTabChange('open')" id="openSMSTab">Pending</span> -->
-          <!-- <span class="inactive_but" (click)="onTabChange('approved')" id="approvedSMSTab">Approved</span> -->
-
-         </div>
-         <div>
-          <!-- <div class="tooltip1"><img src="../../../../assets/images/Group58.png" class="group18">
-                      <span class="tooltiptext"><b>NOTE :</b> Lorem ipsum dolor sit amet, consetetur sadipscing 
-elitr, sed diam nonumy eirmod tempor invidunt.</span>
-                    </div> -->
-           
-         </div>
-        </div>
-        <div class="msg1 pending_tab" style="overflow-y:scroll; height:406px;" *ngIf="pendingMessage">
-          <div class="table_heading">
-            <div>
-             Date And Time
-            </div>
-            <div>Message</div>
-            <div>Actions</div>
-          </div>
-          <div class="table_body" *ngFor="let row of messageList; let i = index;">
-
-            <!-- <div class="field-radio-wrapper" >
-              <input type="radio" name="one"   [(ngModel)]="row.assigned"
-              (ngModelChange)="onCheckBoxSelection(index , row)">
-             
-            </div> -->
-            <div title="{{row.date}}">
-             {{row.date}}
-            </div>
-            <div title="{{row.message}}">
-              {{(!row.message) ? '-':(row.message.length > 30) ?(row.message | slice :0:30) + '...' : row.message}}
-              </div>
-           
-            <div>
-              <a class="mr10" (click)="approveRejectSms(row,'1')"><img src="../../../../assets/img/approve.svg" title="Approve" class="group18"></a>
-              <a class="mr10" (click)="editSMS(row)"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
-              <a  class="mr10" (click)="approveRejectSms(row ,'400')"><img src="../../../../assets/img/delete.svg" title="Delete" class="group18"></a>
-            </div>
-          </div>
-          
-        
-          <!-- <div class="table_body">
-            <div>
-              01-12-2020 12:30PM
-            </div>
-            <div>
-                             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et
-                          </div>
-           
-            <div>
-              <a href="" class="mr10"><img src="../../../../assets/img/approve.svg" title="Approve" ></a>
-              <a href="" class="mr10"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
-              <a href="" ><img src="../../../../assets/img/disapprove.svg" title="Disapprove" class="group18"></a>
-            </div>
-          </div> -->
-    <!-- </div> -->
-    </div>
-    <!-- ===============================approve massage Table================================ -->
-       <div class="msg2 approved_tab" style="overflow-y:scroll; height:406px;" *ngIf="approveMessage">
-          <div class="table_heading">
-            <div>
-              
-            </div>
-            <div>
-             Date And Time
-            </div>
-            <div>Message</div>
-            <div>Actions</div>
-          </div>
-          <div class="table_body" *ngFor="let row of openMessageList; let i = index; trackBy: i;">
-             <div>
+  </div>
+  <div class="table_head">
+      <div></div>
+      <div>Date </div>
+      <div>Message</div>
+      <div>Action</div>
+  </div>
+  <div class="scroll_body">
+      <div class="table_body" *ngFor="let msg of messageList">
+          <div>
               <div class="field-radio-wrapper">
-                <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRow" value="{{row.message}}" (ngModelChange)="onCheckBoxSelection(row)" >
-                <label></label>
-            </div>
-           
-        
-             </div>
-            <div>
-              {{row.date}}
-            </div>
-            <div title="{{row.message}}">
-              {{(!row.message) ? '-':(row.message.length > 30) ?(row.message | slice :0:30) + '...' : row.message}}
-            </div>
-           
-            <div>
-           
-              <a class="mr10" (click)="editSMS(row)"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
-              
-            </div>
-            </div>
-            </div>
-           
-          <!-- </div>
-
-          </div> -->
-          
-<!--         
-        <div class="table_body">
-             <div>
-               <div class="field-radio-wrapper">
-            <input type="radio" name="one"  class="form-radio">
-           
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" value="{{msg.message}}" (ngModelChange)="onselectMessageCheckbox(msg)">
+                  <label ></label>
+              </div>
           </div>
-             </div>
-            <div>
-              01-12-2020 12:30PM
-            </div>
-            <div>
-                             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et
-                          </div>
-           
-            <div>
-              
-              <a href="" class="mr10"><img src="../../../../assets/img/edit.svg" title="Edit" class="group18"></a>
-        
-            </div>
-          </div> -->
-    <!-- </div> -->
+          <div title="{{msg.date}}">{{msg.date}}</div>
+          <div title="{{msg.message}}"> {{(!msg.message) ? '-':(msg.message.length > 50) ?(msg.message | slice :0:50) + '...' : msg.message}}
+          </div>
+          <div>
+              <a class="mr16"><img src="../../../../assets/images/edit.svg"></a>
+              <a (click)="deletMessage(msg,'400')"><img src="../../../../assets/images/delete.svg"></a>
+          </div>
       </div>
       
-      <div class="w982 ">
-      <div class="w90 pending_tab">
-        <h1  *ngIf="pendingMessage || jsonFlag.editMessage">Create Message</h1>  
-        <textarea placeholder=" Write your message here...." class="textarea_m" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"
-         *ngIf="pendingMessage || jsonFlag.editMessage">
-      </textarea>
-
-
-        <div class="display" *ngIf="pendingMessage  || jsonFlag.editMessage">
-          <div></div>
-          <div>
-            <button class="white_button mr10" (click)="closeNewMessageDiv()">Back</button>
-            <button class="blue_button"(click)="saveNewMessage()" *ngIf="!jsonFlag.editMessage">Save</button>
-            <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editMessage">Update</button>
-
-          </div>
-        </div>
-        <div class="display space1" *ngIf="pendingMessage || jsonFlag.editMessage">
-          <div>
-            <span class="char_text">Character Count:<span class="char_count">{{newMessageText.length}}</span></span>
-          </div>
-          <div class="char_text">
-            <span>Message Count:<span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
-          </div>
-        </div>
-        <div class="note_para" *ngIf="pendingMessage">
-          <h1>Note:</h1>
-                    <p>1. Always start with "Dear Student, Dear Parent, Dear Faculty etc". </p>
-        <p>2. Please check spelling and grammar of the SMS. </p>
-        <p>3. Do not use any improper or derogatory statements. </p>
-        <p>4. Entity Registration Process: For faster response, it’s requested for register on MTNL. Entity Registration Process for MTNL Signup Link <a href=":https://www.ucc-mtnl.in/">:https://www.ucc-mtnl.in/</a> .</p>
-        <p>5. Get approval for your SMS content on DLT platform: Find the link of Proctur system generated SMS, which is expected to approved from DLT. (Download the template-“ <a href="https://bit.ly/3sDxMgx ">https://bit.ly/3sDxMgx </a> ”).</p>
-        </div>
-      </div>
-       <div class="w90 approved_tab" *ngIf="approveMessage">
-        <div class="sec1">
-          <div >
-            Transactional : {{transactionalSmsm}}
-          </div>
-           <div >
-            Promotional : {{pramotionalSms}}
-          </div>
-        </div>
-        <h1 *ngIf="approveMessage">Selected Message</h1> 
-        <textarea placeholder="your selected message here...." class="textarea_m" *ngIf="approveMessage">{{selectedRow}}</textarea>
- 
-        
-        <!-- <div class="box1">
-          <p class="selected_msg">
-          {{selectedRow}}
-                             
-        </p>
-        </div> -->
-       
-        <div class="display">
-          <div>
-            <span class="char_text">Character Count:<span class="char_count">{{selectedMessageText}}</span></span>
-          </div>
-          <div class="char_text">
-            <span>Message Count:<span [ngClass]="{'red' : selectedMessageCount >= 2}">{{selectedMessageCount}}</span></span>
-          </div>
-        </div>
-     
-         <!-- <div class="display datetime">
-           <div>
-             Date:22-09-2020
-           </div>
-           <div>
-             Time:12:09PM
-           </div>
-         </div> -->
-        <div class="display pt15">
-          <div></div>
-          <div>
-
-            <button class="blue_button" (click)="openStudentForm()">Next</button>
-          </div>
-        </div>
-        <br>
-      </div>
-      
-    </div>
-   
-        <!-- use image only when page is empty,table body class element will not be present -->
   </div>
+  <div class="pagignation">
+      <p>Showing 1 to 8 of 50</p>
+  </div>   
 
+</div>
+<!-- =====================create-message================= -->
+<div class="page-content1">
+  <div class="page_heading">
+      <p>
+          Create SMS
+      </p>
+      <img src="../../../../assets/images/cross.svg">
+  </div>
+  <div class="page_body">
+      <div>
+          <p>Select SMS Type</p>
+          <div class="remaining selected">
+              <p>Transactional </p>
+              <p class="number">{{transactionalSmsm}}</p>
+              
+          </div>
+          <div class="remaining">
+              <p>Promotional</p>
+              <p class="number">{{pramotionalSms}}</p>
+          </div>
+      </div>
+      <div>
+          <p>SMS Description</p>
+          <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()"></textarea>
+          <div class="count">
+              <div>
+                  <p>Character Count: <b>{{newMessageText.length}}</b></p>
+              </div>
+              <div>
+                  <p>Message Count:  <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></p>
+              </div>
+          </div>
+      </div>
+      <div>
+          <p>Note:</p>
+          <p class="note">1. Entity Registration Process: For faster response, it’s requested for register on MTNL. Entity Registration Process for MTNL Signup Link : <a href="https://www.ucc-mtnl.in/">https://www.ucc-mtnl.in/</a> .</p>
+
+          <p class="note">2. Get approval for your SMS content on DLT platform: Find the link of Proctur system generated SMS, which is expected to approved from DLT. (Download the template-“<a href=" https://bit.ly/3sDxMgx"> https://bit.ly/3sDxMgx</a> ”).</p>
+      </div>
+  </div>
+  <div class="page_footer">
+      <div></div>
+      <button class="blue_button" (click)="saveNewMessage()">Save</button>
   </div>
 </div>
-<!-- ==================================second div======================================= -->
-<div class="page-content" *ngIf="selectStudentForm">
-  <div class="head_padding">
-    <div class="w98 flex">
-      <div class="page_heading">
-        <p>Add/Send Notification</p>
-      </div>
-    <div class="pt151">
-      <div class="flex">
-        <div >
-         <a  (click)="onClickAddselectDiv()">
-            <span class="circle_inactive">
-          1
-        </span>
-        <p class="text_inactive">Add/Select Message</p>
-         </a>
-        </div>
-        <div>
-          <div class="linec"></div>
-        </div>
-       <div>
-          <span class="circle_active">
-          2
-        </span>
-        <p class="text_active" (click)="onClickSelectStudentDiv()">Select Students/Users</p>
-       </div>
-      </div>
-    </div>
-    </div>
+<!-- ========================selected message============================ -->
+<div class="page-content1">
+  <div class="page_heading">
+      <p>
+          Selected  SMS
+      </p>
+      <img src="../../../../assets/images/cross.svg">
   </div>
-  <div class="w98">
-    <br>
-    
-    <div class="flex">
-      <div class="wid701" >
-       <div class="box1" >
-      <div *ngIf="!isProfessional">
-            <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
-            <label for="masterCourse">{{schoolModel? 'Standard' : 'Master Course'}}</label>
-             <select *ngIf="!schoolModel" class="select mr10 wid160" [(ngModel)]="sendNotificationCourse.master_course" (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
-              <option value="-1">Master Course</option>
-              <option [value]="course.master_course" *ngFor="let course of masterCourseList">{{course.master_course}}</option>
-             </select>
-             <select *ngIf="schoolModel" class="select mr10 wid160"
-              [(ngModel)]="sendNotificationCourse.standard_id"
-              (ngModelChange)="onMasterCourseChange($event)" name="masterCourse">
-              <option value=""></option>
-              <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
-                  {{opt.masterCourse}}
-              </option>
-             </select>
-         </div>
-          <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
-            <label for="course">{{schoolModel? 'Section' : 'Course'}}</label>
-            <select class="select mr10 wid160" [(ngModel)]="sendNotification.subject_id" name="course" (ngModelChange)="($event)">
-              <option value="-1"></option>
-              <option [value]="item.course_id" *ngFor="let item of courseList">{{item.course_name}}</option>
- 
-            </select>
-
-          </div>
-          <div class="c-sm-3 c-md-3 c-lg-3">
-          <button class="blue_button" style="margin-top: 21px;" (click)="fetchDataFromFields()">Go</button>&nbsp;
-          </div>
-          
-          <input type="text" name="" class="right input magnifying-glass" style="margin-left: 560px;" [(ngModel)]="searchData" placeholder="Search">
-
-
-        </div>
-        
-
-         <div *ngIf="isProfessional">
-           <select class="select mr10 wid160" [(ngModel)]="sendNotification.standard_id" (ngModelChange)="onMasterCourseSelection($event)" name="masterCourse">
-             <option value="-1">Master Course</option>
-             <option [value]="course.standard_id" *ngFor="let course of masterCourseList">{{course.standard_name}}</option>
-
-           </select>
-           <select class="select mr10 wid160" [(ngModel)]="sendNotification.subject_id" name="course"  (ngModelChange)="onCourseSelection($event)">
-             <option value="-1">Course</option>
-             <option [value]="item.subject_id" *ngFor="let item of courseList">{{item.subject_name}}</option>
-
-           </select>
-
-
-
-           <select class="select mr10 wid160" [(ngModel)]="sendNotification.batch_id" name="batch" (ngModelChange)="fetchDataOnBatchBasis($event)">
-            <option value="-1">Batch</option>
-            <option *ngFor="let opt of batchList" [value]="opt.batch_id">{{opt.batch_name}}</option>
-
-           </select>
-
-
-           <!-- <button class="blue_button" (click)="fetchDataFromFields()">Go</button> -->
-           <input type="text" name="" class="right input magnifying-glass" [(ngModel)]="searchData" placeholder="Search">
-         </div>
-         <div class="flex">
-           <div class="lin21"></div>
-           <div>OR</div>
-           <div class="lin21"></div>
-         </div>
-         <div class="display person" >
-           <div>
-            <div class="field-radio-wrapper">
-               <input type="radio" name="activeRowCeckbox" id="option1" class="form-radio" [(ngModel)]="activeRowCeckbox"  (click)="chkBoxAllActiveStudent()">
-              <label>Active Students</label>
-              </div> 
-            </div>
-            <div>
-              <div class="field-radio-wrapper">
-              <input type="radio" name="facultyCheckBox" id="option2" class="form-radio" [(ngModel)]="facultyCheckBox" (click)="chkBoxAllFaculty()">
-              <label> Faculty</label>
-              </div>
-            </div>
-            <div>
-              <div class="field-radio-wrapper">
-              <input type="radio" name="inactiveCheck" id="option3" class="form-radio" [(ngModel)]="inactiveCheck" (click)="chkBoxAllInActiveStudent()">
-              <label>Inactive Students</label> 
-              </div>
-            </div>
-            <div>
-              <div class="field-radio-wrapper">
-              <input type="radio" name="aluminiCheckBox" id="option4" class="form-radio" [(ngModel)]="aluminiCheckBox" (click)="chkBoxAllAluminiStudent()">
-              <label> Allumni Students</label>
-              </div>
-            </div>
-            <div>
-              <div class="field-radio-wrapper">
-             <input type="radio" name="allUserCheck" id="option5" class="form-radio" [(ngModel)]="allUserCheck" (click)="chkBoxAllUsers()">
-             <label>Registered Users</label> 
-             </div>
-            </div>
-         </div>
-       </div>
-       <div id="myH1" *ngIf="showTableFlag" style="overflow-y:scroll; height:406px;">
-        <div class="table_heading">
-          <div>
-            <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-          </div>
-            <div>
-            Id
-            </div>
-            <div>Name</div>
-            <div>
-              Mobile
-            </div>
-            <div>
-              Standard
-            </div>
-            <div>
-              Joining Date
-            </div>
-            <div>Email</div>
-          </div>
-          <div class="table_body"  *ngFor="let row of (studentList | searchPipe:searchData);let i = index;">
-            <div>
-              <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox"
-                     [(ngModel)]="row.assigned">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-            </div>
-           <div title="{{row.student_disp_id}}">
-            {{row.student_disp_id}} 
-
-            </div>
-            <div title="{{row.student_name}}"> 
-              {{(!row.student_name) ? '-':(row.student_name.length > 20) ?(row.student_name | slice :0:20) + '...' : row.student_name}}
-            </div>
-            <div title="{{row.student_phone}}">
-              {{row.student_phone}}
-            </div>
-            <div title="{{row.student_class}}">
-              {{row.student_class}}
-            </div>
-            <div title="{{row.doj}}">
-              {{row.doj}}
-            </div>
-            <div title="{{row.student_email}}">
-              {{(!row.student_email) ? '-':(row.student_email.length > 20) ?(row.student_email | slice :0:20) + '...' : row.student_email}}
-            </div>
-             </div>
-             <div *ngIf="studentList.length == 0">No Student Found</div>
-             </div>
-
-        <div id="myH2" style="overflow-y:scroll; height:406px;" *ngIf="showFacultyTableFlag">
-         <div class="table_heading">
-          <div>
-            <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)" >
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-          </div>
-         
-            <div>Name</div>
-            <div>
-              Mobile
-            </div>
-            
-            <div>
-             Subject
-            </div>
-            <div> Is Active</div>
-          </div>
-          <div class="table_body" *ngFor="let faculty of (studentList | searchPipe:searchData);let i=index;">
-            <div>
-              <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked"  [(ngModel)]="faculty.assigned">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-            </div>
-           
-            <div title="{{faculty.teacher_name}}">
-              {{(!faculty.teacher_name) ? '-':(faculty.teacher_name.length > 20) ?(faculty.teacher_name | slice :0:20) + '...' : faculty.teacher_name}}
+  <div class="page_body">
+      <div>
+          <p>Select SMS Type</p>
+          <div class="remaining selected">
+              <p>Transactional </p>
+              <p class="number">{{transactionalSmsm}}</p>
               
-            </div>
-            <div title="{{faculty.teacher_phone}}">
-              {{(!faculty.teacher_phone) ? '-':(faculty.teacher_phone.length > 10) ?(faculty.teacher_phone | slice :0:10) + '...' : faculty.teacher_phone}}
-            </div>
-            
-            <div title="{{faculty.teacher_subjects}}">
-              {{(!faculty.teacher_subjects) ? '-':(faculty.teacher_subjects.length > 10) ?(faculty.teacher_subjects | slice :0:10) + '...' : faculty.teacher_subjects}}
-            </div>
-            <div title="{{faculty.is_active}}"> {{faculty.is_active}}
-            </div>
           </div>
-        <div *ngIf="studentList.length == 0">No Faculty Found</div>
+          <div class="remaining">
+              <p>Promotional</p>
+              <p class="number">{{pramotionalSms}}</p>
+          </div>
       </div>
-        <div id="myH3" style="overflow-y:scroll; height:406px;" *ngIf="showInactiveStudentFlag"> 
-        <div class="table_heading">
-          <div>
-            <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)" >
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
+      <div>
+          <p>SMS Description</p>
+          <textarea placeholder="Write your message here...">{{selectedRow}}</textarea>
+          <div class="count">
+              <div>
+                  <p>Character Count: <b>{{selectedMessageText}}</b></p>
+              </div>
+              <div>
+                  <p>Message Count: <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></p>
+              </div>
           </div>
-            <div>
-            Id
-            </div>
-            <div>Name</div>
-            <div>
-              Mobile
-            </div>
-            <div>
-              Standard
-            </div>
-            <div>
-              Joining Date
-            </div>
-            <div>Email</div>
-          </div>
-          <div class="table_body" *ngFor="let inactive of (studentList | searchPipe:searchData); let i=index;">
-            <div>
-              <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="inactive.assigned">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-            </div>
-           <div title="{{inactive.student_disp_id}}">
-            {{inactive.student_disp_id}}
-            </div>  
-            <div title="inactive.student_name">
-              {{(!inactive.student_name) ? '-':(inactive.student_name.length > 20) ?(inactive.student_name | slice :0:20) + '...' : inactive.student_name}}
-            </div>
-            <div title="{{inactive.student_phone}}">
-              {{(!inactive.student_phone) ? '-': (inactive.student_phone.length > 10) ?(inactive.student_phone | slice :0:10) + '...' : inactive.student_phone}}
-            </div>
-            <div title="{{inactive.student_class}}">
-              {{(!inactive.student_class) ? '-':(inactive.student_class.length > 10) ?(inactive.student_class | slice :0:10) + '...' : inactive.student_class}}
-            </div>
-            <div title="{{inactive.doj}}">
-              {{inactive.doj}}
-            </div>
-            <div title="{{inactive.student_email}}">
-              {{(!inactive.student_email) ? '-' : (inactive.student_email.length > 20) ? (inactive.student_email | slice :0:20) + '...' : inactive.student_email}}
-            </div>
-            <div *ngIf="studentList.length == 0">No Student Found</div>
-          </div>
-       </div>
-     <div id="myH4" style="overflow-y:scroll; height:406px;" *ngIf="showAllaluminiStudentFlag">
-         <div class="table_heading">
-          <div>
-            <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-          </div>
-            <div>
-            Id
-            </div>
-            <div>Name</div>
-            <div>
-              Mobile
-            </div>
-            <div>
-              Standard
-            </div>
-            <div>
-              Joining Date
-            </div>
-            <div>Email</div>
-          </div>
-          <div class="table_body" *ngFor="let alumini of (studentList | searchPipe:searchData);let i = index;">
-            <div>
-              <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="alumini.assigned">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-            </div>
-           <div title="{{alumini.student_disp_id}}">
-            {{alumini.student_disp_id}}
-            </div>
-            <div title="{{alumini.student_name}}">
-              {{(!alumini.student_name) ? '-':(alumini.student_name.length > 20) ?(alumini.student_name | slice :0:20) + '...' : alumini.student_name}}
-
-            </div>
-            <div title="{{alumini.student_phone}}">
-              {{(!alumini.student_phone) ? '-':(alumini.student_phone.length > 20) ?(alumini.student_phone | slice :0:10) + '...' : alumini.student_phone}}
-            </div>
-            <div title=" {{alumini.student_class}}">
-              {{(!alumini.student_class) ? '-':(alumini.student_class.length > 10) ?(alumini.student_class | slice :0:10) + '...' : alumini.student_class}}
-            </div>
-            <div>
-              {{alumini.doj}}
-            </div>
-            <div title="{{alumini.student_email}}">
-              {{(!alumini.student_email) ? '-':(alumini.student_email.length > 10) ?(alumini.student_email | slice :0:20) + '...' : alumini.student_email}}
-            </div>
-          </div>
-          <div *ngIf="studentList.length == 0">No Alumini Found</div>
-       </div>
-        <div id="myH5" style="overflow-y:scroll; height:406px;" *ngIf="showallUserListFlag">
-         <div class="table_heading">
-          <div>
-            <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()"(click)="checkAllChechboxes($event , studentList)">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-          </div>
-            <div>
-            Id
-            </div>
-            <div>Name</div>
-            <div>
-              Mobile
-            </div>
-            <div>
-              Standard
-            </div>
-            <div>
-              Joining Date
-            </div>
-            <div>Email</div>
-          </div>
-          <div class="table_body" *ngFor="let user of (studentList | searchPipe:searchData);let i=index;">
-            <div>
-              <label class="checkbox checkbox1">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="user.assigned">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-            </div>
-           <div title="{{user.user_id}}">
-            {{(!user.user_id) ? '-':(user.user_id.length > 20) ?(user.user_id | slice :0:20) + '...' : user.user_id}}
-          </div>
-            <div title="{{user.name}}">
-              {{(!user.name) ? '-':(user.name.length > 20) ?(user.name | slice :0:20) + '...' : user.name}}
-            </div>
-            <div title="{{user.phone}}">
-              {{(!user.phone) ? '-':(user.phone.length > 10) ?(user.phone | slice :0:10) + '...' : user.phone}}
-            </div>
-            <div title="{{user.student_class}}">
-              {{(!user.student_class) ? '-':(user.student_class.length > 20) ?(user.student_class | slice :0:20) + '...' : user.student_class}}
-            </div>
-            <div title=" {{user.doj}}">
-              {{user.doj}}
-            </div>
-            <div title="{{user.email_id}}">
-              {{(!user.email_id) ? '-':(user.email_id.length > 20) ?(user.email_id | slice :0:20) + '...' : user.email_id}}
-
-            </div>
-          </div>
-          <div *ngIf="studentList.length == 0">No Student Found</div>
-       </div>
-        <!-- <div class="msg1 pending_tab">
-          <div class="table_heading">
-            <div>
-             Date And Time
-            </div>
-            <div>Message</div>
-            <div>Actions</div>
-          </div>
-          <div class="table_body">
-            <div>
-              01-12-2020 12:30PM
-            </div>
-            <div>
-               Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et
-                          </div>
-           
-            <div>
-              <a href="" class="mr10"><img src="img1/view.svg" title="View" ></a>
-              <a href="" class="mr10"><img src="img1/edit.svg" title="Edit" class="group18"></a>
-              <a href="" ><img src="img1/delete.svg" title="Delete" class="group18"></a>
-            </div>
-          </div>
-          
-        
-          <div class="table_body">
-            <div>
-              01-12-2020 12:30PM
-            </div>
-            <div>
-                             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-            eos et accusam et justo duo dolores et
-                          </div>
-           
-            <div>
-              <a href="" class="mr10"><img src="img1/view.svg" title="View" ></a>
-              <a href="" class="mr10"><img src="img1/edit.svg" title="Edit" class="group18"></a>
-              <a href="" ><img src="img1/delete.svg" title="Delete" class="group18"></a>
-            </div>
-          </div>
-    </div> -->
-      
       </div>
-      
-      <div class="w983">
-         <div class="w984">
-           <div class="h11">
-            Send to:
-           </div>
-            <div class="display person">
-              <div class="flex" *ngIf="!showFacultyTableFlag">
-                <div>
-                 <label class="checkbox">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="sendToStudent">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div>
-                Student
-              </div>
-              </div>
-              <div class="flex" *ngIf="!showFacultyTableFlag">
-                <div>
-                 <label class="checkbox">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="sendToParent" >
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div>
-                Parent
-              </div>
-              </div>
-              <div class="flex" *ngIf="!showFacultyTableFlag">
-                <div>
-                 <label class="checkbox">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="sendTogardiunt">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div >
-                Guardian
-              </div>
-              </div>
-            </div>
-        
-          <div class="para">
-            <p>{{selectedRow}}</p>
-          </div>
-          <div class="display space1">
-            <div >
-              <span class="char_text">Character Count:<span class="char_count">{{selectedMessageText}}</span></span>
-            </div>
-            <div class="char_text">
-              <span>Message Count:<span [ngClass]="{'red' : selectedMessageCount >= 2}">{{selectedMessageCount}}</span></span>
-            </div>
-          </div>
-          <div class="lin2"></div>
-             <h1 >Delivery Mode</h1> 
-          <div class="display person">
-            <div class=" flex">
-              <div>
-                 <label class="checkbox">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="dilverSms" (click)="oclickEmail()">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-              </div>
-            <div>SMS</div>
-            </div>
-            <div class=" flex">
-               <div>
-                 <label class="checkbox">
-                  <span class="checkbox__input">
-                    <input type="checkbox" name="checked" [(ngModel)]="dilverEmail" (click)="onSms()">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-              </div>
-              <div>
-                Email
-              </div>
-            </div>
-          </div>
-<!-- ================================Email Box================================= -->
-          <div class="row" *ngIf="dilverEmail">
-
-            <div class="form-wrapper datepicker c-sm-6 c-xs-6">
-                <label for="subject"
-                    style=" font-size: 14px; font-weight: 400; font-family: inherit;font-style: bold; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; " >Subject</label>
-                <input type="text" [(ngModel)]="messageSubject" name="subject"
-                    class="side-form-ctrl" value="" placeholder=""
-                    style=" background: #fff; border: 2px solid #77777770; width: 232%; padding: 21px 5px;"
-                    id="divSubjectMessage" />
-            </div>
-            
-        </div>
-        <button class="white_button" *ngIf="dilverEmail"
-            (click)="previewMessage()">Preview</button>
-<!-- =====================================end===================================== -->
-
-            <div class="display space1" *ngIf="!dilverEmail">
-              <div></div>
-              <div>
-                <button class="white_button mr10" (click)="sendNotificationMessage()">Send</button>
-                <button class="white_button" (click)="sendPushNotification()">Send Push Notification</button>
-                
-              </div>
-            </div>
-         </div>
-         <br>
-          <div class="w984">
-          <div class="flex space1">
-            <div>
-               <label class="checkbox">
-                  <span class="checkbox__input">
-                    <input type="checkbox" class="checkbox__input1" [(ngModel)]="sendLoginmessage">
-                    <span class="checkbox__control">
-                     <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                        <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                    </span>
-                  </span>
-                </label>
-            </div>
-            <div>
-               <h1 class="h112">Send Login Message</h1> 
-            </div>
-          </div>
-          <div class="display sec2" *ngIf="showTableFlag">
-            <div>
-              <div class="field-radio-wrapper">
-               <input type="radio" name="student" class="form-radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0">
-              <label>Student Only</label> 
-              </div>
-            </div>
-            <div>
-              <div class="field-radio-wrapper">
-              <input type="radio" name="parent" value="1" class="form-radio" [(ngModel)]="loginField.checkBox">
-             <label>Parent Only</label> 
-            </div>
-            </div>
-            <div>
-              <div class="field-radio-wrapper">
-             <input type="radio" name="both" value="2" class="form-radio" [(ngModel)]="loginField.checkBox">
-            <label> Both</label>
-            </div>
-            </div>
-          </div>
-          <div class="row btn-loginGroup"  *ngIf="showTableFlag">
-            <div>
-              <!-- <button class="white_button1 mr10">Send Credentials</button> -->
-              <button class="btn" (click)="sendSmsForApp('1',0)">SMS for App Download</button>
-              <button class="btn" (click)="sendSmsForApp('2',0)">SMS For App Upgrade</button>
-              <button class="btn" (click)="sendSmsForApp('4',0)">Send Credentials via SMS</button>
-              <button class="btn" (click)="sendSmsForApp('4',1)">Send Credentials via
-                  Email</button>
-               
-            </div>
-          </div>
-         </div>
-    
-        <br>
-     
+      <div>
+         
       </div>
-    </div>
-   
-  <!-- </div> -->
-
   </div>
-</div> 
-
-<!-- ======================== -->
+  <div class="white1">
+      <div></div>
+      <button class="blue_button extra_padding">Send To</button>
+  </div>
+  <div class="page_footer">
+      
+  </div>
+</div>
+<!-- =======================end===================================== -->
