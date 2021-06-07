@@ -781,7 +781,7 @@ i#icon {
 
 .table_head{
  background: #EFF0F5;
-
+width: 100%;
   border-radius: 5px;
   display: flex;
   font-weight: 600;
@@ -791,7 +791,7 @@ i#icon {
   letter-spacing: 0.01em;
   line-height: 30px;
   /* table_black */
-   width: 100%;
+
   color: #323C47;
 }
 
@@ -832,7 +832,7 @@ button:focus{
 display: flex;
 font-weight: 400;
 font-size: 13px;
-
+width: 100%;
 /* identical to box height */
 letter-spacing: 0.01em;
 color: #323C47;
@@ -854,6 +854,7 @@ color: #109CF1;
 display: flex;
 font-weight: normal;
 font-size: 12px;
+width: 100%;
 line-height: 16px;
 letter-spacing: 0.01em;
 

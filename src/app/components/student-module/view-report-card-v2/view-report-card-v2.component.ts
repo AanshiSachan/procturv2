@@ -478,6 +478,7 @@ getStudentInfo() {
       if (res.batchExamSchdJsons.otherSchd != null) {
         if (res.batchExamSchdJsons.otherSchd.length > 0) {
           this.futureExamSch = res.batchExamSchdJsons.otherSchd;
+          console.log(this.futureExamSch)
         }
       }
       if (this.isLangInstitue) {

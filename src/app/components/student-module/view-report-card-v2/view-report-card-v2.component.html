@@ -105,8 +105,8 @@
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
              <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>
              <div id="timeTable" *ngIf="isLangInstitue == true" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
-             <!-- <div id="exam" *ngIf="isLangInstitue == false" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div> -->
-             <div id="exam_course"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
+             <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
+             <div id="exam_course" *ngIf="!schoolModel"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
        
             </div>
            <div id="profile_tab" *ngIf="isActiveTab =='profile'">
@@ -1496,9 +1496,9 @@
                           <div>Rank</div>
                           <div></div>
                         </div>
-                        <div  id="outerTableTr{{i}}" class="table_body1 collapsible" *ngFor="let data of courseLevelExamList; let i = index;">
-                          
-                          <div>{{data.master_course_name}}</div>
+                        <div  id="outerTableTr{{i}}"  *ngFor="let data of courseLevelExamList; let i = index;">
+                          <div  class="table_body1 collapsible">
+                            <div>{{data.master_course_name}}</div>
                           <div>{{data.course_Name}}</div>
                           <div></div>
                           <div></div>
@@ -1507,15 +1507,8 @@
                            <div (click)="showhideInnerTable(i)">
                              <i   id="plusIcon{{i}}" class="fa fa-angle-down" ></i>
                              <i   id="minusIcon{{i}}" class="hide fa fa-angle-up"  ></i></div>
-                       
-                        <div class="nodata">
-                          <tr *ngIf="courseLevelExamList.length == 0">
-                            <td colspan="3">
-                              No Exam Given By Student
-                            </td>
-                          </tr>
-                        </div>
-                       <div class="content" id="showMarksInnerTable{{i}}" class="hide">
+                          </div>
+                       <div class="content hide" id="showMarksInnerTable{{i}}" >
                            <div class="table_body1" *ngFor="let row of data.pastCourseExamList">
                             <div></div>
                             <div></div>
@@ -1534,8 +1527,16 @@
                           </div>
                       </div>
                       </div>
+                      <div class="nodata">
+                        <tr *ngIf="courseLevelExamList.length == 0">
+                          <td colspan="3">
+                            No Exam Given By Student
+                          </td>
+                        </tr>
+                      </div>
                     </div>
                     
+                       
                     <!-- <h3 *ngIf="examType == '2'">Next 4 weeks Exam Schedule</h3> -->
                     <div class="upcoming selectt" *ngIf="examType == '2'" id="examPrint">
 
@@ -1549,7 +1550,7 @@
                           <div>Timings</div>
                          
                         </div> 
-                        <div *ngIf="futureExamSch.length > 0">
+                        
                         <div class="tablebody1" *ngFor="let data of futureExamSch">
                          
                           <div>{{data.exam_date}}</div>
@@ -1565,7 +1566,7 @@
                             </td>
                           </tr>
                         </div>
-                      </div>
+                    
                     </div>
             </div>
             <div id="timeTable" *ngIf="isActiveTab =='timeTable'" >
