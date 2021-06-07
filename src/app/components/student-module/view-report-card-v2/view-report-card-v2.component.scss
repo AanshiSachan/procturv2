@@ -757,8 +757,11 @@
 
 .content {
   width: 100%;
-  display: none;
+  display: block;
 
+}
+.hide{
+  // display: none;
 }
 .table_body1.bold>div{
   font-weight: 700;

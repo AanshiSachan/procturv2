@@ -109,6 +109,9 @@ openTab(param){
     this.getPastHistory();
     this.getFutureDues();
   }
+  if(param =="exam_course"){
+    this.getStudentInfo();
+  }
 }
 //function to get parent,profile ,document, data
 getParentProfileDoc() {
@@ -425,9 +428,11 @@ closePopup() {
 expandCollapseAll() {
   for (let i = 0; i < this.courseLevelExamList.length; i++) {
     this.showhideInnerTable(i);
+    //this.courseLevelExamList[i].isShow = true;
   }
 }
 showhideInnerTable(ind) {
+
   document.getElementById('showMarksInnerTable' + ind).classList.toggle('hide');
   document.getElementById('plusIcon' + ind).classList.toggle('hide');
   document.getElementById('minusIcon' + ind).classList.toggle('hide');
@@ -461,9 +466,12 @@ getStudentInfo() {
                     obj.pastCourseExamList.push(res.pastCourseExamSchdJson[i].pastCourseExamList[j]);
                     this.courseLevelExamList.push(obj);
                   }
+                  
                 }
               }
+              console.log(this.courseLevelExamList)
             }
+            console.log(this.courseLevelExamList)
           }
         }
       }
@@ -495,5 +503,8 @@ getStudentInfo() {
 show:boolean=false;
 showArrow(param){
 this.show =param;
+}
+editStudent(id) {
+  this.router.navigate(["/view/students/edit/" + id]);
 }
 }
