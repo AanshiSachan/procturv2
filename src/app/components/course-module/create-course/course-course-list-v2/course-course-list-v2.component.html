@@ -4,10 +4,16 @@
         <div class="pt15 display">
           <div>
           
-            <div>
+            <div *ngIf="!schoolModel">
               <select class="select w200" [(ngModel)]="master_course_id" (ngModelChange)="fetchCourseDetails($event)">
                 <option value="-1">Select Master Course*</option>
                 <option value="{{mc.master_course_id}}" *ngFor="let mc of masterCourseData">{{mc.master_course_name}}</option>
+              </select>
+            </div>
+            <div *ngIf="schoolModel">
+              <select class="select w200" [(ngModel)]="master_course_id" (ngModelChange)="fetchCourseDetails($event)">
+                <option value="-1">Select Standard*</option>
+                <option value="{{mc.standard_id}}" *ngFor="let mc of standardList">{{mc.standard_name}}</option>
               </select>
             </div>
           </div>

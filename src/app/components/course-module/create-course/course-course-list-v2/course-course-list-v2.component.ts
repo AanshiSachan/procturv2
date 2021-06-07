@@ -16,6 +16,7 @@ export class CourseCourseListV2Component implements OnInit {
   courseData: any = [];
   standardList: any = [];
   editMasterC: boolean = false;
+  schoolModel: boolean = false;
   createMasterCourseModel: any = {
     "master_course_name": "",
     "institute_id": this.institute_id,
@@ -39,6 +40,7 @@ export class CourseCourseListV2Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.schoolModel = this._auth.schoolModel.getValue();
     this.getMasterCourseData();
     this.fetchStandard();
   }
@@ -64,8 +66,10 @@ export class CourseCourseListV2Component implements OnInit {
       this._httpService.getData(url).subscribe(
         (res: any) => {
           this._auth.hideLoader();
-          let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.master_course_id));
-          this.masterCourseObj = stdObj[0];
+          if(!this.schoolModel) {
+            let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.master_course_id));
+            this.masterCourseObj = stdObj[0];
+          }
           this.courseData = res.result;
         },
         (err: any) => {
