@@ -32,6 +32,7 @@ import { VdocipherComponent } from './vdocipher/vdocipher.component';
 import { StudentBirthdayComponent } from './student-birthday/student-birthday.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { SendNotificationComponent } from './send-notification/send-notification.component';
+import { SendToMessagesComponent } from './send-to-messages/send-to-messages.component';
 
 @NgModule({
     imports: [
@@ -64,7 +65,8 @@ import { SendNotificationComponent } from './send-notification/send-notification
         FeeWidgetComponent,
         VdocipherComponent,
         StudentBirthdayComponent,
-        SendNotificationComponent
+        SendNotificationComponent,
+        SendToMessagesComponent
     ],
     entryComponents: [
         ProcturWidgetComponent,

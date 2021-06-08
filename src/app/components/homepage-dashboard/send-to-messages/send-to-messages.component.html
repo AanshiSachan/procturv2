@@ -1,0 +1,249 @@
+<div class="page-content">
+    <div class="top_section">
+        <div>
+            <p class="heading">SMS Description <img src="../../../../assets/img_notif/edit.svg"></p>
+            <p class="para">
+                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. 
+                                Velit officia consequat duis enim velit mollit. 
+                                Exercitation veniam consequat sunt nostrud amet.
+                                
+            </p>
+            <div class="divide">
+                <div>Character Count: <b>194</b></div>
+                <div>SMS Type: <b> Promotional</b></div>
+                <div>Message Count: <b>1</b></div>
+            </div>
+        </div>
+        <div class="display">
+           <div class="vertical display" *ngIf="!isProfessional">
+            <div>
+                <label>{{schoolModel? 'Standard' : 'Master Course'}}</label>
+               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course">
+                   <option [value]="master.master_course" *ngFor="let master of masterCourseList">{{master.master_course}}</option>
+               </select>
+
+               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id">
+                <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.master_course}}</option>
+            </select>
+            </div>
+            <div>
+                <label> Course</label>
+               <select>
+                   <option></option>
+               </select> 
+               
+            </div>
+            <div>
+                <button class="blue_button">Search</button>
+            </div>
+           </div>
+            <div class="vertical1 display">
+                <div class="line"></div>
+                <div>OR</div>
+                <div class="line"></div>
+            </div>
+            <div  class="vertical display">
+                <div class="radio_div">
+                    <div class="field-radio-wrapper dull">
+                        <input type="radio" class="form-radio" (click)="allActiveStudent()">
+                        <label >Active Students</label>
+                    </div>
+                    <div class="field-radio-wrapper ">
+                        <input type="radio" class="form-radio" (click)="allInActiveStudent()">
+                        <label >Inactive Students</label>
+                    </div>
+                    <div class="field-radio-wrapper ">
+                        <input type="radio" class="form-radio" (click)="aluminiStudentData()">
+                        <label >Alumni Students</label>
+                    </div>
+                    <div class="field-radio-wrapper dull">
+                        <input type="radio" class="form-radio" (click)="allFacultyDataList()">
+                        <label >Faculty</label>
+                    </div>
+                    <div class="field-radio-wrapper dull">
+                        <input type="radio" class="form-radio" (click)="allRegisterUsers()">
+                        <label >Registered Users</label>
+                    </div>
+                </div>
+               <div>
+                <button class="blue_button">Search</button>
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex space">
+        <input placeholder="Search" class="search">
+        <p>Total Count 01</p>
+    </div>
+    <div class="table_head">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div>ID</div>
+        <div >Name</div>
+        <div>Mobile</div>
+        <div>Standard</div>
+        <div>Joining Date</div>
+        <div>Email</div>
+    </div>
+   
+    <div class="scroll_body1">
+        <div *ngIf="showActiveTableFlag">
+        <div class="table_body" *ngFor="let item of studentList">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+        <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+        <div title="{{item.student_phone}}">{{item.student_phone}}</div>
+        <div title="{{item.student_class}}">{{item.student_class}}</div>
+        <div title="{{item.doj}}">{{item.doj}}</div>
+        <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        </div>
+        </div>
+<!-- =======inactive-student================== -->
+<div *ngIf="showInactiveStudentFlag">
+    <div class="table_body" *ngFor="let item of studentList">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+        <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+        <div title="{{item.student_phone}}">{{item.student_phone}}</div>
+        <div title="{{item.student_class}}">{{item.student_class}}</div>
+        <div title="{{item.doj}}">{{item.doj}}</div>
+        <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        </div>
+    </div>
+    <!-- ============alumini-table================ -->
+    <div *ngIf="showAllaluminiStudentFlag">
+        <div class="table_body" *ngFor="let item of studentList">
+            <div>
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" checked>
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+            <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+            <div title="{{item.student_phone}}">{{item.student_phone}}</div>
+            <div title="{{item.student_class}}">{{item.student_class}}</div>
+            <div title="{{item.doj}}">{{item.doj}}</div>
+            <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+            </div>
+        </div>
+    <!-- =================register-user======================= -->
+    <div *ngIf="showallUserListFlag">
+        <div class="table_body" *ngFor="let item of studentList">
+            <div>
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" checked>
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div title="{{item.user_id}}">{{(!item.user_id)? '-' : (item.user_id.length > 30)? (item.user_id | slice : 0 : 30) + '...' : item.user_id}}</div>
+            <div title="{{item.name}}">{{(!item.name)? '-' : (item.name.length > 30)? (item.name | slice : 0 : 30) + '...' : item.name}}</div>
+            <div title="{{item.phone}}">{{(!item.phone)? '-' : (item.phone.length > 10)? (item.phone | slice : 0 : 10) + '...' : item.phone}}</div>
+            <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div>
+            <div title="{{item.doj}}">{{(!item.doj)? '-' : (item.doj.length > 10)? (item.doj | slice : 0 : 10) + '...' : item.doj}}</div>
+            <div title="{{item.email_id}}">{{(!item.email_id) ? '-' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
+            </div>
+        </div>
+    <!-- =============teacher-table==================== -->
+        <div class="table_head" *ngIf="showFacultyTableFlag">
+            <div>
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" checked>
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div >Name</div>
+            <div>Mobile</div>
+            <div>Subject</div>
+            <div>Is Active</div>
+        </div>
+        <div class="table_body" *ngFor="let item of studentList">
+            <div>
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" checked>
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div title="{{item.teacher_name}}">{{(!item.teacher_name)? '-' :(item.teacher_name.length > 30)? (item.teacher_name | slice : 0 : 30) + '...' : item.teacher_name}}</div>
+            <div title="{{item.teacher_phone}}">{{(!item.teacher_phone)? '-' : (item.teacher_phone.length > 30)? (item.teacher_phone | slice : 0 : 30) + '...' : item.teacher_phone}}</div>
+            <div title="{{item.teacher_subjects}}">{{(!item.teacher_subjects)? '-' : (item.teacher_subjects.length > 10)? (item.teacher_subjects | slice : 0 : 10) + '...' : item.teacher_subjects}}</div>
+            <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
+            <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
+            </div>
+    <!-- ===========end================== -->
+    <div class="pagignation">
+        <p>Showing <b>1 to 8 of 50</b></p>
+        <div class="flex space1">
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+              <p>Student</p>
+              <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+              <p>Parent</p>
+            <button class="white_button">Send Text Message </button>
+        </div>
+    </div>   
+</div>

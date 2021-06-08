@@ -6,7 +6,7 @@
       <a  href="#">Push</a>
    </div>
    <div class="create">
-      <a  href="#"> + Create New SMS  </a>
+      <a  (click)="onClickCreateMessage()"> + Create New SMS  </a>
   </div>
   </div>
   <div class="table_head">
@@ -27,7 +27,7 @@
           <div title="{{msg.message}}"> {{(!msg.message) ? '-':(msg.message.length > 50) ?(msg.message | slice :0:50) + '...' : msg.message}}
           </div>
           <div>
-              <a class="mr16"><img src="../../../../assets/images/edit.svg"></a>
+              <a class="mr16" (click)="onClickEdit(msg)"><img src="../../../../assets/images/edit.svg"></a>
               <a (click)="deletMessage(msg,'400')"><img src="../../../../assets/images/delete.svg"></a>
           </div>
       </div>
@@ -39,14 +39,17 @@
 
 </div>
 <!-- =====================create-message================= -->
-<div class="page-content1">
+<div class="page-content1" *ngIf="jsonFlag.createMesageFlag || jsonFlag.editMessage ">
   <div class="page_heading">
-      <p>
+      <p *ngIf="!jsonFlag.editMessage">
           Create SMS
       </p>
-      <img src="../../../../assets/images/cross.svg">
+      <p *ngIf="jsonFlag.editMessage ">
+        Edit SMS
+    </p>
+      <img src="../../../../assets/images/cross.svg" (click)="closeDiv()">
   </div>
-  <div class="page_body">
+  <div class="page_body" >
       <div>
           <p>Select SMS Type</p>
           <div class="remaining selected">
@@ -80,16 +83,18 @@
   </div>
   <div class="page_footer">
       <div></div>
-      <button class="blue_button" (click)="saveNewMessage()">Save</button>
+      <button class="blue_button" (click)="saveNewMessage()" *ngIf="!jsonFlag.editMessage">Save</button>
+      <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editMessage">Update</button>
+
   </div>
 </div>
 <!-- ========================selected message============================ -->
-<div class="page-content1">
+<div class="page-content1" *ngIf="jsonFlag.selectedMessageFlag">
   <div class="page_heading">
       <p>
           Selected  SMS
       </p>
-      <img src="../../../../assets/images/cross.svg">
+      <img src="../../../../assets/images/cross.svg" (click)="closeDiv()">
   </div>
   <div class="page_body">
       <div>
@@ -122,7 +127,7 @@
   </div>
   <div class="white1">
       <div></div>
-      <button class="blue_button extra_padding">Send To</button>
+      <button class="blue_button extra_padding" (click)="onClickSentTo()">Send To</button>
   </div>
   <div class="page_footer">
       

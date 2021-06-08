@@ -22,6 +22,8 @@ export class SendNotificationComponent implements OnInit {
     openMessageFlag: false,
     editMessage: false,
     editApprovedMsg:false,
+    createMesageFlag:false,
+    selectedMessageFlag:false,
     messageObject: {},
     approveMessageObject:{}
   };
@@ -33,11 +35,7 @@ export class SendNotificationComponent implements OnInit {
     batch_id: '-1',
     course_id:'-1'
   };
-  sendNotificationCourse = {
-    master_course: '',
-    course_id: '',
-    standard_id: ''
-  }
+  
   loginField = {
     checkBox: '0'
   }
@@ -46,19 +44,9 @@ sendLoginmessage:boolean=false
   emailFlag :boolean=false;
   selectStudentForm :boolean= false;
   addSmsForm:boolean=true;
-  showTableFlag: boolean = false;
-  showFacultyTableFlag:boolean = false;
-  showInactiveStudentFlag:boolean =false;
-  showAllaluminiStudentFlag:boolean=false;
-  showallUserListFlag:boolean=false; 
+  
   schoolModel: boolean = false;
-  showEmailSubject: boolean = false;
-  chkbxSmsSend:boolean=false;
-  sendToStudent:boolean=true;
-  sendToParent:boolean=false;
-  sendTogardiunt:boolean=false;
-  dilverSms:boolean=true;
-  dilverEmail:boolean=false;
+ 
   public isProfessional: boolean = false;
   previowBox: boolean = false;
 
@@ -72,23 +60,12 @@ sendLoginmessage:boolean=false
   messageList: any = [];
   emailMessageList:any=[];
   openMessageList: any = [];
-  masterCourseList: any =[];
-  courseList: any=[];
-  batchList: any = [];
-  studentList:any =[];
-  allFacultyList:any =[];
-  allInactiveStudentList:any=[];
-  allAluminiList:any=[];
-  allUserList:any=[];
+  
   fullResponse: any = [];
   selectedActiveStudentList:any;
   selectedRow:any;
   subject: any;
-  activeRowCeckbox:boolean=false;
-  facultyCheckBox:boolean=false;
-  aluminiCheckBox:boolean=false;
-  allUserCheck:boolean=false;
-  inactiveCheck:boolean=false;
+ 
 
   previewedMessage: any;
   transactionalSmsm:any;
@@ -98,6 +75,8 @@ sendLoginmessage:boolean=false
   selectedMessageText:string ="";
   selectedMessageCount:number =0;
   selectedMessageId:any
+
+
 
   constructor( private router: Router,
     private auth: AuthenticatorService,
@@ -136,6 +115,15 @@ sendLoginmessage:boolean=false
     //this.getOpenStatusSMS()
     //this.getMaterCourseList();
   }
+  onClickCreateMessage(){
+    this.jsonFlag.createMesageFlag = true
+    this.jsonFlag.selectedMessageFlag = false
+
+  }
+  closeDiv(){
+    this.jsonFlag.createMesageFlag = false
+    this.jsonFlag.selectedMessageFlag = false
+  }
   getAllMessageFromServer() {
     console.log("1");
     this.messageList = [];
@@ -161,6 +149,7 @@ sendLoginmessage:boolean=false
             this.messageList.push(tempMessageList[i]);
             console.log("sms list",this.messageList)
           }
+         
         }
         this.auth.hideLoader();
       },
@@ -171,6 +160,7 @@ sendLoginmessage:boolean=false
 
   }
 onselectMessageCheckbox(obj){
+  this.jsonFlag.selectedMessageFlag = true
 this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
 this.selectedMessageText=this.selectedRow.length
@@ -241,8 +231,11 @@ saveNewMessage() {
  deletMessage(data,statusCode){
   let msg: any = "";
  this.selectedMessageId = data
-  if(statusCode == 0){
- msg = 'deleted'
+  if(statusCode == 1 ){
+ msg = 'Approves'
+  }else{
+    msg = 'deleted'
+
   }
     if (confirm('Are you sure, You want  to ' + msg + ' the message?')) {
       this.widgetService.changesSMSStatus({'status':statusCode},data.message_id).subscribe(
@@ -266,6 +259,42 @@ saveNewMessage() {
       )
     }
   }
+  onClickEdit(obj){
+    this.jsonFlag.editMessage = true
+    this.newMessageText = obj.message
+    this.selectedMessageId = obj.message_id
+    console.log("ghghg",this.selectedMessageId)
+  }
+updateMessage(){
+    let obj = { message: this.newMessageText,status:1};
+    this.auth.showLoader();
+    this.widgetService.changesSMSStatus(obj, this.selectedMessageId ).subscribe(
+      res => {
+        this.auth.hideLoader();
+        this.getAllMessageFromServer()
+        let msg = {
+          type: 'success',
+          title: 'Message updated Successfully',
+        };
+        this.appC.popToast(msg);
+      
+      },
+      err => {
+        this.auth.hideLoader();
+        //console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Message',
+          body: err.message
+        };
+        this.appC.popToast(msg);
+      }
+    )
 
- 
+  }
+  onClickSentTo(){
+    this.router.navigateByUrl('/view/dashboard/send-to-messages')
+  }
 }
+ 
+
