@@ -346,6 +346,41 @@ downloadStudentReportCard() {
       this.auth.hideLoader();
     })
 }
+//============================Download Student ID card==============================//
+downloadStudentIDCard() {
+  this.auth.showLoader();
+  let url = '/admit-card/download';
+  this.PostStudService.stdPostData(url, [this.student_id]).subscribe(
+    (res: any) => {
+      console.log(res);
+      this.auth.hideLoader();
+      if (res) {
+        let resp = res.response;
+        if (resp.document != "") {
+          let byteArr = this._commService.convertBase64ToArray(resp.document);
+          let fileName = 'card.pdf'; //res.docTitle;
+          let file = new Blob([byteArr], { type: 'application/pdf;charset=utf-8;' });
+          let url = URL.createObjectURL(file);
+          let dwldLink = document.getElementById('downloadFileClick1');
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          document.body.appendChild(dwldLink);
+          dwldLink.click();
+        }
+        else {
+          this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+        }
+      } else {
+        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+      }
+    },
+    err => {
+      console.log(err);
+      this.auth.hideLoader();
+    }
+  )
+
+}
 //============================Attendence==============================//
 viewAttendancePayload: any = {
   batch_id: -1,

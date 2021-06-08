@@ -85,8 +85,8 @@
           <p class="course_text">Download:</p>
           <div>
             <a class="mr15" id="downloadFileClick1" (click)="downloadStudentReportCard()"   ><img src="../../../assets/img_view/Group345.svg"   title="Report Card"></a>
-            <a class="mr15"><img src="../../../assets/img_view/Group343.svg" title="Manage Fees"></a>
-            <a class="mr15"><img src="../../../assets/img_view/Group344.svg" title="ID Card"></a>
+            <a class="mr15" ><img src="../../../assets/img_view/Group343.svg" title="Manage Fees"></a>
+            <a class="mr15" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg" title="ID Card"></a>
             <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
             <a class="mr15"><img src="../../../assets/img_view/Group347.svg" title="View Report"></a>
           </div>
@@ -104,7 +104,7 @@
              <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div>
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
              <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>
-             <div id="timeTable" *ngIf="isLangInstitue == true" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
+             <div id="timeTable" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
              <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
              <div id="exam_course" *ngIf="!schoolModel"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
        
@@ -305,7 +305,7 @@
            <div id="attendance_tab" *ngIf="isActiveTab =='attendance'" >
             <!-- Attendance -->
              <div class="row radio_div no-gutters">
-             <div class="col-lg-6 flex">
+             <div class="col-lg-6 flex" style="margin-top: 10px;">
                
               <div class="field-radio-wrapper">
                 <input type="radio" id="idCurrentMon" [checked]="(viewAttendancePayload.type == '0')" value="0" [(ngModel)]="viewAttendancePayload.type"
@@ -1572,10 +1572,11 @@
             <div id="timeTable" *ngIf="isActiveTab =='timeTable'" >
               <!-- time table -->
               
-              <div class="m16">
+              <div class="m16" >
                <div>
                   <select class="mr10 select1">
                   <option>Current Date</option>
+                  <option>Next Week</option>
                   <option>Date Range</option>
                 </select>
                 <button class="blue_button mr10">GO</button>
@@ -1583,13 +1584,13 @@
                <div class="date_box">
                  <div>
                   <p class="date1">10-09-2020</p> 
-                <!--   <input type="date" name="" class="date1"> -->
+                <!-- <input type="date" name="" class="date1">  -->
                    <p>Start Date</p>
                  </div>
                  <div class="line1"></div>
                  <div>
                  <p class="date1">10-09-2020</p> 
-               <!--  <input type="date" name="" class="date1"> -->
+                <!-- <input type="date" name="" class="date1"> -->
                    <p>End Date</p>
                  </div>
                </div>
@@ -1610,7 +1611,7 @@
                           <div></div>
                           <div></div>
                           <div></div>
-                          <div><i class="fas fa-angle-down" id="icon"></i></div>
+                          <div><i class="fa fa-angle-down" id="icon"></i></div>
                         </div>
                        <div class="content">
                           <div class="white_body1">
