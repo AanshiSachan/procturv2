@@ -420,7 +420,20 @@
             </div>
            <div id="fees_tab" *ngIf="isActiveTab =='fees'" >
             <!-- Fees -->
-            <div class="table_title">
+            <div class="row radio_div no-gutters">
+              <div class="col-lg-10">
+                <select class="select mr10 wid160" [(ngModel)]="Fee_model.academic_yr_id" style="width: 20%;">
+                  <option value="-1">Academic Year{{Fee_model.academic_yr_id}}</option>
+                  <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
+                    {{data.inst_acad_year}}</option>
+                </select>
+              
+                <button class="blue_button" (click)="getFeesDetails(Fee_model.academic_yr_id)">GO</button>
+              </div>
+             
+            </div>
+  
+            <!-- <div class="table_title">
               <span >Payment History</span>
             </div>
               <div class="payment_history">
@@ -645,7 +658,233 @@
                     </td>
                   </tr>
                 </div>
+              </div> -->
+              <div class="table_title">
+                <span >Payment History</span>
               </div>
+                <div class="payment_history">
+                  <div class="table_heading">
+                    <div>
+                      Paid<br>ON
+                    </div>
+                    <div>
+                      Instal<br>No
+                    </div>
+                    <div>
+                      Fee<br>Type
+                    </div>
+                    <div>
+                     <span class="top"> Amount</span>
+                    </div>
+                    <div *ngIf="tax==1">
+                      Tax
+                    </div>
+                    <div>
+                      Discount<br>Amount
+                    </div>
+                    <div>
+                      Total<br>Amount
+                    </div>
+                    <div>
+                      Amount<br>Paid
+                    </div>
+                    <div>
+                      Amount<br>Due
+                    </div>
+                    <div>
+                      Payment<br>Mode
+                    </div>
+                    <div>
+                      Refrence<br>No
+                    </div>
+                    <div>
+                      <span class="top">Remark </span>
+                    </div>
+                  </div>
+                  <div class="table_body" *ngFor="let data of payementHistory">
+                    <div>
+                      {{data.p_date}}
+                    </div>
+                    <div>
+                      {{data.install_no}}
+                    </div>
+                    <div>
+                      {{data.f_type==null?'---':data.f_type}}
+                    </div>
+                    <div>
+                      {{data.initial_amount==null?'0':data.initial_amount}}
+                    </div>
+                    <div  *ngIf="tax==1">
+                      {{data.tax_amount==null?'0':data.tax_amount}}
+                    </div>
+                    <div>
+                      {{data.disc_amount==null?'0':data.disc_amount}}
+                    </div>
+                    <div>{{data.t_amount}}</div>
+                    <div>
+                      {{data.p_amount}}
+                    </div>
+                    <div>
+                      {{data.d_amount==null?'0':data.d_amount}}
+                    </div>
+                    <div>
+                      {{data.p_method}}
+                    </div>
+                    <div>
+                      ---
+                    </div>
+                    <div>
+                      {{data.p_remarks==""?'---':data.p_remarks}}
+                    </div>
+                  </div>
+                  <div  class="table_body"  *ngIf="PastFeeList.length == 0">
+                    <tr>
+                      <td colspan="11" style="text-align: center">
+                        No Record Of Payment History
+                      </td>
+                    </tr>
+                  </div>
+                </div>
+                <div class="table_title">
+                  <span >Past Fee Due Details</span>
+                </div>
+               
+                <div class="past_due">
+                  <div class="table_heading">
+                    <div>
+                      Installment<br>No
+                    </div>
+                    <div>
+                      Fee<br>Type
+                    </div>
+                    <div>
+                     <span class="top"> Due Date</span>
+                    </div>
+                    <div>
+                     <span class="top"> Amount</span>
+                    </div>
+                    <div>Tax</div>
+                    <div>
+                      Discount<br>Amount
+                    </div>
+                    <div>
+                      Total<br>Amount
+                    </div>
+                    <div>
+                      Amount<br>Paid
+                    </div>
+                    <div>
+                      Amount<br>Due
+                    </div>
+                  </div>
+                  <div class="table_body"  *ngFor="let data of paymentHistoryList">
+                    <div>
+                      {{data.installment_no}}
+                    </div>
+                    <div>
+                      {{data.fee_type_name}}
+                    </div>
+                    <div>
+                      {{data.due_date}}
+                    </div>
+                    <div>
+                      {{data.total_initial_amount}}
+                    </div>
+                    <div>
+                      {{data.total_tax_applied}}
+                    </div>
+                    <div>
+                      {{data.total_discount}}
+                    </div>
+                    <div>
+                      {{data.total_amount_after_discount_after_tax}}
+                    </div>
+                    <div>
+                      {{data.total_amt_paid}}
+                    </div>
+                    <div>
+                      {{data.total_balance_amt}}
+                    </div>
+                  </div>
+                  <div  class="table_body" *ngIf="paymentHistoryList.length == 0">
+                    <tr>
+                      <td colspan="11" style="text-align: center">
+                        No Record Of Past Fee Due Found
+                      </td>
+                    </tr>
+                  </div>
+                </div>
+                <div class="table_title">
+                  <span >Next Fee Due Details</span>
+                </div>
+               
+                <div class="next_due">
+                  <div class="table_heading">
+                    <div>
+                      Installment<br>No
+                    </div>
+                    <div>
+                      Fee<br>Type
+                    </div>
+                    <div>
+                     <span class="top"> Due Date</span>
+                    </div>
+                    <div>
+                     <span class="top"> Amount</span>
+                    </div>
+                    <div>
+                      <span class="top"> Tax</span>
+                     </div>
+                    <div>
+                      Discount<br>Amount
+                    </div>
+                    <div>
+                      Total<br>Amount
+                    </div>
+                    <div>
+                      Amount<br>Paid
+                    </div>
+                    <div>
+                      Amount<br>Due
+                    </div>
+                  </div>
+                  <div class="table_body"  *ngFor="let data of FutureFeeList">
+                    <div>
+                      {{data.installment_no}}
+                    </div>
+                    <div>
+                      {{data.fee_type_name}}
+                    </div>
+                    <div>  
+                      {{data.due_date}}
+                    </div>
+                    <div>
+                      {{data.total_initial_amount}}
+                    </div>
+                    <div>
+                      {{data.total_tax_applied}}
+                    </div>
+                    <div>
+                      {{data.total_discount}}
+                    </div>
+                    <div>
+                      {{data.total_amount_after_discount_after_tax}}
+                    </div>
+                    <div>
+                      {{data.total_amt_paid}}
+                    </div>
+                    <div>
+                      {{data.total_balance_amt}}
+                    </div>
+                  </div>
+                  <div  class="table_body">
+                    <tr *ngIf="FutureFeeList.length == 0">
+                      <td colspan="11" style="text-align: center">
+                        No Record Of Next Fee Due Details
+                      </td>
+                    </tr>
+                  </div>
+                </div>
             </div>
            <div id="documents_tab" *ngIf="isActiveTab =='documents'">
             <!-- Documents -->

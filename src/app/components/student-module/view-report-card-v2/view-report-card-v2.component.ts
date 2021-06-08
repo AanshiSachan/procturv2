@@ -35,6 +35,20 @@ export class ViewReportCardV2Component implements OnInit {
     this.student_id = this.route.snapshot.paramMap.get('id');
 
    }
+   feesAllData:any=[];
+   academicYrList: any = [];
+   timeTableDet: any = [];
+   timeTableSchedule: any = [];
+   timetablePayLoad: any = {
+    batch_id: -1,
+    standard_id: -1,
+    subject_id: -1,
+    teacher_id: -1,
+    type: '0',
+    student_id: -1,
+    startdate: "",
+    enddate: ""
+  };
    studentDetJson: any = {
     student_name: '',
     student_disp_id: '',
@@ -42,6 +56,15 @@ export class ViewReportCardV2Component implements OnInit {
     doj: '',
     photo: ''
   };
+  Fee_model = {
+    master_course: '',
+    course_id: -1,
+    standard_id: -1,
+    academic_yr_id: -1,
+    batch_id: -1,
+    country_id: -1,
+    fee_assigned: 1
+  }
   displayImage: any = '';
    coursesAssignedlist: any = [];
    futureExamSch: any = [];
@@ -69,6 +92,7 @@ student_id: any;
 schoolModel:boolean;
 isLangInstitue: boolean = false;
 institute_id=sessionStorage.getItem('institute_id');
+tax=sessionStorage.getItem('enable_tax_applicable_fee_installments');
   ngOnInit(): void {
     //check for school model
     this.schoolModel= this.auth.schoolModel.getValue();
@@ -108,6 +132,7 @@ openTab(param){
     this.getPastDues();
     this.getPastHistory();
     this.getFutureDues();
+    this.fetchAcademicYearList();
   }
   if(param =="exam_course"){
     this.getStudentInfo();
@@ -243,7 +268,55 @@ getUploadedFileData() {
   )
 }
 //============================fees tab code==============================//
+payementHistory:any=[];
+getFeesDetails(academic_yr_id){
+//Request URL: https://test999.proctur.com/StdMgmtWebAPI/api/v1/studentWise/fee/100058/students/13121/515
+this.auth.showLoader();
+let url = "/api/v1/studentWise/fee/" + this.institute_id + "/students/"+ this.student_id +"/"+academic_yr_id;
+this.httpService.getData(url).subscribe(
+  (res: any) => {
+    this.feesAllData =res.result;
+    this.payementHistory =res.result.p_install_li;
+    console.log(this.payementHistory)
+    console.log(this.feesAllData);
+    this.fetchDefaultAY();
+    this.auth.hideLoader();
+  },
+  (error: any) => {
+    this.auth.hideLoader();
+    this._commService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
 
+  }
+)
+}
+fetchAcademicYearList() {
+  this.auth.showLoader();
+  let url = "/api/v1/academicYear/all/" + this.institute_id;
+  this.httpService.getData(url).subscribe(
+    (res: any) => {
+      this.academicYrList = res;
+      console.log(this.academicYrList)
+      this.fetchDefaultAY();
+      this.auth.hideLoader();
+    },
+    (error: any) => {
+      this.auth.hideLoader();
+      this._commService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+
+    }
+  )
+}
+fetchDefaultAY() {
+  console.log(this.academicYrList)
+  if (this.academicYrList != null) {
+    for (let data of this.academicYrList) {
+      if (data.default_academic_year == 1) {
+        this.Fee_model.academic_yr_id = data.inst_acad_year_id;
+        break;
+      }
+    }
+  }
+}
 getPastDues() {
   let obj: any = {
     from_date: '',
@@ -269,6 +342,7 @@ getPastHistory() {
     res => {
       this.auth.hideLoader();
       this.PastFeeList = res;
+      console.log(this.PastFeeList)
      
     },
     err => {
@@ -542,5 +616,68 @@ this.show =param;
 }
 editStudent(id) {
   this.router.navigate(["/view/students/edit/" + id]);
+}
+//============================Time Table==============================//
+onTimeTableRadioBtnChange() {
+  alert("hii")
+  if (this.timetablePayLoad.type == "0") {
+    this.getTimeTableDetails();
+  } else if (this.timetablePayLoad.type == "1") {
+    this.getTimeTableDetails();
+  } else {
+    this.timeTableSchedule = [];
+    this.timetablePayLoad.startdate = moment().format('YYYY-MM-DD');
+    this.timetablePayLoad.enddate = moment().format('YYYY-MM-DD');
+  }
+}
+getTimeTableDetails() {
+  let check = this.validateAllField();
+  if (check) {
+    this.auth.showLoader();
+    this.apiService.fetchTimetable(this.timetablePayLoad).subscribe(
+      res => {
+        this.auth.hideLoader();
+        this.timeTableDet = res;
+        this.makeJSONForTimeTable(res.batchTimeTableList);
+      },
+      err => {
+        this.auth.hideLoader();
+        this.messageNotifier('error', '', err.error.message);
+      }
+    )
+  }
+}
+validateAllField() {
+  if (this.timetablePayLoad.type == '2') {
+    if (this.timetablePayLoad.startdate == "" || this.timetablePayLoad.startdate == null) {
+      this.messageNotifier('error', '', 'Please enter start date');
+      return false;
+    } else {
+      this.timetablePayLoad.startdate = moment(this.timetablePayLoad.startdate).format('YYYY-MM-DD');
+    }
+    if (this.timetablePayLoad.enddate == "" || this.timetablePayLoad.enddate == null) {
+      this.messageNotifier('error', '', 'Please enter end date');
+      return false;
+    } else {
+      this.timetablePayLoad.enddate = moment(this.timetablePayLoad.enddate).format('YYYY-MM-DD');
+    }
+  } else {
+    this.timetablePayLoad.startdate = "";
+    this.timetablePayLoad.enddate = "";
+  }
+  return true;
+}
+makeJSONForTimeTable(data) {
+  this.timeTableSchedule = [];
+  for (let key in data) {
+    if (data.hasOwnProperty(key)) {
+      let tr = {
+        date: key,
+        schedule: data[key]
+      }
+      this.timeTableSchedule.push(tr);
+    }
+  }
+  console.log(this.timeTableSchedule);
 }
 }
