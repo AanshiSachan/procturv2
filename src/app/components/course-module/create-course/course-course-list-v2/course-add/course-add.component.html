@@ -1,37 +1,63 @@
 <div class="tab-content">
     <div id="one" class="tab-pane active">
       <div class="w98">
-        <div class="pt25 flex">
+        <div class="pt25 flex" [ngClass]="{'centerFlex': schoolModel}">
            <div class="flex" *ngIf="!schoolModel">
               <div class="master_c">
                 Master Course :
               </div>
               <div>
-                <span class="mc_name">{{courseDetails.master_course_name}}</span>
+                <span class="mc_name">{{courseDetails.master_course}}</span>
               </div>
             </div>
-            <div class="flex space_flex">
+            <div class="flex" [ngClass]="{'space_flex': !schoolModel}">
               <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
               <div class="std">Standard: {{courseDetails.standard_name}}</div>
               <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
             </div>
         </div>
         <div class="line"></div>
-        <div class="pt15 ">
-           <input type="text" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name" placeholder="Course Name*" class="input mr10 wid217">
-           <input *ngIf="!schoolModel" type="text" class="form-ctrl bsDatepicker input mr10 wid180"
-           [(ngModel)]="courseDetails.start_Date" name="startDate" id="startDate" bsDatepicker placeholder="Start date*">
-           <input *ngIf="!schoolModel" type="text" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
+        <div class="details">
+        <div class="table_head" *ngIf="selectedCourseID">
+          <div>{{schoolModel ? 'Section' : 'Course'}} Name</div>
+          <div *ngIf="!schoolModel">Start Date</div>
+          <div *ngIf="!schoolModel">End date</div>
+          <div>Academic Year</div>
+          <div>Allow Exam Grades</div>
+          
+        </div>
+        <div class="pt15 table_body" [ngClass]="{'noShadow': !selectedCourseID}">
+           <input type="text" style="float: left;" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name" placeholder="{{schoolModel ? 'Section' : 'Course'}} Name*" class="input mr10 wid217">
+           <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
+             <input type="text" class="form-ctrl bsDatepicker input mr10 wid180"
+             [(ngModel)]="courseDetails.start_Date" autocomplete="off" name="startDate" id="startDate" bsDatepicker placeholder="Start date*">
+            </div>
+            <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
+              <input type="text" autocomplete="off" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
+            </div>
            <select class="select mr10 wid180" [(ngModel)]="courseDetails.academic_year_id" (ngModelChange)="setStartAdEndDate(courseDetails)">
-             <option value="">Academic Year</option>
+             <option value="-1">Academic Year * </option>
              <option *ngFor="let opt of academicList"  [value]="opt.inst_acad_year_id">
               {{opt.inst_acad_year}}
             </option>
            </select>
+           <div>
+            <label class="checkbox">
+                   <span class="checkbox__input">
+                     <input type="checkbox" id="allow" value="" [(ngModel)]="courseDetails.allow_exam_grades" name="allow">
+                     <span class="checkbox__control">
+                      <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                     <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                 </span>
+               </span>
+             </label>
+             <span>Allow Exam Grades</span>
+       </div>
         </div>
+      </div>
         <div class="subject">
           <div class="table_head">
-            <div>Select Subject</div>
+            <div>Select</div>
             <div>Subject Name</div>
             <div>Allocate Faculty *</div>
           </div>

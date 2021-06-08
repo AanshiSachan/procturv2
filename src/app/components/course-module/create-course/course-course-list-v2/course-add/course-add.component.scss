@@ -1,1 +1,21 @@
 @import '../course-course-list-v2.component.scss';
+.field-wrapper {
+    padding-top: 0;
+}
+.field-wrapper.datePickerBox:after {
+    content: '';
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 20px;
+    top: 7px;
+    width: 21px;
+    height: 21px;
+    z-index: 20;
+    border-radius: 4px;
+    orientation: "auto",
+    
+    }
+    .noShadow {
+        box-shadow: none !important;
+        border: none !important;
+    }

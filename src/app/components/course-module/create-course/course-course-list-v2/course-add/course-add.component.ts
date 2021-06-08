@@ -25,7 +25,7 @@ export class CourseAddComponent implements OnInit {
     course_name: '',
     start_Date: '',
     end_Date: '',
-    academic_year_id: '',
+    academic_year_id: -1,
     master_course_id: '',
     inst_id: sessionStorage.getItem('institute_id')
   };
@@ -66,11 +66,12 @@ export class CourseAddComponent implements OnInit {
     let sub_list = JSON.parse(sessionStorage.getItem('subjectList'));
     this.subjectList = sub_list.subject_list;
     this.getActiveTeacherList(this.courseDetails.standard_id);
-    console.log(this.subjectList);
-    // sessionStorage.removeItem('cretaCourse');
     this.getAcademicYearDetails();
     if (this.selectedCourseID) {
       this.getSelectedCourse(this.selectedCourseID);
+    } else {
+      this.courseDetails.academic_year_id = '-1';
+      this.courseDetails.master_course = this.courseDetails.master_course_name;
     }
   }
 
@@ -238,7 +239,7 @@ export class CourseAddComponent implements OnInit {
         if (validateData == false) {
           return;
         }
-        if (this.courseDetails.academic_year_id && this.courseDetails.academic_year_id == '') {
+        if (this.courseDetails.academic_year_id == '-1') {
           this._msgService.showErrorMessage('error', '', 'Please Select Academic Year!');
           return
         }
@@ -338,11 +339,11 @@ export class CourseAddComponent implements OnInit {
         return false;
       }
 
-      // if (this.mainArrayForTable[i].allow_exam_grades == true) {
-      //   obj.is_exam_grad_feature = 1;
-      // } else {
-      //   obj.is_exam_grad_feature = 0;
-      // }
+      if (this.mainArrayForTable[i].allow_exam_grades == true) {
+        obj.is_exam_grad_feature = 1;
+      } else {
+        obj.is_exam_grad_feature = 0;
+      }
       obj.subject_list = [];
       let selectedSubjectRow = this.checkIfAnySubjectSelected(this.mainArrayForTable[i].subjectListArray);
       console.log(selectedSubjectRow);
@@ -355,7 +356,7 @@ export class CourseAddComponent implements OnInit {
         if (this.schoolModel) {
           trp.batch_name = this.courseDetails.standard_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         } else {
-          trp.batch_name = this.courseDetails.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+          trp.batch_name = this.courseDetails.master_course + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         }
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == null || selectedSubjectRow[y].selected_teacher == "-1") {
@@ -479,6 +480,8 @@ export class CourseAddComponent implements OnInit {
       this._httpService.postData('/api/v1/subjects', this.preparedSubjectRequestPayload()).subscribe(
         res => {
           this.successMsg();
+          this.standardList = [];
+          this.getAllStandardSubjectList();
         },
         err => {
           this._msgService.showErrorMessage('error', '', err.error.message);
@@ -488,11 +491,15 @@ export class CourseAddComponent implements OnInit {
 
   getAllStandardSubjectList() {
     if (!this.standardList.length) {
-      let url = `/api/v1/standards/all/ ${sessionStorage.getItem('institute_id')}?active=Y`;
+      let url = "/api/v1/standards/standard-subject-list/" + sessionStorage.getItem('institute_id') + '?is_active=Y&is_subject_required=true';
       this._httpService.getData(url).subscribe(
-        res => {
+        (res:any) => {
           console.log("getAllStandardSubjectList", res);
-          this.standardList = res;
+          this.standardList = res.result;
+          let sub_list = this.standardList.filter(sub=>(sub.standard_id == this.courseDetails.standard_id));
+          this.subjectList = sub_list[0].subject_list;
+          this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
+          this.getActiveTeacherList(this.courseDetails.standard_id);
         },
         (error: any) => {
           this._msgService.showErrorMessage('error', '', error.error.message)
