@@ -20,27 +20,27 @@
         <div class="details">
         <div class="table_head" *ngIf="selectedCourseID">
           <div>{{schoolModel ? 'Section' : 'Course'}} Name</div>
+          <div>Academic Year</div>
           <div *ngIf="!schoolModel">Start Date</div>
           <div *ngIf="!schoolModel">End date</div>
-          <div>Academic Year</div>
           <div>Allow Exam Grades</div>
           
         </div>
         <div class="pt15 table_body" [ngClass]="{'noShadow': !selectedCourseID}">
            <input type="text" style="float: left;" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name" placeholder="{{schoolModel ? 'Section' : 'Course'}} Name*" class="input mr10 wid217">
-           <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
-             <input type="text" class="form-ctrl bsDatepicker input mr10 wid180"
-             [(ngModel)]="courseDetails.start_Date" autocomplete="off" name="startDate" id="startDate" bsDatepicker placeholder="Start date*">
-            </div>
-            <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
-              <input type="text" autocomplete="off" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
-            </div>
            <select class="select mr10 wid180" [(ngModel)]="courseDetails.academic_year_id" (ngModelChange)="setStartAdEndDate(courseDetails)">
              <option value="-1">Academic Year * </option>
              <option *ngFor="let opt of academicList"  [value]="opt.inst_acad_year_id">
               {{opt.inst_acad_year}}
             </option>
            </select>
+           <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
+            <input type="text" class="form-ctrl bsDatepicker input mr10 wid180"
+            [(ngModel)]="courseDetails.start_Date" autocomplete="off" name="startDate" id="startDate" bsDatepicker placeholder="Start date*">
+           </div>
+           <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
+             <input type="text" autocomplete="off" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
+           </div>
            <div>
             <label class="checkbox">
                    <span class="checkbox__input">
