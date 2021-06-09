@@ -91,9 +91,11 @@ studentFile:any=[];
 student_id: any;
 schoolModel:boolean;
 isLangInstitue: boolean = false;
+tax: boolean = false;
 institute_id=sessionStorage.getItem('institute_id');
-tax=sessionStorage.getItem('enable_tax_applicable_fee_installments');
+//tax=sessionStorage.getItem('enable_tax_applicable_fee_installments');
   ngOnInit(): void {
+    this.tax = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1';
     //check for school model
     this.schoolModel= this.auth.schoolModel.getValue();
     this.auth.institute_type.subscribe(
@@ -132,6 +134,7 @@ openTab(param){
     this.getPastDues();
     this.getPastHistory();
     this.getFutureDues();
+    this.getPastFeeDetails();
     this.fetchAcademicYearList();
   }
   if(param =="exam_course"){
@@ -269,7 +272,10 @@ getUploadedFileData() {
 }
 //============================fees tab code==============================//
 payementHistory:any=[];
+pastFeesDetails:any=[];
 getFeesDetails(academic_yr_id){
+  this.futureFees=[];
+  this.pastFee=[];
 //Request URL: https://test999.proctur.com/StdMgmtWebAPI/api/v1/studentWise/fee/100058/students/13121/515
 this.auth.showLoader();
 let url = "/api/v1/studentWise/fee/" + this.institute_id + "/students/"+ this.student_id +"/"+academic_yr_id;
@@ -277,8 +283,10 @@ this.httpService.getData(url).subscribe(
   (res: any) => {
     this.feesAllData =res.result;
     this.payementHistory =res.result.p_install_li;
+    this.pastFeesDetails=res.result.a_install_li;
     console.log(this.payementHistory)
-    console.log(this.feesAllData);
+    console.log(this.pastFeesDetails);
+    this.getPastFeeDetails();
     this.fetchDefaultAY();
     this.auth.hideLoader();
   },
@@ -288,6 +296,25 @@ this.httpService.getData(url).subscribe(
 
   }
 )
+
+}
+data='N'
+pastFee:any=[];
+futureFees:any=[];
+getPastFeeDetails(){
+  let date:any=new Date();
+  date = moment(date).format('YYYY-MM-DD'); 
+  this.pastFeesDetails.forEach(elements => {
+    if (elements && elements.p_status == 'N' && moment(elements.d_date).valueOf()> moment(date).valueOf()) {
+      //available units replace with one
+      this.futureFees.push(elements);
+     }
+     else if(elements && elements.p_status == 'N' && moment(elements.d_date).valueOf()< moment(date).valueOf()){
+this.pastFee.push(elements)
+     }
+  })
+  console.log(this.futureFees);
+  console.log(this.pastFee)
 }
 fetchAcademicYearList() {
   this.auth.showLoader();

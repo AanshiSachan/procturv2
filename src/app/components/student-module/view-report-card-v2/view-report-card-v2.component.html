@@ -673,30 +673,30 @@
                     <div>
                       Fee<br>Type
                     </div>
-                    <div>
+                    <!-- <div>
                      <span class="top"> Amount</span>
-                    </div>
-                    <div *ngIf="tax==1">
+                    </div> -->
+                    <div *ngIf="tax">
                       Tax
                     </div>
-                    <div>
+                    <!-- <div>
                       Discount<br>Amount
-                    </div>
-                    <div>
+                    </div> -->
+                    <!-- <div>
                       Total<br>Amount
-                    </div>
+                    </div> -->
                     <div>
                       Amount<br>Paid
                     </div>
-                    <div>
+                    <!-- <div>
                       Amount<br>Due
-                    </div>
+                    </div> -->
                     <div>
                       Payment<br>Mode
                     </div>
-                    <div>
+                    <!-- <div>
                       Refrence<br>No
-                    </div>
+                    </div> -->
                     <div>
                       <span class="top">Remark </span>
                     </div>
@@ -711,33 +711,33 @@
                     <div>
                       {{data.f_type==null?'---':data.f_type}}
                     </div>
-                    <div>
+                    <!-- <div>
                       {{data.initial_amount==null?'0':data.initial_amount}}
-                    </div>
-                    <div  *ngIf="tax==1">
+                    </div> -->
+                    <div  *ngIf="tax">
                       {{data.tax_amount==null?'0':data.tax_amount}}
                     </div>
-                    <div>
+                    <!-- <div>
                       {{data.disc_amount==null?'0':data.disc_amount}}
-                    </div>
-                    <div>{{data.t_amount}}</div>
+                    </div> -->
+                    <!-- <div>{{data.t_amount}}</div> -->
                     <div>
                       {{data.p_amount}}
                     </div>
-                    <div>
+                    <!-- <div>
                       {{data.d_amount==null?'0':data.d_amount}}
-                    </div>
+                    </div> -->
                     <div>
                       {{data.p_method}}
                     </div>
-                    <div>
+                    <!-- <div>
                       ---
-                    </div>
+                    </div> -->
                     <div>
                       {{data.p_remarks==""?'---':data.p_remarks}}
                     </div>
                   </div>
-                  <div  class="table_body"  *ngIf="PastFeeList.length == 0">
+                  <div  class="table_body"  *ngIf="PastFeeList?.length == 0">
                     <tr>
                       <td colspan="11" style="text-align: center">
                         No Record Of Payment History
@@ -777,36 +777,36 @@
                       Amount<br>Due
                     </div>
                   </div>
-                  <div class="table_body"  *ngFor="let data of paymentHistoryList">
+                  <div class="table_body"  *ngFor="let data of pastFee">
                     <div>
-                      {{data.installment_no}}
+                      {{data.install_no}}
                     </div>
                     <div>
-                      {{data.fee_type_name}}
+                      {{data.f_type}}
                     </div>
                     <div>
-                      {{data.due_date}}
+                      {{data.d_date}}
                     </div>
                     <div>
-                      {{data.total_initial_amount}}
+                      {{data.t_amount}}
                     </div>
                     <div>
-                      {{data.total_tax_applied}}
+                      {{data.tax_amount}}
                     </div>
                     <div>
-                      {{data.total_discount}}
+                      {{data.disc_amount}}
                     </div>
                     <div>
-                      {{data.total_amount_after_discount_after_tax}}
+                      {{data.d_amount}}
                     </div>
                     <div>
-                      {{data.total_amt_paid}}
+                      {{data.p_amount}}
                     </div>
                     <div>
-                      {{data.total_balance_amt}}
+                      {{data.d_amount -data.p_amount}}
                     </div>
                   </div>
-                  <div  class="table_body" *ngIf="paymentHistoryList.length == 0">
+                  <div  class="table_body" *ngIf="pastFee.length == 0">
                     <tr>
                       <td colspan="11" style="text-align: center">
                         No Record Of Past Fee Due Found
@@ -848,37 +848,37 @@
                       Amount<br>Due
                     </div>
                   </div>
-                  <div class="table_body"  *ngFor="let data of FutureFeeList">
+                  <div class="table_body"  *ngFor="let data of futureFees">
                     <div>
-                      {{data.installment_no}}
+                      {{data.install_no}}
                     </div>
                     <div>
-                      {{data.fee_type_name}}
+                      {{data.f_type}}
                     </div>
                     <div>  
-                      {{data.due_date}}
+                      {{data.d_date}}
                     </div>
                     <div>
-                      {{data.total_initial_amount}}
+                      {{data.initial_amount}}
                     </div>
                     <div>
-                      {{data.total_tax_applied}}
+                      {{data.tax_amount}}
                     </div>
                     <div>
-                      {{data.total_discount}}
+                      {{data.disc_amount}}
                     </div>
                     <div>
-                      {{data.total_amount_after_discount_after_tax}}
+                      {{data.d_amount}}
                     </div>
                     <div>
-                      {{data.total_amt_paid}}
+                      {{data.p_amount}}
                     </div>
                     <div>
-                      {{data.total_balance_amt}}
+                      {{data.d_amount -data.p_amount}}
                     </div>
                   </div>
                   <div  class="table_body">
-                    <tr *ngIf="FutureFeeList.length == 0">
+                    <tr *ngIf="futureFees.length == 0">
                       <td colspan="11" style="text-align: center">
                         No Record Of Next Fee Due Details
                       </td>
@@ -924,7 +924,7 @@
                   
                   </div>
                 </div>
-                <div  class="table_body"  *ngIf="studentFile.length == 0">
+                <div  class="table_body"  *ngIf="studentFile?.length == 0">
                   <tr>
                     <td colspan="11" style="text-align: center">
                       No data available
