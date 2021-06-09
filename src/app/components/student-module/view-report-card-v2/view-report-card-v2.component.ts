@@ -167,6 +167,20 @@ getParentProfileDoc() {
   );
 }
 //============================document upload and delete code==============================//
+goBtnFilesClick(){
+  if (this.viewFiles.type == '1') {
+    this.downloadStudentIDCard();
+  } else if(this.viewFiles.type == '2') {
+   //this.downloadStudentIDCard();
+  }
+}
+onRadioButtonSelectionDoc(){
+  if (this.viewFiles.type == '1') {
+   // this.downloadStudentIDCard();
+  } else if(this.viewFiles.type == '2') {
+   //this.downloadStudentIDCard();
+  }
+}
 deletefile(id) {
   console.log(id)
   if (confirm('Are you sure, you want to delete file?')) {
@@ -445,7 +459,9 @@ viewAttendancePayload: any = {
   teacher_id: -1,
   type: '0'
 };
-
+viewFiles:any ={
+  type: '0'
+}
 onRadioButtonSelectionExam() {
   if (this.examType == "0") {
 

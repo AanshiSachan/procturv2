@@ -88,7 +88,7 @@
              <div id="parent" [ngClass]="isActiveTab == 'parent' ? 'box_active' : ''" (click)="openTab('parent')">Parent</div>
              <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''" (click)="openTab('attendance')">Attendance</div>
              <div id="fees"  [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
-             <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Documents</div>
+             <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Files</div>
              <!-- <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div> -->
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
              <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div> -->
@@ -884,11 +884,44 @@
             </div>
            <div id="documents_tab" *ngIf="isActiveTab =='documents'">
             <!-- Documents -->
-            <div class="add_doc right">
-              <span class="right">
-                <button class="blue_button" data-toggle="modal" data-target="#myModal">Add Document</button>
-              </span>
-            </div>
+            <div class="row radio_div no-gutters">
+              <div class="col-lg-9 flex" style="margin-top: 10px;">
+                
+               <div class="field-radio-wrapper">
+                 <input type="radio" id="idCurrentMon" [checked]="(viewFiles.type == '0')" value="0" [(ngModel)]="viewFiles.type"
+                 name="idCurrentMon" (ngModelChange)="onRadioButtonSelection()" class="form-radio" name="date" value="0" >
+                 <label class="radio_label">
+                  Uploaded Files
+                 </label> 
+               </div>
+               <div class="field-radio-wrapper">
+                 <input type="radio"  class="form-radio"  value="1" [(ngModel)]="viewFiles.type" name="idcard"  (ngModelChange)="onRadioButtonSelectionDoc()" >
+                 <label class="radio_label">
+                  ID Cards
+                 </label> 
+               </div>
+               <!-- <div class="field-radio-wrapper">
+                 <input type="radio"  class="form-radio"  value="2" [(ngModel)]="viewFiles.type" name="certificates"  (ngModelChange)="onRadioButtonSelectionDoc()" >
+                 <label class="radio_label">
+                  Issued Certificates
+                 </label> 
+               </div> -->
+               <div class="field-radio-wrapper">
+                <button class="blue_button" (click)="goBtnFilesClick()">Go</button>
+                            
+              </div>
+              </div>
+              <div class="field-radio-wrapper" style="margin-top: 10px;">
+                <span class="right" *ngIf="viewFiles.type == '2'">
+                  <button class="blue_button" data-toggle="modal" data-target="#myModal">Generate Certificates</button>
+                </span>
+                <span class="right" *ngIf="viewFiles.type == '0'">
+                  <button class="blue_button" data-toggle="modal" data-target="#myModal">Add Document</button>
+                </span>
+              </div>
+              
+             </div>
+           
              <div class="documents_table">
                 <div class="table_heading">
                   <div>
