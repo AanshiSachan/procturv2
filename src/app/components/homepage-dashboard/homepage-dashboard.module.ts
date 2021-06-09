@@ -33,6 +33,8 @@ import { StudentBirthdayComponent } from './student-birthday/student-birthday.co
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { SendNotificationComponent } from './send-notification/send-notification.component';
 import { SendToMessagesComponent } from './send-to-messages/send-to-messages.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 @NgModule({
     imports: [
@@ -45,7 +47,8 @@ import { SendToMessagesComponent } from './send-to-messages/send-to-messages.com
         SharedModule,
         ChartModule,
         FileUploadModule,
-        EditorModule
+        EditorModule,
+        NgMultiSelectDropDownModule
         // MdFormFieldModule,
         // MdInputModule
     ],

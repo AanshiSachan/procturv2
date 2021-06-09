@@ -44,6 +44,7 @@ sendLoginmessage:boolean=false
   emailFlag :boolean=false;
   selectStudentForm :boolean= false;
   addSmsForm:boolean=true;
+ 
   
   schoolModel: boolean = false;
  
@@ -65,7 +66,8 @@ sendLoginmessage:boolean=false
   selectedActiveStudentList:any;
   selectedRow:any;
   subject: any;
- 
+ pramotional:any
+ transactional:any
 
   previewedMessage: any;
   transactionalSmsm:any;
@@ -163,8 +165,11 @@ onselectMessageCheckbox(obj){
   this.jsonFlag.selectedMessageFlag = true
 this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
+sessionStorage.setItem('selecte-messase',(this.selectedRow))
+sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
+
 this.selectedMessageText=this.selectedRow.length
-console.log("msg length",this.selectedMessageText)
+console.log("msg length",this.selectedMessageId)
 
 }
 
@@ -290,6 +295,11 @@ updateMessage(){
         this.appC.popToast(msg);
       }
     )
+
+  }
+  clickEvent(event){
+   this.pramotional = event
+    console.log("pramotional",this.pramotional)
 
   }
   onClickSentTo(){

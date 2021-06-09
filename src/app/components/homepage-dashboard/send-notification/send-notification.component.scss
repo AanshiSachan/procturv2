@@ -263,7 +263,7 @@ color: #4C6380;
   color: #4C6380;
 }
 .page_footer{
-  height: 83px;
+padding:16px 0px;
   display: flex;
   align-items: center;
   width: 100%;
@@ -434,10 +434,10 @@ color: #4C6380;
   margin-bottom: 0px;
 }
 
-.page_footer{
-  height: 33px;
+// .page_footer{
+//   height: 33px;
 
-}
+// }
 .blue_button {
   background-color: #109CF1;
   color: white;
@@ -460,4 +460,10 @@ color: #4C6380;
 }
 b{
   font-weight: 600px;
+}
+.field-checkbox-wrapper, .field-radio-wrapper {
+  margin-bottom: 0px;
+}
+.field-radio-wrapper .form-radio:checked + label:before {
+  left: 2.5px;
 }

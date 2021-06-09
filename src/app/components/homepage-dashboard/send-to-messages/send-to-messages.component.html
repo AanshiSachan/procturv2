@@ -1,11 +1,9 @@
 <div class="page-content">
     <div class="top_section">
         <div>
-            <p class="heading">SMS Description <img src="../../../../assets/img_notif/edit.svg"></p>
+            <p class="heading">SMS Description <img src="../../../../assets/images/edit.svg"></p>
             <p class="para">
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. 
-                                Velit officia consequat duis enim velit mollit. 
-                                Exercitation veniam consequat sunt nostrud amet.
+                {{selected_message}}
                                 
             </p>
             <div class="divide">
@@ -15,26 +13,55 @@
             </div>
         </div>
         <div class="display">
+            <!-- =====is-professional============== -->
+            <div class="vertical display" *ngIf="isProfessional">
+                <div>
+                    <label>Master Course</label>
+                   <select  [(ngModel)]="selectMasterCourse.master_course" id="ma" name="ma" (ngModelChange)="onMasterCourseSelection($event)">
+                       <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.standard_name}}</option>
+                   </select>
+    
+                  
+                </div>
+                <div>
+                    <label>Course</label>
+                   <ng-multiselect-dropdown [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                    (ngModelChange)="onCourseSelection($event)">
+                      
+                   </ng-multiselect-dropdown>
+                   </div> 
+                   <!-- <div>
+                    <label>Batch</label>
+                   <select  [(ngModel)]="selectMasterCourse.master_course">
+                       <option [value]="opt.batch_id" *ngFor="let opt of batchList">{{opt.batch_name}}</option>
+                   </select>
+    
+                  
+                </div> -->
+                  </div>
+
+            <!-- ===========end=============== -->
            <div class="vertical display" *ngIf="!isProfessional">
             <div>
                 <label>{{schoolModel? 'Standard' : 'Master Course'}}</label>
-               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course">
+               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course" (ngModelChange)="onMasterCourseChange($event)">
                    <option [value]="master.master_course" *ngFor="let master of masterCourseList">{{master.master_course}}</option>
                </select>
 
-               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id">
-                <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.master_course}}</option>
+               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id" (ngModelChange)="onMasterCourseChange($event)" >
+                <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.masterCourse}}</option>
             </select>
             </div>
             <div>
-                <label> Course</label>
-               <select>
-                   <option></option>
-               </select> 
+                <label> {{schoolModel ? 'Section(s)' : 'Course(s)'}}</label>
+               <ng-multiselect-dropdown [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                (ngModelChange)="($event)">
+                  
+               </ng-multiselect-dropdown> 
                
             </div>
             <div>
-                <button class="blue_button">Search</button>
+                <button class="blue_button" (click)="fetchStudentsApi($event)">Search</button>
             </div>
            </div>
             <div class="vertical1 display">
@@ -79,7 +106,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked>
+                  <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -101,7 +128,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked>
+                  <input type="checkbox" name="checked" checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -123,7 +150,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked>
+                  <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -145,7 +172,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" checked>
+                      <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -167,7 +194,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" checked>
+                      <input type="checkbox" name="checked"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked >
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -183,12 +210,36 @@
             <div title="{{item.email_id}}">{{(!item.email_id) ? '-' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
             </div>
         </div>
+
+<!-- ===========course wise student fetch================== -->
+<div *ngIf="showCourseWiseFlag">
+    <div class="table_body" *ngFor="let item of courseStudentList">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+        <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+        <div title="{{item.student_phone}}">{{item.student_phone}}</div>
+        <div title="{{item.student_class}}">{{item.student_class}}</div>
+        <div title="{{item.doj}}">{{item.doj}}</div>
+        <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        </div>
+    </div>
+
     <!-- =============teacher-table==================== -->
         <div class="table_head" *ngIf="showFacultyTableFlag">
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" checked>
+                      <input type="checkbox" name="checked"  [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)" checked>
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -205,7 +256,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" checked>
+                      <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -219,7 +270,8 @@
             <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
             <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
             </div>
-    <!-- ===========end================== -->
+            </div>
+    <!-- ===================end======================== -->
     <div class="pagignation">
         <p>Showing <b>1 to 8 of 50</b></p>
         <div class="flex space1">
@@ -243,7 +295,9 @@
                 </span>
               </label>
               <p>Parent</p>
-            <button class="white_button">Send Text Message </button>
+            <button class="white_button"(click)="sendNotificationMessages()">Send Text Message </button>
         </div>
     </div>   
+
 </div>
+

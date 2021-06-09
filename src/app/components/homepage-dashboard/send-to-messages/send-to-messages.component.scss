@@ -172,6 +172,7 @@ label {
 
 .radio_div>div {
     width: 50%;
+    margin-top: 6px;
 }
 
 .radio_div {
@@ -307,6 +308,7 @@ input::placeholder {
     margin-top: -1px;
     color: var(--color);
     cursor: pointer;
+    margin-bottom: 0px;
   }
   
   .checkbox__input input {
