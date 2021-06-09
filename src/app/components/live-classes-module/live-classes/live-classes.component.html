@@ -15,7 +15,7 @@
       </section>
       <section>
         <div class="live-class-list">
-          <div class="live-class-container" style="width:61%;">
+          <div class="live-class-container" style="width:35%;">
             <div class="field-radio-wrapper" style="width: auto !important;margin-right: 5px;"
               [ngClass]="!liveClassFor ? 'activeTab' : ''" (click)="toggleAction(false)">
               <!-- <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor"
@@ -31,13 +31,13 @@
           </div>
 
           <div class="search-add-class-container">
-            <!-- <div class="field-wrapper datePickerBox">
-              <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="dateValue"
-                (ngModelChange)="searchByDate($event)" id="date" style="margin-left: -2rem;border-radius: 4px;
-                margin-top: -5%;">
-              <br>
-              <span class="date-clear" (click)="getClassesList()" style="color: #0084f6;left: 54px;">clear</span>
-            </div> -->
+            <div class="search-filter-wrapper field-wrapper" style="padding-top: 0;width: 35%;">
+              <input type="text" class="form-ctrl searchTextClass" placeholder="Search By Session Name, Id, Faculty Name" [(ngModel)]="searchText"
+                 id="searchText">
+            </div>
+            <div class="add-class-container" style="margin-left: 5px;">
+              <button type="button" name="button" (click)="getClassesList()" class="add-class">Go</button>
+            </div>
             <div class="search-filter-wrapper field-wrapper" [ngClass]="{'datePickerBox' : (dateValue == '' )}"
               style="padding-top: 0;" (click)="showCustomFilter = !showCustomFilter">
               <i class="fa fa-filter" aria-hidden="true"></i>
@@ -138,6 +138,9 @@
                 <span>Session Id :{{class.session_id}} </span>
                 <span class="class-for-name" *ngIf="class.live_meeting_with == 'Zoom'">
                   ({{class.live_meeting_with}})</span>
+                  <div class="col-lg-3 image-container" title="Copy Zoom URL" style="float: right;" *ngIf="(!liveClassFor && !timeLeft(today, class.startDateTime)) && class.live_meeting_with == 'Zoom'">
+                    <img (click)="copyToClipboard(class)" style="cursor: pointer;" src="../../../../assets/images/Group240.svg" class="img_doc">
+                  </div>
               </div>
               <div class="borderbottom1 w96"></div>
               <div class="sub-item-2">
@@ -408,6 +411,7 @@
                   <div class="questionInfo inline-relative">
                     <span class=" i-class">
                       <button type="button" name="button"
+                        title="{{startClassMsg}}"
                         [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'"
                         (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)"
                         [disabled]="proctur_live_expiry_date_check"
@@ -928,7 +932,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" (click)="closeUploadModal()">Close</button>
         <button type="button" class="btn btn-default" (click)="uploadHandler()">Upload</button>
       </div>
     </div>

@@ -254,11 +254,11 @@ html {
   .search-add-class-container{
     float: right;
     margin-right: 30px;
-    width: 50%;
+    width: 67%;
     display: flex;
     justify-content: flex-end;
     .search-filter-wrapper {
-      width: 45%;
+      width: 39%;
       position: relative;
       cursor: pointer;
       i {
@@ -1264,4 +1264,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .mt-4{
   margin-top: 4px;
+  }
+  .searchTextClass {
+    height: 34px;
+    border-radius: 4px;
+    padding: 9px 15px;
   }
