@@ -131,9 +131,6 @@ openTab(param){
   this.isActiveTab =param;
   if (param === "fees") {
     //this.liFeeView = true;
-    this.getPastDues();
-    this.getPastHistory();
-    this.getFutureDues();
     this.getPastFeeDetails();
     this.fetchAcademicYearList();
   }
@@ -270,7 +267,7 @@ getUploadedFileData() {
     }
   )
 }
-//============================fees tab code==============================//
+//============================fees Data acoording to course==============================//
 payementHistory:any=[];
 pastFeesDetails:any=[];
 getFeesDetails(academic_yr_id){
@@ -284,8 +281,6 @@ this.httpService.getData(url).subscribe(
     this.feesAllData =res.result;
     this.payementHistory =res.result.p_install_li;
     this.pastFeesDetails=res.result.a_install_li;
-    console.log(this.payementHistory)
-    console.log(this.pastFeesDetails);
     this.getPastFeeDetails();
     this.fetchDefaultAY();
     this.auth.hideLoader();
@@ -298,14 +293,14 @@ this.httpService.getData(url).subscribe(
 )
 
 }
-data='N'
+
 pastFee:any=[];
 futureFees:any=[];
 getPastFeeDetails(){
   let date:any=new Date();
   date = moment(date).format('YYYY-MM-DD'); 
   this.pastFeesDetails.forEach(elements => {
-    if (elements && elements.p_status == 'N' && moment(elements.d_date).valueOf()> moment(date).valueOf()) {
+    if (elements && elements.p_status == 'N' && moment(elements.d_date).valueOf() >= moment(date).valueOf()) {
       //available units replace with one
       this.futureFees.push(elements);
      }
@@ -343,54 +338,6 @@ fetchDefaultAY() {
       }
     }
   }
-}
-getPastDues() {
-  let obj: any = {
-    from_date: '',
-    to_date: ''
-  }
-  this.auth.showLoader();
-  this.apiService.fetchPastDues(obj, this.studentId).subscribe(
-    res => {
-      this.auth.hideLoader();
-      this.paymentHistoryList = res;
-     
-    },
-    err => {
-      this.auth.hideLoader();
-      this.messageNotifier('error', '', err.error.message);
-    }
-  )
-}
-
-getPastHistory() {
-  this.auth.showLoader();
-  this.apiService.fetchPastHistory(this.studentId).subscribe(
-    res => {
-      this.auth.hideLoader();
-      this.PastFeeList = res;
-      console.log(this.PastFeeList)
-     
-    },
-    err => {
-      this.auth.hideLoader();
-      this.messageNotifier('error', '', err.error.message);
-    }
-  )
-}
-
-getFutureDues() {
-  this.auth.showLoader();
-  this.apiService.fetchFutureDues(this.studentId).subscribe(
-    res => {
-      this.auth.hideLoader();
-      this.FutureFeeList = res;
-    },
-    err => {
-      this.auth.hideLoader();
-      this.messageNotifier('error', '', err.error.message);
-    }
-  )
 }
 messageNotifier(type, title, msg) {
   let data = {

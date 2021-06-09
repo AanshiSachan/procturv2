@@ -219,6 +219,9 @@
   .padding11{
     padding: 9px 3px 0px 15px;
   }
+  .padding1{
+    padding-top: 10px;
+  }
   .width80{
     border-bottom: 1px solid #F4F3F8;
     margin:0px auto;
@@ -373,9 +376,7 @@
   // input[type="radio"] {
   //   margin-right: 4px;
   // }
-  .radio_div{
-      margin: 15px 0px;
-  }
+
  
   .attendance_table .table_heading>div, .attendance_table .table_body>div{
     width: calc(60% / 4);
@@ -496,6 +497,10 @@
     height: 35px;
     cursor: pointer;
   }
+  .modal-header h4{
+    margin: 0;
+   display: inline-block;
+}
   .mt10{
    margin-top: 7px; 
   }
@@ -889,7 +894,7 @@ input[type="radio"] {
   cursor: pointer;
 }
 .radio_div{
-    margin: 5px 0px 15px 0px;
+    margin: 10px 0px 20px 0px;
 }
 .select1{
   background: #FFFFFF;
@@ -1086,4 +1091,7 @@ color: #3AD665;
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
+}
+.radio_div1{
+  margin-top: 20px;
 }
