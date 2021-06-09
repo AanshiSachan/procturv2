@@ -65,8 +65,8 @@
         <div class="padding4">
           <p *ngIf="!schoolModel" class="course_text">Course assigned:</p>
           <p *ngIf="schoolModel" class="course_text">Section assigned:</p>
-          <div class="tag_wrapper"  *ngFor="let data of assignedCourses;index as i">
-            <div class="tag" >{{data}}</div>
+          <div class="tag_wrapper" >
+            <div class="tag"  *ngFor="let data of assignedCourses;index as i">{{data}}</div>
             <!-- <div class="tag ">Course Name 1</div>
             <div class="tag ">12th</div>
           
