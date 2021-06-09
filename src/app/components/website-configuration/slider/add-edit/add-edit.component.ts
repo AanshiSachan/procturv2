@@ -16,6 +16,19 @@ export class AddEditComponent implements OnInit, OnDestroy {
     order_number: '',
     image: ''
   }
+  editorConf = {
+    height: 250,
+    menubar: false,
+    branding: false,
+    plugins: [
+      'preview anchor',
+      'visualblocks code ',
+      'insertdatetime  table paste code  wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent'
+  };
 
   constructor(
     private routeParam: ActivatedRoute,
