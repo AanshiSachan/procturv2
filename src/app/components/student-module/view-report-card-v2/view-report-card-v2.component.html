@@ -212,10 +212,9 @@
                 <div class="w15">
                   <span class="name1">Address:</span>                  
                 </div>
-                <div class="w85"> 
-                  <span class="value1" *ngIf="studentCommanData.permanent_address=='' || studentCommanData.permanent_address==null ">---</span>
-                  <span class="value1" title="{{studentCommanData.permanent_address}}" *ngIf="studentCommanData.permanent_address!=null">{{ (studentCommanData.permanent_address.length > 100) ? (studentCommanData.permanent_address| slice:0:100) + '...' : studentCommanData.permanent_address }}</span>
-                                 
+                <div class="w85">
+                  <span class="value1" *ngIf="studentCommanData.current_address=='' || studentCommanData.current_address==null ">---</span>
+                  <span class="value1" title="{{studentCommanData.current_address}}" *ngIf="studentCommanData.current_address!=null">{{ (studentCommanData.current_address.length > 100) ? (studentCommanData.current_address| slice:0:100) + '...' : studentCommanData.current_address }}</span>
                 </div>
               </div>
             </div>
@@ -283,11 +282,14 @@
                 <div class="w15">
                   <span class="name1">Residential Address:</span>                  
                 </div>
-                <div class="w85">
-                  <span class="value1" *ngIf="studentCommanData.current_address=='' || studentCommanData.current_address==null ">---</span>
-                  <span class="value1" title="{{studentCommanData.current_address}}" *ngIf="studentCommanData.current_address!=null">{{ (studentCommanData.current_address.length > 100) ? (studentCommanData.current_address| slice:0:100) + '...' : studentCommanData.current_address }}</span>
-                               
-                </div>
+             
+                  <div class="w85"> 
+                  <span class="value1" *ngIf="studentCommanData.permanent_address=='' || studentCommanData.permanent_address==null ">---</span>
+                  <span class="value1" title="{{studentCommanData.permanent_address}}" *ngIf="studentCommanData.permanent_address!=null">{{ (studentCommanData.permanent_address.length > 100) ? (studentCommanData.permanent_address| slice:0:100) + '...' : studentCommanData.permanent_address }}</span>
+                                 
+                </div>            
+               
+                
               </div>
             </div>
            <div id="attendance_tab" *ngIf="isActiveTab =='attendance'" >
@@ -322,19 +324,25 @@
                 <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
               </label> -->
              </div>
-             <div class="col-lg-6 mt-20"  *ngIf="viewAttendancePayload.type == '2'" style="margin-top: 1px;">
-               <span class="right selectt" id="range1">
-                <input type="text" class="input mr10"   readonly="true" name="csd" [(ngModel)]="viewAttendancePayload.startdate" bsDatepicker>
-                <input type="text" value="" id="csd" class="input mr10" [(ngModel)]="viewAttendancePayload.enddate"
-                readonly="true" name="csd" bsDatepicker>
-                <button class="blue_button" (click)="goBtnAttendaceClick()">Go</button>
-               </span>
-               <span class="right till_date selectt" >
-                 
-               </span>
-               <span class="right current selectt" >
-                 
-               </span>
+             <div class="col-lg-6 mt-20"  *ngIf="viewAttendancePayload.type == '2'" >
+               <div class="right selectt" id="range1">
+                 <div class="flex">
+<div class="field-wrapper datePickerBox">
+  <input type="text" class="input mr10"   readonly="true"  placeholder="Start Date" name="csd" [(ngModel)]="viewAttendancePayload.startdate" bsDatepicker>
+              
+</div>
+<div class="field-wrapper datePickerBox" >
+  <input type="text" value="" id="csd" class="input mr10"  placeholder="End Date" [(ngModel)]="viewAttendancePayload.enddate"readonly="true" name="csd" bsDatepicker>
+               
+</div>
+<div class="mt10101">
+  <button class="blue_button" (click)="goBtnAttendaceClick()">Go</button>
+              
+</div>
+                 </div>
+                
+              </div>
+            
              </div>
             </div>
              <div class="attendance_table">

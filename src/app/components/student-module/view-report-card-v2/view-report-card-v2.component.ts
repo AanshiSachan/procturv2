@@ -137,6 +137,10 @@ openTab(param){
   if(param =="exam_course"){
     this.getStudentInfo();
   }
+  else if(param =="attendance"){
+    this.goBtnAttendaceClick();
+  }
+  
 }
 //function to get parent,profile ,document, data
 getParentProfileDoc() {

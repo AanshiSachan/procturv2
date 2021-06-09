@@ -1095,3 +1095,23 @@ color: #3AD665;
 .radio_div1{
   margin-top: 20px;
 }
+//css added for bsdatepicker
+.field-wrapper.datePickerBox:after {
+  content: '';
+  background: url(/./assets/images/calendar.svg) no-repeat;
+  position: absolute;
+  //right: 50px !important;
+  top: 39%;
+  width: 21px;
+  height: 21px;
+  z-index: 20;
+  left:107px;
+  border-radius: 4px;
+  
+  }
+  .field-wrapper.datePickerBox{
+    margin-top: 0px;
+  }
+  .mt10101{
+    margin-top: 11px;
+  }
