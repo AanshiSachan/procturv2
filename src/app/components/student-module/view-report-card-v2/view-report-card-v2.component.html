@@ -65,30 +65,18 @@
         <div class="padding4">
           <p *ngIf="!schoolModel" class="course_text">Course assigned:</p>
           <p *ngIf="schoolModel" class="course_text">Section assigned:</p>
-          <div class="tag_wrapper" >
+          <div class="tag_wrapper">
             <div class="tag"  *ngFor="let data of assignedCourses;index as i">{{data}}</div>
-            <!-- <div class="tag ">Course Name 1</div>
-            <div class="tag ">12th</div>
-          
-            <div class="tag ">Stone_1</div>
-            <div class="tag ">Testbugmaster1</div>
-     
-            <div class="tag ">Sanitacoursw</div>
-            <div class="tag ">sev</div>
-            <div class="tag ">PCB</div> -->
-          </div>
-          <!-- <div class="tag_wrapper" *ngFor="let data of assignedCourses;index as i">
-            <div class="tag " >{{data}}</div>
-          </div> -->
+           </div>
         </div>
         <div class="padding4">
           <p class="course_text">Download:</p>
           <div>
             <a class="mr15" id="downloadFileClick1" (click)="downloadStudentReportCard()"   ><img src="../../../assets/img_view/Group345.svg"   title="Report Card"></a>
-            <a class="mr15" ><img src="../../../assets/img_view/Group343.svg" title="Manage Fees"></a>
+            <!-- <a class="mr15" ><img src="../../../assets/img_view/Group343.svg" title="Manage Fees"></a> -->
             <a class="mr15" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg" title="ID Card"></a>
-            <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
-            <a class="mr15"><img src="../../../assets/img_view/Group347.svg" title="View Report"></a>
+            <!-- <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
+            <a class="mr15"><img src="../../../assets/img_view/Group347.svg" title="View Report"></a> -->
           </div>
         </div>
         <br>
@@ -101,9 +89,9 @@
              <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''" (click)="openTab('attendance')">Attendance</div>
              <div id="fees"  [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
              <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Documents</div>
-             <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div>
+             <!-- <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div> -->
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
-             <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>
+             <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div> -->
              <div id="timeTable" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
              <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
              <div id="exam_course" *ngIf="!schoolModel"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
