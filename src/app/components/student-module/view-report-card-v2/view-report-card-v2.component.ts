@@ -134,13 +134,15 @@ openTab(param){
     this.getPastFeeDetails();
     this.fetchAcademicYearList();
   }
-  if(param =="exam_course"){
+  else if(param =="exam_course"){
     this.getStudentInfo();
   }
   else if(param =="attendance"){
     this.goBtnAttendaceClick();
   }
-  
+ else if(param =="exam"){
+   this.getExamDetailsForSchool();
+ }
 }
 //function to get parent,profile ,document, data
 getParentProfileDoc() {
@@ -614,7 +616,6 @@ editStudent(id) {
 }
 //============================Time Table==============================//
 onTimeTableRadioBtnChange() {
-  alert("hii")
   if (this.timetablePayLoad.type == "0") {
     this.getTimeTableDetails();
   } else if (this.timetablePayLoad.type == "1") {
@@ -680,5 +681,27 @@ makeJSONForTimeTable(data) {
     }
   }
   console.log(this.timeTableSchedule);
+}
+
+//============================Exam Details for school Module==============================//
+///v1/reports/Student/school/{student_id}
+examDetailsForSchool:any=[];
+getExamDetailsForSchool(){
+  alert(this.student_id)
+  this.auth.showLoader();
+  let url = "/api/v1/reports/Student/school/" + this.student_id;
+  this.httpService.getData(url).subscribe(
+    (res: any) => {
+      this.examDetailsForSchool = res;
+      console.log(this.examDetailsForSchool)
+     // this.fetchDefaultAY();
+      this.auth.hideLoader();
+    },
+    (error: any) => {
+      this.auth.hideLoader();
+      this._commService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+
+    }
+  )
 }
 }

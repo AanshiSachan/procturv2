@@ -1926,7 +1926,7 @@
               </div>
                         <div id="outerTr{{i}}" (click)="toggleClass(i)" *ngFor="let data of timeTableSchedule; let i = index">
                  <div class="white_body collapsible">      <div><p *ngIf="isshows"><span>21</span> December 2021, Monday</p>
-                  <p> {{data.date}}</p></div>
+                  <p> {{data.date |date:'fullDate' }}</p></div>
                   <div></div>
                   <div></div>
                   <div></div>
