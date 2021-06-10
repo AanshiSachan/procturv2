@@ -92,7 +92,7 @@
              <!-- <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div> -->
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
              <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div> -->
-             <div id="timeTable" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
+             <div id="timeTable"  [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
              <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
              <div id="exam_course" *ngIf="!schoolModel"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
        
@@ -292,7 +292,7 @@
                 
               </div>
             </div>
-           <div id="attendance_tab" *ngIf="isActiveTab =='attendance'" >
+           <div id="attendance_tab" *ngIf="isActiveTab =='attendance'">
             <!-- Attendance -->
              <div class="row radio_div no-gutters">
              <div class="col-lg-6 flex" style="margin-top: 10px;">
@@ -1839,8 +1839,60 @@
             </div>
             <div id="timeTable" *ngIf="isActiveTab =='timeTable'" >
               <!-- time table -->
-              
-              <div class="m16" >
+              <div class="row radio_div no-gutters">
+                <div class="col-lg-6 flex" style="margin-top: 10px;">
+                  
+                 <div class="field-radio-wrapper">
+                   <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0" [(ngModel)]="timetablePayLoad.type"
+                   name="rdoBtnCurrent" class="form-radio" (ngModelChange)="onTimeTableRadioBtnChange()"
+                 >
+                   <label class="radio_label">
+                    Current Date
+                   </label> 
+                 </div>
+                 <div class="field-radio-wrapper">
+                   <input type="radio" id="rdoBtnNextWeek" value="1" [(ngModel)]="timetablePayLoad.type" name="rdoBtnNextWeek" class="form-radio"
+                   (ngModelChange)="onTimeTableRadioBtnChange()">
+                   <label class="radio_label">
+                    Next Week
+                   </label> 
+                 </div>
+                 <div class="field-radio-wrapper">
+                   <input type="radio" id="rdoBtnDateRnge" value="2" [(ngModel)]="timetablePayLoad.type" name="rdoBtnDateRnge" class="form-radio"
+                   (ngModelChange)="onTimeTableRadioBtnChange()">
+                   <label class="radio_label">
+                    Date Range
+                   </label> 
+                 </div>
+                 <!-- <label class="radio_label">
+                   <input type="radio"  name="date" value="till_date" onchange="checkRadio(this)">
+                 </label>
+                 <label class="radio_label">
+                   <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
+                 </label> -->
+                </div>
+                <div class="col-lg-6 mt-20"  *ngIf="timetablePayLoad.type == '2'" >
+                  <div class="right selectt" id="range1">
+                    <div class="flex">
+   <div class="field-wrapper datePickerBox">
+     <input type="text" class="input mr10"   readonly="true"  placeholder="Start Date"  [(ngModel)]="timetablePayLoad.startdate" name="csd" bsDatepicker>
+                 
+   </div>
+   <div class="field-wrapper datePickerBox" >
+     <input type="text" value="" id="csd" class="input mr10"  placeholder="End Date"[(ngModel)]="timetablePayLoad.enddate" readonly="true" name="csd" bsDatepicker>
+                  
+   </div>
+   <div class="mt10101">
+     <button class="blue_button" (click)="getTimeTableDetails()">Go</button>
+                 
+   </div>
+                    </div>
+                   
+                 </div>
+               
+                </div>
+               </div>
+              <div class="m16" *ngIf="isshows">
                <div>
                   <select class="mr10 select1">
                   <option>Current Date</option>
@@ -1872,35 +1924,54 @@
                 <div>Faculty</div>
                 <div></div>
               </div>
-                        <div class="white_body collapsible">
+                        <div class="white_body collapsible" id="outerTr{{i}}" (click)="toggleClass(i)" *ngFor="let data of timeTableSchedule; let i = index">
                  
-                          <div><span>21</span> December 2021, Monday</div>
+                          <div><p *ngIf="isshows"><span>21</span> December 2021, Monday</p>
+                          <p> {{data.date}}</p></div>
                           <div></div>
                           <div></div>
                           <div></div>
                           <div></div>
-                          <div><i class="fa fa-angle-down" id="icon"></i></div>
-                        </div>
-                       <div class="content">
-                          <div class="white_body1">
-                            <div>11:00 PM - 11:30 PM</div>
-                          <div>Regular</div>
-                          <div>105</div>
-                          <div><span class="subject1">Maths </span></div>
-                          <div>Cameron Williamson</div>
-                          <div></div>
+                          <div> <i  id="accodianMinus{{i}}" class="fa fa-angle-down" ></i>
+                            <i   id="accodianPlus{{i}}" class="hide fa fa-angle-up"  ></i></div>
+                            <div  id="innerTr{{i}}"  class="content hide inner-table">
+                              <div class="white_body1" *ngFor="let row of data.schedule">
+                                <div>{{row.start_time}} - {{row.end_time}}</div>
+                              <div><span *ngIf="isLangInstitue">
+                                <span *ngIf="(row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' ">
+                                  Regular
+                                </span>
+                                <span *ngIf="!((row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' )">
+                                  Extra
+                                </span>
+                              </span>
+                              <span *ngIf="!isLangInstitue">
+                                <span *ngIf="row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision'">
+                                  {{row.custom_class_type}}
+                                </span>
+                                <span *ngIf="!(row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision') || (row.class_type == 'EXTRA' && row.custom_class_type == '')">
+                                  Extra
+                                </span>
+                              </span></div>
+                              <div>{{row.class_room_name}}</div>
+                              <div><span class="subject1">{{row.batchName}}</span></div>
+                              <div>{{row.teacher_name}}</div>
+                              <div></div>
+                              </div>
+                              <div class="line"></div>
+                              <div class="white_body1">
+                                <div>11:00 PM - 11:30 PM</div>
+                              <div>Regular</div>
+                              <div>105</div>
+                              <div><span class="subject1">Maths </span></div>
+                              <div>Cameron Williamson</div>
+                              <div></div>
+                              </div>
+                              <div class="line"></div>
+                            </div>
                           </div>
-                          <div class="line"></div>
-                          <div class="white_body1">
-                            <div>11:00 PM - 11:30 PM</div>
-                          <div>Regular</div>
-                          <div>105</div>
-                          <div><span class="subject1">Maths </span></div>
-                          <div>Cameron Williamson</div>
-                          <div></div>
-                          </div>
-                          <div class="line"></div>
                         </div>
+                      
               <!-- time table End-->
             </div>
     

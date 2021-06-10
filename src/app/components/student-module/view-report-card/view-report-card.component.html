@@ -569,11 +569,9 @@
         </div>
 
         <div class="time-table-section" *ngIf="liTableView">
-
-          <div class="row filter-section">
+       <div class="row filter-section">
             <div class="c-sm-6 c-md-6 c-lg-6">
-
-              <div class="row" style="margin-top: 20px">
+            <div class="row" style="margin-top: 20px">
                 <div class="field-radio-wrapper c-sm-4 c-md-4 c-lg-4">
                   <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0" [(ngModel)]="timetablePayLoad.type"
                     name="rdoBtnCurrent" class="form-radio" (ngModelChange)="onTimeTableRadioBtnChange()">

@@ -642,6 +642,12 @@ getTimeTableDetails() {
     )
   }
 }
+toggleClass(index) {
+  document.getElementById('innerTr' + index).classList.toggle('hide');
+  document.getElementById('accodianMinus' + index).classList.toggle('hide');
+  document.getElementById('accodianPlus' + index).classList.toggle('hide');
+}
+
 validateAllField() {
   if (this.timetablePayLoad.type == '2') {
     if (this.timetablePayLoad.startdate == "" || this.timetablePayLoad.startdate == null) {
