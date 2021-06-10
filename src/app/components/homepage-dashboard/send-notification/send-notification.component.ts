@@ -18,15 +18,13 @@ import { ProductService } from '../../../services/products.service';
 })
 export class SendNotificationComponent implements OnInit {
   jsonFlag: any = {
-    smsTabType: 'approved',
-    openMessageFlag: false,
     editMessage: false,
-    editApprovedMsg:false,
+    editEmail:false,
     createMesageFlag:false,
+    createEmailFlag:false,
     selectedMessageFlag:false,
-    messageObject: {},
-    approveMessageObject:{}
-  };
+    selectedEmailChecboxFlag:false
+};
   combinedDataRes: any = {};
   userType:any
   sendNotification = {
@@ -41,7 +39,8 @@ export class SendNotificationComponent implements OnInit {
   }
 sendLoginmessage:boolean=false
   messageFlag:boolean= true;
-  emailFlag :boolean=false;
+  emailTableFlag :boolean=false;
+  smsTableFlag:boolean=false;
   selectStudentForm :boolean= false;
   addSmsForm:boolean=true;
  
@@ -57,6 +56,7 @@ sendLoginmessage:boolean=false
   searchData: string = "";
   messageCount: number = 0;
   newMessageText: string = "";
+  newEmailText:string ="";
   approveMessageText:string="";
   messageList: any = [];
   emailMessageList:any=[];
@@ -68,6 +68,7 @@ sendLoginmessage:boolean=false
   subject: any;
  pramotional:any
  transactional:any
+ email_subject:any
 
   previewedMessage: any;
   transactionalSmsm:any;
@@ -116,11 +117,26 @@ sendLoginmessage:boolean=false
      this.getAllMessageFromServer();
     //this.getOpenStatusSMS()
     //this.getMaterCourseList();
+    this.smsTableFlag = true
+
+  }
+  onClickEmai(){
+    this.emailTableFlag = true
+    this.smsTableFlag = false
+  }
+  onClickSms(){
+    this.emailTableFlag = false
+    this.smsTableFlag = true
   }
   onClickCreateMessage(){
     this.jsonFlag.createMesageFlag = true
     this.jsonFlag.selectedMessageFlag = false
 
+  }
+  onClickCreateEmail(){
+    this.jsonFlag.createEmailFlag=true
+    this.jsonFlag.createMesageFlag = false
+    this.jsonFlag.selectedMessageFlag = false
   }
   closeDiv(){
     this.jsonFlag.createMesageFlag = false
@@ -172,7 +188,16 @@ this.selectedMessageText=this.selectedRow.length
 console.log("msg length",this.selectedMessageId)
 
 }
+onSelectedEmailCheckbox(obj){
+  this.jsonFlag.selectedEmailChecboxFlag = true
+this.selectedRow = obj.message
+this.selectedMessageId= obj.message_id
+sessionStorage.setItem('selecte-messase',(this.selectedRow))
+sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
 
+this.selectedMessageText=this.selectedRow.length
+console.log("msg length",this.selectedMessageId)
+}
 hasUnicode(str) {
   for (var i = 0; i < str.length; i++) {
     if (str.charCodeAt(i) > 127) return true;
@@ -202,12 +227,13 @@ saveNewMessage() {
   this.auth.showLoader();
   let src: any;
   let status:any
-  if (this.messageFlag == true) {
+  if (this.jsonFlag.createMesageFlag == true) {
     src = "SMS";
     status = 1
   }
   else {
     src = "EMAIL";
+    status = 1
   }
   let obj = { message: this.newMessageText ,source: src,status: status};
   this.widgetService.saveMessageTOServer(obj).subscribe(
@@ -270,6 +296,12 @@ saveNewMessage() {
     this.selectedMessageId = obj.message_id
     console.log("ghghg",this.selectedMessageId)
   }
+  onClickEditEmail(obj){
+    this.jsonFlag.editEmail = true
+    this.newMessageText = obj.message
+    this.selectedMessageId = obj.message_id
+    console.log("ghghg",this.selectedMessageId)
+  }
 updateMessage(){
     let obj = { message: this.newMessageText,status:1};
     this.auth.showLoader();
@@ -304,6 +336,12 @@ updateMessage(){
   }
   onClickSentTo(){
     this.router.navigateByUrl('/view/dashboard/send-to-messages')
+  }
+  onClickEmailSentTo(){
+    this.router.navigateByUrl('/view/dashboard/send-to-messages')
+    sessionStorage.setItem('email-subject',this.email_subject)
+    console.log("email subject",this.email_subject)
+
   }
 }
  

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
@@ -15,7 +15,7 @@ import { ProductService } from '../../../services/products.service';
   templateUrl: './send-to-messages.component.html',
   styleUrls: ['./send-to-messages.component.scss']
 })
-export class SendToMessagesComponent implements OnInit {
+export class SendToMessagesComponent implements OnInit, OnDestroy {
   jsonFlag={
     institute_id:'',
     
@@ -38,6 +38,8 @@ export class SendToMessagesComponent implements OnInit {
   showAllaluminiStudentFlag:boolean=false;
   showallUserListFlag:boolean=false; 
   showCourseWiseFlag:boolean=false
+  emailSendingFlag:boolean=false
+  smsSendingFlag:boolean=false
   allChecked: boolean = true;
 
  
@@ -76,6 +78,7 @@ export class SendToMessagesComponent implements OnInit {
   transactional:any
   selected_message:any
   selected_messageId:any
+  email_subjects:any
   
 
   constructor( private router: Router,
@@ -90,6 +93,7 @@ export class SendToMessagesComponent implements OnInit {
       this.userType = Number(sessionStorage.getItem('userType'));
       this.selected_message=sessionStorage.getItem('selecte-messase')
       this.selected_messageId=sessionStorage.getItem('selected-message_id')
+      this.email_subjects= sessionStorage.getItem('email-subject')
 
 
       this.courseListSetting={
@@ -106,6 +110,7 @@ export class SendToMessagesComponent implements OnInit {
   ngOnInit(): void {
     console.log("messase",this.selected_message)
     console.log("message id",this.selected_messageId)
+    console.log("email subject",this.email_subjects)
     this.auth.schoolModel.subscribe(
       res => {
         this.schoolModel = false;
@@ -123,9 +128,23 @@ export class SendToMessagesComponent implements OnInit {
         }
       }
     )
+    if(this.email_subjects == null){
+
+      this.smsSendingFlag = true
+  }else{
+    this.emailSendingFlag = true
+  }
     this.getMaterCourseList()
   }
-  allActiveStudent() {
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('selected-message_id')
+    sessionStorage.removeItem('email-subject')     
+     sessionStorage.removeItem('selecte-messase')
+  
+
+  }
+  allActiveStudent(event) {
    this.auth.showLoader();
       this.studentList = [];
       this.widgetService.getAllActiveStudentList().subscribe(
@@ -133,6 +152,8 @@ export class SendToMessagesComponent implements OnInit {
           this.auth.hideLoader();
             this.showActiveTableFlag = true;
             this.studentList = res;
+            console.log("active data",this.studentList)
+
            },
         err => {
           this.auth.hideLoader();
@@ -140,16 +161,17 @@ export class SendToMessagesComponent implements OnInit {
         }
       )
     }
-
-    allFacultyDataList(event) {
-        this.auth.showLoader();
+  
+    allFacultyDataList() {
+        this.auth.showLoader(); 
         this.studentList = [];
-        this.widgetService.getAllTeacherList().subscribe(
+               this.widgetService.getAllTeacherList().subscribe(
           res => {
             this.auth.hideLoader();
   
               this.showFacultyTableFlag = true;
               this.studentList = res;
+              console.log("faculty data",this.studentList)
             
           },
           err => {
@@ -157,7 +179,8 @@ export class SendToMessagesComponent implements OnInit {
             //console.log(err);
           }
         )
-      }
+      
+    }
       aluminiStudentData(event) {
         
           this.auth.showLoader();
@@ -168,7 +191,7 @@ export class SendToMessagesComponent implements OnInit {
     
                 this.showAllaluminiStudentFlag = true;
                 this.studentList = res;
-              
+              console.log("Alumini data",this.studentList)
             },
             err => {
               this.auth.hideLoader();
@@ -189,7 +212,7 @@ export class SendToMessagesComponent implements OnInit {
                   this.showInactiveStudentFlag = true;
 
                   this.studentList = res;
-                  console.log("sttttttttttttt",this.studentList)
+                  console.log("inactive",this.studentList)
                 
               },
               err => {
@@ -406,14 +429,15 @@ export class SendToMessagesComponent implements OnInit {
     }
 
     getListOfIds(key){
-      let id:any=[]
-      for(let i=0; i<this.studentList.length;i++){
-        if(this.studentList[i].assigned == true){
-          id.push(this.studentList[i][key])
+        let id: any = [];
+        for (let t = 0; t < this.studentList.length; t++) {
+          if (this.studentList[t].assigned == true) {
+            id.push(this.studentList[t][key]);
+          }
         }
-      }
-      return id.join(',');
-
+        return id.join(',');
+      
+    
     }
     getListOfUserIds(key){
       let id:any=[];
@@ -425,8 +449,49 @@ export class SendToMessagesComponent implements OnInit {
       }
       return id
     }
+// ========for-destination-value====================
+
+getDestinationValue() {
+  console.log("getDestinationValue");
+  let student = (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
+  let parent = (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
+  // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
+  // if (student == true && parent == false && gaurdian == false) {
+  if (student == true && parent == false) {
+    return 0;
+    // } else if (student == false && parent == true && gaurdian == false) {
+  } else if (student == false && parent == true) {
+    return 1;
+    // } else if (student == false && parent == false && gaurdian == true) {
+  } else if (student == false && parent == false) {
+    return 3;
+    // } else if (student && parent && gaurdian == false) {
+  } else if (student && parent == false) {
+    return 2;
+    // } else if (student && gaurdian && parent == false) {
+  } else if (student && parent == false) {
+    return 5;
+    // } else if (parent && gaurdian && student == false) {
+  } else if (parent && student == false) {
+    return 6;
+  }
+  // else if (student && parent && gaurdian) {
+  else if (student && parent) {
+    return 4;
+  } else {
+    let msg = {
+      type: 'error',
+      title: '',
+      body: "Please correct option in Send SMS To.."
+    };
+    this.appC.popToast(msg);
+    return false;
+  }
+}
+
+// =================end=====================
+
     sendNotificationMessages(){
-      let messageSelected: any;
       let configuredMessage: boolean = false;
      
        // messageSelected = this.getNotificationMessage();
@@ -434,37 +499,50 @@ export class SendToMessagesComponent implements OnInit {
         
       let destination: any;
       if (!this.showallUserListFlag) {
-        destination = 0;
+        destination = this.getDestinationValue()
         if (destination === false) {
           return;
         }
       }
       let studentID: any;
+
       let userId: any;
       let isTeacherSMS: number = 0;
-      // if (this.showFacultyTableFlag) {
-      //   studentID = this.getListOfIds('teacher_id');
-      //   isTeacherSMS = 1;
-      //   destination = 0;
-      // } 
-      // else {
-      //   if (this.showallUserListFlag) {
-      //     userId = this.getListOfUserIds('user_id')
-      //   } else {
-      //     studentID = this.getListOfIds('student_id');
-      //   }
-      // }
+      if(this.showFacultyTableFlag){
+        isTeacherSMS = 1
+        destination = 0;
+        studentID = this.getListOfIds('teacher_id')
+        console.log("teacher id",studentID)
+
+      }else{
+        if(this.showallUserListFlag){
+          userId = this.getListOfUserIds('user_id')
+        }
+        else{
+        studentID = this.getListOfIds('student_id')
+        }
+      }
+      let delivery_mode:number=0
+      if(this.emailSendingFlag){
+        delivery_mode = 1
+      }else{
+        delivery_mode =0
+      }
       
-      studentID = this.getListOfIds('student_id')
+      
+      // studentID = this.getListOfIds('student_id')
+      
       let isAlumini = 0;
 
       if (this.showAllaluminiStudentFlag == true) {
         isAlumini = 1;
       }
+     
+
       let obj = {
-        delivery_mode: 0,
+        delivery_mode: delivery_mode,
         notifn_message: this.selected_message,
-        notifn_subject: "",
+        notifn_subject: this.email_subjects,
         destination: Number(destination),
         student_ids: studentID,
         user_ids: userId,
@@ -479,7 +557,8 @@ export class SendToMessagesComponent implements OnInit {
       if (this.showallUserListFlag) {
         obj.is_user_notify = 1
       }
-  
+      console.log("teacher id",obj)
+
       this.widgetService.sendNotification(obj).subscribe(
         res => {
           let msg = {
@@ -501,8 +580,8 @@ export class SendToMessagesComponent implements OnInit {
         }
       )
     }
-    onCheckBoxEvent(event, row) {
-      row.assigned = event;
+    onCheckBoxEvent(event, item) {
+      item.assigned = event;
       this.allChecked = this.checkCheckAllChkboxStatus();
     }
   

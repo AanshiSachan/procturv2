@@ -385,3 +385,52 @@ input::placeholder {
 
     color: #4C6380;
 }
+.subject11{
+    border: 1px solid #E7E7E7;
+box-sizing: border-box;
+}
+// ====================model-css============================
+
+.modal-dialog {
+    margin: 5% auto;
+}
+#myModal .modal-header h4{
+    margin: 0;
+    font-weight: 600;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height */
+margin-bottom: 16px;
+letter-spacing: 0.01em;
+display: inline-block;
+/* table_black */
+
+color: #323C47;
+}
+#myModal .modal-header h4 img{
+    padding-left: 4px;
+    height: 12px;
+    width: auto;
+}
+.modal-body .para1, .modal-header .para1{
+    font-weight: 600;
+font-size: 12px;
+line-height: 12px;
+/* identical to box height */
+
+letter-spacing: 0.01em;
+margin-bottom: 0px;
+/* table_black */
+margin-top: 0px;
+color: #323C47;
+}
+.modal-body p, .modal-header p{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.01em;
+    margin-bottom: 0px;
+    /* table_black */
+    margin-top: 4px;
+    color: #323C47;
+}

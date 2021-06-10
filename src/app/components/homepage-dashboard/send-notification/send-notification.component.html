@@ -1,12 +1,14 @@
 <div class="page-content">
   <div class="display">
    <div class="links">
-      <a class="selected" href="#">SMS</a>
-      <a  href="#">Email</a>
+      <a class="selected" (click)="onClickSms()">SMS</a>
+      <a  (click)="onClickEmai()">Email</a>
       <a  href="#">Push</a>
    </div>
    <div class="create">
-      <a  (click)="onClickCreateMessage()"> + Create New SMS  </a>
+      <a  (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Create New SMS  </a>
+      <a  (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Create New Email  </a>
+
   </div>
   </div>
   <div class="table_head">
@@ -16,6 +18,7 @@
       <div>Action</div>
   </div>
   <div class="scroll_body">
+      <div *ngIf="smsTableFlag">
       <div class="table_body" *ngFor="let msg of messageList">
           <div>
               <div class="field-radio-wrapper">
@@ -31,6 +34,26 @@
               <a (click)="deletMessage(msg,'400')"><img src="../../../../assets/images/delete.svg"></a>
           </div>
       </div>
+      </div>
+      <!-- ==================email-table================= -->
+      <div *ngIf="emailTableFlag">
+      <div class="table_body" *ngFor="let email of emailMessageList">
+        <div>
+            <div class="field-radio-wrapper">
+                <input type="radio" class="form-radio" [(ngModel)]="selectedRow" value="{{email.message}}" (ngModelChange)="onSelectedEmailCheckbox(email)">
+                <label ></label>
+            </div>
+        </div>
+        <div>{{email.date}}</div>
+        <div>  {{(!email.message) ? '-':(email.message.length > 50) ?(email.message | slice :0:50) + '...' : email.message}}
+        </div>
+        <div>
+            <a class="mr16" (click)="onClickEditEmail(email)"><img src="../../../../assets/images/edit.svg"></a>
+            <a (click)="deletMessage(email,'400')"><img src="../../../../assets/images/delete.svg"></a>
+        </div>
+    </div>
+    </div>
+      <!-- ================end=================== -->
       
   </div>
   <div class="pagignation">
@@ -133,4 +156,161 @@
       
   </div>
 </div>
-<!-- =======================end===================================== -->
+<!-- =======================Email===================================== -->
+<div class="page-content1 create1" *ngIf="jsonFlag.createEmailFlag || jsonFlag.editEmail">
+    <div class="page_heading">
+        <p *ngIf="!jsonFlag.editEmail">
+            Create New Email
+        </p>
+        <p *ngIf="jsonFlag.editEmail">Edit Email</p>
+        <img src="../../../../assets/images/add-send-notification-img/cross.svg">
+    </div>
+    <div class="page_body">
+       
+        <div>
+            <p>Email Description</p>
+            <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"></textarea>
+            <div class="editbox">
+                <div>
+                 <a> <img src="../../../../assets/images/add-send-notification-img/1.svg"></a>
+                 <a><img src="../../../../assets/images/add-send-notification-img/2.svg"></a>
+                </div>
+                <div class="line"></div>
+                <div>
+                  <select>
+                    <option class="sans">Sans Serif</option>
+                  </select>
+                </div>
+                <div class="line"></div>
+                <div>
+                  <select class="tt">
+                    <option  ></option>
+                  </select>
+                </div>
+                <div class="line"></div>
+                <div class="fonts">
+                  <a> <img src="../../../../assets/images/add-send-notification-img/bold.svg"></a>
+                  <a><img src="../../../../assets/images/add-send-notification-img/italic.svg"></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/underline.svg" class="underline"></a>
+                  <select class="font">
+                    <option  ></option>
+                  </select>
+                </div>
+                <div class="line"></div>
+               <div class="color dropdown11">
+                <a  class="dropbtn11"><img src="../../../../assets/images/add-send-notification-img/color.svg"></a>
+                
+                  <div class="dropdown-content11">
+                 
+                  </div>
+               
+               </div>
+               <div class="line"></div>
+                <div class="font_align">
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V1.svg"></a>
+                  <a><img src="../../../../assets/images/add-send-notification-img/V2.svg"></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V3.svg" ></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V4.svg"></a>
+                  <a><img src="../../../../assets/images/add-send-notification-img/V6.svg"></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V7.svg" ></a>
+                </div>
+              </div>
+        </div>
+        <div>
+            
+        </div>
+    </div>
+    <div class="page_footer">
+        <div></div>
+        <button class="blue_button" (click)="saveNewMessage()" *ngIf="!jsonFlag.editEmail">Save</button>
+        <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editEmail">update</button>
+
+    </div>
+</div>
+<!-- ========================selected-email=================== -->
+<div class="page-content1 selected1" *ngIf="jsonFlag.selectedEmailChecboxFlag">
+    <div class="page_heading">
+        <p>
+            Selected Email
+        </p>
+        <img src="../../../../assets/images/add-send-notification-img/cross.svg">
+    </div>
+    <div class="page_body page_body1">
+       
+        <div>
+            <p>Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
+            <div class="email_subject danger11">
+                <span>Subject :</span>
+                <input type="text" [(ngModel)]="email_subject" >
+                <span >Subject is mandatory</span>
+            </div>
+            <!-- danger11 class will toggle -->
+            <div class="message">
+                <span>Message :</span>
+                <textarea placeholder="Write your message here...">{{selectedRow}}</textarea>
+            </div>
+         
+        </div>
+        <div>
+            
+        </div>
+    </div>
+       
+    <div class="display12">
+        <div class="editbox">
+            <div>
+             <a> <img src="../../../../assets/images/add-send-notification-img/1.svg"></a>
+             <a><img src="../../../../assets/images/add-send-notification-img/2.svg"></a>
+            </div>
+            <div class="line"></div>
+            <div>
+              <select>
+                <option class="sans">Sans Serif</option>
+              </select>
+            </div>
+            <div class="line"></div>
+            <div>
+              <select class="tt">
+                <option  ></option>
+              </select>
+            </div>
+            <div class="line"></div>
+            <div class="fonts">
+              <a> <img src="../../../../assets/images/add-send-notification-img/bold.svg"></a>
+              <a><img src="../../../../assets/images/add-send-notification-img/italic.svg"></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/underline.svg" class="underline"></a>
+              <select class="font">
+                <option  ></option>
+              </select>
+            </div>
+            <div class="line"></div>
+           <div class="color dropdown11">
+            <a  class="dropbtn11"><img src="../../../../assets/images/add-send-notification-img/color.svg"></a>
+            
+              <div class="dropdown-content11">
+             
+              </div>
+           
+           </div>
+           <div class="line"></div>
+            <div class="font_align">
+              <a> <img src="../../../../assets/images/add-send-notification-img/V1.svg"></a>
+              <a><img src="../../../../assets/images/add-send-notification-img/V2.svg"></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/V3.svg" ></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/V4.svg"></a>
+              <a><img src="../../../../assets/images/add-send-notification-img/V6.svg"></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/V7.svg" ></a>
+            </div>
+          </div>
+          <div>
+              <p class="quota">Email Quota Balance  :<span>494836</span></p>
+          </div>
+    </div>
+    <div class="page_footer">
+        <div></div>
+        <button class="blue_button" (click)="onClickEmailSentTo()">Send To</button>
+    </div>
+</div>
+
+
+<!-- ===========end=============== -->

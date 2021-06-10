@@ -1,7 +1,7 @@
 <div class="page-content">
     <div class="top_section">
-        <div>
-            <p class="heading">SMS Description <img src="../../../../assets/images/edit.svg"></p>
+        <div *ngIf="smsSendingFlag">
+            <p class="heading">SMS Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
             <p class="para">
                 {{selected_message}}
                                 
@@ -12,6 +12,21 @@
                 <div>Message Count: <b>1</b></div>
             </div>
         </div>
+<!-- =============email-sending-div==================== -->
+
+<div *ngIf="emailSendingFlag">
+    <p class="heading">Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
+    <div class="subject11">
+        <p><span>Subject : </span>{{email_subjects}}</p>
+    </div>
+    <p class="para">
+        <span>Message : </span>
+        {{selected_message}}
+                        
+    </p>
+   
+</div>
+<!-- ===============end====================== -->
         <div class="display">
             <!-- =====is-professional============== -->
             <div class="vertical display" *ngIf="isProfessional">
@@ -172,7 +187,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                      <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -217,7 +232,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                  <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -256,7 +271,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                      <input type="checkbox" name="checked"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" >
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -275,9 +290,9 @@
     <div class="pagignation">
         <p>Showing <b>1 to 8 of 50</b></p>
         <div class="flex space1">
-            <label class="checkbox">
+            <label for="chkBoxStudent" class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked>
+                  <input type="checkbox" name="checked" id="chkBoxStudent" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -285,9 +300,9 @@
                 </span>
               </label>
               <p>Student</p>
-              <label class="checkbox">
+              <label for="chkBoxParent" class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked>
+                  <input type="checkbox" name="checked" id="chkBoxParent" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -295,9 +310,47 @@
                 </span>
               </label>
               <p>Parent</p>
-            <button class="white_button"(click)="sendNotificationMessages()">Send Text Message </button>
+            <button class="white_button"(click)="sendNotificationMessages()" *ngIf="smsSendingFlag">Send Text Message </button>
+            <button class="blue_button" data-toggle="modal" data-target="#myModal" *ngIf="emailSendingFlag">Preview & Send </button>
+
         </div>
     </div>   
 
 </div>
-
+<!-- ==============preview-model========================== -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <div>
+            <p class="para1">Subject: </p>
+            <p>{{email_subjects}}</p>
+          </div>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <p class="para1">Message : </p>
+          
+            <p>
+             {{selected_message}}
+              </p>
+            <p>
+            Regards,
+            ABC XYZ
+          </p>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="white_button mr16" data-dismiss="modal">Close</button> &nbsp;
+          <button type="button" class="blue_button" (click)="sendNotificationMessages()" >Send</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
