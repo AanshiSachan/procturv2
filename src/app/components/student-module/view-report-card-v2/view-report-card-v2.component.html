@@ -1924,16 +1924,16 @@
                 <div>Faculty</div>
                 <div></div>
               </div>
-                        <div class="white_body collapsible" id="outerTr{{i}}" (click)="toggleClass(i)" *ngFor="let data of timeTableSchedule; let i = index">
-                 
-                          <div><p *ngIf="isshows"><span>21</span> December 2021, Monday</p>
-                          <p> {{data.date}}</p></div>
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                          <div> <i  id="accodianMinus{{i}}" class="fa fa-angle-down" ></i>
-                            <i   id="accodianPlus{{i}}" class="hide fa fa-angle-up"  ></i></div>
+                        <div id="outerTr{{i}}" (click)="toggleClass(i)" *ngFor="let data of timeTableSchedule; let i = index">
+                 <div class="white_body collapsible">      <div><p *ngIf="isshows"><span>21</span> December 2021, Monday</p>
+                  <p> {{data.date}}</p></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div> <i  id="accodianMinus{{i}}" class="fa fa-angle-down" ></i>
+                    <i   id="accodianPlus{{i}}" class="hide fa fa-angle-up"  ></i></div></div>
+                    
                             <div  id="innerTr{{i}}"  class="content hide inner-table">
                               <div class="white_body1" *ngFor="let row of data.schedule">
                                 <div>{{row.start_time}} - {{row.end_time}}</div>

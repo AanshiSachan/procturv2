@@ -929,9 +929,13 @@ color: #323C47;
 padding: 9px 0px;
 display: flex;
 }  
-.grey_head>div,.white_body>div,.white_body1>div{
+.grey_head>div,.white_body>div{
   padding-left: 20px;
   width:calc((100% - 550px) / 3);
+}
+.white_body1>div{
+  padding-left: 20px;
+  width:calc((100% - 450px) / 3);
 }
 .grey_head>div:first-child,.grey_head>div:nth-child(5),.white_body>div:first-child,.white_body>div:nth-child(5),.white_body1>div:first-child,.white_body1>div:nth-child(5){
   width:250px;
