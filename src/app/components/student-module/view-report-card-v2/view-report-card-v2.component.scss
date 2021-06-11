@@ -583,11 +583,21 @@ justify-content: center;
   margin-right: 10px;
   border: 1px solid #E3E8F2;
 }
-.table_border{
+.table_border1{
   overflow-x: scroll;
   border: 1px solid #E3E8F2;
   padding:10px 20px;
   margin: 10px;
+}
+.table_border1 p{
+  font-weight: 600;
+font-size: 13px;
+line-height: 19px;
+/* identical to box height */
+margin:16px 0px 8px;
+letter-spacing: 0.01em;
+
+color: #323C47;
 }
 .table_border>div:first-child{
 display: inline-flex;
@@ -1122,4 +1132,26 @@ border-radius: 4px;
 .bigdata{
   font-size:24px;
   padding:5px;
+}
+.end_tot p{
+  font-weight:400;
+  font-size: 13px;
+  line-height: 19px;
+  /* identical to box height */
+  
+  text-align: center;
+  letter-spacing: 0.01em;
+  margin-bottom: 0px;
+  color: #7E8A90;
+}
+.end_tot p span{
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 19px;
+  /* identical to box height */
+  
+  text-align: center;
+  letter-spacing: 0.01em;
+  padding-left: 8px;
+  color: #109CF1;
 }
