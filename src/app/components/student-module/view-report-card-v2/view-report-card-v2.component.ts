@@ -685,21 +685,22 @@ makeJSONForTimeTable(data) {
 
 //============================Exam Details for school Module==============================//
 ///v1/reports/Student/school/{student_id}
+// let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
 examDetailsForSchool:any=[];
 getExamDetailsForSchool(){
   alert(this.student_id)
   this.auth.showLoader();
-  let url = "/api/v1/reports/Student/school/" + this.student_id;
+  let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
   this.httpService.getData(url).subscribe(
     (res: any) => {
       this.examDetailsForSchool = res;
-      console.log(this.examDetailsForSchool)
+      console.log( this.examDetailsForSchool);
      // this.fetchDefaultAY();
       this.auth.hideLoader();
     },
     (error: any) => {
       this.auth.hideLoader();
-      this._commService.showErrorMessage('error', '', 'Something went wrong. Please try after sometime!');
+      this._commService.showErrorMessage('error', '', error.error.message);
 
     }
   )
