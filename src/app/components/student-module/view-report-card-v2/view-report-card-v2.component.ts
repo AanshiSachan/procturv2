@@ -635,6 +635,7 @@ getTimeTableDetails() {
       res => {
         this.auth.hideLoader();
         this.timeTableDet = res;
+        console.log(this.timeTableDet)
         this.makeJSONForTimeTable(res.batchTimeTableList);
       },
       err => {
@@ -679,6 +680,7 @@ makeJSONForTimeTable(data) {
         schedule: data[key]
       }
       this.timeTableSchedule.push(tr);
+     
     }
   }
   console.log(this.timeTableSchedule);
