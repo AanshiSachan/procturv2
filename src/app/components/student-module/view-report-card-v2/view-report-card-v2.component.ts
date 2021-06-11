@@ -9,6 +9,7 @@ import { StudentReportService } from '../../../services/report-services/student-
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import * as moment from 'moment';
+import { isExternalModuleNameRelative } from 'typescript';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -684,25 +685,198 @@ makeJSONForTimeTable(data) {
 }
 
 //============================Exam Details for school Module==============================//
+examdata= [
+  {
+      "exam_type_id": 38,
+      "exam_type": "Term 1",
+      "subject_list": [
+          {
+              "subject_id": 7208,
+              "subject_name": "Biology2",
+              "marks_dist_list": [
+                  {
+                      "marks_distribution_id": 12,
+                      "marks_distribution_name": "Practical",
+                      "marks_max_value": 11,
+                      "marks_value": 11
+                  },
+                  {
+                      "marks_distribution_id": 14,
+                      "marks_distribution_name": "written",
+                      "marks_max_value": 44,
+                      "marks_value": 44
+                  },
+                  {
+                      "marks_distribution_id": 48,
+                      "marks_distribution_name": "Practical 2",
+                      "marks_max_value": 22,
+                      "marks_value": 22
+                  }
+              ],
+              "total_marks": 77,
+              "grade": "E",
+              "grade_points": 7,
+              "rank": 0,
+              "attendance": "N",
+              "_optional": false
+          }
+      ],
+      "grand_total": 100,
+      "total_obtained_marks": 77,
+      "total_average_marks": 77,
+      "total_average_marks_percent": 77,
+      "gpa": 7
+  },
+  {
+    "exam_type_id": 38,
+    "exam_type": "Term 2",
+    "subject_list": [
+        {
+            "subject_id": 7208,
+            "subject_name": "Math3",
+            "marks_dist_list": [
+                {
+                    "marks_distribution_id": 12,
+                    "marks_distribution_name": "Practical",
+                    "marks_max_value": 11,
+                    "marks_value": 11
+                },
+                {
+                    "marks_distribution_id": 14,
+                    "marks_distribution_name": "written",
+                    "marks_max_value": 44,
+                    "marks_value": 44
+                },
+                {
+                    "marks_distribution_id": 48,
+                    "marks_distribution_name": "Practical 2",
+                    "marks_max_value": 22,
+                    "marks_value": 22
+                }
+            ],
+            "total_marks": 77,
+            "grade": "E",
+            "grade_points": 7,
+            "rank": 0,
+            "attendance": "N",
+            "_optional": false
+        },
+        {
+          "subject_id": 7208,
+          "subject_name": "Math33",
+          "marks_dist_list": [
+              {
+                  "marks_distribution_id": 12,
+                  "marks_distribution_name": "Practical",
+                  "marks_max_value": 11,
+                  "marks_value": 11
+              },
+              {
+                  "marks_distribution_id": 14,
+                  "marks_distribution_name": "written",
+                  "marks_max_value": 44,
+                  "marks_value": 44
+              },
+              {
+                  "marks_distribution_id": 48,
+                  "marks_distribution_name": "Practical 2",
+                  "marks_max_value": 22,
+                  "marks_value": 22
+              }
+          ],
+          "total_marks": 77,
+          "grade": "E",
+          "grade_points": 7,
+          "rank": 0,
+          "attendance": "N",
+          "_optional": false
+      }
+    ],
+    "grand_total": 100,
+    "total_obtained_marks": 77,
+    "total_average_marks": 77,
+    "total_average_marks_percent": 77,
+    "gpa": 7
+},
+{
+  "exam_type_id": 38,
+  "exam_type": "Term 3",
+  "subject_list": [
+      {
+          "subject_id": 7208,
+          "subject_name": "History3",
+          "marks_dist_list": [
+              {
+                  "marks_distribution_id": 12,
+                  "marks_distribution_name": "Practical",
+                  "marks_max_value": 11,
+                  "marks_value": 11
+              },
+              {
+                  "marks_distribution_id": 14,
+                  "marks_distribution_name": "written",
+                  "marks_max_value": 44,
+                  "marks_value": 44
+              },
+              {
+                  "marks_distribution_id": 48,
+                  "marks_distribution_name": "Practical 2",
+                  "marks_max_value": 22,
+                  "marks_value": 22
+              }
+          ],
+          "total_marks": 77,
+          "grade": "E",
+          "grade_points": 7,
+          "rank": 0,
+          "attendance": "N",
+          "_optional": false
+      }
+  ],
+  "grand_total": 100,
+  "total_obtained_marks": 77,
+  "total_average_marks": 77,
+  "total_average_marks_percent": 77,
+  "gpa": 7
+}
+];
+
 ///v1/reports/Student/school/{student_id}
 // let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
 examDetailsForSchool:any=[];
+subjectlist:any=[];
+marklist:any=[];
 getExamDetailsForSchool(){
-  alert(this.student_id)
-  this.auth.showLoader();
-  let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
-  this.httpService.getData(url).subscribe(
-    (res: any) => {
-      this.examDetailsForSchool = res;
-      console.log( this.examDetailsForSchool);
-     // this.fetchDefaultAY();
-      this.auth.hideLoader();
-    },
-    (error: any) => {
-      this.auth.hideLoader();
-      this._commService.showErrorMessage('error', '', error.error.message);
+  let data:any =[];
+  let markdata:any=[];
+  alert(this.student_id);
+  for(let i in this.examdata){
+for(let j in this.examdata[i].subject_list){
+data.push(this.examdata[i].subject_list[j]);
+for(let k in data.marks_dist_list){
+  markdata.push(data[j].marks_dist_list[k]);
+}
+}
+this.marklist =markdata;
+console.log(this.marklist);
+  }
+  this.subjectlist =data;
+console.log(this.subjectlist)
+//   this.auth.showLoader();
+//   let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
+//   this.httpService.getData(url).subscribe(
+//     (res: any) => {
+//       this.examDetailsForSchool = res;
+//       console.log( this.examDetailsForSchool);
+//      // this.fetchDefaultAY();
+//       this.auth.hideLoader();
+//     },
+//     (error: any) => {
+//       this.auth.hideLoader();
+//       this._commService.showErrorMessage('error', '', error.error.message);
+// console.log(this.examdata);
 
-    }
-  )
+//     }
+//   )
 }
 }

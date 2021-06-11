@@ -1099,9 +1099,10 @@
             </div>
             <div id="exam_tab" *ngIf="isActiveTab =='exam'"  >
             <!-- EXAM -->
-              <div class="table_border" >
-                <div >
-                  <div class="first_section">
+              <div class="table_border"  *ngFor="let data of examdata">
+                <div>
+                  
+                  <div class="first_section" *ngFor="let subject of data.subject_list">
                     <div class="head">
                       <p>Subject</p>
                     </div>
@@ -1111,8 +1112,7 @@
                     <div class="table_text">
                       <p>Chemistry</p>
                     </div>
-                  </div>
-                  <div class="section">
+                    <div class="section" *ngFor="let mark of subject.mark_dist_list" >
                       <div class="width95">
                         <div class="head2"><p>Pre Test</p></div>
                         <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
@@ -1129,6 +1129,8 @@
                        </div>
                       </div>
                   </div>
+                  </div>
+                 
                   <div class="section">
                       <div class="width95">
                         <div class="head2"><p>Pre Test</p></div>
