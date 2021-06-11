@@ -280,4 +280,48 @@
 
   </div> -->
 
+  <div class="leads-menu-section-container" *ngIf="schoolModel">
+    <div class="leads-menu-item eleads-menu-item">
+      <div class="menu-title"><br>
+        <img src="./assets/images/Reporticons/eh.png" alt="">
+        <span class="head-font ">Exam</span>
+
+      </div>
+      <div class=" menu-description">
+        <hr class="heading_hr">
+
+
+        <div class="row ">
+          <a routerLink="/view/leads/enquiryReport/counsellor" class="icon_click"><img
+              src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
+
+
+          <div class="col-sm" style="margin-top:-31px;margin-left:6px;">
+            <span class="sub-head"> <a routerLink="/view/exams/reports/terminal-report">Terminal Report</a></span>
+          </div>
+          <div class="col-sm" style="margin-top: 12px;margin-left:-13px;">
+            <h6 class="content">Terminal Report</h6>
+            <hr class="content_hr" style="margin-left:-20px;">
+          </div>
+        </div>
+
+
+        <div class="row">
+          <a routerLink="/view/leads/campaign-reports/sms-report" class="icon_click"> <img
+              src="./assets/images/Reporticons/campaignreport.png" alt=""></a>
+          <div class="col-sm" style="margin-top:-30px;margin-left:6px;">
+            <span class="sub-head"><a routerLink="/view/exams/reports/merit-stage-report">Merit Stage Report</a></span>
+          </div>
+          <div class="col-sm" style="margin-top:10px;margin-left:-13px">
+            <h6 class="content">Merit Stage Report</h6>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </div>
 </section>
