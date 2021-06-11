@@ -20,7 +20,7 @@
         <div class="blue-background">
           <div class=" inner_flex w60" >
             <!--img when not exist-->
-            <img src="{{studentCommanData.student_thumbnail ==null?'../../../assets/img_view/Group380.svg':studentCommanData.student_thumbnail}}" class="img-round" >
+            <img src="{{studentCommanData.student_thumbnail ==null?'../../../assets/images/empty_photo.svg':studentCommanData.student_thumbnail}}" class="img-round" >
           </div>
           <div class="w40"  *ngIf="schoolModel">
             <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
