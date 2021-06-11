@@ -22,6 +22,7 @@ export class SendNotificationComponent implements OnInit {
     editEmail:false,
     createMesageFlag:false,
     createEmailFlag:false,
+    createdPushNotification:false,
     selectedMessageFlag:false,
     selectedEmailChecboxFlag:false
 };
@@ -41,8 +42,10 @@ sendLoginmessage:boolean=false
   messageFlag:boolean= true;
   emailTableFlag :boolean=false;
   smsTableFlag:boolean=false;
+  pushTableFlag:boolean=false;
   selectStudentForm :boolean= false;
-  addSmsForm:boolean=true;
+  pramotionalSelectedFlag:boolean=false;
+  transactionalSelectedFlag:boolean=true
  
   
   schoolModel: boolean = false;
@@ -57,10 +60,13 @@ sendLoginmessage:boolean=false
   messageCount: number = 0;
   newMessageText: string = "";
   newEmailText:string ="";
+  notificationMessage:string=""
+
   approveMessageText:string="";
   messageList: any = [];
   emailMessageList:any=[];
   openMessageList: any = [];
+  pushNotificationList:any=[];
   
   fullResponse: any = [];
   selectedActiveStudentList:any;
@@ -68,10 +74,10 @@ sendLoginmessage:boolean=false
   subject: any;
  pramotional:any
  transactional:any
- email_subject:any
+ email_subject:string="";
 
   previewedMessage: any;
-  transactionalSmsm:any;
+  transactionalSms:any;
   pramotionalSms:any;
 
   messageSubject: any = "";
@@ -90,7 +96,7 @@ sendLoginmessage:boolean=false
     private productService: ProductService
     ) {
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-      this.transactionalSmsm = sessionStorage.getItem('smsTransaction')
+      this.transactionalSms = sessionStorage.getItem('smsTransaction')
       this.pramotionalSms = sessionStorage.getItem('pramotionValu')
     }
 
@@ -115,18 +121,28 @@ sendLoginmessage:boolean=false
       }
     )
      this.getAllMessageFromServer();
-    //this.getOpenStatusSMS()
-    //this.getMaterCourseList();
+   
     this.smsTableFlag = true
+   
 
   }
   onClickEmai(){
     this.emailTableFlag = true
     this.smsTableFlag = false
+    this.pushTableFlag = false
+
   }
   onClickSms(){
     this.emailTableFlag = false
+    this.pushTableFlag = false
     this.smsTableFlag = true
+  }
+  onClickPush(){
+    this.pushTableFlag = true
+    this.emailTableFlag = false
+    this.smsTableFlag = false
+  
+
   }
   onClickCreateMessage(){
     this.jsonFlag.createMesageFlag = true
@@ -138,15 +154,37 @@ sendLoginmessage:boolean=false
     this.jsonFlag.createMesageFlag = false
     this.jsonFlag.selectedMessageFlag = false
   }
+  onclickCreatePushNotify(){
+    this.jsonFlag.createdPushNotification = true
+    this.jsonFlag.createEmailFlag=false
+    this.jsonFlag.createMesageFlag = false
+  }
   closeDiv(){
     this.jsonFlag.createMesageFlag = false
     this.jsonFlag.selectedMessageFlag = false
+  }
+  onClicktransaction(event){
+    this.pramotionalSelectedFlag = false
+    if(event){
+  this.transactionalSelectedFlag = true
+  console.log("transactional",this.transactionalSelectedFlag)
+}
+  }
+  onclicPramotional(event){
+    this.transactionalSelectedFlag =false
+    if(event){
+      this.pramotionalSelectedFlag = true
+      console.log("pramotional",this.pramotionalSelectedFlag)
+
+    }
   }
   getAllMessageFromServer() {
     console.log("1");
     this.messageList = [];
     this.emailMessageList = [];
+    this.pushNotificationList =[];
     let tempMessageList: any = [];
+    let tempPushList:any=[];
     this.auth.showLoader();
     let obj = {
       from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
@@ -167,6 +205,7 @@ sendLoginmessage:boolean=false
             this.messageList.push(tempMessageList[i]);
             console.log("sms list",this.messageList)
           }
+         
          
         }
         this.auth.hideLoader();
@@ -227,7 +266,7 @@ saveNewMessage() {
   this.auth.showLoader();
   let src: any;
   let status:any
-  if (this.jsonFlag.createMesageFlag == true) {
+  if (this.jsonFlag.createMesageFlag == true || this.jsonFlag.createdPushNotification == true) {
     src = "SMS";
     status = 1
   }
@@ -329,13 +368,13 @@ updateMessage(){
     )
 
   }
-  clickEvent(event){
-   this.pramotional = event
-    console.log("pramotional",this.pramotional)
-
-  }
+ 
   onClickSentTo(){
     this.router.navigateByUrl('/view/dashboard/send-to-messages')
+    sessionStorage.setItem('transactinal',JSON.stringify( this.transactionalSelectedFlag))
+    sessionStorage.setItem('pramotional',JSON.stringify( this.pramotionalSelectedFlag))
+    console.log("transactional flag",this.transactionalSelectedFlag)
+    console.log("pramotional flag",this.pramotionalSelectedFlag)
   }
   onClickEmailSentTo(){
     this.router.navigateByUrl('/view/dashboard/send-to-messages')

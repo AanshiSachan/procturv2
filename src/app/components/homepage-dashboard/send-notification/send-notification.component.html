@@ -3,11 +3,13 @@
    <div class="links">
       <a class="selected" (click)="onClickSms()">SMS</a>
       <a  (click)="onClickEmai()">Email</a>
-      <a  href="#">Push</a>
+      <a  (click)="onClickPush()">Push</a>
    </div>
    <div class="create">
       <a  (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Create New SMS  </a>
       <a  (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Create New Email  </a>
+      <a  (click)="onclickCreatePushNotify()" *ngIf="pushTableFlag"> + Create Push Message  </a>
+
 
   </div>
   </div>
@@ -53,7 +55,25 @@
         </div>
     </div>
     </div>
-      <!-- ================end=================== -->
+      <!-- ================push-table=================== -->
+      <div *ngIf="pushTableFlag">
+        <div class="table_body" *ngFor="let push of pushNotificationList">
+          <div>
+              <div class="field-radio-wrapper">
+                  <input type="radio" class="form-radio">
+                  <label ></label>
+              </div>
+          </div>
+          <div>{{push.date}}</div>
+          <div>  {{(!push.message) ? '-':(push.message.length > 50) ?(push.message | slice :0:50) + '...' : push.message}}
+          </div>
+          <div>
+              <a class="mr16" (click)="onClickEditEmail(email)"><img src="../../../../assets/images/edit.svg"></a>
+              <a (click)="deletMessage(email,'400')"><img src="../../../../assets/images/delete.svg"></a>
+          </div>
+      </div>
+      </div>
+      <!-- ===========end====================== -->
       
   </div>
   <div class="pagignation">
@@ -122,12 +142,12 @@
   <div class="page_body">
       <div>
           <p>Select SMS Type</p>
-          <div class="remaining selected">
+          <div [ngClass]="{'remaining selected':transactionalSelectedFlag}" (click)="onClicktransaction($event)">
               <p>Transactional </p>
-              <p class="number">{{transactionalSmsm}}</p>
+              <p class="number">{{transactionalSms}}</p>
               
           </div>
-          <div class="remaining">
+          <div [ngClass]="{'remaining selected':pramotionalSelectedFlag}" (click)="onclicPramotional($event)">
               <p >Promotional</p>
               <p class="number">{{pramotionalSms}}</p>
           </div>
@@ -239,10 +259,12 @@
        
         <div>
             <p>Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
-            <div class="email_subject danger11">
+            <!-- <div class="email_subject danger11" > -->
+                <div class="email_subject" [ngClass]="{'danger11':email_subject == ''}" >
+
                 <span>Subject :</span>
                 <input type="text" [(ngModel)]="email_subject" >
-                <span >Subject is mandatory</span>
+                <span *ngIf="email_subject == ''">Subject is mandatory</span>
             </div>
             <!-- danger11 class will toggle -->
             <div class="message">
@@ -308,9 +330,33 @@
     </div>
     <div class="page_footer">
         <div></div>
-        <button class="blue_button" (click)="onClickEmailSentTo()">Send To</button>
+        <button class="blue_button"  [disabled]="email_subject == ''" (click)="onClickEmailSentTo()">Send To</button>
     </div>
 </div>
+ 
 
-
-<!-- ===========end=============== -->
+<!-- ===========create-push-Notification=============== -->
+<div class="page-content1 create2" *ngIf="jsonFlag.createdPushNotification">
+    <div class="page_heading">
+      <p>
+        Create Push Message
+      </p>
+      <img src="../../../../assets/img_notif/cross.svg">
+    </div>
+    <div class="page_body">
+  
+      <div>
+        <p>Message Description</p>
+        <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"></textarea>
+  
+      </div>
+      <div>
+  
+      </div>
+    </div>
+    <div class="page_footer">
+      <div></div>
+      <button class="blue_button" (click)="saveNewMessage()">Save</button>
+    </div>
+  </div>
+<!-- ==================end==================================   -->

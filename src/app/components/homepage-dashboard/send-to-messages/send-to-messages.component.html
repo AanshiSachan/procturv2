@@ -7,8 +7,10 @@
                                 
             </p>
             <div class="divide">
-                <div>Character Count: <b>194</b></div>
-                <div>SMS Type: <b> Promotional</b></div>
+                <div>Character Count: <b>{{messageCharacterCount}}</b></div>
+                <div *ngIf="pramotional == 'true'">SMS Type: <b> Promotional</b></div>
+                <div *ngIf="transactional =='true'">SMS Type: <b>Transactional</b></div>
+
                 <div>Message Count: <b>1</b></div>
             </div>
         </div>
@@ -85,28 +87,56 @@
                 <div class="line"></div>
             </div>
             <div  class="vertical display">
-                <div class="radio_div">
-                    <div class="field-radio-wrapper dull">
-                        <input type="radio" class="form-radio" (click)="allActiveStudent()">
+                <div class="radio_div" *ngIf="!emailSendingFlag">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
+                        <input type="radio" class="form-radio" (click)="allActiveStudent()"  [disabled]="pramotional == 'true'">
                         <label >Active Students</label>
                     </div>
-                    <div class="field-radio-wrapper ">
-                        <input type="radio" class="form-radio" (click)="allInActiveStudent()">
+                    <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true'}">
+                        <input type="radio" class="form-radio" (click)="allInActiveStudent()"  [disabled]="transactional == 'true'">
                         <label >Inactive Students</label>
                     </div>
-                    <div class="field-radio-wrapper ">
-                        <input type="radio" class="form-radio" (click)="aluminiStudentData()">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true'}" >
+                        <input type="radio" class="form-radio" (click)="aluminiStudentData()"  [disabled]="transactional == 'true'">
                         <label >Alumni Students</label>
                     </div>
-                    <div class="field-radio-wrapper dull">
-                        <input type="radio" class="form-radio" (click)="allFacultyDataList()">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
+                        <input type="radio" class="form-radio" (click)="allFacultyDataList()"  [disabled]="pramotional == 'true'">
                         <label >Faculty</label>
                     </div>
-                    <div class="field-radio-wrapper dull">
-                        <input type="radio" class="form-radio" (click)="allRegisterUsers()">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
+                        <input type="radio" class="form-radio" (click)="allRegisterUsers()" [disabled]="pramotional == 'true'">
                         <label >Registered Users</label>
                     </div>
                 </div>
+<!-- ==============for-email=================== -->
+<div class="radio_div" *ngIf="emailSendingFlag">
+    <div class="field-radio-wrapper">
+        <input type="radio" class="form-radio" (click)="allActiveStudent()">
+        <label >Active Students</label>
+    </div>
+    <div class="field-radio-wrapper ">
+        <input type="radio" class="form-radio" (click)="allInActiveStudent()"  >
+        <label >Inactive Students</label>
+    </div>
+    <div class="field-radio-wrapper" >
+        <input type="radio" class="form-radio" (click)="aluminiStudentData()">
+        <label >Alumni Students</label>
+    </div>
+    <div class="field-radio-wrapper" >
+        <input type="radio" class="form-radio" (click)="allFacultyDataList()" >
+        <label >Faculty</label>
+    </div>
+    <div class="field-radio-wrapper" >
+        <input type="radio" class="form-radio" (click)="allRegisterUsers()" >
+        <label >Registered Users</label>
+    </div>
+</div>
+<!-- =====================end================= -->
+
+
+
+                
                <div>
                 <button class="blue_button">Search</button>
                </div>
@@ -114,10 +144,10 @@
         </div>
     </div>
     <div class="flex space">
-        <input placeholder="Search" class="search">
+        <input placeholder="Search" [(ngModel)]="searchData" class="search" name="searchData" #search>
         <p>Total Count 01</p>
     </div>
-    <div class="table_head">
+    <div class="table_head"  *ngIf="!showCourseWiseFlag && !showFacultyTableFlag">
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
@@ -139,7 +169,7 @@
    
     <div class="scroll_body1">
         <div *ngIf="showActiveTableFlag">
-        <div class="table_body" *ngFor="let item of studentList">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
@@ -156,12 +186,13 @@
         <div title="{{item.student_phone}}">{{item.student_phone}}</div>
         <div title="{{item.student_class}}">{{item.student_class}}</div>
         <div title="{{item.doj}}">{{item.doj}}</div>
-        <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
         </div>
         </div>
 <!-- =======inactive-student================== -->
 <div *ngIf="showInactiveStudentFlag">
-    <div class="table_body" *ngFor="let item of studentList">
+    <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
@@ -178,12 +209,14 @@
         <div title="{{item.student_phone}}">{{item.student_phone}}</div>
         <div title="{{item.student_class}}">{{item.student_class}}</div>
         <div title="{{item.doj}}">{{item.doj}}</div>
-        <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+
         </div>
     </div>
     <!-- ============alumini-table================ -->
     <div *ngIf="showAllaluminiStudentFlag">
-        <div class="table_body" *ngFor="let item of studentList">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
@@ -200,12 +233,14 @@
             <div title="{{item.student_phone}}">{{item.student_phone}}</div>
             <div title="{{item.student_class}}">{{item.student_class}}</div>
             <div title="{{item.doj}}">{{item.doj}}</div>
-            <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+            <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+            <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+
             </div>
         </div>
     <!-- =================register-user======================= -->
     <div *ngIf="showallUserListFlag">
-        <div class="table_body" *ngFor="let item of studentList">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
@@ -222,17 +257,38 @@
             <div title="{{item.phone}}">{{(!item.phone)? '-' : (item.phone.length > 10)? (item.phone | slice : 0 : 10) + '...' : item.phone}}</div>
             <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div>
             <div title="{{item.doj}}">{{(!item.doj)? '-' : (item.doj.length > 10)? (item.doj | slice : 0 : 10) + '...' : item.doj}}</div>
-            <div title="{{item.email_id}}">{{(!item.email_id) ? '-' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
+            <div title="{{item.email_id}}" *ngIf="!emailSendingFlag">{{(!item.email_id) ? '-' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
+            <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':!item.email_id}">{{(!item.email_id) ? 'Email id is not available' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
+
             </div>
         </div>
 
 <!-- ===========course wise student fetch================== -->
 <div *ngIf="showCourseWiseFlag">
+    <div class="table_head">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" [checked]="checkAllCourseChkboxStatus()" (click)="checkAllChechboxes($event , courseStudentList)" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div>ID</div>
+        <div >Name</div>
+        <div>Mobile</div>
+        <div>Standard</div>
+        <div>Joining Date</div>
+        <div>Email</div>
+    </div>
     <div class="table_body" *ngFor="let item of courseStudentList">
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
+                  <input type="checkbox" name="checked"   (ngModelChange)="onCourseCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -245,12 +301,15 @@
         <div title="{{item.student_phone}}">{{item.student_phone}}</div>
         <div title="{{item.student_class}}">{{item.student_class}}</div>
         <div title="{{item.doj}}">{{item.doj}}</div>
-        <div title="{{item.student_email}}">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+
         </div>
     </div>
 
     <!-- =============teacher-table==================== -->
-        <div class="table_head" *ngIf="showFacultyTableFlag">
+    <div *ngIf="showFacultyTableFlag">
+        <div class="table_head" >
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
@@ -267,7 +326,7 @@
             <div>Subject</div>
             <div>Is Active</div>
         </div>
-        <div class="table_body" *ngFor="let item of studentList">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
@@ -284,8 +343,10 @@
             <div title="{{item.teacher_subjects}}">{{(!item.teacher_subjects)? '-' : (item.teacher_subjects.length > 10)? (item.teacher_subjects | slice : 0 : 10) + '...' : item.teacher_subjects}}</div>
             <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
             <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
+            <div *ngIf=" studentList.length == 0">No Record Found</div>
             </div>
-            </div>
+         </div>  
+         </div> 
     <!-- ===================end======================== -->
     <div class="pagignation">
         <p>Showing <b>1 to 8 of 50</b></p>

@@ -41,13 +41,16 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   emailSendingFlag:boolean=false
   smsSendingFlag:boolean=false
   allChecked: boolean = true;
+  transactionalFlag:boolean=false
+  pramotinalFlag:boolean=false
 
  
-  activeRowCeckbox:boolean=false;
+  activeCeckbox:boolean=false;
   facultyCheckBox:boolean=false;
   aluminiCheckBox:boolean=false;
   allUserCheck:boolean=false;
   inactiveCheck:boolean=false;
+  usereCheck:boolean=false
   schoolModel: boolean = false;
   public isProfessional: boolean = false;
 
@@ -79,6 +82,9 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   selected_message:any
   selected_messageId:any
   email_subjects:any
+  messageCharacterCount:any
+  searchData: string = "";
+
   
 
   constructor( private router: Router,
@@ -94,6 +100,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       this.selected_message=sessionStorage.getItem('selecte-messase')
       this.selected_messageId=sessionStorage.getItem('selected-message_id')
       this.email_subjects= sessionStorage.getItem('email-subject')
+      this.pramotional = sessionStorage.getItem('pramotional')
+      this.transactional = sessionStorage.getItem('transactinal')
 
 
       this.courseListSetting={
@@ -111,6 +119,10 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
     console.log("messase",this.selected_message)
     console.log("message id",this.selected_messageId)
     console.log("email subject",this.email_subjects)
+    console.log("transactional",this.transactional)
+    console.log("pramotional",this.pramotional)
+    this.messageCharacterCount = this.selected_message.length
+console.log("length",this.messageCharacterCount)
     this.auth.schoolModel.subscribe(
       res => {
         this.schoolModel = false;
@@ -134,6 +146,11 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   }else{
     this.emailSendingFlag = true
   }
+  // if(this.pramotional == false){
+  //   this.transactionalFlag = true
+  // }else if( this.transactional == false){
+  //   this.pramotinalFlag = true
+  //}
     this.getMaterCourseList()
   }
 
@@ -145,7 +162,17 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
 
   }
   allActiveStudent(event) {
-   this.auth.showLoader();
+  this.auth.showLoader()
+  //  this.facultyCheckBox=false;
+  //  this.aluminiCheckBox=false;
+  //  this.allUserCheck=false;
+  //  this.inactiveCheck=false;
+  //  this.usereCheck=false
+   this.showFacultyTableFlag= false;
+   this.showInactiveStudentFlag=false;
+   this.showAllaluminiStudentFlag=false;
+   this.showallUserListFlag=false; 
+   this.showCourseWiseFlag=false
       this.studentList = [];
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
@@ -162,8 +189,20 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       )
     }
   
-    allFacultyDataList() {
+    allFacultyDataList(event) {
+ 
         this.auth.showLoader(); 
+        // this. activeCeckbox=false;
+        // this.facultyCheckBox=true;
+        // this.aluminiCheckBox=false;
+        // this.allUserCheck=false;
+        // this.inactiveCheck=false;
+        // this.usereCheck=false
+        this.showActiveTableFlag = false;
+        this.showInactiveStudentFlag=false;
+        this.showAllaluminiStudentFlag=false;
+        this.showallUserListFlag=false; 
+        this.showCourseWiseFlag=false
         this.studentList = [];
                this.widgetService.getAllTeacherList().subscribe(
           res => {
@@ -182,8 +221,18 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       
     }
       aluminiStudentData(event) {
-        
-          this.auth.showLoader();
+        this.auth.showLoader();
+
+        // this. activeCeckbox=false;
+        // this.facultyCheckBox=false;
+        // this.aluminiCheckBox=true;
+        // this.allUserCheck=false;
+        // this.inactiveCheck=false;
+        // this.usereCheck=false
+        this.showActiveTableFlag = false;
+        this.showInactiveStudentFlag=false;
+        this.showallUserListFlag=false; 
+        this.showCourseWiseFlag=false
           this.studentList = [];
           this.widgetService.getAllAluminiList().subscribe(
             res => {
@@ -201,9 +250,20 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
         } 
 
 
-        allInActiveStudent() {
-         this.showActiveTableFlag= false
+        allInActiveStudent(event) {
+        
             this.auth.showLoader();
+        //      this. activeCeckbox=false;
+        //  this.facultyCheckBox=false;
+        //  this.aluminiCheckBox=false;
+        //  this.allUserCheck=false;
+        //  this.inactiveCheck=true;
+        //  this.usereCheck=false
+         this.showAllaluminiStudentFlag = false;
+         this.showActiveTableFlag = false;
+         this.showallUserListFlag=false; 
+         this.showCourseWiseFlag=false
+         this.showFacultyTableFlag=false
             this.studentList = [];
             this.widgetService.getAllInActiveList().subscribe(
               res => {
@@ -222,8 +282,18 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
             )
           }
         allRegisterUsers(event) {
-         
+        
             this.auth.showLoader();
+        //      this. activeCeckbox=false;
+        //  this.facultyCheckBox=false;
+        //  this.aluminiCheckBox=false;
+        //  this.allUserCheck=true;
+        //  this.inactiveCheck=false;
+        //  this.usereCheck=false
+         this.showAllaluminiStudentFlag = false;
+         this.showInactiveStudentFlag = false;
+         this.showActiveTableFlag = false;
+         this.showCourseWiseFlag=false
             this.studentList = [];
             let obj = {
               "by": [
@@ -240,13 +310,15 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
               "no_of_records": 0
             }
             this.productService.postMethod('user-product/get-user-details', obj).then(
-              res => {
+             res => {
                // this.openAppUserSelected = true;
                 this.auth.hideLoader();
                 let response = res['body'];
       
                   this.showallUserListFlag = true;
+
                   this.studentList = response.result;
+                  console.log("usel",this.studentList)
                 
               },
               err => {
@@ -258,6 +330,12 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
         }
        
         fetchStudentsApi(courseArray) {
+        //   this. activeCeckbox=false;
+        //  this.facultyCheckBox=false;
+        //  this.aluminiCheckBox=false;
+        //  this.allUserCheck=false;
+        //  this.inactiveCheck=false;
+        //  this.usereCheck=false
          this. showActiveTableFlag = false;
         this.showFacultyTableFlag = false;
         this.showInactiveStudentFlag=false;
@@ -439,6 +517,17 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       
     
     }
+    getListOfCourseIds(key){
+      let id: any = [];
+      for (let t = 0; t < this.courseStudentList.length; t++) {
+        if (this.courseStudentList[t].assigned == true) {
+          id.push(this.courseStudentList[t][key]);
+        }
+      }
+      return id.join(',');
+    
+  
+  }
     getListOfUserIds(key){
       let id:any=[];
       for(let i =0; i< this.studentList.length;i++){
@@ -522,6 +611,9 @@ getDestinationValue() {
         studentID = this.getListOfIds('student_id')
         }
       }
+      if(this.showCourseWiseFlag){
+        studentID = this.getListOfCourseIds('student_id')
+      }
       let delivery_mode:number=0
       if(this.emailSendingFlag){
         delivery_mode = 1
@@ -588,6 +680,20 @@ getDestinationValue() {
     checkCheckAllChkboxStatus() {
       for (let i = 0; i < this.studentList.length; i++) {
         if (this.studentList[i].assigned == false) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    onCourseCheckBoxEvent(event, item) {
+      item.assigned = event;
+      this.allChecked = this.checkAllCourseChkboxStatus();
+    }
+
+    checkAllCourseChkboxStatus() {
+      for (let i = 0; i < this.courseStudentList.length; i++) {
+        if (this.courseStudentList[i].assigned == false) {
           return false;
         }
       }
