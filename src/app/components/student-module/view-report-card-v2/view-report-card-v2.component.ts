@@ -847,36 +847,36 @@ examDetailsForSchool:any=[];
 subjectlist:any=[];
 marklist:any=[];
 getExamDetailsForSchool(){
-  let data:any =[];
-  let markdata:any=[];
-  alert(this.student_id);
-  for(let i in this.examdata){
-for(let j in this.examdata[i].subject_list){
-data.push(this.examdata[i].subject_list[j]);
-for(let k in data.marks_dist_list){
-  markdata.push(data[j].marks_dist_list[k]);
-}
-}
-this.marklist =markdata;
-console.log(this.marklist);
-  }
-  this.subjectlist =data;
-console.log(this.subjectlist)
-//   this.auth.showLoader();
-//   let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
-//   this.httpService.getData(url).subscribe(
-//     (res: any) => {
-//       this.examDetailsForSchool = res;
-//       console.log( this.examDetailsForSchool);
-//      // this.fetchDefaultAY();
-//       this.auth.hideLoader();
-//     },
-//     (error: any) => {
-//       this.auth.hideLoader();
-//       this._commService.showErrorMessage('error', '', error.error.message);
-// console.log(this.examdata);
+//   let data:any =[];
+//   let markdata:any=[];
+//   alert(this.student_id);
+//   for(let i in this.examdata){
+// for(let j in this.examdata[i].subject_list){
+// data.push(this.examdata[i].subject_list[j]);
+// for(let k in data.marks_dist_list){
+//   markdata.push(data[j].marks_dist_list[k]);
+// }
+// }
+// this.marklist =markdata;
+// console.log(this.marklist);
+//   }
+//   this.subjectlist =data;
+// console.log(this.subjectlist)
+  this.auth.showLoader();
+  let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
+  this.httpService.getData(url).subscribe(
+    (res: any) => {
+      this.examDetailsForSchool = res;
+      console.log( this.examDetailsForSchool);
+     // this.fetchDefaultAY();
+      this.auth.hideLoader();
+    },
+    (error: any) => {
+      this.auth.hideLoader();
+      this._commService.showErrorMessage('error', '', error.error.message);
+console.log(this.examdata);
 
-//     }
-//   )
+    }
+  )
 }
 }
