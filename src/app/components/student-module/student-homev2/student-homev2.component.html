@@ -503,7 +503,7 @@
      </div>
    </div>
     <!------------------------------Quick Filter Form-------------------------------->
-    <div class="flex" id="form-tab" *ngIf="!isProfessional && isVisited">
+    <div class="flex" id="form-tab" *ngIf="!isProfessional && isVisited" style="margin-left: 15px;">
       <div class="mr10" *ngIf="!isProfessional && !schoolModel">
         <div  [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
           <!-- <label class="p_title">Standard</label> -->
@@ -578,7 +578,7 @@
   
      <!-- heading div -->
      <div class="table_heading" >
-       <div>
+       <div style="margin-top: 4px;">
         <label class="checkbox">
           <span class="checkbox__input">
             <input #headerCheckbox type="checkbox" value="" name="check"
@@ -591,17 +591,17 @@
         </label>
        </div>
        <div>#</div>
-         <div>Student ID</div>
+         <div style="text-align: left;padding-left: 15px;">Student ID</div>
          <div (click)="sortTable('student_name')" style="cursor: pointer;text-align: left;"> Name <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
          <div>Contact No.</div>
-         <div *ngIf="schoolModel">Parent Name</div>
+         <div *ngIf="schoolModel" style="text-align: left;">Parent Name</div>
          <div *ngIf="schoolModel">Contact No.</div>
          <div *ngIf="!isProfessional">Standard</div>
-         <div *ngIf="!schoolModel && !isProfessional" >Course Assigned</div>
+         <div *ngIf="!schoolModel && !isProfessional" >Course(s)</div>
          <div *ngIf="isProfessional" >Master Course</div>
          <div *ngIf="isProfessional">Batch Assigned</div>
-         <div *ngIf="schoolModel" >Section  Assigned</div> 
-         <div>Action</div>
+         <div *ngIf="schoolModel" >Section</div> 
+         <div style="text-align: center;">Action</div>
      </div>
      <!-- table row -->
      <div class="overflows">
@@ -624,22 +624,22 @@
        </div>
        </div>
        <div><img src="{{data.thumbnail_url}}" class="photo imgRound"></div>
-         <div>{{data.student_disp_id}}</div>
+         <div style="text-align: left;padding-left: 15px;">{{data.student_disp_id}}</div>
          <div title="{{data.student_name}}" style="text-align: left;">{{data.student_name| slice:0:15}} {{data.student_name.length > 15 ? '...' : ''}}</div>
          <div title="{{data.student_phone}}"> {{data.student_phone| slice:0:15}} {{data.student_phone.length > 15 ? '...' : ''}}</div>
-         <div *ngIf="schoolModel" title="{{data.parent_name}}">{{data.parent_name | slice:0:15}} {{data.parent_name.length > 15 ? '...' : ''}}</div>
+         <div *ngIf="schoolModel" style="text-align: left;" title="{{data.parent_name}}">{{data.parent_name | slice:0:15}} {{data.parent_name.length > 15 ? '...' : ''}}</div>
          <div *ngIf="schoolModel">{{data.parent_contact_number}}</div>
          <div *ngIf="!isProfessional">{{data.student_class}}</div>
          <div *ngIf="isProfessional">{{data.student_class}}</div>
          <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
-       <div class="center1">
+       <div class="center1" style="text-align: center;padding-left:48px">
            <!-- [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]"-->
         <a    [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
         <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
         <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
       </div>
      </div>
-     <section class="no-data" *ngIf="studentDataSource.length == 0">
+     <section class="no-data" *ngIf="studentDataSource.length == 0" style="overflow-y: hidden;height: 60vh;">
         <div class="illustration-container">
           <img alt="illustration" class="illustration-img" src="./assets/img/nodataimg.svg">
         </div>

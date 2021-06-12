@@ -20,9 +20,9 @@
         <div class="blue-background">
           <div class=" inner_flex w60" >
             <!--img when not exist-->
-            <img src="{{studentCommanData.student_thumbnail ==null?'../../../assets/img_view/Group380.svg':studentCommanData.student_thumbnail}}" class="img-round" >
+            <img src="{{studentCommanData.student_thumbnail ==null?'../../../assets/images/empty_photo.svg':studentCommanData.student_thumbnail}}" class="img-round" >
           </div>
-          <div class="w40"  *ngIf="schoolModel">
+          <div class="w40"  *ngIf="schoolModel && studentCommanData.reg_no!=null">
             <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
           </div>
         </div>
@@ -89,9 +89,9 @@
              <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''" (click)="openTab('attendance')">Attendance</div>
              <div id="fees"  [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
              <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Files</div>
-             <!-- <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div> -->
+            <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div> 
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
-             <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div> -->
+             <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div> 
              <div id="timeTable"  [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
              <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
              <div id="exam_course" *ngIf="!schoolModel"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
@@ -1100,82 +1100,84 @@
             <div id="exam_tab" *ngIf="isActiveTab =='exam'"  >
             <!-- EXAM -->
             <div class="table_border1" *ngFor="let data of examdata">
-              <p>Term 1</p>
+              <p>{{data.exam_type}}</p>
               <div class="table_border">
-               
-                <div>
-                  
+               <div>
                   <div class="first_section">
                     <div class="head">
                       <p>Subject</p>
                     </div>
-                    <div class="table_text" >
-                      <p>Physics</p>
+                    <div class="table_text" *ngFor="let subject of data.subject_list" >
+                      <p>{{subject.subject_name}}</p>
                     </div>
-                    <div class="table_text">
+                    <!-- <div class="table_text">
                       <p>Chemistry</p>
-                    </div>
+                    </div> -->
                   </div>
-                  <div class="section">
+                  <div *ngFor="let subject1 of data.subject_list">
+                  <div class="section" *ngFor="let mark of subject1.marks_dist_list">
                       <div class="width95">
-                        <div class="head2"><p>Pre Test</p></div>
+                        <div class="head2"><p>{{mark.marks_distribution_name}}</p></div>
                         <div class="marks"><div class="table_text_heading right_border"><p>Highest marks</p></div>
                         <div class="table_text_heading"><p>Obtained marks</p></div></div>
                       </div>
                       <div class="flex">
                        <div>
-                         <div class="table_text width75  right_border"><p>1<p></div>
-                         <div class="table_text width75 right_border"><p>2</p></div>
+                         <div class="table_text width75  right_border"><p>{{mark.marks_max_value}}<p></div>
+                         
                        </div>
                        <div>
-                         <div class="table_text width75"><p>1</p></div>
-                         <div class="table_text width75"><p>2</p></div>
+                         <div class="table_text width75"><p>{{mark.marks_value}}</p></div>
+                         
                        </div>
                       </div>
                   </div>
-                 
-                   <!-- last section -->
+                </div>
+             
                   <div class="section">
-                      <div class="width95">
-                        <div class="head2"><p>Total</p></div>
-                        <div class="marks">
-                          <div class="table_text_heading right_border"><p>Marks</p></div>
-                          <div class="table_text_heading right_border"><p>Points</p></div>
-                        <div class="table_text_heading"><p>Grades</p></div></div>
-                      </div>
-                      <div class="flex">
-                       <div>
-                         <div class="table_text   right_border width50"><p>1<p></div>
-                         <div class="table_text right_border width50"><p>2</p></div>
-                       </div>
-                       <div>
-                         <div class="table_text  right_border width50"><p>1</p></div>
-                         <div class="table_text  right_border width50"><p>2</p></div>
-                       </div>
-                       <div>
-                         <div class="table_text width50"><p>1</p></div>
-                         <div class="table_text width50"><p>2</p></div>
-                       </div>
-                      </div>
-                  </div>
+                    <div class="width95">
+                      <div class="head2"><p>Total</p></div>
+                      <div class="marks">
+                        <div class="table_text_heading right_border"><p>Marks</p></div>
+                        <div class="table_text_heading right_border"><p>Points</p></div>
+                      <div class="table_text_heading"><p>Grades</p></div></div>
+                    </div>
+                    <div class="flex" *ngFor="let subject3 of data.subject_list">
+                     <div>
+                       <div class="table_text   right_border width50"><p>{{subject3.total_marks}}<p></div>
+                       <!-- <div class="table_text right_border width50"><p>2</p></div> -->
+                     </div>
+                     <div>
+                       <div class="table_text  right_border width50"><p>{{subject3.grade_points}}</p></div>
+                       <!-- <div class="table_text  right_border width50"><p>2</p></div> -->
+                     </div>
+                     <div>
+                       <div class="table_text width50"><p>{{subject3.grade}}</p></div>
+                       <!-- <div class="table_text width50"><p>2</p></div> -->
+                     </div>
+                    </div>
+                </div>
+               
+                   <!-- last section -->
+                  
                 </div>
 
               </div>
               <div class="display">
                 <div class="end_tot">
-                  <p>Total Marks: <span>180.00</span></p>
+                  <p>Total Marks: <span>{{data.grand_total}}</span></p>
                 </div>
                 <div class="end_tot">
-                  <p>Total Obtained Marks:<span>180.00</span></p>
+                  <p>Total Obtained Marks:<span>{{data.total_obtained_marks}}</span></p>
                 </div>
                 <div class="end_tot">
-                  <p>Total Avarage Marks: <span>180.00</span></p>
+                  <p>Total Avarage Marks: <span>{{data.total_average_marks}}</span></p>
                 </div>
                 <div class="end_tot">
-                  <p>Total Average Marks(%):<span>180.00</span></p>
+                  <p>Total Average Marks(%):<span>{{data.total_average_marks_percent}}</span></p>
                 </div>
                 <div class="end_tot">
-                  <p>GPA:<span>180.00</span></p>
+                  <p>GPA:<span>{{data.gpa}}</span></p>
                 </div>
               </div>
             </div>

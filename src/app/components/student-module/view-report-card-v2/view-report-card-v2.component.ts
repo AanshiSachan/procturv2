@@ -699,19 +699,19 @@ examdata= [
                   {
                       "marks_distribution_id": 12,
                       "marks_distribution_name": "Practical",
-                      "marks_max_value": 11,
+                      "marks_max_value": 15,
                       "marks_value": 11
                   },
                   {
                       "marks_distribution_id": 14,
                       "marks_distribution_name": "written",
-                      "marks_max_value": 44,
+                      "marks_max_value": 48,
                       "marks_value": 44
                   },
                   {
                       "marks_distribution_id": 48,
                       "marks_distribution_name": "Practical 2",
-                      "marks_max_value": 22,
+                      "marks_max_value": 27,
                       "marks_value": 22
                   }
               ],
@@ -765,7 +765,7 @@ examdata= [
         },
         {
           "subject_id": 7208,
-          "subject_name": "Math33",
+          "subject_name": "Math22",
           "marks_dist_list": [
               {
                   "marks_distribution_id": 12,
@@ -792,12 +792,42 @@ examdata= [
           "rank": 0,
           "attendance": "N",
           "_optional": false
+      },
+        {
+          "subject_id": 7208,
+          "subject_name": "Math33",
+          "marks_dist_list": [
+              {
+                  "marks_distribution_id": 12,
+                  "marks_distribution_name": "Practical",
+                  "marks_max_value": 11,
+                  "marks_value": 11
+              },
+              {
+                  "marks_distribution_id": 14,
+                  "marks_distribution_name": "written",
+                  "marks_max_value": 44,
+                  "marks_value": 44
+              },
+              {
+                  "marks_distribution_id": 48,
+                  "marks_distribution_name": "Practical 2",
+                  "marks_max_value": 22,
+                  "marks_value": 22
+              }
+          ],
+          "total_marks": 200,
+          "grade": "D",
+          "grade_points": 7,
+          "rank": 0,
+          "attendance": "N",
+          "_optional": false
       }
     ],
-    "grand_total": 100,
-    "total_obtained_marks": 77,
-    "total_average_marks": 77,
-    "total_average_marks_percent": 77,
+    "grand_total": 200,
+    "total_obtained_marks": 177,
+    "total_average_marks": 187,
+    "total_average_marks_percent": 87,
     "gpa": 7
 },
 {
