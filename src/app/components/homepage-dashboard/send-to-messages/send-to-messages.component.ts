@@ -43,7 +43,7 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   allChecked: boolean = true;
   transactionalFlag:boolean=false
   pramotinalFlag:boolean=false
-
+  pushNotificationFlag:boolean=false
  
   activeCeckbox:boolean=false;
   facultyCheckBox:boolean=false;
@@ -84,6 +84,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   email_subjects:any
   messageCharacterCount:any
   searchData: string = "";
+  push_message:string="";
+  push_messageId:any
 
   
 
@@ -102,6 +104,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       this.email_subjects= sessionStorage.getItem('email-subject')
       this.pramotional = sessionStorage.getItem('pramotional')
       this.transactional = sessionStorage.getItem('transactinal')
+      this.push_message = sessionStorage.getItem('push_message')
+      this.push_messageId= sessionStorage.getItem('push_mesg_id')
 
 
       this.courseListSetting={
@@ -121,8 +125,10 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
     console.log("email subject",this.email_subjects)
     console.log("transactional",this.transactional)
     console.log("pramotional",this.pramotional)
-    this.messageCharacterCount = this.selected_message.length
-console.log("length",this.messageCharacterCount)
+    console.log("push message",this.push_message)
+    console.log("push message-id",this.push_messageId)
+this.messageCharacterCount = this.selected_message.length
+  
     this.auth.schoolModel.subscribe(
       res => {
         this.schoolModel = false;
@@ -146,11 +152,12 @@ console.log("length",this.messageCharacterCount)
   }else{
     this.emailSendingFlag = true
   }
-  // if(this.pramotional == false){
-  //   this.transactionalFlag = true
-  // }else if( this.transactional == false){
-  //   this.pramotinalFlag = true
-  //}
+  // if(this.push_message != ""){
+  //   alert("hi")
+  //   this.pushNotificationFlag = true;
+  // }
+    
+  
     this.getMaterCourseList()
   }
 
@@ -158,9 +165,12 @@ console.log("length",this.messageCharacterCount)
     sessionStorage.removeItem('selected-message_id')
     sessionStorage.removeItem('email-subject')     
      sessionStorage.removeItem('selecte-messase')
+     sessionStorage.removeItem('push_message')
+
   
 
   }
+  
   allActiveStudent(event) {
   this.auth.showLoader()
   //  this.facultyCheckBox=false;
@@ -328,14 +338,10 @@ console.log("length",this.messageCharacterCount)
             )
           
         }
-       
+      
+
         fetchStudentsApi(courseArray) {
-        //   this. activeCeckbox=false;
-        //  this.facultyCheckBox=false;
-        //  this.aluminiCheckBox=false;
-        //  this.allUserCheck=false;
-        //  this.inactiveCheck=false;
-        //  this.usereCheck=false
+        
          this. showActiveTableFlag = false;
         this.showFacultyTableFlag = false;
         this.showInactiveStudentFlag=false;
@@ -358,7 +364,7 @@ console.log("length",this.messageCharacterCount)
           this.auth.showLoader();
           this.httpService.postData(url, obj).subscribe(
             (data: any) => {
-              this.courseStudentList = data.studentsAssigned;
+              this.studentList = data.studentsAssigned;
 
               console.log("iddddddd",this.studentList)
 
@@ -517,17 +523,17 @@ console.log("length",this.messageCharacterCount)
       
     
     }
-    getListOfCourseIds(key){
-      let id: any = [];
-      for (let t = 0; t < this.courseStudentList.length; t++) {
-        if (this.courseStudentList[t].assigned == true) {
-          id.push(this.courseStudentList[t][key]);
-        }
-      }
-      return id.join(',');
+  //   getListOfCourseIds(key){
+  //     let id: any = [];
+  //     for (let t = 0; t < this.courseStudentList.length; t++) {
+  //       if (this.courseStudentList[t].assigned == true) {
+  //         id.push(this.courseStudentList[t][key]);
+  //       }
+  //     }
+  //     return id.join(',');
     
   
-  }
+  // }
     getListOfUserIds(key){
       let id:any=[];
       for(let i =0; i< this.studentList.length;i++){
@@ -611,9 +617,9 @@ getDestinationValue() {
         studentID = this.getListOfIds('student_id')
         }
       }
-      if(this.showCourseWiseFlag){
-        studentID = this.getListOfCourseIds('student_id')
-      }
+      // if(this.showCourseWiseFlag){
+      //   studentID = this.getListOfCourseIds('student_id')
+      // }
       let delivery_mode:number=0
       if(this.emailSendingFlag){
         delivery_mode = 1
@@ -672,6 +678,49 @@ getDestinationValue() {
         }
       )
     }
+// =========push-Notification-function===================
+
+sendPushNotification() {
+  
+  let student_id: any = '';
+  if (this.showallUserListFlag) {
+    student_id = this.getListOfIds('user_id')
+  } else {
+    student_id = this.getListOfIds('student_id')
+  }
+  let obj = {
+    notifn_message: this.push_message,
+    message_id: this.push_messageId,
+    student_ids: student_id,
+  }
+  this.widgetService.sendPushNotificationToServer(obj).subscribe(
+    res => {
+      //console.log(res);
+      let msg = {
+        type: 'success',
+        title: '',
+        body: "Sent successfully"
+      };
+      this.appC.popToast(msg);
+    },
+    err => {
+      //console.log(err);
+      let msg = {
+        type: 'error',
+        title: '',
+        body: err.error.message
+      };
+      this.appC.popToast(msg);
+    }
+  )
+}
+
+// ==============end======================
+
+
+
+
+
     onCheckBoxEvent(event, item) {
       item.assigned = event;
       this.allChecked = this.checkCheckAllChkboxStatus();

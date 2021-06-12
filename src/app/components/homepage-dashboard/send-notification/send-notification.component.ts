@@ -20,11 +20,13 @@ export class SendNotificationComponent implements OnInit {
   jsonFlag: any = {
     editMessage: false,
     editEmail:false,
+    editPush:false,
     createMesageFlag:false,
     createEmailFlag:false,
     createdPushNotification:false,
     selectedMessageFlag:false,
-    selectedEmailChecboxFlag:false
+    selectedEmailChecboxFlag:false,
+    selectedPushCheckbox:false
 };
   combinedDataRes: any = {};
   userType:any
@@ -130,38 +132,103 @@ sendLoginmessage:boolean=false
     this.emailTableFlag = true
     this.smsTableFlag = false
     this.pushTableFlag = false
+    this.jsonFlag. editMessage=false,
+    this.jsonFlag.editEmail=false,
+    this.jsonFlag. editPush=false,
+    this.jsonFlag.createMesageFlag=false,
+    this.jsonFlag.createEmailFlag=false,
+    this.jsonFlag.createdPushNotification=false,
+    this.jsonFlag.selectedMessageFlag=false,
+   this.jsonFlag. selectedEmailChecboxFlag=false,
+    this.jsonFlag.selectedPushCheckbox=false
 
   }
   onClickSms(){
     this.emailTableFlag = false
     this.pushTableFlag = false
     this.smsTableFlag = true
+    this.jsonFlag. editMessage=false,
+    this.jsonFlag.editEmail=false,
+    this.jsonFlag. editPush=false,
+    this.jsonFlag.createMesageFlag=false,
+    this.jsonFlag.createEmailFlag=false,
+    this.jsonFlag.createdPushNotification=false,
+    this.jsonFlag.selectedMessageFlag=false,
+   this.jsonFlag. selectedEmailChecboxFlag=false,
+    this.jsonFlag.selectedPushCheckbox=false
   }
   onClickPush(){
     this.pushTableFlag = true
     this.emailTableFlag = false
     this.smsTableFlag = false
-  
+    this.jsonFlag. editMessage=false,
+    this.jsonFlag.editEmail=false,
+    this.jsonFlag. editPush=false,
+    this.jsonFlag.createMesageFlag=false,
+    this.jsonFlag.createEmailFlag=false,
+    this.jsonFlag.createdPushNotification=false,
+    this.jsonFlag.selectedMessageFlag=false,
+   this.jsonFlag. selectedEmailChecboxFlag=false,
+    this.jsonFlag.selectedPushCheckbox=false
 
   }
   onClickCreateMessage(){
     this.jsonFlag.createMesageFlag = true
     this.jsonFlag.selectedMessageFlag = false
-
+    this.jsonFlag. editMessage=false,
+    this.jsonFlag.editEmail=false,
+    this.jsonFlag. editPush=false,
+    this.jsonFlag.createMesageFlag=false,
+    this.jsonFlag.createEmailFlag=false,
+    this.jsonFlag.createdPushNotification=false,
+    this.jsonFlag.selectedMessageFlag=false,
+   this.jsonFlag. selectedEmailChecboxFlag=false,
+    this.jsonFlag.selectedPushCheckbox=false
   }
   onClickCreateEmail(){
     this.jsonFlag.createEmailFlag=true
     this.jsonFlag.createMesageFlag = false
     this.jsonFlag.selectedMessageFlag = false
+    this.jsonFlag. editMessage=false,
+    this.jsonFlag.editEmail=false,
+    this.jsonFlag. editPush=false,
+    this.jsonFlag.createMesageFlag=false,
+    this.jsonFlag.createEmailFlag=false,
+    this.jsonFlag.createdPushNotification=false,
+    this.jsonFlag.selectedMessageFlag=false,
+   this.jsonFlag. selectedEmailChecboxFlag=false,
+    this.jsonFlag.selectedPushCheckbox=false
   }
   onclickCreatePushNotify(){
     this.jsonFlag.createdPushNotification = true
     this.jsonFlag.createEmailFlag=false
     this.jsonFlag.createMesageFlag = false
+
+    this.jsonFlag. editMessage=false,
+    this.jsonFlag.editEmail=false,
+    this.jsonFlag. editPush=false,
+    this.jsonFlag.createMesageFlag=false,
+    this.jsonFlag.createEmailFlag=false,
+    this.jsonFlag.createdPushNotification=false,
+    this.jsonFlag.selectedMessageFlag=false,
+   this.jsonFlag. selectedEmailChecboxFlag=false,
+    this.jsonFlag.selectedPushCheckbox=false
   }
   closeDiv(){
+    this.newMessageText=""
+    this.selectedRow=""
+    this.jsonFlag.createEmailFlag=false
     this.jsonFlag.createMesageFlag = false
     this.jsonFlag.selectedMessageFlag = false
+    this.jsonFlag. editMessage=false,
+    this.jsonFlag.editEmail=false,
+    this.jsonFlag. editPush=false,
+    this.jsonFlag.createMesageFlag=false,
+    this.jsonFlag.createEmailFlag=false,
+    this.jsonFlag.createdPushNotification=false,
+    this.jsonFlag.selectedMessageFlag=false,
+   this.jsonFlag. selectedEmailChecboxFlag=false,
+    this.jsonFlag.selectedPushCheckbox=false
   }
   onClicktransaction(event){
     this.pramotionalSelectedFlag = false
@@ -198,16 +265,21 @@ sendLoginmessage:boolean=false
         
         tempMessageList = res;
         for (let i = 0; i < tempMessageList.length; i++) {
+          if(tempMessageList[i].source === "Push"){
+            this.pushNotificationList.push(tempMessageList[i])   
+
+        }
+        
           if (tempMessageList[i].source === "EMAIL") {
             this.emailMessageList.push(tempMessageList[i]);
           }
           else if (tempMessageList[i].source === "SMS") {
             this.messageList.push(tempMessageList[i]);
-            console.log("sms list",this.messageList)
+          } 
+            
+          
           }
-         
-         
-        }
+            
         this.auth.hideLoader();
       },
       err => {
@@ -217,7 +289,18 @@ sendLoginmessage:boolean=false
 
   }
 onselectMessageCheckbox(obj){
+  this.jsonFlag.createMesageFlag = false
   this.jsonFlag.selectedMessageFlag = true
+  this.jsonFlag.selectedEmailChecboxFlag = false
+  this.jsonFlag.createMesageFlag = false
+  this.jsonFlag. editMessage=false,
+  this.jsonFlag.editEmail=false,
+  this.jsonFlag. editPush=false,
+  this.jsonFlag.createMesageFlag=false,
+  this.jsonFlag.createEmailFlag=false,
+  this.jsonFlag.createdPushNotification=false,
+ this.jsonFlag. selectedEmailChecboxFlag=false,
+  this.jsonFlag.selectedPushCheckbox=false
 this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
 sessionStorage.setItem('selecte-messase',(this.selectedRow))
@@ -228,7 +311,18 @@ console.log("msg length",this.selectedMessageId)
 
 }
 onSelectedEmailCheckbox(obj){
+  this.jsonFlag.createEmailFlag =false
   this.jsonFlag.selectedEmailChecboxFlag = true
+  this.jsonFlag.createMesageFlag = false
+  this.jsonFlag.selectedMessageFlag = false
+  this.jsonFlag. editMessage=false,
+  this.jsonFlag.editEmail=false,
+  this.jsonFlag. editPush=false,
+  this.jsonFlag.createMesageFlag=false,
+  this.jsonFlag.createEmailFlag=false,
+  this.jsonFlag.createdPushNotification=false,
+  this.jsonFlag.selectedMessageFlag=false,
+  this.jsonFlag.selectedPushCheckbox=false
 this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
 sessionStorage.setItem('selecte-messase',(this.selectedRow))
@@ -236,6 +330,27 @@ sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessage
 
 this.selectedMessageText=this.selectedRow.length
 console.log("msg length",this.selectedMessageId)
+}
+onClickSelectPush(obj){
+  this.jsonFlag.selectedPushCheckbox = true
+  this.jsonFlag.createdPushNotification = false
+  this.jsonFlag.createEmailFlag=false
+  this.jsonFlag.createMesageFlag = false
+  this.jsonFlag.selectedMessageFlag = false
+  this.jsonFlag. editMessage=false,
+  this.jsonFlag.editEmail=false,
+  this.jsonFlag. editPush=false,
+  this.jsonFlag.createMesageFlag=false,
+  this.jsonFlag.createEmailFlag=false,
+  this.jsonFlag.createdPushNotification=false,
+  this.jsonFlag.selectedMessageFlag=false,
+ this.jsonFlag. selectedEmailChecboxFlag=false,
+  this.selectedRow = obj.message
+this.selectedMessageId= obj.message_id
+sessionStorage.setItem('push_message',this.selectedRow)
+sessionStorage.setItem('push_mesg_id',JSON.stringify(this.selectedMessageId))
+
+console.log("push_mesg_id",this.selectedMessageId)
 }
 hasUnicode(str) {
   for (var i = 0; i < str.length; i++) {
@@ -274,6 +389,10 @@ saveNewMessage() {
     src = "EMAIL";
     status = 1
   }
+  if(this.jsonFlag.createdPushNotification == true){
+    src="Push"
+    status = 1
+  }
   let obj = { message: this.newMessageText ,source: src,status: status};
   this.widgetService.saveMessageTOServer(obj).subscribe(
     res => {
@@ -282,6 +401,8 @@ saveNewMessage() {
         title: 'Message created Successfully',
         body: " Your request is in queue and process shortly"
       };
+      this.closeDiv()
+
       this.auth.hideLoader();
       this.appC.popToast(msg);
        this.getAllMessageFromServer();
@@ -341,6 +462,12 @@ saveNewMessage() {
     this.selectedMessageId = obj.message_id
     console.log("ghghg",this.selectedMessageId)
   }
+  onClickEditPush(obj){
+    this.jsonFlag.editPush = true
+    this.newMessageText = obj.message
+    this.selectedMessageId = obj.message_id
+
+  }
 updateMessage(){
     let obj = { message: this.newMessageText,status:1};
     this.auth.showLoader();
@@ -352,6 +479,7 @@ updateMessage(){
           type: 'success',
           title: 'Message updated Successfully',
         };
+        this.closeDiv()
         this.appC.popToast(msg);
       
       },
@@ -381,6 +509,11 @@ updateMessage(){
     sessionStorage.setItem('email-subject',this.email_subject)
     console.log("email subject",this.email_subject)
 
+  }
+  onClickPushSentTo(){
+    this.router.navigateByUrl('/view/dashboard/send-to-messages')
+    
+      
   }
 }
  

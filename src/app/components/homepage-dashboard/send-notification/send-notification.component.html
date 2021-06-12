@@ -60,7 +60,7 @@
         <div class="table_body" *ngFor="let push of pushNotificationList">
           <div>
               <div class="field-radio-wrapper">
-                  <input type="radio" class="form-radio">
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" value="{{push.message}}" (ngModelChange)="onClickSelectPush(push)">
                   <label ></label>
               </div>
           </div>
@@ -68,8 +68,8 @@
           <div>  {{(!push.message) ? '-':(push.message.length > 50) ?(push.message | slice :0:50) + '...' : push.message}}
           </div>
           <div>
-              <a class="mr16" (click)="onClickEditEmail(email)"><img src="../../../../assets/images/edit.svg"></a>
-              <a (click)="deletMessage(email,'400')"><img src="../../../../assets/images/delete.svg"></a>
+              <a class="mr16" (click)="onClickEditPush(push)"><img src="../../../../assets/images/edit.svg"></a>
+              <a (click)="deletMessage(push,'400')"><img src="../../../../assets/images/delete.svg"></a>
           </div>
       </div>
       </div>
@@ -336,10 +336,13 @@
  
 
 <!-- ===========create-push-Notification=============== -->
-<div class="page-content1 create2" *ngIf="jsonFlag.createdPushNotification">
+<div class="page-content1 create2" *ngIf="jsonFlag.createdPushNotification || jsonFlag.editPush">
     <div class="page_heading">
-      <p>
+      <p *ngIf="!jsonFlag.editPush">
         Create Push Message
+      </p>
+      <p *ngIf="jsonFlag.editPush">
+        Edit Push Message
       </p>
       <img src="../../../../assets/img_notif/cross.svg">
     </div>
@@ -356,7 +359,33 @@
     </div>
     <div class="page_footer">
       <div></div>
-      <button class="blue_button" (click)="saveNewMessage()">Save</button>
+      <button class="blue_button" (click)="saveNewMessage()" *ngIf="!jsonFlag.editPush">Save</button>
+      <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editPush">Update</button>
+
     </div>
   </div>
-<!-- ==================end==================================   -->
+<!-- ==================selecte-email==================================   -->
+<div class="page-content1 selected2" *ngIf="jsonFlag.selectedPushCheckbox">
+  <div class="page_heading">
+    <p>
+      Selected Push Message
+    </p>
+    <img src="../../../../assets/img_notif/cross.svg">
+  </div>
+  <div class="page_body">
+
+    <div>
+      <p>Message Description</p>
+      <textarea placeholder="Write your message here...">{{selectedRow}}</textarea>
+
+    </div>
+    <div>
+
+    </div>
+  </div>
+  <div class="page_footer">
+    <div></div>
+    <button class="blue_button" (click)="onClickPushSentTo()">Send To</button>
+  </div>
+</div>
+

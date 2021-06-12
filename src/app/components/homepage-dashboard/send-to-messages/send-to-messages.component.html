@@ -14,6 +14,15 @@
                 <div>Message Count: <b>1</b></div>
             </div>
         </div>
+     <!-- =================push-notification-send=============    -->
+     <!-- <div *ngIf="pushNotificationFlag">
+        <p class="heading">SMS Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
+        <p class="para">
+            {{push_message}}
+                            
+        </p>
+       
+    </div> -->
 <!-- =============email-sending-div==================== -->
 
 <div *ngIf="emailSendingFlag">
@@ -105,7 +114,7 @@
                         <label >Faculty</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
-                        <input type="radio" class="form-radio" (click)="allRegisterUsers()" [disabled]="pramotional == 'true'">
+                        <input type="radio" class="form-radio" (click)="allRegisterUsers()" [checked]="allUserCheck"  [disabled]="pramotional == 'true'">
                         <label >Registered Users</label>
                     </div>
                 </div>
@@ -190,6 +199,8 @@
         <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
         </div>
         </div>
+        <div *ngIf="studentList.length == '0'">No Record Found</div>
+
 <!-- =======inactive-student================== -->
 <div *ngIf="showInactiveStudentFlag">
     <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
@@ -269,7 +280,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" [checked]="checkAllCourseChkboxStatus()" (click)="checkAllChechboxes($event , courseStudentList)" checked>
+                  <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -284,11 +295,11 @@
         <div>Joining Date</div>
         <div>Email</div>
     </div>
-    <div class="table_body" *ngFor="let item of courseStudentList">
+    <div class="table_body" *ngFor="let item of studentList">
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked"   (ngModelChange)="onCourseCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
+                  <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -346,7 +357,9 @@
             <div *ngIf=" studentList.length == 0">No Record Found</div>
             </div>
          </div>  
-         </div> 
+         </div>
+         <!-- <div *ngIf="studentList.length == '0'">No Record Found</div> -->
+ 
     <!-- ===================end======================== -->
     <div class="pagignation">
         <p>Showing <b>1 to 8 of 50</b></p>
@@ -372,6 +385,8 @@
               </label>
               <p>Parent</p>
             <button class="white_button"(click)="sendNotificationMessages()" *ngIf="smsSendingFlag">Send Text Message </button>
+            <!-- <button class="blue_button" (click)="sendPushNotification()" *ngIf="pushNotificationFlag">Send Push Notification</button> -->
+
             <button class="blue_button" data-toggle="modal" data-target="#myModal" *ngIf="emailSendingFlag">Preview & Send </button>
 
         </div>
