@@ -31,8 +31,8 @@
           </div>
 
           <div class="search-add-class-container">
-            <div class="search-filter-wrapper field-wrapper" style="padding-top: 0;width: 35%;">
-              <input type="text" class="form-ctrl searchTextClass" placeholder="Search By Session Name, Id, Faculty Name" [(ngModel)]="searchText"
+            <div class="search-filter-wrapper field-wrapper" style="padding-top: 0;width: 30%;">
+              <input type="text" class="form-ctrl searchTextClass" placeholder="Search by Topic, Faculty, Session ID" [(ngModel)]="searchText"
                  id="searchText">
             </div>
             <div class="add-class-container" style="margin-left: 5px;">
@@ -41,8 +41,8 @@
             <div class="search-filter-wrapper field-wrapper" [ngClass]="{'datePickerBox' : (dateValue == '' )}"
               style="padding-top: 0;" (click)="showCustomFilter = !showCustomFilter">
               <i class="fa fa-filter" aria-hidden="true"></i>
-              <input type="text" class="form-ctrl" placeholder="Filter Date" readonly="true" [(ngModel)]="dateValue"
-                id="date" style="height: 34px;border-radius: 0 4px 4px 0;padding: 9px 15px;width: 75%;">
+              <input type="text" class="form-ctrl filterDate" placeholder="Filter Date" readonly="true" [(ngModel)]="dateValue"
+                id="date">
             </div>
             <div *ngIf="showCustomFilter" class="customFilter">
               <div style="margin-bottom: 20px;">
@@ -76,6 +76,7 @@
                   (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker />
               </div>
             </div>
+            <div class="black-bg" id="black-bg" *ngIf="showCustomFilter" (click)="showCustomFilter=false"></div>
             <!-- <div class="filter-wrapper">
               <i class="fa fa-search" aria-hidden="true"></i>
               <select class="filter" name="" *ngIf="liveClassFor" [(ngModel)]="sortDate" (ngModelChange)="dateRangeChanges()">
@@ -121,18 +122,20 @@
             <br>
             <div class="live-class-item" style="padding-right: 0;box-shadow: 0px 1px 12px 0px rgb(0 0 0 / 10%);"
               *ngFor="let class of c">
+              <div *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)">
+                <span class="tag">{{getTimeLeft(today, class.startDateTime) }} left</span>
+              </div>
+              <div *ngIf="timeLeft(today, class.startDateTime) && !liveClassFor">
+                <span class="tag ongoing">Ongoing</span>
+              </div>
               <div class="sub-item-1">
-                <div style="width: 58%;" class="session_name_and_id_container">
+                <div style="width: 100%;" class="session_name_and_id_container">
                   <div class="session_name" title="{{class.session_name}}">
-                    <span style="color: #109CF1;">{{ (class.session_name?.length>20) ? (class.session_name | slice:0:20
+                    <span style="color: #109CF1;">{{ (class.session_name?.length>35) ? (class.session_name | slice:0:35
                       ) + '...' :
                       (class.session_name) }}</span>
                   </div>
                 </div>
-                <span class="ongoing" *ngIf="timeLeft(today, class.startDateTime) && !liveClassFor">Ongoing</span>
-                <span class="right min15" *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)">
-                  <span>{{getTimeLeft(today, class.startDateTime) }} left</span>
-                </span>
               </div>
               <div class="session_id">
                 <span>Session Id :{{class.session_id}} </span>
@@ -404,9 +407,9 @@
                 <span title="View" style="cursor: pointer;" (click)="viewClass(class)" class="mt-4">
                   <img src="../../../../assets/images/Live class/view_class.png">
                 </span>
-                <span *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) " class="borderright"></span>
+                <span *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator || forModeratorId(class.moderatorIds) " class="borderright"></span>
                 <span
-                  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
+                  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator || forModeratorId(class.moderatorIds) "
                   style="cursor: pointer;">
                   <div class="questionInfo inline-relative">
                     <span class=" i-class">
@@ -414,8 +417,8 @@
                         title="{{startClassMsg}}"
                         [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'"
                         (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)"
-                        [disabled]="proctur_live_expiry_date_check"
-                        [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        [disabled]="proctur_live_expiry_date_check || (forModerator && !forModeratorId(class.moderatorIds))"
+                        [ngStyle]="{'opacity':(proctur_live_expiry_date_check || (forModerator && !forModeratorId(class.moderatorIds))) ? '0.5' : '1' }">
                         Start
                       </button>
                     </span>

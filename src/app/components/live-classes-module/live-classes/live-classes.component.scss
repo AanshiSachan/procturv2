@@ -310,8 +310,9 @@ html {
     color: #2e3345;
     border-radius: 4px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.35);
-    z-index: 1;
-    top: 24%;
+    z-index: 100;
+    top: 21%;
+    padding-bottom: 0;
     .field-checkbox-wrapper {
       margin-bottom: 15px;
     }
@@ -319,7 +320,7 @@ html {
       font-weight: 600;
       border-bottom: 1px solid #F4EBEB;
       padding-bottom: 5px;
-      padding-left: 7px;
+      // padding-left: 7px;
     }
   }
 
@@ -365,6 +366,7 @@ html {
         // max-height: 45vh;
         // overflow-y: auto;
         float: left;
+        padding-top: 0;
         .sub-item-1{
           display: flex;
           flex-direction: row;
@@ -1126,14 +1128,14 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 .ongoing{
-  height: 30px;
-  border-radius: 150px 0px 0px 150px / 150px 0px 0px 150px;
-  padding:4px 10px;
+  // height: 30px;
+  // border-radius: 150px 0px 0px 150px / 150px 0px 0px 150px;
+  // padding:4px 10px;
   background: linear-gradient(90deg, rgba(235,166,103,1) 19%, rgba(251,154,64,1) 100%);
   color: #fff;
-  font-size: 13px;
-  font-weight:500;
-  width: 42%;
+  // font-size: 13px;
+  // font-weight:500;
+  // width: 42%;
 }
 .borderbottom1{
   border-bottom:1px solid #DFE5F0;
@@ -1268,5 +1270,24 @@ input[type=number]::-webkit-outer-spin-button {
   .searchTextClass {
     height: 34px;
     border-radius: 4px;
+    padding: 9px 10px;
+  }
+  .tag {
+    // position: absolute;
+    color: #fff;
+    background:linear-gradient(270deg, rgba(191,128,241,1) 19%, rgba(190,106,255,0.6617997540813201) 100%);
+    margin: -8px 0 0 -12px;
+    font-size: 10px;
+    padding: 2px 10px;
+    float: right;
+  }
+  ::ng-deep bs-daterangepicker-container {
+      left: -10% !important;
+  }
+  .filterDate {
+    height: 34px;
+    border-radius: 0 4px 4px 0;
     padding: 9px 15px;
+    width: 75%;
+    cursor: pointer;
   }
