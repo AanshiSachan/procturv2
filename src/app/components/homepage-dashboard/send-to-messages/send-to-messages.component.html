@@ -15,23 +15,23 @@
             </div>
         </div>
      <!-- =================push-notification-send=============    -->
-     <!-- <div *ngIf="pushNotificationFlag">
+     <div *ngIf="pushNotificationFlag">
         <p class="heading">SMS Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
         <p class="para">
             {{push_message}}
                             
         </p>
        
-    </div> -->
+    </div>
 <!-- =============email-sending-div==================== -->
 
 <div *ngIf="emailSendingFlag">
     <p class="heading">Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
     <div class="subject11">
-        <p><span>Subject : </span>{{email_subjects}}</p>
+        <p><span style="font-weight: 600;">Subject : </span>{{email_subjects}}</p>
     </div>
     <p class="para">
-        <span>Message : </span>
+        <span style="font-weight: 600;">Message : </span>
         {{selected_message}}
                         
     </p>
@@ -80,7 +80,7 @@
             </div>
             <div>
                 <label> {{schoolModel ? 'Section(s)' : 'Course(s)'}}</label>
-               <ng-multiselect-dropdown [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+               <ng-multiselect-dropdown class="multidropdown" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
                 (ngModelChange)="($event)">
                   
                </ng-multiselect-dropdown> 
@@ -98,19 +98,19 @@
             <div  class="vertical display">
                 <div class="radio_div" *ngIf="!emailSendingFlag">
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
-                        <input type="radio" class="form-radio" (click)="allActiveStudent()"  [disabled]="pramotional == 'true'">
+                        <input type="radio" class="form-radio" (click)="allActiveStudent()" [checked]="activeCeckbox" [disabled]="pramotional == 'true'">
                         <label >Active Students</label>
                     </div>
                     <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true'}">
-                        <input type="radio" class="form-radio" (click)="allInActiveStudent()"  [disabled]="transactional == 'true'">
+                        <input type="radio" class="form-radio" (click)="allInActiveStudent()" [checked]="inactiveCheck" [disabled]="transactional == 'true'">
                         <label >Inactive Students</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true'}" >
-                        <input type="radio" class="form-radio" (click)="aluminiStudentData()"  [disabled]="transactional == 'true'">
+                        <input type="radio" class="form-radio" (click)="aluminiStudentData()" [checked]="aluminiCheckBox" [disabled]="transactional == 'true'">
                         <label >Alumni Students</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
-                        <input type="radio" class="form-radio" (click)="allFacultyDataList()"  [disabled]="pramotional == 'true'">
+                        <input type="radio" class="form-radio" (click)="allFacultyDataList()" [checked]="facultyCheckBox" [disabled]="pramotional == 'true' && pushNotificationFlag">
                         <label >Faculty</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
@@ -121,23 +121,23 @@
 <!-- ==============for-email=================== -->
 <div class="radio_div" *ngIf="emailSendingFlag">
     <div class="field-radio-wrapper">
-        <input type="radio" class="form-radio" (click)="allActiveStudent()">
+        <input type="radio" class="form-radio" [checked]="activeCeckbox" (click)="allActiveStudent()">
         <label >Active Students</label>
     </div>
     <div class="field-radio-wrapper ">
-        <input type="radio" class="form-radio" (click)="allInActiveStudent()"  >
+        <input type="radio" class="form-radio" [checked]="inactiveCheck" (click)="allInActiveStudent()"  >
         <label >Inactive Students</label>
     </div>
     <div class="field-radio-wrapper" >
-        <input type="radio" class="form-radio" (click)="aluminiStudentData()">
+        <input type="radio" class="form-radio" [checked]="aluminiCheckBox" (click)="aluminiStudentData()">
         <label >Alumni Students</label>
     </div>
     <div class="field-radio-wrapper" >
-        <input type="radio" class="form-radio" (click)="allFacultyDataList()" >
+        <input type="radio" class="form-radio" [checked]="facultyCheckBox" (click)="allFacultyDataList()" >
         <label >Faculty</label>
     </div>
     <div class="field-radio-wrapper" >
-        <input type="radio" class="form-radio" (click)="allRegisterUsers()" >
+        <input type="radio" class="form-radio" [checked]="allUserCheck" (click)="allRegisterUsers()" >
         <label >Registered Users</label>
     </div>
 </div>
@@ -295,7 +295,7 @@
         <div>Joining Date</div>
         <div>Email</div>
     </div>
-    <div class="table_body" *ngFor="let item of studentList">
+    <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
@@ -314,7 +314,7 @@
         <div title="{{item.doj}}">{{item.doj}}</div>
         <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
         <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
-
+        <div *ngIf="studentList.length =='0'">No Record Found</div>
         </div>
     </div>
 
@@ -354,7 +354,7 @@
             <div title="{{item.teacher_subjects}}">{{(!item.teacher_subjects)? '-' : (item.teacher_subjects.length > 10)? (item.teacher_subjects | slice : 0 : 10) + '...' : item.teacher_subjects}}</div>
             <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
             <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
-            <div *ngIf=" studentList.length == 0">No Record Found</div>
+            <div *ngIf="studentList.length == '0'">No Record Found</div>
             </div>
          </div>  
          </div>
@@ -362,9 +362,9 @@
  
     <!-- ===================end======================== -->
     <div class="pagignation">
-        <p>Showing <b>1 to 8 of 50</b></p>
+        <p><b></b></p>
         <div class="flex space1">
-            <label for="chkBoxStudent" class="checkbox">
+            <label for="chkBoxStudent" class="checkbox"  *ngIf="showActiveTableFlag || (!showFacultyTableFlag && showallUserListFlag)">
                 <span class="checkbox__input">
                   <input type="checkbox" name="checked" id="chkBoxStudent" checked>
                   <span class="checkbox__control">
@@ -373,8 +373,8 @@
                   </span>
                 </span>
               </label>
-              <p>Student</p>
-              <label for="chkBoxParent" class="checkbox">
+              <p  *ngIf="showActiveTableFlag">Student</p>
+              <label for="chkBoxParent" class="checkbox"  *ngIf="showActiveTableFlag">
                 <span class="checkbox__input">
                   <input type="checkbox" name="checked" id="chkBoxParent" checked>
                   <span class="checkbox__control">
@@ -383,9 +383,10 @@
                   </span>
                 </span>
               </label>
-              <p>Parent</p>
+              <p  *ngIf="showActiveTableFlag">Parent</p>
+              
             <button class="white_button"(click)="sendNotificationMessages()" *ngIf="smsSendingFlag">Send Text Message </button>
-            <!-- <button class="blue_button" (click)="sendPushNotification()" *ngIf="pushNotificationFlag">Send Push Notification</button> -->
+            <button class="blue_button" (click)="sendPushNotification()" *ngIf="pushNotificationFlag">Send Push Notification</button>
 
             <button class="blue_button" data-toggle="modal" data-target="#myModal" *ngIf="emailSendingFlag">Preview & Send </button>
 

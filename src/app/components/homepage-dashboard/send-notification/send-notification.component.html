@@ -24,7 +24,7 @@
       <div class="table_body" *ngFor="let msg of messageList">
           <div>
               <div class="field-radio-wrapper">
-                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" value="{{msg.message}}" (ngModelChange)="onselectMessageCheckbox(msg)">
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedSmsCheckBox" value="{{msg.message}}" (ngModelChange)="onselectMessageCheckbox(msg)">
                   <label ></label>
               </div>
           </div>
@@ -42,7 +42,7 @@
       <div class="table_body" *ngFor="let email of emailMessageList">
         <div>
             <div class="field-radio-wrapper">
-                <input type="radio" class="form-radio" [(ngModel)]="selectedRow" value="{{email.message}}" (ngModelChange)="onSelectedEmailCheckbox(email)">
+                <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedEmailCheckBox" value="{{email.message}}" (ngModelChange)="onSelectedEmailCheckbox(email)">
                 <label ></label>
             </div>
         </div>
@@ -60,7 +60,7 @@
         <div class="table_body" *ngFor="let push of pushNotificationList">
           <div>
               <div class="field-radio-wrapper">
-                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" value="{{push.message}}" (ngModelChange)="onClickSelectPush(push)">
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectesPushCheckBox" value="{{push.message}}" (ngModelChange)="onClickSelectPush(push)">
                   <label ></label>
               </div>
           </div>
@@ -189,8 +189,10 @@
        
         <div>
             <p>Email Description</p>
-            <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"></textarea>
-            <div class="editbox">
+            <!-- <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"></textarea> -->
+            <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+            [(ngModel)]="newMessageText" placeholder="Write a short description about this product"></editor>
+            <!-- <div class="editbox">
                 <div>
                  <a> <img src="../../../../assets/images/add-send-notification-img/1.svg"></a>
                  <a><img src="../../../../assets/images/add-send-notification-img/2.svg"></a>
@@ -234,7 +236,7 @@
                   <a><img src="../../../../assets/images/add-send-notification-img/V6.svg"></a>
                   <a> <img src="../../../../assets/images/add-send-notification-img/V7.svg" ></a>
                 </div>
-              </div>
+              </div> -->
         </div>
         <div>
             
@@ -375,7 +377,7 @@
   <div class="page_body">
 
     <div>
-      <p>Message Description</p>
+      <p style="margin-left: 3px;">Message Description</p>
       <textarea placeholder="Write your message here...">{{selectedRow}}</textarea>
 
     </div>

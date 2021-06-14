@@ -525,8 +525,10 @@ color: #323C47;
 }
 
 .page_body>div:nth-child(1)>p{
-  padding-left: 5px;
+  //padding-left: 5px;
   margin-bottom: 7px;
+  margin-left: 3px;
+  
 }
 
 .page_body>div:nth-child(1) textarea{
@@ -562,7 +564,7 @@ color: #9CA0A5;
   background: #FFFFFF;
   display:flex;
   justify-content: space-around;
-  padding: 4px 8px;
+  padding: 0px 8px;
 }
 .editbox>div:nth-child(1) img{
 margin-right: 10px;
@@ -1249,6 +1251,7 @@ b{
   .page_body>div:nth-child(1)>p {
       padding-left: 5px;
       margin-bottom: 7px;
+
   }
 
 

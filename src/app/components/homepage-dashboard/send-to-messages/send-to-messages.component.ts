@@ -7,7 +7,7 @@ import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { WidgetService } from '../../../services/widget.service';
 import { ProductService } from '../../../services/products.service';
-
+declare var $;
 
 
 @Component({
@@ -25,7 +25,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
     course_id: '',
     standard_id: '',
     batch_id:'',
-    subject_id:''
+    subject_id:'',
+    master_course_name:''
   }
   getPayloadBatch={
     institute_id:this.jsonFlag.institute_id,
@@ -50,7 +51,6 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   aluminiCheckBox:boolean=false;
   allUserCheck:boolean=false;
   inactiveCheck:boolean=false;
-  usereCheck:boolean=false
   schoolModel: boolean = false;
   public isProfessional: boolean = false;
 
@@ -106,6 +106,7 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       this.transactional = sessionStorage.getItem('transactinal')
       this.push_message = sessionStorage.getItem('push_message')
       this.push_messageId= sessionStorage.getItem('push_mesg_id')
+      this.messageCharacterCount =sessionStorage.getItem('messageLength')
 
 
       this.courseListSetting={
@@ -127,7 +128,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
     console.log("pramotional",this.pramotional)
     console.log("push message",this.push_message)
     console.log("push message-id",this.push_messageId)
-this.messageCharacterCount = this.selected_message.length
+ 
+  //  this.messageCharacterCount = this.selected_message.length
   
     this.auth.schoolModel.subscribe(
       res => {
@@ -148,17 +150,23 @@ this.messageCharacterCount = this.selected_message.length
     )
     if(this.email_subjects == null){
 
-      this.smsSendingFlag = true
+      this.smsSendingFlag = true;
+      this.pushNotificationFlag = false;
+
   }else{
     this.emailSendingFlag = true
+
   }
-  // if(this.push_message != ""){
-  //   alert("hi")
-  //   this.pushNotificationFlag = true;
-  // }
+
+  if(this.push_message && this.push_message != ""){
+    this.pushNotificationFlag = true;
+    this.smsSendingFlag = false
+  
+  }
     
   
     this.getMaterCourseList()
+    //this.getStandard()
   }
 
   ngOnDestroy() {
@@ -170,14 +178,37 @@ this.messageCharacterCount = this.selected_message.length
   
 
   }
-  
+  clrarfild(){
+    this.selectedCourseList=[]
+    this.masterCourseList=[]
+    this.selected_message=""
+    this.email_subjects=""
+    this.messageCharacterCount=""
+    this.activeCeckbox=false;
+    this.facultyCheckBox=false;
+    this.aluminiCheckBox=false;
+    this.allUserCheck=false;
+    this.inactiveCheck=false;
+    this.showActiveTableFlag = false;
+    this.showFacultyTableFlag = false;
+   this. showInactiveStudentFlag =false;
+    this.showAllaluminiStudentFlag=false;
+    this.showallUserListFlag=false; 
+    this.showCourseWiseFlag=false
+    $('#myModal').modal('hide');
+
+
+
+  }
   allActiveStudent(event) {
   this.auth.showLoader()
-  //  this.facultyCheckBox=false;
-  //  this.aluminiCheckBox=false;
-  //  this.allUserCheck=false;
-  //  this.inactiveCheck=false;
-  //  this.usereCheck=false
+    this.facultyCheckBox=false;
+   this.aluminiCheckBox=false;
+    this.allUserCheck=false;
+   this.inactiveCheck=false;
+   this.activeCeckbox=true
+  this.courseList=[]
+    this.masterCourseList=[]
    this.showFacultyTableFlag= false;
    this.showInactiveStudentFlag=false;
    this.showAllaluminiStudentFlag=false;
@@ -202,12 +233,13 @@ this.messageCharacterCount = this.selected_message.length
     allFacultyDataList(event) {
  
         this.auth.showLoader(); 
-        // this. activeCeckbox=false;
-        // this.facultyCheckBox=true;
-        // this.aluminiCheckBox=false;
-        // this.allUserCheck=false;
-        // this.inactiveCheck=false;
-        // this.usereCheck=false
+        this. activeCeckbox=false;
+        this.facultyCheckBox=true;
+        this.aluminiCheckBox=false;
+        this.allUserCheck=false;
+        this.inactiveCheck=false;
+        this.courseList=[]
+    this.masterCourseList=[]
         this.showActiveTableFlag = false;
         this.showInactiveStudentFlag=false;
         this.showAllaluminiStudentFlag=false;
@@ -232,13 +264,13 @@ this.messageCharacterCount = this.selected_message.length
     }
       aluminiStudentData(event) {
         this.auth.showLoader();
-
-        // this. activeCeckbox=false;
-        // this.facultyCheckBox=false;
-        // this.aluminiCheckBox=true;
-        // this.allUserCheck=false;
-        // this.inactiveCheck=false;
-        // this.usereCheck=false
+        this.courseList=[]
+        this.masterCourseList=[]
+        this. activeCeckbox=false;
+        this.facultyCheckBox=false;
+        this.aluminiCheckBox=true;
+        this.allUserCheck=false;
+        this.inactiveCheck=false;
         this.showActiveTableFlag = false;
         this.showInactiveStudentFlag=false;
         this.showallUserListFlag=false; 
@@ -263,12 +295,13 @@ this.messageCharacterCount = this.selected_message.length
         allInActiveStudent(event) {
         
             this.auth.showLoader();
-        //      this. activeCeckbox=false;
-        //  this.facultyCheckBox=false;
-        //  this.aluminiCheckBox=false;
-        //  this.allUserCheck=false;
-        //  this.inactiveCheck=true;
-        //  this.usereCheck=false
+         this. activeCeckbox=false;
+         this.facultyCheckBox=false;
+         this.aluminiCheckBox=false;
+         this.allUserCheck=false;
+         this.inactiveCheck=true;
+        this.courseList=[]
+    this.masterCourseList=[]
          this.showAllaluminiStudentFlag = false;
          this.showActiveTableFlag = false;
          this.showallUserListFlag=false; 
@@ -294,12 +327,13 @@ this.messageCharacterCount = this.selected_message.length
         allRegisterUsers(event) {
         
             this.auth.showLoader();
-        //      this. activeCeckbox=false;
-        //  this.facultyCheckBox=false;
-        //  this.aluminiCheckBox=false;
-        //  this.allUserCheck=true;
-        //  this.inactiveCheck=false;
-        //  this.usereCheck=false
+         this. activeCeckbox=false;
+         this.facultyCheckBox=false;
+         this.aluminiCheckBox=false;
+         this.allUserCheck=true;
+         this.inactiveCheck=false;
+        this.courseList=[]
+    this.masterCourseList=[]
          this.showAllaluminiStudentFlag = false;
          this.showInactiveStudentFlag = false;
          this.showActiveTableFlag = false;
@@ -352,19 +386,25 @@ this.messageCharacterCount = this.selected_message.length
           let temp_selectedCourseList:any=[]
           for(let i=0; i<this.selectedCourseList.length;i++){
             this.courseId = this.selectedCourseList[i].course_id
+            this.selectMasterCourse.master_course_name = this.selectedCourseList[i].course_name
             temp_selectedCourseList.push(this.courseId)
           }
           let obj={
-            inst_id :this.jsonFlag.institute_id,
-            role:'student',
-            coursesArray:['']
+            course_id:this.courseId,
+            master_course_name:this.selectMasterCourse.master_course_name
+            // inst_id :this.jsonFlag.institute_id,
+            // role:'student',
+            // coursesArray:['']
           }
-          obj.coursesArray = temp_selectedCourseList;
-          const url = '/api/v1/courseMaster/onlineClass/fetch/users'
+         
+         // obj.coursesArray = temp_selectedCourseList;
+          // const url = '/api/v1/courseMaster/onlineClass/fetch/users'
+          const url='/api/v1/studentBatchMap/manageBatchStudent/'+this.jsonFlag.institute_id
           this.auth.showLoader();
           this.httpService.postData(url, obj).subscribe(
             (data: any) => {
-              this.studentList = data.studentsAssigned;
+              this.studentList = data;
+
 
               console.log("iddddddd",this.studentList)
 
@@ -399,18 +439,24 @@ this.messageCharacterCount = this.selected_message.length
         }
        // }
        getStandard() {
-        let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+        // let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
         let keys;
+        let url=""
         this.auth.showLoader();
+        if(this.schoolModel) {
+          url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name&is_active_not_expire=Y";
+        } else if (this.userType === '3') {
+          url = '/api/v1/courseMaster/fetch/' + this.jsonFlag.institute_id + '/all' + '?isAllCourses=N&isActiveNotExpire=Y'; //Changed isAllCourses flay Y to N as per ticket 1103
+        } else {
+          url = '/api/v1/courseMaster/fetch/' + this.jsonFlag.institute_id + '/all?isActiveNotExpire=Y';
+        }
         this.httpService.getData(url).subscribe(
           (data: any) => {
             this.masterCourseList = [];
             this.auth.hideLoader();
             this.fullResponse = data.result;
+            console.log("sections",this.fullResponse)
             keys = Object.keys(data.result);
-    
-            // console.log("keys", keys);
-            // this.masterCourse = keys;
             for (let i = 0; i < keys.length; i++) {
               let obj = {
                 masterCourse: '',
@@ -421,6 +467,7 @@ this.messageCharacterCount = this.selected_message.length
               obj.standard_id = (temp.length) ? temp[0].standard_id : '';
               this.masterCourseList.push(obj);
             }
+       
     
     
           },
@@ -430,6 +477,8 @@ this.messageCharacterCount = this.selected_message.length
           }
         )
       }
+    
+  
       getMasterCourseAndBatch(data) {
         this.auth.showLoader();
         this.widgetService.fetchCombinedData(data.standard_id, data.subject_id).subscribe(
@@ -665,6 +714,9 @@ getDestinationValue() {
             body: "Sent successfully"
           };
           this.appC.popToast(msg);
+          this.clrarfild()
+          this.router.navigateByUrl('/view/dashboard/send-notification')
+
           //this.closeNotificationPopUp();
         },
         err => {
@@ -702,6 +754,9 @@ sendPushNotification() {
         body: "Sent successfully"
       };
       this.appC.popToast(msg);
+      this.clrarfild()
+      this.router.navigateByUrl('/view/dashboard/send-notification')
+
     },
     err => {
       //console.log(err);
