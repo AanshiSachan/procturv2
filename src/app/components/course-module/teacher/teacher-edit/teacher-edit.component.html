@@ -6,14 +6,16 @@
           <div class="w20">
             <span class="label top30">Profile Picture</span>
           </div>
-          <div class="w40">
-            <div class="container1" class="top-10" style="position: relative;margin-left: 20px;">
+          <div class="w40" style="display: flex;">
+            <div lass="content_img">
+            <div class="container1 top-10">
               <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth"
               [containerHeight]="containerHeight" (setImage)="setImage($event)">
-          </proctur-image>
-              <div class="overlay">
-                <div class="text">Add image</div>
-              </div>
+            </proctur-image>
+            </div>
+            </div>
+              <div class="caption">
+                <p>Add image</p>
             </div>
           </div>
           <div class="w40"></div>

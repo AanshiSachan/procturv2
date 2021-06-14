@@ -420,3 +420,32 @@ width: 87%;}
 ng-multiselect-dropdown /deep/ .multiselect-dropdown > .dropdown-list .item2{
    position: relative !important;
 }
+.content_img div{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: black;
+  color: white;
+  margin-bottom: 5px;
+  font-family: sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: visibility 0s, opacity 0.5s linear; 
+  transition: visibility 0s, opacity 0.5s linear;
+ }
+ .content_img:hover{
+  cursor: pointer;
+ }
+ 
+ .content_img:hover div{
+  width: 150px;
+  padding: 8px 15px;
+  visibility: visible;
+  opacity: 0.7; 
+ }
+ .caption{
+  text-align: center;
+   position: relative;
+  top: 30%;
+  left: 5%;
+}
