@@ -487,3 +487,6 @@ outline: none;
 .pointer{
   cursor: pointer;
 }
+::ng-deep bs-datepicker-container, bs-daterangepicker-container{
+  top: -41% !important;
+}
