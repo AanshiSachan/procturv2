@@ -91,9 +91,9 @@
              <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Files</div>
             <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div> 
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
-             <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div> 
+             <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>  -->
              <div id="timeTable"  [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
-             <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
+             <!-- <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div> -->
              <div id="exam_course" *ngIf="!schoolModel"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
        
             </div>
@@ -661,13 +661,13 @@
                 <div class="payment_history">
                   <div class="table_heading">
                     <div>
-                      Paid<br>ON
+                      Paid ON
                     </div>
                     <div>
-                      Instal<br>No
+                      Instal No.
                     </div>
                     <div>
-                      Fee<br>Type
+                      Fee Type
                     </div>
                     <!-- <div>
                      <span class="top"> Amount</span>
@@ -995,8 +995,8 @@
                   <div>
                     {{data.created_date}}
                   </div>
-                  <div>
-                   <!-- <a><img src="../../../assets/img_view/Group272.svg" class="size22" title="delete"></a> -->
+                  <!--  <div>
+                  <a><img src="../../../assets/img_view/Group272.svg" class="size22" title="delete"></a> -->
                   </div>
                 </div>
               </div>

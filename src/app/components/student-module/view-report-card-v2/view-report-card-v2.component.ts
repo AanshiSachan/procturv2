@@ -429,6 +429,7 @@ downloadStudentIDCard() {
       this.auth.hideLoader();
       if (res) {
         let resp = res.response;
+        console.log(resp)
         if (resp.document != "") {
           let byteArr = this._commService.convertBase64ToArray(resp.document);
           let fileName = 'card.pdf'; //res.docTitle;
@@ -800,6 +801,7 @@ examdata= [
           "subject_id": 7208,
           "subject_name": "Math33",
           "marks_dist_list": [
+            
               {
                   "marks_distribution_id": 12,
                   "marks_distribution_name": "Practical",
@@ -916,7 +918,6 @@ console.log(this.examdata);
 }
 inventoryDetails:any=[];
 getInventoryDetails(){
-  alert("hi")
   //https://test999.proctur.com/StdMgmtWebAPI/api/v1/inventory/item/student/txHistory/11769
   this.auth.showLoader();
   let url = "/api/v1/inventory/item/student/txHistory" +"/" + this.student_id;
