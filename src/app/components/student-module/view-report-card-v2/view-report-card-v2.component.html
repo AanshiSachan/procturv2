@@ -403,7 +403,7 @@
                      c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"></path></svg></a>
                   </div>
                 </div>
-                <div  *ngIf="attendanceList.length ==0">
+                <div  *ngIf="attendanceList.length==0">
                   <div class="nodata">
                     <span colspan="10" >
                       No Attendance Data Of Student Found
@@ -411,7 +411,7 @@
                   </div>
                 </div>
               </div>
-              <p *ngIf="attendanceList.length > 0" style="margin-left:10px;margin-top: 10px;">* Old/History batches are shown with grey background</p>
+              <!-- <p *ngIf="attendanceList.length > 0" style="margin-left:10px;margin-top: 10px;">* Old/History batches are shown with grey background</p> -->
 
             </div>
            <div id="fees_tab" *ngIf="isActiveTab =='fees'" >
@@ -976,21 +976,27 @@
                    Allocated Units
                   </div>
                   <div>
+                    Allocation Date
+                   </div>
+                  <!-- <div>
                    Action
-                  </div>
+                  </div> -->
                 </div>
-                <div class="table_body">
+                <div class="table_body" *ngFor="let data of inventoryDetails ">
                   <div>
-                    Maths Notes
+                  {{data.item_name}}
                   </div>
                   <div>
-                    Study Material
+                    {{data.category_name}}
                   </div>
                   <div>
-                    01
+                    {{data.alloted_units}}
                   </div>
                   <div>
-                   <a><img src="../../../assets/img_view/Group272.svg" class="size22" title="delete"></a>
+                    {{data.created_date}}
+                  </div>
+                  <div>
+                   <!-- <a><img src="../../../assets/img_view/Group272.svg" class="size22" title="delete"></a> -->
                   </div>
                 </div>
               </div>

@@ -144,6 +144,9 @@ openTab(param){
  else if(param =="exam"){
    this.getExamDetailsForSchool();
  }
+ else if(param =="inventory"){
+   this.getInventoryDetails();
+ }
 }
 //function to get parent,profile ,document, data
 getParentProfileDoc() {
@@ -900,6 +903,27 @@ getExamDetailsForSchool(){
     (res: any) => {
       this.examDetailsForSchool = res;
       console.log( this.examDetailsForSchool);
+     // this.fetchDefaultAY();
+      this.auth.hideLoader();
+    },
+    (error: any) => {
+      this.auth.hideLoader();
+      this._commService.showErrorMessage('error', '', error.error.message);
+console.log(this.examdata);
+
+    }
+  )
+}
+inventoryDetails:any=[];
+getInventoryDetails(){
+  alert("hi")
+  //https://test999.proctur.com/StdMgmtWebAPI/api/v1/inventory/item/student/txHistory/11769
+  this.auth.showLoader();
+  let url = "/api/v1/inventory/item/student/txHistory" +"/" + this.student_id;
+  this.httpService.getData(url).subscribe(
+    (res: any) => {
+      this.inventoryDetails= res;
+      console.log( this.inventoryDetails);
      // this.fetchDefaultAY();
       this.auth.hideLoader();
     },
