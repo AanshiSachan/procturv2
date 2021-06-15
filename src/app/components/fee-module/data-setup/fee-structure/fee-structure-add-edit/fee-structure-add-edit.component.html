@@ -73,6 +73,7 @@
                 <div>Fee Type </div>
                 <div>{{(schoolModel || isTemplateNotLinkWithCourseAndStandard)?'Day Of Month':'Trigger Date'}}</div>
                 <div>{{(schoolModel || isTemplateNotLinkWithCourseAndStandard)?'Month':'Day/Month'}}</div>
+                <div *ngIf="(schoolModel || isTemplateNotLinkWithCourseAndStandard)">Year</div>
                 <div><span>Total Fees <span class="light">(In {{currencySymbol}})</span></span></div>
                 <div>Action</div>
             </div>
@@ -107,6 +108,17 @@
                         <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
                             <option value="-1">Month</option>
                             <option *ngFor="let mon of months" [value]="mon.id">{{mon.value}}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard">
+                        <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].year">
+                            <option value="-1">Year</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
                         </select>
                     </div>
 

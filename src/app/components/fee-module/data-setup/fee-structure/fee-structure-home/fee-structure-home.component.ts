@@ -650,6 +650,7 @@ export class FeeStructureHomeComponent implements OnInit {
             let installmentData: any = {
               fee_type: data.fee_type,
               month: data.month,
+              year: data.year,
               days: data.days,
               fees_amount: data.fees_amount,
               day_type: data.day_type,
@@ -690,6 +691,7 @@ export class FeeStructureHomeComponent implements OnInit {
       fee_type: this.feeInstalllmentArr[i].fee_type,
       month: this.feeInstalllmentArr[i].month,
       days: this.feeInstalllmentArr[i].days,
+      year: this.feeInstalllmentArr[i].year,
       fees_amount: this.feeInstalllmentArr[i].fees_amount,
       initial_fee_amount: this.feeInstalllmentArr[i].initial_fee_amount,
       day_type: this.feeInstalllmentArr[i].day_type,
@@ -722,9 +724,52 @@ export class FeeStructureHomeComponent implements OnInit {
       this.commonService.showErrorMessage('info', '', "Please enter valid fee structure details!");
       return;
     }
+    for(let data of this.feeInstalllmentArr){
+     if(!this.validateEachInstallment(data)){
+       return ;
+     }
+    }
     return true;
   }
- 
+  validateEachInstallment(data: any) {
+    if (data.installment_no <= 0) {
+      this.commonService.showErrorMessage('info', '', "Please enter valid installment No.");
+      return false;
+    }
+    if (data.fee_type<= 0) {
+      this.commonService.showErrorMessage('info', '', "Please select valid fee type!");
+      return false;
+    }
+    if (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard) {
+      if (data.days <= 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
+        return false;
+      }
+      if (data.month <= 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee month!");
+        return false;
+      }
+      if (data.year <= 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee year!");
+        return false;
+      }
+    }
+    if (!this.schoolModel) {
+      if (data.day_type <= 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid trigger date!");
+        return false;
+      }
+      if (data.days <= 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
+        return false;
+      }
+    }
+    if (data.fees_amount <= 0) {
+      this.commonService.showErrorMessage('info', '', "Please enter valid fee amount!");
+      return false;
+    }
+    return true;
+  }
   changesValuesAsPerType(row, i) {
     if (row == 1) {
       this.feeInstalllmentArr[i].days = 0;
