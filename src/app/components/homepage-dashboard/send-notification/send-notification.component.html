@@ -47,7 +47,7 @@
             </div>
         </div>
         <div>{{email.date}}</div>
-        <div>  {{(!email.message) ? '-':(email.message.length > 50) ?(email.message | slice :0:50) + '...' : email.message}}
+        <div [innerHtml]="email.message">
         </div>
         <div>
             <a class="mr16" (click)="onClickEditEmail(email)"><img src="../../../../assets/images/edit.svg"></a>
@@ -77,7 +77,7 @@
       
   </div>
   <div class="pagignation">
-      <p>Showing 1 to 8 of 50</p>
+      <p></p>
   </div>   
 
 </div>
@@ -183,7 +183,7 @@
             Create New Email
         </p>
         <p *ngIf="jsonFlag.editEmail">Edit Email</p>
-        <img src="../../../../assets/images/add-send-notification-img/cross.svg">
+        <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
     </div>
     <div class="page_body">
        
@@ -255,7 +255,7 @@
         <p>
             Selected Email
         </p>
-        <img src="../../../../assets/images/add-send-notification-img/cross.svg">
+        <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
     </div>
     <div class="page_body page_body1">
        
@@ -271,7 +271,9 @@
             <!-- danger11 class will toggle -->
             <div class="message">
                 <span>Message :</span>
-                <textarea placeholder="Write your message here...">{{selectedRow}}</textarea>
+                <!-- <textarea placeholder="Write your message here...">{{selectedRow}}</textarea> -->
+                <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                [(ngModel)]="selectedRow" placeholder="Write a short description about this product"></editor>
             </div>
          
         </div>
@@ -281,7 +283,7 @@
     </div>
        
     <div class="display12">
-        <div class="editbox">
+        <!-- <div class="editbox">
             <div>
              <a> <img src="../../../../assets/images/add-send-notification-img/1.svg"></a>
              <a><img src="../../../../assets/images/add-send-notification-img/2.svg"></a>
@@ -325,11 +327,14 @@
               <a><img src="../../../../assets/images/add-send-notification-img/V6.svg"></a>
               <a> <img src="../../../../assets/images/add-send-notification-img/V7.svg" ></a>
             </div>
-          </div>
-          <div>
+          </div> -->
+          <!-- <div>
               <p class="quota">Email Quota Balance  :<span>494836</span></p>
-          </div>
+          </div> -->
     </div>
+    <div>
+      <p class="quota">Email Quota Balance  :<span>494836</span></p>
+  </div>
     <div class="page_footer">
         <div></div>
         <button class="blue_button"  [disabled]="email_subject == ''" (click)="onClickEmailSentTo()">Send To</button>
@@ -346,7 +351,7 @@
       <p *ngIf="jsonFlag.editPush">
         Edit Push Message
       </p>
-      <img src="../../../../assets/img_notif/cross.svg">
+      <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
     </div>
     <div class="page_body">
   
@@ -372,7 +377,7 @@
     <p>
       Selected Push Message
     </p>
-    <img src="../../../../assets/img_notif/cross.svg">
+    <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
   </div>
   <div class="page_body">
 

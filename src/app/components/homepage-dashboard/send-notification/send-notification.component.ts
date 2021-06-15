@@ -405,7 +405,7 @@ saveNewMessage() {
   this.auth.showLoader();
   let src: any;
   let status:any
-  if (this.jsonFlag.createMesageFlag == true || this.jsonFlag.createdPushNotification == true) {
+  if (this.jsonFlag.createMesageFlag == true) {
     src = "SMS";
     status = 1
   }
@@ -422,14 +422,34 @@ saveNewMessage() {
     res => {
       let msg = {
         type: 'success',
-        title: 'Message created Successfully',
-        body: " Your request is in queue and process shortly"
+        title: 'Message Created Successfully',
+        // body: " Your request is in queue and process shortly"
+      };
+      let msg2 = {
+        type: 'success',
+        title: 'Email Created Successfully',
+        // body: " Your request is in queue and process shortly"
+      };
+      let msg3 = {
+        type: 'success',
+        title: 'Push Notification Created Successfully',
+        // body: " Your request is in queue and process shortly"
       };
       this.closeDiv()
 
       this.auth.hideLoader();
-      this.appC.popToast(msg);
+       this.appC.popToast(msg);
+    //    if(this.jsonFlag.createMesageFlag == true){
+    //            this.appC.popToast(msg);
+
+    //   }if(this.jsonFlag.createEmailFlag == true)
+    //     this.appC.popToast(msg2);
+    
+    //   if(this.jsonFlag.createdPushNotification == true){
+    //   this.appC.popToast(msg3);
+    // }
        this.getAllMessageFromServer();
+
     },
     err => {
       //console.log(err);

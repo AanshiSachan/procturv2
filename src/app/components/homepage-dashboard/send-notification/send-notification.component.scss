@@ -80,7 +80,7 @@ color: #323C47;
 }
 .create a{
   font-weight: 600;
-font-size: 16px;
+font-size: 15px;
 line-height: 22px;
 /* identical to box height */
 
@@ -769,7 +769,7 @@ b{
       font-size: 12px;
       line-height: 25px;
       /* identical to box height */
-      padding-left: 9px;
+      padding-left: 0px;
       letter-spacing: 0.01em;
       
       /* table_black */
@@ -1012,6 +1012,7 @@ b{
   /* table_black */
   
   color: #323C47;
+  float: right;
   
   }
   .quota span{

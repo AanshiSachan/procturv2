@@ -46,15 +46,15 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   pramotinalFlag:boolean=false
   pushNotificationFlag:boolean=false
  
-  activeCeckbox:boolean=false;
-  facultyCheckBox:boolean=false;
-  aluminiCheckBox:boolean=false;
-  allUserCheck:boolean=false;
-  inactiveCheck:boolean=false;
+  activeCeckbox:string='false';
+  facultyCheckBox:string='false';
+  aluminiCheckBox:string='false';
+  allUserCheck:string='false';
+  inactiveCheck:string='false';
   schoolModel: boolean = false;
   public isProfessional: boolean = false;
-
-
+student:boolean=false
+parent:boolean=false
 
   masterCourseList: any =[];
   selectedCourseList: any[] = [];
@@ -86,6 +86,7 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   searchData: string = "";
   push_message:string="";
   push_messageId:any
+  count:number=0
 
   
 
@@ -106,7 +107,7 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       this.transactional = sessionStorage.getItem('transactinal')
       this.push_message = sessionStorage.getItem('push_message')
       this.push_messageId= sessionStorage.getItem('push_mesg_id')
-      this.messageCharacterCount =sessionStorage.getItem('messageLength')
+      // this.messageCharacterCount =sessionStorage.getItem('messageLength')
 
 
       this.courseListSetting={
@@ -151,6 +152,7 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
     if(this.email_subjects == null){
 
       this.smsSendingFlag = true;
+
       this.pushNotificationFlag = false;
 
   }else{
@@ -184,11 +186,11 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
     this.selected_message=""
     this.email_subjects=""
     this.messageCharacterCount=""
-    this.activeCeckbox=false;
-    this.facultyCheckBox=false;
-    this.aluminiCheckBox=false;
-    this.allUserCheck=false;
-    this.inactiveCheck=false;
+    this.activeCeckbox='false';
+    this.facultyCheckBox='false';
+    this.aluminiCheckBox='false';
+    this.allUserCheck='false';
+    this.inactiveCheck='false';
     this.showActiveTableFlag = false;
     this.showFacultyTableFlag = false;
    this. showInactiveStudentFlag =false;
@@ -200,15 +202,15 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
 
 
   }
-  allActiveStudent(event) {
+  allActiveStudent() {
   this.auth.showLoader()
-    this.facultyCheckBox=false;
-   this.aluminiCheckBox=false;
-    this.allUserCheck=false;
-   this.inactiveCheck=false;
-   this.activeCeckbox=true
-  this.courseList=[]
-    this.masterCourseList=[]
+    this.facultyCheckBox='false';
+   this.aluminiCheckBox='false';
+    this.allUserCheck='false';
+   this.inactiveCheck='false';
+   this.activeCeckbox='true'
+  // this.courseList=[]
+  //   this.masterCourseList=[]
    this.showFacultyTableFlag= false;
    this.showInactiveStudentFlag=false;
    this.showAllaluminiStudentFlag=false;
@@ -230,16 +232,16 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
       )
     }
   
-    allFacultyDataList(event) {
- 
+    allFacultyDataList() {
+
         this.auth.showLoader(); 
-        this. activeCeckbox=false;
-        this.facultyCheckBox=true;
-        this.aluminiCheckBox=false;
-        this.allUserCheck=false;
-        this.inactiveCheck=false;
-        this.courseList=[]
-    this.masterCourseList=[]
+        this. activeCeckbox='false';
+        this.facultyCheckBox='true';
+        this.aluminiCheckBox='false';
+        this.allUserCheck='false';
+        this.inactiveCheck='false';
+    //     this.courseList=[]
+    // this.masterCourseList=[]
         this.showActiveTableFlag = false;
         this.showInactiveStudentFlag=false;
         this.showAllaluminiStudentFlag=false;
@@ -262,15 +264,15 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
         )
       
     }
-      aluminiStudentData(event) {
+      aluminiStudentData() {
         this.auth.showLoader();
-        this.courseList=[]
-        this.masterCourseList=[]
-        this. activeCeckbox=false;
-        this.facultyCheckBox=false;
-        this.aluminiCheckBox=true;
-        this.allUserCheck=false;
-        this.inactiveCheck=false;
+        // this.courseList=[]
+        // this.masterCourseList=[]
+        this. activeCeckbox='false';
+        this.facultyCheckBox='false';
+        this.aluminiCheckBox='true';
+        this.allUserCheck='false';
+        this.inactiveCheck='false';
         this.showActiveTableFlag = false;
         this.showInactiveStudentFlag=false;
         this.showallUserListFlag=false; 
@@ -292,16 +294,16 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
         } 
 
 
-        allInActiveStudent(event) {
+        allInActiveStudent() {
         
             this.auth.showLoader();
-         this. activeCeckbox=false;
-         this.facultyCheckBox=false;
-         this.aluminiCheckBox=false;
-         this.allUserCheck=false;
-         this.inactiveCheck=true;
-        this.courseList=[]
-    this.masterCourseList=[]
+         this. activeCeckbox='false';
+         this.facultyCheckBox='false';
+         this.aluminiCheckBox='false';
+         this.allUserCheck='false';
+         this.inactiveCheck='true';
+    //     this.courseList=[]
+    // this.masterCourseList=[]
          this.showAllaluminiStudentFlag = false;
          this.showActiveTableFlag = false;
          this.showallUserListFlag=false; 
@@ -324,16 +326,16 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
               }
             )
           }
-        allRegisterUsers(event) {
+        allRegisterUsers() {
         
             this.auth.showLoader();
-         this. activeCeckbox=false;
-         this.facultyCheckBox=false;
-         this.aluminiCheckBox=false;
-         this.allUserCheck=true;
-         this.inactiveCheck=false;
-        this.courseList=[]
-    this.masterCourseList=[]
+        this. activeCeckbox='false';
+         this.facultyCheckBox='false';
+         this.aluminiCheckBox='false';
+         this.allUserCheck='true';
+         this.inactiveCheck='false';
+    //     this.courseList=[]
+    // this.masterCourseList=[]
          this.showAllaluminiStudentFlag = false;
          this.showInactiveStudentFlag = false;
          this.showActiveTableFlag = false;
@@ -374,8 +376,12 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
         }
       
 
-        fetchStudentsApi(courseArray) {
-        
+        fetchStudentsApi() {
+          this. activeCeckbox='false';
+         this.facultyCheckBox='false';
+         this.aluminiCheckBox='false';
+         this.allUserCheck='false';
+         this.inactiveCheck='false';
          this. showActiveTableFlag = false;
         this.showFacultyTableFlag = false;
         this.showInactiveStudentFlag=false;
@@ -384,14 +390,19 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
         this.showCourseWiseFlag=true
  
           let temp_selectedCourseList:any=[]
-          for(let i=0; i<this.selectedCourseList.length;i++){
-            this.courseId = this.selectedCourseList[i].course_id
-            this.selectMasterCourse.master_course_name = this.selectedCourseList[i].course_name
-            temp_selectedCourseList.push(this.courseId)
+          // for(let i=0; i<this.selectedCourseList.length;i++){
+          //   this.courseId = this.selectedCourseList[i].course_id
+          //   this.selectMasterCourse.master_course_name = this.selectedCourseList[i].course_name
+          //   temp_selectedCourseList.push(this.courseId)
+          // }
+          for(let i=0; i<this.courseList.length;i++){
+            this.courseId = this.courseList[i].course_id
+            this.selectMasterCourse.master_course = this.courseList[i].course_name
+             //this.courseList.push(this.courseId)
           }
           let obj={
             course_id:this.courseId,
-            master_course_name:this.selectMasterCourse.master_course_name
+            master_course_name:this.selectMasterCourse.master_course
             // inst_id :this.jsonFlag.institute_id,
             // role:'student',
             // coursesArray:['']
@@ -418,6 +429,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
         }
         
         getMaterCourseList() {
+          this.courseList=[]
+          this.studentList=[]
           if(this.schoolModel) {
             this.getStandard();
           } else {
@@ -567,10 +580,11 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
           if (this.studentList[t].assigned == true) {
             id.push(this.studentList[t][key]);
           }
+          
+
         }
         return id.join(',');
       
-    
     }
   //   getListOfCourseIds(key){
   //     let id: any = [];
@@ -597,30 +611,32 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
 
 getDestinationValue() {
   console.log("getDestinationValue");
-  let student = (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
-  let parent = (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
+  // let student:boolean=false
+  // let parent:boolean=false
+  // let student = (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
+  // let parent = (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
   // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
   // if (student == true && parent == false && gaurdian == false) {
-  if (student == true && parent == false) {
+  if (this.student == true && this. parent == false) {
     return 0;
     // } else if (student == false && parent == true && gaurdian == false) {
-  } else if (student == false && parent == true) {
+  } else if (this.student == false && this.parent == false) {
     return 1;
     // } else if (student == false && parent == false && gaurdian == true) {
-  } else if (student == false && parent == false) {
+  } else if (this.student == false &&this. parent == false) {
     return 3;
     // } else if (student && parent && gaurdian == false) {
-  } else if (student && parent == false) {
+  } else if (this.student == true && this.parent == false) {
     return 2;
     // } else if (student && gaurdian && parent == false) {
-  } else if (student && parent == false) {
+  } else if (this.student == true && this.parent == false) {
     return 5;
     // } else if (parent && gaurdian && student == false) {
-  } else if (parent && student == false) {
+  } else if (this.parent == true &&this. student == false) {
     return 6;
   }
   // else if (student && parent && gaurdian) {
-  else if (student && parent) {
+  else if (this.student == true && this.parent == true) {
     return 4;
   } else {
     let msg = {
@@ -683,6 +699,12 @@ getDestinationValue() {
 
       if (this.showAllaluminiStudentFlag == true) {
         isAlumini = 1;
+        destination = this.getDestinationValue()
+
+       
+      }if(this.showActiveTableFlag == true){
+        destination = this.getDestinationValue()
+       
       }
      
 
@@ -779,6 +801,12 @@ sendPushNotification() {
     onCheckBoxEvent(event, item) {
       item.assigned = event;
       this.allChecked = this.checkCheckAllChkboxStatus();
+      if (item.assigned == true){
+        this. count++;
+        console.log("count",this.count)
+      }else{
+        this.count--;
+      }
     }
   
     checkCheckAllChkboxStatus() {
@@ -786,8 +814,12 @@ sendPushNotification() {
         if (this.studentList[i].assigned == false) {
           return false;
         }
+        
+        
       }
+      
       return true;
+      
     }
 
     onCourseCheckBoxEvent(event, item) {
@@ -810,5 +842,36 @@ sendPushNotification() {
         }
       )
     }
-}
+   onsearchList(){
+     if(this.activeCeckbox =='true' ){
+       this.allActiveStudent()
+      //  this. activeCeckbox='false';
+      //  this.facultyCheckBox='false';
+      //  this.aluminiCheckBox='false';
+      //  this.allUserCheck='false';
+      //  this.inactiveCheck='false';
+       console.log("jhjhh",this.activeCeckbox)
+     }
+     if(this.inactiveCheck == 'true'){
+       this.allInActiveStudent()
+
+       }if(this.facultyCheckBox == 'true'){
+         this.allFacultyDataList()
+       }if(this.aluminiCheckBox == 'true'){
+         this.aluminiStudentData()
+       }if(this.allUserCheck =='true'){
+         this.allRegisterUsers()
+       }
+     }
+     messageLength(){
+      this.messageCharacterCount=this.selected_message.length
+
+     }
+     onClickEiditMessageDescription(){
+       this.router.navigateByUrl('/view/dashboard/send-notification')
+
+     }
+   }
+  
+
   

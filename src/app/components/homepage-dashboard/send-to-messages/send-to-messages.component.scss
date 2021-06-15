@@ -204,9 +204,9 @@ input.search {
     width: 37%;
     height: 30px;
     padding: 0px 17px;
-    // background: url(../../../../assets/img_notif/search.svg) no-repeat #FFFFFF;
-    // background-position: 90% center;
-    // margin-right: 1%;
+    background: url(../../../../assets/images/add-send-notification-img/search.svg) no-repeat #FFFFFF;
+    background-position: 98% center;
+    margin-right: 0%;
 }
 
 input::placeholder {
@@ -219,10 +219,11 @@ input::placeholder {
     line-height: 16px;
     /* identical to box height */
     margin-bottom: 0px;
-    margin-top: 6px;
+    margin-top: 8px;
     letter-spacing: 0.01em;
 
     color: #323C47;
+    margin-left: 15px;
 }
 
 .space {
@@ -295,7 +296,7 @@ input::placeholder {
 }
 
 .scroll_body1 {
-    height: calc(100vh - (64px + 8px + 200px + 21px + 30px + 15px + 40px + 60px));
+    height: calc(101vh - (64px + 8px + 200px + 21px + 30px + 15px + 40px + 60px));
     background: #fff;
     overflow-y: auto;
 }
