@@ -379,15 +379,18 @@ export class CourseAddComponent implements OnInit {
 
     // if (this.jsonVar.callApi) {
     // this.jsonVar.callApi = false;
+    this._auth.showLoader();
     let url = `/api/v1/courseMaster/update-course/${this.selectedCourseID}`
     this._httpService.putData(url, dataToSend).subscribe(
       res => {
+        this._auth.hideLoader();
         this.router.navigateByUrl('/view/course/create/courselist');
         let msg = this.schoolModel ? 'Section' : 'Course';
         this._msgService.showErrorMessage('success', '', msg + ' updated successfully.');
 
       },
       err => {
+        this._auth.hideLoader();
         //console.log(err);
         this._msgService.showErrorMessage('error', '', err.error.message);
       }
@@ -498,6 +501,7 @@ export class CourseAddComponent implements OnInit {
           this.standardList = res.result;
           let sub_list = this.standardList.filter(sub=>(sub.standard_id == this.courseDetails.standard_id));
           this.subjectList = sub_list[0].subject_list;
+          this.newSubjectDetails.standard_id = this.courseDetails.standard_id;
           this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
           this.getActiveTeacherList(this.courseDetails.standard_id);
         },

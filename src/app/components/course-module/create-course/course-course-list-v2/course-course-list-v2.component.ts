@@ -79,7 +79,7 @@ export class CourseCourseListV2Component implements OnInit {
   fetchCourseDetails(obj) {
     if (this.master_course_id != '-1') {
       this._auth.showLoader();
-      let url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}/${this.master_course_id}?is_active=Y`;
+      let url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}/${this.master_course_id}`;
       this._httpService.getData(url).subscribe(
         (res: any) => {
           this._auth.hideLoader();

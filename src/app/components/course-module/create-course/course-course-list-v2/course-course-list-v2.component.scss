@@ -307,18 +307,18 @@
     color: #405877;
   }
   .subject .table_body>div:first-child,.subject .table_head>div:first-child{
-    width: 20%;
+    width: 15%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .subject .table_body>div:nth-child(2),.subject .table_head>div:nth-child(2){
-    width: 20%;
+    width: 45%;
     text-align: left;
     padding-left: 10px;
   }
   .subject .table_body>div:nth-child(3),.subject .table_head>div:nth-child(3){
-    width: 60%;
+    width: 40%;
     text-align: left;
     padding-left: 10px;
   }
