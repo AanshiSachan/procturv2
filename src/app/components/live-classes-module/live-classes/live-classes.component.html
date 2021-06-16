@@ -416,9 +416,9 @@
                       <button type="button" name="button"
                         title="{{startClassMsg}}"
                         [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'"
-                        (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)"
-                        [disabled]="proctur_live_expiry_date_check || (forModerator && !forModeratorId(class.moderatorIds))"
-                        [ngStyle]="{'opacity':(proctur_live_expiry_date_check || (forModerator && !forModeratorId(class.moderatorIds))) ? '0.5' : '1' }">
+                        (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with, class.moderatorIds)"
+                        [disabled]="proctur_live_expiry_date_check"
+                        [ngStyle]="{'opacity':(proctur_live_expiry_date_check) ? '0.5' : '1' }">
                         Start
                       </button>
                     </span>

@@ -262,7 +262,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     }
     if (userType == '0') {
       this.forModerator = true;
-      this.startClassMsg = 'Only faculty can start the live class 30 mins prior to the scheduled time. Admin can join the session if added as a moderator on the scheduled time only.'
+      this.startClassMsg = '';
     }
     let limit = sessionStorage.getItem('videoLimitExceeded');
     this.videoLimitExceed = JSON.parse(limit);
@@ -506,7 +506,10 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
 
   }
 
-  allowStartLiveCLass(link, session_id, meeting_with) {
+  allowStartLiveCLass(link, session_id, meeting_with, moderatorIds) {
+    if(this.forModerator && !this.forModeratorId(moderatorIds)) {
+      this.msgService.showErrorMessage('info','','Only faculty can start the live class 30 mins prior to the scheduled time. Admin can join the session if added as a moderator on the scheduled time only.');
+    } else {
     let zoom = sessionStorage.getItem('is_zoom_enable');
     let zoom_enable = 0;
     if (meeting_with == "Zoom") {
@@ -533,6 +536,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
         console.log(err);
       }
     )
+    }
   }
 
   startLiveClass(link, start_time) {
