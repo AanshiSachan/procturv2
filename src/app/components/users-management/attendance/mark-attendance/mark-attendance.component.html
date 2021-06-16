@@ -4,7 +4,7 @@
             <div class="page_heading">
                 <p>Mark Attendance</p>
             </div>
-            <div class="info_box1"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
+            <div class="info_box1"><span class="bold1" *ngIf="allMarkAttendanceList[0].last_attendance_updated_date != null">NOTE:</span> Attendance for this page has been marked on
                 {{lastAttendanceUpdatedDate}}</div>
             <div>
                 <span class="right">

@@ -69,7 +69,10 @@ export class MarkAttendanceComponent implements OnInit {
 
         this.allMarkAttendanceList = res.result;
         this.attendanceList = res.result;
+        console.log("attendance data",this.allMarkAttendanceList)
+      // if(this.allMarkAttendanceList[0].last_attendance_updated_date != null){
         this.lastAttendanceUpdatedDate = moment(this.allMarkAttendanceList[0].last_attendance_updated_date).format('DD-MM-YYYY');
+        //}
         if (this.lastAttendanceUpdatedDate == null) {
           for (let i = 0; this.allMarkAttendanceList.length; i++) {
             this.allMarkAttendanceList[i].attendance_status = 'Present'
