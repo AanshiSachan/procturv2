@@ -100,6 +100,7 @@
 </div>                    </div>
     </div>
 </section> -->
+
 <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
      <a routerLink="/view/payrole/make-payment">
@@ -109,27 +110,28 @@
      View Payment History
    </h1>
  </section>
+ <div class="content">
 <div class="col-sm-3">
     <div class="box box-primary">
         <div class="box-body box-profile">
             <img src="https://original.proctur.com/uploads/images/default.png" class="profile-user-img img-responsive img-circle" alt="">                        
-            <h3 class="student-username text-center">{{ManageSalaryModel.user_name}}</h3>
-            <p class="text-muted text-center">{{ManageSalaryModel.user_role}}</p>
+            <h3 class="student-username text-center">{{salaryModel.user_name}}</h3>
+            <p class="text-muted text-center">{{salaryModel.user_role}}</p>
             <ul class="list-group list-group-unbordered">
                 <li class="list-group-item" style="background-color: #FFF">
-                    <b>Gender</b> <a class="pull-right">{{ManageSalaryModel.user_gender}}</a>
+                    <b>Gender</b> <a class="pull-right">{{salaryModel.user_gender}}</a>
                 </li>
                 <li class="list-group-item" style="background-color: #FFF">
-                    <b>Date of Birth</b> <a class="pull-right">{{ManageSalaryModel.user_dob}}</a>
+                    <b>Date of Birth</b> <a class="pull-right">{{salaryModel.user_dob}}</a>
                 </li>
                 <li class="list-group-item" style="background-color: #FFF">
-                    <b>Phone</b> <a class="pull-right">{{ManageSalaryModel.user_phone}}</a>
+                    <b>Phone</b> <a class="pull-right">{{salaryModel.user_phone}}</a>
                 </li>
             </ul>
         </div>
     </div>
 </div>
-
+</div>
 <div class="col-sm-9">
     <div class="nav-tabs-custom">
         <!-- <ul class="nav nav-tabs">
@@ -144,15 +146,29 @@
                             <div class="info-box">
                                 <p style="margin:0 0 20px">
                                     <span>Salary Grades</span>
-                                 {{ManageSalaryModel.salary_grade}} </p>
+                                 {{salaryModel.salary_grade}} </p>
 
                                 <p style="margin:0 0 20px">
                                     <span>Basic Salary</span>
-                                    {{ManageSalaryModel.basic_salary}}  </p>
+                                    {{salaryModel.basic_salary}}  </p>
 
                                 <p style="margin:0 0 20px">
                                     <span>Overtime Rate (Per Hour)</span>
-                                    {{ManageSalaryModel.overtime_rate}}  </p>
+                                    {{salaryModel.overtime_rate}}  </p>
+
+                                    <p style="margin:0 0 20px">
+                                        <span>Month</span>
+                                         </p>
+                                         <p style="margin:0 0 20px">
+                                        <span>Date</span>
+                                          </p>
+                                        <p style="margin:0 0 20px">
+                                     <span>Payment Method</span>
+                                       </p>
+                                               
+                                    <p style="margin:0 0 20px">
+                                     <span>Coments</span>
+                                    </p>     
                             </div>
                         </div>
                     </div>
@@ -208,19 +224,19 @@
                                     <table class="table table-bordered">
                                         <tbody><tr>
                                             <td class="col-sm-8" style="line-height: 36px">Gross Salary</td>
-                                            <td class="col-sm-4" style="line-height: 36px">{{ManageSalaryModel.gross_salary}}</td>
+                                            <td class="col-sm-4" style="line-height: 36px">{{salaryModel.gross_salary}}</td>
                                         </tr>
 
                                         <tr>
                                             <td class="col-sm-8" style="line-height: 36px">Total Deduction</td>
 
-                                            <td class="col-sm-4" style="line-height: 36px">{{ManageSalaryModel.total_deduction}}</td>
+                                            <td class="col-sm-4" style="line-height: 36px">{{salaryModel.total_deduction}}</td>
                                         </tr>
 
                                         <tr>
                                             <td class="col-sm-8" style="line-height: 36px">Net Salary</td>
 
-                                            <td class="col-sm-4" style="line-height: 36px"><b>{{ManageSalaryModel.net_salary}}</b></td>
+                                            <td class="col-sm-4" style="line-height: 36px"><b>{{salaryModel.net_salary}}</b></td>
                                         </tr>
                                     </tbody></table>
                                 </div>

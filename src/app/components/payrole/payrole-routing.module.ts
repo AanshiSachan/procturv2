@@ -10,6 +10,7 @@ import { ViewManageTemplateComponent } from './view-manage-template/view-manage-
 import { ViewSalaryTemplateComponent } from './view-salary-template/view-salary-template.component';
 import { AddEditManageComponent } from './add-edit-manage/add-edit-manage.component';
 import { AddSalaryPaymentComponent } from './add-salary-payment/add-salary-payment.component';
+import { ViewSalaryPaymentComponent } from './view-salary-payment/view-salary-payment.component';
 
 
 
@@ -27,7 +28,7 @@ const routes: Routes = [
   {path :'add-manage/:teacher_id/:user_id',component:AddEditManageComponent},
   {path :'edit-manage/:teacher_id/:user_id',component:AddEditManageComponent},
   {path :'add-salary-payment/:teacher_id/:user_id',component:AddSalaryPaymentComponent},
-  {path :'view-salary-payment/:id',component:AddSalaryPaymentComponent},
+  {path :'view-salary-payment/:teacher_id/:user_id',component:ViewSalaryPaymentComponent},
 
 
 

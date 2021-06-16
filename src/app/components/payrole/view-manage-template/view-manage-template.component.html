@@ -42,21 +42,24 @@
                         <div class="col-sm-6" style="margin-bottom: 10px;">
                             <div class="info-box">
                                 <p style="margin:0 0 20px">
-                                    <span>Salary Grades</span>
+                                    <span>Salary Grades :&nbsp;</span>
                                  {{ManageSalaryModel.salary_grade}} </p>
 
-                                <p style="margin:0 0 20px">
-                                    <span>Basic Salary</span>
+                                <p style="margin:0 0 20px" *ngIf="ManageSalaryModel.salary_type =='M'">
+                                    <span>Basic Salary:&nbsp;</span>
                                     {{ManageSalaryModel.basic_salary}}  </p>
 
-                                <p style="margin:0 0 20px">
-                                    <span>Overtime Rate (Per Hour)</span>
+                                <p style="margin:0 0 20px" *ngIf="ManageSalaryModel.salary_type =='M'">
+                                    <span>Overtime Rate (Per Hour):&nbsp;</span>
                                     {{ManageSalaryModel.overtime_rate}}  </p>
+                                    <p style="margin:0 0 20px" *ngIf="ManageSalaryModel.salary_type =='H'">
+                                        <span>Hourly Rate:&nbsp;</span>
+                                        {{ManageSalaryModel.salary_type}}  </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" *ngIf="ManageSalaryModel.salary_type =='M'">
                         <div class="col-sm-6">
                             <div class="box" style="border: 1px solid #eee">
                                 <div class="box-header" style="background-color: #fff;border-bottom: 1px solid #eee;color: #000;">
@@ -67,7 +70,7 @@
                                         <div class="col-sm-12" id="allowances" *ngFor="let i of addedListAllownc">
                                             <div class="info-box">
                                                 <p>
-                                                    <span> {{i.allowance}}</span>
+                                                    <span> {{i.allowance}} -</span>
                                                     {{i.allowance_amount}} </p>
                                             </div>
                                         </div>
@@ -87,7 +90,7 @@
                                         <div class="col-sm-12" id="deductions" *ngFor="let a of addedListDeduct">
                                             <div class="info-box">
                                                 <p>
-                                              <span>{{a.deduction}}</span>
+                                              <span>{{a.deduction}} -</span>
                                               {{a.deduction_amount}} </p>
                                                 </div>
                                         </div>

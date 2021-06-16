@@ -49,7 +49,7 @@ export class ViewManageTemplateComponent implements OnInit {
     private auth :AuthenticatorService,
     private msgToast :MessageShowService, private routeParam: ActivatedRoute) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
-      this.selectedTeacherId = sessionStorage.getItem('teacher_id')
+      //this.selectedTeacherId = sessionStorage.getItem('teacher_id')
       //this.selectedId = sessionStorage.getItem('id')
     }
   ngOnInit(): void {
@@ -66,9 +66,16 @@ export class ViewManageTemplateComponent implements OnInit {
     let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/view/'+this.userId+'/'+this.selectedTeacherId
     this.http.getData(url).subscribe(
       (res :any)=>{
-    this.salrayDataList=res.result
+    this.salrayDataList=res.result.template_dto
     this.auth.hideLoader();
-      this.ManageSalaryModel=res.result
+      this.ManageSalaryModel=res.result.template_dto
+      this.ManageSalaryModel.user_name = res.result.user_name
+      this.ManageSalaryModel .user_gender =res.result.user_gender
+      this.ManageSalaryModel .user_dob=res.result.user_dob,
+      this.ManageSalaryModel .user_phone=res.result.user_phone,
+      this.ManageSalaryModel . user_name=res.result.user_name,
+      this.ManageSalaryModel . user_role=res.result.user_role
+      console.log("view details",this.salrayDataList)
     
     for(let i= 0; i < this.salrayDataList.template_allowances_map_dtos.length; i++){
       if(this.salrayDataList.template_allowances_map_dtos[i].type == 'D') {

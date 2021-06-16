@@ -24,7 +24,18 @@ export class AddSalaryPaymentComponent implements OnInit {
     payment_amount:'',
     payment_method:'',
     comment:'',
-    history_id:''
+    history_id:'',
+    net_salary:'',
+    overtime_rate:'',
+    gross_salary:'',
+    total_deduction:'',
+    salary_type:'',
+    user_name:'',
+    user_gender:'',
+    user_dob:'',
+    user_phone:'',
+    user_role:'',
+
 
   }
   allHistoryPementList:any=[]
@@ -51,6 +62,7 @@ export class AddSalaryPaymentComponent implements OnInit {
     });
  console.log("iddddd", this.selectedTeacherId)
     this.getHistoryPayement()
+    this.getPaymentDetails()
   }
 getHistoryPayement(){
   let url='/api/v1/payroll/payment/history/'+this.jsonFlag.institute_id+'/paymentHistories/'+this.userId+'/'+this.selectedTeacherId
@@ -65,7 +77,29 @@ getHistoryPayement(){
     }
   )
 }
+getPaymentDetails(){
+  let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/view/'+this.userId+'/'+this.selectedTeacherId
+  this.http.getData(url).subscribe(
+    (res:any)=>{
+      let payementDatails = res.result.template_dto;
+      this.historyModel = payementDatails
+      this.historyModel.user_name = res.result.user_name
+    this.historyModel .user_gender =res.result.user_gender
+    this.historyModel .user_dob=res.result.user_dob,
+    this.historyModel .user_phone=res.result.user_phone,
+    this.historyModel . user_name=res.result.user_name,
+    this.historyModel . user_role=res.result.user_role
+    
+      console.log("histroy payemntttsssssss",payementDatails)
+    },
+     err => {
+      this.auth.hideLoader();
+      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
+    }
+  )
+}
 createSalaryPayment(){
+  if(this.validInput()){
   let obj ={
     user_id :this.userId,
     role_id :this.selectedId,
@@ -93,6 +127,7 @@ createSalaryPayment(){
     }
   )
   }
+}
   deletPayemt(obj){
     let history_id = obj
     this.historyModel.history_id = history_id
@@ -111,8 +146,32 @@ createSalaryPayment(){
       }
     )
   }
-  onclickView(id){
-    this.router.navigateByUrl('view/payrole/view-salary-payment/'+id)
+  onclickView(obj){
+    let user_id;
+    let teacher_id;
+    if(this.selectedId == 0) {
+      teacher_id = obj.teacher_id;
+      user_id = 0;
+    } else {
+      teacher_id = 0;
+      user_id = obj.user_id;
+    }  
+    this.router.navigateByUrl('view/payrole/view-salary-payment/' +teacher_id + '/' + user_id)
 
+  }
+  validInput(){
+//     if(this.historyModel.comment.trim()==''){
+//       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Enter Comment');
+// return;
+//     }
+    if(this.historyModel.payment_amount.trim()==''){
+      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Enter Payment Ammount');
+      return;
+
+    }if(this.historyModel.payment_method == ""){
+      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Payment Method');
+return;
+    }
+    return true
   }
 }

@@ -165,12 +165,13 @@
 label {
     display: inline-block;
     margin-bottom: 5px;
-    font-weight: 10;
+    //font-weight: 10;
+    font-size: 13px;
 }
-.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-    cursor: not-allowed;
-    background-color: #807C7C;
-}
+// .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+//     cursor: not-allowed;
+//     background-color: #807C7C;
+// }
 .form-control {
     border-radius: 3px;
     box-shadow: none;
@@ -223,4 +224,7 @@ input, select, textarea {
   width: 21px;
   height: 21px;
   z-index: 0;
+}
+.lebal{
+  font-size: 13px;
 }
