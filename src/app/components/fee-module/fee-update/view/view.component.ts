@@ -1025,6 +1025,8 @@ export class ViewComponent implements OnInit {
       this.commonService.showErrorMessage('info', '', 'Please select valid due date!');
       return;
     }
+    let username = sessionStorage.getItem('username');
+    if(username!='admin'){
     if (isUpdate) {
       if (!this.isFutureDate(this.addInstall.d_date, this.addInstall.immutable_due_date)) {
         this.commonService.showErrorMessage('info', '', 'Due date should be greater than or equal to current due date!');
@@ -1036,6 +1038,7 @@ export class ViewComponent implements OnInit {
         return;
       }
     }
+  }
     if (this.isTemplateLinkWithCourseAndStandard) {
       if (this.schoolModel && this.addInstall.standard_id <= 0) {
         this.commonService.showErrorMessage('info', '', 'Please select valid standard');

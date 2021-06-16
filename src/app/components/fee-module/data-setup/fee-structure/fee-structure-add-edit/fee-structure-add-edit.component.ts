@@ -99,6 +99,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       day: (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard ) ? 1 : 0,
       fee_amount: 0,
       day_type: (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard ) ? 4 : 1,
+      year: (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard )? 2021 : 0,
     };
     this.feeInstalllmentArr.push(this.newInstallment);
   }
@@ -180,6 +181,7 @@ export class FeeStructureAddEditComponent implements OnInit {
       day: this.feeInstalllmentArr[i].day,
       fee_amount: this.feeInstalllmentArr[i].fee_amount,
       day_type: this.feeInstalllmentArr[i].day_type,
+      year: this.feeInstalllmentArr[i].year,
     };
     this.totalFeeAmount = this.totalFeeAmount + Number(this.feeInstalllmentArr[i].fee_amount);
     this.totalTax = this.totalTax + this.calculateTax(this.feeInstalllmentArr[i].fee_amount, this.feeInstalllmentArr[i].fee_type_id)
@@ -285,7 +287,8 @@ export class FeeStructureAddEditComponent implements OnInit {
           fees_amount: data.fee_amount,
           service_tax: this.getFeeTypeTax(data.fee_type_id),
           service_tax_applicable: this.is_tax_enabled ? "Y" : "N",
-          month: data.month
+          month: data.month,
+          year: data.year
         };
         installment.initial_fee_amount = this.calFeeAmountWithoutTax(data.fee_amount, installment.service_tax),
           this.feeInstallments.push(installment);
@@ -306,12 +309,16 @@ export class FeeStructureAddEditComponent implements OnInit {
       return;
     }
     if (this.schoolModel || this.isTemplateNotLinkWithCourseAndStandard) {
-      if (data.day < 0) {
+      if (data.day <= 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
         return;
       }
-      if (data.month < 0) {
+      if (data.month <= 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid fee month!");
+        return;
+      }
+      if (data.year <= 0) {
+        this.commonService.showErrorMessage('info', '', "Please select valid fee year!");
         return;
       }
     }
@@ -320,7 +327,7 @@ export class FeeStructureAddEditComponent implements OnInit {
         this.commonService.showErrorMessage('info', '', "Please select valid trigger date!");
         return;
       }
-      if (data.day < 0) {
+      if (data.day <= 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
         return;
       }
