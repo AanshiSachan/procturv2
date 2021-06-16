@@ -445,6 +445,7 @@ closeTopicModal(){
           res => {
             // this.subject_id = res.
             console.log(res);
+            if(res && res.length) {
             res.forEach(e => {
               e.attendance_note = "";
               e.date = "";
@@ -466,6 +467,7 @@ closeTopicModal(){
             this.auth.hideLoader();
             this.attendanceNote = res[0].dateLi[0].attendance_note;
             this.homework = res[0].dateLi[0].homework_assigned;
+          }
             this.getCountOfAbsentPresentLeave(res);
           },
           err => {
