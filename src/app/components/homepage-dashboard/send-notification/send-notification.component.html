@@ -1,13 +1,13 @@
 <div class="page-content">
   <div class="display">
    <div class="links">
-      <a class="selected" (click)="onClickSms()">SMS</a>
-      <a  (click)="onClickEmai()">Email</a>
-      <a  (click)="onClickPush()">Push</a>
+      <a class="selected" (click)="onClickSms()" style="cursor: pointer;">SMS</a>
+      <a  (click)="onClickEmai()" style="cursor: pointer;">Email</a>
+      <a  (click)="onClickPush()" style="cursor: pointer;">Push</a>
    </div>
    <div class="create">
       <a  (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Create New SMS  </a>
-      <a  (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Create New Email  </a>
+      <a  (click)="onClickCreateEmail()" *ngIf="emailTableFlag" > + Create New Email  </a>
       <a  (click)="onclickCreatePushNotify()" *ngIf="pushTableFlag"> + Create Push Message  </a>
 
 
@@ -32,8 +32,8 @@
           <div title="{{msg.message}}"> {{(!msg.message) ? '-':(msg.message.length > 50) ?(msg.message | slice :0:50) + '...' : msg.message}}
           </div>
           <div>
-              <a class="mr16" (click)="onClickEdit(msg)"><img src="../../../../assets/images/edit.svg"></a>
-              <a (click)="deletMessage(msg,'400')"><img src="../../../../assets/images/delete.svg"></a>
+              <a class="mr16" (click)="onClickEdit(msg)" style="cursor: pointer;" ><img src="../../../../assets/images/edit.svg"></a>
+              <a (click)="deletMessage(msg,'400')" style="cursor: pointer;" ><img src="../../../../assets/images/delete.svg"></a>
           </div>
       </div>
       </div>
@@ -50,8 +50,8 @@
         <div [innerHtml]="email.message">
         </div>
         <div>
-            <a class="mr16" (click)="onClickEditEmail(email)"><img src="../../../../assets/images/edit.svg"></a>
-            <a (click)="deletMessage(email,'400')"><img src="../../../../assets/images/delete.svg"></a>
+            <a class="mr16" (click)="onClickEditEmail(email)" style="cursor: pointer;" ><img src="../../../../assets/images/edit.svg"></a>
+            <a (click)="deletMessage(email,'400')" style="cursor: pointer;" ><img src="../../../../assets/images/delete.svg"></a>
         </div>
     </div>
     </div>
@@ -68,8 +68,8 @@
           <div>  {{(!push.message) ? '-':(push.message.length > 50) ?(push.message | slice :0:50) + '...' : push.message}}
           </div>
           <div>
-              <a class="mr16" (click)="onClickEditPush(push)"><img src="../../../../assets/images/edit.svg"></a>
-              <a (click)="deletMessage(push,'400')"><img src="../../../../assets/images/delete.svg"></a>
+              <a class="mr16" (click)="onClickEditPush(push)" style="cursor: pointer;" ><img src="../../../../assets/images/edit.svg"></a>
+              <a (click)="deletMessage(push,'400')" style="cursor: pointer;" ><img src="../../../../assets/images/delete.svg"></a>
           </div>
       </div>
       </div>
@@ -137,7 +137,7 @@
       <p>
           Selected  SMS
       </p>
-      <img src="../../../../assets/images/cross.svg" (click)="closeDiv()">
+      <img src="../../../../assets/images/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
   </div>
   <div class="page_body">
       <div>
@@ -183,7 +183,7 @@
             Create New Email
         </p>
         <p *ngIf="jsonFlag.editEmail">Edit Email</p>
-        <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
+        <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
     </div>
     <div class="page_body">
        
@@ -255,7 +255,7 @@
         <p>
             Selected Email
         </p>
-        <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
+        <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
     </div>
     <div class="page_body page_body1">
        
@@ -351,7 +351,7 @@
       <p *ngIf="jsonFlag.editPush">
         Edit Push Message
       </p>
-      <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
+      <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
     </div>
     <div class="page_body">
   
@@ -377,7 +377,7 @@
     <p>
       Selected Push Message
     </p>
-    <img src="../../../../assets/images/add-send-notification-img/cross.svg" (click)="closeDiv()">
+    <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
   </div>
   <div class="page_body">
 

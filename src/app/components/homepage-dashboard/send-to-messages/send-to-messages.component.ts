@@ -806,15 +806,19 @@ sendPushNotification() {
         console.log("count",this.count)
       }else{
         this.count--;
-      }
+    //   }if(this.allChecked =this.checkCheckAllChkboxStatus()){
+    // this.count=this.studentList.length
+    // }
     }
-  
+  }
     checkCheckAllChkboxStatus() {
+      let count =0
       for (let i = 0; i < this.studentList.length; i++) {
         if (this.studentList[i].assigned == false) {
           return false;
         }
         
+       
         
       }
       

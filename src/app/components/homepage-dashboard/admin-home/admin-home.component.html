@@ -17,18 +17,18 @@
                     <h1 class="pull-left">Dashboard</h1>
 
                     <div class="pull-right act-right-sec">
-                        <!-- <button class="btn hide add_send_noti"
+                        <button class="btn hide add_send_noti"
                             [ngClass]="{hide : checkIfUserHadAccess(role_feature.COMMUNICATE_ADD_SEND)}"
-                            (click)="addSendNotification()">
+                            (click)="addSendNotification()" *ngIf="isProfessional">
 
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             &nbsp;
                             Add/Send Notification
-                        </button> -->
+                        </button>
 
                         <button class="btn hide add_send_noti"
                         [ngClass]="{hide : checkIfUserHadAccess(role_feature.COMMUNICATE_ADD_SEND)}"
-                        (click)="sendNotifyPage()">
+                        (click)="sendNotifyPage()"  *ngIf="!isProfessional">
 
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         &nbsp;

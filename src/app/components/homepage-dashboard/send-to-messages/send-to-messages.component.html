@@ -32,8 +32,8 @@
     </div>
     <p class="para" >
         <span style="font-weight: 600;">Message : </span>
-        {{selected_message}}
-       <!-- <div [innerHtml]="selected_message"></div>              -->
+        <!-- {{selected_message}} -->
+       <span [innerHtml]="selected_message"></span>             
     </p>
    
 </div>
@@ -240,7 +240,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
+                      <input type="checkbox" name="checked"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -264,7 +264,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked >
+                      <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked >
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -278,7 +278,7 @@
             <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div>
             <div title="{{item.doj}}">{{(!item.doj)? '-' : (item.doj.length > 10)? (item.doj | slice : 0 : 10) + '...' : item.doj}}</div>
             <div title="{{item.email_id}}" *ngIf="!emailSendingFlag">{{(!item.email_id) ? '-' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
-            <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':!item.email_id}">{{(!item.email_id) ? 'Email id is not available' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
+            <div *ngIf="emailSendingFlag"  [ngClass]="{'emailText':!item.email_id}">{{(!item.email_id) ? 'Email id is not available' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
 
             </div>
         </div>
@@ -422,12 +422,13 @@
         <div class="modal-body">
             <p class="para1">Message : </p>
           
-            <p [innerHtml]="selected_message">
-             <!-- {{selected_message}} -->
-              </p>
+            <!-- <p [innerHtml]="selected_message">
+              </p> -->
+              <editor [disabled]="true" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+              [(ngModel)]="selected_message" placeholder="Write a short description about this product"></editor>
             <p>
-            Regards,
-            ABC XYZ
+            <!-- Regards,
+            ABC XYZ -->
           </p>
         </div>
   
