@@ -64,6 +64,7 @@ sendLoginmessage:boolean=false
   allRowCheck :boolean=false
   searchData: string = "";
   messageCount: number = 0;
+  //selectedMessageCount:number =0
   newMessageText: string = "";
   newEmailText:string ="";
   notificationMessage:string=""
@@ -329,9 +330,13 @@ sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessage
 
 this.selectedMessageText=this.selectedRow.length
 console.log("msg length",this.selectedMessageId)
-
+if(this.selectedMessageText){
+  this.selectedMessageCount = 1
+  console.log("count",this.selectedMessageCount)
+}
 }
 onSelectedEmailCheckbox(obj){
+  let count =0
   this.jsonFlag.createEmailFlag =false
   this.jsonFlag.selectedEmailChecboxFlag = true
   this.selectedEmailCheckBox=true
@@ -350,6 +355,7 @@ this.selectedMessageId= obj.message_id
 sessionStorage.setItem('selecte-messase',(this.selectedRow))
 sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
 this.selectedMessageText=this.selectedRow.length
+
 sessionStorage.setItem('messageLength',JSON.stringify(this.selectedMessageText))
 
 console.log("msg length",this.selectedMessageId)
@@ -396,6 +402,7 @@ countNumberOfMessage() {
   }
   else {
     let count = Math.ceil(this.newMessageText.length / charLimit);
+
     console.log(count);
     this.messageCount = count;
   }

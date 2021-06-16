@@ -97,7 +97,7 @@
           <p>Select SMS Type</p>
           <div class="remaining selected">
               <p>Transactional </p>
-              <p class="number">{{transactionalSmsm}}</p>
+              <p class="number">{{transactionalSms}}</p>
               
           </div>
           <div class="remaining">
@@ -160,7 +160,7 @@
                   <p>Character Count: <b>{{selectedMessageText}}</b></p>
               </div>
               <div>
-                  <p>Message Count: <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></p>
+                  <p>Message Count: <span>{{selectedMessageCount}}</span></p>
               </div>
           </div>
       </div>
