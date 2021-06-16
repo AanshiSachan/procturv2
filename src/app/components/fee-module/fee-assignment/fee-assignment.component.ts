@@ -363,10 +363,10 @@ export class FeeAssignmentComponent implements OnInit {
       this.studentIdArr.push(this.student_id);
     }
     for (let data of this.feeInstalllmentArr) {
-      if (data.day_type == 3 && data.days > 12) {
-        this.commonService.showErrorMessage('info', '', "Please enter valid month!");
-        return;
-      }
+      // if (data.day_type == 3 && data.days > 12) {
+      //   this.commonService.showErrorMessage('info', '', "Please enter valid month!");
+      //   return;
+      // }
       let obj = {
         template_data_id: data.schedule_id,
         installment_date: moment(data.installment_date).format("YYYY-MM-DD"),
