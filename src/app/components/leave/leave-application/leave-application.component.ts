@@ -157,7 +157,6 @@ getApplicationToList(obj){
       this.auth.hideLoader();
       this.toApplicationList = res.active_users;
        this.toApplicationList =this.toApplicationList.filter(item =>item.user_id != this.jsonFlag.created_by);
-
      
     },
     err => {

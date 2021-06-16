@@ -8,11 +8,15 @@
         <div>
           <!-- <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a> -->
           <a  class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
+
           <!-- <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a> -->
         </div>
       </div>
     </div>
+    <input type="text" class="searchinput" (keyup)="searchInputs(search)" name="searchInput" [(ngModel)]="searchInput" placeholder="Search" #search>
+
     <div class="w98">
+
       <div class="leave_pr">
             <div class="table_heading">
               <div>
