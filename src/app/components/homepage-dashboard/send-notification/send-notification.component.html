@@ -24,7 +24,7 @@
       <div class="table_body" *ngFor="let msg of messageList">
           <div>
               <div class="field-radio-wrapper">
-                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow"  [checked]="selectedSmsCheckBox" value="{{msg.message}}" (ngModelChange)="onselectMessageCheckbox(msg)">
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedSmsCheckBox" value="{{msg.message}}" (click)="onselectMessageCheckbox(msg)">
                   <label ></label>
               </div>
           </div>
@@ -335,7 +335,7 @@
           </div> -->
     </div>
     <div>
-      <p class="quota">Email Quota Balance  :<span>494836</span></p>
+      <p class="quota">Email Quota Balance  :<span>{{email_quataBalence}}</span></p>
   </div>
     <div class="page_footer">
         <div></div>

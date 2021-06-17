@@ -86,6 +86,7 @@ sendLoginmessage:boolean=false
   previewedMessage: any;
   transactionalSms:any;
   pramotionalSms:any;
+  email_quataBalence:any
 
   messageSubject: any = "";
   selectedMessageText:string ="";
@@ -117,6 +118,7 @@ sendLoginmessage:boolean=false
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
       this.transactionalSms = sessionStorage.getItem('smsTransaction')
       this.pramotionalSms = sessionStorage.getItem('pramotionValu')
+      this.email_quataBalence = sessionStorage.getItem('email_quoat_balence')
     }
 
   ngOnInit(): void {

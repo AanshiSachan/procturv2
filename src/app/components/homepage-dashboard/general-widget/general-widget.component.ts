@@ -94,7 +94,8 @@ export class GeneralWidgetComponent implements OnInit {
 
         let smsPramotional = this.instituteSetting.institute_campaign_sms_quota_available
         sessionStorage.setItem('pramotionValu',JSON.stringify(smsPramotional))
-        console.log("pramotional",smsPramotional)
+        let emailQuoat_balence =this.instituteSetting.institute_email_quota - this.instituteSetting.institute_email_quota_used
+        sessionStorage.setItem('email_quoat_balence',JSON.stringify(emailQuoat_balence))
 
 
     }
