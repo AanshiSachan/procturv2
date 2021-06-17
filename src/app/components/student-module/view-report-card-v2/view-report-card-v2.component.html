@@ -21,7 +21,7 @@
         <div class=" inner_flex w60">
           <!--img when not exist-->
           <img
-            src="{{studentCommanData.student_thumbnail ==null?'../../../assets/images/empty_photo.svg':studentCommanData.student_thumbnail}}"
+            src="{{studentCommanData.student_thumbnail ==null || studentCommanData.student_thumbnail =='' ?'../../../assets/images/empty_photo.svg':studentCommanData.student_thumbnail}}"
             class="img-round">
         </div>
         <div class="w40" *ngIf="schoolModel && studentCommanData.reg_no!=null">
@@ -1002,7 +1002,7 @@
               <div>
                 <a class="mr10" href="{{data.fileUrl}}"><img class="size22" src="../../../assets/img_view/download.svg"
                     title="Download"></a>
-                <a><img class="size22" src="../../../assets/img_view/Group272.svg" title="Delete File"
+                <a><img class="size22" src="/assets/img2/delete.svg" title="Delete File"
                     (click)="deletefile(data.id)"></a>
 
               </div>
@@ -1021,6 +1021,9 @@
           <div class="inventory_table">
             <div class="table_heading">
               <div>
+                #
+              </div>
+              <div>
                 Item
               </div>
               <div>
@@ -1032,11 +1035,14 @@
               <div>
                 Allocation Date
               </div>
-              <!-- <div>
+              <div>
                    Action
-                  </div> -->
+                  </div>
             </div>
-            <div class="table_body" *ngFor="let data of inventoryDetails ">
+            <div class="table_body" *ngFor="let data of inventoryDetails;index as i ">
+              <div>
+                {{i+1}}
+              </div>
               <div>
                 {{data.item_name}}
               </div>
@@ -1049,8 +1055,8 @@
               <div>
                 {{data.created_date}}
               </div>
-              <!--  <div>
-                  <a><img src="../../../assets/img_view/Group272.svg" class="size22" title="delete"></a> -->
+               <div>
+                  <a><img src="/assets/img2/delete.svg" class="size22" title="delete"></a>
             </div>
           </div>
         </div>
@@ -1457,7 +1463,7 @@
       </div>
       <div id="timeTable" *ngIf="isActiveTab =='timeTable'">
         <!-- time table -->
-        <div class="row radio_div no-gutters">
+        <div class="row radio_div no-gutters" style="margin-left: 22px;">
           <div class="col-lg-6 flex" style="margin-top: 10px;">
 
             <div class="field-radio-wrapper">
@@ -1536,7 +1542,7 @@
           </div>
         </div>
 
-        <div class="grey_head">
+        <div class="grey_head" style="margin-left: 22px;">
           <div>Date / Time</div>
           <div>Class</div>
           <div>Class Room</div>
