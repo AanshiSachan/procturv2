@@ -1,12 +1,13 @@
 .page-content {
   background: #F5F5F5;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 60px);
   //  height needs adjustment
   //  overflow-y: hidden;
   height: auto;
   padding: 0px 22px;
   padding-top: 8px;
-margin-top: -11px;
+// margin-top: -11px;
+// margin-left: -12px
 }
 
 .display {
@@ -78,6 +79,10 @@ color: #323C47;
 .mr16{
   margin-right: 16px;
 }
+.create{
+  display:flex;
+  align-items: center;
+}
 .create a{
   font-weight: 600;
 font-size: 15px;
@@ -91,7 +96,7 @@ color: #0097F9;
 cursor: pointer;
 }
 .scroll_body{
-  height: calc(100vh - (64px + 8px + 40px + 40px + 40px));
+  height: calc(100vh - (60px + 8px + 40px + 40px + 40px));
   background: #fff;
   overflow-y: auto;
 }
@@ -111,6 +116,9 @@ cursor: pointer;
   background: #F5F5F5;
   padding: 0px 22px;
   padding-top: 8px;
+  position: absolute;
+ bottom:0px;
+  //margin-left: -11px;
 }
 .page_heading{
   background: #EFF0F5;
@@ -285,10 +293,15 @@ b{
   font-weight: 600px;
 }
 // ===================selecte message==========================
-.page-content1 {
+.page-content2 {
   background: #F5F5F5;
   padding: 0px 22px;
   padding-top: 8px;
+  position: absolute;
+  bottom: 0px;
+  // margin-left: -12px;
+  // padding-right: 1%;
+    width: 85%;
 }
 .page_heading{
   background: #EFF0F5;
@@ -468,10 +481,14 @@ b{
   left: 2.5px;
 }
 // ===============email-css=====================
-.page-content1 {
+.page-content3 {
   background: #F5F5F5;
   padding: 0px 22px;
   padding-top: 8px;
+  position: absolute;
+  bottom: 0px;
+  width: 85%;
+  //margin-left: -11px;
 }
 .create1{
 .page_heading{
@@ -692,10 +709,14 @@ b{
 }
 }
 // =========================selected-email-css======================
-.page-content1 {
+.page-content4 {
   background: #F5F5F5;
   padding: 0px 22px;
   padding-top: 8px;
+   position: absolute;
+   bottom: 0px;
+   //margin-left: -11px;
+  width: 85%;
 }
 
 .selected1{
@@ -1063,10 +1084,15 @@ b{
    }
 }
 // ===============create-push-css====================
-.page-content1 {
+.page-content5 {
   background: #F5F5F5;
   padding: 0px 22px;
   padding-top: 8px;
+  position: absolute;
+  bottom: 0px;
+  width:85%;
+  // margin-left: -11px;
+  // padding-right: 1%;
 }
 
 .create2 {
@@ -1188,10 +1214,13 @@ b{
   cursor: no-drop;
 }
 // ==================select-email-css=========================
-.page-content1 {
+.page-content6 {
   background: #F5F5F5;
   padding: 0px 22px;
   padding-top: 8px;
+  position: absolute;
+  bottom: 0px;
+  width: 85%;
 }
 
 .selected2 {

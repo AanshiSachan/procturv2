@@ -158,6 +158,8 @@ sendLoginmessage:boolean=false
     this.jsonFlag.selectedMessageFlag=false,
    this.jsonFlag. selectedEmailChecboxFlag=false,
     this.jsonFlag.selectedPushCheckbox=false
+    this.selectedSmsCheckBox=false
+    this.selectesPushCheckBox=false
 
   }
   onClickSms(){
@@ -174,6 +176,8 @@ sendLoginmessage:boolean=false
     this.jsonFlag.selectedMessageFlag=false,
    this.jsonFlag. selectedEmailChecboxFlag=false,
     this.jsonFlag.selectedPushCheckbox=false
+    this.selectedEmailCheckBox=false
+    this.selectesPushCheckBox=false
   }
   onClickPush(){
     this.pushTableFlag = true
@@ -188,6 +192,10 @@ sendLoginmessage:boolean=false
     this.jsonFlag.selectedMessageFlag=false,
    this.jsonFlag. selectedEmailChecboxFlag=false,
     this.jsonFlag.selectedPushCheckbox=false
+    this.selectedSmsCheckBox=false
+    this.selectedEmailCheckBox=false
+
+
 
   }
   onClickCreateMessage(){
@@ -208,8 +216,6 @@ sendLoginmessage:boolean=false
     this.newMessageText=""
     this.selectedEmailCheckBox=false
     this.jsonFlag.createEmailFlag=true
-    this.jsonFlag.createMesageFlag = false
-    this.jsonFlag.selectedMessageFlag = false
     this.jsonFlag. editMessage=false,
     this.jsonFlag.editEmail=false,
     this.jsonFlag. editPush=false,
@@ -224,13 +230,11 @@ sendLoginmessage:boolean=false
     this.selectesPushCheckBox=false
     this.jsonFlag.createdPushNotification = true
     this.jsonFlag.createEmailFlag=false
-    this.jsonFlag.createMesageFlag = false
 
     this.jsonFlag. editMessage=false,
     this.jsonFlag.editEmail=false,
     this.jsonFlag. editPush=false,
     this.jsonFlag.createMesageFlag=false,
-    this.jsonFlag.createEmailFlag=false,
     this.jsonFlag.selectedMessageFlag=false,
    this.jsonFlag. selectedEmailChecboxFlag=false,
     this.jsonFlag.selectedPushCheckbox=false
@@ -245,7 +249,6 @@ sendLoginmessage:boolean=false
     this.jsonFlag.editEmail=false,
     this.jsonFlag. editPush=false,
     this.jsonFlag.createMesageFlag=false,
-    this.jsonFlag.createEmailFlag=false,
     this.jsonFlag.createdPushNotification=false,
     this.jsonFlag.selectedMessageFlag=false,
    this.jsonFlag. selectedEmailChecboxFlag=false,
@@ -313,12 +316,9 @@ onselectMessageCheckbox(obj){
   this.jsonFlag.createMesageFlag = false
   this.jsonFlag.selectedMessageFlag = true
   this.selectedSmsCheckBox=true
-  this.jsonFlag.selectedEmailChecboxFlag = false
-  this.jsonFlag.createMesageFlag = false
   this.jsonFlag. editMessage=false,
   this.jsonFlag.editEmail=false,
   this.jsonFlag. editPush=false,
-  this.jsonFlag.createMesageFlag=false,
   this.jsonFlag.createEmailFlag=false,
   this.jsonFlag.createdPushNotification=false,
  this.jsonFlag. selectedEmailChecboxFlag=false,
@@ -330,6 +330,9 @@ sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessage
 
 this.selectedMessageText=this.selectedRow.length
 console.log("msg length",this.selectedMessageId)
+sessionStorage.setItem('messageLength',(this.selectedMessageText))
+
+console.log("msg length",this.selectedMessageText)
 if(this.selectedMessageText){
   this.selectedMessageCount = 1
   console.log("count",this.selectedMessageCount)
@@ -340,40 +343,31 @@ onSelectedEmailCheckbox(obj){
   this.jsonFlag.createEmailFlag =false
   this.jsonFlag.selectedEmailChecboxFlag = true
   this.selectedEmailCheckBox=true
-  this.jsonFlag.createMesageFlag = false
   this.jsonFlag.selectedMessageFlag = false
   this.jsonFlag. editMessage=false,
   this.jsonFlag.editEmail=false,
   this.jsonFlag. editPush=false,
   this.jsonFlag.createMesageFlag=false,
-  this.jsonFlag.createEmailFlag=false,
   this.jsonFlag.createdPushNotification=false,
-  this.jsonFlag.selectedMessageFlag=false,
   this.jsonFlag.selectedPushCheckbox=false
 this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
 sessionStorage.setItem('selecte-messase',(this.selectedRow))
 sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
-this.selectedMessageText=this.selectedRow.length
+//this.selectedRow.length=this.selectedMessageText
 
-sessionStorage.setItem('messageLength',JSON.stringify(this.selectedMessageText))
 
-console.log("msg length",this.selectedMessageId)
 }
 onClickSelectPush(obj){
   this.jsonFlag.selectedPushCheckbox = true
   this.selectesPushCheckBox=true
   this.jsonFlag.createdPushNotification = false
   this.jsonFlag.createEmailFlag=false
-  this.jsonFlag.createMesageFlag = false
   this.jsonFlag.selectedMessageFlag = false
   this.jsonFlag. editMessage=false,
   this.jsonFlag.editEmail=false,
   this.jsonFlag. editPush=false,
   this.jsonFlag.createMesageFlag=false,
-  this.jsonFlag.createEmailFlag=false,
-  this.jsonFlag.createdPushNotification=false,
-  this.jsonFlag.selectedMessageFlag=false,
  this.jsonFlag. selectedEmailChecboxFlag=false,
   this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
@@ -409,10 +403,11 @@ countNumberOfMessage() {
 }
 
 saveNewMessage() {
+   if(this.infoErroInput()){
   this.auth.showLoader();
   let src: any;
   let status:any
-  if (this.jsonFlag.createMesageFlag == true) {
+  if (this.jsonFlag.createMesageFlag == true ) {
     src = "SMS";
     status = 1
   }
@@ -427,34 +422,36 @@ saveNewMessage() {
   let obj = { message: this.newMessageText ,source: src,status: status};
   this.widgetService.saveMessageTOServer(obj).subscribe(
     res => {
+      if(this.jsonFlag.createMesageFlag){
       let msg = {
         type: 'success',
         title: 'Message Created Successfully',
         // body: " Your request is in queue and process shortly"
       };
+      this.appC.popToast(msg);
+
+    }if(this.jsonFlag.createEmailFlag){
       let msg2 = {
         type: 'success',
         title: 'Email Created Successfully',
         // body: " Your request is in queue and process shortly"
       };
+      this.appC.popToast(msg2);
+
+    }if(this.jsonFlag.createdPushNotification){
       let msg3 = {
         type: 'success',
         title: 'Push Notification Created Successfully',
         // body: " Your request is in queue and process shortly"
       };
+      this.appC.popToast(msg3);
+
+    }
       this.closeDiv()
 
       this.auth.hideLoader();
-       this.appC.popToast(msg);
-    //    if(this.jsonFlag.createMesageFlag == true){
-    //            this.appC.popToast(msg);
-
-    //   }if(this.jsonFlag.createEmailFlag == true)
-    //     this.appC.popToast(msg2);
+       //this.appC.popToast(msg);
     
-    //   if(this.jsonFlag.createdPushNotification == true){
-    //   this.appC.popToast(msg3);
-    // }
        this.getAllMessageFromServer();
 
     },
@@ -468,7 +465,13 @@ saveNewMessage() {
       this.appC.popToast(msg);
     }
   )
+  }
 }
+// else{
+//   this.msgService.showErrorMessage('info', '', "Type Message");
+
+// }
+
 
  deletMessage(data,statusCode){
    this.selectedSmsCheckBox=false
@@ -575,6 +578,19 @@ updateMessage(){
    
       
   }
+  infoErroInput(){
+    if( this.newMessageText ==''){
+      this.msgService.showErrorMessage('info', '', "Enter Some Detail");
+return;
+  // } if(this.jsonFlag.onClickCreateEmail || this.newMessageText ==''){
+  //   this.msgService.showErrorMessage('info', '', "Enter Email Detail");
+  //   return
+  // }if(this.jsonFlag.pushNotificationFlag || this.newMessageText ==''){
+  //   this.msgService.showErrorMessage('info', '', "Enter Your Push Notification");
+  //   return
+  }
+  return true;
 }
- 
+}
+
 

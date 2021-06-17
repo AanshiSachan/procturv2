@@ -1,9 +1,9 @@
 <div class="page-content">
   <div class="display">
    <div class="links">
-      <a class="selected" (click)="onClickSms()" style="cursor: pointer;">SMS</a>
-      <a  (click)="onClickEmai()" style="cursor: pointer;">Email</a>
-      <a  (click)="onClickPush()" style="cursor: pointer;">Push</a>
+      <a [ngClass]="{'selected':smsTableFlag}" (click)="onClickSms()" style="cursor: pointer;">SMS</a>
+      <a  (click)="onClickEmai()" [ngClass]="{'selected':emailTableFlag}" style="cursor: pointer;">Email</a>
+      <a  (click)="onClickPush()" [ngClass]="{'selected':pushTableFlag}" style="cursor: pointer;">Push</a>
    </div>
    <div class="create">
       <a  (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Create New SMS  </a>
@@ -24,7 +24,7 @@
       <div class="table_body" *ngFor="let msg of messageList">
           <div>
               <div class="field-radio-wrapper">
-                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedSmsCheckBox" value="{{msg.message}}" (ngModelChange)="onselectMessageCheckbox(msg)">
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow"  [checked]="selectedSmsCheckBox" value="{{msg.message}}" (ngModelChange)="onselectMessageCheckbox(msg)">
                   <label ></label>
               </div>
           </div>
@@ -60,7 +60,7 @@
         <div class="table_body" *ngFor="let push of pushNotificationList">
           <div>
               <div class="field-radio-wrapper">
-                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectesPushCheckBox" value="{{push.message}}" (ngModelChange)="onClickSelectPush(push)">
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow"  [checked]="selectesPushCheckBox" value="{{push.message}}" (ngModelChange)="onClickSelectPush(push)">
                   <label ></label>
               </div>
           </div>
@@ -76,9 +76,9 @@
       <!-- ===========end====================== -->
       
   </div>
-  <div class="pagignation">
+  <!-- <div class="pagignation">
       <p></p>
-  </div>   
+  </div>    -->
 
 </div>
 <!-- =====================create-message================= -->
@@ -123,7 +123,9 @@
 
           <p class="note">2. Get approval for your SMS content on DLT platform: Find the link of Proctur system generated SMS, which is expected to approved from DLT. (Download the template-“<a href=" https://bit.ly/3sDxMgx"> https://bit.ly/3sDxMgx</a> ”).</p>
       </div>
+      
   </div>
+ 
   <div class="page_footer">
       <div></div>
       <button class="blue_button" (click)="saveNewMessage()" *ngIf="!jsonFlag.editMessage">Save</button>
@@ -132,7 +134,7 @@
   </div>
 </div>
 <!-- ========================selected message============================ -->
-<div class="page-content1" *ngIf="jsonFlag.selectedMessageFlag">
+<div class="page-content2" *ngIf="jsonFlag.selectedMessageFlag">
   <div class="page_heading">
       <p>
           Selected  SMS
@@ -177,7 +179,7 @@
   </div>
 </div>
 <!-- =======================Email===================================== -->
-<div class="page-content1 create1" *ngIf="jsonFlag.createEmailFlag || jsonFlag.editEmail">
+<div class="page-content3 create1" *ngIf="jsonFlag.createEmailFlag || jsonFlag.editEmail">
     <div class="page_heading">
         <p *ngIf="!jsonFlag.editEmail">
             Create New Email
@@ -250,7 +252,7 @@
     </div>
 </div>
 <!-- ========================selected-email=================== -->
-<div class="page-content1 selected1" *ngIf="jsonFlag.selectedEmailChecboxFlag">
+<div class="page-content4 selected1" *ngIf="jsonFlag.selectedEmailChecboxFlag">
     <div class="page_heading">
         <p>
             Selected Email
@@ -343,7 +345,7 @@
  
 
 <!-- ===========create-push-Notification=============== -->
-<div class="page-content1 create2" *ngIf="jsonFlag.createdPushNotification || jsonFlag.editPush">
+<div class="page-content5 create2" *ngIf="jsonFlag.createdPushNotification || jsonFlag.editPush">
     <div class="page_heading">
       <p *ngIf="!jsonFlag.editPush">
         Create Push Message
@@ -372,7 +374,7 @@
     </div>
   </div>
 <!-- ==================selecte-email==================================   -->
-<div class="page-content1 selected2" *ngIf="jsonFlag.selectedPushCheckbox">
+<div class="page-content6 selected2" *ngIf="jsonFlag.selectedPushCheckbox">
   <div class="page_heading">
     <p>
       Selected Push Message

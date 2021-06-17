@@ -2,16 +2,16 @@
     <div class="top_section">
         <div *ngIf="smsSendingFlag">
             <p class="heading">SMS Description <img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
-            <p class="para">
-                {{selected_message}}
+            <p class="para" [innerHtml]="selected_message">
+                <!-- {{selected_message}} -->
                                 
             </p>
             <div class="divide">
-                <div>Character Count: <b>{{selected_message.length}}</b></div>
+                <div>Character Count: <b>{{messageCharacterCount}}</b></div>
                 <div *ngIf="pramotional == 'true'">SMS Type: <b> Promotional</b></div>
                 <div *ngIf="transactional =='true'">SMS Type: <b>Transactional</b></div>
 
-                <div>Message Count: <b>1</b></div>
+                <div>Message Count: <b>{{messageCount}}</b></div>
             </div>
         </div>
      <!-- =================push-notification-send=============    -->
@@ -118,8 +118,8 @@
                         <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true'">
                         <label >Alumni Students</label>
                     </div>
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
-                        <input type="radio" class="form-radio" name="facultyCheckBox"  [(ngModel)]="facultyCheckBox" value="true" [disabled]="pramotional == 'true' || pushNotificationFlag == 'true'">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true' || pushNotificationFlag}">
+                        <input type="radio" class="form-radio" name="facultyCheckBox"  [(ngModel)]="facultyCheckBox" value="true" [disabled]="pramotional == 'true' || pushNotificationFlag">
                         <label >Faculty</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
@@ -169,7 +169,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)" checked>
+                  <input type="checkbox" name="checked"  [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -191,7 +191,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                  <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag" checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -216,7 +216,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked" checked checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                  <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag" checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -240,7 +240,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
+                      <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag" (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -264,7 +264,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked >
+                      <input type="checkbox" name="checked" [disabled]="item.email_id == '' && emailSendingFlag"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked >
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -308,7 +308,7 @@
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
-                  <input type="checkbox" name="checked"   (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
+                  <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>

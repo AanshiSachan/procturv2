@@ -87,6 +87,7 @@ parent:boolean=false
   push_message:string="";
   push_messageId:any
   count:number=0
+  messageCount:number=0
 
   
 
@@ -107,7 +108,7 @@ parent:boolean=false
       this.transactional = sessionStorage.getItem('transactinal')
       this.push_message = sessionStorage.getItem('push_message')
       this.push_messageId= sessionStorage.getItem('push_mesg_id')
-      // this.messageCharacterCount =sessionStorage.getItem('messageLength')
+      this.messageCharacterCount =sessionStorage.getItem('messageLength')
 
 
       this.courseListSetting={
@@ -129,9 +130,15 @@ parent:boolean=false
     console.log("pramotional",this.pramotional)
     console.log("push message",this.push_message)
     console.log("push message-id",this.push_messageId)
- 
-  //  this.messageCharacterCount = this.selected_message.length
-  
+    console.log("length",this.messageCharacterCount)
+
+ if(this.smsSendingFlag){
+   this.messageCharacterCount = this.selected_message.length
+
+ }
+ if(this.messageCharacterCount !=0){
+   this.messageCount =1
+ }
     this.auth.schoolModel.subscribe(
       res => {
         this.schoolModel = false;
@@ -800,7 +807,7 @@ sendPushNotification() {
 
     onCheckBoxEvent(event, item) {
       item.assigned = event;
-      this.allChecked = this.checkCheckAllChkboxStatus();
+       this.allChecked = this.checkCheckAllChkboxStatus();
       if (item.assigned == true){
         this. count++;
         console.log("count",this.count)
@@ -826,34 +833,41 @@ sendPushNotification() {
       
     }
 
-    onCourseCheckBoxEvent(event, item) {
-      item.assigned = event;
-      this.allChecked = this.checkAllCourseChkboxStatus();
-    }
+    // onCourseCheckBoxEvent(event, item) {
+    //   item.assigned = event;
+    //   this.allChecked = this.checkAllCourseChkboxStatus();
+    // }
 
-    checkAllCourseChkboxStatus() {
-      for (let i = 0; i < this.courseStudentList.length; i++) {
-        if (this.courseStudentList[i].assigned == false) {
-          return false;
-        }
-      }
-      return true;
-    }
+    // checkAllCourseChkboxStatus() {
+    //   for (let i = 0; i < this.courseStudentList.length; i++) {
+    //     if (this.courseStudentList[i].assigned == false) {
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // }
     checkAllChechboxes(event, data) {
       data.forEach(
         element => {
+          if(this.emailSendingFlag){
+          if(element.email_id !=null || element.student_email) {
           element.assigned = event.target.checked;
+          this.count++;
+          }
+        }else{
+          element.assigned = event.target.checked;
+       this.count--;
+
         }
+      
+        //this.count= this.studentList.length
+      }
       )
     }
    onsearchList(){
      if(this.activeCeckbox =='true' ){
        this.allActiveStudent()
-      //  this. activeCeckbox='false';
-      //  this.facultyCheckBox='false';
-      //  this.aluminiCheckBox='false';
-      //  this.allUserCheck='false';
-      //  this.inactiveCheck='false';
+      
        console.log("jhjhh",this.activeCeckbox)
      }
      if(this.inactiveCheck == 'true'){
