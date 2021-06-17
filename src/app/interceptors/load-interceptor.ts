@@ -4,11 +4,16 @@ import {throwError as observableThrowError, of as observableOf,  Observable } fr
 import {catchError, retryWhen, mergeMap, take, delay, concat} from 'rxjs/operators';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthenticatorService } from '../services/authenticator.service';
+import { Router } from '@angular/router';
+import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 
 @Injectable()
 export class I1 implements HttpInterceptor {
 
-    constructor() {
+    constructor(private auth: AuthenticatorService,
+        private router: Router,
+        private toasterService: ToasterService) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -16,6 +21,7 @@ export class I1 implements HttpInterceptor {
             retryWhen(error => {
                 return error.pipe(
                     mergeMap((err) => {
+                        console.log('example te', err);
                         if (err instanceof HttpErrorResponse && err.status === 504) { // timeout and retry after 60 seconds
                             return observableOf(err.status).pipe(delay(60000));
                         }
@@ -55,7 +61,16 @@ export class I1 implements HttpInterceptor {
 
                         }
 
-                        return observableThrowError({ error: 'No retry' });
+                        else if(err instanceof HttpErrorResponse && err.status === 403) {
+                            this.toasterService.clear();
+                            this.auth.clearStoredData();
+                            this.auth.changeAuthenticationKey(null);
+                            this.auth.changeInstituteId(null);                            
+                            sessionStorage.clear();
+                            this.router.navigateByUrl('/authPage');
+                        }
+
+                        return observableThrowError({ error: err.error });
                     }),
                     take(1),
                     //.concat(next.handle(req));

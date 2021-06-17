@@ -1,5 +1,5 @@
 /* Modules */
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 // import { HttpClientModule } from '@angular/http';
@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MasterTagService } from './components/course-module/data-setup/master-tag/master-tag.component.service';
 import { SharedModule } from './components/shared/shared.module';
 /* Interceptors */
-// import { I1, I2 } from './interceptors/load-interceptor';
+import { I1, I2 } from './interceptors/load-interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { role } from './model/role_features';
 import { AddBookService } from './services/library/add/add-book.service';
@@ -93,19 +93,19 @@ export function getRangePickerConfig(): BsDatepickerConfig {
     ReturnBookService,
     ProductService,
     MasterTagService,
-    role
+    role,
 
 
-    //   {
-    //     provide: HTTP_INTERCEPTORS,
-    //     useClass: I2,               // <-- I2 first
-    //     multi: true
-    // },
-    // {
-    //     provide: HTTP_INTERCEPTORS,
-    //     useClass: I1,               // <-- And only then I1
-    //     multi: true
-    // }
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: I2,               // <-- I2 first
+        multi: true
+    },
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: I1,               // <-- And only then I1
+        multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
