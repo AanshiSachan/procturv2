@@ -327,7 +327,7 @@ export class FeeStructureAddEditComponent implements OnInit {
         this.commonService.showErrorMessage('info', '', "Please select valid trigger date!");
         return;
       }
-      if (data.day <= 0) {
+      if (data.day < 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
         return;
       }

@@ -759,7 +759,7 @@ export class FeeStructureHomeComponent implements OnInit {
         this.commonService.showErrorMessage('info', '', "Please select valid trigger date!");
         return false;
       }
-      if (data.days <= 0) {
+      if (data.days < 0) {
         this.commonService.showErrorMessage('info', '', "Please select valid fee day!");
         return false;
       }
