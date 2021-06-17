@@ -95,101 +95,16 @@ export class TerminalReportComponent implements OnInit {
         (res: any) => {
           this.auth.hideLoader();
           this.reportDetails = res.result;
+          if (this.reportDetails && this.reportDetails.length) {
+            this.reportDetails.forEach(report => {
+              if (report.subject_list && report.subject_list.length) {
+                report.new_marks_dist_list = report.subject_list[0].marks_dist_list;
+              }
+            });
+          }
           $('#myModal').modal('show');
         },
         (err: any) => {
-          this.reportDetails = {
-            "student_id": 19564,
-            "student_name": "Saurav",
-            "roll_no": null,
-            "registration_no": "jhgdsafj2321",
-            "class_position": 1,
-            "total_average_marks": 77,
-            "mandatory_subject": null,
-            "optional_subject": null,
-            "group": "",
-            "standard_id": 2263,
-            "standard_name": "STD 7",
-            "exam_type_id": 38,
-            "exam_type": "Term 1",
-            "section_name": "A",
-            "academic_years": "2021-22",
-            "subject_list": [
-              {
-                "subject_id": 7208,
-                "subject_name": "Biology",
-                "marks_dist_list": [
-                  {
-                    "marks_distribution_id": 12,
-                    "marks_distribution_name": "Practical",
-                    "marks_max_value": 0,
-                    "marks_value": 11
-                  },
-                  {
-                    "marks_distribution_id": 14,
-                    "marks_distribution_name": "written",
-                    "marks_max_value": 0,
-                    "marks_value": 44
-                  },
-                  {
-                    "marks_distribution_id": 48,
-                    "marks_distribution_name": "Practical 2",
-                    "marks_max_value": 0,
-                    "marks_value": 22
-                  }
-                ],
-                "total_marks": 77,
-                "grade": "E",
-                "grade_points": 7,
-                "rank": 1,
-                "attendance": "P",
-                "_optional": false
-              },
-              {
-                "subject_id": 7208,
-                "subject_name": "Biology II",
-                "marks_dist_list": [
-                  {
-                    "marks_distribution_id": 25,
-                    "marks_distribution_name": "Practical",
-                    "marks_max_value": 0,
-                    "marks_value": 112
-                  },
-                  {
-                    "marks_distribution_id": 35,
-                    "marks_distribution_name": "written",
-                    "marks_max_value": 0,
-                    "marks_value": 334
-                  },
-                  {
-                    "marks_distribution_id": 26,
-                    "marks_distribution_name": "Practical 2",
-                    "marks_max_value": 0,
-                    "marks_value": 59
-                  }
-                ],
-                "total_marks": 77,
-                "grade": "E",
-                "grade_points": 7,
-                "rank": 1,
-                "attendance": "P",
-                "_optional": false
-              }
-            ],
-            "dist_wise_total_marks_map": {
-              "Practical": 11,
-              "written": 44,
-              "Practical 2": 22,
-              "Total": 77
-            },
-            "class_average": 0,
-            "interpretation_of_grades": "91-100=9[E++], 81-90=8[E+], 71-80=7[E], 61-70=6[A++], 51-60=5[A+]",
-            "student_thumbnail_url": null
-          };
-          if (this.reportDetails.subject_list && this.reportDetails.subject_list.length) {
-            this.reportDetails.new_marks_dist_list = this.reportDetails.subject_list[0].marks_dist_list;
-          }
-          $('#myModal').modal('show');
           this.auth.hideLoader();
           this._msgService.showErrorMessage('error', '', err.error.message);
         }

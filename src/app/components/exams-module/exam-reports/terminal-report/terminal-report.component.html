@@ -80,6 +80,7 @@
                             '...' : instituteName}}</span>
                     </div>
                 </div>
+                <div *ngFor="let stuD of reportDetails">
                 <div class="details">
                     <!-- <div>
                         <h1>School</h1>
@@ -91,21 +92,21 @@
                             <img src="../../../assets/images/Exam/image11.png">
                         </div>
                         <div>
-                            <h1>Prakash Jadhav</h1>
-                            <p><span>Academic Year:</span> {{reportDetails.academic_years}}</p>
-                            <p><span>Position In Class :</span> {{reportDetails.class_position}}</p>
-                            <p><span>Exam:</span> {{reportDetails.exam_type}}</p>
+                            <h1>{{stuD.student_name}}</h1>
+                            <p><span>Academic Year:</span> {{stuD.academic_years}}</p>
+                            <p><span>Position In Class :</span> {{stuD.class_position}}</p>
+                            <p><span>Exam:</span> {{stuD.exam_type}}</p>
                         </div>
                         <div>
-                            <h1 class="hidden">Prakash Jadhav</h1>
-                            <p><span>Standard:</span> {{reportDetails.standard_name}}</p>
-                            <p><span>Section: </span>{{reportDetails.section_name}}</p>
-                            <p><span>Roll no: </span>{{reportDetails.roll_no}}</p>
+                            <h1 class="hidden">Prakash</h1>
+                            <p><span>Standard:</span> {{stuD.standard_name}}</p>
+                            <p><span>Section: </span>{{stuD.section_name}}</p>
+                            <p><span>Roll no: </span>{{stuD.roll_no}}</p>
                         </div>
                         <div>
                             <h1 class="hidden">Prakash Jadhav</h1>
                             <!-- <p><span>Group:</span> {{reportDetails.group}}</p> -->
-                            <p><span>Reg No. :</span> {{reportDetails.registration_no}}</p>
+                            <p><span>Reg No. :</span> {{stuD.registration_no}}</p>
 
                         </div>
                     </div>
@@ -118,7 +119,7 @@
                         <td>
                             Subjects
                         </td>
-                        <td class="centeralign" *ngFor="let dist of reportDetails.new_marks_dist_list">{{dist.marks_distribution_name}}</td>
+                        <td class="centeralign" *ngFor="let dist of stuD.new_marks_dist_list">{{dist.marks_distribution_name}}</td>
                         <td class="centeralign">
                             Total
                         </td>
@@ -133,7 +134,7 @@
                         </td>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let sub of reportDetails.subject_list">
+                        <tr *ngFor="let sub of stuD.subject_list">
                             <td>
                                 {{sub.subject_name}}
                             </td>
@@ -176,10 +177,10 @@
                     <thead>
                         <tr>
                             <td>
-                                Mark Average : {{reportDetails.total_average_marks}}
+                                Mark Average : {{stuD.total_average_marks}}
                             </td>
                             <td>
-                                Class Average : {{reportDetails.class_average}}
+                                Class Average : {{stuD.class_average}}
                             </td>
                         </tr>
                         <tr>
@@ -193,7 +194,7 @@
                                 Attendance
                             </td>
                             <td class="attendance">
-                                {{reportDetails.attendance}}
+                                {{stuD.attendance}}
                             </td>
                         </tr>
                         <tr>
@@ -225,9 +226,10 @@
                 <br>
                 <div class="interpretation_div">
                     <h2 class="interpretation">Interpretation of Grades : </h2>
-                    <p class="interpretation_p">{{reportDetails.interpretation_of_grades}}</p>
+                    <p class="interpretation_p">{{stuD.interpretation_of_grades}}</p>
                 </div>
                 <br>
+            </div>
             </div>
         </div>
     </div>

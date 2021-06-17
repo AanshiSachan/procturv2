@@ -314,3 +314,14 @@ td {
     border-collapse: collapse;
     padding: 10px 0px;
   }
+  .madSub{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-right: none;
+  }
+  .optSub {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }

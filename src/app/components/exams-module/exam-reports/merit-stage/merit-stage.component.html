@@ -106,12 +106,13 @@
                 </div>
                 <br>
                 <table class="table1">
-                    <thead class="subRow subBorder" style="display: flex;float: left;">
-                        Mandatory Subjects
+                    <thead style="display: flex;flex-direction: row;width: 100%;">
+                        <tr class="subBorder madSub">Mandatory Subjects</tr>
+                        <tr class="subBorder optSub" *ngIf="reportDetails.optional_subject?.length">Optional Subjects</tr>
                     </thead>
-                    <thead class="subRow subBorder" style="float: left;" *ngIf="reportDetails.optional_subject?.length">
+                    <!-- <thead class="subBorder" style="justify-content: center;display: flex;flex-direction: column;" *ngIf="reportDetails.optional_subject?.length">
                         Optional Subjects
-                    </thead>
+                    </thead> -->
                     <tbody [ngClass]="{'subRow':reportDetails.optional_subject?.length}">
                         <tr *ngFor="let sub of reportDetails.mandatory_subject">
                             <td>
