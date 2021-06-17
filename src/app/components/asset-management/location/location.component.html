@@ -52,7 +52,7 @@
                           <div class="form-group" >
                             <label  class="p_title">Code<span style="padding:2px">(Eg: CH01)</span></label>
                                <input type="text" class="form-control" name="location_code" id="location_code"
-                                    placeholder="Enter Code" [(ngModel)]="model.location_code" 
+                                    placeholder="Enter Code" [(ngModel)]="model.location_code" (ngModelChange)="maxlenth(model.location_code,30)"
                                   
                                    >
                             </div>
@@ -62,7 +62,7 @@
                             <div class="form-group" [class.has-error]="location_name.invalid && location_name.touched">
                                 <label  class="p_title">Name<span class="stars">*</span></label>
                                <input type="text" class="form-control" name="location_name" id="location_name"
-                                    placeholder="Enter Location Name" [(ngModel)]="model.location_name" #location_name="ngModel" required>
+                                    placeholder="Enter Location Name" (ngModelChange)="maxlenth(model.location_name,30)" [(ngModel)]="model.location_name" #location_name="ngModel" required>
                             </div>
                             <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!location_code.valid && location_code.touched">
                                Location  Name is mandatory
@@ -72,7 +72,7 @@
                                 <label  class="p_title">Description</label>
                                 <textarea type="text" class="form-control" name="location_description"
                                     id="location_description" placeholder="Enter Description"
-                                    [(ngModel)]="model.location_description">
+                                    [(ngModel)]="model.location_description" (ngModelChange)="maxlenth(model.location_description,70)">
                             </textarea>
                             <!-- <p class="errormsg">   <span  style="height:10px;" ></span></p> -->
                             

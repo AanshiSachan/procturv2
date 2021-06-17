@@ -345,5 +345,9 @@ export class LocationComponent implements OnInit {
     );
     this.auth.hideLoader();
   }
-  
+  maxlenth(data,limit){
+    if(data.length>limit){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "character only");
+    }
+}
 }

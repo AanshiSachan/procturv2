@@ -785,4 +785,10 @@ export class CategoryComponent implements OnInit {
     this.assetcat.reset(this.category_model);
 
   }
+  
+  maxlenth(data,limit){
+    if(data.length>limit){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "character only");
+    }
+}
 }

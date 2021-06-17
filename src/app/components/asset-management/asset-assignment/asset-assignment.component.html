@@ -71,7 +71,7 @@
                         
                             <input type="text" class="form-control" id="inputPassword4" placeholder="Enter Quantity"
                                 [(ngModel)]="model.quantity" name="quantity"
-                                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel">
+                                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel" >
                                 <!-- <p class="errormsg"><span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
                                      Quantity is mandatory </span></p> -->
                             </div>
@@ -153,7 +153,7 @@
                         <div class="field-wrapper col-md-12">
                             <label  class="p_title">Note </label>
                            <input type="text" class="form-ctrl" name="note" [(ngModel)]="model.note"
-                                class="form-control" placeholder="Enter note" id="note">
+                                class="form-control"  (ngModelChange)="maxlenth(model.note,70)" placeholder="Enter note" id="note">
                         </div>
                         <!-- <p class="errormsg">  <span  class="help-block"></span></p> -->
                     </div>

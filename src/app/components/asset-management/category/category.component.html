@@ -76,7 +76,7 @@
                           <div class="form-group" >
                                 <label  class="p_title">Code<span style="padding:2px">(Eg: ELEC01)</span></label>
                                <input type="text" class="form-control" name="category_code" id="category_code"
-                                    placeholder="Enter category code" [(ngModel)]="category_model.category_code"
+                                    placeholder="Enter category code" (ngModelChange)="maxlenth(category_model.category_code,30)" [(ngModel)]="category_model.category_code"
                                     #categoryCode="ngModel" >
                             </div>
                           <!-- <p class="errormsg"> <span class="help-block" >
@@ -85,7 +85,7 @@
                             <div class="form-group" [class.has-error]="categoryNmae.invalid && categoryNmae.touched">
                                 <label  class="p_title"> Name<span class="stars">*</span></label>
                                 <input type="text" class="form-control" name="category_name" id="category_name"
-                                    placeholder="Enter Name" [(ngModel)]="category_model.category_name"
+                                    placeholder="Enter Name" (ngModelChange)="maxlenth(category_model.category_name,30)" [(ngModel)]="category_model.category_name"
                                     #categoryNmae="ngModel" required>
                             </div>
                             <!-- <p class="errormsg"><span  class="help-block" *ngIf="!categoryNmae.valid && categoryNmae.touched">
@@ -169,7 +169,7 @@
                         <div class="form-group">
                             <label  class="p_title">Code<span style="padding:2px">(Eg: LATP01)</span></label>
                                   <input type="text" class="form-control" name="asset_code" id="asset_code"
-                                placeholder="Enter asset code" [(ngModel)]="model.asset_code" >
+                                placeholder="Enter asset code"  (ngModelChange)="maxlenth(model.asset_code,30)" [(ngModel)]="model.asset_code" >
                         </div>
                         <!-- <p class="errormsg"><span class="help-block" ></span></p> -->
                         <div class="form-group " [class.has-error]="category_id.invalid && category_id.touched">
@@ -186,7 +186,7 @@
                         <div class="form-group" [class.has-error]="asset_name.invalid && asset_name.touched">
                             <label  class="p_title"> Name<span class="stars">*</span></label>
                             <input type="text" class="form-control" name="asset_name" id="asset_name"
-                                placeholder="Enter Name " [(ngModel)]="model.asset_name" #asset_name="ngModel"
+                                placeholder="Enter Name " (ngModelChange)="maxlenth(model.asset_name,30)" [(ngModel)]="model.asset_name" #asset_name="ngModel"
                                 required>
                         </div>
                         <!-- <p class="errormsg"><span class="help-block" *ngIf="asset_name.invalid && asset_name.touched">Asset Name is
@@ -194,7 +194,7 @@
                         <div class="form-group"  [class.has-error]="quantity.invalid && quantity.touched">
                             <label  class="p_title">Quantity<span class="stars">*</span></label>
                             <input type="text" class="form-control" name="quantity" id="quantity"
-                                placeholder="Enter asset qty" [(ngModel)]="model.quantity"
+                                placeholder="Enter asset qty" [(ngModel)]="model.quantity" 
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" #quantity="ngModel"
                                 required>
                        </div>
@@ -214,7 +214,7 @@
                        <div class="form-group multiselect">
                         <label  class="p_title">Location</label>
                         <ng-multiselect-dropdown placeholder="Select Location" [(ngModel)]="model.location_ids"
-                                [data]="locationData" [settings]="moderatorSettingsforasset" name="model.location_ids">
+                                [data]="locationData"  [settings]="moderatorSettingsforasset" name="model.location_ids">
                             </ng-multiselect-dropdown>
                         </div>
                         <!-- <p class="errormsg"><span class="help-block" *ngIf="asset_condition.invalid && asset_condition.touched"></span></p>-->
