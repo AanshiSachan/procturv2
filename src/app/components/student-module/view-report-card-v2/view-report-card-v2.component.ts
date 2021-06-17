@@ -878,6 +878,50 @@ examdata= [
 }
 ];
 
+dataforexam=[{
+  "exam_type_id": 38,
+  "exam_type": "Term 1",
+ " mark_dist":[{
+  "all_dist" : ['pra','theory','written'],
+  "subject_lst": [{
+  "sub_name":'A',
+  "dist":[{"h":"0","0":"0"}],
+  },{
+    "sub_name":'c',
+    "dist":[{"h":"0","0":"0"}],
+    },{
+      "sub_name":'b',
+      "dist":[{"h":"0","0":"0"}],
+      }]}
+  ] ,
+  "grand_total": 100,
+  "total_obtained_marks": 77,
+  "total_average_marks": 77,
+  "total_average_marks_percent": 77,
+  "gpa": 7
+},
+{
+  "exam_type_id": 38,
+  "exam_type": "Term 2",
+ " mark_dist":[{
+  "all_dist" : ['pra','theory','written'],
+  "subject_lst": [{
+  "sub_name":'A',
+  "dist":[{"h":"0","0":"0"}],
+  },{
+    "sub_name":'A',
+    "dist":[{"h":"0","0":"0"}],
+    },{
+      "sub_name":'A',
+      "dist":[{"h":"0","0":"0"}],
+      }]}
+  ] ,
+  "grand_total": 100,
+  "total_obtained_marks": 77,
+  "total_average_marks": 77,
+  "total_average_marks_percent": 77,
+  "gpa": 7
+}]
 ///v1/reports/Student/school/{student_id}
 // let url = "/api/v1/StdCourseExam/fetch-student-view-marks-report/"+this.institute_id + "/" + this.student_id;
 examDetailsForSchool:any=[];
@@ -927,6 +971,7 @@ getInventoryDetails(){
       console.log( this.inventoryDetails);
      // this.fetchDefaultAY();
       this.auth.hideLoader();
+      
     },
     (error: any) => {
       this.auth.hideLoader();
@@ -934,6 +979,7 @@ getInventoryDetails(){
 console.log(this.examdata);
 
     }
+    
   )
 }
 }

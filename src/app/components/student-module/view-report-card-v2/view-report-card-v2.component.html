@@ -33,7 +33,7 @@
             </div>
             <div class="padding1">
               <p class="blue_text">Student Name</p>
-              <p class="black_text">{{studentCommanData.student_name}}</p>
+              <p class="black_text" title="{{studentCommanData.student_name}}"> {{ (studentCommanData.student_name?.length > 20) ? (studentCommanData.student_name| slice:0:20) + '...' : studentCommanData.student_name }}</p>
             </div>
           </div>
           <div class="width80"></div>
@@ -91,9 +91,9 @@
              <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}"  (click)="openTab('documents')">Files</div>
             <div id="inventory"   [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">Inventory</div> 
              <div id="ptm"  [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
-             <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div>  -->
+             <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">Biometric</div> 
              <div id="timeTable"  [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">Time Table</div>
-             <!-- <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div> -->
+             <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}" (click)="openTab('exam')">Exam</div>
              <div id="exam_course" *ngIf="!schoolModel"  [ngClass]="{'box_active': isActiveTab === 'exam_course'}" (click)="openTab('exam_course')">Exam</div>
        
             </div>
@@ -196,7 +196,7 @@
                 </div>
                 <div class="w35">
                   <span class="value1" *ngIf="studentCommanData.remark=='' || studentCommanData.remark==null ">---</span>
-                  <span class="value1" *ngIf="studentCommanData.remark!=null">{{ (studentCommanData.remark.length > 30) ? (studentCommanData.remark| slice:0:30) + '...' : studentCommanData.remark }}
+                  <span class="value1" *ngIf="studentCommanData.remark!=null" title="studentCommanData.remark">{{ (studentCommanData.remark.length > 30) ? (studentCommanData.remark| slice:0:30) + '...' : studentCommanData.remark }}
                   </span>                  
                 </div>
               </div>
@@ -419,7 +419,7 @@
             <div class="row radio_div1 no-gutters">
            
                 <select class="select mr10 wid160" [(ngModel)]="Fee_model.academic_yr_id" style="width: 20%;">
-                  <option value="-1">Academic Year{{Fee_model.academic_yr_id}}</option>
+                  <option value="-1">Academic Year</option>
                   <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
                     {{data.inst_acad_year}}</option>
                 </select>
@@ -1478,7 +1478,7 @@
                                   Extra
                                 </span>
                               </span></div>
-                              <div>{{row.class_room_name}}</div>
+                              <div>{{row.class_room_name==""?'---':row.class_room_name}}</div>
                               <div><span class="subject1">{{row.batchName}}</span></div>
                               <div>{{row.teacher_name}}</div>
                               <div></div>
