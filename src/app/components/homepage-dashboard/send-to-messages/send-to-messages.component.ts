@@ -53,8 +53,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   inactiveCheck:string='false';
   schoolModel: boolean = false;
   public isProfessional: boolean = false;
-student:boolean=false
-parent:boolean=false
+student:string='false';
+parent:string='false'
 
   masterCourseList: any =[];
   selectedCourseList: any[] = [];
@@ -624,26 +624,26 @@ getDestinationValue() {
   // let parent = (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
   // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
   // if (student == true && parent == false && gaurdian == false) {
-  if (this.student == true && this. parent == false) {
+  if (this.student == 'true' && this. parent == 'false') {
     return 0;
     // } else if (student == false && parent == true && gaurdian == false) {
-  } else if (this.student == false && this.parent == false) {
+  } else if (this.student == 'false' && this.parent == 'false') {
     return 1;
     // } else if (student == false && parent == false && gaurdian == true) {
-  } else if (this.student == false &&this. parent == false) {
+  } else if (this.student == 'false' &&this. parent == 'false') {
     return 3;
     // } else if (student && parent && gaurdian == false) {
-  } else if (this.student == true && this.parent == false) {
+  } else if (this.student == 'true' && this.parent == 'false') {
     return 2;
     // } else if (student && gaurdian && parent == false) {
-  } else if (this.student == true && this.parent == false) {
+  } else if (this.student == 'true' && this.parent == 'false') {
     return 5;
     // } else if (parent && gaurdian && student == false) {
-  } else if (this.parent == true &&this. student == false) {
+  } else if (this.parent == 'true' &&this. student == 'false') {
     return 6;
   }
   // else if (student && parent && gaurdian) {
-  else if (this.student == true && this.parent == true) {
+  else if (this.student == 'true' && this.parent == 'true') {
     return 4;
   } else {
     let msg = {
@@ -655,7 +655,11 @@ getDestinationValue() {
     return false;
   }
 }
+onClickStudent(event){
+  // this.student = event
+  console.log("checbox",this.student)
 
+}
 // =================end=====================
 
     sendNotificationMessages(){
@@ -665,12 +669,12 @@ getDestinationValue() {
         configuredMessage = true;
         
       let destination: any;
-      if (!this.showallUserListFlag) {
-        destination = this.getDestinationValue()
-        if (destination === false) {
-          return;
-        }
-      }
+      // if (this.showallUserListFlag) {
+      //   destination = this.getDestinationValue()
+      //   if (destination === false) {
+      //     return;
+      //   }
+      // }
       let studentID: any;
 
       let userId: any;
@@ -711,7 +715,6 @@ getDestinationValue() {
        
       }if(this.showActiveTableFlag == true){
         destination = this.getDestinationValue()
-       
       }
      
 
