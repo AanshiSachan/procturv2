@@ -144,6 +144,36 @@ export class TerminalReportComponent implements OnInit {
                 "rank": 1,
                 "attendance": "P",
                 "_optional": false
+              },
+              {
+                "subject_id": 7208,
+                "subject_name": "Biology II",
+                "marks_dist_list": [
+                  {
+                    "marks_distribution_id": 25,
+                    "marks_distribution_name": "Practical",
+                    "marks_max_value": 0,
+                    "marks_value": 112
+                  },
+                  {
+                    "marks_distribution_id": 35,
+                    "marks_distribution_name": "written",
+                    "marks_max_value": 0,
+                    "marks_value": 334
+                  },
+                  {
+                    "marks_distribution_id": 26,
+                    "marks_distribution_name": "Practical 2",
+                    "marks_max_value": 0,
+                    "marks_value": 59
+                  }
+                ],
+                "total_marks": 77,
+                "grade": "E",
+                "grade_points": 7,
+                "rank": 1,
+                "attendance": "P",
+                "_optional": false
               }
             ],
             "dist_wise_total_marks_map": {

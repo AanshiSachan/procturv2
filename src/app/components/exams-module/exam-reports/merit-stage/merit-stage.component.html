@@ -106,10 +106,10 @@
                 </div>
                 <br>
                 <table class="table1">
-                    <thead class="subRow subBorder">
+                    <thead class="subRow subBorder" style="display: flex;float: left;">
                         Mandatory Subjects
                     </thead>
-                    <thead class="subRow subBorder" *ngIf="reportDetails.optional_subject?.length">
+                    <thead class="subRow subBorder" style="float: left;" *ngIf="reportDetails.optional_subject?.length">
                         Optional Subjects
                     </thead>
                     <tbody [ngClass]="{'subRow':reportDetails.optional_subject?.length}">
