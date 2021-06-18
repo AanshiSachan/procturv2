@@ -634,6 +634,7 @@ export class ViewComponent implements OnInit {
     }
   }
   applyDiscount() {
+    debugger
     this.isApplyDiscClicked = true;
     this.auth.showLoader();
     let unpaidAmount = this.max_disc_apply;
@@ -1080,8 +1081,8 @@ export class ViewComponent implements OnInit {
   removeDiscountAction() {
     this.isRemoveDiscClicked = true;
     this.auth.showLoader();
-    if (this.discountPopUpForm.discountAmount >= this.totalDiscountApplied) {
-      this.commonService.showErrorMessage('error', '', 'Discount Amount should not be greater than or equal to discount given to student!');
+    if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
+      this.commonService.showErrorMessage('error', '', 'Discount Amount should not be greater than discount given to student!');
       this.auth.hideLoader();
       this.isRemoveDiscClicked = false;
       return false;

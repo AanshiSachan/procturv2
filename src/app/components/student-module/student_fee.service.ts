@@ -751,7 +751,6 @@ export class StudentFeeService {
             this.commonService.showErrorMessage('error', '', 'Please enter valid discount amount!');
             return false;
         }
-
         if (discountJson.discountAmount > amount) {
             let msg: string = "";
             if (condition == "add") {
@@ -763,12 +762,12 @@ export class StudentFeeService {
             return false;
         }
 
-        if (condition == "add") {
-            if (discountJson.discountAmount == amount) {
-                this.commonService.showErrorMessage('error', '', 'Discount amount can not be more than total installment due amount i.e Rs. ' + Math.floor(Number(amount)));
-                return false;
-            }
-        }
+        // if (condition == "add") {
+        //     if (discountJson.discountAmount == amount) {
+        //         this.commonService.showErrorMessage('error', '', 'Discount amount can not be more than total installment due amount i.e Rs. ' + Math.floor(Number(amount)));
+        //         return false;
+        //     }
+        // }
 
         if (discountJson.reason == '-1') {
             this.commonService.showErrorMessage('error', '', 'Please select discount reason!');
@@ -902,7 +901,7 @@ export class StudentFeeService {
                 perInstallmentDiscount = mutableDiscount;
             }
             if (element.p_amount == 0) {
-                if (element.d_amount <= perInstallmentDiscount) {
+                if (element.d_amount < perInstallmentDiscount) {
                     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount );
                     return false;
                 } else {
@@ -910,12 +909,12 @@ export class StudentFeeService {
                     obj.final_amount = element.d_amount - perInstallmentDiscount;
                     obj.balance_amount = 0;
                 }
-                if (obj.final_amount == 0) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
-                    return false;
-                }
+                // if (obj.final_amount == 0) {
+                //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                //     return false;
+                // }
             } else {
-                if (element.d_amount <= perInstallmentDiscount) {
+                if (element.d_amount < perInstallmentDiscount) {
                     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' +element.d_amount);
                     return false;
                 } else {
@@ -923,10 +922,10 @@ export class StudentFeeService {
                     obj.final_amount = 0;
                     obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
                 }
-                if (obj.balance_amount == 0) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
-                    return false;
-                }
+                // if (obj.balance_amount == 0) {
+                //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                //     return false;
+                // }
 
             }
             mutableDiscount = mutableDiscount - perInstallmentDiscount;
