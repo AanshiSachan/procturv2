@@ -1066,7 +1066,7 @@
           <span>History</span>
         </div>
         <div class="ptm_table">
-          <div class="table_heading">
+          <div class="table_heading" style="margin-left: -19px;">
             <div>
               <span class="top" *ngIf="isLangInstitue">Batch</span>
               <span class="top" *ngIf="!isLangInstitue">Subject</span>
@@ -1557,7 +1557,7 @@
           <div id="innerTr{{i}}" class="content hide inner-table">
             <div class="white_body1" *ngFor="let row of data.schedule">
               <div>{{row.start_time}} - {{row.end_time}}</div>
-              <div><span *ngIf="isLangInstitue">
+              <div style="margin-left: 15px;"><span *ngIf="isLangInstitue">
                   <span
                     *ngIf="(row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' ">
                     Regular
@@ -1578,7 +1578,7 @@
                   </span>
                 </span>
               </div>
-              <div>{{row.class_room_name==""?'---':row.class_room_name}}</div>
+              <div>{{row.class_room_name}}</div>
               <div><span class="subject1">{{row.batchName}}</span></div>
               <div>{{row.teacher_name}}</div>
               <div></div>
