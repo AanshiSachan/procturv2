@@ -106,8 +106,8 @@
             Biometric</div> -->
           <div id="timeTable" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">
             Time Table</div>
-          <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}"
-            (click)="openTab('exam')">Exam</div>
+          <!-- <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}"
+            (click)="openTab('exam')">Exam</div> -->
           <div id="exam_course" *ngIf="!schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam_course'}"
             (click)="openTab('exam_course')">Exam</div>
 

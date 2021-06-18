@@ -135,7 +135,7 @@ export class ViewReportCardV2Component implements OnInit {
       //this.liFeeView = true;
       this.fetchAcademicYearList();
       this.fetchDefaultAY();
-      this.getFeesDetails(this.Fee_model.academic_yr_id)
+      //this.getFeesDetails(this.Fee_model.academic_yr_id)
       this.getPastFeeDetails();
     
     }
@@ -164,9 +164,7 @@ export class ViewReportCardV2Component implements OnInit {
         this.studentCommanData = res.result;
         let course = this.studentCommanData.assignedCourses.split(",");
         this.assignedCourses = course;
-        console.log(course);
         this.studentFile = this.studentCommanData.studentFile;
-        // console.log(this.studentFile)
         let optionalSubject = this.studentCommanData.optionalSubjects;
         if (this.studentCommanData.optionalSubjects != null) {
           optionalSubject = this.studentCommanData.optionalSubjects.split();
@@ -195,7 +193,6 @@ export class ViewReportCardV2Component implements OnInit {
     }
   }
   deletefile(id) {
-    console.log(id)
     if (confirm('Are you sure, you want to delete file?')) {
       this.auth.showLoader();
       const url = `/users-file/delete-file/?studentId=${this.student_id}&id=${id}`;
@@ -305,7 +302,7 @@ export class ViewReportCardV2Component implements OnInit {
   getFeesDetails(academic_yr_id) {
     this.futureFees = [];
     this.pastFee = [];
-    this.fetchDefaultAY();
+    //this.fetchDefaultAY();
     //Request URL: https://test999.proctur.com/StdMgmtWebAPI/api/v1/studentWise/fee/100058/students/13121/515
     this.auth.showLoader();
     let url = "/api/v1/studentWise/fee/" + this.institute_id + "/students/" + this.student_id + "/" + academic_yr_id;
@@ -341,8 +338,7 @@ export class ViewReportCardV2Component implements OnInit {
         this.pastFee.push(elements)
       }
     })
-    console.log(this.futureFees);
-    console.log(this.pastFee)
+   
   }
   fetchAcademicYearList() {
     this.auth.showLoader();
@@ -350,7 +346,6 @@ export class ViewReportCardV2Component implements OnInit {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.academicYrList = res;
-        console.log(this.academicYrList)
         this.fetchDefaultAY();
         this.auth.hideLoader();
       },
@@ -362,12 +357,11 @@ export class ViewReportCardV2Component implements OnInit {
     )
   }
   fetchDefaultAY() {
-    console.log(this.academicYrList)
     if (this.academicYrList != null) {
       for (let data of this.academicYrList) {
         if (data.default_academic_year == 1) {
           this.Fee_model.academic_yr_id = data.inst_acad_year_id;
-         alert( this.Fee_model.academic_yr_id)
+    this.getFeesDetails(this.Fee_model.academic_yr_id);
           break;
         }
       }
@@ -402,7 +396,6 @@ export class ViewReportCardV2Component implements OnInit {
     let url = '/api/v1/reports/Student/downloadReportCard/' + sessionStorage.getItem('institute_id') + '/' + this.student_id;
     this.PostStudService.stdGetData(url).subscribe(
       (res: any) => {
-        console.log(res);
         this.auth.hideLoader();
         if (res) {
           if (res.document != "") {
@@ -423,7 +416,6 @@ export class ViewReportCardV2Component implements OnInit {
         else { this._commService.showErrorMessage('info', 'Info', "Document does not have any data."); }
       },
       err => {
-        console.log(err);
         this._commService.showErrorMessage('info', 'Info', err.error.message);
         this.auth.hideLoader();
       })
@@ -434,11 +426,9 @@ export class ViewReportCardV2Component implements OnInit {
     let url = '/admit-card/download';
     this.PostStudService.stdPostData(url, [this.student_id]).subscribe(
       (res: any) => {
-        console.log(res);
         this.auth.hideLoader();
         if (res) {
           let resp = res.response;
-          console.log(resp)
           if (resp.document != "") {
             let byteArr = this._commService.convertBase64ToArray(resp.document);
             let fileName = 'card.pdf'; //res.docTitle;
@@ -458,7 +448,6 @@ export class ViewReportCardV2Component implements OnInit {
         }
       },
       err => {
-        console.log(err);
         this.auth.hideLoader();
       }
     )
@@ -495,7 +484,6 @@ export class ViewReportCardV2Component implements OnInit {
   }
   goBtnAttendaceClick() {
     this.viewAttendancePayload.student_id = this.studentId;
-    console.log(this.viewAttendancePayload)
     let check = this.validateDataAttendance(this.viewAttendancePayload);
     if (check) {
       this.auth.showLoader();
@@ -589,16 +577,13 @@ export class ViewReportCardV2Component implements OnInit {
 
                   }
                 }
-                console.log(this.courseLevelExamList)
               }
-              console.log(this.courseLevelExamList)
             }
           }
         }
         if (res.batchExamSchdJsons.otherSchd != null) {
           if (res.batchExamSchdJsons.otherSchd.length > 0) {
             this.futureExamSch = res.batchExamSchdJsons.otherSchd;
-            console.log(this.futureExamSch)
           }
         }
         if (this.isLangInstitue) {
@@ -648,7 +633,6 @@ export class ViewReportCardV2Component implements OnInit {
         res => {
           this.auth.hideLoader();
           this.timeTableDet = res;
-          console.log(this.timeTableDet)
           this.makeJSONForTimeTable(res.batchTimeTableList);
         },
         err => {
@@ -696,7 +680,6 @@ export class ViewReportCardV2Component implements OnInit {
 
       }
     }
-    console.log(this.timeTableSchedule);
   }
 
   //============================Exam Details for school Module==============================//
@@ -959,14 +942,12 @@ export class ViewReportCardV2Component implements OnInit {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.examDetailsForSchool = res;
-        console.log(this.examDetailsForSchool);
         // this.fetchDefaultAY();
         this.auth.hideLoader();
       },
       (error: any) => {
         this.auth.hideLoader();
         this._commService.showErrorMessage('error', '', error.error.message);
-        console.log(this.examdata);
 
       }
     )
@@ -979,7 +960,6 @@ export class ViewReportCardV2Component implements OnInit {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.inventoryDetails = res;
-        console.log(this.inventoryDetails);
         // this.fetchDefaultAY();
         this.auth.hideLoader();
 
@@ -987,7 +967,6 @@ export class ViewReportCardV2Component implements OnInit {
       (error: any) => {
         this.auth.hideLoader();
         this._commService.showErrorMessage('error', '', error.error.message);
-        console.log(this.examdata);
 
       }
 
