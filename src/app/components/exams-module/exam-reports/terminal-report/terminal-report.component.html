@@ -28,7 +28,7 @@
         </div>
         <div class="mr15">
             <p class="label">Section<span>*</span></p>
-            <select class="select" [(ngModel)]="filterObj.section_id">
+            <select class="select" [(ngModel)]="filterObj.section_id" (ngModelChange)="getStudentList()">
                 <option value="-1">Section</option>
                 <option *ngFor="let sec of courseList" value="{{sec.course_id}}">
                     {{sec.course_name}}
@@ -37,8 +37,9 @@
         </div>
         <div class="mr15">
             <p class="label">Student</p>
-            <select class="select">
-                <option>Please Select</option>
+            <select class="select" [(ngModel)]="filterObj.student_id">
+                <option value="-1">Please Select</option>
+                <option *ngFor="let stu of studentList" value="{{stu.student_id}}">{{stu.student_name}}</option>
             </select>
         </div>
         <div class="mr15">

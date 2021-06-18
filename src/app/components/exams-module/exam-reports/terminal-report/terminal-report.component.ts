@@ -13,11 +13,13 @@ export class TerminalReportComponent implements OnInit {
   ExamTypeData: any = [];
   standardData: any = [];
   courseList: any = [];
+  studentList: any = [];
   reportDetails: any = {};
   filterObj = {
     standard_id: '-1',
     exam_type: '-1',
-    section_id: '-1'
+    section_id: '-1',
+    student_id:'-1'
   }
 
   constructor(
@@ -86,9 +88,12 @@ export class TerminalReportComponent implements OnInit {
   getReport() {
     if (this.checkInputValidations()) {
       this.auth.showLoader();
-      let obj = {
+      let obj:any = {
         course_id: this.filterObj.section_id,
         exam_type_id: this.filterObj.exam_type
+      }
+      if(this.filterObj.student_id != '-1') {
+        obj.student_id = this.filterObj.student_id
       }
       let url = '/api/v1/StdCourseExam/fetch-student-terminal-report/' + sessionStorage.getItem('institute_id');
       this._httpService.postData(url, obj).subscribe(
@@ -111,5 +116,23 @@ export class TerminalReportComponent implements OnInit {
       )
     }
 
+  }
+
+  getStudentList() {
+    let url = '/api/v1/studentBatchMap/manageBatchStudent/'+sessionStorage.getItem('institute_id');
+    let obj = {"course_id": this.filterObj.section_id,"master_course_name":""}
+    this.studentList = [];
+    this.auth.showLoader();
+    this._httpService.postData(url, obj).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        console.log(res);
+        this.studentList = res;
+      },
+      err => {
+        this.auth.hideLoader()
+        console.log(err);
+      }
+    )
   }
 }
