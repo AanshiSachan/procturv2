@@ -53,13 +53,13 @@
 
                     <div class="field-wrapper datePickerBox form-group ">
                         <label for="month">Month <span class="text-red">*</span></label>
-                        <input type="text" name="month" class="form-ctrl widgetDatepicker bsDatepicker"  style="padding: 6px;" readonly="true" id="month" [(ngModel)]="historyModel.month"  bsDatepicker/>
+                        <input type="text" name="sal_month" class="form-ctrl widgetDatepicker bsDatepicker"  style="padding: 6px;" readonly="true" id="sal_month" [(ngModel)]="historyModel.sal_month"  bsDatepicker/>
                         <span class="text-red"></span>
                     </div>
 
-                    <div class="field-wrapper datePickerBox form-group " *ngIf="historyModel.salary_type == 'H'">
-                      <label for="month">Total Hour <span class="text-red">*</span></label>
-                      <input type="text" name="month" class="form-control" id="total_hours" [(ngModel)]="historyModel.total_hours">
+                    <div class="form-group " *ngIf="historyModel.salary_type == 'H'">
+                      <label for="total-hour">Total Hour <span class="text-red">*</span></label>
+                      <input type="text" name="total_hours" class="form-control" id="total_hours" [(ngModel)]="historyModel.total_hours">
                       <span class="text-red"></span>
                   </div>
 
@@ -153,7 +153,7 @@
             {{item.payment_date}}
         </div>
         <div>
-        {{item.net_salary}}
+        {{historyModel.net_salary}}
         </div>
         <div>
             {{item.payment_amount}}

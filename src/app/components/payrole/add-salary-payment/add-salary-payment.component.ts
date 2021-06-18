@@ -18,7 +18,7 @@ export class AddSalaryPaymentComponent implements OnInit {
     institute_id:'',
   }
   historyModel={
-    month:moment(new Date()).format("YYYY-MM-DD"),
+    sal_month:moment(new Date()).format('YYYY-MM-DD'),
     total_hours:'',
     overtime_hours:'',
     payment_amount:'',
@@ -42,6 +42,10 @@ export class AddSalaryPaymentComponent implements OnInit {
   userId:any
   selectedId:any
   selectedTeacherId:any
+  payment_date:any
+  payment_method:any
+  comment:any
+  month:any
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
@@ -60,7 +64,7 @@ export class AddSalaryPaymentComponent implements OnInit {
       this.userId =params['user_id']
       console.log("rolr id",this.selectedId)
     });
- console.log("iddddd", this.selectedTeacherId)
+ console.log("iddddd", this.historyModel.sal_month)
     this.getHistoryPayement()
     this.getPaymentDetails()
   }
@@ -70,6 +74,8 @@ getHistoryPayement(){
     (res:any)=>{
       this.allHistoryPementList = res.result;
       console.log("histroy payemnttt",this.allHistoryPementList)
+      console.log("payement date",this.payment_method)
+
     },
      err => {
       this.auth.hideLoader();
@@ -104,7 +110,7 @@ createSalaryPayment(){
     user_id :this.userId,
     role_id :this.selectedId,
     teacher_id:this.selectedTeacherId,
-    month:this.historyModel.month,
+    month:this.historyModel.sal_month,
     institute_id:this.jsonFlag.institute_id,
     comment:this.historyModel.comment,
     payment_method:this.historyModel.payment_method,
@@ -119,6 +125,7 @@ createSalaryPayment(){
       this.auth.hideLoader()
       this.msgToast.showErrorMessage('success', '', "Salary Payment Added  successfully");
       //this.router.navigate(['/view/payrole/make-salary']);
+      this.clearForm()
       this.getHistoryPayement()
     },
     err => {
@@ -156,6 +163,15 @@ createSalaryPayment(){
       teacher_id = 0;
       user_id = obj.user_id;
     }  
+    this.comment=obj.comment
+    this.payment_date=obj.payment_date
+    this.payment_method=obj.payment_method
+    this.month=obj.month
+    console.log("month",this.month)
+    sessionStorage.setItem('viewComment',(this.comment))
+    sessionStorage.setItem('viewPayment_date',(this.payment_date))
+    sessionStorage.setItem('viewPayment_method',(this.payment_method))
+    sessionStorage.setItem('viewMonth',(this.month))
     this.router.navigateByUrl('view/payrole/view-salary-payment/' +teacher_id + '/' + user_id)
 
   }
@@ -173,5 +189,13 @@ createSalaryPayment(){
 return;
     }
     return true
+  }
+  clearForm(){
+    this.historyModel.comment=""
+    this.historyModel.payment_method=""
+    this.historyModel.sal_month=""
+    this.historyModel.total_hours=""
+    this.historyModel.payment_amount=""
+    
   }
 }

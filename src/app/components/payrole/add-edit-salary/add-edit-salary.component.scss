@@ -59,12 +59,12 @@ form-horizontal .control-label {
     display: inline-block;
     padding: 15px;
     margin: 0;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 600;
     float: left;
     cursor: default;
     color: #FFFFFF;
-    font-family: "OpenSans Regular";
+    font-family: 'Open Sans', sans-serif;
 }
 .box-title {
     display: inline-block;
@@ -90,6 +90,8 @@ form-horizontal .control-label {
     font-weight: 500;
     line-height: 35px;
     cursor: pointer;
+    margin-top: -12px;
+    margin-right: 33px;
   }
 
   .blue_button1 {

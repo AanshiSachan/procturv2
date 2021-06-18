@@ -86,6 +86,7 @@ export class AddEditSalaryComponent implements OnInit {
     )
     }
     addAllowonceDeduction(type){
+      
       let obj={
         type:type,
         allowance:this.salaryModel.allowance,
@@ -100,6 +101,7 @@ export class AddEditSalaryComponent implements OnInit {
       this.salaryModel.allowance_amount = '';
       // }
     }
+  
     dedutAllown(type){
        let obj2 ={
         type:type,
@@ -278,7 +280,7 @@ removeListDeduct(b){
   if(this.salaryModel.allowance_amount !="" && this.salaryModel.allowance ==""){
     this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce');
   return;
-}
+  }
   if(this.salaryModel.overtime_rate.trim() ==""){
     this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Overtime Rate');
   return;
@@ -290,18 +292,21 @@ return;
 if(this.salaryModel.basic_salary == 0){
   this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Basic Salary');
 return;
-} 
-if(this.salaryModel.deduction_amount !=0 && this.salaryModel.deduction.trim() ==""){
-this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction');
-return
 }
-if(this.salaryModel.deduction_amount ==0 && this.salaryModel.deduction !=""){
-  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction Amount');
+if(this.salaryModel.deduction_amount !=0 && this.salaryModel.deduction.trim() ==""){
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction');
   return
   }
+  if(this.salaryModel.deduction_amount ==0 && this.salaryModel.deduction !=""){
+    this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction Amount');
+    return
+    
+} 
+
 
 return true;
 }
+
 back(){
   this.router.navigateByUrl("/view/payrole/salary-template")
 }

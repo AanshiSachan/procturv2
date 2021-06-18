@@ -27,6 +27,9 @@ teacherList:any=[]
 tempList:any=[]
 selectedTeacherId:any
 allUserDataList:any=[]
+template_name:any;
+templateType:any;
+template_id:any;
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
@@ -80,6 +83,14 @@ onClickAdd(obj){
      teacher_id = 0;
      user_id = obj.user_id;
    }  
+   this.template_name=obj.templateName
+   this.templateType=obj.templateType
+   this.template_id =obj.template_id
+    console.log("edit obj",this.template_name)
+    sessionStorage.setItem('temp_name',(this.template_name))
+    sessionStorage.setItem('temp_type',(this.templateType))
+    sessionStorage.setItem('temp_id',(this.template_id))
+
     this.router.navigateByUrl('/view/payrole/edit-manage/' +teacher_id + '/' + user_id);
    }
   
@@ -107,6 +118,7 @@ console.log("teacherlisttttttt",this.teacherList)
       (res:any)=>{
     this.allUserDataList = res.result;
     this.tempList = res.result;
+    console.log("for update data",this.allUserDataList)
      this.auth.hideLoader()
       }, err => {
         this.auth.hideLoader();

@@ -30,7 +30,7 @@
                     Basic Salary <span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control" id="basic_salary" [(ngModel)]="salaryModel.basic_salary" (ngModelChange)="calculateGrossSalary()" name="basic_salary">
+                    <input type="number" class="form-control" maxlength="9" id="basic_salary" [(ngModel)]="salaryModel.basic_salary" (ngModelChange)="calculateGrossSalary()" name="basic_salary">
                 </div>
                 <span class="col-sm-4 control-label" id="basic_salary_error">
               </span>
@@ -41,7 +41,7 @@
                     Overtime Rate(Per Hour)<span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="">
+                    <input type="text" class="form-control" maxlength="6" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="">
                 </div>
                 <span class="col-sm-4 control-label" id="overtime_rate_error">
                   </span>

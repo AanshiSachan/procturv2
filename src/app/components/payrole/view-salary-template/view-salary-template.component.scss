@@ -2,13 +2,12 @@
     display: inline-block;
     padding: 15px;
     margin: 0;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 600;
     float: left;
     cursor: default;
     color: #FFFFFF;
-    font-family: "OpenSans Regular";
-}
+    font-family: 'Open Sans', sans-serif;}
 .row {
     margin-right: 2px;
     margin-left: 0px;
@@ -16,6 +15,8 @@
 .info-box span {
     width: 50%;
     display: inline-block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
 }
 .box {
     position: relative;

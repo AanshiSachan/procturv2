@@ -22,7 +22,8 @@ export class AddEditManageComponent implements OnInit {
   userId:any
   selectedId:any
   sectionName='';
-
+  template_name:any;
+  templateType:any;
   selectedTeacherId:any
   templateList:any=[];
   constructor( private router: Router,
@@ -33,6 +34,9 @@ export class AddEditManageComponent implements OnInit {
     private excel :ExcelService,private routeParam: ActivatedRoute) { 
       this.jsonFlag.institute_id=sessionStorage.getItem('institute_id')
      this.selectedTeacherId = sessionStorage.getItem('teacher_id')
+     this.template_name = sessionStorage.getItem('temp_name')
+     this.templateType = sessionStorage.getItem('temp_type')
+     //this.template_id = sessionStorage.getItem('temp_id')
 
     }
   ngOnInit(): void {
@@ -43,6 +47,7 @@ export class AddEditManageComponent implements OnInit {
       if (currentURL.includes('edit-manage')) {
         this.sectionName = 'edit';
         console.log("editName",this.sectionName)
+        this.getEditData()
 
       }else{
         this.sectionName='Add'
@@ -50,7 +55,23 @@ export class AddEditManageComponent implements OnInit {
      
     });
     console.log("teacher iddd",this.selectedId)
+   
+    // this.template_id = this.template_name
+    // this.slaryType = this.templateType
+ 
   }
+
+getEditData(){
+  if(this.sectionName == 'edit'){
+   
+    this.template_id = this.template_name
+    this.slaryType = this.templateType
+    console.log("template name",this.slaryType)
+    console.log("template idddddddd",this.template_id)
+
+  }
+}
+
   getAllHourlyData(){
     this.auth.showLoader();
     let url='/api/v1/payroll/template/hourly/'+this.jsonFlag.institute_id+'/all'
@@ -110,10 +131,12 @@ export class AddEditManageComponent implements OnInit {
 
       }
     }
+    
+    
      updateManageTemp(){
       let obj={
         template_id:this.template_id,
-        user_id:this.selectedId,
+        user_id:this.userId,
         teacher_id:this.selectedTeacherId,
         institute_id:this.jsonFlag.institute_id
 

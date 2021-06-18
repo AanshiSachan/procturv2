@@ -42,11 +42,22 @@ export class ViewSalaryPaymentComponent implements OnInit {
   addedListDeduct:any=[]
   template_allowances_map_dtos:any=[]
   selectedTeacherId:any
+  payment_date:any
+  comment:any
+  payment_method:any
+  month:any
+
   userId:any
   constructor( private http: HttpService, 
     private auth :AuthenticatorService,
     private msgToast :MessageShowService, private routeParam: ActivatedRoute) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
+      // this.objectArray = sessionStorage.getItem('objectValue')
+      this.comment = sessionStorage.getItem('viewComment')
+     this.payment_date= sessionStorage.getItem('viewPayment_date')
+    this.payment_method=sessionStorage.getItem('viewPayment_method')
+    this.month=sessionStorage.getItem('viewMonth')
+
     }
   ngOnInit(): void {
     this.routeParam.params.subscribe(params => {
@@ -54,6 +65,9 @@ export class ViewSalaryPaymentComponent implements OnInit {
       this.userId =params['user_id']
     });
     this.getViewResponse()
+    console.log("obj value",this.payment_date)
+    console.log("comment",this.comment)
+
   }
 getViewResponse(){
   this.auth.showLoader();
