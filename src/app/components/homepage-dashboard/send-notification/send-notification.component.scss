@@ -475,6 +475,8 @@ b{
   font-weight: 600px;
 }
 .field-checkbox-wrapper, .field-radio-wrapper {
+  position: relative;
+  padding-left: 26px;
   margin-bottom: 0px;
 }
 .field-radio-wrapper .form-radio:checked + label:before {

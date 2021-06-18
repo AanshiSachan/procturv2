@@ -42,7 +42,7 @@
       <div class="table_body" *ngFor="let email of emailMessageList">
         <div>
             <div class="field-radio-wrapper">
-                <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedEmailCheckBox" value="{{email.message}}" (ngModelChange)="onSelectedEmailCheckbox(email)">
+                <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedEmailCheckBox" value="{{email.message}}" (click)="onSelectedEmailCheckbox(email)">
                 <label ></label>
             </div>
         </div>
@@ -60,7 +60,7 @@
         <div class="table_body" *ngFor="let push of pushNotificationList">
           <div>
               <div class="field-radio-wrapper">
-                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow"  [checked]="selectesPushCheckBox" value="{{push.message}}" (ngModelChange)="onClickSelectPush(push)">
+                  <input type="radio" class="form-radio" [(ngModel)]="selectedRow"  [checked]="selectesPushCheckBox" value="{{push.message}}" (click)="onClickSelectPush(push)">
                   <label ></label>
               </div>
           </div>

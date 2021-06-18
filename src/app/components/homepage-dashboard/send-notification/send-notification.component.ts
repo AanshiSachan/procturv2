@@ -327,7 +327,7 @@ onselectMessageCheckbox(obj){
   this.jsonFlag.selectedPushCheckbox=false
 this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
-sessionStorage.setItem('selecte-messase',(this.selectedRow))
+sessionStorage.setItem('selected-message',(this.selectedRow))
 sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
 
 this.selectedMessageText=this.selectedRow.length
@@ -354,7 +354,7 @@ onSelectedEmailCheckbox(obj){
   this.jsonFlag.selectedPushCheckbox=false
 this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
-sessionStorage.setItem('selecte-messase',(this.selectedRow))
+sessionStorage.setItem('selecte-email-message',(this.selectedRow))
 sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
 //this.selectedRow.length=this.selectedMessageText
 

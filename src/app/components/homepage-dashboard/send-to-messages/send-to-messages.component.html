@@ -33,7 +33,7 @@
     <p class="para" >
         <span style="font-weight: 600;">Message : </span>
         <!-- {{selected_message}} -->
-       <span [innerHtml]="selected_message"></span>             
+       <span [innerHtml]="selected_email"></span>             
     </p>
    
 </div>
@@ -375,7 +375,7 @@
         <div class="flex space1">
             <label for="chkBoxStudent" class="checkbox"  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">
                 <span class="checkbox__input">
-                  <input type="checkbox"  id="chkBoxStudent" name="student" [(ngModel)]="student" value="true" (click)="onClickStudent($event)">
+                  <input type="checkbox"  id="chkBoxStudent" name="student" [(ngModel)]="student"  (click)="onClickStudent($event)">
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -385,7 +385,7 @@
               <p  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">Student</p>
               <label for="chkBoxParent" class="checkbox"  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">
                 <span class="checkbox__input">
-                  <input type="checkbox"  id="chkBoxParent" name="parent" [(ngModel)]="parent" value="true" >
+                  <input type="checkbox"  id="chkBoxParent" name="parent" [(ngModel)]="parent" >
                   <span class="checkbox__control">
                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                       <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>

@@ -53,8 +53,8 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
   inactiveCheck:string='false';
   schoolModel: boolean = false;
   public isProfessional: boolean = false;
-student:string='false';
-parent:string='false'
+student:boolean=true;
+parent:boolean=false
 
   masterCourseList: any =[];
   selectedCourseList: any[] = [];
@@ -81,6 +81,7 @@ parent:string='false'
   transactional:any
   selected_message:any
   selected_messageId:any
+  selected_email:any
   email_subjects:any
   messageCharacterCount:any
   searchData: string = "";
@@ -101,8 +102,9 @@ parent:string='false'
     ) {
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
       this.userType = Number(sessionStorage.getItem('userType'));
-      this.selected_message=sessionStorage.getItem('selecte-messase')
+      this.selected_message=sessionStorage.getItem('selected-message')
       this.selected_messageId=sessionStorage.getItem('selected-message_id')
+      this.selected_email = sessionStorage.getItem('selecte-email-message')
       this.email_subjects= sessionStorage.getItem('email-subject')
       this.pramotional = sessionStorage.getItem('pramotional')
       this.transactional = sessionStorage.getItem('transactinal')
@@ -131,6 +133,7 @@ parent:string='false'
     console.log("push message",this.push_message)
     console.log("push message-id",this.push_messageId)
     console.log("length",this.messageCharacterCount)
+    console.log("email selected",this.selected_email)
 
  if(this.smsSendingFlag){
    this.messageCharacterCount = this.selected_message.length
@@ -617,33 +620,24 @@ parent:string='false'
 // ========for-destination-value====================
 
 getDestinationValue() {
-  console.log("getDestinationValue");
-  // let student:boolean=false
-  // let parent:boolean=false
-  // let student = (document.getElementById("chkBoxStudent") as HTMLInputElement).checked;
-  // let parent = (document.getElementById("chkBoxParent") as HTMLInputElement).checked;
-  // let gaurdian = document.getElementById('chkBoxGaurdian').checked;
-  // if (student == true && parent == false && gaurdian == false) {
-  if (this.student == 'true' && this. parent == 'false') {
+  console.log("getDestinationValue",this.student);
+  console.log("getDestinationValue",this.parent);
+
+  
+  if (this.student == true && this. parent == false) {
     return 0;
-    // } else if (student == false && parent == true && gaurdian == false) {
-  } else if (this.student == 'false' && this.parent == 'false') {
+  } else if (this.student ==false && this.parent == false) {
     return 1;
-    // } else if (student == false && parent == false && gaurdian == true) {
-  } else if (this.student == 'false' &&this. parent == 'false') {
+  } else if (this.student == false &&this. parent == false) {
     return 3;
-    // } else if (student && parent && gaurdian == false) {
-  } else if (this.student == 'true' && this.parent == 'false') {
+  } else if (this.student == true && this.parent == false) {
     return 2;
-    // } else if (student && gaurdian && parent == false) {
-  } else if (this.student == 'true' && this.parent == 'false') {
+  } else if (this.student == true && this.parent == false) {
     return 5;
-    // } else if (parent && gaurdian && student == false) {
-  } else if (this.parent == 'true' &&this. student == 'false') {
+  } else if (this.parent == true &&this. student == false) {
     return 6;
   }
-  // else if (student && parent && gaurdian) {
-  else if (this.student == 'true' && this.parent == 'true') {
+  else if (this.student == true && this.parent == true) {
     return 4;
   } else {
     let msg = {
@@ -715,6 +709,8 @@ onClickStudent(event){
        
       }if(this.showActiveTableFlag == true){
         destination = this.getDestinationValue()
+      }if(this.showCourseWiseFlag){
+        destination = this.getDestinationValue()
       }
      
 
@@ -732,6 +728,9 @@ onClickStudent(event){
         configuredMessage: configuredMessage,
         message_id: this.selected_messageId,
         is_user_notify: 0
+      }
+      if(this.emailSendingFlag){
+        obj.notifn_message = this.selected_email
       }
       if (this.showallUserListFlag) {
         obj.is_user_notify = 1
