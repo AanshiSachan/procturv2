@@ -62,6 +62,12 @@ this.getAllSmsData();
           this.iscreated = true;
         }
           this.auth.hideLoader();
+      }, 
+      err => {
+        this.auth.hideLoader();
+    
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+    
       }
     )
   
