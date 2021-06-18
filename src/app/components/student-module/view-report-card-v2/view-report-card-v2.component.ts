@@ -88,6 +88,7 @@ export class ViewReportCardV2Component implements OnInit {
   studentId: any = -1;
   uploadedFileData: any[] = [];
   optionalSubjects: any = [];
+  studentFiles: any = [];
   studentFile: any = [];
   student_id: any;
   schoolModel: boolean;
@@ -132,8 +133,11 @@ export class ViewReportCardV2Component implements OnInit {
     this.isActiveTab = param;
     if (param === "fees") {
       //this.liFeeView = true;
-      this.getPastFeeDetails();
       this.fetchAcademicYearList();
+      this.fetchDefaultAY();
+      this.getFeesDetails(this.Fee_model.academic_yr_id)
+      this.getPastFeeDetails();
+    
     }
     else if (param == "exam_course") {
       this.getStudentInfo();
@@ -146,6 +150,9 @@ export class ViewReportCardV2Component implements OnInit {
     }
     else if (param == "inventory") {
       this.getInventoryDetails();
+    }
+    else if(param=="timeTable"){
+      this.getTimeTableDetails();
     }
   }
   //function to get parent,profile ,document, data
@@ -283,7 +290,7 @@ export class ViewReportCardV2Component implements OnInit {
     this.productService.getUploadFileData(url).subscribe(
       (res: any) => {
         this.uploadedFileData = res;
-        this.studentFile = res;
+        this.studentFiles = res;
         this.auth.hideLoader();
         $('#myModal').modal('hide');
       },
@@ -298,6 +305,7 @@ export class ViewReportCardV2Component implements OnInit {
   getFeesDetails(academic_yr_id) {
     this.futureFees = [];
     this.pastFee = [];
+    this.fetchDefaultAY();
     //Request URL: https://test999.proctur.com/StdMgmtWebAPI/api/v1/studentWise/fee/100058/students/13121/515
     this.auth.showLoader();
     let url = "/api/v1/studentWise/fee/" + this.institute_id + "/students/" + this.student_id + "/" + academic_yr_id;
@@ -307,7 +315,7 @@ export class ViewReportCardV2Component implements OnInit {
         this.payementHistory = res.result.p_install_li;
         this.pastFeesDetails = res.result.a_install_li;
         this.getPastFeeDetails();
-        this.fetchDefaultAY();
+       
         this.auth.hideLoader();
       },
       (error: any) => {
@@ -359,6 +367,7 @@ export class ViewReportCardV2Component implements OnInit {
       for (let data of this.academicYrList) {
         if (data.default_academic_year == 1) {
           this.Fee_model.academic_yr_id = data.inst_acad_year_id;
+         alert( this.Fee_model.academic_yr_id)
           break;
         }
       }

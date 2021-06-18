@@ -102,8 +102,8 @@
           <div id="inventory" [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">
             Inventory</div>
           <div id="ptm" [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
-          <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">
-            Biometric</div>
+          <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">
+            Biometric</div> -->
           <div id="timeTable" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">
             Time Table</div>
           <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}"
@@ -783,12 +783,10 @@
                 {{data.p_remarks==""?'---':data.p_remarks}}
               </div>
             </div>
-            <div class="table_body" *ngIf="payementHistory?.length == 0">
-              <tr>
-                <td colspan="11" style="text-align: center">
-                  No Record Of Payment History
-                </td>
-              </tr>
+            <div class="nodata" *ngIf="payementHistory?.length == 0" >
+              
+                  <span style="text-align: center;">No Record Of Payment History</span>
+               
             </div>
           </div>
           <div class="table_title">
@@ -852,12 +850,11 @@
                 {{data.d_amount -data.p_amount}}
               </div>
             </div>
-            <div class="table_body" *ngIf="pastFee.length == 0">
-              <tr>
-                <td colspan="11" style="text-align: center">
+            <div class="nodata" *ngIf="pastFee.length == 0">
+             
+                <span style="text-align: center;"> 
                   No Record Of Past Fee Due Found
-                </td>
-              </tr>
+                </span>
             </div>
           </div>
           <div class="table_title">
@@ -923,19 +920,18 @@
                 {{data.d_amount -data.p_amount}}
               </div>
             </div>
-            <div class="table_body">
-              <tr *ngIf="futureFees.length == 0">
-                <td colspan="11" style="text-align: center">
-                  No Record Of Next Fee Due Details
-                </td>
-              </tr>
+            <div class="nodata" *ngIf="futureFees.length == 0">
+             <span style="text-align: center;"> No Record Of Next Fee Due Details
+            </span>
+               
+                 
             </div>
           </div>
         </div>
         <div id="documents_tab" *ngIf="isActiveTab =='documents'">
           <!-- Documents -->
           <div class="row radio_div no-gutters">
-            <div class="col-lg-9 flex" style="margin-top: 10px;">
+            <div class="col-lg-9 flex" style="margin-top: 10px;" *ngIf="isshow">
 
               <div class="field-radio-wrapper">
                 <input type="radio" id="idCurrentMon" [checked]="(viewFiles.type == '0')" value="0"
@@ -989,7 +985,7 @@
                 Action
               </div>
             </div>
-            <div class="table_body" *ngFor="let data of studentFile;index as i">
+            <div class="table_body" *ngFor="let data of studentFiles;index as i">
               <div>
                 {{i+1}}
               </div>
@@ -1007,12 +1003,10 @@
 
               </div>
             </div>
-            <div class="table_body" *ngIf="studentFile?.length == 0">
-              <tr>
-                <td colspan="11" style="text-align: center">
+            <div class="nodata" *ngIf="studentFiles?.length == 0">
+             <span style="text-align: center">
                   No data available
-                </td>
-              </tr>
+               </span>
             </div>
           </div>
         </div>
@@ -1059,6 +1053,11 @@
                   <a><img src="/assets/img2/delete.svg" class="size22" title="delete"></a>
             </div>
           </div>
+          <div class="nodata" *ngIf="inventoryDetails?.length == 0">
+            <span style="text-align: center">
+                 No data available
+              </span>
+           </div>
         </div>
       </div>
       <div style="margin-left: 21px;" id="ptm_tab" *ngIf="isActiveTab =='ptm'">
@@ -1111,13 +1110,11 @@
                 abc</div>
             </div>
           </div>
-          <div>
-            <tr *ngIf="PTMDetList?.length == 0">
-              <td colspan="6" style="text-align: center">
-                No Record Of PTM Found
-              </td>
-            </tr>
-          </div>
+          <div class="nodata" *ngIf="PTMDetList?.length == 0">
+            <span style="text-align: center">
+                 No data available
+              </span>
+           </div>
 
         </div>
       </div>
@@ -1366,11 +1363,7 @@
             <div>{{data.average_marks}}</div>
           </div>
           <div class="nodata" *ngIf="examList.length ==0">
-            <tr>
-              <td colspan="12" style="text-align: center">
-                No Exam List Of Student Found
-              </td>
-            </tr>
+            <sapn style="text-align:center"> No Exam List Of Student Found</sapn>
           </div>
         </div>
 
@@ -1403,7 +1396,7 @@
               <div class="table_body1" *ngFor="let row of data.pastCourseExamList">
                 <div></div>
                 <div></div>
-                <div> <span class="date"><img src="assets/img1/date.svg">{{row.exam_date}}</span></div>
+                <div> <span class="date" style="margin-top:2px;"><img src="assets/img1/date.svg">{{row.exam_date}}</span></div>
                 <div><img src="assets/img1/time.svg"> {{row.start_time}} - {{row.end_time}}</div>
                 <div> <span *ngIf="row.attendance_status == 'L'">
                     Leave
@@ -1419,12 +1412,10 @@
               </div>
             </div>
           </div>
-          <div class="nodata">
-            <tr *ngIf="courseLevelExamList.length == 0">
-              <td colspan="3">
+          <div class="nodata" *ngIf="courseLevelExamList.length == 0">
+            <span style="text-align: center;">
                 No Exam Given By Student
-              </td>
-            </tr>
+            </span>
           </div>
         </div>
 
@@ -1452,11 +1443,9 @@
 
           </div>
           <div class="nodata" *ngIf="futureExamSch.length==0">
-            <tr>
-              <td colspan="3">
-                No Exam Schedule Available For Upcoming 4 Weeks
-              </td>
-            </tr>
+           <span style="text-align: center;"> No Exam Schedule Available For Upcoming 4 Weeks</span>
+               
+            
           </div>
 
         </div>
@@ -1596,6 +1585,9 @@
             </div>
             <div class="line"></div>
           </div>
+        </div>
+        <div class="nodata" *ngIf="timeTableSchedule?.length==0">
+          <span>No Data Available</span>
         </div>
       </div>
 
