@@ -812,6 +812,7 @@ sendPushNotification() {
        this.allChecked = this.checkCheckAllChkboxStatus();
       if (item.assigned == true){
         this. count++;
+        alert('count')
         console.log("count",this.count)
       }else{
         this.count--;
@@ -854,15 +855,15 @@ sendPushNotification() {
           if(this.emailSendingFlag){
           if(element.email_id !=null || element.student_email) {
           element.assigned = event.target.checked;
-          this.count++;
+          // this.count++;
+          // alert('count')
           }
         }else{
           element.assigned = event.target.checked;
-       this.count--;
+      //  this.count--;
 
         }
       
-        //this.count= this.studentList.length
       }
       )
     }
@@ -870,7 +871,6 @@ sendPushNotification() {
      if(this.activeCeckbox =='true' ){
        this.allActiveStudent()
       
-       console.log("jhjhh",this.activeCeckbox)
      }
      if(this.inactiveCheck == 'true'){
        this.allInActiveStudent()
@@ -883,14 +883,49 @@ sendPushNotification() {
          this.allRegisterUsers()
        }
      }
-     messageLength(){
-      this.messageCharacterCount=this.selected_message.length
-
-     }
+    
      onClickEiditMessageDescription(){
        this.router.navigateByUrl('/view/dashboard/send-notification')
 
      }
+onClearActiveCheckbox(event){
+  //this.activeCeckbox='false';
+  this.facultyCheckBox='false';
+  this.aluminiCheckBox='false';
+  this.allUserCheck='false';
+  this.inactiveCheck='false';
+}
+onClearInctiveCheckbox(event){
+  this.allUserCheck ='false'
+   this.activeCeckbox='false';
+   this.facultyCheckBox='false';
+   this.aluminiCheckBox='false';
+   //this.inactiveCheck='false';
+}
+onClearAlluserCheckbox(event){
+  
+   this.activeCeckbox='false';
+   this.facultyCheckBox='false';
+   this.aluminiCheckBox='false';
+  //  this.allUserCheck='false';
+   this.inactiveCheck='false';
+}
+onClearFacultyCheckbox(event){
+  this.allUserCheck ='false'
+
+   this.activeCeckbox='false';
+  //this.facultyCheckBox='true';
+   this.aluminiCheckBox='false';
+   this.inactiveCheck='false';
+}
+onClearAlluminCheckbox(event){
+  this.allUserCheck ='false'
+ 
+   this.activeCeckbox='false';
+   this.facultyCheckBox='false';
+   //this.aluminiCheckBox='true';
+   this.inactiveCheck='false';
+}
    }
   
 
