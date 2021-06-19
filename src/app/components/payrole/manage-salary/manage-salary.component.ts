@@ -87,9 +87,9 @@ onClickAdd(obj){
    this.templateType=obj.templateType
    this.template_id =obj.template_id
     console.log("edit obj",this.template_name)
-    sessionStorage.setItem('temp_name',(this.template_name))
-    sessionStorage.setItem('temp_type',(this.templateType))
-    sessionStorage.setItem('temp_id',(this.template_id))
+    sessionStorage.setItem('temp_name',this.template_name)
+    sessionStorage.setItem('temp_type',this.templateType)
+    sessionStorage.setItem('temp_id',this.template_id)
 
     this.router.navigateByUrl('/view/payrole/edit-manage/' +teacher_id + '/' + user_id);
    }

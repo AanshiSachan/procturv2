@@ -17,8 +17,8 @@ export class AddEditManageComponent implements OnInit {
   jsonFlag={
     institute_id:''
   }
-  slaryType:any
-  template_id:any
+  slaryType:string=""
+  template_id:string=""
   userId:any
   selectedId:any
   sectionName='';
@@ -36,7 +36,7 @@ export class AddEditManageComponent implements OnInit {
      this.selectedTeacherId = sessionStorage.getItem('teacher_id')
      this.template_name = sessionStorage.getItem('temp_name')
      this.templateType = sessionStorage.getItem('temp_type')
-     //this.template_id = sessionStorage.getItem('temp_id')
+     this.template_id = sessionStorage.getItem('temp_id')
 
     }
   ngOnInit(): void {
@@ -54,23 +54,19 @@ export class AddEditManageComponent implements OnInit {
       }
      
     });
-    console.log("teacher iddd",this.selectedId)
-   
-    // this.template_id = this.template_name
-    // this.slaryType = this.templateType
+    
  
   }
 
 getEditData(){
   if(this.sectionName == 'edit'){
-   
-    this.template_id = this.template_name
-    this.slaryType = this.templateType
+    this.slaryType = this.templateType;
+    this.onselectSalaryDropdown();
     console.log("template name",this.slaryType)
-    console.log("template idddddddd",this.template_id)
+    console.log("template",this.template_id)
 
-  }
-}
+  
+}}
 
   getAllHourlyData(){
     this.auth.showLoader();
@@ -79,6 +75,9 @@ getEditData(){
       (res :any)=>{
     this.templateList=res.result.response;
     this.template_id =res.result.response.template_id
+   console.log("hourlyyyyyyyy",this.templateList)
+   console.log("hourlyyyyyyyy",res.result.response.hourly_grade)
+
     this.auth.hideLoader();
       },
       err => {
@@ -94,8 +93,11 @@ getEditData(){
         (res :any)=>{
        this.templateList=res.result.response;
        this.auth.hideLoader();
-       
+      
+      console.log("tempalte name",this.template_id)
       console.log("salaryyyyyy",this.templateList)
+      console.log("salaryyyyyy",res.result.response.salary_grade)
+
         },
         err => {
           this.auth.hideLoader();
@@ -159,13 +161,13 @@ getEditData(){
 
      }
      validInput(){
-       if(this.slaryType == ""){
+       if(this.slaryType.trim() == ""){
        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Salary Template');
-        return
+        return;
        }
-       if(this.template_id == ""){
+       if(this.template_id.trim() == ""){
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select  Template');
-         return
+         return;
      }
        return true
     }

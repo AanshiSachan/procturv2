@@ -6,6 +6,8 @@ import { MessageShowService } from '../../../services/message-show.service';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { ExcelService } from '../../../services/excel.service';
 import * as moment from 'moment';
+import { Location } from '@angular/common';
+
 
 
 @Component({
@@ -18,7 +20,7 @@ export class AddSalaryPaymentComponent implements OnInit {
     institute_id:'',
   }
   historyModel={
-    sal_month:moment(new Date()).format('YYYY-MM-DD'),
+    sal_month:moment('YYYY-MM'),
     total_hours:'',
     overtime_hours:'',
     payment_amount:'',
@@ -51,7 +53,9 @@ export class AddSalaryPaymentComponent implements OnInit {
     private auth :AuthenticatorService,
     private msgToast :MessageShowService,
     private pdf :ExportToPdfService,
-    private excel :ExcelService,private routeParam: ActivatedRoute) { 
+    private excel :ExcelService,
+    private routeParam: ActivatedRoute,
+    private location: Location) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
       this.selectedId = JSON.parse(sessionStorage.getItem('selectedId'));
       this.selectedTeacherId = sessionStorage.getItem('teacher_id')
@@ -193,9 +197,14 @@ return;
   clearForm(){
     this.historyModel.comment=""
     this.historyModel.payment_method=""
-    this.historyModel.sal_month=""
+    //this.historyModel.sal_month=""
     this.historyModel.total_hours=""
     this.historyModel.payment_amount=""
     
   }
+  backPage(){
+    this.location.back()
+    //window.history.back()
+
+    }
 }

@@ -19,6 +19,7 @@ export class ViewManageTemplateComponent implements OnInit {
     salary_type:'M',
     salary_grade:'',
     basic_salary:'',
+    hourly_grade:'',
     overtime_rate:'',
     allowance:'',
     allowance_amount:'',

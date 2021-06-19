@@ -3,6 +3,9 @@ import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-view-salary-payment',
@@ -16,6 +19,7 @@ export class ViewSalaryPaymentComponent implements OnInit {
   salaryModel={
     salary_type:'M',
     salary_grade:'',
+    hourly_grade:'',
     basic_salary:'',
     overtime_rate:'',
     allowance:'',
@@ -50,7 +54,9 @@ export class ViewSalaryPaymentComponent implements OnInit {
   userId:any
   constructor( private http: HttpService, 
     private auth :AuthenticatorService,
-    private msgToast :MessageShowService, private routeParam: ActivatedRoute) { 
+    private msgToast :MessageShowService, 
+    private routeParam: ActivatedRoute,
+    private location :Location) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
       // this.objectArray = sessionStorage.getItem('objectValue')
       this.comment = sessionStorage.getItem('viewComment')
@@ -110,5 +116,8 @@ getViewResponse(){
       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
     }
   )
+}
+backPage(){
+this.location.back()
 }
 }

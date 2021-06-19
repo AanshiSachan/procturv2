@@ -11,7 +11,7 @@
 <div class="col-sm-3">
     <div class="box box-primary">
         <div class="box-body box-profile">
-            <img src="https://original.proctur.com/uploads/images/default.png" class="profile-user-img img-responsive img-circle" alt="">                        
+            <img src="https://proctur.s3-ap-southeast-1.amazonaws.com/logos/gender.jpg" style="margin-left: 25%;" alt="">                        
             <h3 class="student-username text-center">{{ManageSalaryModel.user_name}}</h3>
             <p class="text-muted text-center">{{ManageSalaryModel.user_role}}</p>
             <ul class="list-group list-group-unbordered">
@@ -43,7 +43,7 @@
                             <div class="info-box">
                                 <p style="margin:0 0 20px">
                                     <span>Salary Grades :&nbsp;</span>
-                                 {{ManageSalaryModel.salary_grade}} </p>
+                                 {{ ManageSalaryModel.salary_type =='H'? ManageSalaryModel.hourly_grade: ManageSalaryModel.salary_grade  }} </p>
 
                                 <p style="margin:0 0 20px" *ngIf="ManageSalaryModel.salary_type =='M'">
                                     <span>Basic Salary:&nbsp;</span>
@@ -54,7 +54,7 @@
                                     {{ManageSalaryModel.overtime_rate}}  </p>
                                     <p style="margin:0 0 20px" *ngIf="ManageSalaryModel.salary_type =='H'">
                                         <span>Hourly Rate:&nbsp;</span>
-                                        {{ManageSalaryModel.salary_type}}  </p>
+                                        {{ManageSalaryModel.hourly_rate}}  </p>
                             </div>
                         </div>
                     </div>

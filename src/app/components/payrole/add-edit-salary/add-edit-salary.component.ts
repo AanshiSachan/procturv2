@@ -86,6 +86,9 @@ export class AddEditSalaryComponent implements OnInit {
     )
     }
     addAllowonceDeduction(type){
+      if(this.salaryModel.allowance !=""){
+        if(this.salaryModel.allowance_amount !=""){
+
       
       let obj={
         type:type,
@@ -100,9 +103,20 @@ export class AddEditSalaryComponent implements OnInit {
       this.salaryModel.allowance = '';
       this.salaryModel.allowance_amount = '';
       // }
+    }else{
+      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce_amount');
+    }
+    }else{
+      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce');
+
+    }
     }
   
     dedutAllown(type){
+      if(this.salaryModel.deduction !=''){
+        if(this.salaryModel.deduction_amount !=0){
+
+
        let obj2 ={
         type:type,
         deduction:this.salaryModel.deduction,
@@ -113,6 +127,14 @@ this.calculateDeduction();
 console.log("deduction",this.addedListDeduct)
 this.salaryModel.deduction ='',
 this.salaryModel.deduction_amount=0
+}else{
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction Amount');
+
+}
+}else{
+  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction');
+
+}
 }
   createSalary(){
     
@@ -263,24 +285,17 @@ updateSalary(){
 
 removeList(x){
   this.addedListAllownc.splice(x,1)
-  console.log("remove list",this.addedListAllownc)
+  this.calculateGrossSalary()
 }
 removeListDeduct(b){
   this.addedListDeduct.splice(b,1)
-  console.log("dection remove",this.addedListDeduct)
+  this.calculateDeduction()
 
 }
 
 
   validInput(){
-    if(this.salaryModel.allowance.trim() !="" && this.salaryModel.allowance_amount ==""){
-      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce_amount');
-    return;
-  }
-  if(this.salaryModel.allowance_amount !="" && this.salaryModel.allowance ==""){
-    this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Allownce');
-  return;
-  }
+   
   if(this.salaryModel.overtime_rate.trim() ==""){
     this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Overtime Rate');
   return;
@@ -293,15 +308,7 @@ if(this.salaryModel.basic_salary == 0){
   this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Basic Salary');
 return;
 }
-if(this.salaryModel.deduction_amount !=0 && this.salaryModel.deduction.trim() ==""){
-  this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction');
-  return
-  }
-  if(this.salaryModel.deduction_amount ==0 && this.salaryModel.deduction !=""){
-    this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction Amount');
-    return
-    
-} 
+
 
 
 return true;
@@ -321,16 +328,11 @@ calculateGrossSalary() {
 calculateDeduction(){
    this.salaryModel.deduction_amount = 0;
    this.salaryModel.total_deduction = 0;
-   console.log(this.addedListDeduct);
   this.addedListDeduct.forEach(element => {
-    console.log('ded_amo',Number(element.deduction_amount))
     this.salaryModel.total_deduction = Number(this.salaryModel.total_deduction) + Number(element.deduction_amount);
-    console.log("aded total deduction",this.salaryModel.total_deduction);
 
   });
-  //console.log("aded total deduction",this.salaryModel.total_deduction);
   this.salaryModel.net_salary = Number(this.salaryModel.gross_salary) - Number(this.salaryModel.total_deduction);
-  console.log("added n",Number(this.salaryModel.net_salary))
 }
 
 }
