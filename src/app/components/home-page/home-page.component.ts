@@ -116,5 +116,9 @@ export class HomePageComponent implements OnInit, OnDestroy  {
   ngOnDestroy() {
     sessionStorage.removeItem('showSMSService');
   }
+
+  openLaunchEventLink() {
+    window.open("https://bit.ly/procturfbevent");
+  }
 }
 

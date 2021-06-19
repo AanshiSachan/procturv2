@@ -1091,4 +1091,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  openLaunchEventLink() {
+    window.open("https://bit.ly/procturfbevent");
+  }
+
 }
