@@ -121,6 +121,8 @@ export class ViewComponent implements OnInit {
   isApplyDiscClicked: boolean = false;
   isRemoveDiscClicked: boolean = false;
   isUpdateInstallClicked: boolean = false;
+  fullDiscountInstallArr: any = [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -211,12 +213,17 @@ export class ViewComponent implements OnInit {
   }
   checkUncheckAll() {
     this.paidInstallArr = [];
+    this.fullDiscountInstallArr=[];
     for (var i = 0; i < this.stdFeeDataList.a_install_li.length; i++) {
+      let data=this.stdFeeDataList.a_install_li[i];
       if (this.stdFeeDataList.a_install_li[i].p_status != 'Y') {
         this.stdFeeDataList.a_install_li[i].isSelected = this.masterSelected;
       } else {
         this.stdFeeDataList.a_install_li[i].isSelected = false;
         this.paidInstallArr.push(this.stdFeeDataList.a_install_li[i].f_schld_id)
+      }
+      if((data.initial_amount+data.tax_amount)==data.disc_amount){
+        this.fullDiscountInstallArr.push(this.stdFeeDataList.a_install_li[i].f_schld_id);
       }
     }
   }
@@ -703,6 +710,9 @@ export class ViewComponent implements OnInit {
         data.is_paid = true;
       } else {
         data.is_paid = false;
+      }
+      if (this.fullDiscountInstallArr.includes(data.fee_schedule_id)) {
+       data.is_paid=false;
       }
     }
   }

@@ -143,9 +143,14 @@
                                     <div>
                                         {{data.d_date}}
                                     </div>
-                                    <div *ngIf="data.p_status=='Y'">
+                                    <div *ngIf="data.p_status=='Y' && (data.initial_amount+data.tax_amount)!=data.disc_amount">
                                         <span class="paid1">
                                             Paid
+                                        </span>
+                                    </div>
+                                    <div *ngIf="data.p_status=='Y' && (data.initial_amount+data.tax_amount)==data.disc_amount">
+                                        <span class="disc">
+                                            100% Discounted
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='Y'">
