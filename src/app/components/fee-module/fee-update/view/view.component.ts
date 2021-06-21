@@ -641,7 +641,6 @@ export class ViewComponent implements OnInit {
     }
   }
   applyDiscount() {
-    debugger
     this.isApplyDiscClicked = true;
     this.auth.showLoader();
     let unpaidAmount = this.max_disc_apply;

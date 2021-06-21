@@ -907,7 +907,7 @@ export class StudentFeeService {
                 } else {
                     obj.discount_amount = perInstallmentDiscount;
                     obj.final_amount = element.d_amount - perInstallmentDiscount;
-                    obj.balance_amount = 0;
+                    obj.balance_amount = -1;
                 }
                 // if (obj.final_amount == 0) {
                 //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
@@ -919,7 +919,7 @@ export class StudentFeeService {
                     return false;
                 } else {
                     obj.discount_amount = perInstallmentDiscount;
-                    obj.final_amount = 0;
+                    obj.final_amount = -1;
                     obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
                 }
                 // if (obj.balance_amount == 0) {
@@ -1067,10 +1067,10 @@ export class StudentFeeService {
         if (element.p_amount == 0) {
             obj.discount_amount = popUpFormObj.discountAmount;
             obj.final_amount = Math.floor(element.d_amount + popUpFormObj.discountAmount);
-            obj.balance_amount = 0;
+            obj.balance_amount = -1;
         } else {
             obj.discount_amount = popUpFormObj.discountAmount;
-            obj.final_amount = 0;
+            obj.final_amount = -1;
             obj.balance_amount = Math.floor(element.d_amount + popUpFormObj.discountAmount);
         }
         if (popUpFormObj.type == "percentage") {
