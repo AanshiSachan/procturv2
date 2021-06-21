@@ -277,10 +277,10 @@
            <div class="col-6 ">
              <div class="center">
                  <img src="../../../../assets/images/conduct.png"><br>
-                 <p (click)="viewCharacterCertificate(awsDownloadLink)">Conduct<br>/ Character Certificate</p>
-               <!-- <p data-toggle="modal" data-target="#conductCertificate">
+                 <!-- <p (click)="viewCharacterCertificate(awsDownloadLink)">Conduct<br>/ Character Certificate</p> -->
+               <p data-toggle="modal" data-target="#conductCertificate">
                  Conduct<br>/ Character Certificate
-               </p> -->
+               </p>
               
             </div>
            </div>
@@ -291,10 +291,10 @@
              <div class="center">
          
                 <img src="../../../../assets/images/bonafide.png"><br>
-                <p (click)="viewBonafaiedCertificate(awsDownloadLink)">Bonafide Certificate</p>
-                <!-- <p data-toggle="modal" data-target="#bonafiedCertificate">
+                <!-- <p (click)="viewBonafaiedCertificate(awsDownloadLink)">Bonafide Certificate</p> -->
+                <p data-toggle="modal" data-target="#bonafiedCertificate">
                  Bonafide Certificate
-                </p> -->
+                </p>
            
             </div>
            </div>
@@ -302,10 +302,10 @@
            <div class="col-6 ">
              <div class="center">
                  <img src="../../../../assets/images/migration.png">
-                 <p (click)="viewMigrationCertificate(awsDownloadLink)">Migration Certificate</p>
-               <!-- <p data-toggle="modal" data-target="#migrationCertificate">
+                 <!-- <p (click)="viewMigrationCertificate(awsDownloadLink)">Migration Certificate</p> -->
+               <p data-toggle="modal" data-target="#migrationCertificate">
                  Migration Certificate
-               </p> -->
+               </p>
             </div>
            </div>
           
@@ -345,7 +345,7 @@
       <div></div>
       <div>
        <a class="mr20" (click)="characterPrintPage('conductCertificate')"><img src="../../../../assets/images/certifcateimg/print.svg"></a>
-       <a class="mr20" (click)="getCharacterCertificate()" > <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a class="mr20" (click)="CharacterConvertTopdf()" > <img src="../../../../assets/images/certifcateimg/download.svg"></a>
        <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
@@ -357,13 +357,13 @@
         <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
-           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div><span style="font-size:50px; font-weight:bold">{{charactertCertiModel.institute_name}}</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_phone}}</span>
+            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_address}}</span>
             </div>
       </div>
     </div>
@@ -372,7 +372,7 @@
     </div>
     <div>
      <p class="content">
-       This is to certify that <b>"{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}"</b>, was a bonafied student of since<b> "{{studentDetails.doj}}"</b> to till date.
+       This is to certify that <b>"{{charactertCertiModel.stud_name}}" s/o "{{charactertCertiModel.father_name}}"</b>, was a bonafied student of since<b> "{{charactertCertiModel.doj}}"</b> to till date.
 We found him to be well behaved & bears a good moral character. We found him to be regular to school and his conduct is satisfactory.
 I wish him a great success in life
      </p>

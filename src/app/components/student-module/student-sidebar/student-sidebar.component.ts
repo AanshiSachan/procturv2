@@ -7,6 +7,8 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { role } from '../../../model/role_features';
 import {ActivatedRoute} from '@angular/router'; 
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 declare var $;
 
 @Component({
@@ -72,6 +74,19 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   };
   isSchoolModel: boolean=false;
   awsDownloadLink:any
+  charactertCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:''
+
+
+
+
+  }
 
   constructor(
     private eRef: ElementRef,
@@ -114,6 +129,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.getCharacterCertificate()
   }
 
   ngOnChanges() {
@@ -328,8 +344,9 @@ getCharacterCertificate(){
   this.PostStudService.stdGetData(url).subscribe(
     (res:any) =>{
       let resp =res.result;
+      this.charactertCertiModel = resp
       this.awsDownloadLink=resp.awsDownloadLink
-      console.log("character",resp)
+      console.log("character",this.charactertCertiModel)
 
       this.auth.hideLoader();
       if(res){
@@ -551,6 +568,24 @@ characterPrintPage(popupName){
   newWinchar.history.back(); 
 
   console.log("print")
+
+}
+CharacterConvertTopdf(){
+  var data = document.getElementById('conductCertificate');
+  html2canvas(data).then(canvas => {
+  // Few necessary setting options
+  var imgWidth = 208;
+  var pageHeight = 295;
+  var imgHeight = canvas.height * imgWidth / canvas.width;
+  var heightLeft = imgHeight;
+   
+  const contentDataURL = canvas.toDataURL('image/png')
+  let pdf = new jsPDF('p', 'mm', 'a1'); // A4 size page of PDF
+  var position = 0;
+  pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+  pdf.save('new-file.pdf'); // Generated PDF
+
+});
 
 }
 closePopups(){
