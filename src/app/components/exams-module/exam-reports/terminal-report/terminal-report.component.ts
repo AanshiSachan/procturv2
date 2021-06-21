@@ -135,4 +135,8 @@ export class TerminalReportComponent implements OnInit {
       }
     )
   }
+
+  Print() {
+    window.print();
+  }
 }

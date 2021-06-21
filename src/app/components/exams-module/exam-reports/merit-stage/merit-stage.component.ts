@@ -108,4 +108,8 @@ export class MeritStageComponent implements OnInit {
 
   }
 
+  Print() {
+    window.print();
+  }
+
 }
