@@ -31,7 +31,7 @@
 .links a.selected {
   font-weight: 600;
   height: 40px;
-  background: #EFF0F5;
+  background: #cad1f8;
 }
 .table_head{
   background: #EFF0F5;
@@ -295,8 +295,8 @@ b{
 // ===================selecte message==========================
 .page-content2 {
   background: #F5F5F5;
-  padding: 0px 22px;
-  padding-top: 8px;
+  padding: 8px 22px 16px;
+
   position: absolute;
   bottom: 0px;
   // margin-left: -12px;
@@ -728,7 +728,9 @@ b{
       display: flex;
       justify-content: space-between;
   }
-  
+  .page_body > div:nth-child(2){
+    margin: 0px;
+  }
   .page_heading p {
       font-weight: 600;
       font-size: 12px;
@@ -750,7 +752,7 @@ b{
   .page_body {
       background: #FFFFFF;
       // height:189px;
-      height: 234px;
+      height: 247px;
       display: flex;
       padding: 16px 21px;
   }
@@ -954,7 +956,15 @@ b{
       display: block;
   }
   
-  
+  .col_flex{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+  }
+  .col_flex .blue_button{
+    float: right;
+  }
   .page_footer {
       padding: 16px 0px;
       display: flex;
@@ -974,6 +984,8 @@ b{
       border-radius: 5px;
       font-weight: 500;
       cursor: pointer;
+    // margin-left: 67%;
+
   }
   
   b {
@@ -1030,12 +1042,13 @@ b{
   line-height: 16px;
   /* identical to box height */
   
+  
   letter-spacing: 0.01em;
   margin-bottom: 0px;
   /* table_black */
   
   color: #323C47;
-  float: right;
+  // float: right;
   
   }
   .quota span{
@@ -1333,6 +1346,8 @@ b{
       border-radius: 5px;
       font-weight: 500;
       cursor: pointer;
+      margin-left: 44%;
+      margin-top: 71%;
   }
 
   b {

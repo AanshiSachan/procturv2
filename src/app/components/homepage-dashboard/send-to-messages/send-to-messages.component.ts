@@ -72,7 +72,7 @@ parent:boolean=false
   courses: any[] = [];
   courseIds: any = null;
   batchesIds: any = null;
-  courseId: any[] = [];
+  courseId:string='';
   fullResponse:any=[]
   courseListSetting={}
   combinedDataRes: any = {};
@@ -810,21 +810,18 @@ sendPushNotification() {
     onCheckBoxEvent(event, item) {
       item.assigned = event;
        this.allChecked = this.checkCheckAllChkboxStatus();
-      if (item.assigned == true){
-        this. count++;
-        alert('count')
-        console.log("count",this.count)
-      }else{
-        this.count--;
-    //   }if(this.allChecked =this.checkCheckAllChkboxStatus()){
-    // this.count=this.studentList.length
-    // }
-    }
+          if(item.assigned == true){
+          this.count++;
+  }else{
+    this.count--;
   }
+}
     checkCheckAllChkboxStatus() {
-      let count =0
+      
+
       for (let i = 0; i < this.studentList.length; i++) {
         if (this.studentList[i].assigned == false) {
+        
           return false;
         }
         
@@ -836,36 +833,32 @@ sendPushNotification() {
       
     }
 
-    // onCourseCheckBoxEvent(event, item) {
-    //   item.assigned = event;
-    //   this.allChecked = this.checkAllCourseChkboxStatus();
-    // }
-
-    // checkAllCourseChkboxStatus() {
-    //   for (let i = 0; i < this.courseStudentList.length; i++) {
-    //     if (this.courseStudentList[i].assigned == false) {
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // }
+    
     checkAllChechboxes(event, data) {
+      this.count = 0;
+      if(event.target.checked) {
       data.forEach(
         element => {
           if(this.emailSendingFlag){
           if(element.email_id !=null || element.student_email) {
-          element.assigned = event.target.checked;
-          // this.count++;
-          // alert('count')
+            element.assigned = event.target.checked;
+            this.count++;
+         
           }
         }else{
           element.assigned = event.target.checked;
-      //  this.count--;
+          this.count++;
 
         }
       
       }
       )
+    } else {
+      this.count = 0;
+      data.forEach(element=>{
+        element.assigned = false;
+      });
+    }
     }
    onsearchList(){
      if(this.activeCeckbox =='true' ){
@@ -894,28 +887,32 @@ onClearActiveCheckbox(event){
   this.aluminiCheckBox='false';
   this.allUserCheck='false';
   this.inactiveCheck='false';
+  this.selectMasterCourse.master_course='',
+  this.courseId=''
 }
 onClearInctiveCheckbox(event){
   this.allUserCheck ='false'
    this.activeCeckbox='false';
    this.facultyCheckBox='false';
    this.aluminiCheckBox='false';
-   //this.inactiveCheck='false';
-}
+   this.selectMasterCourse.master_course='',
+   this.courseId=''}
 onClearAlluserCheckbox(event){
   
    this.activeCeckbox='false';
    this.facultyCheckBox='false';
    this.aluminiCheckBox='false';
-  //  this.allUserCheck='false';
-   this.inactiveCheck='false';
+   this.selectMasterCourse.master_course='',
+   this.courseId=''
+      this.inactiveCheck='false';
 }
 onClearFacultyCheckbox(event){
   this.allUserCheck ='false'
 
    this.activeCeckbox='false';
-  //this.facultyCheckBox='true';
-   this.aluminiCheckBox='false';
+   this.selectMasterCourse.master_course='',
+   this.courseId=''
+      this.aluminiCheckBox='false';
    this.inactiveCheck='false';
 }
 onClearAlluminCheckbox(event){
@@ -923,8 +920,9 @@ onClearAlluminCheckbox(event){
  
    this.activeCeckbox='false';
    this.facultyCheckBox='false';
-   //this.aluminiCheckBox='true';
-   this.inactiveCheck='false';
+   this.selectMasterCourse.master_course='',
+   this.courseId=''
+      this.inactiveCheck='false';
 }
    }
   

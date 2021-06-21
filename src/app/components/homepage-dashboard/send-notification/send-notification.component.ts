@@ -52,6 +52,7 @@ sendLoginmessage:boolean=false
 
   pramotionalSelectedFlag:boolean=false;
   transactionalSelectedFlag:boolean=true
+  classToggled = false;
  
   
   schoolModel: boolean = false;
@@ -570,9 +571,17 @@ updateMessage(){
     console.log("pramotional flag",this.pramotionalSelectedFlag)
   }
   onClickEmailSentTo(){
+    if( this.email_subject ==''){
+      this.classToggled = true
+      console.log("emailflasssss",this.classToggled)
+    }else{
+      this.classToggled = false
     this.router.navigateByUrl('/view/dashboard/send-to-messages')
     sessionStorage.setItem('email-subject',this.email_subject)
     console.log("email subject",this.email_subject)
+   
+
+    }
 
   }
   onClickPushSentTo(){
