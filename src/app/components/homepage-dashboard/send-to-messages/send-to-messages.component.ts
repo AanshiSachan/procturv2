@@ -528,6 +528,12 @@ parent:boolean=false
         )
       }
       onMasterCourseChange(event) {
+        this.allUserCheck ='false'
+
+        this.activeCeckbox='false';
+       this.facultyCheckBox = 'false'
+           this.aluminiCheckBox='false';
+        this.inactiveCheck='false';
         if (this.userType != 3) {
           this.showInactiveStudentFlag=false
           
