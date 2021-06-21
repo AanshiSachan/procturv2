@@ -342,7 +342,6 @@ if(this.selectedMessageText){
 }
 }
 onSelectedEmailCheckbox(obj){
-  let count =0
   this.jsonFlag.createEmailFlag =false
   this.jsonFlag.selectedEmailChecboxFlag = true
   this.selectedEmailCheckBox=true
@@ -357,7 +356,6 @@ this.selectedRow = obj.message
 this.selectedMessageId= obj.message_id
 sessionStorage.setItem('selecte-email-message',(this.selectedRow))
 sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
-//this.selectedRow.length=this.selectedMessageText
 
 
 }
