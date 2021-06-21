@@ -312,6 +312,9 @@ export class SupplierMasterComponent implements OnInit {
             }
           }
           this.assetAllData = temp;
+          if(this.assetAllData.length==0){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Assets not available under this category");
+          }
         },
         err => {
 
