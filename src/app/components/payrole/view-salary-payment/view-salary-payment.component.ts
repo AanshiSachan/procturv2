@@ -50,6 +50,7 @@ export class ViewSalaryPaymentComponent implements OnInit {
   comment:any
   payment_method:any
   month:any
+  payment_amount
 
   userId:any
   constructor( private http: HttpService, 
@@ -63,6 +64,7 @@ export class ViewSalaryPaymentComponent implements OnInit {
      this.payment_date= sessionStorage.getItem('viewPayment_date')
     this.payment_method=sessionStorage.getItem('viewPayment_method')
     this.month=sessionStorage.getItem('viewMonth')
+    this.payment_amount = sessionStorage.getItem('payment-amount')
 
     }
   ngOnInit(): void {
