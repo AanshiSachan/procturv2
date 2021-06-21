@@ -39,7 +39,7 @@ export class CourseSubjectComponent implements OnInit {
   isLangInstitue: boolean = false;
   sortingDir: string = "asc";
   subjectCodeCharLimit: number = 4;
-  activeList: boolean = false;
+  activeList: boolean = true;
   schoolModel: boolean = false;
   isNewSubjectAdd: boolean = true;
   subject_id: number = -1;
@@ -74,7 +74,7 @@ export class CourseSubjectComponent implements OnInit {
         data.sort(function (a, b) {
           return moment(b.created_date).unix() - moment(a.created_date).unix();
         })
-        if (this.activeList == false) {
+        if (this.activeList == true) {
           this.subjectListDataSource = [];
           for (let i = 0; i < data.length; i++) {
             if (data[i].is_active === "Y") {
@@ -87,7 +87,7 @@ export class CourseSubjectComponent implements OnInit {
           this.auth.hideLoader();
           this.dataStatus = 2;
         }
-        else if (this.activeList == true) {
+        else if (this.activeList == false) {
           this.subjectListDataSource = [];
           for (let i = 0; i < data.length; i++) {
             if (data[i].is_active === "N") {
@@ -120,6 +120,7 @@ export class CourseSubjectComponent implements OnInit {
     this.getAllSubjectList();
   }
   editSubject(data) {
+    console.log(data);
     $('#addUpdateSubjectdialog').modal('show');
     this.isNewSubjectAdd = false;
     this.newSubjectDetails.standard_id = data.standard_id;
@@ -186,8 +187,10 @@ export class CourseSubjectComponent implements OnInit {
   }
   updateSubject() {
     if (this.validateSchoolModelField()) {
+      this.auth.showLoader();
       this.apiService.updateSubjectRowData(this.preparedSubjectRequestPayload(), this.subject_id).subscribe(
         data => {
+          this.auth.hideLoader();
           let msg = {
             type: "success",
             title: "",
@@ -199,6 +202,7 @@ export class CourseSubjectComponent implements OnInit {
           this.clearData();
         },
         error => {
+          this.auth.hideLoader();
           let data = {
             type: "error",
             title: "",
@@ -226,11 +230,14 @@ export class CourseSubjectComponent implements OnInit {
 
   addNewSubject() {
     if (this.validateUserInput()) {
+      this.auth.showLoader();
       this.apiService.createNewSubject(this.preparedSubjectRequestPayload()).subscribe(
         res => {
+          this.auth.hideLoader();
           this.successMsg();
         },
         err => {
+          this.auth.hideLoader();
           let data = {
             type: "error",
             title: "",
