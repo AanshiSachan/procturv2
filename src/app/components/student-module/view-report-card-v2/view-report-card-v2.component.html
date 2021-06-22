@@ -960,10 +960,10 @@
               </div>
             </div>
             <div class="field-radio-wrapper" style="margin-top: 10px;">
-              <span class="right" *ngIf="viewFiles.type == '2'">
+              <!-- <span class="right" >
                 <button class="blue_button" data-toggle="modal" data-target="#myModal">Generate Certificates</button>
-              </span>
-              <span class="right" *ngIf="viewFiles.type == '0'">
+              </span> -->
+              <span class="right">
                 <button class="blue_button" data-toggle="modal" data-target="#myModal">Add Document</button>
               </span>
             </div>
@@ -993,7 +993,7 @@
                 {{ data.title}}
               </div>
               <div>
-                {{data.createdDate}}
+                {{data.createdDate | date:'dd-MM-yyyy'}}
               </div>
               <div>
                 <a class="mr10" href="{{data.fileUrl}}"><img class="size22" src="../../../assets/img_view/download.svg"

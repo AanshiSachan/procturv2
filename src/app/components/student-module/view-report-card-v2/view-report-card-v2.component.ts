@@ -154,6 +154,9 @@ export class ViewReportCardV2Component implements OnInit {
     else if(param=="timeTable"){
       this.getTimeTableDetails();
     }
+    else if(param=="documents"){
+      this.getUploadedFileData();
+    }
   }
   //function to get parent,profile ,document, data
   getParentProfileDoc() {
@@ -288,6 +291,7 @@ export class ViewReportCardV2Component implements OnInit {
       (res: any) => {
         this.uploadedFileData = res;
         this.studentFiles = res;
+        console.log(this.studentFiles)
         this.auth.hideLoader();
         $('#myModal').modal('hide');
       },
