@@ -278,9 +278,12 @@
              <div class="center">
                  <img src="../../../../assets/images/conduct.png"><br>
                  <!-- <p (click)="viewCharacterCertificate(awsDownloadLink)">Conduct<br>/ Character Certificate</p> -->
-               <p data-toggle="modal" data-target="#conductCertificate">
+               <p data-toggle="modal" data-target="#conductCertificate" *ngIf="charactertCertiModel.sex =='M'" >
                  Conduct<br>/ Character Certificate
                </p>
+               <p data-toggle="modal" data-target="#conductCertificateF" *ngIf="charactertCertiModel.sex =='F'" >
+                Conduct<br>/ Character Certificate
+              </p>
               
             </div>
            </div>
@@ -292,10 +295,12 @@
          
                 <img src="../../../../assets/images/bonafide.png"><br>
                 <!-- <p (click)="viewBonafaiedCertificate(awsDownloadLink)">Bonafide Certificate</p> -->
-                <p data-toggle="modal" data-target="#bonafiedCertificate">
+                <p data-toggle="modal" data-target="#bonafiedCertificate" *ngIf="bonafiedCertiModel.sex == 'M'">
                  Bonafide Certificate
                 </p>
-           
+                <p data-toggle="modal" data-target="#bonafiedCertificateF" *ngIf="bonafiedCertiModel.sex == 'F'">
+                  Bonafide Certificate
+                 </p>
             </div>
            </div>
           
@@ -303,9 +308,12 @@
              <div class="center">
                  <img src="../../../../assets/images/migration.png">
                  <!-- <p (click)="viewMigrationCertificate(awsDownloadLink)">Migration Certificate</p> -->
-               <p data-toggle="modal" data-target="#migrationCertificate">
+               <p data-toggle="modal" data-target="#migrationCertificate" *ngIf="bonafiedCertiModel.sex == 'M'">
                  Migration Certificate
                </p>
+               <p data-toggle="modal" data-target="#migrationCertificateF" *ngIf="bonafiedCertiModel.sex == 'F'">
+                Migration Certificate
+              </p>
             </div>
            </div>
           
@@ -322,7 +330,7 @@
   </html>
   <!-- =========================================character-certificates-male====================================== -->
 
-<div  class="modal" style="margin-left: 181px;width:1290px ;" id="conductCertificate"> 
+<div  class="modal" style="margin-left: 181px;width:1290px ;"  id="conductCertificate"> 
   <!DOCTYPE html >
 <html>
 <head>
@@ -371,17 +379,17 @@
         Character Certificate
     </div>
     <div>
-     <p class="content">
-       This is to certify that <b>"{{charactertCertiModel.stud_name}}" s/o "{{charactertCertiModel.father_name}}"</b>, was a bonafied student of since<b> "{{charactertCertiModel.doj}}"</b> to till date.
+     <p class="content" >
+       This is to certify that <b>{{charactertCertiModel.stud_name}} s/o {{charactertCertiModel.father_name}}</b>, was a bonafied student of since<b> {{charactertCertiModel.doj}}</b> to till date.
 We found him to be well behaved & bears a good moral character. We found him to be regular to school and his conduct is satisfactory.
-I wish him a great success in life
+I wish him a great success in life.
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
+     <p class="dated space"  >Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
-   <div class="display space">
-     <div><b>Place</b>
-      <p>Pune</p></div>
-     <div>Principal</div>
+   <div class="display space"  >
+     <div  ><b>Place</b>
+      <p  >Pune</p></div>
+     <div  >Principal</div>
    </div>   
  </div>
  <br>
@@ -425,13 +433,13 @@ I wish him a great success in life
             <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
           </div>
           <div style="width: 70%" >
-               <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+               <div><span style="font-size:50px; font-weight:bold">{{charactertCertiModel.institute_name}}</span></div>
                <div>
-               <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
-                <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+               <span class="sm_heading"><b>Phone:</b>{{charactertCertiModel.inst_phone}}</span>
+                <span class="sm_heading"><b>Email:</b>{{charactertCertiModel.inst_email}}</span>
                 </div>
                 <div>
-               <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+               <span class="sm_heading"><b>Address</b>{{charactertCertiModel.inst_address}}</span>
                 </div>
           </div>
         </div>
@@ -440,7 +448,7 @@ I wish him a great success in life
         </div>
         <div>
          <p class="content">
-          This is to certify that<b> "{{studentDetails.student_name}}" d/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b>, was a bonafied student of since<b> "{{studentDetails.doj}}"</b> to till date.
+          This is to certify that<b> {{charactertCertiModel.stud_name}} d/o {{charactertCertiModel.father_name}}</b>, was a bonafied student of since<b> {{charactertCertiModel.doj}}</b> to till date.
     We found her to be well behaved & bears a good moral character. We found her to be regular to school and her conduct is satisfactory.
     I wish her a great success in life
          </p>
@@ -448,7 +456,7 @@ I wish him a great success in life
        </div>
        <div class="display space">
          <div><b>Place</b>
-          <p>Pune</p></div>
+          <p>{{charactertCertiModel.inst_place}}</p></div>           
          <div><b>Principal Signature</b></div>
        </div>
       </div>
@@ -493,13 +501,13 @@ I wish him a great success in life
         <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
-           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div><span style="font-size:50px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_phone}}</span>
+            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_address}}</span>
             </div>
       </div>
     </div>
@@ -508,15 +516,15 @@ I wish him a great success in life
     </div>
     <div>
      <p class="content">
-      This is to certify that<b> "{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b> residing at <b>"{{studentDetails.city_name}}"</b>, is a bonafide student and is studying at class<b> ({{studentDetails.standard}} - {{studentDetails.standardName}}) </b>in this school.
-He was admitted in this school on<b> "{{studentDetails.doj}}"</b> and his admission number is <b>"{{studentDetails.student_disp_id}}"</b>
-His DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
+      This is to certify that<b> "{{bonafiedCertiModel.stud_name}}" s/o "{{bonafiedCertiModel.father_name}}"</b> residing at <b>"{{bonafiedCertiModel.stud_city}}"</b>, is a bonafide student and is studying at class<b> ({{bonafiedCertiModel.standard_name}} - {{bonafiedCertiModel.section_name}}) </b>in this school.
+He was admitted in this school on<b> "{{bonafiedCertiModel.doj}}"</b> and his admission number is <b>"{{bonafiedCertiModel.reg_number}}"</b>
+His DOB as per our school record is<b> "{{bonafiedCertiModel.dob}}"</b>
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{bonafiedCertiModel.curr_date}}</b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
-      <p>Pune</p></div>
+      <p>{{bonafiedCertiModel.inst_place}}</p></div>
      <div>Principal</div>
    </div>
  </div>
@@ -561,13 +569,13 @@ His DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
         <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
-           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div><span style="font-size:50px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:</b>{{bonafiedCertiModel.inst_phone}}</span>
+            <span class="sm_heading"><b>Email:</b>{{bonafiedCertiModel.inst_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address</b>{{bonafiedCertiModel.inst_address}}</span>
             </div>
       </div>
     </div>
@@ -576,15 +584,15 @@ His DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
     </div>
     <div>
      <p class="content">
-      This is to certify that <b>"{{studentDetails.student_name}}" d/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b> residing at <b>"{{studentDetails.city_name}}"</b>, is a bonafide student and is studying at class <b> ({{studentDetails.standard}} - {{studentDetails.standardName}})</b> in this school.
-She was admitted in this school on <b>"{{studentDetails.doj}}"</b> and her admission number is <b>"{{studentDetails.student_disp_id}}"</b>
-Her DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
+      This is to certify that <b>{{bonafiedCertiModel.stud_name}} d/o {{bonafiedCertiModel.father_name}}</b> residing at <b>"{{bonafiedCertiModel.stud_city}}"</b>, is a bonafide student and is studying at class <b> ({{bonafiedCertiModel.standard_name}} - {{bonafiedCertiModel.section_name}})</b> in this school.
+She was admitted in this school on <b>"{{bonafiedCertiModel.doj}}"</b> and her admission number is <b>"{{bonafiedCertiModel.student_disp_id}}"</b>
+Her DOB as per our school record is<b> "{{bonafiedCertiModel.dob}}"</b>
      </p>
      <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
-      <p>Pune</p></div>
+      <p>{{bonafiedCertiModel.inst_place}}</p></div>
      <div><b>Principal Signature</b></div>
    </div>
  </div>
@@ -628,13 +636,13 @@ Her DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
         <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
-           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div><span style="font-size:50px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_phone}}</span>
+            <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_address}}</span>
             </div>
       </div>
     </div>
@@ -643,16 +651,16 @@ Her DOB as per our school record is<b> "{{studentDetails.dob}}"</b>
     </div>
     <div>
      <p class="content">
-      Registration Number: <b>"{{studentDetails.student_disp_id}}"</b><br> 
-This is to certify that <b>"{{studentDetails.student_name}}" s/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}" </b>is a student of <b>"{{studentDetails.school_name}}"</b> an institute affiliated with the<b> "{{studentDetails.board}}" Board. </b><br>
-He has successfully passed <b>"Standard {{studentDetails.standard}}"</b> examination conducted under this board.
+      Registration Number: <b>{{migrationCertiModel.reg_number}}</b><br> 
+This is to certify that <b>{{migrationCertiModel.stud_name}} s/o {{migrationCertiModel.father_name}}</b>is a student of <b>{{migrationCertiModel.institute_name}}</b> an institute affiliated with the<b> {{migrationCertiModel.school_board}} Board. </b><br>
+He has successfully passed <b>Standard {{migrationCertiModel.standard_name}}</b> examination conducted under this board.
 This school has no objection in his joining any recognized collage/institute or taking examination of any University or Board established by law.
      </p>
-     <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
+     <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{migrationCertiModel.curr_date}}</b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
-      <p>Pune</p></div>
+      <p>{{migrationCertiModel.inst_place}}</p></div>
      <div>Principal</div>
    </div>
   </div>
@@ -696,13 +704,13 @@ This school has no objection in his joining any recognized collage/institute or 
         <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
-           <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+           <div><span style="font-size:50px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
            <div>
-           <span class="sm_heading"><b>Phone:</b>{{studentDetails.student_phone}}</span>
-            <span class="sm_heading"><b>Email:</b>{{studentDetails.student_email}}</span>
+           <span class="sm_heading"><b>Phone:</b>{{migrationCertiModel.inst_phone}}</span>
+            <span class="sm_heading"><b>Email:</b>{{migrationCertiModel.student_email}}</span>
             </div>
             <div>
-           <span class="sm_heading"><b>Address</b>{{studentDetails.student_curr_addr}}</span>
+           <span class="sm_heading"><b>Address</b>{{migrationCertiModel.student_curr_addr}}</span>
             </div>
       </div>
     </div>
@@ -711,16 +719,16 @@ This school has no objection in his joining any recognized collage/institute or 
     </div>
     <div>
      <p class="content">
-     Registration Number: <b>"{{studentDetails.student_disp_id}}"</b> <br>
-This is to certify that<b> "{{studentDetails.student_name}}" d/o "{{studentDetails.parent_name}}" & "{{studentDetails.parent_name}}"</b> is a student of<b> "{{studentDetails.school_name}}"</b> an institute affiliated with the<b>"{{studentDetails.board}}" Board. </b><br>
-She has successfully passed <b>"Standard {{studentDetails.standard}}"</b> Examination conducted under this board.
+     Registration Number: <b>"{{migrationCertiModel.reg_number}}"</b> <br>
+This is to certify that<b> {{migrationCertiModel.stud_name}} d/o {{migrationCertiModel.father_name}}</b> is a student of<b>{{migrationCertiModel.institute_name}}</b> an institute affiliated with the<b>{{migrationCertiModel.school_board}} Board. </b><br>
+She has successfully passed <b> {{studentDetails.standard}}</b> Examination conducted under this board.
 This school has no objection in her joining any recognized collage/institute or taking examination of any University or Board established by law.
      </p>
      <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space">
      <div><b>Place</b>
-      <p>Pune</p></div>
+      <p>{{migrationCertiModel.inst_place}}</p></div>
      <div><b>Principal Signature</b></div>
    </div>  
 </div>

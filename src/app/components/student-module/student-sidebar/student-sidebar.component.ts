@@ -41,6 +41,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   //@ViewChild('acc') acc: ElementRef;
   @ViewChild('one', { static: true }) one: ElementRef;
   @ViewChild('two', { static: true }) two: ElementRef;
+  @ViewChild("content", { static: false }) content: ElementRef;
 
 
   @ViewChild('imgDisp', { static: true }) im: ElementRef;
@@ -81,11 +82,41 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     inst_address:'',
     stud_name:'',
     father_name:'',
-    doj:''
-
-
-
-
+    doj:'',
+    sex:''
+  }
+  bonafiedCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    stud_city:'',
+    standard_name:'',
+    section_name:'',
+    reg_number:'',
+    curr_date:'',
+    inst_place:'',
+  }
+  migrationCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    stud_city:'',
+    standard_name:'',
+    section_name:'',
+    reg_number:'',
+    curr_date:'',
+    inst_place:'',
+    school_board:''
   }
 
   constructor(
@@ -130,6 +161,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getCharacterCertificate()
+    this.bonafiedCertificates()
+    this.migrationCertificates()
   }
 
   ngOnChanges() {
@@ -385,6 +418,7 @@ bonafiedCertificates(){
   this.PostStudService.stdGetData(url).subscribe(
     (res:any) =>{
       let resp =res.result;
+      this.bonafiedCertiModel = resp
       console.log("bonafied",resp)
 
       this.auth.hideLoader();
@@ -425,7 +459,7 @@ migrationCertificates(){
     (res:any) =>{
       let resp =res.result;
       console.log("migration",resp)
-
+this.migrationCertiModel = resp
       this.auth.hideLoader();
       if(res){
          
@@ -571,21 +605,21 @@ characterPrintPage(popupName){
 
 }
 CharacterConvertTopdf(){
-  var data = document.getElementById('conductCertificate');
-  html2canvas(data).then(canvas => {
-  // Few necessary setting options
-  var imgWidth = 208;
-  var pageHeight = 295;
-  var imgHeight = canvas.height * imgWidth / canvas.width;
-  var heightLeft = imgHeight;
-   
-  const contentDataURL = canvas.toDataURL('image/png')
-  let pdf = new jsPDF('p', 'mm', 'a1'); // A4 size page of PDF
-  var position = 0;
-  pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-  pdf.save('new-file.pdf'); // Generated PDF
+  var data = document.getElementById('conductCertificate');  
+    html2canvas(data).then(canvas => {  
+      var imgWidth = 208;   
+      var pageHeight = 295;    
+      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var heightLeft = imgHeight;  
+  
+      const contentDataURL = canvas.toDataURL('image/png')  
+      let pdf = new jsPDF('p', 'mm', 'a4'); 
+      var position = 0;  
+      pdf.addImage(contentDataURL,'PNG', 0, position, imgWidth, imgHeight)  
+      pdf.save('conductCertificates.pdf');  
 
-});
+
+    });
 
 }
 closePopups(){
