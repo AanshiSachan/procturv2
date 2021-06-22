@@ -291,7 +291,6 @@ export class ViewReportCardV2Component implements OnInit {
       (res: any) => {
         this.uploadedFileData = res;
         this.studentFiles = res;
-        console.log(this.studentFiles)
         this.auth.hideLoader();
         $('#myModal').modal('hide');
       },
