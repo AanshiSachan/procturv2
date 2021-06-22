@@ -252,8 +252,7 @@ export class LocationComponent implements OnInit {
     }
     else {
       //http://localhost:8081/prod/api/v2/asset/location/search?searchString=mumbai&instituteId=100075
-    
-      if(this.searchParams.length>=3){
+
         this.auth.showLoader();
         this.httpService.getMethod('api/v2/asset/location/search?searchString='+this.searchParams + '&instituteId='+this.model.institute_id, null).subscribe(
           (res: any) => {
@@ -266,7 +265,7 @@ export class LocationComponent implements OnInit {
             this.auth.hideLoader();
           }
         );
-      }
+      
     
       let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
