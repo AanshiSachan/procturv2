@@ -629,7 +629,7 @@ export class ViewComponent implements OnInit {
       return
     }
     if (this.discountPopUpForm.type == "2") {
-      if (event >= 100) {
+      if (event >100) {
         this.commonService.showErrorMessage('error', '', 'Please enter valid discount percentage');
         this.discountPopUpForm.value = 0;
         this.discountPopUpForm.discountAmount = 0;

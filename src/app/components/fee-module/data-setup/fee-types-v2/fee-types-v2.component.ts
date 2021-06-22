@@ -67,7 +67,7 @@ export class FeeTypesV2Component implements OnInit {
         institute_id: sessionStorage.getItem('institute_id')
       };
       if (this.is_tax_enabled) {
-        payload.tax_percentage = this.addNewFee.fee_type_tax;
+        payload.tax_percentage = this.addNewFee.fee_type_tax==''?0:this.addNewFee.fee_type_tax;
       }
       this.http.postData(url, payload).subscribe(data => {
         let temp: any = data;
@@ -110,7 +110,7 @@ export class FeeTypesV2Component implements OnInit {
         institute_id: sessionStorage.getItem('institute_id')
       };
       if (this.is_tax_enabled) {
-        payload.tax_percentage = this.addNewFee.fee_type_tax;
+        payload.tax_percentage = this.addNewFee.fee_type_tax==''?0:this.addNewFee.fee_type_tax;
       }
       this.http.putData(url, payload).subscribe(data => {
         let temp: any = data;
