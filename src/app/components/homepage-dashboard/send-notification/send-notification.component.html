@@ -19,7 +19,7 @@
     <div>Message</div>
     <div>Action</div>
   </div>
-  <div class="scroll_body">
+  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.selectedEmailChecboxFlag || jsonFlag.createdPushNotification }">
     <div *ngIf="smsTableFlag">
       <div class="table_body" *ngFor="let msg of messageList">
         <div>
@@ -46,7 +46,7 @@
       <div class="table_body" *ngFor="let email of emailMessageList">
         <div>
           <div class="field-radio-wrapper">
-            <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedEmailCheckBox"
+            <input type="radio" class="form-radio"  [(ngModel)]="selectedRow" [checked]="selectedEmailCheckBox"
               value="{{email.message}}" (click)="onSelectedEmailCheckbox(email)">
             <label></label>
           </div>
@@ -92,7 +92,7 @@
 
 </div>
 <!-- =====================create-message================= -->
-<div class="page-content1" *ngIf="jsonFlag.createMesageFlag || jsonFlag.editMessage ">
+<div class="page-content1" *ngIf="jsonFlag.createMesageFlag || jsonFlag.editMessage  ">
   <div class="page_heading">
     <p *ngIf="!jsonFlag.editMessage">
       Create SMS
@@ -159,12 +159,12 @@
   <div class="page_body">
     <div>
       <p>Select SMS Type</p>
-      <div [ngClass]="{'remaining selected':transactionalSelectedFlag}" (click)="onClicktransaction($event)">
+      <div [ngClass]="{'remaining selected':transactionalSelectedFlag}" (click)="onClicktransaction($event)" style="cursor: pointer;">
         <p>Transactional </p>
         <p class="number">{{transactionalSms}}</p>
 
       </div>
-      <div [ngClass]="{'remaining selected':pramotionalSelectedFlag}" (click)="onclicPramotional($event)">
+      <div [ngClass]="{'remaining selected':pramotionalSelectedFlag}" (click)="onclicPramotional($event)" style="cursor: pointer;">
         <p>Promotional</p>
         <p class="number">{{pramotionalSms}}</p>
       </div>

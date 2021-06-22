@@ -93,6 +93,7 @@ sendLoginmessage:boolean=false
   selectedMessageText:string ="";
   selectedMessageCount:number =0;
   selectedMessageId:any
+  backToEdit:string="";
 
   editorConf = {
     height: 150,
@@ -120,10 +121,12 @@ sendLoginmessage:boolean=false
       this.transactionalSms = sessionStorage.getItem('smsTransaction')
       this.pramotionalSms = sessionStorage.getItem('pramotionValu')
       this.email_quataBalence = sessionStorage.getItem('email_quoat_balence')
+      this.backToEdit = sessionStorage.getItem('editmessageDesc')
+
     }
 
   ngOnInit(): void {
-
+// console.log("back edit message",this.backToEdit)
     this.auth.schoolModel.subscribe(
       res => {
         this.schoolModel = false;
@@ -147,6 +150,9 @@ sendLoginmessage:boolean=false
     this.smsTableFlag = true
    
 
+  }
+  ngOnDestroy() {
+    sessionStorage.removeItem('editmessageDesc')
   }
   onClickEmai(){
     this.emailTableFlag = true

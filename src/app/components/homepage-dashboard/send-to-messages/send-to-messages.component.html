@@ -70,13 +70,13 @@
            <div class="vertical display" *ngIf="!isProfessional">
             <div>
                 <label>{{schoolModel? 'Standard' : 'Master Course'}}</label>
-               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course" (ngModelChange)="onMasterCourseChange($event)">
+               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course"  name="master_course"     (ngModelChange)="onMasterCourseChange($event)">
                 <option value="-1">Select</option>
 
                    <option [value]="master.master_course" *ngFor="let master of masterCourseList">{{master.master_course}}</option>
                </select>
 
-               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id" (ngModelChange)="onMasterCourseChange($event)" >
+               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id" name="master_course" (ngModelChange)="onMasterCourseChange($event)" >
                    <option value="-1">Select</option>
                 <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.masterCourse}}</option>
             </select>
@@ -208,7 +208,9 @@
         <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
         </div>
         </div>
-        <div *ngIf="studentList.length == '0'">No Record Found</div>
+        <div *ngIf="studentList.length == '0'" style="text-align: center">
+            <img src="../../../../assets/images/add-send-notification-img/Empty.svg" class="empt-img">
+            Use Filters For View details</div>
 
 <!-- =======inactive-student================== -->
 <div *ngIf="showInactiveStudentFlag">

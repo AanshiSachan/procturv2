@@ -89,7 +89,7 @@ parent:boolean=false
   push_messageId:any
   count:number=0
   messageCount:number=0
-
+bacToEditMessage:string="editMessage"
   
 
   constructor( private router: Router,
@@ -527,6 +527,7 @@ parent:boolean=false
           }
         )
       }
+
       onMasterCourseChange(event) {
         this.allUserCheck ='false'
 
@@ -538,7 +539,7 @@ parent:boolean=false
           this.showInactiveStudentFlag=false
           
         }
-       // this.flushData();
+      
         if(this.schoolModel) {
           this.getCourseList(this.selectMasterCourse.standard_id)
         } else {
@@ -884,7 +885,9 @@ sendPushNotification() {
      }
     
      onClickEiditMessageDescription(){
+       sessionStorage.setItem('editmessageDesc',this.bacToEditMessage)
        this.router.navigateByUrl('/view/dashboard/send-notification')
+       console.log("edittttt",this.bacToEditMessage)
 
      }
 onClearActiveCheckbox(event){
