@@ -14,7 +14,7 @@ export class MeritStageComponent implements OnInit {
   standardData: any = [];
   courseList: any = [];
   reportDetails: any = {};
-  instituteName:any='';
+  instituteName: any = '';
   filterObj = {
     standard_id: '-1',
     exam_type: '-1',
@@ -109,7 +109,15 @@ export class MeritStageComponent implements OnInit {
   }
 
   Print() {
+    let printContents = document.getElementById('myModal').innerHTML;
+    let originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
     window.print();
+
+    document.body.innerHTML = originalContents;
+    window.close();
   }
 
 }
