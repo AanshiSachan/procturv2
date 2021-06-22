@@ -9,7 +9,9 @@
     <div class="w98">
         <div class="padding1">
             <input type="text" class="input glass" placeholder="search" #search [(ngModel)]="searchParams"
-                name="searchParams" (keyup)="searchDatabase()">
+                name="searchParams">
+                <span style="margin-left: 19px;"><button style="margin-top: 20px;" class="btn blue_button"  (click)="searchDatabase()">
+                   Go </button></span>
             <span class="rights">
                 <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a> -->
                 <a  (click)="exportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>

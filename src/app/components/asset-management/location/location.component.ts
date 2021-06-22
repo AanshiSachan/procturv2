@@ -260,6 +260,9 @@ export class LocationComponent implements OnInit {
             this.tempLocationList = res.result.response;
             this.totalRecords = res.result.total_elements;
             this.auth.hideLoader();
+            if(this.staticPageData.length==0){
+              this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "No Data Found");
+            }
           },
           err => {
             this.auth.hideLoader();

@@ -26,7 +26,10 @@
     <div class="w98">
         <div class="padding1">
             <input type="text" style="margin-top: 15px;" class="searches wid240 mr10 magnifying-glass" placeholder="search" #search [(ngModel)]="searchParams"
-                name="searchParams" (keyup)="searchDatabase()" *ngIf="is_asset">
+                name="searchParams"  *ngIf="is_asset">
+                <span><button class="blue_button" 
+                  *ngIf="is_asset" (click)="searchDatabase()">Go
+                   </button></span>
             <span class="rights" *ngIf="is_asset">
                 <!-- <a><img src="assets/images/assets/Group354.svg" class="mr10"></a>-->
                 <a  (click)="assetExportToExcel()"><img src="assets/images/assets/Group353.svg"  class="mr10"></a>

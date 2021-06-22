@@ -573,12 +573,28 @@ export class CategoryComponent implements OnInit {
 
   //search asset
   searchDatabase() {
+    this.staticPageData=[];
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
 
     }
     else {
+      this.auth.showLoader();
+      this.httpService.getMethod('api/v2/asset/search?searchString='+this.searchParams +'&instituteId='+this.model.institute_id, null).subscribe(
+        (res: any) => {
+          this.staticPageData = res.result.response;
+          this.tempLocationList = res.result.response;
+          this.totalRecords = res.result.total_elements;
+          this.auth.hideLoader();
+          if(this.staticPageData.length==0){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "No Data Found");
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
       let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
