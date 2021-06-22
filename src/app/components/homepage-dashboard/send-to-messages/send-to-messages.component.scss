@@ -1,12 +1,11 @@
 .page-content {
     background: #F5F5F5;
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 60px);
     //  height needs adjustment
     //  overflow-y: hidden;
     height: auto;
     padding: 0px 22px;
     padding-top: 8px;
-    margin-top: -12px;
     margin-left: -12px;
 
 }
@@ -298,7 +297,7 @@ input::placeholder {
 }
 
 .scroll_body1 {
-    height: calc(101vh - (64px + 8px + 200px + 21px + 30px + 15px + 40px + 60px));
+    height: calc(101vh - (68px + 8px + 200px + 21px + 30px + 15px + 40px + 60px));
     background: #fff;
     overflow-y: auto;
 }
