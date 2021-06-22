@@ -263,9 +263,12 @@
   
   }
   
-  .table_head>div,
-  .table_body>div {
+  .table_head>div{
     padding-left: 20px;
+  }
+
+  .table_body>div {
+    padding-left: 25px;
   }
   
   .standard .table_head>div:first-child,
@@ -480,7 +483,8 @@
   
   }
   
-  .subject .table_body>div:last-child {
+  .subject .table_body>div:last-child,
+  .subject .table_head>div:last-child {
     justify-content: center;
     display: flex;
   }
@@ -489,4 +493,19 @@
   }
   .modal-dialog {
     margin: 5% auto;
+  }
+  .stdSelect{
+    width: 200px;
+    // margin: 8px 0;
+    padding: 7px 0px;
+    border: 1px solid #F0EDED;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #6B5D5D;
+    text-indent: 5px;
+    height: 37px;
   }

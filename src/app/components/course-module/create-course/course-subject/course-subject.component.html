@@ -367,6 +367,16 @@ data-backdrop="static" aria-hidden="true">
 
   <div class="display space16">
     <div class="flexc">
+      <!-- <div class="field-wrapper" style="margin-right: 15px;">
+        <div class="dropdown-div">
+          <select id="masterCourse" class="form-ctrl stdSelect" style="box-shadow: 0px 4px 10px rgb(0 0 0 / 10%)" [(ngModel)]="standard_id_filter" (ngModelChange)="getAllSubjectListFromServer($event)">
+            <option value="-1"> Select {{isLangInstitue ? 'Master Course Name' : 'Standard'}}</option>
+            <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+              {{ (opt.standard_name?.length > 70) ? (opt.standard_name | slice:0:70) + '...' : opt.standard_name }}
+            </option>
+          </select>
+        </div>
+      </div> -->
       <div>
         <label class="checkbox">
           <span class="checkbox__input">
@@ -412,7 +422,7 @@ data-backdrop="static" aria-hidden="true">
     </div>
     <div class="scroll" *ngIf="(subjectList.length != 0)">
       <div class="table_body" [ngClass]="{'school_tbody': schoolModel}" *ngFor="let row of subjectList; let i = index; trackBy: i;">
-        <div>{{row.subject_id}}</div>
+        <div style="padding-left: 20px;">{{row.subject_id}}</div>
         <div>{{row.standard_name}}</div>
         <div>{{row.subject_name}}</div>
         <div *ngIf="!isLangInstitue">{{row.subject_code}}</div>
@@ -421,8 +431,8 @@ data-backdrop="static" aria-hidden="true">
         <div *ngIf="schoolModel">{{row.is_optional}}</div>
         <div>{{row.created_date | date:'dd-MMM-yy'}}</div>
         <div>
-          <img src="../../../assets/images/Edit.svg" (click)="editSubject(row)" class="mr10 table_action">
-          <img src="../../../assets/img1/delete.svg" (click)="deleteRow(row)" class="table_action">
+          <img src="../../../assets/img2/edit.svg" (click)="editSubject(row)" class="mr10 table_action">
+          <img src="../../../assets/img2/delete.svg" (click)="deleteRow(row)" class="table_action">
         </div>
       </div>
 
