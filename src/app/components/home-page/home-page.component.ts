@@ -10,7 +10,7 @@ declare var $;
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit, OnDestroy  {
+export class HomePageComponent implements OnInit  {
   
   curDate: number = moment().date();
   curMonth: string = moment().format('MMMM');
@@ -108,17 +108,6 @@ export class HomePageComponent implements OnInit, OnDestroy  {
     this.timer = setInterval(() => {
       this.time = new Date();
     }, 1000);
-    if(sessionStorage.getItem('showSMSService') == 'true') {
-      $('#smsMsg').modal('show');
-    }
-  }
-
-  ngOnDestroy() {
-    sessionStorage.removeItem('showSMSService');
-  }
-
-  openLaunchEventLink() {
-    window.open("https://bit.ly/procturfbevent");
   }
 }
 
