@@ -621,7 +621,7 @@ export class ViewComponent implements OnInit {
     if (this.discountPopUpForm.type == "3") {
       let val = 0;
       for (let data of this.discountInstallList) {
-        val += data.d_amount;
+        val += this.isDiscountRemove?data.disc_amount:data.d_amount;
       }
       this.discountPopUpForm.value = val;
       this.discountPopUpForm.discountAmount = val;
