@@ -5,7 +5,8 @@ import { PostStudentDataService } from '../../..//services/student-services/post
 import { CommonServiceFactory } from '../../../services/common-service';
 import { Location } from '@angular/common'
 import { MessageShowService } from '../../../services/message-show.service';
-
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 import * as moment from 'moment';
 
@@ -52,7 +53,8 @@ transferCertificateModel={
   subject_names:'',
   application_date:'',
   remark:'',
-  awsDownloadLink:''
+  awsDownloadLink:'',
+  institute_name:''
 
 
 }
@@ -289,6 +291,29 @@ err => {
 )
 
 } 
+
+downloadTransferPdf(){
+  var data = document.getElementById('transferCertificate');  
+  html2canvas(data).then(canvas => {  
+    var imgWidth = 208;   
+    var pageHeight = 295;    
+    var imgHeight = canvas.height * imgWidth / canvas.width;  
+    var heightLeft = imgHeight;  
+
+    const contentDataURL = canvas.toDataURL('image/png')  
+    let pdf = new jsPDF('p', 'mm', 'a4'); 
+    var position = 0;  
+    pdf.addImage(contentDataURL,'PNG', 0, position, imgWidth, imgHeight)  
+    pdf.save('transferCertificates.pdf');  
+
+
+  });
+}
+
+
+
+
+
 
 Back(){
 this.router.navigateByUrl('/view/students')

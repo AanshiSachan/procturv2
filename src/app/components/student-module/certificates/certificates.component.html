@@ -1,5 +1,5 @@
 
-<div class="page-content" >
+<div class="page-content"  *ngIf="!transfer">
     <div class="head_padding">
        <div class="w98">
          <div class="page_heading">
@@ -289,7 +289,7 @@
                      <div >
                       
                      
-                         <button class="blue_button " (click)="previewCertificate()" >Generate Certificate</button>
+                         <button class="blue_button " (click)="transferCertificate()" >Generate Certificate</button>
 
                      </div>
 
@@ -304,7 +304,7 @@
     </div> 
     
     <!-- =================================start Transfer Certificate======================================== -->
-    <!-- <div *ngIf="transfer" class="body_div">
+    <div *ngIf="transfer" class="body_div" >
       <!DOCTYPE html>
       <html>
       <head>
@@ -328,13 +328,13 @@
             <div></div>
             <div>
              <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
-             <a class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+             <a class="mr20" (click)="downloadTransferPdf()"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
              <a (click)="cloaseCertificate()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
             </div>
           </div>
         </div>
           <br>
-        <div class="body">
+        <div class="body" id="transferCertificate">
           
           <div class="w96 flex">
             <div style="width: 30%">
@@ -380,7 +380,7 @@
               1. Name Of pupil
             </div>
             <div class="value1">
-              Vishakha Lalit Badiye
+             {{transferCertificateModel.student_name}}
             </div>
           </div>
           <div class="display space">
@@ -389,7 +389,7 @@
       
             </div>
             <div class="value1">
-              Lalit Badiye
+              {{transferCertificateModel.father_name}}
             </div>
           </div>
           <div class="display space">
@@ -398,7 +398,7 @@
       
             </div>
             <div class="value1">
-              Vandana Badiye
+              {{transferCertificateModel.mother_name}}
             </div>
           </div>
           
@@ -408,7 +408,7 @@
       
             </div>
             <div class="value1">
-              
+              {{transferCertificateModel.dateOfBirth}}
             </div>
           </div>
           <div class="display space">
@@ -417,7 +417,7 @@
       
             </div>
             <div class="value1">
-             
+              {{transferCertificateModel.nationality}}
             </div>
           </div>
           <div class="display space">
@@ -426,7 +426,7 @@
       
             </div>
             <div class="value1">
-             
+              {{transferCertificateModel.belongsTo}}
             </div>
           </div>
           <div class="display space">
@@ -434,7 +434,7 @@
               7. Date of Admission in School with Class
             </div>
             <div class="value1">
-              20-09-2001
+              {{transferCertificateModel.doj}}
             </div>
           </div>
           <div class="display space">
@@ -442,7 +442,7 @@
               8. Class in which the pupil last studied
             </div>
             <div class="value1">
-              X
+              {{transferCertificateModel.last_studied_class}}
           </div>
         </div>
           <div class="display space">
@@ -451,7 +451,7 @@
       
             </div>
             <div class="value1">
-             
+              {{transferCertificateModel.last_annual_exam_result}}
             </div>
           </div>
           <div class="display space">
@@ -461,7 +461,7 @@
       
             </div>
             <div class="value1">
-             
+              {{transferCertificateModel.failedClass}}
             </div>
           </div>
           <div class="display space">
@@ -470,7 +470,7 @@
       
             </div>
             <div class="value1">
-             
+             {{transferCertificateModel.subject_names}}
             </div>
           </div>
           <div class="display space">
@@ -479,7 +479,7 @@
       
             </div>
             <div class="value1">
-              
+              {{transferCertificateModel.promotionToClass}}
             </div>
           </div>
           <div class="display space">
@@ -489,7 +489,7 @@
       
             </div>
             <div class="value1">
-             
+             {{transferCertificateModel.last_school_dues_paid_month}}
             </div>
           </div>
           <div class="display space">
@@ -499,7 +499,7 @@
       
             </div>
             <div class="value1">
-              
+              {{transferCertificateModel.feeConcession}}
             </div>
           </div>
           <div class="display space">
@@ -507,7 +507,7 @@
               15. Total No. of working days in academic session
             </div>
             <div class="value1">
-              
+              {{transferCertificateModel.total_working_days}}
             </div>
           </div>
           <div class="display space">
@@ -516,7 +516,7 @@
       
             </div>
             <div class="value1">
-              
+              {{transferCertificateModel.total_present_days}}
             </div>
           </div>
           <div class="display space">
@@ -526,7 +526,7 @@
       
             </div>
             <div class="value1">
-             
+             {{transferCertificateModel.whetherNcc}}
             </div>
           </div>
           
@@ -537,7 +537,7 @@
       
             </div>
             <div class="value1">
-              
+              {{transferCertificateModel.genCharacter}}
             </div>
           </div>
           <div class="display space">
@@ -547,10 +547,10 @@
       
             </div>
             <div class="value1">
-             
+             {{transferCertificateModel.last_date}}
             </div>
           </div>
-          <div class="display space">
+          <!-- <div class="display space">
             <div >
              20. Date of application for certificate
       
@@ -559,8 +559,8 @@
             <div class="value1">
              
             </div>
-          </div>
-          <div class="display space">
+          </div> -->
+          <!-- <div class="display space">
             <div >
               21. Date of Issue of certificate
       
@@ -568,14 +568,14 @@
             <div class="value1">
               20-09-2001
             </div>
-          </div>
+          </div> -->
           <div class="display space">
             <div >
               22. Reason for leaving the school
       
             </div>
             <div class="value1">
-              
+              {{transferCertificateModel.reasonLeaveSchool}}
           </div>
         </div>
           <div class="display space">
@@ -584,7 +584,7 @@
       
             </div>
             <div class="value1">
-             
+             {{transferCertificateModel.remark}}
             </div>
           </div>
           <br>
@@ -609,4 +609,4 @@
       </body>
       </html>
       </div>
-     -->
+     
