@@ -89,7 +89,13 @@ parent:boolean=false
   push_messageId:any
   count:number=0
   messageCount:number=0
-bacToEditMessage:string="editMessage"
+bacToEditMessage:string=""
+backToEditMessageId:any
+backToEditEmail:string=""
+backToEmailId:any
+backToEditemailSub:string=""
+backToPush:string="";
+backTopushId:any
   
 
   constructor( private router: Router,
@@ -125,15 +131,7 @@ bacToEditMessage:string="editMessage"
       }
     }
   ngOnInit(): void {
-    console.log("messase",this.selected_message)
-    console.log("message id",this.selected_messageId)
-    console.log("email subject",this.email_subjects)
-    console.log("transactional",this.transactional)
-    console.log("pramotional",this.pramotional)
-    console.log("push message",this.push_message)
-    console.log("push message-id",this.push_messageId)
-    console.log("length",this.messageCharacterCount)
-    console.log("email selected",this.selected_email)
+
 
  if(this.smsSendingFlag){
    this.messageCharacterCount = this.selected_message.length
@@ -187,7 +185,8 @@ bacToEditMessage:string="editMessage"
      sessionStorage.removeItem('selecte-messase')
      sessionStorage.removeItem('push_message')
 
-  
+     sessionStorage.removeItem('selecte-email-message')
+
 
   }
   clrarfild(){
@@ -405,11 +404,7 @@ bacToEditMessage:string="editMessage"
           //   this.selectMasterCourse.master_course_name = this.selectedCourseList[i].course_name
           //   temp_selectedCourseList.push(this.courseId)
           // }
-          for(let i=0; i<this.courseList.length;i++){
-            this.courseId = this.courseList[i].course_id
-            this.selectMasterCourse.master_course = this.courseList[i].course_name
-             //this.courseList.push(this.courseId)
-          }
+     
           let obj={
             course_id:this.courseId,
             master_course_name:this.selectMasterCourse.master_course
@@ -427,7 +422,7 @@ bacToEditMessage:string="editMessage"
               this.studentList = data;
 
 
-              console.log("iddddddd",this.studentList)
+              console.log("iddddddd",obj)
 
               this.auth.hideLoader();
             },
@@ -666,16 +661,10 @@ onClickStudent(event){
     sendNotificationMessages(){
       let configuredMessage: boolean = false;
      
-       // messageSelected = this.getNotificationMessage();
         configuredMessage = true;
         
       let destination: any;
-      // if (this.showallUserListFlag) {
-      //   destination = this.getDestinationValue()
-      //   if (destination === false) {
-      //     return;
-      //   }
-      // }
+     
       let studentID: any;
 
       let userId: any;
@@ -694,19 +683,13 @@ onClickStudent(event){
         studentID = this.getListOfIds('student_id')
         }
       }
-      // if(this.showCourseWiseFlag){
-      //   studentID = this.getListOfCourseIds('student_id')
-      // }
+     
       let delivery_mode:number=0
       if(this.emailSendingFlag){
         delivery_mode = 1
       }else{
         delivery_mode =0
-      }
-      
-      
-      // studentID = this.getListOfIds('student_id')
-      
+      }      
       let isAlumini = 0;
 
       if (this.showAllaluminiStudentFlag == true) {
@@ -746,16 +729,25 @@ onClickStudent(event){
 
       this.widgetService.sendNotification(obj).subscribe(
         res => {
+          if(this.smsSendingFlag){
           let msg = {
             type: 'success',
             title: '',
-            body: "Sent successfully"
+            body: " Message Sent successfully"
           };
           this.appC.popToast(msg);
+        }if(this.emailSendingFlag){
+          let msg2 = {
+            type: 'success',
+            title: '',
+            body: " Email Sent successfully"
+          };
+          this.appC.popToast(msg2);
+
+        }
           this.clrarfild()
           this.router.navigateByUrl('/view/dashboard/send-notification')
 
-          //this.closeNotificationPopUp();
         },
         err => {
           //console.log(err);
@@ -789,7 +781,7 @@ sendPushNotification() {
       let msg = {
         type: 'success',
         title: '',
-        body: "Sent successfully"
+        body: " Push Notification Sent successfully"
       };
       this.appC.popToast(msg);
       this.clrarfild()
@@ -885,9 +877,32 @@ sendPushNotification() {
      }
     
      onClickEiditMessageDescription(){
+      $('#myModal').modal('hide');
+
+       this.bacToEditMessage = this.selected_message
+       this.backToEditMessageId = this.selected_messageId
+       this.backToEditEmail= this.selected_email
+       this.backToEmailId = this.selected_messageId
+       this.backToEditemailSub = this.email_subjects
+       this.backToPush = this.push_message
+       this.backTopushId = this.push_messageId
+if(this.smsSendingFlag){
        sessionStorage.setItem('editmessageDesc',this.bacToEditMessage)
-       this.router.navigateByUrl('/view/dashboard/send-notification')
-       console.log("edittttt",this.bacToEditMessage)
+       sessionStorage.setItem('edit-mesgId',this.backToEditMessageId)
+
+}if(this.emailSendingFlag){
+  sessionStorage.setItem('editEmaiId',this.backToEmailId)
+
+  sessionStorage.setItem('editEmail',this.backToEditEmail)
+}
+if(this.pushNotificationFlag){
+  sessionStorage.setItem('edit-PushMesgId',this.backTopushId)
+
+       sessionStorage.setItem('editPushmessage',this.backToPush)
+}
+
+       console.log("email",this.backToEditEmail)
+        this.router.navigateByUrl('/view/dashboard/send-notification')
 
      }
 onClearActiveCheckbox(event){

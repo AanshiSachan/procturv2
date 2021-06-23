@@ -6,7 +6,7 @@
     height: auto;
     padding: 0px 22px;
     padding-top: 8px;
-    margin-left: -12px;
+   
 
 }
 
@@ -459,6 +459,9 @@ color: #323C47;
 }
 .empt-img{
     display: flex;
-    margin-left: 47%;
-    margin-top:3%
+    /* text-align: center; */
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
 }

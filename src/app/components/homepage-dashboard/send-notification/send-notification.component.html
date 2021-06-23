@@ -19,7 +19,7 @@
     <div>Message</div>
     <div>Action</div>
   </div>
-  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.selectedEmailChecboxFlag || jsonFlag.createdPushNotification }">
+  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.selectedEmailChecboxFlag || jsonFlag.createdPushNotification || jsonFlag.editEmail || jsonFlag.editMessage || jsonFlag.createMesageFlag || jsonFlag.createEmailFlag || jsonFlag.selectedPushCheckbox  }">
     <div *ngIf="smsTableFlag">
       <div class="table_body" *ngFor="let msg of messageList">
         <div>
@@ -92,12 +92,12 @@
 
 </div>
 <!-- =====================create-message================= -->
-<div class="page-content1" *ngIf="jsonFlag.createMesageFlag || jsonFlag.editMessage  ">
+<div class="page-content1" *ngIf="jsonFlag.createMesageFlag || jsonFlag.editMessage ">
   <div class="page_heading">
     <p *ngIf="!jsonFlag.editMessage">
       Create SMS
     </p>
-    <p *ngIf="jsonFlag.editMessage ">
+    <p *ngIf="jsonFlag.editMessage">
       Edit SMS
     </p>
     <img src="../../../../assets/images/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
@@ -289,7 +289,7 @@
       </div>
       <!-- danger11 class will toggle -->
       <div class="message">
-        <span>Message :</span>
+        <span  style="padding-left: 8px;">Message </span>
         <!-- <textarea placeholder="Write your message here...">{{selectedRow}}</textarea> -->
         <editor [disabled]="true" [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
           [(ngModel)]="selectedRow" placeholder="Write a short description about this product"></editor>
@@ -397,7 +397,7 @@
   <div class="page_body">
 
     <div>
-      <p>Message Description</p>
+      <p style="float: left;">Message Description</p>
       <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"></textarea>
 
     </div>

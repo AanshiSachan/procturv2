@@ -94,7 +94,12 @@ sendLoginmessage:boolean=false
   selectedMessageCount:number =0;
   selectedMessageId:any
   backToEdit:string="";
-
+  bactToeditMsgId:any
+  backEeditEmail:string=""
+  baclToemai_Id:any;
+  backToeditPush:string="";
+  backTopush_Id:any
+  backToeditEmaiSub:string=""
   editorConf = {
     height: 150,
     menubar: false,
@@ -121,20 +126,23 @@ sendLoginmessage:boolean=false
       this.transactionalSms = sessionStorage.getItem('smsTransaction')
       this.pramotionalSms = sessionStorage.getItem('pramotionValu')
       this.email_quataBalence = sessionStorage.getItem('email_quoat_balence')
-      this.backToEdit = sessionStorage.getItem('editmessageDesc')
+      
+
+
 
     }
 
   ngOnInit(): void {
-// console.log("back edit message",this.backToEdit)
-    this.auth.schoolModel.subscribe(
-      res => {
-        this.schoolModel = false;
-        if (res) {
-          this.schoolModel = true;
-        }
-      }
-    )
+//console.log("back edit message",this.backToEdit)
+    // this.auth.schoolModel.subscribe(
+    //   res => {
+    //     this.schoolModel = false;
+    //     if (res) {
+    //       this.schoolModel = true;
+    //     }
+    //   }
+    // )
+    this.schoolModel = this.auth.schoolModel.getValue();
 
     this.auth.institute_type.subscribe(
       res => {
@@ -146,14 +154,47 @@ sendLoginmessage:boolean=false
       }
     )
      this.getAllMessageFromServer();
-   
+     this.backToEdit = sessionStorage.getItem('editmessageDesc')
+     this.bactToeditMsgId = sessionStorage.getItem('edit-mesgId')
+     this.backEeditEmail = sessionStorage.getItem('editEmail')
+     this.backToeditPush = sessionStorage.getItem('editPushmessage')
+     this.backTopush_Id = sessionStorage .getItem('edit-PushMesgId')
+     this.baclToemai_Id = sessionStorage.getItem('editEmaiId')
     this.smsTableFlag = true
-   
+    console.log("push message",this.backToeditPush)
+    console.log(" message",this.backToEdit)
 
+if(this.backToEdit != '' && this.backToEdit !=null){
+  sessionStorage.removeItem('editmessageDesc')
+
+  this.jsonFlag.editMessage = true
+  this.newMessageText = this.backToEdit
+  this.selectedMessageId = this.bactToeditMsgId
+
+
+} 
+ if(this.backEeditEmail !="" && this.backEeditEmail !=null){
+  sessionStorage.removeItem('editEmail')
+
+  this.jsonFlag.editEmail = true
+  this.smsTableFlag = false
+  this.emailTableFlag = true
+  this.newMessageText = this.backEeditEmail
+  this.selectedMessageId = this.baclToemai_Id
+
+ 
+}if(this.backToeditPush !="" && this.backToeditPush !=null){
+  sessionStorage.removeItem('editPushmessage')
+
+  this.jsonFlag.editPush = true
+  this.smsTableFlag = false
+  this.pushTableFlag = true
+  this.newMessageText = this.backToeditPush
+  this.selectedMessageId = this.backTopush_Id
+
+ }
   }
-  ngOnDestroy() {
-    sessionStorage.removeItem('editmessageDesc')
-  }
+ 
   onClickEmai(){
     this.emailTableFlag = true
     this.smsTableFlag = false
@@ -279,7 +320,6 @@ sendLoginmessage:boolean=false
     }
   }
   getAllMessageFromServer() {
-    console.log("1");
     this.messageList = [];
     this.emailMessageList = [];
     this.pushNotificationList =[];
@@ -513,6 +553,7 @@ saveNewMessage() {
     }
   }
   onClickEdit(obj){
+
     this.jsonFlag.editMessage = true
     this.jsonFlag.selectedMessageFlag= false
     this.selectedSmsCheckBox=false
