@@ -213,16 +213,16 @@ export class ViewComponent implements OnInit {
   }
   checkUncheckAll() {
     this.paidInstallArr = [];
-    this.fullDiscountInstallArr=[];
+    this.fullDiscountInstallArr = [];
     for (var i = 0; i < this.stdFeeDataList.a_install_li.length; i++) {
-      let data=this.stdFeeDataList.a_install_li[i];
+      let data = this.stdFeeDataList.a_install_li[i];
       if (this.stdFeeDataList.a_install_li[i].p_status != 'Y') {
         this.stdFeeDataList.a_install_li[i].isSelected = this.masterSelected;
       } else {
         this.stdFeeDataList.a_install_li[i].isSelected = false;
         this.paidInstallArr.push(this.stdFeeDataList.a_install_li[i].f_schld_id)
       }
-      if((data.initial_amount+data.tax_amount)==data.disc_amount){
+      if ((data.initial_amount + data.tax_amount) == data.disc_amount) {
         this.fullDiscountInstallArr.push(this.stdFeeDataList.a_install_li[i].f_schld_id);
       }
     }
@@ -618,6 +618,14 @@ export class ViewComponent implements OnInit {
   onDiscountTypeChange(event) {
     this.discountPopUpForm.value = 0;
     this.discountPopUpForm.discountAmount = 0;
+    if (this.discountPopUpForm.type == "3") {
+      let val = 0;
+      for (let data of this.discountInstallList) {
+        val += data.d_amount;
+      }
+      this.discountPopUpForm.value = val;
+      this.discountPopUpForm.discountAmount = val;
+    }
   }
 
   onDiscountAmountChange(event) {
@@ -629,7 +637,7 @@ export class ViewComponent implements OnInit {
       return
     }
     if (this.discountPopUpForm.type == "2") {
-      if (event >100) {
+      if (event > 100) {
         this.commonService.showErrorMessage('error', '', 'Please enter valid discount percentage');
         this.discountPopUpForm.value = 0;
         this.discountPopUpForm.discountAmount = 0;
@@ -651,8 +659,8 @@ export class ViewComponent implements OnInit {
       return false;
     }
     // Condition For discount satisfy now apply discount
-    let discountInstllmentList=this.feeService.makeDiscountingJSONV2(this.discountInstallList, this.discountPopUpForm);
-    if(!discountInstllmentList){
+    let discountInstllmentList = this.feeService.makeDiscountingJSONV2(this.discountInstallList, this.discountPopUpForm);
+    if (!discountInstllmentList) {
       this.auth.hideLoader();
       this.isApplyDiscClicked = false;
       return false;
@@ -711,7 +719,7 @@ export class ViewComponent implements OnInit {
         data.is_paid = false;
       }
       if (this.fullDiscountInstallArr.includes(data.fee_schedule_id)) {
-       data.is_paid=false;
+        data.is_paid = false;
       }
     }
   }
@@ -1036,19 +1044,19 @@ export class ViewComponent implements OnInit {
       return;
     }
     let username = sessionStorage.getItem('username');
-    if(username!='admin'){
-    if (isUpdate) {
-      if (!this.isFutureDate(this.addInstall.d_date, this.addInstall.immutable_due_date)) {
-        this.commonService.showErrorMessage('info', '', 'Due date should be greater than or equal to current due date!');
-        return;
-      }
-    } else {
-      if (this.isPastDate(moment(this.addInstall.d_date).format("YYYY-MM-DD"))) {
-        this.commonService.showErrorMessage('info', '', 'Due date should be greater than or equal to current date!');
-        return;
+    if (username != 'admin') {
+      if (isUpdate) {
+        if (!this.isFutureDate(this.addInstall.d_date, this.addInstall.immutable_due_date)) {
+          this.commonService.showErrorMessage('info', '', 'Due date should be greater than or equal to current due date!');
+          return;
+        }
+      } else {
+        if (this.isPastDate(moment(this.addInstall.d_date).format("YYYY-MM-DD"))) {
+          this.commonService.showErrorMessage('info', '', 'Due date should be greater than or equal to current date!');
+          return;
+        }
       }
     }
-  }
     if (this.isTemplateLinkWithCourseAndStandard) {
       if (this.schoolModel && this.addInstall.standard_id <= 0) {
         this.commonService.showErrorMessage('info', '', 'Please select valid standard');
@@ -1195,8 +1203,8 @@ export class ViewComponent implements OnInit {
     this.isUpdateInstall
     this.isUpdateInstall = true;
     $('#installmentModal').modal('show');
-    if(this.feeTypeList.length<=0)
-    this.getInstituteFeeTypes();
+    if (this.feeTypeList.length <= 0)
+      this.getInstituteFeeTypes();
     this.addInstall = {
       acad_yr_id: this.academic_yr_id,
       f_type_id: data.f_type_id,
@@ -1207,8 +1215,8 @@ export class ViewComponent implements OnInit {
       f_schld_id: data.f_schld_id,
       immutable_due_date: moment(data.d_date).format('YYYY-MM-DD')
     }
-    if(this.isProfessional){
-      this.addInstall.course_id=data.sub_id;
+    if (this.isProfessional) {
+      this.addInstall.course_id = data.sub_id;
     }
     if (this.schoolModel) {
       this.addInstall.standard_id = this.stdFeeDataList.stnd_id;
@@ -1250,7 +1258,7 @@ export class ViewComponent implements OnInit {
         }
       )
     }
-    this.isUpdateInstallClicked=false;
+    this.isUpdateInstallClicked = false;
   }
   deleteInstall(data) {
     let msg = "";

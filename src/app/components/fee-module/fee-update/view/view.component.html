@@ -625,10 +625,11 @@
                                         <option value="-1">Discount Type*</option>
                                         <option value="1">Amount</option>
                                         <option value="2">Percentage</option>
+                                        <option value="3">Full Discount(100%)</option>
                                     </select>
                                 </div>
                                 <div class="pt10">
-                                    <input type="text" name="" class="wid100 input"
+                                    <input type="text" name="" class="wid100 input" [disabled]="discountPopUpForm.type==3"
                                         onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                                         [(ngModel)]="discountPopUpForm.value"
                                         (ngModelChange)="onDiscountAmountChange($event)" placeholder="Discount Value*">

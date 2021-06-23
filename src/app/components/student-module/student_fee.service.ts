@@ -900,33 +900,45 @@ export class StudentFeeService {
             if (i == installmentArray.length - 1) {
                 perInstallmentDiscount = mutableDiscount;
             }
-            if (element.p_amount == 0) {
-                if (element.d_amount < perInstallmentDiscount) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount );
-                    return false;
-                } else {
-                    obj.discount_amount = perInstallmentDiscount;
-                    obj.final_amount = element.d_amount - perInstallmentDiscount;
+            if (popUpFormObj.type == "3") {
+                if (element.p_amount == 0) {
+                    obj.discount_amount = element.d_amount;
+                    obj.final_amount = 0;
                     obj.balance_amount = -1;
-                }
-                // if (obj.final_amount == 0) {
-                //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
-                //     return false;
-                // }
-            } else {
-                if (element.d_amount < perInstallmentDiscount) {
-                    this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' +element.d_amount);
-                    return false;
                 } else {
-                    obj.discount_amount = perInstallmentDiscount;
+                    obj.discount_amount = element.d_amount;
                     obj.final_amount = -1;
-                    obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
+                    obj.balance_amount = 0;
                 }
-                // if (obj.balance_amount == 0) {
-                //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
-                //     return false;
-                // }
+            } else {
+                if (element.p_amount == 0) {
+                    if (element.d_amount < perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                        return false;
+                    } else {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = element.d_amount - perInstallmentDiscount;
+                        obj.balance_amount = -1;
+                    }
+                    // if (obj.final_amount == 0) {
+                    //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                    //     return false;
+                    // }
+                } else {
+                    if (element.d_amount < perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                        return false;
+                    } else {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = -1;
+                        obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
+                    }
+                    // if (obj.balance_amount == 0) {
+                    //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                    //     return false;
+                    // }
 
+                }
             }
             mutableDiscount = mutableDiscount - perInstallmentDiscount;
             if (popUpFormObj.type == "2") {
