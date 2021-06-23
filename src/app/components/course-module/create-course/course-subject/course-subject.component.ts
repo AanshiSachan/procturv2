@@ -43,6 +43,7 @@ export class CourseSubjectComponent implements OnInit {
   schoolModel: boolean = false;
   isNewSubjectAdd: boolean = true;
   subject_id: number = -1;
+  standard_id_filter : any ='-1';
 
   constructor(
     private apiService: SubjectApiService,
@@ -67,7 +68,7 @@ export class CourseSubjectComponent implements OnInit {
     this.PageIndex = 1;
     this.auth.showLoader();
     this.searchDataFlag = false;
-    this.apiService.getAllSubjectListFromServer().subscribe(
+    this.apiService.getAllSubjectListFromServer(this.standard_id_filter).subscribe(
       (data: any) => {
         console.log("getAllSubjectList", data);
 
