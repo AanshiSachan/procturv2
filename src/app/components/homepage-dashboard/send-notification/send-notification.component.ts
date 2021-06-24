@@ -245,6 +245,7 @@ if(this.backToEdit != '' && this.backToEdit !=null){
     this.selectedSmsCheckBox=false
     this.selectedEmailCheckBox=false
 
+this.selectesPushCheckBox=false
 
 
   }

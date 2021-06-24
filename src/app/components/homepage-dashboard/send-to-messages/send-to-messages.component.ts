@@ -351,6 +351,7 @@ backTopushId:any
          this.showAllaluminiStudentFlag = false;
          this.showInactiveStudentFlag = false;
          this.showActiveTableFlag = false;
+         this.showFacultyTableFlag = false
          this.showCourseWiseFlag=false
             this.studentList = [];
             let obj = {

@@ -1365,7 +1365,18 @@ b{
 }
 // ==================end============================
 .open-popups{
-  height: calc(55vh - (60px + 8px + 40px + 40px + 10px));
+  height: calc(100vh - (60px + 8px + 40px + 40px + 10px + 288px));
   background: #fff;
   overflow-y: auto;
 }
+.open-emailPOpups{
+  height: calc(100vh - (60px + 8px + 40px + 40px + 10px + 295px));
+  background: #fff;
+  overflow-y: auto;
+}
+.open-pushPOpups{
+  height: calc(100vh - (60px + 8px + 40px + 40px + 10px + 237px));
+  background: #fff;
+  overflow-y: auto;
+}
+
