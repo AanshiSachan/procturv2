@@ -127,20 +127,23 @@ console.log("teacherlisttttttt",this.teacherList)
     
     )
   }
-  removeTemplate(){
-    let obj ={
+  removeTemplate(obj){
+    if (confirm('Are you sure, You want  to delete this template?')) {
+      this.selectedTeacherId = obj.teacher_id;
+      this.userId = obj.user_id;
+    let obj2 ={
       user_id:this.userId,
       teacher_id:this.selectedTeacherId,
       institute_id:this.jsonFlag.institute_id
     }
     this.auth.showLoader();
     let url='/api/v1/payroll/manage/remove'
-    this.http.putData(url,obj).subscribe(
+    this.http.putData(url,obj2).subscribe(
       (res :any)=>{
-    // this.templateList=res.result.response;
-     this.msgToast.showErrorMessage('success', '', "Template Removed  successfully");
+        this.auth.hideLoader();
+        this.msgToast.showErrorMessage('success', '', "Template Removed  successfully");
      $('#deleteModal').modal('hide');
-     this.auth.hideLoader();
+     //this.auth.hideLoader();
      this.getAlluserData()
       },
       err => {
@@ -149,6 +152,7 @@ console.log("teacherlisttttttt",this.teacherList)
       }
     )
   }
+}
   downloadPdf(){
     for(let i=0; i<this.allUserDataList.length;i++){
       this.allUserDataList[i].template_id = i+1
@@ -175,7 +179,7 @@ console.log("teacherlisttttttt",this.teacherList)
     let temp:any[]=[]
     temp = this.allUserDataList.map(e =>{
       let obj :any ={
-        template_id:e.template_id,
+        "#":e.template_id,
         user_name:e.user_name,
         user_email: e.user_email,
         joining_date: e.joining_date,

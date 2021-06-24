@@ -21,12 +21,12 @@ export class AddEditSalaryComponent implements OnInit {
   salaryModel={
     salary_type:'M',
     salary_grade:'',
-    basic_salary:0,
+    basic_salary:'',
     overtime_rate:'',
     allowance:'',
     allowance_amount:'',
     deduction:'',
-    deduction_amount:0,
+    deduction_amount:'',
     typeA:'A',
     typeD:'D',
     template_id:'',
@@ -86,8 +86,8 @@ export class AddEditSalaryComponent implements OnInit {
     )
     }
     addAllowonceDeduction(type){
-      if(this.salaryModel.allowance !=""){
-        if(this.salaryModel.allowance_amount !=""){
+      if(this.salaryModel.allowance.trim() !=""){
+        if(this.salaryModel.allowance_amount.trim() !=""){
 
       
       let obj={
@@ -114,7 +114,7 @@ export class AddEditSalaryComponent implements OnInit {
   
     dedutAllown(type){
       if(this.salaryModel.deduction !=''){
-        if(this.salaryModel.deduction_amount !=0){
+        if(this.salaryModel.deduction_amount !=''){
 
 
        let obj2 ={
@@ -126,7 +126,7 @@ this.addedListDeduct.push(obj2)
 this.calculateDeduction();
 console.log("deduction",this.addedListDeduct)
 this.salaryModel.deduction ='',
-this.salaryModel.deduction_amount=0
+this.salaryModel.deduction_amount=''
 }else{
   this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Deduction Amount');
 
@@ -304,7 +304,7 @@ if(this.salaryModel.salary_grade.trim() ==""){
   this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Salary');
 return;
 }
-if(this.salaryModel.basic_salary == 0){
+if(this.salaryModel.basic_salary.trim() == ''){
   this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Basic Salary');
 return;
 }
@@ -326,7 +326,7 @@ calculateGrossSalary() {
   this.salaryModel.net_salary = Number(this.salaryModel.gross_salary) - Number(this.salaryModel.total_deduction);
 }
 calculateDeduction(){
-   this.salaryModel.deduction_amount = 0;
+   this.salaryModel.deduction_amount = '';
    this.salaryModel.total_deduction = 0;
   this.addedListDeduct.forEach(element => {
     this.salaryModel.total_deduction = Number(this.salaryModel.total_deduction) + Number(element.deduction_amount);

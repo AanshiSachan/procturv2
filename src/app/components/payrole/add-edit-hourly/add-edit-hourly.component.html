@@ -1,5 +1,5 @@
 <form class="form-horizontal" role="form"  id="templateDataForm">
-    <section class="middle-top mb0 clearFix">
+    <section>
         <h1 class="pull-left">
           <a routerLink="/view/payrole/hourly-template">
             Hourly Template
@@ -9,14 +9,14 @@
           <span *ngIf="selectedId">Update Hourly Template</span>
         </h1>
       </section>
-    <div class="row">
+    <div class="row" style="margin-right: 0px;">
      <div class="col-sm-12" style="margin-bottom: 10px;">
     <div class="form-group">                       
          <label for="hourly_grades" class="col-sm-2 control-label">
             Hourly Grades <span class="text-red">*</span>
         </label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="hourly_grades" [(ngModel)]="hourlyModel.hourly_grade"  name="hourly_grades">
+            <input type="text" class="form-control" id="hourly_grades" [(ngModel)]="hourlyModel.hourly_grade"  name="hourly_grades" placeholder="Enter Hourly Grades">
         </div>
         <span class="col-sm-4 control-label" id="hourly_grades_error">
          </span>
@@ -27,7 +27,7 @@
             Hourly Rates <span class="text-red">*</span>
         </label>
         <div class="col-sm-4">
-            <input type="number" class="form-control" id="hourly_rates" [(ngModel)]="hourlyModel.hourly_rate" name="hourly_rates">
+            <input type="text" class="form-control" id="hourly_rates" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="hourlyModel.hourly_rate" name="hourly_rates" placeholder="Enter Hourly Rates">
         </div>
         
         <span class="col-sm-4 control-label" id="hourly_rates_error">
@@ -35,10 +35,10 @@
       </span>
      
     </div>
-    <div class="col-sm-4" *ngIf="!selectedId">
+    <div class="col-sm-2" *ngIf="!selectedId">
         <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="createHourly()" value="Add Hourly Template">
     </div>
-    <div class="col-sm-4" *ngIf="selectedId">
+    <div class="col-sm-2" *ngIf="selectedId">
         <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="updateHourly()" value="Update Hourly Template">
     </div>
     </div>

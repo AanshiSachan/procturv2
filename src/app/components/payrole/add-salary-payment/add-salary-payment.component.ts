@@ -41,6 +41,7 @@ export class AddSalaryPaymentComponent implements OnInit {
 
   }
   allHistoryPementList:any=[]
+  searchList:any=[]
   userId:any
   selectedId:any
   selectedTeacherId:any
@@ -48,6 +49,7 @@ export class AddSalaryPaymentComponent implements OnInit {
   payment_method:any
   comment:any
   month:any
+  searchInput:any
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
@@ -70,13 +72,14 @@ export class AddSalaryPaymentComponent implements OnInit {
     });
  console.log("iddddd", this.historyModel.sal_month)
     this.getHistoryPayement()
-    this.getPaymentDetails()
+    //this.getPaymentDetails()
   }
 getHistoryPayement(){
   let url='/api/v1/payroll/payment/history/'+this.jsonFlag.institute_id+'/paymentHistories/'+this.userId+'/'+this.selectedTeacherId
   this.http.getData(url).subscribe(
     (res:any)=>{
       this.allHistoryPementList = res.result;
+      this.searchList=res.result;
       console.log("histroy payemnttt",this.allHistoryPementList)
       console.log("payement date",this.payment_method)
 
@@ -140,6 +143,8 @@ createSalaryPayment(){
   }
 }
   deletPayemt(obj){
+    if (confirm('Are you sure, You want  to delete this template?')) {
+
     let history_id = obj
     this.historyModel.history_id = history_id
     this.auth.showLoader()
@@ -157,6 +162,7 @@ createSalaryPayment(){
       }
     )
   }
+}
   onclickView(obj){
     let user_id;
     let teacher_id;
@@ -183,10 +189,7 @@ createSalaryPayment(){
 
   }
   validInput(){
-//     if(this.historyModel.comment.trim()==''){
-//       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Enter Comment');
-// return;
-//     }
+
     if(this.historyModel.payment_amount.trim()==''){
       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Enter Payment Ammount');
       return;
@@ -197,17 +200,27 @@ return;
     }
     return true
   }
+
+   searchInputs(){
+    this.allHistoryPementList=this.searchList 
+    if(this.searchInput == undefined || this.searchInput == null){
+      this.searchInput ="";
+    }else{
+      let searchData = this.allHistoryPementList.filter(item=>Object.keys(item).some(k=>item[k]!=null && item[k].toString().toLowerCase().includes
+      (this.searchInput.toLowerCase())));
+      this.allHistoryPementList = searchData
+    }
+
+
+   }
   clearForm(){
     this.historyModel.comment=""
     this.historyModel.payment_method=""
-    //this.historyModel.sal_month=""
     this.historyModel.total_hours=""
     this.historyModel.payment_amount=""
     
   }
   backPage(){
     this.location.back()
-    //window.history.back()
-
     }
 }

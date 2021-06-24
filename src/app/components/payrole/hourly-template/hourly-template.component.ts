@@ -96,8 +96,9 @@ getAllHourlyData(){
   deleteById(obj){
     this.template_id = obj
   }
-  deleteHourly(){
-
+  deleteHourly(obj){
+    if (confirm('Are you sure, You want  to delete this template?')) {
+this.template_id=obj
     this.auth.showLoader();
     let url ='/api/v1/payroll/template/salary/delete/'+this.jsonFlag.institute_id+'/'+this.template_id
     this.http.deleteDataById(url).subscribe(
@@ -117,7 +118,7 @@ getAllHourlyData(){
       }
     )
   
-  }
+  }}
   downloadPdf(){
     for(let i=0; i<this.hourlyDataList.length;i++){
       this.hourlyDataList[i].template_id = i+1
@@ -143,7 +144,7 @@ getAllHourlyData(){
     let temp:any[]=[]
     temp = this.hourlyDataList.map(e =>{
       let obj :any ={
-        template_id:e.template_id,
+        "#":e.template_id,
         hourly_grade:e.hourly_grade,
         hourly_rate: e.hourly_rate
     }

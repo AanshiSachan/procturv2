@@ -12,7 +12,7 @@
 
       </h1>
     </section>
-    <div class="row">
+    <div class="row" style="margin-left:0px ;">
         <div class="col-sm-12" style="margin-bottom: 10px;">
             <div class="form-group">                       
                  <label for="salary_grades" class="col-sm-2 control-label">
@@ -41,7 +41,7 @@
                     Overtime Rate(Per Hour)<span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"onKeyPress="if(this.value.length==9) return false;" placeholder="Enter Overtime Rate" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="">
+                    <input type="text" class="form-control" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Enter Overtime Rate" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="">
                 </div>
                 <span class="col-sm-4 control-label" id="overtime_rate_error">
                   </span>
@@ -60,11 +60,11 @@
                               
                             <div class="form-group allowancesfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="allowanceslabel1" [(ngModel)]="salaryModel.allowance" name="allowanceslabel1"  placeholder="Enter Allowances Label">
+                                    <input type="text" class="form-control" id="allowanceslabel1" maxlength="30" [(ngModel)]="salaryModel.allowance" name="allowanceslabel1"  placeholder="Enter Allowances Label">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control allowancesamount" onKeyPress="if(this.value.length==9) return false;" id="allowancesamount1" [(ngModel)]="salaryModel.allowance_amount" name="allowancesamount1" placeholder="Enter Allowances Value">
+                                    <input type="text" class="form-control allowancesamount" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="allowancesamount1" [(ngModel)]="salaryModel.allowance_amount" name="allowancesamount1" placeholder="Enter Allowances Value">
                                 </div>
 
                                 <div class="col-sm-2" style="padding: 0px;">
@@ -86,11 +86,11 @@
 
                              <div class="form-group allowancesfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" [id]="'allowanceslabel1'+i" [(ngModel)]="record.allowance" [name]="'allowanceslabel1'+i" placeholder="Enter Allowances Label">
+                                    <input type="text" class="form-control" [id]="'allowanceslabel1'+i" maxlength="30" [(ngModel)]="record.allowance" [name]="'allowanceslabel1'+i" placeholder="Enter Allowances Label">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control allowancesamount" onKeyPress="if(this.value.length==9) return false;" [id]="'allowancesamount1'+i" [(ngModel)]="record.allowance_amount" [name]="'allowancesamount1'+i" placeholder="Enter Allowances Value">
+                                    <input type="text" class="form-control allowancesamount" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'allowancesamount1'+i" [(ngModel)]="record.allowance_amount" [name]="'allowancesamount1'+i" placeholder="Enter Allowances Value">
                                 </div>
 
                                 <div class="col-sm-2">
@@ -126,11 +126,11 @@
                         <div class="col-sm-12" id="deductions" *ngIf="!remove">
                             <div class="form-group deductionsfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="deductionslabel1" name="deductionslabel1" [(ngModel)]="salaryModel.deduction" placeholder="Enter Deductions Label">
+                                    <input type="text" class="form-control" id="deductionslabel1"  maxlength="30" name="deductionslabel1" [(ngModel)]="salaryModel.deduction" placeholder="Enter Deductions Label">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control deductionsamount" onKeyPress="if(this.value.length==9) return false;" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1"  placeholder="Enter Deductions Value">
+                                    <input type="text" class="form-control deductionsamount" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1"  placeholder="Enter Deductions Value">
                                 </div>
 
                                 <div class="col-sm-2" style="padding: 0px;">
@@ -149,11 +149,11 @@
                         <div class="col-sm-12" id="deductions">
                             <div class="form-group deductionsfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" [id]="'deductionslabel1'+i" [name]="'deductionslabel1'+i" [(ngModel)]="deduct.deduction" placeholder="Enter Deductions Label">
+                                    <input type="text" class="form-control" [id]="'deductionslabel1'+i" maxlength="30" [name]="'deductionslabel1'+i" [(ngModel)]="deduct.deduction" placeholder="Enter Deductions Label">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control deductionsamount"  onKeyPress="if(this.value.length==9) return false;" [id]="'deductionsamount1'+i"  [(ngModel)]="deduct.deduction_amount" [name]="'deductionsamount1'+i" placeholder="Enter Deductions Value">
+                                    <input type="number" class="form-control deductionsamount"  maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'deductionsamount1'+i"  [(ngModel)]="deduct.deduction_amount" [name]="'deductionsamount1'+i" placeholder="Enter Deductions Value">
                                 </div>
 
                                 <div class="col-sm-2">

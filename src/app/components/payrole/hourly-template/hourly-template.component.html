@@ -6,10 +6,10 @@
         <p>Hourly Template</p>
       </div>
       <div>
-        <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a>
+        <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a> -->
         <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
         <a (click)="downloaExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Print Report"></a>
-        <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+        <!-- <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a> -->
 
       </div>
     </div>
@@ -25,9 +25,9 @@
             <div>
              #
             </div>
-            <div>Hourly Grads </div>
+            <div>Hourly Grades </div>
             <div>Hourly Rate</div>
-            <div>Actions</div>
+            <div>Action</div>
           </div>
           <div class="table_body" *ngFor="let item of hourlyDataList;let i=index;">
             <div>
@@ -39,7 +39,7 @@
            <div>{{item.hourly_rate}}</div>
            <div>
               <a  class="mr10" (click)="onEdit(item.template_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
-              <a  data-toggle="modal" data-target="#deleteModal" (click)="deleteById(item.template_id)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+              <a (click)="deleteHourly(item.template_id)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
             </div>
           </div>
        </div>

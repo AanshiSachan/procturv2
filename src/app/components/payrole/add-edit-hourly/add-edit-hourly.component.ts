@@ -115,11 +115,11 @@ createHourly(){
   }
   
   validInput(){
-    if(this.hourlyModel.hourly_grade ==""){
+    if(this.hourlyModel.hourly_grade.trim() ==""){
       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Hourly Grade');
     return
   }
-  if(this.hourlyModel.hourly_rate ==""){
+  if(this.hourlyModel.hourly_rate.trim() ==""){
     this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Please Enter Hourly Rate');
   return
 }

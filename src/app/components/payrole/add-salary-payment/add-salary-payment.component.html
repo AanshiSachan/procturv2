@@ -113,10 +113,10 @@
             <p>Payment History</p>
           </div>
           <div>
-            <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a>
+            <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a> -->
             <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
             <a (click)="downloaExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Print Report"></a>
-            <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a>
+            <!-- <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a> -->
   
           </div>
         </div>
@@ -124,7 +124,7 @@
       <div class="w98">
           <div class="pt15">
               <label for="serach">Search:&nbsp;</label>
-            <input type="text" class="input wid240 mr10" name="" placeholder="search" >
+            <input type="text" class="input wid240 mr10" name="" [(ngModel)]="searchInput" (keyup)="searchInputs(search)" placeholder="search" #search>
               <!-- <button class="blue_button" (click)="addSalaryPage()">Add Salary Template</button> -->
           </div>
   
@@ -191,4 +191,5 @@
             </div>
           </div>
         </div> 
+        <div *ngIf="allHistoryPementList.length == '0'">No Record Found</div>
         
