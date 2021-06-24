@@ -7,6 +7,8 @@ import { HttpService } from '../../../services/http.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { WidgetService } from '../../../services/widget.service';
 import { ProductService } from '../../../services/products.service';
+import {Location} from '@angular/common';
+
 declare var $;
 
 
@@ -104,7 +106,8 @@ backTopushId:any
     private msgService: MessageShowService,
     private widgetService: WidgetService,
     private appC: AppComponent,
-    private productService: ProductService
+    private productService: ProductService,
+    private location:Location
     ) {
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
       this.userType = Number(sessionStorage.getItem('userType'));
@@ -947,6 +950,9 @@ onClearAlluminCheckbox(event){
    this.selectMasterCourse.master_course='',
    this.courseId=''
       this.inactiveCheck='false';
+}
+backButton(){
+this.location.back()
 }
    }
   

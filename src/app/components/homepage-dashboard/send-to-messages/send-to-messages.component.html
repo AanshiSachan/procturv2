@@ -165,7 +165,7 @@
         <input placeholder="Search" [(ngModel)]="searchData" class="search" name="searchData" #search>
         <p>Total Count {{count}}</p>
     </div>
-    <div class="table_head"  *ngIf="!showCourseWiseFlag && !showFacultyTableFlag">
+    <div class="table_head" *ngIf="!showFacultyTableFlag">
         <div>
             <label class="checkbox">
                 <span class="checkbox__input">
@@ -184,8 +184,28 @@
         <div>Joining Date</div>
         <div>Email</div>
     </div>
+    <div class="table_head"  *ngIf="showFacultyTableFlag">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked"  (click)="checkAllChechboxes($event , studentList)">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <!-- <div>ID</div> -->
+        <div >Name</div>
+        <div>Mobile</div>
+        <div>Subject</div>
+        <div>Is Active</div>
+       
+        
+    </div>
    
-    <div class="scroll_body1">
+    <div class="scroll_body1" >
         <div *ngIf="showActiveTableFlag">
         <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
         <div>
@@ -287,25 +307,7 @@
 
 <!-- ===========course wise student fetch================== -->
 <div *ngIf="showCourseWiseFlag">
-    <div class="table_head">
-        <div>
-            <label class="checkbox">
-                <span class="checkbox__input">
-                  <input type="checkbox" name="checked"  (click)="checkAllChechboxes($event , studentList)" >
-                  <span class="checkbox__control">
-                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                  </span>
-                </span>
-              </label>
-        </div>
-        <div>ID</div>
-        <div >Name</div>
-        <div>Mobile</div>
-        <div>Standard</div>
-        <div>Joining Date</div>
-        <div>Email</div>
-    </div>
+   
     <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
         <div>
             <label class="checkbox">
@@ -328,26 +330,10 @@
         <div *ngIf="studentList.length =='0'">No Record Found</div>
         </div>
     </div>
+   
 
     <!-- =============teacher-table==================== -->
     <div *ngIf="showFacultyTableFlag">
-        <div class="table_head" >
-            <div>
-                <label class="checkbox">
-                    <span class="checkbox__input">
-                      <input type="checkbox" name="checked"   (click)="checkAllChechboxes($event , studentList)" >
-                      <span class="checkbox__control">
-                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
-                      </span>
-                    </span>
-                  </label>
-            </div>
-            <div >Name</div>
-            <div>Mobile</div>
-            <div>Subject</div>
-            <div>Is Active</div>
-        </div>
         <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
             <div>
                 <label class="checkbox">
@@ -367,7 +353,7 @@
             <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
             <div *ngIf="studentList.length == '0'">No Record Found</div>
             </div>
-         </div>  
+         </div> 
          </div>
          <!-- <div *ngIf="studentList.length == '0'">No Record Found</div> -->
  
@@ -395,7 +381,8 @@
                 </span>
               </label>
               <p  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">Parent</p>
-              
+              <button class="blue_button" (click)="backButton()">Back</button>&nbsp;
+
             <button class="blue_button"(click)="sendNotificationMessages()" *ngIf="smsSendingFlag">Send Text Message </button>
             <button class="blue_button" (click)="sendPushNotification()" *ngIf="pushNotificationFlag">Send Push Notification</button>
 
