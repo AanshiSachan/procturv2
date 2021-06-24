@@ -54,7 +54,8 @@ transferCertificateModel={
   application_date:'',
   remark:'',
   awsDownloadLink:'',
-  institute_name:''
+  institute_name:'',
+  institute_logo_url:''
 
 
 }
@@ -310,9 +311,13 @@ downloadTransferPdf(){
   });
 }
 
-
-
-
+printTransfer(){
+  var divToPrint3 = document.getElementById('transferCertificate')
+  let newWinchar = window.open("");
+  newWinchar.document.write(divToPrint3.innerHTML);
+  newWinchar.print();
+ 
+}
 
 
 Back(){
