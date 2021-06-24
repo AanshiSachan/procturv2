@@ -95,10 +95,15 @@ onclickView(id){
 deletById(obj){
   this.template_id = obj
 }
-deletSalary(){
- 
+deletSalary(obj){
+  if (confirm('Are you sure, You want  to delete the message?')) {
+
+  this.template_id=obj
+
     this.auth.showLoader();
+
     let url ='/api/v1/payroll/template/salary/delete/'+this.jsonFlag.institute_id+'/'+this.template_id
+
     this.http.deleteDataById(url).subscribe(
       res=>{
         console.log("delet",this.template_id)
@@ -115,7 +120,7 @@ deletSalary(){
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
       }
     )
-  
+    }
   }
 onClickEdit(id){
   //sessionStorage.setItem('id',JSON.stringify(id))

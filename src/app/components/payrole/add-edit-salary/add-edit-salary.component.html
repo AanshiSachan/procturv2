@@ -19,7 +19,7 @@
                     Salary Grades <span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="salary_grades" maxlength="30" [(ngModel)]="salaryModel.salary_grade" name="salary_grades">
+                    <input type="text" class="form-control" id="salary_grades" placeholder="Enter Salary Grade" maxlength="30" [(ngModel)]="salaryModel.salary_grade" name="salary_grades">
                 </div>
                 <span class="col-sm-4 control-label" id="salary_grades_error">
                  </span>
@@ -30,7 +30,7 @@
                     Basic Salary <span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control" onKeyPress="if(this.value.length==9) return false;" id="basic_salary" [(ngModel)]="salaryModel.basic_salary" (ngModelChange)="calculateGrossSalary()" name="basic_salary">
+                    <input type="text" class="form-control" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Enter Basic Salary" id="basic_salary" [(ngModel)]="salaryModel.basic_salary" (ngModelChange)="calculateGrossSalary()" name="basic_salary">
                 </div>
                 <span class="col-sm-4 control-label" id="basic_salary_error">
               </span>
@@ -41,7 +41,7 @@
                     Overtime Rate(Per Hour)<span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control"onKeyPress="if(this.value.length==9) return false;" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="">
+                    <input type="text" class="form-control"onKeyPress="if(this.value.length==9) return false;" placeholder="Enter Overtime Rate" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="">
                 </div>
                 <span class="col-sm-4 control-label" id="overtime_rate_error">
                   </span>
