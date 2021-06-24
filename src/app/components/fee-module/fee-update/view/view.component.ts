@@ -674,6 +674,7 @@ export class ViewComponent implements OnInit {
         this.commonService.showErrorMessage('success', '', 'Discount applied successfully!');
         this.clearDiscPopUpData();
         this.fetchStdFeeData(this.academic_yr_id);
+        this.getDiscountHistoryDetails();
         this.auth.hideLoader();
       },
       err => {
@@ -1125,7 +1126,7 @@ export class ViewComponent implements OnInit {
         this.clearDiscPopUpData();
         this.commonService.showErrorMessage('success', '', 'Discount removed successfully!');
         this.fetchStdFeeData(this.academic_yr_id);
-        this.discHistoryList();
+        this.getDiscountHistoryDetails();
         this.auth.hideLoader();
       },
       err => {
