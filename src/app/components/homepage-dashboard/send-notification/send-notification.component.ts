@@ -275,6 +275,7 @@ this.selectesPushCheckBox=false
     this.jsonFlag.selectedMessageFlag=false,
    this.jsonFlag. selectedEmailChecboxFlag=false,
     this.jsonFlag.selectedPushCheckbox=false
+    this.selectedSmsCheckBox=false
   }
   onclickCreatePushNotify(){
     this.newMessageText=""
@@ -289,6 +290,7 @@ this.selectesPushCheckBox=false
     this.jsonFlag.selectedMessageFlag=false,
    this.jsonFlag. selectedEmailChecboxFlag=false,
     this.jsonFlag.selectedPushCheckbox=false
+    this.selectedSmsCheckBox = false
   }
   closeDiv(){
     this.newMessageText=""
@@ -617,7 +619,7 @@ updateMessage(){
     console.log("pramotional flag",this.pramotionalSelectedFlag)
   }
   onClickEmailSentTo(){
-    if( this.email_subject ==''){
+    if( this.email_subject.trim() ==''){
       this.classToggled = true
       console.log("emailflasssss",this.classToggled)
     }else{

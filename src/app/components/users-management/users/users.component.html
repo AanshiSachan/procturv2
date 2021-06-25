@@ -386,13 +386,13 @@
         </div>
         <div class="c-md-6" style="padding:0;width: 40%;">
           <input style="-webkit-appearance:checkbox" type="checkbox" id="transactional" name="transactional"
-            class="form-checkbox" [checked]="smsNotification" [(ngModel)]="smsNotification">
+            class="form-checkbox" [checked]="smsNotification" [(ngModel)]="smsNotification" (click)="onSmsCheckboxSelect()">&nbsp;
           <label for="transactional">SMS</label>
         </div>
         <div class="c-md-6" style="padding:0">
           <input style="-webkit-appearance:checkbox" type="checkbox" id="promotional" name="promotional"
-            class="form-checkbox" [checked]="pushNotification" [(ngModel)]="pushNotification">
-          <label for="promotional">App Notification</label>
+            class="form-checkbox" [(ngModel)]="pushNotification" (click)="onPushCheckboxSelect()">&nbsp;
+          <label for="promotional">Push</label>
         </div>
       </div>
     </div>
@@ -444,9 +444,9 @@
       <div class="heading-item" style="text-align: left;width: 50%;">
         <span>SMS</span>
       </div>
-      <div class="heading-item" style="text-align: left;width: 15%;">
+      <!-- <div class="heading-item" style="text-align: left;width: 15%;">
         <span>SMS Status</span>
-      </div>
+      </div> -->
       <div class="heading-item" style="width: 15%;text-align: left;">
         Date
       </div>
@@ -455,6 +455,7 @@
       </div>
     </div>
     <div class="value-outer-container" *ngIf="messageList?.length>0" style="min-height: 50vh;max-height: 50vh;">
+      <div *ngIf="smsListFlag == 'active'">
       <div class="value-container" *ngFor="let data of messageList; let i = index;" style="padding:10px">
         <div class="heading-item" style="width: 5%">
           <!-- <input type="radio" class="form-ctrl" name="selected" [(ngModel)]="data.selected" [id]="'selected-'+i" [value]="data.selected" [checked]="data.selected"> -->
@@ -467,23 +468,58 @@
         <div class="value-item" style="text-align: left;width: 50%;">
           <span [innerHTML]="data.message"></span>
         </div>
-        <div class="value-item" style="text-align: left;width: 15%;">
+        <!-- <div class="value-item" style="text-align: left;width: 15%;">
           {{data.statusValue}}
-        </div>
+        </div> -->
         <div class="value-item" style="text-align: left;width: 15%;">
           {{data.date}}
         </div>
         <div class="value-item" style="width: 15%;text-align: left;">
-          <span *ngIf="data.statusValue == 'Open'" title="Approve" (click)="ApproveMsg(data.message_id)"
+          <!-- <span *ngIf="data.statusValue == 'Open'" title="Approve" (click)="ApproveMsg(data.message_id)"
             style="padding:10px;cursor: pointer;"><i class="fa fa-check-circle"
-              style="font-size: 14px;color: #01DF01;"></i> </span>
+              style="font-size: 14px;color: #01DF01;"></i> </span> -->
           <span title="Edit" (click)="editSMS(data)" style="padding:10px;cursor: pointer;"><i
               class="fa fa-pencil edit-icon-pencil" style="font-size: 14px;color: #0084f6;"></i></span>
-          <span *ngIf="data.statusValue == 'Open'" title="Delete" (click)="DeleteMsg(data.message_id)"
+          <span  title="Delete" (click)="DeleteMsg(data.message_id)"
             style="padding:10px;cursor: pointer;"><i class="fa fa-times-circle"
               style="color: red;font-size: 14px;"></i></span>
         </div>
       </div>
+      </div>
+      <!-- ===========push-table=============== -->
+      <div *ngIf="smsListFlag == 'notactive'">
+      <div class="value-container" *ngFor="let item of pushNotificatioList; let i = index;" style="padding:10px">
+
+      <div class="heading-item" style="width: 5%">
+        <!-- <input type="radio" class="form-ctrl" name="selected" [(ngModel)]="data.selected" [id]="'selected-'+i" [value]="data.selected" [checked]="data.selected"> -->
+        <!-- <div class="field-radio-wrapper"> -->
+        <input style="-webkit-appearance:radio" type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio"
+          [value]="i" [checked]="item.selected" [(ngModel)]="item.selected" (ngModelChange)="changeSelectPush(item)"
+         >
+        <!-- </div> -->
+      </div>
+      <div class="value-item" style="text-align: left;width: 50%;">
+        <span [innerHTML]="item.message"></span>
+      </div>
+      <!-- <div class="value-item" style="text-align: left;width: 15%;">
+        {{push.statusValue}}
+      </div> -->
+      <div class="value-item" style="text-align: left;width: 15%;">
+        {{item.date}}
+      </div>
+      <div class="value-item" style="width: 15%;text-align: left;">
+        <!-- <span *ngIf="data.statusValue == 'Open'" title="Approve" (click)="ApproveMsg(data.message_id)"
+          style="padding:10px;cursor: pointer;"><i class="fa fa-check-circle"
+            style="font-size: 14px;color: #01DF01;"></i> </span> -->
+        <span title="Edit" (click)="editSMS(item)" style="padding:10px;cursor: pointer;"><i
+            class="fa fa-pencil edit-icon-pencil" style="font-size: 14px;color: #0084f6;"></i></span>
+        <span  title="Delete" (click)="DeleteMsg(item.message_id)"
+          style="padding:10px;cursor: pointer;"><i class="fa fa-times-circle"
+            style="color: red;font-size: 14px;"></i></span>
+      </div>
+    </div>
+    </div>
+      <!-- =====end============= -->
     </div>
     <div class="value-outer-container" *ngIf="messageList?.length == 0"
       style="text-align: center;padding: 10%;font-weight: 600;min-height: 50vh;max-height: 50vh;">
@@ -491,7 +527,7 @@
     </div>
   </div>
   <div class="c-md-12" style="margin-top: 10px;text-align: right;">
-    <button class="btn fullBlue" (click)="sendNotification()">Send Notification</button>
+    <button class="btn fullBlue" (click)="sendNotification()">Send SMS/Push</button>
   </div>
 </div>
 <div *ngIf="notificationPopup || loginHistoryPopup" class="black-bg" (click)="closePopUp()"></div>

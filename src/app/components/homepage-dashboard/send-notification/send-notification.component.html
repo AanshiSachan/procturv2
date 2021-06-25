@@ -19,7 +19,7 @@
     <div>Message</div>
     <div>Action</div>
   </div>
-  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.selectedEmailChecboxFlag || jsonFlag.createdPushNotification || jsonFlag.editEmail || jsonFlag.editMessage || jsonFlag.createMesageFlag || jsonFlag.createEmailFlag || jsonFlag.selectedPushCheckbox  }">
+  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.editMessage || jsonFlag.createMesageFlag,'open-emailPOpups': jsonFlag.selectedEmailChecboxFlag ||jsonFlag.editEmail  || jsonFlag.createEmailFlag,'open-pushPOpups': jsonFlag.createdPushNotification  || jsonFlag.selectedPushCheckbox ||jsonFlag.editPush  }">
     <div *ngIf="smsTableFlag">
       <div class="table_body" *ngFor="let msg of messageList">
         <div>
@@ -281,11 +281,11 @@
     <div>
       <p>Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
       <!-- <div class="email_subject danger11" > -->
-      <div class="email_subject" [ngClass]="{'danger11': (classToggled && email_subject=='')}" >
+      <div class="email_subject" [ngClass]="{'danger11': (classToggled && email_subject.trim() =='')}" >
 
         <span>Subject :</span>
         <input type="text" [(ngModel)]="email_subject">
-        <span *ngIf="(classToggled && email_subject=='')">Subject is mandatory</span>
+        <span *ngIf="(classToggled && email_subject.trim()=='')">Subject is mandatory</span>
       </div>
       <!-- danger11 class will toggle -->
       <div class="message">

@@ -58,11 +58,15 @@ export class UsersComponent implements OnInit {
   editObj: any;
   editMsg: any = false;
   selectedMsg: any = '';
+  selectedPushId:any='';
+  selectedPushMesg:any='';
   smsNotification: any = true;
-  pushNotification: any = true;
+  pushNotification: any = false;
   messageCount: any = 0;
   message: any = '';
   messageList: any = [];
+  pushNotificatioList:any=[];
+  smsListFlag:string="active"
   loginHistoryPopup: any = false;
   loginHistory: any[] = [];
   historyPageIndex = 1;
@@ -94,6 +98,8 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.smsListFlag = 'active'
+
     this.checkWhichTabIsOpen();
     this.checkInstituteType();
     this.getAllUserList(this.PageIndex);
@@ -560,6 +566,7 @@ export class UsersComponent implements OnInit {
     this.notificationPopup = true;
     this.checkRole();
     this.messageList = [];
+    this.pushNotificatioList=[];
     let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
@@ -573,7 +580,12 @@ export class UsersComponent implements OnInit {
         for (let i = 0; i < tempMessageList.length; i++) {
           if (tempMessageList[i].source === "SMS") {
             this.messageList.push(tempMessageList[i]);
+          }if(tempMessageList[i].source === "Push"){
+            this.pushNotificatioList.push(tempMessageList[i])
+            console.log("message list",this.pushNotificatioList)
+            
           }
+
         }
         // this.messageList = res;
         if (this.messageList && this.messageList.length > 0) {
@@ -682,7 +694,11 @@ export class UsersComponent implements OnInit {
   changeSelectedMsg(obj) {
     this.selectedMsg = obj;
   }
-
+changeSelectPush(obj){
+  this.selectedPushId= obj.message_id
+  this.selectedPushMesg = obj.message
+  console.log("push id",this.selectedPushId)
+}
   sendNotification() {
     console.log(this.smsNotification, this.pushNotification);
     this.smsNotification ? this.sendSMSNotification() : '';
@@ -760,20 +776,22 @@ export class UsersComponent implements OnInit {
   closeNotificationPopup() {
     this.notificationPopup = false;
     this.smsNotification = true;
-    this.pushNotification = true;
+    this.pushNotification = false;
     this.addSMS = false;
+    this.smsListFlag = 'active'
   }
 
   sendPushNotification() {
     let student_id = this.getListOfIds('user_id');
+    let user_ids = this.getListOfIds('user_id')
     student_id = student_id.join(',');
     if (!this.getNotificationMessage()) {
       return;
     }
     let obj = {
-      notifn_message: this.selectedMsg.message,
-      message_id: this.selectedMsg.messageId,
-      student_ids: student_id,
+      notifn_message: this.selectedPushMesg,
+      message_id:  this.selectedPushId,
+      user_ids:user_ids,
       institution_id: sessionStorage.getItem('institute_id')
     }
     this.auth.showLoader();
@@ -790,7 +808,7 @@ export class UsersComponent implements OnInit {
   }
 
   getNotificationMessage() {
-    if (this.selectedMsg == '') {
+    if (this.selectedPushId == '') {
       this.messageNotifier('error', '', 'Please select message');
       return false;
     } else {
@@ -922,6 +940,18 @@ export class UsersComponent implements OnInit {
     this.fetchTableDataByPage(this.PageIndex, 'user');
   }
 
+onPushCheckboxSelect(){
+  
+this.smsNotification= false
+this.pushNotification=true
+this.smsListFlag='notactive'
+}
+onSmsCheckboxSelect(){
+this.pushNotification=false
+this.smsListFlag='active'
+this.smsNotification= true
 
+
+}
 
 }
