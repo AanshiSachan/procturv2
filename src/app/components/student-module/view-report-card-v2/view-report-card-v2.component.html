@@ -374,12 +374,12 @@
               <div class="right selectt" id="range1">
                 <div class="flex">
                   <div class="field-wrapper datePickerBox">
-                    <input type="text" class="input mr10" readonly="true" placeholder="Start Date" name="csd"
+                    <input type="text" style="cursor: pointer;" class="input mr10" readonly="true" placeholder="Start Date" name="csd"
                       [(ngModel)]="viewAttendancePayload.startdate" bsDatepicker>
 
                   </div>
                   <div class="field-wrapper datePickerBox">
-                    <input type="text" value="" id="csd" class="input mr10" placeholder="End Date"
+                    <input type="text" value=""  style="cursor: pointer;" id="csd" class="input mr10" placeholder="End Date"
                       [(ngModel)]="viewAttendancePayload.enddate" readonly="true" name="csd" bsDatepicker>
 
                   </div>
@@ -418,7 +418,7 @@
               <div></div>
             </div>
             <!-- class active=y and inactive=n-->
-            <div class="table_body inactive" *ngFor="let data of attendanceList"
+            <div class="table_body active" *ngFor="let data of attendanceList"
               [ngClass]="{active : (data.batchLeavingDate != '' && data.batchLeavingDate != null)}">
               <div>{{data.batch_name}}
                 <!-- <span *ngIf="!isLangInstitue">{{data.subject_name}}</span> -->
@@ -480,15 +480,15 @@
                 {{data.inst_acad_year}}</option>
             </select>
 
-            <button class="blue_button" (click)="getFeesDetails(Fee_model.academic_yr_id)">GO</button>
+            <button class="blue_button" style="margin-left: 20px;" (click)="getFeesDetails(Fee_model.academic_yr_id)">GO</button>
 
             
          <button  style="margin-top:20px;"><i class="fa fa-download" (click)="studentFeeInstallment(-1)"
-          style="font-size: 25px;color: #0084f6;position: absolute;margin-left: 30px;margin-top:-15px;"
+          style="font-size: 25px;color: #0084f6;position: absolute;margin-left: 30px;margin-top:-15px;cursor: pointer;"
           title="Download fee installment"></i></button>   
           </div>
         
-        <div class="col-lg-2">  <a (click)="manageFees()"   style="color: #0084f6;position: absolute;margin-left:23px;margin-top:10px;" targe="_blank">Manage Fees</a></div>
+        <div class="col-lg-2">  <a (click)="manageFees()"   style="color: #0084f6;position: absolute;margin-left:23px;margin-top:10px;cursor: pointer;" targe="_blank">Manage Fees</a></div>
       </div>
           <!-- <div class="table_title">
               <span >Payment History</span>
@@ -840,7 +840,7 @@
                 {{data.f_type}}
               </div>
               <div>
-                {{data.d_date}}
+                {{data.d_date |date:'dd-MM-yyyy'}}
               </div>
               <div>
                 {{data.t_amount | number}}
@@ -1058,7 +1058,7 @@
                 {{data.alloted_units}}
               </div>
               <div>
-                {{data.created_date}}
+                {{data.created_date | date:'dd-MM-yyyy'}}
               </div>
                <div>
                   <a><img src="/assets/img2/delete.svg" class="size22" title="delete"></a>
@@ -1078,7 +1078,7 @@
         </div>
         <div class="ptm_table">
           <div class="table_heading" style="margin-left: -19px;">
-            <div>
+            <div style="text-align:left;">
               <span class="top" *ngIf="isLangInstitue">Batch</span>
               <span class="top" *ngIf="!isLangInstitue">Subject</span>
             </div>
@@ -1104,7 +1104,7 @@
               {{data.batch_name}}
             </div>
             <div>
-              {{data.ptm_date}}
+              {{data.ptm_date |date:'dd-MM-yyyy'}}
             </div>
             <div>
               {{data.attendance}}
@@ -1121,7 +1121,7 @@
                 abc</div>
             </div>
           </div>
-          <div class="nodata" *ngIf="PTMDetList?.length == 0">
+          <div  style="margin-left: -18px;" class="nodata" *ngIf="PTMDetList?.length == 0">
             <span style="text-align: center">
                  No data available
               </span>
@@ -1332,20 +1332,22 @@
             <div> <span *ngIf="isLangInstitue">Batch</span>
               <span *ngIf="!isLangInstitue">Subject</span>
             </div>
-            <div>Exam Date</div>
-            <div>Exam Description</div>
-            <div>Timings</div>
+            <div> Date</div>
+            <div> Description</div>
+            <div>Time</div>
             <div>Marks Obtained</div>
             <div>Grade</div>
             <div>Rank</div>
             <div>Highest Mark</div>
             <div>Lowest Mark</div>
-            <div>Average Marks</div>
+            <!-- <div>Average Marks</div> -->
           </div>
           <div class="tablebody1" *ngFor="let data of examList">
-            <div>{{data.batch_name}}</div>
-            <div>{{data.exam_date}}</div>
-            <div>{{data.exam_desc}}</div>
+            <div title="{{data.batch_name}} ">{{ (data.batch_name?.length
+              > 30) ? (data.batch_name| slice:0:30) + '...' : data.batch_name }} </div>
+            <div>{{data.exam_date |date:'dd-MM-yyyy'}}</div>
+            <div title="{{data.exam_desc}} ">{{data.exam_desc}} {{ (data.exam_desc?.length
+              > 30) ? (data.exam_desc| slice:0:30) + '...' : data.exam_desc }}</div>
             <div>{{data.start_time}}-{{data.end_time}}</div>
             <div>
               <span *ngIf="data.attendance_status == 'L'">Leave</span>
@@ -1371,7 +1373,7 @@
             </div>
             <div> <img src="assets/img1/highest.svg">{{data.highest_marks}}</div>
             <div> <img src="assets/img1/lowest.svg">{{data.lowest_marks}}</div>
-            <div>{{data.average_marks}}</div>
+            <!-- <div>{{data.average_marks}}</div> -->
           </div>
           <div class="nodata" *ngIf="examList.length ==0">
             <span style="text-align:center"> No Exam List Of Student Found</span>
@@ -1384,8 +1386,8 @@
 
             <div> Master Course</div>
             <div> Course</div>
-            <div>Exam Date</div>
-            <div>Timing</div>
+            <div> Date</div>
+            <div>Time</div>
             <div>Marks</div>
             <div>Rank</div>
             <div></div>
@@ -1436,21 +1438,20 @@
 
           <div class="tablehead1">
 
-            <div>Exam Date</div>
+            <div>Date</div>
             <div> <span *ngIf="isLangInstitue">Batch</span>
               <span *ngIf="!isLangInstitue">Subject</span>
             </div>
 
-            <div>Timings</div>
+            <div>Time</div>
 
           </div>
 
           <div class="tablebody1" *ngFor="let data of futureExamSch">
 
-            <div>{{data.exam_date}}</div>
-            <div>{{data.start_time}} - {{data.end_time}}</div>
-
-            <div>{{data.batch_name}}</div>
+            <div>{{data.exam_date |date:'dd-MM-yyyy'}}</div>
+           <div>{{data.batch_name}}</div>
+           <div>{{data.start_time}} - {{data.end_time}}</div>
 
           </div>
           <div class="nodata" *ngIf="futureExamSch.length==0">
@@ -1464,7 +1465,7 @@
       <div id="timeTable" *ngIf="isActiveTab =='timeTable'">
         <!-- time table -->
         <div class="row radio_div no-gutters" style="margin-left: 22px;">
-          <div class="col-lg-9 flex" style="margin-top: 10px;">
+          <div class="col-lg-8 flex" style="margin-top: 10px;">
 
             <div class="field-radio-wrapper">
               <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0"
@@ -1495,16 +1496,16 @@
                    <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
                  </label> -->
           </div>
-          <div class="col-lg-6 mt-20" *ngIf="timetablePayLoad.type == '2'">
+          <div class="col-lg-4 mt-20" *ngIf="timetablePayLoad.type == '2'">
             <div class="right selectt" id="range1">
               <div class="flex">
-                <div class="field-wrapper datePickerBox">
-                  <input type="text" class="input mr10" readonly="true" placeholder="Start Date"
+                <div class="field-wrapper datePickerBox" >
+                  <input type="text" class="input mr10" style="cursor:pointer" readonly="true" placeholder="Start Date"
                     [(ngModel)]="timetablePayLoad.startdate" name="csd" bsDatepicker>
 
                 </div>
-                <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="csd" class="input mr10" placeholder="End Date"
+                <div class="field-wrapper datePickerBox" >
+                  <input type="text" value=""  style="cursor:pointer" id="csd" class="input mr10" placeholder="End Date"
                     [(ngModel)]="timetablePayLoad.enddate" readonly="true" name="csd" bsDatepicker>
 
                 </div>
@@ -1542,7 +1543,7 @@
           </div>
         </div>
 
-        <div class="grey_head" style="margin-left: 22px;">
+        <div class="grey_head" style="margin-left: 1px;">
           <div>Date / Time</div>
           <div>Class</div>
           <div>Class Room</div>
@@ -1589,8 +1590,9 @@
                   </span>
                 </span>
               </div>
-              <div>{{row.class_room_name}}</div>
-              <div><span class="subject1">{{row.batchName}}</span></div>
+              <div>{{row.class_room_name==""?'--':row.class_room_name}}</div>
+              <div><span class="subject1" title="{{row.batchName}}"> {{ (row.batchName?.length
+                > 30) ? (row.batchName| slice:0:30) + '...' : row.batchName }}</span></div>
               <div>{{row.teacher_name}}</div>
               <div></div>
             </div>
@@ -1714,8 +1716,8 @@
         </div>
         <div class="row no-gutters mt20">
           <div class="col-lg-12">
-            <input type="file"  id="uploadFileControl" (change)="storeFiles()" name="uploadFileBox" [(ngModel)]="selectedFiles"
-              class="input file" placeholder=" Browse File">
+            <input type="file"  style="cursor:pointer" id="uploadFileControl" (change)="storeFiles()" name="uploadFileBox" [(ngModel)]="selectedFiles"
+              class="input file" placeholder=" Browse File" title="File format(PDF,JPG,DOC..)">
           </div>
         </div>
         <br>
