@@ -593,9 +593,9 @@
        <div>#</div>
          <div style="text-align: left;padding-left: 15px;">Student ID</div>
          <div (click)="sortTable('student_name')" style="cursor: pointer;text-align: left;"> Name <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
-         <div>Contact No.</div>
+         <div>Student No.</div>
          <div *ngIf="schoolModel" style="text-align: left;">Parent Name</div>
-         <div *ngIf="schoolModel">Contact No.</div>
+         <div *ngIf="schoolModel">Parent No.</div>
          <div *ngIf="!isProfessional">Standard</div>
          <div *ngIf="!schoolModel && !isProfessional" >Course(s)</div>
          <div *ngIf="isProfessional" >Master Course</div>
@@ -623,7 +623,7 @@
         </label>
        </div>
        </div>
-       <div><img src="{{data.thumbnail_url}}" class="photo imgRound"></div>
+       <div><img src="{{data.thumbnail_url==null ||data.thumbnail_url=='' ?'../../../assets/images/empty_photo.svg':data.thumbnail_url}}" class="photo imgRound"></div>
          <div style="text-align: left;padding-left: 15px;">{{data.student_disp_id}}</div>
          <div title="{{data.student_name}}" style="text-align: left;">{{data.student_name| slice:0:15}} {{data.student_name.length > 15 ? '...' : ''}}</div>
          <div title="{{data.student_phone}}"> {{data.student_phone| slice:0:15}} {{data.student_phone.length > 15 ? '...' : ''}}</div>

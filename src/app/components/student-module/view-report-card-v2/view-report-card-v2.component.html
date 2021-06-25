@@ -1,9 +1,9 @@
-<div class="page-content">
+<div class="page-content" style="margin-bottom: 10px;">
   <div class=" shadow">
     <div class="w98">
       <div class="flex p20">
         <div class="w50">
-          <p class="page_heading">View Student Details</p>
+          <p class="page_heading"><a   routerLink='/view/students' style="text-decoration:none;cursor:pointer">Back &nbsp;</a>/&nbsp;View Student Details</p>
         </div>
         <div class="w50">
           <span class="right">
@@ -27,6 +27,9 @@
         <div class="w40" *ngIf="schoolModel && studentCommanData.reg_no!=null">
           <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
         </div>
+        <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
+          <span class="rollno">Student&nbsp;ID<br><span class="number">{{studentCommanData.reg_no}}</span></span>
+        </div>
       </div>
       <div class="wm70">
         <div class="flex5">
@@ -46,7 +49,7 @@
           <div>
             <div class="circle"></div>
           </div>
-          <div class="padding">
+          <div class="padding1">
             <p class="blue_text">Mobile</p>
             <p class="black_text">{{studentCommanData.student_phone}}</p>
           </div>
@@ -58,7 +61,7 @@
           <div>
             <div class="circle"></div>
           </div>
-          <div class="padding">
+          <div class="padding1">
             <p class="blue_text">Standard</p>
             <p class="black_text">{{studentCommanData.standard}}</p>
           </div>
@@ -66,10 +69,11 @@
       </div>
       <div class="width80"></div>
       <div class="padding4">
-        <p *ngIf="!schoolModel" class="course_text">Course assigned:</p>
-        <p *ngIf="schoolModel" class="course_text">Section assigned:</p>
+        <p *ngIf="!schoolModel" class="course_text">Course Assigned:</p>
+        <p *ngIf="schoolModel" class="course_text">Section Assigned:</p>
         <div class="tag_wrapper">
-          <div class="tag" *ngFor="let data of assignedCourses;index as i">{{data}}</div>
+          <div class="tag" *ngFor="let data of assignedCourses;index as i" title="{{data}}">{{ (data?.length
+            > 20) ? (data| slice:0:20) + '...' : data }}</div>
         </div>
       </div>
       <div class="padding4">
@@ -77,8 +81,8 @@
         <div>
           <a class="mr15" id="downloadFileClick1" (click)="downloadStudentReportCard()"><img
               src="../../../assets/img_view/Group345.svg" title="Report Card"></a>
-          <a class="mr15" (click)="manageFees()"><img src="../../../assets/img_view/Group343.svg"
-              title="Manage Fees"></a>
+          <!-- <a class="mr15" (click)="manageFees()"><img src="../../../assets/img_view/Group343.svg"
+              title="Manage Fees"></a> -->
           <a class="mr15" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg"
               title="ID Card"></a>
           <!-- <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
@@ -116,13 +120,13 @@
           <!-- Profile -->
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Roll No.:</span>
+              <span class="name1">Roll No.&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.roll_no}} </span>
             </div>
             <div class="w15">
-              <span class="name1">Birth Place:</span>
+              <span class="name1">Birth Place&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.birth_place==''?'---':studentCommanData.birth_place}}</span>
@@ -130,14 +134,14 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Religion:</span>
+              <span class="name1">Religion&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1"
                 title="{{studentCommanData.religion}}">{{studentCommanData.religion==''?'---':studentCommanData.religion}}</span>
             </div>
             <div class="w15">
-              <span class="name1">Aadhar Card:</span>
+              <span class="name1">Aadhar ID&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1"
@@ -146,13 +150,13 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Group:</span>
+              <span class="name1">Group&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.group==''?'---':studentCommanData.group}}</span>
             </div>
             <div class="w15" *ngIf="schoolModel">
-              <span class="name1">Optional Subject:</span>
+              <span class="name1">Optional Subject&nbsp;:</span>
             </div>
             <div class="w35" *ngFor="let data of optionalSubjects">
               <span class="value1">{{data}}</span>
@@ -160,13 +164,13 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Date Of Birth:</span>
+              <span class="name1">Date Of Birth&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.dob}}</span>
+              <span class="value1">{{studentCommanData.dob |date:'dd-MM-yyyy'}}</span>
             </div>
             <div class="w15">
-              <span class="name1">Gender:</span>
+              <span class="name1">Gender&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.gender}}</span>
@@ -174,14 +178,14 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Blood Group:</span>
+              <span class="name1">Blood Group&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.blood_group==null ||studentCommanData.blood_group=="-1" ||
                 studentCommanData.blood_group=="" ?'---':studentCommanData.blood_group}}</span>
             </div>
             <div class="w15">
-              <span class="name1">Email:</span>
+              <span class="name1">Email&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">
@@ -190,13 +194,13 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">State:</span>
+              <span class="name1">State&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.state==null?'---':studentCommanData.state}}</span>
             </div>
             <div class="w15">
-              <span class="name1">Country:</span>
+              <span class="name1">Country&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.country==null?'---':studentCommanData.country}}</span>
@@ -204,7 +208,7 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Category:</span>
+              <span class="name1">Category&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.category==null ||studentCommanData.category=="-1" ||
@@ -212,7 +216,7 @@
               </span>
             </div>
             <div class="w15">
-              <span class="name1">Remark:</span>
+              <span class="name1">Remark&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1" *ngIf="studentCommanData.remark=='' || studentCommanData.remark==null ">---</span>
@@ -224,7 +228,7 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Mother Tongue:</span>
+              <span class="name1">Mother Tongue&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1"> {{studentCommanData.mother_tongue==null ||studentCommanData.mother_tongue=="-1" ||
@@ -233,7 +237,7 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Address:</span>
+              <span class="name1">Current Address &nbsp;:</span>
             </div>
             <div class="w85">
               <span class="value1"
@@ -248,14 +252,14 @@
           <!-- Parent -->
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Parent Name:</span>
+              <span class="name1">Parent Name&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.parent_name==null || studentCommanData.parent_name==""
                 ?'---':studentCommanData.parent_name}}</span>
             </div>
             <div class="w15">
-              <span class="name1">Parent Contact:</span>
+              <span class="name1">Parent Contact&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.parent_phone==null || studentCommanData.parent_phone==""
@@ -264,14 +268,14 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Parent Email ID:</span>
+              <span class="name1">Parent Email&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.parent_email==null || studentCommanData.parent_email==""
                 ?'---':studentCommanData.parent_email}}</span>
             </div>
             <div class="w15">
-              <span class="name1">Parent Aadhar Card:</span>
+              <span class="name1">Parent Aadhar ID&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.parent_adhar_card==null ||
@@ -280,7 +284,7 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Parent Profession:</span>
+              <span class="name1">Parent Profession&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.parent_profession==null ||
@@ -290,14 +294,14 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Guardian Name:</span>
+              <span class="name1">Guardian Name&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.guardian_name==null || studentCommanData.guardian_name==""
                 ?'---':studentCommanData.guardian_name}}</span>
             </div>
             <div class="w15">
-              <span class="name1">Guardian Contact No.:</span>
+              <span class="name1">Guardian Contact No.&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.guardian_phone==null || studentCommanData.guardian_phone==""
@@ -306,7 +310,7 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Guardian Email ID:</span>
+              <span class="name1">Guardian Email&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1">{{studentCommanData.guardian_email==null || studentCommanData.guardian_email==""
@@ -315,7 +319,7 @@
           </div>
           <div class="outter_flex">
             <div class="w15">
-              <span class="name1">Residential Address:</span>
+              <span class="name1">Residential Address&nbsp;:</span>
             </div>
 
             <div class="w85">
@@ -334,7 +338,7 @@
         <div id="attendance_tab" *ngIf="isActiveTab =='attendance'">
           <!-- Attendance -->
           <div class="row radio_div no-gutters">
-            <div class="col-lg-6 flex" style="margin-top: 10px;">
+            <div class="col-lg-8 flex" style="margin-top: 10px;">
 
               <div class="field-radio-wrapper">
                 <input type="radio" id="idCurrentMon" [checked]="(viewAttendancePayload.type == '0')" value="0"
@@ -366,7 +370,7 @@
                 <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
               </label> -->
             </div>
-            <div class="col-lg-6 mt-20" *ngIf="viewAttendancePayload.type == '2'">
+            <div class="col-lg-4 mt-20" *ngIf="viewAttendancePayload.type == '2'">
               <div class="right selectt" id="range1">
                 <div class="flex">
                   <div class="field-wrapper datePickerBox">
@@ -389,7 +393,7 @@
 
             </div>
           </div>
-          <div class="attendance_table">
+          <div class="attendance_table" >
             <div class="table_heading">
               <div>
                 <span *ngIf="isLangInstitue">Batch</span>
@@ -416,8 +420,9 @@
             <!-- class active=y and inactive=n-->
             <div class="table_body inactive" *ngFor="let data of attendanceList"
               [ngClass]="{active : (data.batchLeavingDate != '' && data.batchLeavingDate != null)}">
-              <div><span *ngIf="isLangInstitue">{{data.batch_name}}</span>
-                <span *ngIf="!isLangInstitue">{{data.subject_name}}</span></div>
+              <div>{{data.batch_name}}
+                <!-- <span *ngIf="!isLangInstitue">{{data.subject_name}}</span> -->
+                </div>
               <div>
                 {{data.total_classes}}
               </div>
@@ -435,7 +440,7 @@
                 {{data.spent_percentage}} %
               </div>
               <div>{{data.is_batch_active}}</div>
-              <div>{{data.batchJoiningDate}}</div>
+              <div>{{data.batchJoiningDate |date:'dd-MM-yyyy'}}</div>
               <div>{{data.batchLeavingDate}}</div>
               <div>
                 <a data-toggle="modal" data-target="#myModal1" (click)="viewAttendanceDet(data)"
@@ -468,7 +473,7 @@
         <div id="fees_tab" *ngIf="isActiveTab =='fees'">
           <!-- Fees -->
           <div class="row radio_div1 no-gutters">
-
+<div class="col-lg-10">
             <select class="select mr10 wid160" [(ngModel)]="Fee_model.academic_yr_id" style="width: 20%;">
               <option value="-1">Academic Year</option>
               <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
@@ -477,9 +482,14 @@
 
             <button class="blue_button" (click)="getFeesDetails(Fee_model.academic_yr_id)">GO</button>
 
-
+            
+         <button  style="margin-top:20px;"><i class="fa fa-download" (click)="studentFeeInstallment(-1)"
+          style="font-size: 25px;color: #0084f6;position: absolute;margin-left: 30px;margin-top:-15px;"
+          title="Download fee installment"></i></button>   
           </div>
-
+        
+        <div class="col-lg-2">  <a (click)="manageFees()"   style="color: #0084f6;position: absolute;margin-left:23px;margin-top:10px;" targe="_blank">Manage Fees</a></div>
+      </div>
           <!-- <div class="table_title">
               <span >Payment History</span>
             </div>
@@ -965,7 +975,7 @@
                 <button class="blue_button" data-toggle="modal" data-target="#myModal">Generate Certificates</button>
               </span> -->
               <span class="right">
-                <button class="blue_button" data-toggle="modal" data-target="#myModal">Add Document</button>
+                <button class="blue_button" data-toggle="modal" data-target="#myModal" (click)="clear()">Add Document</button>
               </span>
             </div>
 
@@ -1064,7 +1074,7 @@
       <div style="margin-left: 21px;" id="ptm_tab" *ngIf="isActiveTab =='ptm'">
         <!-- PTM -->
         <div class="table_title">
-          <span>History</span>
+          <span>PTM History</span>
         </div>
         <div class="ptm_table">
           <div class="table_heading" style="margin-left: -19px;">
@@ -1454,7 +1464,7 @@
       <div id="timeTable" *ngIf="isActiveTab =='timeTable'">
         <!-- time table -->
         <div class="row radio_div no-gutters" style="margin-left: 22px;">
-          <div class="col-lg-6 flex" style="margin-top: 10px;">
+          <div class="col-lg-9 flex" style="margin-top: 10px;">
 
             <div class="field-radio-wrapper">
               <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0"
@@ -1652,7 +1662,7 @@
                 Extra
               </span>
             </div>
-            <div>
+            <div  [ngClass]="{'Aclass':data.status=='A', 'Pclass': data.status=='P'}">
               {{data.status}}
             </div>
             <div>
@@ -1685,8 +1695,10 @@
     </div>
   </div>
 </div>
+</div>
 <!-- The Modal -->
 <div class="modal" id="myModal">
+  <form  #fileForm="ngForm">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -1702,7 +1714,7 @@
         </div>
         <div class="row no-gutters mt20">
           <div class="col-lg-12">
-            <input type="file" name="" id="uploadFileControl" (change)="storeFiles()" name="uploadFileBox"
+            <input type="file"  id="uploadFileControl" (change)="storeFiles()" name="uploadFileBox" [(ngModel)]="selectedFiles"
               class="input file" placeholder=" Browse File">
           </div>
         </div>
@@ -1710,7 +1722,7 @@
         <div class="display mar-adjust">
           <div></div>
           <div>
-            <button class="white_button mr10">Back</button><button class="blue_button"
+            <button class="white_button mr10" data-dismiss="modal" (click)="clear()">Back</button><button class="blue_button"
               (click)="uploadHandler();">Upload</button>
           </div>
         </div>
@@ -1718,4 +1730,5 @@
       </div>
     </div>
   </div>
+</form>
   

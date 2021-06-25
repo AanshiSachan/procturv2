@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService } from '../../../services/http.service';
@@ -10,6 +10,7 @@ import { PostStudentDataService } from '../../../services/student-services/post-
 import { CommonServiceFactory } from '../../../services/common-service';
 import * as moment from 'moment';
 import { isExternalModuleNameRelative } from 'typescript';
+import { NgForm } from '@angular/forms';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -31,6 +32,7 @@ export class ViewReportCardV2Component implements OnInit {
     private route: ActivatedRoute,
     private PostStudService: PostStudentDataService,
     private _commService: CommonServiceFactory,
+    
 
   ) {
     this.student_id = this.route.snapshot.paramMap.get('id');
@@ -143,7 +145,9 @@ export class ViewReportCardV2Component implements OnInit {
       this.getStudentInfo();
     }
     else if (param == "attendance") {
+      this.viewAttendancePayload.type == '0';
       this.goBtnAttendaceClick();
+     
     }
     else if (param == "exam") {
       this.getExamDetailsForSchool();
@@ -156,6 +160,9 @@ export class ViewReportCardV2Component implements OnInit {
     }
     else if(param=="documents"){
       this.getUploadedFileData();
+    }
+    else if(param=='ptm'){
+      this.getPTMDetails();
     }
   }
   //function to get parent,profile ,document, data
@@ -978,6 +985,46 @@ export class ViewReportCardV2Component implements OnInit {
   manageFees() {
     this.router.navigate(['/view/fee/update-fee/view-fee/' + this.student_id]);
     // this.router.navigate(["/view/students/edit/" + event]);
+  }
+  @ViewChild('fileForm', { static: false }) fileForm: NgForm;
+  @ViewChild('uploadFileControl',{ static: false }) myInputVariable: ElementRef;
+  clear(){
+    this.fileForm.resetForm();
+    this.myInputVariable.nativeElement.value = '';
+  this.selectedFiles=[];
+  }
+  //download fees
+  paymentMode: number = 0;
+  studentFeeInstallment(userType) {
+    let object = {
+      student_ids: this.student_id,// string by ids common seperated
+      institution_id: '',
+      sendEmail: userType,
+    }
+    object['user_role'] = this.paymentMode;
+    this.auth.showLoader()
+    this.PostStudService.getFeeInstallments(object).subscribe((res: any) => {
+      this.auth.hideLoader()
+      if (userType == -1) {
+        let byteArr = this._commService.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        const dwldLink = document.createElement('a');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+        document.body.removeChild(dwldLink);
+      } else {
+        $('#sendModal').modal('hide');
+        this._commService.showErrorMessage('success', '', 'fee installement send on your mail successfully');
+      }
+    },
+      (err: any) => {
+        this.auth.hideLoader()
+        this._commService.showErrorMessage('error', '', err.error.message);
+      })
   }
 }
 
