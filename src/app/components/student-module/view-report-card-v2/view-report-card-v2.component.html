@@ -416,7 +416,8 @@
             <!-- class active=y and inactive=n-->
             <div class="table_body inactive" *ngFor="let data of attendanceList"
               [ngClass]="{active : (data.batchLeavingDate != '' && data.batchLeavingDate != null)}">
-              <div>{{data.batch_name}}</div>
+              <div><span *ngIf="isLangInstitue">{{data.batch_name}}</span>
+                <span *ngIf="!isLangInstitue">{{data.subject_name}}</span></div>
               <div>
                 {{data.total_classes}}
               </div>
@@ -1363,7 +1364,7 @@
             <div>{{data.average_marks}}</div>
           </div>
           <div class="nodata" *ngIf="examList.length ==0">
-            <sapn style="text-align:center"> No Exam List Of Student Found</sapn>
+            <span style="text-align:center"> No Exam List Of Student Found</span>
           </div>
         </div>
 
@@ -1717,3 +1718,4 @@
       </div>
     </div>
   </div>
+  

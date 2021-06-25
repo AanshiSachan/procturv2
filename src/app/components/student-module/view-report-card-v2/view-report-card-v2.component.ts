@@ -465,7 +465,7 @@ export class ViewReportCardV2Component implements OnInit {
     student_id: -1,
     subject_id: -1,
     teacher_id: -1,
-    type: '0'
+    type: 0
   };
   viewFiles: any = {
     type: '0'
