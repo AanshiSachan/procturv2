@@ -1356,7 +1356,7 @@
                 *ngIf="data.attendance_status != 'L' && data.attendance_status != 'A' ">{{data.marks_obtained}}/{{data.total_marks}}</span>
             </div>
             <div>
-              <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+              <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A' || data.grade==null" >
                 --
               </span>
               <span class="grade" *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
@@ -1394,7 +1394,8 @@
           </div>
           <div id="outerTableTr{{i}}" *ngFor="let data of courseLevelExamList; let i = index;">
             <div class="table_body1 collapsible">
-              <div>{{data.master_course_name}}</div>
+              <div title="{{data.master_course_name}}"> {{ (data.master_course_name?.length
+                > 20) ? (data.master_course_name| slice:0:20) + '...' : data.master_course_name }} </div>
               <div>{{data.course_Name}}</div>
               <div></div>
               <div></div>
