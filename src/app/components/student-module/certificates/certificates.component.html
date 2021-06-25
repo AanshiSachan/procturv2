@@ -321,7 +321,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
       <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
       </head>
-      <body>
+      <body >
       
         <div class="gradient">
           <div>
@@ -331,18 +331,20 @@
              <a class="mr20" (click)="downloadTransferPdf()"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
              <a (click)="cloaseCertificate()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
             </div>
-          </div>
+          </div >
         </div>
-          <br>
+          <br >
           
         <div class="body" id="transferCertificate">
           
           <div class="w96 flex">
             <div style="width: 30%">
-              <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+              <!-- <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;"> -->
+              <img src="{{transferCertificateModel.institute_logo_url}}" style="height: auto;width: 90%;">
+
             </div>
             <div style="width: 70%" >
-                 <div><span style="font-size:50px; font-weight:bold">School ERP Name</span></div>
+                 <div><span style="font-size:50px; font-weight:bold">{{transferCertificateModel.institute_name}}</span></div>
                  <div>
                  <span class="sm_heading"><b>Phone:</b>000000000</span>
                   <span class="sm_heading"><b>Email:</b>schoolname@hmail.com</span>
@@ -356,24 +358,24 @@
               Leaving Certificate
           </div>
           <div class="display space">
-            <div >
+            <!-- <div >
               <span class="name"> Affiliation No.</span>
                <span class="value"> 3233233</span>
-            </div>
+            </div> -->
             <div >
              <span class="name"> Addmission No.</span>
-               <span class="value"> 3233233</span>
+               <span class="value"> {{transferCertificateModel.student_administration_number}}</span>
             </div>
           </div>
           <div class="display space">
-            <div >
+            <!-- <div >
               <span class="name"> School Code.</span>
                <span class="value"> 3233233</span>
-            </div>
-            <div >
+            </div> -->
+            <!-- <div >
              <span class="name"> Book No.</span>
                <span class="value"> 3233233</span>
-            </div>
+            </div> -->
           </div>
           <br>
           <div class="display space">

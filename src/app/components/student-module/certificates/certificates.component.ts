@@ -55,7 +55,8 @@ transferCertificateModel={
   remark:'',
   awsDownloadLink:'',
   institute_name:'',
-  institute_logo_url:''
+  institute_logo_url:'',
+  
 
 
 }
@@ -90,6 +91,7 @@ this.PostStudService.stdGetData(url).subscribe(
   (res:any) =>{
     let response = res;
     this.studentTransferData = res.result;
+    this.transferCertificateModel = this.studentTransferData
       this.transferCertificateModel.student_name=this.studentTransferData.student_name;
       this.transferCertificateModel.father_name= this.studentTransferData.father_name 
       this.transferCertificateModel.dateOfBirth=this.studentTransferData.dob;
