@@ -407,7 +407,8 @@ export class CategoryComponent implements OnInit {
     asset_name: '',
     institute_id: sessionStorage.getItem('institute_id'),
     quantity: '',
-    id: ''
+    id: '',
+    location_names_string:[]
 
   }
   //get location data
@@ -537,6 +538,7 @@ export class CategoryComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
         $('#myModalforasset').modal('hide');
         this.getCategoryDetails();
+        this.getAssetDetails();
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);

@@ -72,7 +72,7 @@
                             <label  class="p_title">Assign Quantity<span class="stars">*</span></label>
                         
                             <input type="text" class="form-control" id="inputPassword4" placeholder="Enter Quantity"
-                                [(ngModel)]="model.quantity" name="quantity"
+                                [(ngModel)]="model.quantity" name="quantity" (ngModelChange)="maxlenth(model.quantity,9)"
                                 onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required #quantity="ngModel" >
                                 <!-- <p class="errormsg"><span  class="help-block" *ngIf="quantity.invalid && quantity.touched">Please
                                      Quantity is mandatory </span></p> -->
