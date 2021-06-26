@@ -408,7 +408,7 @@ export class CategoryComponent implements OnInit {
     institute_id: sessionStorage.getItem('institute_id'),
     quantity: '',
     id: '',
-    location_names_string:[]
+    
 
   }
   //get location data
