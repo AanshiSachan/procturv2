@@ -442,7 +442,11 @@ mouseleave() {
       });
     }
     if (this.userType == 3) {
-      this.jsonCommunicateFlags.communicateMenu = false;
+      this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+      this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+      this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
+      this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
+      this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
     }
   }
   checkPermissionForFees() {
