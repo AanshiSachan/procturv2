@@ -509,6 +509,7 @@ export class CategoryComponent implements OnInit {
 
   //update asset details
   updateAssetDetails() {
+    this.auth.showLoader();
     if (this.assetaddForm.valid) {
       // var location_ids = JSON.parse("[" + this.model.location_ids + "]");
       // this.model.location_ids = location_ids;
@@ -536,9 +537,10 @@ export class CategoryComponent implements OnInit {
 
       this.httpService.putMethod('api/v2/asset/update', obj).then(() => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Updated Successfully")
-        $('#myModalforasset').modal('hide');
-        this.getCategoryDetails();
+       this.getCategoryDetails();
         this.getAssetDetails();
+        this.auth.hideLoader();
+        $('#myModalforasset').modal('hide');
       },
         err => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
