@@ -333,24 +333,25 @@
             </div>
           </div >
         </div>
+        <div id="transferCertificate">
           <br >
           
-        <div class="body" id="transferCertificate">
+        <div class="body" >
           
           <div class="w96 flex">
             <div style="width: 30%">
               <!-- <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;"> -->
-              <img src="{{transferCertificateModel.institute_logo_url}}" style="height: auto;width: 90%;">
+              <img src="{{transferCertificateModel.institute_logo_url}}" style="height: auto;width: 90%; padding-top: 22px;">
 
             </div>
             <div style="width: 70%" >
                  <div><span style="font-size:50px; font-weight:bold">{{transferCertificateModel.institute_name}}</span></div>
                  <div>
-                 <span class="sm_heading"><b>Phone:</b>000000000</span>
-                  <span class="sm_heading"><b>Email:</b>schoolname@hmail.com</span>
+                 <span class="sm_heading"><b>Phone:</b>{{transferCertificateModel.inst_phone}}</span>
+                  <span class="sm_heading"><b>Email:</b>{{transferCertificateModel.inst_email}}</span>
                   </div>
                   <div>
-                 <span class="sm_heading"><b>Address</b> S No. 2/1/5 Archway, Office 101-102, Baner - Balewadi Rd, Pune, Maharashtra 411045</span>
+                 <span class="sm_heading"><b>Address</b> {{transferCertificateModel.inst_address}}</span>
                   </div>
             </div>
           </div>
@@ -608,6 +609,7 @@
              Pricipal Stamp
            </div>
          </div>
+        </div>
         </div>
       </body>
       </html>

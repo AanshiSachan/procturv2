@@ -83,7 +83,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     stud_name:'',
     father_name:'',
     doj:'',
-    sex:''
+    sex:'',
+    logo_url:''
   }
   bonafiedCertiModel={
     institute_name:'',
@@ -100,6 +101,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     reg_number:'',
     curr_date:'',
     inst_place:'',
+    logo_url:''
+
   }
   migrationCertiModel={
     institute_name:'',
@@ -116,7 +119,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     reg_number:'',
     curr_date:'',
     inst_place:'',
-    school_board:''
+    school_board:'',
+    logo_url:''
   }
 
   constructor(
@@ -604,32 +608,35 @@ characterPrintPage(popupName){
   console.log("print")
 
 }
-CharacterConvertTopdf(){
-  // var data = document.getElementById('conductCertificate2');  
-  //   html2canvas(data).then(canvas => {  
-  //     var imgWidth = 208;   
-  //     var pageHeight = 295;    
-  //     var imgHeight = canvas.height * imgWidth / canvas.width;  
-  //     var heightLeft = imgHeight;  
-  
-  //     const contentDataURL = canvas.toDataURL('image/png')  
-  //     let pdf = new jsPDF('p', 'mm', 'a4'); 
-  //     var position = 0;  
-  //     pdf.addImage(contentDataURL,'PNG', 0, position, imgWidth, imgHeight)  
-  //     pdf.save('conductCertificates.pdf');  
 
 
-  //   });
-  document.getElementById("conductCertificate2")
-        
-      const doc = new jsPDF("l", "in", "a4");
-      console.log(doc);
-      doc.internal.scaleFactor = 2;
-      doc.addHTML(this.content.nativeElement, function () {
-        doc.save("certificate.pdf");
-      });
+CertificateConvertTopdf(certificat){
+ 
+  var data = document.getElementById(certificat);  
+  this.auth.showLoader()
 
-}
+    html2canvas(data).then(canvas => {  
+      var imgWidth = 230;   
+      var pageHeight = 295;  
+     
+      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var heightLeft = imgHeight;  
+
+      const contentDataURL = canvas.toDataURL('image/png') 
+      let pdf = new jsPDF('p', 'mm', 'a4'); 
+      var position = 0;  
+      
+      pdf.addImage(contentDataURL,'PNG', 0,position, imgWidth, imgHeight)  
+      pdf.save('conductCertificates1.pdf');
+      console.log("img",this.charactertCertiModel.logo_url) 
+      
+     this.auth.hideLoader()
+
+    });
+  }
+  printMigration(){
+
+  }
 closePopups(){
    $('#myModal1').modal('hide');
   $('#conductCertificate').modal('hide');

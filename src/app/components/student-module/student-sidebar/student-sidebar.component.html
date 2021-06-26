@@ -347,22 +347,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
 </head>
-<body id="conductCertificate2" #content>
+<body >
    <div class="gradient">
     <div>
       <div></div>
       <div>
        <a class="mr20" (click)="characterPrintPage('conductCertificate')"><img src="../../../../assets/images/certifcateimg/print.svg"></a>
-       <a class="mr20" (click)="CharacterConvertTopdf()" > <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a class="mr20" (click)="CertificateConvertTopdf('conductCertificate2')" > <img src="../../../../assets/images/certifcateimg/download.svg"></a>
        <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
+<div id="conductCertificate2">
     <br>
+
  <div class="body" >
    <div class="w96 flex">
       <div style="width: 30%">
-        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+        <img src="{{charactertCertiModel.logo_url}}" style="height: auto;width: 90%;padding-top: 22px;">
       </div>
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">{{charactertCertiModel.institute_name}}</span></div>
@@ -387,15 +389,19 @@ I wish him a great success in life.
      <p class="dated space"  >Dated:&nbsp;&nbsp;<span><b></b></span></p>
    </div>
    <div class="display space"  >
-     <div  ><b>Place</b>
-      <p  >Pune</p></div>
+     <div  ><b>Place</b>&nbsp;: Pune</div>
+     
      <div  >Principal</div>
    </div>   
  </div>
+
+
  <br>
+</div>
 </body>
 </html>
 </div>
+
 <!-- =========================================character certificate-female============================================== -->
 <div  class="modal" style="margin-left: 181px;width:1290px ;" id="conductCertificateF"> 
   <!DOCTYPE html>
@@ -420,11 +426,12 @@ I wish him a great success in life.
           <div></div>
           <div>
            <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
-           <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+           <a href=""  class="mr20" (click)="CertificateConvertTopdf('conductCertificateFemale')"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
            <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
           </div>
         </div>
       </div>
+      <div id="conductCertificateFemale">
         <br>
       <div class="body">
         
@@ -455,12 +462,12 @@ I wish him a great success in life.
          <p class="dated space">Dated:&nbsp;&nbsp;<span><b></b></span></p>
        </div>
        <div class="display space">
-         <div><b>Place</b>
-          <p>{{charactertCertiModel.inst_place}}</p></div>           
+         <div><b>Place</b><p>{{charactertCertiModel.inst_place}}</p></div>           
          <div><b>Principal Signature</b></div>
        </div>
       </div>
       <br>
+      </div>
     </body>
     </html>  
 </div>
@@ -489,16 +496,17 @@ I wish him a great success in life.
       <div></div>
       <div>
        <a (click)="PrintPage()"  class="mr20" > <img src="../../../../assets/images/certifcateimg/print.svg"></a>
-       <a (click)="bonafiedCertificates()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a (click)="CertificateConvertTopdf('bonafiedCertificatePdfdiv')"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
        <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
+  <div id="bonafiedCertificatePdfdiv">
     <br>
     <div class="body">
     <div class="w96 flex">
       <div style="width: 30%">
-        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+        <img src="{{bonafiedCertiModel.logo_url}}" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
@@ -529,6 +537,7 @@ His DOB as per our school record is<b> "{{bonafiedCertiModel.dob}}"</b>
    </div>
  </div>
  <br>
+ </div>
 </body>
 </html>
 </div>
@@ -557,16 +566,17 @@ His DOB as per our school record is<b> "{{bonafiedCertiModel.dob}}"</b>
       <div></div>
       <div>
        <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a href=""  class="mr20" (click)="CertificateConvertTopdf('femailBonafiedPdfdiv')"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
        <a data-dismiss="modal"  class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
+  <div id="femailBonafiedPdfdiv">
     <br>
     <div class="body">
     <div class="w96 flex">
       <div style="width: 30%">
-        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+        <img src="{{bonafiedCertiModel.logo_url}}" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
@@ -597,6 +607,7 @@ Her DOB as per our school record is<b> "{{bonafiedCertiModel.dob}}"</b>
    </div>
  </div>
  <br>
+ </div>
 </body>
 </html>
 </div>
@@ -624,16 +635,17 @@ Her DOB as per our school record is<b> "{{bonafiedCertiModel.dob}}"</b>
       <div></div>
       <div>
        <a (click)="migrationPrintPage()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
-       <a (click)="migrationCertificates()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a (click)="CertificateConvertTopdf('migrationPdfdiv')"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
        <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
+  <div id="migrationPdfdiv">
     <br>
   <div class="body">
       <div class="w96 flex">
       <div style="width: 30%">
-        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+        <img src="{{migrationCertiModel.logo_url}}" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
@@ -665,6 +677,7 @@ This school has no objection in his joining any recognized collage/institute or 
    </div>
   </div>
   <br>
+  </div>
 </body>
 </html>
 </div>
@@ -692,16 +705,17 @@ This school has no objection in his joining any recognized collage/institute or 
       <div></div>
       <div>
        <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a>
-       <a href=""  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+       <a href=""  class="mr20" (click)="CertificateConvertTopdf('femaleMigrationPdfdiv')"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
        <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
       </div>
     </div>
   </div>
+  <div id="femaleMigrationPdfdiv">
     <br>
 <div class="body">
     <div class="w96 flex">
       <div style="width: 30%">
-        <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;">
+        <img src="{{migrationCertiModel.logo_url}}" style="height: auto;width: 90%;">
       </div>
       <div style="width: 70%" >
            <div><span style="font-size:50px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
@@ -733,6 +747,7 @@ This school has no objection in her joining any recognized collage/institute or 
    </div>  
 </div>
 <br>
+</div>
 </body>
 </html>
 </div>

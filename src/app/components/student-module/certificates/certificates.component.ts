@@ -56,6 +56,9 @@ transferCertificateModel={
   awsDownloadLink:'',
   institute_name:'',
   institute_logo_url:'',
+  inst_phone:'',
+    inst_email:'',
+    inst_address:''
   
 
 
