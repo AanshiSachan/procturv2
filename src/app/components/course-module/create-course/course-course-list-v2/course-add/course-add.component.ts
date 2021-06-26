@@ -18,6 +18,7 @@ export class CourseAddComponent implements OnInit {
   activeTeachers: any = [];
   mainArrayForTable: any = [];
   standardList: any = [];
+  masterCourseData: any = [];
   schoolModel: boolean = false;
   isLangInstitue: boolean = false;
   selectedCourseID: any = '';
@@ -27,6 +28,7 @@ export class CourseAddComponent implements OnInit {
     end_Date: '',
     academic_year_id: -1,
     master_course_id: '',
+    standard_id: '',
     inst_id: sessionStorage.getItem('institute_id')
   };
   newSubjectDetails: any = {
@@ -37,6 +39,14 @@ export class CourseAddComponent implements OnInit {
     is_optional: false,
     total_marks: '',
     passing_marks: ''
+  }
+
+  createMasterCourseModel: any = {
+    "master_course_name": "",
+    "institute_id": sessionStorage.getItem('institute_id'),
+    "is_active": "Y",
+    "standard_id": '-1',
+    "standard_name": ''
   }
 
   constructor(
@@ -62,16 +72,45 @@ export class CourseAddComponent implements OnInit {
         }
       }
     )
-    this.courseDetails = JSON.parse(sessionStorage.getItem('cretaCourse'));
-    let sub_list = JSON.parse(sessionStorage.getItem('subjectList'));
-    this.subjectList = sub_list.subject_list;
     this.getActiveTeacherList(this.courseDetails.standard_id);
+    !this.schoolModel ? this.getMasterCourseData() : '';
+    this.getAllStandardSubjectList()
     this.getAcademicYearDetails();
     if (this.selectedCourseID) {
       this.getSelectedCourse(this.selectedCourseID);
     } else {
       this.courseDetails.academic_year_id = '-1';
       this.courseDetails.master_course = this.courseDetails.master_course_name;
+    }
+  }
+
+  getMasterCourseData() {
+    this._auth.showLoader();
+    this._httpService.getData('/api/v1/master-course/fetch-master-course/' + sessionStorage.getItem('institute_id') + '?is_active=Y').subscribe(
+      (res: any) => {
+        this._auth.hideLoader();
+        this.masterCourseData = res.result;
+      },
+      (err: any) => {
+        this._auth.hideLoader();
+        console.log(err);
+      }
+    )
+  }
+
+  getSubjects() {
+    if (!this.schoolModel) {
+      let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.courseDetails.master_course_id));
+      let masterCourseObj = stdObj[0];
+      let sub_list = this.standardList.filter(sub => (sub.standard_id == masterCourseObj.standard_id));
+      this.subjectList = sub_list[0].subject_list;
+      this.newSubjectDetails.standard_id = this.courseDetails.standard_id;
+      this.getActiveTeacherList(this.courseDetails.standard_id);
+    } else {
+      let sub_list = this.standardList.filter(sub => (sub.standard_id == this.courseDetails.standard_id));
+      this.subjectList = sub_list[0].subject_list;
+      this.newSubjectDetails.standard_id = this.courseDetails.standard_id;
+      this.getActiveTeacherList(this.courseDetails.standard_id);
     }
   }
 
@@ -85,6 +124,9 @@ export class CourseAddComponent implements OnInit {
         // this.subjectList = res.result.subject_list;
         // this.getMetaDataForTable(this.courseDetails);
         // this.dummyArray.push("Selected Course");
+        if (this.selectedCourseID) {
+          this.getSubjects();
+        }
         this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
       },
       error => {
@@ -131,43 +173,43 @@ export class CourseAddComponent implements OnInit {
         for (let i = 0; i < this.subjectList.length; i++) {
           this.subjectList[i].allowedTeacher = [];
           let is_teacher_exit: boolean = true;
-          if(!this.selectedCourseID) {
-          this.activeTeachers.filter(teacher => {
-            if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
-              is_teacher_exit = false;
-              this.subjectList[i].allowedTeacher.push(teacher);
-              let is_more_option_exit: boolean = true;
-              for (let data of this.subjectList[i].allowedTeacher) {
-                if (data.teacher_id == 'more') {
-                  is_more_option_exit = false
-                  break;
+          if (!this.selectedCourseID) {
+            this.activeTeachers.filter(teacher => {
+              if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
+                is_teacher_exit = false;
+                this.subjectList[i].allowedTeacher.push(teacher);
+                let is_more_option_exit: boolean = true;
+                for (let data of this.subjectList[i].allowedTeacher) {
+                  if (data.teacher_id == 'more') {
+                    is_more_option_exit = false
+                    break;
+                  }
+                }
+                if (is_more_option_exit) {
+                  this.subjectList[i].allowedTeacher.push({
+                    "is_active": "Y",
+                    "standard_subject_list": [],
+                    "teacher_email": null,
+                    "teacher_id": "more",
+                    "teacher_name": "Click Here to view more faculties",
+                    "teacher_phone": "7503959545"
+                  })
                 }
               }
-              if (is_more_option_exit) {
-                this.subjectList[i].allowedTeacher.push({
-                  "is_active": "Y",
-                  "standard_subject_list": [],
-                  "teacher_email": null,
-                  "teacher_id": "more",
-                  "teacher_name": "Click Here to view more faculties",
-                  "teacher_phone": "7503959545"
-                })
-              }
-            }
-          })
-          if (is_teacher_exit) {
-            this.subjectList[i].allowedTeacher.push({
-              "is_active": "Y",
-              "standard_subject_list": [],
-              "teacher_email": null,
-              "teacher_id": "more",
-              "teacher_name": "Click Here to view more faculties",
-              "teacher_phone": "7503959545"
             })
+            if (is_teacher_exit) {
+              this.subjectList[i].allowedTeacher.push({
+                "is_active": "Y",
+                "standard_subject_list": [],
+                "teacher_email": null,
+                "teacher_id": "more",
+                "teacher_name": "Click Here to view more faculties",
+                "teacher_phone": "7503959545"
+              })
+            }
+          } else {
+            this.subjectList[i].allowedTeacher = this.activeTeachers;
           }
-        } else {
-          this.subjectList[i].allowedTeacher = this.activeTeachers;
-        }
         }
       },
       err => {
@@ -312,7 +354,7 @@ export class CourseAddComponent implements OnInit {
     //     }
     //   }
     // }
-    if(this.schoolModel) {
+    if (this.schoolModel) {
       obj.standard_id = this.courseDetails.standard_id;
     } else {
       obj.master_course_id = this.courseDetails.master_course_id;
@@ -496,14 +538,15 @@ export class CourseAddComponent implements OnInit {
     if (!this.standardList.length) {
       let url = "/api/v1/standards/standard-subject-list/" + sessionStorage.getItem('institute_id') + '?is_active=Y&is_subject_required=true';
       this._httpService.getData(url).subscribe(
-        (res:any) => {
-          console.log("getAllStandardSubjectList", res);
+        (res: any) => {
           this.standardList = res.result;
-          let sub_list = this.standardList.filter(sub=>(sub.standard_id == this.courseDetails.standard_id));
-          this.subjectList = sub_list[0].subject_list;
-          this.newSubjectDetails.standard_id = this.courseDetails.standard_id;
-          this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
-          this.getActiveTeacherList(this.courseDetails.standard_id);
+          if (this.courseDetails.standard_id != '') {
+            let sub_list = this.standardList.filter(sub => (sub.standard_id == this.courseDetails.standard_id));
+            this.subjectList = sub_list[0].subject_list;
+            this.newSubjectDetails.standard_id = this.courseDetails.standard_id;
+            this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
+            this.getActiveTeacherList(this.courseDetails.standard_id);
+          }
         },
         (error: any) => {
           this._msgService.showErrorMessage('error', '', error.error.message)
@@ -511,4 +554,74 @@ export class CourseAddComponent implements OnInit {
       )
     }
   }
+
+
+
+  saveMasterC() {
+    // this.editMasterC ? this.updateMasterCourse() : this.createMasterCourse();
+    this.createMasterCourse();
+  }
+
+  checkMasterCourseVal() {
+    if (CommonUtils.isEmpty(this.createMasterCourseModel.master_course_name) || this.createMasterCourseModel.standard_id == '-1') {
+      this._msgService.showErrorMessage('error', '', 'Please fill all mandatory fields');
+      return false;
+    }
+    return true;
+  }
+
+  createMasterCourse() {
+    if (this.checkMasterCourseVal()) {
+      this._auth.showLoader();
+      this._httpService.postData('/api/v1/master-course/create', this.createMasterCourseModel).subscribe(
+        (res: any) => {
+          this._auth.hideLoader();
+          this._msgService.showErrorMessage('success', '', 'Master course added successfully');
+          this.getMasterCourseData();
+          $('#courseModal').modal('hide');
+        },
+        (err: any) => {
+          this._auth.hideLoader();
+          this._msgService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+  }
+
+  // updateMasterCourse() {
+  //   if (this.checkMasterCourseVal()) {
+  //     let obj = {
+  //       "master_course_name": this.createMasterCourseModel.master_course_name,
+  //       "institute_id": this.createMasterCourseModel.institute_id,
+  //       "is_active": "Y",
+  //       "standard_id": this.createMasterCourseModel.standard_id,
+  //       "master_course_id": this.createMasterCourseModel.master_course_id
+  //     }
+  //     this._auth.showLoader();
+  //     this._httpService.putData('/api/v1/master-course/update', obj).subscribe(
+  //       (res: any) => {
+  //         this._auth.hideLoader();
+  //         this._msgService.showErrorMessage('success', '', 'Master course updated successfully');
+  //         this.getMasterCourseData();
+  //         $('#courseModal').modal('hide');
+  //       },
+  //       (err: any) => {
+  //         this._auth.hideLoader();
+  //         this._msgService.showErrorMessage('error', '', err.error.message);
+  //       }
+  //     )
+  //   }
+  // }
+
+  clearMasterCourse() {
+    // this.editMasterC = false;
+    this.createMasterCourseModel = {
+      "master_course_name": "",
+      "institute_id": sessionStorage.getItem('institute_id'),
+      "is_active": "Y",
+      "standard_id": '-1',
+      "standard_name": ''
+    }
+  }
+
 }

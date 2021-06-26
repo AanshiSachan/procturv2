@@ -1,8 +1,8 @@
 <div class="tab-content">
   <div id="one" class="tab-pane active">
     <div class="w98">
-      <div class="pt15 display">
-        <div>
+      <div class="pt15 display" style="justify-content:unset;">
+        <div style="display: flex; width: 40%;">
 
           <div *ngIf="!schoolModel">
             <select class="select w200" [(ngModel)]="master_course_id" (ngModelChange)="fetchCourseDetails($event)">
@@ -17,13 +17,31 @@
               <option value="{{mc.standard_id}}" *ngFor="let mc of standardList">{{mc.standard_name}}</option>
             </select>
           </div>
+
+          <div style="margin-left: 15px;">
+            <select class="select w200" [(ngModel)]="acad_year_id" (ngModelChange)="fetchCourseDetails($event)">
+              <option value="-1">Select Academic Year*</option>
+              <option value="{{mc.inst_acad_year_id}}" *ngFor="let mc of academicList">{{mc.inst_acad_year}}</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <a *ngIf="!schoolModel" href="" data-toggle="modal" data-target="#courseModal"> <button
-              class="blue_button">Add Master Course</button></a>
+        <div class="searchClass">
+          <div style="margin-right: 10px;">
+            <input type="text" class="select w200" placeholder="Search" [(ngModel)]="Search_criteria">
+          </div>
+          <div class="blue_button" style="margin-right: 15px;" (click)="fetchCourseDetails(Search_criteria)">
+            Go
+          </div>
+          <div class="blue_button" style="margin-right: 15px;" routerLink="../add">
+            <span>Add {{schoolModel? 'Section' : 'Course'}}</span>
+          </div>
+          <!-- <div *ngIf="!schoolModel">
+            <a href="" data-toggle="modal" data-target="#courseModal"> <button class="blue_button">Add Master
+                Course</button></a>
+          </div> -->
         </div>
       </div>
-      <div class="pt15 flex" [ngClass]="{'centerFlex': schoolModel}">
+      <!-- <div class="pt15 flex" [ngClass]="{'centerFlex': schoolModel}">
         <div class="flex" *ngIf="masterCourseObj.master_course_name!='' && !schoolModel">
           <div class="master_c">
             Master Course :
@@ -39,11 +57,12 @@
           <div class="std">Standard: {{masterCourseObj.standard_name}}</div>
           <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
         </div>
-      </div>
+      </div> -->
       <!-- use image only when page is empty,table body class element will not be present -->
       <br>
-      <div class="outter_flex" *ngIf="master_course_id != '-1'">
-        <div class="firstchild" *ngIf="master_course_id!='-1'">
+      <div class="outter_flex" *ngFor="let mc of courseData">
+        <div class="mc_class">{{mc.master_course_name}}</div>
+        <!-- <div class="firstchild" *ngIf="master_course_id!='-1'">
           <a routerLink="../add" (click)="setAddCourseSession()">
             <div>
               <span>
@@ -52,20 +71,28 @@
               </span>
             </div>
           </a>
-        </div>
-        <div *ngFor="let course of courseData">
-          <div class="display name">
+        </div> -->
+        <div *ngFor="let course of mc.course_list">
+          <!-- <div class="display name">
             <div>{{course.course_name}}</div>
             <div><a routerLink="../edit/{{course.course_id}}" (click)="setAddCourseSession()"><img
                   src="../../../../assets/img1/edit.svg"></a></div>
-          </div>
+          </div> -->
           <div class="name1"></div>
-          <div class="flex">
+          <!-- <div class="flex">
             <div class="name2">
               Start Date :
             </div>
             <div class="value2">
               {{course.start_date}}
+            </div>
+          </div> -->
+          <div class="flex">
+            <div class="name2">
+              Course Name :
+            </div>
+            <div class="value2">
+              {{course.course_name}}
             </div>
           </div>
           <div class="flex">
@@ -76,7 +103,7 @@
               {{course.end_date}}
             </div>
           </div>
-          <!-- <div class="flex">
+          <!-- <div class="flex">][page`/.,]
             <div class="name2">
               Subjects :
             </div>
@@ -84,14 +111,14 @@
               {{course.subject_list}}
             </div>
           </div> -->
-          <div class="flex">
+          <!-- <div class="flex">
             <div class="name2">
               Academic Year :
             </div>
             <div class="value2">
               {{course.academic_year}}
             </div>
-          </div>
+          </div> -->
           <div class="flex">
             <div class="name2">
               Total Students :
@@ -101,43 +128,17 @@
               <div class="add_s" (click)="addStudentToBatch(course)">Add</div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="outter_flex" style="justify-content: center;" *ngIf="master_course_id == '-1'">
-        <img src="../../../assets/images/course/std_no_data.svg" style="margin-top: 5%;" *ngIf="schoolModel">
-        <img src="../../../assets/images/course/Section_no_data.png" style="margin-top: 5%;" *ngIf="!schoolModel">
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal" id="courseModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">{{editMasterC ? 'Edit' : 'Add'}} Master Course</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-
-        <div class="pt10">
-          <input type="text" class="wid100 input" [(ngModel)]="createMasterCourseModel.master_course_name" name=""
-            placeholder="Master Course*">
-        </div>
-        <div class="pt10">
-          <select class="wid100 select" [(ngModel)]="createMasterCourseModel.standard_id">
-            <option value="-1">Standard Name*</option>
-            <option value="{{std.standard_id}}" *ngFor="let std of standardList">{{std.standard_name}} </option>
-          </select>
-        </div>
-
-        <div class="pt101 display">
-          <div></div>
-          <div>
-
-            <button (click)="saveMasterC()" class="blue_button mr10">{{editMasterC ? 'Update' : 'Add'}}</button>
-            <button data-dismiss="modal" (click)="clearMasterCourse()" class="white_button">Back</button>
+          <div class="flex">
+            <div class="name2">
+              <div class="add_s"><a routerLink="../edit/{{course.course_id}}">Edit</a>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="outter_flex" style="justify-content: center;" *ngIf="!courseData?.length">
+        <img src="../../../assets/images/course/std_no_data.svg" style="margin-top: 5%;" *ngIf="schoolModel">
+        <img src="../../../assets/images/course/Section_no_data.png" style="margin-top: 5%;" *ngIf="!schoolModel">
       </div>
     </div>
   </div>

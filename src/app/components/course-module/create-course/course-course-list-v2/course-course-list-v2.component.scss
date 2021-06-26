@@ -924,3 +924,15 @@ input{
       font-size: 14px;
   }
 }
+.mc_class{
+  width: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 600;
+  margin-bottom: 15px !important;
+}
+.searchClass {
+  display: flex;
+  justify-content: flex-end;
+  width: 59%;
+}
