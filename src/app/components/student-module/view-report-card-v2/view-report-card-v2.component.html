@@ -9,7 +9,7 @@
           <span class="right">
             <!-- <a href=""><img src="../../../assets/img_view/image17.svg" class="ml-10"></a>
               <a href=""><img src="../../../assets/img_view/document.svg" class="ml-10"></a> -->
-            <a (click)="editStudent(student_id)"><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
+            <a (click)="editStudent(student_id)"style="cursor:pointer;" ><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
           </span>
         </div>
       </div>
@@ -28,7 +28,7 @@
           <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
         </div>
         <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
-          <span class="rollno">Student&nbsp;ID<br><span class="number">{{studentCommanData.reg_no}}</span></span>
+          <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:13px">{{studentCommanData.reg_no}}</span></span>
         </div>
       </div>
       <div class="wm70">
