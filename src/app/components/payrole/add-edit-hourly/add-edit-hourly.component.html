@@ -16,7 +16,7 @@
             Hourly Grades <span class="text-red">*</span>
         </label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="hourly_grades" [(ngModel)]="hourlyModel.hourly_grade"  name="hourly_grades" placeholder="Enter Hourly Grades">
+            <input type="text" class="form-control" id="hourly_grades" maxlength="30" [(ngModel)]="hourlyModel.hourly_grade"  name="hourly_grades" placeholder="Enter Hourly Grades">
         </div>
         <span class="col-sm-4 control-label" id="hourly_grades_error">
          </span>
