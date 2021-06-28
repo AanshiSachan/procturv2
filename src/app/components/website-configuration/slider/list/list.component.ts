@@ -3,6 +3,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { ProductService } from '../../../../services/products.service';
 import { Router } from '@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-list',
@@ -24,7 +25,8 @@ export class ListComponent implements OnInit {
     private httpService: ProductService,
     private auth: AuthenticatorService,
     private router: Router,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +51,7 @@ export class ListComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'content',
+        primary_key: 'text_content',
         value: "Content",
         charactLimit: 5,
         sorting: false,
@@ -100,6 +102,16 @@ export class ListComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.staticPageDataSouece = res.result;
+        if(this.staticPageDataSouece && this.staticPageDataSouece.length) {
+          this.staticPageDataSouece.forEach(element => {
+            element.text_content = '';
+            if(element.content) {
+              var parser = new DOMParser();
+              var content= parser.parseFromString(element.content, 'text/html');
+              element.text_content = content.body.innerText;
+            }
+          });
+        }
         this.totalRecords = this.staticPageDataSouece.length;
         this.staticPageData = this.getDataFromDataSource(0);
         //this.fetchTableDataByPage(this.pageIndex);
