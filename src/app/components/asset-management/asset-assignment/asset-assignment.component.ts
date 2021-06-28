@@ -289,6 +289,8 @@ export class AssetAssignmentComponent implements OnInit {
     this.model.check_out_user_id = object.data.check_out_user_id;
     this.getassetsAndLocation(this.model.category_id);
     $('#modelforassetAssign').modal('show');
+    //this.getRolesList();
+    this.getCheckOutBy(this.model.user_type);
   }
   tempObj
   deleteRowConfirm(object){
@@ -361,6 +363,21 @@ $('#deletesModal').modal('show');
       this.staticPageData = this.tempLocationList;
     }
     else {
+      this.auth.showLoader();
+      this.httpService.getMethod('api/v2/asset/assignment/search?searchString='+this.searchParams + '&instituteId='+this.model.institute_id, null).subscribe(
+        (res: any) => {
+          this.staticPageData = res.result.response;
+          this.tempLocationList = res.result.response;
+          this.totalRecords = res.result.total_elements;
+          this.auth.hideLoader();
+          if(this.staticPageData.length==0){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "No Data Found");
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
       let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
@@ -388,12 +405,15 @@ $('#deletesModal').modal('show');
   }
   //get asset and cat
   getassetsAndLocation(category_id) {
+    if(this.model.category_id!=''){
+      this.auth.showLoader();
       let key = this.assetcategoryData.filter(id => (id.id == category_id));
     let key_name = key[0].category_name;
     console.log(key_name)
     this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + category_id + '&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
      
       this.assetAllData = res.result[key_name];
+      this.auth.hideLoader();
       if(this.assetAllData.length==0){
         this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Asset not available under this category first create asset against this category")
   
@@ -404,6 +424,8 @@ $('#deletesModal').modal('show');
         this.auth.hideLoader();
       })
 
+    }
+    
 
   }
 
@@ -451,19 +473,23 @@ $('#deletesModal').modal('show');
 //if changes required
 role_id;
 getCheckOutBy(obj) {
-this.role_id=obj;
- this.temp.getData('/api/v1/inventory/sale/' + this.model.institute_id + '/getUserByRole?roleIds=' + this.role_id).subscribe(
-    (res: any) => {
-     this.purchaseby = res.result;
-    },
-    err => {
-      this.auth.hideLoader();
+    this.role_id=obj;
+    if(this.role_id!=undefined){
+      this.temp.getData('/api/v1/inventory/sale/' + this.model.institute_id + '/getUserByRole?roleIds=' + this.role_id).subscribe(
+        (res: any) => {
+         this.purchaseby = res.result;
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
     }
-  );
-}
+    
+  }
 
 
 getRolesList() {
+  this.purchaseby=[];
  this.temp.getData('/api/v1/roleApi/allRoles/'+this.model.institute_id).subscribe(
     (res: any) => {
       this.rolesListDataSource = res;
@@ -588,5 +614,10 @@ exportToExcel(){
     
   );
   this.auth.hideLoader();
+}
+maxlenth(data,limit){
+  if(data.length>limit){
+    this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "character only");
+  }
 }
 }

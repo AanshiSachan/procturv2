@@ -102,10 +102,12 @@
             </section>
        </div>
       </div>
+      <div style="margin-top: 20px;">
       <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
       [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
       [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
   </pagination> 
+</div>
      <!-- <div class="white bottom_button bottom_pagignation">
      
         <div class=" flex w98">
@@ -170,7 +172,7 @@
               Payment method is mandatory
              </span></p> -->
             <div class="pt10">
-              <label class="p_title"> Upload Receipt<span class="text-danger">*</span></label>
+              <label class="p_title"> Upload Receipt</label>
                 <input type="File" class="input wid100" placeholder="Date*"
                 type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
             [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
@@ -193,7 +195,8 @@
             <div class="pt10" [class.has-error]="paid_amount.invalid && paid_amount.touched">
               <label class="p_title"> Amount<span class="text-danger">*</span></label>
               <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
-                #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+                #paid_amount="ngModel"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 "
                 required
                 [(ngModel)]="paymentModel.paid_amount">
             </div>

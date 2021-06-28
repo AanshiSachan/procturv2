@@ -312,6 +312,9 @@ export class SupplierMasterComponent implements OnInit {
             }
           }
           this.assetAllData = temp;
+          if(this.assetAllData.length==0){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Assets not available under this category");
+          }
         },
         err => {
 
@@ -471,12 +474,28 @@ $('#deletesModal').modal('show');
   //search 
 
   searchDatabase() {
+    this.staticPageData=[];
     if (this.searchParams == undefined || this.searchParams == null) {
       this.searchParams = "";
       this.staticPageData = this.tempLocationList;
 
     }
     else {
+      this.auth.showLoader();
+      this.httpService.getMethod('api/v2/asset/supplier/search?searchString='+this.searchParams + '&instituteId='+this.model.institute_id, null).subscribe(
+        (res: any) => {
+          this.staticPageData = res.result.response;
+          this.tempLocationList = res.result.response;
+          this.totalRecords = res.result.total_elements;
+          this.auth.hideLoader();
+          if(this.staticPageData.length==0){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "No Data Found");
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
       let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
@@ -584,6 +603,11 @@ $('#deletesModal').modal('show');
     );
     this.auth.hideLoader();
   }
+  maxlenth(data,limit){
+    if(data.length>limit){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "character only");
+    }
+}
 
   
 }

@@ -375,7 +375,8 @@
               name="unit_cost" placeholder="Enter Buying Price"  (keyup)="maxlenth(item.unit_cost,10)"
               #unit_cost="ngModel" 
               [(ngModel)]="item.unit_cost"
-              onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" required>
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                  event.charCode == 46 || event.charCode == 0 " required>
           </div>
             <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
               Buying Price or unit price is mandatory
@@ -427,7 +428,8 @@
                 name="sale_price" placeholder="Enter Sale Price"  
                 #sale_price="ngModel" 
                 [(ngModel)]="item.sale_price"  
-                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                  event.charCode == 46 || event.charCode == 0 "
                 required>
             </div>
               <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
@@ -516,7 +518,8 @@
                <div class="pt10">
                 <label class="p_title">  Challan Amount</label>
                 <input type="text" class="input wid100"   [(ngModel)]="allocatedata.challan_amount" name="challan_amount" placeholder="Challan Amount"
-                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 ">
               </div>
              
             </div>

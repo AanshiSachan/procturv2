@@ -45,8 +45,8 @@
         </span></p> -->
       <div class="pt102">
         <label class="p_title">Bill copy</label>
-       <input type="File" class="input wid100" id="billImageFile" title="PDF/Jpeg/png/svg.." (change)="readFile($event)" name="billImageFile" placeholder="Date*" 
-        [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
+       <input type="File" class="input wid100" id="billImageFile" title="Allowed file format PDF/Jpeg/png/svg/jpg and allowed  file size upto 5Mb" (change)="readFile($event,'billImageFile')" name="billImageFile" placeholder="Date*" 
+        [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null" 
           [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
       </div>
       <div class="pt102"  *ngIf="isedit && model.bill_image_url !='' && model.bill_image_url!=null">
@@ -123,7 +123,8 @@
           <div>
            
            <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.unit_cost"
-              onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+           onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+           event.charCode == 46 || event.charCode == 0 "
               (keyup)="purchaselistItem()"
                class="input wid80"
              >
@@ -138,7 +139,7 @@
                >
           </div>
           <div>
-            {{data.available_units * itemData[i].unit_cost }}
+            {{(data.available_units * itemData[i].unit_cost).toFixed(2) }}
           </div>
           <div>
             <!-- <a (click)="editdata(false)"><img src="../../../../assets/img1/edit.svg" title="Edit"

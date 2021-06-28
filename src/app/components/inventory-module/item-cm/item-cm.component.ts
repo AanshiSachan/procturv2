@@ -61,7 +61,7 @@ export class ItemCmComponent implements OnInit {
     this.setTableData();
     this.getAllMasterCourseList();
     this.getItemDetails();
-
+this.checkManinBranch();
   }
  toggle(id, param) {
     this.activeSession = id;
@@ -263,8 +263,8 @@ getItemDetails() {
 }
 //edit items
 editItem(data){
-this.getAllMasterCourseList();
- this.onMasterCourseSelection(data.standard_id);
+//this.getAllMasterCourseList();
+ //this.onMasterCourseSelection(data.standard_id);
  if(this.onMasterCourseSelection.length>0){
   this.isedit = true;
   this.item.item_id=data.item_id;
@@ -753,16 +753,17 @@ saveAllocatedData(){
  
 }
 getSubBranches(){
+  if (this.isMainBranch == "Y") {
+    this.httpService.getData('/api/v1/institutes/all/subBranches/'+this.item.institution_id +'?active=Y').subscribe(
+      res => {
+        this.subBranchAllData = res;
+        this.auth.hideLoader();
+      },
+      err => {
+      }
+    ) 
+  }
   //this.auth.showloader()
-  this.httpService.getData('/api/v1/institutes/all/subBranches/'+this.item.institution_id +'?active=Y').subscribe(
-    res => {
-      this.subBranchAllData = res;
-      this.auth.hideLoader();
-    },
-    err => {
-    }
-  )
-
 }
 itemfromSubbrach:any=[];
 getItemAgainSubBranch(id){
@@ -855,5 +856,18 @@ maxlenth(data,limit){
 if(data.length>limit){
   this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "character only");
 }
+}
+isMainBranch: any = "N";
+checkManinBranch() {
+  this.auth.isMainBranch.subscribe(
+    (value: any) => {
+      if (this.isMainBranch != value) {
+        this.isMainBranch = value;
+        if (this.isMainBranch == "Y") {
+          this.getSubBranches();
+        }
+      }
+    }
+  )
 }
 }
