@@ -10,7 +10,7 @@
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
           <a routerLink="/view/course/archiving">
-            Archiving
+            Delete
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
           <span *ngIf="!isProfessional">Courses</span>
@@ -25,10 +25,10 @@
           (keyup)="searchDatabase()" style="padding: 10px;border:1px solid lightgrey;border-radius: 4px;">
       </div>
       <div *ngIf="isProfessional" style="float: right;margin-right: -17rem;">
-        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Archive</button>
+        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Delete</button>
       </div>
       <div *ngIf="!isProfessional" style="float: right;margin-right: -17rem;">
-        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Archive</button>
+        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Delete</button>
       </div>
     </div>
   </section>

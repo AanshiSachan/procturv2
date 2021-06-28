@@ -8,12 +8,12 @@
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <a routerLink="/view/course/archiving">
-        Archiving
+        Delete
       </a>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
-      <span *ngIf="!isProfessional">Courses Archived Report</span>
+      <span *ngIf="!isProfessional">Courses Delete Report</span>
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
-      <span *ngIf="isProfessional">Batches Archived Report</span>
+      <span *ngIf="isProfessional">Batches Delete Report</span>
     </h1>
     <div style="float: right;">
       <input type="text" placeholder="Search"
