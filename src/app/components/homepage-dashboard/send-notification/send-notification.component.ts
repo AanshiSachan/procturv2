@@ -343,8 +343,8 @@ this.selectesPushCheckBox=false
       res => {
         console.log("Response", res);
         
-       //tempMessageList = res;
-       tempMessageList = [];
+      tempMessageList = res;
+       //tempMessageList = [];
 
         for (let i = 0; i < tempMessageList.length; i++) {
           if(tempMessageList[i].source === "Push"){
