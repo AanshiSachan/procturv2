@@ -9,6 +9,7 @@ import { role } from '../../../model/role_features';
 import {ActivatedRoute} from '@angular/router'; 
 import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+
 declare var $;
 
 @Component({
@@ -595,18 +596,19 @@ migrationPrintPage(){
 
 }
 characterPrintPage(popupName){
-  var divToPrint3 = document.getElementById(popupName)
-  let newWinchar = window.open("");
-  newWinchar.document.write(divToPrint3.outerHTML);
-  newWinchar.print();
-   //newWinchar.close()
-  //  $('#conductCertificate').modal('hide');
+  const printContents = document.getElementById('conductCertificate2').innerHTML;
+  const originalContents = document.body.innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
+  // var divToPrint3 = document.getElementById(popupName)
+  // let newWinchar = window.open("");
+  // newWinchar.document.write(divToPrint3.outerHTML);
+  // newWinchar.print();
 
 
-  newWinchar.history.back(); 
 
-  console.log("print")
-
+  
 }
 
 
