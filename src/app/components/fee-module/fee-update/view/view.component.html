@@ -143,9 +143,14 @@
                                     <div>
                                         {{data.d_date}}
                                     </div>
-                                    <div *ngIf="data.p_status=='Y'">
+                                    <div *ngIf="data.p_status=='Y' && (data.initial_amount+data.tax_amount)!=data.disc_amount">
                                         <span class="paid1">
                                             Paid
+                                        </span>
+                                    </div>
+                                    <div *ngIf="data.p_status=='Y' && (data.initial_amount+data.tax_amount)==data.disc_amount">
+                                        <span class="disc">
+                                            100% Discounted
                                         </span>
                                     </div>
                                     <div *ngIf="data.p_status=='Y'">
@@ -620,10 +625,11 @@
                                         <option value="-1">Discount Type*</option>
                                         <option value="1">Amount</option>
                                         <option value="2">Percentage</option>
+                                        <option value="3">Full Discount(100%)</option>
                                     </select>
                                 </div>
                                 <div class="pt10">
-                                    <input type="text" name="" class="wid100 input"
+                                    <input type="text" name="" class="wid100 input" [disabled]="discountPopUpForm.type==3"
                                         onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                                         [(ngModel)]="discountPopUpForm.value"
                                         (ngModelChange)="onDiscountAmountChange($event)" placeholder="Discount Value*">
