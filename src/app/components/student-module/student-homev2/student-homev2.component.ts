@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from "moment";
 import { MenuItem } from "primeng/primeng";
@@ -20,86 +20,84 @@ import { ColumnSetting } from "../../shared/custom-table/layout.model";
 import { role } from "../../../model/role_features";
 var jsPDF = require("jspdf");
 declare var $;
-
 @Component({
-  selector: "app-student-home",
-  templateUrl: "./student-home.component.html",
-  styleUrls: ["./student-home.component.scss"],
+  selector: 'app-student-homev2',
+  templateUrl: './student-homev2.component.html',
+  styleUrls: ['./student-homev2.component.scss']
 })
-export class StudentHomeComponent implements OnInit {
+export class StudentHomev2Component implements OnInit {
   private subscriptionStudent: ISubscription;
   private subscriptionCustomComp: ISubscription;
   @ViewChild("studentPage", { static: false }) studentPage: ElementRef;
   @ViewChild("mySidenav", { static: true }) mySidenav: ElementRef;
   @ViewChild("optMenu", { static: true }) optMenu: ElementRef;
-
-  sizeArr: any[] = [50, 100, 250, 500, 1000];
-  private enqstatus: any = [];
-  emailMessageList: any = [];
-  subject: any;
-  previewedMessage: any;
-  previewBox: boolean = false;
-  private masterCourseList: any = [];
-  private schoolList: any = [];
-  private subjectList: any = [];
-  private studentStatusList: any = [];
-  private batchList: any = [];
-  private standardList: any = [];
-  private subCourseList: any = [];
-  private customComponent: any = [];
-  private studentDataSource: any[] = [];
-  showEmailSubject: boolean = false;
-  private selectedRowGroup: any[] = [];
-  private optionsModel: any = null;
-  private customComponents: any[] = [];
-  bulkActionItems: MenuItem[];
-  private slots: any[] = [];
-  private selectedSlots: any[] = [];
   academicYear: any[] = [];
+  bulkActionItems: MenuItem[];
+  currentDirection: string = "asc";
   defaultAcadYear: any;
-  private slotIdArr: any[] = [];
-  StudentSettings: ColumnSetting[];
-  leaveDataArray: any = [];
-  messageList: any = [];
-  selectedUserId: any = [];
-  studentbatchList: any[] = [];
-  studentByIdcustomComponents: any[] = [];
+  downloadStudentReportAccess: boolean = false;
+  emailMessageList: any = [];
   filterCustomComponent: any[] = [];
-  private studentdisplaysize: number = 100;
-  perPage: number = 10;
-  PageIndex: number = 1;
-  maxPageSize: number = 0;
-  totalRow: number = 0;
-  selectedRowCount: number = 0;
-  loading_message: number = 1;
-  paymentMode: number = 0;
-  isConfirmBulkDelete: boolean;
-  isNotifyStudent: boolean;
-  isMarkLeave: boolean;
-  isShareDetails: boolean = false;
-  private advancedFilter: boolean = false;
-  private isAllSelected: boolean = false;
-  isDeleteStudentPrompt: boolean = false;
-  isProfessional: boolean = false;
   isAddComment: boolean = false;
-  isSideBar: boolean = false;
-  isOptions: boolean = false;
-  private isAssignBatch: boolean = false;
+  isAdvFilter = false;
+  isConfirmBulkDelete: boolean;
+  isDeleteStudentPrompt: boolean = false;
   isEdit: boolean = true;
+  isMarkLeave: boolean;
+  isNotifyStudent: boolean;
+  isOptions: boolean = false;
+  isProfessional: boolean = false;
+  isShareDetails: boolean = false;
+  isSideBar: boolean = false;
+  leaveDataArray: any = [];
+  loading_message: number = 1;
+  maxPageSize: number = 0;
+  messageList: any = [];
+  PageIndex: number = 1;
+  paymentMode: number = 0;
+  perPage: number = 10;
+  previewBox: boolean = false;
+  previewedMessage: any;
+  private advancedFilter: boolean = false;
+  private assignedBatchString: string = "";
+  private batchList: any = [];
+  private customComponent: any = [];
+  private customComponents: any[] = [];
+  private enqstatus: any = [];
+  private isAllSelected: boolean = false;
+  private isAssignBatch: boolean = false;
+  private masterCourseList: any = [];
+  private optionsModel: any = null;
+  private schoolList: any = [];
   private selectedRow: any;
-  studentDetailsById: any;
-  studentCustomComponent: any;
-  today: any;
-  searchBarData: any = null;
+  private selectedRowGroup: any[] = [];
+  private selectedSlots: any[] = [];
   private selectedSlotsID: string = "";
   private selectedSlotsString: string = "";
-  private assignedBatchString: string = "";
-  currentDirection: string = "asc";
-  sortBy: string = "student_name";
-  downloadStudentReportAccess: boolean = false;
-  showQuickFilter = false;
-  isAdvFilter = false;
+  private slotIdArr: any[] = [];
+  private slots: any[] = [];
+  private standardList: any = [];
+  private studentDataSource: any[] = [];
+  private studentdisplaysize: number = 100;
+  private studentStatusList: any = [];
+  private subCourseList: any = [];
+  private subjectList: any = [];
   schoolModel: boolean = false;
+  searchBarData: any = null;
+  selectedRowCount = 0;
+  selectedUserId: any = [];
+  showEmailSubject: boolean = false;
+  showQuickFilter = false;
+  sizeArr: any[] = [25,50, 100, 250, 500, 1000];
+  sortBy: string = "student_name";
+  studentbatchList: any[] = [];
+  studentByIdcustomComponents: any[] = [];
+  studentCustomComponent: any;
+  studentDetailsById: any;
+  StudentSettings: ColumnSetting[];
+  subject: any;
+  today: any;
+  totalRow: number = 0;
 
   private editForm: any = {
     comments: "",
@@ -259,6 +257,7 @@ export class StudentHomeComponent implements OnInit {
     )
     this.auth.institute_type.subscribe(
       res => {
+     
         if (res == 'LANG') {
           this.isProfessional = true; // batch module
           this.labelForAssignStandard = 'Master Course';
@@ -352,14 +351,14 @@ export class StudentHomeComponent implements OnInit {
           this.downloadStudentAdmissionForm();
         },
       },
-      // {
-      //   label: "Fee Installment",
-      //   icon: "fa fa-dollar",
-      //   command: () => {
-      //     this.studentFeeInstallment(-1); // because fee install ment at multiple student has some issues
-      //     // this.isShareDetails = true;
-      //   },
-      // },
+      {
+        label: "Fee Installment",
+        icon: "fa fa-dollar",
+        command: () => {
+          this.studentFeeInstallment(-1); // because fee install ment at multiple student has some issues
+          // this.isShareDetails = true;
+        },
+      },
       {
         label: "Download ID card",
         icon: "fa fa-download",
@@ -455,7 +454,7 @@ export class StudentHomeComponent implements OnInit {
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
-    console.log(obj);
+    //console.log(obj);
     this.auth.showLoader();
     this.selectedRow = null;
     this.selectedRowGroup = [];
@@ -472,6 +471,7 @@ export class StudentHomeComponent implements OnInit {
             //  this._commService.contactNoPatternChange(res);
             this.contactNoPatternChange(res);
             this.studentDataSource = res;
+           // console.log(this.studentDataSource)
           } else {
             let alert = {
               type: "info",
@@ -563,7 +563,8 @@ export class StudentHomeComponent implements OnInit {
   }
 
   downloadStudentIDCard() {
-    console.log(this.selectedUserId);
+    //console.log(this.selectedUserId);
+    //let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
     let studentId = this.getListOfIds(this.selectedRowGroup).split(",");
     const url = "/admit-card/download";
     this.auth.showLoader();
@@ -702,7 +703,6 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   editStudent(id) {
-    alert(id)
     this.router.navigate(["/view/students/edit/" + id]);
   }
 
@@ -723,6 +723,7 @@ export class StudentHomeComponent implements OnInit {
       this.closeSideBar();
       this.appC.popToast(msg);
       this.closeDeletePopup();
+      $('#popup').modal('hide');
       this.loadTableDataSource(this.selectedFilterData!=null?this.selectedFilterData:this.instituteData);
     },
     (err:any)=>{
@@ -732,6 +733,8 @@ export class StudentHomeComponent implements OnInit {
         body: err.error.message,
       };
       this.appC.popToast(msg);
+      $('#popup').modal('hide');
+     
     }
     );
   }
@@ -757,6 +760,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   deleteStudentOpen(row) {
+   // $('#popup').modal('show')
     this.selectedRow = row;
     if (this.selectedRow.noOfBatchesAssigned == 0) {
       this.isDeleteStudentPrompt = true;
@@ -818,19 +822,20 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
-    this.isAdvFilter = true;
-    this.showQuickFilter = false;
-    this.searchBarData = "";
-    this.closeSideBar();
-    //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
-    document.getElementById("adFilterOpen").classList.add("hide");
-    if (document.getElementById("basic-search")) {
-      document.getElementById("basic-search").classList.add("hide");
-    }
-    document.getElementById("adFilterExit").classList.remove("hide");
-    // document.getElementById('black-bg').classList.remove('hide');
-    document.getElementById("advanced-filter-section").classList.remove("hide");
-    this.fetchStudentPrefill();
+    //$('#exampleModal2').modal('show');
+    // this.isAdvFilter = true;
+    // this.showQuickFilter = false;
+    // this.searchBarData = "";
+    // this.closeSideBar();
+    // //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+    // document.getElementById("adFilterOpen").classList.add("hide");
+    // if (document.getElementById("basic-search")) {
+    //   document.getElementById("basic-search").classList.add("hide");
+    // }
+    // document.getElementById("adFilterExit").classList.remove("hide");
+    // // document.getElementById('black-bg').classList.remove('hide');
+    // document.getElementById("advanced-filter-section").classList.remove("hide");
+    // this.fetchStudentPrefill();
   }
 
   /* Function to close advanced filter */
@@ -838,18 +843,21 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
-    document.getElementById("adFilterExit").classList.add("hide");
+   // document.getElementById("adFilterExit").classList.add("hide");
     // document.getElementById('basic-search').classList.remove('hide');
-    document.getElementById("adFilterOpen").classList.remove("hide");
+    //document.getElementById("adFilterOpen").classList.remove("hide");
     // document.getElementById('black-bg').classList.add('hide');
-    document.getElementById("advanced-filter-section").classList.add("hide");
+   // document.getElementById("advanced-filter-section").classList.add("hide");
     this.isAdvFilter = false;
+    $('#assignStandard').modal('hide');
+    //document.getElementById('#assignStandard').style.display ='none';
   }
 
   /* update the advanced filter forn */
   /* =================================================================================================== */
   /* =================================================================================================== */
   advancedSearch() {
+    
     let tempCustomArr: any[] = [];
     this.filterCustomComponent.forEach((el) => {
       //console.log(el);
@@ -911,6 +919,7 @@ export class StudentHomeComponent implements OnInit {
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     this.loadTableDataSource(this.instituteData);
+    $('#exampleModal2').modal('hide');
     this.closeAdFilter();
     this.isAdvFilter=true;
   }
@@ -1413,6 +1422,8 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   searchDatabase() {
+    //alert("hi");
+   
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     let obj: any = {
@@ -1439,7 +1450,9 @@ export class StudentHomeComponent implements OnInit {
       ) {
         obj.name = "";
         obj.mobile = "";
-        if (!this.showQuickFilter) {
+        //changes by mj
+        //if(!this.showQuickFilter)
+        if (this.showQuickFilter) {
           obj.master_course_name = "";
           obj.course_id = "-1";
           obj.standard_id = "-1";
@@ -1447,6 +1460,7 @@ export class StudentHomeComponent implements OnInit {
           this.advancedFilterForm.course_id = "-1";
           this.advancedFilterForm.standard_id = "-1";
         }
+      
       } else {
         this.searchBarData = this.searchBarData.trim();
         /* If input is of type string then validate string validity*/
@@ -1464,6 +1478,7 @@ export class StudentHomeComponent implements OnInit {
       }
       this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
+      $('#exampleModal2').modal('hide');
     } else {
       /* If User has entered an empty value needs to be informed */
       if (
@@ -1538,6 +1553,7 @@ export class StudentHomeComponent implements OnInit {
         }
       }
     }
+  
   }
 
   /* update the latest comment for the selected student */
@@ -1684,7 +1700,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getRowCount(ev) {
-    //console.log(ev);
+    //console.log(this.selectedRowCount);
     this.selectedRowCount = ev;
   }
 
@@ -2034,7 +2050,7 @@ export class StudentHomeComponent implements OnInit {
       );
     } else {
     /* For Course Model fetch the Student Courses */
-      this.studentPrefill.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
+      this.studentPrefill.fetchStudentCourseDetails(id, "-1").subscribe(
         (res) => {
           this.studentbatchList = [];
           if (res != null) {
@@ -2085,10 +2101,10 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   closeSideBar() {
     this.isSideBar = false;
-    this.studentPage.nativeElement.style.width = "100%";
-    this.studentPage.nativeElement.style.marginRight = "0";
-    this.mySidenav.nativeElement.style.width = "0";
-    this.mySidenav.nativeElement.style.display = "none";
+   // this.studentPage.nativeElement.style.width = "100%";
+    // this.studentPage.nativeElement.style.marginRight = "0";
+    // this.mySidenav.nativeElement.style.width = "0";
+    // this.mySidenav.nativeElement.style.display = "none";
     // this.optMenu.nativeElement.classList.remove('shorted');
   }
 
@@ -2278,7 +2294,7 @@ export class StudentHomeComponent implements OnInit {
     this.widgetService.getMessageList(obj).subscribe(
       (res) => {
         this.auth.hideLoader();
-        console.log("Message List Get All message", res);
+      //  console.log("Message List Get All message", res);
         tempMessageList = res;
         for (let i = 0; i < tempMessageList.length; i++) {
           if (tempMessageList[i].source === "EMAIL") {
@@ -2503,6 +2519,7 @@ export class StudentHomeComponent implements OnInit {
       notifn_subject: this.sendNotification.subjectMessage.trim(),
       destination: Number(this.getDestinationValue()),
       student_ids: this.getListOfIds(this.selectedRowGroup),
+      
       batch_id: "-1",
       cancel_date: "",
       isEnquiry_notifn: 0,
@@ -2615,7 +2632,9 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   getListOfIds(data) {
-    return data.join(",");
+   // rowSelectedId
+  //  return data.join(",");
+  return this.rowSelectedId.join(",")
   }
 
   /* =================================================================================================== */
@@ -2775,7 +2794,7 @@ export class StudentHomeComponent implements OnInit {
       .quickEditStudent(this.studentAddFormData, this.selectedRow.student_id)
       .subscribe(
         (res: any) => {
-          console.log(res);
+         // console.log(res);
           let alert = {
             type: "success",
             title: "Student Details Updated",
@@ -2806,6 +2825,7 @@ export class StudentHomeComponent implements OnInit {
   downloadStudentAdmissionForm() {
     
     let obj: any = {
+      //studentIds: this.selectedRowGroup.join(","),
       studentIds: this.selectedRowGroup.join(","),
     };
     this.auth.showLoader();
@@ -2831,8 +2851,9 @@ export class StudentHomeComponent implements OnInit {
 
   //get all selected studnet fee installment
   studentFeeInstallment(userType) {
-    console.log("studentFeeInstallment");
+    //console.log("studentFeeInstallment");
     let object = {
+      //student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
       student_ids: this.selectedRowGroup.toString(), // string by ids common seperated
       institution_id: "",
       sendEmail: userType,
@@ -2879,8 +2900,8 @@ export class StudentHomeComponent implements OnInit {
     let url1 = `/api/v1/enquiry/fetchCustomEnquiryComponents/${institute_id}?id=${event}&isSearhable=undefined&student_enq_id=undefined&page=2`;
     this.http.getCertificateData(url).subscribe(
       (res: any) => {
-        console.log("Url", url);
-        console.log("Response", res);
+        //console.log("Url", url);
+//console.log("Response", res);
         this.studentData = res;
         if (this.studentData.dateFrom != null) {
           this.studentData.dateFrom = moment(this.studentData.dateFrom).format(
@@ -2893,23 +2914,23 @@ export class StudentHomeComponent implements OnInit {
           );
         }
         this.http.getCertificateData(url1).subscribe((res: any) => {
-          console.log("Response 2", res);
+          //console.log("Response 2", res);
           for (let i = 0; i < res.length; i++) {
             if (res[i].label === "Certificate Number") {
               this.studentCustomField.certificateNo = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+             // console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Registered Number") {
               this.studentCustomField.registeredNo = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+             // console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Grade") {
               this.studentCustomField.grade = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+            //  console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Course Name") {
               this.studentCustomField.courseName = res[i].enq_custom_value;
-              console.log(res[i].enq_custom_value);
+            //  console.log(res[i].enq_custom_value);
             }
             if (res[i].label === "Academic Year") {
               this.studentCustomField.academicYear = res[i].enq_custom_value;
@@ -2933,7 +2954,7 @@ export class StudentHomeComponent implements OnInit {
       document.getElementById("dvContainer_one").className =
         "certificate-outer-container";
       const doc = new jsPDF("l", "in", "a4");
-      console.log(doc);
+     // console.log(doc);
       doc.internal.scaleFactor = 1;
       doc.addHTML(this.content.nativeElement, function () {
         doc.save("certificate.pdf");
@@ -2944,18 +2965,18 @@ export class StudentHomeComponent implements OnInit {
         document.getElementById("dvContainer_two").className =
           "cert-outer-container";
         const doc = new jsPDF("l", "in", "a4");
-        console.log(doc);
+        //console.log(doc);
         doc.internal.scaleFactor = 1;
         doc.addHTML($("#dvContainer_two"), function () {
           doc.save("certificate.pdf");
         });
         document.getElementById("dvContainer_two").className = "hide";
       } else if (institute_id == "101238") {
-        console.log("Growth");
+       // console.log("Growth");
         document.getElementById("dvContainer_three").className =
           "cert-outer-container";
         const doc = new jsPDF("l", "in", "a4");
-        console.log(doc);
+        //console.log(doc);
         doc.internal.scaleFactor = 1;
 
         doc.addHTML($("#dvContainer_three"), function () {
@@ -2965,7 +2986,7 @@ export class StudentHomeComponent implements OnInit {
       } else {
         document.getElementById("dvContainer").className = "outer-container";
         const doc = new jsPDF("l", "in", "a4");
-        console.log(doc);
+       // console.log(doc);
         doc.internal.scaleFactor = 1;
 
         doc.addHTML($("#dvContainer"), function () {
@@ -2982,7 +3003,7 @@ export class StudentHomeComponent implements OnInit {
     if (data && data.length > 0) {
       this.countryList = data;
     }
-    console.log(this.countryList);
+   // console.log(this.countryList);
   }
 
   getStateList() {
@@ -3039,8 +3060,9 @@ export class StudentHomeComponent implements OnInit {
       );
     }
   }
-
+  isVisited:boolean=false;
   openQuickFilter() {
+    this.isVisited = !this.isVisited;
     this.isAdvFilter = false;
     this.searchBarData = "";
     if(!this.schoolModel) {
@@ -3069,6 +3091,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
   closeQuickFilter() {
+    this.isVisited = !this.isVisited;
     this.showQuickFilter = false;
     this.advancedFilterForm.standard_id = "-1";
     this.advancedFilterForm.subject_id = "-1";
@@ -3129,7 +3152,7 @@ export class StudentHomeComponent implements OnInit {
     }
     let messageSelected: any = this.getNotificationMessage();
     this.previewedMessage = messageSelected.message;
-    console.log("messageSelected", messageSelected.message);
+   // console.log("messageSelected", messageSelected.message);
     this.previewBox = true;
 
     if (messageSelected === false) {
@@ -3152,4 +3175,130 @@ export class StudentHomeComponent implements OnInit {
       }
     }
   }
+//===========================app table check box function===============//
+
+//new code by manisha
+highlightedDiv: number;
+toggleClass(newValue: number) {
+  if (this.highlightedDiv === newValue) {
+    this.highlightedDiv = 0;
+  }
+  else {
+    this.highlightedDiv = newValue;
+  }
+}
+
+//===========checkbox code ngrob
+rowIdArr;
+rowSelectedCount: number = 0;
+rowSelectedId: any[] = [];
+userIdArray: any = [];
+
+isAllChecked(): boolean {
+  return this.studentDataSource.every(_ => _.uiSelected);
+}
+//selected count
+rowsSelected;
+rowUserId
+selectAllRows(ev){
+  
+  if (ev.target.checked) {
+    this.studentDataSource.forEach(x => x.uiSelected = ev.target.checked);
+    this.rowSelectedCount = this.studentDataSource.length;
+    this.selectedRowCount =this.studentDataSource.length
+    this.rowsSelected = this.studentDataSource.length;;
+  this.getSelectedRows();
+}
+else {
+    this.studentDataSource.forEach(x => x.uiSelected = ev.target.checked);
+    this.rowSelectedCount = 0;
+     this.rowsSelected=this.rowSelectedCount;
+     this.selectedRowCount=this.rowSelectedCount;
+     this.getSelectedRows();
+}
+}
+rowCheckboxChange(eve) {
+
+  // this.cd.markForCheck();
+  let status = eve.uiSelected;
+  /* if the checkbox is already checked uncheck it and perform operation */
+  if (status == false) {
+      eve.uiSelected = false;
+      this.rowSelectedCount--;
+       this.rowSelectedId = this.removeFromSelectedArr(eve.student_id);
+      this.rowIdArr =this.rowSelectedId;
+      this.rowsSelected =this.rowSelectedCount;
+  }
+  else if (status == true) {
+      eve.uiSelected = true;
+       this.rowSelectedCount++;
+       this.rowSelectedId.push(eve.student_id);
+       this.rowIdArr =this.rowSelectedId;
+       this.rowsSelected =this.rowSelectedCount;
+  }
+  this.getSelectedRows();
+}
+removeFromSelectedArr(id): any[] {
+  return this.rowSelectedId.filter(e => e != id);
+}
+getSelectedRows() {
+ this.rowSelectedId = [];
+  this.selectedUserId = [];
+  this.studentDataSource.forEach(e => {
+      if (e.uiSelected) {
+        
+          this.rowSelectedId.push(e.student_id);
+          this.selectedUserId.push(e.user_id);
+          this.selectedRowGroup.push(e.user_id);
+          // selectedUserId
+      }
+  });
+ this.rowIdArr=this.rowSelectedId;
+ this.rowUserId=this.selectedUserId;
+ this.selectedRowGroup= this.rowSelectedId;
+ //console.log(this.selectedRowGroup);
+
+}
+openAssign(){
+  $("#assignStandard").modal("show");
+}
+
+//sorting
+//sorting
+sortingDir: string = "asc";
+headElements = ['student_name'];
+sortTable(str) {
+  if (str == "student_name") {
+    this.studentDataSource.sort(function (a, b) {
+      var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+      var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+
+    })
+  }
+  else if (str == "subject_id") {
+    this.studentDataSource.sort(function (a, b) {
+      return a[str] - b[str];
+    })
+  }
+  else if (str == "created_date") {
+    this.studentDataSource.sort(function (a, b) {
+      return moment(a[str]).unix() - moment(b[str]).unix();
+    })
+  }
+  if (this.sortingDir == "asc") {
+    this.sortingDir = "dec";
+  } else {
+    this.sortingDir = "asc";
+    this.studentDataSource = this.studentDataSource.reverse();
+  }
+  //this.fectchTableDataByPage(this.PageIndex);
+}
 }

@@ -83,8 +83,12 @@ export class ViewReportCardComponent implements OnInit {
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
+          //batch module
+          //isProfessional==true
           this.isLangInstitue = true;
         } else {
+          //course module
+          //isProfessional=false
           this.isLangInstitue = false;
         }
       }

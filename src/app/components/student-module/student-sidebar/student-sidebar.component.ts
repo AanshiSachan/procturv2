@@ -19,7 +19,6 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Input() rowData: any;
   @Input() customComponent: any;
   @Input() studentDetails: any;
-
   @Output() closeSide = new EventEmitter<any>();
   @Output() editStudent = new EventEmitter<any>();
   @Output() deleteStudent = new EventEmitter<any>();
@@ -29,29 +28,26 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() invEdit = new EventEmitter<any>();
   @Output() showToggleLoader = new EventEmitter<any>();
   @Output() downloadCertificate = new EventEmitter<any>();
-
   @Output() openCourseAssigned = new EventEmitter<boolean>();
-
-  //@ViewChild('acc') acc: ElementRef;
+//@ViewChild('acc') acc: ElementRef;
   @ViewChild('one', { static: true }) one: ElementRef;
   @ViewChild('two', { static: true }) two: ElementRef;
-
-
   @ViewChild('imgDisp', { static: true }) im: ElementRef;
-  private showMenu: boolean = false;
+  allowEdit = false;
   certificate: boolean = false;
   containerWidth: string = "50px";
-  studentServerImage: any = '';
-  readonly: boolean = true;
-  institute_id: any;
   downloadStudentReportAccess: boolean = false;
-  studdentEdit = true;
+  institute_id: any;
   isSubAdmin = false;
-  allowEdit = false;
+  private showMenu: boolean = false;
+  readonly: boolean = true;
   role_feature = role.features;
+  studdentEdit = true;
   studentReport: boolean = false;
   Fee_menu: boolean = false;
 
+  studentServerImage: any = '';
+  isSchoolModel: boolean=false;
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
     school_id: -1,
@@ -66,10 +62,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     master_course_name: "",
     course_id: -1,
   };
-  isSchoolModel: boolean=false;
-
-
-  constructor(
+   constructor(
     private eRef: ElementRef,
     private auth: AuthenticatorService,
     private cd: ChangeDetectorRef,
