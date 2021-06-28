@@ -19,7 +19,7 @@ declare var $;
 })
 export class ViewReportCardV2Component implements OnInit {
 
-  constructor( private route: Router,
+  constructor(
     private actRoute: ActivatedRoute,
     private apiService: StudentReportService,
     private httpService: HttpService,
@@ -29,6 +29,7 @@ export class ViewReportCardV2Component implements OnInit {
     private productService: ProductService,
     private appC: AppComponent,
     private router: Router,
+    private route: ActivatedRoute,
     private PostStudService: PostStudentDataService,
     private _commService: CommonServiceFactory,
     
@@ -116,6 +117,7 @@ export class ViewReportCardV2Component implements OnInit {
         }
       }
     )
+
     this.actRoute.params.subscribe(
       (res: any) => {
         this.studentId = res.id;
