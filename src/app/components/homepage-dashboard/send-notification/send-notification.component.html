@@ -6,9 +6,9 @@
       <a (click)="onClickPush()" [ngClass]="{'selected':pushTableFlag}" style="cursor: pointer;">Push</a>
     </div>
     <div class="create">
-      <a (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Create New SMS </a>
-      <a (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Create New Email </a>
-      <a (click)="onclickCreatePushNotify()" *ngIf="pushTableFlag"> + Create Push Message </a>
+      <a (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Add New SMS </a>
+      <a (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Add New Email </a>
+      <a (click)="onclickCreatePushNotify()" *ngIf="pushTableFlag"> + Add Push Message </a>
 
 
     </div>
@@ -40,6 +40,18 @@
               src="../../../../assets/images/delete.svg"></a>
         </div>
       </div>
+      <div class="smsemptydiv" *ngIf="messageList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
+        <p class="b">How to send SMS:</p>
+        <p>1. Click on <b class="b">Add SMS.</b></p>
+         <p>2. For sending an SMS first <b class="b">select SMS.</b></p>
+         <p>3. Check Transactional/Promotional SMS balance.
+         <p>4. Click on Transactional if want to send SMS to <b class="b">Batchwise/Active Students/Faculty/Registered Users.</b></p>
+         <p> 5. Click on Promotional if want to send SMS to <b class="b"> Inactive/Alumni Students only.</b></p>
+         <p>6. After selection of students enable settings of parents at the bottom if want to send SMS to parents also.</p>
+          <p>7.Click on  <b class="b">Send SMS.</b></p>
+          <b class="b">Note:</b>
+            <p>For sending custom SMS make sure that SMS is approved on DLT Platform if not visit configuration menu section for more details.</p>
+      </div>
     </div>
     <!-- ==================email-table================= -->
     <div *ngIf="emailTableFlag">
@@ -60,6 +72,24 @@
           <a (click)="deletMessage(email,'400')" style="cursor: pointer;"><img
               src="../../../../assets/images/delete.svg"></a>
         </div>
+        
+      </div>
+      <div class="smsemptydiv" *ngIf="emailMessageList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
+        <p class="b">How to send Email:</p>
+       <p>1. Click on <b class="b">Add Email.</b></p>
+        <p>2. For sending an Email first <b class="b">select Email.</b></p>
+        <p>3. Check Email Quota balance.</p>
+       <p> 4. While sending an email subject box will come. </p>
+       <p> 5. Select users to whom want to send an email.</p>
+       <p> 6. Click on  <b class="b">Preview and Send.</b></p>
+        
+        
+      <p class="b">Note: </p>
+        
+      <p> 1. Before sending an email, please confirm if email id is approved from Proctur and added in email sender id. If not then connect with our support team.</p>
+        
+       <p> 2. Email subject can be added while sending the email.</p>
+
       </div>
     </div>
     <!-- ================push-table=================== -->
@@ -67,7 +97,7 @@
       <div class="table_body" *ngFor="let push of pushNotificationList">
         <div>
           <div class="field-radio-wrapper">
-            <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectesPushCheckBox"
+            <input type="radio" class="form-radio"[(ngModel)]="selectedRow" [checked]="selectesPushCheckBox"
               value="{{push.message}}" (click)="onClickSelectPush(push)">
             <label></label>
           </div>
@@ -81,6 +111,16 @@
           <a (click)="deletMessage(push,'400')" style="cursor: pointer;"><img
               src="../../../../assets/images/delete.svg"></a>
         </div>
+      </div>
+      <div class="smsemptydiv" *ngIf="pushNotificationList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
+    <p class="b">How to send Push Notification:</p>
+    <p>1. Click on <b class="b"> Add Push Message.</b></p>
+    <p>2. For sending Push message first <b class="b"> select message.</b></p>
+    <p>3. Push notification can be send only to <b class="b"> Active and Registered users.</b></p>
+    <p>4. Select users to whom want to send message.</p>
+    <p>5. Click on  <b class="b">Send Push Notification.</b></p>
+    <p class="b">Note : </p>
+    <p>Create push notification message and send instantly, DLT process not required.</p>
       </div>
     </div>
     <!-- ===========end====================== -->
@@ -129,14 +169,15 @@
       </div>
     </div>
     <div>
-      <p>Note:</p>
-      <p class="note">1. Entity Registration Process: For faster response, it’s requested for register on MTNL. Entity
+      <p class="b">Note:</p>
+      <!-- <p class="note">1. Entity Registration Process: For faster response, it’s requested for register on MTNL. Entity
         Registration Process for MTNL Signup Link : <a href="https://www.ucc-mtnl.in/">https://www.ucc-mtnl.in/</a> .
       </p>
 
       <p class="note">2. Get approval for your SMS content on DLT platform: Find the link of Proctur system generated
         SMS, which is expected to approved from DLT. (Download the template-“<a href=" https://bit.ly/3sDxMgx">
-          https://bit.ly/3sDxMgx</a> ”).</p>
+          https://bit.ly/3sDxMgx</a> ”).</p> -->
+          <p>For sending custom SMS make sure that SMS is approved on DLT Platform if not visit configuration menu section for more details.</p>
     </div>
 
   </div>
@@ -257,8 +298,14 @@
               </div> -->
     </div>
     <div>
+      <div>
+       <p class="b">Note:</p>
+       <p>1.Before sending an email, please confirm if email id is approved from Proctur and added in email sender id. If not then connect with our support team.</p>
+       <p>2.Email subject can be added while sending the email.</p>
+      </div>
 
     </div>
+    
   </div>
   <div class="page_footer">
     <div></div>
@@ -402,7 +449,8 @@
 
     </div>
     <div>
-
+<p>Note:</p>
+<p>Create push notification message and send instantly, DLT process not required.</p>
     </div>
   </div>
   <div class="page_footer">

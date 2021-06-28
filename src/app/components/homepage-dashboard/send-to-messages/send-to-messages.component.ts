@@ -161,17 +161,18 @@ backTopushId:any
       }
     )
     if(this.email_subjects == null){
-
       this.smsSendingFlag = true;
 
       this.pushNotificationFlag = false;
 
   }else{
+
     this.emailSendingFlag = true
 
   }
 
   if(this.push_message && this.push_message != ""){
+
     this.pushNotificationFlag = true;
     this.smsSendingFlag = false
   

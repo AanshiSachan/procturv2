@@ -1,7 +1,7 @@
 <div class="page-content">
     <div class="top_section">
         <div *ngIf="smsSendingFlag">
-            <p class="heading">SMS Description <img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
+            <p class="heading">Selected SMS<img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
             <p class="para" [innerHtml]="selected_message">
                 <!-- {{selected_message}} -->
                                 
@@ -16,7 +16,7 @@
         </div>
      <!-- =================push-notification-send=============    -->
      <div *ngIf="pushNotificationFlag">
-        <p class="heading">SMS Description <img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
+        <p class="heading">Selected Push<img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
         <p class="para">
             {{push_message}}
                             
@@ -26,7 +26,7 @@
 <!-- =============email-sending-div==================== -->
 
 <div *ngIf="emailSendingFlag">
-    <p class="heading">Email Description <img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
+    <p class="heading">Selected Email <img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
     <div class="subject11">
         <p><span style="font-weight: 600; padding-left: 3px;">Subject : </span>{{email_subjects}}</p>
     </div>
@@ -106,23 +106,23 @@
             </div>
             <div  class="vertical display">
                 <div class="radio_div" *ngIf="!emailSendingFlag">
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}" [title]="pramotional =='true' ? 'If Selected Pramotional SMS Active  is not available' : ''">
                         <input type="radio" class="form-radio" name="activeCeckbox" [(ngModel)]="activeCeckbox" value="true"  [disabled]="pramotional == 'true'" (change)="onClearActiveCheckbox($event)">
                         <label >Active Students</label>
                     </div>
-                    <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true'}">
+                    <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true'}" [title]="transactional =='true' ? 'If Selected Transactional SMS Inactive  is not available' : ''">
                         <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" [disabled]="transactional == 'true'"  (change)="onClearInctiveCheckbox($event)">
                         <label >Inactive Students</label>
                     </div>
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true'}" >
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true'}" [title]="transactional =='true' ? 'If Selected Transactional SMS Alumini is not available' : ''">
                         <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true'"  (change)="onClearAlluminCheckbox($event)">
                         <label >Alumni Students</label>
                     </div>
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true' || pushNotificationFlag}">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true' || pushNotificationFlag}"  [title]="pramotional =='true' ? 'If Selected Pramotional SMS Faculty is not available' : ''">
                         <input type="radio" class="form-radio" name="facultyCheckBox"  [(ngModel)]="facultyCheckBox" value="true" [disabled]="pramotional == 'true' || pushNotificationFlag"  (change)="onClearFacultyCheckbox($event)">
                         <label >Faculty</label>
                     </div>
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}"  [title]="pramotional =='true' ? 'If Selected Pramotional SMS  Registered User is not available' : ''">
                         <input type="radio" class="form-radio" name="allUserCheck"  [(ngModel)]="allUserCheck" value="true"  [disabled]="pramotional == 'true'"  (change)="onClearAlluserCheckbox($event)">
                         <label >Registered Users</label>
                     </div>

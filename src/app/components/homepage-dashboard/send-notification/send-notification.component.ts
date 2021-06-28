@@ -48,6 +48,7 @@ sendLoginmessage:boolean=false
   selectStudentForm :boolean= false;
   selectedSmsCheckBox:boolean=false;
   selectedEmailCheckBox:boolean=false;
+  emailCeckbox:string="selectedEmailCheck"
   selectesPushCheckBox:boolean=false;
 
   pramotionalSelectedFlag:boolean=false;
@@ -161,8 +162,7 @@ sendLoginmessage:boolean=false
      this.backTopush_Id = sessionStorage .getItem('edit-PushMesgId')
      this.baclToemai_Id = sessionStorage.getItem('editEmaiId')
     this.smsTableFlag = true
-    console.log("push message",this.backToeditPush)
-    console.log(" message",this.backToEdit)
+  
 
 if(this.backToEdit != '' && this.backToEdit !=null){
   sessionStorage.removeItem('editmessageDesc')
@@ -210,10 +210,12 @@ if(this.backToEdit != '' && this.backToEdit !=null){
     this.jsonFlag.selectedPushCheckbox=false
     this.selectedSmsCheckBox=false
     this.selectesPushCheckBox=false
+    this.closeDiv()
 
   }
   onClickSms(){
     this.jsonFlag.createMesageFlag=false,
+    this.closeDiv()
 
     this.emailTableFlag = false
     this.pushTableFlag = false
@@ -230,6 +232,8 @@ if(this.backToEdit != '' && this.backToEdit !=null){
     this.selectesPushCheckBox=false
   }
   onClickPush(){
+    this.closeDiv()
+
     this.pushTableFlag = true
     this.emailTableFlag = false
     this.smsTableFlag = false
@@ -339,7 +343,9 @@ this.selectesPushCheckBox=false
       res => {
         console.log("Response", res);
         
-        tempMessageList = res;
+       //tempMessageList = res;
+       tempMessageList = [];
+
         for (let i = 0; i < tempMessageList.length; i++) {
           if(tempMessageList[i].source === "Push"){
             this.pushNotificationList.push(tempMessageList[i])   
@@ -617,6 +623,9 @@ updateMessage(){
     sessionStorage.setItem('pramotional',JSON.stringify( this.pramotionalSelectedFlag))
     console.log("transactional flag",this.transactionalSelectedFlag)
     console.log("pramotional flag",this.pramotionalSelectedFlag)
+    sessionStorage.removeItem('email subject')
+    sessionStorage.removeItem('push_message')
+    sessionStorage.removeItem('selecte-email-message')
   }
   onClickEmailSentTo(){
     if( this.email_subject.trim() ==''){
@@ -630,11 +639,15 @@ updateMessage(){
    
 
     }
-
+sessionStorage.removeItem('push_message')
+sessionStorage.removeItem('selected-message')
   }
   onClickPushSentTo(){
     this.router.navigateByUrl('/view/dashboard/send-to-messages')
-   
+    sessionStorage.removeItem('email subject')
+    sessionStorage.removeItem('selected-message')
+    sessionStorage.removeItem('selecte-email-message')
+
       
   }
   infoErroInput(){
