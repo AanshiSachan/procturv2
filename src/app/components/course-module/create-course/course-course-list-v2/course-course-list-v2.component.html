@@ -73,11 +73,11 @@
           </a>
         </div> -->
         <div *ngFor="let course of mc.course_list">
-          <!-- <div class="display name">
+          <div class="display name">
             <div>{{course.course_name}}</div>
             <div><a routerLink="../edit/{{course.course_id}}" (click)="setAddCourseSession()"><img
                   src="../../../../assets/img1/edit.svg"></a></div>
-          </div> -->
+          </div>
           <div class="name1"></div>
           <!-- <div class="flex">
             <div class="name2">
@@ -87,14 +87,14 @@
               {{course.start_date}}
             </div>
           </div> -->
-          <div class="flex">
+          <!-- <div class="flex">
             <div class="name2">
               Course Name :
             </div>
             <div class="value2">
               {{course.course_name}}
             </div>
-          </div>
+          </div> -->
           <div class="flex">
             <div class="name2">
               End Date :
@@ -125,15 +125,15 @@
             </div>
             <div class="value2 display">
               <div>{{course.total_students}}</div>
-              <div class="add_s" (click)="addStudentToBatch(course)">Add</div>
+              <div class="add_s" (click)="addStudentToBatch(course)">Assign /UnAssign </div>
             </div>
           </div>
-          <div class="flex">
+          <!-- <div class="flex">
             <div class="name2">
               <div class="add_s"><a routerLink="../edit/{{course.course_id}}">Edit</a>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="outter_flex" style="justify-content: center;" *ngIf="!courseData?.length">
@@ -160,7 +160,7 @@
       </span>
       <div class="popup-content student-assign-popup">
         <div class="row popup-title">
-          <h2>{{schoolModel ? 'Section' : 'Course'}} Name :
+          <h2>{{schoolModel ? 'Section' : 'Course'}} :
             <span>{{courseDetails.course_name}}</span>
           </h2>
         </div>
@@ -236,11 +236,11 @@
                   Contact No.
                 </th>
                 <th>
-                  Standard Class
+                  Standard
                 </th>
-                <th>
+                <!-- <th>
                   Academic Year
-                </th>
+                </th> -->
                 <!-- <th>
                   Fee Template
                 </th> -->
@@ -269,7 +269,7 @@
                   <td>
                     {{row.student_class}}
                   </td>
-                  <td>
+                  <!-- <td>
                     <div class="field-wrapper">
                       <select class="form-ctrl" [disabled]="true"
                         [ngStyle]="{'background':courseDetails.academic_year_id? 'lightgrey':'','cursor':courseDetails.academic_year_id ? 'not-allowed':''}"
@@ -280,7 +280,7 @@
                         </option>
                       </select>
                     </div>
-                  </td>
+                  </td> -->
                   <!-- <td>
                     <div class="field-wrapper">
                       <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"

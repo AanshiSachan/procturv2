@@ -276,7 +276,7 @@
     border-bottom: 1px solid #EBE8E8;
   }
   .subject {
-    height: 45vh;
+    height: 50vh;
     overflow-y: auto;
   }
   .subject .table_head{
@@ -541,7 +541,7 @@ padding-bottom: 8px;
   
   }
   .name2{
-    width: 55%;
+    width: 43%;
       padding-left: 10px;
     font-weight: 400;
     font-size: 13px;
@@ -552,7 +552,7 @@ padding-bottom: 8px;
   
   }
   .value2{
-     width: 45%;
+     width: 55%;
      padding-right: 10px;
     font-weight: normal;
     font-size: 13px;
@@ -696,7 +696,7 @@ background-color:transparent;
   }
   .table-wrapper {
       margin-top: 15px;
-      max-height: 280px;
+      max-height: 320px;
       overflow-x: hidden;
       overflow-y: scroll;
       th {
@@ -704,7 +704,7 @@ background-color:transparent;
       }
       td {
           text-align: left;
-          padding: 5px;
+          padding: 10px;
           .field-wrapper {
               .form-ctrl {
                   padding: 5px;

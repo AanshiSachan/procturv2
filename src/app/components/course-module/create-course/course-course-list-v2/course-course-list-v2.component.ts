@@ -351,7 +351,7 @@ export class CourseCourseListV2Component implements OnInit {
     };
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
-        this._msgService.showErrorMessage('success', '', 'Student\'(s) updated successfully');
+        this._msgService.showErrorMessage('success', '', 'Student(s) updated successfully');
         this.studentList = [];
         this.addStudentPopUp = false;
         this._auth.hideLoader();
