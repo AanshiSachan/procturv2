@@ -75,6 +75,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
     if (this.checkValidation(file)) {
       if (this.pageModel.name != '' && this.pageModel.name != null) {
         if (this.pageModel.order_number != '' && this.pageModel.order_number != null) {
+          if(this.pageModel.content == '' || this.pageModel.content.length <= 300) {
           const formData = new FormData();
           let data: any = {
             institute_id: sessionStorage.getItem('institute_id'),
@@ -129,6 +130,9 @@ export class AddEditComponent implements OnInit, OnDestroy {
             }
             newxhr.send(formData);
           }
+        } else {
+          this.msgService.showErrorMessage('error', '', 'Please enter slider content of maximum 300 characters');
+        }
         } else {
           this.msgService.showErrorMessage('error', '', 'Please enter order number');
         }
