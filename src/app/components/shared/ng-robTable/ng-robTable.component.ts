@@ -115,9 +115,7 @@ export class RobTableComponent implements OnChanges, DoCheck {
         this.cd.detectChanges();
         this.cd.detach();
     }
-
-
-    getSelectedRows() {
+ getSelectedRows() {
         this.rowSelectedId = [];
         this.userIdArray = [];
         this.records.forEach(e => {

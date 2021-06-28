@@ -6,6 +6,8 @@ import {
 } from '.';
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
+import { StudentHomev2Component } from './student-homev2/student-homev2.component';
+import { ViewReportCardV2Component } from './view-report-card-v2/view-report-card-v2.component';
 
 const routes: Routes = [
   {
@@ -14,7 +16,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: StudentHomeComponent,
+        //component: StudentHomeComponent,
+        component:StudentHomev2Component,
         pathMatch: 'prefix',
       },
       {
@@ -53,8 +56,14 @@ const routes: Routes = [
         pathMatch: 'prefix',
       },
       {
+        path: 'reportcardV2/:id',
+        
+       component:ViewReportCardV2Component,
+        pathMatch: 'prefix',
+      }, 
+      {
         path: 'reportcard/:id',
-        component: ViewReportCardComponent,
+         component: ViewReportCardComponent,
         pathMatch: 'prefix',
       }, 
       {
