@@ -65,6 +65,7 @@ console.log("teacherlisttttttt",this.teacherList)
 )
 }
 getAlluserData(){
+  if(this.selectedId !=-1){
   this.auth.showLoader();
    let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/users/'+this.selectedId;
    this.http.getData(url).subscribe(
@@ -89,6 +90,7 @@ getAlluserData(){
      }
    
    )
+}
 }
 downloadPdf(){
   for(let i=0; i<this.allUserDataList.length;i++){

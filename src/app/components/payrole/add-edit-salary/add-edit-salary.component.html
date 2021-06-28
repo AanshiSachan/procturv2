@@ -19,7 +19,7 @@
                     Salary Grades <span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="salary_grades" placeholder="Enter Salary Grade" maxlength="30" [(ngModel)]="salaryModel.salary_grade" name="salary_grades">
+                    <input type="text" class="form-control" id="salary_grades" onpaste="return false" oncopy="return false" placeholder="Enter Salary Grade" maxlength="30" [(ngModel)]="salaryModel.salary_grade" name="salary_grades" autocomplete="off">
                 </div>
                 <span class="col-sm-4 control-label" id="salary_grades_error">
                  </span>
@@ -30,7 +30,7 @@
                     Basic Salary <span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Enter Basic Salary" id="basic_salary" [(ngModel)]="salaryModel.basic_salary" (ngModelChange)="calculateGrossSalary()" name="basic_salary">
+                    <input type="text" class="form-control" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" onpaste="return false" oncopy="return false" placeholder="Enter Basic Salary" id="basic_salary" [(ngModel)]="salaryModel.basic_salary" (ngModelChange)="calculateGrossSalary()" name="basic_salary" autocomplete="off">
                 </div>
                 <span class="col-sm-4 control-label" id="basic_salary_error">
               </span>
@@ -41,7 +41,7 @@
                     Overtime Rate(Per Hour)<span class="text-red">*</span>
                 </label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Enter Overtime Rate" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="">
+                    <input type="text" class="form-control" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" onpaste="return false" oncopy="return false" placeholder="Enter Overtime Rate" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="" autocomplete="off">
                 </div>
                 <span class="col-sm-4 control-label" id="overtime_rate_error">
                   </span>
@@ -60,11 +60,11 @@
                               
                             <div class="form-group allowancesfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="allowanceslabel1" maxlength="30" [(ngModel)]="salaryModel.allowance" name="allowanceslabel1"  placeholder="Enter Allowances Label">
+                                    <input type="text" class="form-control" id="allowanceslabel1" maxlength="30" [(ngModel)]="salaryModel.allowance" onpaste="return false" oncopy="return false" name="allowanceslabel1"  placeholder="Enter Allowances Label" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control allowancesamount" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="allowancesamount1" [(ngModel)]="salaryModel.allowance_amount" name="allowancesamount1" placeholder="Enter Allowances Value">
+                                    <input type="text" class="form-control allowancesamount" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" onpaste="return false" oncopy="return false" id="allowancesamount1" [(ngModel)]="salaryModel.allowance_amount" name="allowancesamount1" placeholder="Enter Allowances Value" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-2" style="padding: 0px;">
@@ -86,11 +86,11 @@
 
                              <div class="form-group allowancesfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" [id]="'allowanceslabel1'+i" maxlength="30" [(ngModel)]="record.allowance" [name]="'allowanceslabel1'+i" placeholder="Enter Allowances Label">
+                                    <input type="text" class="form-control" [id]="'allowanceslabel1'+i" onpaste="return false" oncopy="return false" maxlength="30" [(ngModel)]="record.allowance" [name]="'allowanceslabel1'+i" placeholder="Enter Allowances Label" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control allowancesamount" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'allowancesamount1'+i" [(ngModel)]="record.allowance_amount" [name]="'allowancesamount1'+i" placeholder="Enter Allowances Value">
+                                    <input type="text" class="form-control allowancesamount" onpaste="return false" oncopy="return false" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'allowancesamount1'+i" [(ngModel)]="record.allowance_amount" [name]="'allowancesamount1'+i" placeholder="Enter Allowances Value" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-2">
@@ -126,11 +126,11 @@
                         <div class="col-sm-12" id="deductions" *ngIf="!remove">
                             <div class="form-group deductionsfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="deductionslabel1"  maxlength="30" name="deductionslabel1" [(ngModel)]="salaryModel.deduction" placeholder="Enter Deductions Label">
+                                    <input type="text" class="form-control" id="deductionslabel1" onpaste="return false" oncopy="return false" maxlength="30" name="deductionslabel1" [(ngModel)]="salaryModel.deduction" placeholder="Enter Deductions Label" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control deductionsamount" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1"  placeholder="Enter Deductions Value">
+                                    <input type="text" class="form-control deductionsamount" onpaste="return false" oncopy="return false" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1"  placeholder="Enter Deductions Value" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-2" style="padding: 0px;">
@@ -149,11 +149,11 @@
                         <div class="col-sm-12" id="deductions">
                             <div class="form-group deductionsfield">
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" [id]="'deductionslabel1'+i" maxlength="30" [name]="'deductionslabel1'+i" [(ngModel)]="deduct.deduction" placeholder="Enter Deductions Label">
+                                    <input type="text" class="form-control" [id]="'deductionslabel1'+i" onpaste="return false" oncopy="return false" maxlength="30" [name]="'deductionslabel1'+i" [(ngModel)]="deduct.deduction" placeholder="Enter Deductions Label">
                                 </div>
 
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control deductionsamount"  maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'deductionsamount1'+i"  [(ngModel)]="deduct.deduction_amount" [name]="'deductionsamount1'+i" placeholder="Enter Deductions Value">
+                                    <input type="number" class="form-control deductionsamount" onpaste="return false" oncopy="return false" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'deductionsamount1'+i"  [(ngModel)]="deduct.deduction_amount" [name]="'deductionsamount1'+i" placeholder="Enter Deductions Value" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-2">

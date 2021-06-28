@@ -112,6 +112,7 @@ console.log("teacherlisttttttt",this.teacherList)
 )
   }
   getAlluserData(){
+    if(this.selectedId !=-1){
    this.auth.showLoader();
     let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/users/'+this.selectedId;
     this.http.getData(url).subscribe(
@@ -127,6 +128,7 @@ console.log("teacherlisttttttt",this.teacherList)
     
     )
   }
+}
   removeTemplate(obj){
     if (confirm('Are you sure, You want  to delete this template?')) {
       this.selectedTeacherId = obj.teacher_id;

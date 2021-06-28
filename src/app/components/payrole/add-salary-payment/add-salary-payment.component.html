@@ -65,7 +65,7 @@
 
                     <div class="form-group " *ngIf="historyModel.salary_type == 'H'">
                       <label for="total-hour">Total Hour <span class="text-red">*</span></label>
-                      <input type="text" name="total_hours"  onKeyPress="if(this.value.length==9) return false;" class="form-control" id="total_hours" [(ngModel)]="historyModel.total_hours">
+                      <input type="text" name="total_hours"  onKeyPress="if(this.value.length==9) return false;" onpaste="return false" oncopy="return false" maxlength="30" class="form-control" id="total_hours" [(ngModel)]="historyModel.total_hours">
                       <span class="text-red"></span>
                   </div>
 
@@ -75,7 +75,7 @@
                     
                     <div class="form-group ">
                         <label for="payment_amount">Payment Amount <span class="text-red">*</span></label>                            
-                         <input type="text" name="payment_amount"  onKeyPress="if(this.value.length==9) return false;" class="form-control" id="payment_amount" [(ngModel)]="historyModel.payment_amount">
+                         <input type="text" name="payment_amount"  onKeyPress="if(this.value.length==9) return false;" onpaste="return false" oncopy="return false" maxlength="30" class="form-control" id="payment_amount" [(ngModel)]="historyModel.payment_amount" autocomplete="off">
                         <span class="text-red">
                         </span>
                     </div>
@@ -93,7 +93,7 @@
 
                     <div class="form-group ">
                         <label for="comments">Comments</label>
-                        <input type="text" name="comments" [(ngModel)]="historyModel.comment" class="form-control" id="comments">
+                        <input type="text" name="comments" [(ngModel)]="historyModel.comment" onpaste="return false" oncopy="return false" class="form-control" id="comments" autocomplete="off">
                     </div>
                     <div>
                     <button class="blue_button1 left" (click)="backPage()">Back</button>
