@@ -71,6 +71,8 @@ sendLoginmessage:boolean=false
   newEmailText:string ="";
   notificationMessage:string=""
 
+
+
   approveMessageText:string="";
   messageList: any = [];
   emailMessageList:any=[];
@@ -216,7 +218,6 @@ if(this.backToEdit != '' && this.backToEdit !=null){
   onClickSms(){
     this.jsonFlag.createMesageFlag=false,
     this.closeDiv()
-
     this.emailTableFlag = false
     this.pushTableFlag = false
     this.smsTableFlag = true
@@ -344,7 +345,7 @@ this.selectesPushCheckBox=false
         console.log("Response", res);
         
      tempMessageList = res;
-      // tempMessageList = [];
+       //tempMessageList = [];
 
         for (let i = 0; i < tempMessageList.length; i++) {
           if(tempMessageList[i].source === "Push"){

@@ -19,7 +19,7 @@
     <div>Message</div>
     <div>Action</div>
   </div>
-  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.editMessage || jsonFlag.createMesageFlag,'open-emailPOpups': jsonFlag.selectedEmailChecboxFlag ||jsonFlag.editEmail  || jsonFlag.createEmailFlag,'open-pushPOpups': jsonFlag.createdPushNotification  || jsonFlag.selectedPushCheckbox ||jsonFlag.editPush  }">
+  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.editMessage || jsonFlag.createMesageFlag,'open-emailPOpups': jsonFlag.selectedEmailChecboxFlag ||jsonFlag.editEmail  || jsonFlag.createEmailFlag,'open-pushPOpups': jsonFlag.createdPushNotification  || jsonFlag.selectedPushCheckbox ||jsonFlag.editPush , 'scroll_bodyEmptyimg': messageList.length == '0' || emailMessageList.length == '0' || pushNotificationList.length == '0'}">
     <div *ngIf="smsTableFlag">
       <div class="table_body" *ngFor="let msg of messageList">
         <div>
@@ -41,15 +41,15 @@
         </div>
       </div>
       <div class="smsemptydiv" *ngIf="messageList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
-        <p class="b">How to send SMS:</p>
-        <p>1. Click on <b class="b">Add SMS.</b></p>
-         <p>2. For sending an SMS first <b class="b">select SMS.</b></p>
+        <p><b>How to send SMS :</b></p>
+        <p>1. Click on <b>Add SMS.</b></p>
+         <p>2. For sending an SMS first <b>select SMS.</b></p>
          <p>3. Check Transactional/Promotional SMS balance.
-         <p>4. Click on Transactional if want to send SMS to <b class="b">Batchwise/Active Students/Faculty/Registered Users.</b></p>
-         <p> 5. Click on Promotional if want to send SMS to <b class="b"> Inactive/Alumni Students only.</b></p>
+         <p>4. Click on Transactional if want to send SMS to <b>Batchwise/Active Students/Faculty/Registered Users.</b></p>
+         <p> 5. Click on Promotional if want to send SMS to <b> Inactive/Alumni Students only.</b></p>
          <p>6. After selection of students enable settings of parents at the bottom if want to send SMS to parents also.</p>
-          <p>7.Click on  <b class="b">Send SMS.</b></p>
-          <b class="b">Note:</b>
+          <p>7. Click on <b>Send SMS.</b></p>
+          <p><b>Note :</b></p>
             <p>For sending custom SMS make sure that SMS is approved on DLT Platform if not visit configuration menu section for more details.</p>
       </div>
     </div>
@@ -60,6 +60,7 @@
           <div class="field-radio-wrapper">
             <input type="radio" class="form-radio"  [(ngModel)]="selectedRow" [checked]="selectedEmailCheckBox"
               value="{{email.message}}" (click)="onSelectedEmailCheckbox(email)">
+             
             <label></label>
           </div>
         </div>
@@ -75,16 +76,16 @@
         
       </div>
       <div class="smsemptydiv" *ngIf="emailMessageList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
-        <p class="b">How to send Email:</p>
-       <p>1. Click on <b class="b">Add Email.</b></p>
-        <p>2. For sending an Email first <b class="b">select Email.</b></p>
+        <p><b>How to send Email :</b></p>
+       <p>1. Click on <b>Add Email.</b></p>
+        <p>2. For sending an Email first <b>select Email.</b></p>
         <p>3. Check Email Quota balance.</p>
        <p> 4. While sending an email subject box will come. </p>
        <p> 5. Select users to whom want to send an email.</p>
-       <p> 6. Click on  <b class="b">Preview and Send.</b></p>
+       <p> 6. Click on  <b>Preview and Send.</b></p>
         
         
-      <p class="b">Note: </p>
+      <p><b>Note :</b></p>
         
       <p> 1. Before sending an email, please confirm if email id is approved from Proctur and added in email sender id. If not then connect with our support team.</p>
         
@@ -113,13 +114,13 @@
         </div>
       </div>
       <div class="smsemptydiv" *ngIf="pushNotificationList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
-    <p class="b">How to send Push Notification:</p>
-    <p>1. Click on <b class="b"> Add Push Message.</b></p>
-    <p>2. For sending Push message first <b class="b"> select message.</b></p>
-    <p>3. Push notification can be send only to <b class="b"> Active and Registered users.</b></p>
+    <p><b>How to send Push Notification :</b></p>
+    <p>1. Click on <b> Add Push Message.</b></p>
+    <p>2. For sending Push message first <b> select message.</b></p>
+    <p>3. Push notification can be send only to <b> Active and Registered users.</b></p>
     <p>4. Select users to whom want to send message.</p>
-    <p>5. Click on  <b class="b">Send Push Notification.</b></p>
-    <p class="b">Note : </p>
+    <p>5. Click on  <b>Send Push Notification.</b></p>
+    <p><b>Note :</b></p>
     <p>Create push notification message and send instantly, DLT process not required.</p>
       </div>
     </div>
@@ -169,7 +170,7 @@
       </div>
     </div>
     <div>
-      <p class="b">Note:</p>
+      <p><b>Note :</b></p>
       <!-- <p class="note">1. Entity Registration Process: For faster response, it’s requested for register on MTNL. Entity
         Registration Process for MTNL Signup Link : <a href="https://www.ucc-mtnl.in/">https://www.ucc-mtnl.in/</a> .
       </p>
@@ -200,12 +201,12 @@
   <div class="page_body">
     <div>
       <p>Select SMS Type</p>
-      <div [ngClass]="{'remaining selected':transactionalSelectedFlag}" (click)="onClicktransaction($event)" style="cursor: pointer;">
+      <div [ngClass]="transactionalSelectedFlag ? 'remaining selected':'remaining'" (click)="onClicktransaction($event)" style="cursor: pointer;">
         <p>Transactional </p>
         <p class="number">{{transactionalSms}}</p>
 
       </div>
-      <div [ngClass]="{'remaining selected':pramotionalSelectedFlag}" (click)="onclicPramotional($event)" style="cursor: pointer;">
+      <div  [ngClass]="pramotionalSelectedFlag ? 'remaining selected':'remaining'" (click)="onclicPramotional($event)" style="cursor: pointer;">
         <p>Promotional</p>
         <p class="number">{{pramotionalSms}}</p>
       </div>
@@ -299,7 +300,7 @@
     </div>
     <div>
       <div>
-       <p class="b">Note:</p>
+       <p><b>Note :</b></p>
        <p>1.Before sending an email, please confirm if email id is approved from Proctur and added in email sender id. If not then connect with our support team.</p>
        <p>2.Email subject can be added while sending the email.</p>
       </div>
@@ -449,7 +450,7 @@
 
     </div>
     <div>
-<p class="b">Note:</p>
+<p><b>Note :</b></p>
 <p style="font-weight: 400; font-size: 10px;">Create push notification message and send instantly, DLT process not required.</p>
     </div>
   </div>
