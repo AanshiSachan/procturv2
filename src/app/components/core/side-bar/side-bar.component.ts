@@ -372,16 +372,16 @@ mouseleave() {
         this.jsonCourseFlags[flag] = true;
       })
     }
-    else if ((userType == '3')) {
-      this.jsonCourseFlags.isShowModel = false;
-      this.jsonFlags.isShowCourse = true;
-      this.jsonCourseFlags.isShowArchiving = false;
-      let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
+    // else if ((userType == '3')) {
+    //   this.jsonCourseFlags.isShowModel = false;
+    //   this.jsonFlags.isShowCourse = true;
+    //   this.jsonCourseFlags.isShowArchiving = false;
+    //   let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
 
-      array.forEach((flag) => {
-        this.jsonCourseFlags[flag] = true;
-      });
-    }
+    //   array.forEach((flag) => {
+    //     this.jsonCourseFlags[flag] = true;
+    //   });
+    // }
     else {
       this.jsonCourseFlags.isShowModel = true;
       if (this.role_feature.STUDY_MATERIAL_MENU) {
@@ -440,7 +440,11 @@ mouseleave() {
       });
     }
     if (this.userType == 3) {
-      this.jsonCommunicateFlags.communicateMenu = false;
+      this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
+        this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
+        this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
     }
   }
   checkPermissionForFees() {
@@ -448,11 +452,11 @@ mouseleave() {
     this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
     const userType = sessionStorage.getItem('userType');
-    if (userType == '3') {
-      this.jsonFeesFlags.isAdmin = false;
-      this.jsonFeesFlags.isProfitnloss = false;
-    }
-    else if (userType == '0') {
+    // if (userType == '3') {
+    //   this.jsonFeesFlags.isAdmin = false;
+    //   this.jsonFeesFlags.isProfitnloss = false;
+    // }
+    if (userType == '0') {
       if (sessionStorage.getItem('permissions') == "" || sessionStorage.getItem('permissions') == null) {
         this.jsonFeesFlags.isAdmin = true;
         this.jsonFeesFlags.isProfitnloss = true;
@@ -478,6 +482,11 @@ mouseleave() {
 
     }
 
+    if (userType == '3') {
+        this.jsonFeesFlags.isAdmin = false;
+        this.jsonFeesFlags.isProfitnloss = false;
+      }
+
     if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
         this.jsonFeesFlags.isFeeManageCheque = true;
@@ -497,14 +506,12 @@ mouseleave() {
   }
 
   hideForUsers() {
-    if (sessionStorage.getItem('userType') == '0') {
+    // if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
         return true;
       } else if (this.role_feature.MY_ACCOUNTS_MENU) {
         return true;
-      }
-    }
-    else {
+      } else {
       return false;
     }
   }
@@ -782,7 +789,9 @@ mouseleave() {
     else if (userType == 3) {
       /* Teacher login detected */
       this.jsonFlags.isAdmin = false;
-      this.teacherLoginFound();
+      this.hasLead(this.permissionData);
+      this.hasStudent(this.permissionData);
+      // this.teacherLoginFound();
     }
 
     // please dont chnage this  code from here
@@ -855,7 +864,7 @@ mouseleave() {
   isLibraryFeatureAllow(permission) {
     this.jsonFlags.isShowLibrabry = false;
     if (sessionStorage.getItem('enable_library_feature') == '1') {
-      if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+      if (sessionStorage.getItem('userType') == '3' || (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin')) {
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
           this.jsonFlags.isShowLibrabry = this.role_feature.LIBRARY_MENU ? true : false;
         }
