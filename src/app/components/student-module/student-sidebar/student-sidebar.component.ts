@@ -595,7 +595,7 @@ migrationPrintPage(){
   console.log("print")
 
 }
-characterPrintPage(popupName){
+characterPrintPage(conductCertificate2){
   const printContents = document.getElementById('conductCertificate2').innerHTML;
   const originalContents = document.body.innerHTML;
   document.body.innerHTML = printContents;
@@ -612,11 +612,9 @@ characterPrintPage(popupName){
 }
 
 
-CertificateConvertTopdf(certificat,){
- 
+CertificateConvertTopdf(certificat){
   var data = document.getElementById(certificat);  
   this.auth.showLoader()
-
     html2canvas(data).then(canvas => {  
       var imgWidth = 230;   
       var pageHeight = 295;  
@@ -630,7 +628,6 @@ CertificateConvertTopdf(certificat,){
       pdf.addImage(contentDataURL,'PNG', 0,position, imgWidth, imgHeight,)  
       pdf.save('conductCertificates1.pdf');
       console.log("img",this.charactertCertiModel.logo_url) 
-      
      this.auth.hideLoader()
 
     });
