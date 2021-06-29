@@ -6,8 +6,8 @@
       <a (click)="onClickPush()" [ngClass]="{'selected':pushTableFlag}" style="cursor: pointer;">Push</a>
     </div>
     <div class="create">
-      <a (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Add New SMS </a>
-      <a (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Add New Email </a>
+      <a (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Add SMS </a>
+      <a (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Add Email </a>
       <a (click)="onclickCreatePushNotify()" *ngIf="pushTableFlag"> + Add Push Message </a>
 
 
