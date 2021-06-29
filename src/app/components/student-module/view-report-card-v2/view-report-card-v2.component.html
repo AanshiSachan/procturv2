@@ -100,7 +100,7 @@
           </div>
           <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''"
             (click)="openTab('attendance')">Attendance</div>
-          <div id="fees" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
+          <div id="fees" *ngIf="checkIfUserHadAccess(role_feature.FEE_MENU)" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
           <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}" (click)="openTab('documents')">
             Files</div>
           <div id="inventory" [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">

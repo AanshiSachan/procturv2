@@ -11,6 +11,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import * as moment from 'moment';
 import { isExternalModuleNameRelative } from 'typescript';
 import { NgForm } from '@angular/forms';
+import { role } from '../../../model/role_features';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -42,6 +43,7 @@ export class ViewReportCardV2Component implements OnInit {
   academicYrList: any = [];
   timeTableDet: any = [];
   timeTableSchedule: any = [];
+  role_feature = role.features;
   timetablePayLoad: any = {
     batch_id: -1,
     standard_id: -1,
@@ -374,6 +376,19 @@ export class ViewReportCardV2Component implements OnInit {
     this.getFeesDetails(this.Fee_model.academic_yr_id);
           break;
         }
+      }
+    }
+  }
+
+  checkIfUserHadAccess(id) {
+    let permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null || !permissionArray) {
+      return true;
+    } else {
+      if (id) {
+        return true;
+      } else {
+        return false;
       }
     }
   }
@@ -982,6 +997,7 @@ export class ViewReportCardV2Component implements OnInit {
 
     )
   }
+
   manageFees() {
     this.router.navigate(['/view/fee/update-fee/view-fee/' + this.student_id]);
     // this.router.navigate(["/view/students/edit/" + event]);
