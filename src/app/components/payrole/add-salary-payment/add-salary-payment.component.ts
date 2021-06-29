@@ -20,7 +20,7 @@ export class AddSalaryPaymentComponent implements OnInit {
     institute_id:'',
   }
   historyModel={
-    sal_month:moment('YYYY-MM'),
+    sal_month:moment('MM-YYYY'),
     total_hours:'',
     overtime_hours:'',
     payment_amount:'',

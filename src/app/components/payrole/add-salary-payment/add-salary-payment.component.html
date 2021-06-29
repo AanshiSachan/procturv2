@@ -58,9 +58,10 @@
                     </div> -->
                     <div class="form-group ">
                       <label for="month">Month <span class="text-red">*</span></label>
-                      <input type="month" name="sal_month" class="form-control"   id="sal_month" [(ngModel)]="historyModel.sal_month" >
+                      <!-- <input type="month" name="sal_month" class="form-control"   id="sal_month" [(ngModel)]="historyModel.sal_month" > -->
 
                       <span class="text-red"></span>
+                      <input type="text" [(ngModel)]="historyModel.sal_month" autocomplete="off" class="form-control" name="sal_month" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}">
                   </div>
 
                     <div class="form-group " *ngIf="historyModel.salary_type == 'H'">
