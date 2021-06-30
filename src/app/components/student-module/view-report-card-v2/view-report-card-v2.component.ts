@@ -129,9 +129,25 @@ export class ViewReportCardV2Component implements OnInit {
     // this.viewAttendancePayload.student_id = this.studentId;
     // this.getStudentInfo();
     this.getParentProfileDoc();
+    this.checkDownloadRoleAccess();
   }
   //For tab active 
   isActiveTab = 'profile';
+  downloadStudentReportAccess: boolean = false;
+  studentReport: boolean = false;
+
+  checkDownloadRoleAccess() {
+    if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
+      this.downloadStudentReportAccess = true;
+    }
+    const permissionArray = sessionStorage.getItem('permissions');
+    const userType = sessionStorage.getItem('userType');
+    if (userType == '3' ||(userType == '0' && (permissionArray != "" && permissionArray != null))) {
+      this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
+    } else {
+      this.studentReport = true;
+    }
+  }
 
   openTab(param) {
     this.isActiveTab = param;
