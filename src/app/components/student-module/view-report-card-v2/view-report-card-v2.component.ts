@@ -19,6 +19,7 @@ declare var $;
   styleUrls: ['./view-report-card-v2.component.scss']
 })
 export class ViewReportCardV2Component implements OnInit {
+  role_feature = role.features;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -43,7 +44,6 @@ export class ViewReportCardV2Component implements OnInit {
   academicYrList: any = [];
   timeTableDet: any = [];
   timeTableSchedule: any = [];
-  role_feature = role.features;
   timetablePayLoad: any = {
     batch_id: -1,
     standard_id: -1,
