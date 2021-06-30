@@ -176,6 +176,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   is_zoom_integration_enable: boolean = false;
   custom_text_for_power_by_proctur:any = '';
   showMaximizedPopup:boolean = true;
+  user_name:any='';
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -201,6 +202,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
     this.instituteId = sessionStorage.getItem('institute_id');
+    this.user_name = sessionStorage.getItem('username');
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }

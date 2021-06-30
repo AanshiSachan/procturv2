@@ -107,3 +107,25 @@ input {
     box-shadow: none;
     color: #000;
 }
+.new-keyword{
+  background-color: #0084f6;
+  color: white;
+  border-radius: 50%;
+  letter-spacing: 0.7px;
+  padding: 6px;
+  margin: 0 5px;
+  font-size: 12px;
+}
+.helpBtn {
+  border: none;
+  padding: 0;
+  margin-top: 15px;
+  position: absolute;
+  right: 11rem;
+  background: none;
+}
+.new-modules-list ul{
+  margin-top: 10px;
+    list-style-type: disc;
+    margin-left: 30px;
+}
