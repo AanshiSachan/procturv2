@@ -92,6 +92,10 @@
   <li class="nav-item">
     <a class="nav-link" [ngClass]="(activeSession == 'Referred_by') ? 'active' : ''" (click)="toggle('Referred_by');fetchReferInfo()">Referred By</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="(activeSession == 'customForm-field') ? 'active' : ''" (click)="toggle('customForm-field');fetchCustomFild()">Custom Field</a>
+  </li>
+
 </ul>
   </div>
 </div>
@@ -358,9 +362,259 @@
         </div>
       </div>
   </div>
+  <!-- ====custom-field-table=================== -->
+  <div id="customForm-field" *ngIf="activeSession == 'customForm-field'" [ngClass]="(activeSession == 'customForm-field') ? 'active' : ''" class="tab-pane">
+    <div class="w96">
+        <div style="margin-bottom: 10px;">
+          <!-- <input type="text" class="reason-input" name="" [(ngModel)]="createNewReasonObj.closing_desc" placeholder="Add closing reason*"> -->
+          <button  class="add_master_tag2"data-toggle="modal" data-target="#customField">Add Custom Field</button>
+        </div>
+        <div>
+          <div class="tableContainer" >
+            <!-- <div> -->
+              <div class="tableHeader">
+                <div style="width: 80%;" class="tableData">
+                  Lable
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  Type
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  Show On Student
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  Is Required
+                </div><div style="width: 80%;" class="tableData">
+                  Is Searchable
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  Sequence
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  Max Length
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  Default Value
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  Is External
+                </div>
+                <div style="width: 20%;" class="tableData">
+                   <span class="right pr-40">
+                    Action
+                  </span>
+                </div>
+              </div>
+            <!-- </div> -->
+            <div class="section" *ngIf="custumFieldList?.length > 0">
+              <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let item of custumFieldList">
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.label}}</span> 
+                  <!-- <span *ngIf="data.isEdit">
+                    <input style="margin: 0" type="text" [(ngModel)]="data.new_source_name" class="reason-input" name="soure">
+                  </span>  -->
+                </div>
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.type|checkBoxConverter}}</span> 
+
+                </div>
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.on_both}}</span> 
+
+                </div>
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.is_required}}</span> 
+
+                </div>
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.is_searchable}}</span> 
+
+                </div>
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.sequence_number}}</span> 
+
+                </div>
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.comp_length}}</span> 
+
+                </div>
+                <div style="width: 80%;"  class="tableData">
+                  <span>{{item.defaultValue}}</span> 
+
+                </div>
+                <div style="width: 80%;" class="tableData">
+                  <span>{{item.is_external}}</span> 
+
+                </div>
+
+                <div style="width: 20%;"  class="tableData">
+                  <span class="right pr-40">
+                  <a  style="vertical-align: middle;cursor: pointer;">
+                    <img src="../../../../assets/images/EDit.png">
+                  </a>
+                </span>
+              </div>
+              <!-- <div style="width: 20%;"  class="tableData">
+                <span class="updateAction" >Update</span>
+                <span class="updateAction" >Cancel</span>
+              </div> -->
+              </div>
+            </div>
+            <!-- <div class="section no-records" *ngIf="!getAllClosingReasons?.length && !auth.isRippleLoad.getValue()">
+              No Records found
+            </div> -->
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- =======end============== -->
 </div>
 
 </main>
 
 <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
 </app-add-city-area>
+<!-- ============custom-field-popups====================== -->
+
+<!-- <proctur-popup [sizeWidth]="'large'" > -->
+  <div [sizeWidth]="'large'" class="modal" id='customField'>
+
+  <span class="closePopup pos-abs fbold show" data-dismiss="modal" close-button>
+    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+      width="24px" x="0" y="0">
+      <path class="large-icon"
+        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+        style="fill: currentColor"></path>
+    </svg>
+  </span>
+
+  <h2 popup-header>Add Field</h2>
+
+  <div class="row updatecomponent-wrapper" popup-content>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="label">Label
+          <span class="text-danger">*</span>
+        </label>
+        <input type="text" class="form-ctrl"  name="label" [(ngModel)]="editCustomFormField.label">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="data_value">Type
+          <span class="text-danger">*</span>
+        </label>
+        <select id="opt.data_value" class="form-ctrl"  name="opt.data_value"  [(ngModel)]="editCustomFormField.type" (ngModelChange)="checkValuetype($event)">
+          <option></option>
+          <option [value]="opt.data_key" *ngFor="let opt of componentShell"> 
+            {{opt.data_value}}</option>
+         
+        </select>
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
+        <input type="text" class="form-ctrl"  id="prefilledData" name="prefilledData" [(ngModel)]="editCustomFormField.prefilled_data">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="description">Description</label>
+        <input type="text" class="form-ctrl"  name="description" id="description" [(ngModel)]="editCustomFormField.description">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="onboth">Show On Student</label>
+        <select id="onboth" class="form-ctrl" name="onboth" [(ngModel)]="editCustomFormField.on_both">
+          <option value="Y">Yes</option>
+          <option value="N">No</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="isrequired">Is Required</label>
+        <select id="isrequired" class="form-ctrl" name="isrequired" [(ngModel)]="editCustomFormField.is_required">
+          <option value="Y">Yes</option>
+          <option value="N" selected>No</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="issearchable">Is Searchable</label>
+        <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="editCustomFormField.is_searchable">
+          <option value="Y">Yes</option>
+          <option value="N" selected>No</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="sequencenumber">Sequence (Numerals Only)</label>
+        <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+          maxlength="3"  name="sequencenumber"  id="sequencenumber" [(ngModel)]="editCustomFormField.sequence_number">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="complength">Max- Length (Numerals Only)</label>
+        <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+           name="complength" id="complength" [(ngModel)]="editCustomFormField.comp_length">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="defVal">Default Value</label>
+        <input type="text" class="form-ctrl"  name="defVal"
+          id="defVal" [(ngModel)]="editCustomFormField.defaultValue">
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="isexternal">Is External</label>
+        <select id="isexternal" class="form-ctrl" name="isexternal" [(ngModel)]="editCustomFormField.is_external">
+          <option value="Y">Yes</option>
+          <option value="N" selected>No</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="" popup-footer>
+    <div class="clearfix">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Cancel" class="btn2 txt_font" >
+        <!-- <input type="button" value="Update " *ngIf="isEdit=='Edit'" class="fullBlue btn txt_font"
+          (click)="updateRow()"> -->
+        <input type="button" value="Add " (click)="addNewCustomField()" class="fullBlue btn txt_font"
+          >
+      </aside>
+    </div>
+  </div>
+</div>
+<!-- </proctur-popup> -->
+
+<!-- =============end================== -->

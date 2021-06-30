@@ -21,6 +21,8 @@ import { ManageCampaignComponent } from './manage-campaign/manage-campaign.compo
 import { CampaignService } from './services/campaign.service';
 import { ClosingReasonService } from './services/closing-reason.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { CheckBoxConverterPipe } from '../custom-common/check-box-converter.pipe';
+
 
 
 @NgModule({
@@ -44,6 +46,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     DataSetupComponent,
     UserEnquiryComponent,
     ManageCampaignComponent,
+    CheckBoxConverterPipe
     // EnquiryReportComponent
   ],
   entryComponents: [

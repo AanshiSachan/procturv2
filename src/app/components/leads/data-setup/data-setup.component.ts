@@ -5,6 +5,8 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+
 declare var $;
 
 @Component({
@@ -26,6 +28,8 @@ export class DataSetupComponent implements OnInit {
   activeSession: any = 'source';
   sourceDetails: any = [];
   referList: any = [];
+  custumFieldList:any=[];
+  componentShell:any=[];
   createSource = {
     name: "",
     inst_id: sessionStorage.getItem('institute_id'),
@@ -43,7 +47,7 @@ export class DataSetupComponent implements OnInit {
     city_ids: "-1",
     is_active: true
   };
-
+  isEditcustumfield:string=""
   editrecord: any;
   editAreaName: string = '';
   editIsActiveStatus: boolean = true;
@@ -62,18 +66,34 @@ export class DataSetupComponent implements OnInit {
     state: '',
     city: ''
   };
-
+  editCustomFormField:any = {
+    comp_length: '',
+    description: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    is_required: "N",
+    is_searchable: "N",
+    label: "",
+    page: 1,
+    prefilled_data: "",
+    sequence_number: "",
+    type: "",
+    on_both: "Y",
+    defaultValue: "",
+    is_external: "N"
+  }
   constructor(
     private service: ClosingReasonService,
     private appC: AppComponent,
     private services: MessageShowService,
     private httpService: HttpService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private postData:PostEnquiryDataService
   ) { }
 
   ngOnInit() {
     // this.getAllReasons();
     this.getSourceDetails();
+    this.fetchPrefillData()
   }
 
 
@@ -344,6 +364,53 @@ export class DataSetupComponent implements OnInit {
       }
     )
   }
+  checkValuetype(value) {
+    this.editCustomFormField.comp_length = value == 1 ? 50 : 0
+  }
+  fetchPrefillData() {
+    this.auth.showLoader();
+    let url ='/api/v1/masterData/type/CUSTOM_COMPONENT_TYPE'
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.componentShell = res;
+        console.log("type value",this.componentShell)
+      }, (err) => {
+        this.auth.hideLoader();
+      }
+    );
+  }
+fetchCustomFild(){
+  this.auth.showLoader();
+  let url ='/api/v1/instCustomComp/getAll/' +sessionStorage.getItem('institute_id') + "?page=1"
+  this.httpService.getData(url).subscribe(
+  res => {
+    this.auth.hideLoader();
+    this.custumFieldList = res;
+    console.log("custom filed data",this.custumFieldList)
+  },
+  err => {
+    this.auth.hideLoader();
+    this.custumFieldList = [];
+  }
+)
+  
+}
+addNewCustomField(){
+  this.auth.showLoader();
+  this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
+    res=>{
+      this.auth.hideLoader();
+      this.services.showErrorMessage('success', '', 'Form-Field added successfully');
+      //this.cancelEditRow();
+      this.fetchCustomFild()
+    },
+    err => {
+      this.auth.hideLoader();
+      this.services.showErrorMessage('error', '', 'Label name is already created with the same name');
+    });
+    }
+  
 
   updateRefer(obj) {
     let data = {
@@ -565,5 +632,13 @@ export class DataSetupComponent implements OnInit {
       this.selectedData.city = this.filter.city_ids;
     }
   }
-
+  toggleNewPopupsVisisbility(type) {
+    this.isEditcustumfield = type;
+    //this.emptyObject();
+  }
+  cancelRow() {
+    
+    this.isEditcustumfield = '';
+   
+  }
 }
