@@ -719,6 +719,7 @@ export class ManageAssignmentComponent implements OnInit {
           if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
           if(this.assignmentDetails.course != '-1'){
             if(this.assignmentDetails.teacher != '-1') {
+              if(!this.assignmentDetails.lateSubmission || this.assignmentDetails.assignment_late_submission_date != '') {
             if(this.checkFileAndURL()){
               if(this.getEventHourTo()) {
                 if(this.checkEvaluationDate()) {
@@ -777,6 +778,9 @@ export class ManageAssignmentComponent implements OnInit {
             }
           }
           }
+        } else {
+          this.msgService.showErrorMessage('error', '', "Please select late submission date");
+        }
          } else {
             this.msgService.showErrorMessage('error', '', "Please select Teacher");
           }
@@ -829,6 +833,7 @@ export class ManageAssignmentComponent implements OnInit {
             if(this.selectedStudentList.length > 0){
               if(this.assignmentDetails.evaluation_date != '' && this.assignmentDetails.evaluation_date != null){
               if(this.assignmentDetails.teacher != '-1'){
+                if(!this.assignmentDetails.lateSubmission || this.assignmentDetails.assignment_late_submission_date != '') {
                 if(this.checkFileAndURL()){
                   if(this.getEventHourTo()) {
                     if(this.checkEvaluationDate()) {
@@ -890,6 +895,9 @@ export class ManageAssignmentComponent implements OnInit {
 
               }
               }
+            } else {
+              this.msgService.showErrorMessage('error', '', "Please select late submission date");
+            }
               }
               else{
                 this.msgService.showErrorMessage('error', '', "Please select faculty");
