@@ -255,7 +255,7 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
 
     const userType = sessionStorage.getItem('userType');
     console.log("userType", userType);
-    const userName = sessionStorage.getItem('userName');
+    const userName = sessionStorage.getItem('username');
     if (userType == '3') {
       this.forUser = true;
       this.startClassMsg = 'You can start the live class 30 mins prior to the commencement of the class.';
@@ -263,6 +263,9 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     if (userType == '0') {
       this.forModerator = true;
       this.startClassMsg = '';
+      if(userName != 'admin') {
+        this.startClassMsg = 'Custom User can join the session if added as a moderator on the scheduled time only';
+      }
     }
     let limit = sessionStorage.getItem('videoLimitExceeded');
     this.videoLimitExceed = JSON.parse(limit);
@@ -345,20 +348,6 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     if (userType != 0) {
       const userid: any = sessionStorage.getItem('userid');
       this.obj.user_id = userid;
-    }
-    if (userType == 0 && userName != 'admin') {
-      this.obj = {
-        institution_id: this.institution_id,
-        live_future_past: 1,
-        user_id: sessionStorage.getItem('userid'),
-        page_offset: this.PageIndex,
-        page_size: 10,
-        from_date: this.liveClassSearchFilter.from_date,
-        to_date: this.liveClassSearchFilter.to_date,
-      }
-      if (this.liveClassFor) {
-        this.obj.live_future_past = 2;
-      }
     }
     this.dateValue = this.liveClassSearchFilter.from_date + ' to ' + this.liveClassSearchFilter.to_date;
     let url = '/api/v1/meeting_manager/getMeetingV2/' + this.institution_id;
