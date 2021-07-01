@@ -43,11 +43,18 @@
 <section class="middle-main clearFix" id="bulkEnquiryMain">
   <div class="file-upload-box">
     <div class="select-file-upload">
+      <div class="h5">
+        <div style="float: left;">
       <h5>Upload {{activeSession.name}} image here
 
         <span *ngIf="activeSession.id != 'logoImage'">(Size (Width * Height) : {{activeSession.width}}px * {{activeSession.height}}px)</span>
         <span *ngIf="activeSession.id == 'logoImage'">(Size (Width * Height) : 200px * 50px OR 50px * 50px)</span>
       </h5>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-weight: 600;">Note:</span> For image resizing refer <a href="https://imageresizer.com/" target="_blank">https://imageresizer.com/</a>
+      </div>
+      </div>
       <div class="">
         <ul>
           <li>

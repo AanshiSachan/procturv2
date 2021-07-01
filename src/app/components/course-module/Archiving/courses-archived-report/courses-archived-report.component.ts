@@ -120,7 +120,7 @@ export class CoursesArchivedReportComponent implements OnInit {
     },
     {
       primary_key: 'archived_date',
-      value: "Deleted Date Time",
+      value: "Deleted Date & Time",
       charactLimit: 20,
       sorting: false,
       visibility: true

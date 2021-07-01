@@ -156,11 +156,8 @@
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="account">
                     <div style="border-bottom: 1px solid lightgrey;">
-                        <div class="accHead" style="font-size: 12px !important;">
-                            User Name - {{user_name}}
-                        </div>
                         <div class="accHead">
-                            MY ACCOUNT (ID- {{globalSearchForm.instituteId}})
+                            {{user_name}} {{userType == '3' ? '(Faculty)' : ''}} (ID- {{globalSearchForm.instituteId}})
                         </div>
                         <div class="row">
                             <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
