@@ -20,7 +20,7 @@ export class AddSalaryPaymentComponent implements OnInit {
     institute_id:'',
   }
   historyModel={
-    sal_month:moment('MM-YYYY'),
+    sal_month: moment(new Date()).format('YYYY-MM'),
     total_hours:'',
     overtime_hours:'',
     payment_amount:'',
@@ -117,7 +117,7 @@ createSalaryPayment(){
     user_id :this.userId,
     role_id :this.selectedId,
     teacher_id:this.selectedTeacherId,
-    month:this.historyModel.sal_month,
+    month:moment(this.historyModel.sal_month).format('YYYY-MM'),
     institute_id:this.jsonFlag.institute_id,
     comment:this.historyModel.comment,
     payment_method:this.historyModel.payment_method,
@@ -218,9 +218,17 @@ return;
     this.historyModel.payment_method=""
     this.historyModel.total_hours=""
     this.historyModel.payment_amount=""
+    this.historyModel.sal_month= moment(new Date()).format('YYYY-MM')
+
     
   }
   backPage(){
     this.location.back()
     }
+    onOpenCalendar(container) {
+ container.monthSelectHandler = (event: any): void => {
+   container._store.dispatch(container._actions.select(event.date));
+ };     
+ container.setViewMode('month');
+}
 }

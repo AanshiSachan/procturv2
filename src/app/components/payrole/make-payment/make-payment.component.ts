@@ -67,7 +67,7 @@ console.log("teacherlisttttttt",this.teacherList)
 getAlluserData(){
   if(this.selectedId !=-1){
   this.auth.showLoader();
-   let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/users/'+this.selectedId;
+   let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/users/'+this.selectedId +'?=isForPayment';
    this.http.getData(url).subscribe(
      (res:any)=>{
    this.allUserDataList = res.result;

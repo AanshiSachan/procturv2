@@ -56,12 +56,12 @@
                         <input type="text" name="sal_month" class="form-ctrl widgetDatepicker bsDatepicker"  style="padding: 6px;" readonly="true" id="sal_month" [(ngModel)]="historyModel.sal_month"  bsDatepicker/>
                         <span class="text-red"></span>
                     </div> -->
-                    <div class="form-group ">
+                    <div class="form-group">
                       <label for="month">Month <span class="text-red">*</span></label>
                       <!-- <input type="month" name="sal_month" class="form-control"   id="sal_month" [(ngModel)]="historyModel.sal_month" > -->
 
                       <span class="text-red"></span>
-                      <input type="text" [(ngModel)]="historyModel.sal_month" autocomplete="off" class="form-control" name="sal_month" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}">
+                      <input  [(ngModel)]="historyModel.sal_month" autocomplete="off" class="form-control" name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'YYYY-MM'}" (onShown)="onOpenCalendar($event)">
                   </div>
 
                     <div class="form-group " *ngIf="historyModel.salary_type == 'H'">
@@ -76,7 +76,7 @@
                     
                     <div class="form-group ">
                         <label for="payment_amount">Payment Amount <span class="text-red">*</span></label>                            
-                         <input type="text" name="payment_amount"  onKeyPress="if(this.value.length==9) return false;" onpaste="return false" oncopy="return false" maxlength="30" class="form-control" id="payment_amount" [(ngModel)]="historyModel.payment_amount" autocomplete="off">
+                         <input type="text" name="payment_amount"  onKeyPress="if(this.value.length==9) return false;" onpaste="return false" oncopy="return false" maxlength="10" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  id="payment_amount" [(ngModel)]="historyModel.payment_amount" autocomplete="off">
                         <span class="text-red">
                         </span>
                     </div>
