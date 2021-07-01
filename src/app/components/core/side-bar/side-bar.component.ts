@@ -175,7 +175,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   schoolModel: boolean = false;
   is_zoom_integration_enable: boolean = false;
   custom_text_for_power_by_proctur:any = '';
-  showMaximizedPopup:boolean = true;
+  showMaximizedPopup:boolean = false;
+  user_name:any='';
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -201,6 +202,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
     this.instituteId = sessionStorage.getItem('institute_id');
+    this.user_name = sessionStorage.getItem('username');
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -442,7 +444,11 @@ mouseleave() {
       });
     }
     if (this.userType == 3) {
-      this.jsonCommunicateFlags.communicateMenu = false;
+      this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+      this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+      this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
+      this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
+      this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
     }
   }
   checkPermissionForFees() {

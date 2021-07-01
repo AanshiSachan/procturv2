@@ -87,7 +87,7 @@ export class BatchesArchivedReportComponent implements OnInit {
       },
       {
         primary_key: 'archived_date',
-        value: "Archived Date Time",
+        value: "Deleted Date Time",
         charactLimit: 20,
         sorting: false,
         visibility: true

@@ -59,9 +59,12 @@
     padding: 35px 20px;
     max-width: 100%;
     margin-right: 20px;
-    h5 {
-        margin-top: 20px;
+    .h5 {
+        margin-top: 10px;
         margin-bottom: 25px;
+        font-size: 14px;
+    } 
+    h5{
         font-size: 14px;
     }
     .select-file-upload {
