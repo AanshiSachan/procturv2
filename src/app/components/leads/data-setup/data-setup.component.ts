@@ -60,6 +60,8 @@ export class DataSetupComponent implements OnInit {
   tempArealist: any[] = [];
   addArea: boolean = false;
   deleteAreaId: any = '';
+  component_id:any='';
+  isEditCustumFormField:string='Add'
 
   selectedData = {
     country: '',
@@ -364,6 +366,7 @@ export class DataSetupComponent implements OnInit {
       }
     )
   }
+  // =====================custm-frm-field================
   checkValuetype(value) {
     this.editCustomFormField.comp_length = value == 1 ? 50 : 0
   }
@@ -397,12 +400,15 @@ fetchCustomFild(){
   
 }
 addNewCustomField(){
+
   this.auth.showLoader();
   this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
     res=>{
       this.auth.hideLoader();
       this.services.showErrorMessage('success', '', 'Form-Field added successfully');
-      //this.cancelEditRow();
+      this.cleareForm()
+      $('#customField').modal('hide');
+
       this.fetchCustomFild()
     },
     err => {
@@ -410,7 +416,85 @@ addNewCustomField(){
       this.services.showErrorMessage('error', '', 'Label name is already created with the same name');
     });
     }
-  
+    onClickeditCustomField(obj){
+      //this.component_id = obj.component_id
+      this.editCustomFormField = obj
+      this.isEditCustumFormField='Edit'
+
+    
+    }
+
+updateCustumField(){
+  this.isEditCustumFormField='Edit'
+
+  let obj =this.editCustomFormField
+  this.auth.showLoader();
+  this.postData.updateCustomComponent(obj).subscribe(
+    res => {
+      this.auth.hideLoader();
+      this.services.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
+      this.cleareForm()
+      $('#customField').modal('hide');
+
+    },
+    err => {
+      this.auth.hideLoader();
+      this.services.showErrorMessage('error', '', err.error.message);
+    }
+  );
+}
+
+
+
+
+selecteCustomformId(obj){
+  this.component_id = obj
+}
+deleteCustumfomField(){
+  let obj = this.component_id
+  this.auth.showLoader();
+  this.postData.deleteCustomComponent(obj).subscribe(
+    res => {
+      this.auth.hideLoader();
+      this.services.showErrorMessage('success', 'Form-field Deleted ', 'requested form-field deleted Successfully');
+     this.fetchCustomFild()
+     $('#deleteModal').modal('hide');
+
+
+     
+    },
+    err => {
+      this.auth.hideLoader();
+      this.services.showErrorMessage('error', '', err.error.message);
+    }
+  );
+}
+cleareForm(){
+  this.isEditCustumFormField ="Add"
+  this.emptyCustomField()
+}
+
+emptyCustomField(){
+  this.editCustomFormField = {
+    comp_length: '',
+    description: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    is_required: "N",
+    is_searchable: "N",
+    label: "",
+    page: 1,
+    prefilled_data: "",
+    sequence_number: "",
+    type: "",
+    on_both: "Y",
+    defaultValue: "",
+    is_external: "N"
+  }
+
+}
+
+
+  // =========================end===============================
 
   updateRefer(obj) {
     let data = {

@@ -29,6 +29,7 @@ import { StudentAddNewComponent } from './student-add-new/student-add-new.compon
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 import { StudentHomev2Component } from './student-homev2/student-homev2.component';
 import { ViewReportCardV2Component } from './view-report-card-v2/view-report-card-v2.component';
+import { StudentAdditionalformFieldComponent } from './student-additionalform-field/student-additionalform-field.component';
 
 @NgModule({
   imports: [
@@ -65,7 +66,8 @@ import { ViewReportCardV2Component } from './view-report-card-v2/view-report-car
     StudentAddNewComponent,
     StudentEditNewComponent,
     StudentHomev2Component,
-    ViewReportCardV2Component
+    ViewReportCardV2Component,
+    StudentAdditionalformFieldComponent
   ],
   providers: [
     AddStudentPrefillService,

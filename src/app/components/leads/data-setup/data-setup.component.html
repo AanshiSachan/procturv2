@@ -64,6 +64,8 @@
         <button *ngIf="activeSession == 'city_area'" type="button" class="btn btn-default delete-btn" (click)="deleteArea()">Yes, delete it!</button>
         <button *ngIf="activeSession == 'source'" type="button" class="btn btn-default delete-btn" (click)="deleteSource(deleteAreaId)">Yes, delete it!</button>
         <button *ngIf="activeSession == 'Referred_by'" type="button" class="btn btn-default delete-btn" (click)="deleteRefer(deleteAreaId)">Yes, delete it!</button>
+        <button *ngIf="activeSession == 'customForm-field'" type="button" class="btn btn-default delete-btn" (click)="deleteCustumfomField(component_id)">Yes, delete it!</button>
+
       </div>
     </div>
 
@@ -449,8 +451,11 @@
 
                 <div style="width: 20%;"  class="tableData">
                   <span class="right pr-40">
-                  <a  style="vertical-align: middle;cursor: pointer;">
+                  <a data-toggle="modal" data-target="#customField" (click)="onClickeditCustomField(item)"  style="vertical-align: middle;cursor: pointer;">
                     <img src="../../../../assets/images/EDit.png">
+                  </a>
+                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="selecteCustomformId(item.component_id)" style="cursor: pointer;" class="pl-10">
+                    <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
                   </a>
                 </span>
               </div>
@@ -488,7 +493,8 @@
     </svg>
   </span>
 
-  <h2 popup-header>Add Field</h2>
+  <h2 popup-header  *ngIf="isEditCustumFormField=='Add'">Add Field</h2>
+  <h2 popup-header *ngIf="isEditCustumFormField=='Edit'">Edit Field</h2>
 
   <div class="row updatecomponent-wrapper" popup-content>
 
@@ -606,11 +612,12 @@
   <div class="" popup-footer>
     <div class="clearfix">
       <aside class="pull-right popup-btn">
-        <input type="button" value="Cancel" class="btn2 txt_font" >
-        <!-- <input type="button" value="Update " *ngIf="isEdit=='Edit'" class="fullBlue btn txt_font"
-          (click)="updateRow()"> -->
-        <input type="button" value="Add " (click)="addNewCustomField()" class="fullBlue btn txt_font"
-          >
+        <!-- <input type="button" value="Cancel" class="btn2 txt_font" > -->
+        <input type="button" value="Add" *ngIf="isEditCustumFormField =='Add'" (click)="addNewCustomField()" class="fullBlue btn txt_font"
+        >
+        <input type="button" value="Update " *ngIf="isEditCustumFormField =='Edit'" class="fullBlue btn txt_font"
+          (click)="updateCustumField()">
+      
       </aside>
     </div>
   </div>
