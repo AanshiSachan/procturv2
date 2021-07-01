@@ -9,7 +9,7 @@
           <span class="right">
             <!-- <a href=""><img src="../../../assets/img_view/image17.svg" class="ml-10"></a>
               <a href=""><img src="../../../assets/img_view/document.svg" class="ml-10"></a> -->
-            <a (click)="editStudent(student_id)"style="cursor:pointer;" ><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
+            <a *ngIf="allowEdit" (click)="editStudent(student_id)"style="cursor:pointer;" ><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
           </span>
         </div>
       </div>

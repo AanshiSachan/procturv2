@@ -135,6 +135,7 @@ export class ViewReportCardV2Component implements OnInit {
   isActiveTab = 'profile';
   downloadStudentReportAccess: boolean = false;
   studentReport: boolean = false;
+  allowEdit: boolean = false;
 
   checkDownloadRoleAccess() {
     if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
@@ -144,8 +145,10 @@ export class ViewReportCardV2Component implements OnInit {
     const userType = sessionStorage.getItem('userType');
     if (userType == '3' ||(userType == '0' && (permissionArray != "" && permissionArray != null))) {
       this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
+      this.allowEdit = this.role_feature.STUDENT_MANAGE;
     } else {
       this.studentReport = true;
+      this.allowEdit = true;
     }
   }
 
