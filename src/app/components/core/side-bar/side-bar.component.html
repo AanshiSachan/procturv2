@@ -78,8 +78,11 @@
     <div class="spacer"></div>
     <div style="margin-right: 4%;">
 
+        <a mat-button style=" margin-left: 15px;" (click)="showMaximizedPopup = true"><img
+            src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a>
+
         <!-- DataSetup-->
-        <a data-toggle="modal" data-dismiss="modal" href="#releaseNote" mat-button style="margin-right: 0;margin-left: 9px;">
+        <a data-toggle="modal" data-dismiss="modal" href="#releaseNote" mat-button style="margin-right: 0;">
                 <img style="width: auto;" src="./assets/images/sidebar/Announcement.svg" title="What's New ?" alt="">
         </a>
 
@@ -99,8 +102,6 @@
         <!-- My Account -->
         <a mat-button style=" margin-left: -15px;" (click)="showSubSection('account')"><img
                 src="./assets/images/sidebar/myAccount.svg" title="My Account" alt=""></a>
-        <!-- <a mat-button style=" margin-left: -15px;" href="https://tawk.to/proctur" target="_blank"><img
-                src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a> -->
         <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
             <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
                 <div class="side-section" id="help1">
@@ -1093,10 +1094,10 @@
         <p><img src="../../../../assets/query_popup/email.svg">support@proctur.com</p>
     </div>
 </div>
-<div class="query_mini" *ngIf="!showMaximizedPopup">
+<!-- <div class="query_mini" *ngIf="!showMaximizedPopup">
     <div style="cursor: pointer;" (click)="showMaximizedPopup = true">
         <span>Chat with Us</span>
         <img src="../../../../assets/query_popup/question.svg">
         <span class="white"></span>
     </div>
-</div>
+</div> -->

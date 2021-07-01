@@ -119,13 +119,12 @@ input {
 .helpBtn {
   border: none;
   padding: 0;
-  margin-top: 15px;
-  position: absolute;
-  right: 11rem;
-  background: none;
-}
-.new-modules-list ul{
   margin-top: 10px;
-    list-style-type: disc;
-    margin-left: 30px;
+  position: absolute;
+  background: none;
+  font-size: 12px;
+  font-weight: normal;
+  color: #000;
+  left: 32rem;
+  text-align: left;
 }
