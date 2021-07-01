@@ -206,7 +206,7 @@ export class role {
         role.features.STUDENT_MANAGE = permissions.includes(5012) ? true : false;
         role.features.STUDENT_REPORT_CARD = permissions.includes(5013) ? true : false;
         role.features.FEE_MENU = permissions.includes(5014) ? true : false;
-        role.features.FEE_MANAGE = permissions.includes(5015) ? true : false;
+        role.features.FEE_MANAGE = permissions.includes(5103) ? true : false;
         role.features.FEE_CHEQUE_MANAGE = permissions.includes(5016) ? true : false;
         role.features.FEE_DUE_DETAILS = permissions.includes(5017) ? true : false;
         role.features.FEE_PAYMENT_HISTORY = permissions.includes(5123) ? true : false;

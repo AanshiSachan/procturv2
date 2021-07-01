@@ -87,7 +87,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     const permissionArray = sessionStorage.getItem('permissions');
     const userType = sessionStorage.getItem('userType');
 
-    if (userType == '0' && (permissionArray != "" && permissionArray != null)) {
+    if (userType == '3' ||(userType == '0' && (permissionArray != "" && permissionArray != null))) {
       this.isSubAdmin = true;
       this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
       this.allowEdit = this.role_feature.STUDENT_MANAGE;

@@ -9,7 +9,7 @@
           <span class="right">
             <!-- <a href=""><img src="../../../assets/img_view/image17.svg" class="ml-10"></a>
               <a href=""><img src="../../../assets/img_view/document.svg" class="ml-10"></a> -->
-            <a (click)="editStudent(student_id)"><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
+            <a *ngIf="allowEdit" (click)="editStudent(student_id)"style="cursor:pointer;" ><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
           </span>
         </div>
       </div>
@@ -28,7 +28,7 @@
           <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
         </div>
         <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
-          <span class="rollno">Student&nbsp;ID<br><span class="number">{{studentCommanData.reg_no}}</span></span>
+          <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:13px">{{studentCommanData.reg_no}}</span></span>
         </div>
       </div>
       <div class="wm70">
@@ -76,14 +76,14 @@
             > 20) ? (data| slice:0:20) + '...' : data }}</div>
         </div>
       </div>
-      <div class="padding4">
+      <div class="padding4" *ngIf="downloadStudentReportAccess || (downloadStudentReportAccess && studentReport)">
         <p class="course_text">Download:</p>
         <div>
-          <a class="mr15" id="downloadFileClick1" (click)="downloadStudentReportCard()"><img
+          <a class="mr15" *ngIf="downloadStudentReportAccess && studentReport" id="downloadFileClick1" (click)="downloadStudentReportCard()"><img
               src="../../../assets/img_view/Group345.svg" title="Report Card"></a>
           <!-- <a class="mr15" (click)="manageFees()"><img src="../../../assets/img_view/Group343.svg"
               title="Manage Fees"></a> -->
-          <a class="mr15" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg"
+          <a class="mr15" *ngIf="downloadStudentReportAccess" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg"
               title="ID Card"></a>
           <!-- <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
             <a class="mr15"><img src="../../../assets/img_view/Group347.svg" title="View Report"></a> -->
@@ -100,9 +100,9 @@
           </div>
           <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''"
             (click)="openTab('attendance')">Attendance</div>
-          <div id="fees" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
+          <div id="fees" *ngIf="checkIfUserHadAccess(role_feature.FEE_MANAGE)" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
           <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}" (click)="openTab('documents')">
-            Files</div>
+            Files</div> 
           <div id="inventory" [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">
             Inventory</div>
           <div id="ptm" [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
@@ -235,6 +235,7 @@
                 studentCommanData.mother_tongue=="" ?'---':studentCommanData.mother_tongue}}</span>
             </div>
           </div>
+          
           <div class="outter_flex">
             <div class="w15">
               <span class="name1">Current Address &nbsp;:</span>
@@ -473,8 +474,8 @@
         <div id="fees_tab" *ngIf="isActiveTab =='fees'">
           <!-- Fees -->
           <div class="row radio_div1 no-gutters">
-<div class="col-lg-10">
-            <select class="select mr10 wid160" [(ngModel)]="Fee_model.academic_yr_id" style="width: 20%;">
+       <div class="col-lg-10">
+            <select class="select mr10 wid160" [(ngModel)]="Fee_model.academic_yr_id" style="width: 25%;">
               <option value="-1">Academic Year</option>
               <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
                 {{data.inst_acad_year}}</option>
@@ -1544,7 +1545,7 @@
           </div>
         </div>
 
-        <div class="grey_head" style="margin-left: 1px;">
+        <div class="grey_head" style="margin-left: 1px;padding-left: 13px;">
           <div>Date / Time</div>
           <div>Class</div>
           <div>Class Room</div>
@@ -1592,8 +1593,8 @@
                 </span>
               </div>
               <div>{{row.class_room_name==""?'--':row.class_room_name}}</div>
-              <div><span class="subject1" title="{{row.batchName}}"> {{ (row.batchName?.length
-                > 30) ? (row.batchName| slice:0:30) + '...' : row.batchName }}</span></div>
+              <div style="cursor: pointer;margin-left: -3px;"><span class="subject1" title="{{row.batchName}}"> {{ (row.batchName?.length
+                > 35) ? (row.batchName| slice:0:35) + '...' : row.batchName }}</span></div>
               <div>{{row.teacher_name}}</div>
               <div></div>
             </div>
