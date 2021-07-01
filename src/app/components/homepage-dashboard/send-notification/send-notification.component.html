@@ -461,8 +461,8 @@
 
   </div>
 </div>
-<!-- ==================selecte-email==================================   -->
-<div class="page-content6 selected2" *ngIf="jsonFlag.selectedPushCheckbox">
+<!-- ==================selecte-push==================================   -->
+<!-- <div class="page-content6 selected2" *ngIf="jsonFlag.selectedPushCheckbox">
   <div class="page_heading">
     <p>
       Selected Push Message
@@ -481,7 +481,32 @@
 
     </div>
     <div>
-      <button class="blue_button" (click)="onClickPushSentTo()">Send To</button>
+      <button class="blue_button " (click)="onClickPushSentTo()">Send To</button>
     </div>
   </div>
+</div> -->
+<div class="page-content6 selected2" *ngIf="jsonFlag.selectedPushCheckbox">
+  <div class="page_heading">
+    <p>
+      Selected Push Message
+    </p>
+    <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;"
+    (click)="closeDiv()">
+  </div>
+  <div class="page_body">
+
+    <div>
+      <p style="float: left;">Message Description</p>
+      <textarea disabled placeholder="Write your message here...">{{selectedRow}}</textarea>
+
+    </div>
+    <div>
+
+    </div>
+  </div>
+  <div class="page_footer">
+    <div></div>
+    <button class="blue_button" (click)="onClickPushSentTo()">Send To</button>
+  </div>
 </div>
+
