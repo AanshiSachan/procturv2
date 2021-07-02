@@ -70,9 +70,9 @@ export class MarkAttendanceComponent implements OnInit {
         this.allMarkAttendanceList = res.result;
         this.attendanceList = res.result;
         console.log("attendance data",this.allMarkAttendanceList)
-      // if(this.allMarkAttendanceList[0].last_attendance_updated_date != null){
+      if(this.allMarkAttendanceList[0].last_attendance_updated_date != null){
         this.lastAttendanceUpdatedDate = moment(this.allMarkAttendanceList[0].last_attendance_updated_date).format('DD-MM-YYYY');
-        //}
+        }
         if (this.lastAttendanceUpdatedDate == null) {
           for (let i = 0; this.allMarkAttendanceList.length; i++) {
             this.allMarkAttendanceList[i].attendance_status = 'Present'
@@ -131,6 +131,7 @@ export class MarkAttendanceComponent implements OnInit {
 
         this.updateAttendanceList = res.result;
         this.msgService.showErrorMessage('success', '', "Attendance updated successfully");
+        this.getAllmarkAttendance()
 
       },
       err => {
@@ -164,6 +165,8 @@ export class MarkAttendanceComponent implements OnInit {
         this.auth.hideLoader();
         this.createAttendanceList = res.result;
         this.msgService.showErrorMessage('success', '', "Attendance created successfully");
+        this.getAllmarkAttendance()
+
 
       },
       err => {
