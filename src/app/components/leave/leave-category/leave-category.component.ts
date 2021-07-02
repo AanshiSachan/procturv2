@@ -78,7 +78,7 @@ name: this.leaveType.name,
     this.auth.hideLoader();
 
     if (res.statusCode == 200) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Leave created successfully');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Leave category created successfully');
       this.closePopups(false);
 
 
@@ -135,7 +135,7 @@ this.httpService.putData(url, obj).subscribe((res :any)=>{
 
   this.leaveType.name=''
 
-  this.msgService.showErrorMessage('success', '', "Leave updated successfully");
+  this.msgService.showErrorMessage('success', '', "Leave category updated successfully");
   $('#editModal').modal('hide');
   
 
@@ -166,7 +166,7 @@ deleteLeave(){
   this.getAllleaveType()
   this.auth.hideLoader()
 
-  this.msgService.showErrorMessage('success', '', "Leave deleted successfully");
+  this.msgService.showErrorMessage('success', '', "Leave category deleted successfully");
   $('#deleteModal').modal('hide');
 
 },
