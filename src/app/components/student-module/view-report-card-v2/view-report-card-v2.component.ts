@@ -451,6 +451,7 @@ export class ViewReportCardV2Component implements OnInit {
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
             dwldLink.click();
+            dwldLink.setAttribute("href","")
           }
           else {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
@@ -482,6 +483,7 @@ export class ViewReportCardV2Component implements OnInit {
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
             dwldLink.click();
+            dwldLink.setAttribute("href","")
           }
           else {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
