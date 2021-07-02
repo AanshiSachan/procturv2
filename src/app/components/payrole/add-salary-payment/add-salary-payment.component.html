@@ -61,7 +61,7 @@
                       <!-- <input type="month" name="sal_month" class="form-control"   id="sal_month" [(ngModel)]="historyModel.sal_month" > -->
 
                       <span class="text-red"></span>
-                      <input  [(ngModel)]="historyModel.sal_month" autocomplete="off" class="form-control" name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'YYYY-MM'}" (onShown)="onOpenCalendar($event)">
+                      <input  [(ngModel)]="sal_month" autocomplete="off" class="form-control" name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'YYYY-MM'}" (onShown)="onOpenCalendar($event)">
                   </div>
 
                     <div class="form-group " *ngIf="historyModel.salary_type == 'H'">
@@ -87,6 +87,7 @@
                         <option value="0">Select Payment Method</option>
                         <option value="cash">Cash</option>
                          <option value="cheque">Cheque</option>
+                         <option value="Net Banking">Net Banking</option>
                             </select>
                         <span class="text-red">
                          </span>

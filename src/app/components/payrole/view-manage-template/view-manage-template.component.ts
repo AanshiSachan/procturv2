@@ -58,11 +58,11 @@ export class ViewManageTemplateComponent implements OnInit {
       this.selectedTeacherId = params['teacher_id'];
       this.userId =params['user_id']
     });
-    this.getsalaryById()
+    this.getsalaryViewById()
   }
 
 
-  getsalaryById(){
+  getsalaryViewById(){
      this.auth.showLoader();
     let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/view/'+this.userId+'/'+this.selectedTeacherId
     this.http.getData(url).subscribe(

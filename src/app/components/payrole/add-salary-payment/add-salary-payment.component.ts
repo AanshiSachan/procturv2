@@ -20,7 +20,6 @@ export class AddSalaryPaymentComponent implements OnInit {
     institute_id:'',
   }
   historyModel={
-    sal_month: moment(new Date()).format('YYYY-MM'),
     total_hours:'',
     overtime_hours:'',
     payment_amount:'',
@@ -40,6 +39,7 @@ export class AddSalaryPaymentComponent implements OnInit {
 
 
   }
+  sal_month= moment(new Date()).format('YYYY-MM')
   allHistoryPementList:any=[]
   searchList:any=[]
   userId:any
@@ -72,9 +72,8 @@ export class AddSalaryPaymentComponent implements OnInit {
       this.userId =params['user_id']
       console.log("rolr id",this.selectedId)
     });
- console.log("iddddd", this.historyModel.sal_month)
     this.getHistoryPayement()
-    //this.getPaymentDetails()
+    this.getPaymentDetails()
   }
 getHistoryPayement(){
   let url='/api/v1/payroll/payment/history/'+this.jsonFlag.institute_id+'/paymentHistories/'+this.userId+'/'+this.selectedTeacherId
@@ -97,7 +96,7 @@ getPaymentDetails(){
   this.http.getData(url).subscribe(
     (res:any)=>{
       let payementDatails = res.result.template_dto;
-      this.historyModel = payementDatails
+      this.historyModel =  res.result.template_dto;
       this.historyModel.user_name = res.result.user_name
     this.historyModel .user_gender =res.result.user_gender
     this.historyModel .user_dob=res.result.user_dob,
@@ -113,13 +112,14 @@ getPaymentDetails(){
     }
   )
 }
+
 createSalaryPayment(){
   if(this.validInput()){
   let obj ={
     user_id :this.userId,
     role_id :this.selectedId,
     teacher_id:this.selectedTeacherId,
-    month:moment(this.historyModel.sal_month).format('YYYY-MM'),
+    month:moment(this.sal_month).format('YYYY-MM'),
     institute_id:this.jsonFlag.institute_id,
     comment:this.historyModel.comment,
     payment_method:this.historyModel.payment_method,
@@ -221,7 +221,7 @@ return;
     this.historyModel.payment_method=""
     this.historyModel.total_hours=""
     this.historyModel.payment_amount=""
-    this.historyModel.sal_month= moment(new Date()).format('YYYY-MM')
+    this.sal_month= moment(new Date()).format('YYYY-MM')
 
     
   }
