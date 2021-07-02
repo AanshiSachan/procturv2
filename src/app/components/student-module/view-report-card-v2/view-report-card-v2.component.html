@@ -1043,9 +1043,9 @@
               <div>
                 Allocation Date
               </div>
-              <div>
+              <!-- <div>
                    Action
-                  </div>
+                  </div> -->
             </div>
             <div class="table_body" *ngFor="let data of inventoryDetails;index as i ">
               <div>
@@ -1063,9 +1063,9 @@
               <div>
                 {{data.created_date | date:'dd-MM-yyyy'}}
               </div>
-               <div>
+               <!-- <div>
                   <a><img src="/assets/img2/delete.svg" class="size22" title="delete"></a>
-            </div>
+            </div> -->
           </div>
           <div class="nodata" *ngIf="inventoryDetails?.length == 0">
             <span style="text-align: center">
