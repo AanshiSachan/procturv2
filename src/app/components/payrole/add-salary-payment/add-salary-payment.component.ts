@@ -50,6 +50,7 @@ export class AddSalaryPaymentComponent implements OnInit {
   comment:any
   month:any
   searchInput:any
+  template_id:any
   constructor( private router: Router,
     private http: HttpService, 
     private auth :AuthenticatorService,
@@ -62,6 +63,7 @@ export class AddSalaryPaymentComponent implements OnInit {
       this.selectedId = JSON.parse(sessionStorage.getItem('selectedId'));
       this.selectedTeacherId = sessionStorage.getItem('teacher_id')
       this.userId = sessionStorage.getItem('user_id')
+      this.template_id = sessionStorage.getItem('template_id')
     
     }
   ngOnInit(): void {
@@ -124,6 +126,7 @@ createSalaryPayment(){
     payment_amount:this.historyModel.payment_amount,
     overtime_hours:this.historyModel.overtime_hours,
     total_hours:this.historyModel.total_hours,
+    template_id:this.template_id
 
   }
   let url='/api/v1/payroll/payment/history/create'

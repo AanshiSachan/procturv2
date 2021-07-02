@@ -46,6 +46,8 @@ onclickMakePayment(obj){
     teacher_id = 0;
     user_id = obj.user_id;
   }
+  let template_id = obj.template_id
+  sessionStorage.setItem('template_id',template_id)
 this.router.navigateByUrl('/view/payrole/add-salary-payment/' +teacher_id + '/' + user_id)
 }
 getAllUserRol(){
