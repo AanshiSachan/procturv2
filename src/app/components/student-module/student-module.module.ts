@@ -30,6 +30,8 @@ import { StudentEditNewComponent } from './student-edit-new/student-edit-new.com
 import { StudentHomev2Component } from './student-homev2/student-homev2.component';
 import { ViewReportCardV2Component } from './view-report-card-v2/view-report-card-v2.component';
 import { StudentAdditionalformFieldComponent } from './student-additionalform-field/student-additionalform-field.component';
+import { CheckBoxConverterPipe } from '../custom-common/check-box-converter.pipe';
+
 
 @NgModule({
   imports: [
@@ -67,7 +69,8 @@ import { StudentAdditionalformFieldComponent } from './student-additionalform-fi
     StudentEditNewComponent,
     StudentHomev2Component,
     ViewReportCardV2Component,
-    StudentAdditionalformFieldComponent
+    StudentAdditionalformFieldComponent,
+    CheckBoxConverterPipe
   ],
   providers: [
     AddStudentPrefillService,
