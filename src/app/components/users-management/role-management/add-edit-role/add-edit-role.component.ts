@@ -216,7 +216,7 @@ export class AddEditRoleComponent implements OnInit {
           this.route.navigateByUrl('/view/manage/role');
         },
         err => {
-          this.messageNotifier('error', 'error', err.error.message);
+          this.messageNotifier('error', '', err.error.message);
         }
       )
     }
