@@ -1,3 +1,5 @@
+@import "./src/assets/css/common/variables.scss";
+
 .middle-section {
     padding: 1%;
 }
@@ -559,24 +561,39 @@ select {
     background-color: #fff !important;
   }
 //   ===========custom-field-popups===============
+
 .btn2 {
     background: white;
     color: #0084f6;
 }
-.middle-main clearFix {
-    .middle {
-      font-size: 30px;
-      margin-left: 25px;
-      margin-top: 10px;
-      font-weight: 600px !important;
-    }
+
+.createcomponent-wrapper {
+    padding: 10px 5px;
+    background: #efefef;
+    border: 1px solid #d8d8d8;
+    height: 100%;
+    width: 100%;
+.form-ctrl {
+    background: transparent;
+    border-bottom: solid 1px #cccccc !important;
   }
-.txt_font {
-    font-size: 12px;
+
+  .field-wrapper .form-ctrl {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 0 5px;
+    outline: none;
+    border: 0;
+    height: 36px;
+    box-shadow: none;
+    border-radius: 0;
+    line-height: 24px;
+  }
 }
 .updatecomponent-wrapper {
-    padding: 6px 5px;
-    //margin: 20px 0;
+    padding: 10px 5px;
+    margin: 20px 0;
     background: #efefef;
     border-radius: 5px;
     border: 1px solid #d8d8d8;
@@ -608,10 +625,10 @@ select {
       box-shadow: none;
       border-radius: 0;
       line-height: 24px;
-      margin: 0px;
     }
   }
-.closePopup {
+  
+  .closePopup {
     right: 10px;
     top: 10px;
     font-size: 18px;
@@ -656,8 +673,16 @@ select {
   
     &:hover {
       .cls-1 {
-        stroke: blue;
+        stroke: $common-blue;
       }
     }
   }
-// =============end=============
+  b{
+      font-weight: 600;
+  }
+  .empdata{
+  justify-content: center;
+    padding-top: 8%;
+    margin-left: 2%;
+  }
+//   ===========end===================

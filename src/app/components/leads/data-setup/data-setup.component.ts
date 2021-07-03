@@ -25,6 +25,8 @@ export class DataSetupComponent implements OnInit {
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1];
   dataStatus: boolean = false;
+  schoolModel: boolean = false;
+
   activeSession: any = 'source';
   sourceDetails: any = [];
   referList: any = [];
@@ -61,7 +63,7 @@ export class DataSetupComponent implements OnInit {
   addArea: boolean = false;
   deleteAreaId: any = '';
   component_id:any='';
-  isEditCustumFormField:string='Add'
+  isEditCustumFormField:string=''
 
   selectedData = {
     country: '',
@@ -93,6 +95,14 @@ export class DataSetupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
     // this.getAllReasons();
     this.getSourceDetails();
     this.fetchPrefillData()
@@ -401,21 +411,89 @@ fetchCustomFild(){
 }
 addNewCustomField(){
 
-  this.auth.showLoader();
-  this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
-    res=>{
-      this.auth.hideLoader();
-      this.services.showErrorMessage('success', '', 'Form-Field added successfully');
-      this.cleareForm()
-      $('#customField').modal('hide');
+ //Case 1 Label/Type is not empty and MaxLength and Sequence
+ if (this.editCustomFormField.label.trim() != "") {
+  if (this.editCustomFormField.type != "") {
+    //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
+    if (this.editCustomFormField.type == "3" ||
+      this.editCustomFormField.type == "4") {
+      /* Validate Prefilled Data */
+      if (this.validateDropDown(this.editCustomFormField.prefilled_data)) {
+        if (this.validateDropdownDefvalue(this.editCustomFormField.prefilled_data, this.editCustomFormField.defaultValue)) {
+          this.auth.showLoader();
+          this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
+            res => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('success', '', 'Form-Field added successfully');
+              this.fetchCustomFild()
 
-      this.fetchCustomFild()
-    },
-    err => {
-      this.auth.hideLoader();
-      this.services.showErrorMessage('error', '', 'Label name is already created with the same name');
-    });
+              this.cleareForm();
+            },
+            err => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('error', '', 'Label name is already created with the same name');
+            });
+        }
+        else {
+          this.services.showErrorMessage('error', '', 'dropdown default value should be present in prefilled data');
+        }
+      }
+      else {
+        this.services.showErrorMessage('error', '', 'Prefill data has to be unique and non-empty');
+      }
     }
+    /* Date Custom Component */
+    else if (this.editCustomFormField.type == "5") {
+      /* Date cannot be searchable and does not a default value */
+      if (this.editCustomFormField.is_searchable == "N" && this.editCustomFormField.defaultValue.trim() == "") {
+        this.auth.showLoader();
+        this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
+          res => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('success', '', 'Form-Field added successfully');
+            this.fetchCustomFild()
+
+            this.cleareForm();
+
+          },
+          err => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('error', '', 'There was an error processing your request' + err.error.message);
+          });
+      }
+      else {
+        this.services.showErrorMessage('error', '', 'Date Field Cannot Be Searchable Or have any default value');
+      }
+    }
+    /* Textbox and Checkbox */
+    else if (this.editCustomFormField.type != "3" && this.editCustomFormField.type != "4" && this.editCustomFormField.type != "5") {
+      this.auth.showLoader();
+      this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
+        res => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('success', '', 'Form-Field added successfully');
+          this.fetchCustomFild()
+
+          this.cleareForm();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('error', '', 'Label name already exists');
+        });
+    }
+  }
+  else {
+    this.services.showErrorMessage('error', '', 'Please mention a type');
+  }
+}
+else {
+  this.services.showErrorMessage('error', '', 'Please mention a Label');
+}
+
+
+}
+  
+
     onClickeditCustomField(obj){
       //this.component_id = obj.component_id
       this.editCustomFormField = obj
@@ -423,27 +501,106 @@ addNewCustomField(){
 
     
     }
-
-updateCustumField(){
-  this.isEditCustumFormField='Edit'
-
-  let obj =this.editCustomFormField
-  this.auth.showLoader();
-  this.postData.updateCustomComponent(obj).subscribe(
-    res => {
-      this.auth.hideLoader();
-      this.services.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
-      this.cleareForm()
-      $('#customField').modal('hide');
-
-    },
-    err => {
-      this.auth.hideLoader();
-      this.services.showErrorMessage('error', '', err.error.message);
+    onClickAddField(type){
+      this.isEditCustumFormField = type
     }
-  );
-}
+updateCustumField(){
 
+
+  let data = this.editCustomFormField;
+  //Case 1 Label/Type is not empty and MaxLength and Sequence
+  if (data.label.trim() != "" && data.type != "") {
+    //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
+    if (data.type == "3" || data.type == "4") {
+      /* Validate Prefilled Data */
+      if (this.validateDropDown(data.prefilled_data)) {
+        if (this.validateDropdownDefvalue(data.prefilled_data, data.defaultValue)) {
+          this.auth.showLoader();
+          this.postData.updateCustomComponent(data).subscribe(
+            res => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
+              this.cleareForm();
+
+
+            },
+            err => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('error', '', err.error.message);
+            }
+          );
+        }
+        else {
+          this.services.showErrorMessage('error', 'dropdown default value should be present in prefilled data', '');
+        }
+      }
+      else {
+        this.services.showErrorMessage('error', 'Prefill data has to be unique and non-empty', '');
+      }
+    }
+
+    /* Date Custom Component */
+    else if (data.type == "5") {
+      /* Date cannot be searchable and does not a default value */
+      if (data.is_searchable == "N" && data.defaultValue.trim() == "") {
+        this.auth.showLoader();
+        this.postData.updateCustomComponent(data).subscribe(
+          res => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('success', '', 'Form-Field updated successfully');
+
+            this.cleareForm();
+
+          },
+          err => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('error', '', err.error.message);
+          }
+        );
+      }
+      else {
+        this.services.showErrorMessage('error', 'Date field cannot be searchable Or have any default value', '');
+      }
+    }
+    /* Textbox and Checkbox */
+    else if (data.type != "3" && data.type != "4" && data.type != "5") {
+      this.auth.showLoader();
+      this.postData.updateCustomComponent(data).subscribe(
+        res => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('success', '', 'Form-Field updated successfully');
+          this.fetchCustomFild()
+          this.cleareForm();
+
+        },
+        err => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('error', '', err.error.message);
+        }
+      );
+    }
+  }
+  else {
+    this.services.showErrorMessage('error', '', 'Please mention a label/type');
+  }
+}
+  // this.isEditCustumFormField='Edit'
+
+  // let obj =this.editCustomFormField
+  // this.auth.showLoader();
+  // this.postData.updateCustomComponent(obj).subscribe(
+  //   res => {
+  //     this.auth.hideLoader();
+  //     this.services.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
+  //     this.cleareForm()
+  //     $('#customField').modal('hide');
+
+  //   },
+  //   err => {
+  //     this.auth.hideLoader();
+  //     this.services.showErrorMessage('error', '', err.error.message);
+  //   }
+  // );
 
 
 
@@ -470,7 +627,7 @@ deleteCustumfomField(){
   );
 }
 cleareForm(){
-  this.isEditCustumFormField ="Add"
+  this.isEditCustumFormField =""
   this.emptyCustomField()
 }
 
@@ -725,4 +882,35 @@ emptyCustomField(){
     this.isEditcustumfield = '';
    
   }
+  validateDropDown(data) {
+    let arr: any[] = data.split(',');
+    /* boolean for non empty value */
+    let test1 = arr.every(function checkNonEmpty(el) {
+      return (el != "" && el != " ");
+    });
+    /* convert array to set unique value */
+    this.editCustomFormField.prefilled_data = Array.from(new Set(arr)).join(',');
+    return test1
+  }
+
+  validateDropdownDefvalue(tocheck, tomatch) {
+    let arr = tocheck.split(',');
+    for (let i = 0; i < arr.length; i++) {
+      if (tomatch === arr[i].trim()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  validateDropDownUpdate(data) {
+    let arr: any[] = data.split(',');
+    /* boolean for non empty value */
+    let test1 = arr.every(function checkNonEmpty(el) {
+      return (el != "" && el != " ");
+    });
+    /* convert array to set unique value */
+    return test1
+  }
+
 }

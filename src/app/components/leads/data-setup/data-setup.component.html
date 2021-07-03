@@ -94,7 +94,7 @@
   <li class="nav-item">
     <a class="nav-link" [ngClass]="(activeSession == 'Referred_by') ? 'active' : ''" (click)="toggle('Referred_by');fetchReferInfo()">Referred By</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="!schoolModel">
     <a class="nav-link" [ngClass]="(activeSession == 'customForm-field') ? 'active' : ''" (click)="toggle('customForm-field');fetchCustomFild()">Custom Field</a>
   </li>
 
@@ -369,7 +369,7 @@
     <div class="w96">
         <div style="margin-bottom: 10px;">
           <!-- <input type="text" class="reason-input" name="" [(ngModel)]="createNewReasonObj.closing_desc" placeholder="Add closing reason*"> -->
-          <button  class="add_master_tag2"data-toggle="modal" data-target="#customField">Add Custom Field</button>
+          <button  class="add_master_tag2" (click)="onClickAddField('Add')">Add Custom Field</button>
         </div>
         <div>
           <div class="tableContainer" >
@@ -450,10 +450,11 @@
                 </div>
 
                 <div style="width: 20%;"  class="tableData">
-                  <span class="right pr-40">
-                  <a data-toggle="modal" data-target="#customField" (click)="onClickeditCustomField(item)"  style="vertical-align: middle;cursor: pointer;">
+                  <span class="right pr-40" style="padding-right: 25px;">
+                  <a  (click)="onClickeditCustomField(item)"  style="vertical-align: middle;cursor: pointer;">
                     <img src="../../../../assets/images/EDit.png">
                   </a>
+                 
                   <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="selecteCustomformId(item.component_id)" style="cursor: pointer;" class="pl-10">
                     <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
                   </a>
@@ -481,10 +482,9 @@
 </app-add-city-area>
 <!-- ============custom-field-popups====================== -->
 
-<!-- <proctur-popup [sizeWidth]="'large'" > -->
-  <div [sizeWidth]="'large'" class="modal" id='customField'>
+<proctur-popup [sizeWidth]="'large'" *ngIf="isEditCustumFormField=='Add'|| isEditCustumFormField=='Edit'">
 
-  <span class="closePopup pos-abs fbold show" data-dismiss="modal" close-button>
+  <span class="closePopup pos-abs fbold show" (click)="cleareForm()" close-button>
     <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
       width="24px" x="0" y="0">
       <path class="large-icon"
@@ -612,7 +612,7 @@
   <div class="" popup-footer>
     <div class="clearfix">
       <aside class="pull-right popup-btn">
-        <!-- <input type="button" value="Cancel" class="btn2 txt_font" > -->
+         <input type="button" value="Cancel" class="btn txt_font" (click)="cleareForm()" >&nbsp;
         <input type="button" value="Add" *ngIf="isEditCustumFormField =='Add'" (click)="addNewCustomField()" class="fullBlue btn txt_font"
         >
         <input type="button" value="Update " *ngIf="isEditCustumFormField =='Edit'" class="fullBlue btn txt_font"
@@ -621,7 +621,11 @@
       </aside>
     </div>
   </div>
+<!-- </div> -->
+</proctur-popup>
+<div class="empdata" *ngIf="custumFieldList.length == '0'">
+  <b>Note:</b>
+  <p> If want to add additional fields in enquiry form then click on <b>Add Custom Field</b>. Multiple types of field can be created through custom form field.</p>
 </div>
-<!-- </proctur-popup> -->
 
 <!-- =============end================== -->

@@ -13,14 +13,14 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
 <section style="margin-top: -18px;">
     <div class="table table-responsive" style="margin-top:1vh;">
       <app-basic-table [headers]="headerSetting" [displayData]="allAdditionFormFielData"  [tableSetting]="tableSetting"
-        [rowColumnSetting]="rowColumns"  (deleteView)="deletCustumField($event)">
+        [rowColumnSetting]="rowColumns" (editView)="editRow($event)" (deleteView)="deletCustumField($event)">
       </app-basic-table>
     </div>
     </section>
     
   <proctur-popup [sizeWidth]="'large'" *ngIf="isEdit=='Add'||isEdit=='Edit'">
 
-    <span class="closePopup pos-abs fbold show" (click)="cancelRow()" close-button>
+    <span class="closePopup pos-abs fbold show" (click)="canclePopus()" close-button>
       <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
         width="24px" x="0" y="0">
         <path class="large-icon"
@@ -88,7 +88,7 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
       <div class="c-lg-4">
         <div class="field-wrapper" >
           <label for="isrequired">Is Required</label>
-          <select id="isrequired" class="form-ctrl" name="isrequired"  [(ngModel)]="editCustomComponentForm.type">
+          <select id="isrequired" class="form-ctrl" name="isrequired"  [(ngModel)]="editCustomComponentForm.is_required">
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
@@ -99,7 +99,7 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
       <div class="c-lg-4">
         <div class="field-wrapper" >
           <label for="issearchable">Is Searchable</label>
-          <select id="issearchable" class="form-ctrl" name="issearchable"  [(ngModel)]="editCustomComponentForm.type">
+          <select id="issearchable" class="form-ctrl" name="issearchable"  [(ngModel)]="editCustomComponentForm.is_searchable">
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
@@ -146,9 +146,9 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
     <div class="" popup-footer>
       <div class="clearfix">
         <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn txt_font" (click)="cancelRow()">
-          <!-- <input type="button" value="Update " *ngIf="isEdit=='Edit'" class="fullBlue btn txt_font"
-            (click)="updateRow()"> -->
+          <input type="button" value="Cancel" class="btn txt_font" (click)="canclePopus()">
+          <input type="button" value="Update " *ngIf="isEdit=='Edit'" class="fullBlue btn txt_font"
+            (click)="updateCustomField()">
           <input type="button" value="Add " *ngIf="isEdit=='Add'" (click)="addNewStudentCustomFormFiel()" class="fullBlue btn txt_font"
            >
         </aside>
