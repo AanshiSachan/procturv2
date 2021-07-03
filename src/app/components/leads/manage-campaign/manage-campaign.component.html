@@ -35,7 +35,9 @@
           </div>
 
           <div class="form-item field-wrapper">
-            <label for="name">Name</label>
+            <label for="name">Name
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="editLead.name" name="name"
               maxlength="50" required placeholder="Name" />
           </div>
@@ -131,7 +133,9 @@
           </div>
 
           <div class="form-item field-wrapper">
-            <label for="name">Name</label>
+            <label for="name">Name
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="addLead.name" name="name"
               maxlength="50" required placeholder="Name" />
           </div>
