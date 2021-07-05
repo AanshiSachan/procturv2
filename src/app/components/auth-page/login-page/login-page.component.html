@@ -350,3 +350,28 @@
     </div>
   </div>
 </div>
+
+<div id="multiLoginForgot" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h2 class="modal-title" style="margin-bottom: 0;">Please select Login:</h2>
+          </div>
+          <div class="modal-body" style="padding: 15px;min-height: 40vh;">
+            <div *ngFor="let d of multiLoginForgotPwdData;let i=index;">
+              <div style="margin: 0;width: 100%;" class="field-radio-wrapper pull-left">
+                <input type="radio" class="form-radio" [checked]="d.checked"
+                  (change)="onForgotPwdSelection($event,d)" [id]="'radio-'+i">
+                <label [for]="'radio-'+i"></label>
+                <p style="    display: block; color:#0084f6;
+                margin: 10px;     margin-bottom: 0px;">{{d.name}} ({{d.institute_name}})</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" style="padding: 5px;">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+          </div>
+      </div>
+  </div>
+</div>

@@ -99,6 +99,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     otp_validate_mode: 1,
     source: "WEB"
   }
+  forgotPasswordObj={
+    institution_id:'',
+    userid:''
+  }
   // zoom
   zoom_enable: any = false;
   single_login_login_check = false;
@@ -107,6 +111,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   Role_features: role = new role();
   passwordType:any='password';
   passwordClass:any='fa fa-eye';
+  multiLoginForgotPwdData:any = [];
   constructor(
     private login: LoginService,
     private route: Router,
@@ -950,9 +955,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       })
   }
 
+  onForgotPwdSelection(event,data) {
+    this.forgotPasswordObj.institution_id = data.institute_id;
+    this.forgotPasswordObj.userid = data.user_id;
+    this.forgotPassword();
+  }
+
   forgotPassword() {
     let forgotPasswordData = {
-      alternate_email_id: ""
+      alternate_email_id: "",
+      "institution_id": this.forgotPasswordObj.institution_id,
+      "userid":this.forgotPasswordObj.userid
     }
     if (this.loginDataForm.alternate_email_id == "") {
       this.no_email_found = true;
@@ -960,8 +973,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       if (confirm('New password will be sent to your registered number. Click Ok to continue.')) {
         forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
         this.login.forgotPassowrdServiceMethod(forgotPasswordData).subscribe(
-          el => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.messages.loginMsg.success.body);
+          (el:any) => {
+            console.log(el);
+            this.forgotPasswordObj.userid = '';
+            this.forgotPasswordObj.institution_id = '';
+            $('#multiLoginForgot').modal('hide');
+            if(el.message == 'OK') {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.messages.loginMsg.success.body);
+            } else {
+              this.multiLoginForgotPwdData = el;
+              $('#multiLoginForgot').modal('show');
+            }
           },
           err => {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
