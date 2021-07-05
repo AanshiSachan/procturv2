@@ -322,6 +322,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   schoolModel: boolean = false;
   masterDataList: any = {};
   showRollNoField: boolean = false;
+  activeSession:any='';
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -339,6 +340,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.activeSession = 'student_details';
     // changes by Nalini - to handle school model conditions
     this.auth.schoolModel.subscribe(
       res => {
@@ -1791,7 +1793,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       stuCustomLi: [],
       deleteCourse_SubjectUnPaidFeeSchedules: false
     };
-    form.reset();
+    // form.reset();
+    // this.fetchDataForCountryDetails();
 
     if (this.isConvertEnquiry) {
       this.router.navigate(['/view/leads/enquiry']);
@@ -2684,7 +2687,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', "No file selected");
       }
     } else {
-      this.msgToast.showErrorMessage('error', '', "File Name is mandatory");
+      this.msgToast.showErrorMessage('error', '', "Document Title is mandatory");
     }
   }
 
@@ -2700,6 +2703,10 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       this.showRollNoField = false;
       this.updateMasterCourseList(standard_id);
     }
+  }
+
+  scrollFn(el: HTMLElement){
+    el.scrollIntoView();
   }
 }
 
