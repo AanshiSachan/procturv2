@@ -13,3 +13,5 @@ export * from './more/registered-students/registered-students.component';
 export * from  './more/Students/students.component';
 export * from  './more/students-archived-report/students-archived-report.component';
 export * from './view-report-card/view-report-card.component';
+export * from '../student-module/certificates/certificates.component';
+export * from '../student-module/certificate-report/certificate-report.component';
