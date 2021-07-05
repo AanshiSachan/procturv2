@@ -11,6 +11,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import * as moment from 'moment';
 import { isExternalModuleNameRelative } from 'typescript';
 import { NgForm } from '@angular/forms';
+import { role } from '../../../model/role_features';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -18,6 +19,7 @@ declare var $;
   styleUrls: ['./view-report-card-v2.component.scss']
 })
 export class ViewReportCardV2Component implements OnInit {
+  role_feature = role.features;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -127,9 +129,28 @@ export class ViewReportCardV2Component implements OnInit {
     // this.viewAttendancePayload.student_id = this.studentId;
     // this.getStudentInfo();
     this.getParentProfileDoc();
+    this.checkDownloadRoleAccess();
   }
   //For tab active 
   isActiveTab = 'profile';
+  downloadStudentReportAccess: boolean = false;
+  studentReport: boolean = false;
+  allowEdit: boolean = false;
+
+  checkDownloadRoleAccess() {
+    if (sessionStorage.getItem('downloadStudentReportAccess') == 'true') {
+      this.downloadStudentReportAccess = true;
+    }
+    const permissionArray = sessionStorage.getItem('permissions');
+    const userType = sessionStorage.getItem('userType');
+    if (userType == '3' ||(userType == '0' && (permissionArray != "" && permissionArray != null))) {
+      this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
+      this.allowEdit = this.role_feature.STUDENT_MANAGE;
+    } else {
+      this.studentReport = true;
+      this.allowEdit = true;
+    }
+  }
 
   openTab(param) {
     this.isActiveTab = param;
@@ -377,6 +398,19 @@ export class ViewReportCardV2Component implements OnInit {
       }
     }
   }
+
+  checkIfUserHadAccess(id) {
+    let permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null || !permissionArray) {
+      return true;
+    } else {
+      if (id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
   messageNotifier(type, title, msg) {
     let data = {
       type: type,
@@ -418,6 +452,7 @@ export class ViewReportCardV2Component implements OnInit {
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
             dwldLink.click();
+            dwldLink.setAttribute("href","")
           }
           else {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
@@ -449,6 +484,7 @@ export class ViewReportCardV2Component implements OnInit {
             dwldLink.setAttribute("download", fileName);
             document.body.appendChild(dwldLink);
             dwldLink.click();
+            dwldLink.setAttribute("href","")
           }
           else {
             this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
@@ -982,6 +1018,7 @@ export class ViewReportCardV2Component implements OnInit {
 
     )
   }
+
   manageFees() {
     this.router.navigate(['/view/fee/update-fee/view-fee/' + this.student_id]);
     // this.router.navigate(["/view/students/edit/" + event]);

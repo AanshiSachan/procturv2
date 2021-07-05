@@ -9,7 +9,7 @@
           <span class="right">
             <!-- <a href=""><img src="../../../assets/img_view/image17.svg" class="ml-10"></a>
               <a href=""><img src="../../../assets/img_view/document.svg" class="ml-10"></a> -->
-            <a (click)="editStudent(student_id)"style="cursor:pointer;" ><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
+            <a *ngIf="allowEdit" (click)="editStudent(student_id)"style="cursor:pointer;" ><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
           </span>
         </div>
       </div>
@@ -76,14 +76,16 @@
             > 20) ? (data| slice:0:20) + '...' : data }}</div>
         </div>
       </div>
-      <div class="padding4">
+      <div class="padding4" *ngIf="downloadStudentReportAccess || (downloadStudentReportAccess && studentReport)">
         <p class="course_text">Download:</p>
         <div>
-          <a class="mr15" id="downloadFileClick1" (click)="downloadStudentReportCard()"><img
-              src="../../../assets/img_view/Group345.svg" title="Report Card"></a>
+          <a class="mr15" *ngIf="downloadStudentReportAccess && studentReport" (click)="downloadStudentReportCard()"><img
+              src="../../../assets/img_view/Group345.svg" title="Report Card">
+              <a id="downloadFileClick1"></a>
+            </a>
           <!-- <a class="mr15" (click)="manageFees()"><img src="../../../assets/img_view/Group343.svg"
               title="Manage Fees"></a> -->
-          <a class="mr15" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg"
+          <a class="mr15" *ngIf="downloadStudentReportAccess" id="downloadIdCard" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg"
               title="ID Card"></a>
           <!-- <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
             <a class="mr15"><img src="../../../assets/img_view/Group347.svg" title="View Report"></a> -->
@@ -100,9 +102,9 @@
           </div>
           <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''"
             (click)="openTab('attendance')">Attendance</div>
-          <div id="fees" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
+          <div id="fees" *ngIf="checkIfUserHadAccess(role_feature.FEE_MANAGE)" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
           <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}" (click)="openTab('documents')">
-            Files</div>
+            Files</div> 
           <div id="inventory" [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">
             Inventory</div>
           <div id="ptm" [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
@@ -344,7 +346,7 @@
               <div class="field-radio-wrapper">
                 <input type="radio" id="idCurrentMon" [checked]="(viewAttendancePayload.type == '0')" value="0"
                   [(ngModel)]="viewAttendancePayload.type" name="idCurrentMon"
-                  (ngModelChange)="onRadioButtonSelection()" class="form-radio" name="date" value="0">
+                  (ngModelChange)="onRadioButtonSelection()" class="form-radio">
                 <label class="radio_label">
                   Current Month
                 </label>
@@ -946,8 +948,8 @@
             <div class="col-lg-9 flex" style="margin-top: 10px;" *ngIf="isshow">
 
               <div class="field-radio-wrapper">
-                <input type="radio" id="idCurrentMon" [checked]="(viewFiles.type == '0')" value="0"
-                  [(ngModel)]="viewFiles.type" name="idCurrentMon" (ngModelChange)="onRadioButtonSelection()"
+                <input type="radio" id="uploadedFile" [checked]="(viewFiles.type == '0')" value="0"
+                  [(ngModel)]="viewFiles.type" name="uploadedFile" (ngModelChange)="onRadioButtonSelection()"
                   class="form-radio" name="date" value="0">
                 <label class="radio_label">
                   Uploaded Files
@@ -1041,9 +1043,9 @@
               <div>
                 Allocation Date
               </div>
-              <div>
+              <!-- <div>
                    Action
-                  </div>
+                  </div> -->
             </div>
             <div class="table_body" *ngFor="let data of inventoryDetails;index as i ">
               <div>
@@ -1061,9 +1063,9 @@
               <div>
                 {{data.created_date | date:'dd-MM-yyyy'}}
               </div>
-               <div>
+               <!-- <div>
                   <a><img src="/assets/img2/delete.svg" class="size22" title="delete"></a>
-            </div>
+            </div> -->
           </div>
           <div class="nodata" *ngIf="inventoryDetails?.length == 0">
             <span style="text-align: center">

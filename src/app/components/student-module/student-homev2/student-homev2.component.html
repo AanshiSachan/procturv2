@@ -634,8 +634,13 @@
          <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
        <div class="center1" style="text-align: center;padding-left:48px">
            <!-- [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]"-->
+<<<<<<< HEAD
         <a   (click)="setData()" [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
         <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
+=======
+        <a    [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
+        <a *ngIf="allowEdit" (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
+>>>>>>> bfb942c1a60d2a8954e0059e5f29a7fdbab48c66
         <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
       </div>
      </div>

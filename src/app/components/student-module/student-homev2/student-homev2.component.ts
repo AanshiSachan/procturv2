@@ -98,6 +98,7 @@ export class StudentHomev2Component implements OnInit {
   subject: any;
   today: any;
   totalRow: number = 0;
+  allowEdit = false;
 
   private editForm: any = {
     comments: "",
@@ -267,6 +268,17 @@ export class StudentHomev2Component implements OnInit {
         }
       }
     );
+    const permissionArray = sessionStorage.getItem('permissions');
+    const userType = sessionStorage.getItem('userType');
+
+    if (userType == '3' ||(userType == '0' && (permissionArray != "" && permissionArray != null))) {
+      // this.isSubAdmin = true;
+      // this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
+      this.allowEdit = this.role_feature.STUDENT_MANAGE;
+    } else {
+      // this.studentReport = true;
+      this.allowEdit = true;
+    }
     this.today = moment().format("DD MMM YYYY");
     let institute_id = sessionStorage.getItem("institute_id");
     if (
