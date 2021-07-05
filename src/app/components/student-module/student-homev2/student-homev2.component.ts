@@ -18,6 +18,9 @@ import { PostStudentDataService } from "../../../services/student-services/post-
 import { WidgetService } from "../../../services/widget.service";
 import { ColumnSetting } from "../../shared/custom-table/layout.model";
 import { role } from "../../../model/role_features";
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 var jsPDF = require("jspdf");
 declare var $;
 @Component({
@@ -98,7 +101,7 @@ export class StudentHomev2Component implements OnInit {
   subject: any;
   today: any;
   totalRow: number = 0;
-
+ 
   private editForm: any = {
     comments: "",
     institution_id: sessionStorage.getItem("institute_id"),
@@ -231,6 +234,55 @@ export class StudentHomev2Component implements OnInit {
   cityList: any[] = [];
   attendanceCertificate: boolean = false;
   selectedFilterData: any=null;
+  charactertCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    logo_url:''
+  }
+  bonafiedCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    stud_city:'',
+    standard_name:'',
+    section_name:'',
+    reg_number:'',
+    curr_date:'',
+    inst_place:'',
+    logo_url:''
+
+  }
+  migrationCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    stud_city:'',
+    standard_name:'',
+    section_name:'',
+    reg_number:'',
+    curr_date:'',
+    inst_place:'',
+    school_board:'',
+    logo_url:''
+  }
+  stud_id:any
+
   /* =================================================================================================== */
   constructor(
     private prefill: FetchprefilldataService,
@@ -326,6 +378,7 @@ export class StudentHomev2Component implements OnInit {
         }
       }
     });
+
   }
 
   /* OnInit function to set toggle default columns and load student data for table*/
@@ -378,6 +431,9 @@ export class StudentHomev2Component implements OnInit {
     this.checkDownloadRoleAccess();
     this.getAcademmicYear();
     this.fetchCustomComponent();
+
+
+ 
   }
 
   checkCustomeComponentElement(index) {
@@ -704,6 +760,8 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   editStudent(id) {
     this.router.navigate(["/view/students/edit/" + id]);
+   
+
   }
 
   /* Delete the student selected or archieve the student selected */
@@ -762,6 +820,7 @@ export class StudentHomev2Component implements OnInit {
   deleteStudentOpen(row) {
    // $('#popup').modal('show')
     this.selectedRow = row;
+
     if (this.selectedRow.noOfBatchesAssigned == 0) {
       this.isDeleteStudentPrompt = true;
     } else {
@@ -1598,6 +1657,8 @@ export class StudentHomev2Component implements OnInit {
           this.appC.popToast(msg);
         }
       );
+      sessionStorage.setItem('students_id',this.selectedRow.student_id)
+
   }
 
   /* =================================================================================================== */
@@ -3301,4 +3362,207 @@ sortTable(str) {
   }
   //this.fectchTableDataByPage(this.PageIndex);
 }
+// ==================certificate-functionality=========================
+
+
+  generateCertificate(){
+    this.router.navigateByUrl("/view/students/certificates");
+    sessionStorage.setItem('student_id',this.stud_id)
 }
+fetchStudId(obj){
+  this.stud_id = obj
+  console.log("sssssssssss",this.stud_id)
+}
+
+getCharacterCertificate(object){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/character/'+ this.stud_id;
+  this.postService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      this.charactertCertiModel = resp
+      console.log("character",this.charactertCertiModel)
+
+      this.auth.hideLoader();
+      if(res){
+         
+      
+      if(resp.document != "" ){
+        let docArry = this._commService.convertBase64ToArray(resp.document);
+        let fileName = resp.docTitle;
+        let file = new Blob([docArry], { type: 'application/pdf;' });
+        let urlcert =URL .createObjectURL(file);
+        let downloadLink = document.getElementById('downloadFileClick1');
+        downloadLink.setAttribute("href",urlcert);
+        downloadLink.setAttribute("download",fileName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+
+      }
+      else {
+        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+      }
+    } else {
+      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    }
+  },
+  err => {
+    console.log(err);
+   // this.showToggleLoader.emit(false);
+  }
+)
+
+}
+bonafiedCertificates(object){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/bonafide/'+this.stud_id;
+  this.postService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      this.bonafiedCertiModel = resp
+      console.log("bonafied",resp)
+
+      this.auth.hideLoader();
+      if(res){
+         
+      
+      if(resp.document != "" ){
+        let docArry = this._commService.convertBase64ToArray(resp.document);
+        let fileName = resp.docTitle;
+        let file = new Blob([docArry], { type: 'application/pdf;' });
+        let urlcert =URL .createObjectURL(file);
+        let downloadLink = document.getElementById('downloadFileClick1');
+        downloadLink.setAttribute("href",urlcert);
+        downloadLink.setAttribute("download",fileName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+
+      }
+      else {
+        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+      }
+    } else {
+      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    }
+  },
+  err => {
+    console.log(err);
+    this.auth.hideLoader();
+  }
+)
+
+}
+migrationCertificates(object){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/migration/'+this.stud_id;
+  this.postService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      console.log("migration",resp)
+this.migrationCertiModel = resp
+      this.auth.hideLoader();
+      if(res){
+         
+      
+      if(resp.document != "" ){
+        let docArry = this._commService.convertBase64ToArray(resp.document);
+        let fileName = resp.docTitle;//response.docTitle
+        let file = new Blob([docArry], { type: 'application/pdf;' });
+        let urlcert =URL .createObjectURL(file);
+        let downloadLink = document.getElementById('downloadFileClick1');
+        downloadLink.setAttribute("href",urlcert);
+        downloadLink.setAttribute("download",fileName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+
+      }
+      else {
+        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+      }
+    } else {
+      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    }
+  },
+  err => {
+    console.log(err);
+    this.auth.hideLoader()
+  }
+)
+
+}
+
+
+PrintPage(){
+  var divToPrint = document.getElementById("bonafiedCertificate")
+  let newWin = window.open("");
+  newWin.document.write(divToPrint.outerHTML);
+  newWin.print();
+  newWin.history.back();
+  //newWin.close();
+  console.log("print")
+//  window.print();
+}
+migrationPrintPage(){
+  var divToPrint2 = document.getElementById("migrationCertificate")
+  let newWin = window.open("");
+  newWin.document.write(divToPrint2.outerHTML);
+  newWin.print();
+  newWin.history.back(); 
+
+
+  //newWin.close()
+  console.log("print")
+
+}
+characterPrintPage(conductCertificate2){
+  const printContents = document.getElementById('conductCertificate2').innerHTML;
+  const originalContents = document.body.innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
+  // var divToPrint3 = document.getElementById(popupName)
+  // let newWinchar = window.open("");
+  // newWinchar.document.write(divToPrint3.outerHTML);
+  // newWinchar.print();
+
+
+
+  
+}
+
+
+CertificateConvertTopdf(certificat){
+  var data = document.getElementById(certificat);  
+  this.auth.showLoader()
+    html2canvas(data).then(canvas => {  
+      var imgWidth = 230;   
+      var pageHeight = 295;  
+      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var heightLeft = imgHeight;  
+
+      const contentDataURL = canvas.toDataURL('image/png') 
+      let pdf = new jsPDF('p', 'mm', 'a4'); 
+      var position = 0;  
+
+      pdf.addImage(contentDataURL,'PNG', 0,position, imgWidth, imgHeight,)  
+      pdf.save('conductCertificates1.pdf');
+      console.log("img",this.charactertCertiModel.logo_url) 
+     this.auth.hideLoader()
+
+    });
+  }
+  
+closePopups(){
+   $('#myModal1').modal('hide');
+  $('#conductCertificate').modal('hide');
+  $('#bonafiedCertificate').modal('hide');
+  $('#migrationCertificate').modal('hide');
+
+}
+
+}
+
+

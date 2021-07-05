@@ -72,7 +72,7 @@ studentTransferData:any=[]
     private msgService:MessageShowService,
     private location: Location) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
-    this.transferCertificateModel.student_id = sessionStorage.getItem('students_id')
+    this.transferCertificateModel.student_id = sessionStorage.getItem('student_id')
     }
 
 transfer :boolean=false
@@ -315,13 +315,13 @@ downloadTransferPdf(){
 
   });
 }
-
-printTransfer(){
-  var divToPrint3 = document.getElementById('transferCertificate')
-  let newWinchar = window.open("");
-  newWinchar.document.write(divToPrint3.innerHTML);
-  newWinchar.print();
- 
+printTransfer(conductCertificate2){
+  const printContents = document.getElementById('transferCertificate').innerHTML;
+  const originalContents = document.body.innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
+  //  document.body.innerHTML=restorePage; 
 }
 
 
