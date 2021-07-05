@@ -104,7 +104,7 @@ export class CourseAddComponent implements OnInit {
       let masterCourseObj = stdObj[0];
       let sub_list = this.standardList.filter(sub => (sub.standard_id == masterCourseObj.standard_id));
       this.subjectList = sub_list[0].subject_list;
-      this.newSubjectDetails.standard_id = this.courseDetails.standard_id;
+      this.newSubjectDetails.standard_id = masterCourseObj.standard_id;
       this.getActiveTeacherList(this.courseDetails.standard_id);
     } else {
       let sub_list = this.standardList.filter(sub => (sub.standard_id == this.courseDetails.standard_id));
@@ -578,6 +578,7 @@ export class CourseAddComponent implements OnInit {
           this._auth.hideLoader();
           this._msgService.showErrorMessage('success', '', 'Master course added successfully');
           this.getMasterCourseData();
+          this.clearMasterCourse();
           $('#courseModal').modal('hide');
         },
         (err: any) => {
