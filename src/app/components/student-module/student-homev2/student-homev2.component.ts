@@ -243,7 +243,9 @@ export class StudentHomev2Component implements OnInit {
     father_name:'',
     doj:'',
     sex:'',
-    logo_url:''
+    logo_url:'',
+    inst_place:'',
+    curr_date:''
   }
   bonafiedCertiModel={
     institute_name:'',
@@ -260,7 +262,7 @@ export class StudentHomev2Component implements OnInit {
     reg_number:'',
     curr_date:'',
     inst_place:'',
-    logo_url:''
+    logo_url:'',
 
   }
   migrationCertiModel={
@@ -279,7 +281,7 @@ export class StudentHomev2Component implements OnInit {
     curr_date:'',
     inst_place:'',
     school_board:'',
-    logo_url:''
+    logo_url:'',
   }
   stud_id:any
 
@@ -431,7 +433,6 @@ export class StudentHomev2Component implements OnInit {
     this.checkDownloadRoleAccess();
     this.getAcademmicYear();
     this.fetchCustomComponent();
-
 
  
   }
@@ -3371,41 +3372,52 @@ sortTable(str) {
 }
 fetchStudId(obj){
   this.stud_id = obj
+  let sexId = obj.sex
   console.log("sssssssssss",this.stud_id)
+  console.log("sssssssssss",obj)
+
+
 }
 
-getCharacterCertificate(object){
+getCharacterCertificate(){
+ 
   this.auth.showLoader();
   let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/character/'+ this.stud_id;
   this.postService.stdGetData(url).subscribe(
     (res:any) =>{
       let resp =res.result;
       this.charactertCertiModel = resp
+      if(resp .sex == 'F'){
+        $('#conductCertificateF').modal('show');
+
+      }else{
+        $('#conductCertificate').modal('show')
+      }
       console.log("character",this.charactertCertiModel)
 
       this.auth.hideLoader();
-      if(res){
+    //   if(res){
          
       
-      if(resp.document != "" ){
-        let docArry = this._commService.convertBase64ToArray(resp.document);
-        let fileName = resp.docTitle;
-        let file = new Blob([docArry], { type: 'application/pdf;' });
-        let urlcert =URL .createObjectURL(file);
-        let downloadLink = document.getElementById('downloadFileClick1');
-        downloadLink.setAttribute("href",urlcert);
-        downloadLink.setAttribute("download",fileName);
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
+    //   if(resp.document != "" ){
+    //     let docArry = this._commService.convertBase64ToArray(resp.document);
+    //     let fileName = resp.docTitle;
+    //     let file = new Blob([docArry], { type: 'application/pdf;' });
+    //     let urlcert =URL .createObjectURL(file);
+    //     let downloadLink = document.getElementById('downloadFileClick1');
+    //     downloadLink.setAttribute("href",urlcert);
+    //     downloadLink.setAttribute("download",fileName);
+    //     document.body.appendChild(downloadLink);
+    //     downloadLink.click();
 
 
-      }
-      else {
-        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-      }
-    } else {
-      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    }
+    //   }
+    //   else {
+    //     this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    //   }
+    // } else {
+    //   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    // }
   },
   err => {
     console.log(err);
@@ -3414,38 +3426,44 @@ getCharacterCertificate(object){
 )
 
 }
-bonafiedCertificates(object){
+bonafiedCertificates(){
   this.auth.showLoader();
   let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/bonafide/'+this.stud_id;
   this.postService.stdGetData(url).subscribe(
     (res:any) =>{
       let resp =res.result;
       this.bonafiedCertiModel = resp
+      if(resp.sex == 'F'){
+      $('#bonafiedCertificateF').modal('show')
+      }else{
+        $('#bonafiedCertificate').modal('show')
+
+      }
       console.log("bonafied",resp)
 
       this.auth.hideLoader();
-      if(res){
+    //   if(res){
          
       
-      if(resp.document != "" ){
-        let docArry = this._commService.convertBase64ToArray(resp.document);
-        let fileName = resp.docTitle;
-        let file = new Blob([docArry], { type: 'application/pdf;' });
-        let urlcert =URL .createObjectURL(file);
-        let downloadLink = document.getElementById('downloadFileClick1');
-        downloadLink.setAttribute("href",urlcert);
-        downloadLink.setAttribute("download",fileName);
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
+    //   if(resp.document != "" ){
+    //     let docArry = this._commService.convertBase64ToArray(resp.document);
+    //     let fileName = resp.docTitle;
+    //     let file = new Blob([docArry], { type: 'application/pdf;' });
+    //     let urlcert =URL .createObjectURL(file);
+    //     let downloadLink = document.getElementById('downloadFileClick1');
+    //     downloadLink.setAttribute("href",urlcert);
+    //     downloadLink.setAttribute("download",fileName);
+    //     document.body.appendChild(downloadLink);
+    //     downloadLink.click();
 
 
-      }
-      else {
-        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-      }
-    } else {
-      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    }
+    //   }
+    //   else {
+    //     this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    //   }
+    // } else {
+    //   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    // }
   },
   err => {
     console.log(err);
@@ -3454,37 +3472,42 @@ bonafiedCertificates(object){
 )
 
 }
-migrationCertificates(object){
+migrationCertificates(){
   this.auth.showLoader();
   let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/migration/'+this.stud_id;
   this.postService.stdGetData(url).subscribe(
     (res:any) =>{
       let resp =res.result;
       console.log("migration",resp)
-this.migrationCertiModel = resp
+     this.migrationCertiModel = resp
+     if(resp.sex == 'F'){
+      $('#migrationCertificateF').modal('show')
+     }else{
+      $('#migrationCertificate').modal('show')
+     }
       this.auth.hideLoader();
-      if(res){
+      // if(res){
          
       
-      if(resp.document != "" ){
-        let docArry = this._commService.convertBase64ToArray(resp.document);
-        let fileName = resp.docTitle;//response.docTitle
-        let file = new Blob([docArry], { type: 'application/pdf;' });
-        let urlcert =URL .createObjectURL(file);
-        let downloadLink = document.getElementById('downloadFileClick1');
-        downloadLink.setAttribute("href",urlcert);
-        downloadLink.setAttribute("download",fileName);
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
+    //   if(resp.document != "" ){
+    //     let docArry = this._commService.convertBase64ToArray(resp.document);
+    //     let fileName = resp.docTitle;//response.docTitle
+    //     let file = new Blob([docArry], { type: 'application/pdf;' });
+    //     let urlcert =URL .createObjectURL(file);
+    //     let downloadLink = document.getElementById('downloadFileClick1');
+    //     downloadLink.setAttribute("href",urlcert);
+    //     downloadLink.setAttribute("download",fileName);
+    //     document.body.appendChild(downloadLink);
+    //     downloadLink.click();
 
 
-      }
-      else {
-        this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-      }
-    } else {
-      this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    }
+    //   }
+    //   else {
+    //     this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    //   }
+    // } else {
+    //   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
+    // }
   },
   err => {
     console.log(err);
@@ -3517,8 +3540,8 @@ migrationPrintPage(){
   console.log("print")
 
 }
-characterPrintPage(conductCertificate2){
-  const printContents = document.getElementById('conductCertificate2').innerHTML;
+characterPrintPage(popupName){
+  const printContents = document.getElementById(popupName).innerHTML;
   const originalContents = document.body.innerHTML;
   document.body.innerHTML = printContents;
   window.print();

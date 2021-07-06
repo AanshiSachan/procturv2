@@ -33,16 +33,29 @@ body{
   // background-position:210px center;
 }
 .input{
-  padding: 7px 10px;
-  font-size: 13px;
+
+
+  background: #F5F5F5;
+    border-radius: 2px;
+border: none;
+    height: 35px;
+
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.01em;
+    color: #323C47;
+     padding-left: 8px;
+//   padding: 7px 10px;
+//   font-size: 13px;
   width: 100%;
-  //background: #FAFAFA;
-border: 1px solid #F0EDED;
-box-sizing: border-box;
-border-radius: 5px;
-  font-weight: 500;
-  color: #323c47;
-  height: 35px;
+// background: #FAFAFA;
+// border: 1px solid #F0EDED;
+// box-sizing: border-box;
+// border-radius: 5px;
+//   font-weight: 500;
+//   color: #323c47;
+//   height: 35px;
   }
  input:focus, select:focus,button:focus{
  	outline: none;
