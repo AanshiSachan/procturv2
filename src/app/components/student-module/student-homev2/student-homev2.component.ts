@@ -110,7 +110,7 @@ export class StudentHomev2Component implements OnInit {
     standard_id: -1,
     batch_id: -1,
     name: "",
-    is_active_status: 1,
+    is_active_status: "-1",
     mobile: "",
     language_inst_status: -1,
     subject_id: -1,
@@ -130,7 +130,7 @@ export class StudentHomev2Component implements OnInit {
     standard_id: -1,
     batch_id: -1,
     name: "",
-    is_active_status: 1,
+    is_active_status: "-1",
     mobile: "",
     language_inst_status: -1,
     subject_id: -1,
@@ -1407,7 +1407,7 @@ export class StudentHomev2Component implements OnInit {
       standard_id: -1,
       batch_id: -1,
       name: "",
-      is_active_status: 1,
+      is_active_status: "-1,",
       mobile: "",
       language_inst_status: -1,
       subject_id: -1,
@@ -1504,7 +1504,7 @@ export class StudentHomev2Component implements OnInit {
           standard_id: -1,
           batch_id: -1,
           name: "",
-          is_active_status: 1,
+          is_active_status: "-1",
           mobile: "",
           language_inst_status: -1,
           subject_id: -1,
@@ -1528,7 +1528,7 @@ export class StudentHomev2Component implements OnInit {
             standard_id: -1,
             batch_id: -1,
             name: this.searchBarData,
-            is_active_status: 1,
+            is_active_status: "-1",
             mobile: "",
             language_inst_status: -1,
             subject_id: -1,
@@ -1548,7 +1548,7 @@ export class StudentHomev2Component implements OnInit {
             standard_id: -1,
             batch_id: -1,
             name: "",
-            is_active_status: 1,
+            is_active_status: "-1",
             mobile: this.searchBarData,
             language_inst_status: -1,
             subject_id: -1,
@@ -3107,7 +3107,7 @@ export class StudentHomev2Component implements OnInit {
     this.showQuickFilter = false;
     this.advancedFilterForm.standard_id = "-1";
     this.advancedFilterForm.subject_id = "-1";
-    this.advancedFilterForm.is_active_status = "1";
+    this.advancedFilterForm.is_active_status = "-1";
     this.advancedFilterForm.master_course_name = "-1";
     this.advancedFilterForm.course_id = "-1";
     this.advancedFilterForm.standard_id = "-1";
