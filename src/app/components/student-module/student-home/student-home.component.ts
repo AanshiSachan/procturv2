@@ -702,6 +702,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   editStudent(id) {
+    alert(id)
     this.router.navigate(["/view/students/edit/" + id]);
   }
 
@@ -2803,6 +2804,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
   downloadStudentAdmissionForm() {
+    
     let obj: any = {
       studentIds: this.selectedRowGroup.join(","),
     };

@@ -267,8 +267,7 @@ export class ViewReportCardComponent implements OnInit {
       this.timetablePayLoad.enddate = moment().format('YYYY-MM-DD');
     }
   }
-
-  getTimeTableDetails() {
+ getTimeTableDetails() {
     let check = this.validateAllField();
     if (check) {
       this.auth.showLoader();

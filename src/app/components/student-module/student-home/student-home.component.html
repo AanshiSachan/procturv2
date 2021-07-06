@@ -139,8 +139,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <div style="margin: 0;" class="row" *ngIf="showQuickFilter">
+           <div style="margin: 0;" class="row" *ngIf="showQuickFilter">
                         <div style="margin: 0;" class="row">
                             <input type="button" *ngIf="isProfessional" style="margin-top: 2%"
                                 class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
@@ -163,8 +162,7 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
+                      <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isProfessional">
                                 <div class="field-wrapper"
                                     [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
                                     <label for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label>
@@ -206,8 +204,7 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="!isProfessional">
+                 <div class="c-lg-2 c-md-2 c-sm-2" *ngIf="!isProfessional">
                                 <div class="field-wrapper"
                                     [class.has-value]="advancedFilterForm.is_active_status != ''">
                                     <label for="status">Is Active</label>
@@ -223,14 +220,12 @@
                                 class="btn normal-btn fullBlue" value="Search" (click)="searchDatabase()" />
                         </div>
                     </div>
-
-                    <div class="filter-fields hide"
+                   <div class="filter-fields hide"
                         style="visibility: visible; opacity: 1;z-index: 5;border-radius: 4px;"
                         id="advanced-filter-section">
 
                         <div class="filter-wrapper">
-
-                            <div class="row">
+                      <div class="row">
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                     <div class="field-wrapper"
                                         [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
@@ -676,8 +671,7 @@
                         class="large-icon" style="fill: currentColor"></path>
                 </svg>
             </a>
-
-            <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent"
+      <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent"
                 [studentDetails]="studentDetailsById" (closeSide)="closeSideBar($event)"
                 (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
                 (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)"

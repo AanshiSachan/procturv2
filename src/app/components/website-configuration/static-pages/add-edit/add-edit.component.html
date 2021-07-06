@@ -20,8 +20,9 @@
         <div class="col-md-12">
           <div class="col-md-12 form-group" style="padding-right: 0px;padding-left: 0px;width: 100%;">
             <label class="text-bold">Description</label>
-            <textarea rows="3" placeholder="Description" class="form-control form-control-sm" maxLength="1500" [(ngModel)]="pageModel.page_data"
-              style="height: 80px;"></textarea>
+              <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                [(ngModel)]="pageModel.page_data" placeholder="Content">
+              </editor>
           </div>
         </div>
 

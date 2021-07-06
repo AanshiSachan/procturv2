@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
       routerLink: 'view/website-configuration/contact-info'
     },
     {
-      title : "Theme Options",
+      title : "Text colour",
       routerLink: 'view/website-configuration/theme'
     },
     {
@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
       'slider': 'Image Slider',
       'third-party-auth': '3rd Party Integration',
       'contact-info': 'Contact Info',
-      'theme': 'Theme Options',
+      'theme': 'Text colour',
       'faq': 'FAQs',
       'testimonial': 'Testimonial',
       'url': 'URL'

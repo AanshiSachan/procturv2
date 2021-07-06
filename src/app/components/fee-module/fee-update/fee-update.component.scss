@@ -212,19 +212,19 @@
   .wid200{
     width:200px;
   }
-  .magnifying-glass{
-    background-image: url(../../../../assets/img/Vector1.png);
-    background-repeat: no-repeat;
-    background-position:left center;
-    text-indent: 10px;
-  }
-  /*empty page start*/
-  .empty_img>img{
-    width: 90%;
-    height: auto;
-    margin:0px auto;
-    margin-top: 20px;
-  }
+  // .magnifying-glass{
+  //   background-image: url('../../../../assets/img/Vector1.png');
+  //   background-repeat: no-repeat;
+  //   background-position:left center;
+  //   text-indent: 10px;
+  // }
+  // /*empty page start*/
+  // .empty_img>img{
+  //   width: 90%;
+  //   height: auto;
+  //   margin:0px auto;
+  //   margin-top: 20px;
+  // }
   .empty_img{
     text-align: center;
   }
@@ -772,6 +772,17 @@
   .paid1{
     display: inline-block;
     background: #3AD665;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+    color: #FFFFFF;
+    width: 88px;
+  }
+  .disc{
+    display: inline-block;
+    background: #109cf1;
     border-radius: 5px;
     font-weight: 600;
     font-size: 13px;

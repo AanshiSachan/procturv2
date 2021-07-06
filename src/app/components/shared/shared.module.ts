@@ -25,6 +25,8 @@ import { CustomNamePipe } from './quick-filter/custom-name.pipe';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
 import { BasicTableComponent } from './basic-table/basic-table.component';
+import { BasicTableV2Component } from './basic-table-v2/basic-table-v2.component';
+
 export function getDatepickerConfig(): BsDatepickerConfig {
     return Object.assign(new BsDatepickerConfig(), {
       dateInputFormat: 'YYYY-MM-DD',
@@ -70,7 +72,7 @@ export function getDatepickerConfig(): BsDatepickerConfig {
         PreferencePopupComponent,
         EnquiryUpdatePopupComponent,
         BasicTableComponent,
-       
+        BasicTableV2Component
 
     ],
     exports: [
