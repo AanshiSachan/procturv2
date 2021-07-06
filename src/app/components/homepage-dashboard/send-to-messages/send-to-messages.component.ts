@@ -404,31 +404,27 @@ backTopushId:any
         this.showCourseWiseFlag=true
  
           let temp_selectedCourseList:any=[]
-          // for(let i=0; i<this.selectedCourseList.length;i++){
-          //   this.courseId = this.selectedCourseList[i].course_id
+          for(let i=0; i<this.selectedCourseList.length;i++){
+            this.courseId = this.selectedCourseList[i].course_id
           //   this.selectMasterCourse.master_course_name = this.selectedCourseList[i].course_name
-          //   temp_selectedCourseList.push(this.courseId)
-          // }
+            temp_selectedCourseList.push(this.courseId)
+          }
      
           let obj={
-            course_id:this.courseId,
-            master_course_name:this.selectMasterCourse.master_course
+            course_ids_list:temp_selectedCourseList,
+           master_course_name:this.selectMasterCourse.master_course,
             // inst_id :this.jsonFlag.institute_id,
             // role:'student',
             // coursesArray:['']
           }
          
-         // obj.coursesArray = temp_selectedCourseList;
+          //obj.course_ids_list = temp_selectedCourseList;
           // const url = '/api/v1/courseMaster/onlineClass/fetch/users'
           const url='/api/v1/studentBatchMap/manageBatchStudent/'+this.jsonFlag.institute_id
           this.auth.showLoader();
           this.httpService.postData(url, obj).subscribe(
             (data: any) => {
               this.studentList = data;
-
-
-              console.log("iddddddd",obj)
-
               this.auth.hideLoader();
             },
             (error: any) => {
@@ -439,6 +435,7 @@ backTopushId:any
         }
         
         getMaterCourseList() {
+          this.selectedCourseList=[]
           this.courseList=[]
           this.studentList=[]
           if(this.schoolModel) {
@@ -530,7 +527,7 @@ backTopushId:any
 
       onMasterCourseChange(event) {
         this.allUserCheck ='false'
-
+this.selectedCourseList=[]
         this.activeCeckbox='false';
        this.facultyCheckBox = 'false'
            this.aluminiCheckBox='false';

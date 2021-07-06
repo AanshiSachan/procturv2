@@ -83,16 +83,16 @@
             </div>
             <div>
                 <label> {{schoolModel ? 'Section(s)' : 'Course(s)'}}</label>
-                <select [(ngModel)]="courseId" (ngModelChange)="($event)" name="course">
+                <!-- <select [(ngModel)]="courseId" (ngModelChange)="($event)" name="course">
                     <option>select</option>
                 <option *ngFor="let opt of courseList" [value]="opt.course_id">
                     {{opt.course_name}}
                 </option>
-                </select>
-               <!-- <ng-multiselect-dropdown class="multidropdown" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                </select> -->
+                <ng-multiselect-dropdown class="multidropdown" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
                 (ngModelChange)="($event)">
                   
-               </ng-multiselect-dropdown>  -->
+               </ng-multiselect-dropdown>
                
             </div>
             <div>
