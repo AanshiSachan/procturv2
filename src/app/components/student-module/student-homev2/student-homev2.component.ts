@@ -393,7 +393,7 @@ export class StudentHomev2Component implements OnInit {
   }
 
   checkCustomeComponentElement(index) {
-    if (!(index % 3)) {
+    if (!(index % 2)) {
       return true;
     } else {
       return false;
