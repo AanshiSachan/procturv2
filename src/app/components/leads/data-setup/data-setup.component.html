@@ -372,36 +372,36 @@
           <button  class="add_master_tag2" (click)="onClickAddField('Add')">Add Custom Field</button>
         </div>
         <div>
-          <div class="tableContainer" >
+          <div class="tableContainer custTable" >
             <!-- <div> -->
               <div class="tableHeader">
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Lable
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Type
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Show On Student
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Is Required
-                </div><div style="width: 80%;" class="tableData">
+                </div><div  class="tableData">
                   Is Searchable
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Sequence
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Max Length
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Default Value
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   Is External
                 </div>
-                <div style="width: 20%;" class="tableData">
+                <div style="padding-right: 4%;" class="tableData">
                    <span class="right pr-40">
                     Action
                   </span>
@@ -410,46 +410,46 @@
             <!-- </div> -->
             <div class="section" *ngIf="custumFieldList?.length > 0">
               <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let item of custumFieldList">
-                <div style="width: 80%;"  class="tableData">
+                <div   class="tableData">
                   <span>{{item.label}}</span> 
                   <!-- <span *ngIf="data.isEdit">
                     <input style="margin: 0" type="text" [(ngModel)]="data.new_source_name" class="reason-input" name="soure">
                   </span>  -->
                 </div>
-                <div style="width: 80%;"  class="tableData">
+                <div  class="tableData">
                   <span>{{item.type|checkBoxConverter}}</span> 
 
                 </div>
-                <div style="width: 80%;"  class="tableData">
+                <div  class="tableData">
                   <span>{{item.on_both}}</span> 
 
                 </div>
-                <div style="width: 80%;"  class="tableData">
+                <div   class="tableData">
                   <span>{{item.is_required}}</span> 
 
                 </div>
-                <div style="width: 80%;"  class="tableData">
+                <div   class="tableData">
                   <span>{{item.is_searchable}}</span> 
 
                 </div>
-                <div style="width: 80%;"  class="tableData">
+                <div   class="tableData">
                   <span>{{item.sequence_number}}</span> 
 
                 </div>
-                <div style="width: 80%;"  class="tableData">
+                <div  class="tableData">
                   <span>{{item.comp_length}}</span> 
 
                 </div>
-                <div style="width: 80%;"  class="tableData">
+                <div   class="tableData">
                   <span>{{item.defaultValue}}</span> 
 
                 </div>
-                <div style="width: 80%;" class="tableData">
+                <div  class="tableData">
                   <span>{{item.is_external}}</span> 
 
                 </div>
 
-                <div style="width: 20%;"  class="tableData">
+                <div   class="tableData">
                   <span class="right pr-40" style="padding-right: 25px;">
                   <a  (click)="onClickeditCustomField(item)"  style="vertical-align: middle;cursor: pointer;">
                     <img src="../../../../assets/images/EDit.png">
@@ -482,7 +482,7 @@
 </app-add-city-area>
 <!-- ============custom-field-popups====================== -->
 
-<proctur-popup [sizeWidth]="'large'" *ngIf="isEditCustumFormField=='Add'|| isEditCustumFormField=='Edit'">
+<proctur-popup [sizeWidth]="'large'"  *ngIf="isEditCustumFormField=='Add'|| isEditCustumFormField=='Edit'">
 
   <span class="closePopup pos-abs fbold show" (click)="cleareForm()" close-button>
     <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
@@ -612,7 +612,7 @@
   <div class="" popup-footer>
     <div class="clearfix">
       <aside class="pull-right popup-btn">
-         <input type="button" value="Cancel" class="btn txt_font" (click)="cleareForm()" >&nbsp;
+         <input type="button" value="Cancel" class="btn txt_font" style="background: white;color: #0084f6;" (click)="cleareForm()" >&nbsp;
         <input type="button" value="Add" *ngIf="isEditCustumFormField =='Add'" (click)="addNewCustomField()" class="fullBlue btn txt_font"
         >
         <input type="button" value="Update " *ngIf="isEditCustumFormField =='Edit'" class="fullBlue btn txt_font"

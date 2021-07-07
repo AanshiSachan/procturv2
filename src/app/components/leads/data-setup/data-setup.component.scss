@@ -273,7 +273,7 @@ ul {
     border: none;
     border-radius: 5px;
     margin-top: 15px;
-   // margin-left: 94%;
+    margin-left: 87%;
     font-weight: 600;
 }
 select {
@@ -595,13 +595,15 @@ select {
     padding: 10px 5px;
     margin: 20px 0;
     background: #efefef;
-    border-radius: 5px;
-    border: 1px solid #d8d8d8;
+   border-radius: 5px;
+   border: 1px solid #d8d8d8;
     height: 100%;
     width: 100%;
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   
     ::-webkit-scrollbar {
       display: block;
@@ -620,11 +622,13 @@ select {
       box-sizing: border-box;
       padding: 10px 0 5px;
       outline: none;
-      border: 0;
+    //  border: 0;
       height: 36px;
       box-shadow: none;
-      border-radius: 0;
+     // border-radius: 0;
       line-height: 24px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
   }
   
@@ -685,4 +689,13 @@ select {
     padding-top: 8%;
     margin-left: 2%;
   }
+  .field-wrapper label {
+    font-size: 14px; 
+    z-index: 1; 
+}
 //   ===========end===================
+.custTable {
+    .tableData {
+        width:10%;
+    }
+}
