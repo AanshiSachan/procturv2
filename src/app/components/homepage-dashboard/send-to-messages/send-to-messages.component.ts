@@ -246,7 +246,7 @@ backTopushId:any
     }
   
     allFacultyDataList() {
-
+this.count =0
         this.auth.showLoader(); 
         this. activeCeckbox='false';
         this.facultyCheckBox='true';
@@ -844,8 +844,13 @@ sendPushNotification() {
           if(element.email_id !=null || element.student_email) {
             element.assigned = event.target.checked;
             this.count++;
+        //  ====faculty-count======
+          }if(element.teacher_id !=null){
+            element.assigned = event.target.checked;
+            this.count++;
          
           }
+          // ===end====
         }else{
           element.assigned = event.target.checked;
           this.count++;

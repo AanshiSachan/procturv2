@@ -296,7 +296,7 @@
             </div>
             <div title="{{item.user_id}}">{{(!item.user_id)? '-' : (item.user_id.length > 30)? (item.user_id | slice : 0 : 30) + '...' : item.user_id}}</div>
             <div title="{{item.name}}">{{(!item.name)? '-' : (item.name.length > 30)? (item.name | slice : 0 : 30) + '...' : item.name}}</div>
-            <div title="{{item.phone}}">{{(!item.phone)? '-' : (item.phone.length > 10)? (item.phone | slice : 0 : 10) + '...' : item.phone}}</div>
+            <div title="{{item.phone}}">{{(!item.phone)? '-' : (item.phone.length > 30)? (item.phone | slice : 0 : 30) + '...' : item.phone}}</div>
             <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div>
             <div title="{{item.doj}}">{{(!item.doj)? '-' : (item.doj.length > 10)? (item.doj | slice : 0 : 10) + '...' : item.doj}}</div>
             <div title="{{item.email_id}}" *ngIf="!emailSendingFlag">{{(!item.email_id) ? '-' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>

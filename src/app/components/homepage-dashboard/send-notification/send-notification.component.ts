@@ -126,9 +126,9 @@ sendLoginmessage:boolean=false
     private productService: ProductService
     ) {
       this.jsonFlag.institute_id = sessionStorage.getItem('institution_id');
-      this.transactionalSms = sessionStorage.getItem('smsTransaction')
-      this.pramotionalSms = sessionStorage.getItem('pramotionValu')
-      this.email_quataBalence = sessionStorage.getItem('email_quoat_balence')
+      // this.transactionalSms = sessionStorage.getItem('smsTransaction')
+      // this.pramotionalSms = sessionStorage.getItem('pramotionValu')
+      // this.email_quataBalence = sessionStorage.getItem('email_quoat_balence')
       
 
 
@@ -195,6 +195,7 @@ if(this.backToEdit != '' && this.backToEdit !=null){
   this.selectedMessageId = this.backTopush_Id
 
  }
+ this.fetchWidgetPrefill()
   }
  
   onClickEmai(){
@@ -663,6 +664,28 @@ return;
   //   return
   }
   return true;
+}
+// ============for-transaction and pramotional===============
+fetchWidgetPrefill() {
+
+  this.widgetService.getAllplan().subscribe(
+      res => {
+          //this.planListArr = res;
+          this.widgetService.getInstituteSettings().subscribe(
+              res => {
+                  //this.cd.markForCheck();
+                  let transacAndpramo = res;
+                  this.transactionalSms = transacAndpramo.institute_sms_quota_available
+                  this.pramotionalSms =transacAndpramo. institute_campaign_sms_quota_available
+                  this.email_quataBalence=transacAndpramo.institute_email_quota - transacAndpramo.institute_email_quota_used
+                  console.log("transactional Api",transacAndpramo)
+                 // this.generatePlan();
+              },
+              err => { }
+          );
+      },
+      err => { }
+  );
 }
 }
 
