@@ -4,6 +4,8 @@ import { AppComponent } from '../../../app.component';
 import { getEmailService } from '../../../services/report-services/get-email.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { AuthenticatorService } from './../../../services/authenticator.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-email-report',
@@ -42,7 +44,8 @@ export class EmailReportComponent {
   constructor(
     private apiService: getEmailService,
     private appC: AppComponent,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private router: Router
   ) {
     this.switchActiveView('email');
   }
@@ -299,6 +302,10 @@ export class EmailReportComponent {
         }
       )
     }
+  }
+  sendNotifyPage(){
+   
+    this.router.navigateByUrl('/view/dashboard/send-notification')
   }
 }
 
