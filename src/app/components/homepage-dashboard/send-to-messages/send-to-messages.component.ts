@@ -276,12 +276,12 @@ sessionStorage.removeItem('pramotional')
   
               this.showFacultyTableFlag = true;
               this.studentList = res;
-              // for(let i=0;i < this.studentList.length;i++){
-              //   for(let i=0; i < this.studentList.assigned_standard_subject_list[i].length;i++){
-              //     this.studentList[i].assigned_standard_subject_list[i].subject_list[i].subject_name = sub
-              //   }
-              //  console.log("ssssssssssssss",sub)
-              // }
+              for(let i=0;i < this.studentList.length;i++){
+                this.studentList[i].sub_list='';
+                for(let j=0; j < this.studentList[i].assigned_standard_subject_list.length;j++){
+                  this.studentList[i].sub_list = Array.prototype.map.call(this.studentList[i].assigned_standard_subject_list[j].subject_list, sub => sub.subject_name);
+                }
+              }
               console.log("faculty data",this.studentList)
             
           },

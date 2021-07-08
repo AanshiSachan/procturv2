@@ -348,7 +348,7 @@
             </div>
             <div title="{{item.teacher_name}}">{{(!item.teacher_name)? '-' :(item.teacher_name.length > 30)? (item.teacher_name | slice : 0 : 30) + '...' : item.teacher_name}}</div>
             <div title="{{item.teacher_phone}}">{{(!item.teacher_phone)? '-' : (item.teacher_phone.length > 30)? (item.teacher_phone | slice : 0 : 30) + '...' : item.teacher_phone}}</div>
-            <div title="{{item.teacher_subjects}}">{{(!item.teacher_subjects)? '-' : (item.teacher_subjects.length > 10)? (item.teacher_subjects | slice : 0 : 10) + '...' : item.teacher_subjects}}</div>
+            <div title="{{item.sub_list}}">{{(!item.sub_list)? '-' : (item.sub_list.length > 50)? (item.sub_list | slice : 0 : 50) + '...' : item.sub_list}}</div>
             <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
             <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
             <div *ngIf="studentList.length == '0'">No Record Found</div>
