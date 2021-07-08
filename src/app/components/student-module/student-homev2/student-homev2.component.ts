@@ -347,12 +347,12 @@ export class StudentHomev2Component implements OnInit {
     this.fetchStudentPrefill();
     this.loading_message = 3;
     this.studentDataSource = [];
-    if(this.instituteData!=null){
-      let data =sessionStorage.getItem('institutedata');
-      this.instituteData= JSON.parse(data);
-      console.log(this.instituteData);
-      this.searchDatabase();
-    }
+    // if(this.instituteData!=null){
+    //   let data =sessionStorage.getItem('institutedata');
+    //   this.instituteData= JSON.parse(data);
+    //   console.log(this.instituteData);
+    //   this.searchDatabase();
+    // }
     this.totalRow = this.studentDataSource.length;
     this.bulkActionItems = [
       {
@@ -3322,7 +3322,6 @@ sortTable(str) {
   //this.fectchTableDataByPage(this.PageIndex);
 }
 setData(){
-  alert("h");
   sessionStorage.setItem('institutedata',JSON.stringify(this.instituteData))
 }
 }

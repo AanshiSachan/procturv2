@@ -200,11 +200,12 @@ display: flex;
   text-align: center;
 }
 .rollno{
-  color: #fff; 
-  font-size: 13px;
-  position: relative;
-  top: 35px;
-  font-weight: 600;
+  color: #fff;
+    font-size: 11px;
+    position: relative;
+    top: 74px;
+    left: -32px;
+    font-weight: 600;
 }
 .number{
   font-size: 20px;
@@ -1171,4 +1172,22 @@ border-radius: 4px;
   color: #FA5146 !important;
     //color: #FFFFFF;
     
+}
+#deleteModalCat .modal-dialog {
+  width: 350px;
+  text-align: center;
+}
+@media (min-width: 576px){
+#deleteModalCat .modal-dialog {
+  max-width:350px;
+}
+}
+.alert_text{
+  text-align: center;
+}
+.modal{
+  position: absolute;
+  left:40%;
+  top:10%;
+
 }

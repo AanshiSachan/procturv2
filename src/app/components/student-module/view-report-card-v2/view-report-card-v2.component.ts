@@ -422,7 +422,7 @@ export class ViewReportCardV2Component implements OnInit {
   //============================PTM Details==============================//
 
   getPTMDetails() {
-    this.auth.showLoader();
+   this.auth.showLoader();
     this.apiService.getPTMDetails(this.studentId).subscribe(
       res => {
         this.auth.hideLoader();
@@ -1018,7 +1018,30 @@ export class ViewReportCardV2Component implements OnInit {
 
     )
   }
-
+  tempForInventory=[];
+  deletePopup(obj){
+    this.tempForInventory =obj.allocation_id;
+    alert(this.tempForInventory)
+    //this.tempForCat= obj;
+    $('#deleteModalCat').modal('show');
+  }
+  deleteInventory(obj){
+    this.auth.showLoader();
+      this.httpService.deleteData('/api/v1/inventory/item/txHistory/' + obj, null).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage('success', '', 'Inventory Deleted Successfully');
+          this.getInventoryDetails();
+         $('#deleteModalCat').modal('hide');
+        },
+        err => {
+         this.msgService.showErrorMessage('error', '', err.error.message);
+          this.auth.hideLoader();
+        }
+      );
+    
+  
+  }
   manageFees() {
     this.router.navigate(['/view/fee/update-fee/view-fee/' + this.student_id]);
     // this.router.navigate(["/view/students/edit/" + event]);

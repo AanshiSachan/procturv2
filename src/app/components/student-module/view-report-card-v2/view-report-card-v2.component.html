@@ -28,7 +28,7 @@
           <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
         </div>
         <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
-          <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:13px">{{studentCommanData.reg_no}}</span></span>
+          <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
         </div>
       </div>
       <div class="wm70">
@@ -38,8 +38,9 @@
           </div>
           <div class="padding1">
             <p class="blue_text">Student Name</p>
-            <p class="black_text" title="{{studentCommanData.student_name}}"> {{ (studentCommanData.student_name?.length
-              > 20) ? (studentCommanData.student_name| slice:0:20) + '...' : studentCommanData.student_name }}</p>
+            <p class="black_text" style="overflow-wrap: anywhere;text-align: justify;" title="{{studentCommanData.student_name}}">{{studentCommanData.student_name}} </p>
+            <!-- hyphens: auto; {{ (studentCommanData.student_name?.length
+              > 20) ? (studentCommanData.student_name| slice:0:20) + '...' : studentCommanData.student_name }} -->
           </div>
         </div>
         <div class="width80"></div>
@@ -125,13 +126,13 @@
               <span class="name1">Roll No.&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.roll_no}} </span>
+              <span class="value1">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
             </div>
             <div class="w15">
               <span class="name1">Birth Place&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.birth_place==''?'---':studentCommanData.birth_place}}</span>
+              <span class="value1">{{studentCommanData.birth_place=='' ||studentCommanData.birth_place==null ?'---':studentCommanData.birth_place}}</span>
             </div>
           </div>
           <div class="outter_flex">
@@ -140,14 +141,14 @@
             </div>
             <div class="w35">
               <span class="value1"
-                title="{{studentCommanData.religion}}">{{studentCommanData.religion==''?'---':studentCommanData.religion}}</span>
+                title="{{studentCommanData.religion}}">{{studentCommanData.religion=='' ||studentCommanData.religion==null ?'---':studentCommanData.religion}}</span>
             </div>
             <div class="w15">
               <span class="name1">Aadhar ID&nbsp;:</span>
             </div>
             <div class="w35">
               <span class="value1"
-                title="{{studentCommanData.student_adhar_card}}">{{studentCommanData.student_adhar_card==''?'---':studentCommanData.student_adhar_card}}</span>
+                title="{{studentCommanData.student_adhar_card}}">{{studentCommanData.student_adhar_card=='' ||studentCommanData.student_adhar_card==null?'---':studentCommanData.student_adhar_card}}</span>
             </div>
           </div>
           <div class="outter_flex">
@@ -155,7 +156,7 @@
               <span class="name1">Group&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.group==''?'---':studentCommanData.group}}</span>
+              <span class="value1">{{studentCommanData.group==''|| studentCommanData.group==null?'---':studentCommanData.group}}</span>
             </div>
             <div class="w15" *ngIf="schoolModel">
               <span class="name1">Optional Subject&nbsp;:</span>
@@ -169,13 +170,13 @@
               <span class="name1">Date Of Birth&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.dob |date:'dd-MM-yyyy'}}</span>
+              <span class="value1">{{ studentCommanData.dob==''|| studentCommanData.dob==null?'---':studentCommanData.dob |date:'dd-MM-yyyy'}}</span>
             </div>
             <div class="w15">
               <span class="name1">Gender&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.gender}}</span>
+              <span class="value1">{{studentCommanData.gender==''|| studentCommanData.gender==null?'---':studentCommanData.gender }}</span>
             </div>
           </div>
           <div class="outter_flex">
@@ -191,7 +192,7 @@
             </div>
             <div class="w35">
               <span class="value1">
-                {{studentCommanData.student_email==null?'---':studentCommanData.student_email}}</span>
+                {{studentCommanData.student_email==null ||studentCommanData.student_email==''?'---':studentCommanData.student_email}}</span>
             </div>
           </div>
           <div class="outter_flex">
@@ -199,13 +200,13 @@
               <span class="name1">State&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.state==null?'---':studentCommanData.state}}</span>
+              <span class="value1">{{studentCommanData.state==null ||studentCommanData.state==''?'---':studentCommanData.state}}</span>
             </div>
             <div class="w15">
               <span class="name1">Country&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.country==null?'---':studentCommanData.country}}</span>
+              <span class="value1">{{studentCommanData.country==null ||studentCommanData.country=='' ?'---':studentCommanData.country}}</span>
             </div>
           </div>
           <div class="outter_flex">
@@ -990,7 +991,7 @@
                 #
               </div>
               <div>
-                Titles
+                Title
               </div>
               <div>
                 Date
@@ -1043,9 +1044,9 @@
               <div>
                 Allocation Date
               </div>
-              <!-- <div>
+              <div>
                    Action
-                  </div> -->
+                  </div>
             </div>
             <div class="table_body" *ngFor="let data of inventoryDetails;index as i ">
               <div>
@@ -1063,9 +1064,9 @@
               <div>
                 {{data.created_date | date:'dd-MM-yyyy'}}
               </div>
-               <!-- <div>
-                  <a><img src="/assets/img2/delete.svg" class="size22" title="delete"></a>
-            </div> -->
+               <div>
+                  <a><img src="/assets/img2/delete.svg" (click)="deletePopup(data)" class="size22" title="delete"></a>
+            </div>
           </div>
           <div class="nodata" *ngIf="inventoryDetails?.length == 0">
             <span style="text-align: center">
@@ -1079,18 +1080,18 @@
         <div class="table_title">
           <span>PTM History</span>
         </div>
-        <div class="ptm_table">
-          <div class="table_heading" style="margin-left: -19px;">
-            <div style="text-align:left;">
+        <div class="ptm_table"  style="margin-left: -19px;">
+          <div class="table_heading">
+            <div style="text-align:left;margin-left: 60px">
               <span class="top" *ngIf="isLangInstitue">Batch</span>
               <span class="top" *ngIf="!isLangInstitue">Subject</span>
             </div>
-            <div>
+            <div style="text-align:left;">
 
-              <span class="top">Date</span>
+              <span class="top" >Date</span>
             </div>
             <div>
-              <span class="top">Attendance</span>
+              <span class="top" style="text-align:left;">Attendance</span>
             </div>
             <div>
               Teacher /Institute Remarks
@@ -1103,7 +1104,7 @@
             </div>
           </div>
           <div class="table_body" *ngFor="let data of PTMDetList">
-            <div>
+            <div style="text-align:left;">
               {{data.batch_name}}
             </div>
             <div>
@@ -1113,15 +1114,16 @@
               {{data.attendance}}
             </div>
             <div>
-              {{data.total_initial_amount}}
+              {{data.teacher_remark==''|| data.teacher_remark==null?'---':data.teacher_remark}}
             </div>
             <div>
-              {{data.parent_remark}}
+              {{data.parent_remark==''|| data.parent_remark==null?'---':data.parent_remark}}
+          
             </div>
             <div>
               <div
-                [ngClass]="{'pending':status=='Pending', 'inprogress': status=='In progress', 'resolved':status=='Resolved'}">
-                abc</div>
+                [ngClass]="{'pending':data.status=='pending', 'inprogress': data.status=='in progress', 'resolved':data.status=='resolved'}">
+                {{data.status}}</div>
             </div>
           </div>
           <div  style="margin-left: -18px;" class="nodata" *ngIf="PTMDetList?.length == 0">
@@ -1703,6 +1705,31 @@
 </div>
 </div>
 <!-- The Modal -->
+<div class="modal" id="deleteModalCat">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="center">
+          <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+        </div>
+        <div >
+          <p class="alert_text"> Do you want to proceed?</p>
+        </div>
+        <div class="pt101 display">
+          <div>
+            <button class="white_button right" data-dismiss="modal">Cancel</button>
+          </div>
+          <div>
+            <button class="blue_button right"  (click)="deleteInventory(tempForInventory)">Proceed</button>
+          </div>
+        </div>
+      </div>        
+    </div>
+  </div>
+</div>
 <div class="modal" id="myModal">
   <form  #fileForm="ngForm">
   <div class="modal-dialog">
@@ -1737,4 +1764,5 @@
     </div>
   </div>
 </form>
+
   
