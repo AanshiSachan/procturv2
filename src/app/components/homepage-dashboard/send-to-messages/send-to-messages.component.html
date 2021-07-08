@@ -18,7 +18,7 @@
      <div *ngIf="pushNotificationFlag">
         <p class="heading">Selected Push<img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
         <p class="para">
-            {{push_message}}
+            {{(!push_message)? '-' :(push_message.length > 50) ?(push_message | slice :0:50) + '...' : push_message}}
                             
         </p>
        
@@ -68,20 +68,20 @@
 
             <!-- ===========end=============== -->
            <div class="vertical display" *ngIf="!isProfessional">
-            <div>
+            <div >
                 <label>{{schoolModel? 'Standard' : 'Master Course'}}</label>
-               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course"  name="master_course"     (ngModelChange)="onMasterCourseChange($event)">
+               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course"  name="master_course"   [disabled]="pramotional == 'true'"   (ngModelChange)="onMasterCourseChange($event)">
                 <option value="-1">Select</option>
 
                    <option [value]="master.master_course" *ngFor="let master of masterCourseList">{{master.master_course}}</option>
                </select>
 
-               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id" name="master_course" (ngModelChange)="onMasterCourseChange($event)" >
+               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id"  [disabled]="pramotional == 'true'" name="master_course" (ngModelChange)="onMasterCourseChange($event)" >
                    <option value="-1">Select</option>
                 <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.masterCourse}}</option>
             </select>
             </div>
-            <div>
+            <div >
                 <label> {{schoolModel ? 'Section(s)' : 'Course(s)'}}</label>
                 <!-- <select [(ngModel)]="courseId" (ngModelChange)="($event)" name="course">
                     <option>select</option>
@@ -89,14 +89,14 @@
                     {{opt.course_name}}
                 </option>
                 </select> -->
-                <ng-multiselect-dropdown class="multidropdown"  [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                <ng-multiselect-dropdown class="multidropdown" [disabled]="pramotional == 'true'" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
                 (ngModelChange)="($event)">
                   
                </ng-multiselect-dropdown>
                
             </div>
             <div>
-                <button class="blue_button" (click)="fetchStudentsApi()">Search</button>
+                <button class="blue_button" [disabled]="pramotional == 'true'" (click)="fetchStudentsApi()">Search</button>
             </div>
            </div>
             <div class="vertical1 display">
@@ -111,11 +111,11 @@
                         <label >Active Students</label>
                     </div>
                     <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
-                        <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" [disabled]="transactional == 'true' || pushNotificationFlag"  (change)="onClearInctiveCheckbox($event)">
+                        <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" [disabled]="transactional == 'true' || pushNotificationFlag || schoolModel"  (change)="onClearInctiveCheckbox($event)">
                         <label >Inactive Students</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
-                        <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true' || pushNotificationFlag"  (change)="onClearAlluminCheckbox($event)">
+                        <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true' || pushNotificationFlag || schoolModel"  (change)="onClearAlluminCheckbox($event)">
                         <label >Alumni Students</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true' || pushNotificationFlag}"  [title]="pramotional =='true' ? 'Select transactional SMS for sending SMS' : ''">
@@ -123,7 +123,7 @@
                         <label >Faculty</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}"  [title]="pramotional =='true' ? 'Select transactional SMS for sending SMS' : ''">
-                        <input type="radio" class="form-radio" name="allUserCheck"  [(ngModel)]="allUserCheck" value="true"  [disabled]="pramotional == 'true'"  (change)="onClearAlluserCheckbox($event)">
+                        <input type="radio" class="form-radio" name="allUserCheck"  [(ngModel)]="allUserCheck" value="true"  [disabled]="pramotional == 'true' || schoolModel"  (change)="onClearAlluserCheckbox($event)">
                         <label >Registered Users</label>
                     </div>
                 </div>
