@@ -25,7 +25,7 @@
             class="img-round">
         </div>
         <div class="w40" *ngIf="schoolModel && studentCommanData.reg_no!=null">
-          <span class="rollno">Reg&nbsp;No.<br><span class="number">{{studentCommanData.reg_no}}</span></span>
+          <span class="rollno">Reg&nbsp;No.<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
         </div>
         <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
           <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
@@ -38,7 +38,7 @@
           </div>
           <div class="padding1">
             <p class="blue_text">Student Name</p>
-            <p class="black_text" style="overflow-wrap: anywhere;text-align: justify;" title="{{studentCommanData.student_name}}">{{studentCommanData.student_name}} </p>
+            <p class="black_text" style="overflow-wrap: anywhere;text-align: justify;" title="{{studentCommanData.student_name}}">{{studentCommanData.student_name |titlecase}} </p>
             <!-- hyphens: auto; {{ (studentCommanData.student_name?.length
               > 20) ? (studentCommanData.student_name| slice:0:20) + '...' : studentCommanData.student_name }} -->
           </div>
@@ -64,7 +64,7 @@
           </div>
           <div class="padding1">
             <p class="blue_text">Standard</p>
-            <p class="black_text">{{studentCommanData.standard}}</p>
+            <p class="black_text">{{studentCommanData.standard |titlecase}}</p>
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
         <p *ngIf="schoolModel" class="course_text">Section Assigned:</p>
         <div class="tag_wrapper">
           <div class="tag" *ngFor="let data of assignedCourses;index as i" title="{{data}}">{{ (data?.length
-            > 20) ? (data| slice:0:20) + '...' : data }}</div>
+            > 20) ? (data| slice:0:20) + '...' : data |titlecase}}</div>
         </div>
       </div>
       <div class="padding4" *ngIf="downloadStudentReportAccess || (downloadStudentReportAccess && studentReport)">
@@ -96,16 +96,19 @@
     </div>
     <div class="w80">
       <div class="w96">
-        <div class="box">
+        <div class="box" style="cursor:pointer;">
           <div [ngClass]="isActiveTab === 'profile' ? 'box_active' : ''" id="profile" (click)="openTab('profile')">
             Profile</div>
           <div id="parent" [ngClass]="isActiveTab == 'parent' ? 'box_active' : ''" (click)="openTab('parent')">Parent
           </div>
+          <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}" (click)="openTab('documents')">
+            Documents</div> 
+            <div id="fees" *ngIf="checkIfUserHadAccess(role_feature.FEE_MANAGE)" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
+            <div id="exam_course" *ngIf="!schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam_course'}"
+            (click)="openTab('exam_course')">Exam</div>
           <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''"
             (click)="openTab('attendance')">Attendance</div>
-          <div id="fees" *ngIf="checkIfUserHadAccess(role_feature.FEE_MANAGE)" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
-          <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}" (click)="openTab('documents')">
-            Files</div> 
+
           <div id="inventory" [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">
             Inventory</div>
           <div id="ptm" [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
@@ -115,8 +118,7 @@
             Time Table</div>
           <!-- <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}"
             (click)="openTab('exam')">Exam</div> -->
-          <div id="exam_course" *ngIf="!schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam_course'}"
-            (click)="openTab('exam_course')">Exam</div>
+          
 
         </div>
         <div id="profile_tab" *ngIf="isActiveTab =='profile'">
@@ -418,7 +420,7 @@
               </div>
               <div> Active</div>
               <div> Admission Date</div>
-              <div>Leaving Date</div>
+              <div style="text-align: left;margin-left: 29px;">Leaving Date</div>
               <div></div>
             </div>
             <!-- class active=y and inactive=n-->
@@ -445,7 +447,7 @@
               </div>
               <div>{{data.is_batch_active}}</div>
               <div>{{data.batchJoiningDate |date:'dd-MM-yyyy'}}</div>
-              <div>{{data.batchLeavingDate}}</div>
+              <div style="text-align: left;margin-left: 29px">{{data.batchLeavingDate}}</div>
               <div>
                 <a data-toggle="modal" data-target="#myModal1" (click)="viewAttendanceDet(data)"
                   *ngIf="data.attendanceDateList"> <svg _ngcontent-hsk-c194="" version="1.1" id="Layer_1" x="0px"
@@ -1123,7 +1125,7 @@
             <div>
               <div
                 [ngClass]="{'pending':data.status=='pending', 'inprogress': data.status=='in progress', 'resolved':data.status=='resolved'}">
-                {{data.status}}</div>
+                {{data.status |titlecase}}</div>
             </div>
           </div>
           <div  style="margin-left: -18px;" class="nodata" *ngIf="PTMDetList?.length == 0">

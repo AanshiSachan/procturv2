@@ -396,7 +396,21 @@ export class StudentHomev2Component implements OnInit {
     this.checkDownloadRoleAccess();
     this.getAcademmicYear();
     this.fetchCustomComponent();
+    //setfilter data
+    let filters = sessionStorage.getItem('filterdata');
+    if (filters) {
+      let searchparam=sessionStorage.getItem('searchBarData');
+      if(searchparam!=null){ 
+        this.searchBarData= searchparam;
+      }
+       // if session filters are not blank
+      let obj = JSON.parse(filters);
+      this.selectedFilterData = obj;
+      this.loadTableDataSource(obj);
+    }
    // this.searchDatabase();
+   sessionStorage.removeItem('searchBarData');
+   sessionStorage.removeItem('filterdata');
   }
 
   checkCustomeComponentElement(index) {
@@ -1438,12 +1452,12 @@ export class StudentHomev2Component implements OnInit {
       el.value = "";
     });
   }
-
+simpleSearch;
   /* =================================================================================================== */
   /* =================================================================================================== */
-  searchDatabase() {
+  searchDatabase(value) {
     //alert("hi");
-   
+   this.simpleSearch=value;
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     let obj: any = {
@@ -3321,7 +3335,12 @@ sortTable(str) {
   }
   //this.fectchTableDataByPage(this.PageIndex);
 }
-setData(){
-  sessionStorage.setItem('institutedata',JSON.stringify(this.instituteData))
+
+redirect() {
+ 
+  // let obj = this.isProfessional ? this.instituteData : this.selectedFilterData;
+  sessionStorage.setItem('searchBarData',this.searchBarData);
+  sessionStorage.setItem('filterdata',JSON.stringify(this.selectedFilterData));
 }
+
 }

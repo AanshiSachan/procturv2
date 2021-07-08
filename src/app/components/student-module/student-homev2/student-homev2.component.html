@@ -454,7 +454,7 @@
        <input #search type="text" name="searchData"  id="basic-search"
        [(ngModel)]="searchBarData"
        name="searchData" (keyup.enter)="searchDatabase()" class="magnifying-glass text-indent search mt-9 mr10 btn_shadow" placeholder="Search By Name/Contact No.">
-       <button  class=" blue_button btn_shadow"  (click)="searchDatabase()">Search</button>
+       <button  class=" blue_button btn_shadow"  (click)="searchDatabase(1)">Search</button>
    </div> 
      
      <div class="col-lg-8">
@@ -498,7 +498,7 @@
 
           </div>
           
-            <a><button class="blue_button mt-9 btn_shadow"  name="button" routerLink='./add' *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)">Add Student</button></a>
+            <a><button class="blue_button mt-9 btn_shadow"  name="button" routerLink='./add' *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" (click)="redirect()">Add Student</button></a>
        </span>
      </div>
    </div>
@@ -634,7 +634,7 @@
          <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
        <div class="center1" style="text-align: center;padding-left:48px">
            <!-- [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]"-->
-        <a   (click)="setData()" [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
+        <a   (click)="redirect()" [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
         <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
         <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
       </div>
