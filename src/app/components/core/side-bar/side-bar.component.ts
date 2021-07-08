@@ -175,7 +175,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   schoolModel: boolean = false;
   is_zoom_integration_enable: boolean = false;
   custom_text_for_power_by_proctur:any = '';
-  showMaximizedPopup:boolean = false;
+  showMaximizedPopup:boolean = true;
   user_name:any='';
   constructor(
     private auth: AuthenticatorService,
