@@ -1021,7 +1021,6 @@ export class ViewReportCardV2Component implements OnInit {
   tempForInventory=[];
   deletePopup(obj){
     this.tempForInventory =obj.allocation_id;
-    alert(this.tempForInventory)
     //this.tempForCat= obj;
     $('#deleteModalCat').modal('show');
   }
