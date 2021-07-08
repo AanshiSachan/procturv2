@@ -98,6 +98,7 @@ backToEmailId:any
 backToEditemailSub:string=""
 backToPush:string="";
 backTopushId:any
+selectedMesgCount:number =0
   
 
   constructor( private router: Router,
@@ -120,6 +121,7 @@ backTopushId:any
       this.push_message = sessionStorage.getItem('push_message')
       this.push_messageId= sessionStorage.getItem('push_mesg_id')
       this.messageCharacterCount =sessionStorage.getItem('messageLength')
+      this.selectedMesgCount = parseInt(sessionStorage.getItem('messageCounts'))
 
 
       this.courseListSetting={
@@ -135,14 +137,13 @@ backTopushId:any
     }
   ngOnInit(): void {
 
-
  if(this.smsSendingFlag){
    this.messageCharacterCount = this.selected_message.length
 
  }
- if(this.messageCharacterCount !=0){
-   this.messageCount =1
- }
+//  if(this.messageCharacterCount !=0){
+//    this.messageCount =1
+//  }
     this.auth.schoolModel.subscribe(
       res => {
         this.schoolModel = false;
@@ -172,9 +173,14 @@ backTopushId:any
   }
 
   if(this.push_message && this.push_message != ""){
-
+this.transactional = false
     this.pushNotificationFlag = true;
+
     this.smsSendingFlag = false
+    this.emailSendingFlag = false
+
+  
+
   
   }
     
@@ -188,7 +194,8 @@ backTopushId:any
     sessionStorage.removeItem('email-subject')     
      sessionStorage.removeItem('selecte-messase')
      sessionStorage.removeItem('push_message')
-
+sessionStorage.removeItem('transactinal')
+sessionStorage.removeItem('pramotional')
      sessionStorage.removeItem('selecte-email-message')
 
 
@@ -216,14 +223,15 @@ backTopushId:any
 
   }
   allActiveStudent() {
+    this.count=0
   this.auth.showLoader()
     this.facultyCheckBox='false';
    this.aluminiCheckBox='false';
     this.allUserCheck='false';
    this.inactiveCheck='false';
    this.activeCeckbox='true'
-  // this.courseList=[]
-  //   this.masterCourseList=[]
+   this.selectedCourseList=[]
+   //   this.masterCourseList=[]
    this.showFacultyTableFlag= false;
    this.showInactiveStudentFlag=false;
    this.showAllaluminiStudentFlag=false;
@@ -246,15 +254,16 @@ backTopushId:any
     }
   
     allFacultyDataList() {
-this.count =0
+      let sub:any
+       this.count =0
         this.auth.showLoader(); 
         this. activeCeckbox='false';
         this.facultyCheckBox='true';
         this.aluminiCheckBox='false';
         this.allUserCheck='false';
         this.inactiveCheck='false';
-    //     this.courseList=[]
-    // this.masterCourseList=[]
+        this.selectedCourseList=[]
+        this.selectMasterCourse.standard_id=''
         this.showActiveTableFlag = false;
         this.showInactiveStudentFlag=false;
         this.showAllaluminiStudentFlag=false;
@@ -267,6 +276,12 @@ this.count =0
   
               this.showFacultyTableFlag = true;
               this.studentList = res;
+              // for(let i=0;i < this.studentList.length;i++){
+              //   for(let i=0; i < this.studentList.assigned_standard_subject_list[i].length;i++){
+              //     this.studentList[i].assigned_standard_subject_list[i].subject_list[i].subject_name = sub
+              //   }
+              //  console.log("ssssssssssssss",sub)
+              // }
               console.log("faculty data",this.studentList)
             
           },
@@ -278,6 +293,9 @@ this.count =0
       
     }
       aluminiStudentData() {
+        this.count=0
+        this.selectedCourseList=[]
+
         this.auth.showLoader();
         // this.courseList=[]
         // this.masterCourseList=[]
@@ -308,7 +326,9 @@ this.count =0
 
 
         allInActiveStudent() {
-        
+          this.count=0
+          this.selectedCourseList=[]
+
             this.auth.showLoader();
          this. activeCeckbox='false';
          this.facultyCheckBox='false';
@@ -340,13 +360,15 @@ this.count =0
             )
           }
         allRegisterUsers() {
-        
+          this.count=0
+
             this.auth.showLoader();
         this. activeCeckbox='false';
          this.facultyCheckBox='false';
          this.aluminiCheckBox='false';
          this.allUserCheck='true';
          this.inactiveCheck='false';
+         this.selectedCourseList=[]
     //     this.courseList=[]
     // this.masterCourseList=[]
          this.showAllaluminiStudentFlag = false;
@@ -391,6 +413,8 @@ this.count =0
       
 
         fetchStudentsApi() {
+          this.count=0
+
           this. activeCeckbox='false';
          this.facultyCheckBox='false';
          this.aluminiCheckBox='false';
@@ -435,6 +459,8 @@ this.count =0
         }
         
         getMaterCourseList() {
+          this.count=0
+
           this.selectedCourseList=[]
           this.courseList=[]
           this.studentList=[]
@@ -526,6 +552,8 @@ this.count =0
       }
 
       onMasterCourseChange(event) {
+        this.count=0
+
         this.allUserCheck ='false'
 this.selectedCourseList=[]
         this.activeCeckbox='false';
@@ -558,6 +586,8 @@ this.selectedCourseList=[]
       }
     
        getCourseList(ev) {
+        this.count=0
+
         this.courseList = [];
         this.selectMasterCourse.course_id = '-1';
         let master_course_obj = this.masterCourseList.filter(

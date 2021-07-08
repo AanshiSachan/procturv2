@@ -11,7 +11,7 @@
                 <div *ngIf="pramotional == 'true'">SMS Type: <b> Promotional</b></div>
                 <div *ngIf="transactional =='true'">SMS Type: <b>Transactional</b></div>
 
-                <div>Message Count: <b>{{messageCount}}</b></div>
+                <div>Message Count: <b>{{selectedMesgCount}}</b></div>
             </div>
         </div>
      <!-- =================push-notification-send=============    -->
@@ -89,7 +89,7 @@
                     {{opt.course_name}}
                 </option>
                 </select> -->
-                <ng-multiselect-dropdown class="multidropdown" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                <ng-multiselect-dropdown class="multidropdown"  [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
                 (ngModelChange)="($event)">
                   
                </ng-multiselect-dropdown>
@@ -110,12 +110,12 @@
                         <input type="radio" class="form-radio" name="activeCeckbox" [(ngModel)]="activeCeckbox" value="true"  [disabled]="pramotional == 'true'" (change)="onClearActiveCheckbox($event)">
                         <label >Active Students</label>
                     </div>
-                    <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true'}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
-                        <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" [disabled]="transactional == 'true'"  (change)="onClearInctiveCheckbox($event)">
+                    <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
+                        <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" [disabled]="transactional == 'true' || pushNotificationFlag"  (change)="onClearInctiveCheckbox($event)">
                         <label >Inactive Students</label>
                     </div>
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true'}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
-                        <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true'"  (change)="onClearAlluminCheckbox($event)">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
+                        <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true' || pushNotificationFlag"  (change)="onClearAlluminCheckbox($event)">
                         <label >Alumni Students</label>
                     </div>
                     <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true' || pushNotificationFlag}"  [title]="pramotional =='true' ? 'Select transactional SMS for sending SMS' : ''">

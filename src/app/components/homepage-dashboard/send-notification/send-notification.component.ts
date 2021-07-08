@@ -389,14 +389,31 @@ sessionStorage.setItem('selected-message',(this.selectedRow))
 sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessageId))
 
 this.selectedMessageText=this.selectedRow.length
-console.log("msg length",this.selectedMessageId)
 sessionStorage.setItem('messageLength',(this.selectedMessageText))
 
-console.log("msg length",this.selectedMessageText)
-if(this.selectedMessageText){
-  this.selectedMessageCount = 1
-  console.log("count",this.selectedMessageCount)
+let uniCodeFlag = this.hasUnicode(this.newMessageText);
+  let charLimit = 160;
+  if (uniCodeFlag) {
+    charLimit = 70
+  }
+if (this.selectedRow.length == 0) {
+  this.selectedMessageCount = 0;
 }
+else if (this.selectedRow.length > 0 && this.selectedRow.length <= charLimit) {
+  this.selectedMessageCount = 1;
+}
+else {
+  let count = Math.ceil(this.selectedRow.length / charLimit);
+
+  console.log(count);
+  this.selectedMessageCount = count;
+  sessionStorage.setItem('messageCounts',JSON.stringify(this.selectedMessageCount))
+
+}
+// if(this.selectedMessageText){
+//   this.selectedMessageCount = 1
+//   console.log("count",this.selectedMessageCount)
+// }
 }
 onSelectedEmailCheckbox(obj){
   this.jsonFlag.createEmailFlag =false
