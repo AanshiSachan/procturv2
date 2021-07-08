@@ -32,9 +32,17 @@ export class CourseCourseListV2Component implements OnInit {
   academicList: any = [];
   acad_year_id: any = '-1';
   Search_criteria: any = '';
+  is_active:boolean = true;
   masterCourseObj: any = {
     "master_course_name": "",
     "institute_id": this.institute_id,
+    "is_active": "Y",
+    "standard_id": '-1',
+    "standard_name": ''
+  }
+  createMasterCourseModel: any = {
+    "master_course_name": "",
+    "institute_id": sessionStorage.getItem('institute_id'),
     "is_active": "Y",
     "standard_id": '-1',
     "standard_name": ''
@@ -96,14 +104,15 @@ export class CourseCourseListV2Component implements OnInit {
 
   fetchCourseDetails(obj) {
     // if (this.master_course_id != '-1') {
+      let is_active = this.is_active ? 'Y' : 'N';
     this._auth.showLoader();
-    let url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?acad_year_id=${this.acad_year_id}&search_criteria=${this.Search_criteria}`;
+    let url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?acad_year_id=${this.acad_year_id}&search_criteria=${this.Search_criteria}&is_active=${is_active}`;
     if (this.master_course_id != '-1' && this.acad_year_id != '-1') {
-      url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?id=${this.master_course_id}&acad_year_id=${this.acad_year_id}&search_criteria=${this.Search_criteria}`;
+      url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?id=${this.master_course_id}&acad_year_id=${this.acad_year_id}&search_criteria=${this.Search_criteria}&is_active=${is_active}`;
     } else if (this.acad_year_id == '-1' && this.master_course_id != '-1') {
-      url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?id=${this.master_course_id}&search_criteria=${this.Search_criteria}`;
+      url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?id=${this.master_course_id}&search_criteria=${this.Search_criteria}&is_active=${is_active}`;
     } else if (this.acad_year_id == '-1' && this.master_course_id == '-1') {
-      url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?search_criteria=${this.Search_criteria}`;
+      url = `/api/v1/courseMaster/fetch-all-course/${this.institute_id}?search_criteria=${this.Search_criteria}&is_active=${is_active}`;
     }
     this._httpService.getData(url).subscribe(
       (res: any) => {
@@ -377,6 +386,63 @@ export class CourseCourseListV2Component implements OnInit {
     let data = this.getCheckedRows();
     for (let i = 0; i < Object.keys(data).length; i++) {
       (document.getElementById("studentcheck" + Object.keys(data)[i]) as HTMLInputElement).checked = true;
+    }
+  }
+
+  editMcFun(obj){
+    this.editMasterC=true;
+    this.createMasterCourseModel.master_course_name = obj.master_course_name;
+    this.createMasterCourseModel.standard_id = obj.course_list[0].standard_id;
+    this.createMasterCourseModel.master_course_id = obj.master_course_id;
+    console.log(obj);
+  }
+
+  saveMasterC() {
+    this.updateMasterCourse();
+  }
+
+  checkMasterCourseVal() {
+    if (CommonUtils.isEmpty(this.createMasterCourseModel.master_course_name) || this.createMasterCourseModel.standard_id == '-1') {
+      this._msgService.showErrorMessage('error', '', 'Please fill all mandatory fields');
+      return false;
+    }
+    return true;
+  }
+
+    updateMasterCourse() {
+    if (this.checkMasterCourseVal()) {
+      let obj = {
+        "master_course_name": this.createMasterCourseModel.master_course_name,
+        "institute_id": this.createMasterCourseModel.institute_id,
+        "is_active": "Y",
+        "standard_id": this.createMasterCourseModel.standard_id,
+        "master_course_id": this.createMasterCourseModel.master_course_id
+      }
+      this._auth.showLoader();
+      this._httpService.putData('/api/v1/master-course/update', obj).subscribe(
+        (res: any) => {
+          this._auth.hideLoader();
+          this._msgService.showErrorMessage('success', '', 'Master course updated successfully');
+          this.getMasterCourseData();
+          this.fetchCourseDetails(this.master_course_id);
+          $('#courseModal').modal('hide');
+        },
+        (err: any) => {
+          this._auth.hideLoader();
+          this._msgService.showErrorMessage('error', '', err.error.message);
+        }
+      )
+    }
+  }
+
+  clearMasterCourse() {
+    // this.editMasterC = false;
+    this.createMasterCourseModel = {
+      "master_course_name": "",
+      "institute_id": sessionStorage.getItem('institute_id'),
+      "is_active": "Y",
+      "standard_id": '-1',
+      "standard_name": ''
     }
   }
 

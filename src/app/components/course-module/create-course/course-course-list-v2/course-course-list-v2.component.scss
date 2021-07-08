@@ -252,7 +252,7 @@
   }
   .add_s{
     font-weight: 600;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 18px;
     letter-spacing: 0.01em;
     color: #109CF1;
@@ -524,7 +524,7 @@ padding-bottom: 8px;
     letter-spacing: 0.01em;
     color: #109CF1;
     padding-left: 10px;
-    border-left: 4px solid #109CF1;
+    // border-left: 4px solid #109CF1;
   }
   .name>div{
     line-height: 50px;
@@ -563,7 +563,7 @@ padding-bottom: 8px;
   }
   .add_s{
     font-weight: 600;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 18px;
     letter-spacing: 0.01em;
     color: #109CF1;
@@ -705,6 +705,7 @@ background-color:transparent;
       td {
           text-align: left;
           padding: 10px;
+          font-size: 12px;
           .field-wrapper {
               .form-ctrl {
                   padding: 5px;
@@ -930,9 +931,18 @@ input{
   box-shadow: none !important;
   font-weight: 600;
   margin-bottom: 15px !important;
+  align-items: center;
 }
 .searchClass {
   display: flex;
   justify-content: flex-end;
   width: 59%;
+}
+.course_name {
+  align-items: center;
+  min-height: 50px;
+  border-left: 4px solid #109CF1;
+  .line0 {
+    line-height: normal;
+  }
 }

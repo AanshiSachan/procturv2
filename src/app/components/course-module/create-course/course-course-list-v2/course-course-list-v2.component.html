@@ -24,6 +24,22 @@
               <option value="{{mc.inst_acad_year_id}}" *ngFor="let mc of academicList">{{mc.inst_acad_year}}</option>
             </select>
           </div>
+
+          <div>
+            <div style="width:100px;margin-left: 15px;">
+              <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" id="allow" value="" [(ngModel)]="is_active" (ngModelChange)="fetchCourseDetails(is_active)" name="allow">
+                  <span class="checkbox__control">
+                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
+                    </svg>
+                  </span>
+                </span>
+              </label>
+              <span>Is Active</span>
+            </div>
+          </div>
         </div>
         <div class="searchClass">
           <div style="margin-right: 10px;">
@@ -61,7 +77,18 @@
       <!-- use image only when page is empty,table body class element will not be present -->
       <br>
       <div class="outter_flex" *ngFor="let mc of courseData">
-        <div class="mc_class">{{mc.master_course_name}}</div>
+        <div class="flex mc_class">
+          <div>
+            <span class="mr10">{{mc.master_course_name}}</span>
+            <img data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg"
+            (click)="editMcFun(mc)" class="pointer">
+        </div>
+          <div class="flex" [ngClass]="{'space_flex': !schoolModel}" *ngIf="mc.course_list && mc.course_list[0].standard_name!=''">
+            <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+            <div class="std">Standard: {{mc.course_list[0].standard_name}}</div>
+            <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+          </div>
+        </div>
         <!-- <div class="firstchild" *ngIf="master_course_id!='-1'">
           <a routerLink="../add" (click)="setAddCourseSession()">
             <div>
@@ -73,9 +100,9 @@
           </a>
         </div> -->
         <div *ngFor="let course of mc.course_list">
-          <div class="display name">
-            <div>{{course.course_name}}</div>
-            <div><a routerLink="../edit/{{course.course_id}}" (click)="setAddCourseSession()"><img
+          <div class="display name course_name">
+            <div class="line0">{{course.course_name}}</div>
+            <div><a routerLink="../edit/{{course.course_id}}"><img style="width: 30px;height: 20px;"
                   src="../../../../assets/img1/edit.svg"></a></div>
           </div>
           <div class="name1"></div>
@@ -99,7 +126,7 @@
             <div class="name2">
               End Date :
             </div>
-            <div class="value2">
+            <div class="value2" [ngStyle]="{'color':is_active?'#222529':'red'}">
               {{course.end_date}}
             </div>
           </div>
@@ -125,7 +152,7 @@
             </div>
             <div class="value2 display">
               <div>{{course.total_students}}</div>
-              <div class="add_s" (click)="addStudentToBatch(course)">Assign /UnAssign </div>
+              <div class="add_s" (click)="addStudentToBatch(course)">Assign /Unassign </div>
             </div>
           </div>
           <!-- <div class="flex">
@@ -183,7 +210,7 @@
               <label for="unassignStudent">UnAssigned</label>
             </div>
           </div>
-          <div class="c-sm-6 c-md-6 c-lg-6" style="float: right;">
+          <div class="c-sm-7 c-md-7 c-lg-7" style="float: right;">
 
             <div class="c-sm-6 c-md-6 c-lg-6" *ngIf="!schoolModel">
               <div class="field-wrapper">
@@ -203,7 +230,7 @@
 
             <div class="c-sm-4 c-md-4 c-lg-4">
               <div class="search-filter-wrapper">
-                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent"
+                <input #searchVal type="text" style="width: 140px;" class="normal-field" placeholder="Search" id="searchStudent"
                   name="searchData" [(ngModel)]="searchData">
               </div>
             </div>
@@ -338,4 +365,37 @@
 
 <div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">
 
+</div>
+
+<div class="modal" id="courseModal" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{editMasterC ? 'Edit' : 'Add'}} Master Course</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="pt10">
+          <input type="text" class="wid100 input" [(ngModel)]="createMasterCourseModel.master_course_name" name=""
+            placeholder="Master Course*">
+        </div>
+        <div class="pt10">
+          <select class="wid100 select" [(ngModel)]="createMasterCourseModel.standard_id">
+            <option value="-1">Standard Name*</option>
+            <option value="{{std.standard_id}}" *ngFor="let std of standardList">{{std.standard_name}} </option>
+          </select>
+        </div>
+
+        <div class="pt101 display">
+          <div></div>
+          <div>
+
+            <button (click)="saveMasterC()" class="blue_button mr10">{{editMasterC ? 'Update' : 'Add'}}</button>
+            <button data-dismiss="modal" (click)="clearMasterCourse()" class="white_button">Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

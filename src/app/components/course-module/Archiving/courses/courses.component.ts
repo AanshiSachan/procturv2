@@ -181,7 +181,7 @@ export class CoursesComponent implements OnInit {
       }
       else {
         this.sendPayload.archived = false;
-        if (confirm('Are you sure, you want to Archive?')) {
+        if (confirm('Are you sure, you want to Delete?')) {
           this.batch.courses(this.sendPayload).subscribe(
             (data: any) => {
               if (data.status_code == 202) {

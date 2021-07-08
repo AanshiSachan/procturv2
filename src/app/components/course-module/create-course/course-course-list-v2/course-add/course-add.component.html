@@ -96,7 +96,7 @@
             {{row.is_optional=='Y'?row.subject_name+'(Optional)':row.subject_name}}
           </div>
           <div>
-            <select class="select width_s" [(ngModel)]="row.selected_teacher" (ngModelChange)="checkMoreOption(row)">
+            <select class="select width_s" [(ngModel)]="row.selected_teacher" id="{{row.selected_teacher + i}}" [name]="row.selected_teacher + i" (ngModelChange)="checkMoreOption(row)">
               <option value="-1"></option>
               <option *ngFor="let opt of row.allowedTeacher" [value]="opt.teacher_id">
                 {{opt.teacher_name}}

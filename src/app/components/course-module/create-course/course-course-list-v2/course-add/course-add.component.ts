@@ -74,7 +74,7 @@ export class CourseAddComponent implements OnInit {
     )
     this.getActiveTeacherList(this.courseDetails.standard_id);
     !this.schoolModel ? this.getMasterCourseData() : '';
-    this.getAllStandardSubjectList()
+    this.getAllStandardSubjectList();
     this.getAcademicYearDetails();
     if (this.selectedCourseID) {
       this.getSelectedCourse(this.selectedCourseID);
@@ -103,7 +103,9 @@ export class CourseAddComponent implements OnInit {
       let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.courseDetails.master_course_id));
       let masterCourseObj = stdObj[0];
       let sub_list = this.standardList.filter(sub => (sub.standard_id == masterCourseObj.standard_id));
-      this.subjectList = sub_list[0].subject_list;
+      if(sub_list && sub_list.length) {
+        this.subjectList = sub_list[0].subject_list;
+      }
       this.newSubjectDetails.standard_id = masterCourseObj.standard_id;
       this.getActiveTeacherList(this.courseDetails.standard_id);
     } else {
@@ -125,7 +127,9 @@ export class CourseAddComponent implements OnInit {
         // this.getMetaDataForTable(this.courseDetails);
         // this.dummyArray.push("Selected Course");
         if (this.selectedCourseID) {
-          this.getSubjects();
+          setTimeout(() => {
+            this.getSubjects();
+          }, 2000);
         }
         this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
       },
@@ -143,7 +147,7 @@ export class CourseAddComponent implements OnInit {
       for (let y = 0; y < nestedTableDataSource.length; y++) {
         if (test[i].subject_id == nestedTableDataSource[y].subject_id) {
           nestedTableDataSource[y].uiSelected = true;
-          nestedTableDataSource[y].selected_teacher = test[i].teacher_id;
+          nestedTableDataSource[y].selected_teacher = String(test[i].teacher_id);
           nestedTableDataSource[y].isAssigned = test[i].isAssigned;
           nestedTableDataSource[y].otherDetails = test[i];
         }
@@ -398,7 +402,14 @@ export class CourseAddComponent implements OnInit {
         if (this.schoolModel) {
           trp.batch_name = this.courseDetails.standard_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         } else {
-          trp.batch_name = this.courseDetails.master_course + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+          trp.batch_name = this.courseDetails.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
+        }
+        if(this.selectedCourseID) {
+          if (selectedSubjectRow[y].hasOwnProperty('otherDetails')) {
+            trp.batch_id = selectedSubjectRow[y].otherDetails.batch_id.toString();
+          } else {
+            trp.batch_id = '0';
+          }
         }
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
         if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == null || selectedSubjectRow[y].selected_teacher == "-1") {
@@ -588,31 +599,6 @@ export class CourseAddComponent implements OnInit {
       )
     }
   }
-
-  // updateMasterCourse() {
-  //   if (this.checkMasterCourseVal()) {
-  //     let obj = {
-  //       "master_course_name": this.createMasterCourseModel.master_course_name,
-  //       "institute_id": this.createMasterCourseModel.institute_id,
-  //       "is_active": "Y",
-  //       "standard_id": this.createMasterCourseModel.standard_id,
-  //       "master_course_id": this.createMasterCourseModel.master_course_id
-  //     }
-  //     this._auth.showLoader();
-  //     this._httpService.putData('/api/v1/master-course/update', obj).subscribe(
-  //       (res: any) => {
-  //         this._auth.hideLoader();
-  //         this._msgService.showErrorMessage('success', '', 'Master course updated successfully');
-  //         this.getMasterCourseData();
-  //         $('#courseModal').modal('hide');
-  //       },
-  //       (err: any) => {
-  //         this._auth.hideLoader();
-  //         this._msgService.showErrorMessage('error', '', err.error.message);
-  //       }
-  //     )
-  //   }
-  // }
 
   clearMasterCourse() {
     // this.editMasterC = false;
