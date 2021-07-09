@@ -17,8 +17,8 @@
      <!-- =================push-notification-send=============    -->
      <div *ngIf="pushNotificationFlag">
         <p class="heading">Selected Push<img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
-        <p class="para">
-            {{(!push_message)? '-' :(push_message.length > 50) ?(push_message | slice :0:50) + '...' : push_message}}
+        <p class="para" title="{{push_message}}">
+            {{(!push_message)? '-' :(push_message.length > 60) ?(push_message | slice :0:60) + '...' : push_message}}
                             
         </p>
        
@@ -110,11 +110,11 @@
                         <input type="radio" class="form-radio" name="activeCeckbox" [(ngModel)]="activeCeckbox" value="true"  [disabled]="pramotional == 'true'" (change)="onClearActiveCheckbox($event)">
                         <label >Active Students</label>
                     </div>
-                    <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
+                    <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''" *ngIf="!schoolModel">
                         <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" [disabled]="transactional == 'true' || pushNotificationFlag || schoolModel"  (change)="onClearInctiveCheckbox($event)">
                         <label >Inactive Students</label>
                     </div>
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}" [title]="transactional =='true' ? 'Select promotional SMS for sending SMS' : ''" *ngIf="!schoolModel">
                         <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true' || pushNotificationFlag || schoolModel"  (change)="onClearAlluminCheckbox($event)">
                         <label >Alumni Students</label>
                     </div>
@@ -122,7 +122,7 @@
                         <input type="radio" class="form-radio" name="facultyCheckBox"  [(ngModel)]="facultyCheckBox" value="true" [disabled]="pramotional == 'true' || pushNotificationFlag"  (change)="onClearFacultyCheckbox($event)">
                         <label >Faculty</label>
                     </div>
-                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}"  [title]="pramotional =='true' ? 'Select transactional SMS for sending SMS' : ''">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}"  [title]="pramotional =='true' ? 'Select transactional SMS for sending SMS' : ''" *ngIf="!schoolModel">
                         <input type="radio" class="form-radio" name="allUserCheck"  [(ngModel)]="allUserCheck" value="true"  [disabled]="pramotional == 'true' || schoolModel"  (change)="onClearAlluserCheckbox($event)">
                         <label >Registered Users</label>
                     </div>
@@ -200,6 +200,7 @@
         <div >Name</div>
         <div>Mobile</div>
         <div>Subject</div>
+        <div>Email</div>
         <div>Is Active</div>
        
         
@@ -272,8 +273,8 @@
             </div>
             <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
             <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
-            <div title="{{item.student_phone}}">{{item.student_phone}}</div>
-            <div title="{{item.student_class}}">{{item.student_class}}</div>
+            <div title="{{item.student_phone}}">{{item.student_phone }}</div>
+            <div title="{{item.student_class}}">{{item.student_class == '-1' ? 'NA' : item.student_class}}</div>
             <div title="{{item.doj}}">{{item.doj}}</div>
             <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
             <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
@@ -338,7 +339,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" >
+                      <input type="checkbox" name="checked" [disabled]="item.teacher_email== '' && emailSendingFlag" (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" >
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -350,6 +351,8 @@
             <div title="{{item.teacher_phone}}">{{(!item.teacher_phone)? '-' : (item.teacher_phone.length > 30)? (item.teacher_phone | slice : 0 : 30) + '...' : item.teacher_phone}}</div>
             <div title="{{item.sub_list}}">{{(!item.sub_list)? '-' : (item.sub_list.length > 50)? (item.sub_list | slice : 0 : 50) + '...' : item.sub_list}}</div>
             <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
+            <div title="{{item.teacher_email}}" *ngIf="!emailSendingFlag" >{{(!item.teacher_email) ? '-' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>
+            <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.teacher_email == ''}" title="{{item.teacher_email}}">{{(!item.teacher_email) ? 'Email id is not available' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>           
             <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
             <div *ngIf="studentList.length == '0'">No Record Found</div>
             </div>

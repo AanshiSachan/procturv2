@@ -871,7 +871,7 @@ sendPushNotification() {
       data.forEach(
         element => {
           if(this.emailSendingFlag){
-          if(element.email_id !=null || element.student_email) {
+          if(element.email_id !=null || element.student_email || element.teacher_email) {
             element.assigned = event.target.checked;
             this.count++;
         //  ====faculty-count======
