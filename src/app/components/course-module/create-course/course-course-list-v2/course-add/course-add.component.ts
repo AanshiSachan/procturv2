@@ -22,6 +22,7 @@ export class CourseAddComponent implements OnInit {
   schoolModel: boolean = false;
   isLangInstitue: boolean = false;
   selectedCourseID: any = '';
+  subjectCodeCharLimit: number = 4;
   courseDetails: any = {
     course_name: '',
     start_Date: '',
@@ -82,6 +83,8 @@ export class CourseAddComponent implements OnInit {
       this.courseDetails.academic_year_id = '-1';
       this.courseDetails.master_course = this.courseDetails.master_course_name;
     }
+    if (sessionStorage.getItem('institute_id') == 102047 + "")
+      this.subjectCodeCharLimit = 8;
   }
 
   getMasterCourseData() {
