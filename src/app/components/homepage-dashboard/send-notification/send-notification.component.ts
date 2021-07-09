@@ -88,9 +88,9 @@ sendLoginmessage:boolean=false
  email_subject:string="";
 
   previewedMessage: any;
-  transactionalSms:any;
+  transactionalSms:number=0;
   pramotionalSms:any;
-  email_quataBalence:any
+  email_quataBalence:number=0
 
   messageSubject: any = "";
   selectedMessageText:string ="";
@@ -637,6 +637,7 @@ updateMessage(){
   }
  
   onClickSentTo(){
+    if(this.transactional != 0){
     this.router.navigateByUrl('/view/dashboard/send-to-messages')
     sessionStorage.setItem('transactinal',JSON.stringify( this.transactionalSelectedFlag))
     sessionStorage.setItem('pramotional',JSON.stringify( this.pramotionalSelectedFlag))
@@ -645,8 +646,14 @@ updateMessage(){
     sessionStorage.removeItem('email subject')
     sessionStorage.removeItem('push_message')
     sessionStorage.removeItem('selecte-email-message')
+  }else{
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Transactionl Sms quota not available');
+
   }
+}
   onClickEmailSentTo(){
+    if(this.email_quataBalence != 0){
+
     if( this.email_subject.trim() ==''){
       this.classToggled = true
       console.log("emailflasssss",this.classToggled)
@@ -660,6 +667,10 @@ updateMessage(){
     }
 sessionStorage.removeItem('push_message')
 sessionStorage.removeItem('selected-message')
+  }else{
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Email quota is not available');
+
+  }
   }
   onClickPushSentTo(){
     this.router.navigateByUrl('/view/dashboard/send-to-messages')
@@ -673,13 +684,9 @@ sessionStorage.removeItem('selected-message')
     if( this.newMessageText ==''){
       this.msgService.showErrorMessage('info', '', "Enter Some Detail");
 return;
-  // } if(this.jsonFlag.onClickCreateEmail || this.newMessageText ==''){
-  //   this.msgService.showErrorMessage('info', '', "Enter Email Detail");
-  //   return
-  // }if(this.jsonFlag.pushNotificationFlag || this.newMessageText ==''){
-  //   this.msgService.showErrorMessage('info', '', "Enter Your Push Notification");
-  //   return
+  
   }
+  
   return true;
 }
 // ============for-transaction and pramotional===============

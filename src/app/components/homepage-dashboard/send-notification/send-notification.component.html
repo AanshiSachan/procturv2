@@ -31,7 +31,7 @@
         </div>
         <div title="{{msg.date}}">{{msg.date}}</div>
         <div title="{{msg.message}}">
-          {{(!msg.message) ? '-':(msg.message.length > 80) ?(msg.message | slice :0:80) + '...' : msg.message}}
+          {{(!msg.message) ? '-':(msg.message.length > 100) ?(msg.message | slice :0:100) + '...' : msg.message}}
         </div>
         <div>
           <a class="mr16" (click)="onClickEdit(msg)" style="cursor: pointer;"><img
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div title="{{push.date}}">{{push.date}}</div>
-        <div title="{{push.message}}"> {{(!push.message) ? '-':(push.message.length > 80) ?(push.message | slice :0:80) + '...' : push.message}}
+        <div title="{{push.message}}"> {{(!push.message) ? '-':(push.message.length > 100) ?(push.message | slice :0:100) + '...' : push.message}}
         </div>
         <div>
           <a class="mr16" (click)="onClickEditPush(push)" style="cursor: pointer;"><img

@@ -89,7 +89,7 @@
                     {{opt.course_name}}
                 </option>
                 </select> -->
-                <ng-multiselect-dropdown class="multidropdown" [disabled]="pramotional == 'true'" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                <ng-multiselect-dropdown class="multidropdown" style="border: none;" [disabled]="pramotional == 'true'" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
                 (ngModelChange)="($event)">
                   
                </ng-multiselect-dropdown>
@@ -201,7 +201,7 @@
         <div>Mobile</div>
         <div>Subject</div>
         <div>Email</div>
-        <div>Is Active</div>
+        <!-- <div>Is Active</div> -->
        
         
     </div>
@@ -339,7 +339,7 @@
             <div>
                 <label class="checkbox">
                     <span class="checkbox__input">
-                      <input type="checkbox" name="checked" [disabled]="item.teacher_email== '' && emailSendingFlag" (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" >
+                      <input type="checkbox" name="checked" [disabled]="item.teacher_email == '' && emailSendingFlag" (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" >
                       <span class="checkbox__control">
                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                           <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
@@ -349,11 +349,11 @@
             </div>
             <div title="{{item.teacher_name}}">{{(!item.teacher_name)? '-' :(item.teacher_name.length > 30)? (item.teacher_name | slice : 0 : 30) + '...' : item.teacher_name}}</div>
             <div title="{{item.teacher_phone}}">{{(!item.teacher_phone)? '-' : (item.teacher_phone.length > 30)? (item.teacher_phone | slice : 0 : 30) + '...' : item.teacher_phone}}</div>
-            <div title="{{item.sub_list}}">{{(!item.sub_list)? '-' : (item.sub_list.length > 50)? (item.sub_list | slice : 0 : 50) + '...' : item.sub_list}}</div>
+            <div title="{{item.sub_list}}">{{(!item.sub_list)? '-' : (item.sub_list.length > 30)? (item.sub_list | slice : 0 : 30) + '...' : item.sub_list}}</div>
             <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
             <div title="{{item.teacher_email}}" *ngIf="!emailSendingFlag" >{{(!item.teacher_email) ? '-' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>
             <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.teacher_email == ''}" title="{{item.teacher_email}}">{{(!item.teacher_email) ? 'Email id is not available' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>           
-            <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div>
+            <!-- <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div> -->
             <div *ngIf="studentList.length == '0'">No Record Found</div>
             </div>
          </div> 

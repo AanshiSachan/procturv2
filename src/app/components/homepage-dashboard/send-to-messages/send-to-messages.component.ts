@@ -23,9 +23,10 @@ export class SendToMessagesComponent implements OnInit, OnDestroy {
     
   }
   selectMasterCourse = {
-    master_course: '',
+    master_course: '-1',
     course_id: '',
-    standard_id: '',
+    standard_id: '-1',
+    standard_name:'',
     batch_id:'',
     subject_id:'',
     master_course_name:''
@@ -128,8 +129,8 @@ selectedMesgCount:number =0
         singleSelect :false,
         idField: 'course_id',
         textField: 'course_name',
-        selectAllText :'select All',
-        unSelectAllText:'unselect All',
+        selectAllText :'Select All',
+        unSelectAllText:'Unselect All',
         itemShowLimit :2,
         enableCheckAll:true
   
@@ -217,6 +218,8 @@ sessionStorage.removeItem('pramotional')
     this.showAllaluminiStudentFlag=false;
     this.showallUserListFlag=false; 
     this.showCourseWiseFlag=false
+    this.selectMasterCourse.master_course='-1',
+   this.selectMasterCourse.standard_id='-1'
     $('#myModal').modal('hide');
 
 
@@ -430,20 +433,28 @@ sessionStorage.removeItem('pramotional')
           let temp_selectedCourseList:any=[]
           for(let i=0; i<this.selectedCourseList.length;i++){
             this.courseId = this.selectedCourseList[i].course_id
-          //   this.selectMasterCourse.master_course_name = this.selectedCourseList[i].course_name
             temp_selectedCourseList.push(this.courseId)
+          } 
+          let mc_name:any='';
+          console.log(this.masterCourseList);
+          if(this.schoolModel){
+            for(let i=0; i<this.masterCourseList.length;i++){
+              if(this.selectMasterCourse.standard_id == this.masterCourseList[i].standard_id) {
+                mc_name = this.masterCourseList[i].masterCourse;
+              }
+
+              console.log('courseeeeeeeeee',this.selectMasterCourse.standard_id)
+
           }
-     
+       }
+     alert(mc_name)
           let obj={
             course_ids_list:temp_selectedCourseList,
-           master_course_name:this.selectMasterCourse.master_course,
-            // inst_id :this.jsonFlag.institute_id,
-            // role:'student',
-            // coursesArray:['']
+           master_course_name:!this.schoolModel ? this.selectMasterCourse.master_course:mc_name,
+          
           }
          
-          //obj.course_ids_list = temp_selectedCourseList;
-          // const url = '/api/v1/courseMaster/onlineClass/fetch/users'
+        
           const url='/api/v1/studentBatchMap/manageBatchStudent/'+this.jsonFlag.institute_id
           this.auth.showLoader();
           this.httpService.postData(url, obj).subscribe(
@@ -875,18 +886,20 @@ sendPushNotification() {
             element.assigned = event.target.checked;
             this.count++;
         //  ====faculty-count======
-          }if(element.teacher_id !=null){
-            element.assigned = event.target.checked;
-            this.count++;
-         
           }
+        //   if(element.teacher_id !=null){
+        //     element.assigned = event.target.checked;
+        //     this.count++;
+         
+          
+        // }
           // ===end====
         }else{
           element.assigned = event.target.checked;
           this.count++;
 
         }
-      
+          
       }
       )
     } else {
@@ -896,6 +909,7 @@ sendPushNotification() {
       });
     }
     }
+    
    onsearchList(){
      if(this.activeCeckbox =='true' ){
        this.allActiveStudent()
@@ -948,7 +962,8 @@ onClearActiveCheckbox(event){
   this.aluminiCheckBox='false';
   this.allUserCheck='false';
   this.inactiveCheck='false';
-  this.selectMasterCourse.master_course='',
+  this.selectMasterCourse.master_course='-1',
+  this.selectMasterCourse.standard_id='-1'
   this.courseId=''
 }
 onClearInctiveCheckbox(event){
@@ -956,14 +971,17 @@ onClearInctiveCheckbox(event){
    this.activeCeckbox='false';
    this.facultyCheckBox='false';
    this.aluminiCheckBox='false';
-   this.selectMasterCourse.master_course='',
+   this.selectMasterCourse.master_course='-1',
+   this.selectMasterCourse.standard_id='-1'
    this.courseId=''}
 onClearAlluserCheckbox(event){
   
    this.activeCeckbox='false';
    this.facultyCheckBox='false';
    this.aluminiCheckBox='false';
-   this.selectMasterCourse.master_course='',
+   this.selectMasterCourse.master_course='-1',
+   this.selectMasterCourse.standard_id='-1'
+
    this.courseId=''
       this.inactiveCheck='false';
 }
@@ -971,7 +989,9 @@ onClearFacultyCheckbox(event){
   this.allUserCheck ='false'
 
    this.activeCeckbox='false';
-   this.selectMasterCourse.master_course='',
+   this.selectMasterCourse.master_course='-1',
+   this.selectMasterCourse.standard_id='-1'
+
    this.courseId=''
       this.aluminiCheckBox='false';
    this.inactiveCheck='false';
@@ -981,7 +1001,9 @@ onClearAlluminCheckbox(event){
  
    this.activeCeckbox='false';
    this.facultyCheckBox='false';
-   this.selectMasterCourse.master_course='',
+   this.selectMasterCourse.master_course='-1',
+   this.selectMasterCourse.standard_id='-1'
+
    this.courseId=''
       this.inactiveCheck='false';
 }
