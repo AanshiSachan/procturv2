@@ -207,7 +207,7 @@ export class CoursesComponent implements OnInit {
                 }
               }
               else {
-                this.router.navigateByUrl("/view/activity/archiving/coursesArchivedReport")
+                this.router.navigateByUrl("/view/course/archiving/coursesArchivedReport")
                 let msg = {
                   type: "success",
                   body: "Course(s) archived successfully"
@@ -243,7 +243,7 @@ export class CoursesComponent implements OnInit {
                   this.sendPayloadBatch.archived = true;
                   this.batch.batches(this.sendPayloadBatch).subscribe(
                     (data: any) => {
-                      this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                      this.router.navigateByUrl("/view/course/archiving/batchesArchivedReport")
                       let msg = {
                         type: "success",
                         body: "Batch(s) archived successfully"
@@ -261,7 +261,7 @@ export class CoursesComponent implements OnInit {
                 }
               }
               else {
-                this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                this.router.navigateByUrl("/view/course/archiving/batchesArchivedReport")
                 let msg = {
                   type: "success",
                   body: "Batch(s) archived successfully"
@@ -275,7 +275,7 @@ export class CoursesComponent implements OnInit {
                   this.sendPayloadBatch.archived = true;
                   this.batch.batches(this.sendPayloadBatch).subscribe(
                     (data: any) => {
-                      this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                      this.router.navigateByUrl("/view/course/archiving/batchesArchivedReport")
                       let msg = {
                         type: "success",
                         body: "Batch(s) archived successfully"
