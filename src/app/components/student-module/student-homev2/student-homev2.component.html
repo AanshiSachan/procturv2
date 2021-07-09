@@ -877,9 +877,9 @@ $( document ).ready(function() {
       </div>
       <div>
        <p class="content" >
-         This is to certify that <b>{{charactertCertiModel.stud_name}} s/o {{charactertCertiModel.father_name}}</b>, was a bonafied student of since<b> {{charactertCertiModel.doj}}</b> to till date.
-  We found him to be well behaved & bears a good moral character. We found him to be regular to school and his conduct is satisfactory.
-  I wish him a great success in life.
+         This is to certify that <b>{{charactertCertiModel.stud_name}} {{(charactertCertiModel.sex == 'F') ? 'd/o':'s/o'}} {{charactertCertiModel.father_name}}</b>, was a bonafied student of since<b> {{charactertCertiModel.doj}}</b> to till date.
+  We found him to be well behaved & bears a good moral character. We found {{(charactertCertiModel.sex=='F') ? 'her' : 'him'}} to be regular to school and his conduct is satisfactory.
+  I wish {{(charactertCertiModel.sex=='F') ? 'her' :'him'}} a great success in life.
        </p>
        <p class="dated space"  >Dated:&nbsp;&nbsp;<span><b>{{charactertCertiModel.curr_date}}</b></span></p>
      </div>
@@ -897,75 +897,7 @@ $( document ).ready(function() {
   </html>
   </div>
   
-  <!-- =========================================character certificate-female============================================== -->
-  <div  class="modal" style="margin-left: 181px;width:1290px ;" id="conductCertificateF" > 
-    <!DOCTYPE html>
-      <html>
-      <head>
-        <title>DEMO</title>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <meta charset="utf-8"> 
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-          <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-          <link rel="stylesheet" type="text/css" href="style1.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
-      </head>
-      <body>
-         <div class="gradient">
-          <div>
-            <div></div>
-            <div>
-             <!-- <a  class="mr20"  (click)="characterPrintPage('conductCertificateFemale')"> <img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
-             <a   class="mr20" (click)="CertificateConvertTopdf('conductCertificateFemale')"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
-             <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
-            </div>
-          </div>
-        </div>
-        <div id="conductCertificateFemale">
-          <br>
-        <div class="body">
-          
-          <div class="w96 flex">
-            <div style="width: 30%;padding-top: 2%;">
-              <img src="{{charactertCertiModel.logo_url}}" >
-            </div>
-            <div style="width: 70%;padding-top: 5%;" >
-                 <div><span style="font-size:50px; font-weight:bold">{{charactertCertiModel.institute_name}}</span></div>
-                 <div>
-                 <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_phone}}</span>
-                  <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_email}}</span>
-                  </div>
-                  <div>
-                 <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_address}}</span>
-                  </div>
-            </div>
-          </div>
-          <div class="w96 ballet">
-             Character Certificate
-          </div>
-          <div>
-           <p class="content">
-            This is to certify that<b> {{charactertCertiModel.stud_name}} d/o {{charactertCertiModel.father_name}}</b>, was a bonafied student of since<b> {{charactertCertiModel.doj}}</b> to till date.
-      We found her to be well behaved & bears a good moral character. We found her to be regular to school and her conduct is satisfactory.
-      I wish her a great success in life
-           </p>
-           <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{charactertCertiModel.curr_date}}</b></span></p>
-         </div>
-         <div class="display space">
-           <div><b>Place</b><p>{{charactertCertiModel.inst_place}}</p></div>           
-           <div><b>Principal Signature</b></div>
-         </div>
-        </div>
-        <br>
-        </div>
-      </body>
-      </html>  
-  </div>
+ 
   <!-- ============================================bonafied-certificate-male==================================== -->
   <div  class="modal" style="margin-left: 181px;width:1290px ;" id="bonafiedCertificate"> 
       <!DOCTYPE html>
@@ -1019,9 +951,9 @@ $( document ).ready(function() {
       </div>
       <div>
        <p class="content">
-        This is to certify that<b> {{bonafiedCertiModel.stud_name}} s/o {{bonafiedCertiModel.father_name}}</b> residing at <b>{{bonafiedCertiModel.stud_city}}</b>, is a bonafide student and is studying at class<b> {{bonafiedCertiModel.standard_name}} - {{bonafiedCertiModel.section_name}} </b>in this school.
-  He was admitted in this school on<b> {{bonafiedCertiModel.doj}}</b> and his admission number is <b>{{bonafiedCertiModel.reg_number}}</b>
-  His DOB as per our school record is<b> {{bonafiedCertiModel.dob}}</b>
+        This is to certify that<b> {{bonafiedCertiModel.stud_name}} {{(bonafiedCertiModel.sex == 'F') ? 'd/o' :'s/o'}} {{bonafiedCertiModel.father_name}}</b> residing at <b>{{bonafiedCertiModel.stud_city}}</b>, is a bonafide student and is studying at class<b> {{bonafiedCertiModel.standard_name}} - {{bonafiedCertiModel.section_name}} </b>in this school.
+        {{(bonafiedCertiModel.sex == 'F') ? 'She': 'He'}} was admitted in this school on<b> {{bonafiedCertiModel.doj}}</b> and his admission number is <b>{{bonafiedCertiModel.reg_number}}</b>
+         {{(bonafiedCertiModel.sex == 'F') ? 'Her': 'His'}} DOB as per our school record is<b> {{bonafiedCertiModel.dob}}</b>
        </p>
        <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{bonafiedCertiModel.curr_date}}</b></span></p>
      </div>
@@ -1036,76 +968,7 @@ $( document ).ready(function() {
   </body>
   </html>
   </div>
-  <!-- ========================================bonafied-female======================================= -->
-  <div  class="modal" style="margin-left: 181px;width:1290px ;" id="bonafiedCertificateF"> 
-    <!DOCTYPE html>
-  <html>
-  <head>
-    <title>DEMO</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <meta charset="utf-8"> 
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-      <link rel="stylesheet" type="text/css" href="style1.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    
-    <div class="gradient">
-      <div>
-        <div></div>
-        <div>
-         <!-- <a   class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
-         <a   class="mr20" (click)="CertificateConvertTopdf('femailBonafiedPdfdiv')"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
-         <a data-dismiss="modal"  class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
-        </div>
-      </div>
-    </div>
-    <div id="femailBonafiedPdfdiv">
-      <br>
-      <div class="body">
-      <div class="w96 flex">
-        <div style="width: 30%;padding-top: 2%;">
-          <img src="{{bonafiedCertiModel.logo_url}}" >
-        </div>
-        <div style="width: 70%;padding-top: 5%;" >
-             <div><span style="font-size:50px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
-             <div>
-             <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_phone}}</span>
-              <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_email}}</span>
-              </div>
-              <div>
-             <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_address}}</span>
-              </div>
-        </div>
-      </div>
-      <div class="w96 ballet">
-          Bonafide Certificate
-      </div>
-      <div>
-       <p class="content">
-        This is to certify that <b>{{bonafiedCertiModel.stud_name}} d/o {{bonafiedCertiModel.father_name}}</b> residing at <b>{{bonafiedCertiModel.stud_city}}</b>, is a bonafide student and is studying at class <b> {{bonafiedCertiModel.standard_name}} - {{bonafiedCertiModel.section_name}}</b> in this school.
-  She was admitted in this school on <b>{{bonafiedCertiModel.doj}}</b> and her admission number is <b>{{bonafiedCertiModel.reg_number}}</b>
-  Her DOB as per our school record is<b> {{bonafiedCertiModel.dob}}</b>
-       </p>
-       <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{bonafiedCertiModel.curr_date}}</b></span></p>
-     </div>
-     <div class="display space">
-       <div><b>Place</b>
-        <p>{{bonafiedCertiModel.inst_place}}</p></div>
-       <div><b>Principal Signature</b></div>
-     </div>
-   </div>
-   <br>
-   </div>
-  </body>
-  </html>
-  </div>
+ 
   <!-- ====================================migration-male================================================ -->
   <div class="modal" style="margin-left: 181px;width:1290px ;" id="migrationCertificate">
     <!DOCTYPE html>
@@ -1159,9 +1022,9 @@ $( document ).ready(function() {
       <div>
        <p class="content">
         Registration Number: <b>{{migrationCertiModel.reg_number}}</b><br> 
-  This is to certify that <b>{{migrationCertiModel.stud_name}} s/o {{migrationCertiModel.father_name}}</b>is a student of <b>{{migrationCertiModel.institute_name}}</b> an institute affiliated with the<b> {{migrationCertiModel.school_board}} Board. </b><br>
-  He has successfully passed <b>Standard {{migrationCertiModel.standard_name}}</b> examination conducted under this board.
-  This school has no objection in his joining any recognized collage/institute or taking examination of any University or Board established by law.
+       This is to certify that <b>{{migrationCertiModel.stud_name}} {{(migrationCertiModel.sex == 'F') ? 'd/o' : 's/o'}} {{migrationCertiModel.father_name}}</b>is a student of <b>{{migrationCertiModel.institute_name}}</b> an institute affiliated with the<b> {{migrationCertiModel.school_board}} Board. </b><br>
+       {{(migrationCertiModel.sex == 'F') ? 'She': 'He'}} has successfully passed <b>Standard {{migrationCertiModel.standard_name}}</b> examination conducted under this board.
+        This school has no objection in {{(migrationCertiModel.sex == 'F') ? 'her' : 'his'}} joining any recognized collage/institute or taking examination of any University or Board established by law.
        </p>
        <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{migrationCertiModel.curr_date}}</b></span></p>
      </div>
@@ -1177,74 +1040,5 @@ $( document ).ready(function() {
   </html>
   </div>
   <!-- ==========================================migration-female========================================= -->
-  <div class="modal" style="margin-left: 181px;width:1290px ;" id="migrationCertificateF">
-    <!DOCTYPE html>
-  <html>
-  <head>
-    <title>DEMO</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <meta charset="utf-8"> 
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-      <link rel="stylesheet" type="text/css" href="style1.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div class="gradient">
-      <div>
-        <div></div>
-        <div>
-         <!-- <a  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
-         <a class="mr20" (click)="CertificateConvertTopdf('femaleMigrationPdfdiv')"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
-         <a data-dismiss="modal" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
-        </div>
-      </div>
-    </div>
-    <div id="femaleMigrationPdfdiv">
-      <br>
-  <div class="body">
-      <div class="w96 flex">
-        <div style="width: 30%;padding-top: 2%;">
-          <img src="{{migrationCertiModel.logo_url}}" >
-        </div>
-        <div style="width: 70%;padding-top: 5%;" >
-             <div><span style="font-size:50px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
-             <div>
-             <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_phone}}</span>
-              <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_email}}</span>
-              </div>
-              <div>
-             <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_address}}</span>
-              </div>
-        </div>
-      </div>
-      <div class="w96 ballet">
-         Character Certificate
-      </div>
-      <div>
-       <p class="content">
-       Registration Number: <b>{{migrationCertiModel.reg_number}}</b> <br>
-  This is to certify that<b> {{migrationCertiModel.stud_name}} d/o {{migrationCertiModel.father_name}}</b> is a student of<b>{{migrationCertiModel.institute_name}}</b> an institute affiliated with the<b>{{migrationCertiModel.school_board}} Board. </b><br>
-  She has successfully passed <b> {{migrationCertiModel.standard}}</b> Examination conducted under this board.
-  This school has no objection in her joining any recognized collage/institute or taking examination of any University or Board established by law.
-       </p>
-       <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{migrationCertiModel.curr_date}}</b></span></p>
-     </div>
-     <div class="display space">
-       <div><b>Place</b>
-        <p>{{migrationCertiModel.inst_place}}</p></div>
-       <div><b>Principal Signature</b></div>
-     </div>  
-  </div>
-  <br>
-  </div>
-  </body>
-  </html>
-  </div>
-  </div>
+ 
 

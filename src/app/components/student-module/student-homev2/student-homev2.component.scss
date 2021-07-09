@@ -849,6 +849,12 @@ transform: scale(1);
     width: 230px;
   }
   // ================================================certificate-popups===================================
+  .certificate{
+    margin: 0px;
+    color: #403e40;
+    font-size: 15px;
+    text-transform: uppercase;
+  
   .modal-header h4{
     text-align: center;
      font-weight: 500;
@@ -908,12 +914,12 @@ color: #5AA3CF;
   width: 400px;
 
 }
-.certificate{
-	margin: 0px;
-	color: #403e40;
-	font-size: 15px;
-	text-transform: uppercase;
-}
+// .certificate{
+// 	margin: 0px;
+// 	color: #403e40;
+// 	font-size: 15px;
+// 	text-transform: uppercase;
+// }
 .gradient{
 	background: linear-gradient(90deg, #04498A 19.01%, #52C8E6 94.66%);
 }
@@ -980,3 +986,4 @@ margin: 10px 20px;
     width: 576px;
     height: 478px;
 }
+  }

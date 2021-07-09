@@ -3387,41 +3387,14 @@ getCharacterCertificate(){
     (res:any) =>{
       let resp =res.result;
       this.charactertCertiModel = resp
-      if(resp .sex == 'F'){
-        $('#conductCertificateF').modal('show');
-
-      }else{
-        $('#conductCertificate').modal('show')
-      }
+      $('#conductCertificate').modal('show');
       console.log("character",this.charactertCertiModel)
 
       this.auth.hideLoader();
-    //   if(res){
-         
-      
-    //   if(resp.document != "" ){
-    //     let docArry = this._commService.convertBase64ToArray(resp.document);
-    //     let fileName = resp.docTitle;
-    //     let file = new Blob([docArry], { type: 'application/pdf;' });
-    //     let urlcert =URL .createObjectURL(file);
-    //     let downloadLink = document.getElementById('downloadFileClick1');
-    //     downloadLink.setAttribute("href",urlcert);
-    //     downloadLink.setAttribute("download",fileName);
-    //     document.body.appendChild(downloadLink);
-    //     downloadLink.click();
-
-
-    //   }
-    //   else {
-    //     this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    //   }
-    // } else {
-    //   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    // }
   },
   err => {
     console.log(err);
-   // this.showToggleLoader.emit(false);
+  
   }
 )
 
@@ -3433,37 +3406,10 @@ bonafiedCertificates(){
     (res:any) =>{
       let resp =res.result;
       this.bonafiedCertiModel = resp
-      if(resp.sex == 'F'){
-      $('#bonafiedCertificateF').modal('show')
-      }else{
+     
         $('#bonafiedCertificate').modal('show')
-
-      }
-      console.log("bonafied",resp)
-
       this.auth.hideLoader();
-    //   if(res){
-         
-      
-    //   if(resp.document != "" ){
-    //     let docArry = this._commService.convertBase64ToArray(resp.document);
-    //     let fileName = resp.docTitle;
-    //     let file = new Blob([docArry], { type: 'application/pdf;' });
-    //     let urlcert =URL .createObjectURL(file);
-    //     let downloadLink = document.getElementById('downloadFileClick1');
-    //     downloadLink.setAttribute("href",urlcert);
-    //     downloadLink.setAttribute("download",fileName);
-    //     document.body.appendChild(downloadLink);
-    //     downloadLink.click();
-
-
-    //   }
-    //   else {
-    //     this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    //   }
-    // } else {
-    //   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    // }
+    
   },
   err => {
     console.log(err);
@@ -3478,36 +3424,9 @@ migrationCertificates(){
   this.postService.stdGetData(url).subscribe(
     (res:any) =>{
       let resp =res.result;
-      console.log("migration",resp)
      this.migrationCertiModel = resp
-     if(resp.sex == 'F'){
-      $('#migrationCertificateF').modal('show')
-     }else{
-      $('#migrationCertificate').modal('show')
-     }
-      this.auth.hideLoader();
-      // if(res){
-         
-      
-    //   if(resp.document != "" ){
-    //     let docArry = this._commService.convertBase64ToArray(resp.document);
-    //     let fileName = resp.docTitle;//response.docTitle
-    //     let file = new Blob([docArry], { type: 'application/pdf;' });
-    //     let urlcert =URL .createObjectURL(file);
-    //     let downloadLink = document.getElementById('downloadFileClick1');
-    //     downloadLink.setAttribute("href",urlcert);
-    //     downloadLink.setAttribute("download",fileName);
-    //     document.body.appendChild(downloadLink);
-    //     downloadLink.click();
-
-
-    //   }
-    //   else {
-    //     this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    //   }
-    // } else {
-    //   this._commService.showErrorMessage('info', 'Info', "Document does not have any data.");
-    // }
+        $('#migrationCertificate').modal('show')
+      this.auth.hideLoader();   
   },
   err => {
     console.log(err);
@@ -3516,8 +3435,6 @@ migrationCertificates(){
 )
 
 }
-
-
 PrintPage(){
   var divToPrint = document.getElementById("bonafiedCertificate")
   let newWin = window.open("");
@@ -3534,9 +3451,6 @@ migrationPrintPage(){
   newWin.document.write(divToPrint2.outerHTML);
   newWin.print();
   newWin.history.back(); 
-
-
-  //newWin.close()
   console.log("print")
 
 }
@@ -3545,15 +3459,7 @@ characterPrintPage(popupName){
   const originalContents = document.body.innerHTML;
   document.body.innerHTML = printContents;
   window.print();
-  document.body.innerHTML = originalContents;
-  // var divToPrint3 = document.getElementById(popupName)
-  // let newWinchar = window.open("");
-  // newWinchar.document.write(divToPrint3.outerHTML);
-  // newWinchar.print();
-
-
-
-  
+  document.body.innerHTML = originalContents;  
 }
 
 

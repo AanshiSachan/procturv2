@@ -60,7 +60,7 @@
                      </span>
                      </div>
 
-                     <div class="field-wrapper datePickerBox col-lg-3">
+                     <div class="field-wrapper datePickerBox col-lg-3" style="background: #F5F5F5;border-radius: 2px;width: 23%;padding-top: 0px;padding-right: 0px;margin-left: 10px;padding-left: 0px;">
                       <!-- <label for="payee">Payment Date <span class="danger">*</span></label> -->
                       <input type="text" value="" id="dateOfBirth" class="form-ctrl widgetDatepicker bsDatepicker"
                         [(ngModel)]="transferCertificateModel.dateOfBirth" style="padding: 6px;" readonly="true" name="dateOfBirth"
@@ -72,7 +72,7 @@
                        <input type="date" name="dateOfBirth"  max="{{today |date:'yyyy-MM-dd'}}"  [(ngModel)]="transferCertificateModel.dateOfBirth" class="input">
                      </div> -->
                      
-                     <div class="col-lg-3">
+                     <div class="col-lg-3" style="margin-left: 10px;">
                        <span class="label1 ">
                       Nationality
                      </span>
@@ -98,7 +98,7 @@
                      </span>
                      </div>
 
-                     <div class="field-wrapper datePickerBox col-lg-3">
+                     <div class="field-wrapper datePickerBox col-lg-3" style="background: #F5F5F5;border-radius: 2px;width: 23%;padding-top: 0px;padding-right: 2px;padding-left: 0px;margin-left: 10px;">
                       <input type="text" value="" id="doj" class="form-ctrl widgetDatepicker bsDatepicker"
                         [(ngModel)]="transferCertificateModel.doj" style="padding: 6px;" readonly="true" name="doj"
                         placeholder="Date" (ngModelChange)="onAddmithinDate()" bsDatepicker/>
@@ -222,7 +222,7 @@
                            </span>
                          </div>
 
-                         <div class="field-wrapper datePickerBox col-lg-3">
+                         <div class="field-wrapper datePickerBox col-lg-3" style="background: #F5F5F5;border-radius: 2px;width: 23%;padding-top: 0px;padding-right: 0px;margin-left: 10px;padding-left: 0px;">
                           <input type="text" value="" id="last_date" class="form-ctrl widgetDatepicker bsDatepicker"
                             [(ngModel)]="transferCertificateModel.last_date" style="padding: 6px;" readonly="true" name="last_date"
                             placeholder="Date" (ngModelChange)="onLastDate()" bsDatepicker/>
@@ -347,11 +347,11 @@
             <div style="width: 70%" >
                  <div><span style="font-size:50px; font-weight:bold">{{transferCertificateModel.institute_name}}</span></div>
                  <div>
-                 <span class="sm_heading"><b>Phone:</b>{{transferCertificateModel.inst_phone}}</span>
-                  <span class="sm_heading"><b>Email:</b>{{transferCertificateModel.inst_email}}</span>
+                 <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{transferCertificateModel.inst_phone}}</span>
+                  <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{transferCertificateModel.inst_email}}</span>
                   </div>
                   <div>
-                 <span class="sm_heading"><b>Address</b> {{transferCertificateModel.inst_address}}</span>
+                 <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b> {{transferCertificateModel.inst_address}}</span>
                   </div>
             </div>
           </div>
