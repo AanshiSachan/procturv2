@@ -24,6 +24,7 @@ export class EmailReportComponent {
   searchData = [];
   searchflag: boolean = false;
   dataStatus: boolean = true;
+  isProfessional:boolean=false
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
@@ -146,6 +147,15 @@ export class EmailReportComponent {
     ]
   }
   ngOnInit() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.pageIndex = 1;
     this.setTableData();
     this.getAllEmailMessages();

@@ -8,7 +8,7 @@
       <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       Email Report
     </h1>
-    <button class="normal-btn fullBlue btn" style="float: right;" (click)="sendNotifyPage()">
+    <button class="normal-btn fullBlue btn" style="float: right;" (click)="sendNotifyPage()" *ngIf="!isProfessional">
 
       <i class="fa fa-plus" aria-hidden="true"></i>
       &nbsp;
