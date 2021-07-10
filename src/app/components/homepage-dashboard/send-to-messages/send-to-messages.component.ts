@@ -447,10 +447,9 @@ sessionStorage.removeItem('pramotional')
 
           }
        }
-     alert(mc_name)
           let obj={
             course_ids_list:temp_selectedCourseList,
-           master_course_name:!this.schoolModel ? this.selectMasterCourse.master_course:mc_name,
+           master_course_name:this.schoolModel ? mc_name : this.selectMasterCourse.master_course,
           
           }
          

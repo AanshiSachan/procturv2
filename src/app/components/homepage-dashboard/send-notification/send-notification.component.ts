@@ -373,6 +373,8 @@ this.selectesPushCheckBox=false
 
   }
 onselectMessageCheckbox(obj){
+  let uniCodeFlag = this.hasUnicode(this.newMessageText);
+  let charLimit = 160;
   this.jsonFlag.createMesageFlag = false
   this.jsonFlag.selectedMessageFlag = true
   this.selectedSmsCheckBox=true
@@ -391,8 +393,7 @@ sessionStorage.setItem('selected-message_id',JSON.stringify(this.selectedMessage
 this.selectedMessageText=this.selectedRow.length
 sessionStorage.setItem('messageLength',(this.selectedMessageText))
 
-let uniCodeFlag = this.hasUnicode(this.newMessageText);
-  let charLimit = 160;
+
   if (uniCodeFlag) {
     charLimit = 70
   }
@@ -407,13 +408,11 @@ else {
 
   console.log(count);
   this.selectedMessageCount = count;
-  sessionStorage.setItem('messageCounts',JSON.stringify(this.selectedMessageCount))
-
 }
-// if(this.selectedMessageText){
-//   this.selectedMessageCount = 1
-//   console.log("count",this.selectedMessageCount)
-// }
+
+sessionStorage.setItem('messageCounts',JSON.stringify(this.selectedMessageCount))
+
+
 }
 onSelectedEmailCheckbox(obj){
   this.jsonFlag.createEmailFlag =false
@@ -637,7 +636,7 @@ updateMessage(){
   }
  
   onClickSentTo(){
-    if(this.transactional != 0){
+    if(this.transactionalSms != 0){
     this.router.navigateByUrl('/view/dashboard/send-to-messages')
     sessionStorage.setItem('transactinal',JSON.stringify( this.transactionalSelectedFlag))
     sessionStorage.setItem('pramotional',JSON.stringify( this.pramotionalSelectedFlag))
@@ -694,16 +693,12 @@ fetchWidgetPrefill() {
 
   this.widgetService.getAllplan().subscribe(
       res => {
-          //this.planListArr = res;
           this.widgetService.getInstituteSettings().subscribe(
               res => {
-                  //this.cd.markForCheck();
                   let transacAndpramo = res;
                   this.transactionalSms = transacAndpramo.institute_sms_quota_available
                   this.pramotionalSms =transacAndpramo. institute_campaign_sms_quota_available
                   this.email_quataBalence=transacAndpramo.institute_email_quota - transacAndpramo.institute_email_quota_used
-                  console.log("transactional Api",transacAndpramo)
-                 // this.generatePlan();
               },
               err => { }
           );
