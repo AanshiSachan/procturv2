@@ -38,17 +38,17 @@
                 <form >
                     <div class="form-group " >
                         <label for="gross_salary" style="margin-left: -39%;">Gross Salary <span class="text-red">*</span></label>
-                        <input type="text" name="gross_salary" class="form-control" disabled [(ngModel)]="historyModel.gross_salary" >
+                        <input type="number" name="gross_salary" class="form-control" disabled [(ngModel)]="historyModel.gross_salary" >
                     </div>
 
                     <div class="form-group ">
                         <label for="total_deduction">Total Deduction <span class="text-red">*</span></label>
-                        <input type="text" name="total_deduction" class="form-control" disabled [(ngModel)]="historyModel.total_deduction">
+                        <input type="number" name="total_deduction" class="form-control" disabled [(ngModel)]="historyModel.total_deduction">
                     </div>
 
                     <div class="form-group ">
                         <label for="net_salary">Net Salary <span class="text-red">*</span></label>
-                        <input type="text" name="net_salary" class="form-control" id="net_salary" disabled [(ngModel)]="historyModel.net_salary" >
+                        <input type="number" name="net_salary" class="form-control" id="net_salary" disabled [(ngModel)]="historyModel.net_salary" >
                     </div>
 
                     <!-- <div class="field-wrapper datePickerBox form-group ">
@@ -76,7 +76,7 @@
                     
                     <div class="form-group ">
                         <label for="payment_amount">Payment Amount <span class="text-red">*</span></label>                            
-                         <input type="text" name="payment_amount"  onKeyPress="if(this.value.length==9) return false;" onpaste="return false" oncopy="return false" maxlength="10" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  id="payment_amount" [(ngModel)]="historyModel.payment_amount" autocomplete="off">
+                         <input type="text" name="payment_amount"  onKeyPress="if(this.value.length==9) return false;" onpaste="return false" oncopy="return false" maxlength="10" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  id="payment_amount" [(ngModel)]="historyModel.payment_amount" autocomplete="off" value="{{historyModel.net_salary * historyModel.total_hours}}">
                         <span class="text-red">
                         </span>
                     </div>

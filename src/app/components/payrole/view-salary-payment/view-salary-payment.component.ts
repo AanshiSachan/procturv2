@@ -16,7 +16,7 @@ export class ViewSalaryPaymentComponent implements OnInit {
   jsonFlag={
     institute_id:''
   }
-  salaryModel={
+  salaryModel:any={
     salary_type:'M',
     salary_grade:'',
     hourly_grade:'',
@@ -36,7 +36,13 @@ export class ViewSalaryPaymentComponent implements OnInit {
     user_dob:'',
     user_phone:'',
     user_name:'',
-    user_role:''
+    user_role:'',
+    hourly_rate:'',
+    payment_date:'',
+  comment:'',
+  payment_method:'',
+  month:'',
+  payment_amount:''
 
 
   }
@@ -46,11 +52,8 @@ export class ViewSalaryPaymentComponent implements OnInit {
   addedListDeduct:any=[]
   template_allowances_map_dtos:any=[]
   selectedTeacherId:any
-  payment_date:any
-  comment:any
-  payment_method:any
-  month:any
-  payment_amount
+  
+  historyPaymentArr:any=[]=[]
 
   userId:any
   constructor( private http: HttpService, 
@@ -60,11 +63,11 @@ export class ViewSalaryPaymentComponent implements OnInit {
     private location :Location) { 
       this.jsonFlag.institute_id = sessionStorage.getItem('institute_id')
       // this.objectArray = sessionStorage.getItem('objectValue')
-      this.comment = sessionStorage.getItem('viewComment')
-     this.payment_date= sessionStorage.getItem('viewPayment_date')
-    this.payment_method=sessionStorage.getItem('viewPayment_method')
-    this.month=sessionStorage.getItem('viewMonth')
-    this.payment_amount = sessionStorage.getItem('payment-amount')
+      
+     this.salaryModel=JSON.parse(sessionStorage.getItem('history_obj'));
+    //this.historyPaymentArr = sessionStorage.getItem(("historyPaymentResp"))
+    this.historyPaymentArr  = JSON.parse(sessionStorage.getItem("historyPaymentResp"));//no brackets
+
 
     }
   ngOnInit(): void {
@@ -73,52 +76,50 @@ export class ViewSalaryPaymentComponent implements OnInit {
       this.userId =params['user_id']
     });
     this.getViewResponse()
-    console.log("obj value",this.payment_date)
-    console.log("comment",this.comment)
+    console.log("obj valuewwwwwwww",this.historyPaymentArr)
+    console.log("comment",this.salaryModel)
 
   }
 getViewResponse(){
-  this.auth.showLoader();
-  let url='/api/v1/payroll/manage/'+this.jsonFlag.institute_id+'/view/'+this.userId+'/'+this.selectedTeacherId
-  this.http.getData(url).subscribe(
-    (res :any)=>{
-  this.salrayDataList=res.result.template_dto
-  this.auth.hideLoader();
-    this.salaryModel=res.result.template_dto
-    this.salaryModel.user_name = res.result.user_name
-    this.salaryModel .user_gender =res.result.user_gender
-    this.salaryModel .user_dob=res.result.user_dob,
-    this.salaryModel .user_phone=res.result.user_phone,
-    this.salaryModel . user_name=res.result.user_name,
-    this.salaryModel . user_role=res.result.user_role
-    console.log("view details",this.salrayDataList)
+  // this.salaryModel.user_gender=this.salaryModel,
+  // this.salaryModel.user_dob=this.salaryModel,
+  //   this.salaryModel.user_phone=this.salaryModel,
+    this.salaryModel.user_name=this.salaryModel.name,
+    this.salaryModel.user_role=this.salaryModel.role,
+
+
+  console.log(this.salaryModel);
+    this.salaryModel.comment =this.salaryModel.comment
+    this.salaryModel.payment_method =this.salaryModel.payment_method
+    this.salaryModel.month=this.salaryModel.month,
+    this.salaryModel.payment_amount=this.salaryModel.payment_amount,
+
+
+
+    this.salaryModel.salary_type = this.salaryModel.template_dto.salary_type
+   this.salaryModel.hourly_grade =this.salaryModel.template_dto.hourly_grade
+    this.salaryModel.hourly_rate =this.salaryModel.template_dto.hourly_rate
+    this.salaryModel.net_salary=this.salaryModel.template_dto.net_salary,
+    this.salaryModel.overtime_rate=this.salaryModel.template_dto.overtime_rate,
+    this.salaryModel.salary_grade=this.salaryModel.template_dto.salary_grade,
+    this.salaryModel.total_deduction=this.salaryModel.template_dto.total_deduction,
+    this.salaryModel.gross_salary=this.salaryModel.template_dto.gross_salary,
+
+
+
+    this.salaryModel.allowance_amount=this.salaryModel.template_dto.template_allowances_map_dtos.allowance_amount,
+    this.salaryModel.deduction=this.salaryModel.template_dto.template_allowances_map_dtos.deduction
+
+     this.salaryModel.allowance=this.salaryModel.template_dto.template_allowances_map_dtos.allowance,
+     this.salaryModel.deduction_amount=this.salaryModel.template_dto.template_allowances_map_dtos.deduction_amount
+
+    console.log("this sallllllllll",this.salaryModel.salary_type)
+ 
+      console.log("edit response",this.salaryModel)
+    
+  }
   
-  for(let i= 0; i < this.salrayDataList.template_allowances_map_dtos.length; i++){
-    if(this.salrayDataList.template_allowances_map_dtos[i].type == 'D') {
-       let obj ={
-        type:this.salaryModel.typeD,
-        deduction:this.salrayDataList.template_allowances_map_dtos[i].deduction,
-        deduction_amount:this.salrayDataList.template_allowances_map_dtos[i].deduction_amount,
-       }
-         this.addedListDeduct.push(obj)
-      } else {
-           let obj2={
-        type:this.salaryModel.typeA,
-       allowance:this.salrayDataList.template_allowances_map_dtos[i].allowance,
-       allowance_amount:this.salrayDataList.template_allowances_map_dtos[i].allowance_amount,
-      
-       }
-       this.addedListAllownc.push(obj2)  
-      }
-      console.log("edit response",this.salrayDataList)
-    }
-    },
-    err => {
-      this.auth.hideLoader();
-      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err.error.message);
-    }
-  )
-}
+
 backPage(){
 this.location.back()
 }

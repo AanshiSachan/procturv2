@@ -182,10 +182,11 @@ createSalaryPayment(){
     this.month=obj.month,
     this.historyModel.payment_amount=obj.payment_amount
     console.log("month",this.month)
-    sessionStorage.setItem('viewComment',(this.comment))
-    sessionStorage.setItem('viewPayment_date',(this.payment_date))
-    sessionStorage.setItem('viewPayment_method',(this.payment_method))
-    sessionStorage.setItem('viewMonth',(this.month))
+    // sessionStorage.setItem('viewComment',(this.comment))
+    // sessionStorage.setItem('viewPayment_date',(this.payment_date))
+    // sessionStorage.setItem('viewPayment_method',(this.payment_method))
+    // sessionStorage.setItem('viewMonth',(this.month))
+    sessionStorage.setItem('history_obj',JSON.stringify(obj));
     sessionStorage.setItem('payment-amount',this.historyModel.payment_amount)
 
     this.router.navigateByUrl('view/payrole/view-salary-payment/' +teacher_id + '/' + user_id)
@@ -193,11 +194,12 @@ createSalaryPayment(){
   }
   validInput(){
 
-    if(this.historyModel.payment_amount.trim()==''){
-      this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Enter Payment Ammount');
-      return;
+    // if(this.historyModel.payment_amount.trim()==''){
+    //   this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Enter Payment Ammount');
+    //   return;
 
-    }if(this.historyModel.payment_method == ""){
+    // }
+    if(this.historyModel.payment_method == ""){
       this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Payment Method');
 return;
     }
