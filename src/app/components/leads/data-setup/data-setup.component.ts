@@ -80,7 +80,7 @@ export class DataSetupComponent implements OnInit {
     page: 1,
     prefilled_data: "",
     sequence_number: "",
-    type: "",
+    type: "-1",
     on_both: "Y",
     defaultValue: "",
     is_external: "N"
@@ -144,8 +144,11 @@ export class DataSetupComponent implements OnInit {
       this.appC.popToast({ type: 'error', body: "Closing reason can't be empty" })
     }
     else {
-      if (this.isName(row.new_source_name) == true) {
-        this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // if (this.isName(row.new_source_name) == true) {
+      //   this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // }
+      if (row.new_source_name.trim() == '') {
+        this.services.showErrorMessage("error", "", "Please enter closing reason")
       }
 
       else if (this.checkLength(row.new_source_name) == false) {
@@ -179,10 +182,12 @@ export class DataSetupComponent implements OnInit {
     }
 
     else {
-      if (this.isName(this.createNewReasonObj.closing_desc) == true) {
-        this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // if (this.isName(this.createNewReasonObj.closing_desc) == true) {
+      //   this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // }
+      if (this.createNewReasonObj.closing_desc.trim() == '' ) {
+        this.services.showErrorMessage("error", "", "Please enter closing reason")
       }
-
       else if (this.checkLength(this.createNewReasonObj.closing_desc) == false) {
         this.services.showErrorMessage("error", "", "Limits should not be more than 50")
       }
@@ -412,8 +417,8 @@ fetchCustomFild(){
 addNewCustomField(){
 
  //Case 1 Label/Type is not empty and MaxLength and Sequence
- if (this.editCustomFormField.label.trim() != "") {
-  if (this.editCustomFormField.type != "") {
+ if (this.editCustomFormField.label.trim() != "-1") {
+  if (this.editCustomFormField.type != "-1") {
     //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
     if (this.editCustomFormField.type == "3" ||
       this.editCustomFormField.type == "4") {

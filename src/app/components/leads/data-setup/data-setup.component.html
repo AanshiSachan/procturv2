@@ -376,12 +376,12 @@
             <!-- <div> -->
               <div class="tableHeader">
                 <div  class="tableData">
-                  Lable
+                  Field Name
                 </div>
                 <div  class="tableData">
                   Type
                 </div>
-                <div  class="tableData">
+                <div  class="tableData" style="padding-top: 0;">
                   Show On Student
                 </div>
                 <div  class="tableData">
@@ -514,7 +514,7 @@
           <span class="text-danger">*</span>
         </label>
         <select id="opt.data_value" class="form-ctrl"  name="opt.data_value"  [(ngModel)]="editCustomFormField.type" (ngModelChange)="checkValuetype($event)">
-          <option></option>
+          <option value ="-1">Selet</option>
           <option [value]="opt.data_key" *ngFor="let opt of componentShell"> 
             {{opt.data_value}}</option>
          
