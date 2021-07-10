@@ -672,6 +672,7 @@ export class ViewReportCardV2Component implements OnInit {
     }
   }
   getTimeTableDetails() {
+    this.timetablePayLoad.student_id =this.student_id;
     let check = this.validateAllField();
     if (check) {
       this.auth.showLoader();
