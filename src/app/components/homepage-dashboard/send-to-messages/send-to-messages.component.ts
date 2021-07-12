@@ -130,7 +130,7 @@ selectedMesgCount:number =0
         idField: 'course_id',
         textField: 'course_name',
         selectAllText :'Select All',
-        unSelectAllText:'Unselect All',
+        unSelectAllText:'UnSelect All',
         itemShowLimit :2,
         enableCheckAll:true
   

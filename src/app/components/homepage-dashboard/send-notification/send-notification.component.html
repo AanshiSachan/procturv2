@@ -159,7 +159,7 @@
     <div>
       <p>SMS Description</p>
       <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"
-        (ngModelChange)="countNumberOfMessage()"></textarea>
+        (ngModelChange)="countNumberOfMessage()" ></textarea>
       <div class="count">
         <div>
           <p>Character Count: <b>{{newMessageText.length}}</b></p>
