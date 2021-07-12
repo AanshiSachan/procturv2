@@ -97,7 +97,7 @@ getAllHourlyData(){
     this.template_id = obj
   }
   deleteHourly(obj){
-    if (confirm('Are you sure, You want  to delete this template?')) {
+    if (confirm('Are you sure, You want to delete this template?')) {
 this.template_id=obj
     this.auth.showLoader();
     let url ='/api/v1/payroll/template/salary/delete/'+this.jsonFlag.institute_id+'/'+this.template_id
@@ -145,8 +145,8 @@ this.template_id=obj
     temp = this.hourlyDataList.map(e =>{
       let obj :any ={
         "#":e.template_id,
-        hourly_grade:e.hourly_grade,
-        hourly_rate: e.hourly_rate
+        "Hourly Grads":e.hourly_grade,
+       "Hourly Rates": e.hourly_rate
     }
     return obj
     })

@@ -182,9 +182,9 @@ console.log("teacherlisttttttt",this.teacherList)
     temp = this.allUserDataList.map(e =>{
       let obj :any ={
         "#":e.template_id,
-        user_name:e.user_name,
-        user_email: e.user_email,
-        joining_date: e.joining_date,
+        "Name":e.user_name,
+        "Email": e.user_email,
+        "Joining Date": e.joining_date,
     }
     return obj
     })

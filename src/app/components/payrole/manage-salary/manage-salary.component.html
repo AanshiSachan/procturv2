@@ -17,22 +17,33 @@
       </div>
     </div>
     <div class="w98">
+      <div class="hourlygrade">
+      <label for="hourly_grades">
+        Role<span class="text-red">*</span>
+    </label>
+    <select class="form-control" id="hourly_grades" [(ngModel)]="selectedId"  name="hourly_grades"  (ngModelChange)="getAlluserData()">
+        <option value="-1">Select Role</option>
+        <option value="0">Teacher</option>
+       <option [value]="teacher.role_id" *ngFor="let teacher of teacherList">{{teacher.role_name}}</option>
+    </select>
+    </div>
         <div class="pt15">
+        
             <label for="serach">Search:&nbsp;</label>
           <input type="text" class="input wid240 mr10" name="" [(ngModel)]="searchInput" (keyup)="searchFun(search)" placeholder="search" #search>
+    
         </div>
+       
 
 <!-- ===================== -->
-<!-- <div class="page_heading">
-    <p>Hourly Template</p>
-  </div> -->
- <div class="form-group">                       
+
+ <!-- <div class="form-group">                       
         
         <div class="col-sm-4" style="padding: 28px;">
             <label for="hourly_grades">
                 Role<span class="text-red">*</span>
             </label>
-            <select class="form-control" id="hourly_grades" [(ngModel)]="selectedId"  name="hourly_grades" (ngModelChange)="getAlluserData()">
+            <select class="form-control" id="hourly_grades" [(ngModel)]="selectedId"  name="hourly_grades"  (ngModelChange)="getAlluserData()">
                 <option value="-1">Select Role</option>
                 <option value="0">Teacher</option>
                <option [value]="teacher.role_id" *ngFor="let teacher of teacherList">{{teacher.role_name}}</option>
@@ -40,7 +51,7 @@
         </div>
         <span class="col-sm-4 control-label" id="hourly_grades_error">
          </span>
-    </div>
+    </div> -->
 
     <div class="table_heading" >
        
@@ -101,6 +112,8 @@
               </div>
             </div>
           </div> 
-          <div *ngIf="allUserDataList.length == 0">No Record Found</div>
+          <div *ngIf="allUserDataList.length == 0" class="empty-img"><img src="../../../../assets/images/Empty.svg" >
+            <p>Use Filters For View details</p>
+          </div>
           
         
