@@ -10,6 +10,7 @@
     font-size: 12px;
     line-height: 1.42857;
     width: 100%;
+   background: #F5F5F5;
 }
 .text-red {
     color: #f56954 !important;
@@ -197,4 +198,19 @@
   font-weight: 500;
   line-height: 35px;
   cursor: pointer;
+}
+.empty-img{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+    // padding-left: 40%;
+   
+    padding-top: 12%;
+}
+.hourlygrade{
+  float: left;
+  margin: 5px;
+  
 }

@@ -96,7 +96,7 @@ deletById(obj){
   this.template_id = obj
 }
 deletSalary(obj){
-  if (confirm('Are you sure, You want  to delete this template?')) {
+  if (confirm('Are you sure, You want to delete this template?')) {
 
   this.template_id=obj
 
@@ -174,9 +174,9 @@ downloaExcel(){
   temp = this.salrayDataList.map(e =>{
     let obj :any ={
       "#":e.template_id,
-      salary_grade:e.salary_grade,
-      basic_salary: e.basic_salary,
-      overtime_rate: e.overtime_rate,
+      "Salary Grads":e.salary_grade,
+      "Basic Salary": e.basic_salary,
+     "Overtime Rate": e.overtime_rate,
   }
   return obj
   })

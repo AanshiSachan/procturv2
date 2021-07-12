@@ -17,7 +17,7 @@ export class MakePaymentComponent implements OnInit {
   }
   teacherList:any=[]
   tempList:any=[]
-  allUserDataList:any[]
+  allUserDataList:any[]=[]
   selectedId:any
   teacher_id:any
   selectedTeacherId:any
@@ -74,10 +74,10 @@ getAlluserData(){
      (res:any)=>{
    this.allUserDataList = res.result;
    this.tempList = res.result;
-   for(let i=0; i<this.allUserDataList.length;i++){
-      this.teacher_id = this.allUserDataList[i].teacher_id 
+  //  for(let i=0; i<this.allUserDataList.length;i++){
+  //     this.teacher_id = this.allUserDataList[i].teacher_id 
 
-   }
+  //  }
   // sessionStorage.setItem('teacher_id',JSON.stringify(this.teacher_id))
    sessionStorage.setItem('selectedId',JSON.stringify(this.selectedId))
 
