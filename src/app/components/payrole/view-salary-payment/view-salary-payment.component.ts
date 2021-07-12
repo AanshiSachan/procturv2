@@ -105,18 +105,26 @@ getViewResponse(){
     this.salaryModel.total_deduction=this.salaryModel.template_dto.total_deduction,
     this.salaryModel.gross_salary=this.salaryModel.template_dto.gross_salary,
 
+    this.salaryModel = this.salaryModel
+    for(let i= 0; i < this.salaryModel.template_dto.template_allowances_map_dtos.length; i++){
+      if(this.salaryModel.template_dto.template_allowances_map_dtos[i].type == 'D') {
+         let obj ={
+          type:this.salaryModel.typeD,
+          deduction:this.salaryModel.template_dto.template_allowances_map_dtos[i].deduction,
+          deduction_amount:this.salaryModel.template_dto.template_allowances_map_dtos[i].deduction_amount,
+         }
+           this.addedListDeduct.push(obj)
+        } else {
+             let obj2={
+          type:this.salaryModel.typeA,
+         allowance:this.salaryModel.template_dto.template_allowances_map_dtos[i].allowance,
+         allowance_amount:this.salaryModel.template_dto.template_allowances_map_dtos[i].allowance_amount,
+        
+         }
+         this.addedListAllownc.push(obj2)  
+        }
+      }
 
-
-    this.salaryModel.allowance_amount=this.salaryModel.template_dto.template_allowances_map_dtos.allowance_amount,
-    this.salaryModel.deduction=this.salaryModel.template_dto.template_allowances_map_dtos.deduction
-
-     this.salaryModel.allowance=this.salaryModel.template_dto.template_allowances_map_dtos.allowance,
-     this.salaryModel.deduction_amount=this.salaryModel.template_dto.template_allowances_map_dtos.deduction_amount
-
-    console.log("this sallllllllll",this.salaryModel.salary_type)
- 
-      console.log("edit response",this.salaryModel)
-    
   }
   
 
