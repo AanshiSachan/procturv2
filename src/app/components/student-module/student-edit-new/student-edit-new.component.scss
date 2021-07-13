@@ -4528,3 +4528,11 @@ input[type="file"] {
     }
   }
 }
+.IsActiveClass {
+  position: fixed;
+  bottom: 10%;
+  margin-left: 10px;
+  label {
+    font-size: 13px;
+  }
+}

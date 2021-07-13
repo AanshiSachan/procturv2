@@ -2262,6 +2262,14 @@
               <p *ngIf="quickAddStudent" [ngClass]="{'selected': activeSession=='custom_components'}" (click)="scrollFn(custom_components);activeSession='custom_components'">6. Other Details <br></p>
            
           </div>
+          <div class="IsActiveClass">
+            <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" name="isStudentActive"
+                [(ngModel)]="JsonFlags.formIsActive" (ngModelChange)="updateFormIsActive($event)"
+                class="form-checkbox" id="isStudentActive">
+                <label for="isStudentActive">Is Active Student</label>
+            </div>
+          </div>
         </div>
         <div class="w80">
           <div class="display" #student_details>
@@ -2271,7 +2279,7 @@
             </div>
             <div>
               <!-- <button class="shade_button mr20"><img src="../../../assets/images/student_Add/edit.svg"></button> -->
-               <button (click)="clearFormAndRoute(values)" class="shade_button close1">Clear<img src="../../../assets/images/student_Add/close.svg"></button>
+               <!-- <button (click)="clearFormAndRoute(values)" class="shade_button close1">Clear<img src="../../../assets/images/student_Add/close.svg"></button> -->
             </div>
           </div>
           <div class="label_box">
