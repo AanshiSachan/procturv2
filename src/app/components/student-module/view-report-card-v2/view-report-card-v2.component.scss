@@ -323,7 +323,7 @@ display: flex;
     border-radius: 5px;
 }
 .payment_history .table_heading>div{
-   width: calc(100% / 7);
+   width: calc(100% / 6);
 }
 .table_heading>div{
   text-align: center;
@@ -349,7 +349,7 @@ display: flex;
   font-size: 13px;
 }
 .payment_history .table_body>div{
-   width: calc(100% / 7);
+   width: calc(100% / 6);
 }
 .next_due .table_heading>div, .past_due .table_heading>div{
    width: calc(100% / 8);

@@ -858,13 +858,13 @@
                 {{data.disc_amount | number}}
               </div>
               <div>
-                {{data.d_amount | number}}
+                {{data.t_amount | number}}
               </div>
               <div>
                 {{data.p_amount | number}}
               </div>
               <div>
-                {{data.d_amount -data.p_amount}}
+                {{   data.t_amount -(data.p_amount-data.disc_amount)  }}
               </div>
             </div>
             <div class="nodata" *ngIf="pastFee.length == 0">
@@ -928,13 +928,13 @@
                 {{data.disc_amount}}
               </div>
               <div>
-                {{data.d_amount | number}}
+                {{data.t_amount | number}}
               </div>
               <div>
                 {{data.p_amount | number}}
               </div>
               <div>
-                {{data.d_amount -data.p_amount}}
+                {{data.t_amount -(data.p_amount-data.disc_amount)}}
               </div>
             </div>
             <div class="nodata" *ngIf="futureFees.length == 0">
