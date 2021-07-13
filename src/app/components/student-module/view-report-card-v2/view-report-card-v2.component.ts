@@ -362,7 +362,7 @@ export class ViewReportCardV2Component implements OnInit {
     date = moment(date).format('YYYY-MM-DD');
     this.pastFeesDetails.forEach(elements => {
       if (elements && elements.p_status == 'N' && moment(elements.d_date).valueOf() >= moment(date).valueOf()) {
-        //available units replace with one
+      
         this.futureFees.push(elements);
       }
       else if (elements && elements.p_status == 'N' && moment(elements.d_date).valueOf() < moment(date).valueOf()) {
