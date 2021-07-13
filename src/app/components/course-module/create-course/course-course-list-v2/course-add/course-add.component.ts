@@ -105,6 +105,7 @@ export class CourseAddComponent implements OnInit {
     if (!this.schoolModel) {
       let stdObj = this.masterCourseData.filter(mc => (mc.master_course_id == this.courseDetails.master_course_id));
       let masterCourseObj = stdObj[0];
+      this.courseDetails.master_course_name = masterCourseObj.master_course_name;
       let sub_list = this.standardList.filter(sub => (sub.standard_id == masterCourseObj.standard_id));
       if(sub_list && sub_list.length) {
         this.subjectList = sub_list[0].subject_list;
@@ -113,11 +114,13 @@ export class CourseAddComponent implements OnInit {
       this.getActiveTeacherList(this.courseDetails.standard_id);
     } else {
       let sub_list = this.standardList.filter(sub => (sub.standard_id == this.courseDetails.standard_id));
+      this.courseDetails.standard_name = sub_list[0].standard_name;
       this.subjectList = sub_list[0].subject_list;
       this.newSubjectDetails.standard_id = this.courseDetails.standard_id;
       this.getActiveTeacherList(this.courseDetails.standard_id);
     }
-  }
+    this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
+  } 
 
   getSelectedCourse(id) {
     let url = `/api/v1/courseMaster/fetch-course/${sessionStorage.getItem('institute_id')}/${id}`
@@ -134,7 +137,7 @@ export class CourseAddComponent implements OnInit {
             this.getSubjects();
           }, 2000);
         }
-        this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
+        // this.manipulateNestedTableDataSource(this.courseDetails.subject_list);
       },
       error => {
         //console.log(error);
@@ -541,6 +544,7 @@ export class CourseAddComponent implements OnInit {
           this.successMsg();
           this.standardList = [];
           this.getAllStandardSubjectList();
+          this.getSubjects();
         },
         err => {
           this._msgService.showErrorMessage('error', '', err.error.message);
