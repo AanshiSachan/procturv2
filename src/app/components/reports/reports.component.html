@@ -1,18 +1,17 @@
 
 <!-- =================institute-report-popups================= -->
-
-
-<div class="black-bg1"  id="black-bg1"  *ngIf="viewPopUp"  (click)="closeViewPopUp()"></div>
+<div class="sumerry-report">
+<div class="black-bg1"  id="black-bg1"  *ngIf="viewPopUp"  ></div>
     <section id="" class="popupWrapper fadeIn" *ngIf="downloadReportFor.summaryOptions">
 
-    <div class="popup  popup-body-container" style="max-width: 30% ;top: 14% !important;">
+    <div class="popup  popup-body-container" style="max-width: 30% ;top: 14% !important;" >
         <div class="popup-wrapper pos-rel">
-            <span class="closePopup pos-abs fbold show" id="popupCloseBtn" >
+            <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewPopUp()" >
                 <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
                     viewBox="0 0 24 24" width="24px" x="0" y="0">
                     <path class="large-icon"
                         d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
-                        style="fill: currentColor"></path>
+                        style="fill: currentColor" ></path>
                 </svg>
             </span>
  <!-- <div id="addAccountModal" class="modal fade" role="dialog" data-backdrop="static">
@@ -67,7 +66,7 @@
           <div class="field-wrapper datePickerBox">
               <label for="fromDate">From Date</label>
               <input type="text" value="" id="" class="form-ctrl bsDatepicker"
-                  [(ngModel)]="downloadReportFor.summaryReport.from_date" name="fromDate" readonly="true"
+                  [(ngModel)]="downloadReportFor.summaryReport.from_date" name="from_date" readonly="true"
                   bsDatepicker />
 
 
@@ -77,7 +76,7 @@
           <div class="field-wrapper datePickerBox">
               <label for="toDate">To Date</label>
               <input type="text" value="" id="" class="form-ctrl bsDatepicker"
-                  [(ngModel)]="downloadReportFor.summaryReport.to_date" name="toDate" readonly="true"
+                  [(ngModel)]="downloadReportFor.summaryReport.to_date" name="to_date" readonly="true"
                   bsDatepicker />
 
           </div>
@@ -95,6 +94,7 @@
 </div>
 
 </section>
+</div>
 <!-- =============end================ -->
 <section class="clearFix" style="padding-right: 2%;">
   
@@ -105,6 +105,7 @@
     </h1>
   </section>
   <!-- ======institut-report========= -->
+  <div *ngIf="!isProfessional">
   <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isShowCampaignReport || (isShowEnqReport && checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)) || (enable_online_payment == 1 && isOnlineFees))">
     <div class="leads-menu-item eleads-menu-item">
       <div class="menu-title"><br>
@@ -125,6 +126,7 @@
             <span class="sub-head" (click)="downloadSummaryReport()" >Summary Report</span>
           </div>    
 
+      </div>
       </div>
       </div>
       </div>

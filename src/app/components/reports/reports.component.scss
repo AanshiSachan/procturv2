@@ -133,7 +133,7 @@ background: #E3DEDE;
   // ====================institut-report-by Asha=============================
   /* popUp Scss */
 
-
+.sumerry-report{
 .popupWrapper {
   position: absolute;
   width: 100%;
@@ -271,5 +271,17 @@ background: #E3DEDE;
         z-index: 0;
       }
     }
+    .select-dates {
+      .field-wrapper.datePickerBox:after {
+        content: '';
+        background: url("../../../assets/images/calendar.svg") no-repeat;
+        position: absolute;
+        right: 2px;
+        top: 28px;
+        width: 21px;
+        height: 21px;
+        z-index: 20;
+      }
+    }
   }
-
+}
