@@ -106,7 +106,7 @@
   </section>
   <!-- ======institut-report========= -->
   <div *ngIf="!isProfessional">
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isShowCampaignReport || (isShowEnqReport && checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)) || (enable_online_payment == 1 && isOnlineFees))">
+  <div class="leads-menu-section-container">
     <div class="leads-menu-item eleads-menu-item">
       <div class="menu-title"><br>
         <img src="./assets/images/Reporticons/eh.png" alt="">
@@ -117,7 +117,7 @@
         <hr class="heading_hr">
 
 
-        <div class="row " *ngIf="checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)">
+        <div class="row ">
           <a  class="icon_click"><img
               src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
 
