@@ -137,7 +137,7 @@
         <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" (change)="onClearInctiveCheckbox($event)" >
         <label >Inactive Students</label>
     </div>
-    <div class="field-radio-wrapper" >
+    <div class="field-radio-wrapper" *ngIf="!schoolModel">
         <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  (change)="onClearAlluminCheckbox($event)">
         <label >Alumni Students</label>
     </div>
@@ -145,7 +145,7 @@
         <input type="radio" class="form-radio" name="facultyCheckBox" [(ngModel)]="facultyCheckBox" value="true"  (change)="onClearFacultyCheckbox($event)">
         <label >Faculty</label>
     </div>
-    <div class="field-radio-wrapper" >
+    <div class="field-radio-wrapper" *ngIf="!schoolModel">
         <input type="radio" class="form-radio" name="allUserCheck" [(ngModel)]="allUserCheck" value="true"  (change)="onClearAlluserCheckbox($event)" >
         <label >Registered Users</label>
     </div>
