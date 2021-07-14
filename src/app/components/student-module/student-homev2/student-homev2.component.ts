@@ -400,7 +400,8 @@ export class StudentHomev2Component implements OnInit {
     let filters = sessionStorage.getItem('filterdata');
     if (filters) {
       let searchparam=sessionStorage.getItem('searchBarData');
-      if(searchparam!=null){ 
+      console.log(searchparam);
+      if(searchparam!=null&& searchparam!='null'){ 
         this.searchBarData= searchparam;
       }
        // if session filters are not blank
