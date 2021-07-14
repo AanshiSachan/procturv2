@@ -29,6 +29,7 @@ export class ReportsComponent implements OnInit {
   showEmailReport: boolean = false;
   isShowExpense: any = false;
   schoolModel: any = false;
+  isProfessional:any = false;
   viewPopUp = false;
   downloadEnquiryReportAccess: boolean = false
 
@@ -70,8 +71,17 @@ export class ReportsComponent implements OnInit {
         }
       }
     )
+  
+  this.auth.institute_type.subscribe(
+    res => {
+      if (res == 'LANG') {
+        this.isProfessional = true;
+      } else {
+        this.isProfessional = false;
+      }
+    }
+  )
   }
-
   ngOnInit(): void {
     if (sessionStorage.getItem('userType') == '3') {
       this.facultyAccount = true;
@@ -165,13 +175,11 @@ export class ReportsComponent implements OnInit {
   }
 // ===============institute-report-funtionality===========================
 closeViewPopUp() {
-  // this.viewPopUp = false;
-  alert("close")
+  this.viewPopUp = false;
   this.downloadReportFor.summaryOptions = false
 }
 
 downloadSummaryReport() {
-  alert("gjh")
   this.downloadReportFor.summaryOptions = true;
   setTimeout(() => {
       (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Download By Date Range";
