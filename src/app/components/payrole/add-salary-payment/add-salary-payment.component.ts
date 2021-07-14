@@ -20,13 +20,13 @@ export class AddSalaryPaymentComponent implements OnInit {
     institute_id:'',
   }
   historyModel={
-    total_hours:'',
+    total_hours:0,
     overtime_hours:'',
-    payment_amount:'',
+    payment_amount:0,
     payment_method:'',
     comment:'',
     history_id:'',
-    net_salary:'',
+    net_salary:0,
     overtime_rate:'',
     gross_salary:'',
     total_deduction:'',
@@ -187,7 +187,7 @@ createSalaryPayment(){
     // sessionStorage.setItem('viewPayment_method',(this.payment_method))
     // sessionStorage.setItem('viewMonth',(this.month))
     sessionStorage.setItem('history_obj',JSON.stringify(obj));
-    sessionStorage.setItem('payment-amount',this.historyModel.payment_amount)
+    // sessionStorage.setItem('payment-amount',this.historyModel.payment_amount)
 
     this.router.navigateByUrl('view/payrole/view-salary-payment/' +teacher_id + '/' + user_id)
 
@@ -221,8 +221,8 @@ return;
   clearForm(){
     this.historyModel.comment=""
     this.historyModel.payment_method=""
-    this.historyModel.total_hours=""
-    this.historyModel.payment_amount=""
+    this.historyModel.total_hours=0
+    this.historyModel.payment_amount=0
     this.sal_month= moment(new Date()).format('YYYY-MM')
 
     
@@ -235,5 +235,9 @@ return;
    container._store.dispatch(container._actions.select(event.date));
  };     
  container.setViewMode('month');
+}
+calcPaymentAmont(){
+  
+  this.historyModel.payment_amount = this.historyModel.net_salary * this. historyModel.total_hours
 }
 }

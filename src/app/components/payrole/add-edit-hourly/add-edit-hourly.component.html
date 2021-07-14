@@ -27,7 +27,7 @@
             Hourly Rates <span class="text-red">*</span>
         </label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" id="hourly_rates" maxlength="10" onpaste="return false" oncopy="return false" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="hourlyModel.hourly_rate" name="hourly_rates" placeholder="Enter Hourly Rates" autocomplete="off">
+            <input type="text" class="form-control" id="hourly_rates" maxlength="8" onpaste="return false" oncopy="return false" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="hourlyModel.hourly_rate" name="hourly_rates" placeholder="Enter Hourly Rates" autocomplete="off">
         </div>
         
         <span class="col-sm-4 control-label" id="hourly_rates_error">
