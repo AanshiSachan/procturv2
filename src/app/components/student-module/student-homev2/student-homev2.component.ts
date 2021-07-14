@@ -1456,9 +1456,9 @@ export class StudentHomev2Component implements OnInit {
 simpleSearch;
   /* =================================================================================================== */
   /* =================================================================================================== */
-  searchDatabase(value) {
+  searchDatabase() {
     //alert("hi");
-   this.simpleSearch=value;
+  // this.simpleSearch=value;
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     let obj: any = {

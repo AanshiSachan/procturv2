@@ -343,6 +343,14 @@
         </div>
         <div id="attendance_tab" *ngIf="isActiveTab =='attendance'">
           <!-- Attendance -->
+          <!-- <div class="field-radio-wrapper">
+            <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0"
+              [(ngModel)]="timetablePayLoad.type" name="rdoBtnCurrent" class="form-radio"
+              (ngModelChange)="onTimeTableRadioBtnChange()">
+            <label class="radio_label">
+              Current Date
+            </label>
+          </div> -->
           <div class="row radio_div no-gutters">
             <div class="col-lg-8 flex" style="margin-top: 10px;">
 
@@ -1618,7 +1626,7 @@
   </div>
 </div>
 <!-- The Modal1 -->
-<div class="modal" id="myModal1" *ngIf="attendanceDetPopUp">
+<div class="modal" id="myModal1" *ngIf="attendanceDetPopUp" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -1627,7 +1635,7 @@
       </div>
       <div class="modal-body">
         <div class="attendance_table_modal">
-          <div class="table_heading">
+          <div class="table_heading" >
             <div>
               Date
             </div>
@@ -1647,7 +1655,8 @@
             <div> Home Work Status</div>
             <div> Home Work Assigned</div>
           </div>
-          <div class="table_body" *ngFor="let data of tempData.attendanceDateList">
+          <div  style="overflow:auto;max-height:34vh;">
+          <div class="table_body " *ngFor="let data of tempData.attendanceDateList">
             <div>
               {{data.date}}
             </div>
@@ -1684,6 +1693,7 @@
             <div> {{data.home_work_status}}</div>
             <div>{{data.homework_assigned}}</div>
           </div>
+        </div>
         </div>
         <div *ngIf="tempData.attendanceDateList.length ==0">
           <tr>

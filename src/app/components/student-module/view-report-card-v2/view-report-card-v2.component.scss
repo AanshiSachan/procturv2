@@ -348,6 +348,9 @@ display: flex;
   font-weight: 400;
   font-size: 13px;
 }
+.tbl{
+  max-height: 54vh;
+}
 .payment_history .table_body>div{
    width: calc(100% / 6);
 }
@@ -1190,4 +1193,8 @@ border-radius: 4px;
   left:40%;
   top:10%;
 
+}
+.overflows{
+  overflow-y: auto;
+height: 64vh;
 }

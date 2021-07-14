@@ -529,6 +529,7 @@ export class ViewReportCardV2Component implements OnInit {
     }
   }
   goBtnAttendaceClick() {
+   // alert(this.viewAttendancePayload.type)
     this.viewAttendancePayload.student_id = this.studentId;
     let check = this.validateDataAttendance(this.viewAttendancePayload);
     if (check) {
