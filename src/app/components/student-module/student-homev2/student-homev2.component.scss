@@ -442,6 +442,9 @@ color: #334D6E;
 .modal {
   animation: slideIn .8s linear;
 }
+#myModal1.modal,#conductCertificate.modal,#bonafiedCertificate.modal,#migrationCertificate.modal{
+  animation: none;
+}
 .modal-header {
   padding: 28px;}
 @keyframes slideIn {
@@ -982,8 +985,5 @@ margin: 10px 20px;
 	margin-bottom: 100px;
 }
 // =====================end===========================================
-.pdfgen{
-    width: 576px;
-    height: 478px;
-}
+
   }
