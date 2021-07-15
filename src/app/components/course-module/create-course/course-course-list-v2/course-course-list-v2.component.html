@@ -381,7 +381,7 @@
             placeholder="Master Course*">
         </div>
         <div class="pt10">
-          <select class="wid100 select" [(ngModel)]="createMasterCourseModel.standard_id">
+          <select class="wid100 select" [(ngModel)]="createMasterCourseModel.standard_id" disabled>
             <option value="-1">Standard Name*</option>
             <option value="{{std.standard_id}}" *ngFor="let std of standardList">{{std.standard_name}} </option>
           </select>
