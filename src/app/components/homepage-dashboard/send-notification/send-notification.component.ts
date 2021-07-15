@@ -646,10 +646,11 @@ updateMessage(){
     sessionStorage.removeItem('push_message')
     sessionStorage.removeItem('selecte-email-message')
   }else{
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Transactionl Sms quota not available');
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Transactional Sms quota not available');
 
   }
 }
+
   onClickEmailSentTo(){
     if(this.email_quataBalence != 0){
 

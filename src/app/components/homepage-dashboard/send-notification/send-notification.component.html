@@ -159,7 +159,7 @@
     <div>
       <p>SMS Description</p>
       <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"
-        (ngModelChange)="countNumberOfMessage()" ></textarea>
+        (ngModelChange)="countNumberOfMessage()"></textarea>
       <div class="count">
         <div>
           <p>Character Count: <b>{{newMessageText.length}}</b></p>
@@ -178,7 +178,7 @@
       <p class="note">2. Get approval for your SMS content on DLT platform: Find the link of Proctur system generated
         SMS, which is expected to approved from DLT. (Download the template-“<a href=" https://bit.ly/3sDxMgx">
           https://bit.ly/3sDxMgx</a> ”).</p> -->
-          <p class="note">For sending custom SMS make sure that SMS is approved on DLT Platform. if not then visit configuration menu section for more details.</p>
+          <p class="note">For sending custom SMS make sure that SMS is approved on DLT Platform. If not then visit configuration menu section for more details.</p>
     </div>
 
   </div>
@@ -213,7 +213,7 @@
     </div>
     <div>
       <p>SMS Description</p>
-      <textarea placeholder="Write your message here..." disabled>{{selectedRow}}</textarea>
+      <textarea placeholder="Write your message here..." disabled >{{selectedRow}}</textarea>
       <div class="count">
         <div>
           <p>Character Count: <b>{{selectedMessageText}}</b></p>
