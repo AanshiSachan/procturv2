@@ -3484,6 +3484,7 @@ CertificateConvertTopdf(certificat){
     });
   }
   
+  
 closePopups(){
    $('#myModal1').modal('hide');
   $('#conductCertificate').modal('hide');

@@ -993,7 +993,7 @@ $( document ).ready(function() {
         <div></div>
         <div>
          <!-- <a (click)="migrationPrintPage()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
-         <a (click)="CertificateConvertTopdf('migrationPdfdiv')"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+         <a (click)="CertificateConvertTopdf('migrationPdfdiv')"   class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
          <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
         </div>
       </div>
@@ -1001,19 +1001,24 @@ $( document ).ready(function() {
     <div id="migrationPdfdiv">
       <br>
     <div class="body">
-        <div class="w96 flex">
-        <div style="width: 30%">
+        <div class="flex">
+        <!-- <div style="width: 30%">
           <img src="{{migrationCertiModel.logo_url}}">
-        </div>
-        <div style="width: 70%" >
+        </div> -->
+        <div class="header-text" style="width: 70%" >
+          <!-- <div style="width: 30%"> -->
+            <img src="{{migrationCertiModel.logo_url}}">
+          <!-- </div> -->
              <div><span style="font-size:50px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
-             <div>
+             <div class="inst-info">
              <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_phone}}</span>
               <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_email}}</span>
+              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_address}}</span>
+
               </div>
-              <div>
+              <!-- <div>
              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_address}}</span>
-              </div>
+              </div> -->
         </div>
       </div>
       <div class="w96 ballet">
@@ -1024,14 +1029,14 @@ $( document ).ready(function() {
         Registration Number: <b>{{migrationCertiModel.reg_number}}</b><br> 
        This is to certify that <b>{{migrationCertiModel.stud_name}} {{(migrationCertiModel.sex == 'F') ? 'd/o' : 's/o'}} {{migrationCertiModel.father_name}}</b>is a student of <b>{{migrationCertiModel.institute_name}}</b> an institute affiliated with the<b> {{migrationCertiModel.school_board}} Board. </b><br>
        {{(migrationCertiModel.sex == 'F') ? 'She': 'He'}} has successfully passed <b>Standard {{migrationCertiModel.standard_name}}</b> examination conducted under this board.
-        This school has no objection in {{(migrationCertiModel.sex == 'F') ? 'her' : 'his'}} joining any recognized collage/institute or taking examination of any University or Board established by law.
+        This school has no <br>objection in {{(migrationCertiModel.sex == 'F') ? 'her' : 'his'}} joining any recognized collage/institute or taking examination of any University or Board <br>established by law.
        </p>
-       <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{migrationCertiModel.curr_date}}</b></span></p>
+       <p class="dated space" style="margin-left: 20%;">Dated:&nbsp;&nbsp;<span><b>{{migrationCertiModel.curr_date}}</b></span></p>
      </div>
      <div class="display space">
-       <div><b>Place</b>
+       <div style="margin-left: 20%;"><b>Place</b>
         <p>{{migrationCertiModel.inst_place}}</p></div>
-       <div>Principal</div>
+       <div style="padding-right: 7%;">Principal</div>
      </div>
     </div>
     <br>
