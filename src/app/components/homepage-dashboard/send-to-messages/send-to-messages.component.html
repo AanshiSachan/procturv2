@@ -376,6 +376,7 @@
                 </span>
               </label>
               <p  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">Student</p>
+              <div class="flex" *ngIf="emailSendingFlag || smsSendingFlag">
               <label for="chkBoxParent" class="checkbox"  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">
                 <span class="checkbox__input">
                   <input type="checkbox"  id="chkBoxParent" name="parent" [(ngModel)]="parent" >
@@ -385,8 +386,9 @@
                   </span>
                 </span>
               </label>
+            
               <p  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">Parent</p>
-
+            </div>
             <button class="blue_button"(click)="sendNotificationMessages()" *ngIf="smsSendingFlag">Send Text Message </button>
             <button class="blue_button" (click)="sendPushNotification()" *ngIf="pushNotificationFlag">Send Push Notification</button>
 
