@@ -36,6 +36,7 @@ import { SendToMessagesComponent } from './send-to-messages/send-to-messages.com
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
+
 @NgModule({
     imports: [
         TreeViewModule,
@@ -48,7 +49,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
         ChartModule,
         FileUploadModule,
         EditorModule,
-        NgMultiSelectDropDownModule
+        NgMultiSelectDropDownModule.forRoot()
         // MdFormFieldModule,
         // MdInputModule
     ],

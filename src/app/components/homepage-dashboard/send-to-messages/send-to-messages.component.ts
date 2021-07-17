@@ -807,6 +807,7 @@ onClickStudent(event){
 sendPushNotification() {
   
   let student_id: any = '';
+  let user_ids : any =''
   if (this.showallUserListFlag) {
     student_id = this.getListOfIds('user_id')
   } else {

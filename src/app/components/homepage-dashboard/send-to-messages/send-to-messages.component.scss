@@ -152,9 +152,7 @@ select {
    
    
 }
-
 .multiselect-dropdown{
-    border: none;
     font-size: 12px;
     .dropdown-down{
       border-top: 5px solid black;
@@ -165,7 +163,6 @@ select {
       border-bottom: 5px solid black;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      
     }
     .dropdown-btn {
       border: none !important;
@@ -184,7 +181,7 @@ select {
       }
     }
   }
-
+  
 select:focus,
 input:focus {
     outline: none;

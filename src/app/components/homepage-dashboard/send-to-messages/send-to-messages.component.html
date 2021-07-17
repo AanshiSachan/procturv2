@@ -89,14 +89,14 @@
                     {{opt.course_name}}
                 </option>
                 </select> -->
-                <ng-multiselect-dropdown class="multidropdown" style="border: none;" [disabled]="pramotional == 'true'" [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                <ng-multiselect-dropdown class="multidropdown"  [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
                 (ngModelChange)="($event)">
                   
                </ng-multiselect-dropdown>
                
             </div>
             <div>
-                <button class="blue_button" [disabled]="pramotional == 'true'" (click)="fetchStudentsApi()">Search</button>
+                <button class="blue_button"  (click)="fetchStudentsApi()">Search</button>
             </div>
            </div>
             <div class="vertical1 display">
