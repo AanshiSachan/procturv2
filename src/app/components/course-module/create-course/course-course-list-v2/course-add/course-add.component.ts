@@ -129,6 +129,7 @@ export class CourseAddComponent implements OnInit {
         this.courseDetails = res.result;
         this.courseDetails.start_Date = moment(this.courseDetails.start_date).format('YYYY-MM-DD');
         this.courseDetails.end_Date = moment(this.courseDetails.end_date).format('YYYY-MM-DD');
+        this.courseDetails.allow_exam_grades = (this.courseDetails.is_exam_grad_feature == '1') ? true : false;
         // this.subjectList = res.result.subject_list;
         // this.getMetaDataForTable(this.courseDetails);
         // this.dummyArray.push("Selected Course");
@@ -544,7 +545,9 @@ export class CourseAddComponent implements OnInit {
           this.successMsg();
           this.standardList = [];
           this.getAllStandardSubjectList();
-          this.getSubjects();
+          if(this.selectedCourseID) {
+            this.getSelectedCourse(this.selectedCourseID);
+          }
         },
         err => {
           this._msgService.showErrorMessage('error', '', err.error.message);
