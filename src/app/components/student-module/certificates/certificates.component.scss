@@ -177,6 +177,7 @@ input[type="date"]{
   z-index: 0;
 }
 // ========================================transfer style=========================
+// .body_div{
 *{
 	margin: 0px;
 	color: #403e40;
@@ -197,11 +198,12 @@ input[type="date"]{
 	margin-right: 20px;
 }
 .body {
-	width: 1000px;
+	width: 82%;
 	border: 2px solid #403e40!important;
-	height: 1380px;
+//	height: 1380px;
 	border-radius: 5px;
 	margin: auto;
+  background: white;
 }
 
 .w96{
@@ -210,6 +212,7 @@ input[type="date"]{
 }
 .flex{
 	display: flex;
+  justify-content: center;
 }
 
 .sm_heading{
@@ -252,5 +255,17 @@ input[type="date"]{
 	margin: 10px 15px ;
 
 }
-
+.header-text{
+  width: 70%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: 0%;
+}
+.inst-info{
+  flex-direction: column;
+    align-items: center;
+    display: flex;
+}
+//}
 // =========================================================

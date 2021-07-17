@@ -334,25 +334,28 @@
           </div >
         </div>
         <div id="transferCertificate">
-          <br >
+          <br ><br>
           
         <div class="body" >
           
           <div class="w96 flex">
-            <div style="width: 30%">
-              <!-- <img src="../../../../assets/images/logo2.png" style="height: auto;width: 90%;"> -->
+            <!-- <div style="width: 30%">
               <img src="{{transferCertificateModel.institute_logo_url}}" style="height: auto;width: 90%; padding-top: 22px;">
 
-            </div>
-            <div style="width: 70%" >
+            </div> -->
+            <div style="width: 70%" class="header-text">
+              <img src="{{transferCertificateModel.institute_logo_url}}" style="height: auto;width: 27%; padding-top: 22px;">
+
                  <div><span style="font-size:50px; font-weight:bold">{{transferCertificateModel.institute_name}}</span></div>
-                 <div>
+                 <div class="inst-info">
                  <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{transferCertificateModel.inst_phone}}</span>
                   <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{transferCertificateModel.inst_email}}</span>
+                  <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b> {{transferCertificateModel.inst_address}}</span>
+
                   </div>
-                  <div>
+                  <!-- <div>
                  <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b> {{transferCertificateModel.inst_address}}</span>
-                  </div>
+                  </div> -->
             </div>
           </div>
           <div class="w96 ballet">

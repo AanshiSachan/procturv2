@@ -825,7 +825,7 @@ $( document ).ready(function() {
   </html>
   <!-- =========================================character-certificates-male====================================== -->
 
-<div  class="modal" style="margin-left: 181px;width:1290px ;"  id="conductCertificate" > 
+<div  class="modal" style="margin-left: 14%;width:93% ;"  id="conductCertificate" > 
     <!DOCTYPE html >
   <html>
   <head>
@@ -854,22 +854,26 @@ $( document ).ready(function() {
       </div>
     </div>
   <div id="conductCertificate2">
-      <br>
+      <br><br>
   
    <div class="body" >
      <div class="w96 flex">
-        <div style="width: 30%">
+        <!-- <div style="width: 30%">
          <img src="{{charactertCertiModel.logo_url}}" >
-        </div>
-        <div style="width: 70%">
-             <div><span style="font-size:50px; font-weight:bold">{{charactertCertiModel.institute_name}}</span></div>
-             <div>
+        </div> -->
+        <div class="header-text" style="width: 70%">
+          <img src="{{charactertCertiModel.logo_url}}" style="width: 25%;padding-top: 9%;">
+
+             <div><span style="font-size:34px; font-weight:bold">{{charactertCertiModel.institute_name}}</span></div>
+             <div class="inst-info">
              <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_phone}}</span>
               <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_email}}</span>
+              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_address}}</span>
+
               </div>
-              <div>
+              <!-- <div>
              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_address}}</span>
-              </div>
+              </div> -->
         </div>
       </div>
       <div class="w96 ballet">
@@ -881,12 +885,12 @@ $( document ).ready(function() {
   We found him to be well behaved & bears a good moral character. We found {{(charactertCertiModel.sex=='F') ? 'her' : 'him'}} to be regular to school and his conduct is satisfactory.
   I wish {{(charactertCertiModel.sex=='F') ? 'her' :'him'}} a great success in life.
        </p>
-       <p class="dated space"  >Dated:&nbsp;&nbsp;<span><b>{{charactertCertiModel.curr_date}}</b></span></p>
+       <p class="dated space"  style="margin-left: 21%;">Dated:&nbsp;&nbsp;<span><b>{{charactertCertiModel.curr_date}}</b></span></p>
      </div>
-     <div class="display space"  >
+     <div class="display space" style="margin-left: 21%;" >
        <div><b>Place</b>&nbsp;: {{charactertCertiModel.inst_place}}</div>
        
-       <div>Principal</div>
+       <div style="padding-right:7%">Principal</div>
      </div>   
    </div>
   
@@ -899,7 +903,7 @@ $( document ).ready(function() {
   
  
   <!-- ============================================bonafied-certificate-male==================================== -->
-  <div  class="modal" style="margin-left: 181px;width:1290px ;" id="bonafiedCertificate"> 
+  <div  class="modal" style="margin-left: 14%;width:93%px ;" id="bonafiedCertificate"> 
       <!DOCTYPE html>
   <html>
   <head>
@@ -932,18 +936,22 @@ $( document ).ready(function() {
       <br>
       <div class="body">
       <div class="w96 flex">
-        <div style="width: 30%">
-          <img src="{{bonafiedCertiModel.logo_url}}" >
-        </div>
-        <div style="width: 70%" >
-             <div><span style="font-size:50px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
-             <div>
+        <!-- <div style="width: 30%">
+          <img src="{{bonafiedCertiModel.logo_url}}" style="width: 25%;padding-top: 9%;" >
+        </div> -->
+        <div style="width: 70%"  class="header-text">
+          <img src="{{bonafiedCertiModel.logo_url}}" style="width: 25%;padding-top: 9%;" >
+
+             <div><span style="font-size:32px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
+             <div class="inst-info">
              <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_phone}}</span>
               <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_email}}</span>
+              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_address}}</span>
+
               </div>
-              <div>
+              <!-- <div>
              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_address}}</span>
-              </div>
+              </div> -->
         </div>
       </div>
       <div class="w96 ballet">
@@ -955,12 +963,12 @@ $( document ).ready(function() {
         {{(bonafiedCertiModel.sex == 'F') ? 'She': 'He'}} was admitted in this school on<b> {{bonafiedCertiModel.doj}}</b> and his admission number is <b>{{bonafiedCertiModel.reg_number}}</b>
          {{(bonafiedCertiModel.sex == 'F') ? 'Her': 'His'}} DOB as per our school record is<b> {{bonafiedCertiModel.dob}}</b>
        </p>
-       <p class="dated space">Dated:&nbsp;&nbsp;<span><b>{{bonafiedCertiModel.curr_date}}</b></span></p>
+       <p class="dated space" style="margin-left: 21%;">Dated:&nbsp;&nbsp;<span><b>{{bonafiedCertiModel.curr_date}}</b></span></p>
      </div>
-     <div class="display space">
+     <div class="display space" style="margin-left: 20%;">
        <div><b>Place</b>
         <p>{{bonafiedCertiModel.inst_place}}</p></div>
-       <div>Principal</div>
+       <div style="padding-right: 7%;">Principal</div>
      </div>
    </div>
    <br>
@@ -970,7 +978,7 @@ $( document ).ready(function() {
   </div>
  
   <!-- ====================================migration-male================================================ -->
-  <div class="modal" style="margin-left: 181px;width:1290px ;" id="migrationCertificate">
+  <div class="modal" style="margin-left: 14%;width:93% ;" id="migrationCertificate">
     <!DOCTYPE html>
   <html>
   <head>
@@ -999,7 +1007,7 @@ $( document ).ready(function() {
       </div>
     </div>
     <div id="migrationPdfdiv">
-      <br>
+      <br><br>
     <div class="body">
         <div class="flex">
         <!-- <div style="width: 30%">
@@ -1007,9 +1015,9 @@ $( document ).ready(function() {
         </div> -->
         <div class="header-text" style="width: 70%" >
           <!-- <div style="width: 30%"> -->
-            <img src="{{migrationCertiModel.logo_url}}" style="width: 15%;padding-top: 2%;">
+            <img src="{{migrationCertiModel.logo_url}}" style="width: 25%;padding-top: 9%;">
           <!-- </div> -->
-             <div><span style="font-size:50px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
+             <div><span style="font-size:32px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
              <div class="inst-info">
              <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_phone}}</span>
               <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_email}}</span>
