@@ -38,7 +38,7 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
           <label for="label">Label
             <span class="text-danger">*</span>
           </label>
-          <input type="text" class="form-ctrl"  name="label"  [(ngModel)]="editCustomComponentForm.label">
+          <input type="text" class="form-ctrl"  name="label" maxlength="30"  onpaste="return false" oncopy="return false" [(ngModel)]="editCustomComponentForm.label">
 
         </div>
       </div>

@@ -408,7 +408,7 @@
                 </div>
               </div>
             <!-- </div> -->
-            <div class="section" *ngIf="custumFieldList?.length > 0">
+            <!-- <div class="section" *ngIf="custumFieldList?.length > 0"> -->
               <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let item of custumFieldList">
                 <div   class="tableData">
                   <span>{{item.label}}</span> 
@@ -460,22 +460,20 @@
                   </a>
                 </span>
               </div>
-              <!-- <div style="width: 20%;"  class="tableData">
-                <span class="updateAction" >Update</span>
-                <span class="updateAction" >Cancel</span>
-              </div> -->
+             
               </div>
+              
             </div>
-            <!-- <div class="section no-records" *ngIf="!getAllClosingReasons?.length && !auth.isRippleLoad.getValue()">
-              No Records found
-            </div> -->
+            <div class="empdata" *ngIf="custumFieldList.length == '0'">
+              <b>Note:</b>
+              <p> If want to add additional fields in enquiry form then click on <b>Add Custom Field</b>. Multiple types of field can be created through custom form field.</p>
+            </div>
           </div>
         </div>
       </div>
-  </div>
+  
   <!-- =======end============== -->
 </div>
-
 </main>
 
 <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
@@ -623,9 +621,8 @@
   </div>
 <!-- </div> -->
 </proctur-popup>
-<div class="empdata" *ngIf="custumFieldList.length == '0'">
-  <b>Note:</b>
-  <p> If want to add additional fields in enquiry form then click on <b>Add Custom Field</b>. Multiple types of field can be created through custom form field.</p>
-</div>
+
+
+
 
 <!-- =============end================== -->

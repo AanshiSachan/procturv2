@@ -60,7 +60,7 @@ componentShell:any=[]
       {
         primary_key: 'label',
         value: "Lable",
-        charactLimit: 30,
+        charactLimit: 20,
         sorting: false,
         visibility: true
       },
@@ -134,35 +134,35 @@ componentShell:any=[]
 
     this.rowColumns = [
       {
-        width: "12%",
+        width: "15%",
         textAlign: "center"
       },
       {
-        width: "12%",
+        width: "12.5%",
         textAlign: "center"
       },
       {
-        width: "12%",
+        width: "12.5%",
         textAlign: "center"
       },
       {
-        width: "12%",
+        width: "12.5%",
         textAlign: "center"
       },
       {
-        width: "12%",
+        width: "12.5%",
         textAlign: "center"
       },
       {
-        width: "12%",
+        width: "12.5%",
         textAlign: "center"
       },
       {
-        width: "12%",
+        width: "12.5%",
         textAlign: "center"
       },
       {
-        width: "12%",
+        width: "12.5%",
         textAlign: "center"
       },
      
@@ -255,6 +255,7 @@ componentShell:any=[]
             this.auth.hideLoader();
             this._msgService.showErrorMessage('success', '', 'Form-Field Createated Successfully');
             this.fetchPrefillData();
+            this.cleareForm()
           },
           err => {
             this.auth.hideLoader();
