@@ -125,19 +125,19 @@ selectedMesgCount:number =0
       this.selectedMesgCount = parseInt(sessionStorage.getItem('messageCounts'))
 
 
-      this.courseListSetting={
-        singleSelect :false,
-        idField: 'course_id',
-        textField: 'course_name',
-        selectAllText :'Select All',
-        unSelectAllText:'UnSelect All',
-        itemShowLimit :2,
-        enableCheckAll:true
-  
-      }
+     
     }
   ngOnInit(): void {
+    this.courseListSetting={
+      singleSelection :false,
+      idField: 'course_id',
+      textField: 'course_name',
+      selectAllText :'Select All',
+      unSelectAllText:'UnSelect All',
+      itemsShowLimit : 2,
+      enableCheckAll:true
 
+    }
  if(this.smsSendingFlag){
    this.messageCharacterCount = this.selected_message.length
 
