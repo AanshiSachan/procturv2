@@ -431,6 +431,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (this.studentAddFormData.country_id == "") {
         this.studentAddFormData.country_id = defacult_Country[0].id;
         this.instituteCountryDetObj = defacult_Country[0];
+        this.country_id = defacult_Country[0].id;
         if (this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
           this.country_id = defacult_Country[0].id;
           this.maxlegth = defacult_Country[0].country_phone_number_length;
@@ -1355,9 +1356,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (!isCustomComponentValid) {
         this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
-      // else if (!formValid) {
-      //   this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
-      // }
+      else if (!formValid) {
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
+      }
     }
 
   }

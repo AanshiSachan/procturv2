@@ -2494,7 +2494,7 @@
                 <div class="label_box flexStart" *ngIf="component.type == 1" input-def>
                   <div class="col-lg-3">
                     <span class="label" *ngIf="component.is_required == 'Y'">
-                      {{component.label}}*
+                      {{component.label}}<span class="text-danger">*</span>
                     </span>
                     <span class="label" *ngIf="component.is_required == 'N'">
                       {{component.label}} </span>
@@ -2512,7 +2512,7 @@
                         name="{{component.label}}" value="{{component.value}}">
                       <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
                         *ngIf="component.is_required == 'Y'">
-                        {{component.label}}*
+                        {{component.label}}<span class="text-danger">*</span>
                       </label>
                       <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
                         *ngIf="component.is_required == 'N'">
@@ -2524,7 +2524,7 @@
                   <!-- <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}"> -->
                     <div class="col-lg-3">
                       <span class="label" *ngIf="component.is_required == 'Y'">
-                        {{component.label}}*
+                        {{component.label}}<span class="text-danger">*</span>
                       </span>
                       <span class="label" *ngIf="component.is_required == 'N'">
                         {{component.label}} </span>
@@ -2545,7 +2545,7 @@
                     [ngClass]="{'has-value': component.selectedString != ''}"> -->
                     <div class="col-lg-3">
                       <span class="label" *ngIf="component.is_required == 'Y'">
-                        {{component.label}}*
+                        {{component.label}}<span class="text-danger">*</span> 
                       </span>
                       <span class="label" *ngIf="component.is_required == 'N'">
                         {{component.label}} </span>
