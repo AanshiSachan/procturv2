@@ -64,8 +64,9 @@
             <label></label>
           </div>
         </div>
-        <div>{{email.date}}</div>
-        <div [innerHtml]="email.message">
+        <div title="{{email.date}}">{{email.date}}</div>
+        <div title="{{email.message}}" [innerHtml]="(!email.message) ? '-':(email.message.length > 100) ?(email.message | slice :0:90) + '...' : email.message" >
+
         </div>
         <div>
           <a class="mr16" (click)="onClickEditEmail(email)" style="cursor: pointer;"><img
@@ -185,7 +186,7 @@
 
   <div class="page_footer">
     <div></div>
-    <button class="blue_button" (click)="saveNewMessage()" *ngIf="!jsonFlag.editMessage">Save</button>
+    <button class="blue_button" (click)="saveNewMessage()"  *ngIf="!jsonFlag.editMessage">Save</button>
     <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editMessage">Update</button>
 
   </div>

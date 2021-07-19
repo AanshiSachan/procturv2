@@ -2,7 +2,7 @@
     <div class="top_section">
         <div *ngIf="smsSendingFlag">
             <p class="heading">Selected SMS<img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
-            <p class="para" [innerHtml]="selected_message">
+            <p class="para" title="{{selected_message}}" [innerHtml]="(!selected_message)? '-' :(selected_message.length > 60) ?(selected_message | slice :0:60) + '...' : selected_message">
                 <!-- {{selected_message}} -->
                                 
             </p>
@@ -33,7 +33,7 @@
     <p class="para" >
         <span style="font-weight: 600;">Message : </span>
         <!-- {{selected_message}} -->
-       <span [innerHtml]="selected_email"></span>             
+       <span title="{{selected_email}}" [innerHtml]="(!selected_email)? '-' :(selected_email.length > 60) ?(selected_email | slice :0:60) + '...' : selected_email"></span>             
     </p>
    
 </div>
