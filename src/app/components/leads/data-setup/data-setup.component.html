@@ -407,14 +407,11 @@
                   </span>
                 </div>
               </div>
-            <!-- </div> -->
-            <!-- <div class="section" *ngIf="custumFieldList?.length > 0"> -->
+            <div class="section" *ngIf="custumFieldList?.length > 0">
               <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let item of custumFieldList">
                 <div   class="tableData">
                   <span>{{item.label}}</span> 
-                  <!-- <span *ngIf="data.isEdit">
-                    <input style="margin: 0" type="text" [(ngModel)]="data.new_source_name" class="reason-input" name="soure">
-                  </span>  -->
+               
                 </div>
                 <div  class="tableData">
                   <span>{{item.type|checkBoxConverter}}</span> 
@@ -470,6 +467,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
   
   <!-- =======end============== -->
