@@ -958,7 +958,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   onForgotPwdSelection(event,data) {
     this.forgotPasswordObj.institution_id = data.institute_id;
     this.forgotPasswordObj.userid = data.user_id;
-    this.forgotPassword();
   }
 
   forgotPassword() {
