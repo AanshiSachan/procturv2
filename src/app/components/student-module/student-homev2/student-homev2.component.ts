@@ -3373,8 +3373,7 @@ sortTable(str) {
 fetchStudId(obj){
   this.stud_id = obj
   let sexId = obj.sex
-  console.log("sssssssssss",this.stud_id)
-  console.log("sssssssssss",obj)
+ 
 
 
 }
@@ -3478,26 +3477,7 @@ PrintPage(){
   console.log("print")
 //  window.print();
 }
-migrationPrintPage(){
-  var divToPrint2 = document.getElementById("migrationCertificate")
-  let newWin = window.open("");
-  newWin.document.write(divToPrint2.outerHTML);
-  newWin.print();
-  newWin.history.back(); 
-  console.log("print")
 
-}
-characterPrintPage(popupName){
-  const printContents = document.getElementById(popupName).innerHTML;
-  const originalContents = document.body.innerHTML;
-  document.body.innerHTML = printContents;
-  window.print();
-  document.body.innerHTML = originalContents;  
-}
-
-
-  
-  
 closePopups(){
    $('#myModal1').modal('hide');
   $('#conductCertificate').modal('hide');
