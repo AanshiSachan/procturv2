@@ -410,39 +410,39 @@
             <div class="section" *ngIf="custumFieldList?.length > 0">
               <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let item of custumFieldList">
                 <div   class="tableData">
-                  <span>{{item.label}}</span> 
+                  <span title="{{item.label}}">{{(!item.label) ? '-' : (item.label.length > 10) ? (item.label | slice : 0:10)+ '...' : item.label }}</span> 
                
                 </div>
                 <div  class="tableData">
-                  <span>{{item.type|checkBoxConverter}}</span> 
+                  <span title="{{item.type|checkBoxConverter}}">{{item.type|checkBoxConverter}}</span> 
 
                 </div>
                 <div  class="tableData">
-                  <span>{{item.on_both}}</span> 
+                  <span title="{{item.on_both}}">{{item.on_both}}</span> 
 
                 </div>
                 <div   class="tableData">
-                  <span>{{item.is_required}}</span> 
+                  <span title="{{item.is_required}}">{{item.is_required}}</span> 
 
                 </div>
                 <div   class="tableData">
-                  <span>{{item.is_searchable}}</span> 
+                  <span title="{{item.is_searchable}}">{{item.is_searchable}}</span> 
 
                 </div>
                 <div   class="tableData">
-                  <span>{{item.sequence_number}}</span> 
+                  <span title="{{item.sequence_number}}">{{item.sequence_number}}</span> 
 
                 </div>
                 <div  class="tableData">
-                  <span>{{item.comp_length}}</span> 
+                  <span title="{{item.comp_length}}">{{item.comp_length}}</span> 
 
                 </div>
                 <div   class="tableData">
-                  <span>{{item.defaultValue}}</span> 
+                  <span title="{{item.defaultValue}}">{{item.defaultValue}}</span> 
 
                 </div>
                 <div  class="tableData">
-                  <span>{{item.is_external}}</span> 
+                  <span title="{{item.is_external}}">{{item.is_external}}</span> 
 
                 </div>
 
