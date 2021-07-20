@@ -784,3 +784,8 @@ table tr:nth-child(odd):hover{
     margin-top: 80px;
     width: 245px;  
 }
+
+#multiLoginForgot .field-radio-wrapper .form-radio+label:after {
+    left: 0px !important;
+    top: 0px !important;
+}

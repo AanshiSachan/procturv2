@@ -960,6 +960,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.forgotPasswordObj.userid = data.user_id;
   }
 
+  closePopup() {
+    this.forgotPasswordObj.userid = '';
+    this.forgotPasswordObj.institution_id = '';
+  }
+
   forgotPassword() {
     let forgotPasswordData = {
       alternate_email_id: "",
