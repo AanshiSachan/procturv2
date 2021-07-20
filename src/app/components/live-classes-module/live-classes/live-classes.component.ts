@@ -198,6 +198,8 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   schoolModel: boolean = false;
   live_class_for: any = '1';
   startClassMsg:any = '';
+  message_for_setup_not_done:any='';
+  set_up_done:boolean = false;
 
   constructor(
     private auth: AuthenticatorService,
@@ -357,6 +359,17 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
     this._http.postData(url, this.obj).subscribe(
       (data: any) => {
         this.auth.hideLoader();
+        this.set_up_done = data.set_up_done;
+        this.message_for_setup_not_done = data.message_for_setup_not_done;
+        if(!this.set_up_done) {
+          let match = this.message_for_setup_not_done.match(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+          if(match) {
+            match.map(url=>{
+              this.message_for_setup_not_done=this.message_for_setup_not_done.replace(url,"<a href=\""+url+"\" target=\"_BLANK\">"+url+"</a>")
+            })
+          }
+          this.msgService.showErrorMessage('info','', data.message_for_setup_not_done)
+        }
         this.previosLiveClasses = data.pastLiveClasses;
         this.futureLiveClasses = data.upcomingLiveClasses;
         this.is_proctur_live_recording_allow = data.is_proctur_live_recording_allow;
@@ -1537,17 +1550,17 @@ export class LiveClassesComponent implements OnInit, OnDestroy {
   }
 
 
-  // @HostListener('document:keydown', ['$event'])
-  // onPopState(event) {
-  //   if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73)) {
-  //     event.preventDefault();
-  //   }
-  // }
-  // @HostListener("document:contextmenu", ['$event'])
-  // onMouseOver($event) {
-  //   $event.preventDefault();
-  //   return false;
-  // }
+  @HostListener('document:keydown', ['$event'])
+  onPopState(event) {
+    if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73)) {
+      event.preventDefault();
+    }
+  }
+  @HostListener("document:contextmenu", ['$event'])
+  onMouseOver($event) {
+    $event.preventDefault();
+    return false;
+  }
 
   toggleActionMenu(event) {
     console.log(event);
