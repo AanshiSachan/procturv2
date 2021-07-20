@@ -101,7 +101,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
   forgotPasswordObj={
     institution_id:'',
-    userid:''
+    userid:'',
+    temp_id:''
   }
   // zoom
   zoom_enable: any = false;
@@ -963,6 +964,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   closePopup() {
     this.forgotPasswordObj.userid = '';
     this.forgotPasswordObj.institution_id = '';
+    this.forgotPasswordObj.temp_id = '';
   }
 
   forgotPassword() {
@@ -981,6 +983,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             console.log(el);
             this.forgotPasswordObj.userid = '';
             this.forgotPasswordObj.institution_id = '';
+            this.forgotPasswordObj.temp_id = '';
             $('#multiLoginForgot').modal('hide');
             if(el.message == 'OK') {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.messages.loginMsg.success.body);

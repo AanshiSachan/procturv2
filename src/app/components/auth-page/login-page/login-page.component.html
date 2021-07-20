@@ -362,7 +362,7 @@
             <div *ngFor="let d of multiLoginForgotPwdData;let i=index;">
               <div style="margin: 0;width: 100%;" class="field-radio-wrapper pull-left">
                 <input type="radio" class="form-radio" [checked]="d.checked"
-                  (change)="onForgotPwdSelection($event,d)" [id]="'radio-'+i">
+                  (change)="onForgotPwdSelection($event,d)" [id]="'radio-'+i" [value]="d.user_id+d.display" [(ngModel)]="forgotPasswordObj.temp_id">
                 <label [for]="'radio-'+i"></label>
                 <p style="    display: block; color:#0084f6;
                 margin: 10px;     margin-bottom: 0px;">{{d.name}} ({{d.display}}) ({{d.institute_name}})</p>
