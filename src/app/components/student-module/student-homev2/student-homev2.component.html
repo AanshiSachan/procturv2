@@ -431,6 +431,89 @@
                                         </select>
               </div>
                </div>
+
+            <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent; let i= index;">
+                    <div class="display custCompFilter" *ngIf="checkCustomeComponentElement(i)">
+                        <ng-template [ngIf]="true"
+                            *ngFor="let component of filterCustomComponent |slice:i:i+2">
+                            <div class=""
+                                *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <input type="text" value="" id="{{component.id}}"
+                                        [(ngModel)]="component.value" class="form-ctrl"
+                                        name="{{component.label}}" />
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                                <br>
+                                <div style="margin-top: 30px;" class="field-checkbox-wrapper">
+
+                                    <input class="form-checkbox" id="{{component.id}}" type="checkbox"
+                                        [(ngModel)]="component.value" name="{{component.label}}" value="">
+                                    <label class="label_p" style="margin: 0;" for="{{component.id}}">{{component.label}} </label>
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <select id="{{component.id}}" class="form-ctrl"
+                                        [(ngModel)]="component.value" name="{{component.label}}">
+                                        <option value=""></option>
+                                        <option *ngFor="let opt of component.prefilled_data"
+                                            value="{{opt.data}}">{{opt.data}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                                <div id="{{component.id}}wrapper" class="field-wrapper"
+                                    (click)="multiselectVisible($event.target.id)">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <input id="{{component.id}}" type="text"
+                                        [ngModel]="component.selectedString" name="{{component.label}}"
+                                        class="form-ctrl" readonly="true" />
+
+                                </div>
+                                <div id="{{component.id}}multi" class="hide multiselect-wrapper"
+                                    (mouseleave)="multiselectVisible(component.id)">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let opt of component.prefilled_data">
+                                                <div class="field-checkbox-wrapper">
+
+                                                    <input type="checkbox" value="" name="{{opt.data}}"
+                                                        [(ngModel)]="opt.checked"
+                                                        (ngModelChange)="updateMultiSelect(opt, component.id)"
+                                                        class="form-checkbox" id="{{opt.data}}">
+                                                    <label for="{{component.id}}">{{opt.data}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                <div class="field-wrapper datePickerBox"
+                                    [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <input type="text" value="" readonly="true" id="{{component.id}}"
+                                        [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                                        name="{{component.label}}" bsDatepicker />
+
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+            </ng-template>
            
             </div>
             <div class="modal-footer">
