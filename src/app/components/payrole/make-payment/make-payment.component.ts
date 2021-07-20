@@ -49,6 +49,7 @@ onclickMakePayment(obj){
   let template_id = obj.template_id
   sessionStorage.setItem('template_id',template_id)
 this.router.navigateByUrl('/view/payrole/add-salary-payment/' +teacher_id + '/' + user_id)
+console.log("dataaa",obj)
 }
 getAllUserRol(){
   this.auth.showLoader();
@@ -74,11 +75,7 @@ getAlluserData(){
      (res:any)=>{
    this.allUserDataList = res.result;
    this.tempList = res.result;
-  //  for(let i=0; i<this.allUserDataList.length;i++){
-  //     this.teacher_id = this.allUserDataList[i].teacher_id 
-
-  //  }
-  // sessionStorage.setItem('teacher_id',JSON.stringify(this.teacher_id))
+ 
    sessionStorage.setItem('selectedId',JSON.stringify(this.selectedId))
 
    console.log("teacher_id",this.teacher_id)

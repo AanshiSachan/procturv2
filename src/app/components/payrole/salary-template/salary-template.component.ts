@@ -162,7 +162,7 @@ downloadPdf(){
     temp.push(obj)
   })
   let row = []
-  row = [["#","Salary Grads","Basic Salary","Overtime Rate"]]
+  row = [["#","Salary Grades","Basic Salary","Overtime Rate"]]
   let column = temp
   this.pdf.exportToPdf(row,column,'salary_template')
 }
@@ -174,7 +174,7 @@ downloaExcel(){
   temp = this.salrayDataList.map(e =>{
     let obj :any ={
       "#":e.template_id,
-      "Salary Grads":e.salary_grade,
+      "Salary Grades":e.salary_grade,
       "Basic Salary": e.basic_salary,
      "Overtime Rate": e.overtime_rate,
   }

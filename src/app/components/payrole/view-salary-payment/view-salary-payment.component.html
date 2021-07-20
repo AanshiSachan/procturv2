@@ -81,8 +81,8 @@
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-sm-12" id="allowances" *ngFor="let i of addedListAllownc">
-                                            <div class="info-box">
-                                                <p>
+                                            <div class="info-box" >
+                                                <p  style="display: flex;justify-content: space-around;">
                                                     <span> {{i.allowance}}</span>
                                                     {{i.allowance_amount}} </p>
                                             </div>
@@ -101,8 +101,8 @@
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-sm-12" id="deductions" *ngFor="let a of addedListDeduct">
-                                            <div class="info-box">
-                                                <p>
+                                            <div class="info-box" >
+                                                <p  style="display: flex;justify-content: space-around;">
                                               <span>{{a.deduction}}</span>
                                               {{a.deduction_amount}} </p>
                                                 </div>

@@ -133,7 +133,7 @@ this.template_id=obj
       temp.push(obj)
     })
     let row = []
-    row = [["#","Hourly Grads","Hourly Rates"]]
+    row = [["#","Hourly Grades","Hourly Rates"]]
     let column = temp
     this.pdf.exportToPdf(row,column,'Hourly_template')
   }
@@ -145,7 +145,7 @@ this.template_id=obj
     temp = this.hourlyDataList.map(e =>{
       let obj :any ={
         "#":e.template_id,
-        "Hourly Grads":e.hourly_grade,
+        "Hourly Grades":e.hourly_grade,
        "Hourly Rates": e.hourly_rate
     }
     return obj

@@ -95,7 +95,7 @@
 
                     <div class="form-group ">
                         <label for="comments">Comments</label>
-                        <input type="text" name="comments" [(ngModel)]="historyModel.comment" onpaste="return false" oncopy="return false" class="form-control" id="comments" autocomplete="off">
+                        <input type="text" name="comments" [(ngModel)]="historyModel.comment" maxlength="70" onpaste="return false" oncopy="return false" class="form-control" id="comments" autocomplete="off">
                     </div>
                     <div>
                     <button class="blue_button1 left" (click)="backPage()">Back</button>

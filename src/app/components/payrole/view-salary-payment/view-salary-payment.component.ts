@@ -104,6 +104,7 @@ getViewResponse(){
     this.salaryModel.salary_grade=this.salaryModel.template_dto.salary_grade,
     this.salaryModel.total_deduction=this.salaryModel.template_dto.total_deduction,
     this.salaryModel.gross_salary=this.salaryModel.template_dto.gross_salary,
+    this.salaryModel.basic_salary = this.salaryModel.template_dto.basic_salary
 
     this.salaryModel = this.salaryModel
     for(let i= 0; i < this.salaryModel.template_dto.template_allowances_map_dtos.length; i++){
