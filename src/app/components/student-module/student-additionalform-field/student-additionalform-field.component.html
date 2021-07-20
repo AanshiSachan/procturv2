@@ -29,7 +29,9 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
       </svg>
     </span>
 
-    <h2 popup-header>Add Field</h2>
+    <h2 popup-header *ngIf="isEdit=='Add'">Add Field</h2>
+    <h2 popup-header *ngIf="isEdit=='Edit'">Edit Field</h2>
+
 
     <div class="row updatecomponent-wrapper" popup-content>
 
@@ -49,7 +51,7 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
             <span class="text-danger">*</span>
           </label>
           <select id="opt.data_value" class="form-ctrl"  name="opt.data_value" [(ngModel)]="editCustomComponentForm.type">
-            <option value=""></option>
+            <option value="">Select</option>
             <option *ngFor="let opt of componentShell" [value]="opt.data_key">
               {{opt.data_value}}
             </option>

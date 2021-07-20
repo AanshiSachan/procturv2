@@ -461,9 +461,9 @@
               </div>
               
             </div>
-            <div class="empdata" *ngIf="custumFieldList.length == '0'">
+            <div class="empdata" *ngIf="!custumFieldList?.length">
               <b>Note:</b>
-              <p> If want to add additional fields in enquiry form then click on <b>Add Custom Field</b>. Multiple types of field can be created through custom form field.</p>
+              <p > If want to add additional fields in enquiry form then click on <b>Add Custom Field</b>. Multiple types of field can be created through custom form field.</p>
             </div>
           </div>
         </div>
@@ -479,7 +479,6 @@
 <!-- ============custom-field-popups====================== -->
 
 <proctur-popup [sizeWidth]="'large'"  *ngIf="isEditCustumFormField=='Add'|| isEditCustumFormField=='Edit'">
-
   <span class="closePopup pos-abs fbold show" (click)="cleareForm()" close-button>
     <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
       width="24px" x="0" y="0">
@@ -506,16 +505,15 @@
 
     <div class="c-lg-4">
       <div class="field-wrapper" >
-        <label for="data_value">Type
+        <label for="opt.data_value">Type
           <span class="text-danger">*</span>
         </label>
         <select id="opt.data_value" class="form-ctrl"  name="opt.data_value"  [(ngModel)]="editCustomFormField.type" (ngModelChange)="checkValuetype($event)">
-          <option value ="-1">Selet</option>
-          <option [value]="opt.data_key" *ngFor="let opt of componentShell"> 
+          <option value ="-1">Select</option>
+          <option value="{{opt.data_key}}" *ngFor="let opt of componentShell"> 
             {{opt.data_value}}</option>
          
         </select>
-
       </div>
     </div>
 

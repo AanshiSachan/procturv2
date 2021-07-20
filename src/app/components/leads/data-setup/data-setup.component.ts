@@ -31,7 +31,7 @@ export class DataSetupComponent implements OnInit {
   sourceDetails: any = [];
   referList: any = [];
   custumFieldList:any=[];
-  componentShell:any=[];
+  componentShell:any[] = [];
   createSource = {
     name: "",
     inst_id: sessionStorage.getItem('institute_id'),
@@ -506,8 +506,8 @@ else {
 
     
     }
-    onClickAddField(type){
-      this.isEditCustumFormField = type
+    onClickAddField(types){
+      this.isEditCustumFormField = types
     }
 updateCustumField(){
 
