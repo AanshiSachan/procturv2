@@ -80,7 +80,7 @@
         <div class="flex mc_class">
           <div>
             <span class="mr10">{{mc.master_course_name}}</span>
-            <img data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg"
+            <img data-toggle="modal" *ngIf="!schoolModel" data-target="#courseModal" src="../../../../assets/img1/edit.svg"
             (click)="editMcFun(mc)" class="pointer">
         </div>
           <div class="flex" [ngClass]="{'space_flex': !schoolModel}" *ngIf="mc.course_list && mc.course_list[0].standard_name!=''">

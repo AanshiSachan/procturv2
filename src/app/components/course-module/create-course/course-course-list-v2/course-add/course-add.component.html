@@ -24,7 +24,7 @@
           <div>Academic Year</div>
           <div *ngIf="!schoolModel">Start Date</div>
           <div *ngIf="!schoolModel">End date</div>
-          <div>Allow Exam Grades</div>
+          <div *ngIf="!schoolModel">Allow Exam Grades</div>
 
         </div>
         <div class="pt15 table_body" [ngClass]="{'noShadow': !selectedCourseID}" style="margin-bottom: 0;">
@@ -57,7 +57,7 @@
             <input type="text" autocomplete="off" class="form-ctrl bsDatepicker input mr10 wid180"
               [(ngModel)]="courseDetails.end_Date" name="endDate" bsDatepicker id="endDate" placeholder="End date*">
           </div>
-          <div>
+          <div *ngIf="!schoolModel">
             <label class="checkbox">
               <span class="checkbox__input">
                 <input type="checkbox" id="allow" value="" [(ngModel)]="courseDetails.allow_exam_grades" name="allow">
