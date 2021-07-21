@@ -39,35 +39,7 @@
 </div>
 <!-- ===============end====================== -->
         <div class="display">
-            <!-- =====is-professional============== -->
-            <!-- <div class="vertical display" *ngIf="isProfessional">
-                <div>
-                    <label>Master Course</label>
-                   <select  [(ngModel)]="selectMasterCourse.master_course" id="ma" name="ma" (ngModelChange)="onMasterCourseSelection($event)">
-                       <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.standard_name}}</option>
-                   </select>
-    
-                  
-                </div>
-                <div>
-                    <label>Course</label>
-                   <ng-multiselect-dropdown [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
-                    (ngModelChange)="onCourseSelection($event)">
-                      
-                   </ng-multiselect-dropdown>
-                   </div>  -->
-                   <!-- <div>
-                    <label>Batch</label>
-                   <select  [(ngModel)]="selectMasterCourse.master_course">
-                       <option [value]="opt.batch_id" *ngFor="let opt of batchList">{{opt.batch_name}}</option>
-                   </select>
-    
-                  
-                </div> -->
-                  <!-- </div> -->
-
-            <!-- ===========end=============== -->
-           <div class="vertical display" *ngIf="!isProfessional">
+                     <div class="vertical display" *ngIf="!isProfessional">
             <div >
                 <label>{{schoolModel? 'Standard' : 'Master Course'}}</label>
                <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course"  name="master_course"   [disabled]="pramotional == 'true'"   (ngModelChange)="onMasterCourseChange($event)">
@@ -83,12 +55,6 @@
             </div>
             <div >
                 <label> {{schoolModel ? 'Section(s)' : 'Course(s)'}}</label>
-                <!-- <select [(ngModel)]="courseId" (ngModelChange)="($event)" name="course">
-                    <option>select</option>
-                <option *ngFor="let opt of courseList" [value]="opt.course_id">
-                    {{opt.course_name}}
-                </option>
-                </select> -->
                 <ng-multiselect-dropdown class="multidropdown"  [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
                 (ngModelChange)="($event)">
                   
