@@ -2315,13 +2315,13 @@
                 </div>
               </div>
                <div *ngIf="isManualDisplayId">
-              <label>{{schoolModel? 'Registration No.' : 'Roll No'}} <span>*</span></label>
-              <input type="text" value="" class="input" id="manualId" [placeholder]="schoolModel? 'Enter Reg Number' : 'Enter Roll No'"
+              <label>{{isSchoolModel? 'Registration No.' : 'Roll No'}} <span>*</span></label>
+              <input type="text" value="" class="input" id="manualId" [placeholder]="isSchoolModel? 'Enter Reg Number' : 'Enter Roll No'"
               [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel"
               required>
             <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
               <div *ngIf="manualId.errors.required" class="text-danger">
-                {{schoolModel? 'Registration Number' : 'Roll No'}} is Mandatory
+                {{isSchoolModel? 'Registration Number' : 'Roll No'}} is Mandatory
               </div>
             </div>
               
@@ -2329,7 +2329,7 @@
           </div>
           <div class="label_box">
             <div>
-              <label>Standard <span>{{schoolModel ? '*' : ''}}</span></label>
+              <label>Standard <span>{{isSchoolModel ? '*' : ''}}</span></label>
               <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard"
                         class="choice" (ngModelChange)="fetchCourseListByStdId($event)">
                         <option value="-1"></option>
@@ -2340,11 +2340,10 @@
             </div>
            
                 <div class="add_blue">
-                   <p (click)="openAssignBatch()"><img src="../../../assets/images/student_Add/add.svg">Assign {{schoolModel ? 'Sections' : 'Courses'}}</p>
+                   <p (click)="openAssignBatch()"><img src="../../../assets/images/student_Add/add.svg">Assign {{isSchoolModel ? 'Sections' : 'Courses'}}</p>
                 </div>
-             
-               <div *ngIf="!isProfessional && schoolModel && showRollNoField">
-              <label>Roll No </label>
+               <div *ngIf="!isProfessional && isSchoolModel && showRollNoField">
+              <label>Roll No <span class="danger">*</span> </label>
               <input type="text" value="" class="input" id="roll_no" placeholder="Enter roll no"
               [(ngModel)]="studentAddFormData.roll_no" name="roll_no" maxlength="50" #roll_no="ngModel"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
@@ -2390,7 +2389,7 @@
             </div>
           </div>
             <div class="label_box">
-                <div *ngIf="schoolModel">
+                <div *ngIf="isSchoolModel">
                   <label>Nationality</label>
                   <input type="text" value="" id="cardId" class="input" placeholder="Enter nationality"
                   [(ngModel)]="studentAddFormData.nationality" name="nationality" #cardId="ngModel" />
@@ -2402,7 +2401,7 @@
                   [(ngModel)]="studentAddFormData.birth_place" name="birth_place" #cardId="ngModel" />
                 </div>
              
-               <div *ngIf="schoolModel">
+               <div *ngIf="isSchoolModel">
                   <label>Mother Tongue</label>
                   <select id="mother_tounge" class="choice" [(ngModel)]="studentAddFormData.mother_tounge"
                     name="mother_tounge">
@@ -2413,7 +2412,7 @@
                 </div>
             </div>
             
-             <div class="label_box" *ngIf="schoolModel">
+             <div class="label_box" *ngIf="isSchoolModel">
                 <div>
                   <label>Category</label>
                   
@@ -2446,7 +2445,7 @@
                   
                 </div>
              </div>
-             <div class="label_box" *ngIf="schoolModel">
+             <div class="label_box" *ngIf="isSchoolModel">
                 <div>
                   <label>Aadhar No. </label>
                   
@@ -2508,13 +2507,13 @@
             </div>
           </div>
           <div class="label_box">
-            <div *ngIf="schoolModel">
+            <div *ngIf="isSchoolModel">
               <label>Parent Aadhar No.</label>
               <input type="text" value="" id="parent_adhar_no" placeholder="Enter Aadhar No"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
                 [(ngModel)]="studentAddFormData.parent_adhar_no" name="parent_adhar_no" #cardId="ngModel" />
             </div>
-             <div *ngIf="schoolModel">
+             <div *ngIf="isSchoolModel">
                 <label>Parent Profession</label>
               
                 <select id="parent_profession" class="choice" [(ngModel)]="studentAddFormData.parent_profession"
@@ -2619,7 +2618,7 @@
             </div>
           </div>
           <div class="label_box">
-            <div *ngIf="schoolModel">
+            <div *ngIf="isSchoolModel">
              <label>Pin Code </label>
               
                    
@@ -2627,7 +2626,7 @@
              [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
                
             </div>
-             <div *ngIf="schoolModel">
+             <div *ngIf="isSchoolModel">
                 <label>Group</label>
               
                    
@@ -2651,7 +2650,7 @@
                [(ngModel)]="studentAddFormData.student_curr_addr" class="input"></textarea>
                  
               </div>
-              <div *ngIf="schoolModel">
+              <div *ngIf="isSchoolModel">
                <label>Residential Address </label>
                <textarea type="text" value="" id="student_perm_addr" name="student_perm_addr"
                placeholder="Enter residential address" [(ngModel)]="studentAddFormData.student_perm_addr"
@@ -2778,15 +2777,15 @@
                   </div>
     
                   <div class="label_box flexStart" *ngIf="component.type == 2" input-def>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3" style="margin-left: 10px;">
                       <div class="field-checkbox-wrapper" style="background: transparent;margin: 0;margin-bottom: 10px;">
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
                           name="{{component.label}}" value="{{component.value}}">
-                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                        <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
                           *ngIf="component.is_required == 'Y'">
                           {{component.label}}*
                         </label>
-                        <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                        <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
                           *ngIf="component.is_required == 'N'">
                           {{component.label}} </label>
                       </div>

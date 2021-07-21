@@ -2506,15 +2506,15 @@
                 </div>
   
                 <div class="label_box flexStart" *ngIf="component.type == 2" input-def>
-                  <div class="col-lg-3">
+                  <div class="col-lg-3" style="margin-left: 10px;">
                     <div class="field-checkbox-wrapper" style="background: transparent;margin: 0;margin-bottom: 10px;">
                       <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
                         name="{{component.label}}" value="{{component.value}}">
-                      <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                      <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
                         *ngIf="component.is_required == 'Y'">
                         {{component.label}}<span class="text-danger">*</span>
                       </label>
-                      <label style="color: #B6B5B1;font-size: 13px;display: block;line-height: 1.1;"
+                      <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
                         *ngIf="component.is_required == 'N'">
                         {{component.label}} </label>
                     </div>
