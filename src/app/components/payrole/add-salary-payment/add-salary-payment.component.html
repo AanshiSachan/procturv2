@@ -16,9 +16,9 @@
             <h3 class="student-username text-center">{{historyModel.user_name}}</h3>
             <p class="text-muted text-center">{{historyModel.user_role}}</p>
             <ul class="list-group list-group-unbordered">
-                <li class="list-group-item" style="background-color: #FFF">
+                <!-- <li class="list-group-item" style="background-color: #FFF">
                     <b class="lebal">Gender</b> <a class="pull-right">{{historyModel.user_gender}}</a>
-                </li>
+                </li> -->
                 <li class="list-group-item" style="background-color: #FFF">
                     <b class="lebal">Date of Birth</b> <a class="pull-right">{{historyModel.user_dob}}</a>
                 </li>
@@ -36,8 +36,8 @@
             <!-- form start -->
             <div class="box-body">
                 <form >
-                    <div class="form-group " >
-                        <label for="gross_salary" style="margin-left: -39%;">Gross Salary <span class="text-red">*</span></label>
+                    <div class="form-group">
+                        <label for="gross_salary" >Gross Salary <span class="text-red">*</span></label>
                         <input type="number" name="gross_salary" class="form-control" disabled [(ngModel)]="historyModel.gross_salary" >
                     </div>
 
@@ -51,15 +51,8 @@
                         <input type="number" name="net_salary" class="form-control" id="net_salary" disabled [(ngModel)]="historyModel.net_salary" >
                     </div>
 
-                    <!-- <div class="field-wrapper datePickerBox form-group ">
-                        <label for="month">Month <span class="text-red">*</span></label>
-                        <input type="text" name="sal_month" class="form-ctrl widgetDatepicker bsDatepicker"  style="padding: 6px;" readonly="true" id="sal_month" [(ngModel)]="historyModel.sal_month"  bsDatepicker/>
-                        <span class="text-red"></span>
-                    </div> -->
                     <div class="form-group">
                       <label for="month">Month <span class="text-red">*</span></label>
-                      <!-- <input type="month" name="sal_month" class="form-control"   id="sal_month" [(ngModel)]="historyModel.sal_month" > -->
-
                       <span class="text-red"></span>
                       <input  [(ngModel)]="sal_month" autocomplete="off" class="form-control" name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'YYYY-MM'}" (onShown)="onOpenCalendar($event)">
                   </div>
