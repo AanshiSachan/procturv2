@@ -2079,7 +2079,7 @@
               </div>
            
              <div *ngIf="!isProfessional && schoolModel && showRollNoField">
-            <label>Roll No </label>
+            <label>Roll No <span class="text-danger">*</span> </label>
             <input type="text" value="" class="input" id="roll_no" placeholder="Enter roll no"
             [(ngModel)]="studentAddFormData.roll_no" name="roll_no" maxlength="50" #roll_no="ngModel"
             onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"

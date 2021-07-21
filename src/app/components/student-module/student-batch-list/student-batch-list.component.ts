@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+declare var $;
 
 @Component({
     selector: 'student-batch-list',
@@ -83,6 +84,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
           )
 
         this.countryList = JSON.parse(sessionStorage.getItem('country_data'));
+        $('#batchListModal').modal('show');
     }
 
     ngOnInit() {
@@ -95,11 +97,13 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 this.cd.markForCheck();
                 this.filter(model);
             })
+            $('#batchListModal').modal('show');
     }
 
     ngOnChanges() {
         this.batchList = [];
         this.is_country_disabled = false;
+        $('#batchListModal').modal('show');
         this.getSettingsTemplateCountry();
         this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
@@ -154,6 +158,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     closeBatchAssign() {
         this.batchList = [];
+        $('#batchListModal').modal('hide');
         this.closeBatch.emit(false);
     }
 
@@ -230,6 +235,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules,
                 optional_subject_id: this.selectedSubList
             }
+            $('#batchListModal').modal('hide');
             this.assignList.emit(obj);
         }
         else {
@@ -244,6 +250,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules,
                 optional_subject_id: this.selectedSubList
             }
+            $('#batchListModal').modal('hide');
             this.assignList.emit(obj);
         }
     }
