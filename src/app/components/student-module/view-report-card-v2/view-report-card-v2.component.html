@@ -249,8 +249,8 @@
               <span class="value1"
                 *ngIf="studentCommanData.current_address=='' || studentCommanData.current_address==null ">---</span>
               <span class="value1" title="{{studentCommanData.current_address}}"
-                *ngIf="studentCommanData.current_address!=null">{{ (studentCommanData.current_address.length > 100) ?
-                (studentCommanData.current_address| slice:0:100) + '...' : studentCommanData.current_address }}</span>
+                *ngIf="studentCommanData.current_address!=null">{{ studentCommanData.current_address}}
+                </span>
             </div>
           </div>
         </div>
@@ -332,8 +332,8 @@
               <span class="value1"
                 *ngIf="studentCommanData.permanent_address=='' || studentCommanData.permanent_address==null ">---</span>
               <span class="value1" title="{{studentCommanData.permanent_address}}"
-                *ngIf="studentCommanData.permanent_address!=null">{{ (studentCommanData.permanent_address.length > 100)
-                ? (studentCommanData.permanent_address| slice:0:100) + '...' : studentCommanData.permanent_address
+                *ngIf="studentCommanData.permanent_address!=null">{{ studentCommanData.permanent_address}}
+        
                 }}</span>
 
             </div>
@@ -1685,13 +1685,13 @@
               {{data.status}}
             </div>
             <div>
-              {{data.attendance_note}}
+              {{data.attendance_note ==""||data.attendance_note==null ?'---':data.attendance_note}}
             </div>
             <div>
-              {{data.topics_covered}}
+              {{data.topics_covered  ==""||data.topics_covered==null ?'---':data.topics_covered}}
             </div>
-            <div> {{data.home_work_status}}</div>
-            <div>{{data.homework_assigned}}</div>
+            <div> {{data.home_work_status ==""||data.home_work_status==null ?'---':data.home_work_status}}</div>
+            <div>{{data.homework_assigned==""||data.homework_assigned==null ?'---':data.homework_assigned}}</div>
           </div>
         </div>
         </div>

@@ -572,7 +572,9 @@ export class ViewReportCardV2Component implements OnInit {
   //============================Attendence==============================//
   viewAttendanceDet(rowData) {
     this.attendanceDetPopUp = true;
+    
     this.tempData = rowData;
+    console.log(this.tempData)
   }
 
   closePopup() {
@@ -583,7 +585,7 @@ export class ViewReportCardV2Component implements OnInit {
   expandCollapseAll() {
     for (let i = 0; i < this.courseLevelExamList.length; i++) {
       this.showhideInnerTable(i);
-      //this.courseLevelExamList[i].isShow = true;
+      this.courseLevelExamList[i].isShow = true;
     }
   }
   showhideInnerTable(ind) {
@@ -593,6 +595,7 @@ export class ViewReportCardV2Component implements OnInit {
     document.getElementById('minusIcon' + ind).classList.toggle('hide');
   }
   getStudentInfo() {
+    this.courseLevelExamList =[];
     this.auth.showLoader();
     this.apiService.fetchStudentReportDet(this.studentId).subscribe(
       (res: any) => {
