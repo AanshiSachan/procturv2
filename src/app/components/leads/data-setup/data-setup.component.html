@@ -477,6 +477,7 @@
 <app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
 </app-add-city-area>
 <!-- ============custom-field-popups====================== -->
+<div class="custom-popus">
 
 <proctur-popup [sizeWidth]="'large'"  *ngIf="isEditCustumFormField=='Add'|| isEditCustumFormField=='Edit'">
   <span class="closePopup pos-abs fbold show" (click)="cleareForm()" close-button>
@@ -491,7 +492,7 @@
   <h2 popup-header  *ngIf="isEditCustumFormField=='Add'">Add Field</h2>
   <h2 popup-header *ngIf="isEditCustumFormField=='Edit'">Edit Field</h2>
 
-  <div class="row updatecomponent-wrapper" popup-content>
+  <div class="row updatecomponent-wrapper" style="display: flex;flex-wrap: wrap;" popup-content>
 
     <div class="c-lg-4">
       <div class="field-wrapper" >
@@ -503,7 +504,7 @@
       </div>
     </div>
 
-    <div class="c-lg-4">
+    <div class="c-lg-4" style="margin-top: -8px;">
       <div class="field-wrapper" >
         <label for="opt.data_value">Type
           <span class="text-danger">*</span>
@@ -605,7 +606,7 @@
 
   <div class="" popup-footer>
     <div class="clearfix">
-      <aside class="pull-right popup-btn">
+      <aside class="pull-right popup-btn" style="margin-top: 1%;">
          <input type="button" value="Cancel" class="btn txt_font" style="background: white;color: #0084f6;" (click)="cleareForm()" >&nbsp;
         <input type="button" value="Add" *ngIf="isEditCustumFormField =='Add'" (click)="addNewCustomField()" class="fullBlue btn txt_font"
         >
@@ -617,6 +618,7 @@
   </div>
 <!-- </div> -->
 </proctur-popup>
+</div>
 
 
 

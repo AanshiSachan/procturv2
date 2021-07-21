@@ -561,12 +561,11 @@ select {
     background-color: #fff !important;
   }
 //   ===========custom-field-popups===============
-
+.custom-popus{
 .btn2 {
     background: white;
     color: #0084f6;
 }
-
 .createcomponent-wrapper {
     padding: 10px 5px;
     background: #efefef;
@@ -593,17 +592,15 @@ select {
 }
 .updatecomponent-wrapper {
     padding: 10px 5px;
-    margin: 20px 0;
+   // margin: 20px 0;
     background: #efefef;
-   border-radius: 5px;
-   border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    border: 1px solid #d8d8d8;
     height: 100%;
     width: 100%;
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 4px;
   
     ::-webkit-scrollbar {
       display: block;
@@ -622,7 +619,7 @@ select {
       box-sizing: border-box;
       padding: 10px 0 5px;
       outline: none;
-    //  border: 0;
+     // border: 0;
       height: 36px;
       box-shadow: none;
      // border-radius: 0;
@@ -679,23 +676,16 @@ select {
       .cls-1 {
         stroke: $common-blue;
       }
+       
     }
+    
+    
   }
-  b{
-      font-weight: 600;
-  }
-  .empdata{
-  justify-content: center;
-    padding-top: 8%;
-    margin-left: 2%;
-  }
-  .field-wrapper label {
-    font-size: 14px; 
-    z-index: 1; 
 }
-//   ===========end===================
 .custTable {
     .tableData {
         width:10%;
     }
 }
+
+//   ===========end===================
