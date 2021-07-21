@@ -857,6 +857,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
+    this.instituteData.master_course_name="-1"
     //$('#exampleModal2').modal('show');
     // this.isAdvFilter = true;
     // this.showQuickFilter = false;
@@ -892,7 +893,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   advancedSearch() {
-    
+    //alert(this.instituteData.master_course_name)
     let tempCustomArr: any[] = [];
     this.filterCustomComponent.forEach((el) => {
       //console.log(el);

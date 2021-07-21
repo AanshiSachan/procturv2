@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { isExternalModuleNameRelative } from 'typescript';
 import { NgForm } from '@angular/forms';
 import { role } from '../../../model/role_features';
+import { WidgetService } from '../../../services/widget.service';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -34,7 +35,7 @@ export class ViewReportCardV2Component implements OnInit {
     private route: ActivatedRoute,
     private PostStudService: PostStudentDataService,
     private _commService: CommonServiceFactory,
-    
+    private widgetService:WidgetService
 
   ) {
     this.student_id = this.route.snapshot.paramMap.get('id');
@@ -95,12 +96,15 @@ export class ViewReportCardV2Component implements OnInit {
   studentFiles: any = [];
   studentFile: any = [];
   student_id: any;
+  settingInfo:any=[];
   schoolModel: boolean;
   isLangInstitue: boolean = false;
   tax: boolean = false;
   institute_id = sessionStorage.getItem('institute_id');
+  enable_homework;
   //tax=sessionStorage.getItem('enable_tax_applicable_fee_installments');
   ngOnInit(): void {
+
     this.tax = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1';
     //check for school model
     this.schoolModel = this.auth.schoolModel.getValue();
@@ -130,6 +134,20 @@ export class ViewReportCardV2Component implements OnInit {
     // this.getStudentInfo();
     this.getParentProfileDoc();
     this.checkDownloadRoleAccess();
+    this.fetchWidgetPrefill();
+  }
+  fetchWidgetPrefill() {
+    this.widgetService.getSettings().subscribe(
+      res => {
+        this.settingInfo = res;
+        this.enable_homework = this.settingInfo.home_work_feature_enable;
+        console.log(this.enable_homework );
+      },
+      err => {
+
+      }
+    )
+    
   }
   //For tab active 
   isActiveTab = 'profile';

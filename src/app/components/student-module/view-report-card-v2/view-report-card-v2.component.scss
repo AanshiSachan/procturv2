@@ -767,6 +767,11 @@ background: #eaeaea;
 .attendance_table_modal .table_heading>div, .attendance_table_modal .table_body>div{
 width: calc(100% / 8);
 }
+.attendaceHead{
+  div {
+    width: calc(100% / 6) !important;
+  }
+}
 .display{
 display: flex;
 justify-content: space-between;

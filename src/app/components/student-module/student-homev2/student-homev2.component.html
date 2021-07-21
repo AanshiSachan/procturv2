@@ -303,7 +303,7 @@
                     <select id="active" [(ngModel)]="advancedFilterForm.is_active_status"
                     name="sFilter" >
                     <option value=""></option>
-                    <option value="1">Active</option>
+                    <option value="1" selected>Active</option>
                     <option value="2">Inactive</option>
                     <option value="3">Both</option>
                 </select>
@@ -452,7 +452,7 @@
      <div class="col-lg-4">
        <input #search type="text" name="searchData"  id="basic-search"
        [(ngModel)]="searchBarData"
-       name="searchData" (keyup.enter)="searchDatabase()" class="magnifying-glass text-indent search mt-9 mr10 btn_shadow" placeholder="Search By Name/Contact No.">
+       name="searchData" (keyup.enter)="searchDatabase()" class="magnifying-glass text-indent search mt-9 mr10 btn_shadow" placeholder="&nbsp;&nbsp;Search By Name/Contact No.">
        <button  class=" blue_button btn_shadow"  (click)="searchDatabase(1)">Search</button>
    </div> 
      

@@ -427,7 +427,7 @@
                 Attendance
               </div>
               <div> Active</div>
-              <div> Admission Date</div>
+              <div> Assign date</div>
               <div style="text-align: left;margin-left: 29px;">Leaving Date</div>
               <div></div>
             </div>
@@ -1323,7 +1323,7 @@
               <div class="field-radio-wrapper">
                 <input id="idNextWeek" type="radio" value="2" [(ngModel)]="examType" name="idNextWeek"
                   class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
-                <label class="radio_label">Upcoming Exam</label>
+                <label class="radio_label">Today’s & Upcoming Exam</label>
               </div>
             </div>
           </div>
@@ -1635,8 +1635,8 @@
       </div>
       <div class="modal-body">
         <div class="attendance_table_modal">
-          <div class="table_heading" >
-            <div>
+          <div class="table_heading" [ngClass]="{'attendaceHead':enable_homework!=1}">
+            <div >
               Date
             </div>
             <div>Timing </div>
@@ -1652,11 +1652,11 @@
             <div>
               Topic Covered
             </div>
-            <div> Home Work Status</div>
-            <div> Home Work Assigned</div>
+            <div *ngIf="enable_homework==1"> Home Work Status</div>
+            <div  *ngIf="enable_homework==1"> Home Work Assigned</div>
           </div>
           <div  style="overflow:auto;max-height:34vh;">
-          <div class="table_body " *ngFor="let data of tempData.attendanceDateList">
+          <div class="table_body"  [ngClass]="{'attendaceHead':enable_homework!=1}" *ngFor="let data of tempData.attendanceDateList">
             <div>
               {{data.date}}
             </div>
@@ -1690,8 +1690,8 @@
             <div>
               {{data.topics_covered  ==""||data.topics_covered==null ?'---':data.topics_covered}}
             </div>
-            <div> {{data.home_work_status ==""||data.home_work_status==null ?'---':data.home_work_status}}</div>
-            <div>{{data.homework_assigned==""||data.homework_assigned==null ?'---':data.homework_assigned}}</div>
+            <div  *ngIf="enable_homework==1"> {{data.home_work_status ==""||data.home_work_status==null ?'---':data.home_work_status}}</div>
+            <div  *ngIf="enable_homework==1">{{data.homework_assigned=="" ||data.homework_assigned==null ?'---':data.homework_assigned}}</div>
           </div>
         </div>
         </div>
