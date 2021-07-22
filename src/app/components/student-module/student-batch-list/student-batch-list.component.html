@@ -261,7 +261,7 @@
               <div>
                 <label class="label">Academic Year</label>
               </div>
-              <div *ngIf="schoolModel">
+              <div *ngIf="schoolModel" style="width: 20%;">
                 <label class="label">Optional Subject</label>
               </div>
   
@@ -283,19 +283,22 @@
                 <div [title]="batch.data.master_course" *ngIf="!isProfessional && !schoolModel">
                  
                   <p>
-                    {{(!batch.data.master_course) ? '-' : (batch.data.master_course.length > 30) ? (batch.data.master_course | slice:0:30) + '...' : batch.data.master_course}}
+                    {{batch.data.master_course}}
+                    <!-- {{(!batch.data.master_course) ? '-' : (batch.data.master_course.length > 30) ? (batch.data.master_course | slice:0:30) + '...' : batch.data.master_course}} -->
                   </p>
                 </div>
                 <div [title]="batch.data.course_name" *ngIf="!isProfessional">
                  
                   <p>
-                    {{(!batch.data.course_name) ? '-' : (batch.data.course_name.length > 30) ? (batch.data.course_name | slice:0:30) + '...' : batch.data.course_name}}
+                    {{batch.data.course_name}}
+                    <!-- {{(!batch.data.course_name) ? '-' : (batch.data.course_name.length > 30) ? (batch.data.course_name | slice:0:30) + '...' : batch.data.course_name}} -->
                   </p>
                 </div>
                 <div [title]="batch.data.batch_name" *ngIf="isProfessional">
                  
                     <p>
-                      {{(!batch.data.batch_name) ? '-' : (batch.data.batch_name.length > 30) ? (batch.data.batch_name | slice:0:30) + '...' : batch.data.batch_name}}
+                      {{batch.data.batch_name}}
+                      <!-- {{(!batch.data.batch_name) ? '-' : (batch.data.batch_name.length > 30) ? (batch.data.batch_name | slice:0:30) + '...' : batch.data.batch_name}} -->
                     </p>
                   </div>
                 <div>
@@ -316,7 +319,7 @@
                 </select>
   
               </div>
-              <div *ngIf="schoolModel" class="field-wrapper" style="padding:0">
+              <div *ngIf="schoolModel" class="field-wrapper" style="padding:0;width: 20%;">
                     <ng-multiselect-dropdown class="container" style="padding:0"
                     placeholder="Select Subjects"
                     [settings]="courseListSetting"

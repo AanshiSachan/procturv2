@@ -1999,9 +1999,9 @@
           
           <p [ngClass]="{'selected': activeSession=='student_details'}" (click)="scrollFn(student_details);activeSession='student_details'">1. Student Details</p>
           <p [ngClass]="{'selected': activeSession=='parent_details'}"  (click)="scrollFn(parent_details);activeSession='parent_details'">2. Parent / Guardian Details</p>
-          <p [ngClass]="{'selected': activeSession=='address_details'}" (click)="scrollFn(address_details);activeSession='address_details'">3. Address details</p>
+          <p [ngClass]="{'selected': activeSession=='address_details'}" (click)="scrollFn(address_details);activeSession='address_details'">3. Address Details</p>
           <p [ngClass]="{'selected': activeSession=='documents'}" (click)="scrollFn(documents);activeSession='documents'">4. Documents</p>
-          <p [ngClass]="{'selected': activeSession=='administration_det'}" (click)="scrollFn(administration_det);activeSession='administration_det'">5. Administration Details <br>&nbsp;&nbsp;&nbsp;&nbsp;(official use)</p>
+          <p [ngClass]="{'selected': activeSession=='administration_det'}" (click)="scrollFn(administration_det);activeSession='administration_det'">5. Administration Details <br>&nbsp;&nbsp;&nbsp;&nbsp;(Official Use)</p>
           <p *ngIf="quickAddStudent" [ngClass]="{'selected': activeSession=='custom_components'}" (click)="scrollFn(custom_components);activeSession='custom_components'">6. Other Details <br></p>
           
       </div>
