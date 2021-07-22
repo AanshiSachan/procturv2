@@ -2340,7 +2340,7 @@
             </div>
            
                 <div class="add_blue">
-                   <p (click)="openAssignBatch()"><img src="../../../assets/images/student_Add/add.svg">Assign {{isSchoolModel ? 'Sections' : 'Courses'}}</p>
+                   <p style="display:flex" (click)="openAssignBatch()"><img src="../../../assets/images/student_Add/add.svg">Assign {{isSchoolModel ? 'Sections' : 'Courses'}}</p>
                 </div>
                <div *ngIf="!isProfessional && isSchoolModel && showRollNoField">
               <label>Roll No <span class="danger">*</span> </label>
