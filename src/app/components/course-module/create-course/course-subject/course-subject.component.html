@@ -320,7 +320,7 @@ data-backdrop="static" aria-hidden="true">
             Subject Code
             <span class="text-danger">*</span>
           </label>
-          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
+          <input type="text" onkeypress="return event.charCode != 32" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
             [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
         </div>
         <div class="field-wrapper" *ngIf="schoolModel">
@@ -430,7 +430,7 @@ data-backdrop="static" aria-hidden="true">
         <div *ngIf="schoolModel">{{row.passing_marks}}</div>
         <div *ngIf="schoolModel">{{row.is_optional}}</div>
         <div>{{row.created_date | date:'dd-MMM-yy'}}</div>
-        <div>
+        <div class="actionImg">
           <img src="../../../assets/img2/edit.svg" (click)="editSubject(row)" class="mr10 table_action">
           <img src="../../../assets/img2/delete.svg" (click)="deleteRow(row)" class="table_action">
         </div>
