@@ -2036,7 +2036,7 @@
                 name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                 <option value=""></option>
                 <option [value]="data.id" *ngFor='let data of countryDetails'>
-                  +{{data.country_calling_code}}
+                  {{data.country_code}} +{{data.country_calling_code}}
                 </option>
               </select>
               <input type="text" value="" id="cNumber" placeholder="Enter number"
@@ -2221,7 +2221,7 @@
                 name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                 <option value=""></option>
                 <option [value]="data.id" *ngFor='let data of countryDetails'>
-                  +{{data.country_calling_code}}
+                  {{data.country_code}} +{{data.country_calling_code}}
                 </option>
               </select>
               <input type="text" value="" id="parentContactNo" class="input" placeholder="Enter phone no"
@@ -2279,7 +2279,7 @@
                   name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                   <option value=""></option>
                   <option [value]="data.id" *ngFor='let data of countryDetails'>
-                    +{{data.country_calling_code}}
+                    {{data.country_code}} +{{data.country_calling_code}}
                   </option>
                 </select>
                 <input type="text" value="" id="guardianContact" placeholder="Enter phone no"
@@ -2308,7 +2308,7 @@
         </div>
         <div class="display" #address_details>
           <div class="form_title">
-            <p><span>Address details</span><img src="../../../assets/images/student_Add/address.svg"></p>
+            <p><span>Address Details</span><img src="../../../assets/images/student_Add/address.svg"></p>
             <div class="form_line"></div>
           </div>
           <div class="head_sepration_line">

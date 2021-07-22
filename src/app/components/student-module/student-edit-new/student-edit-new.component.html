@@ -2256,9 +2256,9 @@
           
               <p [ngClass]="{'selected': activeSession=='student_details'}" (click)="scrollFn(student_details);activeSession='student_details'">1. Student Details</p>
               <p [ngClass]="{'selected': activeSession=='parent_details'}"  (click)="scrollFn(parent_details);activeSession='parent_details'">2. Parent / Guardian Details</p>
-              <p [ngClass]="{'selected': activeSession=='address_details'}" (click)="scrollFn(address_details);activeSession='address_details'">3. Address details</p>
+              <p [ngClass]="{'selected': activeSession=='address_details'}" (click)="scrollFn(address_details);activeSession='address_details'">3. Address Details</p>
               <p [ngClass]="{'selected': activeSession=='documents'}" (click)="scrollFn(documents);activeSession='documents'">4. Documents</p>
-              <p [ngClass]="{'selected': activeSession=='administration_det'}" (click)="scrollFn(administration_det);activeSession='administration_det'">5. Administration Details <br>&nbsp;&nbsp;&nbsp;&nbsp;(official use)</p>
+              <p [ngClass]="{'selected': activeSession=='administration_det'}" (click)="scrollFn(administration_det);activeSession='administration_det'">5. Administration Details <br>&nbsp;&nbsp;&nbsp;&nbsp;(Official Use)</p>
               <p *ngIf="quickAddStudent" [ngClass]="{'selected': activeSession=='custom_components'}" (click)="scrollFn(custom_components);activeSession='custom_components'">6. Other Details <br></p>
            
           </div>
@@ -2301,7 +2301,7 @@
                   name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                   <option value=""></option>
                   <option [value]="data.id" *ngFor='let data of countryDetails'>
-                    +{{data.country_calling_code}}
+                    {{data.country_code}} +{{data.country_calling_code}}
                   </option>
                 </select>
                 <input type="text" value="" id="cNumber" placeholder="Enter number"
@@ -2485,7 +2485,7 @@
                   name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                   <option value=""></option>
                   <option [value]="data.id" *ngFor='let data of countryDetails'>
-                    +{{data.country_calling_code}}
+                    {{data.country_code}} +{{data.country_calling_code}}
                   </option>
                 </select>
                 <input type="text" value="" id="parentContactNo" class="input" placeholder="Enter phone no"
@@ -2543,7 +2543,7 @@
                     name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                     <option value=""></option>
                     <option [value]="data.id" *ngFor='let data of countryDetails'>
-                      +{{data.country_calling_code}}
+                        {{data.country_code}} +{{data.country_calling_code}}
                     </option>
                   </select>
                   <input type="text" value="" id="guardianContact" placeholder="Enter phone no"
@@ -2572,7 +2572,7 @@
           </div>
           <div class="display" #address_details>
             <div class="form_title">
-              <p><span>Address details</span><img src="../../../assets/images/student_Add/address.svg"></p>
+              <p><span>Address Details</span><img src="../../../assets/images/student_Add/address.svg"></p>
               <div class="form_line"></div>
             </div>
             <div class="head_sepration_line">
