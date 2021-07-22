@@ -25,7 +25,7 @@
             class="img-round">
         </div>
         <div class="w40" *ngIf="schoolModel && studentCommanData.reg_no!=null">
-          <span class="rollno">Reg&nbsp;No.<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
+          <span class="rollno">Reg.&nbsp;No.<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
         </div>
         <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
           <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
@@ -123,12 +123,28 @@
         </div>
         <div id="profile_tab" *ngIf="isActiveTab =='profile'">
           <!-- Profile -->
-          <div class="outter_flex">
+          <div class="outter_flex" *ngIf="!schoolModel">
             <div class="w15">
-              <span class="name1">Roll No.&nbsp;:</span>
+              <span class="name1">Birth Place&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
+              <span class="value1">{{studentCommanData.birth_place=='' ||studentCommanData.birth_place==null ?'---':studentCommanData.birth_place}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1" *ngIf="schoolModel">Roll No.&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1" *ngIf="schoolModel">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
+            </div>
+            
+          </div>
+          <div class="outter_flex" *ngIf="schoolModel">
+           
+            <div class="w15">
+              <span class="name1" *ngIf="schoolModel">Roll No.&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1" *ngIf="schoolModel">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
             </div>
             <div class="w15">
               <span class="name1">Birth Place&nbsp;:</span>
