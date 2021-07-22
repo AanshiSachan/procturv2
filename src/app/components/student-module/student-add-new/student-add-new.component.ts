@@ -1219,7 +1219,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
-        let msg = this.schoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
+        let msg = this.schoolModel ? 'Please enter a valid registration number' : 'Please enter a valid Student Id';
         this.msgToast.showErrorMessage('error', '', msg);
       }
     }

@@ -2315,13 +2315,13 @@
                 </div>
               </div>
                <div *ngIf="isManualDisplayId">
-              <label>{{isSchoolModel? 'Registration No.' : 'Roll No'}} <span>*</span></label>
-              <input type="text" value="" class="input" id="manualId" [placeholder]="isSchoolModel? 'Enter Reg Number' : 'Enter Roll No'"
+              <label>{{isSchoolModel? 'Registration No.' : 'Student Id'}} <span>*</span></label>
+              <input type="text" value="" class="input" id="manualId" [placeholder]="isSchoolModel? 'Enter Reg Number' : 'Enter Student Id'"
               [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel"
               required>
             <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
               <div *ngIf="manualId.errors.required" class="text-danger">
-                {{isSchoolModel? 'Registration Number' : 'Roll No'}} is Mandatory
+                {{isSchoolModel? 'Registration Number' : 'Student Id'}} is Mandatory
               </div>
             </div>
               

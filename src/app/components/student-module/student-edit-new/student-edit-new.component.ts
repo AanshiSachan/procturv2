@@ -1379,7 +1379,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
-        let msg = this.isSchoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
+        let msg = this.isSchoolModel ? 'Please enter a valid registration number' : 'Please enter a valid Student Id';
         let obj = {
           type: 'error',
           title: '',
