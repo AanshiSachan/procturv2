@@ -212,8 +212,8 @@
           </div>
           <div class="c-sm-7 c-md-7 c-lg-7" style="float: right;">
 
-            <div class="c-sm-6 c-md-6 c-lg-6" *ngIf="!schoolModel">
-              <div class="field-wrapper">
+            <div class="c-sm-6 c-md-6 c-lg-6">
+              <div class="field-wrapper" *ngIf="!schoolModel">
                 <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard" id="standard">
                   <option value="-1">Select Standard</option>
                   <option *ngFor="let opt of standardList" [value]="opt.standard_id">
@@ -224,8 +224,8 @@
               </div>
             </div>
 
-            <div class="c-sm-2 c-md-2 c-lg-2" *ngIf="!schoolModel">
-              <button class="btn" (click)="getAllStudentList()">Go</button>
+            <div class="c-sm-2 c-md-2 c-lg-2">
+              <button class="btn" *ngIf="!schoolModel" (click)="getAllStudentList()">Go</button>
             </div>
 
             <div class="c-sm-4 c-md-4 c-lg-4">

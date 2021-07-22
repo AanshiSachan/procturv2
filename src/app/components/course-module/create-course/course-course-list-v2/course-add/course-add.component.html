@@ -167,7 +167,7 @@
             Subject Code
             <span class="text-danger">*</span>
           </label>
-          <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
+          <input type="text" onkeypress="return event.charCode != 32" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
             [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
         </div>
         <div class="field-wrapper" *ngIf="schoolModel">
