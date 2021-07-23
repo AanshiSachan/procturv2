@@ -477,8 +477,8 @@
           <div class="dropdown2 mr10">
             <button  class="white_button mt-9 dropbtn2">Filter<img src="/assets/img2/filter.svg"></button>
               <div class="dropdown-content2">
-                <a  id="click"   *ngIf="!showQuickFilter && !isProfessional"   (click)="openQuickFilter()">Quick Filter</a>
-                <a  data-toggle="modal"   data-target="#exampleModal2" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
+                <a style="cursor: pointer;"  id="click"   *ngIf="!showQuickFilter && !isProfessional"   (click)="openQuickFilter()">Quick Filter</a>
+                <a style="cursor: pointer;" data-toggle="modal"   data-target="#exampleModal2" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
               </div>
           </div>
              <!------------------------------more button-------------------------------->
@@ -488,11 +488,11 @@
             <button  class="white_button mt-9 dropbtn1 mr10" name="button" (click)="isOptions = !isOptions">More<img src="/assets/img2/more.svg"></button>
               <div class="dropdown-content1" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
                 <a *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'><img src="../../../../assets/icons/Upload_Student.svg" class="d_icons"> Upload Student</a>
-                <a (click)="downloadAllStudent()"
-                *ngIf="downloadStudentReportAccess"> <img src="../../../../assets/icons/Export_Students.svg" class="d_icons"> Export student</a>
+                <a  style="cursor: pointer;" (click)="downloadAllStudent()"
+                *ngIf="downloadStudentReportAccess"> <img src="../../../../assets/icons/Export_Students.svg" class="d_icons"> Export Student</a>
                 <a routerLink='/view/students/openUser' *ngIf="!schoolModel"> <img src="../../../../assets/icons/Registered_Users.svg" class="d_icons"> Registered Student</a>
-                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'> <img src="../../../../assets/icons/Archive_Students.svg" class="d_icons"> Archive student</a>
-                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'> <img src="../../../../assets/icons/Archived_Status_Report.svg" class="d_icons">  Archeived status report</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'> <img src="../../../../assets/icons/Archive_Students.svg" class="d_icons"> Archive Student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'> <img src="../../../../assets/icons/Archived_Status_Report.svg" class="d_icons">  Archived Status Report</a>
               </div>
 
           </div>
@@ -631,11 +631,11 @@
          <div *ngIf="!isProfessional">{{data.student_class}}</div>
          <div *ngIf="isProfessional">{{data.student_class}}</div>
          <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
-       <div class="center1" style="text-align: center;padding-left:48px">
+       <div class="center1" style="text-align: center;padding-left:48px;">
            <!-- [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]"-->
         <a   (click)="redirect()" [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
-        <a (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
-        <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
+        <a style="cursor: pointer;" (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
+        <a style="cursor: pointer;" (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
       </div>
      </div>
      <section class="no-data" *ngIf="studentDataSource.length == 0" style="overflow-y: hidden;height: 60vh;">
