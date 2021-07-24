@@ -332,15 +332,15 @@ export class ManageExpensesComponent implements OnInit {
       //
       // }
     }
-    else {
-      this.expensesSearchFilter = {
-        from_date: '',
-        to_date: '',
-        categoryIds: ''
-      }
+    // else {
+    //   this.expensesSearchFilter = {
+    //     from_date: '',
+    //     to_date: '',
+    //     categoryIds: ''
+    //   }
 
-      this.getAllExpenses();
-    }
+      // this.getAllExpenses();
+    // }
 
 
   }
@@ -547,7 +547,7 @@ export class ManageExpensesComponent implements OnInit {
       'Expense report'
     )
 
-    this.closeMenu();
+    // this.closeMenu();
   }
 
   resetSortByDate() {
