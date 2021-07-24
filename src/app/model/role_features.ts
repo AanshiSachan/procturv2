@@ -102,7 +102,8 @@ export class role {
         FEE_SETUP: true,
         FEE_ASSIGN:true,
         FEE_UPDATE:true,
-        ASSET_LOCATION:true
+        ASSET_LOCATION:true,
+        TEACHERS_MENU:true
         };
     // customPermissions : {
     // Old features
@@ -292,6 +293,7 @@ export class role {
         role.features.FEE_SETUP = permissions.includes(5063) ? true: false;
         role.features.FEE_ASSIGN = permissions.includes(5102) ? true: false;
         role.features.FEE_UPDATE = permissions.includes(5103) ? true: false;
+        role.features.TEACHERS_MENU = permissions.includes(5124) ? true: false;
         // role.features.EXAMS_SETUP = permissions.includes(5110) ? true: false;
     }
 }

@@ -501,7 +501,7 @@
 
                     </li>
 
-                    <li *ngIf="jsonFlags.isAdminforLeave" [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
+                    <li *ngIf="checkIfUserHadAccess(role_feature.TEACHERS_MENU)" [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
                         <a routerLink="/view/course/teacher/list">
                             <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/Teacher.svg':'./assets/images/sidemenuicon/Teacher.svg'"
                                 alt="">
