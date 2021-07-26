@@ -6,6 +6,9 @@ import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { role } from '../../../model/role_features';
+import {ActivatedRoute} from '@angular/router'; 
+
+declare var $;
 
 @Component({
   selector: 'student-sidebar',
@@ -14,6 +17,8 @@ import { role } from '../../../model/role_features';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StudentSidebarComponent implements OnInit, OnChanges {
+
+
 
   isProfessional: boolean;
   @Input() rowData: any;
@@ -32,6 +37,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 //@ViewChild('acc') acc: ElementRef;
   @ViewChild('one', { static: true }) one: ElementRef;
   @ViewChild('two', { static: true }) two: ElementRef;
+  @ViewChild("content", { static: false }) content: ElementRef;
+
+
   @ViewChild('imgDisp', { static: true }) im: ElementRef;
   allowEdit = false;
   certificate: boolean = false;
@@ -45,6 +53,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   studdentEdit = true;
   studentReport: boolean = false;
   Fee_menu: boolean = false;
+  conductCertificateFlag:boolean = false;
 
   studentServerImage: any = '';
   isSchoolModel: boolean=false;
@@ -62,14 +71,18 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     master_course_name: "",
     course_id: -1,
   };
-   constructor(
+  //isSchoolModel: boolean=false;
+  awsDownloadLink:any
+  
+  constructor(
     private eRef: ElementRef,
     private auth: AuthenticatorService,
     private cd: ChangeDetectorRef,
     private router: Router,
     private _http: HttpService,
     private _commService: CommonServiceFactory,
-    private PostStudService: PostStudentDataService
+    private PostStudService: PostStudentDataService,
+    private activatedRoute : ActivatedRoute
   ) {
     this.auth.institute_type.subscribe(
       res => {
@@ -102,9 +115,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.auth.schoolModel.subscribe(data=>{
       this.isSchoolModel=data='true'?true:false;
       })
+      
   }
 
   ngOnInit() {
+   
   }
 
   ngOnChanges() {
@@ -131,6 +146,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   gotoStudentReportcard() {
     this.router.navigateByUrl("/view/students/reportcard/" + this.rowData.student_id)
+
   }
 
   gotodownloadCertificate() {
@@ -217,10 +233,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.cd.markForCheck();
     this.leaveEvent.emit(this.rowData.student_id);
   }
-
+//id:any
   emitEditLeave() {
     this.cd.markForCheck();
     this.pdcEdit.emit(this.rowData.student_id);
+    //this.id = this.rowData.student_id
   }
 
 

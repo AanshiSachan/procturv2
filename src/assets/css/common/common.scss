@@ -1793,6 +1793,9 @@ bs-daterangepicker-container {
 .next:after {
     content: "" !important;
 }
-// body{
-//     background: #f4f5f7 !important;
-// }
+body{
+    background: #f4f5f7 !important;
+}
+.modal-backdrop.in,.modal-backdrop {
+    display: none !important;
+}

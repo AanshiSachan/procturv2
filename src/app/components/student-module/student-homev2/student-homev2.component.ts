@@ -18,6 +18,9 @@ import { PostStudentDataService } from "../../../services/student-services/post-
 import { WidgetService } from "../../../services/widget.service";
 import { ColumnSetting } from "../../shared/custom-table/layout.model";
 import { role } from "../../../model/role_features";
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 var jsPDF = require("jspdf");
 declare var $;
 @Component({
@@ -232,6 +235,57 @@ export class StudentHomev2Component implements OnInit {
   cityList: any[] = [];
   attendanceCertificate: boolean = false;
   selectedFilterData: any=null;
+  charactertCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    logo_url:'',
+    inst_place:'',
+    curr_date:''
+  }
+  bonafiedCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    stud_city:'',
+    standard_name:'',
+    section_name:'',
+    reg_number:'',
+    curr_date:'',
+    inst_place:'',
+    logo_url:'',
+
+  }
+  migrationCertiModel={
+    institute_name:'',
+    inst_phone:'',
+    inst_email:'',
+    inst_address:'',
+    stud_name:'',
+    father_name:'',
+    doj:'',
+    sex:'',
+    stud_city:'',
+    standard_name:'',
+    section_name:'',
+    reg_number:'',
+    curr_date:'',
+    inst_place:'',
+    school_board:'',
+    logo_url:'',
+  }
+  stud_id:any
+
   /* =================================================================================================== */
   constructor(
     private prefill: FetchprefilldataService,
@@ -338,6 +392,7 @@ export class StudentHomev2Component implements OnInit {
         }
       }
     });
+
   }
 
   /* OnInit function to set toggle default columns and load student data for table*/
@@ -390,6 +445,8 @@ export class StudentHomev2Component implements OnInit {
     this.checkDownloadRoleAccess();
     this.getAcademmicYear();
     this.fetchCustomComponent();
+
+ 
   }
 
   checkCustomeComponentElement(index) {
@@ -716,6 +773,8 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   editStudent(id) {
     this.router.navigate(["/view/students/edit/" + id]);
+   
+
   }
 
   /* Delete the student selected or archieve the student selected */
@@ -774,6 +833,7 @@ export class StudentHomev2Component implements OnInit {
   deleteStudentOpen(row) {
    // $('#popup').modal('show')
     this.selectedRow = row;
+
     if (this.selectedRow.noOfBatchesAssigned == 0) {
       this.isDeleteStudentPrompt = true;
     } else {
@@ -1610,6 +1670,8 @@ export class StudentHomev2Component implements OnInit {
           this.appC.popToast(msg);
         }
       );
+      sessionStorage.setItem('students_id',this.selectedRow.student_id)
+
   }
 
   /* =================================================================================================== */
@@ -3313,4 +3375,129 @@ sortTable(str) {
   }
   //this.fectchTableDataByPage(this.PageIndex);
 }
+// ==================certificate-functionality=========================
+
+
+  generateCertificate(){
+    this.router.navigateByUrl("/view/students/certificates");
+    sessionStorage.setItem('student_id',this.stud_id)
 }
+fetchStudId(obj){
+  this.stud_id = obj
+  let sexId = obj.sex
+ 
+
+
+}
+
+getCharacterCertificate(){
+ 
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/character/'+ this.stud_id;
+  this.postService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      this.charactertCertiModel = resp
+      $('#conductCertificate').modal('show');
+      console.log("character",this.charactertCertiModel)
+
+      this.auth.hideLoader();
+  },
+  err => {
+    console.log(err);
+  
+  }
+)
+
+}
+bonafiedCertificates(){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/bonafide/'+this.stud_id;
+  this.postService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+      this.bonafiedCertiModel = resp
+     
+        $('#bonafiedCertificate').modal('show')
+      this.auth.hideLoader();
+    
+  },
+  err => {
+    console.log(err);
+    this.auth.hideLoader();
+  }
+)
+
+}
+migrationCertificates(){
+  this.auth.showLoader();
+  let url ='/api/v1/certificate/'+ sessionStorage.getItem('institute_id')+'/migration/'+this.stud_id;
+  this.postService.stdGetData(url).subscribe(
+    (res:any) =>{
+      let resp =res.result;
+     this.migrationCertiModel = resp
+        $('#migrationCertificate').modal('show')
+      this.auth.hideLoader();   
+  },
+  err => {
+    console.log(err);
+    this.auth.hideLoader()
+  }
+)
+
+}
+
+
+CertificateConvertTopdf(certificat){
+  var data = document.getElementById(certificat);  
+  this.auth.showLoader()
+    html2canvas(data).then(canvas => {  
+      var imgWidth = 230;   
+      var pageHeight = 295;  
+      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var heightLeft = imgHeight;  
+
+      const contentDataURL = canvas.toDataURL('image/png') 
+      let pdf = new jsPDF('p', 'mm', 'a4'); 
+      var position = 0;  
+
+      pdf.addImage(contentDataURL,'PNG', 0,position, imgWidth, imgHeight,)  
+       pdf.save('certificate.pdf');
+
+      // if( document.getElementById('#migrationCertificate')){
+      // pdf.save('migration_certificate.pdf');
+      // }
+      // if(document.getElementById('#bonafiedCertificate')){
+      //   pdf.save('bonafied_certificate.pdf');
+      // }
+      // if($('#conductCertificate').modal('show')){
+      //   pdf.save('character_certificate.pdf');
+
+      // }
+      
+     this.auth.hideLoader()
+
+    });
+  }
+PrintPage(){
+  var divToPrint = document.getElementById("bonafiedCertificate")
+  let newWin = window.open("");
+  newWin.document.write(divToPrint.outerHTML);
+  newWin.print();
+  newWin.history.back();
+  //newWin.close();
+  console.log("print")
+//  window.print();
+}
+
+closePopups(){
+   $('#myModal1').modal('hide');
+  $('#conductCertificate').modal('hide');
+  $('#bonafiedCertificate').modal('hide');
+  $('#migrationCertificate').modal('hide');
+
+}
+
+}
+
+

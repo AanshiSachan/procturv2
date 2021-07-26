@@ -1,0 +1,621 @@
+
+<div class="page-content"  *ngIf="!transfer">
+    <div class="head_padding">
+       <div class="w98">
+         <div class="page_heading">
+           <p>Transfer Certificate</p>
+         </div>
+       </div>
+     </div>
+     <div class="w98 divScroll">
+           <div class="row mt-12 no-gutters" >
+             <div class="col-lg-12">
+               <div class="bg-white">
+                 <div id="form1">
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1">Student&nbsp;Name*</span>
+                     </div>
+                     <div class="col-lg-3">
+                       <input type="text" name="student_name" class="input" [(ngModel)]="transferCertificateModel.student_name" placeholder="">
+                     </div>
+                     
+                     <div class="col-lg-3">
+                       <span class="label1">
+                       Student&nbsp;Administration Number</span>
+                     </div>
+                    
+                     <div class="col-lg-3">
+                       
+                        <input type="text" name="" maxlength="50" class="input" [(ngModel)]="transferCertificateModel.student_administration_number" placeholder="">
+                      
+                     </div>
+                    
+                     </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1 ">
+                      Father's / Guardian's Name
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                       <input type="text" name="" maxlength="50" class="input" [(ngModel)]="transferCertificateModel.father_name" placeholder="Name">
+                     </div>
+                     
+                     <div class="col-lg-3">
+                       <span class="label1 ">
+                      Mother's Name
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                         <input type="text" name="" maxlength="50"  class="input"[(ngModel)]="transferCertificateModel.mother_name" placeholder="Name">
+                     </div>
+                    
+                   </div>
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1 ">
+                       Date Of Birth
+                     </span>
+                     </div>
+
+                     <div class="field-wrapper datePickerBox col-lg-3" style="background: #F5F5F5;border-radius: 2px;width: 23%;padding-top: 0px;padding-right: 0px;margin-left: 10px;padding-left: 0px;">
+                      <!-- <label for="payee">Payment Date <span class="danger">*</span></label> -->
+                      <input type="text" value="" id="dateOfBirth" class="form-ctrl widgetDatepicker bsDatepicker"
+                        [(ngModel)]="transferCertificateModel.dateOfBirth" style="padding: 6px;" readonly="true" name="dateOfBirth"
+                        placeholder="Date" bsDatepicker (ngModelChange)="onfuturDateSelection()" />
+                    </div><br>
+
+
+                     <!-- <div class="col-lg-3">
+                       <input type="date" name="dateOfBirth"  max="{{today |date:'yyyy-MM-dd'}}"  [(ngModel)]="transferCertificateModel.dateOfBirth" class="input">
+                     </div> -->
+                     
+                     <div class="col-lg-3" style="margin-left: 10px;">
+                       <span class="label1 ">
+                      Nationality
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                        <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.nationality"  class="input" placeholder="">
+                     </div>
+                    
+                   </div>
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1 ">
+                      Whether&nbsp;belongs to&nbsp;SC/ST/OBC
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                       <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.belongsTo" class="input" placeholder="No">
+                     </div>
+                     
+                     <div class="col-lg-3">
+                       <span class="label1 ">
+                      Date&nbsp;of&nbsp;Admission in&nbsp;School&nbsp;with&nbsp;Class
+                     </span>
+                     </div>
+
+                     <div class="field-wrapper datePickerBox col-lg-3" style="background: #F5F5F5;border-radius: 2px;width: 23%;padding-top: 0px;padding-right: 2px;padding-left: 0px;margin-left: 10px;">
+                      <input type="text" value="" id="doj" class="form-ctrl widgetDatepicker bsDatepicker"
+                        [(ngModel)]="transferCertificateModel.doj" style="padding: 6px;" readonly="true" name="doj"
+                        placeholder="Date" (ngModelChange)="onAddmithinDate()" bsDatepicker/>
+                    </div><br>
+                     <!-- <div class="col-lg-3">
+                        <input type="date" name="" [(ngModel)]="transferCertificateModel.doj" class="input">
+                     </div>
+                     -->
+                   </div>
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1 ">Class&nbsp;in&nbsp;which the&nbsp;pupil&nbsp;last studied</span>
+                     </div>
+                     <div class="col-lg-3">
+                       <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.last_studied_class" class="input" placeholder="">
+                     </div>
+                     
+                     <div class="col-lg-3">
+                       <span class="label1 ">
+                       School/Board Annual Examination last taken with result
+                     </span>
+                     </div>
+                    
+                     <div class="col-lg-3">
+                        <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.last_annual_exam_result" class="input" placeholder="">
+                      </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1">
+                       Whether failed, if so once/twice in same class
+                       </span>
+                     </div>
+                     <div class="col-lg-3">
+                       <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.failedClass" class="input" placeholder="">
+                     </div>
+                     
+                     <div class="col-lg-3">
+                       <span class="label1">
+                      Subject Studied
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                        <input type="text" name=""  maxlength="70" [(ngModel)]="transferCertificateModel.subject_names" class="input" placeholder="">
+                     </div>
+                    
+                   </div>
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1">
+                      Whether qualified for promotion to higher class if so, to which class
+                     </span>
+                     </div>
+                      
+                     <div class="col-lg-3">
+                       
+                        <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.promotionToClass" class="input" placeholder="">
+                      
+                     </div>
+                     
+                     <div class="col-lg-3">
+                       <span class="label1">
+                     Month upto which the pupil has paid school dues
+                     </span>
+                    </div>
+                     <div class="col-lg-3">
+                        <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.last_school_dues_paid_month" class="input" placeholder="">
+                     </div>
+                    
+                    </div>
+                  
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1 ">Any fee concession availed If so, the nature of such concessions</span>
+                     </div>
+                     <div class="col-lg-3">
+                   <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.feeConcession" class="input" placeholder="">
+                     </div>
+                     <div class="col-lg-3">
+                       <span class="label1">
+                       Total No. of working days in academic session
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                       <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.total_working_days" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input" placeholder="">
+                     </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-lg-3">
+                       <span class="label1 ">
+                       Total No. of working days pupil present
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                       <input type="text" name="" maxlength="30"  [(ngModel)]="transferCertificateModel.total_present_days" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input" placeholder="">
+                     </div>
+                     
+                     <div class="col-lg-3 ">
+                       <span class="label1 ">
+                     Whether NCC cadet/Boy Scout/Girl Guide (details may be given)
+                     </span>
+                     </div>
+                     <div class="col-lg-3">
+                          <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.whetherNcc" class="input" placeholder="">
+                     </div>
+                     
+                   </div>
+                   
+                       <div class="row">
+                         <div class="col-lg-3">
+                           <span class="label1 ">
+                             General Conduct / Character
+                           </span>
+                         </div>
+                          <div class="col-lg-3">
+                           <input type="text" name="" maxlength="50" [(ngModel)]="transferCertificateModel.genCharacter" class="input" placeholder="">
+                         </div>
+                         <div class="col-lg-3">
+                           <span class="label1 ">
+                             Date on which Pupil left the school
+                           </span>
+                         </div>
+
+                         <div class="field-wrapper datePickerBox col-lg-3" style="background: #F5F5F5;border-radius: 2px;width: 23%;padding-top: 0px;padding-right: 0px;margin-left: 10px;padding-left: 0px;">
+                          <input type="text" value="" id="last_date" class="form-ctrl widgetDatepicker bsDatepicker"
+                            [(ngModel)]="transferCertificateModel.last_date" style="padding: 6px;" readonly="true" name="last_date"
+                            placeholder="Date" (ngModelChange)="onLastDate()" bsDatepicker/>
+                        </div><br>
+
+                          <!-- <div class="col-lg-3">
+                           <input type="text"  [(ngModel)]="transferCertificateModel.last_date" class="input" placeholder="">
+                         </div> -->
+                       </div>
+                       <!-- <div class="row"> -->
+                         <!-- <div class="col-lg-3">
+                           <span class="label1 ">
+                             Date of application for certificate
+                           </span>
+                         </div>
+                          <div class="col-lg-3">
+                           <input type="date" name="" [(ngModel)]="transferCertificateModel.application_date" class="input" placeholder="">
+                         </div> -->
+
+<!--                          
+                         <div class="col-lg-3">
+                           <span class="label1 ">
+                            Date of Issue of certificate
+                           </span>
+                         </div>
+                          <div class="col-lg-3">
+                           <input type="date" name="certificate_issue_date" [(ngModel)]="transferCertificateModel.certificate_issue_date" class="input" placeholder="">
+                         </div> -->
+
+
+                         <!-- ================= -->
+                         <!-- <div class="field-wrapper datePickerBox">
+                          <input type="text" id="certificate_issue_date" class="form-ctrl widgetDatepicker"
+                              [(ngModel)]="transferCertificateModel.certificate_issue_date" style="padding: 6px;" readonly="true"
+                              name="certificate_issue_date" bsDatepicker />
+                      </div> -->
+                         <!-- ============================ -->
+
+
+                       <!-- </div> -->
+                        
+                              <div class="row">
+                         <div class="col-lg-3">
+                           <span class="label1 ">
+                            Reason for leaving the school
+                           </span>
+                         </div>
+                          <div class="col-lg-3">
+                           <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.reasonLeaveSchool" class="input" placeholder="">
+                         </div>
+                         <div class="col-lg-3">
+                           <span class="label1 ">
+                            Any other remark
+                           </span>
+                         </div>
+                          <div class="col-lg-3">
+                           <input type="text" name="" maxlength="50"  [(ngModel)]="transferCertificateModel.remark" class="input" placeholder="">
+                         </div>
+                       </div>
+               
+                     
+                   <div class="display">
+                       <div><button class="blue_button1 " (click)="Back()" >Back</button></div>
+                     <div >
+                      
+                     
+                         <button class="blue_button " (click)="transferCertificate()" >Generate Certificate</button>
+
+                     </div>
+
+                     </div>
+                   
+
+                 </div>
+               </div>
+           </div>
+     </div>
+
+    </div> 
+
+    <!-- =================================start Transfer Certificate======================================== -->
+    <div *ngIf="transfer" class="body_div" >
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>DEMO</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <meta charset="utf-8"> 
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+          <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+          <link rel="stylesheet" type="text/css" href="style1.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+      </head>
+      <body style="min-height: 90vh;max-height: 90vh;overflow-y: auto;">
+      
+        <div class="gradient">
+          <div>
+            <div></div>
+            <div>
+             <!-- <a  class="mr20" (click)="printTransfer('transferCertificate')"> <img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
+             <a class="mr20" (click)="downloadTransferPdf()"> <img src="../../../../assets/images/certifcateimg/download.svg"></a>
+             <a (click)="cloaseCertificate()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg"></a>
+            </div>
+          </div >
+        </div>
+        <div id="transferCertificate">
+          <br ><br><br><br>
+          
+        <div class="body" >
+          
+          <div class="w96 flex">
+            <!-- <div style="width: 30%">
+              <img src="{{transferCertificateModel.institute_logo_url}}" style="height: auto;width: 90%; padding-top: 22px;">
+
+            </div> -->
+            <div style="width: 70%" class="header-text">
+              <img src="{{transferCertificateModel.institute_logo_url}}" style="height: auto;width: 27%; padding-top: 22px;">
+
+                 <div><span style="font-size:27px; font-weight:bold">{{transferCertificateModel.institute_name}}</span></div>
+                 <div class="inst-info">
+                 <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{transferCertificateModel.inst_phone}}</span>
+                  <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{transferCertificateModel.inst_email}}</span>
+                  <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b> {{transferCertificateModel.inst_address}}</span>
+
+                  </div>
+                  <!-- <div>
+                 <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b> {{transferCertificateModel.inst_address}}</span>
+                  </div> -->
+            </div>
+          </div>
+          <div class="w96 ballet">
+              Leaving Certificate
+          </div>
+          <div class="display space">
+            <!-- <div >
+              <span class="name"> Affiliation No.</span>
+               <span class="value"> 3233233</span>
+            </div> -->
+            <div >
+             <span class="name"> Admission No.</span>
+               <span class="value"> {{transferCertificateModel.student_administration_number}}</span>
+            </div>
+          </div>
+          <div class="display space">
+            <!-- <div >
+              <span class="name"> School Code.</span>
+               <span class="value"> 3233233</span>
+            </div> -->
+            <!-- <div >
+             <span class="name"> Book No.</span>
+               <span class="value"> 3233233</span>
+            </div> -->
+          </div>
+          <br>
+          <div class="display space">
+            <div >
+              1. Name of pupil
+            </div>
+            <div class="value1">
+             {{transferCertificateModel.student_name}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              2. Father's / Guardian's Name
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.father_name}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              3. Mother's Name
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.mother_name}}
+            </div>
+          </div>
+          
+          <div class="display space">
+            <div >
+              4. Date of Birth
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.dateOfBirth}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+             5. Nationality
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.nationality}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+             6. Whether belongs to SC/ST/OBC
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.belongsTo}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              7. Date of Admission in School with Class
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.doj}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              8. Class in which the pupil last studied
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.last_studied_class}}
+          </div>
+        </div>
+          <div class="display space">
+            <div >
+              9. School/Board Annual Examination last taken with result
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.last_annual_exam_result}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              10. Whether failed, if so once/twice in same class
+      
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.failedClass}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              11. Subject Studied
+      
+            </div>
+            <div class="value1">
+             {{transferCertificateModel.subject_names}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              12. Whether qualified for promotion to higher class if so, to which class
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.promotionToClass}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              13. Month upto which the pupil has paid school dues
+      
+      
+            </div>
+            <div class="value1">
+             {{transferCertificateModel.last_school_dues_paid_month}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              14. Any fee concession availed If so, the nature of such concessions
+      
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.feeConcession}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              15. Total No. of working days in academic session
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.total_working_days}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              16. Total No. of working days pupil present
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.total_present_days}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+              17. Whether NCC cadet/Boy Scout/Girl Guide (details may be given)
+      
+      
+            </div>
+            <div class="value1">
+             {{transferCertificateModel.whetherNcc}}
+            </div>
+          </div>
+          
+          <div class="display space">
+            <div >
+             18. General Conduct / Character
+      
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.genCharacter}}
+            </div>
+          </div>
+          <div class="display space">
+            <div >
+             19. Date on which Pupil left the school
+      
+      
+            </div>
+            <div class="value1">
+             {{transferCertificateModel.last_date}}
+            </div>
+          </div>
+          <!-- <div class="display space">
+            <div >
+             20. Date of application for certificate
+      
+      
+            </div>
+            <div class="value1">
+             
+            </div>
+          </div> -->
+          <!-- <div class="display space">
+            <div >
+              21. Date of Issue of certificate
+      
+            </div>
+            <div class="value1">
+              20-09-2001
+            </div>
+          </div> -->
+          <div class="display space">
+            <div >
+              22. Reason for leaving the school
+      
+            </div>
+            <div class="value1">
+              {{transferCertificateModel.reasonLeaveSchool}}
+          </div>
+        </div>
+          <div class="display space">
+            <div >
+              23.Any other remark
+      
+            </div>
+            <div class="value1">
+             {{transferCertificateModel.remark}}
+            </div>
+          </div>
+          <br>
+         <div class="display prepared">
+           <div >
+             <span>Prepared By:</span>
+           </div>
+           <div >
+             <span>Principal: V. K. Bajaj</span>
+           </div>
+         </div>
+         <div class="line"></div>
+         <div class="bottom display">
+           <div>
+             
+           </div>
+           <div>
+            Principal  Stamp
+           </div>
+         </div>
+        </div>
+        </div>
+      </body>
+      </html>
+      </div>
+      
+     

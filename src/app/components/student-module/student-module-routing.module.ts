@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {
   StudentModuleComponent, StudentHomeComponent, StudentAddComponent, StudentBulkComponent,
-  StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent
+  StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent, CertificateReportComponent
 } from '.';
+import { CertificatesComponent } from './certificates/certificates.component';
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 import { StudentHomev2Component } from './student-homev2/student-homev2.component';
@@ -70,7 +71,19 @@ const routes: Routes = [
         path: 'addNew',
         component: StudentAddComponent,
         pathMatch: 'prefix',
+      },
+      {
+        path: 'certificates',
+        component: CertificatesComponent,
+         pathMatch: 'prefix',
+      },
+      {
+        path: 'certificate-report',
+        component: CertificateReportComponent,
+        pathMatch: 'prefix',
       }
+
+
     ]
   }
 ];
