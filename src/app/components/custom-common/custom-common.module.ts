@@ -29,7 +29,7 @@ import { CheckBoxConverterPipe } from './check-box-converter.pipe';
     entryComponents: [
     ],
     providers: [
-    ]
+    ],
 })
 export class CustomCommonModule {
 

@@ -429,10 +429,16 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      this.newEnqData.country_id = this.countryDetails[0].id;
-      this.instituteCountryDetObj = this.countryDetails[0];
-      this.maxlength = this.countryDetails[0].country_phone_number_length;
-      this.country_id = this.countryDetails[0].id;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
+
+      if (this.newEnqData.country_id == "") {
+        this.newEnqData.country_id = defacult_Country[0].id;
+        this.instituteCountryDetObj = defacult_Country[0];
+        this.maxlength = defacult_Country[0].country_phone_number_length;
+        this.country_id = defacult_Country[0].id;
+      }
     }
   }
 
