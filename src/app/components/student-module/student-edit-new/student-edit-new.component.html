@@ -2765,7 +2765,7 @@
                   <div class="label_box flexStart" style="margin-bottom: 10px;" *ngIf="component.type == 1" input-def>
                     <div class="col-lg-3">
                       <span class="label" *ngIf="component.is_required == 'Y'">
-                        {{component.label}}*
+                        {{component.label}}<span  class="text-danger">*</span>
                       </span>
                       <span class="label" *ngIf="component.is_required == 'N'">
                         {{component.label}} </span>
@@ -2783,7 +2783,7 @@
                           name="{{component.label}}" value="{{component.value}}">
                         <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
                           *ngIf="component.is_required == 'Y'">
-                          {{component.label}}*
+                          {{component.label}}<span  class="text-danger">*</span>
                         </label>
                         <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
                           *ngIf="component.is_required == 'N'">
@@ -2795,7 +2795,7 @@
                     <!-- <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}"> -->
                       <div class="col-lg-3">
                         <span class="label" *ngIf="component.is_required == 'Y'">
-                          {{component.label}}*
+                          {{component.label}} <span  class="text-danger">*</span>
                         </span>
                         <span class="label" *ngIf="component.is_required == 'N'">
                           {{component.label}} </span>
@@ -2816,7 +2816,7 @@
                       [ngClass]="{'has-value': component.selectedString != ''}"> -->
                       <div class="col-lg-3">
                         <span class="label" *ngIf="component.is_required == 'Y'">
-                          {{component.label}}*
+                          {{component.label}} <span  class="text-danger">*</span>
                         </span>
                         <span class="label" *ngIf="component.is_required == 'N'">
                           {{component.label}} </span>
@@ -2847,7 +2847,7 @@
                     <!-- <div class="field-wrapper" [ngClass]="{'has-value': component.value != 'Invalid date'}"> -->
                       <div class="col-lg-3">
                         <span class="label" for="{{component.id">
-                          {{component.label}}
+                          {{component.label}} <span *ngIf="component.is_required == 'Y'" class="text-danger">*</span> 
                         </span>
     
                       </div>
