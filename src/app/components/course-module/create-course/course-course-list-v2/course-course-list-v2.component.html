@@ -126,7 +126,7 @@
             <div class="name2">
               End Date :
             </div>
-            <div class="value2" [ngStyle]="{'color':is_active?'#222529':'red'}">
+            <div class="value2" [ngStyle]="{'color':(course.activeDate)?'#222529':'red'}">
               {{course.end_date}}
             </div>
           </div>

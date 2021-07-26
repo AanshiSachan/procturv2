@@ -4,6 +4,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 import { HttpService } from '../../../../services/http.service';
 import CommonUtils from '../../../../utils/commonUtils';
 import { CourseListService } from '../../../../services/course-services/course-list.service';
+import * as moment from 'moment';
 declare var $;
 
 @Component({
@@ -118,6 +119,19 @@ export class CourseCourseListV2Component implements OnInit {
       (res: any) => {
         this._auth.hideLoader();
         this.courseData = res.result;
+        let todaysDate = new Date();
+        if(this.courseData && this.courseData.length) {
+        this.courseData.forEach(element => {
+          if(element.course_list && element.course_list.length) {
+            element.course_list.forEach(element1 => {
+              element1.activeDate = false;
+            if (moment(element1.end_date).valueOf() >= moment(todaysDate).valueOf()) {
+              element1.activeDate = true;
+            }
+          });
+        }
+        });
+        }
         console.log(this.courseData)
       },
       (err: any) => {
