@@ -1,17 +1,143 @@
+
+<!-- =================institute-report-popups================= -->
+<div class="sumerry-report">
+<div class="black-bg1"  id="black-bg1"  *ngIf="viewPopUp"  ></div>
+    <section id="" class="popupWrapper fadeIn" *ngIf="downloadReportFor.summaryOptions">
+
+    <div class="popup  popup-body-container" style="max-width: 30% ;top: 14% !important;" >
+        <div class="popup-wrapper pos-rel">
+            <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewPopUp()" >
+                <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+                    viewBox="0 0 24 24" width="24px" x="0" y="0">
+                    <path class="large-icon"
+                        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+                        style="fill: currentColor" ></path>
+                </svg>
+            </span>
+ <!-- <div id="addAccountModal" class="modal fade" role="dialog" data-backdrop="static">
+ <div class="modal-dialog">
+<div class="modal-content" > -->
+<h2>Download Summary Report</h2>
+<div class="content-section">
+  <div class="download-report">
+      <div class="label-container">
+          <span>Download summary report for</span>
+      </div>
+      <div class="checkbox-container">
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="slotLabel"
+                  [(ngModel)]="downloadReportFor.enquiry" class="form-checkbox" id="enq-download">
+              <label for="enq-download">Enquiry</label>
+          </div>
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="slotLabel"
+                  [(ngModel)]="downloadReportFor.admissions" class="form-checkbox"
+                  id="enq-admissions">
+              <label for="enq-admissions">Admissions</label>
+          </div>
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="slotLabel"
+                  [(ngModel)]="downloadReportFor.fees" class="form-checkbox" id="enq-fees">
+              <label for="enq-fees">Fees</label>
+          </div>
+      </div>
+  </div>
+  <div id="divDropDownSection" *ngIf="!downloadReportFor.showDateRange" class="row dropDownSection">
+      <div class="c-sm-6 c-lg-6 c-lg-6">
+          <div class="field-wrapper has-value">
+              <label for="priorityEdit">Select Duration</label>
+              <select id="month" class="form-ctrl" [(ngModel)]="downloadReportFor.downloadReportOption"
+                  name="priority">
+                  <option value="1">Select Month</option>
+                  <option value="2">This Month</option>
+                  <option value="3">Previous Month</option>
+                  <option value="4">Last Two Month</option>
+              </select>
+          </div>
+      </div>
+      <div style="padding-top: 16px;" class="c-sm-6 c-lg-6 c-lg-6">
+          <button class="btn fullBlue" (click)="downloadSummaryReportXl()"
+              style="margin-top: 10px" id="btnDownloadSummary">Download</button>
+      </div>
+  </div>
+  <div id="divRangeSelection" *ngIf="downloadReportFor.showDateRange" class="row select-dates"
+      style="margin:0 -15px">
+      <div class="c-sm-4 c-lg-4 c-lg-4">
+          <div class="field-wrapper datePickerBox">
+              <label for="fromDate">From Date</label>
+              <input type="text" value="" id="" class="form-ctrl bsDatepicker"
+                  [(ngModel)]="downloadReportFor.summaryReport.from_date" name="from_date" readonly="true"
+                  bsDatepicker />
+
+
+          </div>
+      </div>
+      <div class="c-sm-4 c-lg-4 c-lg-4">
+          <div class="field-wrapper datePickerBox">
+              <label for="toDate">To Date</label>
+              <input type="text" value="" id="" class="form-ctrl bsDatepicker"
+                  [(ngModel)]="downloadReportFor.summaryReport.to_date" name="to_date" readonly="true"
+                  bsDatepicker />
+
+          </div>
+      </div>
+      <div class="c-sm-4 c-lg-4 c-lg-4" style="margin-top: 15px;">
+          <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()"
+              style="margin-top: 10px; padding: 5px" id="btnDownloadDatewise">Download</button>
+      </div>
+  </div>
+  <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()"
+      style="cursor: pointer;margin-top: -5px;color:#0084f6;">Download By Date Range</a>
+  <a id="downloadSummaryReport121" class="hide"></a>
+</div>
+</div>
+</div>
+
+</section>
+</div>
+<!-- =============end================ -->
 <section class="clearFix" style="padding-right: 2%;">
+  
   <!-- Header and Navigation -->
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left" style="margin-left:50px">
       <span>Reports</span>
     </h1>
   </section>
+  <!-- ======institut-report========= -->
+  <div *ngIf="!isProfessional">
+  <div class="leads-menu-section-container">
+    <div class="leads-menu-item eleads-menu-item">
+      <div class="menu-title"><br>
+        <img src="../../../assets/images/Frame 185.svg" alt="">
+        <span class="head-font "> Institute Report</span>
 
+      </div>
+      <div class=" menu-description">
+        <hr class="heading_hr">
+
+
+        <div class="row ">
+          <a  class="icon_click"><img
+              src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
+
+
+          <div class="col-sm" style="margin-top:-31px;margin-left:6px;cursor: pointer;" >
+            <span class="sub-head" (click)="downloadSummaryReport()" >Summary Report</span>
+          </div>    
+
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      <!-- ==========end============= -->
 
   <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isShowCampaignReport || (isShowEnqReport && checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)) || (enable_online_payment == 1 && isOnlineFees))">
     <div class="leads-menu-item eleads-menu-item">
       <div class="menu-title"><br>
         <img src="./assets/images/Reporticons/eh.png" alt="">
-        <span class="head-font ">Enquiry</span>
+        <span class="head-font " aria-hidden="true">Enquiry</span>
 
       </div>
       <div class=" menu-description">
@@ -51,6 +177,8 @@
 
 
   </div>
+  
+
   <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isCourseWise || isFeeDues || (is_tax_enabled=='1' && isGstReport) || (checkIfUserHadAccess(role_feature.FEE_PAYMENT_HISTORY))) ">
     <div class="leads-menu-item fleads-menu-item">
       <div class="menu-title">
@@ -305,6 +433,8 @@
 
 
   </div> -->
+  <!-- <div class="black-bg1" id="black-bg1"></div> -->
+ 
 
   <div class="leads-menu-section-container" *ngIf="schoolModel">
     <div class="leads-menu-item eleads-menu-item">

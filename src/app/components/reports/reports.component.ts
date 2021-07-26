@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../app/services/authenticator.service';
 import { role } from '../../model/role_features';
+import { FetchenquiryService } from '../.././services/enquiry-services/fetchenquiry.service';
+import { MessageShowService } from '../.././services/message-show.service';
+import { CommonServiceFactory } from '../.././services/common-service';
+import * as moment from 'moment';
+
+
+
 
 @Component({
   selector: 'app-reports',
@@ -22,22 +29,39 @@ export class ReportsComponent implements OnInit {
   showEmailReport: boolean = false;
   isShowExpense: any = false;
   schoolModel: any = false;
+  isProfessional:any = false;
+  viewPopUp = false;
+  downloadEnquiryReportAccess: boolean = false
+
   JsonFlags = {
     biometricAttendanceEnable: false,
     isShowAttendanceReport: false,
     isShowExamReport: false,
     isShowExamDash: false,
     showBiomentricR: false
-
   }
   jsonEstoreFlags = {
     isEstoreMenu: false,
     isSalesReport: false,
     isCouponReport: false
   }
+  downloadReportFor = {
+    enquiry: false,
+    admissions: false,
+    fees: false,
+    downloadReportOption: 1,
+    showDateRange: false,
+    summaryReport: { from_date: "", to_date: "" },
+    followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'),
+    summaryOptions: false,
+    showDownloadSummary:false
 
+}
   constructor(
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private enquire: FetchenquiryService,
+    private messageService: MessageShowService,
+    private _commService: CommonServiceFactory
   ) { 
     this.auth.schoolModel.subscribe(
       res => {
@@ -47,8 +71,17 @@ export class ReportsComponent implements OnInit {
         }
       }
     )
+  
+  this.auth.institute_type.subscribe(
+    res => {
+      if (res == 'LANG') {
+        this.isProfessional = true;
+      } else {
+        this.isProfessional = false;
+      }
+    }
+  )
   }
-
   ngOnInit(): void {
     if (sessionStorage.getItem('userType') == '3') {
       this.facultyAccount = true;
@@ -140,5 +173,117 @@ export class ReportsComponent implements OnInit {
       }
     }
   }
+// ===============institute-report-funtionality===========================
+closeViewPopUp() {
+  this.viewPopUp = false;
+  this.downloadReportFor.summaryOptions = false
+}
 
+downloadSummaryReport() {
+  this.downloadReportFor.summaryOptions = true;
+  setTimeout(() => {
+      (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Download By Date Range";
+  }, 100);
+}
+toggleDateSection() {
+  if (this.downloadReportFor.showDateRange == false) {
+      this.downloadReportFor.showDateRange = true;
+      (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Hide";
+  } else {
+      this.downloadReportFor.showDateRange = false;
+      (document.getElementById('anchTagToggle') as HTMLInputElement).textContent = "Download By Date Range";
+  }
+}
+getDateFormated(value, format) {
+  if (value) {
+      return moment(value).format(format);
+  }
+  return moment().format(format);
+
+}
+performDownloadAction(res) {
+  let byteArr = this._commService.convertBase64ToArray(res.document);
+  let format = res.format;
+  let fileName = res.docTitle;
+  let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+  let url = URL.createObjectURL(file);
+  let dwldLink = document.getElementById('downloadSummaryReport121');
+  dwldLink.setAttribute("href", url);
+  dwldLink.setAttribute("download", fileName);
+  document.body.appendChild(dwldLink);
+  dwldLink.click();
+}
+
+reportFor() {
+  let reportFor = [];
+  if (this.downloadReportFor.enquiry) {
+      reportFor.push("Enquiry");
+  }
+  if (this.downloadReportFor.admissions) {
+      reportFor.push("Admissions");
+  }
+  if (this.downloadReportFor.fees) {
+      reportFor.push("Fees");
+  }
+  return reportFor.toString();
+}
+downloadSummaryReportXl() {
+
+  let report = this.reportFor()
+
+  switch (Number(this.downloadReportFor.downloadReportOption)) {
+      case 1:
+          this.messageService.showErrorMessage(this.messageService.toastTypes.error, 'Selection', 'Please select other options');
+          break;
+      case 2: {
+          this.auth.showLoader();
+          this.enquire.getSummaryReportOfThisMonth(report).subscribe(
+              res => {
+                  this.auth.hideLoader();
+                  this.performDownloadAction(res);
+              },
+              err => {
+                  this.auth.hideLoader();
+              }
+          )
+      }
+          break;
+      case 3: {
+          this.auth.showLoader();
+          this.enquire.getPreviousMSummary(report).subscribe(
+              res => {
+                  this.auth.hideLoader();
+                  this.performDownloadAction(res);
+              },
+              err => { this.auth.hideLoader(); }
+          )
+      }
+          break;
+      case 4: {
+          this.auth.showLoader();
+          this.enquire.getSummaryReportOfLastTwoMonth(report).subscribe(
+              res => {
+                  this.auth.hideLoader();
+                  this.performDownloadAction(res);
+              },
+              err => { this.auth.hideLoader(); }
+          )
+      }
+
+  }
+}
+downloadSummaryReportXlDateWise() {
+  if (this.downloadReportFor.summaryReport.to_date != "" && this.downloadReportFor.summaryReport.from_date != "") {
+      this.auth.showLoader();
+      let report = this.reportFor()
+      let obj = { to_date: this.getDateFormated(this.downloadReportFor.summaryReport.to_date, 'YYYY-MM-DD'), from_date: this.getDateFormated(this.downloadReportFor.summaryReport.from_date, 'YYYY-MM-DD') }
+      this.enquire.getSummaryReportFromDates(obj, report).subscribe(
+          res => { this.auth.hideLoader(); this.performDownloadAction(res); },
+          err => { this.auth.hideLoader(); }
+      );
+  }
+  else {
+      this.messageService.showErrorMessage(this.messageService.toastTypes.error, '', 'Please enter dates');
+  }
+}
 }
