@@ -21,6 +21,11 @@ const routes: Routes = [
             path: 'marks',
             loadChildren: () => import('./marks/marks.module').then(m => m.MarksModule),
             pathMatch: 'prefix'
+          },
+          {
+            path: 'reports',
+            loadChildren: () => import('./exam-reports/exam-reports.module').then(m => m.ExamReportsModule),
+            pathMatch: 'prefix'
           }
       ]
   }

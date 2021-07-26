@@ -1,0 +1,237 @@
+<div class="page-content">
+    <div class="head_padding">
+        <div class="w98">
+            <div class="page_heading">
+                <p>Terminal Report</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="brown flex">
+        <div class="mr15">
+            <p class="label">Standard<span>*</span> </p>
+            <select class="select" [(ngModel)]="filterObj.standard_id" (ngModelChange)="updateCourseList($event)">
+                <option value="-1">Standard</option>
+                <option *ngFor="let std of standardData" value="{{std.standard_id}}">
+                    {{std.standard_name}}
+                </option>
+            </select>
+        </div>
+        <div class="mr15">
+            <p class="label">Exam<span>*</span> </p>
+            <select class="select" [(ngModel)]="filterObj.exam_type">
+                <option value="-1">Exam</option>
+                <option *ngFor="let exam of ExamTypeData" value="{{exam.exam_type_id}}">
+                    {{exam.exam_type}}
+                </option>
+            </select>
+        </div>
+        <div class="mr15">
+            <p class="label">Section<span>*</span></p>
+            <select class="select" [(ngModel)]="filterObj.section_id" (ngModelChange)="getStudentList()">
+                <option value="-1">Section</option>
+                <option *ngFor="let sec of courseList" value="{{sec.course_id}}">
+                    {{sec.course_name}}
+                </option>
+            </select>
+        </div>
+        <div class="mr15">
+            <p class="label">Student</p>
+            <select class="select" [(ngModel)]="filterObj.student_id">
+                <option value="-1">Please Select</option>
+                <option *ngFor="let stu of studentList" value="{{stu.student_id}}">{{stu.student_name}}</option>
+            </select>
+        </div>
+        <div class="mr15">
+            <p class="label hide_v"> hello</p>
+            <button class="blue_button" (click)="getReport()">Get Report</button>
+        </div>
+    </div>
+
+</div>
+<div class="modal" id="myModal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <!--  <div class="modal-header">
+         <h4 class="modal-title">Modal Heading</h4>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+       </div> -->
+
+            <!-- Modal body -->
+            <div id="reportId" class="modal-body">
+                <div class="head-gradient">
+                    <div>
+                        <h1>Terminal Report</h1>
+                    </div>
+                    <div>
+                        <a (click)="Print()" title="Print" class="mr20"> <img src="../../../assets/images/Exam/print.svg" class="icon"></a>
+                        <!-- <a href="" class="mr20"> <img src="../../../assets/images/Exam/download.svg" class="icon"></a> -->
+                        <a data-dismiss="modal"> <img src="../../../assets/images/Exam/close.svg"
+                                class="icon1"></a>
+                    </div>
+                </div>
+                <div class="school-name">
+                    <div>
+                        <img src="../../../assets/images/Exam/image12.png" class="img-fluid">
+                    </div>
+                    <div>
+                        <span title="{{instituteName}}">{{(instituteName?.length > 65) ? (instituteName | slice:0:65) +
+                            '...' : instituteName}}</span>
+                    </div>
+                </div>
+                <div *ngFor="let stuD of reportDetails">
+                <div class="details">
+                    <!-- <div>
+                        <h1>School</h1>
+                        <p><span>Phone:</span> +91 12345567</p>
+                        <p><span>Email:</span> acfsmdjkd@gmail.com</p>
+                    </div> -->
+                    <div style="width: 100%;">
+                        <div>
+                            <img src="../../../assets/images/Exam/image11.png">
+                        </div>
+                        <div>
+                            <h1>{{stuD.student_name}}</h1>
+                            <p><span>Academic Year:</span> {{stuD.academic_years}}</p>
+                            <p><span>Position In Class :</span> {{stuD.class_position}}</p>
+                            <p><span>Exam:</span> {{stuD.exam_type}}</p>
+                        </div>
+                        <div>
+                            <h1 class="hidden">Prakash</h1>
+                            <p><span>Standard:</span> {{stuD.standard_name}}</p>
+                            <p><span>Section: </span>{{stuD.section_name}}</p>
+                            <p><span>Roll no: </span>{{stuD.roll_no}}</p>
+                        </div>
+                        <div>
+                            <h1 class="hidden">Prakash Jadhav</h1>
+                            <!-- <p><span>Group:</span> {{reportDetails.group}}</p> -->
+                            <p><span>Reg No. :</span> {{stuD.registration_no}}</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="blue_gradient">
+                    <h1>Terminal Report</h1>
+                </div>
+                <table class="table1">
+                    <thead>
+                        <td>
+                            Subjects
+                        </td>
+                        <td class="centeralign" *ngFor="let dist of stuD.new_marks_dist_list">{{dist.marks_distribution_name}}</td>
+                        <td class="centeralign">
+                            Total
+                        </td>
+                        <td class="centeralign">
+                            Position
+                        </td>
+                        <td class="centeralign">
+                            Grade
+                        </td>
+                        <td class="centeralign">
+                            Remarks
+                        </td>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sub of stuD.subject_list">
+                            <td>
+                                {{sub.subject_name}}
+                            </td>
+                            <td class="centeralign" *ngFor="let dist of sub.marks_dist_list">{{dist.marks_value}}</td>
+                            <td class="centeralign">
+                                {{sub.total_marks}}
+                            </td>
+                            <td class="centeralign">
+                                {{sub.rank}}
+                            </td>
+                            <td class="centeralign">
+                                <span class="bneg ">{{sub.grade}}</span>
+                            </td>
+                            <td class="centeralign">
+
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td class="footer">
+                                Total
+                            </td>
+                            <td class="green">135</td>
+                            <td class="orange">
+                                140
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+                <br>
+                <table class="table2">
+                    <thead>
+                        <tr>
+                            <td>
+                                Mark Average : {{stuD.total_average_marks}}
+                            </td>
+                            <td>
+                                Class Average : {{stuD.class_average}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Promoted To</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Attendance
+                            </td>
+                            <td class="attendance">
+                                {{stuD.attendance}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Teacher Remarks
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                House Teacher Remarks
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="grey">
+                                Principal Remarks
+                            </td>
+                            <td class="grey">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="interpretation_div">
+                    <h2 class="interpretation">Interpretation of Grades : </h2>
+                    <p class="interpretation_p">{{stuD.interpretation_of_grades}}</p>
+                </div>
+                <br>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

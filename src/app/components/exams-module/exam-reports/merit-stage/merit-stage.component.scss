@@ -1,0 +1,327 @@
+* {
+    margin: 0px;
+}
+body {
+    font-family: "Open Sans", sans-serif;
+}
+.flex {
+    display: flex;
+}
+.blue_button {
+    background-color: #109cf1;
+    color: white;
+    padding: 9px 20px;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    height: 35px;
+    cursor: pointer;
+}
+.select {
+    padding: 7px 20px;
+    background: #ffffff;
+    border: 1px solid #d5d0d0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 210px;
+    height: 35px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    color: #323c47;
+}
+.input {
+    padding: 7px 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-weight: 500;
+    height: 35px;
+}
+input:focus,
+select:focus,
+button:focus {
+    outline: none;
+}
+
+.head_padding {
+    padding: 15px 0px;
+    box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 7px 5px -3px rgba(0, 0, 0, 0.1);
+}
+.w98 {
+    width: 98%;
+    margin: 0px auto;
+}
+
+.page_heading {
+    color: #334d6e;
+    font-weight: 600;
+    font-size: 14px;
+}
+.page_heading > p {
+    margin-bottom: 0px;
+}
+.pageheadingspace {
+    margin-bottom: 7px;
+}
+.brown {
+    background: #f8f8f8;
+    padding: 20px;
+}
+.label {
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.01em;
+    color: #2a3039;
+    margin-bottom: 5px;
+}
+.label > span {
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.01em;
+    color: #f30f0f;
+}
+.mr15 {
+    margin-right: 15px;
+}
+.hide_v {
+    visibility: hidden;
+}
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 900px;
+        width: 900px;
+    }
+}
+.modal-body {
+    padding: 0px;
+}
+.head-gradient {
+    background: linear-gradient(90deg, #04498a 19.01%, #52c8e6 94.66%);
+    padding: 1% 7%;
+    display: flex;
+    justify-content: space-between;
+}
+.mr20 {
+    margin-right: 20px;
+}
+.head-gradient h1 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 27px;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 0px;
+}
+.school-name {
+    padding: 1% 7%;
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+}
+.school-name > div:last-child {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+.school-name span {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+
+    letter-spacing: 0.01em;
+
+    color: #333333;
+}
+.details {
+    display: flex;
+}
+.details > div:first-child {
+    padding: 2% 4%;
+    width: 45%;
+    border-right: 1px solid #ebeff2;
+}
+.details > div:last-child {
+    display: flex;
+    width: 55%;
+}
+.details h1 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+
+    letter-spacing: 0.01em;
+
+    color: #333333;
+}
+.details p {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+    margin-bottom: 10px;
+    letter-spacing: 0.01em;
+
+    color: #727679;
+}
+.details p > span {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.01em;
+
+    color: #727679;
+}
+.details > div:last-child > div:first-child {
+    width: 50%;
+    padding: 20px 30px;
+}
+.details > div:last-child > div:nth-child(2) {
+    width: 50%;
+    padding: 20px 0px;
+    padding-right: 30px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+.blue_gradient {
+    background: linear-gradient(90deg, #0fa9ff -8.88%, rgba(196, 196, 196, 0) 119.56%);
+    padding: 1% 7%;
+}
+.blue_gradient > h1 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+    margin-bottom: 0px;
+    letter-spacing: 0.01em;
+
+    color: #ffffff;
+}
+table {
+    margin: 0% 7%;
+    width: 86%;
+}
+table,
+th,
+td {
+    border: 1px solid #e1e1e1;
+    border-collapse: collapse;
+    padding: 10px 0px;
+    /*  text-align: left;
+    padding-left: 20px;*/
+}
+.table1 thead {
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+    letter-spacing: 0.01em;
+    color: #333333;
+}
+.table1 tbody td {
+    text-align: left;
+    padding-left: 20px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+    letter-spacing: 0.01em;
+    color: #333333;
+    width: calc(100% / 6);
+}
+.table2 thead {
+    background: #f8f8f8;
+}
+.table2 thead td {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+    letter-spacing: 0.01em;
+    color: #333333;
+    text-align: center;
+}
+.table2 thead .tr2 td {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+    letter-spacing: 0.01em;
+
+    color: #333333;
+}
+.table2 tbody td {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.01em;
+    text-align: left;
+    padding-left: 10px;
+    color: #333333;
+}
+.table2 tbody .blue {
+    background: #b6edff;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height */
+    letter-spacing: 0.01em;
+    color: #333333;
+    text-align: left;
+    padding-left: 10px;
+}
+.icon {
+    height: 23px;
+    width: auto;
+}
+.icon1 {
+    height: 19px;
+    width: auto;
+}
+.table1 tbody td.centeralign {
+    text-align: center;
+    padding-left: 0px;
+}
+#myModal {
+    top: 10%;
+    left: 22%;
+    // .modal-content {
+    //   height: 85vh;
+    //   overflow-y: auto;
+    // }
+  }
+  .subRow{
+    width: 50%;
+    float: left;
+  }
+  .subBorder {
+    border: 1px solid #e1e1e1;
+    border-collapse: collapse;
+    padding: 10px 0px;
+  }
+  .madSub{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-right: none;
+  }
+  .optSub {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
