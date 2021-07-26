@@ -269,3 +269,6 @@ input[type="date"]{
 }
 //}
 // =========================================================
+ ::ng-deep .bs-datepicker {
+    margin-top: -10% !important;
+  }
