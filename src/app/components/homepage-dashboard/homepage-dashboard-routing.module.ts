@@ -6,6 +6,9 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import {MarkAttendanceComponent} from './mark-attendance/mark-attendance.component';
 import {ExamMarkUpdateComponent} from './exam-mark-update/exam-mark-update.component';
 import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.component';
+import { SendNotificationComponent } from './send-notification/send-notification.component';
+import { SendToMessagesComponent } from './send-to-messages/send-to-messages.component';
+
 
 @NgModule({
     imports: [
@@ -38,7 +41,17 @@ import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.
                     {
                         path: 'exam-marks-batch',
                         component: BatchModelComponent
-                    }
+                    },
+
+                    {
+                        path: 'send-notification',
+                        component: SendNotificationComponent
+                    },
+                    {
+                        path: 'send-to-messages',
+                        component: SendToMessagesComponent
+                    },
+                    
                 ]
             }
         ])

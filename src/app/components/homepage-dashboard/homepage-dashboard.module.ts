@@ -31,6 +31,11 @@ import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import { VdocipherComponent } from './vdocipher/vdocipher.component';
 import { StudentBirthdayComponent } from './student-birthday/student-birthday.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { SendNotificationComponent } from './send-notification/send-notification.component';
+import { SendToMessagesComponent } from './send-to-messages/send-to-messages.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
+
 
 @NgModule({
     imports: [
@@ -43,7 +48,8 @@ import { EditorModule } from '@tinymce/tinymce-angular';
         SharedModule,
         ChartModule,
         FileUploadModule,
-        EditorModule
+        EditorModule,
+        NgMultiSelectDropDownModule.forRoot()
         // MdFormFieldModule,
         // MdInputModule
     ],
@@ -62,7 +68,9 @@ import { EditorModule } from '@tinymce/tinymce-angular';
         BatchModelComponent,
         FeeWidgetComponent,
         VdocipherComponent,
-        StudentBirthdayComponent
+        StudentBirthdayComponent,
+        SendNotificationComponent,
+        SendToMessagesComponent
     ],
     entryComponents: [
         ProcturWidgetComponent,

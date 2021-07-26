@@ -18,13 +18,23 @@
 
                     <div class="pull-right act-right-sec">
                         <button class="btn hide add_send_noti"
-                            [ngClass]="{hide : checkIfUserHadAccess(role_feature.COMMUNICATE_ADD_SEND)}"
-                            (click)="addSendNotification()">
+                            [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}"
+                            (click)="addSendNotification()" *ngIf="isProfessional">
 
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             &nbsp;
                             Add/Send Notification
                         </button>
+
+                        <button class="btn hide add_send_noti"
+                        [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}"
+                        (click)="sendNotifyPage()"  *ngIf="!isProfessional">
+
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        &nbsp;
+                        Send SMS/Email/Push
+                    </button>
+
                     </div>
                 </div>
 
@@ -1835,7 +1845,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody *ngIf="!showEmailSubject">
-                                                <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                                                <tr *ngFor="let row of messageList; let i = index; trackBy : i;">
                                                     <td>
                                                         <div class="field-checkbox-wrapper">
                                                             <input type="checkbox" class="form-checkbox"

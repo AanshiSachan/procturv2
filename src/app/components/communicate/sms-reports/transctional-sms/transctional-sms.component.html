@@ -11,7 +11,12 @@
       <!-- <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
       <span>Transactional SMS Report</span> -->
     </h1>
-  </section>
+    <button class="normal-btn fullBlue btn" style="float: right;" (click)="sendNotifyPage()" *ngIf="!isProfessional">
+
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    &nbsp;
+    Send SMS/Email/Push</button> 
+ </section>
   <section class="sms-filter-wrapper" style="border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4">
     <div class="row">
       <div class="c-lg-4" style="padding-left: 0px;">
