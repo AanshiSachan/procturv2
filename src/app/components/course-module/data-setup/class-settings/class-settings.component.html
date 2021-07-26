@@ -1,0 +1,1453 @@
+<div class="page-content">
+    <div class="w981 main_div">
+      <div>
+        <div class="settings">
+          <span>
+            <img src="../../../../assets/images/settings.svg">
+            <span class="position">Settings</span>
+          </span>
+        </div>
+        <ul class="menu">
+            <li  (click)="scrollTo('section1')" [ngClass]="{ 'selected': currentSection === 'section1'}"><a>Class Setting</a></li>
+            <li (click)="scrollTo('section2')" [ngClass]="{ 'selected': currentSection === 'section2'}" ><a >Homework Setting</a> </li>
+            <li   *ngIf="!schoolModel" (click)="scrollTo('section3')" [ngClass]="{ 'selected': currentSection === 'section3'}" ><a>Absentees / Homework Daily 
+                Report</a></li>
+            <li (click)="scrollTo('section4')" [ngClass]="{ 'selected': currentSection === 'section4'}"><a >Course Expiry Notification </a></li>
+            <li  (click)="scrollTo('section5')" [ngClass]="{ 'selected': currentSection === 'section5'}"><a>Attendance</a></li>
+            <li *ngIf="biometricSetting != 1" (click)="scrollTo('section6')" [ngClass]="{ 'selected': currentSection === 'section6'}" ><a >Biometric SMS Notification Setting</a> </li>
+            <li (click)="scrollTo('section7')" [ngClass]="{ 'selected': currentSection === 'section7'}"><a>SMS Notifications 
+                </a></li>
+        </ul>
+      </div>
+      <div class="scrool1"> 
+        <div class="flex1" id="section1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse">C</span><span class="blue_line"></span>
+          </div>
+          <div class="wid100-65">
+            <p class="blue_settings">
+                Class Settings
+            </p>
+            <p class="bold_settings">
+                Student Expiry Notification (If date specified in student details)
+            </p>
+             <p class="black_settings">
+              Select the user type to whom the notification has to be sent.
+             </p>
+             <div class="flex">
+                <div class="flex">
+                    <div>
+                      <label class="checkbox">
+                         <span class="checkbox__input">
+                           <input type="checkbox" name="checked" checked="" [(ngModel)]="classSettings.enable_student_expiry_notification.student" >
+                           <span class="checkbox__control">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                               <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                           </span>
+                         </span>
+                       </label>
+                    </div>
+                     <div>
+                      <p class="settings_label">
+                       Students 
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div>
+                      <label class="checkbox">
+                         <span class="checkbox__input">
+                           <input type="checkbox" name="checked" checked="" [(ngModel)]="classSettings.enable_student_expiry_notification.admin">
+                           <span class="checkbox__control">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                               <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                           </span>
+                         </span>
+                       </label>
+                    </div>
+                     <div>
+                      <p class="settings_label">
+                       Admin 
+                      </p>
+                    </div>
+                  </div>
+             </div>
+            <div class="flex">
+                <div class="space">
+                    <p class="bold_settings">
+                        Send Notification in below specified days in advance
+                      </p>
+                    <input type="text" class="input"  [(ngModel)]="classSettings.student_expiry_notification_before_no_days" name="student_expiry_notification_before_no_days" placeholder="Enter Days">
+                </div>
+                <div>
+                    <p class="bold_settings">
+                        Contact no. for expiry notification (Comma Seperated)<img src="../../../../assets/img1/chatt.svg" class="size_sm" style="display: none;">
+                      </p>
+                    <input type="text" class="input" name="student_expiry_notification_contact_no"   [(ngModel)]="classSettings.student_expiry_notification_contact_no" placeholder="Email Contact Number">
+                </div>
+            </div>
+          </div>
+        
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section2">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse ">H</span><span class="blue_line"></span>
+            </div>
+            <div>
+                <p class="blue_settings">
+                    Homework Setting
+                </p>
+             
+              <p class="bold_settings">
+                
+                Enable Homework Feature (Used while marking attendance)
+              </p>
+               <p class="black_settings">
+                Enabling this option, the user can provide assignments to students.
+               </p>
+                
+            </div>
+            <div class="toggle">
+              <span>
+                <span class="off">OFF</span>
+                <label class="switch">
+                  <input type="checkbox" [(ngModel)]="classSettings.home_work_feature_enable" name="home_work_feature_enable">
+                  <span class="slider round"></span>
+                </label>
+                <span class="on">ON</span>
+              </span>
+              
+            </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1"id="section3" *ngIf="!schoolModel">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse ">A</span><span class="blue_line "></span>
+            </div>
+            <div>
+                <p class="blue_settings">
+                    Absentees / Homework Daily Report
+                   </p>
+             <div class="flex center">
+              <p class="bold_settings">
+                Absentees / Homework Daily Report
+              </p>
+              <div class="dropdown1">
+                <img src="../../../../assets/img1/chatt.svg" class="size_sm">
+              
+                <div class="dropdown-content1">
+                  <p>Enable this to receive
+                    Absentees / Homework
+                    Report via Email</p>
+                </div>
+             </div>
+              </div>
+               <p class="black_settings">
+                Enter Email ID's that has to receive daily report on Absentees / Homework, in comma separated format.
+               </p>
+                <p class="black_settings1">
+                    Email-ids to receive report (comma seperated)
+               </p>
+               <input type="text" class="input" name="emailIds_for_justDail_ext_lead" [(ngModel)]="classSettings.emailIds_for_justDail_ext_lead"placeholder="Enter Email Id's">
+            </div>
+            <div class="toggle">
+              <span>
+                <span class="off">OFF</span>
+                <label class="switch">
+                  <input type="checkbox" [(ngModel)]="classSettings.absenteeism_report_flag" name="absenteeism_report_flag" id="idAbsenteesReport">
+                  <span class="slider round"></span>
+                </label>
+                <span class="on">ON</span>
+              </span>
+              
+            </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section4" *ngIf="!schoolModel">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse ">C</span><span class="blue_line "></span>
+            </div>
+            <div>
+                <p class="blue_settings">
+                  <span *ngIf="isLangInst">Batch</span>
+                  <span *ngIf="!isLangInst">Course</span> &nbsp;Expiry Notification
+                   </p>
+              <p class="bold_settings">
+                <span *ngIf="isLangInst">Batch</span>
+                            <span *ngIf="!isLangInst">Course</span>&nbsp;
+                            Expiry Notification to Admin
+              </p>
+               <p class="black_settings">
+                Enable if you want to send notifications to admin regarding course expiry
+               </p>
+               
+          
+            </div>
+            <div class="toggle ">
+              <span>
+                <span class="off">OFF</span>
+                <label class="switch">
+                  <input type="checkbox" (click)="disjusdialContId()" name="course_or_batch_expiry_notification" [(ngModel)]="classSettings.course_or_batch_expiry_notification" >
+                  <span class="slider round"></span>
+                </label>
+                <span class="on">ON</span>
+              </span>
+              
+            </div>
+        </div>
+        <div class="flex290" *ngIf="!disabled">
+          <div>
+              <p class="black_settings1">
+                  Contact no. for expiry notification (Comma seperated)
+              </p>
+              <input type="text" class="input" name="course_or_batch_expiry_notification_contact_no"  [(ngModel)]="classSettings.course_or_batch_expiry_notification_contact_no" placeholder="Enter Contact No.">
+          </div>
+          <div>
+              <p class="black_settings1">
+                  No of days in advance to receive expiry notification
+              </p>
+              <input type="text" class="input" name="course_or_batch_expiry_notification_before_no_days" [(ngModel)]="classSettings.course_or_batch_expiry_notification_before_no_days" placeholder="No. of Day's">
+          </div>
+         </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section5">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse ">A</span><span class="blue_line "></span>
+            </div>
+            <div>
+                <p class="blue_settings">Attendance 
+                   
+                   </p>
+              <p class="bold_settings">
+                Student Absenteeism Report
+              </p>
+              
+               <p class="black_settings1">
+                Admin will be notified via email on 15th & 30th of every month, for the students who were absent for more then the specified
+                no of days in a particular batch / course.
+               </p>
+               <div class="flex center">
+                <p class="black_settings1">
+                    Min no of days of student absenteeism for reporting
+               </p>
+               <!-- <div class="dropdown1">
+                <img src="../../../../assets/img1/chatt.svg" class="size_sm">
+              
+                <div class="dropdown-content1">
+                  <p>Admin will be notified via email on 15th & 30th of every month, for the students who were absent for more then the specified
+                    no of days in a particular batch / course.</p>
+                </div>
+             </div> -->
+              </div>
+               <input type="text" class="input" name="absent_attendance_in_a_month_threshold"  [(ngModel)]="classSettings.absent_attendance_in_a_month_threshold" placeholder="Enter No. of Days">
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section6" *ngIf="biometricSetting != 1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse">B</span><span class="blue_line"></span>
+            </div>
+            <div class="wid100-65">
+              <p class="blue_settings">
+                Biometric SMS Notification setting
+              </p>
+              <p class="bold_settings">
+                For In Time (Only First In time per day)
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" [(ngModel)]="classSettings.biometric_first_in_time_sms.student" id="ch712">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.biometric_first_in_time_sms.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked" [(ngModel)]="classSettings.biometric_first_in_time_sms.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">B</span><span class="blue_line hidden"></span>
+            </div>
+            <div class="wid100-65">
+             
+              <p class="bold_settings">
+                Late for first class of the day
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.biometric_late_sms.student">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.biometric_late_sms.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.biometric_late_sms.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">B</span><span class="blue_line hidden"></span>
+            </div>
+            <div class="wid100-65">
+             
+              <p class="bold_settings">
+                Absent SMS (No IN/OUT) 
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"    [(ngModel)]="classSettings.biometric_absent_sms.student">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"    [(ngModel)]="classSettings.biometric_absent_sms.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"    [(ngModel)]="classSettings.biometric_absent_sms.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">B</span><span class="blue_line hidden"></span>
+            </div>
+            <div class="wid100-65">
+             
+              <p class="bold_settings">
+                In (First) and Out (Last) Time for the day
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.biometric_in_out_sms.student" >
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" [(ngModel)]="classSettings.biometric_in_out_sms.parent" >
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.biometric_in_out_sms.gaurdian" >
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">B</span><span class="blue_line hidden"></span>
+            </div>
+            <div class="wid100-65">
+             
+              <p class="bold_settings">
+                For Every Out Time
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"   [(ngModel)]="classSettings.biometric_every_out_time_sms.student">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"   [(ngModel)]="classSettings.biometric_every_out_time_sms.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"   [(ngModel)]="classSettings.biometric_every_out_time_sms.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">B</span><span class="blue_line hidden"></span>
+            </div>
+            <div class="wid100-65">
+             
+              <p class="bold_settings">
+                Buffered Duration(mins) (To calculate Late for First Class ot the day)
+              </p>
+              <p class="black_settings1">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+               </p>
+             <input type="text" class="input" id="buffer_duration"  [(ngModel)]="classSettings.biometric_late_sms_buffer" max='90' min='0'>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">B</span><span class="blue_line hidden"></span>
+            </div>
+            <div class="wid100-65">
+             
+              <p class="bold_settings">
+                Class In Time Buffer<img src="../../../../assets/img1/chatt.svg" class="size_sm">
+              </p>
+              <p class="black_settings1">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+               </p>
+             <input type="text" max='90' min='0' id="set_buffer_id"
+             [(ngModel)]="classSettings.biometric_class_in_time_buffer_in_min" name="biometric_class_in_time_buffer_in_min" class="input">
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" >
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">B</span><span class="blue_line hidden"></span>
+            </div>
+            <div class="wid100-65">
+             
+              <p class="bold_settings">
+                Class OUT Time Buffer<img src="../../../../assets/img1/chatt.svg" class="size_sm">
+              </p>
+              <p class="black_settings">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+               </p>
+             <input type="text" class="input" max='90' min='0' id="set_out_buffer_id"
+             [(ngModel)]="classSettings.biometric_class_out_time_buffer_in_min">
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section7" >
+            <!-- main settings -->
+            <div>
+              <span class="ellipse ">S</span><span class="blue_line "></span>
+            </div>
+            <div >
+                <p class="blue_settings">
+                    SMS Notifications 
+                  </p>
+                  <p class="black_settings">
+                    Enable this options to send notifications to all users regarding student absentees
+                   </p>
+              <p class="bold_settings">
+                Absent Students
+              </p>
+             
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" [(ngModel)]="classSettings.sms_absent_notification.student" >
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.sms_absent_notification.parent" >
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.sms_absent_notification.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" *ngIf="!schoolModel">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Topics Covered in Class
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.topics_covered_notification.student">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.topics_covered_notification.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.topics_covered_notification.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" *ngIf="!schoolModel">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Extra Class Notification
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.extra_class_schedule_notification.student">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.extra_class_schedule_notification.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.extra_class_schedule_notification.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.extra_class_schedule_notification.teacher">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                           Faculty
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.extra_class_schedule_notification.admin">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                          Admin
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Cancel Class/Exam Notification
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.cancel_class_schedule_notification.student">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.cancel_class_schedule_notification.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.cancel_class_schedule_notification.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.cancel_class_schedule_notification.teacher">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                           Faculty
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.cancel_class_schedule_notification.admin">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                          Admin
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Regular Class Notification
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"   [(ngModel)]="classSettings.regular_class_notification.student">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"   [(ngModel)]="classSettings.regular_class_notification.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"   [(ngModel)]="classSettings.regular_class_notification.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked" [(ngModel)]="classSettings.regular_class_notification.teacher">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                           Faculty
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked" [(ngModel)]="classSettings.regular_class_notification.admin">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                          Admin
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1"  *ngIf="!schoolModel">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Homework Assginment Notification
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" checked="">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" checked="">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked" checked="">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" *ngIf="!schoolModel">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Homework Reminder to Students
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"   [(ngModel)]="classSettings.home_work_status_notification.student" >
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Students 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" [(ngModel)]="classSettings.home_work_status_notification.parent">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Parents
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.home_work_status_notification.gaurdian">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Guardian
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Class Attendance Not Marked (Post 2 hours of Class Completion)
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"   [(ngModel)]="classSettings.enable_class_attendance_not_marked_notification.teacher">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Teacher 
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" [(ngModel)]="classSettings.enable_class_attendance_not_marked_notification.admin">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Admin
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked" [(ngModel)]="classSettings.enable_class_attendance_not_marked_notification.other">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                            Others
+                          </p>
+                        </div>
+                      </div>
+               </div>
+              
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" *ngIf="!schoolModel" >
+            <!-- main settings -->
+            <div>
+              <span class="ellipse hidden">S</span><span class="blue_line hidden"></span>
+            </div>
+            <div >
+                
+              <p class="bold_settings">
+                Class Attendance Not Marked (Daily Reminder Until Marked)
+              </p>
+              
+               <div class="flex">
+                  <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"  [(ngModel)]="classSettings.enable_class_attendance_not_marked_daily_notification.teacher">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                        Teacher
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div>
+                        <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked"   [(ngModel)]="classSettings.enable_class_attendance_not_marked_daily_notification.admin">
+                             <span class="checkbox__control">
+                              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                 <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                             </span>
+                           </span>
+                         </label>
+                      </div>
+                       <div>
+                        <p class="settings_label">
+                         Admin
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                          <label class="checkbox">
+                             <span class="checkbox__input">
+                               <input type="checkbox" name="checked"  [(ngModel)]="classSettings.enable_class_attendance_not_marked_daily_notification.other">
+                               <span class="checkbox__control">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                   <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                               </span>
+                             </span>
+                           </label>
+                        </div>
+                         <div>
+                          <p class="settings_label">
+                           Other
+                          </p>
+                        </div>
+                      </div>
+               </div>
+         
+            </div>
+          
+        </div>
+        <div class="sep_line"></div>
+
+
+        <!-- end -->
+      </div>
+    </div>
+    <div class="w98">
+       <div class="bottom">
+          <div class="display">
+            <div>
+              
+            </div>
+            <div>
+              <button class="white_button mr10">Cancel</button>
+              <button class="blue_button mr10" (click)="saveFeesSettings()">Save</button>
+            </div>
+          </div>
+        </div>
+    </div>
+ </div>  

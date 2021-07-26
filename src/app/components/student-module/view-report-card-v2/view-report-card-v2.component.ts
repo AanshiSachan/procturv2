@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { isExternalModuleNameRelative } from 'typescript';
 import { NgForm } from '@angular/forms';
 import { role } from '../../../model/role_features';
+import { WidgetService } from '../../../services/widget.service';
 declare var $;
 @Component({
   selector: 'app-view-report-card-v2',
@@ -34,7 +35,7 @@ export class ViewReportCardV2Component implements OnInit {
     private route: ActivatedRoute,
     private PostStudService: PostStudentDataService,
     private _commService: CommonServiceFactory,
-    
+    private widgetService:WidgetService
 
   ) {
     this.student_id = this.route.snapshot.paramMap.get('id');
@@ -95,12 +96,15 @@ export class ViewReportCardV2Component implements OnInit {
   studentFiles: any = [];
   studentFile: any = [];
   student_id: any;
+  settingInfo:any=[];
   schoolModel: boolean;
   isLangInstitue: boolean = false;
   tax: boolean = false;
   institute_id = sessionStorage.getItem('institute_id');
+  enable_homework;
   //tax=sessionStorage.getItem('enable_tax_applicable_fee_installments');
   ngOnInit(): void {
+
     this.tax = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1';
     //check for school model
     this.schoolModel = this.auth.schoolModel.getValue();
@@ -129,6 +133,20 @@ export class ViewReportCardV2Component implements OnInit {
     // this.getStudentInfo();
     this.getParentProfileDoc();
     this.checkDownloadRoleAccess();
+    this.fetchWidgetPrefill();
+  }
+  fetchWidgetPrefill() {
+    this.widgetService.getSettings().subscribe(
+      res => {
+        this.settingInfo = res;
+        this.enable_homework = this.settingInfo.home_work_feature_enable;
+        console.log(this.enable_homework );
+      },
+      err => {
+
+      }
+    )
+    
   }
   //For tab active 
   isActiveTab = 'profile';
@@ -361,7 +379,7 @@ export class ViewReportCardV2Component implements OnInit {
     date = moment(date).format('YYYY-MM-DD');
     this.pastFeesDetails.forEach(elements => {
       if (elements && elements.p_status == 'N' && moment(elements.d_date).valueOf() >= moment(date).valueOf()) {
-        //available units replace with one
+      
         this.futureFees.push(elements);
       }
       else if (elements && elements.p_status == 'N' && moment(elements.d_date).valueOf() < moment(date).valueOf()) {
@@ -421,7 +439,7 @@ export class ViewReportCardV2Component implements OnInit {
   //============================PTM Details==============================//
 
   getPTMDetails() {
-    this.auth.showLoader();
+   this.auth.showLoader();
     this.apiService.getPTMDetails(this.studentId).subscribe(
       res => {
         this.auth.hideLoader();
@@ -528,6 +546,7 @@ export class ViewReportCardV2Component implements OnInit {
     }
   }
   goBtnAttendaceClick() {
+   // alert(this.viewAttendancePayload.type)
     this.viewAttendancePayload.student_id = this.studentId;
     let check = this.validateDataAttendance(this.viewAttendancePayload);
     if (check) {
@@ -570,7 +589,9 @@ export class ViewReportCardV2Component implements OnInit {
   //============================Attendence==============================//
   viewAttendanceDet(rowData) {
     this.attendanceDetPopUp = true;
+    
     this.tempData = rowData;
+    console.log(this.tempData)
   }
 
   closePopup() {
@@ -581,7 +602,7 @@ export class ViewReportCardV2Component implements OnInit {
   expandCollapseAll() {
     for (let i = 0; i < this.courseLevelExamList.length; i++) {
       this.showhideInnerTable(i);
-      //this.courseLevelExamList[i].isShow = true;
+      this.courseLevelExamList[i].isShow = true;
     }
   }
   showhideInnerTable(ind) {
@@ -591,6 +612,7 @@ export class ViewReportCardV2Component implements OnInit {
     document.getElementById('minusIcon' + ind).classList.toggle('hide');
   }
   getStudentInfo() {
+    this.courseLevelExamList =[];
     this.auth.showLoader();
     this.apiService.fetchStudentReportDet(this.studentId).subscribe(
       (res: any) => {
@@ -671,6 +693,7 @@ export class ViewReportCardV2Component implements OnInit {
     }
   }
   getTimeTableDetails() {
+    this.timetablePayLoad.student_id =this.student_id;
     let check = this.validateAllField();
     if (check) {
       this.auth.showLoader();
@@ -1017,7 +1040,29 @@ export class ViewReportCardV2Component implements OnInit {
 
     )
   }
-
+  tempForInventory=[];
+  deletePopup(obj){
+    this.tempForInventory =obj.allocation_id;
+    //this.tempForCat= obj;
+    $('#deleteModalCat').modal('show');
+  }
+  deleteInventory(obj){
+    this.auth.showLoader();
+      this.httpService.deleteData('/api/v1/inventory/item/txHistory/' + obj, null).subscribe(
+        (res: any) => {
+          this.auth.hideLoader();
+          this.msgService.showErrorMessage('success', '', 'Inventory Deleted Successfully');
+          this.getInventoryDetails();
+         $('#deleteModalCat').modal('hide');
+        },
+        err => {
+         this.msgService.showErrorMessage('error', '', err.error.message);
+          this.auth.hideLoader();
+        }
+      );
+    
+  
+  }
   manageFees() {
     this.router.navigate(['/view/fee/update-fee/view-fee/' + this.student_id]);
     // this.router.navigate(["/view/students/edit/" + event]);

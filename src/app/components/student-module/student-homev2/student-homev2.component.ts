@@ -402,6 +402,12 @@ export class StudentHomev2Component implements OnInit {
     this.fetchStudentPrefill();
     this.loading_message = 3;
     this.studentDataSource = [];
+    // if(this.instituteData!=null){
+    //   let data =sessionStorage.getItem('institutedata');
+    //   this.instituteData= JSON.parse(data);
+    //   console.log(this.instituteData);
+    //   this.searchDatabase();
+    // }
     this.totalRow = this.studentDataSource.length;
     this.bulkActionItems = [
       {
@@ -445,8 +451,22 @@ export class StudentHomev2Component implements OnInit {
     this.checkDownloadRoleAccess();
     this.getAcademmicYear();
     this.fetchCustomComponent();
-
- 
+    //setfilter data
+    let filters = sessionStorage.getItem('filterdata');
+    if (filters) {
+      let searchparam=sessionStorage.getItem('searchBarData');
+      console.log(searchparam);
+      if(searchparam!=null&& searchparam!='null'){ 
+        this.searchBarData= searchparam;
+      }
+       // if session filters are not blank
+      let obj = JSON.parse(filters);
+      this.selectedFilterData = obj;
+      this.loadTableDataSource(obj);
+    }
+   // this.searchDatabase();
+   sessionStorage.removeItem('searchBarData');
+   sessionStorage.removeItem('filterdata');
   }
 
   checkCustomeComponentElement(index) {
@@ -455,6 +475,7 @@ export class StudentHomev2Component implements OnInit {
     } else {
       return false;
     }
+    
   }
 
   // Assign standard to multiple students at single time. -- Developed by Swapnil
@@ -894,6 +915,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
+    this.instituteData.master_course_name="-1"
     //$('#exampleModal2').modal('show');
     // this.isAdvFilter = true;
     // this.showQuickFilter = false;
@@ -929,7 +951,7 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   advancedSearch() {
-    
+    //alert(this.instituteData.master_course_name)
     let tempCustomArr: any[] = [];
     this.filterCustomComponent.forEach((el) => {
       //console.log(el);
@@ -1490,12 +1512,12 @@ export class StudentHomev2Component implements OnInit {
       el.value = "";
     });
   }
-
+simpleSearch;
   /* =================================================================================================== */
   /* =================================================================================================== */
   searchDatabase() {
     //alert("hi");
-   
+  // this.simpleSearch=value;
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
     let obj: any = {
@@ -3427,6 +3449,13 @@ bonafiedCertificates(){
     this.auth.hideLoader();
   }
 )
+
+redirect() {
+ 
+  // let obj = this.isProfessional ? this.instituteData : this.selectedFilterData;
+  sessionStorage.setItem('searchBarData',this.searchBarData);
+  sessionStorage.setItem('filterdata',JSON.stringify(this.selectedFilterData));
+}
 
 }
 migrationCertificates(){

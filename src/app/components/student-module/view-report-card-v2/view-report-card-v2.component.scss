@@ -200,11 +200,12 @@ display: flex;
   text-align: center;
 }
 .rollno{
-  color: #fff; 
-  font-size: 13px;
-  position: relative;
-  top: 35px;
-  font-weight: 600;
+  color: #fff;
+    font-size: 11px;
+    position: relative;
+    top: 74px;
+    left: -32px;
+    font-weight: 600;
 }
 .number{
   font-size: 20px;
@@ -322,7 +323,7 @@ display: flex;
     border-radius: 5px;
 }
 .payment_history .table_heading>div{
-   width: calc(100% / 7);
+   width: calc(100% / 6);
 }
 .table_heading>div{
   text-align: center;
@@ -347,8 +348,11 @@ display: flex;
   font-weight: 400;
   font-size: 13px;
 }
+.tbl{
+  max-height: 54vh;
+}
 .payment_history .table_body>div{
-   width: calc(100% / 7);
+   width: calc(100% / 6);
 }
 .next_due .table_heading>div, .past_due .table_heading>div{
    width: calc(100% / 8);
@@ -763,6 +767,11 @@ background: #eaeaea;
 .attendance_table_modal .table_heading>div, .attendance_table_modal .table_body>div{
 width: calc(100% / 8);
 }
+.attendaceHead{
+  div {
+    width: calc(100% / 6) !important;
+  }
+}
 .display{
 display: flex;
 justify-content: space-between;
@@ -1171,4 +1180,26 @@ border-radius: 4px;
   color: #FA5146 !important;
     //color: #FFFFFF;
     
+}
+#deleteModalCat .modal-dialog {
+  width: 350px;
+  text-align: center;
+}
+@media (min-width: 576px){
+#deleteModalCat .modal-dialog {
+  max-width:350px;
+}
+}
+.alert_text{
+  text-align: center;
+}
+#deleteModalCat{
+  position: absolute;
+  left:40%;
+  top:10%;
+
+}
+.overflows{
+  overflow-y: auto;
+height: 64vh;
 }
