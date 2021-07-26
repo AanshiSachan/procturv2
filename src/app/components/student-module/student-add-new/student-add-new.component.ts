@@ -322,6 +322,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   schoolModel: boolean = false;
   masterDataList: any = {};
   showRollNoField: boolean = false;
+  activeSession:any='';
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -339,6 +340,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.activeSession = 'student_details';
     // changes by Nalini - to handle school model conditions
     this.auth.schoolModel.subscribe(
       res => {
@@ -429,6 +431,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (this.studentAddFormData.country_id == "") {
         this.studentAddFormData.country_id = defacult_Country[0].id;
         this.instituteCountryDetObj = defacult_Country[0];
+        this.country_id = defacult_Country[0].id;
         if (this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
           this.country_id = defacult_Country[0].id;
           this.maxlegth = defacult_Country[0].country_phone_number_length;
@@ -1216,7 +1219,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
-        let msg = this.schoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
+        let msg = this.schoolModel ? 'Please enter a valid registration number' : 'Please enter a valid Student Id';
         this.msgToast.showErrorMessage('error', '', msg);
       }
     }
@@ -1353,9 +1356,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (!isCustomComponentValid) {
         this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
-      // else if (!formValid) {
-      //   this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
-      // }
+      else if (!formValid) {
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
+      }
     }
 
   }
@@ -1791,7 +1794,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       stuCustomLi: [],
       deleteCourse_SubjectUnPaidFeeSchedules: false
     };
-    form.reset();
+    // form.reset();
+    // this.fetchDataForCountryDetails();
 
     if (this.isConvertEnquiry) {
       this.router.navigate(['/view/leads/enquiry']);
@@ -2684,7 +2688,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', "No file selected");
       }
     } else {
-      this.msgToast.showErrorMessage('error', '', "File Name is mandatory");
+      this.msgToast.showErrorMessage('error', '', "Document Title is mandatory");
     }
   }
 
@@ -2700,6 +2704,10 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       this.showRollNoField = false;
       this.updateMasterCourseList(standard_id);
     }
+  }
+
+  scrollFn(el: HTMLElement){
+    el.scrollIntoView();
   }
 }
 

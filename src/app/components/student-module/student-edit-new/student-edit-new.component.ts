@@ -335,6 +335,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   isSchoolModel: boolean = false;
   masterDataList: any = {};
   showRollNoField: boolean = false;
+  activeSession:any='';
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -354,6 +355,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
+    this.activeSession = 'student_details';
     this.auth.schoolModel.subscribe(
       res => {
         this.isSchoolModel = false;
@@ -1377,7 +1379,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
-        let msg = this.isSchoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
+        let msg = this.isSchoolModel ? 'Please enter a valid registration number' : 'Please enter a valid Student Id';
         let obj = {
           type: 'error',
           title: '',
@@ -2976,7 +2978,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       }
       newxhr.send(formData);
     } else {
-        this.appC.popToast({ type: "error", body: "Enter File Name!" })
+        this.appC.popToast({ type: "error", body: "Enter document title!" })
         return
     }
     this.category_id = '';
@@ -3052,6 +3054,10 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.updateMasterCourseList(standard_id);
       }
     }
+  }
+
+  scrollFn(el: HTMLElement){
+    el.scrollIntoView();
   }
 
 }

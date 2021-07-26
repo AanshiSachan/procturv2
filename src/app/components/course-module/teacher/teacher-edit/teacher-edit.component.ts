@@ -73,9 +73,9 @@ export class TeacherEditComponent implements OnInit {
     let type = Number(sessionStorage.getItem('institute_setup_type'));
     this.setMultiSelectSetting();
     this.fetchStandardAndSubjects();
+    this.createEditTeacherForm();
     this.isOnlineExamAllow(type);
     this.fetchDataForCountryDetails();
-    this.createEditTeacherForm();
     this.enable_ip_lock_feature = sessionStorage.getItem('enable_ip_lock_feature');
   }
 
@@ -209,9 +209,15 @@ export class TeacherEditComponent implements OnInit {
     let temp = JSON.parse(countryCodeEncryptedData);
     if (temp.length > 0) {
       this.countryDetails = temp;
-      this.maxlength = this.countryDetails[0].country_phone_number_length;
-      this.instituteCountryDetObj = this.countryDetails[0];
-      this.country_id = this.countryDetails[0].id;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })      
+      this.instituteCountryDetObj = defacult_Country[0];
+      this.country_id = defacult_Country[0].id;
+      this.maxlength = defacult_Country[0].country_phone_number_length;
+      this.editTeacherForm.patchValue({
+        country_id: defacult_Country[0].id
+      });
     }
   }
   isOnlineExamAllow(type) {
@@ -333,7 +339,7 @@ export class TeacherEditComponent implements OnInit {
     this.editTeacherForm = this.fb.group({
       teacher_name: ['', [Validators.required]],
       teacher_curr_addr: [''],
-      country_id: [this.countryDetails[0].id],
+      country_id: '',
       teacher_phone: ['', [Validators.required]],
       teacher_alt_phone: [''],
       teacher_standards: [''],
