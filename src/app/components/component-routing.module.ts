@@ -208,6 +208,14 @@ import { ReportsComponent } from './reports/reports.component';
                             pathMatch: 'prefix'
 
                         },
+
+                        {
+                            path: 'payrole',
+                            loadChildren: () => import('../components/payrole/payrole.module').then(m => m.PayroleModule),
+                            pathMatch: 'prefix'
+
+                        }
+
                     ]
                 },
             ]

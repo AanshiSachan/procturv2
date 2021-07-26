@@ -1,0 +1,54 @@
+<form class="form-horizontal" role="form"  id="templateDataForm">
+    <section class="middle-top mb0 clearFix">
+        <h1 class="pull-left">
+          <a routerLink="/view/payrole/manage-salary">
+            Manage Salary
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+         <span *ngIf="sectionName == 'Add'">Add Manage Salary</span> 
+          <span *ngIf="sectionName == 'edit'">Update Manage Salary</span>
+        </h1>
+      </section>
+    <div class="row">
+     <div class="col-sm-12" style="margin-bottom: 10px;">
+    <div class="form-group">                       
+         <label for="hourly_grades" class="col-sm-2 control-label">
+            Salary <span class="text-red">*</span>
+        </label>
+        <div class="col-sm-4">
+            <select class="form-control" id="slaryType" [(ngModel)]="slaryType" name="slaryType" (ngModelChange)="onselectSalaryDropdown()">
+                <option>Select Salary</option>
+                <option value="H">Hourly</option>
+                <option value="M">Monthly</option>
+                </select>
+        </div>
+        <span class="col-sm-4 control-label" id="hourly_grades_error">
+         </span>
+    </div>
+
+    <div class="form-group">                       
+         <label for="hourly_rates" class="col-sm-2 control-label">
+            Template <span class="text-red">*</span>
+        </label>
+        <div class="col-sm-4">
+            <select class="form-control" id="hourly_rates"  [(ngModel)]="template_id" name="template_id" >
+                <option>Select Template</option>
+                <option [value]="hourly.template_id" *ngFor="let hourly of templateList">{{slaryType == 'M' ? hourly.salary_grade : hourly.hourly_grade}}</option>
+                <!-- <option [value]="salary.template_id" *ngFor="let salary of salrayDataList" >{{salary.salary_grade}}</option> -->
+                </select>
+              </div>
+        
+        <span class="col-sm-4 control-label" id="hourly_rates_error">
+            
+      </span>
+     
+    </div>
+    <div class="col-sm-4" *ngIf="sectionName == 'Add'">
+        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="assigneTemplateEmployee()"  value="Add Manage Salary">
+    </div>
+    <div class="col-sm-4" *ngIf="sectionName == 'edit'">
+        <input class="blue_button pull-left" type="button" id="addHourlyTemplate" (click)="updateManageTemp()"value="Update Manage Salary">
+    </div>
+    </div>
+    </div>
+    </form>

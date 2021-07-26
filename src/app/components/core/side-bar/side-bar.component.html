@@ -856,6 +856,36 @@
                         </div>
 
                     </li>
+                     <!-- ==========payrole==================== -->
+                     <li class="dropdown" [ngStyle]="{display: (checkIfUserHadAccess(role_feature.PAYROLL_MENU)) ? 'block' : 'none'}"
+                     [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')" >
+                     <div *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MENU)" >
+                         <a class="dropbtn">
+                             <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
+                                 alt="">
+                             <p>Payroll</p><i class="fa fa-angle-right"></i>
+
+                         </a>
+                         <div class="dropdown-content">
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MONTHLY_TEMPLATE)" routerLink="/view/payrole/salary-template">
+                                 <span>Monthly Template</span>
+                             </a>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_HOURLY_TEMPLATE)" routerLink="/view/payrole/hourly-template">
+                                 <span>Hourly Template</span>
+                             </a>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)" routerLink="/view/payrole/manage-salary">
+                                 <span>Manage Salary</span>
+                             </a>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT)" routerLink="/view/payrole/make-payment">
+                                <span>Salary Payment</span>
+                            </a>
+
+                         </div>
+                     </div>
+
+                 </li>
+  <!-- =================end================== -->
+
                     <li (mouseenter)="mouseenter(checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM) || (checkIfUserHadAccess(role_feature.INVENTORY_ITEMS) || checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT) || checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM)))"(mouseleave)="mouseleave()"
                       [ngStyle]="{display: (checkIfUserHadAccess(role_feature.INVENTORY_MENU_ITEM)) ? 'block' : 'none'}"
                       [ngClass]="(checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM) || (checkIfUserHadAccess(role_feature.INVENTORY_ITEMS) || checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT) || checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM))) ? 'dropdown':''" (click)="toggler('liTeachers')">
