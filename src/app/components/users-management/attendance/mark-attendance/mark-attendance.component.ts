@@ -67,7 +67,10 @@ export class MarkAttendanceComponent implements OnInit {
         this.allMarkAttendanceList = res.result;
         if(this.allMarkAttendanceList.length>0){
         this.attendanceList = res.result;
+        console.log("attendance data",this.allMarkAttendanceList)
+      if(this.allMarkAttendanceList[0].last_attendance_updated_date != null){
         this.lastAttendanceUpdatedDate = moment(this.allMarkAttendanceList[0].last_attendance_updated_date).format('DD-MM-YYYY');
+        }
         if (this.lastAttendanceUpdatedDate == null) {
           for (let i = 0; this.allMarkAttendanceList.length; i++) {
             this.allMarkAttendanceList[i].attendance_status = 'Present'
@@ -122,8 +125,11 @@ export class MarkAttendanceComponent implements OnInit {
     this.httpService.putData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.lastAttendanceUpdatedDate = moment(new Date).format('YYYY-MM-DD');
-        this.msgService.showErrorMessage('success', '', "Attendance Updated Successfully!");
+
+        this.updateAttendanceList = res.result;
+        this.msgService.showErrorMessage('success', '', "Attendance updated successfully");
+        this.getAllmarkAttendance()
+
       },
       err => {
         this.auth.hideLoader();
@@ -152,8 +158,11 @@ export class MarkAttendanceComponent implements OnInit {
     this.httpService.postData(url, obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
-        this.lastAttendanceUpdatedDate = moment(new Date).format('YYYY-MM-DD');
-        this.msgService.showErrorMessage('success', '', "Attendance Marked Successfully!");
+        this.createAttendanceList = res.result;
+        this.msgService.showErrorMessage('success', '', "Attendance created successfully");
+        this.getAllmarkAttendance()
+
+
       },
       err => {
         this.auth.hideLoader();

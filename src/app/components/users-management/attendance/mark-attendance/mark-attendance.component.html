@@ -4,8 +4,10 @@
             <div class="page_heading">
                 <p>{{(userType == 3) ? 'Teacher' : 'User'}} Attendance</p>
             </div>
-            <div *ngIf="lastAttendanceUpdatedDate!= null " class="info_box1"><span class="bold1">NOTE:</span> Attendance
-                for this page has been marked on
+            <div class="info_box1" *ngIf="lastAttendanceUpdatedDate == ''"><span class="bold1">NOTE:</span>  Attendance for this page has not been marked yet
+              </div>
+
+            <div class="info_box1" *ngIf="lastAttendanceUpdatedDate != ''"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
                 {{lastAttendanceUpdatedDate}}</div>
             <div *ngIf="lastAttendanceUpdatedDate== null "></div>
             <div>
