@@ -9,6 +9,8 @@ import { StudentAddNewComponent } from './student-add-new/student-add-new.compon
 import { StudentEditNewComponent } from './student-edit-new/student-edit-new.component';
 import { StudentHomev2Component } from './student-homev2/student-homev2.component';
 import { ViewReportCardV2Component } from './view-report-card-v2/view-report-card-v2.component';
+import { StudentAdditionalformFieldComponent } from './student-additionalform-field/student-additionalform-field.component';
+
 
 const routes: Routes = [
   {
@@ -80,6 +82,10 @@ const routes: Routes = [
       {
         path: 'certificate-report',
         component: CertificateReportComponent,
+      },
+      {
+        path: 'student-additionalform-field',
+        component: StudentAdditionalformFieldComponent,
         pathMatch: 'prefix',
       }
 

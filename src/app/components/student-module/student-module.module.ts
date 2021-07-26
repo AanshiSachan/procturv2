@@ -31,6 +31,9 @@ import { StudentHomev2Component } from './student-homev2/student-homev2.componen
 import { ViewReportCardV2Component } from './view-report-card-v2/view-report-card-v2.component';
 import { CertificatesComponent } from '../student-module/certificates/certificates.component';
 import { CertificateReportComponent } from './certificate-report/certificate-report.component';
+import { StudentAdditionalformFieldComponent } from './student-additionalform-field/student-additionalform-field.component';
+import { CheckBoxConverterPipe } from '../custom-common/check-box-converter.pipe';
+
 
 @NgModule({
   imports: [
@@ -69,7 +72,9 @@ import { CertificateReportComponent } from './certificate-report/certificate-rep
     StudentHomev2Component,
     ViewReportCardV2Component,
     CertificatesComponent,
-    CertificateReportComponent
+    CertificateReportComponent,
+    StudentAdditionalformFieldComponent,
+    CheckBoxConverterPipe
   ],
   providers: [
     AddStudentPrefillService,

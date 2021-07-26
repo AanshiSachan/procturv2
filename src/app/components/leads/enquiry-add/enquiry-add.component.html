@@ -897,7 +897,7 @@
                             <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
                                 <label for="eStatus">Enquiry Status</label>
                                 <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status"
-                                    style="width: 9rem;border-radius: 4px;" disabled>
+                                    style="width: 8rem;border-radius: 4px;" disabled>
                                     <option value="-1"></option>
                                     <option *ngFor="let status of enqstatus" [value]="status.data_key"
                                         [attr.selected]="status.data_value == 'Open' ? '' : null"
@@ -925,7 +925,7 @@
                                 <label for="followUpType">Follow Up Type <span class="text-danger">*</span>
                                 </label>
                                 <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type"
-                                    name="followtype" style="width: 9rem;border-radius: 4px;">
+                                    name="followtype" style="width: 8rem;border-radius: 4px;">
                                     <option value="-1"></option>
                                     <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
                                         {{followUp.data_value}}
