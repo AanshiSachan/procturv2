@@ -1580,7 +1580,10 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="c-lg-12 c-md-12 c-sm-12">
+                                        <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.notificationType=='Email'">
+                                            Available Email Quota: {{varJson.institute_email_quota_available}}
+                                        </div>
+                                        <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.notificationType=='SMS'">
                                             Available SMS Quota: {{varJson.availableSMS}}
                                         </div>
                                     </div>
