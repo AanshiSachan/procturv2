@@ -821,7 +821,7 @@
 
                     </li>
                      <!-- ==========payrole==================== -->
-                     <li class="dropdown"
+                     <li class="dropdown" [ngStyle]="{display: (checkIfUserHadAccess(role_feature.PAYROLL_MENU)) ? 'block' : 'none'}"
                      [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')" >
                      <div *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MENU)" >
                          <a class="dropbtn">
@@ -840,7 +840,7 @@
                              <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)" routerLink="/view/payrole/manage-salary">
                                  <span>Manage Salary</span>
                              </a>
-                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT )" routerLink="/view/payrole/make-payment">
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT)" routerLink="/view/payrole/make-payment">
                                 <span>Salary Payment</span>
                             </a>
 
