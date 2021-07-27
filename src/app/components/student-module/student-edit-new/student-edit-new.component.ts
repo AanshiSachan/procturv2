@@ -1557,29 +1557,25 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     if(this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " ") {
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
       if (isNaN(this.studentAddFormData.student_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone, this.maxlength, this.country_id) == true) {
-        if (this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != "") {
-          if (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength, this.country_id) == true) {
-            if (this.studentAddFormData.guardian_phone != null && this.studentAddFormData.guardian_phone != "") {
-              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength, this.country_id) == true) {
+        if ((this.studentAddFormData.parent_phone == null || this.studentAddFormData.parent_phone == "") || (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength, this.country_id) == true)) {
+            if ((this.studentAddFormData.guardian_phone == null || this.studentAddFormData.guardian_phone == "") || (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength, this.country_id) == true)) {
                 if(!this.isSchoolModel || !this.showRollNoField || this.studentAddFormData.roll_no != '') {
                   return true;
                 } else {
                   this.msgToast.showErrorMessage('error', '', "Please enter Roll No");
-                  return;
+                  return false;
                 }
               } else {
                 this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
                 return false;
               }
-            }
-            return true;
+            
           }
           else {
             this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
             return false;
           }
-        }
-        return true;
+        
       } else {
         this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
         return false;
