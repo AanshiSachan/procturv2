@@ -821,9 +821,9 @@
 
                     </li>
                      <!-- ==========payrole==================== -->
-                     <li class="dropdown" [ngStyle]="{display: (checkIfUserHadAccess(role_feature.PAYROLL_MENU)) ? 'block' : 'none'}"
+                     <li class="dropdown" [ngStyle]="{display: (schoolModel && checkIfUserHadAccess(role_feature.PAYROLL_MENU)) ? 'block' : 'none'}"
                      [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')" >
-                     <div *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MENU)" >
+                     <div *ngIf="schoolModel && checkIfUserHadAccess(role_feature.PAYROLL_MENU)" >
                          <a class="dropbtn">
                              <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
                                  alt="">
