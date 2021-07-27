@@ -120,6 +120,7 @@ export class CourseCourseListV2Component implements OnInit {
         this._auth.hideLoader();
         this.courseData = res.result;
         let todaysDate = new Date();
+        todaysDate.setHours(0,0,0,0);
         if(this.courseData && this.courseData.length) {
         this.courseData.forEach(element => {
           if(element.course_list && element.course_list.length) {
@@ -177,7 +178,7 @@ export class CourseCourseListV2Component implements OnInit {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
     if (this.schoolModel) {
-      this.searchFilter.standard_id = this.masterCourseObj.standard_id;
+      this.searchFilter.standard_id = rowDetails.standard_id;
       this.getAllStudentList();
     }
     this.getAllFeeTemplate();
