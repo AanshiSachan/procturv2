@@ -18,7 +18,7 @@
 
                     <div class="pull-right act-right-sec">
                         <button class="btn hide add_send_noti"
-                            [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}"
+                            [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_HOME)}"
                             (click)="addSendNotification()" *ngIf="isProfessional">
 
                             <i class="fa fa-plus" aria-hidden="true"></i>
@@ -27,7 +27,7 @@
                         </button>
 
                         <button class="btn hide add_send_noti"
-                        [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_SCHEDULE)}"
+                        [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_HOME)}"
                         (click)="sendNotifyPage()"  *ngIf="!isProfessional">
 
                         <i class="fa fa-plus" aria-hidden="true"></i>
