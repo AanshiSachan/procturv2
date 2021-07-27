@@ -26,7 +26,11 @@
         <!-- <option value="0">Teacher</option> -->
        <option [value]="teacher.role_id" *ngFor="let teacher of teacherList">{{teacher.role_name}}</option>
     </select>
-    </div>
+   </div>
+   <div class="hourlygrade">
+    <p style="height:15px;visibility: hidden;">fhgf</p>
+    <p><span style="font-style: bold;color:black;font-weight: 600;">Note <span style="font-style: bold;color:red">*</span> :</span> Faculty having multiple role, will get displayed only in <span style="font-style: bold;color:black;font-weight: 600;">Faculty</span> list while in Manage Salary.</p>
+  </div>
         <div class="pt15">
         
             <label for="serach">Search:&nbsp;</label>
