@@ -1374,7 +1374,7 @@ mouseleave() {
       }
     }
     console.log(res.permission_id_list);
-     if (res.permission_id_list == undefined || res.permission_id_list == undefined || res.permission_id_list == null) {
+     if (res.permission_id_list == undefined || res.permission_id_list == undefined || res.permission_id_list == null || res.permission_id_list.length == 0) {
       sessionStorage.setItem('permissions', '');
       this.log.changePermissions('');
       this.Role_features.checkPermissions();
@@ -1387,6 +1387,8 @@ mouseleave() {
     // this.log.currentUsername.subscribe(res => {
       this.createCustomSidenav();
     // });
+    this.auth.schoolModel.next(res.is_institute_type_school);
+    sessionStorage.setItem('is_institute_type_school', res.is_institute_type_school);
     sessionStorage.setItem('institute_id', res.institution_id);
     sessionStorage.setItem('institution_id', res.institution_id);
     this.auth.changeInstituteId(res.institution_id);
