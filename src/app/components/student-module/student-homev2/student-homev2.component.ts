@@ -3449,13 +3449,13 @@ bonafiedCertificates(){
     this.auth.hideLoader();
   }
 )
+}
 
 redirect() {
  
   // let obj = this.isProfessional ? this.instituteData : this.selectedFilterData;
   sessionStorage.setItem('searchBarData',this.searchBarData);
   sessionStorage.setItem('filterdata',JSON.stringify(this.selectedFilterData));
-}
 
 }
 migrationCertificates(){

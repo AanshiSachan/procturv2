@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {
   StudentModuleComponent, StudentHomeComponent, StudentAddComponent, StudentBulkComponent,
-  StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent, CertificateReportComponent
+  StudentEditComponent, RegisteredStudentsComponent, StudentsComponent, StudentsArchivedReportComponent, ViewReportCardComponent
 } from '.';
 import { CertificatesComponent } from './certificates/certificates.component';
 import { StudentAddNewComponent } from './student-add-new/student-add-new.component';
@@ -10,6 +10,7 @@ import { StudentEditNewComponent } from './student-edit-new/student-edit-new.com
 import { StudentHomev2Component } from './student-homev2/student-homev2.component';
 import { ViewReportCardV2Component } from './view-report-card-v2/view-report-card-v2.component';
 import { StudentAdditionalformFieldComponent } from './student-additionalform-field/student-additionalform-field.component';
+import { CertificateReportComponent } from './certificate-report/certificate-report.component';
 
 
 const routes: Routes = [
