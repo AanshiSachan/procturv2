@@ -25,7 +25,7 @@
             class="img-round">
         </div>
         <div class="w40" *ngIf="schoolModel && studentCommanData.reg_no!=null">
-          <span class="rollno">Reg&nbsp;No.<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
+          <span class="rollno">Reg.&nbsp;No.<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
         </div>
         <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
           <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
@@ -123,12 +123,28 @@
         </div>
         <div id="profile_tab" *ngIf="isActiveTab =='profile'">
           <!-- Profile -->
-          <div class="outter_flex">
+          <div class="outter_flex" *ngIf="!schoolModel">
             <div class="w15">
-              <span class="name1">Roll No.&nbsp;:</span>
+              <span class="name1">Birth Place&nbsp;:</span>
             </div>
             <div class="w35">
-              <span class="value1">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
+              <span class="value1">{{studentCommanData.birth_place=='' ||studentCommanData.birth_place==null ?'---':studentCommanData.birth_place}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1" *ngIf="schoolModel">Roll No.&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1" *ngIf="schoolModel">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
+            </div>
+            
+          </div>
+          <div class="outter_flex" *ngIf="schoolModel">
+           
+            <div class="w15">
+              <span class="name1" *ngIf="schoolModel">Roll No.&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1" *ngIf="schoolModel">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
             </div>
             <div class="w15">
               <span class="name1">Birth Place&nbsp;:</span>
@@ -333,8 +349,7 @@
                 *ngIf="studentCommanData.permanent_address=='' || studentCommanData.permanent_address==null ">---</span>
               <span class="value1" title="{{studentCommanData.permanent_address}}"
                 *ngIf="studentCommanData.permanent_address!=null">{{ studentCommanData.permanent_address}}
-        
-                }}</span>
+        </span>
 
             </div>
 
@@ -455,7 +470,7 @@
               </div>
               <div>{{data.is_batch_active}}</div>
               <div>{{data.batchJoiningDate |date:'dd-MM-yyyy'}}</div>
-              <div style="text-align: left;margin-left: 29px">{{data.batchLeavingDate}}</div>
+              <div style="text-align: left;margin-left: 29px">{{data.batchLeavingDate |date:'dd-MM-yyyy'}}</div>
               <div>
                 <a data-toggle="modal" data-target="#myModal1" (click)="viewAttendanceDet(data)"
                   *ngIf="data.attendanceDateList"> <svg _ngcontent-hsk-c194="" version="1.1" id="Layer_1" x="0px"
@@ -774,7 +789,7 @@
             </div>
             <div class="table_body" *ngFor="let data of payementHistory">
               <div>
-                {{data.p_date}}
+                {{data.p_date | date:'dd-MM-yyyy'}}
               </div>
               <div>
                 {{data.install_no}}
@@ -924,7 +939,7 @@
                 {{data.f_type}}
               </div>
               <div>
-                {{data.d_date}}
+                {{data.d_date |date:'dd-MM-yyyy'}}
               </div>
               <div>
                 {{data.t_amount | number}}
@@ -1425,7 +1440,7 @@
               <div class="table_body1" *ngFor="let row of data.pastCourseExamList">
                 <div></div>
                 <div></div>
-                <div> <span class="date" style="margin-top:2px;"><img src="assets/img1/date.svg">{{row.exam_date}}</span></div>
+                <div> <span class="date" style="margin-top:2px;"><img src="assets/img1/date.svg">{{row.exam_date |date:'dd-MM-yyyy'}}</span></div>
                 <div><img src="assets/img1/time.svg"> {{row.start_time}} - {{row.end_time}}</div>
                 <div> <span *ngIf="row.attendance_status == 'L'">
                     Leave
@@ -1658,7 +1673,7 @@
           <div  style="overflow:auto;max-height:34vh;">
           <div class="table_body"  [ngClass]="{'attendaceHead':enable_homework!=1}" *ngFor="let data of tempData.attendanceDateList">
             <div>
-              {{data.date}}
+              {{data.date |date:'dd-MM-yyyy'}}
             </div>
             <div>{{data.start_time}} - {{data.end_time}} </div>
             <div *ngIf="isLangInstitue">
