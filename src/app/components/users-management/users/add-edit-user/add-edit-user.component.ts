@@ -75,13 +75,16 @@ export class AddEditUserComponent implements OnInit {
   // Below three functions are written to fetch country details from the session stored at the time of login of institute
   fetchDataForCountryDetails() {
     let encryptedData = sessionStorage.getItem('country_data');
-    let data = JSON.parse(encryptedData);
-    if (data.length > 0) {
-      this.countryDetails = data;
-      this.instituteCountryDetObj = this.countryDetails[0];
-      this.roleDetails.country_id = this.countryDetails[0].id;
-      this.maxlength = this.countryDetails[0].country_phone_number_length;
-      this.country_id = this.countryDetails[0].id;
+    let temp = JSON.parse(encryptedData);
+    if (temp.length > 0) {
+      this.countryDetails = temp;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })      
+      this.instituteCountryDetObj = defacult_Country[0];
+      this.country_id = defacult_Country[0].id;
+      this.maxlength = defacult_Country[0].country_phone_number_length;
+      this.roleDetails.country_id = defacult_Country[0].id;
     }
   }
 
