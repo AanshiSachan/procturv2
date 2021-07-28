@@ -363,11 +363,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
           this.isSchoolModel = true;
         }
       });
-    if (this.isSchoolModel) {
       this.commonApiCall.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
-    }
     this.fetchCustomeComponents();
   }
 

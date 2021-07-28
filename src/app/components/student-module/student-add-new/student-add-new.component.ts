@@ -350,11 +350,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         }
       }
     )
-    if (this.schoolModel) {
       this.commonApiCall.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
-    }
     this.fetchDataForCountryDetails();
     this.fetchCustomComponents();
   }
@@ -1688,7 +1686,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {
       this.studentAddFormData.dob = '';
     }
-    if (this.schoolModel) {
       this.studentAddFormData.student_perm_addr = this.enquiryData.student_perm_addr;
       this.studentAddFormData.birth_place = this.enquiryData.birth_place,
         this.studentAddFormData.blood_group = this.enquiryData.blood_group,
@@ -1705,7 +1702,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.guardian_email = this.enquiryData.guardian_email,
         this.studentAddFormData.guardian_phone = this.enquiryData.guardian_phone,
         this.studentAddFormData.religion = this.enquiryData.religion
-    }
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
     if(this.studentAddFormData.standard_id !='-1') {

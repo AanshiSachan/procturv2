@@ -254,10 +254,10 @@ export class EnquiryEditComponent implements OnInit {
         }
       }
     )
-    if (this.schoolModel) {
       commonApiCallService.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
+      if (this.schoolModel) {
       commonApiCallService.getAllFinancialYear().subscribe(data => {
         this.instAcademicYrList = data
       })
@@ -1125,7 +1125,6 @@ export class EnquiryEditComponent implements OnInit {
                   comments: this.editEnqData.enquiry,
 
                 }
-                if (this.schoolModel) {
                   obj.birth_place = this.editEnqData.birth_place,
                     obj.blood_group = this.editEnqData.blood_group,
                     obj.category = this.editEnqData.category,
@@ -1142,8 +1141,6 @@ export class EnquiryEditComponent implements OnInit {
                     obj.guardian_email = this.editEnqData.guardian_email,
                     obj.guardian_phone = this.editEnqData.guardian_phone,
                     obj.religion = this.editEnqData.religion
-
-                }
                 if (!this.isProfessional) {
                   obj.standard_id = this.editEnqData.standard_id;
                 } else {

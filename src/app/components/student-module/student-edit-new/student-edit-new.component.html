@@ -2389,7 +2389,7 @@
             </div>
           </div>
             <div class="label_box">
-                <div *ngIf="isSchoolModel">
+                <div>
                   <label>Nationality</label>
                   <input type="text" value="" id="cardId" class="input" placeholder="Enter nationality"
                   [(ngModel)]="studentAddFormData.nationality" name="nationality" #cardId="ngModel" />
@@ -2401,7 +2401,7 @@
                   [(ngModel)]="studentAddFormData.birth_place" name="birth_place" #cardId="ngModel" />
                 </div>
              
-               <div *ngIf="isSchoolModel">
+               <div>
                   <label>Mother Tongue</label>
                   <select id="mother_tounge" class="choice" [(ngModel)]="studentAddFormData.mother_tounge"
                     name="mother_tounge">
@@ -2412,7 +2412,7 @@
                 </div>
             </div>
             
-             <div class="label_box" *ngIf="isSchoolModel">
+             <div class="label_box">
                 <div>
                   <label>Category</label>
                   
@@ -2445,7 +2445,7 @@
                   
                 </div>
              </div>
-             <div class="label_box" *ngIf="isSchoolModel">
+             <div class="label_box">
                 <div>
                   <label>Aadhar No. </label>
                   
@@ -2507,13 +2507,13 @@
             </div>
           </div>
           <div class="label_box">
-            <div *ngIf="isSchoolModel">
+            <div>
               <label>Parent Aadhar No.</label>
               <input type="text" value="" id="parent_adhar_no" placeholder="Enter Aadhar No"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
                 [(ngModel)]="studentAddFormData.parent_adhar_no" name="parent_adhar_no" #cardId="ngModel" />
             </div>
-             <div *ngIf="isSchoolModel">
+             <div>
                 <label>Parent Profession</label>
               
                 <select id="parent_profession" class="choice" [(ngModel)]="studentAddFormData.parent_profession"
@@ -2618,7 +2618,7 @@
             </div>
           </div>
           <div class="label_box">
-            <div *ngIf="isSchoolModel">
+            <div>
              <label>Pin Code </label>
               
                    
@@ -2626,7 +2626,7 @@
              [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
                
             </div>
-             <div *ngIf="isSchoolModel">
+             <div>
                 <label>Group</label>
               
                    
@@ -2650,7 +2650,7 @@
                [(ngModel)]="studentAddFormData.student_curr_addr" class="input"></textarea>
                  
               </div>
-              <div *ngIf="isSchoolModel">
+              <div>
                <label>Residential Address </label>
                <textarea type="text" value="" id="student_perm_addr" name="student_perm_addr"
                placeholder="Enter residential address" [(ngModel)]="studentAddFormData.student_perm_addr"
