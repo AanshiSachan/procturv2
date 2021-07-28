@@ -25,10 +25,10 @@
           (keyup)="searchDatabase()" style="padding: 10px;border:1px solid lightgrey;border-radius: 4px;">
       </div>
       <div *ngIf="isProfessional" style="float: right;margin-right: -17rem;">
-        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Delete</button>
+        <button type="button" class="btn" value="Delete" (click)="archiveData($event)">Delete</button>
       </div>
       <div *ngIf="!isProfessional" style="float: right;margin-right: -17rem;">
-        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Delete</button>
+        <button type="button" class="btn" value="Delete" (click)="archiveData($event)">Delete</button>
       </div>
     </div>
   </section>
