@@ -23,6 +23,7 @@ export class CourseAddComponent implements OnInit {
   isLangInstitue: boolean = false;
   selectedCourseID: any = '';
   subjectCodeCharLimit: number = 4;
+  examGradeFeature: any;
   courseDetails: any = {
     course_name: '',
     start_Date: '',
@@ -64,6 +65,7 @@ export class CourseAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.schoolModel = this._auth.schoolModel.getValue();
+    this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this._auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
