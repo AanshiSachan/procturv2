@@ -28,8 +28,11 @@ export class SubjectApiService {
         this.baseURL = this.auth.getBaseUrl();
     }
 
-    getAllSubjectListFromServer() {
+    getAllSubjectListFromServer(standard_id) {
         let url = this.baseURL + "/api/v1/subjects/all/" + this.institute_id;
+        if(standard_id!='-1') {
+            url = this.baseURL + "/api/v1/subjects/all/" + this.institute_id + '?standard_id=' + standard_id;
+        }
         return this.http.get(url, { headers: this.headers }).pipe(map(
             data => {
                 return data;
