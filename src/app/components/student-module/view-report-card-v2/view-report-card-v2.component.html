@@ -1703,7 +1703,7 @@
               {{data.attendance_note ==""||data.attendance_note==null ?'---':data.attendance_note}}
             </div>
             <div>
-              {{data.topics_covered  ==""||data.topics_covered==null ?'---':data.topics_covered}}
+              {{data.topics_covered ==''||data.topics_covered==null ?'---':data.topics_covered}}
             </div>
             <div  *ngIf="enable_homework==1"> {{data.home_work_status ==""||data.home_work_status==null ?'---':data.home_work_status}}</div>
             <div  *ngIf="enable_homework==1">{{data.homework_assigned=="" ||data.homework_assigned==null ?'---':data.homework_assigned}}</div>
