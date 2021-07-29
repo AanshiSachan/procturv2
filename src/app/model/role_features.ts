@@ -2,6 +2,7 @@ export class role {
 
     static features = {
         // New features
+        DASHBOARD_HOME: true,
         DASHBOARD_SCHEDULE: true,
         DASHBOARD_FEE_STATS: true,
         DASHBOARD_ACCOUNT_STATS: true,
@@ -151,6 +152,7 @@ export class role {
         permissions = JSON.parse(session_permission);
         }
         console.log(permissions);
+        role.features.DASHBOARD_HOME = permissions.includes(5000) ? true : false;
         role.features.DASHBOARD_SCHEDULE = permissions.includes(5001) ? true : false;
         role.features.DASHBOARD_FEE_STATS = permissions.includes(5002) ? true : false;
         role.features.DASHBOARD_ACCOUNT_STATS = permissions.includes(5003) ? true : false;

@@ -107,6 +107,7 @@ export class EnquiryHomeComponent implements OnInit {
         smsShowType: 'approvedSms',
         showDownloadSummary: false,
         isFilterApplied: false,
+        institute_email_quota_availabe:0
     };
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
@@ -1225,7 +1226,8 @@ export class EnquiryHomeComponent implements OnInit {
                 this.emailSourceApproved = [];
                 this.emailSourceOpen = [];
                 this.varJson.smsDataLength = data.length;
-                this.varJson.availableSMS = data[0].institute_sms_quota_available
+                this.varJson.availableSMS = data[0].institute_sms_quota_available;
+                this.varJson.institute_email_quota_available = data[0].institute_email_quota_available;
                 this.cd.markForCheck();
                 data.forEach(el => {
                     if (el.source === "SMS") {
