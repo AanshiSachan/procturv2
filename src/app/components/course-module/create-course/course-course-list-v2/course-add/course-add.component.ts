@@ -623,4 +623,44 @@ export class CourseAddComponent implements OnInit {
     }
   }
 
+  deleteSubjectRow(row, mainTableIndex) {
+    let count = this.subjectList.filter(course => course.uiSelected)
+    let msg = "Are you sure you want to delete?";
+    if (count.length == 1) {
+      msg = "Are you sure you want to delete? Course will be deleted as you are deleting last subject under this course";
+    }
+    if (confirm(msg)) {
+      if (row.hasOwnProperty('otherDetails')) {
+        this._auth.showLoader();
+        this._httpService.putData("/api/v1/courseMaster/deleteSubject/" + row.otherDetails.batch_id , '').subscribe(
+          data => {
+            row.isAssigned = 'Y';
+            this._auth.hideLoader();
+            this.subjectList[mainTableIndex].uiSelected = false;
+            this.subjectList[mainTableIndex].selected_teacher = '-1';
+            this.checkIfAnySelectedRowExist(this.subjectList, mainTableIndex);
+            this._msgService.showErrorMessage('success', '', 'Subject removed from course');
+          },
+          error => {
+            this._auth.hideLoader();
+            this._msgService.showErrorMessage('error', '', error.error.message);
+          }
+        )
+      }
+    }
+  }
+
+  checkIfAnySelectedRowExist(data, mainTableIndex) {
+    let uiSelctedData = false;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].uiSelected) {
+        uiSelctedData = true;
+        break;
+      }
+    }
+    if (uiSelctedData == false) {
+      this.subjectList.splice(mainTableIndex, 1);
+    }
+  }
+
 }
