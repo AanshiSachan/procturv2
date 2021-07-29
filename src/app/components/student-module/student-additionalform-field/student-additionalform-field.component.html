@@ -51,8 +51,8 @@ style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgr
             <span class="text-danger">*</span>
           </label>
           <select id="opt.data_value" class="form-ctrl"  name="opt.data_value" [(ngModel)]="editCustomComponentForm.type">
-            <option value="">Select</option>
-            <option *ngFor="let opt of componentShell" [value]="opt.data_key">
+            <option value="-1">Select</option>
+            <option value="{{opt.data_key}}" *ngFor="let opt of componentShell" >
               {{opt.data_value}}
             </option>
           </select>
