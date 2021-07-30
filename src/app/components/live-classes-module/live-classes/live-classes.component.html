@@ -89,7 +89,7 @@
                 <option value="all">All</option>
               </select>
             </div> -->
-            <div class="add-class-container">
+            <div class="add-class-container" *ngIf="set_up_done">
               <div class="questionInfo inline-relative">
                 <span class=" i-class">
                   <button type="button" name="button" class="add-class" routerLink='/view/live-classes/add'
@@ -474,7 +474,7 @@
       </section>
       <section *ngIf="totalRow == 0 && (!auth.isRippleLoad.getValue())">
         <div class="live-class-list-container">
-          <div class="w96">
+          <div class="w96" *ngIf="set_up_done">
             <div>
               <br><br>
               <span class="position">
@@ -496,6 +496,9 @@
             </div>
             <div class="bg_live_class">
             </div>
+          </div>
+          <div class="w96" style="text-align: center;margin-top: 5%;" *ngIf="!set_up_done">
+              <span class="setupText" [innerHTML]="message_for_setup_not_done"></span>
           </div>
         </div>
       </section>
