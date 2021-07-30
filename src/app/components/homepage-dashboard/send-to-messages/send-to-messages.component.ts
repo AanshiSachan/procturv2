@@ -311,6 +311,7 @@ sessionStorage.removeItem('pramotional')
         this.showInactiveStudentFlag=false;
         this.showallUserListFlag=false; 
         this.showCourseWiseFlag=false
+        this.showFacultyTableFlag = false
           this.studentList = [];
           this.widgetService.getAllAluminiList().subscribe(
             res => {
