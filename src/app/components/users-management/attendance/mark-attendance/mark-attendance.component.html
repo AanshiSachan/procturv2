@@ -2,14 +2,13 @@
     <div class="head_padding">
         <div class="w98 flex head_padding1">
             <div class="page_heading">
-                <p>{{(userType == 3) ? 'Teacher' : 'User'}} Attendance</p>
+                <p>Mark Attendance</p>
             </div>
-            <div class="info_box1" *ngIf="lastAttendanceUpdatedDate == ''"><span class="bold1">NOTE:</span>  Attendance for this page has not been marked yet
+            <div class="info_box1" *ngIf="lastAttendanceUpdatedDate == '' || lastAttendanceUpdatedDate == null"><span class="bold1">NOTE:</span>  Attendance for this page has not been marked yet
               </div>
 
-            <div class="info_box1" *ngIf="lastAttendanceUpdatedDate != ''"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
+            <div class="info_box1" *ngIf="lastAttendanceUpdatedDate != '' && lastAttendanceUpdatedDate!=null"><span class="bold1">NOTE:</span> Attendance for this page has been marked on
                 {{lastAttendanceUpdatedDate}}</div>
-            <div *ngIf="lastAttendanceUpdatedDate== null "></div>
             <div>
                 <span class="right">
                     <!-- <a class="mr10"><img src="../../../../../assets/img/copy.svg" title="Copy"></a> -->
@@ -22,6 +21,8 @@
         </div>
     </div>
     <div class="w98">
+
+
         <div class="padding1 display">
             <!-- <select class="select mr10 wid240">
            <option>Role*</option>
@@ -31,13 +32,17 @@
             <!-- 
             <input type="text" class="mr10 input wid240 magnifying-glass" name="searchInput" [(ngModel)]="searchInput"
                 placeholder="Search " (keyup)="searchDataList(search)" #search> -->
-
+             <div style="display: flex;">
             <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="currentDate" class="form-ctrl widgetDatepicker"
                     [(ngModel)]="markAttendanceDetail.currentDate" style="padding: 6px;" readonly="true"
                     name="currentDate" placeholder="Date" (ngModelChange)="checkFututreDate($event)" bsDatepicker />
             </div>
+          <div style="padding-top: 3%;margin-left: 10px;">
+           <p><b>Note <span style="color: red;">*</span> :</b>Teachers having multiple role, will get displayed only in <b>Teachers</b> list.</p>
             <!--  <button class="blue_button">Search</button> -->
+            </div>
+            </div>
             <div class="attendance_blocks1">
                 <span title="Absent" class="absent "> </span>
                 <p class="top_label">Absent</p>
