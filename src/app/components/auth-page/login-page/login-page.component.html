@@ -349,3 +349,28 @@
     </div>
   </div>
 </div>
+
+<div id="multiLoginForgot" class="modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" (click)="closePopup()" data-dismiss="modal">&times;</button>
+              <h2 class="modal-title" style="margin-bottom: 0;">Forgot Password For:</h2>
+          </div>
+          <div class="modal-body" style="padding: 15px;min-height: 40vh;">
+            <div *ngFor="let d of multiLoginForgotPwdData;let i=index;">
+              <div style="margin: 0;width: 100%;" class="field-radio-wrapper pull-left">
+                <input type="radio" class="form-radio" [checked]="d.checked"
+                  (change)="onForgotPwdSelection($event,d)" [id]="'radio-'+i" [value]="d.user_id+d.display" [(ngModel)]="forgotPasswordObj.temp_id">
+                <label [for]="'radio-'+i"></label>
+                <p style="    display: block; color:#0084f6;
+                margin: 10px;     margin-bottom: 0px;">{{d.name}} ({{d.display}}) ({{d.institute_name}})</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" style="padding: 5px;">
+              <button type="button" [disabled]="forgotPasswordObj.userid =='' || forgotPasswordObj.userid == null" class="btn btn-default" (click)="forgotPassword()">Reset Password</button>
+          </div>
+      </div>
+  </div>
+</div>

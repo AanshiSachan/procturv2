@@ -451,11 +451,15 @@ export class ManageCampaignComponent implements OnInit {
   saveNewLead() {   // validation
     if (this.addLead.phone != null && this.addLead.phone != "") {
       if (this.validateNum(this.addLead.phone)) {
-        if (this.addLead.source != "-1") {
-          this.addNewLead()
-        }
-        else {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
+        if(this.addLead.name !=null && this.addLead.name != "") {
+          if (this.addLead.source != "-1") {
+            this.addNewLead()
+          }
+          else {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
+          }
+        } else {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter name');
         }
       }
     }
@@ -509,12 +513,16 @@ export class ManageCampaignComponent implements OnInit {
   updateLead() {
     if (this.editLead.phone != null && this.editLead.phone != "") {
       if (this.validateNum(this.editLead.phone)) {
+        if(this.editLead.name !=null && this.editLead.name != "") {
         if (this.editLead.source != "-1") {
           this.modifyLead();
         }
         else {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please select source details');
         }
+      } else {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please enter name');
+      }
       }
     }
     else {
