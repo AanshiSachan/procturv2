@@ -60,7 +60,7 @@
                     name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                     <option value=""></option>
                     <option [value]="data.id" *ngFor='let data of countryDetails'>
-                      +{{data.country_calling_code}}
+                      {{data.country_code}} +{{data.country_calling_code}}
                     </option>
                   </select>
                 </div>
@@ -291,7 +291,7 @@
                   name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                   <option value=""></option>
                   <option [value]="data.id" *ngFor='let data of countryDetails'>
-                    +{{data.country_calling_code}}
+                    {{data.country_code}} +{{data.country_calling_code}}
                   </option>
                 </select>
               </div>
@@ -376,7 +376,7 @@
                   name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                   <option value=""></option>
                   <option [value]="data.id" *ngFor='let data of countryDetails'>
-                    +{{data.country_calling_code}}
+                    {{data.country_code}} +{{data.country_calling_code}}
                   </option>
                 </select>
               </div>

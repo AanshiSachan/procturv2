@@ -1599,7 +1599,8 @@ mouseleave() {
       if(d.action == "studentFee") {
         this.router.navigate(['/view/fee/update-fee/view-fee/'+d.data.id]);
       } else {
-        this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
+        let router_link = this.isProfessional ?'/view/students/reportcard/':'/view/students/reportcardV2/';
+        this.router.navigate([router_link+d.data.id]);
       }
       // 
       this.searchBar = false;
