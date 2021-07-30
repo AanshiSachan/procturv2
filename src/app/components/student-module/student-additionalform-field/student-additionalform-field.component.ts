@@ -257,7 +257,7 @@ componentShell:any=[]
           },
           err => {
             this.auth.hideLoader();
-            this._msgService.showErrorMessage('error', '', 'There was an error processing your request' +err.error.message);
+            this._msgService.showErrorMessage('error', '',  err.error.message);
           }
         );
       }
