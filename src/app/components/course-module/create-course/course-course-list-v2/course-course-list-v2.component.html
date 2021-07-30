@@ -152,7 +152,7 @@
             </div>
             <div class="value2 display">
               <div>{{course.total_students}}</div>
-              <div class="add_s" (click)="addStudentToBatch(course)">Assign /Unassign </div>
+              <div class="add_s" *ngIf="!schoolModel" (click)="addStudentToBatch(course)">Assign /Unassign </div>
             </div>
           </div>
           <!-- <div class="flex">

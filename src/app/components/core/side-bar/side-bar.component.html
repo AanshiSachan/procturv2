@@ -713,9 +713,9 @@
                   </li>
     
                     <li [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}"
-                        (mouseenter)="mouseenter(jsonCommunicateFlags.showSMSReport || jsonCommunicateFlags.showEmailReport || jsonCommunicateFlags.showPTM || jsonCommunicateFlags.showEvents)"
+                        (mouseenter)="mouseenter(jsonCommunicateFlags.showSMSReport || jsonCommunicateFlags.showEmailReport || jsonCommunicateFlags.showPTM || jsonCommunicateFlags.showEvents || (!isProfessional && checkIfUserHadAccess(role_feature.DASHBOARD_HOME)))"
                         (mouseleave)="mouseleave()"
-                        [ngClass]="(jsonCommunicateFlags.showSMSReport || jsonCommunicateFlags.showEmailReport || jsonCommunicateFlags.showPTM || jsonCommunicateFlags.showEvents) ? 'dropdown':''">
+                        [ngClass]="(jsonCommunicateFlags.showSMSReport || jsonCommunicateFlags.showEmailReport || jsonCommunicateFlags.showPTM || jsonCommunicateFlags.showEvents || (!isProfessional && checkIfUserHadAccess(role_feature.DASHBOARD_HOME)) ) ? 'dropdown':''">
                         <div *ngIf="jsonCommunicateFlags.communicateMenu">
                             <a class="dropbtn">
                                 <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/Communication.svg':'./assets/images/sidemenuicon/Communication.svg'"
@@ -724,6 +724,9 @@
 
                             </a>
                             <div class="dropdown-content">
+                                <a routerLink="/view/dashboard/send-notification" *ngIf="!isProfessional && checkIfUserHadAccess(role_feature.DASHBOARD_MENU)">
+                                    <span>Send SMS/Email/Push</span>
+                                </a>
                                 <a routerLink="/view/communicate/sms" *ngIf="jsonCommunicateFlags.showSMSReport">
                                     <span>SMS Report</span>
                                 </a>
