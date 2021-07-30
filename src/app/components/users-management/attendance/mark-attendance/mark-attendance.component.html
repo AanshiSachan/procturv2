@@ -21,6 +21,8 @@
         </div>
     </div>
     <div class="w98">
+
+
         <div class="padding1 display">
             <!-- <select class="select mr10 wid240">
            <option>Role*</option>
@@ -30,17 +32,17 @@
             <!-- 
             <input type="text" class="mr10 input wid240 magnifying-glass" name="searchInput" [(ngModel)]="searchInput"
                 placeholder="Search " (keyup)="searchDataList(search)" #search> -->
-
+             <div style="display: flex;">
             <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="currentDate" class="form-ctrl widgetDatepicker"
                     [(ngModel)]="markAttendanceDetail.currentDate" style="padding: 6px;" readonly="true"
                     name="currentDate" placeholder="Date" (ngModelChange)="checkFututreDate($event)" bsDatepicker />
             </div>
-
-
+          <div style="padding-top: 3%;margin-left: 10px;">
+           <p><b>Note:</b>Teachers having multiple role, will get displayed only in <b>Teachers</b> list.</p>
             <!--  <button class="blue_button">Search</button> -->
-
-
+            </div>
+            </div>
             <div class="attendance_blocks1">
                 <span title="Absent" class="absent "> </span>
                 <p class="top_label">Absent</p>
