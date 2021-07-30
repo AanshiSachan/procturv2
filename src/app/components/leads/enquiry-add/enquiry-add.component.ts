@@ -251,10 +251,10 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
-    if (this.schoolModel) {
       commonApiCallService.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
+      if (this.schoolModel) {
       commonApiCallService.getAllFinancialYear().subscribe(data => {
         this.instAcademicYrList = data
       })
@@ -1351,7 +1351,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       city_id: this.newEnqData.city_id,
       comments: this.newEnqData.enquiry,
     }
-    if (this.schoolModel) {
         obj.birth_place = this.newEnqData.birth_place,
         obj.blood_group = this.newEnqData.blood_group,
         obj.category = this.newEnqData.category,
@@ -1368,7 +1367,6 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         obj.guardian_email = this.newEnqData.guardian_email,
         obj.guardian_phone = this.newEnqData.guardian_phone,
         obj.religion = this.newEnqData.religion
-    }
     if (!this.isProfessional) {
       obj.standard_id = this.course_standard_id;
     } else {

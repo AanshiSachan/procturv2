@@ -27,7 +27,6 @@ export class CommonApiCallService {
     return this.http.getData(url);
   }
   fetchMasterData(): BehaviorSubject<any> {
-    if (sessionStorage.getItem("is_institute_type_school") == 'true') {
       if (this.masterDataList.value == null) {
         let obj = [
           "MOTHER_TOUNGE",
@@ -44,7 +43,6 @@ export class CommonApiCallService {
       else {
         return this.masterDataList;
       }
-    }
   }
   getAllFinancialYear(): BehaviorSubject<any> {
     if (sessionStorage.getItem("is_institute_type_school") == 'true') {
