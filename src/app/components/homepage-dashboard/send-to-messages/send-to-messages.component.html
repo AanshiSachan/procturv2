@@ -166,7 +166,7 @@
         <div >Name</div>
         <div>Mobile</div>
         <div>Subject</div>
-        <div>Email</div>
+        <div style="padding-left: 7%;">Email</div>
         <!-- <div>Is Active</div> -->
        
         
@@ -315,10 +315,10 @@
             </div>
             <div title="{{item.teacher_name}}">{{(!item.teacher_name)? '-' :(item.teacher_name.length > 30)? (item.teacher_name | slice : 0 : 30) + '...' : item.teacher_name}}</div>
             <div title="{{item.teacher_phone}}">{{(!item.teacher_phone)? '-' : (item.teacher_phone.length > 30)? (item.teacher_phone | slice : 0 : 30) + '...' : item.teacher_phone}}</div>
-            <div title="{{item.sub_list}}">{{(!item.sub_list)? '-' : (item.sub_list.length > 30)? (item.sub_list | slice : 0 : 30) + '...' : item.sub_list}}</div>
+            <div  title="{{item.sub_list}}">{{(!item.sub_list)? '-' : (item.sub_list.length > 35)? (item.sub_list | slice : 0 : 35) + '...' : item.sub_list}}</div>
             <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
-            <div title="{{item.teacher_email}}" *ngIf="!emailSendingFlag" >{{(!item.teacher_email) ? '-' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>
-            <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.teacher_email == ''}" title="{{item.teacher_email}}">{{(!item.teacher_email) ? 'Email id is not available' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>           
+            <div style="padding-left: 7%;" title="{{item.teacher_email}}" *ngIf="!emailSendingFlag" >{{(!item.teacher_email) ? '-' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>
+            <div style="padding-left: 7%;" *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.teacher_email == ''}" title="{{item.teacher_email}}">{{(!item.teacher_email) ? 'Email id is not available' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>           
             <!-- <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div> -->
             <div *ngIf="studentList.length == '0'">No Record Found</div>
             </div>
