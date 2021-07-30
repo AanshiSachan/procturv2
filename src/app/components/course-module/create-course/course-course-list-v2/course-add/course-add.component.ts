@@ -269,7 +269,7 @@ export class CourseAddComponent implements OnInit {
     for (let i = 0; i < data.length; i++) {
       if (data[i].uiSelected == true) {
         selected = +1;
-        if (data[i].selected_teacher == "" || data[i].selected_teacher == '-1') {
+        if (data[i].selected_teacher == "" || data[i].selected_teacher == '-1' || data[i].selected_teacher == 'more') {
           this._msgService.showErrorMessage('error', '', 'Please specify teacher of subject.');
           return false;
         }
