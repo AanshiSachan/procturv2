@@ -510,6 +510,7 @@ export class StudentHomev2Component implements OnInit {
             this.appC.popToast(alert);
             this.auth.hideLoader();
             this.assignedStandard = "-1";
+            this.rowSelectedCount = 0;
             this.loadTableDataSource(this.instituteData);
             $("#assignStandard").modal("hide");
           },
