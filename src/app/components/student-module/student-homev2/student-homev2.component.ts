@@ -510,6 +510,7 @@ export class StudentHomev2Component implements OnInit {
             this.appC.popToast(alert);
             this.auth.hideLoader();
             this.assignedStandard = "-1";
+            this.rowSelectedCount = 0;
             this.loadTableDataSource(this.instituteData);
             $("#assignStandard").modal("hide");
           },
@@ -1520,6 +1521,7 @@ simpleSearch;
   // this.simpleSearch=value;
     this.PageIndex = 1;
     this.instituteData.start_index = 0;
+    this.rowSelectedCount = 0;
     let obj: any = {
       name: "",
       is_active_status: this.advancedFilterForm.is_active_status,

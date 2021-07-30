@@ -78,12 +78,13 @@
           <div>Select</div>
           <div>Subject Name</div>
           <div>Allocate Faculty *</div>
+          <div *ngIf="selectedCourseID" style="width: 15%;"></div>
         </div>
         <div class="table_body" *ngFor="let row of subjectList ; let i= index; trackBy: index">
           <div>
             <label class="checkbox">
-              <span class="checkbox__input">
-                <input type="checkbox" id="{{row.subject_id}}" [(ngModel)]="row.uiSelected" name="checked">
+              <span class="checkbox__input" [ngStyle]="{'cursor':(row.uiSelected == true && row.hasOwnProperty('otherDetails'))? 'no-drop' : 'default' }">
+                <input type="checkbox" id="{{row.subject_id}}" [(ngModel)]="row.uiSelected" name="checked" [disabled]="row.uiSelected == true && row.hasOwnProperty('otherDetails')">
                 <span class="checkbox__control">
                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
                     <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
@@ -102,6 +103,10 @@
                 {{opt.teacher_name}}
               </option>
             </select>
+          </div>
+          <div style="width: 15%;">
+            <a *ngIf="row.uiSelected == true && row.hasOwnProperty('otherDetails')" (click)="deleteSubjectRow(row, i)"><i
+              class="fa fa-trash" style="font-size: 16px;color: red;" title="Delete"> </i></a>
           </div>
         </div>
       </div>

@@ -1324,7 +1324,7 @@
 
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right btn-grp">
             <aside class="pull-right">
-              <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
+              <input type="button" step="margin-right: 10px;" value="Cancel" class="btn" (click)="closeAddInstitute()">
               <input type="button" value="Create" class="fullBlue btn" (click)="addInstituteData()">
             </aside>
           </div>
@@ -2457,14 +2457,14 @@
                 <div>
                   <label>School / Institution</label>
                 
-                  <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name"
+                  <select id="schoolStitution" style="width: 85%;" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name"
                   class="choice">
                   <option></option>
                   <option [value]="institute.school_id" *ngFor="let institute of instituteList">
                     {{institute.school_name}}
                   </option>
                 </select>
-                <!-- <span class="sourceI iconPlus" style="right: -5%;" (click)="openInstituteAdder()">+</span> -->
+                <span style="margin-left: 10px;" (click)="openInstituteAdder()"><img src="../../../assets/images/student_Add/area.svg"></span>
                 
                 </div>
                 <div>
