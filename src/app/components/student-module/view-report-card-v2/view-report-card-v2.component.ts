@@ -136,6 +136,7 @@ export class ViewReportCardV2Component implements OnInit {
     this.fetchWidgetPrefill();
   }
   fetchWidgetPrefill() {
+    this.settingInfo =[];
     this.widgetService.getSettings().subscribe(
       res => {
         this.settingInfo = res;
@@ -205,6 +206,7 @@ export class ViewReportCardV2Component implements OnInit {
   }
   //function to get parent,profile ,document, data
   getParentProfileDoc() {
+    this.studentCommanData =[];
     this.auth.showLoader();
     this.httpService.getData('/api/v1/students/get-student-detail/' + this.institute_id + '/' + this.studentId).subscribe(
       (res: any) => {
@@ -330,6 +332,7 @@ export class ViewReportCardV2Component implements OnInit {
     (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
   }
   getUploadedFileData() {
+    
     this.auth.showLoader();
     const url = `/users-file/downloadFile?studentId=${this.student_id}`;
     this.productService.getUploadFileData(url).subscribe(
@@ -348,6 +351,8 @@ export class ViewReportCardV2Component implements OnInit {
   payementHistory: any = [];
   pastFeesDetails: any = [];
   getFeesDetails(academic_yr_id) {
+    this.payementHistory= [];
+    this.pastFeesDetails = [];
     this.futureFees = [];
     this.pastFee = [];
     //this.fetchDefaultAY();
@@ -375,6 +380,8 @@ export class ViewReportCardV2Component implements OnInit {
   pastFee: any = [];
   futureFees: any = [];
   getPastFeeDetails() {
+    this.pastFee =[];
+    this.futureFees =[];
     let date: any = new Date();
     date = moment(date).format('YYYY-MM-DD');
     this.pastFeesDetails.forEach(elements => {
@@ -439,6 +446,7 @@ export class ViewReportCardV2Component implements OnInit {
   //============================PTM Details==============================//
 
   getPTMDetails() {
+    this.PTMDetList=[];
    this.auth.showLoader();
     this.apiService.getPTMDetails(this.studentId).subscribe(
       res => {
@@ -693,6 +701,7 @@ export class ViewReportCardV2Component implements OnInit {
     }
   }
   getTimeTableDetails() {
+    this.timeTableDet =[];
     this.timetablePayLoad.student_id =this.student_id;
     let check = this.validateAllField();
     if (check) {
