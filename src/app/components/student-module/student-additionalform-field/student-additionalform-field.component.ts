@@ -29,7 +29,7 @@ export class StudentAdditionalformFieldComponent implements OnInit {
     page: 2,
     prefilled_data: "",
     sequence_number: "",
-    type: "",
+    type: "-1",
     defaultValue: ""
   }
 
@@ -190,9 +190,7 @@ componentShell:any=[]
         } if(this.allAdditionFormFielData[i].type == 5){
           this.allAdditionFormFielData[i].new_type = 'date'
         }
-       this.editCustomComponentForm.type= this.allAdditionFormFielData[i].new_type
       }
-        console.log("additional field",this.allAdditionFormFielData)
       }, err => {
         this.auth.hideLoader();
         this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', err);
@@ -214,8 +212,8 @@ componentShell:any=[]
   }
 
   addNewStudentCustomFormFiel(){
-    if (this.editCustomComponentForm.label != "" && this.editCustomComponentForm.label != " "
-    && this.editCustomComponentForm.type != "") {
+    if (this.editCustomComponentForm.label.trim() != "" ){
+    if( this.editCustomComponentForm.type != "-1") {
 
     //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
     if (this.editCustomComponentForm.type == "3" || this.editCustomComponentForm.type == "4") {
@@ -287,7 +285,11 @@ componentShell:any=[]
 
   }
   else {
-    this._msgService.showErrorMessage('error', '', 'Please mention a Label/Type');
+    this._msgService.showErrorMessage('error', '', 'Please mention a type');
+  }
+}
+  else {
+    this._msgService.showErrorMessage('error', '', 'Please mention a label');
   }
 
   
@@ -476,7 +478,7 @@ validateDropDown(data) {
       page: 2,
       prefilled_data: "",
       sequence_number: "",
-      type: "",
+      type: "-1",
       defaultValue: ""
     }
   }
