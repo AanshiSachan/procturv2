@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild
@@ -27,7 +28,7 @@ declare var $;
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit, AfterViewInit {
+export class SideBarComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   @ViewChild('divAdminTag', { static: true }) divAdminTag: ElementRef;
@@ -319,6 +320,9 @@ if(sessionStorage.getItem('userType') =='0' && sessionStorage.getItem('username'
 }else{
   this.jsonFlags.isAdminforPayroll = false;
 }
+if(sessionStorage.getItem('showSMSService') == 'true') {
+  $('#releaseNote').modal('show');
+}
 // ============end==============
 }
   ngAfterViewInit() {
@@ -328,6 +332,10 @@ if(sessionStorage.getItem('userType') =='0' && sessionStorage.getItem('username'
     if (this.instituteId == "101317") {
       this.accessToHomeAndLead();
     }
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('showSMSService');
   }
 
   mouseenter(cond) {
