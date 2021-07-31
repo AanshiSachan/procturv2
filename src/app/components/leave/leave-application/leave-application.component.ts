@@ -157,7 +157,6 @@ getApplicationToList(obj){
       this.auth.hideLoader();
       this.toApplicationList = res.active_users;
        this.toApplicationList =this.toApplicationList.filter(item =>item.user_id != this.jsonFlag.created_by);
-
      
     },
     err => {
@@ -233,13 +232,11 @@ reason:"",
 
 
 editLeaveRow(obj){
-
-  
  this.leaveApllicationmodel.id = obj.id;
 if(obj.applied_to_role == 'Faculty'){
-  this.leaveApllicationmodel.userType= '3'
+  this.leaveApllicationmodel.userType= '3,9'
 }else if(obj.applied_to_role == 'Staff'){
-  this.leaveApllicationmodel.userType = '0,9'
+  this.leaveApllicationmodel.userType = '0'
 }
   this.leaveApllicationmodel.applicatioName = obj.applied_to_user_id;
   this.leaveApllicationmodel.categoryName = obj.type.id;

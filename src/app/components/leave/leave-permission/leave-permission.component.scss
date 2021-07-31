@@ -114,8 +114,25 @@
      line-height: 35px;
   
   }
+  .searchinput{
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 6px;
+    margin-top: 13px;
+    padding: 7px 20px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-weight: 500;
+      height:35px;
+    
+   
+  }
   .mr10{
   margin-right:10px;
+  //margin-bottom: 6px;
+  //float: right;
   }
   .w240{
    width: 240px;

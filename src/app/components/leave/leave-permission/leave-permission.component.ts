@@ -47,6 +47,8 @@ export class LeavePermissionComponent implements OnInit {
     total_item:0
   }
   leaveApplicationList:any[]=[]
+  searchLeaveApplicationList:any=[]
+  searchInput:any
 
 
   constructor( private msgService: MessageShowService,
@@ -95,6 +97,7 @@ export class LeavePermissionComponent implements OnInit {
       (res: any) => {
         this.auth.hideLoader();
         this.leaveApplicationList = res.result.response;
+        this.searchLeaveApplicationList=res.result.response;
         this.varJson.total_item = res.result.totalElements;
         for(let i=0; i < this.leaveApplicationList.length;i++){
           this.leaveApplicationList[i].no_of_days = this.leaveApllicationmodel.days;
@@ -190,6 +193,18 @@ getPermissionLeave(obj){
       this.pdf.exportToPdf(row,column,'Leave_pdf')   
  
    
+  }
+  searchInputs(){
+    this.leaveApplicationList = this.searchLeaveApplicationList
+  if( this.searchInput == undefined || this.searchInput == null){
+this.searchInput = "";
+  }else{
+    
+    let searchData = this.leaveApplicationList.filter(item => Object.keys(item).some(
+      k =>item[k] != null && item[k].toString().toLowerCase().includes(this.searchInput.toLowerCase()))
+    );
+    this.leaveApplicationList = searchData;
+  }
   }
  
 }
