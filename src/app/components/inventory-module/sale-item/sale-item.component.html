@@ -13,14 +13,16 @@
     </div>
       <div class="w98">
         <div class="pt15 display" style="padding-bottom: 15px;">
-          <div>
+          <div style="display: flex;">
             <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
             #search [(ngModel)]="searchParams"
             name="searchParams" (keyup)="searchDatabase()">
+             <p style="padding-top: 1%;"><span style="font-style: bold;color:black;font-weight: 600;">Note <span style="font-style: bold;color:red">*</span> :</span> Faculty having multiple role, will get displayed only in <span style="font-style: bold;color:black;font-weight: 600;">Faculty</span> list while in Sales/ Allocate.</p>
+            
           </div>
           <div class="hourlydiv">
             <!-- <p style="height:15px;visibility: hidden;">fhgf</p> -->
-            <p><span style="font-style: bold;color:black;font-weight: 600;">Note <span style="font-style: bold;color:red">*</span> :</span> Faculty having multiple role, will get displayed only in <span style="font-style: bold;color:black;font-weight: 600;">Faculty</span> list while in Sales/ Allocate.</p>
+            <!-- <p><span style="font-style: bold;color:black;font-weight: 600;">Note <span style="font-style: bold;color:red">*</span> :</span> Faculty having multiple role, will get displayed only in <span style="font-style: bold;color:black;font-weight: 600;">Faculty</span> list while in Sales/ Allocate.</p> -->
           </div>
           <div class="right">
                                 <!--   <a (click)="copydata()" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
