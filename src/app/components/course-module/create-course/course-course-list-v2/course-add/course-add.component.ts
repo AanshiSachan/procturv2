@@ -637,6 +637,7 @@ export class CourseAddComponent implements OnInit {
             row.isAssigned = 'Y';
             this._auth.hideLoader();
             this.subjectList[mainTableIndex].uiSelected = false;
+            delete this.subjectList[mainTableIndex].otherDetails;
             this.subjectList[mainTableIndex].selected_teacher = '-1';
             this.checkIfAnySelectedRowExist(this.subjectList, mainTableIndex);
             this._msgService.showErrorMessage('success', '', 'Subject removed from course');

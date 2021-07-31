@@ -94,7 +94,7 @@
   <li class="nav-item">
     <a class="nav-link" [ngClass]="(activeSession == 'Referred_by') ? 'active' : ''" (click)="toggle('Referred_by');fetchReferInfo()">Referred By</a>
   </li>
-  <li class="nav-item" *ngIf="!schoolModel">
+  <li class="nav-item" *ngIf="!schoolModel && !isProfessional">
     <a class="nav-link" [ngClass]="(activeSession == 'customForm-field') ? 'active' : ''" (click)="toggle('customForm-field');fetchCustomFild()">Custom Field</a>
   </li>
 

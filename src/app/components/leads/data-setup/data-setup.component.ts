@@ -63,6 +63,7 @@ export class DataSetupComponent implements OnInit {
   addArea: boolean = false;
   deleteAreaId: any = '';
   component_id:any='';
+  isProfessional:boolean = false;
   isEditCustumFormField:string=''
 
   selectedData = {
@@ -103,6 +104,16 @@ export class DataSetupComponent implements OnInit {
         }
       }
     )
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true; // batch module
+        } else {
+          this.isProfessional = false;  //course module
+        }
+      }
+    );
     // this.getAllReasons();
     this.getSourceDetails();
     this.fetchPrefillData()
