@@ -24,8 +24,8 @@
       <div class="table_body" *ngFor="let msg of messageList">
         <div>
           <div class="field-radio-wrapper">
-            <input type="radio" class="form-radio" [(ngModel)]="selectedRow" [checked]="selectedSmsCheckBox"
-              value="{{msg.message}}" (click)="onselectMessageCheckbox(msg)">
+            <input type="radio" class="form-radio" [(ngModel)]="msg.selectedMessageId" [checked]="msg.selectedSmsCheckBox"
+              value="{{msg.message_id}}" (click)="onselectMessageCheckbox(msg)">
             <label></label>
           </div>
         </div>
@@ -58,8 +58,8 @@
       <div class="table_body" *ngFor="let email of emailMessageList">
         <div>
           <div class="field-radio-wrapper">
-            <input type="radio" class="form-radio"  [(ngModel)]="selectedRow" [checked]="selectedEmailCheckBox"
-              value="{{email.message}}" (click)="onSelectedEmailCheckbox(email)">
+            <input type="radio" class="form-radio"  [(ngModel)]="email.selectedMessageId" [checked]="email.selectedEmailCheckBox"
+              value="{{email.message_id}}" (click)="onSelectedEmailCheckbox(email)">
              
             <label></label>
           </div>
@@ -99,8 +99,8 @@
       <div class="table_body" *ngFor="let push of pushNotificationList">
         <div>
           <div class="field-radio-wrapper">
-            <input type="radio" class="form-radio"[(ngModel)]="selectedRow" [checked]="selectesPushCheckBox"
-              value="{{push.message}}" (click)="onClickSelectPush(push)">
+            <input type="radio" class="form-radio"[(ngModel)]="push.selectedMessageId" [checked]="push.selectesPushCheckBox"
+              value="{{push.message_id}}" (click)="onClickSelectPush(push)">
             <label></label>
           </div>
         </div>
