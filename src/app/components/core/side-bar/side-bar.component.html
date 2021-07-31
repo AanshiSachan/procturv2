@@ -821,8 +821,11 @@
 
                     </li>
                      <!-- ==========payrole==================== -->
-                     <li class="dropdown" [ngStyle]="{display: (schoolModel && checkIfUserHadAccess(role_feature.PAYROLL_MENU)) ? 'block' : 'none'}"
-                     [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')" >
+                     <li [ngStyle]="{display: (schoolModel && checkIfUserHadAccess(role_feature.PAYROLL_MENU)) ? 'block' : 'none'}"
+                        (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.PAYROLL_MONTHLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_HOURLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)) || (checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.PAYROLL_MONTHLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_HOURLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)) || (checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT))) ? 'dropdown':''"
+                        (click)="toggler('liten')" >
                      <div *ngIf="schoolModel && checkIfUserHadAccess(role_feature.PAYROLL_MENU)" >
                          <a class="dropbtn">
                              <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
