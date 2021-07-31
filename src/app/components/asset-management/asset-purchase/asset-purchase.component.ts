@@ -376,7 +376,7 @@ export class AssetPurchaseComponent implements OnInit {
 
   //
   get_purchase_by() {
-    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,0').subscribe(
+    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,0,9').subscribe(
       (res: any) => {
         this.purchaseby = res.active_users;
       },
