@@ -62,8 +62,8 @@ getEditData(){
   if(this.sectionName == 'edit'){
     this.slaryType = this.templateType;
     this.onselectSalaryDropdown();
-    console.log("template name",this.slaryType)
-    console.log("template",this.template_id)
+    console.log("template name",this.templateType)
+    console.log("template",this.slaryType)
 
   
 }}
@@ -75,9 +75,7 @@ getEditData(){
       (res :any)=>{
     this.templateList=res.result.response;
     this.template_id =res.result.response.template_id
-   console.log("hourlyyyyyyyy",this.templateList)
-   console.log("hourlyyyyyyyy",res.result.response.hourly_grade)
-
+   
     this.auth.hideLoader();
       },
       err => {
@@ -94,9 +92,7 @@ getEditData(){
        this.templateList=res.result.response;
        this.auth.hideLoader();
       
-      console.log("tempalte name",this.template_id)
-      console.log("salaryyyyyy",this.templateList)
-      console.log("salaryyyyyy",res.result.response.salary_grade)
+      
 
         },
         err => {
@@ -122,7 +118,6 @@ getEditData(){
          this.auth.hideLoader();
          this.msgToast.showErrorMessage('success', '', "Template Assigne  successfully");
          this.router.navigate(['/view/payrole/manage-salary']);
-        console.log("salaryyyyyy",this.templateList)
           },
           err => {
             this.auth.hideLoader();
