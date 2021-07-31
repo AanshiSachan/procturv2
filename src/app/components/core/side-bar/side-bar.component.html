@@ -82,7 +82,7 @@
             src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a>
 
         <!-- DataSetup-->
-        <a data-toggle="modal" data-dismiss="modal" href="#releaseNote" mat-button style="margin-right: 0;">
+        <a data-toggle="modal" *ngIf="!isProfessional" data-dismiss="modal" href="#releaseNote" mat-button style="margin-right: 0;">
                 <img style="width: auto;" src="./assets/images/sidebar/Announcement.svg" title="What's New ?" alt="">
         </a>
 

@@ -320,7 +320,7 @@ if(sessionStorage.getItem('userType') =='0' && sessionStorage.getItem('username'
 }else{
   this.jsonFlags.isAdminforPayroll = false;
 }
-if(sessionStorage.getItem('showSMSService') == 'true') {
+if(sessionStorage.getItem('showSMSService') == 'true' && !this.isProfessional) {
   $('#releaseNote').modal('show');
 }
 // ============end==============
