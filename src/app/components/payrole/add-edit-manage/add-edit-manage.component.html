@@ -17,7 +17,7 @@
         </label>
         <div class="col-sm-4">
             <select class="form-control" id="slaryType" [(ngModel)]="slaryType" name="slaryType" (ngModelChange)="onselectSalaryDropdown()">
-                <option>Select Salary</option>
+                <option  value="-1">Select Salary</option>
                 <option value="H">Hourly</option>
                 <option value="M">Monthly</option>
                 </select>
@@ -32,7 +32,7 @@
         </label>
         <div class="col-sm-4">
             <select class="form-control" id="hourly_rates"  [(ngModel)]="template_id" name="template_id" >
-                <option>Select Template</option>
+                <option value="-1">Select Template</option>
                 <option [value]="hourly.template_id" *ngFor="let hourly of templateList">{{slaryType == 'M' ? hourly.salary_grade : hourly.hourly_grade}}</option>
                 <!-- <option [value]="salary.template_id" *ngFor="let salary of salrayDataList" >{{salary.salary_grade}}</option> -->
                 </select>

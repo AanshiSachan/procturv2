@@ -17,8 +17,8 @@ export class AddEditManageComponent implements OnInit {
   jsonFlag={
     institute_id:''
   }
-  slaryType:string=""
-  template_id:string=""
+  slaryType:string="-1"
+  template_id:string="-1"
   userId:any
   selectedId:any
   sectionName='';
@@ -62,22 +62,21 @@ getEditData(){
   if(this.sectionName == 'edit'){
     this.slaryType = this.templateType;
     this.onselectSalaryDropdown();
-    console.log("template name",this.slaryType)
-    console.log("template",this.template_id)
-
+  
   
 }}
 
   getAllHourlyData(){
+    if(this.sectionName == 'Add'){
+      this.template_id="-1"
+    }else{
+      this.template_id
+    }
     this.auth.showLoader();
     let url='/api/v1/payroll/template/hourly/'+this.jsonFlag.institute_id+'/all'
     this.http.getData(url).subscribe(
       (res :any)=>{
     this.templateList=res.result.response;
-    this.template_id =res.result.response.template_id
-   console.log("hourlyyyyyyyy",this.templateList)
-   console.log("hourlyyyyyyyy",res.result.response.hourly_grade)
-
     this.auth.hideLoader();
       },
       err => {
@@ -87,18 +86,18 @@ getEditData(){
     )
     }
     getAllSalaryData(){
+      if(this.sectionName == 'Add'){
+        this.template_id="-1"
+      }else{
+      this.template_id
+      }
       this.auth.showLoader();
       let url = '/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/all'
       this.http.getData(url).subscribe(
         (res :any)=>{
        this.templateList=res.result.response;
        this.auth.hideLoader();
-      
-      console.log("tempalte name",this.template_id)
-      console.log("salaryyyyyy",this.templateList)
-      console.log("salaryyyyyy",res.result.response.salary_grade)
-
-        },
+       },
         err => {
           this.auth.hideLoader();
           this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
@@ -122,7 +121,6 @@ getEditData(){
          this.auth.hideLoader();
          this.msgToast.showErrorMessage('success', '', "Template Assigne  successfully");
          this.router.navigate(['/view/payrole/manage-salary']);
-        console.log("salaryyyyyy",this.templateList)
           },
           err => {
             this.auth.hideLoader();
@@ -161,11 +159,11 @@ getEditData(){
 
      }
      validInput(){
-       if(this.slaryType.trim() == ""){
+       if(this.slaryType.trim() == "-1"){
        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Salary Template');
         return;
        }
-       if(this.template_id.trim() == ""){
+       if(this.template_id.trim() == "-1"){
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select  Template');
          return;
      }
