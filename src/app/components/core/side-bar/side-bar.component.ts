@@ -177,6 +177,7 @@ export class SideBarComponent implements OnInit, AfterViewInit, OnDestroy {
   schoolModel: boolean = false;
   is_zoom_integration_enable: boolean = false;
   custom_text_for_power_by_proctur:any = '';
+  //showMaximizedPopup1:boolean = true;
   showMaximizedPopup:boolean = true;
   user_name:any='';
   constructor(
@@ -323,6 +324,7 @@ if(sessionStorage.getItem('userType') =='0' && sessionStorage.getItem('username'
 if(sessionStorage.getItem('showSMSService') == 'true' && !this.isProfessional) {
   $('#releaseNote').modal('show');
 }
+$('#modalapp1').modal('show');
 // ============end==============
 }
   ngAfterViewInit() {
