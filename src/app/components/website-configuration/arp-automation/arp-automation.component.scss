@@ -1,0 +1,62 @@
+@import "../../../../assets/css/common/variables.scss";
+.mattoolbar{
+    position: fixed;
+    // z-index: 9999999999;
+    background: white;
+    width: 89%;
+    top: 43px;
+    height: 7%;
+    border-bottom: 2px solid lightgrey;
+}
+
+.mat-button img{
+    width: 44%;
+}
+.tool{
+    .spacer {
+        flex: 1 1 auto;
+    }
+    
+    .mat-toolbar.mat-primary {
+        background: #3f51b5;
+        color: #fff;
+    }
+    
+    a,
+    span {
+        // font-size: 22px;
+        font-weight: 600;
+        font-size: 12px;
+        margin-right: 50px;
+        margin-left: 15px;
+        color: black;
+    }
+    .logo-div{
+        padding-top: 5%;
+        margin-left: 2%;
+        .logi-content{
+        ul.lists {
+            // list-style-type: none;
+            margin: 0;
+            padding: 0;
+          }
+        }
+    }
+   
+}
+
+.activeSession {
+    color: #528ff0;
+    border-bottom: 5px solid #528ff0;
+}
+.buttonDiv {
+    min-width: 20%;
+    float: left;
+    padding: 15px;
+    color: black;
+    cursor: pointer;
+    padding-bottom: 7px;
+    padding-left: 0;
+    text-align: center;
+}
+

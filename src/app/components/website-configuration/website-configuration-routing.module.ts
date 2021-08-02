@@ -7,6 +7,8 @@ import {ContactInfoComponent} from '../website-configuration/contact-info/contac
 import {ThirdPartyAuthComponent} from './third-party-auth/third-party-auth.component';
 import {ThemeComponent} from './theme/theme.component';
 import {UrlComponent} from './url/url.component';
+import { ArpAutomationComponent } from './arp-automation/arp-automation.component';
+
 
 
 const routes: Routes = [
@@ -62,6 +64,10 @@ const routes: Routes = [
           {
             path: 'url',
             component: UrlComponent
+          },
+          {
+            path: 'arp-automation',
+            component: ArpAutomationComponent
           },
       ]
   }
