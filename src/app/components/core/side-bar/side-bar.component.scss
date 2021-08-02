@@ -421,6 +421,10 @@ sup {
 #releaseNote {
     .modal-dialog {
         width: 800px;
+      
+    }
+    &.modal.fade.in {
+      z-index:2000;
     }
     .modal-body {
         height: 450px;
@@ -1367,4 +1371,124 @@ background: #FFFFFF;
 }
 .query_mini img{
 padding-left: 5px;
+}
+/* css added by manisha */
+#modalapp1.modal.in .modal-dialog{
+  transform: translate(114%, 0);
+}
+#modalapp1.modal.in{
+  top: 2%;
+  margin-right: 6px;
+}
+#modalapp1.modal.fade .modal-dialog {
+  -webkit-transition: -webkit-transform none;
+  -o-transition: -o-transform none;
+  /* transition: transform .3s ease-out; */
+  -webkit-transform: translate none;
+  -ms-transform: translate none;
+  -o-transform: translate none;
+  transform: translate none;
+}
+#modalapp1 .modal-content{
+  width: 299px;
+border-radius: 10px;
+}
+#modalapp1 .white{
+  width: 18px;
+height: 3px;
+background: #2782FF;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+.display{
+  display: flex;
+  justify-content: space-between;
+}
+#modalapp1 .img1{
+  margin-top: 10px;
+}
+#modalapp1 .img1 p{
+font-weight: 700;
+font-size: 18px;
+line-height: 25px;
+letter-spacing: 0.01em;
+color: #6C6C6C;
+}
+#modalapp1 .img1>div:last-child{
+  margin-left: 20px;
+}
+#modalapp1 .click_button{
+  border: 1px solid #2782FF;
+box-sizing: border-box;
+border-radius: 5px;
+font-weight: 600;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+letter-spacing: 0.01em;
+color: #2782FF;
+width: 79px;
+height: 28px;
+background-color: #fff;
+}
+#modalapp1  .line_sm{
+  width: 248px;
+height: 1px;
+margin: 16px auto;
+background: #C9C9C9;
+}
+#modalapp1  .training p{
+  font-weight: 700;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+letter-spacing: 0.01em;
+color: #6C6C6C;
+}
+#modalapp1  .training {
+  margin: auto;
+  width: 248px;
+}
+#modalapp1  .training span{
+  font-weight:400;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+
+letter-spacing: 0.01em;
+
+color: #6C6C6C;
+}
+#modalapp1  .training span::before{
+  content:'\25CF';
+  width: 6px;
+    position: relative;
+  top:-2px;
+margin-right: 4px;
+color: #2782FF;
+}
+#modalapp1 .mt8{
+  margin-top: 10px;
+}
+#modalapp1 .contact{
+  background: url('../../../../assets/popup/822.svg') no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin: 8px -15px -16px;
+  height: 105px;
+  padding-top: 20px;
+  border-radius: 0px 0px 10px 10px;
+}
+#modalapp1 .contact p{
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+  text-indent: 25px;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
+}
+#modalapp1 .contact p img{
+  position: relative;
+  padding-right: 4px;
+  top: 4px;
 }

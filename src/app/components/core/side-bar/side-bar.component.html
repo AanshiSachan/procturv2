@@ -38,6 +38,7 @@
             </div>
         </div>
     </div>
+  
     <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
 
         <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
@@ -1253,8 +1254,7 @@
         </div>
     </div>
 </div>
-
-  <div class="query_popup" *ngIf="showMaximizedPopup">
+ <!-- <div class="query_popup"  *ngIf="showMaximizedPopup">
     <div (click)="showMaximizedPopup = false">
         <div class="white"></div>
     </div>
@@ -1278,7 +1278,57 @@
         <p class="one">Write us on </p>
         <p><img src="../../../../assets/query_popup/email.svg">support@proctur.com</p>
     </div>
-</div>
+</div> -->
+
+<!--new popup code added by manisha-->
+<div id="modalapp1" class="modal" role="dialog"  >
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="display">
+            <div></div>
+            <div class="white" data-dismiss="modal" ></div>
+          </div>
+          <div class="flex img1">
+            <div><img src="../../../../assets/popup/headphones.svg"></div>
+            <div>
+              <div>
+                <p>Support Related Queries </p>
+                <a href="https://helpcenter.proctur.com/" target="_blank"><button class="click_button"> Click Here
+                  </button></a>
+              </div>
+            </div>
+  
+          </div>
+          <div class="line_sm"></div>
+          <div class="training">
+            <p>New To Proctur? Schedule Training.</p>
+            <div class="display mt8" *ngIf="!schoolModel">
+              <span>Morning Session</span>
+              <button class="click_button"><a  href="https://bit.ly/3fkYC8M" target="_blank">Click Here</a> 
+              </button>
+            </div>
+            <div class="display mt8" *ngIf="schoolModel">
+                <span>Morning Session </span>
+                <button class="click_button" ><a  href="https://bit.ly/2VrnCUM" target="_blank">Click Here</a> 
+                </button>
+              </div>
+            <div class="display mt8"  *ngIf="!schoolModel">
+              <span>Evening Session</span>
+              <button class="click_button" > <a  href="https://bit.ly/3rKh2Vq" target="_blank">Click Here</a>
+              </button>
+            </div>
+          </div>
+          <div class="contact">
+            <p><img src="../../../../assets/query_popup/phone.svg">9971839153</p>
+            <p><img src="../../../../assets/query_popup/email.svg">support@proctur.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- <div class="query_mini" *ngIf="!showMaximizedPopup">
     <div style="cursor: pointer;" (click)="showMaximizedPopup = true">
         <span>Chat with Us</span>

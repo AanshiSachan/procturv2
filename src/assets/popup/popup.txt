@@ -1,0 +1,149 @@
+/*CSS*/
+/* New help/query modal */
+#modalapp1 .modal-content{
+  width: 299px;
+border-radius: 10px;
+}
+#modalapp1 .white{
+  width: 18px;
+height: 3px;
+background: #2782FF;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+.display{
+  display: flex;
+  justify-content: space-between;
+}
+#modalapp1 .img1{
+  margin-top: 10px;
+}
+#modalapp1 .img1 p{
+font-weight: 700;
+font-size: 18px;
+line-height: 25px;
+letter-spacing: 0.01em;
+color: #6C6C6C;
+}
+#modalapp1 .img1>div:last-child{
+  margin-left: 20px;
+}
+#modalapp1 .click_button{
+  border: 1px solid #2782FF;
+box-sizing: border-box;
+border-radius: 5px;
+font-weight: 600;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+letter-spacing: 0.01em;
+color: #2782FF;
+width: 79px;
+height: 28px;
+background-color: #fff;
+}
+#modalapp1  .line_sm{
+  width: 248px;
+height: 1px;
+margin: 16px auto;
+background: #C9C9C9;
+}
+#modalapp1  .training p{
+  font-weight: 700;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+letter-spacing: 0.01em;
+color: #6C6C6C;
+}
+#modalapp1  .training {
+  margin: auto;
+  width: 248px;
+}
+#modalapp1  .training span{
+  font-weight:400;
+font-size: 13px;
+line-height: 18px;
+/* identical to box height */
+
+letter-spacing: 0.01em;
+
+color: #6C6C6C;
+}
+#modalapp1  .training span::before{
+  content:\25CF;
+  width: 6px;
+height: 6px;
+color: #2782FF;
+}
+#modalapp1 .mt8{
+  margin-top: 10px;
+}
+#modalapp1 .contact{
+  background: url(../../../../assets/popup/822.svg) no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin: 8px -15px -16px;
+  height: 105px;
+  padding-top: 20px;
+  border-radius: 0px 0px 10px 10px;
+}
+#modalapp1 .contact p{
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+  text-indent: 25px;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
+}
+#modalapp1 .contact p img{
+  position: relative;
+  padding-right: 4px;
+  top: 4px;
+}
+
+
+/*HTML*/
+<div id="modalapp1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="margin-top: 10%;">
+      <div class="modal-body">
+        <div class="display">
+          <div></div>
+          <div class="white"></div>
+        </div>
+        <div class="flex img1">
+          <div><img src="../../../../assets/popup/headphones.svg"></div>
+          <div>
+            <div>
+              <p>Support Related Queries </p>
+              <a href="https://helpcenter.proctur.com/" target="_blank"><button class="click_button"> Click Here
+                </button></a>
+            </div>
+          </div>
+
+        </div>
+        <div class="line_sm"></div>
+        <div class="training">
+          <p>New To Proctur? Schedule Training.</p>
+          <div class="display mt8">
+            <span>Morning Session</span>
+            <button class="click_button"> Click Here
+            </button>
+          </div>
+          <div class="display mt8">
+            <span>Evening Session</span>
+            <button class="click_button"> Click Here
+            </button>
+          </div>
+        </div>
+        <div class="contact">
+          <p><img src="../../../../assets/query_popup/phone.svg">9971839153</p>
+          <p><img src="../../../../assets/query_popup/email.svg">support@proctur.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
