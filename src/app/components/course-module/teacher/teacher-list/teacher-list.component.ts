@@ -202,7 +202,6 @@ export class TeacherListComponent implements OnInit {
     this.PageIndex++;
     this.fetchTableDataByPage(this.PageIndex);
   }
-
   fetchPrevious() {
     if (this.PageIndex != 1) {
       this.PageIndex--;

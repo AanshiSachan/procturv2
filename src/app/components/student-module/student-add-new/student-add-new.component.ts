@@ -1290,15 +1290,12 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', "Please enter valid guardian email ID");
         return;
       }
-
-      if ((this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlegth, this.country_id) == false &&
-        this.studentAddFormData.parent_phone != "")
-        || (this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlegth, this.country_id) == false &&
-          this.studentAddFormData.guardian_phone != "")) {
+      if (((this.studentAddFormData.parent_phone != "" && this.studentAddFormData.parent_phone != null) && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlegth, this.country_id) == false)
+        || ((this.studentAddFormData.guardian_phone != "" && this.studentAddFormData.guardian_phone !=null) && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlegth, this.country_id) == false)) {
         this.msgToast.showErrorMessage('error', '', "Please enter valid parent/guardian mobile number");
         return;
       }
-
+    
       if(this.schoolModel && this.showRollNoField && this.studentAddFormData.roll_no == '') {
         this.msgToast.showErrorMessage('error', '', "Please enter Roll No");
         return;

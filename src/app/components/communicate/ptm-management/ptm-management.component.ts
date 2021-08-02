@@ -27,7 +27,7 @@ export class PtmManagementComponent implements OnInit {
     ptmId: "-1",
     standard_id: '-1'
   };
-
+hideUpdateFieldFlag:boolean=false
   hrs = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
   mins = ["00", "15", "30", "45"];
 
@@ -262,6 +262,7 @@ export class PtmManagementComponent implements OnInit {
       (data: any) => {
         this.auth.hideLoader();
         this.fetchPtmDates = data;
+        console.log("aaaaaa",this.fetchPtmDates)
         if (this.fetchPtmDates.length == 0) {
           this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', 'No PTM schedule found');
         }
@@ -310,6 +311,7 @@ export class PtmManagementComponent implements OnInit {
           this.totalCount = this.viewStudents.length;
           this.pageIndex = 1;
           this.fectchTableDataByPage(this.pageIndex);
+          this.hideUdatePTMField();
 
         },
         (error: any) => {
@@ -629,5 +631,23 @@ export class PtmManagementComponent implements OnInit {
     this.displayBatchSize = parseInt(num);
     this.viewStudentsData();
   }
+hideUdatePTMField(){
+  if(this.viewStudents && this.viewStudents.length) {
+  let currentDate =moment().format('YYYY-MM-DD');
+  let scheDate = this.viewStudents[0].ptm_date;
+  console.log(currentDate);
+  console.log(scheDate);
+  let diff = moment(scheDate).diff(moment(currentDate))
+  if (diff <= 0) {
+    this.hideUpdateFieldFlag = true;
+  }
+  else{
+    // this.createPTM.ptm_date = moment(this.ptmScheduleDate).format("YYYY-MM-DD");
+    this.hideUpdateFieldFlag = false
+  }
+}
+}
+  
+ 
 
 }
