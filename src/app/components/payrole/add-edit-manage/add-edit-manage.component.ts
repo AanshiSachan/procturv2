@@ -67,7 +67,11 @@ getEditData(){
 }}
 
   getAllHourlyData(){
-    this.template_id
+    if(this.sectionName == 'Add'){
+      this.template_id="-1"
+    }else{
+      this.template_id
+    }
     this.auth.showLoader();
     let url='/api/v1/payroll/template/hourly/'+this.jsonFlag.institute_id+'/all'
     this.http.getData(url).subscribe(
@@ -82,7 +86,11 @@ getEditData(){
     )
     }
     getAllSalaryData(){
+      if(this.sectionName == 'Add'){
+        this.template_id="-1"
+      }else{
       this.template_id
+      }
       this.auth.showLoader();
       let url = '/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/all'
       this.http.getData(url).subscribe(
