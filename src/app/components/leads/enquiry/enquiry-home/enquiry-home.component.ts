@@ -911,6 +911,7 @@ export class EnquiryHomeComponent implements OnInit {
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter')
         //console.log(this.advancedFilterForm);
         //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+        this.advancedFilterForm.followUpDate = '';
         if (!this.preFill) {
             this.FetchEnquiryPrefilledData();
         }
@@ -1921,7 +1922,7 @@ export class EnquiryHomeComponent implements OnInit {
         if (this.advancedFilterForm.followUpDate != null &&
             this.advancedFilterForm.followUpDate != ''
             && this.advancedFilterForm.followUpDate != 'Invalid date') {
-            this.advancedFilterForm.is_recent = "Y";
+            this.advancedFilterForm.is_recent = "N";
         }
         else {
             this.advancedFilterForm.is_recent = "N";
