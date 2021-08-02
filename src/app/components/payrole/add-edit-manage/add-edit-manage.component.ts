@@ -17,8 +17,8 @@ export class AddEditManageComponent implements OnInit {
   jsonFlag={
     institute_id:''
   }
-  slaryType:string=""
-  template_id:string=""
+  slaryType:string="-1"
+  template_id:string="-1"
   userId:any
   selectedId:any
   sectionName='';
@@ -62,20 +62,17 @@ getEditData(){
   if(this.sectionName == 'edit'){
     this.slaryType = this.templateType;
     this.onselectSalaryDropdown();
-    console.log("template name",this.templateType)
-    console.log("template",this.slaryType)
-
+  
   
 }}
 
   getAllHourlyData(){
+    this.template_id
     this.auth.showLoader();
     let url='/api/v1/payroll/template/hourly/'+this.jsonFlag.institute_id+'/all'
     this.http.getData(url).subscribe(
       (res :any)=>{
     this.templateList=res.result.response;
-    this.template_id =res.result.response.template_id
-   
     this.auth.hideLoader();
       },
       err => {
@@ -85,16 +82,14 @@ getEditData(){
     )
     }
     getAllSalaryData(){
+      this.template_id
       this.auth.showLoader();
       let url = '/api/v1/payroll/template/salary/'+this.jsonFlag.institute_id+'/all'
       this.http.getData(url).subscribe(
         (res :any)=>{
        this.templateList=res.result.response;
        this.auth.hideLoader();
-      
-      
-
-        },
+       },
         err => {
           this.auth.hideLoader();
           this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', err);
@@ -156,11 +151,11 @@ getEditData(){
 
      }
      validInput(){
-       if(this.slaryType.trim() == ""){
+       if(this.slaryType.trim() == "-1"){
        this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select Salary Template');
         return;
        }
-       if(this.template_id.trim() == ""){
+       if(this.template_id.trim() == "-1"){
         this.msgToast.showErrorMessage(this.msgToast.toastTypes.error, '', 'Select  Template');
          return;
      }
