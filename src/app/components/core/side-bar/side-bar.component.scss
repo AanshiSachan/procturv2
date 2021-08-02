@@ -423,9 +423,9 @@ sup {
         width: 800px;
       
     }
-    // &.modal{
-    //   z-index:1500;
-    // }
+    &.modal.fade.in {
+      z-index:2000;
+    }
     .modal-body {
         height: 450px;
         overflow-y: auto;
@@ -1374,8 +1374,11 @@ padding-left: 5px;
 }
 /* css added by manisha */
 #modalapp1.modal.in .modal-dialog{
-  transform: translate(109%, 0);
-  margin-top: 90px;
+  transform: translate(114%, 0);
+}
+#modalapp1.modal.in{
+  top: 2%;
+  margin-right: 6px;
 }
 #modalapp1.modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform none;
