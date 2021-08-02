@@ -326,12 +326,12 @@
                         </div>
 
                         <!-- Non Professional Institute -->
-                        <div *ngIf="!isLangInstitute" class="form-wrapper ">
+                        <div *ngIf="!isLangInstitute && !schoolModel" class="form-wrapper ">
                             <label for="StandardMC">Master Course</label>
                             <input readonly="true" id="StandardMC" class="side-form-ctrl blocked"
                                 [(ngModel)]="rowData.master_course_name" type="text" name="StandardMC">
                         </div>
-                        <div *ngIf="!isLangInstitute" class="form-wrapper ">
+                        <div *ngIf="!isLangInstitute && !schoolModel" class="form-wrapper ">
                             <label for="SubjectMC">Course</label>
                             <input readonly="true" id="SubjectMC" class="side-form-ctrl blocked"
                                 [(ngModel)]="courseIdArray" type="text" name="SubjectMC">

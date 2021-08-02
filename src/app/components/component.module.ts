@@ -22,6 +22,7 @@ import { ExcelService } from '../services/excel.service';
 import { ToDoListComponent } from './homepage-dashboard/to-do-list/to-do-list.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HomePageComponent } from './home-page/home-page.component';
+import{SmsGatewayModule} from './sms-gateway/sms-gateway.module'
 @NgModule({
     imports: [
         CommonModule,
@@ -33,7 +34,8 @@ import { HomePageComponent } from './home-page/home-page.component';
         MatButtonModule,
         MatMenuModule,
         MatTabsModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        SmsGatewayModule
 
     ],
     declarations: [
@@ -47,6 +49,7 @@ import { HomePageComponent } from './home-page/home-page.component';
         ManageExpensesComponent,
         ToDoListComponent,
         HomePageComponent
+       
     ],
     entryComponents: [
     ],

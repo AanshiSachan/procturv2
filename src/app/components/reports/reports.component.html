@@ -1,24 +1,150 @@
+
+<!-- =================institute-report-popups================= -->
+<div class="sumerry-report">
+<div class="black-bg1"  id="black-bg1"  *ngIf="viewPopUp"  ></div>
+    <section id="" class="popupWrapper fadeIn" *ngIf="downloadReportFor.summaryOptions">
+
+    <div class="popup  popup-body-container" style="max-width: 30% ;top: 14% !important;" >
+        <div class="popup-wrapper pos-rel">
+            <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewPopUp()" >
+                <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+                    viewBox="0 0 24 24" width="24px" x="0" y="0">
+                    <path class="large-icon"
+                        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+                        style="fill: currentColor" ></path>
+                </svg>
+            </span>
+ <!-- <div id="addAccountModal" class="modal fade" role="dialog" data-backdrop="static">
+ <div class="modal-dialog">
+<div class="modal-content" > -->
+<h2>Download Summary Report</h2>
+<div class="content-section">
+  <div class="download-report">
+      <div class="label-container">
+          <span>Download summary report for</span>
+      </div>
+      <div class="checkbox-container">
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="slotLabel"
+                  [(ngModel)]="downloadReportFor.enquiry" class="form-checkbox" id="enq-download">
+              <label for="enq-download">Enquiry</label>
+          </div>
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="slotLabel"
+                  [(ngModel)]="downloadReportFor.admissions" class="form-checkbox"
+                  id="enq-admissions">
+              <label for="enq-admissions">Admissions</label>
+          </div>
+          <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="slotLabel"
+                  [(ngModel)]="downloadReportFor.fees" class="form-checkbox" id="enq-fees">
+              <label for="enq-fees">Fees</label>
+          </div>
+      </div>
+  </div>
+  <div id="divDropDownSection" *ngIf="!downloadReportFor.showDateRange" class="row dropDownSection">
+      <div class="c-sm-6 c-lg-6 c-lg-6">
+          <div class="field-wrapper has-value">
+              <label for="priorityEdit">Select Duration</label>
+              <select id="month" class="form-ctrl" [(ngModel)]="downloadReportFor.downloadReportOption"
+                  name="priority">
+                  <option value="1">Select Month</option>
+                  <option value="2">This Month</option>
+                  <option value="3">Previous Month</option>
+                  <option value="4">Last Two Month</option>
+              </select>
+          </div>
+      </div>
+      <div style="padding-top: 16px;" class="c-sm-6 c-lg-6 c-lg-6">
+          <button class="btn fullBlue" (click)="downloadSummaryReportXl()"
+              style="margin-top: 10px" id="btnDownloadSummary">Download</button>
+      </div>
+  </div>
+  <div id="divRangeSelection" *ngIf="downloadReportFor.showDateRange" class="row select-dates"
+      style="margin:0 -15px">
+      <div class="c-sm-4 c-lg-4 c-lg-4">
+          <div class="field-wrapper datePickerBox">
+              <label for="fromDate">From Date</label>
+              <input type="text" value="" id="" class="form-ctrl bsDatepicker"
+                  [(ngModel)]="downloadReportFor.summaryReport.from_date" name="from_date" readonly="true"
+                  bsDatepicker />
+
+
+          </div>
+      </div>
+      <div class="c-sm-4 c-lg-4 c-lg-4">
+          <div class="field-wrapper datePickerBox">
+              <label for="toDate">To Date</label>
+              <input type="text" value="" id="" class="form-ctrl bsDatepicker"
+                  [(ngModel)]="downloadReportFor.summaryReport.to_date" name="to_date" readonly="true"
+                  bsDatepicker />
+
+          </div>
+      </div>
+      <div class="c-sm-4 c-lg-4 c-lg-4" style="margin-top: 15px;">
+          <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()"
+              style="margin-top: 10px; padding: 5px" id="btnDownloadDatewise">Download</button>
+      </div>
+  </div>
+  <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()"
+      style="cursor: pointer;margin-top: -5px;color:#0084f6;">Download By Date Range</a>
+  <a id="downloadSummaryReport121" class="hide"></a>
+</div>
+</div>
+</div>
+
+</section>
+</div>
+<!-- =============end================ -->
 <section class="clearFix" style="padding-right: 2%;">
+  
   <!-- Header and Navigation -->
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left" style="margin-left:50px">
       <span>Reports</span>
     </h1>
   </section>
-
-
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  <!-- ======institut-report========= -->
+  <div *ngIf="!isProfessional">
+  <div class="leads-menu-section-container">
     <div class="leads-menu-item eleads-menu-item">
       <div class="menu-title"><br>
-        <img src="./assets/images/Reporticons/eh.png" alt="">
-        <span class="head-font ">Enquiry</span>
+        <img src="../../../assets/images/Frame 185.svg" alt="">
+        <span class="head-font "> Institute Report</span>
 
       </div>
       <div class=" menu-description">
         <hr class="heading_hr">
 
 
-        <div class="row " *ngIf="isShowEnqReport">
+        <div class="row ">
+          <a  class="icon_click"><img
+              src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
+
+
+          <div class="col-sm" style="margin-top:-31px;margin-left:6px;cursor: pointer;" >
+            <span class="sub-head" (click)="downloadSummaryReport()" >Summary Report</span>
+          </div>    
+
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      <!-- ==========end============= -->
+
+  <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isShowCampaignReport || (isShowEnqReport && checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)) || (enable_online_payment == 1 && isOnlineFees))">
+    <div class="leads-menu-item eleads-menu-item">
+      <div class="menu-title"><br>
+        <img src="./assets/images/Reporticons/eh.png" alt="">
+        <span class="head-font " aria-hidden="true">Enquiry</span>
+
+      </div>
+      <div class=" menu-description">
+        <hr class="heading_hr">
+
+
+        <div class="row " *ngIf="checkIfUserHadAccess(role_feature.REPORT_LEAD_ENQUIRY_REPORT)">
           <a routerLink="/view/leads/enquiryReport/counsellor" class="icon_click"><img
               src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
 
@@ -51,7 +177,9 @@
 
 
   </div>
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  
+
+  <div class="leads-menu-section-container" *ngIf="!facultyAccount && (isCourseWise || isFeeDues || (is_tax_enabled=='1' && isGstReport) || (checkIfUserHadAccess(role_feature.FEE_PAYMENT_HISTORY))) ">
     <div class="leads-menu-item fleads-menu-item">
       <div class="menu-title">
         <img src="./assets/images/Reporticons/fh.png" alt=" ">
@@ -65,14 +193,14 @@
               src="./assets/images/Reporticons/coursewise.png" alt=" "></a>
 
           <div class="col-sm" style="margin-top:-31px;margin-left:8px;">
-            <span class="sub-head"><a routerLink="/view/fee/moduleReport">Course wise</a></span>
+            <span class="sub-head"><a routerLink="/view/fee/moduleReport">{{schoolModel ? 'Section' : 'Course'}} wise</a></span>
           </div>
           <div class="col-sm" style="margin-top:9px;margin-left:-10px;">
-            <h6 class="content">Paid and Due Reports Course wise.</h6>
+            <h6 class="content">Paid and Due Reports {{schoolModel ? 'Section' : 'Course'}} wise.</h6>
             <hr class="content_hr">
           </div>
         </div>
-        <div class="row" *ngIf="isFeeDues">
+        <div class="row" *ngIf="checkIfUserHadAccess(role_feature.REPORT_FEES_DUE_REPORT)">
           <a routerLink="/view/fee/allDueReport" class="icon_click"><img src="./assets/images/Reporticons/duereport.png"
               alt=" "></a>
           <div class="col-sm" style="margin-top:-32px;margin-left:8px;">
@@ -83,7 +211,7 @@
             <hr class="content_hr">
           </div>
         </div>
-        <div class="row" *ngIf="is_tax_enabled=='1' && isGstReport">
+        <div class="row" *ngIf="is_tax_enabled=='1' && isGstReport && checkIfUserHadAccess(role_feature.REPORT_FEE_GST_REPORT)">
           <a routerLink="/view/fee/gst" class="icon_click"> <img src="./assets/images/Reporticons/gst.png" alt=" "></a>
           <div class="col-sm" style="margin-top:-27px;margin-left:8px;">
             <span class="sub-head"><a routerLink="/view/fee/gst">GST Report</a></span>
@@ -93,8 +221,18 @@
             <hr class="content_hr">
           </div>
         </div>
-        <div class="row" *ngIf="enable_online_payment == 1 && isOnlineFees">
-
+        <div class="row" *ngIf="checkIfUserHadAccess(role_feature.FEE_PAYMENT_HISTORY)">
+          <a routerLink="/view/fee/paymentHistory" class="icon_click"> <img
+              src="./assets/images/Reporticons/duereport.png" alt=" " style="margin-left:3px;"></a>
+          <div class="col-sm" style="margin-top:-35px;margin-left:8px">
+            <span class="sub-head"> <a routerLink="/view/fee/paymentHistory">Payment History</a></span>
+          </div>
+          <div class="col-sm" style="margin-top:9px;margin-left:-10px">
+            <h6 class="content">Date wise payment history of students for analysis, making changes and download.</h6>
+            <hr class="content_hr">
+          </div>
+        </div>
+        <div class="row" *ngIf="enable_online_payment == 1 && isOnlineFees && checkIfUserHadAccess(role_feature.REPORT_FEES_ONLINE_FEES)">
           <a routerLink="/view/fee/onlinePayment" class="icon_click"> <img
               src="./assets/images/Reporticons/onlinefees.png" alt=" " style="margin-left:3px;"></a>
           <div class="col-sm" style="margin-top:-35px;margin-left:8px">
@@ -110,12 +248,12 @@
 
 
   </div>
-  <div class="leads-menu-section-container">
+  <div class="leads-menu-section-container" *ngIf="JsonFlags.isShowAttendanceReport || JsonFlags.showBiomentricR || (JsonFlags.isShowExamReport && !schoolModel)">
     <div class="leads-menu-item  cleads-menu-item">
       <div class="menu-title">
         <img src="./assets/images/Reporticons/ch.png" alt=" ">
 
-        <span class="head-font" style="margin-top:-6px;">Course</span>
+        <span class="head-font" style="margin-top:-6px;">{{schoolModel ? 'Section' : 'Course'}}</span>
       </div>
       <div class="menu-description">
         <hr class="heading_hr">
@@ -143,7 +281,7 @@
             <hr class="content_hr" style="margin-left:-28px;">
           </div>
         </div>
-        <div class="row" *ngIf="JsonFlags.isShowExamReport">
+        <div class="row" *ngIf="JsonFlags.isShowExamReport && !schoolModel">
 
           <a routerLink="/view/course/reports/exam" class="icon_click"> <img
               src="./assets/images/Reporticons/examreport.png" alt=" "></a>
@@ -155,7 +293,7 @@
             <hr class="content_hr" style="margin-left:-28px;">
           </div>
         </div>
-        <div class="row" *ngIf="JsonFlags.isShowExamDash">
+        <!-- <div class="row" *ngIf="JsonFlags.isShowExamDash">
 
           <a routerLink="/view/course/reports/exam-dashboard" class="icon_click"><img
               src="./assets/images/Reporticons/examdashboard.png" alt=" "></a>
@@ -165,14 +303,14 @@
           <div class="col-sm" style="margin-top:9px;margin-left:-6px;">
             <h6 class="content">In-depth exam report of students.</h6>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
 
 
   </div>
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  <div class="leads-menu-section-container" *ngIf="(!facultyAccount && !schoolModel && jsonEstoreFlags.isEstoreMenu) && (jsonEstoreFlags.isSalesReport || jsonEstoreFlags.isCouponReport)">
     <div class="leads-menu-item pleads-menu-item">
       <div class="menu-title">
         <!--  <img src="./assets/images/leads/data-setup.svg" alt="data setup">-->
@@ -209,7 +347,7 @@
 
 
   </div>
-  <div class="leads-menu-section-container" *ngIf="isShowExpense == 'true'">
+  <div class="leads-menu-section-container" *ngIf="isShowExpense == 'true' && checkIfUserHadAccess(role_feature.REPORT_INCOME_EXPENSE_REPORT)">
     <div class="leads-menu-item pleads-menu-item">
       <div class="menu-title">
         <!--  <img src="./assets/images/leads/data-setup.svg" alt="data setup">-->
@@ -233,8 +371,34 @@
   </div>
   </div>
   </div>
+  <!-- ================certificate================================ -->
 
-  <div class="leads-menu-section-container" *ngIf="!facultyAccount">
+  <!-- <div class="leads-menu-section-container">
+    <div class="leads-menu-item pleads-menu-item">
+      <div class="menu-title">
+        <img src="../../../assets/images/estore/Expenses.svg" alt=" ">
+        <span class="head-font" style="margin-top:-5px;">Certificate</span>
+      </div>
+      <div class="menu-description">
+        <hr class="heading_hr">
+        <div class="row">
+
+          <a routerLink="/view/students/certificate-report" class="icon_click"><img
+              src="./assets/images/Reporticons/salesreport.png" alt=" "></a>
+          <div class="col-sm" style="margin-top:-34px; margin-left:13px;">
+            <span class="sub-head"><a routerLink="/view/students/certificate-report">Certificate Generation Report</a></span>
+          </div>
+          <div class="col-sm" style="margin-top:10px;margin-left:-6px;">
+            <h6 class="content">Certificate Generate Report of the Institution.</h6>
+            <hr class="content_hr" style="margin-left:-28px;">
+          </div>
+        </div>
+  </div>
+  </div>
+  </div> -->
+  <!-- ================end===================================== -->
+
+  <!-- <div class="leads-menu-section-container" *ngIf="!facultyAccount">
     <div class="leads-menu-item mleads-menu-item">
       <div class="menu-title">
         <img src="./assets/images/Reporticons/mh.png" alt="">
@@ -268,6 +432,52 @@
 
 
 
-  </div>
+  </div> -->
+  <!-- <div class="black-bg1" id="black-bg1"></div> -->
+ 
 
+  <div class="leads-menu-section-container" *ngIf="schoolModel">
+    <div class="leads-menu-item eleads-menu-item">
+      <div class="menu-title"><br>
+        <img src="./assets/images/Reporticons/eh.png" alt="">
+        <span class="head-font ">Exam</span>
+
+      </div>
+      <div class=" menu-description">
+        <hr class="heading_hr">
+
+
+        <div class="row ">
+          <a routerLink="/view/leads/enquiryReport/counsellor" class="icon_click"><img
+              src="./assets/images/Reporticons/enquiryreport.png" alt=""></a>
+
+
+          <div class="col-sm" style="margin-top:-31px;margin-left:6px;">
+            <span class="sub-head"> <a routerLink="/view/exams/reports/terminal-report">Terminal Report</a></span>
+          </div>
+          <div class="col-sm" style="margin-top: 12px;margin-left:-13px;">
+            <h6 class="content">Terminal Report</h6>
+            <hr class="content_hr" style="margin-left:-20px;">
+          </div>
+        </div>
+
+
+        <div class="row">
+          <a routerLink="/view/leads/campaign-reports/sms-report" class="icon_click"> <img
+              src="./assets/images/Reporticons/campaignreport.png" alt=""></a>
+          <div class="col-sm" style="margin-top:-30px;margin-left:6px;">
+            <span class="sub-head"><a routerLink="/view/exams/reports/merit-stage-report">Merit Stage Report</a></span>
+          </div>
+          <div class="col-sm" style="margin-top:10px;margin-left:-13px">
+            <h6 class="content">Merit Stage Report</h6>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </div>
 </section>

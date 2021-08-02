@@ -1,0 +1,1794 @@
+<div class="page-content" style="margin-bottom: 10px;">
+  <div class=" shadow">
+    <div class="w98">
+      <div class="flex p20">
+        <div class="w50">
+          <p class="page_heading"><a   routerLink='/view/students' style="text-decoration:none;cursor:pointer">Back &nbsp;</a>/&nbsp;View Student Details</p>
+        </div>
+        <div class="w50">
+          <span class="right">
+            <!-- <a href=""><img src="../../../assets/img_view/image17.svg" class="ml-10"></a>
+              <a href=""><img src="../../../assets/img_view/document.svg" class="ml-10"></a> -->
+            <a *ngIf="allowEdit" (click)="editStudent(student_id)"style="cursor:pointer;" ><img src="../../../assets/img_view/Group111.svg" class="ml-10"></a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex mt20">
+    <div class="w20">
+      <div class="blue-background">
+        <div class=" inner_flex w60">
+          <!--img when not exist-->
+          <img
+            src="{{studentCommanData.student_thumbnail ==null || studentCommanData.student_thumbnail =='' ?'../../../assets/images/empty_photo.svg':studentCommanData.student_thumbnail}}"
+            class="img-round">
+        </div>
+        <div class="w40" *ngIf="schoolModel && studentCommanData.reg_no!=null">
+          <span class="rollno">Reg.&nbsp;No.<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
+        </div>
+        <div class="w40" *ngIf="!schoolModel && studentCommanData.reg_no!=null">
+          <span class="rollno">Student&nbsp;ID<br><span class="number" style="font-size:11px">{{studentCommanData.reg_no}}</span></span>
+        </div>
+      </div>
+      <div class="wm70">
+        <div class="flex5">
+          <div>
+            <div class="circle"></div>
+          </div>
+          <div class="padding1">
+            <p class="blue_text">Student Name</p>
+            <p class="black_text" style="overflow-wrap: anywhere;text-align: justify;" title="{{studentCommanData.student_name}}">{{studentCommanData.student_name |titlecase}} </p>
+            <!-- hyphens: auto; {{ (studentCommanData.student_name?.length
+              > 20) ? (studentCommanData.student_name| slice:0:20) + '...' : studentCommanData.student_name }} -->
+          </div>
+        </div>
+        <div class="width80"></div>
+      </div>
+      <div class="width70">
+        <div class="flex6">
+          <div>
+            <div class="circle"></div>
+          </div>
+          <div class="padding1">
+            <p class="blue_text">Mobile</p>
+            <p class="black_text">{{studentCommanData.student_phone}}</p>
+          </div>
+        </div>
+        <div class="width80"></div>
+      </div>
+      <div class="wm70">
+        <div class="flex7">
+          <div>
+            <div class="circle"></div>
+          </div>
+          <div class="padding1">
+            <p class="blue_text">Standard</p>
+            <p class="black_text">{{studentCommanData.standard |titlecase}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="width80"></div>
+      <div class="padding4">
+        <p *ngIf="!schoolModel" class="course_text">Course Assigned:</p>
+        <p *ngIf="schoolModel" class="course_text">Section Assigned:</p>
+        <div class="tag_wrapper">
+          <div class="tag" *ngFor="let data of assignedCourses;index as i" title="{{data}}">{{ (data?.length
+            > 20) ? (data| slice:0:20) + '...' : data |titlecase}}</div>
+        </div>
+      </div>
+      <div class="padding4" *ngIf="downloadStudentReportAccess || (downloadStudentReportAccess && studentReport)">
+        <p class="course_text">Download:</p>
+        <div>
+          <a class="mr15" *ngIf="downloadStudentReportAccess && studentReport" (click)="downloadStudentReportCard()"><img
+              src="../../../assets/img_view/Group345.svg" title="Report Card">
+              <a id="downloadFileClick1"></a>
+            </a>
+          <!-- <a class="mr15" (click)="manageFees()"><img src="../../../assets/img_view/Group343.svg"
+              title="Manage Fees"></a> -->
+          <a class="mr15" *ngIf="downloadStudentReportAccess" id="downloadIdCard" (click)="downloadStudentIDCard()"><img src="../../../assets/img_view/Group344.svg"
+              title="ID Card"></a>
+          <!-- <a class="mr15"><img src="../../../assets/img_view/Group346.svg" title="Certificate"></a>
+            <a class="mr15"><img src="../../../assets/img_view/Group347.svg" title="View Report"></a> -->
+        </div>
+      </div>
+      <br>
+    </div>
+    <div class="w80">
+      <div class="w96">
+        <div class="box" style="cursor:pointer;">
+          <div [ngClass]="isActiveTab === 'profile' ? 'box_active' : ''" id="profile" (click)="openTab('profile')">
+            Profile</div>
+          <div id="parent" [ngClass]="isActiveTab == 'parent' ? 'box_active' : ''" (click)="openTab('parent')">Parent
+          </div>
+          <div id="documents" [ngClass]="{'box_active': isActiveTab === 'documents'}" (click)="openTab('documents')">
+            Documents</div> 
+            <div id="fees" *ngIf="checkIfUserHadAccess(role_feature.FEE_MANAGE)" [ngClass]="{'box_active': isActiveTab === 'fees'}" (click)="openTab('fees')">Fees </div>
+            <div id="exam_course" *ngIf="!schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam_course'}"
+            (click)="openTab('exam_course')">Exam</div>
+          <div id="attendance" [ngClass]="isActiveTab == 'attendance' ? 'box_active' : ''"
+            (click)="openTab('attendance')">Attendance</div>
+
+          <div id="inventory" [ngClass]="{'box_active': isActiveTab === 'inventory'}" (click)="openTab('inventory')">
+            Inventory</div>
+          <div id="ptm" [ngClass]="{'box_active': isActiveTab === 'ptm'}" (click)="openTab('ptm')">PTM</div>
+          <!-- <div id="biometric" [ngClass]="{'box_active': isActiveTab === 'biometric'}" (click)="openTab('biometric')">
+            Biometric</div> -->
+          <div id="timeTable" [ngClass]="{'box_active': isActiveTab === 'timeTable'}" (click)="openTab('timeTable')">
+            Time Table</div>
+          <!-- <div id="exam" *ngIf="schoolModel" [ngClass]="{'box_active': isActiveTab === 'exam'}"
+            (click)="openTab('exam')">Exam</div> -->
+          
+
+        </div>
+        <div id="profile_tab" *ngIf="isActiveTab =='profile'">
+          <!-- Profile -->
+          <div class="outter_flex" *ngIf="!schoolModel">
+            <div class="w15">
+              <span class="name1">Birth Place&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.birth_place=='' ||studentCommanData.birth_place==null ?'---':studentCommanData.birth_place}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1" *ngIf="schoolModel">Roll No.&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1" *ngIf="schoolModel">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
+            </div>
+            
+          </div>
+          <div class="outter_flex" *ngIf="schoolModel">
+           
+            <div class="w15">
+              <span class="name1" *ngIf="schoolModel">Roll No.&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1" *ngIf="schoolModel">{{studentCommanData.roll_no==''||studentCommanData.roll_no==null?'---':studentCommanData.roll_no}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Birth Place&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.birth_place=='' ||studentCommanData.birth_place==null ?'---':studentCommanData.birth_place}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Religion&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1"
+                title="{{studentCommanData.religion}}">{{studentCommanData.religion=='' ||studentCommanData.religion==null ?'---':studentCommanData.religion}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Aadhar ID&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1"
+                title="{{studentCommanData.student_adhar_card}}">{{studentCommanData.student_adhar_card=='' ||studentCommanData.student_adhar_card==null?'---':studentCommanData.student_adhar_card}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Group&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.group==''|| studentCommanData.group==null?'---':studentCommanData.group}}</span>
+            </div>
+            <div class="w15" *ngIf="schoolModel">
+              <span class="name1">Optional Subject&nbsp;:</span>
+            </div>
+            <div class="w35" *ngFor="let data of optionalSubjects">
+              <span class="value1">{{data}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Date Of Birth&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{ studentCommanData.dob==''|| studentCommanData.dob==null?'---':studentCommanData.dob |date:'dd-MM-yyyy'}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Gender&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.gender==''|| studentCommanData.gender==null?'---':studentCommanData.gender }}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Blood Group&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.blood_group==null ||studentCommanData.blood_group=="-1" ||
+                studentCommanData.blood_group=="" ?'---':studentCommanData.blood_group}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Email&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">
+                {{studentCommanData.student_email==null ||studentCommanData.student_email==''?'---':studentCommanData.student_email}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">State&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.state==null ||studentCommanData.state==''?'---':studentCommanData.state}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Country&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.country==null ||studentCommanData.country=='' ?'---':studentCommanData.country}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Category&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.category==null ||studentCommanData.category=="-1" ||
+                studentCommanData.blood_group=="" ?'---':studentCommanData.category}}
+              </span>
+            </div>
+            <div class="w15">
+              <span class="name1">Remark&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1" *ngIf="studentCommanData.remark=='' || studentCommanData.remark==null ">---</span>
+              <span class="value1" *ngIf="studentCommanData.remark!=null" title="studentCommanData.remark">{{
+                (studentCommanData.remark.length > 30) ? (studentCommanData.remark| slice:0:30) + '...' :
+                studentCommanData.remark }}
+              </span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Mother Tongue&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1"> {{studentCommanData.mother_tongue==null ||studentCommanData.mother_tongue=="-1" ||
+                studentCommanData.mother_tongue=="" ?'---':studentCommanData.mother_tongue}}</span>
+            </div>
+          </div>
+          
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Current Address &nbsp;:</span>
+            </div>
+            <div class="w85">
+              <span class="value1"
+                *ngIf="studentCommanData.current_address=='' || studentCommanData.current_address==null ">---</span>
+              <span class="value1" title="{{studentCommanData.current_address}}"
+                *ngIf="studentCommanData.current_address!=null">{{ studentCommanData.current_address}}
+                </span>
+            </div>
+          </div>
+        </div>
+        <div id="parent_tab" *ngIf="isActiveTab =='parent'">
+          <!-- Parent -->
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Parent Name&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.parent_name==null || studentCommanData.parent_name==""
+                ?'---':studentCommanData.parent_name}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Parent Contact&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.parent_phone==null || studentCommanData.parent_phone==""
+                ?'---':studentCommanData.parent_phone}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Parent Email&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.parent_email==null || studentCommanData.parent_email==""
+                ?'---':studentCommanData.parent_email}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Parent Aadhar ID&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.parent_adhar_card==null ||
+                studentCommanData.parent_adhar_card=="" ?'---':studentCommanData.parent_adhar_card}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Parent Profession&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.parent_profession==null ||
+                studentCommanData.parent_profession=="-1" || studentCommanData.parent_profession==""
+                ?'---':studentCommanData.parent_profession}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Guardian Name&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.guardian_name==null || studentCommanData.guardian_name==""
+                ?'---':studentCommanData.guardian_name}}</span>
+            </div>
+            <div class="w15">
+              <span class="name1">Guardian Contact No.&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.guardian_phone==null || studentCommanData.guardian_phone==""
+                ?'---':studentCommanData.guardian_phone}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Guardian Email&nbsp;:</span>
+            </div>
+            <div class="w35">
+              <span class="value1">{{studentCommanData.guardian_email==null || studentCommanData.guardian_email==""
+                ?'---':studentCommanData.guardian_email}}</span>
+            </div>
+          </div>
+          <div class="outter_flex">
+            <div class="w15">
+              <span class="name1">Residential Address&nbsp;:</span>
+            </div>
+
+            <div class="w85">
+              <span class="value1"
+                *ngIf="studentCommanData.permanent_address=='' || studentCommanData.permanent_address==null ">---</span>
+              <span class="value1" title="{{studentCommanData.permanent_address}}"
+                *ngIf="studentCommanData.permanent_address!=null">{{ studentCommanData.permanent_address}}
+        </span>
+
+            </div>
+
+
+          </div>
+        </div>
+        <div id="attendance_tab" *ngIf="isActiveTab =='attendance'">
+          <!-- Attendance -->
+          <!-- <div class="field-radio-wrapper">
+            <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0"
+              [(ngModel)]="timetablePayLoad.type" name="rdoBtnCurrent" class="form-radio"
+              (ngModelChange)="onTimeTableRadioBtnChange()">
+            <label class="radio_label">
+              Current Date
+            </label>
+          </div> -->
+          <div class="row radio_div no-gutters">
+            <div class="col-lg-8 flex" style="margin-top: 10px;">
+
+              <div class="field-radio-wrapper">
+                <input type="radio" id="idCurrentMon" [checked]="(viewAttendancePayload.type == '0')" value="0"
+                  [(ngModel)]="viewAttendancePayload.type" name="idCurrentMon"
+                  (ngModelChange)="onRadioButtonSelection()" class="form-radio">
+                <label class="radio_label">
+                  Current Month
+                </label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio" class="form-radio" id="idtillDate" value="1"
+                  [(ngModel)]="viewAttendancePayload.type" name="idtillDate" (ngModelChange)="onRadioButtonSelection()">
+                <label class="radio_label">
+                  Till Date
+                </label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio" class="form-radio" id="iddateRange" value="2"
+                  [(ngModel)]="viewAttendancePayload.type" name="iddateRange"
+                  (ngModelChange)="onRadioButtonSelection()">
+                <label class="radio_label">
+                  Date Range
+                </label>
+              </div>
+              <!-- <label class="radio_label">
+                <input type="radio"  name="date" value="till_date" onchange="checkRadio(this)">
+              </label>
+              <label class="radio_label">
+                <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
+              </label> -->
+            </div>
+            <div class="col-lg-4 mt-20" *ngIf="viewAttendancePayload.type == '2'">
+              <div class="right selectt" id="range1">
+                <div class="flex">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" style="cursor: pointer;" class="input mr10" readonly="true" placeholder="Start Date" name="csd"
+                      [(ngModel)]="viewAttendancePayload.startdate" bsDatepicker>
+
+                  </div>
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" value=""  style="cursor: pointer;" id="csd" class="input mr10" placeholder="End Date"
+                      [(ngModel)]="viewAttendancePayload.enddate" readonly="true" name="csd" bsDatepicker>
+
+                  </div>
+                  <div class="mt10101">
+                    <button class="blue_button" (click)="goBtnAttendaceClick()">Go</button>
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="attendance_table" >
+            <div class="table_heading">
+              <div>
+                <span *ngIf="isLangInstitue">Batch</span>
+                <span *ngIf="!isLangInstitue">Subject</span>
+              </div>
+              <div>Classes</div>
+              <div>
+                Present
+              </div>
+              <div>
+                Absent
+              </div>
+              <div>
+                Leave
+              </div>
+              <div>
+                Attendance
+              </div>
+              <div> Active</div>
+              <div> Assign date</div>
+              <div style="text-align: left;margin-left: 29px;">Leaving Date</div>
+              <div></div>
+            </div>
+            <!-- class active=y and inactive=n-->
+            <div class="table_body active" *ngFor="let data of attendanceList"
+              [ngClass]="{active : (data.batchLeavingDate != '' && data.batchLeavingDate != null)}">
+              <div>{{data.batch_name}}
+                <!-- <span *ngIf="!isLangInstitue">{{data.subject_name}}</span> -->
+                </div>
+              <div>
+                {{data.total_classes}}
+              </div>
+
+              <div>
+                {{data.total_attended}}
+              </div>
+              <div>
+                {{data.total_absent}}
+              </div>
+              <div>
+                {{data.total_leave}}
+              </div>
+              <div>
+                {{data.spent_percentage}} %
+              </div>
+              <div>{{data.is_batch_active}}</div>
+              <div>{{data.batchJoiningDate |date:'dd-MM-yyyy'}}</div>
+              <div style="text-align: left;margin-left: 29px">{{data.batchLeavingDate |date:'dd-MM-yyyy'}}</div>
+              <div>
+                <a data-toggle="modal" data-target="#myModal1" (click)="viewAttendanceDet(data)"
+                  *ngIf="data.attendanceDateList"> <svg _ngcontent-hsk-c194="" version="1.1" id="Layer_1" x="0px"
+                    y="0px" width="20px" height="20px" viewBox="0 0 48 48" enable-background="new 0 0 48 48"
+                    xml:space="preserve">
+                    <path _ngcontent-hsk-c194="" fill="#1385F2" d="M24.067,0c-13.255,0-24,10.746-24,24s10.745,24,24,24c13.252,0,23.997-10.746,23.997-24S37.319,0,24.067,0z
+                      M23.779,38.121c-1.035,0.802-2.029,1.208-2.991,1.208c-0.625,0-1.145-0.188-1.549-0.561c-0.402-0.374-0.603-0.847-0.603-1.421
+                     c0-0.581,0.188-1.524,0.573-2.845l3.017-10.371c0.482-1.688,0.72-2.752,0.72-3.193c0-0.327-0.117-0.597-0.362-0.818
+                     c-0.237-0.216,0.198-0.335-0.208-0.335c-0.345,0-0.376,0.088-1.376,0.263v-0.891l7.237-1.328L23.295,34.07
+                     c-0.308,1.091-0.645,1.746-0.645,1.96c0,0.246-0.025,0.443,0.123,0.595c0.144,0.158,0.261,0.232,0.449,0.232
+                     c0.251,0,0.509-0.123,0.817-0.374c0.874-0.688,1.756-1.671,2.663-2.96l0.79,0.547C26.439,35.663,25.195,37.016,23.779,38.121z
+                      M28.818,12.606c-0.445,0.46-0.987,0.691-1.621,0.691c-0.636,0-1.175-0.231-1.637-0.691c-0.463-0.462-0.69-0.999-0.69-1.637
+                     c0-0.638,0.224-1.172,0.68-1.626c0.441-0.448,0.997-0.673,1.646-0.673c0.653,0,1.196,0.225,1.642,0.673
+                     c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"></path>
+                  </svg></a>
+              </div>
+            </div>
+            <div *ngIf="attendanceList.length==0">
+              <div class="nodata">
+                <span colspan="10">
+                  No Attendance Data Of Student Found
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- <p *ngIf="attendanceList.length > 0" style="margin-left:10px;margin-top: 10px;">* Old/History batches are shown with grey background</p> -->
+
+        </div>
+        <div id="fees_tab" *ngIf="isActiveTab =='fees'">
+          <!-- Fees -->
+          <div class="row radio_div1 no-gutters">
+       <div class="col-lg-10">
+            <select class="select mr10 wid160" [(ngModel)]="Fee_model.academic_yr_id" style="width: 25%;">
+              <option value="-1">Academic Year</option>
+              <option *ngFor="let data of academicYrList" [value]="data.inst_acad_year_id">
+                {{data.inst_acad_year}}</option>
+            </select>
+
+            <button class="blue_button" style="margin-left: 20px;" (click)="getFeesDetails(Fee_model.academic_yr_id)">GO</button>
+
+            
+         <button  style="margin-top:20px;"><i class="fa fa-download" (click)="studentFeeInstallment(-1)"
+          style="font-size: 25px;color: #0084f6;position: absolute;margin-left: 30px;margin-top:-15px;cursor: pointer;"
+          title="Download fee installment"></i></button>   
+          </div>
+        
+        <div class="col-lg-2">  <a (click)="manageFees()"   style="color: #0084f6;position: absolute;margin-left:23px;margin-top:10px;cursor: pointer;" targe="_blank">Manage Fees</a></div>
+      </div>
+          <!-- <div class="table_title">
+              <span >Payment History</span>
+            </div>
+              <div class="payment_history">
+                <div class="table_heading">
+                  <div>
+                    Paid<br>ON
+                  </div>
+                  <div>
+                    Instal<br>No
+                  </div>
+                  <div>
+                    Fee<br>Type
+                  </div>
+                  <div>
+                   <span class="top"> Amount</span>
+                  </div>
+                  <div>
+                    Tax
+                  </div>
+                  <div>
+                    Discount<br>Amount
+                  </div>
+                  <div>
+                    Total<br>Amount
+                  </div>
+                  <div>
+                    Amount<br>Paid
+                  </div>
+                  <div>
+                    Amount<br>Due
+                  </div>
+                  <div>
+                    Payment<br>Mode
+                  </div>
+                  <div>
+                    Refrence<br>No
+                  </div>
+                  <div>
+                    <span class="top">Remark</span>
+                  </div>
+                </div>
+                <div class="table_body" *ngFor="let data of PastFeeList">
+                  <div>
+                    {{data.paid_date}}
+                  </div>
+                  <div>
+                    {{data.installment_no}}
+                  </div>
+                  <div>
+                    {{data.fee_type_name}}
+                  </div>
+                  <div>
+                    {{data.total_initial_amount}}
+                  </div>
+                  <div>
+                    {{data.total_tax_applied}}
+                  </div>
+                  <div>
+                    {{data.total_discount}}
+                  </div>
+                  <div>{{data.total_amount_after_discount_after_tax}}</div>
+                  <div>
+                    {{data.total_amt_paid}}
+                  </div>
+                  <div>
+                    {{data.total_balance_amt}}
+                  </div>
+                  <div>
+                    {{data.paymentMode}}
+                  </div>
+                  <div>
+                    {{data.reference_no}}
+                  </div>
+                  <div>
+                    {{data.remarks}}
+                  </div>
+                </div>
+                <div  class="table_body"  *ngIf="PastFeeList.length == 0">
+                  <tr>
+                    <td colspan="11" style="text-align: center">
+                      No Record Of Payment History
+                    </td>
+                  </tr>
+                </div>
+              </div>
+              <div class="table_title">
+                <span >Past Fee Due Details</span>
+              </div>
+             
+              <div class="past_due">
+                <div class="table_heading">
+                  <div>
+                    Installment<br>No
+                  </div>
+                  <div>
+                    Fee<br>Type
+                  </div>
+                  <div>
+                   <span class="top"> Due Date</span>
+                  </div>
+                  <div>
+                   <span class="top"> Amount</span>
+                  </div>
+                  <div>Tax</div>
+                  <div>
+                    Discount<br>Amount
+                  </div>
+                  <div>
+                    Total<br>Amount
+                  </div>
+                  <div>
+                    Amount<br>Paid
+                  </div>
+                  <div>
+                    Amount<br>Due
+                  </div>
+                </div>
+                <div class="table_body"  *ngFor="let data of paymentHistoryList">
+                  <div>
+                    {{data.installment_no}}
+                  </div>
+                  <div>
+                    {{data.fee_type_name}}
+                  </div>
+                  <div>
+                    {{data.due_date}}
+                  </div>
+                  <div>
+                    {{data.total_initial_amount}}
+                  </div>
+                  <div>
+                    {{data.total_tax_applied}}
+                  </div>
+                  <div>
+                    {{data.total_discount}}
+                  </div>
+                  <div>
+                    {{data.total_amount_after_discount_after_tax}}
+                  </div>
+                  <div>
+                    {{data.total_amt_paid}}
+                  </div>
+                  <div>
+                    {{data.total_balance_amt}}
+                  </div>
+                </div>
+                <div  class="table_body" *ngIf="paymentHistoryList.length == 0">
+                  <tr>
+                    <td colspan="11" style="text-align: center">
+                      No Record Of Past Fee Due Found
+                    </td>
+                  </tr>
+                </div>
+              </div>
+              <div class="table_title">
+                <span >Next Fee Due Details</span>
+              </div>
+             
+              <div class="next_due">
+                <div class="table_heading">
+                  <div>
+                    Installment<br>No
+                  </div>
+                  <div>
+                    Fee<br>Type
+                  </div>
+                  <div>
+                   <span class="top"> Due Date</span>
+                  </div>
+                  <div>
+                   <span class="top"> Amount</span>
+                  </div>
+                  <div>
+                    <span class="top"> Tax</span>
+                   </div>
+                  <div>
+                    Discount<br>Amount
+                  </div>
+                  <div>
+                    Total<br>Amount
+                  </div>
+                  <div>
+                    Amount<br>Paid
+                  </div>
+                  <div>
+                    Amount<br>Due
+                  </div>
+                </div>
+                <div class="table_body"  *ngFor="let data of FutureFeeList">
+                  <div>
+                    {{data.installment_no}}
+                  </div>
+                  <div>
+                    {{data.fee_type_name}}
+                  </div>
+                  <div>  
+                    {{data.due_date}}
+                  </div>
+                  <div>
+                    {{data.total_initial_amount}}
+                  </div>
+                  <div>
+                    {{data.total_tax_applied}}
+                  </div>
+                  <div>
+                    {{data.total_discount}}
+                  </div>
+                  <div>
+                    {{data.total_amount_after_discount_after_tax}}
+                  </div>
+                  <div>
+                    {{data.total_amt_paid}}
+                  </div>
+                  <div>
+                    {{data.total_balance_amt}}
+                  </div>
+                </div>
+                <div  class="table_body">
+                  <tr *ngIf="FutureFeeList.length == 0">
+                    <td colspan="11" style="text-align: center">
+                      No Record Of Next Fee Due Details
+                    </td>
+                  </tr>
+                </div>
+              </div> -->
+          <div class="table_title">
+            <span>Payment History</span>
+          </div>
+          <div class="payment_history">
+            <div class="table_heading">
+              <div>
+                Paid ON
+              </div>
+              <div>
+                Instal No.
+              </div>
+              <div>
+                Fee Type
+              </div>
+              <!-- <div>
+                     <span class="top"> Amount</span>
+                    </div> -->
+              <div *ngIf="tax">
+                Tax
+              </div>
+              <!-- <div>
+                      Discount<br>Amount
+                    </div> -->
+              <!-- <div>
+                      Total<br>Amount
+                    </div> -->
+              <div>
+                Amount<br>Paid
+              </div>
+              <!-- <div>
+                      Amount<br>Due
+                    </div> -->
+              <div>
+                Payment<br>Mode
+              </div>
+              <!-- <div>
+                      Refrence<br>No
+                    </div> -->
+              <div>
+                <span class="top">Remark </span>
+              </div>
+            </div>
+            <div class="table_body" *ngFor="let data of payementHistory">
+              <div>
+                {{data.p_date | date:'dd-MM-yyyy'}}
+              </div>
+              <div>
+                {{data.install_no}}
+              </div>
+              <div>
+                {{data.f_type}}
+              </div>
+              <!-- <div>
+                      {{data.initial_amount==null?'0':data.initial_amount}}
+                    </div> -->
+              <div *ngIf="tax">
+                {{data.tax_amount==null?'0':data.tax_amount}}
+              </div>
+              <!-- <div>
+                      {{data.disc_amount==null?'0':data.disc_amount}}
+                    </div> -->
+              <!-- <div>{{data.t_amount}}</div> -->
+              <div>
+                {{data.p_amount | number}}
+              </div>
+              <!-- <div>
+                      {{data.d_amount==null?'0':data.d_amount}}
+                    </div> -->
+              <div>
+                {{data.p_method}}
+              </div>
+              <!-- <div>
+                      ---
+                    </div> -->
+              <div>
+                {{data.p_remarks}}
+              </div>
+            </div>
+            <div class="nodata" *ngIf="payementHistory?.length == 0" >
+              
+                  <span style="text-align: center;">No Record Of Payment History</span>
+               
+            </div>
+          </div>
+          <div class="table_title">
+            <span>Past Fee Due Details</span>
+          </div>
+
+          <div class="past_due">
+            <div class="table_heading">
+              <div>
+                Installment<br>No
+              </div>
+              <div>
+                Fee<br>Type
+              </div>
+              <div>
+                <span class="top"> Due Date</span>
+              </div>
+              <div>
+                <span class="top"> Amount</span>
+              </div>
+              <div *ngIf="tax">Tax</div>
+              <div>
+                Discount<br>Amount
+              </div>
+              <div>
+                Total<br>Amount
+              </div>
+              <div>
+                Amount<br>Paid
+              </div>
+              <div>
+                Amount<br>Due
+              </div>
+            </div>
+            <div class="table_body" *ngFor="let data of pastFee">
+              <div>
+                {{data.install_no}}
+              </div>
+              <div>
+                {{data.f_type}}
+              </div>
+              <div>
+                {{data.d_date |date:'dd-MM-yyyy'}}
+              </div>
+              <div>
+                {{data.t_amount | number}}
+              </div>
+              <div *ngIf="tax">
+                {{data.tax_amount}}
+              </div>
+              <div>
+                {{data.disc_amount | number}}
+              </div>
+              <div>
+                {{data.t_amount | number}}
+              </div>
+              <div>
+                {{data.p_amount | number}}
+              </div>
+              <div>
+                {{   data.t_amount -(data.p_amount-data.disc_amount)  }}
+              </div>
+            </div>
+            <div class="nodata" *ngIf="pastFee.length == 0">
+             
+                <span style="text-align: center;"> 
+                  No Record Of Past Fee Due Found
+                </span>
+            </div>
+          </div>
+          <div class="table_title">
+            <span>Next Fee Due Details</span>
+          </div>
+
+          <div class="next_due">
+            <div class="table_heading">
+              <div>
+                Installment<br>No
+              </div>
+              <div>
+                Fee<br>Type
+              </div>
+              <div>
+                <span class="top"> Due Date</span>
+              </div>
+              <div>
+                <span class="top"> Amount</span>
+              </div>
+              <div *ngIf="tax">
+                <span class="top"> Tax</span>
+              </div>
+              <div>
+                Discount<br>Amount
+              </div>
+              <div>
+                Total<br>Amount
+              </div>
+              <div>
+                Amount<br>Paid
+              </div>
+              <div>
+                Amount<br>Due
+              </div>
+            </div>
+            <div class="table_body" *ngFor="let data of futureFees">
+              <div>
+                {{data.install_no}}
+              </div>
+              <div>
+                {{data.f_type}}
+              </div>
+              <div>
+                {{data.d_date |date:'dd-MM-yyyy'}}
+              </div>
+              <div>
+                {{data.t_amount | number}}
+              </div>
+              <div *ngIf="tax">
+                {{data.tax_amount}}
+              </div>
+              <div>
+                {{data.disc_amount}}
+              </div>
+              <div>
+                {{data.t_amount | number}}
+              </div>
+              <div>
+                {{data.p_amount | number}}
+              </div>
+              <div>
+                {{data.t_amount -(data.p_amount-data.disc_amount)}}
+              </div>
+            </div>
+            <div class="nodata" *ngIf="futureFees.length == 0">
+             <span style="text-align: center;"> No Record Of Next Fee Due Details
+            </span>
+               
+                 
+            </div>
+          </div>
+        </div>
+        <div id="documents_tab" *ngIf="isActiveTab =='documents'">
+          <!-- Documents -->
+          <div class="row radio_div no-gutters">
+            <div class="col-lg-9 flex" style="margin-top: 10px;" *ngIf="isshow">
+
+              <div class="field-radio-wrapper">
+                <input type="radio" id="uploadedFile" [checked]="(viewFiles.type == '0')" value="0"
+                  [(ngModel)]="viewFiles.type" name="uploadedFile" (ngModelChange)="onRadioButtonSelection()"
+                  class="form-radio" name="date" value="0">
+                <label class="radio_label">
+                  Uploaded Files
+                </label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio" class="form-radio" value="1" [(ngModel)]="viewFiles.type" name="idcard"
+                  (ngModelChange)="onRadioButtonSelectionDoc()">
+                <label class="radio_label">
+                  ID Cards
+                </label>
+              </div>
+              <!-- <div class="field-radio-wrapper">
+                 <input type="radio"  class="form-radio"  value="2" [(ngModel)]="viewFiles.type" name="certificates"  (ngModelChange)="onRadioButtonSelectionDoc()" >
+                 <label class="radio_label">
+                  Issued Certificates
+                 </label> 
+               </div> -->
+              <div class="field-radio-wrapper">
+                <button class="blue_button" (click)="goBtnFilesClick()">Go</button>
+
+              </div>
+            </div>
+            <div class="field-radio-wrapper" style="margin-top: 10px;">
+              <!-- <span class="right" >
+                <button class="blue_button" data-toggle="modal" data-target="#myModal">Generate Certificates</button>
+              </span> -->
+              <span class="right">
+                <button class="blue_button" data-toggle="modal" data-target="#myModal" (click)="clear()">Add Document</button>
+              </span>
+            </div>
+
+          </div>
+
+          <div class="documents_table">
+            <div class="table_heading">
+              <div>
+                #
+              </div>
+              <div>
+                Title
+              </div>
+              <div>
+                Date
+              </div>
+              <div>
+                Action
+              </div>
+            </div>
+            <div class="table_body" *ngFor="let data of studentFiles;index as i">
+              <div>
+                {{i+1}}
+              </div>
+              <div>
+                {{ data.title}}
+              </div>
+              <div>
+                {{data.createdDate | date:'dd-MM-yyyy'}}
+              </div>
+              <div>
+                <a class="mr10" href="{{data.fileUrl}}"><img class="size22" src="../../../assets/img_view/download.svg"
+                    title="Download"></a>
+                <a><img class="size22" src="/assets/img2/delete.svg" title="Delete File"
+                    (click)="deletefile(data.id)"></a>
+
+              </div>
+            </div>
+            <div class="nodata" *ngIf="studentFiles?.length == 0">
+             <span style="text-align: center">
+                  No data available
+               </span>
+            </div>
+          </div>
+        </div>
+        <div id="inventory_tab" *ngIf="isActiveTab =='inventory'">
+          <!-- Inventory -->
+          <div class="inventory_table">
+            <div class="table_heading">
+              <div>
+                #
+              </div>
+              <div>
+                Item
+              </div>
+              <div>
+                Category
+              </div>
+              <div>
+                Allocated Units
+              </div>
+              <div>
+                Allocation Date
+              </div>
+              <div>
+                   Action
+                  </div>
+            </div>
+            <div class="table_body" *ngFor="let data of inventoryDetails;index as i ">
+              <div>
+                {{i+1}}
+              </div>
+              <div>
+                {{data.item_name}}
+              </div>
+              <div>
+                {{data.category_name}}
+              </div>
+              <div>
+                {{data.alloted_units}}
+              </div>
+              <div>
+                {{data.created_date | date:'dd-MM-yyyy'}}
+              </div>
+               <div>
+                  <a><img src="/assets/img2/delete.svg" (click)="deletePopup(data)" class="size22" title="delete"></a>
+            </div>
+          </div>
+          <div class="nodata" *ngIf="inventoryDetails?.length == 0">
+            <span style="text-align: center">
+                 No data available
+              </span>
+           </div>
+        </div>
+      </div>
+      <div style="margin-left: 21px;" id="ptm_tab" *ngIf="isActiveTab =='ptm'">
+        <!-- PTM -->
+        <div class="table_title">
+          <span>PTM History</span>
+        </div>
+        <div class="ptm_table"  style="margin-left: -19px;">
+          <div class="table_heading">
+            <div style="text-align:left;margin-left: 60px">
+              <span class="top" *ngIf="isLangInstitue">Batch</span>
+              <span class="top" *ngIf="!isLangInstitue">Subject</span>
+            </div>
+            <div style="text-align:left;">
+
+              <span class="top" >Date</span>
+            </div>
+            <div>
+              <span class="top" style="text-align:left;">Attendance</span>
+            </div>
+            <div>
+              Teacher /Institute Remarks
+            </div>
+            <div>
+              <span class="top"> Parent Remarks</span>
+            </div>
+            <div>
+              <span class="top">Status</span>
+            </div>
+          </div>
+          <div class="table_body" *ngFor="let data of PTMDetList">
+            <div style="text-align:left;">
+              {{data.batch_name}}
+            </div>
+            <div>
+              {{data.ptm_date |date:'dd-MM-yyyy'}}
+            </div>
+            <div>
+              {{data.attendance}}
+            </div>
+            <div>
+              {{data.teacher_remark==''|| data.teacher_remark==null?'---':data.teacher_remark}}
+            </div>
+            <div>
+              {{data.parent_remark==''|| data.parent_remark==null?'---':data.parent_remark}}
+          
+            </div>
+            <div>
+              <div
+                [ngClass]="{'pending':data.status=='pending', 'inprogress': data.status=='in progress', 'resolved':data.status=='resolved'}">
+                {{data.status |titlecase}}</div>
+            </div>
+          </div>
+          <div  style="margin-left: -18px;" class="nodata" *ngIf="PTMDetList?.length == 0">
+            <span style="text-align: center">
+                 No data available
+              </span>
+           </div>
+
+        </div>
+      </div>
+      <div style="margin-left: 21px;" id="biometrics_tab" *ngIf="isActiveTab =='biometric'">
+        <!-- Biometrics -->
+        <div class="row radio_div no-gutters">
+          <div class="col-lg-10">
+            <select class="select" id="dateselector" onchange="changeFunction(this.options[this.selectedIndex].value)">
+              <option>Previous Month</option>
+              <option>Previous Week</option>
+              <option value="range">By Range</option>
+            </select>
+            <span id="range_tab">
+              <input type="date" name="" class="input ">
+              <input type="date" name="" class="input ">
+            </span>
+            <button class="blue_button">GO</button>
+          </div>
+          <div class="col-lg-2 ">
+            <a><img src="../../../assets/img_view/Group239.svg" class="right mt10" title="download"></a>
+          </div>
+        </div>
+        <div class="biometrics_table">
+          <div class="table_heading">
+            <div>
+              Date
+            </div>
+            <div>
+              In Time
+            </div>
+            <div>
+              Out Time
+            </div>
+          </div>
+          <div class="table_body">
+            <div>
+              02-10-21
+            </div>
+            <div>
+              10:02 AM
+            </div>
+            <div>
+              06:02 PM
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="exam_tab" *ngIf="isActiveTab =='exam'">
+        <!-- EXAM -->
+        <div class="table_border1" *ngFor="let data of examdata">
+          <p>{{data.exam_type}}</p>
+          <div class="table_border">
+            <div>
+              <div class="first_section">
+                <div class="head">
+                  <p>Subject</p>
+                </div>
+                <div class="table_text" *ngFor="let subject of data.subject_list">
+                  <p>{{subject.subject_name}}</p>
+                </div>
+                <!-- <div class="table_text">
+                      <p>Chemistry</p>
+                    </div> -->
+              </div>
+              <div *ngFor="let subject1 of data.subject_list">
+                <div class="section" *ngFor="let mark of subject1.marks_dist_list">
+                  <div class="width95">
+                    <div class="head2">
+                      <p>{{mark.marks_distribution_name}}</p>
+                    </div>
+                    <div class="marks">
+                      <div class="table_text_heading right_border">
+                        <p>Highest marks</p>
+                      </div>
+                      <div class="table_text_heading">
+                        <p>Obtained marks</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div>
+                      <div class="table_text width75  right_border">
+                        <p>{{mark.marks_max_value}}
+                        <p>
+                      </div>
+
+                    </div>
+                    <div>
+                      <div class="table_text width75">
+                        <p>{{mark.marks_value}}</p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="width95">
+                  <div class="head2">
+                    <p>Total</p>
+                  </div>
+                  <div class="marks">
+                    <div class="table_text_heading right_border">
+                      <p>Marks</p>
+                    </div>
+                    <div class="table_text_heading right_border">
+                      <p>Points</p>
+                    </div>
+                    <div class="table_text_heading">
+                      <p>Grades</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex" *ngFor="let subject3 of data.subject_list">
+                  <div>
+                    <div class="table_text   right_border width50">
+                      <p>{{subject3.total_marks}}
+                      <p>
+                    </div>
+                    <!-- <div class="table_text right_border width50"><p>2</p></div> -->
+                  </div>
+                  <div>
+                    <div class="table_text  right_border width50">
+                      <p>{{subject3.grade_points}}</p>
+                    </div>
+                    <!-- <div class="table_text  right_border width50"><p>2</p></div> -->
+                  </div>
+                  <div>
+                    <div class="table_text width50">
+                      <p>{{subject3.grade}}</p>
+                    </div>
+                    <!-- <div class="table_text width50"><p>2</p></div> -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- last section -->
+
+            </div>
+
+          </div>
+          <div class="display">
+            <div class="end_tot">
+              <p>Total Marks: <span>{{data.grand_total}}</span></p>
+            </div>
+            <div class="end_tot">
+              <p>Total Obtained Marks:<span>{{data.total_obtained_marks}}</span></p>
+            </div>
+            <div class="end_tot">
+              <p>Total Avarage Marks: <span>{{data.total_average_marks}}</span></p>
+            </div>
+            <div class="end_tot">
+              <p>Total Average Marks(%):<span>{{data.total_average_marks_percent}}</span></p>
+            </div>
+            <div class="end_tot">
+              <p>GPA:<span>{{data.gpa}}</span></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!---------------------Exam tab for course----------------------------------------->
+      <div id="exam_tab_course" *ngIf="isActiveTab =='exam_course'">
+        <!-- EXAM -->
+        <br>
+        <div class="row radio_div no-gutters">
+          <div class="col-lg-9 ">
+            <div class="flex">
+              <div class="field-radio-wrapper">
+                <input type="radio" class="form-radio" id="idSubjectRadio" [checked]="(examType == '0')" value="0"
+                  [(ngModel)]="examType" name="idSubjectRadio" (ngModelChange)="onRadioButtonSelectionExam()">
+                <label class="radio_label">Subject Wise</label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input id="idCourseRadio" type="radio" value="1" [(ngModel)]="examType" name="idCourseRadio"
+                  class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
+                <label class="radio_label">Course Wise</label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input id="idNextWeek" type="radio" value="2" [(ngModel)]="examType" name="idNextWeek"
+                  class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
+                <label class="radio_label">Today’s & Upcoming Exam</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-20">
+            <span class="right selectt subject">
+
+            </span>
+            <span class="right course selectt" *ngIf="examType == '1'">
+              <button class="blue_button1" (click)="expandCollapseAll()">
+                Open All/Close All
+              </button>
+            </span>
+            <span class="right upcoming selectt">
+
+            </span>
+          </div>
+        </div>
+        <div class="subject selectt" *ngIf="examType == '0'" id="examPrint">
+
+          <div class="tablehead1">
+            <div> <span *ngIf="isLangInstitue">Batch</span>
+              <span *ngIf="!isLangInstitue">Subject</span>
+            </div>
+            <div> Date</div>
+            <div> Description</div>
+            <div>Time</div>
+            <div>Marks Obtained</div>
+            <div>Grade</div>
+            <div>Rank</div>
+            <div>Highest Mark</div>
+            <div>Lowest Mark</div>
+            <!-- <div>Average Marks</div> -->
+          </div>
+          <div class="tablebody1" *ngFor="let data of examList">
+            <div title="{{data.batch_name}} ">{{ (data.batch_name?.length
+              > 30) ? (data.batch_name| slice:0:30) + '...' : data.batch_name }} </div>
+            <div>{{data.exam_date |date:'dd-MM-yyyy'}}</div>
+            <div title="{{data.exam_desc}} ">{{data.exam_desc}} {{ (data.exam_desc?.length
+              > 30) ? (data.exam_desc| slice:0:30) + '...' : data.exam_desc }}</div>
+            <div>{{data.start_time}}-{{data.end_time}}</div>
+            <div>
+              <span *ngIf="data.attendance_status == 'L'">Leave</span>
+              <span *ngIf="data.attendance_status == 'A'">Absent</span>
+              <span
+                *ngIf="data.attendance_status != 'L' && data.attendance_status != 'A' ">{{data.marks_obtained}}/{{data.total_marks}}</span>
+            </div>
+            <div>
+              <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A' || data.grade==null" >
+                --
+              </span>
+              <span class="grade" *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                {{data.grade}}
+              </span>
+            </div>
+            <div>
+              <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+                --
+              </span>
+              <span *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                {{data.rank}}
+              </span>
+            </div>
+            <div> <img src="assets/img1/highest.svg">{{data.highest_marks}}</div>
+            <div> <img src="assets/img1/lowest.svg">{{data.lowest_marks}}</div>
+            <!-- <div>{{data.average_marks}}</div> -->
+          </div>
+          <div class="nodata" *ngIf="examList.length ==0">
+            <span style="text-align:center"> No Exam List Of Student Found</span>
+          </div>
+        </div>
+
+        <div class="course selectt" *ngIf="examType == '1'" id="examPrint">
+
+          <div class="table_head">
+
+            <div> Master Course</div>
+            <div> Course</div>
+            <div> Date</div>
+            <div>Time</div>
+            <div>Marks</div>
+            <div>Rank</div>
+            <div></div>
+          </div>
+          <div id="outerTableTr{{i}}" *ngFor="let data of courseLevelExamList; let i = index;">
+            <div class="table_body1 collapsible">
+              <div title="{{data.master_course_name}}"> {{ (data.master_course_name?.length
+                > 20) ? (data.master_course_name| slice:0:20) + '...' : data.master_course_name }} </div>
+              <div>{{data.course_Name}}</div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div (click)="showhideInnerTable(i)">
+                <i id="plusIcon{{i}}" class="fa fa-angle-down"></i>
+                <i id="minusIcon{{i}}" class="hide fa fa-angle-up"></i>
+              </div>
+            </div>
+            <div class="content hide" id="showMarksInnerTable{{i}}">
+              <div class="table_body1" *ngFor="let row of data.pastCourseExamList">
+                <div></div>
+                <div></div>
+                <div> <span class="date" style="margin-top:2px;"><img src="assets/img1/date.svg">{{row.exam_date |date:'dd-MM-yyyy'}}</span></div>
+                <div><img src="assets/img1/time.svg"> {{row.start_time}} - {{row.end_time}}</div>
+                <div> <span *ngIf="row.attendance_status == 'L'">
+                    Leave
+                  </span>
+                  <span *ngIf="row.attendance_status == 'A'">
+                    Absent
+                  </span>
+                  <span *ngIf="(row.attendance_status != 'A' && row.attendance_status != 'L')">
+                    {{row.courseLevelMarksObtain}} / {{row.courseLevelTotalMarks}}
+                  </span>
+                </div>
+                <div><span>{{row.courseLevelRank}}</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="nodata" *ngIf="courseLevelExamList.length == 0">
+            <span style="text-align: center;">
+                No Exam Given By Student
+            </span>
+          </div>
+        </div>
+
+
+        <!-- <h3 *ngIf="examType == '2'">Next 4 weeks Exam Schedule</h3> -->
+        <div class="upcoming selectt" *ngIf="examType == '2'" id="examPrint">
+
+          <div class="tablehead1">
+
+            <div>Date</div>
+            <div> <span *ngIf="isLangInstitue">Batch</span>
+              <span *ngIf="!isLangInstitue">Subject</span>
+            </div>
+
+            <div>Time</div>
+
+          </div>
+
+          <div class="tablebody1" *ngFor="let data of futureExamSch">
+
+            <div>{{data.exam_date |date:'dd-MM-yyyy'}}</div>
+           <div>{{data.batch_name}}</div>
+           <div>{{data.start_time}} - {{data.end_time}}</div>
+
+          </div>
+          <div class="nodata" *ngIf="futureExamSch.length==0">
+           <span style="text-align: center;"> No Exam Schedule Available For Upcoming 4 Weeks</span>
+               
+            
+          </div>
+
+        </div>
+      </div>
+      <div id="timeTable" *ngIf="isActiveTab =='timeTable'">
+        <!-- time table -->
+        <div class="row radio_div no-gutters" style="margin-left: 22px;">
+          <div class="col-lg-8 flex" style="margin-top: 10px;">
+
+            <div class="field-radio-wrapper">
+              <input type="radio" id="rdoBtnCurrent" [checked]="(timetablePayLoad.type == '0')" value="0"
+                [(ngModel)]="timetablePayLoad.type" name="rdoBtnCurrent" class="form-radio"
+                (ngModelChange)="onTimeTableRadioBtnChange()">
+              <label class="radio_label">
+                Current Date
+              </label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" id="rdoBtnNextWeek" value="1" [(ngModel)]="timetablePayLoad.type"
+                name="rdoBtnNextWeek" class="form-radio" (ngModelChange)="onTimeTableRadioBtnChange()">
+              <label class="radio_label">
+                Next Week
+              </label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" id="rdoBtnDateRnge" value="2" [(ngModel)]="timetablePayLoad.type"
+                name="rdoBtnDateRnge" class="form-radio" (ngModelChange)="onTimeTableRadioBtnChange()">
+              <label class="radio_label">
+                Date Range
+              </label>
+            </div>
+            <!-- <label class="radio_label">
+                   <input type="radio"  name="date" value="till_date" onchange="checkRadio(this)">
+                 </label>
+                 <label class="radio_label">
+                   <input type="radio"  name="date" value="range" id="range" onchange="checkRadio(this)">
+                 </label> -->
+          </div>
+          <div class="col-lg-4 mt-20" *ngIf="timetablePayLoad.type == '2'">
+            <div class="right selectt" id="range1">
+              <div class="flex">
+                <div class="field-wrapper datePickerBox" >
+                  <input type="text" class="input mr10" style="cursor:pointer" readonly="true" placeholder="Start Date"
+                    [(ngModel)]="timetablePayLoad.startdate" name="csd" bsDatepicker>
+
+                </div>
+                <div class="field-wrapper datePickerBox" >
+                  <input type="text" value=""  style="cursor:pointer" id="csd" class="input mr10" placeholder="End Date"
+                    [(ngModel)]="timetablePayLoad.enddate" readonly="true" name="csd" bsDatepicker>
+
+                </div>
+                <div class="mt10101">
+                  <button class="blue_button" (click)="getTimeTableDetails()">Go</button>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="m16" *ngIf="isshows">
+          <div>
+            <select class="mr10 select1">
+              <option>Current Date</option>
+              <option>Next Week</option>
+              <option>Date Range</option>
+            </select>
+            <button class="blue_button mr10">GO</button>
+          </div>
+          <div class="date_box">
+            <div>
+              <p class="date1">10-09-2020</p>
+              <!-- <input type="date" name="" class="date1">  -->
+              <p>Start Date</p>
+            </div>
+            <div class="line1"></div>
+            <div>
+              <p class="date1">10-09-2020</p>
+              <!-- <input type="date" name="" class="date1"> -->
+              <p>End Date</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grey_head" style="margin-left: 1px;padding-left: 13px;">
+          <div>Date / Time</div>
+          <div>Class</div>
+          <div>Class Room</div>
+          <div>Subject</div>
+          <div>Faculty</div>
+          <div></div>
+        </div>
+        <div id="outerTr{{i}}" (click)="toggleClass(i)" *ngFor="let data of timeTableSchedule; let i = index">
+          <div class="white_body collapsible">
+            <div>
+              <p *ngIf="isshows"><span>21</span> December 2021, Monday</p>
+              <span class="bigdata"> {{data.date |slice:0:2 }}</span> {{data.date |slice:2}}
+            </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div> <i id="accodianMinus{{i}}" class="fa fa-angle-down"></i>
+              <i id="accodianPlus{{i}}" class="hide fa fa-angle-up"></i>
+            </div>
+          </div>
+
+          <div id="innerTr{{i}}" class="content hide inner-table">
+            <div class="white_body1" *ngFor="let row of data.schedule">
+              <div>{{row.start_time}} - {{row.end_time}}</div>
+              <div style="margin-left: 15px;"><span *ngIf="isLangInstitue">
+                  <span
+                    *ngIf="(row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' ">
+                    Regular
+                  </span>
+                  <span
+                    *ngIf="!((row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' )">
+                    Extra
+                  </span>
+                </span>
+                <span *ngIf="!isLangInstitue">
+                  <span
+                    *ngIf="row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision'">
+                    {{row.custom_class_type}}
+                  </span>
+                  <span
+                    *ngIf="!(row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision') || (row.class_type == 'EXTRA' && row.custom_class_type == '')">
+                    Extra
+                  </span>
+                </span>
+              </div>
+              <div>{{row.class_room_name==""?'--':row.class_room_name}}</div>
+              <div style="cursor: pointer;margin-left: -3px;"><span class="subject1" title="{{row.batchName}}"> {{ (row.batchName?.length
+                > 35) ? (row.batchName| slice:0:35) + '...' : row.batchName }}</span></div>
+              <div>{{row.teacher_name}}</div>
+              <div></div>
+            </div>
+            <div class="line"></div>
+          </div>
+        </div>
+        <div class="nodata" *ngIf="timeTableSchedule?.length==0">
+          <span>No Data Available</span>
+        </div>
+      </div>
+
+      <!-- time table End-->
+    </div>
+
+  </div>
+</div>
+<!-- The Modal1 -->
+<div class="modal" id="myModal1" *ngIf="attendanceDetPopUp" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Date Wise Attendance : {{tempData.batch_name}}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="attendance_table_modal">
+          <div class="table_heading" [ngClass]="{'attendaceHead':enable_homework!=1}">
+            <div >
+              Date
+            </div>
+            <div>Timing </div>
+            <div>
+              Class
+            </div>
+            <div>
+              Attendance
+            </div>
+            <!-- <div>
+              Note/Comment
+            </div>
+            <div>
+              Topic Covered
+            </div> -->
+            <div *ngIf="enable_homework==1"> Home Work Status</div>
+            <div  *ngIf="enable_homework==1"> Home Work Assigned</div>
+          </div>
+          <div  style="overflow:auto;max-height:34vh;">
+          <div class="table_body"  [ngClass]="{'attendaceHead':enable_homework!=1}" *ngFor="let data of tempData.attendanceDateList">
+            <div>
+              {{data.date |date:'dd-MM-yyyy'}}
+            </div>
+            <div>{{data.start_time}} - {{data.end_time}} </div>
+            <div *ngIf="isLangInstitue">
+              <span
+                *ngIf="(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type =='Regular' || data.custom_class_type == 'Regular(Custom)')">
+                Regular
+              </span>
+              <span
+                *ngIf="!(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type=='Regular' || data.custom_class_type == 'Regular(Custom)')">
+                Extra
+              </span>
+            </div>
+            <div *ngIf="!isLangInstitue">
+              <span
+                *ngIf="data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision'">
+                {{data.custom_class_type}}
+              </span>
+              <span
+                *ngIf="!(data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision') || (data.class_type == 'EXTRA' && data.custom_class_type == '')">
+                Extra
+              </span>
+            </div>
+            <div  [ngClass]="{'Aclass':data.status=='A', 'Pclass': data.status=='P'}">
+              {{data.status}}
+            </div>
+            <!-- <div>
+              {{data.attendance_note ==""||data.attendance_note==null ?'---':data.attendance_note}}
+            </div>
+            <div>
+              {{data.topics_covered ==''||data.topics_covered==null ?'---':data.topics_covered}}
+            </div> -->
+            <div  *ngIf="enable_homework==1"> {{data.home_work_status ==""||data.home_work_status==null ?'---':data.home_work_status}}</div>
+            <div  *ngIf="enable_homework==1">{{data.homework_assigned=="" ||data.homework_assigned==null ?'---':data.homework_assigned}}</div>
+          </div>
+        </div>
+        </div>
+        <div *ngIf="tempData.attendanceDateList.length ==0">
+          <tr>
+            <td colspan="10" style="text-align: center">
+              No Attendance Of Student Found
+            </td>
+          </tr>
+        </div>
+
+        <br>
+        <div class="display">
+          <div></div>
+          <div>
+            <button class="white_button" data-dismiss="modal" (click)="closePopup()">Close</button>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="deleteModalCat">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="center">
+          <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+        </div>
+        <div >
+          <p class="alert_text"> Do you want to proceed?</p>
+        </div>
+        <div class="pt101 display">
+          <div>
+            <button class="white_button right" data-dismiss="modal">Cancel</button>
+          </div>
+          <div>
+            <button class="blue_button right"  (click)="deleteInventory(tempForInventory)">Proceed</button>
+          </div>
+        </div>
+      </div>        
+    </div>
+  </div>
+</div>
+<div class="modal" id="myModal">
+  <form  #fileForm="ngForm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Documents Upload</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <input type="text" class="input" placeholder="Doc Title*" type="text" id="category_id"
+              [(ngModel)]="category_id" class="input" name="category_id" [maxlength]="30">
+          </div>
+        </div>
+        <div class="row no-gutters mt20">
+          <div class="col-lg-12">
+            <input type="file"  style="cursor:pointer" id="uploadFileControl" (change)="storeFiles()" name="uploadFileBox" [(ngModel)]="selectedFiles"
+              class="input file" placeholder=" Browse File" title="File format(PDF,JPG,DOC..)">
+          </div>
+        </div>
+        <br>
+        <div class="display mar-adjust">
+          <div></div>
+          <div>
+            <button class="white_button mr10" data-dismiss="modal" (click)="clear()">Back</button><button class="blue_button"
+              (click)="uploadHandler();">Upload</button>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</form>
+  

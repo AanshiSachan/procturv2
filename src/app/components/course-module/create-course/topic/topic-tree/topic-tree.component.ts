@@ -108,7 +108,7 @@ export class TopicTreeComponent implements OnInit {
       (error: any) => {
         this.auth.hideLoader();
         console.log(error);
-        this._toastPopup.showErrorMessage('error', '', "something went wrong please try again");
+        this._toastPopup.showErrorMessage('error', '', error.error.message);
       }
     )
   }
@@ -263,7 +263,7 @@ export class TopicTreeComponent implements OnInit {
       },
       (error: any) => {
         this.auth.hideLoader();
-        this._toastPopup.showErrorMessage('error', '', "Something went wrong try again ");
+        this._toastPopup.showErrorMessage('error', '', error.error.message);
         console.log(error);
       }
     );

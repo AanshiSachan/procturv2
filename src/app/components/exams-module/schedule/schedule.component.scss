@@ -487,7 +487,7 @@ select {
 }
 .modal {
     left: 30%;
-    top: 15%;
+    top: 8%;
 }
 .edit-container {
     display: flex;
@@ -743,4 +743,8 @@ select {
 button[disabled]{
     cursor: no-drop;
     opacity: 0.5;
+}
+.errorDiv{
+    color: red;
+    font-size: 12px;
 }

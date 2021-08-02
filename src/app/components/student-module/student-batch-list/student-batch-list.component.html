@@ -1,4 +1,4 @@
-<proctur-popup [sizeWidth]="'large'">
+<!-- <proctur-popup [sizeWidth]="'large'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
         <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px"
@@ -10,26 +10,16 @@
 
     <div class="row" popup-header>
         <div class="c-lg-9">
-            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="!isProfessional">{{schoolModel?'Sections':'Courses'}} and Fee Assignment</h2>
-            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="isProfessional">Batch and Fee Assignment</h2>
+            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="!isProfessional">{{schoolModel?'Sections':'Courses'}}</h2>
+            <h2 style="margin-bottom: 10px;font-size: 14px;" *ngIf="isProfessional">Batch</h2>
         </div>
         <div class="c-lg-3">
-            <div *ngIf="isShowCountry" class="field-wrapper header-select" style="padding: 0px 10px 10px 10px;">
-                <select [disabled]="is_country_disabled"  [(ngModel)]="country_id" class="form-ctrl" 
-                [ngClass]="{'disable_css': is_country_disabled}">
-                    <option value="-1">Select Country</option>
-                    <option [value]="country.id" *ngFor="let country of countryList">
-                        {{country.country_name}} 
-                    </option>
-                </select>
-            </div>
         </div>
     </div>
 
     <div class="batch-wrapper" popup-content >
         <div class="filter-row row" *ngIf="!schoolModel">
             <div class="c-lg-5 radio-filter" style="width: 49.666667%;">
-                <!-- <p style="padding: 20px 10px 0px;">* Fee will be mapped automatically if fee schedules are defined at course level.</p> -->
                 <div class="c-lg-2">
                     <a (click)="getOnlyAssigned()" title="click to view assigned" style="cursor: pointer;">
                         <h3>
@@ -81,7 +71,6 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <!-- changes by Nalini - to handle school model conditions -->
                         <th class="mcourse" *ngIf="!isProfessional && !schoolModel">Master Course</th>
                         <th class="courseN" *ngIf="!isProfessional">{{schoolModel ? 'Section' : 'Course'}}</th>
                         <th class="mcourse" *ngIf="isProfessional">Batch Name</th>
@@ -91,7 +80,6 @@
                         <th *ngIf="isProfessional">Batch Assign Date</th>
                         <th>Academic Year</th>
                         <th  *ngIf="schoolModel" style="width:20%">Optional Subject</th>
-                        <th style="width: 15%;">Fee Template</th>
                     </tr>
                 </thead>
             </table>
@@ -110,7 +98,6 @@
                             </div>
                         </td>
 
-                        <!-- <td class="mcourse" [title]="batch.data.master_course" *ngIf="!isProfessional">{{batch.data.master_course}}</td> -->
                         <td class="mcourse" [title]="batch.data.master_course" *ngIf="!isProfessional && !schoolModel">
                             {{(!batch.data.master_course) ? '-' : (batch.data.master_course.length > 10) ? (batch.data.master_course | slice:0:10) + '...' : batch.data.master_course}}
                         </td>
@@ -154,18 +141,6 @@
                               </ng-multiselect-dropdown>
                             </div>
                         </td>
-                        <td style="width: 15%;">
-                            <div class="field-wrapper">
-                                <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl" (ngModelChange)="onFeeTemplateChanges(batch.data)">
-                                    <option value="-1"></option>
-                                    <option [value]="fee.template_id" [selected]="batch.data.selected_fee_template_id == fee.template_id" *ngFor="let fee of getFeeTemplateCountryWise(batch.data.feeTemplateList)">
-                                        <label title="{{fee.template_name}}">
-                                            {{ (fee.template_name.length > 20) ? (fee.template_name | slice:0:20) + '...' :fee.template_name }}
-                                          </label>
-                                    </option>
-                                </select>
-                            </div>
-                        </td>
                     </tr>
 
                 </tbody>
@@ -189,7 +164,7 @@
         </div>
     </div>
 
-</proctur-popup>
+</proctur-popup> -->
 
 <section [hidden]="alertBox">
     <div class="confirmation_popup">
@@ -208,7 +183,6 @@
         <div class="confirmation_button_container">
             <input type="button" value="Yes" class="btn" (click)="unassign_course()">
             <input type="button" value="No" class="btn" (click)="closeAlert()">
-            <!-- <input type="button" value="Cancel" class="btn" (click)="closeAlert()"> -->
         </div>
     </div>
 </section>
@@ -216,3 +190,151 @@
 <div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">
 
 </div>
+
+
+  <div class="modal fade" id="batchListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="display">
+            <h5 class="modal-title" id="exampleModalLabel">
+                <span *ngIf="!isProfessional">{{schoolModel?'Sections':'Courses'}}</span>
+                <span *ngIf="isProfessional">Batch</span>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeBatchAssign()">
+              <span aria-hidden="true" class="black">&times;</span>
+            </button>
+          </div>
+          <div class="form1 "  *ngIf="!schoolModel">
+            <div class="flex">
+              <div class="mr20 flex space">
+                <div class="field-radio-wrapper flex  mr16 center">
+                  <input type="radio" class="form-radio" [(ngModel)]="batchFilter.state" (ngModelChange)="newMultiFilterFetchBatch()" value="0" name="bFilter">
+                  <label>Both</label>
+                </div>
+                <div class="field-radio-wrapper flex mr16 center">
+                  <input type="radio" class="form-radio" [(ngModel)]="batchFilter.state" (ngModelChange)="newMultiFilterFetchBatch()" value="1" name="bFilter">
+                  <label>Assigned</label>
+                </div>
+                <div class="field-radio-wrapper flex mr16 center">
+                  <input type="radio" class="form-radio" [(ngModel)]="batchFilter.state" (ngModelChange)="newMultiFilterFetchBatch()" value="2" name="bFilter">
+                  <label>Unassigned</label>
+                </div>
+              </div>
+              <select class="input1" *ngIf="!isProfessional" [(ngModel)]="batchFilter.currentStd" (ngModelChange)="fetchDataCustom($event)">
+                <option value="-1">Select Standard</option>
+                <option [value]="standard.standard_id" *ngFor="let standard of standardList">
+                    {{standard.standard_name}}
+                </option>
+              </select>
+            </div>
+            <div>
+              <input placeholder="Search" class="search input1" [(ngModel)]="model" (ngModelChange)="changed($event)">
+            </div>
+          </div>
+          <div _ class="t-shadow">
+            <div>
+  
+            </div>
+            <div *ngIf="!isProfessional && !schoolModel">
+              <label class="label">Master Course</label>
+  
+            </div>
+            <div *ngIf="!isProfessional">
+              <label class="label">{{schoolModel ? 'Section' : 'Course'}}</label>
+            </div>
+            <div *ngIf="isProfessional">
+                <label class="label">Batch Name</label>
+              </div>
+            <div>
+              <label class="label">Start Date</label>
+            </div>
+            <div>
+              <label class="label">End Date</label>
+            </div>
+              <div>
+                <label class="label">
+                    <span *ngIf="!isProfessional">{{schoolModel?'Section':'Course'}} Assign Date</span>
+                    <span *ngIf="isProfessional">Batch Assign Date</span>
+                </label>
+              </div>
+              <div>
+                <label class="label">Academic Year</label>
+              </div>
+              <div *ngIf="schoolModel" style="width: 20%;">
+                <label class="label">Optional Subject</label>
+              </div>
+  
+            </div>
+            <div class="scrool1">
+              <div _ class="table_body" *ngFor="let batch of batchList; let i = index">
+                <div>
+                  <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="batch" [checked]="batch.isSelected" [(ngModel)]="batch.isSelected" [id]="'checkbox-'+i" (ngModelChange)="batchChangeAlert($event, batch)">
+                      <span class="checkbox__control">
+                        <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
+                        </svg>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+                <div [title]="batch.data.master_course" *ngIf="!isProfessional && !schoolModel">
+                 
+                  <p>
+                    {{batch.data.master_course}}
+                    <!-- {{(!batch.data.master_course) ? '-' : (batch.data.master_course.length > 30) ? (batch.data.master_course | slice:0:30) + '...' : batch.data.master_course}} -->
+                  </p>
+                </div>
+                <div [title]="batch.data.course_name" *ngIf="!isProfessional">
+                 
+                  <p>
+                    {{batch.data.course_name}}
+                    <!-- {{(!batch.data.course_name) ? '-' : (batch.data.course_name.length > 30) ? (batch.data.course_name | slice:0:30) + '...' : batch.data.course_name}} -->
+                  </p>
+                </div>
+                <div [title]="batch.data.batch_name" *ngIf="isProfessional">
+                 
+                    <p>
+                      {{batch.data.batch_name}}
+                      <!-- {{(!batch.data.batch_name) ? '-' : (batch.data.batch_name.length > 30) ? (batch.data.batch_name | slice:0:30) + '...' : batch.data.batch_name}} -->
+                    </p>
+                  </div>
+                <div>
+                 
+                  <img src="../../assets/images/students/start_date_img.svg"><span class="span">{{batch.data.start_date}}</span>
+                </div>
+                <div>
+                  <img src="../../assets/images/students/end_data_img.svg"><span class="span">{{batch.data.end_date}}</span>
+                </div>
+                <div class="field-wrapper datePickerBox has-value" style="background: #F5F5F5;padding: 0;height: 30px;">
+                
+                        <input type="text" style="background: none;width: 100%;border: none;" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" readonly="true" class="form-ctrl bsDatepicker input1"
+                            bsDatepicker>
+                </div>
+                <div>
+                    <select class="input1" name="acadyr" id="acadyr" [(ngModel)]="batch.data.academic_year_id" [disabled]="true" [ngStyle]="{'cursor':'not-allowed'}">
+                    <option [value]="year.inst_acad_year_id" [selected]="batch.data.academic_year_id == year.inst_acad_year_id" *ngFor="let year of academicYear">{{year.inst_acad_year}}</option>
+                </select>
+  
+              </div>
+              <div *ngIf="schoolModel" class="field-wrapper" style="padding:0;width: 20%;">
+                    <ng-multiselect-dropdown class="container" style="padding:0"
+                    placeholder="Select Subjects"
+                    [settings]="courseListSetting"
+                    [data]="batch.data.subject_list"
+                    [(ngModel)]="batch.data.optional_subject_id">
+                  </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"  *ngIf="batchList.length != 0" >
+            <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closeBatchAssign()">
+                <input type="button" value="Save" class="fullBlue btn" (click)="assignBatch()">
+            </aside>
+        </div>
+      </div>
+    </div>

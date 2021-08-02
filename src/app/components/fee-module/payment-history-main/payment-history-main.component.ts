@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { HttpService } from '../../../services/http.service';
 import { role } from '../../../model/role_features';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
@@ -19,8 +20,8 @@ import { ColumnData2 } from '../../shared/data-display-table/data-display-table.
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  @ViewChild('child',{static: true}) private child: DataDisplayTableComponent;
-  downloadFeeReportAccess:boolean = false;
+  @ViewChild('child', { static: true }) private child: DataDisplayTableComponent;
+  downloadFeeReportAccess: boolean = false;
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];
   newData: any[] = [];
@@ -47,7 +48,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   ];
   userList: any = [];
-  paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "NEFT/RTGS", "Other"];
+  paymentMode = [];
   chequeStatus: any = [{ value: 1, title: '' }, { value: 2, title: 'Dishonoured' }, { value: 3, title: 'Cleared' }];
   flagJson: any = {
     searchflag: false,
@@ -77,7 +78,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     tableDetails: { title: 'Payment History', key: 'reports.fee.paymentHistory', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false,option:'single', title: 'Purchase Item', checked: true, key: 'student_disp_id' },
+    selectAll: { showSelectAll: false, option: 'single', title: 'Purchase Item', checked: true, key: 'student_disp_id' },
     actionSetting: {},
     displayMessage: "Enter Detail to Search"
   };
@@ -128,50 +129,49 @@ export class PaymentHistoryMainComponent implements OnInit {
     private msgService: MessageShowService,
     private pdf: ExportToPdfService,
     private ref: ChangeDetectorRef,
-    private auth:AuthenticatorService,
+    private auth: AuthenticatorService,
     private _tablePreferencesService: TablePreferencesService,
-    private _commService:CommonServiceFactory
+    private _commService: CommonServiceFactory,
+    private http:HttpService
   ) { }
 
   ngOnInit() {
-    window.scroll(0,0);
+    window.scroll(0, 0);
     this.getAllPaymentHistory();
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (this.role_feature.FEE_MANAGE) {//	Fee Transaction Change if enambled then edit button will show
         this.tableSetting.actionSetting =
-          {
-            showActionButton: true,
-            editOption: 'button',//or popup
-            condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
-            { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
-            // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
-            options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
-          }
-      }
-      else {
-        this.tableSetting.actionSetting =
-          {
-            showActionButton: false,
-            editOption: '',
-            condition: [],
-            options: []
-          }
-      }
-
-    }
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
-      || sessionStorage.getItem('username') == 'admin') {
-      this.tableSetting.actionSetting =
         {
           showActionButton: true,
           editOption: 'button',//or popup
           condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
           { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
-          //{ key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
+          // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
           options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
         }
+      }
+      else {
+        this.tableSetting.actionSetting =
+        {
+          showActionButton: false,
+          editOption: '',
+          condition: [],
+          options: []
+        }
+      }
+
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
+      || sessionStorage.getItem('username') == 'admin') {
+      this.tableSetting.actionSetting =
+      {
+        showActionButton: false,
+        editOption: 'button',//or popup
+        condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
+        { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
+        //{ key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
+        options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+      }
       this.flagJson.showAdmin = true;
       this.getUserList();
     }
@@ -200,10 +200,10 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
   checkDownloadRoleAccess() {
-    if(sessionStorage.getItem('downloadFeeReportAccess')=='true'){
-        this.downloadFeeReportAccess = true;
+    if (sessionStorage.getItem('downloadFeeReportAccess') == 'true') {
+      this.downloadFeeReportAccess = true;
     }
-}
+  }
 
   // set default preferences to payment history table
   setDefaultValues() {
@@ -290,14 +290,14 @@ export class PaymentHistoryMainComponent implements OnInit {
 
           if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
             this.tableSetting.actionSetting =
-              {
-                showActionButton: true,
-                editOption: 'button',//or popup
-                condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
-                { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined}],
-                // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
-                options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
-              }
+            {
+              showActionButton: true,
+              editOption: 'button',//or popup
+              condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
+              { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: undefined }],
+              // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }
+              options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+            }
             this.flagJson.showAdmin = true;
           }
         },
@@ -376,6 +376,9 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
   updateAmount(index, totalAmount) {
+    if (totalAmount == '') {
+      totalAmount = 0;
+    }
     if (totalAmount.toString().indexOf(".") == -1) {
       let bal = this.perPersonData[index].fees_amount;
       if (totalAmount == 0) {
@@ -418,7 +421,9 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   // this sued for edit
   optionSelected(e) {
-    // console.log(e);
+    if(this.paymentMode.length==0){
+      this.getPaymentModes();
+    }
     this.personData = e.data;
     this.updatedResult.paid_date = moment(e.data.paid_date).format("YYYY-MM-DD");
     this.chequeDetailsJson = [];
@@ -433,6 +438,8 @@ export class PaymentHistoryMainComponent implements OnInit {
           this.perPersonData = data.feeSchedule_TxLst;
           this.updatedResult.paymentMode = this.perPersonData[0].paymentMode;
           this.updatedResult.fee_receipt_update_reason = " ";
+          this.updatedResult.remarks = data.remarks;
+          this.updatedResult.reference_no= data.reference_no;
           let totalAmount = 0;
           this.perPersonData.forEach((element, index) => {
             totalAmount += element.amount_paid;
@@ -525,7 +532,7 @@ export class PaymentHistoryMainComponent implements OnInit {
           }
           this.payment.updatePerPersonData(obj).subscribe(
             (data: any) => {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Fee receipt updated successfully');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Fee receipt updated successfully!');
               this.getAllPaymentHistory();
               this.updatedResult.fee_receipt_update_reason = " ";
               this.flagJson.addReportPopUp = false;
@@ -537,11 +544,11 @@ export class PaymentHistoryMainComponent implements OnInit {
         }
       }
       else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Update Reason Cannot Be Empty', '');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Fee update Reason Can not be empty', '');
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Receipt Number Cannot Be Empty', '');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Receipt Number Can not be empty!', '');
     }
   }
 
@@ -555,7 +562,7 @@ export class PaymentHistoryMainComponent implements OnInit {
           if (data[i].amount_paid != this.varJson.tempData.feeSchedule_TxLst[j].amount_paid) {
             if (data[i].amount_paid > this.varJson.tempData.feeSchedule_TxLst[j].amount_paid) {
               // You can not increase amount
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "You can't increase the amount paid", '');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "You can't increase the paid amount!", '');
               return false
             }
             else if (data[i].amount_paid < this.varJson.tempData.feeSchedule_TxLst[j].amount_paid) {
@@ -732,5 +739,15 @@ export class PaymentHistoryMainComponent implements OnInit {
 
     let columns = arr;
     this.pdf.exportToPdf(rows, columns, 'Payment_History_report');
+  }
+  getPaymentModes() {
+    this.http.getData('/api/v1/masterData/type/PAYMENT_MODES').subscribe(
+      (res: any) => {
+        this.paymentMode = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 }

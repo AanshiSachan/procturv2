@@ -1,10 +1,10 @@
 <div class="middle-section clearFix">
     <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
         <h1 class="pull-left" *ngIf="selectedTeacherId==undefined">
-            Add Faculty
+            Add Teacher
         </h1>
         <h1 class="pull-left" *ngIf="selectedTeacherId != undefined">
-            Edit Faculty
+            Edit Teacher
         </h1>
     </section>
 
@@ -14,7 +14,7 @@
             <div class="pull-left">
                 <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="addOrEditFun()">
                     <div class="row field-wrapper">
-                        <label for="name">Faculty Name
+                        <label for="name">Teacher Name
                             <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-ctrl" formControlName="teacher_name" name="name">
@@ -22,7 +22,7 @@
                         <div *ngIf="editTeacherForm.controls['teacher_name'].invalid && (editTeacherForm.controls['teacher_name'].dirty || editTeacherForm.controls['teacher_name'].touched)"
                             class="alert alert-danger">
                             <div *ngIf="editTeacherForm.controls['teacher_name'].hasError('required')">
-                                Faculty Name is required.
+                                Teacher Name is required.
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                         <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
-                                <label for="allow">Allow faculty to only mark attendance</label>
+                                <label for="allow">Allow teacher to only mark attendance</label>
                             </div>
                         </div>
 

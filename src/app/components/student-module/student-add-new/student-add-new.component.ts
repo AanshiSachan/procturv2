@@ -322,6 +322,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   schoolModel: boolean = false;
   masterDataList: any = {};
   showRollNoField: boolean = false;
+  activeSession:any='';
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -339,6 +340,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.activeSession = 'student_details';
     // changes by Nalini - to handle school model conditions
     this.auth.schoolModel.subscribe(
       res => {
@@ -348,13 +350,10 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         }
       }
     )
-    if (this.schoolModel) {
       this.commonApiCall.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
-    }
     this.fetchDataForCountryDetails();
-    this.getStateList();
     this.fetchCustomComponents();
   }
   /* ========================================================================================================== */
@@ -372,6 +371,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     } else {
       this.checkStatusofStudent = true;
       this.fetchDataForCountryDetails();
+      this.getStateList();
     }
 
     if (this.isProfessional) {
@@ -384,14 +384,14 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (this.role_feature.FEE_MANAGE) { //fee reconfiguration
+      if (this.role_feature.FEE_MENU) { //fee reconfiguration
         this.checkBoxGroup.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (!this.role_feature.FEE_MANAGE) {//1.	Fee Payment for Past Dates
+      if (!this.role_feature.FEE_MENU) {//1.	Fee Payment for Past Dates
         this.checkBoxGroup.showFeeSection = false;
       }
-      if (this.role_feature.FEE_MANAGE) { //1.	Fee discount
+      if (this.role_feature.FEE_MENU) { //1.	Fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
       if (this.role_feature.FEE_CHEQUE_MANAGE) { //update payment and manage cheque,pdc
@@ -429,6 +429,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (this.studentAddFormData.country_id == "") {
         this.studentAddFormData.country_id = defacult_Country[0].id;
         this.instituteCountryDetObj = defacult_Country[0];
+        this.country_id = defacult_Country[0].id;
         if (this.checkStatusofStudent == true) { // when enquiry is convert to student it  false else true
           this.country_id = defacult_Country[0].id;
           this.maxlegth = defacult_Country[0].country_phone_number_length;
@@ -540,6 +541,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   toggleAddArea() {
     if (this.addArea) {
       this.addArea = false;
+      this.getAreaList();
     }
     else {
       this.addArea = true;
@@ -665,7 +667,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (this.student_id == 0 || this.student_id == null) {
           document.getElementById('li-one').classList.add('active');
           document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.remove('active');
+          // document.getElementById('li-three').classList.remove('active');
+          // document.getElementById('li-four').classList.remove('active');
           this.isBasicActive = true;
           this.isOtherActive = false;
           this.isFeeActive = false;
@@ -681,11 +684,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.add('step_active');
           document.getElementById('li-two').classList.add('active');
-          document.getElementById('li-three').classList.remove('active');
+          // document.getElementById('li-three').classList.remove('active');
           this.isBasicActive = false;
           this.isOtherActive = true;
           this.isFeeActive = false;
-          this.fetchCustomComponents();
+          // this.fetchCustomComponents();
         }
         else {
           this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
@@ -696,8 +699,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         if (this.student_id != 0 && this.student_id != null) {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.add('step_active');
-          document.getElementById('li-three').classList.add('active');
+          // document.getElementById('li-three').classList.add('step_active');
+          // document.getElementById('li-three').classList.add('active');
           this.isBasicActive = false;
           this.isOtherActive = false;
           this.isFeeActive = true;
@@ -1214,7 +1217,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
-        let msg = this.schoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
+        let msg = this.schoolModel ? 'Please enter a valid registration number' : 'Please enter a valid Student Id';
         this.msgToast.showErrorMessage('error', '', msg);
       }
     }
@@ -1323,7 +1326,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
               if (this.studentAddnMove) {
                 this.updateStudentFeeDetails();
                 sessionStorage.removeItem('studentPrefill'); // remove enquiry coverted stud --laxmi
-                this.navigateTo('feeDetails');
+                this.router.navigate(['/view/students']);
+                // this.navigateTo('feeDetails');
               }
             }
             else if (statusCode == 2) {
@@ -1350,9 +1354,9 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       if (!isCustomComponentValid) {
         this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
-      // else if (!formValid) {
-      //   this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
-      // }
+      else if (!formValid) {
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please enter valid name and contact number on personal details tab");
+      }
     }
 
   }
@@ -1383,7 +1387,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
             this.msgToast.showErrorMessage('success', '', "Student details updated successfully");
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
-              this.navigateTo('feeDetails');
+              // this.navigateTo('feeDetails');
+              this.router.navigate(['/view/students']);
             }
           }
           else {
@@ -1422,7 +1427,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           this.getCourseDropdown(res.generated_id);
           if (this.studentAddnMove) {
             this.updateStudentFeeDetails();
-            this.navigateTo('feeDetails');
+            // this.navigateTo('feeDetails');
+            this.router.navigate(['/view/students']);
           }
         }
         else if (statusCode == 2) {
@@ -1584,7 +1590,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
             this.getCourseDropdown(res.generated_id);
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
-              this.navigateTo('feeDetails');
+              // this.navigateTo('feeDetails');
+              this.router.navigate(['/view/students']);
             }
           }
           else if (statusCode == 2) {
@@ -1669,6 +1676,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
     this.studentAddFormData.state_id = this.enquiryData.state_id;
     this.studentAddFormData.city_id = this.enquiryData.city_id;
     this.studentAddFormData.area_id = this.enquiryData.area_id;
+    this.studentAddFormData.comments = this.enquiryData.comments;
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.assigned_to_id = this.enquiryData.assigned_to;
@@ -1678,7 +1686,6 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid Date') {
       this.studentAddFormData.dob = '';
     }
-    if (this.schoolModel) {
       this.studentAddFormData.student_perm_addr = this.enquiryData.student_perm_addr;
       this.studentAddFormData.birth_place = this.enquiryData.birth_place,
         this.studentAddFormData.blood_group = this.enquiryData.blood_group,
@@ -1687,7 +1694,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.student_adhar_no = this.enquiryData.student_adhar_no,
         this.studentAddFormData.parent_adhar_no = this.enquiryData.parent_adhar_no,
         this.studentAddFormData.parent_profession = this.enquiryData.parent_profession,
-        // this.studentAddFormData.mother_tounge = this.enquiryData.mother_tounge,
+        this.studentAddFormData.mother_tounge = this.enquiryData.mother_tounge,
         this.studentAddFormData.extra_curricular_activities = this.enquiryData.extra_curricular_activities,
         this.studentAddFormData.educational_group = this.enquiryData.educational_group,
         this.studentAddFormData.pin_code = this.enquiryData.pin_code,
@@ -1695,9 +1702,11 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.guardian_email = this.enquiryData.guardian_email,
         this.studentAddFormData.guardian_phone = this.enquiryData.guardian_phone,
         this.studentAddFormData.religion = this.enquiryData.religion
-    }
     this.checkStatusofStudent = false;
     this.onChangeObj(this.enquiryData.country_id);
+    if(this.studentAddFormData.standard_id !='-1') {
+      this.fetchCourseListByStdId(this.studentAddFormData.standard_id);
+    }
   }
 
   fetchEnquiryCustomComponentDetails() {
@@ -1781,7 +1790,8 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
       stuCustomLi: [],
       deleteCourse_SubjectUnPaidFeeSchedules: false
     };
-    form.reset();
+    // form.reset();
+    // this.fetchDataForCountryDetails();
 
     if (this.isConvertEnquiry) {
       this.router.navigate(['/view/leads/enquiry']);
@@ -1840,7 +1850,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!this.role_feature.FEE_MANAGE) {
+            if (!this.role_feature.FEE_MENU) {
               this.checkBoxGroup.hideReconfigure = false;
             }
           }
@@ -1851,7 +1861,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (this.role_feature.FEE_MANAGE) {
+            if (this.role_feature.FEE_MENU) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
@@ -1859,7 +1869,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.hideReconfigure = false;
             }
 
-            if (this.role_feature.FEE_MANAGE) {
+            if (this.role_feature.FEE_MENU) {
               this.checkBoxGroup.feeDiscouting = true;
             }
 
@@ -2674,7 +2684,7 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
         this.msgToast.showErrorMessage('error', '', "No file selected");
       }
     } else {
-      this.msgToast.showErrorMessage('error', '', "Document title is mandatory");
+      this.msgToast.showErrorMessage('error', '', "Document Title is mandatory");
     }
   }
 
@@ -2686,8 +2696,14 @@ export class StudentAddNewComponent implements OnInit, OnDestroy {
   }
   fetchCourseListByStdId(standard_id) {
     if (this.schoolModel) {
+      this.assignedBatchString = '';
+      this.showRollNoField = false;
       this.updateMasterCourseList(standard_id);
     }
+  }
+
+  scrollFn(el: HTMLElement){
+    el.scrollIntoView();
   }
 }
 

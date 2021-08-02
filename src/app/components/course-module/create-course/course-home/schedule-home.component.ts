@@ -6,6 +6,7 @@ import { AppComponent } from '../../../../app.component';
 import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { StandardServices } from '../../../../services/course-services/standard.service';
+declare var $;
 
 
 @Component({
@@ -36,8 +37,9 @@ export class ScheduleHomeComponent implements OnInit {
   isLangInstitue: boolean = false;
   sortingDir: string = "asc";
   role_feature = role.features;
+  isEdit: boolean = false;
   @ViewChild('#StdName',{static: false}) standard_name_label: ElementRef
-  activeList: boolean = false;
+  activeList: boolean = true;
   constructor(
     private apiService: StandardServices,
     private toastCtrl: AppComponent,
@@ -63,7 +65,7 @@ export class ScheduleHomeComponent implements OnInit {
         data.sort(function (a, b) {
           return moment(a.created_date).unix() - moment(b.created_date).unix();
         })
-        if (this.activeList == false) {
+        if (this.activeList == true) {
           this.standardListDataSource = [];
           for (let i = 0; i < data.length; i++) {
             if (data[i].is_active === "Y") {
@@ -77,7 +79,7 @@ export class ScheduleHomeComponent implements OnInit {
           this.auth.hideLoader();
           this.dataStatus = 2;
         }
-        else if (this.activeList == true) {
+        else if (this.activeList == false) {
           this.standardListDataSource = [];
           for (let i = 0; i < data.length; i++) {
             if (data[i].is_active === "N") {
@@ -132,6 +134,13 @@ export class ScheduleHomeComponent implements OnInit {
   addNewStandard() {
     if (this.newStandardDetails.standard_name == "") {
       this.no_standard_name = true;
+      let msg = (this.isLangInstitue != true) ? 'Please enter valid Standard Name' : 'Please enter valid Master Course';
+      let data = {
+        type: "error",
+        title: '',
+        body: msg
+      }
+      this.toastCtrl.popToast(data);
     } else {
       this.auth.showLoader();
       if (this.newStandardDetails.is_active == true || this.newStandardDetails.is_active == "Y") {
@@ -157,10 +166,7 @@ export class ScheduleHomeComponent implements OnInit {
             body: msg
           }
           this.toastCtrl.popToast(data);
-          this.newStandardDetails = {
-            is_active: "Y",
-            standard_name: ""
-          }
+          this.closePopup();
           this.getAllStandardList();
           this.auth.hideLoader();
           this.no_standard_name = false;
@@ -196,10 +202,18 @@ export class ScheduleHomeComponent implements OnInit {
       this.totalRow = this.standardListDataSource.length;
     }
   }
+  
 
-  editRow(id) {
-    document.getElementById(("row" + id).toString()).classList.remove('displayComp');
-    document.getElementById(("row" + id).toString()).classList.add('editComp');
+  editRow(obj) {
+    this.isEdit = true;
+    console.log(obj);
+    this.newStandardDetails.standard_name = obj.standard_name;
+    this.newStandardDetails.is_active = obj.is_active == 'Y' ? true : false;
+    this.newStandardDetails.institution_id = obj.institution_id;
+    this.newStandardDetails.standard_id = obj.standard_id;
+    $('#standardModal').modal('show');
+    // document.getElementById(("row" + id).toString()).classList.remove('displayComp');
+    // document.getElementById(("row" + id).toString()).classList.add('editComp');
   }
 
   cancelRow(id) {
@@ -208,21 +222,38 @@ export class ScheduleHomeComponent implements OnInit {
     this.getAllStandardList();
   }
 
-  updateRow(row, id) {
+  saveStandard() {
+    this.isEdit ? this.updateRow() : this.addNewStandard();
+  }
+
+  updateRow() {
+    if (this.newStandardDetails.standard_name == "") {
+      this.no_standard_name = true;
+      let msg = (this.isLangInstitue != true) ? 'Please enter valid Standard Name' : 'Please enter valid Master Course';
+      let data = {
+        type: "error",
+        title: '',
+        body: msg
+      }
+      this.toastCtrl.popToast(data);
+    } else {
     let data: any = {};
-    data.is_active = row.is_active;
-    data.standard_name = row.standard_name;
-    data.institution_id = row.institution_id;
+    data.is_active = this.newStandardDetails.is_active ? 'Y' : 'N';
+    data.standard_name = this.newStandardDetails.standard_name;
+    data.institution_id = this.newStandardDetails.institution_id;
     this.auth.showLoader();
-    this.apiService.updateStanadardRowData(data, row.standard_id).subscribe(
+    this.apiService.updateStanadardRowData(data, this.newStandardDetails.standard_id).subscribe(
       data => {
+        let tempMsg = this.isLangInstitue ? 'Master Course Updated Successfully' : 'Standard Updated Successfully!';
         let msg = {
           type: "success",
-          title: "Standard Updated",
-          body: "Standard Updated Successfully!"
+          title: "",
+          body: tempMsg
         }
         this.toastCtrl.popToast(msg);
-        this.cancelRow(id);
+        this.closePopup();
+        this.getAllStandardList();
+        // this.cancelRow(id);
         this.auth.hideLoader();
       },
       error => {
@@ -236,6 +267,7 @@ export class ScheduleHomeComponent implements OnInit {
 
       }
     )
+    }
   }
 
   clickSN() {
@@ -267,6 +299,17 @@ export class ScheduleHomeComponent implements OnInit {
 
         }
       )
+    }
+
+  }
+
+  closePopup() {
+    this.isEdit = false;
+    $('#standardModal').modal('hide');
+    this.newStandardDetails = {
+      is_active: "Y",
+      standard_name: "",
+      standard_id:''
     }
   }
 

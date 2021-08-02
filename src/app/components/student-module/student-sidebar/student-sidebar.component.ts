@@ -6,6 +6,9 @@ import { HttpService } from '../../../services/http.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { role } from '../../../model/role_features';
+import {ActivatedRoute} from '@angular/router'; 
+
+declare var $;
 
 @Component({
   selector: 'student-sidebar',
@@ -15,11 +18,12 @@ import { role } from '../../../model/role_features';
 })
 export class StudentSidebarComponent implements OnInit, OnChanges {
 
+
+
   isProfessional: boolean;
   @Input() rowData: any;
   @Input() customComponent: any;
   @Input() studentDetails: any;
-
   @Output() closeSide = new EventEmitter<any>();
   @Output() editStudent = new EventEmitter<any>();
   @Output() deleteStudent = new EventEmitter<any>();
@@ -29,28 +33,30 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() invEdit = new EventEmitter<any>();
   @Output() showToggleLoader = new EventEmitter<any>();
   @Output() downloadCertificate = new EventEmitter<any>();
-
   @Output() openCourseAssigned = new EventEmitter<boolean>();
-
-  //@ViewChild('acc') acc: ElementRef;
+//@ViewChild('acc') acc: ElementRef;
   @ViewChild('one', { static: true }) one: ElementRef;
   @ViewChild('two', { static: true }) two: ElementRef;
+  @ViewChild("content", { static: false }) content: ElementRef;
 
 
   @ViewChild('imgDisp', { static: true }) im: ElementRef;
-  private showMenu: boolean = false;
+  allowEdit = false;
   certificate: boolean = false;
   containerWidth: string = "50px";
-  studentServerImage: any = '';
-  readonly: boolean = true;
-  institute_id: any;
   downloadStudentReportAccess: boolean = false;
-  studdentEdit = true;
+  institute_id: any;
   isSubAdmin = false;
-  allowEdit = false;
+  private showMenu: boolean = false;
+  readonly: boolean = true;
   role_feature = role.features;
+  studdentEdit = true;
   studentReport: boolean = false;
+  Fee_menu: boolean = false;
+  conductCertificateFlag:boolean = false;
 
+  studentServerImage: any = '';
+  isSchoolModel: boolean=false;
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
     school_id: -1,
@@ -65,9 +71,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     master_course_name: "",
     course_id: -1,
   };
-  isSchoolModel: boolean=false;
-
-
+  //isSchoolModel: boolean=false;
+  awsDownloadLink:any
+  
   constructor(
     private eRef: ElementRef,
     private auth: AuthenticatorService,
@@ -75,7 +81,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     private router: Router,
     private _http: HttpService,
     private _commService: CommonServiceFactory,
-    private PostStudService: PostStudentDataService
+    private PostStudService: PostStudentDataService,
+    private activatedRoute : ActivatedRoute
   ) {
     this.auth.institute_type.subscribe(
       res => {
@@ -93,20 +100,26 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     const permissionArray = sessionStorage.getItem('permissions');
     const userType = sessionStorage.getItem('userType');
 
-    if (userType == '0' && (permissionArray != "" && permissionArray != null)) {
+    if (userType == '3' ||(userType == '0' && (permissionArray != "" && permissionArray != null))) {
       this.isSubAdmin = true;
       this.studentReport = this.role_feature.STUDENT_REPORT_CARD;
       this.allowEdit = this.role_feature.STUDENT_MANAGE;
+      if(this.role_feature.FEE_MENU && this.role_feature.FEE_UPDATE) {
+        this.Fee_menu = true;
+      }
     } else {
       this.studentReport = true;
       this.allowEdit = true;
+      this.Fee_menu = true;
     }
     this.auth.schoolModel.subscribe(data=>{
       this.isSchoolModel=data='true'?true:false;
       })
+      
   }
 
   ngOnInit() {
+   
   }
 
   ngOnChanges() {
@@ -133,6 +146,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   gotoStudentReportcard() {
     this.router.navigateByUrl("/view/students/reportcard/" + this.rowData.student_id)
+
   }
 
   gotodownloadCertificate() {
@@ -219,10 +233,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.cd.markForCheck();
     this.leaveEvent.emit(this.rowData.student_id);
   }
-
+//id:any
   emitEditLeave() {
     this.cd.markForCheck();
     this.pdcEdit.emit(this.rowData.student_id);
+    //this.id = this.rowData.student_id
   }
 
 

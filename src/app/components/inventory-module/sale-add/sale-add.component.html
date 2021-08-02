@@ -1,0 +1,312 @@
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98">
+        <div class="page_heading">
+          <p>Sale Item</p>
+        </div>
+      </div>
+    </div>
+    <form  #myForm="ngForm" autocomplete="off">
+      <div class="w98 flex">
+        <div class="div_11">
+          <div class="heading1">
+            <p>Sale</p>
+          </div>
+           <div class="pt102">
+                <label class="p_title"> Role<span class="text-danger">*</span></label>
+             <select class="select wid100"  name="user_role" id="user_role"
+                  (change)="getUserAgainstRole($event.target.value)" [(ngModel)]="model.user_role">
+                     <option value="">Select Role</option>
+                     <option value="0">Student</option>
+                     <option value="{{datas.role_id}}" *ngFor="let datas of roleAllData">{{datas.name}}{{datas.role_name}}</option>
+                   </select>
+              </div>
+                 <div class="pt102">
+                  <label class="p_title"> User<span class="text-danger">*</span></label>
+                 <select class="select wid100" name="user_id" id="user_id"
+                  [(ngModel)]="model.user_id">
+                    <option value="">Select User</option>
+                    <option value="{{datas.user_id}}" *ngFor="let datas of userALLdata">{{datas.name}}</option>
+                  </select>
+              </div>
+                 <div class="pt102">
+                  <label class="p_title"> Refrence No.<span class="text-danger">*</span></label>
+                <input type="text"  (keyup)="maxlenth(model.reference_number,30)" class="input wid100" name="Enter Reference Number"
+                    id="reference_number" placeholder="Refrence No."
+                    [(ngModel)]="model.reference_number">
+              </div>
+               <div class="pt102">
+                <label class="p_title"> Date<span class="text-danger">*</span></label>
+               <input type="Date" class="input wid100" name="sale_date" placeholder="Date"
+          [(ngModel)]="model.sale_date" #purchase_date="ngModel"
+          (change)="validateFutureDate($event)" required>
+              </div>
+               <div class="pt102">
+                <label class="p_title"> Payment Status<span class="text-danger">*</span></label>
+                <select class="select wid100" name="payment_status" id="payment_status" 
+                   [(ngModel)]="model.payment_status" required>
+                    <option value="">Select Payment Status</option>
+                    <!-- <option value="Due">Due</option> -->
+                    <option value="Pending"> Pending</option>
+                    <option value="Paid">Paid</option>
+                  </select>
+              </div>
+              <div class="pt102">
+                <label class="p_title"> Bill Copy</label>
+                <input type="File" class="input wid100" (change)="readFile($event,'billImageFile')" title="Allowed file format PDF/Jpeg/png/svg/jpg and allowed  file size upto 5Mb"  name="billImageFile" placeholder="Date*" id="billImageFile"
+               style="margin-top:8px;"
+               [disabled]="isedit && model.bill_image_url !='' && model.bill_image_url!=null"
+                [(ngModel)]="model.bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/">
+              </div>
+              <div class="pt102"  *ngIf="isedit && model.bill_image_url !='' && model.bill_image_url!=null">
+                <ul class="p_title">
+                  <li>Bill Copy</li>
+                  <li (click)="clearFile()" title="Delete Bill copy"><i class="fa fa-trash" style="color:red;font-size: 18px;"></i>
+                  </li>
+                  <li>
+                      <a href="{{model.bill_image_url}}" target="_blank" title="Download Bill copy"><i class="fa fa-download"
+                              style="color:#064d0f;font-size: 18px;"></i> </a>
+                  </li>
+              </ul>
+                </div>
+                <br>
+              <div class="pt102">
+                <label class="p_title"> Description</label>
+                <textarea class="input wid100 textarea1" (keyup)="maxlenth(model.description,70)" name="description" id="description" placeholder="Enter Description"
+                [(ngModel)]="model.description"></textarea>
+              </div>
+        </div>
+       <div  class="div_2">
+          <div class="heading1 ">
+            <p>Sale Item</p>
+          </div>
+            <div class="pt102">
+              <!-- <label class="p_title"> Category <span class="text-danger">*</span></label>-->
+                 <select class="select sel1 mr10" id="category_id" name="category_id" 
+                  (change)="getItemAgainstCat($event.target.value)">
+                    <option value="">Select Category*</option>
+                    <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">{{data.category_name}}</option>
+                  </select>
+              <!-- <label class="p_title"> Item <span class="text-danger">*</span></label>-->
+                 <select class="select sel1 mr10" name="item_id" id="category_id" (ngModelChange)="getItemData($event)"
+                  ngModel #item_id="ngModel">
+                    <option value="" selected>Select Item*</option>
+                    <option value="{{data.item_id}}" *ngFor="let data of itemArray">
+                      {{data.item_name}}</option>
+                  </select>
+            </div>
+           <div class="sale_add">
+              <div class="tablehead">
+              <div>
+                Item
+              </div>
+              <div>
+                Sale Type
+              </div>
+              <div>
+                Sale Price
+              </div>
+              <div>
+                Units
+              </div>
+              <div>
+                Taxes
+              </div>
+              <div>
+                Sub-total
+              </div>
+              <div>
+                Action
+              </div>
+            </div>
+            <div class="tablebody"*ngFor="let data of itemData;let i=index">
+              <div>
+                {{data.item_name}}
+              </div>
+              <div>
+                <select class="input wid80" [name]="'sale_type' +i " [id]="'sale_type' +i" 
+                [(ngModel)]="data.sale_type"
+                (ngModelChange)="purchaselistItem()">
+           
+                  <option value="Paid" selected>Paid</option>
+                  <option value="Free">Free</option>
+                </select>
+              </div>
+              <div>
+              <input type="text" [name]="'unit'+i" [id]="'unit'+i" [(ngModel)]="data.sale_price"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+              event.charCode == 46 || event.charCode == 0 "
+                (keyup)="purchaselistItem()"
+                 class="input wid80"
+               >
+               
+              </div>
+              <div>
+                <input type="text" [name]="'unitsj'+i" [id]="'unitsj'+i" 
+                [(ngModel)]="data.available_units"
+                (keyup)="purchaselistItem()"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                  class="input wid80"
+                  >
+              </div>
+              <div>
+                <input type="text" [name]="'quantity'+i" [id]="'quantity'+i" readonly
+                [(ngModel)]="data.tax_percent"
+                (ngModelChange)="purchaselistItem()"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                  class="input wid80"
+                  >
+              </div>
+              <div >
+              <span *ngIf="data.sale_price !=0">{{(data.subtotal).toFixed(2)}}</span>  
+             <sapn *ngIf="data.sale_price==0">0</sapn>
+            </div>
+                <div>
+                <!-- <a (click)="editdata(data)"><img src="../../../../assets/img1/edit.svg" title="Edit"
+                  class="group18 mr10"></a> -->
+              <a (click)="deleteItemData(i)"><img src="../../../../assets/img1/delete.svg" title="Delete" class="group18"></a>
+              </div>
+            </div>
+           
+            <div class="tabletotal" *ngIf="isChange">
+              <div>
+                
+              </div>
+               <div>
+                
+              </div>
+              <div>
+               Total
+              </div>
+              <div>
+                {{totalUnits}}
+              </div>
+              <div>
+                {{total}}
+              </div>
+              <div>
+              </div>
+            </div>
+           </div>
+           <div *ngIf="model.payment_status =='Paid' ">
+            <div style="display:flex;justify-content: space-around;margin-top:10px;" class="hi">
+             <div> <div class="pt102">
+              <label class="p_title"> Refrence No.<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100 a" name="reference_no" [(ngModel)]="model.reference_no" 
+              placeholder="Enter Reference Number">
+          </div></div>
+             <div> <div class="pt102">
+              <label class="p_title"> Amount<span class="text-danger">*</span></label>
+              <input type="text" class="input wid100 a" id="paid_amount" name="paid_amount" placeholder="Enter Amount"
+              #paid_amount="ngModel" (keyup)="amountValid(total,model.paid_amount)" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+              event.charCode == 46 || event.charCode == 0 "
+              required
+              [(ngModel)]="model.paid_amount">
+          </div></div>
+             <div> <div class="pt102">
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+              <select class="select wid100 a" name="payment_method" id="payment_method"
+                [(ngModel)]="model.payment_method"   #payment_method="ngModel"
+                required>
+                  <option value="">Select Payment Method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="Card">Card</option>
+                  <option value="Others">Others</option>
+                </select>
+            </div></div>
+            
+           </div> 
+          <div style="display:flex;justify-content: space-around;" class="hi">
+           
+            
+            <div> <div class="pt10"  [class.has-error]="payment_date.invalid && payment_date.touched">
+              <label class="p_title"> Date<span class="text-danger">*</span></label>
+               <input type="Date" class="input wid100" [(ngModel)]="model.payment_date"
+                name="payment_date" placeholder="Date*"
+                (change)="validateFutureDate($event)"
+                #payment_date="ngModel" required>
+            </div></div>
+            <div> <div class="pt102">
+              <label class="p_title"> Upload Receipt</label>
+              <input type="File" class="input wid100" placeholder="Date*"  (change)="readFile($event,'paymentBill')" title="Allowed file format PDF/Jpeg/png/svg/jpg and allowed  file size upto 5Mb"
+                type="File" class="input wid100" placeholder="Date*" name="paymentBill"
+            [disabled]="paymentBill  !=''&& isedit" id="paymentBill" 
+            [(ngModel)]="paymentBill  " accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+            </div></div>
+            <div> <div class="pt102"  style="display:none;">
+              <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+              <select class="select wid100" name="payment_method" id="payment_method"
+                [(ngModel)]="model.payment_method"   #payment_method="ngModel"
+                required>
+                  <option value="">Select Payment Method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="Card">Card</option>
+                  <option value="Others">Others</option>
+                </select>
+            </div></div>
+          </div> 
+          </div>
+       </div>
+     
+      </div>
+     
+      </form>
+      
+       <div class="white bottom_button bottom_pagignation">
+        <div class="display w98">
+          <div> <button class="blue_button cancel" routerLink="/view/inventory-management/sale-item">Back </button>
+          </div>
+          <div style="margin-bottom: 10px;">
+            <button class="blue_button" (click)="saveSaleDetails()" *ngIf="!isedit">Add Sale</button>
+            <button class="blue_button" (click)="updateSaleData()" *ngIf="isedit">Update</button>
+          </div>
+        </div>
+      <!-- pagignation div -->
+      
+    </div>
+     
+          <!-- use image only when page is empty,table body class element will not be present -->
+
+</div> 
+  <div class="modal" id="addpayModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Add Payment</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="flex">
+            <div class="sec1">
+              <div class="pt10">
+                  <input type="Date" class="input wid100" name="" placeholder="Date*">
+              </div>
+              <div class="pt10">
+                  <select class="select wid100">
+                    <option>Payment Method*</option>
+                  </select>
+              </div>
+              <div class="pt10">
+                  <input type="File" class="input wid100" name="" placeholder="Date*">
+              </div>
+            </div>
+            <div class="sec2">
+              <div class="pt10">
+                  <input type="text" class="input wid100" name="" placeholder="Refrence No.">
+              </div>
+              <div class="pt10">
+                  <input type="text" class="input wid100" name="" placeholder="Amount*">
+              </div>
+             
+            </div>
+          </div>
+          <div class="pt10">
+            <button class="right blue_button">Save</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  

@@ -37,7 +37,7 @@ export class AssetAssignmentComponent implements OnInit {
   locationAllData: any = [];
   totalRow: any;
   tempLocationList: any;
-  assignDataforDownload: [];
+  assignDataforDownload=[];
   rolesListDataSource: any = [];
   model = {
     id: '',
@@ -68,19 +68,19 @@ export class AssetAssignmentComponent implements OnInit {
     this.setTableData();
     this.getCategoryDetails();
     this.getAssetDetails();
-    this.getCheckOutBy();
+    //this.getCheckOutBy();
     this.getRolesList();
     this.getAssignDetails();
   }
   setTableData() {
     this.headerSetting = [
-      {
-        primary_key: 'id',
-        value: "Id",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'id',
+      //   value: "Id",
+      //   charactLimit: 25,
+      //   sorting: true,
+      //   visibility: true
+      // },
       {
         primary_key: 'asset_name',
         value: "Asset",
@@ -115,7 +115,7 @@ export class AssetAssignmentComponent implements OnInit {
         primary_key: 'check_in_date',
         value: "Check In Date",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -133,10 +133,10 @@ export class AssetAssignmentComponent implements OnInit {
         visibility: true
       },
       {
-        primary_key: 'status',
-        value: "Status",
+        primary_key: 'note',
+        value: "Note",
         charactLimit: 25,
-        sorting: true,
+        sorting: false,
         visibility: true
       },
       {
@@ -158,10 +158,10 @@ export class AssetAssignmentComponent implements OnInit {
     }
 
     this.rowColumns = [
-      {
-        width: "10%",
-        textAlign: "left"
-      },
+      // {
+      //   width: "10%",
+      //   textAlign: "left"
+      // },
       {
         width: "10%",
         textAlign: "left"
@@ -176,23 +176,23 @@ export class AssetAssignmentComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
-        width: "10%",
+        width: "12%",
         textAlign: "left"
       },
       {
@@ -238,18 +238,18 @@ export class AssetAssignmentComponent implements OnInit {
       this.model.check_in_date = this.model.check_in_date ? moment(this.model.check_in_date).format("YYYY-MM-DD"): '';
       this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD");
         this.httpService.postMethod('api/v2/asset/assignment/create', this.model).then((res) => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Asset Assign Successfully");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Assigned Successfully");
        this.getAssignDetails();
         this.cancel(false);
         $('#modelforassetAssign').modal('hide');
       },
         err => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Requested asset quantity is more than available" );
-      
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+       
         })
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All Field Required");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field");
     
     }
 
@@ -273,9 +273,9 @@ export class AssetAssignmentComponent implements OnInit {
   }
 
   editRow(object) {
+    this.assetAllData=[];
     this.isedit = true;
     this.model.id = object.data.id;
-    this.model = object.data;
     this.model.asset_id = object.data.asset_id;
    this.model.check_out_date = object.data.check_out_date;
     this.model.check_in_date = object.data.check_in_date;
@@ -287,26 +287,34 @@ export class AssetAssignmentComponent implements OnInit {
     this.model.note = object.data.note;
     this.model.category_id = object.data.category_id;
     this.model.check_out_user_id = object.data.check_out_user_id;
+    this.getassetsAndLocation(this.model.category_id);
     $('#modelforassetAssign').modal('show');
+    //this.getRolesList();
+    this.getCheckOutBy(this.model.user_type);
   }
-
+  tempObj
+  deleteRowConfirm(object){
+this.tempObj =object.data.id;
+$('#deletesModal').modal('show');
+  }
   deleteRow(obj) {
-    let deleteconfirm = confirm("Are you really want to delete?");
-    if (deleteconfirm == true) {
+    // let deleteconfirm = confirm("Are you really want to delete?");
+    // if (deleteconfirm == true) {
     this.auth.showLoader();
-    this.httpService.deleteMethod('/api/v2/asset/assignment/delete/' + obj.data.id + '?instituteId=' + this.model.institute_id).then(
+    this.httpService.deleteMethod('/api/v2/asset/assignment/delete/' + obj + '?instituteId=' + this.model.institute_id).then(
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', ' Deleted Successfully');
-
+        $('#deletesModal').modal('hide');
         this.getAssignDetails();
-        this.auth.showLoader();
       },
       err => {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error[0].error_message);
+            
         this.auth.hideLoader();
       }
     );
-    }
+   // }
   }
 
   updateAssetAssignDetails() {
@@ -315,20 +323,20 @@ export class AssetAssignmentComponent implements OnInit {
       this.model.check_in_date = this.model.check_in_date ? moment(this.model.check_in_date).format("YYYY-MM-DD"): '';
       this.model.check_out_date = moment(this.model.check_out_date).format("YYYY-MM-DD");
     this.httpService.putMethod('api/v2/asset/assignment/update', this.model).then(() => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success,'',"Assignment details of Asset is Updated Successfully ")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success,'',"Updated Successfully")
       this.cancel(false)
       $('#modelforassetAssign').modal('hide');
       this.getAssignDetails();
-     
-   
-    },
+     },
       err => {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.error[0].error_message);
+        
         this.auth.hideLoader();
 
       })
    }
     else{
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "All  fields Required")
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please fill all mandatory field")
     }
   }
   cancel(param) {
@@ -355,6 +363,21 @@ export class AssetAssignmentComponent implements OnInit {
       this.staticPageData = this.tempLocationList;
     }
     else {
+      this.auth.showLoader();
+      this.httpService.getMethod('api/v2/asset/assignment/search?searchString='+this.searchParams + '&instituteId='+this.model.institute_id, null).subscribe(
+        (res: any) => {
+          this.staticPageData = res.result.response;
+          this.tempLocationList = res.result.response;
+          this.totalRecords = res.result.total_elements;
+          this.auth.hideLoader();
+          if(this.staticPageData.length==0){
+            this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "No Data Found");
+          }
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
       let searchData = this.tempLocationList.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchParams.toLowerCase()))
@@ -382,17 +405,27 @@ export class AssetAssignmentComponent implements OnInit {
   }
   //get asset and cat
   getassetsAndLocation(category_id) {
-    let key = this.assetcategoryData.filter(id => (id.id == category_id));
+    if(this.model.category_id!=''){
+      this.auth.showLoader();
+      let key = this.assetcategoryData.filter(id => (id.id == category_id));
     let key_name = key[0].category_name;
     console.log(key_name)
     this.httpService.getMethod('api/v2/asset/getAssetsWithCategoryName?categoryIdList=' + category_id + '&instituteId=' + this.model.institute_id, null).subscribe((res: any) => {
+     
       this.assetAllData = res.result[key_name];
+      this.auth.hideLoader();
+      if(this.assetAllData.length==0){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Asset not available under this category first create asset against this category")
+  
+      }
       console.log(this.assetAllData)
      },
       err => {
         this.auth.hideLoader();
       })
 
+    }
+    
 
   }
 
@@ -415,44 +448,69 @@ export class AssetAssignmentComponent implements OnInit {
     );
   }
   //purchaseby
-  getCheckOutBy() {
-    this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3').subscribe(
-      (res: any) => {
-       this.purchaseby = res.active_users;
-      },
-      err => {
-        this.auth.hideLoader();
-      }
-    );
+  // getCheckOutBy() {
+  //   this.temp.getData('/api/v1/profiles/' + this.model.institute_id + '/user-by-type?type=3,0').subscribe(
+  //     (res: any) => {
+  //      this.purchaseby = res.active_users;
+  //     },
+  //     err => {
+  //       this.auth.hideLoader();
+  //     }
+  //   );
+  // }
+
+
+  // getRolesList() {
+  //   this.apiService.getRoles().subscribe(
+  //     (res: any) => {
+  //       this.rolesListDataSource = res;
+  //       this.totalRow = res.length;
+  //    },
+  //     err => {
+  //    }
+  //   )
+  // }
+//if changes required
+role_id;
+getCheckOutBy(obj) {
+    this.role_id=obj;
+    if(this.role_id!=undefined){
+      this.temp.getData('/api/v1/inventory/sale/' + this.model.institute_id + '/getUserByRole?roleIds=' + this.role_id).subscribe(
+        (res: any) => {
+         this.purchaseby = res.result;
+        },
+        err => {
+          this.auth.hideLoader();
+        }
+      );
+    }
+    
   }
 
 
-  getRolesList() {
-    this.apiService.getRoles().subscribe(
-      (res: any) => {
-        this.rolesListDataSource = res;
-        this.totalRow = res.length;
-     },
-      err => {
-     }
-    )
-  }
-
+getRolesList() {
+  this.purchaseby=[];
+ this.temp.getData('/api/v1/roleApi/allRoles/'+this.model.institute_id).subscribe(
+    (res: any) => {
+      this.rolesListDataSource = res;
+      this.totalRow = res.length;
+   },
+    err => {
+   }
+  )
+}
   downloadPdf() {
     this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
       (res: any) => {
         this.assignDataforDownload = res.result.response;
-    },
-      err => {
-        this.auth.hideLoader();
-      }
-      
-    );
-    let arr = [];
-   
+        let arr = [];
+   for(let i=0;i<this.assignDataforDownload.length;i++){
+     this.assignDataforDownload[i].id =i +1;
+   }
     this.assignDataforDownload.map(
       (ele: any) => {
         let json = [
+          // ele.id,
          ele.asset_name,
           ele.quantity,
           ele.user_type,
@@ -460,19 +518,75 @@ export class AssetAssignmentComponent implements OnInit {
           ele.check_in_date,
           ele.check_out_date,
           ele.due_date,
-          ele.status,
           ele.note,
    ]
         arr.push(json);
       })
 
     let rows = [];
-    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','status','Note']]
+    rows = [['Asset Name', ' Quantity', ' Role','Check Out By','Check in Date ','Check Out Date ','Due Date','Note']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'Asset_Assign_List');
     this.auth.hideLoader();
+    },
+      err => {
+        this.auth.hideLoader();
+      }
+      
+    );
+    
   }
 //download in excel format
+headersettingforexcel:any=[  {
+  primary_key: 'asset_name',
+  value: "Asset",
+  charactLimit: 25,
+ 
+},
+
+
+{
+  primary_key: 'quantity',
+  value: "Assign Qty",
+  charactLimit: 25,
+ 
+},
+{
+  primary_key: 'user_type',
+  value: "Role",
+  charactLimit: 25,
+  
+},
+{
+  primary_key: 'check_out_user_display_name',
+  value: "Check out By",
+  charactLimit: 25,
+ 
+},
+{
+  primary_key: 'check_in_date',
+  value: "Check In Date",
+  charactLimit: 25,
+ 
+},
+{
+  primary_key: 'check_out_date',
+  value: "Check Out Date",
+  charactLimit: 25,
+ 
+},
+{
+  primary_key: 'due_date',
+  value: "Due Date",
+  charactLimit: 25,
+
+},
+{
+  primary_key: 'note',
+  value: "Note",
+  charactLimit: 25,
+
+}]
 exportToExcel(){
   this.httpService.getMethod('api/v2/asset/assignment/all?all=1&instituteId=' + this.model.institute_id, null).subscribe(
     (res: any) => {
@@ -482,7 +596,7 @@ exportToExcel(){
       this.assignDataforDownload.map(
       (ele: any) => {
         let json = {}
-        this.headerSetting.map((keys) => {
+        this.headersettingforexcel.map((keys) => {
           json[keys.value] = ele[keys.primary_key]
         })
         Excelarr.push(json);
@@ -500,5 +614,10 @@ exportToExcel(){
     
   );
   this.auth.hideLoader();
+}
+maxlenth(data,limit){
+  if(data.length>limit){
+    this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "Please Enter upto"+  " " + limit + " "+ "character only");
+  }
 }
 }

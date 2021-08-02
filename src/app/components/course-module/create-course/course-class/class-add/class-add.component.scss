@@ -2052,3 +2052,6 @@
     -webkit-font-smoothing: antialiased;
 }
 
+    ::ng-deep bs-datepicker-container {
+        top: -120px !important;
+    } 

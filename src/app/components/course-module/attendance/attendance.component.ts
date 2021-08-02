@@ -331,6 +331,7 @@ export class AttendanceComponent implements OnInit {
     this.auth.showLoader();
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       (res: any) => {
+        this.courseLevelSchedule = [];
         this.auth.hideLoader();
         let dataArray: any = [];
         res.map(ele => {
@@ -411,10 +412,12 @@ export class AttendanceComponent implements OnInit {
 
   getExamSchedule(obj) {
     this.auth.showLoader();
+    this.schedStat.otherSchd = [];
     this.widgetService.getExamSchedule(obj).subscribe(
       (res: any) => {
         this.auth.hideLoader();
         this.addKeyInData(res.otherSchd, "isExam", true);
+        console.log(res);
         let result = this.schedStat.otherSchd.concat(res.otherSchd);
         this.schedStat.otherSchd = this.sortDataByDateTime(result);
         this.classScheduleCount = this.schedStat.otherSchd.length;
@@ -424,6 +427,54 @@ export class AttendanceComponent implements OnInit {
         // console.log(err);
       }
     )
+  }
+
+  markExamAttendance(i, selected, subject_id, topics_covered) {
+    let obj = {
+      batch_id: selected.batch_id,
+      schd_id: selected.schd_id,
+      batch_name: selected.batch_name,
+      topics_covered: topics_covered,
+      course_name: selected.standard_name,
+      master_course_name: selected.batch_name,
+      subject_id: subject_id,
+      forCourseWise: true,
+      forSubjectWise: false,
+      isExam: true,
+      is_attendance_marked: selected.is_attendance_marked
+    }
+    let batch_info = JSON.stringify(obj);
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    sessionStorage.setItem('fromClassAttendace', 'true');
+    sessionStorage.setItem('classAttendance', this.classAttendance);
+    sessionStorage.setItem('exam_marks',this.exam_marks);
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if (this.isSubjectView || this.isProfessional) {
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else {
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
+    this.router.navigate(['/view/dashboard/mark-attendance']);
+  }
+
+  examMarksUpdate(data) {
+    let obj = {
+      data: data
+    }
+    let exam_info = JSON.stringify(obj)
+    sessionStorage.setItem('exam_info', btoa(exam_info));
+    sessionStorage.setItem('fromClassAttendace', 'true');
+    sessionStorage.setItem('classAttendance', this.classAttendance);
+    sessionStorage.setItem('exam_marks',this.exam_marks);
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if (this.isSubjectView || this.isProfessional) {
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else {
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
+    this.router.navigate(['/view/dashboard/exam-marks-batch']);
   }
 
   //  Role Based Access

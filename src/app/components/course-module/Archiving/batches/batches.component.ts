@@ -169,13 +169,13 @@ export class BatchesComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-        if (confirm('Are you sure, you want to Archive?')) {
+        if (confirm('Are you sure, you want to Delete?')) {
           this.batch.courses(this.sendPayload).subscribe(
             (data: any) => {
               this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
               let msg = {
                 type: "success",
-                body: "Course(s) archived successfully"
+                body: "Course(s) deleted successfully"
               }
               this.appc.popToast(msg);
             },
@@ -199,7 +199,7 @@ export class BatchesComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-        if (confirm('Are you sure, you want to Archive?')) {
+        if (confirm('Are you sure, you want to Delete?')) {
           this.batch.batches(this.sendPayloadBatch).subscribe(
             (data: any) => {
               if (data.status_code == 202) {
@@ -212,7 +212,7 @@ export class BatchesComponent implements OnInit {
 
                       let msg = {
                         type: "success",
-                        body: "Batch(s) archived successfully"
+                        body: "Batch(s) deleted successfully"
                       }
                       this.appc.popToast(msg);
                     },
@@ -232,7 +232,7 @@ export class BatchesComponent implements OnInit {
 
                 let msg = {
                   type: "success",
-                  body: "Batch(s) archived successfully"
+                  body: "Batch(s) deleted successfully"
                 }
                 this.appc.popToast(msg);
               }
@@ -250,7 +250,7 @@ export class BatchesComponent implements OnInit {
 
                       let msg = {
                         type: "success",
-                        body: "Batch(s) archived successfully"
+                        body: "Batch(s) deleted successfully"
                       }
                       this.appc.popToast(msg);
                     },

@@ -1,0 +1,158 @@
+
+
+<section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+     <a routerLink="/view/payrole/make-payment">
+       Make Payment
+     </a>
+     <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+     View Salary History
+   </h1>
+ </section>
+ <div class="content">
+<div class="col-sm-3">
+    <div class="box box-primary">
+        <div class="box-body box-profile">
+            <img src="https://proctur.s3-ap-southeast-1.amazonaws.com/logos/gender.jpg" style="margin-left: 28%;" alt="">                        
+            <h3 class="student-username text-center">{{salaryModel.user_name}}</h3>
+            <p class="text-muted text-center">{{salaryModel.user_role}}</p>
+            <ul class="list-group list-group-unbordered">
+                <!-- <li class="list-group-item" style="background-color: #FFF">
+                    <b>Gender</b> <a class="pull-right">{{salaryModel.user_gender}}</a>
+                </li> -->
+                <li class="list-group-item" style="background-color: #FFF">
+                    <b>Date of Birth</b> <a class="pull-right">{{salaryModel.user_dob}}</a>
+                </li>
+                <li class="list-group-item" style="background-color: #FFF">
+                    <b>Phone</b> <a class="pull-right">{{salaryModel.phone}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+<div class="col-sm-9">
+    <div class="nav-tabs-custom">
+        <!-- <ul class="nav nav-tabs">
+            <li class="active"><a href="#salaryinfo" data-toggle="tab">Salary Info</a></li>
+        </ul> -->
+
+        <div class="tab-content">
+            <div class="active tab-pane" id="salaryinfo">
+                <br>
+                    <div class="row">
+                        <div class="col-sm-6" style="margin-bottom: 10px;">
+                            <div class="info-box">
+                                <p style="margin:0 0 20px">
+                                    <span>Salary Grades:&nbsp;&nbsp;</span>
+                                 {{salaryModel.salary_type == 'H' ? salaryModel.hourly_grade :salaryModel.salary_grade}} </p>
+
+                                <p style="margin:0 0 20px">
+                                    <span>Basic Salary:&nbsp;&nbsp;</span>
+                                    {{salaryModel.basic_salary}}  </p>
+
+                                <p style="margin:0 0 20px">
+                                    <span>Overtime Rate (Per Hour):&nbsp;&nbsp;</span>
+                                    {{salaryModel.overtime_rate}}  </p>
+
+                                    <p style="margin:0 0 20px">
+                                        <span>Month:&nbsp;&nbsp;</span>
+                                         {{salaryModel.month}}</p>
+                                         <p style="margin:0 0 20px">
+                                        <span>Date:&nbsp;&nbsp;</span>
+                                        {{salaryModel.payment_date}}</p>
+                                        <p style="margin:0 0 20px">
+                                     <span>Payment Method:&nbsp;&nbsp;</span>
+                                     {{salaryModel.payment_method}}</p>
+                                               
+                                    <p style="margin:0 0 20px">
+                                     <span>Comments:&nbsp;&nbsp;</span>
+                                     {{salaryModel.comment}}</p>     
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="salaryModel.salary_type == 'M'">
+                        <div class="col-sm-6">
+                            <div class="box" style="border: 1px solid #eee">
+                                <div class="box-header" style="background-color: #fff;border-bottom: 1px solid #eee;color: #000;">
+                                    <h3 class="box-title" style="color: #1a2229;text-align: center;">Allowances</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-sm-12" id="allowances" *ngFor="let i of addedListAllownc">
+                                            <div class="info-box" >
+                                                <p  style="display: flex;justify-content: space-around;">
+                                                    <span> {{i.allowance}}</span>
+                                                    {{i.allowance_amount}} </p>
+                                                    <!-- <hr> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" >
+                            <div class="box" style="border: 1px solid #eee;">
+                                <div class="box-header" style="background-color: #fff;border-bottom: 1px solid #eee;color: #000;">
+                                    <h3 class="box-title" style="color: #1a2229;text-align: center;">Deduction</h3>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-sm-12" id="deductions" *ngFor="let a of addedListDeduct">
+                                            <div class="info-box" >
+                                                <p  style="display: flex;justify-content: space-around;">
+                                              <span>{{a.deduction}}</span>
+                                              {{a.deduction_amount}} </p>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-4">
+                            <div class="box" style="border: 1px solid #eee;">
+                                <div class="box-header" style="background-color: #fff;border-bottom: 1px solid #eee;color: #000;">
+                                    <h3 class="box-title" style="color: #1a2229">Total Salary Details</h3>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered">
+                                        <tbody><tr>
+                                            <td class="col-sm-8" style="line-height: 36px">Gross Salary</td>
+                                            <td class="col-sm-4" style="line-height: 36px">{{salaryModel.gross_salary}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="col-sm-8" style="line-height: 36px">Total Deduction</td>
+
+                                            <td class="col-sm-4" style="line-height: 36px">{{salaryModel.total_deduction}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="col-sm-8" style="line-height: 36px">Net Salary</td>
+
+                                            <td class="col-sm-4" style="line-height: 36px"><b>{{salaryModel.net_salary}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-sm-8" style="line-height: 36px">Payment Amount</td>
+
+                                            <td class="col-sm-4" style="line-height: 36px"><b>{{salaryModel.payment_amount}}</b></td>
+                                        </tr>
+                                    </tbody></table>
+                                </div>
+
+                            </div>
+                            <button class="blue_button right" (click)="backPage()">Back</button>
+
+                        </div>
+                    </div>
+                 </div>
+        </div>
+    </div>
+</div>
+<!-- ===================================user================== -->

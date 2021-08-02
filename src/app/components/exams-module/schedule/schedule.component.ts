@@ -62,6 +62,17 @@ export class ScheduleComponent implements OnInit {
     hour: '1 PM',
     minute: '00',
   }
+  errorsObj={
+    'standard_id': '',
+    'batch_id': '',
+    'course_id': '',
+    'exam_type_id': '',
+    'date': '',
+    'exam_end_time': '',
+    'exam_start_time': '',
+    'room_no_id': '',
+    'course_exam_date':''
+  }
 
   constructor(
     private auth: AuthenticatorService,
@@ -137,10 +148,12 @@ export class ScheduleComponent implements OnInit {
     if (this.marks_dist_setting == 1 || this.marks_dist_setting == 5 || this.marks_dist_setting == 6) {
       this.getExamType();
     }
+    if(master_course_obj && master_course_obj.length) {
     let temp = this.fullResponse[master_course_obj[0].masterCourse];
     for (let i = 0; i < temp.length; i++) {
       this.courseList.push(temp[i]);
     }
+  }
   }
 
   updateSubjectList(event) {
@@ -242,16 +255,31 @@ export class ScheduleComponent implements OnInit {
   }
 
   createExam(obj) {
+    this.auth.showLoader();
     this._httpService.postData('/api/v1/courseExamSchedule/create-exam', obj).subscribe(
       (res: any) => {
+        this.auth.hideLoader();
         this.messageService.showErrorMessage('success', '', 'Exam schedule created successfully');
         $('#editCityArea').modal('hide');
         this.getData();
         this.clearPrevData();
       },
       (err: any) => {
-        console.log(err);
-        this.messageService.showErrorMessage('error', '', err.error.message);
+        this.auth.hideLoader();
+        let count = 0;
+        if(err.error && err.error.error && err.error.error.length) {
+        for(let data of err.error.error) {
+          for(const key of Object.keys(this.errorsObj)) {
+            if(data.onField == `${key}`) {
+              count++;
+              this.errorsObj[`${key}`] = data.errorMessage;
+            }
+          }
+        }
+      }
+      if(count == 0) {
+        this.messageService.showErrorMessage('error','', err.error.message);
+      }
       }
     )
   }
@@ -273,6 +301,17 @@ export class ScheduleComponent implements OnInit {
     this.mainEndTime = {
       hour: '1 PM',
       minute: '00',
+    }
+    this.errorsObj={
+      'standard_id': '',
+      'batch_id': '',
+      'course_id': '',
+      'exam_type_id': '',
+      'date': '',
+      'exam_end_time': '',
+      'exam_start_time': '',
+      'room_no_id': '',
+      'course_exam_date':''
     }
     this.isEdit = false;
   }
@@ -302,7 +341,20 @@ export class ScheduleComponent implements OnInit {
       },
       (err: any) => {
         console.log(err);
-        this.messageService.showErrorMessage('error', '', err.error.message);
+        let count = 0;
+        if(err.error && err.error.error && err.error.error.length) {
+          for(let data of err.error.error) {
+            for(const key of Object.keys(this.errorsObj)) {
+              if(data.onField == `${key}`) {
+                count++;
+                this.errorsObj[`${key}`] = data.errorMessage;
+              }
+            }
+          }
+        }
+        if(count == 0) {
+          this.messageService.showErrorMessage('error','', err.error.message);
+        }
       }
     )
   }
@@ -428,12 +480,17 @@ export class ScheduleComponent implements OnInit {
   EditExam(obj) {
     this.toggleAddSchedule();
     this.isEdit = true;
-    this.editrecord = obj;
+    this.editrecord = {
+      standard_id: obj.standard_id,
+      batch_id: obj.batch_id,
+      course_id: obj.course_id,
+      exam_type_id: obj.exam_type_id,
+      date: obj.date,
+      class_room_id: obj.room_no_id,
+      schedule_id:obj.schedule_id
+    };
     this.updateCourseList(this.editrecord.standard_id);
     this.updateSubjectList(this.editrecord.course_id);
-    this.editrecord.batch_id = obj.batch_id;
-    this.editrecord.class_room_id = obj.room_no_id;
-    this.editrecord.exam_type_id = obj.exam_type_id;
     this.setTime(obj);
     $('#editCityArea').modal('show');
   }

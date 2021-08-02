@@ -25,7 +25,8 @@ export class UsersComponent implements OnInit {
     master_course: '',
     course_id: 0,
     searchCriteria: '',
-    app_downloaded: '-1'
+    app_downloaded: '-1',
+    standard_id: ''
   };
   allocateItemPopUp: boolean = false;
   tempdata: any = "";
@@ -58,11 +59,15 @@ export class UsersComponent implements OnInit {
   editObj: any;
   editMsg: any = false;
   selectedMsg: any = '';
+  selectedPushId:any='';
+  selectedPushMesg:any='';
   smsNotification: any = true;
-  pushNotification: any = true;
+  pushNotification: any = false;
   messageCount: any = 0;
   message: any = '';
   messageList: any = [];
+  pushNotificatioList:any=[];
+  smsListFlag:string="active"
   loginHistoryPopup: any = false;
   loginHistory: any[] = [];
   historyPageIndex = 1;
@@ -83,6 +88,8 @@ export class UsersComponent implements OnInit {
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   user_role: any = '';
   role_feature = role.features;
+  schoolModel: boolean = false;
+  fullResponse: any = [];
 
   constructor(
     private apiService: UserService,
@@ -94,9 +101,18 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.smsListFlag = 'active'
+
     this.checkWhichTabIsOpen();
     this.checkInstituteType();
     this.getAllUserList(this.PageIndex);
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      });
     if (sessionStorage.getItem('permitted_roles')) {
       let permissions = Object.keys(JSON.parse(sessionStorage.getItem('permitted_roles')));
       if (this.role_feature.USERS_MENU) {
@@ -152,8 +168,13 @@ export class UsersComponent implements OnInit {
       page_offset: this.displayBatchSize
     }
     if (!this.isProfessional && this.dataFilter.role == '1') {
-      obj.master_course_name = this.dataFilter.master_course,
-        obj.course_id = this.dataFilter.course_id;
+      if(this.schoolModel) {
+        obj.standard_id = this.dataFilter.standard_id;
+        obj.master_course_name = '';
+      } else {
+        obj.master_course_name = this.dataFilter.master_course;
+      }
+      obj.course_id = this.dataFilter.course_id;
     }
     if (this.isProfessional && this.dataFilter.role == '1') {
       obj.standard_id = this.dataFilter.master_course,
@@ -223,8 +244,56 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  getStandard() {
+    let url = "/api/v1/courseMaster/master-course-list/" + sessionStorage.getItem("institute_id") + "?is_standard_wise=true&sorted_by=course_name";
+    let keys;
+    this.auth.showLoader();
+    this.httpService.getData(url).subscribe(
+      (data: any) => {
+        this.masterCourseData = [];
+        this.auth.hideLoader();
+        this.fullResponse = data.result;
+        keys = Object.keys(data.result);
+
+        // console.log("keys", keys);
+        // this.masterCourse = keys;
+        for (let i = 0; i < keys.length; i++) {
+          let obj = {
+            masterCourse: '',
+            standard_id: 0
+          }
+          obj.masterCourse = keys[i];
+          let temp = this.fullResponse[keys[i]];
+          obj.standard_id = (temp.length) ? temp[0].standard_id : '';
+          this.masterCourseData.push(obj);
+        }
+
+
+      },
+      (error: any) => {
+        this.auth.hideLoader();
+        console.log(error);
+      }
+    )
+  }
+
+  updateCourseList(ev) {
+    this.CourseData = [];
+    this.dataFilter.course_id = '0';
+    let master_course_obj = this.masterCourseData.filter(
+      (standard)=> (ev == standard.standard_id)
+    );
+    let temp = this.fullResponse[master_course_obj[0].masterCourse];
+    for (let i = 0; i < temp.length; i++) {
+      this.CourseData.push(temp[i]);
+    }
+  }
+
   getMasterCourseData() {
     if (!this.isProfessional) {
+      if(this.schoolModel) {
+        this.getStandard();
+      } else {
       this.auth.showLoader();
       this.httpService.getData('/api/v1/courseMaster/fetch/' + sessionStorage.getItem('institute_id') + '/all').subscribe(
         (res: any) => {
@@ -236,6 +305,7 @@ export class UsersComponent implements OnInit {
           this.messageNotifier('error', '', err.error.message);
         }
       )
+      }
     } else {
       this.auth.showLoader();
       this.httpService.getData('/api/v1/standards/all/' + sessionStorage.getItem('institute_id')).subscribe(
@@ -560,6 +630,7 @@ export class UsersComponent implements OnInit {
     this.notificationPopup = true;
     this.checkRole();
     this.messageList = [];
+    this.pushNotificatioList=[];
     let tempMessageList: any = [];
     this.auth.showLoader();
     let obj = {
@@ -573,7 +644,12 @@ export class UsersComponent implements OnInit {
         for (let i = 0; i < tempMessageList.length; i++) {
           if (tempMessageList[i].source === "SMS") {
             this.messageList.push(tempMessageList[i]);
+          }if(tempMessageList[i].source === "Push"){
+            this.pushNotificatioList.push(tempMessageList[i])
+            console.log("message list",this.pushNotificatioList)
+            
           }
+
         }
         // this.messageList = res;
         if (this.messageList && this.messageList.length > 0) {
@@ -682,7 +758,11 @@ export class UsersComponent implements OnInit {
   changeSelectedMsg(obj) {
     this.selectedMsg = obj;
   }
-
+changeSelectPush(obj){
+  this.selectedPushId= obj.message_id
+  this.selectedPushMesg = obj.message
+  console.log("push id",this.selectedPushId)
+}
   sendNotification() {
     console.log(this.smsNotification, this.pushNotification);
     this.smsNotification ? this.sendSMSNotification() : '';
@@ -760,20 +840,22 @@ export class UsersComponent implements OnInit {
   closeNotificationPopup() {
     this.notificationPopup = false;
     this.smsNotification = true;
-    this.pushNotification = true;
+    this.pushNotification = false;
     this.addSMS = false;
+    this.smsListFlag = 'active'
   }
 
   sendPushNotification() {
     let student_id = this.getListOfIds('user_id');
+    let user_ids = this.getListOfIds('user_id')
     student_id = student_id.join(',');
     if (!this.getNotificationMessage()) {
       return;
     }
     let obj = {
-      notifn_message: this.selectedMsg.message,
-      message_id: this.selectedMsg.messageId,
-      student_ids: student_id,
+      notifn_message: this.selectedPushMesg,
+      message_id:  this.selectedPushId,
+      user_ids:user_ids,
       institution_id: sessionStorage.getItem('institute_id')
     }
     this.auth.showLoader();
@@ -790,7 +872,7 @@ export class UsersComponent implements OnInit {
   }
 
   getNotificationMessage() {
-    if (this.selectedMsg == '') {
+    if (this.selectedPushId == '') {
       this.messageNotifier('error', '', 'Please select message');
       return false;
     } else {
@@ -922,6 +1004,18 @@ export class UsersComponent implements OnInit {
     this.fetchTableDataByPage(this.PageIndex, 'user');
   }
 
+onPushCheckboxSelect(){
+  
+this.smsNotification= false
+this.pushNotification=true
+this.smsListFlag='notactive'
+}
+onSmsCheckboxSelect(){
+this.pushNotification=false
+this.smsListFlag='active'
+this.smsNotification= true
 
+
+}
 
 }

@@ -1,0 +1,404 @@
+<div class="page-content">
+    <div class="top_section">
+        <div *ngIf="smsSendingFlag">
+            <p class="heading">Selected SMS<img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
+            <p class="para" title="{{selected_message}}" [innerHtml]="(!selected_message)? '-' :(selected_message.length > 60) ?(selected_message | slice :0:60) + '...' : selected_message">
+                <!-- {{selected_message}} -->
+                                
+            </p>
+            <div class="divide">
+                <div>Character Count: <b>{{messageCharacterCount}}</b></div>
+                <div *ngIf="pramotional == 'true'">SMS Type: <b> Promotional</b></div>
+                <div *ngIf="transactional =='true'">SMS Type: <b>Transactional</b></div>
+
+                <div>Message Count: <b>{{selectedMesgCount}}</b></div>
+            </div>
+        </div>
+     <!-- =================push-notification-send=============    -->
+     <div *ngIf="pushNotificationFlag">
+        <p class="heading">Selected Push<img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
+        <p class="para" title="{{push_message}}">
+            {{(!push_message)? '-' :(push_message.length > 60) ?(push_message | slice :0:60) + '...' : push_message}}
+                            
+        </p>
+       
+    </div>
+<!-- =============email-sending-div==================== -->
+
+<div *ngIf="emailSendingFlag">
+    <p class="heading">Selected Email <img (click)="onClickEiditMessageDescription()" src="../../../../assets/images/add-send-notification-img/edit.svg" style="cursor: pointer;"></p>
+    <div class="subject11">
+        <p><span style="font-weight: 600; padding-left: 3px;">Subject : </span>{{email_subjects}}</p>
+    </div>
+    <p class="para" >
+        <span style="font-weight: 600;">Message : </span>
+        <!-- {{selected_message}} -->
+       <span title="{{selected_email}}" [innerHtml]="(!selected_email)? '-' :(selected_email.length > 60) ?(selected_email | slice :0:60) + '...' : selected_email"></span>             
+    </p>
+   
+</div>
+<!-- ===============end====================== -->
+        <div class="display">
+                     <div class="vertical display" *ngIf="!isProfessional">
+            <div >
+                <label>{{schoolModel? 'Standard' : 'Master Course'}}</label>
+               <select *ngIf="!schoolModel" [(ngModel)]="selectMasterCourse.master_course"  name="master_course"   [disabled]="pramotional == 'true'"   (ngModelChange)="onMasterCourseChange($event)">
+                <option value="-1">Select</option>
+
+                   <option [value]="master.master_course" *ngFor="let master of masterCourseList">{{master.master_course}}</option>
+               </select>
+
+               <select *ngIf="schoolModel" [(ngModel)]="selectMasterCourse.standard_id"  [disabled]="pramotional == 'true'" name="master_course" (ngModelChange)="onMasterCourseChange($event)" >
+                   <option value="-1">Select</option>
+                <option [value]="master.standard_id" *ngFor="let master of masterCourseList">{{master.masterCourse}}</option>
+            </select>
+            </div>
+            <div >
+                <label> {{schoolModel ? 'Section(s)' : 'Course(s)'}}</label>
+                <ng-multiselect-dropdown class="multidropdown"  [settings]="courseListSetting" [data]="courseList" [(ngModel)]="selectedCourseList"
+                (ngModelChange)="($event)">
+                  
+               </ng-multiselect-dropdown>
+               
+            </div>
+            <div>
+                <button class="blue_button"  (click)="fetchStudentsApi()">Search</button>
+            </div>
+           </div>
+            <div class="vertical1 display">
+                <div class="line"></div>
+                <div>OR</div>
+                <div class="line"></div>
+            </div>
+            <div  class="vertical display">
+                <div class="radio_div" *ngIf="!emailSendingFlag">
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}">
+                        <input type="radio" class="form-radio" name="activeCeckbox" [(ngModel)]="activeCeckbox" value="true"  [disabled]="pramotional == 'true'" (change)="onClearActiveCheckbox($event)">
+                        <label >Active Students</label>
+                    </div>
+                    <!-- <div class="field-radio-wrapper " [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}"  *ngIf="!schoolModel">
+                        <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" [disabled]="transactional == 'true' || pushNotificationFlag || schoolModel"  (change)="onClearInctiveCheckbox($event)">
+                        <label >Inactive Students</label>
+                    </div> -->
+                    <!-- <div class="field-radio-wrapper" [ngClass]="{'dull' : transactional == 'true' || pushNotificationFlag}"  *ngIf="!schoolModel">
+                        <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  [disabled]="transactional == 'true' || pushNotificationFlag || schoolModel"  (change)="onClearAlluminCheckbox($event)">
+                        <label >Alumni Students</label>
+                    </div> -->
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true' || pushNotificationFlag}"  [title]="pushNotificationFlag  ? 'Select transactional SMS for sending SMS' : ''">
+                        <input type="radio" class="form-radio" name="facultyCheckBox"  [(ngModel)]="facultyCheckBox" value="true" [disabled]="pramotional == 'true' || pushNotificationFlag"  (change)="onClearFacultyCheckbox($event)">
+                        <label >Faculty</label>
+                    </div>
+                    <div class="field-radio-wrapper" [ngClass]="{'dull' : pramotional == 'true'}"   *ngIf="!schoolModel">
+                        <input type="radio" class="form-radio" name="allUserCheck"  [(ngModel)]="allUserCheck" value="true"  [disabled]="pramotional == 'true' || schoolModel"  (change)="onClearAlluserCheckbox($event)">
+                        <label >Registered Users</label>
+                    </div>
+                </div>
+<!-- ==============for-email=================== -->
+<div class="radio_div" *ngIf="emailSendingFlag">
+    <div class="field-radio-wrapper">
+        <input type="radio" class="form-radio" name="activeCeckbox" [(ngModel)]="activeCeckbox" value="true" (change)="onClearActiveCheckbox($event)" >
+        <label >Active Students</label>
+    </div>
+    <div class="field-radio-wrapper ">
+        <input type="radio" class="form-radio" name="inactiveCheck" [(ngModel)]="inactiveCheck" value="true" (change)="onClearInctiveCheckbox($event)" >
+        <label >Inactive Students</label>
+    </div>
+    <div class="field-radio-wrapper" *ngIf="!schoolModel">
+        <input type="radio" class="form-radio" name="aluminiCheckBox" [(ngModel)]="aluminiCheckBox" value="true"  (change)="onClearAlluminCheckbox($event)">
+        <label >Alumni Students</label>
+    </div>
+    <div class="field-radio-wrapper" >
+        <input type="radio" class="form-radio" name="facultyCheckBox" [(ngModel)]="facultyCheckBox" value="true"  (change)="onClearFacultyCheckbox($event)">
+        <label >Faculty</label>
+    </div>
+    <div class="field-radio-wrapper" *ngIf="!schoolModel">
+        <input type="radio" class="form-radio" name="allUserCheck" [(ngModel)]="allUserCheck" value="true"  (change)="onClearAlluserCheckbox($event)" >
+        <label >Registered Users</label>
+    </div>
+</div>
+<!-- =====================end================= -->
+
+
+
+                
+               <div>
+                <button class="blue_button" (click)="onsearchList()">Search</button>
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex space">
+        <input placeholder="Search" [(ngModel)]="searchData" class="search" name="searchData" #search>
+        <p>Total Count {{count}}</p>
+    </div>
+    <div class="table_head" *ngIf="!showFacultyTableFlag">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked"  (click)="checkAllChechboxes($event , studentList)">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div>ID</div>
+        <div >Name</div>
+        <div>Mobile</div>
+        <div>Standard</div>
+        <div>Joining Date</div>
+        <div>Email</div>
+    </div>
+    <div class="table_head"  *ngIf="showFacultyTableFlag">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked"  (click)="checkAllChechboxes($event , studentList)">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <!-- <div>ID</div> -->
+        <div >Name</div>
+        <div>Mobile</div>
+        <div>Subject</div>
+        <div style="padding-left: 7%;">Email</div>
+        <!-- <div>Is Active</div> -->
+       
+        
+    </div>
+   
+    <div class="scroll_body1" >
+        <div *ngIf="showActiveTableFlag">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag" checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+        <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+        <div title="{{item.student_phone}}">{{item.student_phone}}</div>
+        <div title="{{item.student_class}}">{{item.student_class}}</div>
+        <div title="{{item.doj}}">{{item.doj}}</div>
+        <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        </div>
+        </div>
+        <div *ngIf="studentList.length == '0'" class="empt-img">
+            <img src="../../../../assets/images/add-send-notification-img/Empty.svg">
+            Use Filters For View details</div>
+
+<!-- =======inactive-student================== -->
+<div *ngIf="showInactiveStudentFlag">
+    <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag" checked (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+        <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+        <div title="{{item.student_phone}}">{{item.student_phone}}</div>
+        <div title="{{item.student_class}}">{{item.student_class}}</div>
+        <div title="{{item.doj}}">{{item.doj}}</div>
+        <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+
+        </div>
+    </div>
+    <!-- ============alumini-table================ -->
+    <div *ngIf="showAllaluminiStudentFlag">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
+            <div>
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag" (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+            <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+            <div title="{{item.student_phone}}">{{item.student_phone }}</div>
+            <div title="{{item.student_class}}">{{item.student_class == '-1' ? 'NA' : item.student_class}}</div>
+            <div title="{{item.doj}}">{{item.doj}}</div>
+            <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+            <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+
+            </div>
+        </div>
+    <!-- =================register-user======================= -->
+    <div *ngIf="showallUserListFlag">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
+            <div>
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" [disabled]="item.email_id == '' && emailSendingFlag"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked >
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div title="{{item.user_id}}">{{(!item.user_id)? '-' : (item.user_id.length > 30)? (item.user_id | slice : 0 : 30) + '...' : item.user_id}}</div>
+            <div title="{{item.name}}">{{(!item.name)? '-' : (item.name.length > 30)? (item.name | slice : 0 : 30) + '...' : item.name}}</div>
+            <div title="{{item.phone}}">{{(!item.phone)? '-' : (item.phone.length > 30)? (item.phone | slice : 0 : 30) + '...' : item.phone}}</div>
+            <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div>
+            <div title="{{item.doj}}">{{(!item.doj)? '-' : (item.doj.length > 10)? (item.doj | slice : 0 : 10) + '...' : item.doj}}</div>
+            <div title="{{item.email_id}}" *ngIf="!emailSendingFlag">{{(!item.email_id) ? '-' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
+            <div *ngIf="emailSendingFlag"  [ngClass]="{'emailText':!item.email_id}">{{(!item.email_id) ? 'Email id is not available' : (item.email_id.length > 30)? (item.email_id | slice : 0 : 30) + '...' : item.email_id}}</div>
+
+            </div>
+        </div>
+
+<!-- ===========course wise student fetch================== -->
+<div *ngIf="showCourseWiseFlag">
+   
+    <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
+        <div>
+            <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" name="checked" [disabled]="item.student_email== '' && emailSendingFlag"  (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" checked>
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+        </div>
+        <div title="{{item.student_disp_id}}">{{item.student_disp_id}}</div>
+        <div title="{{item.student_name}}">{{(!item.student_name)? '-' : (item.student_name.length > 30)? (item.student_name | slice : 0 : 30) + '...' : item.student_name}}</div>
+        <div title="{{item.student_phone}}">{{item.student_phone}}</div>
+        <div title="{{item.student_class}}">{{item.student_class}}</div>
+        <div title="{{item.doj}}">{{item.doj}}</div>
+        <div title="{{item.student_email}}" *ngIf="!emailSendingFlag">{{(!item.student_email) ? '-' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.student_email == ''}">{{(!item.student_email) ? 'Email id is not available' : (item.student_email.length > 30)? (item.student_email | slice : 0 : 30) + '...' : item.student_email}}</div>
+        <div *ngIf="studentList.length =='0'">No Record Found</div>
+        </div>
+    </div>
+   
+
+    <!-- =============teacher-table==================== -->
+    <div *ngIf="showFacultyTableFlag">
+        <div class="table_body" *ngFor="let item of (studentList | searchPipe:searchData)">
+            <div>
+                <label class="checkbox">
+                    <span class="checkbox__input">
+                      <input type="checkbox" name="checked" [disabled]="item.teacher_email == '' && emailSendingFlag" (ngModelChange)="onCheckBoxEvent($event , item)" [(ngModel)]="item.assigned" >
+                      <span class="checkbox__control">
+                       <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                          <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                      </span>
+                    </span>
+                  </label>
+            </div>
+            <div title="{{item.teacher_name}}">{{(!item.teacher_name)? '-' :(item.teacher_name.length > 30)? (item.teacher_name | slice : 0 : 30) + '...' : item.teacher_name}}</div>
+            <div title="{{item.teacher_phone}}">{{(!item.teacher_phone)? '-' : (item.teacher_phone.length > 30)? (item.teacher_phone | slice : 0 : 30) + '...' : item.teacher_phone}}</div>
+            <div style="word-break: break-all;" title="{{item.sub_list}}">{{(!item.sub_list)? '-' : (item.sub_list.length > 35)? (item.sub_list | slice : 0 : 35) + '...' : item.sub_list}}</div>
+            <!-- <div title="{{item.student_class}}">{{(!item.student_class)? '-' : (item.student_class.length > 10)? (item.student_class | slice : 0 : 10) + '...' : item.student_class}}</div> -->
+            <div style="padding-left: 7%;" title="{{item.teacher_email}}" *ngIf="!emailSendingFlag" >{{(!item.teacher_email) ? '-' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>
+            <div style="padding-left: 7%;" *ngIf="emailSendingFlag" [ngClass]="{'emailText':item.teacher_email == ''}" title="{{item.teacher_email}}">{{(!item.teacher_email) ? 'Email id is not available' : (item.teacher_email.length > 30)? (item.teacher_email | slice : 0 : 30) + '...' : item.teacher_email}}</div>           
+            <!-- <div title="{{item.is_active}}">{{(!item.is_active)? '-' : (item.is_active.length > 10)? (item.is_active | slice : 0 : 10) + '...' : item.is_active}}</div> -->
+            <div *ngIf="studentList.length == '0'">No Record Found</div>
+            </div>
+         </div> 
+         </div>
+         <!-- <div *ngIf="studentList.length == '0'">No Record Found</div> -->
+ 
+    <!-- ===================end======================== -->
+    <div class="pagignation">
+        <button class="blue_button" (click)="backButton()" >Back</button>&nbsp;
+
+        <p><b></b></p>
+        <div class="flex space1">
+            <label for="chkBoxStudent" class="checkbox"  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">
+                <span class="checkbox__input">
+                  <input type="checkbox"  id="chkBoxStudent" name="student" [(ngModel)]="student"  (click)="onClickStudent($event)">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+              <p  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">Student</p>
+              <div class="flex" *ngIf="emailSendingFlag || smsSendingFlag">
+              <label for="chkBoxParent" class="checkbox"  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">
+                <span class="checkbox__input">
+                  <input type="checkbox"  id="chkBoxParent" name="parent" [(ngModel)]="parent" >
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+            
+              <p  *ngIf="showActiveTableFlag || showAllaluminiStudentFlag || showInactiveStudentFlag || showCourseWiseFlag">Parent</p>
+            </div>
+            <button class="blue_button"(click)="sendNotificationMessages()" *ngIf="smsSendingFlag">Send Text Message </button>
+            <button class="blue_button" (click)="sendPushNotification()" *ngIf="pushNotificationFlag">Send Push Notification</button>
+
+            <button class="blue_button" data-toggle="modal" data-target="#myModal" *ngIf="emailSendingFlag">Preview & Send </button>
+
+        </div>
+    </div>   
+
+</div>
+<!-- ==============preview-model========================== -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg" (click)="onClickEiditMessageDescription()" style="cursor: pointer;"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <div>
+            <p class="para1">Subject: {{email_subjects}}</p>
+            <!-- <p></p> -->
+          </div>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <p class="para1">Message : </p>
+          
+            <!-- <p [innerHtml]="selected_message">
+              </p> -->
+              <editor [disabled]="true" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+              [(ngModel)]="selected_email" placeholder="Write a short description about this product"></editor>
+            <p>
+            <!-- Regards,
+            ABC XYZ -->
+          </p>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="white_button mr16" data-dismiss="modal">Close</button> &nbsp;
+          <button type="button" class="blue_button" (click)="sendNotificationMessages()" >Send</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>

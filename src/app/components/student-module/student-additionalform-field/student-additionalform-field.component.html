@@ -1,0 +1,160 @@
+<section class="middle-top clearFix bulk-header"
+style="padding-left: 5px; padding-bottom: 10px; border-bottom: 1px solid lightgrey;">
+
+<h1 class="pull-left">
+  <a routerLink="/view/students">
+    Students
+  </a>
+  <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+  <span *ngIf="!isProfessional">Student Additional Form Field</span>
+</h1>
+</section>
+<button class="blue_button" (click)="onClickAddField('Add')">Add Custom Field</button>
+<section style="margin-top: -18px;">
+    <div class="table table-responsive" style="margin-top:1vh;">
+      <app-basic-table [headers]="headerSetting" [displayData]="allAdditionFormFielData"  [tableSetting]="tableSetting"
+        [rowColumnSetting]="rowColumns" (editView)="editRow($event)" (deleteView)="deletCustumField($event)">
+      </app-basic-table>
+    </div>
+    </section>
+    
+  <proctur-popup [sizeWidth]="'large'" *ngIf="isEdit=='Add'||isEdit=='Edit'">
+
+    <span class="closePopup pos-abs fbold show" (click)="canclePopus()" close-button>
+      <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+        width="24px" x="0" y="0">
+        <path class="large-icon"
+          d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+          style="fill: currentColor"></path>
+      </svg>
+    </span>
+
+    <h2 popup-header *ngIf="isEdit=='Add'">Add Field</h2>
+    <h2 popup-header *ngIf="isEdit=='Edit'">Edit Field</h2>
+
+
+    <div class="row updatecomponent-wrapper" popup-content>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="label">Label
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-ctrl"  name="label" maxlength="30"  onpaste="return false" oncopy="return false" [(ngModel)]="editCustomComponentForm.label">
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="opt.data_value">Type
+            <span class="text-danger">*</span>
+          </label>
+          <select id="opt.data_value" class="form-ctrl"  name="opt.data_value" [(ngModel)]="editCustomComponentForm.type">
+            <option value="-1">Select</option>
+            <option value="{{opt.data_key}}" *ngFor="let opt of componentShell" >
+              {{opt.data_value}}
+            </option>
+          </select>
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
+          <input type="text" class="form-ctrl"  id="prefilledData" name="prefilledData"  [(ngModel)]="editCustomComponentForm.prefilled_data">
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper">
+          <label for="description">Description</label>
+          <input type="text" class="form-ctrl"  name="description" id="description"  [(ngModel)]="editCustomComponentForm.description">
+
+        </div>
+      </div>
+
+      <!-- <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="onboth">Show On Student</label>
+          <select id="onboth" class="form-ctrl" name="onboth"  [(ngModel)]="editCustomComponentForm.type" >
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+
+        </div>
+      </div> -->
+
+      <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="isrequired">Is Required</label>
+          <select id="isrequired" class="form-ctrl" name="isrequired"  [(ngModel)]="editCustomComponentForm.is_required">
+            <option value="Y">Yes</option>
+            <option value="N" selected>No</option>
+          </select>
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="issearchable">Is Searchable</label>
+          <select id="issearchable" class="form-ctrl" name="issearchable"  [(ngModel)]="editCustomComponentForm.is_searchable">
+            <option value="Y">Yes</option>
+            <option value="N" selected>No</option>
+          </select>
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper">
+          <label for="sequencenumber">Sequence (Numerals Only)</label>
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3"  name="sequencenumber" id="sequencenumber"  [(ngModel)]="editCustomComponentForm.sequence_number">
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="complength">Max- Length (Numerals Only)</label>
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+            name="complength" id="complength"  [(ngModel)]="editCustomComponentForm.comp_length">
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-wrapper" >
+          <label for="defVal">Default Value</label>
+          <input type="text" class="form-ctrl"  name="defaultValue"
+            id="defVal"  [(ngModel)]="editCustomComponentForm.defaultValue">
+        </div>
+      </div>
+
+      <!-- <div class="c-lg-4">
+        <div class="field-wrapper">
+          <label for="isexternal">Is External</label>
+          <select id="isexternal" class="form-ctrl" name="isexternal"  [(ngModel)]="editCustomComponentForm.type">
+            <option value="Y">Yes</option>
+            <option value="N" selected>No</option>
+          </select>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn txt_font" (click)="canclePopus()">
+          <input type="button" value="Update " *ngIf="isEdit=='Edit'" class="fullBlue btn txt_font"
+            (click)="updateCustomField()">
+          <input type="button" value="Add " *ngIf="isEdit=='Add'" (click)="addNewStudentCustomFormFiel()" class="fullBlue btn txt_font"
+           >
+        </aside>
+      </div>
+    </div>
+
+  </proctur-popup>

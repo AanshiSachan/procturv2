@@ -26,12 +26,12 @@
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper"
                           [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
-                          <label for="smc">Select Master Course
+                          <label for="smc">Select Master course
                             <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id"
                             (ngModelChange)="updateSubjectList($event)">
-                            <option value="-1">Select Standard Name</option>
+                            <option value="-1">Select Master course</option>
                             <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
                               {{std.standard_name}}
                             </option>
@@ -46,7 +46,7 @@
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id"
                             (ngModelChange)="filterSubjectBatches($event)">
-                            <option value="-1">Select Subject Name</option>
+                            <option value="-1">Select Course</option>
                             <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
                               {{subject.subject_name}}
                             </option>
@@ -204,7 +204,7 @@
                         <span class="text-danger">*</span>
                       </th>
                       <th>
-                        Select Faculty
+                        Select Teacher
                         <span class="text-danger">*</span>
                       </th>
                       <th class="desc" *ngIf="!schoolModel">

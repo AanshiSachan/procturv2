@@ -1,0 +1,190 @@
+<div class="page-content">
+    <div class="w98">
+        <div class="tab-content">
+            <div id="structure">
+                <div class="padding1">
+                    <input type="text" class="input magnifying-glass wid240" name="" placeholder="Search" [(ngModel)]="searchText" (keyup)="searchInList()">
+                    <a routerLink='/view/fee/data-setup/fee-structure/add'> <button class="blue_button right">New
+                            Structure</button></a>
+                </div>
+                <div class="school">
+                    <div class="table_heading">
+                        <div>Fee Structure</div>
+                        <div *ngIf="schoolModel && !isTemplateNotLinkWithCourseAndStandard">Standard</div>
+                        <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">Master Course</div>
+                        <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">Course</div>
+                        <div *ngIf="countryDetails.length>1">Country</div>
+                        <div class="flex">
+                            <div class="right wid50"><span class="right">Total Fees</span></div>
+                            <div class="light wid50"><span class="left"></span></div>
+                        </div>
+                        <!-- <div>Students Assigned</div> -->
+                        <div>Action</div>
+                    </div>
+                    <div class="tableHeight">
+                        <div *ngFor="let data of tabkeList">
+                            <div class="table_body">
+                                <div>{{data.template_name}}</div>
+                                <div *ngIf="schoolModel && !isTemplateNotLinkWithCourseAndStandard"> {{data.standard_name}}
+                                </div>
+                                <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
+                                    {{data.master_course_standard_name}}</div>
+                                <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
+                                    {{data.course_subject_name}}</div>
+                                <div *ngIf="countryDetails.length>1">{{data.country_name}}</div>
+                                <div class="flex">
+                                    <div class="right wid50"><span class="right">{{data.studentwise_total_fees_amount | number }}</span></div>
+                                    <div class="light wid50"><span class="left"></span></div>
+                                </div>
+                                <!-- <div><a (click)="studentsAssigned(data)" class="students_assigned pointer" data-toggle="modal"
+                                        data-target="#myModal">{{data.totalAssignedStudent}}</a></div> -->
+                                <div>
+                                    <!-- <a class="mr10"><img src="../../../../../assets/images/icon7.svg" title="View"
+                                        class="size22"></a> -->
+                                    <a class="mr10" (click)="editFeeStructure(data)"><img
+                                            src="../../../../../assets/images/EDit.png" title="Edit" class="size22 pointer"></a>
+                                    <a><img src="../../../../../assets/images/Group321.svg"
+                                            (click)="deleteFeeStructure(data)" title="Delete" class="size22 pointer"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+                [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+            </pagination>
+        </div>
+      </div> 
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Students Assigned</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tableHeight">
+                    <div class="student">
+                        <div class="table_heading">
+                            <div>Student Id</div>
+                            <div>Student Name</div>
+                        </div>
+                        <div *ngFor="let data of studentList">
+                            <div class="table_body">
+                                <div>{{data.student_disp_id}}</div>
+                                <div>{{data.student_name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="editFeeStructureModel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 144%;">
+            <div class="modal-header">
+                <h4 style="float: left;" class="modal-title">Edit Fee Structure</h4>
+                <input type="text" [(ngModel)]="templateName" placeholder="Fee Structure"
+                    style="width: 45%;margin-left: 10px;" class="input wid80"/>
+                <input type="checkbox" name="checked" [(ngModel)]="is_default" style="margin-left: 50px;appearance: checkbox;"> Is Default
+                <button type="button" class="close" data-dismiss="modal" (click)="closePopUp()">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 70vh;margin-bottom: 10px;overflow-y: auto;">
+                <span class="right relative" style="margin-bottom: 12px;">
+                    <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax) ':''}}:<span>{{currencySymbol}} {{ totalFeeAmount | number }}</span></span>
+                    <p class="itax" *ngIf="is_tax_enabled">Total Tax: {{currencySymbol}} {{totalTax | number}}</p>
+                </span>
+                <div class="fee_new">
+                    <div class="table_heading">
+                        <div>#</div>
+                        <div>Fee Type </div>
+                        <div>{{(schoolModel || isTemplateNotLinkWithCourseAndStandard)?'Day Of Month':'Trigger Date'}}</div>
+                        <div>{{(schoolModel || isTemplateNotLinkWithCourseAndStandard)?'Month':'Day/Month'}}</div>
+                        <div *ngIf="(schoolModel || isTemplateNotLinkWithCourseAndStandard)">Year</div>
+                        <div><span>Total Fees <span class="light">(In )</span></span></div>
+                        <div>Action</div>
+                    </div>
+                    <div *ngFor="let data of feeInstalllmentArr; let i=index;">
+                        <div class="table_body">
+                            <div>{{i+1}}</div>
+                            <div>
+                                <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type"
+                                    (ngModelChange)="calculateTotalFee()">
+                                    <option value="-1">Fee Type</option>
+                                    <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
+                                        {{data.fee_type | titlecase}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].days">
+                                    <option value="-1">Day</option>
+                                    <option *ngFor="let day of dayOfmonth" [value]="day">{{day}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
+                                    (ngModelChange)="changesValuesAsPerType($event,i)">
+                                    <option value="-1">Trigger Date</option>
+                                    <option value="1">Course Assign Date (CAD)</option>
+                                    <option value="2">No of days after CAD</option>
+                                    <option value="3">No of Month after CAD</option>
+                                </select>
+                            </div>
+                            <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
+                                    <option value="-1">Month</option>
+                                    <option *ngFor="let month of months" [value]="month.id">{{month.value}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard">
+                                <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].year">
+                                    <option value="-1">Year</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                            </div>
+                            <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
+                                <input type="text" [readonly]="feeInstalllmentArr[i].day_type==1" [(ngModel)]="feeInstalllmentArr[i].days" placeholder="00"
+                                    class="input wid80 rrs"
+                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
+                            </div>
+                            <div><input type="text" [(ngModel)]="feeInstalllmentArr[i].fees_amount" placeholder="00"
+                                    class="input wid80 rrs" (keyup)="calculateTotalFee()"
+                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></div>
+                            <div>
+                                <a (click)="addInstallment(i)" class="mr10"><img
+                                        src="../../../../../assets/images/add.svg" class="size22" title="Add"></a>
+                                <a (click)="deleteInstallment(i)"><img src="../../../../../assets/images/Group321.svg"
+                                        class="size22" title="Delete"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="padding1" >
+                    <span class="right">
+                        <button class="white_button mr10" (click)="closePopUp()">
+                            Cancel
+                        </button>
+                        <button class="blue_button " (click)="updateFeeStructure()">
+                            Save
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

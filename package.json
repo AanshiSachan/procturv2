@@ -28,6 +28,7 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.27",
         "@fortawesome/free-solid-svg-icons": "^5.12.1",
         "@ng-bootstrap/ng-bootstrap": "^6.2.0",
+        "@ng-select/ng-select": "^6.1.0",
         "@progress/kendo-angular-intl": "^1.7.1",
         "@progress/kendo-angular-l10n": "^1.4.1",
         "@progress/kendo-angular-treeview": "^3.1.2",

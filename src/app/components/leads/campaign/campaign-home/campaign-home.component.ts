@@ -253,7 +253,7 @@ export class CampaignHomeComponent implements OnInit {
           }
           else {
             this.fetchingDataMessage = "No Record Found";
-            this.showErrorMessage(this.msgService.toastTypes.info, this.msgService.object.generalMessages.notFound, 'We did not find any enquiry for the specified query');
+            // this.showErrorMessage(this.msgService.toastTypes.info, this.msgService.object.generalMessages.notFound, 'We did not find any enquiry for the specified query');
             this.totalCampaign = data.length;
             this.indexJSON = [];
             this.setPageSize(this.totalCampaign);
@@ -312,7 +312,7 @@ export class CampaignHomeComponent implements OnInit {
         else {
           this.fetchingDataMessage = "No Record Found";
           this.totalCampaign = data.length;
-          this.showErrorMessage(this.msgService.toastTypes.info, this.msgService.object.generalMessages.notFound, 'We did not find any enquiry for the specified query');
+          // this.showErrorMessage(this.msgService.toastTypes.info, this.msgService.object.generalMessages.notFound, 'We did not find any enquiry for the specified query');
           this.indexJSON = [];
           this.setPageSize(this.totalCampaign);
           this.cd.markForCheck();

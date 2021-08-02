@@ -314,11 +314,11 @@ export class ReviewProductComponent implements OnInit {
       return;
     }
     if (this.prodForm.purchase_limit == 0) {
-      this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+      this.msgService.showErrorMessage('error', 'product sell limit should be greater than zero', '');
       return;
     }
     if (this.prodForm.country_id == 0) {
-      this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+      this.msgService.showErrorMessage('error', 'product sell limit should be greater than zero', '');
       return;
     }
 
@@ -407,9 +407,10 @@ export class ReviewProductComponent implements OnInit {
             this.msgService.showErrorMessage('error', resp.body.error[0].error_message, '');
           }
         },
-        (err) => {
+        (err:any) => {
           this.auth.hideLoader();
-          this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          this.msgService.showErrorMessage('error', err.error.error[0].error_message, '');
+          this.prodForm.is_paid = this.prodForm.is_paid == 'Y' ? 0 : 1;
         });
     }
 

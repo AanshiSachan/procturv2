@@ -1,0 +1,256 @@
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Purchase Item</p>
+        </div>
+        <div>
+          <a routerLink="../purchase-add" >
+            <button class="blue_button"  >Add Purchase</button>
+           </a>
+        </div>
+      </div>
+    </div>
+        <div class="w98">
+            <div class="pt15 display" style="padding-bottom: 15px;">
+              <div>
+                <input type="text" class="input wid240 mr10 magnifying-glass"  placeholder="Search"
+                #search [(ngModel)]="searchParams"
+                name="searchParams" (keyup)="searchDatabase()">
+            </div>
+ <div class="right">
+                                    <!--   <a (click)="copydata()" class="mr10"><img src="../../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../../assets/img1/csv.svg" title="CSV"></a>-->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../../assets/img1/excel.svg" title="Excel Download"></a>
+            </div> 
+            </div>
+            <div class="purchase">
+                <div class="table_heading" >
+                <!-- <div>#</div> -->
+                <div style="padding-left: 20px;">Reference No. </div>
+                <div>Supplier</div>
+                <div>Date</div>
+                <div style="text-align: center;">Grand Total&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div style="text-align: center;">Paid &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div style="text-align: center;">Balance &nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)</div>
+                <div style="text-align: center;">Actions</div>
+                </div>
+                <div class="table_body" *ngFor="let data of staticPageData;index as i">
+            
+                <!-- <div>
+                  <a href="{{data.bill_image_url}}" target="_blank" download><img src="{{data.bill_image_url}}" width="40" height="40"/></a>
+              </div> -->
+              <!-- <div>{{i +1}}</div> -->
+                <div style="padding-left: 20px;">
+                  {{data.reference_number}}
+                   </div>
+                <div>
+               {{data.supplier_company_name}}
+                </div>
+                <div>
+              {{data.purchase_date | date: 'dd-MMM-yyyy'}}
+                </div>
+                <div style="text-align: center;">
+                    {{data.total_amount}}
+                </div>
+                    <div style="text-align: center;">
+                    {{data.total_paid_amount}}
+                    </div>
+                    <div style="text-align: center;">
+                   {{data.balanced_amount}}
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="dropdown1">
+                           <span style="text-align: space-beetween;"><img src="../../../../assets/img1/menu.svg"  class="dot3"/></span> 
+                                <div class="dropdown-content1"   id="action_btn" >
+                                  <a  (click)="viewNavigate(data.purchase_id)">View</a>
+                                
+                                  <a  [routerLink]="['/view/inventory-management/edit/', data.purchase_id]"
+                                  *ngIf="data.total_amount==data.balanced_amount" >Edit</a>
+                                 
+                                  <a (click)='showConfirm(data)'*ngIf="data.total_amount==data.balanced_amount">Delete</a>   
+                                  <a *ngIf="data.total_amount !=data.balanced_amount" (click)="cancelData(data.purchase_id)">Cancel</a>  
+                                  <a (click)="showAddPayment(data.purchase_id)"*ngIf="data.balanced_amount!=0" >Add Payment</a>   
+                                  <a  (click)="getPaymentHistory(data)">View Payment History</a>
+                                
+                                </div>
+                               
+                        </div>
+                    </div>
+                </div>
+                <section class="no-data" *ngIf="staticPageData.length == 0">
+                  <div class="illustration-container">
+                    <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+                  </div>
+                </section>
+            </div>
+        </div>
+        <div style="margin-top: 2 0px;">
+              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"(goPrev)="fetchPrevious()"
+    [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+    [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+</pagination> 
+</div>
+               
+          <!-- use image only when page is empty,table body class element will not be present -->
+</div> 
+  <div class="modal" id="addpayModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Payment</h4>
+          <button type="button" class="close" data-dismiss="modal" 
+          (click)="cancel()">&times;</button>
+        </div>
+        <form #addform="ngForm">
+        <div class="modal-body">
+          <div class="flex">
+            <div class="sec1">
+              <div class="pt10"  [class.has-error]="payment_date.invalid && payment_date.touched">
+                <label class="p_title"> Date<span class="text-danger">*</span></label>
+                <input type="Date" class="input wid100" [(ngModel)]="paymentModel.payment_date"
+                  name="payment_date" placeholder="Date*"
+                  (change)="validateFutureDate($event)"
+                  #payment_date="ngModel" required>
+              </div>
+              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block"
+                 *ngIf="!payment_date.valid && payment_date.touched">
+               Date is  mandatory
+             </span></p> -->
+              <div class="pt10"  [class.has-error]="payment_method.invalid && payment_method.touched">
+                <label class="p_title"> Payment Method<span class="text-danger">*</span></label>
+                <select class="select wid100" name="payment_method" id="payment_method"
+                  [(ngModel)]="paymentModel.payment_method"   #payment_method="ngModel"
+                  required>
+                    <option value="">Select Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="Card">Card</option>
+                    <option value="Others">Others</option>
+                  </select>
+              </div>
+              <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="!payment_method.valid && payment_method.touched"
+                class="help-block">
+                Payment method is mandatory
+               </span></p> -->
+              <div class="pt10">
+                <label class="p_title"> Upload Receipt<span class="text-danger">*</span></label>
+                <input type="File" class="input wid100" placeholder="Date*"
+                  type="File" class="input wid100" name="billImageFile" placeholder="Date*" name="billImageFile"
+              [disabled]="bill_image_url!=''&& isedit" id="billImageFile" style="margin-top:8px;"
+              [(ngModel)]="bill_image_url" accept=".gif, .jpg, .png, .doc,.svg,.pdf,.csv|image/*">
+              </div>
+              <!-- <p class="errormsg"> <span  style="height:10px;"  class="help-block">
+
+               </span></p> -->
+            </div>
+            <div class="sec2">
+              <div class="pt10">
+                <label class="p_title"> Reference No.<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" name="reference_no" [(ngModel)]="paymentModel.reference_no" 
+                  placeholder="Enter Reference Number">
+              </div>
+              
+              <!-- <p class="errormsg"> <span  style="height:10px;"  class="help-block">
+
+              </span></p> -->
+              <div class="pt10" [class.has-error]="paid_amount.invalid && paid_amount.touched">
+                <label class="p_title"> Amount<span class="text-danger">*</span></label>
+              
+                <input type="text" class="input wid100" id="paid_amount" name="paid_amount" placeholder=" Enter Amount"
+                  #paid_amount="ngModel"  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+                  required
+                  (change)="validatePayment(paymentModel.paid_amount)"
+                  [(ngModel)]="paymentModel.paid_amount">
+              </div>
+              <!-- <p class="errormsg"> <span  style="height:10px;"  
+                *ngIf="!paid_amount.valid && paid_amount.touched"
+                [(ngModel)]="paymentModel.paid_amount"
+                class="help-block">
+                Amount* is mandatory
+               </span></p> -->
+            </div>
+          </div>
+          <div class="pt10 display">
+           <div></div>
+           <div>
+            <button class="blue_button cancel" (click)="cancel()" data-dismiss="modal">Cancel</button> 
+             <button class="blue_button" (click)="addPaymentPurchase(payment_purchase_id)">Update</button></div>
+          </div>
+        </div>  
+        </form>      
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="viewpayModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Payment History</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body scrollable">
+          <div class="history">
+            <div class="table_heading" style="line-height: 30px;">
+              <div style="padding-left: 18px;">
+                #
+              </div>
+              <div>Date </div>
+              <div>
+               Reference No
+              </div>
+              <div>Amount</div>
+              <div>Paid By</div>
+              <div>File</div>
+            </div>
+            <div class="table_body tbl-history" style="margin:-3px 0px;padding:10px" *ngFor="let data of paymentHistoryData;index as i">
+              <div style="padding-left: 8px;">
+               {{i+1}}
+              </div>
+              <div>
+              {{data.payment_date}}
+              </div>
+              <div>{{data.reference_no}}</div>
+              <div>
+              {{data.paid_amount}}
+              </div>
+              <div>
+              {{data.payment_method}}
+              </div>
+              <div>
+                <a *ngIf="data.bill_image_url==null "  class="mr10">--</a>
+                <a  *ngIf="data.bill_image_url!=null " href="{{data.bill_image_url}}" class="mr10"><img src="../../../../assets/images/View.png" title="View Receipt"></a>
+ </div>
+            </div>
+        </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="deletesModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="center">
+            <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+          </div>
+         <div><p class="center"> Do you want
+           to proceed ?</p>
+          </div> 
+          <div class="pt101 display">
+            <div>
+              <button class="white_button right"data-dismiss="modal">Cancel</button>
+            </div>
+            <div>
+              <button class="blue_button right" (click)="deleteRow(tempObj)">Proceed</button>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>

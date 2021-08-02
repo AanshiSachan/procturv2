@@ -232,10 +232,13 @@
     color: #61758E;
   }
   .teacher_attendance .table_heading>div{
-    width: calc((100% - 150px) / 4);
+    width: calc((100% - 150px) / 3);
+    text-align: left;
+    margin-left: 22px;
   }
   .teacher_attendance .table_body>div{
     width: calc((100% - 150px) / 4);
+    text-align: left;
   }
   .teacher_attendance{
     margin-bottom:120px;
@@ -994,7 +997,7 @@
   
 }
 .bottom_button{
-  padding: 10px 0px;
+  padding: 50px 0px;
   height: 90px;
   z-index: 200;
   position: fixed;
@@ -1012,8 +1015,8 @@ border-top: 3px solid #Ededed;
 .field-wrapper .form-ctrl{
   border-radius: 4px;
   border-color: #ccc;
-  width: 265px;
-  height: 43px;
+  width: 100%;
+  height: 31px;
 }
 
 
@@ -1021,9 +1024,12 @@ border-top: 3px solid #Ededed;
   content: '';
   background: url(/./assets/images/calendar.svg) no-repeat;
   position: absolute;
-  right: 5px;
-  top: 19px;
+  right: 2px;
+  top: 15px;
   width: 21px;
   height: 21px;
   z-index: 0;
+}
+b{
+  font-weight: 600;
 }

@@ -31,11 +31,13 @@
           </span>
             <input type="text" style="width: 75%;" value="" id="mobile_no"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
-              [(ngModel)]="editLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
+              [(ngModel)]="editLead.phone" name="name" autocomplete="off" maxlength="10" required placeholder="Contact Number" />
           </div>
 
           <div class="form-item field-wrapper">
-            <label for="name">Name</label>
+            <label for="name">Name
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="editLead.name" name="name"
               maxlength="50" required placeholder="Name" />
           </div>
@@ -127,11 +129,13 @@
           </span>
             <input type="text" style="width: 75%;" value="" id="mobile_no"
               onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
-              [(ngModel)]="addLead.phone" name="name" maxlength="10" required placeholder="Contact Number" />
+              [(ngModel)]="addLead.phone" autocomplete="off" name="name" maxlength="10" required placeholder="Contact Number" />
           </div>
 
           <div class="form-item field-wrapper">
-            <label for="name">Name</label>
+            <label for="name">Name
+              <span class="text-danger">*</span>
+            </label>
             <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="addLead.name" name="name"
               maxlength="50" required placeholder="Name" />
           </div>
@@ -261,7 +265,7 @@
     <div class="w98 p-15">
         <nav aria-label="breadcrumb ">
             <ol class="breadcrumb arr-right">
-                <li class="breadcrumb-item "><a>Lead</a></li>
+                <li class="breadcrumb-item "><a>Leads</a></li>
                 <li class="breadcrumb-item "><a>SMS Campaign</a></li>
             </ol>
         </nav>

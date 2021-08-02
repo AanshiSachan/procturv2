@@ -85,10 +85,11 @@
 
       <div class="c-sm-2 c-md-2 c-lg-2">
         <div class="field-wrapper">
-          <label for="endDate">Academic Year </label>
+          <label for="endDate">Academic Year
+            <span class="text-danger">*</span>
+          </label>
           <select class="form-ctrl" [(ngModel)]="courseDetails.academic_year_id"
             (ngModelChange)="setStartAdEndDate(courseDetails)" style="background: transparent">
-            <option value="-1">Select</option>
             <option *ngFor="let opt of academicList"  [value]="opt.inst_acad_year_id">
               {{opt.inst_acad_year}}
             </option>
@@ -115,7 +116,7 @@
               Subject Name
             </th>
             <th>
-              Select Faculty <span class="text-danger">*</span>
+              Select Teacher <span class="text-danger">*</span>
             </th>
           </tr>
         </thead>
@@ -283,7 +284,7 @@
                         Subject Name
                       </th>
                       <th>
-                        Select Faculty
+                        Select Teacher
                       </th>
                     </tr>
                   </thead>

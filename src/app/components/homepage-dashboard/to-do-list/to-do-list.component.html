@@ -3,17 +3,21 @@
   To Do List</button> -->
 
   <div class="toDoList-widget">
+  
     <div class="toDoList-header">
+     
       <span style="font-weight: bold;">To do List</span>
-      <input style="margin-left:12%;" type="text" value="" id="sortDate" class="widgetDatepicker bsDatepicker" name="sortDate"
+      <!-- <input style="margin-left:12%;" type="text" value="" id="sortDate" class="widgetDatepicker bsDatepicker" name="sortDate"
         [(ngModel)]="sortDate" (ngModelChange)="sortByDate($event)" readonly="true" bsDatepicker
-      />
+      /> -->
 
-      <span>
+      <!-- <span>
         <i class="fa fa-calendar" style="cursor: pointer;" (click)="openCalendar('sortDate')"></i>
         <span id="sortDateSpan">  &nbsp;&nbsp; Sort by date   &nbsp;&nbsp;&nbsp;</span>
         <i class="glyphicon glyphicon-repeat" id="refresh-icon" title="Date Reset" (click)="resetSortByDate()"></i>
-      </span>
+      </span> -->
+      <!--for close button-->
+      <ng-content></ng-content>
     </div>
     <div class="toDoList-input-container input-group">
       <input type="text" name="" value="" id="taskInput" [disabled]="is_edit" class="form-control toDoList-input" [(ngModel)]="taskInput" (ngModelChange)="showAddOption()" placeholder="Add a task..." autofocus>
@@ -35,19 +39,24 @@
               <!-- <div class="toDoList-selection">
                 <i class="fa fa-bars"></i>
               </div> -->
-              <div class="toDoList-content">
-                <span class="taskName" id="name_{{toDo.task_id}}">{{toDo.task_name}}</span>
+              <div  class="toDoList-content textfolw">
+                <p class="taskName" id="name_{{toDo.task_id}}" title="{{toDo.task_name}}">
+                  {{toDo.task_name}}
+                 <!-- {{ (toDo.task_name.length > 90) ? (toDo.task_name | slice:0:90) + '...' : toDo.task_name }} -->
+                </p>
                 <div class="input-wrapper">
-                  <input type="text" name="" value="{{toDo.task_name}}" class="toDoEdit" id="{{toDo.task_id}}" (keyup.enter)="updateToDo(toDo)" placeholder="Add a task...">
+                  <input type="text" name="" value="{{toDo.task_name}}" class="toDoEdit" id="{{toDo.task_id}}"  placeholder="Add a task...">
                   <!-- <i class="fa fa-paper-plane pull-right" aria-hidden="true"></i> -->
                   <!-- <label for="{{toDo.task_id}}" class="fa fa-paper-plane pull-right" id="fa_{{toDo.task_id}}"></label> -->
                 </div>
                 <div class=toDoList-date>
-                  <span>{{toDo.task_date | date: 'EEE, dd MMM'}}</span>
+                  <span>{{toDo.task_date | date : "d MMMM, y"}}  <span style="margin-left: 60px;"  class="plus-icon-box" *ngIf="toDo.editbtn" ><i class="fa fa-plus-circle plus-icon"  (click)="updateToDo(toDo)" title="Update Task">&nbsp;&nbsp;Update</i></span>
+                </span>
+                
                 </div>
               </div>
               <div class="toDoList-button-container">
-                <i class="fa fa-pencil"  title="Edit To-Do" style="color: #1283f4; cursor:pointer;" (click)="editToDo(toDo.task_id)"></i>
+                <i class="fa fa-pencil"  title="Edit To-Do" style="color: #1283f4; cursor:pointer;" (click)="editToDo(toDo.task_id,i)"></i>
               </div>
               <div class="toDoList-button-container">
                 <i class="fa fa-trash" title="Delete To-Do" style="color: #ff0000; cursor:pointer;" (click)="deleteToDo(toDo.task_id)"></i>
@@ -69,10 +78,11 @@
               <!-- <div class="toDoList-selection">
                 &nbsp;&nbsp;&nbsp;
               </div> -->
-              <div class="toDoList-content" style="color:#cbcbcb; border-color: #cbcbcb;">
-                <span class="taskName"><del>{{toDo.task_name}}</del></span>
+              <div class="toDoList-content textfolw" style="color:#cbcbcb; border-color: #cbcbcb;">
+                <span class="taskName"><del title="{{toDo.task_name}}">{{toDo.task_name}}</del></span>
                 <div class=toDoList-date>
-                  <span style="color:#cbcbcb;">{{toDo.task_date | date: 'EEE, dd MMM'}}</span>
+                  <span style="color:#cbcbcb;">{{toDo.task_date | date: 'EEE, dd MMM'}}
+    </span>
                 </div>
               </div>
               <div class="toDoList-button-container">

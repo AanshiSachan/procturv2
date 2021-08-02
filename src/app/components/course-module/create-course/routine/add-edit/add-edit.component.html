@@ -1,0 +1,155 @@
+<div class="container-fluid product-wrapper p-0" style="padding-top: 2px;padding: 1%;">
+    <form id="form1" #createRoutinForm="ngForm" autocomplete="off">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="standard_id.invalid && standard_id.touched">
+                    <label class="text-bold"> Standard<span class="danger">*</span>
+                    </label>
+                    <select id="master_course" class="form-ctrl" [disabled]="isEdit" [(ngModel)]="editrecord.standard_id"
+                        (ngModelChange)="getCourseList($event)" name="standard_id" required #standard_id="ngModel">
+                        <option value="">Standard*</option>
+                        <option [value]="masterCourse.standard_id" title="{{masterCourse.standard_name}}"
+                            *ngFor="let masterCourse of masterCourse">
+                            {{ (masterCourse.standard_name?.length > 30) ? (masterCourse.standard_name | slice:0:30) +
+                            '...' : masterCourse.standard_name }}
+                        </option>
+                    </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!standard_id.valid && standard_id.touched) || errorsObj.standard_id!=''">
+                        {{errorsObj.standard_id!='' ? errorsObj.standard_id : 'Standard is mandatory'}}
+                    </span></p>
+                </div>
+                <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="course_id.invalid && course_id.touched">
+                    <label class="text-bold"> Section<span class="danger">*</span>
+                    </label>
+                    <select class="form-ctrl" name="" [disabled]="isEdit" [(ngModel)]="editrecord.course_id"
+                        (ngModelChange)="updateSubjectList($event)" name="course_id" required #course_id="ngModel">
+                        <option value="">Section*</option>
+                        <option title="{{course.course_name}}" [value]="course.course_id"
+                            *ngFor="let course of courseList">
+                            {{ (course.course_name?.length > 30) ? (course.course_name | slice:0:30) + '...' :
+                            course.course_name }}
+                        </option>
+                    </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!course_id.valid && course_id.touched) || errorsObj.course_id!=''">
+                        {{errorsObj.course_id!='' ? errorsObj.course_id : 'Section is mandatory'}}
+                    </span></p>
+                </div>
+                <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="batch_id.invalid && batch_id.touched">
+                    <label class="text-bold"> Subject<span class="danger">*</span>
+                    </label>
+                    <select class="form-ctrl" name="" [(ngModel)]="editrecord.batch_id" name="batch_id" required #batch_id="ngModel">
+                        <option value="">Subject*</option>
+                        <option title="{{subject.subject_name}}" [value]="subject.batch_id"
+                            *ngFor="let subject of subjectList">
+                            {{ (subject.subject_name?.length > 30) ? (subject.subject_name | slice:0:30) + '...' :
+                            subject.subject_name }}
+                            <span *ngIf="subject.is_optional_subject">(Optional)</span>
+                        </option>
+                    </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!batch_id.valid && batch_id.touched) || errorsObj.batch_id!=''">
+                        {{errorsObj.batch_id!='' ? errorsObj.batch_id : 'Subject is mandatory'}}
+                    </span></p>
+                </div>
+
+                <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="day_of_week.invalid && day_of_week.touched">
+                    <label class="text-bold"> Day<span class="danger">*</span>
+                    </label>
+                    <select class="form-ctrl" name="" [(ngModel)]="editrecord.day_of_week" name="day_of_week" required #day_of_week="ngModel">
+                        <option value="">Select Day*</option>
+                        <option title="{{day.data_value}}" [value]="day.data_key"
+                            *ngFor="let day of weekDaysListWithoutWeekend">
+                            {{ (day.data_value?.length > 30) ? (day.data_value | slice:0:30) + '...' :
+                            day.data_value }}
+                        </option>
+                    </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!day_of_week.valid && day_of_week.touched) || errorsObj.day_of_week!=''">
+                        {{errorsObj.day_of_week!='' ? errorsObj.day_of_week : 'Day is mandatory'}}
+                    </span></p>
+                </div>
+
+                <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="teacher_id.invalid && teacher_id.touched">
+                    <label class="text-bold"> Teacher<span class="danger">*</span>
+                    </label>
+                    <select class="form-ctrl" name="" [(ngModel)]="editrecord.teacher_id" name="teacher_id" required #teacher_id="ngModel">
+                        <option value="">Select Teacher*</option>
+                        <option title="{{day.teacher_name}}" [value]="day.teacher_id"
+                            *ngFor="let day of teacherListDataSource">
+                            {{ (day.teacher_name?.length > 30) ? (day.teacher_name | slice:0:30) + '...' :
+                            day.teacher_name }}
+                        </option>
+                    </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="(!teacher_id.valid && teacher_id.touched) || errorsObj.teacher_id!=''">
+                        {{errorsObj.teacher_id!='' ? errorsObj.teacher_id : 'Teacher is mandatory'}}
+                    </span></p>
+                </div>
+
+                <div class="col-md-12 form-group edit-item field-wrapper">
+                    <label class="text-bold"> Starting Time<span class="danger">*</span>
+                    </label>
+                    <select style="width: 17.5%;" id="" class="form-ctrl" [(ngModel)]="mainStartTime.hour" name="start_time">
+                        <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                        </option>
+                    </select>
+                    <select style="width: 17.5%;" id="" class="form-ctrl" [(ngModel)]="mainStartTime.minute" name="start_minute">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                        </option>
+                    </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="errorsObj.start_time!=''">
+                        {{errorsObj.start_time}}
+                    </span></p>
+                </div>
+
+                <div class="col-md-12 form-group edit-item field-wrapper">
+                    <label class="text-bold"> Ending Time<span class="danger">*</span>
+                    </label>
+                    <select style="width: 17.5%;" id="" class="form-ctrl" [(ngModel)]="mainEndTime.hour" name="endtime">
+                        <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                        </option>
+                    </select>
+                    <select style="width: 17.5%;" id="" class="form-ctrl" [(ngModel)]="mainEndTime.minute" name="end_minute">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                        </option>
+                    </select>
+                    <p class="errormsg"><span  class="help-block" *ngIf="errorsObj.end_time!=''">
+                        {{errorsObj.end_time}}
+                    </span></p>
+                </div>
+
+                <div class="col-md-12 form-group edit-item field-wrapper" [class.has-error]="class_room_id.invalid && class_room_id.touched">
+                    <label class="text-bold"> Room<span class="danger">*</span>
+                    </label>
+                    <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id" name="class_room_id" required #class_room_id="ngModel">
+                        <option value="">Room *</option>
+                        <option *ngFor="let class of classRoomData" title="{{class.class_room_name}}" [value]="class.class_room_id">
+                          {{ (class.class_room_name?.length > 30) ? (class.class_room_name | slice:0:30) + '...' :
+                          class.class_room_name }}
+                        </option>
+                      </select>
+                      <p class="errormsg"><span  class="help-block" *ngIf="(!class_room_id.valid && class_room_id.touched) || errorsObj.class_room_id!=''">
+                        {{errorsObj.class_room_id!='' ? errorsObj.class_room_id : 'Room is mandatory'}}
+                    </span></p>
+                </div>
+
+                <div *ngIf="!isEdit" class="col-md-12 form-group edit-item field-wrapper" style="padding-left: 0;">
+                    <input style="-webkit-appearance: checkbox;width: 4%;" [disabled]="disabledFromDate" type="checkbox" class="form-ctrl" [(ngModel)]="fromToday" id="fromToday" name="fromToday">
+                    <label class="text-bold" for="fromToday"> Schedule From Today
+                    </label>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <div class="go-btn-container">
+        <button type="button" name="button" class="fullBlue add-class-btn" (click)="backToHome()">Cancel</button>
+        <button type="button" name="button" class="fullBlue gobtn" (click)="saveRoutineData()"
+            [disabled]="auth.isRippleLoad.getValue()">Save</button>
+    </div>
+</div>

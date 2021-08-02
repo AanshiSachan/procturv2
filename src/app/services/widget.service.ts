@@ -586,5 +586,5 @@ export class WidgetService {
             err => { return err }
         ));
     }
-
+   
 }

@@ -14,6 +14,7 @@ import { LoginService } from '../../../../services/login-services/login.service'
 import { MultiBranchDataService } from '../../../../services/multiBranchdata.service';
 import { ClosingReasonService } from '../../services/closing-reason.service';
 import { CommonApiCallService } from '../../../../services/common-api-call.service';
+import CommonUtils from '../../../../utils/commonUtils'
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -253,10 +254,10 @@ export class EnquiryEditComponent implements OnInit {
         }
       }
     )
-    if (this.schoolModel) {
       commonApiCallService.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
+      if (this.schoolModel) {
       commonApiCallService.getAllFinancialYear().subscribe(data => {
         this.instAcademicYrList = data
       })
@@ -1006,6 +1007,23 @@ export class EnquiryEditComponent implements OnInit {
       }
     }
 
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.email)) {
+      this.showErrorMessage('error', '', "Please enter valid email id");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.email2)) {
+      this.showErrorMessage('error', '', "Please enter valid alternate email ID");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.parent_email)) {
+      this.showErrorMessage('error', '', "Please enter valid parent email ID");
+      return;
+    }
+    if (CommonUtils.isOptionalValidEmailId(this.editEnqData.guardian_email)) {
+      this.showErrorMessage('error', '', "Please enter valid guardian email ID");
+      return;
+    }
+
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
@@ -1018,6 +1036,10 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.dob = this.fetchDate(this.editEnqData.dob);
         this.editEnqData.enquiry_date = this.fetchDate(this.editEnqData.enquiry_date);
         this.editEnqData.followUpDate = this.fetchDate(this.editEnqData.followUpDate);
+        this.editEnqData.parent_email = (this.editEnqData.parent_email) ? this.editEnqData.parent_email.trim() : '';
+        this.editEnqData.email2 = (this.editEnqData.email2) ? this.editEnqData.email2.trim() : '';
+        this.editEnqData.email = this.editEnqData.email.trim();
+        this.editEnqData.guardian_email = (this.editEnqData.guardian_email) ? this.editEnqData.guardian_email.trim() : '';
 
         if (this.editEnqData.courseIdArray == '-1') {
           this.editEnqData.courseIdArray = null;
@@ -1099,9 +1121,10 @@ export class EnquiryEditComponent implements OnInit {
                   curr_address : this.editEnqData.curr_address,
                   state_id: this.editEnqData.state_id,
                   area_id: this.editEnqData.area_id,
-                  city_id: this.editEnqData.city_id
+                  city_id: this.editEnqData.city_id,
+                  comments: this.editEnqData.enquiry,
+
                 }
-                if (this.schoolModel) {
                   obj.birth_place = this.editEnqData.birth_place,
                     obj.blood_group = this.editEnqData.blood_group,
                     obj.category = this.editEnqData.category,
@@ -1118,8 +1141,6 @@ export class EnquiryEditComponent implements OnInit {
                     obj.guardian_email = this.editEnqData.guardian_email,
                     obj.guardian_phone = this.editEnqData.guardian_phone,
                     obj.religion = this.editEnqData.religion
-
-                }
                 if (!this.isProfessional) {
                   obj.standard_id = this.editEnqData.standard_id;
                 } else {
@@ -1171,8 +1192,8 @@ export class EnquiryEditComponent implements OnInit {
         }
         else {
           hour += 1;
-          let formattedNumber = (hour).slice(-2);
-          hour = formattedNumber.toString();
+          //let formattedNumber = (hour).slice(-2);
+          hour = hour.toString();
         }
       }
     }

@@ -107,6 +107,7 @@ export class ManageExpenseComponent implements OnInit {
 
   editExpense(id) {
     this.router.navigate(['/view/expense/edit-expense/' + id]);
+    
   }
 
   exportToExcel(event) {

@@ -15,7 +15,7 @@
       </section>
       <section>
         <div class="live-class-list">
-          <div class="live-class-container" style="width:61%;">
+          <div class="live-class-container" style="width:35%;">
             <div class="field-radio-wrapper" style="width: auto !important;margin-right: 5px;"
               [ngClass]="!liveClassFor ? 'activeTab' : ''" (click)="toggleAction(false)">
               <!-- <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor"
@@ -31,18 +31,18 @@
           </div>
 
           <div class="search-add-class-container">
-            <!-- <div class="field-wrapper datePickerBox">
-              <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="dateValue"
-                (ngModelChange)="searchByDate($event)" id="date" style="margin-left: -2rem;border-radius: 4px;
-                margin-top: -5%;">
-              <br>
-              <span class="date-clear" (click)="getClassesList()" style="color: #0084f6;left: 54px;">clear</span>
-            </div> -->
+            <div class="search-filter-wrapper field-wrapper" style="padding-top: 0;width: 30%;">
+              <input type="text" class="form-ctrl searchTextClass" placeholder="Search by Topic, Faculty, Session ID" [(ngModel)]="searchText"
+                 id="searchText">
+            </div>
+            <div class="add-class-container" style="margin-left: 5px;">
+              <button type="button" name="button" (click)="getClassesList()" class="add-class">Go</button>
+            </div>
             <div class="search-filter-wrapper field-wrapper" [ngClass]="{'datePickerBox' : (dateValue == '' )}"
               style="padding-top: 0;" (click)="showCustomFilter = !showCustomFilter">
               <i class="fa fa-filter" aria-hidden="true"></i>
-              <input type="text" class="form-ctrl" placeholder="Filter Date" readonly="true" [(ngModel)]="dateValue"
-                id="date" style="height: 34px;border-radius: 0 4px 4px 0;padding: 9px 15px;width: 75%;">
+              <input type="text" class="form-ctrl filterDate" placeholder="Filter Date" readonly="true" [(ngModel)]="dateValue"
+                id="date">
             </div>
             <div *ngIf="showCustomFilter" class="customFilter">
               <div style="margin-bottom: 20px;">
@@ -76,6 +76,7 @@
                   (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker />
               </div>
             </div>
+            <div class="black-bg" id="black-bg" *ngIf="showCustomFilter" (click)="showCustomFilter=false"></div>
             <!-- <div class="filter-wrapper">
               <i class="fa fa-search" aria-hidden="true"></i>
               <select class="filter" name="" *ngIf="liveClassFor" [(ngModel)]="sortDate" (ngModelChange)="dateRangeChanges()">
@@ -88,7 +89,7 @@
                 <option value="all">All</option>
               </select>
             </div> -->
-            <div class="add-class-container">
+            <div class="add-class-container" *ngIf="set_up_done">
               <div class="questionInfo inline-relative">
                 <span class=" i-class">
                   <button type="button" name="button" class="add-class" routerLink='/view/live-classes/add'
@@ -121,23 +122,28 @@
             <br>
             <div class="live-class-item" style="padding-right: 0;box-shadow: 0px 1px 12px 0px rgb(0 0 0 / 10%);"
               *ngFor="let class of c">
+              <div *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)">
+                <span class="tag">{{getTimeLeft(today, class.startDateTime) }} left</span>
+              </div>
+              <div *ngIf="timeLeft(today, class.startDateTime) && !liveClassFor">
+                <span class="tag ongoing">Ongoing</span>
+              </div>
               <div class="sub-item-1">
-                <div style="width: 58%;" class="session_name_and_id_container">
+                <div style="width: 100%;" class="session_name_and_id_container">
                   <div class="session_name" title="{{class.session_name}}">
-                    <span style="color: #109CF1;">{{ (class.session_name?.length>20) ? (class.session_name | slice:0:20
+                    <span style="color: #109CF1;">{{ (class.session_name?.length>35) ? (class.session_name | slice:0:35
                       ) + '...' :
                       (class.session_name) }}</span>
                   </div>
                 </div>
-                <span class="ongoing" *ngIf="timeLeft(today, class.startDateTime) && !liveClassFor">Ongoing</span>
-                <span class="right min15" *ngIf="!liveClassFor && !timeLeft(today, class.startDateTime)">
-                  <span>{{getTimeLeft(today, class.startDateTime) }} left</span>
-                </span>
               </div>
               <div class="session_id">
                 <span>Session Id :{{class.session_id}} </span>
                 <span class="class-for-name" *ngIf="class.live_meeting_with == 'Zoom'">
                   ({{class.live_meeting_with}})</span>
+                  <div class="col-lg-3 image-container" title="Copy Zoom URL" style="float: right;" *ngIf="(!liveClassFor && !timeLeft(today, class.startDateTime)) && class.live_meeting_with == 'Zoom'">
+                    <img (click)="copyToClipboard(class)" style="cursor: pointer;" src="../../../../assets/images/Group240.svg" class="img_doc">
+                  </div>
               </div>
               <div class="borderbottom1 w96"></div>
               <div class="sub-item-2">
@@ -398,20 +404,21 @@
                     src="../../../../assets/images/Live class/icon5.svg"></span>
                 <span *ngIf="timeLeft(today, class.startDateTime)" style="margin-right: 10px;cursor: no-drop;"><img
                     src="../../../../assets/images/Live class/icon6.svg"></span>
-                <span title="View" style="cursor: pointer;" (click)="viewClass(class)">
+                <span title="View" style="cursor: pointer;" (click)="viewClass(class)" class="mt-4">
                   <img src="../../../../assets/images/Live class/view_class.png">
                 </span>
-                <span *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) " class="borderright"></span>
+                <span *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator || forModeratorId(class.moderatorIds) " class="borderright"></span>
                 <span
-                  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator && forModeratorId(class.moderatorIds) "
+                  *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)|| forModerator || forModeratorId(class.moderatorIds) "
                   style="cursor: pointer;">
                   <div class="questionInfo inline-relative">
                     <span class=" i-class">
                       <button type="button" name="button"
+                        title="{{startClassMsg}}"
                         [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'"
-                        (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with)"
+                        (click)="allowStartLiveCLass(class.session_link, class.session_id, class.live_meeting_with, class.moderatorIds)"
                         [disabled]="proctur_live_expiry_date_check"
-                        [ngStyle]="{'opacity':proctur_live_expiry_date_check ? '0.5' : '1' }">
+                        [ngStyle]="{'opacity':(proctur_live_expiry_date_check) ? '0.5' : '1' }">
                         Start
                       </button>
                     </span>
@@ -467,7 +474,7 @@
       </section>
       <section *ngIf="totalRow == 0 && (!auth.isRippleLoad.getValue())">
         <div class="live-class-list-container">
-          <div class="w96">
+          <div class="w96" *ngIf="set_up_done">
             <div>
               <br><br>
               <span class="position">
@@ -489,6 +496,9 @@
             </div>
             <div class="bg_live_class">
             </div>
+          </div>
+          <div class="w96" style="text-align: center;margin-top: 5%;" *ngIf="!set_up_done">
+              <span class="setupText" [innerHTML]="message_for_setup_not_done"></span>
           </div>
         </div>
       </section>
@@ -545,7 +555,7 @@
                 Live Class”</span> </li>
             <li style="font-weight: 100;">
               Add Mandatory Fields:<span style="font-weight: 600;">“Topic Name”, “Date”, Time (“From” & “To”),
-                Faculty Name.</span>
+                Teacher Name.</span>
             </li>
             <li style="font-weight: 100;">
               Add Mandatory Fields:<span style="font-weight: 600;">“Master Course”, “Course”, “Student”.</span>
@@ -928,7 +938,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" (click)="closeUploadModal()">Close</button>
         <button type="button" class="btn btn-default" (click)="uploadHandler()">Upload</button>
       </div>
     </div>
@@ -1278,16 +1288,16 @@
               <span *ngIf="viewClassData.live_meeting_with == 'Zoom'" class="zoom2">(Zoom)</span>
             </p>
             <p *ngIf="viewClassData.live_meeting_with == 'Zoom'" class="mb-0"><span class="name">Account
-                Name</span><span class="value">Zoom Recording Account</span></p>
+                Name</span><span class="value">{{viewClassData.account_name}}</span></p>
           </div>
           <div class="col-lg-3 image-container">
-            <!-- <img src="../../../../assets/images/Group240.svg" class="img_doc"> -->
+            <img (click)="copyToClipboard(viewClassData)" *ngIf="(!liveClassFor && !timeLeft(today, viewClassData.startDateTime)) && viewClassData.live_meeting_with == 'Zoom'" style="cursor: pointer;" src="../../../../assets/images/Group240.svg" class="img_doc">
           </div>
         </div>
         <div class="div-border"></div>
         <div class="row">
           <div class="col-lg-9">
-            <p class="name mb-0">Faculty Name:</p>
+            <p class="name mb-0">Teacher Name:</p>
             <p class="value"><span title="{{viewClassData.teachersName}}">{{ (viewClassData.teachersName?.length>70) ?
                 (viewClassData.teachersName | slice:0:70 ) + '...' :(viewClassData.teachersName) }}</span></p>
           </div>

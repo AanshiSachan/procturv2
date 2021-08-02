@@ -5,17 +5,17 @@
     <div class="middle-top mb0 clearFix header">
       <div class="" style="padding-bottom:2%">
         <h2 style="padding: 5px;" class="pull-left">
-          <a routerLink="/view/course/archiving">
-            Class/Exam
+          <a>
+            Classes
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
           <a routerLink="/view/course/archiving">
-            Archiving
+            Course Deletion
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
-          <span *ngIf="!isProfessional">Courses</span>
+          <span *ngIf="!isProfessional">Delete Courses</span>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
-          <span *ngIf="isProfessional">Batches</span>
+          <span *ngIf="isProfessional">Delete Batches</span>
         </h2>
       </div>
     </div>
@@ -25,10 +25,10 @@
           (keyup)="searchDatabase()" style="padding: 10px;border:1px solid lightgrey;border-radius: 4px;">
       </div>
       <div *ngIf="isProfessional" style="float: right;margin-right: -17rem;">
-        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Archive</button>
+        <button type="button" class="btn" value="Delete" (click)="archiveData($event)">Delete</button>
       </div>
       <div *ngIf="!isProfessional" style="float: right;margin-right: -17rem;">
-        <button type="button" class="btn" value="Archive" (click)="archiveData($event)">Archive</button>
+        <button type="button" class="btn" value="Delete" (click)="archiveData($event)">Delete</button>
       </div>
     </div>
   </section>
@@ -103,7 +103,7 @@
         </thead>
         <tbody *ngIf="newPaginated!=0">
           <tr *ngFor="let i of newPaginated ; let j=index;">
-            <td *ngIf="!isProfessional" style="text-align: left;  padding:5px 0px 10px 5px;width: 14%; ">
+            <td *ngIf="!isProfessional" style="text-align: left;  padding:5px 0px 10px 5px;width: 14%;word-break: break-all; ">
               <div class="field-checkbox-wrapper"
                 style="display: inline-block;margin-top: 5px; height:16px; margin-right: 10px;">
                 <input type="checkbox" class="form-checkbox" name={{i.course_id}} id={{i.course_id}}

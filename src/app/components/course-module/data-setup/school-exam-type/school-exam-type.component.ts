@@ -70,13 +70,13 @@ export class SchoolExamTypeComponent implements OnInit {
         sorting: false,
         visibility: true
       },
-      {
-        primary_key: 'is_active',
-        value: "Active",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
+      // {
+      //   primary_key: 'is_active',
+      //   value: "Active",
+      //   charactLimit: 25,
+      //   sorting: false,
+      //   visibility: true
+      // },
       {
         primary_key: 'date',
         value: "Date",
@@ -107,19 +107,19 @@ export class SchoolExamTypeComponent implements OnInit {
         textAlign: "left"
       },
       {
-        width: "20%",
-        textAlign: "left"
-      },
-      {
         width: "25%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "30%",
         textAlign: "left"
       },
+      // {
+      //   width: "20%",
+      //   textAlign: "left"
+      // },
       {
-        width: "20%",
+        width: "25%",
         textAlign: "left"
       },
       {
@@ -210,7 +210,6 @@ export class SchoolExamTypeComponent implements OnInit {
     $('#addExamType').modal('show');
   }
   deleteExamType(obj) {
-    debugger
     if (obj.data.used) {
       this.msgSrvc.showErrorMessage(this.msgSrvc.toastTypes.error, '', 'Exam Type is already used. So we can not delete it.');
       return;

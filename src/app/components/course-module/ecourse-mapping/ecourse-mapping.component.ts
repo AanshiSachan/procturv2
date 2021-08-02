@@ -441,7 +441,7 @@ export class EcourseMappingComponent implements OnInit {
     else {
       this.ecourseObject.master_course_names = '';
       this.ecourseObject.master_course_ids = '';
-
+      this.updateEcourseObject.master_course_ids = '';
       selectedData.forEach((obj, index) => {
         this.ecourseObject.master_course_names += obj.title;
         this.ecourseObject.master_course_ids += obj.id;

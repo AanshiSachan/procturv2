@@ -1,6 +1,6 @@
-<div class="page-content gray">
-  <form #values="ngForm">
-    <div class="w98">
+
+   <form #values="ngForm" autocomplete="off">
+    <div class="w98 oldUI" *ngIf="isProfessional">
       <h5 class="page_heading">Add Student</h5>
       <div class="row">
         <div class="col-lg-12">
@@ -24,8 +24,6 @@
                     Personal&nbsp;Details</li>
                   <li class="step2" id="li-two" [class.hide]="!quickAddStudent" (click)="switchToView($event.target.id)">
                     Other&nbsp;Details
-                  </li>
-                  <li class="step3" id="li-three" (click)="switchToView($event.target.id)">Fee&nbsp;Details
                   </li>
                 </ul>
               </div>
@@ -62,7 +60,7 @@
                     name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                     <option value=""></option>
                     <option [value]="data.id" *ngFor='let data of countryDetails'>
-                      +{{data.country_calling_code}}
+                      {{data.country_code}} +{{data.country_calling_code}}
                     </option>
                   </select>
                 </div>
@@ -106,7 +104,7 @@
                   <option style="color: #a8a7a9;" value="">Select Gender</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
-                  <option value="Na">NA</option>
+                  <option value="NA">NA</option>
                 </select>
               </div>
 
@@ -129,12 +127,12 @@
               </div>
               <div class="col-lg-4" *ngIf="isManualDisplayId"
                 [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
-                <input type="text" value="" class="input" id="manualId" [placeholder]="schoolModel? 'Enter Registration Number *' : 'Enter Roll No *'"
+                <input type="text" value="" class="input" id="manualId" [placeholder]="schoolModel? 'Enter Registration Number' : 'Enter Roll No'"
                   [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel"
                   required>
                 <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
                   <div *ngIf="manualId.errors.required" class="text-danger">
-                    {{schoolModel? 'Registration Number *' : 'Roll No *'}} is Mandatory
+                    {{schoolModel? 'Registration Number' : 'Roll No'}} is Mandatory
                   </div>
                 </div>
               </div>
@@ -256,7 +254,7 @@
             <div class="row" *ngIf="schoolModel">
               <div class="col-lg-2">
                 <span class="label">
-                  Residential&nbsp;Address
+                  Residential<br>Address
                 </span>
               </div>
               <div class="col-lg-10" [ngClass]="{'has-value': studentAddFormData.student_perm_addr != ''}">
@@ -275,7 +273,7 @@
               <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                 <input type="text" value="" id="parentName" class="input" placeholder="Enter parent name"
                   [(ngModel)]="studentAddFormData.parent_name" name="parentName" maxlength="50"
-                  pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
+                  #parentName="ngModel">
                 <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
                   <div *ngIf="parentName.errors.pattern" class="text-danger">
                     Name cannot have number / special characters except '.'
@@ -293,7 +291,7 @@
                   name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                   <option value=""></option>
                   <option [value]="data.id" *ngFor='let data of countryDetails'>
-                    +{{data.country_calling_code}}
+                    {{data.country_code}} +{{data.country_calling_code}}
                   </option>
                 </select>
               </div>
@@ -359,13 +357,10 @@
               <div class="col-lg-4">
 
                 <input type="text" value="" id="guardianName" class="input" maxlength="50"
-                  pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName" placeholder="Enter guardian name"
+                  name="guardianName" placeholder="Enter guardian name"
                   [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
                 <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)"
                   class="alert invalid-alert">
-                  <div *ngIf="guardianName.errors.pattern" class="text-danger">
-                    Name cannot have number / special characters except '.'
-                  </div>
                 </div>
               </div>
 
@@ -381,7 +376,7 @@
                   name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
                   <option value=""></option>
                   <option [value]="data.id" *ngFor='let data of countryDetails'>
-                    +{{data.country_calling_code}}
+                    {{data.country_code}} +{{data.country_calling_code}}
                   </option>
                 </select>
               </div>
@@ -403,7 +398,7 @@
                   [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
                 <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
                   class="alert invalid-alert">
-                  <div *ngIf="guardianEmail.errors.pattern">
+                  <div class="text-danger" *ngIf="guardianEmail.errors.pattern">
                     Enter email in format eg. someone@xyz.com
                   </div>
                 </div>
@@ -463,7 +458,7 @@
                 </span>
               </div>
               <div class="col-lg-4" *ngIf="schoolModel" [ngClass]="{'has-value': studentAddFormData.pin_code != ''}">
-                <input type="text" value="" id="pin_code" class="input" placeholder="Enter pin code"
+                <input type="text" value="" id="pin_code" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input" placeholder="Enter pin code"
                   [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
               </div>
 
@@ -547,22 +542,9 @@
                     title="Delete File" (click)="deletefile(data,i)"></i>
                 </div>
               </div>
-              <!-- <div class="col-lg-10">
-                <p class="file_name">abc.jpeg<img src="img/cross.svg"></p>
-              </div>-->
             </div>
-            <!-- <div class="row">
-                    <div class="col-lg-12">
-                      <span class="right">
-                        <button class="cancel" >Cancel</button>
-                         <button class="blue_button " id="next">Next</button>
-                      </span>
-                    </div>
-                     
-                  </div> -->
           </div>
           <div id="form3">
-            <!-- please use previous UI -->
 
           </div>
         </div>
@@ -570,7 +552,6 @@
 
           <aside class="bg-white1">
 
-            <!-- Enquiry Details official use-->
             <section class="enquiry-detail common-right-section">
               <p class="form_heading"><span>Administration Details</span><span
                   style="padding-left: 5px; font-weight: 400;color: #323c47;">(official use)</span>
@@ -584,7 +565,6 @@
                   <div class="col-lg-7 datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                     <input type="text" value="" id="doj" class="input bsDatepicker" bsDatepicker name="doj"
                       readonly="true" [(ngModel)]="studentAddFormData.doj" />
-                    <!-- <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span> -->
                   </div>
 
                 </div>
@@ -636,8 +616,7 @@
                   <div class="col-lg-4">
                     <span class="label">Assign<br>{{schoolModel ? 'Sections' : 'Courses'}}</span>
                   </div>
-                  <div class="col-lg-7">
-                    <!-- style="height:89px;width:100%;padding:5px;margin-top:14px" -->
+                  <div class="col-lg-7">                    
                     <textarea 
                       name="assignCoursesParent" [ngModel]="assignedBatchString"
                       placeholder="{{schoolModel ? 'Assign Section' : 'Assign Courses'}}" id="assignCourses"
@@ -750,13 +729,6 @@
         </div>
         <div class="row">
           <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
-            <div class="pull-left">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive"
-                  (ngModelChange)="updateFormIsActive($event)" class="form-checkbox" id="isStudentActive">
-                <label for="isStudentActive">Is Active Student</label>
-              </div>
-            </div>
             <span class="right" style="margin-top: 10px;">
               <button class="cancel" (click)="clearFormAndRoute(values)">Cancel</button>
               <button class="blue_button " id="form-continue" [class.hide]="!quickAddStudent"
@@ -767,7 +739,6 @@
           </div>
         </div>
       </div>
-      <!-- ============Others field ========== -->
       <div class="row mt-9 no-gutters" *ngIf="isOtherActive" id="kyc">
         <div class="col-lg-8">
           <div class="bg-white">
@@ -945,11 +916,9 @@
     </div>
 
   </proctur-popup>
-  <!-- =============== Fee Details =============================== -->
   <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails">
 
     <section class="fee-section-page">
-      <!--====================================middle Top section==========================-->
       <section class="middle-top clearFix">
         <h1 class="pull-left">
           Fees :
@@ -973,7 +942,6 @@
         </aside>
       </section>
 
-      <!--====================================middle <Main> section==========================-->
       <section *ngIf="(!auth.isRippleLoad.getValue()) && checkBoxGroup.showFeeSection">
 
         <div class="card-layout">
@@ -984,7 +952,6 @@
             <span
               class="amount-Value">{{instituteCountryDetObj.symbol}}&nbsp;{{cardAmountObject.feeAmountExclTax}}</span>
           </div>
-          <!-- <div class="tax-Amount tooltipDiv" *ngIf="instituteCountryDetObj.id==1"> -->
           <div class="tax-Amount tooltipDiv" *ngIf="isTaxEnable">
             <span class="label">{{tax_type_without_percentage}} on Installment</span>
             <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
@@ -1169,10 +1136,6 @@
                   <li class="inner-table title-section">
 
                     <div class="checkbox">
-                      <!-- <div class="field-checkbox-wrapper">
-                                    <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" />
-                                    <label for="instl{{i}}"></label>
-                                  </div> -->
                     </div>
 
                     <div class="column-map">
@@ -1302,26 +1265,6 @@
       </section>
 
 
-      <!--====================================middle Bottom section==========================-->
-      <!-- <section class="middle-bottom fd-btm clearFix">
-
-        <aside class="pull-left" style="    margin-left: 6%;">
-          <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
-        </aside>
-
-        <aside class="pull-right">
-          <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalAmountToPay != 0">
-            Payment for {{instituteCountryDetObj.symbol}}&nbsp;{{totalAmountToPay }} to be updated
-          </div>
-          <div style="display: inline-block;" class="">
-            <input type="button" *ngIf="totalAmountToPay != 0" value="Update Payment"
-              (click)="openPaymentDetails($event)" class="btn fullBlue">
-            <input *ngIf="totalAmountToPay == 0" type="button" value="Continue" (click)="navigateTo('inventory')"
-                  class="btn fullBlue">
-          </div>
-        </aside>
-
-      </section> -->
       <div class="row">
         <div class="col-lg-12" style="border-top: 1px solid;border-color: #c0c0c0;">
           <div class="pull-left">
@@ -1381,7 +1324,7 @@
 
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right btn-grp">
             <aside class="pull-right">
-              <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
+              <input type="button" step="margin-right: 10px;" value="Cancel" class="btn" (click)="closeAddInstitute()">
               <input type="button" value="Create" class="fullBlue btn" (click)="addInstituteData()">
             </aside>
           </div>
@@ -1451,7 +1394,6 @@
 
     </div>
   </proctur-popup>
-  <!-- =============== Duplicate Contact =============================== -->
   <proctur-popup [hidden]="!isDuplicateStudent">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isDuplicateContactClose()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1476,7 +1418,7 @@
         </h4>
       </div>
       <div class="row">
-        <form #semail="ngForm" (ngSubmit)="registerDuplicateStudent(semail)">
+        <form #semail="ngForm" autocomplete="off" (ngSubmit)="registerDuplicateStudent(semail)">
           <div class="field-wrapper">
             <label for="sEmail2">Student's Email
               <span class="text-danger">*</span>
@@ -1489,7 +1431,7 @@
               <div *ngIf="sEmail2.errors.required">
                 name is required.
               </div>
-              <div *ngIf="sEmail2.errors.pattern">
+              <div class="text-danger" *ngIf="sEmail2.errors.pattern">
                 Please enter a valid email id
               </div>
             </div>
@@ -2035,7 +1977,630 @@
     [instituteCountryDetObj]="instituteCountryDetObj" [schedule_id]="schedule_id" [studentid]="student_id">
   </partial-pay-history>
 
-</div>
+
+
+<div class="page-content" *ngIf="!isProfessional">
+  <div class="w98">
+    <div class="flex">
+      <div class="w20">
+        <div class="center justifyCenter">
+          <div class="flex w40">
+          <div lass="content_img">
+            <div class="container1" *ngIf="!isFeeActive">
+              <proctur-image  [serverImg]="studentImage" [containerWidth]="containerWidth"
+                [containerHeight]="containerHeight" (setImage)="setImage($event)">
+              </proctur-image>
+            </div>
+          </div>
+          </div>
+          <!-- <p>Add Profile Photo </p> -->
+        </div>
+        <div class="list">
+          
+          <p [ngClass]="{'selected': activeSession=='student_details'}" (click)="scrollFn(student_details);activeSession='student_details'">1. Student Details</p>
+          <p [ngClass]="{'selected': activeSession=='parent_details'}"  (click)="scrollFn(parent_details);activeSession='parent_details'">2. Parent / Guardian Details</p>
+          <p [ngClass]="{'selected': activeSession=='address_details'}" (click)="scrollFn(address_details);activeSession='address_details'">3. Address Details</p>
+          <p [ngClass]="{'selected': activeSession=='documents'}" (click)="scrollFn(documents);activeSession='documents'">4. Documents</p>
+          <p [ngClass]="{'selected': activeSession=='administration_det'}" (click)="scrollFn(administration_det);activeSession='administration_det'">5. Administration Details <br>&nbsp;&nbsp;&nbsp;&nbsp;(Official Use)</p>
+          <p *ngIf="quickAddStudent" [ngClass]="{'selected': activeSession=='custom_components'}" (click)="scrollFn(custom_components);activeSession='custom_components'">6. Other Details <br></p>
+          
+      </div>
+      </div>
+      <div class="w80">
+        <div class="display" #student_details>
+          <div class="form_title">
+            <p><span>Student Details</span><img src="../../../assets/images/student_Add/student_details.svg"></p>
+            <div class="form_line"></div>
+          </div>
+          <div>
+            <!-- <button class="shade_button mr20"><img src="../../../assets/images/student_Add/edit.svg"></button> -->
+             <!-- <button (click)="clearFormAndRoute(values)" class="shade_button close1">Clear<img src="../../../assets/images/student_Add/close.svg"></button> -->
+          </div>
+        </div>
+        <div class="label_box">
+          <div>
+            <label>Student Name <span>*</span></label>
+            <!-- <input type="text" name="" placeholder="Enter Student Name"> -->
+            <input type="text" value="" placeholder="Enter student name" id="sName"
+            [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50" #sname="ngModel" required>
+          <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
+            <div *ngIf="sname.errors.required" class="text-danger">
+              name is required.
+            </div>
+          </div>
+          </div>
+           <div>
+              <label>Contact Number <span>*</span></label>
+              <div class="contact">
+                <select id="country_id" [(ngModel)]="studentAddFormData.country_id"
+                name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
+                <option value=""></option>
+                <option [value]="data.id" *ngFor='let data of countryDetails'>
+                  {{data.country_code}} +{{data.country_calling_code}}
+                </option>
+              </select>
+              <input type="text" value="" id="cNumber" placeholder="Enter number"
+              [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel" required />
+            <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
+              <div *ngIf="cNumber.errors.required" class="text-danger">
+                Phone number is required.
+              </div>
+            </div>
+              </div>
+            </div>
+             <div *ngIf="isManualDisplayId">
+            <label>{{schoolModel? 'Registration No.' : 'Student Id'}} <span>*</span></label>
+            <input type="text" value="" class="input" id="manualId" [placeholder]="schoolModel? 'Enter Reg Number' : 'Enter Student Id'"
+            [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel"
+            required>
+          <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
+            <div *ngIf="manualId.errors.required" class="text-danger">
+              {{schoolModel? 'Registration Number' : 'Student Id'}} is Mandatory
+            </div>
+          </div>
+            
+          </div>
+        </div>
+        <div class="label_box">
+          <div>
+            <label>Standard <span>{{schoolModel ? '*' : ''}}</span></label>
+            <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard"
+                      class="choice" (ngModelChange)="fetchCourseListByStdId($event)">
+                      <option value="-1"></option>
+                      <option [value]="standard.standard_id" *ngFor="let standard of standardList">
+                        {{standard.standard_name}}
+                      </option>
+                    </select>
+          </div>
+         
+              <div class="add_blue">
+                 <p style="display:flex" (click)="openAssignBatch()"><img src="../../../assets/images/student_Add/add.svg">Assign {{schoolModel ? 'Sections' : 'Courses'}}</p>
+              </div>
+           
+             <div *ngIf="!isProfessional && schoolModel && showRollNoField">
+            <label>Roll No <span class="text-danger">*</span> </label>
+            <input type="text" value="" class="input" id="roll_no" placeholder="Enter roll no"
+            [(ngModel)]="studentAddFormData.roll_no" name="roll_no" maxlength="50" #roll_no="ngModel"
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+            required>
+          <div *ngIf="roll_no.invalid && (roll_no.dirty || roll_no.touched)" class="alert invalid-alert">
+            <div *ngIf="roll_no.errors.required" class="text-danger">
+              Roll Number is Mandatory
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="form_sepration_line">
+        </div>
+        <div class="label_box">
+          <div>
+            <label>Email Id</label>
+            <input type="text" value="" id="sEmail" class="input" placeholder="Enter email id"
+            [(ngModel)]="studentAddFormData.student_email" name="sEmail"
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
+            <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
+              <div *ngIf="sEmail.errors.pattern" class="text-danger">
+                Enter email in format eg. someone@xyz.com
+              </div>
+            </div>
+          </div>
+           <div>
+              <label>Gender</label>
+              
+              <select id="userGender" class="choice" [(ngModel)]="studentAddFormData.student_sex"
+              name="userGender">
+              <option style="color: #a8a7a9;" value="">Select Gender</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="NA">NA</option>
+            </select>
+                 
+              
+            </div>
+             <div class="field-wrapper2 dateWrapper datePickerBox">
+            <label>Date Of Birth</label>
+            <input type="text" value="" id="sdob" class="input bsDatepicker" name="sdob" placeholder="DOB"
+                  [(ngModel)]="studentAddFormData.dob" #sdob="ngModel" readonly="true" bsDatepicker />
+          </div>
+        </div>
+          <div class="label_box">
+              <div>
+                <label>Nationality</label>
+                <input type="text" value="" id="cardId" class="input" placeholder="Enter nationality"
+                [(ngModel)]="studentAddFormData.nationality" name="nationality" #cardId="ngModel" />
+              </div>
+         
+              <div>
+                <label>Birth Place</label>
+                <input type="text" value="" id="birth_place" class="input" placeholder="Enter birth place"
+                [(ngModel)]="studentAddFormData.birth_place" name="birth_place" #cardId="ngModel" />
+              </div>
+           
+             <div>
+                <label>Mother Tongue</label>
+                <select id="mother_tounge" class="choice" [(ngModel)]="studentAddFormData.mother_tounge"
+                  name="mother_tounge">
+                  <option value="">Select Mother Tongue</option>
+                  <option *ngFor="let data of masterDataList.MOTHER_TOUNGE" [value]="data.data_key">
+                    {{data.data_value}}</option>
+                </select>
+              </div>
+          </div>
+          
+           <div class="label_box">
+              <div>
+                <label>Category</label>
+                
+                <select id="category" class="choice" [(ngModel)]="studentAddFormData.category" name="category">
+                  <option value="">Select Category</option>
+                  <option *ngFor="let data of masterDataList.CASTE_CATEGORY" [value]="data.data_key">
+                    {{data.data_value}}</option>
+                </select>
+                   
+                
+              </div>
+              <div>
+                <label>Religion</label>
+                
+                <input type="text" value="" id="religion" class="input" placeholder="Enter religion"
+                [(ngModel)]="studentAddFormData.religion" name="religion" #cardId="ngModel" />
+                   
+                
+              </div>
+              <div>
+                <label>Blood Group</label>
+                
+                <select id="blood_group" class="choice" [(ngModel)]="studentAddFormData.blood_group"
+                name="blood_group">
+                <option value="">Select Blood Group</option>
+                <option *ngFor="let data of masterDataList.BLOOD_GROUP" [value]="data.data_key">
+                  {{data.data_value}}</option>
+              </select>
+                   
+                
+              </div>
+           </div>
+           <div class="label_box">
+              <div>
+                <label>Aadhar No. </label>
+                
+                <input type="text" value="" id="student_adhar_no" placeholder="Enter Aadhar No"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
+                  [(ngModel)]="studentAddFormData.student_adhar_no" name="student_adhar_no" #cardId="ngModel" />
+                
+              </div>
+             
+           </div>
+        
+        <div class="display" #parent_details>
+          <div class="form_title">
+            <p><span>Parent / Guardian Details</span><img src="../../../assets/images/student_Add/parent.svg"></p>
+            <div class="form_line"></div>
+          </div>
+          <div class="head_sepration_line">
+            
+          </div>
+        </div>
+        <div class="label_box">
+          <div>
+            <label>Parent Name</label>
+            <input type="text" value="" id="parentName" placeholder="Enter parent name"
+                  [(ngModel)]="studentAddFormData.parent_name" name="parentName" maxlength="50"
+                  #parentName="ngModel">
+                <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
+                  <div *ngIf="parentName.errors.pattern" class="text-danger">
+                    Name cannot have number / special characters except '.'
+                  </div>
+                </div>
+          </div>
+           <div>
+              <label>Contact Number</label>
+              <div class="contact">
+                <select id="country_id" [(ngModel)]="studentAddFormData.country_id"
+                name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
+                <option value=""></option>
+                <option [value]="data.id" *ngFor='let data of countryDetails'>
+                  {{data.country_code}} +{{data.country_calling_code}}
+                </option>
+              </select>
+              <input type="text" value="" id="parentContactNo" class="input" placeholder="Enter phone no"
+              [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel" />
+              </div>
+            </div>
+             <div>
+            <label>Parent Email Id</label>
+            <input type="text" value="" id="parentEmail" [(ngModel)]="studentAddFormData.parent_email"
+            name="parentEmail" placeholder="Enter email id" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
+            #parentEmail="ngModel">
+          <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)"
+            class="alert invalid-alert">
+            <div *ngIf="parentEmail.errors.pattern" class="text-danger">
+              Enter email in format eg. someone@xyz.com
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="label_box">
+          <div>
+            <label>Parent Aadhar No.</label>
+            <input type="text" value="" id="parent_adhar_no" placeholder="Enter Aadhar No"
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" minlength="12" maxlength="12"
+              [(ngModel)]="studentAddFormData.parent_adhar_no" name="parent_adhar_no" #cardId="ngModel" />
+          </div>
+           <div>
+              <label>Parent Profession</label>
+            
+              <select id="parent_profession" class="choice" [(ngModel)]="studentAddFormData.parent_profession"
+              name="parent_profession">
+              <option value="">Select Profession</option>
+              <option *ngFor="let data of masterDataList.PROFESSION" [value]="data.data_key">
+                {{data.data_value}}</option>
+            </select>
+                  
+            </div>
+             <div>
+            <label>Guardian Name</label>
+            <input type="text" value="" id="guardianName" maxlength="50"
+                  name="guardianName" placeholder="Enter guardian name"
+                  [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
+                <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)"
+                  class="alert invalid-alert">
+                </div>
+          </div>
+        </div>
+        <div class="label_box">
+          <div>
+           <label>Guardian Contact Number </label>
+            
+                 <div class="contact">
+                  <select id="country_id" class="input-select width-50" [(ngModel)]="studentAddFormData.country_id"
+                  name="country_id" [disabled]="countryDetails.length<=1" (change)="onChangeObj($event.target.value)">
+                  <option value=""></option>
+                  <option [value]="data.id" *ngFor='let data of countryDetails'>
+                    {{data.country_code}} +{{data.country_calling_code}}
+                  </option>
+                </select>
+                <input type="text" value="" id="guardianContact" placeholder="Enter phone no"
+                [(ngModel)]="studentAddFormData.guardian_phone" name="guardianContact"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
+              </div>
+          </div>
+           <div>
+              <label>Guardian Email Id</label>
+            
+                 
+              <input type="text" value="" id="guardianEmail" class="input" placeholder="Enter Guardian email id"
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" name="guardianEmail"
+              [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
+            <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
+              class="alert invalid-alert">
+              <div class="text-danger" *ngIf="guardianEmail.errors.pattern">
+                Enter email in format eg. someone@xyz.com
+              </div>
+            </div>
+             
+            </div>
+             <div>
+            
+          </div>
+        </div>
+        <div class="display" #address_details>
+          <div class="form_title">
+            <p><span>Address Details</span><img src="../../../assets/images/student_Add/address.svg"></p>
+            <div class="form_line"></div>
+          </div>
+          <div class="head_sepration_line">
+            
+          </div>
+        </div>
+        <div class="label_box">
+          <div>
+            <label>State</label>
+            <select id="state" class="choice" [(ngModel)]="studentAddFormData.state_id" name="state"
+            (ngModelChange)="getCityList()">
+            <option value="">Select State</option>
+            <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
+              {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' :
+              state.state_name }}
+            </option>
+          </select>
+          </div>
+           <div>
+              <label>City</label>
+             
+              <select id="city" class="choice" [(ngModel)]="studentAddFormData.city_id" name="city"
+              (ngModelChange)="getAreaList()">
+              <option value="">Select City</option>
+              <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">
+                {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' :
+                city.city_name }}
+              </option>
+            </select>
+                  
+            </div>
+             <div>
+            <label>Area</label>
+            <div class="display area">
+              <select id="area_id" class="choice" [(ngModel)]="studentAddFormData.area_id" name="area_id">
+                <option value="">Select Area</option>
+                <option title="{{area.area}}" [value]="area.id" *ngFor="let area of areaList">
+                  {{ (area.area.length > 30) ? (area.area | slice:0:30) + '...' : area.area }}
+                </option>
+              </select>
+                  <span (click)="toggleAddArea()"><img src="../../../assets/images/student_Add/area.svg"></span>
+            </div>
+          </div>
+        </div>
+        <div class="label_box">
+          <div>
+           <label>Pin Code </label>
+            
+                 
+           <input type="text" value="" id="pin_code" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input" placeholder="Enter pin code"
+           [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
+             
+          </div>
+           <div>
+              <label>Group</label>
+            
+                 
+              <input type="text" value="" id="educational_group" placeholder="Enter group"
+              [(ngModel)]="studentAddFormData.educational_group" name="educational_group" #cardId="ngModel" />
+             
+            </div>
+             <div>
+            <label>Extra Curricular Activities</label>
+            
+                 
+            <input type="text" value="" id="extra_curricular_activities"
+            placeholder="Enter Activities" [(ngModel)]="studentAddFormData.extra_curricular_activities"
+            name="extra_curricular_activities" #cardId="ngModel" />
+          </div>
+        </div>
+         <div class="label_box1">
+            <div>
+             <label>Current Address </label>
+             <textarea type="text" value="" id="currentAdd" name="currentAdd" placeholder="Enter current address"
+             [(ngModel)]="studentAddFormData.student_curr_addr" class="input"></textarea>
+               
+            </div>
+            <div>
+             <label>Residential Address </label>
+             <textarea type="text" value="" id="student_perm_addr" name="student_perm_addr"
+             placeholder="Enter residential address" [(ngModel)]="studentAddFormData.student_perm_addr"
+             class="input"></textarea>
+               
+            </div>
+             <div>
+             <label>Add Comment </label>
+             <textarea type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments"
+             id="addCommentNote" class="input"></textarea>
+               
+            </div>
+         </div>
+            <div class="display" #documents>
+              <div class="form_title">
+                <p><span>Documents</span><img src="../../../assets/images/student_Add/documents.svg"></p>
+                <div class="form_line"></div>
+              </div>
+              <div class="head_sepration_line head_sepration_line_documents">
+                
+              </div>
+            </div>
+            <div class="label_box2">
+              <div>
+                 <label> Document Title </label>
+                  
+                       
+                 <input type="text" id="category_id" [(ngModel)]="category_id" placeholder="Enter Title" name="category_id"
+                 [maxlength]="30" />
+                   
+              </div>
+                <div>
+                 <label>Upload Document</label>
+                  
+                       
+                 <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" />
+                   
+                </div>
+            </div>
+            <button (click)="uploadHandler();" class="blue_button">Upload</button>
+            <div class="row uploadHeader">
+              <div *ngIf="selectedFiles?.length">Uploded Documents</div>
+              <div class="col-lg-10" *ngFor='let data of selectedFiles;let i = index'
+                style="height: 30px;border-bottom: 1px solid #ccc;margin-bottom: 5px;">
+                <div style="padding-top: 5px;width: 75%;float: left;" class="uploadedData">{{data.title}} </div>
+                <div style="width: 25%;float: left;text-align: right;">
+                  <i class="fa fa-trash" style="font-size: 17px;  color:red;margin-right: 10px;cursor: pointer;"
+                    title="Delete File" (click)="deletefile(data,i)"></i>
+                </div>
+              </div>
+            </div>
+            <div class="display" #administration_det>
+              <div class="form_title">
+                <p><span>Administration Details (Official Use)</span><img src="../../../assets/images/student_Add/administration.svg"></p>
+                <div class="form_line"></div>
+              </div>
+              <div class="head_sepration_line head_sepration_line_addministration">
+                
+              </div>
+            </div>
+            <div class="label_box">
+                <div class="field-wrapper2 dateWrapper datePickerBox">
+                  <label>Date of Admission</label>
+                  <input type="text" value="" id="doj" class="input bsDatepicker" bsDatepicker name="doj"
+                      readonly="true" [(ngModel)]="studentAddFormData.doj" />
+                  
+                </div>
+                <div>
+                  <label>School / Institution</label>
+                
+                  <select id="schoolStitution" style="width: 85%;" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name"
+                  class="choice">
+                  <option></option>
+                  <option [value]="institute.school_id" *ngFor="let institute of instituteList">
+                    {{institute.school_name}}
+                  </option>
+                </select>
+                <span style="margin-left: 10px;" (click)="openInstituteAdder()"><img src="../../../assets/images/student_Add/area.svg"></span>
+                
+                </div>
+                <div>
+                    <label>Assign To</label>
+                    
+                    <select id="assignTo" [(ngModel)]="studentAddFormData.assigned_to_id" name="assignTo"
+                    class="choice ">
+                    <option value="0"></option>
+                    <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                      {{assign.name}}
+                    </option>
+                  </select>
+                </div>
+            </div>
+            <div #custom_components></div>
+            <div *ngIf="quickAddStudent" class="display">
+              <div class="form_title">
+                <p><span>Other Details</span><img src="../../../assets/images/student_Add/components.svg"></p>
+                <div class="form_line"></div>
+              </div>
+              <div class="head_sepration_line .head_sepration_line_documents">
+                
+              </div>
+            </div>
+            <div>
+              <custom-student *ngFor="let component of customComponents">
+                <div class="label_box flexStart" *ngIf="component.type == 1" input-def>
+                  <div class="col-lg-3">
+                    <span class="label" *ngIf="component.is_required == 'Y'">
+                      {{component.label}}<span class="text-danger">*</span>
+                    </span>
+                    <span class="label" *ngIf="component.is_required == 'N'">
+                      {{component.label}} </span>
+                  </div>
+                  <div class="col-lg-4 field-wrapper">
+                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value"
+                      name="{{component.label}}" [maxlength]="component.data.comp_length" />
+                  </div>
+                </div>
+  
+                <div class="label_box flexStart" *ngIf="component.type == 2" input-def>
+                  <div class="col-lg-3" style="margin-left: 10px;">
+                    <div class="field-checkbox-wrapper" style="background: transparent;margin: 0;margin-bottom: 10px;">
+                      <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
+                        name="{{component.label}}" value="{{component.value}}">
+                      <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
+                        *ngIf="component.is_required == 'Y'">
+                        {{component.label}}<span class="text-danger">*</span>
+                      </label>
+                      <label style="color: #4e5154;font-size: 13px;display: block;line-height: 1.1;"
+                        *ngIf="component.is_required == 'N'">
+                        {{component.label}} </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="label_box flexStart" *ngIf="component.type == 3" input-def>
+                  <!-- <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}"> -->
+                    <div class="col-lg-3">
+                      <span class="label" *ngIf="component.is_required == 'Y'">
+                        {{component.label}}<span class="text-danger">*</span>
+                      </span>
+                      <span class="label" *ngIf="component.is_required == 'N'">
+                        {{component.label}} </span>
+                    </div>
+                    <div class="col-lg-4 field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                      <select id="{{component.id}}" class="choice" [(ngModel)]="component.value"
+                        name="{{component.label}}">
+                        <option value=""></option>
+                        <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">
+                          {{opt.data}}</option>
+                      </select>
+                    </div>
+                  <!-- </div> -->
+                </div>
+  
+                <div class="label_box flexStart" *ngIf="component.type == 4" input-def>
+                  <!-- <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)"
+                    [ngClass]="{'has-value': component.selectedString != ''}"> -->
+                    <div class="col-lg-3">
+                      <span class="label" *ngIf="component.is_required == 'Y'">
+                        {{component.label}}<span class="text-danger">*</span> 
+                      </span>
+                      <span class="label" *ngIf="component.is_required == 'N'">
+                        {{component.label}} </span>
+                    </div>
+                    <div class="col-lg-4 field-wrapper" id="{{component.id}}wrapper" (click)="multiselectVisible($event.target.id)"
+                    [ngClass]="{'has-value': component.selectedString != ''}">
+                      <input id="{{component.id}}" type="text" [ngModel]="component.selectedString"
+                        name="{{component.label}}" class="input" readonly="true" />
+                    </div>
+                  <!-- </div> -->
+                  <div id="{{component.id}}multi" class="hide multiselect-wrapper"
+                    (mouseleave)="multiselectVisible(component.id)">
+                    <div class="multiselect-wrapper-inner">
+                      <ul class="">
+                        <li *ngFor="let opt of component.prefilled_data">
+                          <div class="field-checkbox-wrapper">
+                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
+                              (ngModelChange)="updateMultiSelect(opt, component.id)" class="form-checkbox">
+                            <label for="opt.data">{{opt.data}}</label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="label_box flexStart" *ngIf="component.type == 5" input-def>
+                  <!-- <div class="field-wrapper" [ngClass]="{'has-value': component.value != 'Invalid date'}"> -->
+                    <div class="col-lg-3">
+                      <span class="label" for="{{component.id">
+                        {{component.label}} <span *ngIf="component.is_required == 'Y'" class="text-danger">*</span> 
+                      </span>
+  
+                    </div>
+                    <div class="col-lg-4 field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                      <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value"
+                        class="input bsDatepicker" name="{{component.label}}" bsDatepicker />
+                    </div>
+                  <!-- </div> -->
+                </div>
+  
+              </custom-student>
+              </div>
+        <br>   <br> <br>   <br>
+      </div>
+    </div>
+  </div>
+  <div class="pagignation">
+    <div class="display">
+       <div></div>
+        <div>  <button (click)="clearFormAndRoute(values)" class="white_button mr20">Cancel</button>  
+          <button #saveAndContinue (click)="addStudentDataAndFetchFee(values)" class="blue_button">Save</button></div>
+    </div>
+  </div>
+</div> 
 <student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)"
   *ngIf="isAssignBatch" [countryId]="studentAddFormData.country_id" [dataList]="batchList"
   [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear" [standardList]="standardList">

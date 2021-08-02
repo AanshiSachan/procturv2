@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { HttpService } from '../../../services/http.service';
 declare var $;
 
 
@@ -26,7 +28,7 @@ declare var $;
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss']
 })
-export class SideBarComponent implements OnInit, AfterViewInit {
+export class SideBarComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   @ViewChild('divAdminTag', { static: true }) divAdminTag: ElementRef;
@@ -94,8 +96,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     start_index: '0',
     batch_size: '6'
   };
+  contact_no:any = '';
 
   jsonFlags = {
+    isAdminforPayroll: false,
+    isAdminforLeave:false,
+    isAdminforSmsGateway:false,
     isShowLead: false,
     isShowStudent: false,
     isShowModel: false,
@@ -107,7 +113,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     isAdmin: false,
     isShowPowerBy: false,
     isShowExpense: false,
-    isShowCourse: false
+    isShowCourse: false,
+    isShowLeave: false
   }
   jsonCourseFlags = {
     isShowSetup: false,
@@ -162,12 +169,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   showSMSSetting: boolean = false;
   showManageRole: boolean = false;
   role_feature = role.features;
+  Role_features: role = new role();
 
   tax_type_without_percentage: String;
   enable_online_payment: string = "";
   enable_client_website: boolean = false;
   schoolModel: boolean = false;
   is_zoom_integration_enable: boolean = false;
+  custom_text_for_power_by_proctur:any = '';
+  showMaximizedPopup:boolean = true;
+  user_name:any='';
   constructor(
     private auth: AuthenticatorService,
     private log: LoginService,
@@ -175,7 +186,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     private fetchService: FetchprefilldataService,
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private httpService: HttpService
   ) {
     this.auth.schoolModel.subscribe(
       res => {
@@ -192,6 +204,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
     this.instituteId = sessionStorage.getItem('institute_id');
+    this.user_name = sessionStorage.getItem('username');
     this.log.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -221,7 +234,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.log.currentUsername.subscribe(res => {
       this.createCustomSidenav();
     });
-
+    this.custom_text_for_power_by_proctur = sessionStorage.getItem('custom_text_for_power_by_proctur');
     this.log.poweredByStatus.subscribe(res => {
       let result: any = res;
       if (result == 1) {
@@ -281,17 +294,37 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     let zoom = sessionStorage.getItem('is_zoom_enable');
     this.is_zoom_integration_enable = JSON.parse(zoom);
     $(document).ready(function() {
-      $('.sidebar-wrapper').css('width','14%');
-      $('.dropdown'). mouseover(
+      $('.sidebar-wrapper').css('width','14.5%');
+      $('.dropdown'). hover(
        function(){
-           $('.sidebar-wrapper').css('width','27.5%');
-       }). mouseleave(
+           $('.sidebar-wrapper').css('width','26.5%');
+       },
        function(){
-           $('.sidebar-wrapper').css('width','14%');
-       });
-   });
-  }
+        $('.sidebar-wrapper').css('width','14.5%');
+    });
+  });
+   if(sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin'){
+     this.jsonFlags.isAdminforSmsGateway = true;
+   }else{
+     this.jsonFlags.isAdminforSmsGateway = false;
+   }
 
+if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin') {
+  this.jsonFlags.isAdminforLeave = true;
+} else {
+  this.jsonFlags.isAdminforLeave = false;
+}
+// =======payrollAccess===========
+if(sessionStorage.getItem('userType') =='0' && sessionStorage.getItem('username') == 'admin' || sessionStorage.getItem('userType')=='0' && sessionStorage.getItem('username') != 'admin'){
+  this.jsonFlags.isAdminforPayroll = true;
+}else{
+  this.jsonFlags.isAdminforPayroll = false;
+}
+if(sessionStorage.getItem('showSMSService') == 'true' && !this.isProfessional) {
+  $('#releaseNote').modal('show');
+}
+// ============end==============
+}
   ngAfterViewInit() {
     this.setActiveClassOnSideNav();
     // Patch added for specific institute to show only Home and Lead module
@@ -301,7 +334,19 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngOnDestroy() {
+    sessionStorage.removeItem('showSMSService');
+  }
 
+  mouseenter(cond) {
+  if(cond) {
+    $('.sidebar-wrapper').css('width','26.5%');
+  }
+}
+
+mouseleave() {
+  $('.sidebar-wrapper').css('width','14.5%');
+}
 
   checkpermissinForLeadDetails() {
     let userType = sessionStorage.getItem('userType');
@@ -320,10 +365,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       if (this.role_feature.LEAD_MANAGE_ENQUIRY) {
         this.jsonRolesFlags.isShowManageEnquiry = true;
         this.jsonRolesFlags.isShowAddEnquiry = true;
-      }
-      // enquiry  admin --115
-      if (this.role_feature.LEAD_ADD_CAMPAIGN) {
-        this.jsonRolesFlags.isShowAddCampaign = true;
       }
       if (this.role_feature.LEAD_MANAGE_CAMPAIGN) {
         this.jsonRolesFlags.isShowCampaign = true;
@@ -351,16 +392,16 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.jsonCourseFlags[flag] = true;
       })
     }
-    else if ((userType == '3')) {
-      this.jsonCourseFlags.isShowModel = false;
-      this.jsonFlags.isShowCourse = true;
-      this.jsonCourseFlags.isShowArchiving = false;
-      let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
+    // else if ((userType == '3')) {
+    //   this.jsonCourseFlags.isShowModel = false;
+    //   this.jsonFlags.isShowCourse = true;
+    //   this.jsonCourseFlags.isShowArchiving = false;
+    //   let array = ['isShowFileManager', 'isShowExam', 'isShowClass', 'isShowClassPlanner'];
 
-      array.forEach((flag) => {
-        this.jsonCourseFlags[flag] = true;
-      });
-    }
+    //   array.forEach((flag) => {
+    //     this.jsonCourseFlags[flag] = true;
+    //   });
+    // }
     else {
       this.jsonCourseFlags.isShowModel = true;
       if (this.role_feature.STUDY_MATERIAL_MENU) {
@@ -374,7 +415,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       }
       if (this.role_feature.EXAMS_MENU) {
         this.jsonCourseFlags.isShowExam = true;
-        this.jsonFlags.isShowCourse = true;
+        // this.jsonFlags.isShowCourse = true;
       }
     }
     if (userType == '0' && (permissionArray == "" || permissionArray == null)) {
@@ -393,9 +434,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     if (sessionStorage.getItem('enable_online_assignment_feature') == '1') {
       this.jsonCourseFlags.isShowOnlineAssignment = true;
     }
-    if (this.role_feature.SETUP_MENU) {
-      this.jsonFlags.isShowCourse = true;
-    }
+    // if (this.role_feature.SETUP_MENU) {
+    //   this.jsonFlags.isShowCourse = true;
+    // }
   }
 
   checkpermissionOfCommunicate() {
@@ -405,8 +446,8 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
         this.permissions = JSON.parse(sessionStorage.getItem('permissions'));
         // Changes done by Nalini - To handle role based commuicate menu conditions
-        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
-        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+        this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+        this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
         this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
         this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
         this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
@@ -419,7 +460,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
       });
     }
     if (this.userType == 3) {
-      this.jsonCommunicateFlags.communicateMenu = false;
+      this.jsonCommunicateFlags.showSMSReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORT_MISC_SMS) ? true : false;//sms visiblity
+      this.jsonCommunicateFlags.showEmailReport = (this.role_feature.REPORTS_MENU && this.role_feature.REPORTS_MISC_EMAIL) ? true : false; //email visiblity
+      this.jsonCommunicateFlags.communicateMenu = this.role_feature.COMMUNICATE_MENU;
+      this.jsonCommunicateFlags.showEvents = this.role_feature.COMMUNICATE_EVENTS;
+      this.jsonCommunicateFlags.showPTM = this.role_feature.COMMUNICATE_PTM;
     }
   }
   checkPermissionForFees() {
@@ -427,11 +472,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.is_tax_enabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.enable_online_payment = sessionStorage.getItem('enable_online_payment_feature');
     const userType = sessionStorage.getItem('userType');
-    if (userType == '3') {
-      this.jsonFeesFlags.isAdmin = false;
-      this.jsonFeesFlags.isProfitnloss = false;
-    }
-    else if (userType == '0') {
+    // if (userType == '3') {
+    //   this.jsonFeesFlags.isAdmin = false;
+    //   this.jsonFeesFlags.isProfitnloss = false;
+    // }
+    if (userType == '0') {
       if (sessionStorage.getItem('permissions') == "" || sessionStorage.getItem('permissions') == null) {
         this.jsonFeesFlags.isAdmin = true;
         this.jsonFeesFlags.isProfitnloss = true;
@@ -457,6 +502,11 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
     }
 
+    if (userType == '3') {
+        this.jsonFeesFlags.isAdmin = false;
+        this.jsonFeesFlags.isProfitnloss = false;
+      }
+
     if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
         this.jsonFeesFlags.isFeeManageCheque = true;
@@ -476,14 +526,12 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   hideForUsers() {
-    if (sessionStorage.getItem('userType') == '0') {
+    // if (sessionStorage.getItem('userType') == '0') {
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
         return true;
       } else if (this.role_feature.MY_ACCOUNTS_MENU) {
         return true;
-      }
-    }
-    else {
+      } else {
       return false;
     }
   }
@@ -518,28 +566,28 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
         this.showManageRole = this.role_feature.USERS_MENU;
 
-        if (this.role_feature.SETUP_MENU) {
+        // if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divTeacherTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divTeacherTag'], '');      // Swapnil
-          this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
-        }
+          // this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
+        // }
         if (this.role_feature.FEE_MENU) {
           this.jsonFlags.isShowFee = true;
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
         }
-        if (this.role_feature.SETUP_MENU && this.isProfessional) {
+        // if (this.role_feature.SETUP_MENU && this.isProfessional) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divSlotTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divSlotTag'], '');       // Swapnil
           this.setNativeElementValue(['divMasterTag'], '');       // Swapnil
-        }
-        if (this.role_feature.SETUP_MENU) {
+        // }
+        // if (this.role_feature.SETUP_MENU) {
           // this.divMasterTag.nativeElement.style.display = '';
           // this.divAcademicTag.nativeElement.style.display = '';
           // this.setNativeElementValue(['divMasterTag', 'divAcademicTag'], '');      // Swapnil
-          this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
-        }
+          // this.setNativeElementValue(['divMasterTag'], '');      // Swapnil
+        // }
         if (this.role_feature.MY_ACCOUNTS_MENU) {
           // this.divSettingTag.nativeElement.style.display = '';
           // this.divMyAccountTag.nativeElement.style.display = '';
@@ -566,10 +614,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
           this.setNativeElementValue(['divManageUsers'], '');       // Swapnil
         } else {
           this.setNativeElementValue(['divManageUsers'], 'none');
-        }
-        if (this.role_feature.SETUP_MENU) {
-          // this.setNativeElementValue(['divClassRoomTag'], '');          // Swapnil
-          // this.divClassRoomTag.nativeElement.style.display = '';
         }
       }
     }
@@ -757,7 +801,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         remove the first and last char and validate if its admin or not */
         this.hasLead(this.permissionData);
         this.hasStudent(this.permissionData);
-        this.hasCourse(this.permissionData);
+        // this.hasCourse(this.permissionData);
         // this.hasProducts(this.permissionData);
       }
 
@@ -765,7 +809,9 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     else if (userType == 3) {
       /* Teacher login detected */
       this.jsonFlags.isAdmin = false;
-      this.teacherLoginFound();
+      this.hasLead(this.permissionData);
+      this.hasStudent(this.permissionData);
+      // this.teacherLoginFound();
     }
 
     // please dont chnage this  code from here
@@ -838,7 +884,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   isLibraryFeatureAllow(permission) {
     this.jsonFlags.isShowLibrabry = false;
     if (sessionStorage.getItem('enable_library_feature') == '1') {
-      if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+      if (sessionStorage.getItem('userType') == '3' || (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin')) {
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
           this.jsonFlags.isShowLibrabry = this.role_feature.LIBRARY_MENU ? true : false;
         }
@@ -849,25 +895,18 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   }
 
   isExpenseFeatureAllow() {
-    this.jsonFlags.isShowExpense = false;
+  this.jsonFlags.isShowExpense = false;
     // developed by - Nalini 
     // Expenses option are showing in all user login so need to remove-Growth Academy - 101238
-    if ((this.instituteId == 101238 && (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') == 'admin')) ||
-      this.instituteId == 101242 ||
-      this.instituteId == 101008 ||
-      this.instituteId == 101243 ||
-      this.instituteId == 101244 ||
-      this.instituteId == 100058 ||
-      this.instituteId == 100127 ||
-      this.instituteId == 100126) {
+    if (sessionStorage.getItem('enable_expense_management') == '1') {
       this.jsonFlags.isShowExpense = true;
-      if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
-        if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
-          this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
-        }
-      } else {
-        this.jsonFlags.isShowExpense = true;
-      }
+      // if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+      //   if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
+      //     this.jsonFlags.isShowExpense = this.role_feature.EXPENSE_MENU ? true : false;
+      //   }
+      // } else {
+        // this.jsonFlags.isShowExpense = true;
+      // }
     }
     sessionStorage.setItem('isShowExpense', String(this.jsonFlags.isShowExpense));
   }
@@ -876,8 +915,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowLiveclass = false;
     // if user is not admin
     this.jsonFlags.isShowLiveclass = this.checkInstSetupType(type, 256);
+    let zoom = sessionStorage.getItem('is_zoom_enable');
+    if (JSON.parse(zoom)) {
+      this.jsonFlags.isShowLiveclass = true;
+    }
     if (this.jsonFlags.isShowLiveclass) {
       if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+        this.jsonFlags.isShowLiveclass = false;
         if (sessionStorage.getItem('permissions') != '' && sessionStorage.getItem('permissions') != null) {
           this.jsonFlags.isShowLiveclass = this.role_feature.LIVE_CLASS_MENU ? true : false;
         }
@@ -890,7 +934,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
+    sessionStorage.setItem('isShowLiveclass', String(this.jsonFlags.isShowLiveclass));
   }
 
   isElearnAllow(permissions) {
@@ -922,9 +966,10 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   isOnlineExamAllow(type) {
     if (this.jsonFlags.isAdmin) {// if user is admin
       this.jsonFlags.isShoweOnlineExam = this.checkInstSetupType(type, 4);
-    } else if (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin') {
+    } else if (sessionStorage.getItem('userType') == '3' || (sessionStorage.getItem('userType') == '0' && sessionStorage.getItem('username') != 'admin')) {
       this.jsonFlags.isShoweOnlineExam = this.role_feature.ONLINE_TESTS_MENU;
     }
+    sessionStorage.setItem('isShoweOnlineExam', String(this.jsonFlags.isShoweOnlineExam));
   }
 
 
@@ -1019,8 +1064,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     this.jsonFlags.isShowModel = false;
     this.jsonFlags.isShowCourse = false;
     if (this.role_feature.EXAMS_MENU ||
-      this.role_feature.CLASS_MENU ||
-      this.role_feature.SETUP_MENU) {
+      this.role_feature.CLASS_MENU) {
       this.jsonFlags.isShowModel = true;
       this.jsonFlags.isShowCourse = true;
     }
@@ -1186,7 +1230,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
         this.multiBranchService.subBranchSelected.next(true);
         this.fillSessionStorageCommonFields(res);
         sessionStorage.setItem('mainBranchId', this.mainBranchId);
-        sessionStorage.setItem('permissions', '');
         this.getCountryData(data.institute_id);
         this.router.navigateByUrl('/authPage');
       },
@@ -1249,7 +1292,6 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   mainBranchLogin(res) {
     sessionStorage.setItem('religion_feature', res.religion_feature);
-    sessionStorage.setItem('permissions', '');
     this.router.navigateByUrl('/authPage');
   }
 
@@ -1327,9 +1369,42 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   fillSessionStorageCommonFields(res) {
     sessionStorage.clear();
-    let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
-    sessionStorage.setItem('Authorization', Authorization);
-    this.auth.changeAuthenticationKey(Authorization);
+    // Changes done by Nalini to handle role in case of branch switch
+    if (res.userType != '1' && res.userType != '99') {
+      let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
+      sessionStorage.setItem('Authorization', Authorization);
+      this.auth.changeAuthenticationKey(Authorization);
+    }
+    else {
+      if (res.single_login_login_check) {
+        sessionStorage.setItem('single_device_login', 'true');
+        let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id + ":" + res.device_id + ":WEB");
+        sessionStorage.setItem('Authorization', Authorization);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+      else {
+        sessionStorage.setItem('single_device_login', 'false');
+        let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
+        sessionStorage.setItem('Authorization', Authorization);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+    }
+    console.log(res.permission_id_list);
+     if (res.permission_id_list == undefined || res.permission_id_list == undefined || res.permission_id_list == null || res.permission_id_list.length == 0) {
+      sessionStorage.setItem('permissions', '');
+      this.log.changePermissions('');
+      this.Role_features.checkPermissions();
+    }
+    else {
+      sessionStorage.setItem('permissions', JSON.stringify(res.permission_id_list));
+      this.log.changePermissions(JSON.stringify(res.permission_id_list));
+      this.Role_features.checkPermissions();
+    }
+    // this.log.currentUsername.subscribe(res => {
+      this.createCustomSidenav();
+    // });
+    this.auth.schoolModel.next(res.is_institute_type_school);
+    sessionStorage.setItem('is_institute_type_school', res.is_institute_type_school);
     sessionStorage.setItem('institute_id', res.institution_id);
     sessionStorage.setItem('institution_id', res.institution_id);
     this.auth.changeInstituteId(res.institution_id);
@@ -1392,7 +1467,7 @@ export class SideBarComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('enable_vdoCipher_feature', res.enable_vdoCipher_feature);
     sessionStorage.setItem('enable_vimeo_feature', res.enable_vimeo_feature);
     sessionStorage.setItem('enable_client_website', res.enable_client_website);
-
+    sessionStorage.setItem('is_fee_struct_linked', res.is_fee_struct_linked);
   }
 
   // closeSubMenu(){
@@ -1528,7 +1603,13 @@ export class SideBarComponent implements OnInit, AfterViewInit {
   actionSelected(d) {
     this.closeSearch(false);
     if (d.data.source == "Student") {
-      this.router.navigate(['/view/students'], { queryParams: { id: d.data.id, action: d.action } });
+      console.log(d);
+      if(d.action == "studentFee") {
+        this.router.navigate(['/view/fee/update-fee/view-fee/'+d.data.id]);
+      } else {
+        let router_link = this.isProfessional ?'/view/students/reportcard/':'/view/students/reportcardV2/';
+        this.router.navigate([router_link+d.data.id]);
+      }
       // 
       this.searchBar = false;
     }
@@ -1642,5 +1723,56 @@ export class SideBarComponent implements OnInit, AfterViewInit {
 
   setSetupSession(obj) {
     sessionStorage.setItem('class', obj);
+  }
+
+  openExamdesk() {
+    this.httpService.getData("/api/v2/user/examdesk/SSO")
+      .subscribe((data: any) => {
+        window.open(this.auth.examDeskUrl + '/administrator/login?token=' + data.result);
+      });
+    }
+  checkIfUserHadAccess(id) {
+    this.permissionArray = sessionStorage.getItem('permissions');
+    if (this.permissionArray == "" || this.permissionArray == null || !this.permissionArray) {
+      return true;
+    } else {
+      if (id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  // =============download-app-api======================
+  downloadApp(){
+    if(this.validInput()){
+    this.auth.showLoader()
+    let obj={
+      contact_no:this.contact_no
+    }
+    let url ='/api/v1/career/apply/msgSend'
+    this.httpService.postData(url,obj).subscribe(
+      (res:any)=>{
+    this.auth.hideLoader()
+    this.commonService.showErrorMessage('success', '', "Link Send successfully");
+    $('#appModal').modal('hide');   
+    },
+      err => {
+        this.auth.hideLoader();
+        this.commonService.showErrorMessage('error', '', err.error.message);
+      }
+    )
+    }
+
+}
+validInput(){
+  if(this.contact_no.length != 10){
+   
+      this.commonService.showErrorMessage('error', '', "Please Enter 10 digit Number");
+      $('#appModal').modal('hide');   
+
+      return false;
+    }
+    return true
   }
 }

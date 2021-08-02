@@ -58,7 +58,7 @@
                         style="border-radius: 4px;width: 20rem;" />
 
                       <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
-                        <div *ngIf="name.errors.required">
+                        <div class="text-danger" *ngIf="name.errors.required">
                           name is required.
                         </div>
                       </div>
@@ -121,7 +121,7 @@
                         [(ngModel)]="editEnqData.email" name="email" style="border-radius: 4px;width: 20rem;"
                         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
                       <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
-                        <div *ngIf="email.errors.pattern">
+                        <div class="text-danger" *ngIf="email.errors.pattern">
                           Enter email in format eg. someone@xyz.com
                         </div>
                       </div>
@@ -210,11 +210,11 @@
                 </div>
 
 
-                <div class="row" *ngIf="schoolModel">
+                <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper">
                       <label for="pin_code">Pin code</label>
-                      <input type="text" value="" id="pin_code" class="form-ctrl" [(ngModel)]="editEnqData.pin_code"
+                      <input type="text" value="" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="pin_code" class="form-ctrl" [(ngModel)]="editEnqData.pin_code"
                         name="pin_code" #pin_code="ngModel" style="border-radius: 4px;width: 20rem;" />
                     </div>
                   </div>
@@ -269,7 +269,7 @@
                         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
 
                       <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert invalid-alert">
-                        <div *ngIf="email2.errors.pattern">
+                        <div class="text-danger" *ngIf="email2.errors.pattern">
                           Enter email in format eg. someone@xyz.com
                         </div>
                       </div>
@@ -277,7 +277,7 @@
                   </div>
                 </div>
                 <!-- School related new field -->
-                <div *ngIf="schoolModel">
+                <div>
                   <div class="row">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
@@ -400,13 +400,13 @@
 
                       <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
                         class="alert invalid-alert">
-                        <div *ngIf="guardianEmail.errors.pattern">
+                        <div class="text-danger" *ngIf="guardianEmail.errors.pattern">
                           Enter email in format eg. someone@xyz.com
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="schoolModel">
+                  <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper">
                       <label for="enquirerLink">Parent profession</label>
                       <select id="parent_profession" class="form-ctrl" [(ngModel)]="editEnqData.parent_profession"
@@ -418,7 +418,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row" *ngIf="schoolModel">
+                <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper">
                       <label for="guardianEmail">Parent Aadhar No.</label>
@@ -437,7 +437,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row" *ngIf="schoolModel">
+                <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <!-- Phone -->
                     <div class="field-wrapper">
@@ -468,7 +468,7 @@
                     </div>
                     <div *ngIf="guardian_email.invalid && (guardian_email.dirty || guardian_email.touched)"
                       class="alert invalid-alert">
-                      <div *ngIf="guardian_email.errors.pattern">
+                      <div class="text-danger" *ngIf="guardian_email.errors.pattern">
                         Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
@@ -528,7 +528,7 @@
                 <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper">
-                      <label for="institutionName">Institution Name</label>
+                      <label for="institutionName">{{schoolModel ? 'School' : 'Institution'}} Name</label>
                       <select id="institutionName" class="form-ctrl" [(ngModel)]="editEnqData.school_id"
                         name="institutename" style="border-radius: 4px;width: 20rem;">
                         <option value="-1"></option>
@@ -542,7 +542,7 @@
 
                   </div>
                 </div>
-                <div class="row" *ngIf='schoolModel'>
+                <div class="row">
                   <div class="c-lg-6 c-md-6 c-sm-6">
                     <div class="field-wrapper">
                       <label for="educational_group">Group</label>

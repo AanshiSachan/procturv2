@@ -1,0 +1,491 @@
+<div class="page-content">
+  <div class="display">
+    <div class="links">
+      <a [ngClass]="{'selected':smsTableFlag}" (click)="onClickSms()" style="cursor: pointer;">SMS</a>
+      <a (click)="onClickEmai()" [ngClass]="{'selected':emailTableFlag}" style="cursor: pointer;">Email</a>
+      <a (click)="onClickPush()" [ngClass]="{'selected':pushTableFlag}" style="cursor: pointer;">Push</a>
+    </div>
+    <div class="create">
+      <a (click)="onClickCreateMessage()" *ngIf="smsTableFlag"> + Add SMS </a>
+      <a (click)="onClickCreateEmail()" *ngIf="emailTableFlag"> + Add Email </a>
+      <a (click)="onclickCreatePushNotify()" *ngIf="pushTableFlag"> + Add Push Message </a>
+
+
+    </div>
+  </div>
+  <div class="table_head">
+    <div></div>
+    <div>Date </div>
+    <div>Message</div>
+    <div>Action</div>
+  </div>
+  <div class="scroll_body" [ngClass]="{'open-popups':jsonFlag.selectedMessageFlag || jsonFlag.editMessage || jsonFlag.createMesageFlag,'open-emailPOpups': jsonFlag.selectedEmailChecboxFlag ||jsonFlag.editEmail  || jsonFlag.createEmailFlag,'open-pushPOpups': jsonFlag.createdPushNotification  || jsonFlag.selectedPushCheckbox ||jsonFlag.editPush , 'scroll_bodyEmptyimg': messageList.length == '0' || emailMessageList.length == '0' || pushNotificationList.length == '0'}">
+    <div *ngIf="smsTableFlag">
+      <div class="table_body" *ngFor="let msg of messageList">
+        <div>
+          <div class="field-radio-wrapper">
+            <input type="radio" class="form-radio" [(ngModel)]="msg.selectedMessageId" [checked]="msg.selectedSmsCheckBox"
+              value="{{msg.message_id}}" (click)="onselectMessageCheckbox(msg)">
+            <label></label>
+          </div>
+        </div>
+        <div title="{{msg.date}}">{{msg.date}}</div>
+        <div title="{{msg.message}}">
+          {{(!msg.message) ? '-':(msg.message.length > 100) ?(msg.message | slice :0:90) + '...' : msg.message}}
+        </div>
+        <div>
+          <a class="mr16" (click)="onClickEdit(msg)" style="cursor: pointer;"><img
+              src="../../../../assets/images/edit.svg"></a>
+          <a (click)="deletMessage(msg,'400')" style="cursor: pointer;"><img
+              src="../../../../assets/images/delete.svg"></a>
+        </div>
+      </div>
+      <div class="smsemptydiv" *ngIf="messageList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
+        <p><b>How to send SMS :</b></p>
+        <p>1. Click on <b>Add SMS.</b></p>
+         <p>2. For sending an SMS first <b>select SMS.</b></p>
+         <p>3. Check Transactional SMS balance.
+         <!-- <p>4. Click on Transactional if want to send SMS to <b>Batchwise/Active Students/Faculty{{!schoolModel ? '/' :''}}{{!schoolModel ? 'Registered Users' :''}}.</b></p> -->
+         <!-- <p> 5. Click on Promotional if want to send SMS to <b> Inactive/Alumni Students only.</b></p> -->
+         <p>4. After selection of students enable settings of parents at the bottom if want to send SMS to parents also.</p>
+          <p>5. Click on <b>Send SMS.</b></p>
+          <p><b>Note :</b></p>
+            <p>For sending custom SMS make sure that SMS is approved on DLT Platform if not visit configuration menu section for more details.</p>
+      </div>
+    </div>
+    <!-- ==================email-table================= -->
+    <div *ngIf="emailTableFlag">
+      <div class="table_body" *ngFor="let email of emailMessageList">
+        <div>
+          <div class="field-radio-wrapper">
+            <input type="radio" class="form-radio"  [(ngModel)]="email.selectedMessageId" [checked]="email.selectedEmailCheckBox"
+              value="{{email.message_id}}" (click)="onSelectedEmailCheckbox(email)">
+             
+            <label></label>
+          </div>
+        </div>
+        <div title="{{email.date}}">{{email.date}}</div>
+        <div title="{{email.message}}" [innerHtml]="(!email.message) ? '-':(email.message.length > 100) ?(email.message | slice :0:90) + '...' : email.message" >
+
+        </div>
+        <div>
+          <a class="mr16" (click)="onClickEditEmail(email)" style="cursor: pointer;"><img
+              src="../../../../assets/images/edit.svg"></a>
+          <a (click)="deletMessage(email,'400')" style="cursor: pointer;"><img
+              src="../../../../assets/images/delete.svg"></a>
+        </div>
+        
+      </div>
+      <div class="smsemptydiv" *ngIf="emailMessageList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
+        <p><b>How to send Email :</b></p>
+       <p>1. Click on <b>Add Email.</b></p>
+        <p>2. For sending an Email first <b>select Email.</b></p>
+        <p>3. Check Email Quota balance.</p>
+       <p> 4. While sending an email subject box will come. </p>
+       <p> 5. Select users to whom want to send an email.</p>
+       <p> 6. Click on  <b>Preview and Send.</b></p>
+        
+        
+      <p><b>Note :</b></p>
+        
+      <p> 1. Before sending an email, please confirm if email id is approved from Proctur and added in email sender id. If not then connect with our support team.</p>
+        
+       <p> 2. Email subject can be added while sending the email.</p>
+
+      </div>
+    </div>
+    <!-- ================push-table=================== -->
+    <div *ngIf="pushTableFlag">
+      <div class="table_body" *ngFor="let push of pushNotificationList">
+        <div>
+          <div class="field-radio-wrapper">
+            <input type="radio" class="form-radio"[(ngModel)]="push.selectedMessageId" [checked]="push.selectesPushCheckBox"
+              value="{{push.message_id}}" (click)="onClickSelectPush(push)">
+            <label></label>
+          </div>
+        </div>
+        <div title="{{push.date}}">{{push.date}}</div>
+        <div title="{{push.message}}"> {{(!push.message) ? '-':(push.message.length > 90) ?(push.message | slice :0:90) + '...' : push.message}}
+        </div>
+        <div>
+          <a class="mr16" (click)="onClickEditPush(push)" style="cursor: pointer;"><img
+              src="../../../../assets/images/edit.svg"></a>
+          <a (click)="deletMessage(push,'400')" style="cursor: pointer;"><img
+              src="../../../../assets/images/delete.svg"></a>
+        </div>
+      </div>
+      <div class="smsemptydiv" *ngIf="pushNotificationList.length == '0'"><img src="../../../../assets/images/add-send-notification-img/Group 1070.png">
+    <p><b>How to send Push Notification :</b></p>
+    <p>1. Click on <b> Add Push Message.</b></p>
+    <p>2. For sending Push message first <b> select message.</b></p>
+    <p>3. Push notification can be send only to <b> Active and Registered users.</b></p>
+    <p>4. Select users to whom want to send message.</p>
+    <p>5. Click on  <b>Send Push Notification.</b></p>
+    <p><b>Note :</b></p>
+    <p>Create push notification message and send instantly, DLT process not required.</p>
+      </div>
+    </div>
+    <!-- ===========end====================== -->
+
+  </div>
+  <!-- <div class="pagignation">
+      <p></p>
+  </div>    -->
+
+</div>
+<!-- =====================create-message================= -->
+<div class="page-content1" *ngIf="jsonFlag.createMesageFlag || jsonFlag.editMessage ">
+  <div class="page_heading">
+    <p *ngIf="!jsonFlag.editMessage">
+      Create SMS
+    </p>
+    <p *ngIf="jsonFlag.editMessage">
+      Edit SMS
+    </p>
+    <img src="../../../../assets/images/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
+  </div>
+  <div class="page_body">
+    <div>
+      <p>Select SMS Type</p>
+      <div class="remaining selected">
+        <p>Transactional </p>
+        <p class="number">{{transactionalSms}}</p>
+
+      </div>
+      <!-- <div class="remaining">
+        <p>Promotional</p>
+        <p class="number">{{pramotionalSms}}</p>
+      </div> -->
+    </div>
+    <div>
+      <p>SMS Description</p>
+      <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"
+        (ngModelChange)="countNumberOfMessage()"></textarea>
+      <div class="count">
+        <div>
+          <p>Character Count: <b>{{newMessageText.length}}</b></p>
+        </div>
+        <div>
+          <p>Message Count: <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p><b>Note :</b></p>
+      <!-- <p class="note">1. Entity Registration Process: For faster response, it’s requested for register on MTNL. Entity
+        Registration Process for MTNL Signup Link : <a href="https://www.ucc-mtnl.in/">https://www.ucc-mtnl.in/</a> .
+      </p>
+
+      <p class="note">2. Get approval for your SMS content on DLT platform: Find the link of Proctur system generated
+        SMS, which is expected to approved from DLT. (Download the template-“<a href=" https://bit.ly/3sDxMgx">
+          https://bit.ly/3sDxMgx</a> ”).</p> -->
+          <p class="note">For sending custom SMS make sure that SMS is approved on DLT Platform. If not then visit configuration menu section for more details.</p>
+    </div>
+
+  </div>
+
+  <div class="page_footer">
+    <div></div>
+    <button class="blue_button" (click)="saveNewMessage()"  *ngIf="!jsonFlag.editMessage">Save</button>
+    <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editMessage">Update</button>
+
+  </div>
+</div>
+<!-- ========================selected message============================ -->
+<div class="page-content2" *ngIf="jsonFlag.selectedMessageFlag">
+  <div class="page_heading">
+    <p>
+      Selected SMS
+    </p>
+    <img src="../../../../assets/images/cross.svg" style="cursor: pointer;" (click)="closeDiv()">
+  </div>
+  <div class="page_body">
+    <div>
+      <p>Select SMS Type</p>
+      <div [ngClass]="transactionalSelectedFlag ? 'remaining selected':'remaining'" (click)="onClicktransaction($event)" style="cursor: pointer;">
+        <p>Transactional </p>
+        <p class="number">{{transactionalSms}}</p>
+
+      </div>
+      <!-- <div  [ngClass]="pramotionalSelectedFlag ? 'remaining selected':'remaining'" (click)="onclicPramotional($event)" style="cursor: pointer;">
+        <p>Promotional</p>
+        <p class="number">{{pramotionalSms}}</p>
+      </div> -->
+    </div>
+    <div>
+      <p>SMS Description</p>
+      <textarea placeholder="Write your message here..." disabled >{{selectedRow}}</textarea>
+      <div class="count">
+        <div>
+          <p>Character Count: <b>{{selectedMessageText}}</b></p>
+        </div>
+        <div>
+          <p>Message Count: <span>{{selectedMessageCount}}</span></p>
+        </div>
+      </div>
+    </div>
+    <div>
+
+    </div>
+  </div>
+  <div class="white1">
+    <div></div>
+    <button class="blue_button extra_padding" (click)="onClickSentTo()">Send To</button>
+  </div>
+  <!-- <div class="page_footer">
+
+  </div> -->
+</div>
+<!-- =======================Email===================================== -->
+<div class="page-content3 create1" *ngIf="jsonFlag.createEmailFlag || jsonFlag.editEmail">
+  <div class="page_heading">
+    <p *ngIf="!jsonFlag.editEmail">
+      Create New Email
+    </p>
+    <p *ngIf="jsonFlag.editEmail">Edit Email</p>
+    <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;"
+      (click)="closeDiv()">
+  </div>
+  <div class="page_body">
+
+    <div>
+      <p>Email Description</p>
+      <!-- <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"></textarea> -->
+      <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t" [(ngModel)]="newMessageText"
+        placeholder="Write a short description about this product"></editor>
+      <!-- <div class="editbox">
+                <div>
+                 <a> <img src="../../../../assets/images/add-send-notification-img/1.svg"></a>
+                 <a><img src="../../../../assets/images/add-send-notification-img/2.svg"></a>
+                </div>
+                <div class="line"></div>
+                <div>
+                  <select>
+                    <option class="sans">Sans Serif</option>
+                  </select>
+                </div>
+                <div class="line"></div>
+                <div>
+                  <select class="tt">
+                    <option  ></option>
+                  </select>
+                </div>
+                <div class="line"></div>
+                <div class="fonts">
+                  <a> <img src="../../../../assets/images/add-send-notification-img/bold.svg"></a>
+                  <a><img src="../../../../assets/images/add-send-notification-img/italic.svg"></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/underline.svg" class="underline"></a>
+                  <select class="font">
+                    <option  ></option>
+                  </select>
+                </div>
+                <div class="line"></div>
+               <div class="color dropdown11">
+                <a  class="dropbtn11"><img src="../../../../assets/images/add-send-notification-img/color.svg"></a>
+                
+                  <div class="dropdown-content11">
+                 
+                  </div>
+               
+               </div>
+               <div class="line"></div>
+                <div class="font_align">
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V1.svg"></a>
+                  <a><img src="../../../../assets/images/add-send-notification-img/V2.svg"></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V3.svg" ></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V4.svg"></a>
+                  <a><img src="../../../../assets/images/add-send-notification-img/V6.svg"></a>
+                  <a> <img src="../../../../assets/images/add-send-notification-img/V7.svg" ></a>
+                </div>
+              </div> -->
+    </div>
+    <div>
+      <div>
+       <p><b>Note :</b></p>
+       <p style="font-size: 11px;">1.Before sending an email, please confirm if email id is approved from Proctur and added in email sender id. If not then connect with our support team.</p>
+       <p style="font-size: 11px;">2.Email subject can be added while sending the email.</p>
+      </div>
+
+    </div>
+    
+  </div>
+  <div class="page_footer">
+    <div></div>
+    <button class="blue_button" (click)="saveNewMessage()" *ngIf="!jsonFlag.editEmail">Save</button>
+    <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editEmail">update</button>
+
+  </div>
+</div>
+<!-- ========================selected-email=================== -->
+<div class="page-content4 selected1" *ngIf="jsonFlag.selectedEmailChecboxFlag">
+  <div class="page_heading">
+    <p>
+      Selected Email
+    </p>
+    <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;"
+      (click)="closeDiv()">
+  </div>
+  <div class="page_body page_body1">
+
+    <div>
+      <p>Email Description <img src="../../../../assets/images/add-send-notification-img/edit.svg"></p>
+      <!-- <div class="email_subject danger11" > -->
+      <div class="email_subject" [ngClass]="{'danger11': (classToggled && email_subject.trim() =='')}" >
+
+        <span>Subject :</span>
+        <input type="text" [(ngModel)]="email_subject">
+        <span *ngIf="(classToggled && email_subject.trim()=='')">Subject is mandatory</span>
+      </div>
+      <!-- danger11 class will toggle -->
+      <div class="message">
+        <span  style="padding-left: 8px;">Message </span>
+        <!-- <textarea placeholder="Write your message here...">{{selectedRow}}</textarea> -->
+        <editor [disabled]="true" [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+          [(ngModel)]="selectedRow" placeholder="Write a short description about this product"></editor>
+
+      </div>
+
+    </div>
+
+    <div class="col_flex">
+      <div></div>
+     <div class="display">
+     <div></div>
+     <div>
+      <p class="quota">Email Quota Balance :<span>{{email_quataBalence}}</span></p>
+
+      <button class="blue_button" (click)="onClickEmailSentTo()">Send To</button>
+     </div>
+     </div>
+    </div>
+
+  </div>
+
+  <div class="display">
+    <div></div>
+    <!-- <div class="editbox">
+            <div>
+             <a> <img src="../../../../assets/images/add-send-notification-img/1.svg"></a>
+             <a><img src="../../../../assets/images/add-send-notification-img/2.svg"></a>
+            </div>
+            <div class="line"></div>
+            <div>
+              <select>
+                <option class="sans">Sans Serif</option>
+              </select>
+            </div>
+            <div class="line"></div>
+            <div>
+              <select class="tt">
+                <option  ></option>
+              </select>
+            </div>
+            <div class="line"></div>
+            <div class="fonts">
+              <a> <img src="../../../../assets/images/add-send-notification-img/bold.svg"></a>
+              <a><img src="../../../../assets/images/add-send-notification-img/italic.svg"></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/underline.svg" class="underline"></a>
+              <select class="font">
+                <option  ></option>
+              </select>
+            </div>
+            <div class="line"></div>
+           <div class="color dropdown11">
+            <a  class="dropbtn11"><img src="../../../../assets/images/add-send-notification-img/color.svg"></a>
+            
+              <div class="dropdown-content11">
+             
+              </div>
+           
+           </div>
+           <div class="line"></div>
+            <div class="font_align">
+              <a> <img src="../../../../assets/images/add-send-notification-img/V1.svg"></a>
+              <a><img src="../../../../assets/images/add-send-notification-img/V2.svg"></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/V3.svg" ></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/V4.svg"></a>
+              <a><img src="../../../../assets/images/add-send-notification-img/V6.svg"></a>
+              <a> <img src="../../../../assets/images/add-send-notification-img/V7.svg" ></a>
+            </div>
+          </div> -->
+    <!-- <div>
+              <p class="quota">Email Quota Balance  :<span>494836</span></p>
+          </div> -->
+    <!-- <button class="blue_button"  [disabled]="email_subject == ''" (click)="onClickEmailSentTo()">Send To</button> -->
+    <div>
+      
+    </div>
+  </div>
+  <!-- <p class="quota">Email Quota Balance  :<span>{{email_quataBalence}}</span></p> -->
+
+  <!-- <div class="page_footer">
+
+  </div> -->
+  <!-- <div>
+      <p class="quota">Email Quota Balance  :<span>{{email_quataBalence}}</span></p>
+  </div> -->
+  <!-- <div class="page_footer">
+        <div></div>
+        <button class="blue_button"  [disabled]="email_subject == ''" (click)="onClickEmailSentTo()">Send To</button>
+    </div> -->
+</div>
+
+
+<!-- ===========create-push-Notification=============== -->
+<div class="page-content5 create2" *ngIf="jsonFlag.createdPushNotification || jsonFlag.editPush">
+  <div class="page_heading">
+    <p *ngIf="!jsonFlag.editPush">
+      Create Push Message
+    </p>
+    <p *ngIf="jsonFlag.editPush">
+      Edit Push Message
+    </p>
+    <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;"
+      (click)="closeDiv()">
+  </div>
+  <div class="page_body">
+
+    <div>
+      <p style="float: left;">Message Description</p>
+      <textarea placeholder="Write your message here..." [(ngModel)]="newMessageText"></textarea>
+
+    </div>
+    <div>
+<p><b>Note :</b></p>
+<p style="font-weight: 400; font-size: 11px;">Create push notification message and send instantly, DLT process not required.</p>
+    </div>
+  </div>
+  <div class="page_footer">
+    <div></div>
+    <button class="blue_button" (click)="saveNewMessage()" *ngIf="!jsonFlag.editPush">Save</button>
+    <button class="blue_button" (click)="updateMessage()" *ngIf="jsonFlag.editPush">Update</button>
+
+  </div>
+</div>
+<!-- ==================selecte-push==================================   -->
+
+<div class="page-content6 selected2" *ngIf="jsonFlag.selectedPushCheckbox">
+  <div class="page_heading">
+    <p>
+      Selected Push Message
+    </p>
+    <img src="../../../../assets/images/add-send-notification-img/cross.svg" style="cursor: pointer;"
+    (click)="closeDiv()">
+  </div>
+  <div class="page_body">
+
+    <div>
+      <p style="float: left;">Message Description</p>
+      <textarea disabled placeholder="Write your message here...">{{selectedRow}}</textarea>
+
+    </div>
+    <div>
+
+    </div>
+  </div>
+  <div class="page_footer">
+    <div></div>
+    <button class="blue_button" (click)="onClickPushSentTo()">Send To</button>
+  </div>
+</div>
+

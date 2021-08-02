@@ -37,7 +37,7 @@
         <span>Date</span>
       </div>
       <div class="date_item" [ngClass]="today == head.headerDate ?'active_date':'inactive_date'" *ngFor="let head of recordInput">
-        <span>{{head.headerDate}}</span>
+        <span>{{head.headerDate | date:'dd-MM-yyyy'}}</span>
       </div>
     </div>
   </div> 
@@ -103,7 +103,7 @@
       </div>
       <div class="faculty_container">
         <div class="faculty_header_item">
-          <span>Faculty</span>
+          <span>Teacher</span>
         </div>
         <div class="faculty_item" [ngClass]="today == temp.headerDate ?'active_date':'inactive_date'" *ngFor="let temp  of recordInput">
           <span *ngIf="temp.data[i]">{{temp.data[i].teacher_name}}</span>

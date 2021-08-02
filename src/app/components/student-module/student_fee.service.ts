@@ -1,5 +1,5 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
@@ -37,7 +37,7 @@ export interface FeeModel {
     reference_no?: string;
     invoice_no?: any;
     course_id?: any;
-    country_id?:any;
+    country_id?: any;
     subject_id?: any;
     standard_id?: any;
     master_course?: any;
@@ -236,7 +236,7 @@ export class StudentFeeService {
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
                     amountOfInstallment = amountOfInstallment + amountDue + instal.amount_paid;
-                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax,country_id));
+                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax, country_id));
                 } else {
                     if (instal.paid_full == "N" && instal.balance_amount > 0) {
                         amountDue = Number(instal.balance_amount);
@@ -245,8 +245,8 @@ export class StudentFeeService {
                     }
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
-                    console.log('tax',this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id));
-                    console.log('value',instal.initial_fee_amount_before_disocunt_before_tax);
+                    console.log('tax', this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id));
+                    console.log('value', instal.initial_fee_amount_before_disocunt_before_tax);
                     instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax, country_id) - instal.initial_fee_amount_before_disocunt_before_tax;
                 }
                 instal.uiSelected = false;
@@ -266,7 +266,7 @@ export class StudentFeeService {
             obj.feeAmountIncludingTax = totalFeeAmount;
             obj.paidAmount = Number(paidAmount);
             obj.discount = discount;
-            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax,country_id);
+            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax, country_id);
             obj.taxAmount = Math.floor(amountOfInstallment - initAmout);
             obj.dueAmount = unPaidAmount;
             if (obj.dueAmount == 0) {
@@ -283,7 +283,7 @@ export class StudentFeeService {
         return subjectWiseSchduleArray;
     }
 
-    makeCardLayoutJson(data, tax,country_id) {
+    makeCardLayoutJson(data, tax, country_id) {
         let obj: any = {
             feeAmountInclTax: 0,
             feeAmountExclTax: 0,
@@ -324,7 +324,7 @@ export class StudentFeeService {
         );
 
 
-        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax,country_id);
+        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax, country_id);
         obj.taxAmount = installmentDueAmount - initialAmountWithoutTax;
 
 
@@ -433,13 +433,13 @@ export class StudentFeeService {
         }
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (!this.role_feature.FEE_MANAGE) {
+            if (!this.role_feature.FEE_MENU) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;
                 }
             }
-            if (!this.role_feature.FEE_MANAGE && this.role_feature.FEE_CHEQUE_MANAGE) {
+            if (!this.role_feature.FEE_MENU && this.role_feature.FEE_CHEQUE_MANAGE) {
                 if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
                     this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
                     return false;
@@ -466,25 +466,68 @@ export class StudentFeeService {
             }
         }
     }
+    validatePaymentDetailsV2(data) {
+        if (Number(data.paying_amount) <= 0) {
+            this.commonService.showErrorMessage('info', '', 'Please enter payment amount');
+            return false;
+        }
+        if (data.paid_date == null || data.paid_date == "") {
+            this.commonService.showErrorMessage('info', '', 'Please enter payment date');
+            return false;
+        }
+        if (sessionStorage.getItem('permissions')) {
+            let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+            if (!this.role_feature.FEE_MENU) {
+                if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
+                    this.commonService.showErrorMessage('info', '', "you are not allowed to select past payment date ");
+                    return false;
+                }
+            }
+            if (!this.role_feature.FEE_MENU && this.role_feature.FEE_CHEQUE_MANAGE) {
+                if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
+                    this.commonService.showErrorMessage('info', '', "you are not allowed to select past payment date ");
+                    return false;
+                }
+            }
+        }
 
+        if (data.payment_mode == "" || data.payment_mode == null) {
+            this.commonService.showErrorMessage('info', '', 'Please enter payment date');
+            return false;
+        }
+        if (data.paying_amount > data.immutable_amount) {
+            this.commonService.showErrorMessage('info', '', 'Please enter paying amount less than total amount to pay.');
+            return false;
+        }
+        if (data.payment_mode != "Cheque/PDC/DD No.") {
+            return true;
+        } else {
+            if (data.paying_amount != data.pdcSelectedForm.cheque_amount) {
+                this.commonService.showErrorMessage('info', '', 'Please enter paying amount equals to cheque amount');
+                return false;
+            } else {
+                return this.validateChequePDCJSon(data.pdcSelectedForm);
+            }
+        }
+    }
     validateChequePDCJSon(data) {
         if (data.bank_name.trim() == '') {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Bank Name');
+            this.commonService.showErrorMessage('info', '', 'Please enter Bank Name');
             return false;
         }
 
         if (data.cheque_date == null || data.cheque_date == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter Cheque Date');
+            this.commonService.showErrorMessage('info', '', 'Please enter Cheque Date');
             return false;
         }
 
-        if (data.cheque_no.trim() == "") {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a Cheque Number');
+        if (data.cheque_no == "") {
+            this.commonService.showErrorMessage('info', '', 'Please enter a Cheque Number');
             return false;
         }
 
         if (data.cheque_no.trim().length != 6) {
-            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please enter a valid Cheque Number');
+            this.commonService.showErrorMessage('info', '', 'Please enter a valid Cheque Number');
             return false;
         }
 
@@ -704,12 +747,10 @@ export class StudentFeeService {
     // Amount in add is due amount during add
     // amount in case of remove become discount amount that is given
     checkDiscountValidations(discountJson, amount, condition) {
-
         if (Number(discountJson.discountAmount) <= 0) {
-            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please enter valid discount amount');
+            this.commonService.showErrorMessage('error', '', 'Please enter valid discount amount!');
             return false;
         }
-
         if (discountJson.discountAmount > amount) {
             let msg: string = "";
             if (condition == "add") {
@@ -717,19 +758,19 @@ export class StudentFeeService {
             } else {
                 msg = 'Discount amount to be removed can not be more than total discount applied i.e Rs. ' + Math.floor(Number(amount));
             }
-            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', msg);
+            this.commonService.showErrorMessage('error', '', msg);
             return false;
         }
 
-        if (condition == "add") {
-            if (discountJson.discountAmount == amount) {
-                this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount amount can not be more than total installment due amount i.e Rs. ' + Math.floor(Number(amount)));
-                return false;
-            }
-        }
+        // if (condition == "add") {
+        //     if (discountJson.discountAmount == amount) {
+        //         this.commonService.showErrorMessage('error', '', 'Discount amount can not be more than total installment due amount i.e Rs. ' + Math.floor(Number(amount)));
+        //         return false;
+        //     }
+        // }
 
         if (discountJson.reason == '-1') {
-            this.commonService.showErrorMessage('error', 'Discount Reason', 'Please enter discount reason');
+            this.commonService.showErrorMessage('error', '', 'Please select discount reason!');
             return false;
         }
 
@@ -786,7 +827,6 @@ export class StudentFeeService {
                     perInstallmentDiscount = mutableDiscount;
                 }
                 if (element.balance_amount == 0) {
-
                     if (element.fees_amount <= perInstallmentDiscount) {
                         this.commonService.showErrorMessage('error', '', 'Installment No ' + element.installment_no + ': Discount amount can not be more than or equal to installment amount i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;
@@ -838,8 +878,81 @@ export class StudentFeeService {
 
         return discountArray;
     }
+    makeDiscountingJSONV2(installmentArray, popUpFormObj) {
+        let discountArray: any = [];
+        let mutableDiscount: number = popUpFormObj.discountAmount;
+        let perInstallmentDiscount = Math.floor(Number(popUpFormObj.discountAmount / installmentArray.length));
+        for (let i = 0; i < installmentArray.length; i++) {
+            let element: any = installmentArray[i];
+            let obj: any = {
+                fee_schedule_id: Number(element.f_schld_id),
+                installment_no: Number(element.install_no),
+                reason_id: Number(popUpFormObj.reason),
+                discount_date: moment().format('YYYY-MM-DD'),
+                discount_amount: 0,
+                balance_amount: 0,
+                final_amount: 0,
+                discount_status: 1,
+                total_discount_amount: 0,
+                total_discount_percent: 0,
+                fee_template_mapping_id: 0
+            }
+            if (i == installmentArray.length - 1) {
+                perInstallmentDiscount = mutableDiscount;
+            }
+            if (popUpFormObj.type == "3") {
+                if (element.p_amount == 0) {
+                    obj.discount_amount = element.d_amount;
+                    obj.final_amount = 0;
+                    obj.balance_amount = -1;
+                } else {
+                    obj.discount_amount = element.d_amount;
+                    obj.final_amount = -1;
+                    obj.balance_amount = 0;
+                }
+            } else {
+                if (element.p_amount == 0) {
+                    if (element.d_amount < perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                        return false;
+                    } else {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = element.d_amount - perInstallmentDiscount;
+                        obj.balance_amount = -1;
+                    }
+                    // if (obj.final_amount == 0) {
+                    //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                    //     return false;
+                    // }
+                } else {
+                    if (element.d_amount < perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                        return false;
+                    } else {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = -1;
+                        obj.balance_amount = Number(element.d_amount - perInstallmentDiscount);
+                    }
+                    // if (obj.balance_amount == 0) {
+                    //     this.commonService.showErrorMessage('error', '', 'Installment No ' + element.install_no + ': Discount amount can not be more than or equal to installment amount i.e ' + element.d_amount);
+                    //     return false;
+                    // }
 
-    calculateInitialAmountOfRemainingAmount(amount: number, tax: number,country_id) {
+                }
+            }
+            mutableDiscount = mutableDiscount - perInstallmentDiscount;
+            if (popUpFormObj.type == "2") {
+                obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                obj.total_discount_percent = Number(popUpFormObj.value);
+            } else {
+                obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                obj.total_discount_percent = 0;
+            }
+            discountArray.push(obj);
+        }
+        return discountArray;
+    }
+    calculateInitialAmountOfRemainingAmount(amount: number, tax: number, country_id) {
         if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
             let initialAmount: number = (amount * 100) / (100 + tax);
             return initialAmount;
@@ -858,6 +971,14 @@ export class StudentFeeService {
     }
 
     addDiscountToStudent(jsonObject) {
+        jsonObject.institute_id = Number(this.institute_id);
+        let url = this.baseUrl + "/api/v1/discount";
+        return this.http.post(url, jsonObject, { headers: this.headers }).pipe(map(
+            res => { return res },
+            err => { return err }
+        ))
+    }
+    addDiscountToStudentV2(jsonObject, academic_yr) {
         jsonObject.institute_id = Number(this.institute_id);
         let url = this.baseUrl + "/api/v1/discount";
         return this.http.post(url, jsonObject, { headers: this.headers }).pipe(map(
@@ -935,7 +1056,46 @@ export class StudentFeeService {
 
         return discountArray;
     }
-
+    makeRemoveDiscountJsonV2(installment, popUpFormObj) {
+        let discountArray: any = [];
+        let element: any = installment[0];
+        let obj: any = {
+            fee_schedule_id: Number(element.f_schld_id),
+            installment_no: Number(element.install_no),
+            reason_id: Number(popUpFormObj.reason),
+            discount_date: moment().format('YYYY-MM-DD'),
+            discount_amount: 0,
+            balance_amount: 0,
+            final_amount: 0,
+            discount_status: 2,
+            total_discount_amount: 0,
+            total_discount_percent: 0,
+            fee_template_mapping_id: 0
+        }
+        if (element.disc_amount < popUpFormObj.discountAmount) {
+            this.commonService.showErrorMessage('error', '', 'Installment No. ' + element.installment_no + ':  discount amount to be removed can not be more than discount provided in installment.');
+            return false;
+        }
+        if (element.p_amount == 0) {
+            obj.discount_amount = popUpFormObj.discountAmount;
+            obj.final_amount = Math.floor(element.d_amount + popUpFormObj.discountAmount);
+            obj.balance_amount = -1;
+        } else {
+            obj.discount_amount = popUpFormObj.discountAmount;
+            obj.final_amount = -1;
+            obj.balance_amount = Math.floor(element.d_amount + popUpFormObj.discountAmount);
+        }
+        if (popUpFormObj.type == "percentage") {
+            obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+            obj.total_discount_percent = Number(popUpFormObj.value);
+        } else {
+            obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+            obj.total_discount_percent = 0;
+        }
+        //  obj.fee_template_mapping_id = element.student_fee_template_mapping_id;
+        discountArray.push(obj);
+        return discountArray;
+    }
     getDiscountHistory(id) {
         let url = this.baseUrl + "/api/v1/discount/" + id;
         return this.http.get(url, { headers: this.headers }).pipe(map(
@@ -943,7 +1103,13 @@ export class StudentFeeService {
             err => { return err }
         ))
     }
-
+    getDiscountHistoryV2(id, academic_yr) {
+        let url = this.baseUrl + "/api/v1/discount/" + id + "/" + academic_yr;
+        return this.http.get(url, { headers: this.headers }).pipe(map(
+            res => { return res },
+            err => { return err }
+        ))
+    }
 
     getFeeDetailsById(i): Observable<any> {
         let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";

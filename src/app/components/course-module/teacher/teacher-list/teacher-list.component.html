@@ -1,0 +1,118 @@
+<div class="middle-section clearFix" style="padding-right: 2%;margin-top: -6px;">
+  <section class="middle-top mb0 clearFix">
+    <div id="Faculty" class="tab-pane active">
+      <div class="w96">
+        <div>
+          <div class="row">
+            <div class="col-lg-12 col-12">
+              <div class="row">
+                <div class="col-lg-7 col-12">
+                </div>
+                <div class="col-lg-5 col-12">
+                  <span class="right">
+                    <input type="text" name="" placeholder="Search" [(ngModel)]="searchValue" (keyup)="searchTeacher()"
+                      class="input magnifying-glass">
+                    <a routerLink='/view/course/teacher/add'><button class="search">Add Teacher</button></a>
+
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div>
+              <table class="tableBodyScroll">
+                  <thead>
+                      <tr>
+                          <td>
+                            Id
+                          </td>
+                          <td>
+                            Teacher Name
+                          </td>
+                          <td>
+                              Contact Number
+                          </td>
+                          <!-- <td>
+                              Subject
+                          </td> -->
+                          <td>
+                              Date Of Joining
+                          </td>
+                          <td>Is Active</td>
+                          <!-- <td *ngIf="isShoweOnlineExam" class="center">Exam Desk Login</td> -->
+                          <td>
+                              <span class="right pr-40">
+                                  Action
+                              </span>
+                          </td>
+                      </tr>
+                  </thead>
+                  <!-- <div  *ngIf="teacherList.length != 0 "> -->  
+                  <tbody style="min-height: 65vh;max-height: 65vh;" *ngIf="teacherList?.length">
+                    <tr style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
+                      <td>
+                        {{row.teacher_user_id}}
+                      </td>
+                      <td title="{{row.teacher_name}}">
+                        {{(row.teacher_name?.length>20) ?(row.teacher_name | slice:0:20 ) + '...' :(row.teacher_name) }}
+                      </td>
+                      <td>
+                        {{row.teacher_phone}}
+                      </td>
+                      <!-- <td *ngIf="row.teacher_subjects!=''">
+                        {{row.teacher_subjects}}
+                      </td>
+                      <td *ngIf="row.teacher_subjects==''">
+                        -
+                      </td> -->
+                      <td>
+                        <span *ngIf="row.date_of_joining==''"> - </span>
+                        <span *ngIf="row.date_of_joining!=''">&nbsp;&nbsp;{{row.date_of_joining}}</span>
+                      </td>
+                      <td>
+                        <span *ngIf="row?.is_active == 'Y'" class="yes">Yes</span>
+                        <span *ngIf="row?.is_active == 'N'" class="no">No</span>
+                      </td>
+                      <!-- <td *ngIf="isShoweOnlineExam">
+                        {{row.allow_exam_desk_login}}
+                      </td> -->
+                      <td>
+                        <span class="right pr-40">
+                          <a [routerLink]="['/view/course/teacher/edit',  row.teacher_id]"
+                              style="vertical-align: middle;cursor: pointer;">
+                              <img src="../../../../assets/images/EDit.png">
+                          </a>
+                          <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal"
+                          (click)="deleteTeacherDeatils(row)" style="cursor: pointer;" class="pl-10">
+                              <i style="color: red;font-size: 18px;font-weight: 400;"
+                                  class="fa fa-trash"></i>
+                          </a>
+                      </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody style="min-height: 65vh;max-height: 65vh;text-align: center;" *ngIf="!teacherList?.length && !auth.isRippleLoad.getValue()">
+                    <img src="../../../assets/images/course/teacher_no_data.png">
+                  </tbody>
+                <!-- </div> -->
+              </table>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top: 10px;">
+    <!-- Paginator Here -->
+    <div class="filter-res pagination" style="width: 100%;margin-top: 0px;margin-bottom: 0;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
+          (sizeChange)="updateTableBatchSize($event)">
+        </pagination>
+      </div>
+    </div>
+  </section>
+
+</div>

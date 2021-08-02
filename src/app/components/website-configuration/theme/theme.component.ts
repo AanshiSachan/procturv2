@@ -109,7 +109,7 @@ export class ThemeComponent implements OnInit {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               // this.clearuploadObject();
               // this.refreshList();
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Theme options updated successfully");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Text colours updated successfully");
               this.getData();
 
             } else {

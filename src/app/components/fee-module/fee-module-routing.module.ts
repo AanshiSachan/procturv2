@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FeeComponent, FeeReportHomeComponent, FeeCourseReportComponent, AllDataReportComponent, InactiveStudentReportComponent,
      GstReportComponent, OnlinePaymentHistoryComponent, PaymentHistoryMainComponent ,ChequeManageComponent} from '.';
+import { FeeAssignmentComponent } from './fee-assignment/fee-assignment.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 
 
@@ -64,7 +65,15 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
                         path: 'profitNloss',
                         component: ProfitLossComponent,
                         pathMatch: 'prefix'
-                    }
+                    },{
+                        path:'assign-fee',
+                        component : FeeAssignmentComponent
+                    },
+                    {
+                        path:'update-fee',
+                        loadChildren: () => import('app/components/fee-module/fee-update/fee-update.module').then(m => m.FeeUpdateModule),
+                        pathMatch: 'prefix'
+                    },
                 ]
             }
         ])

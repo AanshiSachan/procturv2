@@ -1,0 +1,31 @@
+@import "../inventory-module.component.scss";
+.cancel{
+   color: #109CF1;
+    background-color: white;
+    padding: 0px 20px;
+    font-size: 12px;
+    border: solid 2px #109CF1;
+        border-radius: 5px;
+    font-weight: 500;
+    line-height: 35px;
+    cursor: pointer;
+}
+.bottom_pagignation{
+    padding: 10px 0px;
+}
+.h60{
+    height: 60px;
+}
+.bntStyle {
+    
+    border:solid 2px  #1e82a0 !important;
+  }
+  .pt102{
+      padding-bottom: 10px;
+  }
+  .textarea1{
+      height: 68px;
+  }
+  .div_1{
+    height:29rem  !important;
+    }

@@ -1,0 +1,139 @@
+<section>
+  <div class="row" style="margin: 0px;">
+    <section class="filter-head">
+      <div class="filter-header-container">
+        <div class="filter-item-1" style="justify-content: flex-end;">
+          <div class="header-item" style="margin-left: 10px;">
+            <span>Standard <span class="danger">*</span></span>
+            <select id="master_course" class="form-ctrl" [(ngModel)]="filterData.standard_id"
+              (ngModelChange)="getCourseList($event)" name="standard_id">
+              <option value="">Standard*</option>
+              <option [value]="masterCourse.standard_id" title="{{masterCourse.standard_name}}"
+                *ngFor="let masterCourse of masterCourse">
+                {{ (masterCourse.standard_name?.length > 30) ? (masterCourse.standard_name | slice:0:30) +
+                '...' : masterCourse.standard_name }}
+              </option>
+            </select>
+          </div>
+          <div class="header-item" style="margin-left: 10px;">
+            <span>Section<span class="danger">*</span></span>
+            <select class="form-ctrl" name="" [(ngModel)]="filterData.course_id" name="course_id">
+              <option value="">Section*</option>
+              <option title="{{course.course_name}}" [value]="course.course_id" *ngFor="let course of courseList">
+                {{ (course.course_name?.length > 30) ? (course.course_name | slice:0:30) + '...' :
+                course.course_name }}
+              </option>
+            </select>
+          </div>
+          <button style="float: right;" class="add_master_tag" (click)="getData()">Go</button>
+          <button style="float: right;" class="add_master_tag" routerLink="/view/course/create/routine/create">Add
+            Routine</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section>
+    <div class="day_and_date_container" *ngIf="maxNoOfClasses != 0">
+      <div class="days_header_container">
+        <!-- <div class="day_header_item">
+        <span>Days</span>
+      </div> -->
+        <div class="days_item" [ngStyle]="{'width': width + '%'}" [ngClass]="today == head.headerDate ?'active_date1':'inactive_date'"
+          *ngFor="let head of routineData">
+          <span>{{head.day}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="class_scheduling_container" *ngIf="maxNoOfClasses != 0">
+      <div class="class_scheduling_item" *ngFor="let i of maxClassArray">
+        <div class="time_container">
+          <!-- <div class="time_header_item">
+          <span>Time</span>
+        </div> -->
+          <div class="time_item" [ngStyle]="{'width': width + '%'}" [ngClass]="today == temp.headerDate ?'active_date':'inactive_date'"
+            *ngFor="let temp  of routineData; let p = index">
+            <span *ngIf="temp.schedule_list[i]">{{temp.schedule_list[i].start_time}} -
+              {{temp.schedule_list[i].end_time}}</span>
+            <span *ngIf="!temp.schedule_list[i]">-</span>
+          </div>
+        </div>
+        <div class="subject_container">
+          <!-- <div class="subject_header_item">
+          <span>Subject</span>
+        </div> -->
+          <div class="subject_item" [ngStyle]="{'width': width + '%'}" [ngClass]="today == temp.headerDate ?'active_date':'inactive_date'"
+            *ngFor="let temp  of routineData">
+            <div>
+              <span
+                *ngIf="(temp.schedule_list[i] && temp.schedule_list[i].class_type !='EXTRA' && temp.schedule_list[i].class_type !='Exam' && temp.schedule_list[i].class_type != 'DOUBT' && temp.schedule_list[i].class_type !='REVISION')"
+                class="dot_11"></span>
+            </div>
+            <div>
+              <span
+                *ngIf="(temp.schedule_list[i] && temp.schedule_list[i] && temp.schedule_list[i].class_type =='DOUBT')"
+                class="dot_22"></span>
+            </div>
+            <div>
+              <span *ngIf="(temp.schedule_list[i] && temp.schedule_list[i].class_type =='EXTRA')" class="dot_33"></span>
+            </div>
+            <div>
+              <span *ngIf="(temp.schedule_list[i] && temp.schedule_list[i].class_type =='REVISION')"
+                class="dot_44"></span>
+            </div>
+            <div>
+              <span *ngIf="(temp.schedule_list[i] && temp.schedule_list[i].class_type =='Exam')" class="dot_55"></span>
+            </div>
+
+            <span style="width:90%;" *ngIf="temp.schedule_list[i]">{{temp.schedule_list[i].subject}}</span>
+            <span *ngIf="!temp.schedule_list[i]">-</span>
+          </div>
+        </div>
+        <div class="master_course_container">
+          <!-- <div class="course_header_item">
+          <span>Standard </span>
+        </div> -->
+          <div class="course_item" [ngStyle]="{'width': width + '%'}" *ngFor="let temp  of routineData">
+            <span *ngIf="temp.schedule_list[i]">{{temp.schedule_list[i].master_course}}</span>
+            <span *ngIf="!temp.schedule_list[i]">-</span>
+          </div>
+        </div>
+
+        <div class="master_course_container">
+          <!-- <div class="course_header_item">
+          <span>Section </span>
+        </div> -->
+          <div class="course_item" [ngStyle]="{'width': width + '%'}" *ngFor="let temp  of routineData">
+            <span *ngIf="temp.schedule_list[i]">{{temp.schedule_list[i].course_name}}</span>
+            <span *ngIf="!temp.schedule_list[i]">-</span>
+          </div>
+        </div>
+
+        <div class="faculty_container">
+          <!-- <div class="faculty_header_item">
+          <span>Faculty</span>
+        </div> -->
+          <div class="faculty_item" [ngStyle]="{'width': width + '%'}" [ngClass]="today == temp.headerDate ?'active_date':'inactive_date'"
+            *ngFor="let temp  of routineData">
+            <span *ngIf="temp.schedule_list[i]">{{temp.schedule_list[i].teacher_name}}</span>
+            <span *ngIf="!temp.schedule_list[i]">-</span>
+          </div>
+        </div>
+
+        <div class="faculty_container">
+          <!-- <div class="faculty_header_item">
+          <span>Faculty</span>
+        </div> -->
+          <div class="faculty_item" [ngStyle]="{'width': width + '%'}" *ngFor="let temp  of routineData">
+            <span *ngIf="temp.schedule_list[i]" title="Edit" class="actionDetails" (click)="editClassSchedule(temp, temp.schedule_list[i])"><i class="fa fa-edit"></i></span>
+            <span *ngIf="temp.schedule_list[i]" title="Delete" class="actionDetails" (click)="deleteClassSchedule(temp, temp.schedule_list[i])"><i class="fa fa-trash"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noSchedule" *ngIf="maxNoOfClasses == 0 && !auth.isRippleLoad.getValue()">No Schedule Available
+    </div>
+  </section>
+</section>

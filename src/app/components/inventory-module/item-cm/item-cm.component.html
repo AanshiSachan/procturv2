@@ -1,0 +1,624 @@
+<div class="page-content">
+    <div class="head_padding">
+       <div class="w98">
+         <div class="display">
+         <div class="page_heading pageheadingspace">
+           <p>Items</p>
+         </div>
+         <div>
+
+          <button class="blue_button" data-toggle="modal" data-target="#addModal" *ngIf="isaddcat" (click)="cancel(false)" >Add Category</button>
+           <button class="blue_button" data-toggle="modal" data-target="#itemModal"  *ngIf="is_add_item"  (click)="cancel(false)"  >Add Item</button>
+          <!-- Two Diffrent Button On Tab Change -->
+      </div>
+         </div>
+         <!-- Nav tabs -->
+         <ul class="nav">
+          <li class="nav-item" >
+            <a class="nav-link" (click)="toggle('onev',false)"  data-toggle="tab" href="#onev"  [ngClass]="(activeSession == 'onev') ? 'active' : ''">Category</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  data-toggle="tab" (click)="toggle('twov',true)" href="#twov" [ngClass]="(activeSession == 'twov') ? 'active' : ''" >Item Management</a>
+          </li>
+         </ul>
+       </div>
+     </div>
+ 
+
+  <!--pagination for category-->
+  <div class="tab-content">
+    <div id="onev" class="tab-pane active">
+   <!--  one -->
+        <div class="w98">
+            <div class="pt15 display">
+            <div>
+                <input type="text" name="search" [(ngModel)]="searchText" (keyup)="searchDatabase()"
+                class="input wid240 mr10 magnifying-glass" name="" placeholder="Search">
+            </div>
+            <div class="right">
+                <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a> -->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a> 
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
+           </div>
+            </div>
+             <!--table for item-->
+            <app-basic-table [headers]="headerSetting" [tableSetting]="tableSetting" [displayData]="pagedclassRoomData"
+            [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='showconfirmCat($event)'
+            (viewView)="viewRow($event)">
+        </app-basic-table>
+       </div>
+        <!--pagination for category-->
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    
+    </div>
+     <!--Data for item-->
+    <div id="twov" class="tab-pane">
+      <!-- two -->
+      <div class="w98">
+        <div class="pt15 display" style="padding-bottom: 15px;">
+          <div>
+            <input type="text" name="search" [(ngModel)]="searchTextforItem" (keyup)="searchDatabaseforItem()"
+            class="input wid240 mr10 magnifying-glass" name="" placeholder="Search" >
+      </div>
+            <div class="right">
+                <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a>-->
+                <a (click)="downloadPdffoItem()" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a> 
+                <a (click)="exportToExcelItem()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
+            </div>
+        </div>
+         <!--table for item-->
+        <div class="item_man">
+            <div class="table_heading">
+              <div (click)="sortTable('item_name')" style="padding-left: 20px;">Item<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div (click)="sortTable('category_name')" >Category<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div   (click)="sortTable('alloted_units')" style="text-align: center;">Total Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div  (click)="sortTable('available_units')" style="text-align: center;">Available Units<span class="space33"><img src="../../../assets/img1/down1a.svg"></span> </div>
+              <div style="padding-top: 3px;text-align: center;">
+                Buying Price&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)<br><span style="font-size:10px;text-align: center;">(Unit Price)</span>
+              </div>
+              <div style="padding-top: 3px;text-align: center;">Sale Price&nbsp;(&nbsp;<i class="fa fa-inr"></i>&nbsp;)<br><span style="font-size:10px;">(Unit Price)</span></div>
+              <div title="Tax on selling price" style="text-align: center;">Tax (%)</div>
+              <div style="padding-top: 3px;text-align: center;">Low Stock<br>indicator <span style="font-size:10px;text-align: center;">(Unit Price)</span></div>
+              <div style="text-align: center;">Actions</div>
+            </div>
+            <div class="table_body" *ngFor="let data of pagedItemData">
+              <p ></p>
+              <div  style="padding-left: 20px;">
+               {{data.item_name}}
+              </div>
+             <div>
+              {{data.category_name}}
+             </div>
+             <div style="text-align: center;">  {{data.alloted_units}}</div>
+             <div style="text-align: center;" [ngClass]="{'lowstock':data.available_units <= data.out_of_stock_indicator_units }">
+                {{data.available_units}}            <!--<i  class="fa  fa-warning" data-toggle="tooltip" data-placement="left" title="Purchase Inventory Name, 
+              your current inventory count is going below the set threshold units"></i>  -->
+             </div>
+             <div style="text-align: center;">{{data.unit_cost}}</div>
+             <div style="text-align: center;">{{data.sale_price}}</div>
+             <div style="text-align: center;">{{data.tax_percent}}</div>
+             <div style="text-align: center;">{{data.out_of_stock_indicator_units}}</div>
+              <div style="text-align: center;">
+                
+                <div class="dropdown1">
+                    <img src="../../../assets/img1/menu.svg" class="dot3" >
+                  <div class="dropdown-content1">
+                    <a data-toggle="modal" data-target="#itemModal" (click)="editItem(data)">Edit</a>
+                    <a   (click)="showConfirm(data)">Delete</a>
+                    <a *ngIf="data.available_units!=0" data-toggle="modal" data-target="#subbranchModal"(click)="allocateToSubBranch(data)">Allocate to Sub-branch</a>
+                    <a    (click)="showAllocationHistory(data)">Allocation History</a>
+                    <!-- <a   data-toggle="modal" data-target="#manageunitModal" (click)="manageUnit(data)">Manage Unit</a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <section class="no-data" *ngIf="pagedItemData.length == 0">
+              <div class="illustration-container">
+                <img alt="illustration" class="illustration-img" src="./assets/images/course_planner/blank-illustration.svg">
+              </div>
+            </section>
+        </div>
+      </div>
+      <!--pagination for item-->
+      <pagination (goPage)="fetchTableDataByPageforItem($event)" (goNext)="fetchNextItem()" (goPrev)="fetchPreviousItem()"
+      [pagesToShow]="10" [page]="pageIndexforItem" [perPage]="displayBatchSize" [count]="totalItemRow" [sizeArr]="sizeArr"
+      (sizeChange)="updateTableBatchSizeForItem($event)">
+    </pagination>
+    
+   </div>
+   <!--gfdfdfg-->
+   <!-- <h1>hjfghfg</h1> -->
+  
+  </div>
+
+     
+          <!-- use image only when page is empty,table body class element will not be present -->
+
+</div> 
+ <!--model for item-->
+  <div class="modal" id="addModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" >
+          <h4 class="modal-title" *ngIf="!isedit"> Add Category</h4>
+          <h4 class="modal-title" *ngIf="isedit"> Update Category</h4>
+          <button type="button" class="close" data-dismiss="modal"  (click)="cancel(false)" >&times;</button>
+        </div>
+        <div class="modal-body">
+     <form  #catForm="ngForm" autocomplete="off">
+          <div class="pt10" [class.has-error]="category_name.invalid && category_name.touched">
+            <label class="p_title"> Name<span class="text-danger">*</span></label>
+            <input type="text" class="input wid100" (keyup)="maxlenth(category_model.category_name,30)" id ="category_name"
+            name="category_name" placeholder="Enter Category Name"
+            [(ngModel)]="category_model.category_name"
+            #category_name="ngModel" required>
+          </div>
+          <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!category_name.valid && category_name.touched">
+            Category  name is mandatory
+         </span></p> -->
+          <div class="pt10" >
+            <label class="p_title">Description</label>
+            <textarea class="input wid100" name="desc" id="desc"
+            [(ngModel)]="category_model.desc" (keyup)="maxlenth(category_model.desc,70)" placeholder="Enter description" ></textarea>
+          </div>
+        
+          <div class="pt10 display">
+            <div></div>
+            <div class="align"> 
+              <button type="button" class="right blue_button cancel"
+              data-dismiss="modal" (click)="cancel(false)">Cancel</button>
+              <button class="right blue_button" (click)="saveCategoryDetails(category_model)" *ngIf="!isedit">Add Category</button>
+              <button class="right blue_button" (click)="updateCategoryDetails(category_model)" *ngIf="isedit">Update</button></div>
+           </div>
+           </form>
+        </div>        
+      </div>
+    </div>
+  </div> 
+   <!--delete model for category-->
+  <div class="modal" id="deleteModalCat" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="center">
+            <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+          </div>
+          <div >
+            <p class="alert_text"> Do you want to proceed?</p>
+          </div>
+          <div class="pt101 display">
+            <div>
+              <button class="white_button right" data-dismiss="modal">Cancel</button>
+            </div>
+            <div>
+              <button class="blue_button right"  (click)="deleteRow(tempForCat)">Proceed</button>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="deleteModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="center">
+            <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+          </div>
+          <div >
+            <p class="alert_text"> Do you want to proceed?</p>
+          </div>
+          <div class="pt101 display">
+            <div>
+              <button class="white_button right" data-dismiss="modal">Cancel</button>
+            </div>
+            <div>
+              <button class="blue_button right" (click)="deleteItem(tempObj)">Delete?</button>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="delete1Modal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="center">
+            <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+          </div>
+          <div >
+            <p class="alert_text">You can't delete this category since the items under this category are allocated</p>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="deleteitemModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="center">
+            <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+          </div>
+          <div ><p>
+           This items is still available which are not allocated, do you want to proceed ?</p>
+          </div> 
+          <div class="pt101 display">
+            <div>
+              <button class="white_button right"  data-dismiss="modal">Cancel</button>
+            </div>
+            <div>
+              <button class="blue_button right" (click)="deleteItem(tempObj)">Proceed</button>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="manageunitModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Manage Unit</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form #history="ngForm">
+          <div class="pt10">
+            <label class="p_title"> Available Unit<span class="text-danger">*</span></label>
+            <input type="text" class="input wid100" [(ngModel)]="manageData.available_units" name="available_units" 
+            [disabled]= "true" 
+            placeholder="Available Units*">
+          </div>
+            <div class="pt10">
+                  <!-- <select class="select wid100" name="units_added" [(ngModel)]="manageData.units_added">
+                    <option value="">
+                      Manage Unit*
+                      </option>
+                      <option value=""></option>
+                  </select> -->
+                  <label class="p_title">Manage Units</label>
+            <input type="number" class="input wid100" name="units_added" 
+            [(ngModel)]="manageData.units_added"
+            placeholder=" Add or Remove Units" > 
+            </div>
+          <div class="pt10">
+            <label class="p_title">Total Units</label>
+            <input type="text" class="input wid100" name="alloted_units" 
+            [(ngModel)]="manageData.alloted_units"
+            placeholder="Total Unit Units*"
+            [disabled]="true">
+          </div>
+        
+          <div class="pt10 display">
+            <div></div>
+            <div> 
+              <button  class="right blue_button cancel" (click)="cancel(false)" data-dismiss="modal">Cancel</button>
+              <button class="right blue_button" (click)="updataeManageUnit(manageData.item_id)">Update Units</button></div>
+           </div>
+          </form>
+        </div>        
+      </div>
+    </div>
+  </div> 
+   <!--add edit model for item-->
+  <div class="modal" id="itemModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" *ngIf="!isedit" >Add Item</h4>
+          <h4 class="modal-title" *ngIf="isedit">Update Item</h4>
+          <button type="button" class="close" data-dismiss="modal"
+          (click)="cancel(false)">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form #itemForm ="ngForm" autocomplete="off">
+          <div class="flex">
+            <div class="sec1">
+              <div class="pt10"  [class.has-error]="item_name.invalid && item_name.touched">
+                <label class="p_title"> Item<span class="text-danger">*</span></label>
+               <input type="text" class="input wid100" id="item_name" (keyup)="maxlenth(item.item_name,30)" name="item_name" placeholder="Enter Item Name"  [(ngModel)]="item.item_name"
+                  #item_name="ngModel" required>
+              </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!item_name.valid && item_name.touched">
+                Item  name is mandatory
+             </span>
+             
+            </p>
+                <!-- <div class="pt10">
+                  <label class="p_title"> Standard</label>
+                 <select class="select wid100" name="standard_id" id="standard_id"
+                  [(ngModel)]="item.standard_id" (ngModelChange)="onMasterCourseSelection($event)">
+                    <option value="">
+                     Select Standard
+                    </option>
+                    <option *ngFor="let opt of masterCourseList" value="{{opt.standard_id}}">
+                      {{opt.standard_name}} 
+                    </option>
+                  </select>
+                </div> -->
+               <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+               </span></p> -->
+              <!-- <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched" >
+                <label class="p_title"> Total Units<span class="text-danger">*</span></label>
+             <input type="text" class="input wid100" id="alloted_units" 
+                  name="alloted_units" placeholder="Enter Total Units"  
+                  #alloted_units="ngModel" 
+                  [(ngModel)]="item.alloted_units" required
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)">
+              </div> -->
+              <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!alloted_units.valid && alloted_units.touched">
+                Total units are mandatory
+             </span></p> -->
+         
+            <div class="pt10" [class.has-error]="unit_cost.invalid && unit_cost.touched" >
+              <label class="p_title"> Buying Price (Unit Price)<span class="text-danger">*</span></label>
+             <input type="text" class="input wid100" id="unit_cost" 
+              name="unit_cost" placeholder="Enter Buying Price"  (keyup)="maxlenth(item.unit_cost,10)"
+              #unit_cost="ngModel" 
+              [(ngModel)]="item.unit_cost"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                  event.charCode == 46 || event.charCode == 0 " required>
+          </div>
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!unit_cost.valid && unit_cost.touched">
+              Buying Price or unit price is mandatory
+           </span></p>
+               <div class="pt10" [class.has-error]="tax_percent.invalid && tax_percent.touched" >
+                <label class="p_title" title="Tax on sale price"> Tax (%)<span class="text-danger">*</span></label>
+               <input type="text"  class="input wid100" id="tax_percent" 
+                  name="tax_percent" placeholder="Enter tax on selling price"  (keyup)="maxlenth(item.tax_percent,10)"
+                  #tax_percent="ngModel" 
+                  [(ngModel)]="item.tax_percent" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                  event.charCode == 46 || event.charCode == 0 " required>
+              </div>
+              <p class="errormsg"><span  style="height:10px;" *ngIf="tax_percent.invalid && tax_percent.touched" class="help-block">Tax is mandatory
+             </span> </p>
+            </div>
+            <div class="sec2">
+              <div class="pt10"  [class.has-error]="abc.invalid && abc.touched">
+                <label class="p_title"> Category<span class="text-danger">*</span></label>
+               <select class="select wid100" name="category_id" id="category_id"
+                [(ngModel)]="item.category_id"  required #abc="ngModel">
+                  <option value="">
+                    Select Category
+                  </option>
+                  <option value="{{data.category_id}}" *ngFor="let data of categoryAllData">
+                    {{data.category_name}}</option>
+                </select>
+              </div>
+              <p class="errormsg"> <span  style="height:10px;"  *ngIf="abc.invalid && abc.touched"class="help-block">
+                Category is mandatory
+               </span></p>
+             <!-- <div class="pt10">
+            
+              <label class="p_title"> Subject</label>
+              <select class="select wid100" name="subject_id" id="subject_id"
+              [(ngModel)]="item.subject_id" >
+                <option value="">
+                  Select Subject
+                </option>
+                <option *ngFor="let opt of CourseList" value="{{opt.subject_id}}">
+                  {{opt.subject_name}} 
+                </option>
+              </select>
+            </div> -->
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+              </span></p> -->
+              <div class="pt10" [class.has-error]="sale_price.invalid && sale_price.touched" >
+                <label class="p_title"> Sale Price (Unit Price)<span class="text-danger">*</span></label>
+             <input type="text" class="input wid100" id="sale_price" (keyup)="maxlenth(item.sale_price,10)"
+                name="sale_price" placeholder="Enter Sale Price"  
+                #sale_price="ngModel" 
+                [(ngModel)]="item.sale_price"  
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                  event.charCode == 46 || event.charCode == 0 "
+                required>
+            </div>
+              <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!sale_price.valid && sale_price.touched">
+                Sale Price or unit price is mandatory
+             </span></p>
+              <div class="pt10" [class.has-error]="out_of_stock_indicator_units.invalid && out_of_stock_indicator_units.touched" >
+                <label class="p_title"> Low Stock Indicator<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" id="out_of_stock_indicator_units" 
+                name="out_of_stock_indicator_units" placeholder="Enter Low stock indicator"  (keyup)="maxlenth(item.out_of_stock_indicator_units,10)"
+                #out_of_stock_indicator_units="ngModel" 
+                onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)"
+                [(ngModel)]="item.out_of_stock_indicator_units" required>
+            </div>
+            <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!out_of_stock_indicator_units.valid && out_of_stock_indicator_units.touched">
+              Low stock indicator  is mandatory
+           </span></p>
+            </div>
+          </div>
+             <div class="pt10">
+              <label class="p_title"> Description</label>
+               <textarea class="input wid100" (keyup)="maxlenth(item.desc,70)" name="desc" id="desc" placeholder="Enter Description" [(ngModel)]="item.desc"></textarea>
+              </div>
+          <!-- </div> -->
+          <!-- <p class="errormsg"><span  style="height:10px;" class="help-block">
+         </span></p> -->
+          <div class="pt10 display w98">
+            <div></div>
+            <div class="align"> 
+              <button type="button" class="right blue_button cancel"
+              data-dismiss="modal"  (click)="cancel(false)" >Cancel</button>
+              <button class="right blue_button" (click)="saveItemDetails(item)" *ngIf="!isedit">Add Item</button>
+              <button class="right blue_button" (click)="updateItemDetails(item.item_id)" *ngIf="isedit">Update</button></div>
+           </div>
+          </form>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="subbranchModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Allocate to Sub-branch</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form #allcateForm="ngForm" autocomplete="off">
+          <div class="flex">
+            <div class="sec1">
+              <div class="pt10">
+                <label class="p_title"> Item<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" name="item_name" [(ngModel)]="allocatedata.item_name" [disabled]="true" placeholder="Item*">
+              </div>
+              <div class="pt10" [class.has-error]="sub_branch_id.invalid && sub_branch_id.touched">
+                <label class="p_title">  Sub-Branch<span class="text-danger">*</span></label>
+                <select class="select wid100" name="sub_branch_id" 
+                  [(ngModel)]="allocatedata.sub_branch_id"
+                  (ngModelChange)="getItemAgainSubBranch($event)" #sub_branch_id="ngModel" required>
+                    <option value="" selected> Select sub-branch</option>
+                    <option value="{{data.institute_id}}" *ngFor="let data of subBranchAllData">
+                     {{data.institute_name}}
+                    </option>
+                  </select>
+
+              </div>
+              <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_id.invalid && sub_branch_id.touched"class="help-block">
+                Sub-Branch is mandatory
+               </span></p> -->
+               <div class="pt10" [class.has-error]="alloted_units.invalid && alloted_units.touched">
+                <label class="p_title">  Allocate Unit<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" [(ngModel)]="allocatedata.alloted_units" name="alloted_units" 
+                  placeholder="Enter Units"
+                  onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+                  required #alloted_units="ngModel" required>
+              </div>
+              <!-- <p class="errormsg"> <span  
+                *ngIf="alloted_units.invalid && alloted_units.touched" style="height:10px;" class="help-block" >
+                Allocate Unit is mandatory
+              </span></p> -->
+               <div class="pt10">
+                <label class="p_title">  Challan No</label>
+                 <input type="text" class="input wid100" name="challan_no"
+                   placeholder="Enter Challan No"
+                   [(ngModel)]="allocatedata.challan_no">
+              </div>
+               <div class="pt10">
+                <label class="p_title">  Challan Amount</label>
+                <input type="text" class="input wid100"   [(ngModel)]="allocatedata.challan_amount" name="challan_amount" placeholder="Challan Amount"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 ">
+              </div>
+             
+            </div>
+            <div class="sec2">
+              <div class="pt10">
+                <label class="p_title"> Available Units</label>
+                <input type="text" class="input wid100"  name="available_units" [(ngModel)]="allocatedata.available_units" [disabled]="true" placeholder="Available Units">
+              </div>
+             
+              <div class="pt10" [class.has-error]="sub_branch_item_id.invalid && sub_branch_item_id.touched">
+                <label class="p_title">  Sub-branch item<span class="text-danger">*</span></label>
+               <select class="select wid100" name="sub_branch_item_id" 
+                [(ngModel)]="allocatedata.sub_branch_item_id"
+               #sub_branch_item_id="ngModel" required>
+                  <option value="">  Select sub-branch item</option>
+                  <option value="{{data.item_id}}" *ngFor="let data of itemfromSubbrach">
+                  {{data.item_name}}
+                  </option>
+                </select>
+
+            </div>
+            <!-- <p class="errormsg"> <span  style="height:10px;"  *ngIf="sub_branch_item_id.invalid && sub_branch_item_id.touched"class="help-block">
+              Sub-Branch item is mandatory
+             </span></p> -->
+              <div class="pt10">
+                <label class="p_title"> Tranport</label>
+               <input type="text" class="input wid100" name="transport"
+                  [(ngModel)]="allocatedata.transport" placeholder="Enter mode of Transport">
+              </div>
+             
+              <div class="pt10">
+                <label class="p_title"> Challan Date</label>
+                <input type="date" class="input wid100" name="challan_date"
+                  [(ngModel)]="allocatedata.challan_date" 
+                   placeholder="Enter Challan Date" >
+              </div>
+             
+            </div>
+          </div>
+          <div class="pt10 display">
+           <div></div>
+           <div> 
+            <button class="right blue_button cancel" data-dismiss="modal" (click)="cancel()">cancel</button>
+             <button class="right blue_button" (click)="saveAllocatedData(allocatedata)">Allocate</button></div>
+           
+          </div>
+        </form>
+        </div>        
+      </div>
+    </div>
+  </div>    
+  <div class="modal" id="historyModal"  data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Allocation History </h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body scrollable" >
+           <div class="allo_history">
+            <div class="table_heading">
+              <div style="padding-left:8px;">
+               #
+              </div>
+              <div>Date</div>
+              <div>
+                From/To
+              </div>
+              <div>Contact No.</div>
+              <div>Quantity</div>
+              <div>In/Out</div>
+            </div>
+            <div class="table_body" *ngFor="let data of allocationHistoryData;index as i" style="line-height: 3;" >
+              <div style="padding-left: 8px;">
+                {{i+1}}
+              </div>
+              <div>
+            {{data.created_date | date: 'yyyy-MM-dd'}}
+              </div>
+              <div>
+                <span  *ngIf="data.user_name==''" >--</span>
+                <span  *ngIf="data.user_name!=''"  title="{{data.user_name}}">{{(data.user_name.length >15)?(data.user_name | slice:0:15)+ '...':data.user_name}}</span>
+                
+              </div>
+             <div>
+              <span  *ngIf="data.contact_no=='' ||data.user_name==null" >--</span>
+              <span  *ngIf="data.contact_no!=''" >{{data.contact_no}}</span>
+           
+             </div>
+             <div>{{data.alloted_units}}</div>
+              <div>
+                <span  *ngIf="data.inventory_type==1" class="in1">In</span>
+                <span  *ngIf="data.inventory_type==2" class="out">Out</span>
+              </div>
+             
+              
+            </div>
+        </div>
+       </div>        
+      </div>
+    </div>
+  </div>

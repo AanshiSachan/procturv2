@@ -1,0 +1,201 @@
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Purchase Item</p>
+        </div>
+        <div>
+          <!-- <a href="" class="mr10"><img src="../../../../assets/img1/card.svg" title="Card Details" ></a>
+          <a href="" class="mr10"><img src="../../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
+          <a href="" class="mr10"><img src="../../../../assets/img1/email.svg" title="Send To Email"></a> -->
+          <a *ngIf="DataForView.bill_image_url?.length !=0" href="{{DataForView.bill_image_url}}"  target="_blank" class="mr10"><img src="../../../../assets/images/viewicon.png" title="View Bill Copy"></a>
+          <a (click)="printData('divforPrint')" class="mr10"><img src="../../../../assets/img1/print.svg" title="Print"></a>
+          <!-- <a href="" class="mr10"><img src="../../../../assets/img1/pdf.svg" title="PDF Preview"></a>-->
+        </div> 
+      </div>
+    </div>
+  
+ 
+      <br>
+      <div id="divforPrint" class="printdata">
+      <div class="flex30">
+         <div class="flex">
+           <div class="name2">From:</div>
+           <div class="value2">{{DataForView.supplier_company_name}}</div>
+         </div>
+         <div class="flex">
+           <div class="name2">To:</div>
+           <div class="value2">{{DataForView.institute_name}}</div>
+         </div>
+           <div class="display">
+      <div></div>
+      <div class="right created_date created">
+       <b class="name2"> Created Date : </b><b >{{DataForView.created_date | date : "d MMMM, y" }}</b>
+      <!-- <img src="/assets/img1/teal_rec.svg"/> -->
+      </div>
+    </div>
+      </div>
+      <div class="flex30">
+         <div class="flex">
+           <div class="name2">Mobile:</div>
+           <div class="value2">{{DataForView.supplier_phone}}</div>
+         </div>
+         <!-- <div class="flex">
+           <div class="name2">Role:</div>
+           <div class="value2">Student</div>
+         </div> -->
+        <div class="flex">
+           <div class="name2" style="width: 34%;">Reference&nbsp;No:</div>
+           <div class="value2 val">{{DataForView.reference_number}}</div>
+         </div>
+
+      </div>
+      <div class="flex30">
+         <div class="flex">
+           <div class="name2">Email:</div>
+           <div class="value2">{{DataForView.supplier_email}}</div>
+         </div>
+         <div class="flex">
+           <div class="name2">Mobile:</div>
+           <div class="value2">{{DataForView.institute_phone}}</div>
+         </div>
+         <div class="flex">
+           <div class="name2">Payment&nbsp;Status:</div>
+           <div class="value2 val">{{DataForView.payment_status}}</div>
+         </div>
+      </div>
+      <div class="flex30">
+         <div class="flex">
+           
+         </div>
+         <div class="flex">
+           <div class="name2">Email:</div>
+           <div class="value2">{{DataForView.institute_email}}</div>
+         </div>
+         <div class="flex">
+         </div>
+      </div> 
+      <br><br>
+      <div class="w98">
+      <div class="item">
+         <div class="tablehead thead">
+              <div>
+                Item
+              </div>
+              <div>
+                Unit Price
+              </div>
+              <div>
+                Units
+              </div>
+              <div>
+                Subtotal
+              </div>
+            </div>
+            <div class="tablebody tbody" *ngFor="let data of DataForView.purchased_item_list">
+              <div>
+               {{data.item_name}}
+              </div>
+              <div>
+              {{data.unit_price}}
+              </div>
+              <div>
+              {{data.quantity}}
+              </div>
+              <div>
+                {{data.unit_price * data.quantity}}
+              </div>
+             
+            </div>
+            <div class="tabletotal totalss">
+              <div>
+                
+              </div>
+              <div>
+               
+              </div>
+              <div>
+               Total Amount
+              </div>
+              <div>
+               {{DataForView.total_amount}}
+              </div>
+           
+            </div>
+            <div class="tabletotal">
+              <div>
+                
+              </div>
+              <div>
+               
+              </div>
+              <div>
+               Paid (GHS)
+              </div>
+              <div>
+               {{DataForView.total_paid_amount}} 
+              </div>
+              
+            </div>
+            <div class="tabletotal">
+              <div>
+                
+              </div>
+              <div>
+               
+              </div>
+              <div>
+               Balance (GHS)
+              </div>
+              <div>
+              {{DataForView.balanced_amount}}
+              </div>
+          
+       </div>
+      </div>   
+    </div>
+    <br>
+    <br>
+    <div style="float:left;margin:10px;" class="backbtn"> <button  class="blue_button cancel" routerLink="/view/inventory-management/purchase-item">Back </button>
+
+  </div>
+</div> 
+  <!-- <div class="modal" id="addpayModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Add Payment</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="flex">
+            <div class="sec1">
+              <div class="pt10">
+                  <input type="Date" class="input wid100" name="" placeholder="Date*">
+              </div>
+              <div class="pt10">
+                  <select class="select wid100">
+                    <option>Payment Method*</option>
+                  </select>
+              </div>
+              <div class="pt10">
+                  <input type="File" class="input wid100" name="" placeholder="Date*">
+              </div>
+            </div>
+            <div class="sec2">
+              <div class="pt10">
+                  <input type="text" class="input wid100" name="" placeholder="Refrence No.">
+              </div>
+              <div class="pt10">
+                  <input type="text" class="input wid100" name="" placeholder="Amount*">
+              </div>
+             
+            </div>
+          </div>
+          <div class="pt10">
+            <button class="right blue_button">Save</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div> -->

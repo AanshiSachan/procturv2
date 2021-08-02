@@ -1,0 +1,1140 @@
+
+
+<!----------------------------new-page-content----------------------------->
+
+<!---student-selected send notification-->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="isNotifyStudent" style="    top: 14%;">
+  <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+          <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotifyStudent()">
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                  <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                      <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                              transform="translate(992.81 305.77) rotate(45)" />
+                          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                              transform="translate(978.81 305.77) rotate(45)" />
+                      </g>
+                      <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
+                          width="16" height="16" transform="translate(1012 297)" />
+                  </g>
+              </svg> -->
+              X
+          </span>
+          <div class="popup-content">
+              <h2>Send Notification</h2>
+
+              <div class="notification-content-wrapper">
+
+                  <div class="marginTenPixel">
+                      <div class="field-checkbox-wrapper">
+                          <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx"
+                              name="loginMessage" class="form-checkbox" id="loginMessage">
+                          <label for="loginMessage">Send Login Details</label>
+                      </div>
+                  </div>
+
+                  <div id="divDeliveryOptions" *ngIf="!sendNotification.loginMessageChkbx"
+                      class="content-delivery marginTenPixel">
+                      <h3>Delivery Mode</h3>
+
+                      <div class="row marginTenPixel">
+                          <div id="" class="c-sm-4 c-md-4 c-lg-4">
+                              <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6 ">
+                                  <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value=""
+                                      (click)="smsCheckBoxClick($event)" name="sms" class="form-checkbox"
+                                      id="smsC">
+                                  <label for="smsC">SMS</label>
+                              </div>
+                              <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                                  <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx"
+                                      (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox"
+                                      id="mailC">
+                                  <label for="mailC">Mail</label>
+                              </div>
+                          </div>
+                          <div id="" class="c-sm-6 c-md-6 c-lg-6">
+                              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                  <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value=""
+                                      name="student" class="form-checkbox" id="studentC">
+                                  <label for="studentC">Student</label>
+                              </div>
+                              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                  <input type="checkbox" value="" name="parent"
+                                      [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox"
+                                      id="parentC">
+                                  <label for="parentC">Parent</label>
+                              </div>
+                              <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                  <input type="checkbox" value="" name="guardian"
+                                      [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox"
+                                      id="guardianC">
+                                  <label for="guardianC">Guardian</label>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="row marginTenPixel" *ngIf="sendNotification.emailChkbx == true">
+
+                          <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                              <label for="subject"
+                                  style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                              <input type="text" id="subject" name="subject" class="side-form-ctrl" value=""
+                                  placeholder=""
+                                  style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                                  [(ngModel)]="sendNotification.subjectMessage" id="divSubjectMessage" />
+                          </div>
+
+                      </div>
+
+                      <div class="row marginTenPixel">
+                          <a (click)="getAllSavedMessages()">See All Messages</a>
+
+                          <div class="message-table-wrapper">
+                              <table class="message-table">
+                                  <thead>
+                                      <tr>
+                                          <th>
+                                          </th>
+                                          <th>
+                                              Date
+                                          </th>
+                                          <th>
+                                              Message
+                                          </th>
+                                      </tr>
+                                  </thead>
+                                  <tbody *ngIf="sendNotification.emailChkbx == false">
+                                      <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                                          <td>
+                                              <div class="field-checkbox-wrapper">
+                                                  <input type="checkbox" class="form-checkbox"
+                                                      [(ngModel)]="row.assigned"
+                                                      (ngModelChange)="onCheckBoxSelection(index , row)">
+                                                  <label></label>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              {{row.date}}
+                                          </td>
+                                          <td>
+                                              <span [innerHTML]="row.message"></span>
+                                          </td>
+                                      </tr>
+                                      <tr *ngIf=" messageList.length ==0">
+                                          <td colspan="3">
+                                              No Notification Available
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                                  <tbody *ngIf="sendNotification.emailChkbx == true">
+                                      <tr *ngFor="let row of emailMessageList; let i = index; trackBy: i;">
+                                          <td>
+                                              <div class="field-checkbox-wrapper">
+                                                  <input type="checkbox" class="form-checkbox"
+                                                      [(ngModel)]="row.assigned"
+                                                      (ngModelChange)="onCheckBoxSelection(index , row)">
+                                                  <label></label>
+                                              </div>
+                                          </td>
+                                          <td>
+                                              {{row.date}}
+                                          </td>
+                                          <td>
+                                              <span [innerHTML]="row.message"></span>
+                                          </td>
+                                      </tr>
+                                      <tr *ngIf=" emailMessageList.length ==0">
+                                          <td colspan="3">
+                                              No Notification Available
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+
+                      </div>
+
+                      <div  class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == false">
+                          <button class="btn mt-10"  (click)="sendNotificationMessage()">Send</button>
+                          <button class="btn" style="margin-left: 10px !important;" (click)="sendPushNotification()">Send Push Notification</button>
+                      </div>
+
+                      <div class="marginTenPixel pull-right" *ngIf="sendNotification.emailChkbx == true">
+                          <button class="btn" (click)="previewMessage()">Preview</button>
+                      </div>
+                      <section id="popup" class="popupWrapper fadeIn" *ngIf="previewBox">
+                          <div class="popup pos-abs">
+                              <div class="popup-wrapper pos-rel">
+                                  <span class="closePopup pos-abs fbold show" id="popupCloseBtn"
+                                      (click)="close()">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                                          <g id="Group_1228" data-name="Group 1228"
+                                              transform="translate(8298 1888)">
+                                              <g id="Group_1213" data-name="Group 1213"
+                                                  transform="translate(34.189 -7.77)">
+                                                  <line id="Line_274" data-name="Line 274" class="cls-1"
+                                                      y2="19.798"
+                                                      transform="translate(992.81 305.77) rotate(45)" />
+                                                  <line id="Line_275" data-name="Line 275" class="cls-1"
+                                                      x1="19.798"
+                                                      transform="translate(978.81 305.77) rotate(45)" />
+                                              </g>
+                                              <rect id="Rectangle_686" data-name="Rectangle 686"
+                                                  style="stroke:none;" class="cls-2" width="16" height="16"
+                                                  transform="translate(1012 297)" />
+                                          </g>
+                                      </svg>
+                                  </span>
+                                  <div class="popup-content">
+                                      <h2>Email Preview</h2>
+
+                                      <div class="notification-content-wrapper">
+                                          <div class="" widget-content>
+                                              <textarea [(ngModel)]="sendNotification.subjectMessage"
+                                                  style="width: 100%;" disabled></textarea>
+
+                                              <editor [init]="editorConf"
+                                                  apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+                                                  [disabled]="true" [(ngModel)]="previewedMessage">
+                                              </editor>
+                                          </div>
+                                      </div>
+                                      <div>
+                                          <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                                          <!-- <button class="btn" (click)="sendPushNotification()">Send Push
+                                              Notification</button> -->
+                                      </div>
+
+
+                                  </div>
+                              </div>
+                          </div>
+                      </section>
+                  </div>
+
+                  <div id="divSendLogin" *ngIf="sendNotification.loginMessageChkbx" class="marginTenPixel">
+
+                      <div class="marginTenPixel">
+                          <div class="radio-options flex divw">
+                              <div class="field-radio-wrapper">
+                                  <input type="radio" [checked]="(loginField.checkBox == '0')"
+                                      [(ngModel)]="loginField.checkBox" value="0" name="student"
+                                      class="form-radio">
+                                  <label for="student">Student Only</label>
+                              </div>
+                              <div class="field-radio-wrapper">
+                                  <input type="radio" [(ngModel)]="loginField.checkBox" value="1" name="parent"
+                                      class="form-radio">
+                                  <label for="parent">Parent Only</label>
+                              </div>
+                              <div class="field-radio-wrapper">
+                                  <input type="radio" [(ngModel)]="loginField.checkBox" value="2" name="both"
+                                      class="form-radio">
+                                  <label for="both">Both</label>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="marginTenPixel" style="margin-left: 8px !important;">
+                          <button class="btn mt-10" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                          <button class="btn mt-10" (click)="sendSmsForApp('2')">SMS For App Upgrade</button>
+                          <button class="btn mt-10" (click)="sendSmsForApp('3')">SMS For Alternate Login Details
+                          </button>
+                          <button class="btn mt-10" (click)="sendSmsForApp('4')">SMS Credentials</button>
+                      </div>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+  </div>
+</section>
+
+
+<div class="page-content">
+    <!-----------model Assign Popup-------->
+    <div id="assignStandard" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="margin-top: 8%">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Assign {{labelForAssignStandard}}</h4>
+          </div>
+          <div class="modal-body">
+              <div class="field-wrapper" style="width: 50%; padding-bottom: 10px;">
+                  <label for="masterCourse">{{labelForAssignStandard}}</label>
+                  <select id="masterCourse" name="masterCourse" [(ngModel)]="assignedStandard" class="form-ctrl">
+                      <option value="-1">Select {{labelForAssignStandard}}</option>
+                      <option [value]="std.standard_id" *ngFor="let std of standardList">
+                          {{std.standard_name}}
+                      </option>
+                  </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-default" (click)="assignStandard()">Save</button>
+          </div>
+      </div>
+
+  </div>
+</div>
+    <!-- /// For Download of report -->
+    <a id="student_download" class="hide"></a>
+     <!------------------------------New Advance  search-------------------------------->
+    <div class="modal " id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-slideout " role="document" style="max-width: 600px;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Advance Filter</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             
+            <div class="display">
+                 <div>
+                    <p class="label_p">  Is Active</p>
+                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status"
+                    name="sFilter" >
+                    <!-- <option value=""></option> -->
+                    <option value="1" selected>Active</option>
+                    <option value="2">Inactive</option>
+                    <option value="3">Both</option>
+                </select>
+                 </div>
+               <div></div>
+               </div>
+               <div class="display" >
+                 <div [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}" >
+                    <p class="label_p">Standard</p>
+                    <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
+                    (ngModelChange)="fetchCourseForMaster($event)" class="form-ctrl"
+                    [disabled]="advancedFilterForm.master_course_name!=-1"
+                    [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
+                    <option value="-1">Select Standard</option>
+                    <option [value]="std.standard_id" title="{{std.standard_name}}"
+                        *ngFor="let std of standardList">
+                        {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
+                    </option>
+                </select>
+                 </div>
+                  <div  [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
+                 <p class="label_p">Master Course</p>
+             <select  id="masterCourse" name="masterCourse"
+             [(ngModel)]="advancedFilterForm.master_course_name"
+             (ngModelChange)="updateSubCourse($event)"[disabled]="advancedFilterForm.standard_id!=-1"
+             [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}" >
+               <option value="-1">Select Master Course</option>
+               <option [value]="mc.master_course" *ngFor="let mc of masterCourseList"
+               title="{{mc.master_course}}">
+               {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
+           </option>
+             </select>
+              </div>
+               </div>
+             <div class="display">
+                 <div>
+                    <p class="label_p"> Course</p>
+                    <select id="course" name="course"
+                    [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
+                    [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
+                    <option value="-1">Select Course</option>
+                    <option [value]="course.course_id" title="{{course.course_name}}"
+                        *ngFor="let course of subCourseList">
+                        {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
+                    </option>
+                      </select>
+                 </div>
+                 <div>
+                     <p class="label_p">Institutional/Custom2</p>
+                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id">
+                        <option value="-1">Select</option>
+                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                            {{sch.school_name}}
+                        </option>
+                     </select>
+                 </div>
+               </div>
+           
+             
+             <div class="display">
+               <div class="field-wrapper datePickerBox date1" >
+                <p class="label_p">Admission From Date</p>
+                <input  type="date" name="" readonly="true" bsDatepicker
+                [(ngModel)]="advancedFilterForm.doa_from_date">
+                <a (click)="advancedFilterForm.doa_from_date = ''"
+                style="float:right;cursor: pointer;">Clear</a>
+               </div>
+               <div  class="field-wrapper datePickerBox date1" style="width:270px !important;">
+                <p class="label_p">Admission To Date</p>
+                <input   type="date" name="" readonly="true" bsDatepicker
+                [(ngModel)]="advancedFilterForm.doa_to_date">
+                <a (click)="advancedFilterForm.doa_to_date = ''"
+                style="float:right;cursor: pointer;">Clear</a>
+               </div>
+             </div>
+            <div class="display">
+               <div [ngClass]="{'has-value': advancedFilterForm.country_id != ''}">
+                      <p class="label_p">Country</p>
+                      <select id="state" [(ngModel)]="advancedFilterForm.country_id"
+                      name="state" (ngModelChange)="getStateList()">
+                      <option value="-1">Select Country</option>
+                      <option title="{{country.country_name}}" [value]="country.id"
+                          *ngFor="let country of countryList">
+                          {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
+                      </option>
+                     </select>
+               </div>
+                <div [ngClass]="{'has-value': advancedFilterForm.state_id != ''}">
+                      <p class="label_p">State</p>
+                      <select id="state" [(ngModel)]="advancedFilterForm.state_id"
+                      name="state" (ngModelChange)="getCityList()">
+                      <option value="-1">Select State</option>
+                      <option title="{{state.state_name}}" [value]="state.state_id"
+                          *ngFor="let state of stateList">
+                          {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}
+                      </option>
+                     </select>
+               </div>
+             </div>
+              <div class="display">
+              <div [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
+                <p class="label_p">
+               City
+             </p>
+             <select id="city"  [(ngModel)]="advancedFilterForm.city_id"
+             name="city" (ngModelChange)="getAreaList()">
+             <option value="-1">Select City</option>
+             <option title="{{city.city_name}}" [value]="city.city_id"
+                 *ngFor="let city of cityList">
+                 {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}
+             </option>
+         </select>
+              </div>
+              <div [ngClass]="{'has-value': advancedFilterForm.city_id != ''}">
+                 <p class="label_p">
+              Assign To
+             </p>
+             <select id="assignTo" class="form-ctrl"
+                                            [(ngModel)]="advancedFilterForm.assign_to" name="assign_to">
+                                            <option value="0"> Select Assign To</option>
+                                            <option [value]="assign.userid" *ngFor="let assign of enqAssignTo">
+                                                {{assign.name}}
+                                            </option>
+                                        </select>
+              </div>
+               </div>
+
+            <ng-template [ngIf]="true" *ngFor="let component of filterCustomComponent; let i= index;">
+                    <div class="display custCompFilter" *ngIf="checkCustomeComponentElement(i)">
+                        <ng-template [ngIf]="true"
+                            *ngFor="let component of filterCustomComponent |slice:i:i+2">
+                            <div class=""
+                                *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <input type="text" value="" id="{{component.id}}"
+                                        [(ngModel)]="component.value" class="form-ctrl"
+                                        name="{{component.label}}" />
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                                <br>
+                                <div style="margin-top: 30px;" class="field-checkbox-wrapper">
+
+                                    <input class="form-checkbox" id="{{component.id}}" type="checkbox"
+                                        [(ngModel)]="component.value" name="{{component.label}}" value="">
+                                    <label class="label_p" style="margin: 0;" for="{{component.id}}">{{component.label}} </label>
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <select id="{{component.id}}" class="form-ctrl"
+                                        [(ngModel)]="component.value" name="{{component.label}}">
+                                        <option value=""></option>
+                                        <option *ngFor="let opt of component.prefilled_data"
+                                            value="{{opt.data}}">{{opt.data}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                                <div id="{{component.id}}wrapper" class="field-wrapper"
+                                    (click)="multiselectVisible($event.target.id)">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <input id="{{component.id}}" type="text"
+                                        [ngModel]="component.selectedString" name="{{component.label}}"
+                                        class="form-ctrl" readonly="true" />
+
+                                </div>
+                                <div id="{{component.id}}multi" class="hide multiselect-wrapper"
+                                    (mouseleave)="multiselectVisible(component.id)">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let opt of component.prefilled_data">
+                                                <div class="field-checkbox-wrapper">
+
+                                                    <input type="checkbox" value="" name="{{opt.data}}"
+                                                        [(ngModel)]="opt.checked"
+                                                        (ngModelChange)="updateMultiSelect(opt, component.id)"
+                                                        class="form-checkbox" id="{{opt.data}}">
+                                                    <label for="{{component.id}}">{{opt.data}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=""
+                                *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                <div class="field-wrapper datePickerBox"
+                                    [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                    <label class="label_p" for="{{component.id}}">{{component.label}} </label>
+                                    <input type="text" value="" readonly="true" id="{{component.id}}"
+                                        [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                                        name="{{component.label}}" bsDatepicker />
+
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+            </ng-template>
+           
+            </div>
+            <div class="modal-footer">
+            <div class=" display">
+               <div>
+               
+             </div>
+             <div>
+              <button class="bw_button mr10" (click)='clearAdvancedFilterForm()'>Clear Filter</button>
+               <button class="blue_button" (click)='advancedSearch()'> Apply</button>
+             </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <div class="w98">
+   <!------------------------------basic search-------------------------------->
+   <div class="row drop-shadow">
+     <div class="col-lg-4">
+       <input #search type="text" name="searchData"  id="basic-search"
+       [(ngModel)]="searchBarData"
+       name="searchData" (keyup.enter)="searchDatabase()" class="magnifying-glass text-indent search mt-9 mr10 btn_shadow" placeholder="&nbsp;&nbsp;Search By Name/Contact No.">
+       <button  class=" blue_button btn_shadow"  (click)="searchDatabase(1)">Search</button>
+   </div> 
+     
+     <div class="col-lg-8">
+       <span class="right">
+          <!------------------------------Students Selected option-------------------------------->
+          <a id="hiddenAnchorTag" class="hide">Element Made For Admission Form Download</a>
+          <a id="hiddenAnchorTag2" class="hide">Element Made For Fee Installment Download</a>
+
+          <div class="dropdown3 mr10"  *ngIf="rowSelectedCount != 0">
+              <button  class="mr10 bw_button dropbtn3 btn_shadow">{{rowSelectedCount}} Students Selected&nbsp;&nbsp;<i class="fa fa-caret-down dr"></i></button>
+              <div class="dropdown-content3  mr10">
+                <a (click)="notifySelectedStudent()" ><img src="../../../../assets/icons/Send_Notification.svg" class="d_icons">Send Notification</a>
+                <a (click)="downloadStudentAdmissionForm()"><img src="../../../../assets/icons/Admission_Form.svg" class="d_icons">Admission Form</a>
+                <a (click)="studentFeeInstallment(-1)" ><img src="../../../../assets/icons/Fees.svg" class="d_icons">Fee Installment</a>
+                <a (click)="downloadStudentIDCard()"><img src="../../../../assets/icons/Download_ID_Card.svg" class="d_icons">Download ID card</a>
+                 <a (click)="openAssign()"><img src="../../../../assets/icons/Assign_Standard.svg" class="d_icons">Assign Standard</a>
+              </div>
+          </div>
+           <!------------------------------Quick and Advanced  Filter openclose  buttons-------------------------------->
+        <span id="qfilter" class="mr10"  *ngIf="!isProfessional && isVisited" (click)="closeQuickFilter()">Quick Filter<img src="/assets/img2/close.svg"></span>
+          <div class="dropdown2 mr10">
+            <button  class="white_button mt-9 dropbtn2">Filter<img src="/assets/img2/filter.svg"></button>
+              <div class="dropdown-content2">
+                <a style="cursor: pointer;"  id="click"   *ngIf="!showQuickFilter && !isProfessional"   (click)="openQuickFilter()">Quick Filter</a>
+                <a style="cursor: pointer;" data-toggle="modal"   data-target="#exampleModal2" id="adFilterOpen" *ngIf="!schoolModel" (click)="openAdFilter()">Advance Filter</a>
+              </div>
+          </div>
+             <!------------------------------more button-------------------------------->
+       
+          <span class="line11"></span>
+          <div class="dropdown1">
+            <button  class="white_button mt-9 dropbtn1 mr10" name="button" (click)="isOptions = !isOptions">More<img src="/assets/img2/more.svg"></button>
+              <div class="dropdown-content1" *ngIf="isOptions" (mouseleave)="isOptions = false" #optMenu>
+                <a *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" routerLink='/view/students/bulk'><img src="../../../../assets/icons/Upload_Student.svg" class="d_icons"> Upload Student</a>
+                <a  style="cursor: pointer;" (click)="downloadAllStudent()"
+                *ngIf="downloadStudentReportAccess"> <img src="../../../../assets/icons/Export_Students.svg" class="d_icons"> Export Student</a>
+                <a routerLink='/view/students/openUser' *ngIf="!schoolModel"> <img src="../../../../assets/icons/Registered_Users.svg" class="d_icons"> Registered Student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_student'> <img src="../../../../assets/icons/Archive_Students.svg" class="d_icons"> Archive student</a>
+                <a *ngIf="!schoolModel" routerLink='/view/students/archived_status'> <img src="../../../../assets/icons/Archived_Status_Report.svg" class="d_icons">  Archeived status report</a>
+                <a *ngIf="!schoolModel && !isProfessional" routerLink='/view/students/student-additionalform-field'> <img src="../../../../assets/icons/Archived_Status_Report.svg" class="d_icons">  Additional form field</a>
+
+              </div>
+
+          </div>
+          
+            <a><button class="blue_button mt-9 btn_shadow"  name="button" routerLink='./add' *ngIf="checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)" (click)="redirect()">Add Student</button></a>
+       </span>
+     </div>
+   </div>
+    <!------------------------------Quick Filter Form-------------------------------->
+    <div class="flex" id="form-tab" *ngIf="!isProfessional && isVisited" style="margin-left: 15px;">
+      <div class="mr10" *ngIf="!isProfessional && !schoolModel">
+        <div  [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+          <!-- <label class="p_title">Standard</label> -->
+        <select class="input-select1" id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id"
+        (ngModelChange)="fetchCourseForMaster($event)" [disabled]="advancedFilterForm.master_course_name!=-1"
+        [ngStyle]="{'cursor':advancedFilterForm.master_course_name!=-1?'no-drop':'pointer'}">
+        <option value="-1">Select Standard</option>
+        <option [value]="std.standard_id" title="{{std.standard_name}}"
+            *ngFor="let std of standardList">
+            {{ (std.standard_name.length > 30) ? (std.standard_name | slice:0:30) + '...' : std.standard_name }}
+        </option>
+      </select>
+      </div>
+      </div>
+      <div class="mr10" *ngIf="!isProfessional">
+        <div [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
+          <!-- <label class="p_title" for="masterCourse">{{schoolModel ? 'Standard' : 'Master Courses'}}</label> -->
+      <select class="input-select1 wid230" *ngIf="!schoolModel" id="masterCourse" name="masterCourse"
+      [(ngModel)]="advancedFilterForm.master_course_name"
+      (ngModelChange)="updateSubCourse($event)" [disabled]="advancedFilterForm.standard_id!=-1"
+      [ngStyle]="{'cursor':advancedFilterForm.standard_id!=-1?'no-drop':'pointer'}" >
+      <option value="-1">Select {{schoolModel ? 'Standard' : 'Master Courses'}}</option>
+      <option [value]="mc.master_course" *ngFor="let mc of masterCourseList"
+          title="{{mc.master_course}}">
+          {{ (mc.master_course.length > 30) ? (mc.master_course | slice:0:30) + '...' : mc.master_course }}
+      </option>
+      </select>
+      <select *ngIf="schoolModel" id="masterCourse" name="masterCourse"
+      [(ngModel)]="advancedFilterForm.standard_id"
+      (ngModelChange)="updateCourseList($event)" class="input-select1">
+      <option value="-1">Select Standard</option>
+      <option [value]="mc.standard_id" *ngFor="let mc of standardList"
+          title="{{mc.standard_name}}">
+          {{ (mc.standard_name.length > 30) ? (mc.standard_name | slice:0:30) + '...' : mc.standard_name }}
+      </option>
+  </select>
+    </div>
+      </div>
+      <div class="mr10"  *ngIf="!isProfessional">
+        <div  [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
+          <!-- <label  class="p_title" for="course">{{schoolModel ? 'Section' : 'Course'}}</label> -->
+          <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id"
+          class="input-select1 wid230" [disabled]="!schoolModel && advancedFilterForm.standard_id!=-1"
+          [ngStyle]="{'cursor':(!schoolModel && advancedFilterForm.standard_id!=-1)?'no-drop':'pointer'}">
+          <option value="-1">Select {{schoolModel ? 'Section' : 'Course'}}</option>
+          <option [value]="course.course_id" title="{{course.course_name}}"
+              *ngFor="let course of subCourseList">
+              {{ (course.course_name.length > 30) ? (course.course_name| slice:0:30) + '...' :course.course_name }}
+          </option>
+      </select>
+    </div>
+      </div>
+     <div class="mr10"  *ngIf="!isProfessional">
+       <div  [class.has-value]="advancedFilterForm.is_active_status != ''">
+        <!-- <label  class="p_title" for="status">Is Active</label> -->
+        <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter"
+        class="input-select1">
+        <option value="-1">All</option>
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+    </select>
+    </div>
+      </div>
+     
+      <div  >
+       
+      <button class="blue_button mt-9"  *ngIf="!isProfessional" (click)="searchDatabase()" >Search</button>
+      </div>
+    </div>
+   <div>
+ 
+  
+     <!-- heading div -->
+     <div class="table_heading" >
+       <div style="margin-top: 4px;">
+        <label class="checkbox">
+          <span class="checkbox__input">
+            <input #headerCheckbox type="checkbox" value="" name="check"
+            [checked]="isAllChecked()" (change)="selectAllRows($event)"  (click)="getRowCount($event);">
+            <span class="checkbox__control">
+             <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+            </span>
+          </span>
+        </label>
+       </div>
+       <div>#</div>
+         <div style="text-align: left;padding-left: 15px;">{{schoolModel?'Reg. No.':'Student ID'}}</div>
+         <div (click)="sortTable('student_name')" style="cursor: pointer;text-align: left;"> Name <span class="space33"><img src="../../../assets/img1/down1a.svg"></span></div>
+         <div>Student No.</div>
+         <div *ngIf="schoolModel" style="text-align: left;">Parent Name</div>
+         <div *ngIf="schoolModel">Parent No.</div>
+         <div *ngIf="!isProfessional">Standard</div>
+         <div *ngIf="!schoolModel && !isProfessional" >Course(s)</div>
+         <div *ngIf="isProfessional" >Master Course</div>
+         <div *ngIf="isProfessional">Batch Assigned</div>
+         <div *ngIf="schoolModel" >Section</div> 
+         <div style="text-align: center;">Action</div>
+     </div>
+     <!-- table row -->
+     <div class="overflows">
+     <div  class="table_row" *ngFor="let data of studentDataSource;index as i">
+       <div>
+          <div>
+        <label class="checkbox">
+          <span class="checkbox__input">
+            <input value="" name="check"
+            type="checkbox"
+             [(ngModel)]="data.uiSelected"
+            (ngModelChange)="rowCheckboxChange(data)" 
+           >
+            <span class="checkbox__control">
+             <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                <path fill='none' stroke='currentColor' stroke-width='2' d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+            </span>
+          </span>
+        </label>
+       </div>
+       </div>
+       <div><img src="{{data.thumbnail_url==null ||data.thumbnail_url=='' ?'../../../assets/images/empty_photo.svg':data.thumbnail_url}}" class="photo imgRound"></div>
+         <div style="text-align: left;padding-left: 15px;">{{data.student_disp_id}}</div>
+         <div title="{{data.student_name}}" style="text-align: left;">{{data.student_name| slice:0:15}} {{data.student_name.length > 15 ? '...' : ''}}</div>
+         <div title="{{data.student_phone}}"> {{data.student_phone| slice:0:15}} {{data.student_phone.length > 15 ? '...' : ''}}</div>
+         <div *ngIf="schoolModel" style="text-align: left;" title="{{data.parent_name}}">{{data.parent_name | slice:0:15}} {{data.parent_name.length > 15 ? '...' : ''}}</div>
+         <div *ngIf="schoolModel">{{data.parent_contact_number}}</div>
+         <div *ngIf="!isProfessional">{{data.student_class}}</div>
+         <div *ngIf="isProfessional">{{data.student_class}}</div>
+         <div title="{{data.batchesAssigned}}">{{data.batchesAssigned | slice:0:15}} {{data.batchesAssigned.length > 15 ? '...' : ''}}</div>
+       <div class="center1" style="text-align: center;padding-left:48px;">
+           <!-- [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]"-->
+        <a   (click)="redirect()" [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
+        <a style="cursor: pointer;" (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
+        <!-- <a  *ngIf="schoolModel" data-toggle="modal" data-target="#myModal1"  (click)="fetchStudId(data.student_id)"><img src="../../../../assets/images/students/Download Certificate.svg" class="pl-10" style="cursor: pointer;" title="Download Certificates"></a> -->
+        <a style="cursor: pointer;" (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
+      </div>
+     </div>
+     <section class="no-data" *ngIf="studentDataSource.length == 0" style="overflow-y: hidden;height: 60vh;">
+        <div class="illustration-container">
+          <img alt="illustration" class="illustration-img" src="./assets/img/nodataimg.svg">
+        </div>
+      </section>
+    </div>
+   </div>
+
+   <div id="paginator" class="row filter-res pagination" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()"
+            (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex"
+            [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr"
+            (sizeChange)="updateTableBatchSize($event)">
+        </pagination>
+    </div>
+</div>
+  </div>
+</div>  
+
+    <!-- Delete PopUp -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isDeleteStudentPrompt">
+        <div class="popup pos-abs pos-rel">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                                    transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                                    transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2"
+                                width="16" height="16" transform="translate(1012 297)" />
+                        </g>
+                    </svg> -->
+                    X
+                </span>
+                <div class="popup-content">
+                    <h2>Delete Student - Student Name: {{selectedRow.student_name}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history">
+                            <h4>Are you sure you want to delete this data? Ones deleted cannot be recovered later.</h4>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input style="margin-right: 10px;" type="button" value="Cancel" class="bw_button" (click)="closeDeletePopup()">
+                                    <input type="button"  value="Delete" class="blue_button mt10" (click)="deleteStudent()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- page-wrapper -->
+
+<script type="text/javascript">
+$("#show-sidebar").click(function() {
+  if($(".page-wrapper").hasClass('toggled')){
+    $(".page-wrapper").removeClass("toggled");
+  } else {
+    $(".page-wrapper").addClass("toggled");
+  }
+});
+</script>
+<script type="text/javascript">
+$( document ).ready(function() {
+  $("#form-tab").hide();
+   $("#qfilter").hide();
+  $("#click").click(function() {
+     $("#form-tab").show();
+      $("#qfilter").show();
+  });
+  $("#qfilter").click(function() {
+     $("#form-tab").hide();
+     $("#qfilter").hide();
+    
+  });
+});
+</script>
+<div class="certificate">
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DEMO</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <meta charset="utf-8"> 
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Open modal
+  </button>
+   -->
+  <!-- The Modal -->
+  <div class="modal" id="myModal1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header header">
+           <h4 class="modal-title">Certificate Management</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+         <div class="row no-gutters">
+           <div class="col-6 ">
+              <div class="center">
+                 <img src="../../../../assets/images/transfer.png"><br>
+                 <p (click)="generateCertificate()">Transfer Certificate</p>
+                 <!-- <p><a routerLink="/view/students/certificates">Transfer Certificate</a></p> -->
+                   <!-- Transfer Certificate -->
+                
+              </div>
+            
+           </div>
+           <div class="col-6 ">
+             <div class="center">
+                 <img src="../../../../assets/images/conduct.png"><br>
+                 <!-- <p (click)="viewCharacterCertificate(awsDownloadLink)">Conduct<br>/ Character Certificate</p> -->
+               <p  (click)="getCharacterCertificate()"  >
+                 Conduct<br>/ Character Certificate
+               </p>
+               <!-- <p *ngIf="charactertCertiModel.sex =='F'" data-toggle="modal" data-target="#conductCertificateF" (click)="getCharacterCertificate()" >
+                Conduct<br>/ Character Certificate
+              </p> -->
+              
+            </div>
+           </div>
+          
+         </div>
+         <div class="row no-gutters">
+           <div class="col-6 ">
+             <div class="center">
+         
+                <img src="../../../../assets/images/bonafide.png"><br>
+                <!-- <p (click)="viewBonafaiedCertificate(awsDownloadLink)">Bonafide Certificate</p> -->
+                <p  (click)="bonafiedCertificates()" >
+                 Bonafide Certificate
+                </p>
+                <!-- <p data-toggle="modal" data-target="#bonafiedCertificateF" (click)="bonafiedCertificates($event)" >
+                  Bonafide Certificate
+                 </p> -->
+            </div>
+           </div>
+          
+           <div class="col-6 ">
+             <div class="center">
+                 <img src="../../../../assets/images/migration.png">
+                 <!-- <p (click)="viewMigrationCertificate(awsDownloadLink)">Migration Certificate</p> -->
+               <p  (click)="migrationCertificates()" >
+                 Migration Certificate
+               </p>
+               <!-- <p data-toggle="modal" data-target="#migrationCertificateF" (click)="migrationCertificates($event)" *ngIf="bonafiedCertiModel.sex == 'F'">
+                Migration Certificate
+              </p> -->
+            </div>
+           </div>
+          
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+  </html>
+  <!-- =========================================character-certificates-male====================================== -->
+
+<div  class="modal" data-backdrop="static" style="width: 100%;"   id="conductCertificate" > 
+    <!DOCTYPE html >
+  <html style="margin-left: 14%;width:93% ;">
+  <head>
+    <title>DEMO</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="utf-8"> 
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+      <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+  </head>
+  <body >
+     <div class="gradient">
+      <div>
+        <div></div>
+        <div>
+         <!-- <a class="mr20"   (click)="characterPrintPage('conductCertificate2')"><img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
+         <a class="mr20"   (click)="CertificateConvertTopdf('conductCertificate2')" > <img src="../../../../assets/images/certifcateimg/download.svg" ></a>
+         <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg" style="cursor: pointer;"></a>
+        </div>
+      </div>
+    </div>
+  <div id="conductCertificate2">
+      <br><br><br><br>
+  
+   <div class="body" >
+     <div class="w96 flex">
+        <!-- <div style="width: 30%">
+         <img src="{{charactertCertiModel.logo_url}}" >
+        </div> -->
+        <div class="header-text" style="width: 70%">
+          <img src="{{charactertCertiModel.logo_url}}" style="width: 21%;padding-top: 9%;">
+
+             <div><span style="font-size:16px; font-weight:bold">{{charactertCertiModel.institute_name}}</span></div>
+             <div class="inst-info">
+             <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_phone}}</span>
+              <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_email}}</span>
+              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_address}}</span>
+
+              </div>
+              <!-- <div>
+             <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{charactertCertiModel.inst_address}}</span>
+              </div> -->
+        </div>
+      </div>
+      <div class="w96 ballet">
+          Character Certificate
+      </div>
+      <div>
+       <p class="content" >
+         This is to certify that <b>{{charactertCertiModel.stud_name}} {{(charactertCertiModel.sex == 'F') ? 'd/o':'s/o'}} {{charactertCertiModel.father_name}}</b>, was a bonafied student of since<b> {{charactertCertiModel.doj}}</b> to till date.
+  We found {{(charactertCertiModel.sex=='F') ? 'her' :'him'}} to be well behaved & bears a good moral character. We found {{(charactertCertiModel.sex=='F') ? 'her' : 'him'}} to be regular to school and his conduct is satisfactory.
+  I wish {{(charactertCertiModel.sex=='F') ? 'her' :'him'}} a great success in life.
+       </p>
+       <p class="dated space"  style="margin-left: 21%;font-size: 13px;">Dated:&nbsp;&nbsp;<span><b>{{charactertCertiModel.curr_date}}</b></span></p>
+     </div>
+     <div class="display space" style="margin-left: 21%;font-size: 13px;" >
+       <div><b>Place</b>&nbsp;: {{charactertCertiModel.inst_place}}</div>
+       
+       <div style="padding-right:7%;font-size: 13px;">Principal</div>
+     </div>   
+   </div>
+  
+  
+   <br>
+  </div>
+  </body>
+  </html>
+  </div>
+  
+ 
+  <!-- ============================================bonafied-certificate-male==================================== -->
+  <div  class="modal" data-backdrop="static" style="width: 100%;" id="bonafiedCertificate"> 
+      <!DOCTYPE html>
+  <html  style="margin-left: 14%;width:93%px ;" >
+  <head>
+    <title>DEMO</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="utf-8"> 
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+      <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+  </head>
+  <body>
+     
+    <div class="gradient">
+      <div>
+        <div></div>
+        <div>
+         <!-- <a (click)="PrintPage()"  class="mr20" > <img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
+         <a (click)="CertificateConvertTopdf('bonafiedCertificatePdfdiv')"  class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg" style="cursor: pointer;"></a>
+         <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg" style="cursor: pointer;"></a>
+        </div>
+      </div>
+    </div>
+    <div id="bonafiedCertificatePdfdiv">
+      <br><br><br><br>
+      <div class="body">
+      <div class="w96 flex">
+        <!-- <div style="width: 30%">
+          <img src="{{bonafiedCertiModel.logo_url}}" style="width: 25%;padding-top: 9%;" >
+        </div> -->
+        <div style="width: 70%"  class="header-text">
+          <img src="{{bonafiedCertiModel.logo_url}}" style="width: 21%;padding-top: 9%;" >
+
+             <div><span style="font-size:15px; font-weight:bold">{{bonafiedCertiModel.institute_name}}</span></div>
+             <div class="inst-info">
+             <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_phone}}</span>
+              <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_email}}</span>
+              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_address}}</span>
+
+              </div>
+              <!-- <div>
+             <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{bonafiedCertiModel.inst_address}}</span>
+              </div> -->
+        </div>
+      </div>
+      <div class="w96 ballet">
+          Bonafide Certificate
+      </div>
+      <div>
+       <p class="content">
+        This is to certify that<b> {{bonafiedCertiModel.stud_name}} {{(bonafiedCertiModel.sex == 'F') ? 'd/o' :'s/o'}} {{bonafiedCertiModel.father_name}}</b> residing at <b>{{bonafiedCertiModel.stud_city}}</b>, is a bonafide student and is studying at class<b> {{bonafiedCertiModel.standard_name}} - {{bonafiedCertiModel.section_name}} </b>in this school.
+        {{(bonafiedCertiModel.sex == 'F') ? 'She': 'He'}} was admitted in this school on<b> {{bonafiedCertiModel.doj}}</b> and his admission number is <b>{{bonafiedCertiModel.reg_number}}</b>
+         {{(bonafiedCertiModel.sex == 'F') ? 'Her': 'His'}} DOB as per our school record is<b> {{bonafiedCertiModel.dob}}</b>
+       </p>
+       <p class="dated space" style="margin-left: 21%;font-size: 13px;">Dated:&nbsp;&nbsp;<span><b>{{bonafiedCertiModel.curr_date}}</b></span></p>
+     </div>
+     <div class="display space" style="margin-left: 20%;font-size: 13px;">
+       <div><b>Place</b>
+        <p>{{bonafiedCertiModel.inst_place}}</p></div>
+       <div style="padding-right: 7%;font-size: 13px;">Principal</div>
+     </div>
+   </div>
+   <br>
+   </div>
+  </body>
+  </html>
+  </div>
+ 
+  <!-- ====================================migration-male================================================ -->
+  <div class="modal" data-backdrop="static" style="width: 100%;" id="migrationCertificate">
+    <!DOCTYPE html>
+  <html  style="margin-left: 14%;width:93%px ;" >
+  <head>
+    <title>DEMO</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="utf-8"> 
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+      <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="gradient">
+      <div>
+        <div></div>
+        <div>
+         <!-- <a (click)="migrationPrintPage()"  class="mr20"> <img src="../../../../assets/images/certifcateimg/print.svg"></a> -->
+         <a (click)="CertificateConvertTopdf('migrationPdfdiv')"   class="mr20"> <img src="../../../../assets/images/certifcateimg/download.svg" style="cursor: pointer;"></a>
+         <a (click)="closePopups()" class="mr20"> <img src="../../../../assets/images/certifcateimg/close.svg" style="cursor: pointer;"></a>
+        </div>
+      </div>
+    </div>
+    <div id="migrationPdfdiv">
+      <br><br><br><br>
+    <div class="body">
+        <div class="flex">
+        <!-- <div style="width: 30%">
+          <img src="{{migrationCertiModel.logo_url}}">
+        </div> -->
+        <div class="header-text" style="width: 70%" >
+          <!-- <div style="width: 30%"> -->
+            <img src="{{migrationCertiModel.logo_url}}" style="width: 25%;padding-top: 9%;">
+          <!-- </div> -->
+             <div><span style="font-size:16px; font-weight:bold">{{migrationCertiModel.institute_name}}</span></div>
+             <div class="inst-info" >
+             <span class="sm_heading"><b>Phone:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_phone}}</span>
+              <span class="sm_heading"><b>Email:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_email}}</span>
+              <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_address}}</span>
+
+              </div>
+              <!-- <div>
+             <span class="sm_heading"><b>Address:&nbsp;&nbsp;</b>{{migrationCertiModel.inst_address}}</span>
+              </div> -->
+        </div>
+      </div>
+      <div class="w96 ballet">
+          Migration Certificate
+      </div>
+      <div>
+       <p class="content">
+        Registration Number: <b>{{migrationCertiModel.reg_number}}</b><br> 
+       This is to certify that <b>{{migrationCertiModel.stud_name}} {{(migrationCertiModel.sex == 'F') ? 'd/o' : 's/o'}} {{migrationCertiModel.father_name}}</b> is a student of <b>{{migrationCertiModel.institute_name}}</b> an institute affiliated with the<b> {{migrationCertiModel.school_board}} Board. </b><br>
+       {{(migrationCertiModel.sex == 'F') ? 'She': 'He'}} has successfully passed <b>Standard {{migrationCertiModel.standard_name}}</b> examination conducted under this board.
+        This school has no objection in {{(migrationCertiModel.sex == 'F') ? 'her' : 'his'}} joining any recognized collage/institute or taking examination of any University or Board established by law.
+       </p>
+       <p class="dated space" style="margin-left: 21%;font-size: 13px;">Dated:&nbsp;&nbsp;<span><b>{{migrationCertiModel.curr_date}}</b></span></p>
+     </div>
+     <div class="display space">
+       <div style="margin-left: 20%;font-size: 13px;"><b>Place</b>
+        <p>{{migrationCertiModel.inst_place}}</p></div>
+       <div style="padding-right: 7%;font-size: 13px;">Principal</div>
+     </div>
+    </div>
+    <br>
+    </div>
+  </body>
+  </html>
+  </div>
+  <!-- ==========================================migration-female========================================= -->
+ 
+

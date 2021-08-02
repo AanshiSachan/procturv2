@@ -26,6 +26,7 @@
               </option>
             </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_type_id!=''"><span>{{errorsObj.exam_type_id}}</span></div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.course_id"
               (ngModelChange)="updateSubjectList($event)">
@@ -35,6 +36,7 @@
               </option>
             </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.course_id!=''"><span>{{errorsObj.course_id}}</span></div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.batch_id">
               <option value="-1">Subject*</option>
@@ -45,10 +47,12 @@
               </option>
             </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.batch_id!=''"><span>{{errorsObj.batch_id}}</span></div>
           <div class="edit-item field-wrapper datePickerBox">
             <input type="text" style="width: 100%;" value="" id="strtDate" placeholder="Date*"
               class="form-ctrl bsDatepicker" [(ngModel)]="editrecord.date" readonly="true" name="strtDate" bsDatepicker>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.course_exam_date!=''"><span>{{errorsObj.course_exam_date}}</span></div>
           <div class="edit-item field-wrapper">
             <!-- <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_from">
               <option value="">Time From*</option>
@@ -69,6 +73,7 @@
                 </option>
               </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_start_time!=''"><span>{{errorsObj.exam_start_time}}</span></div>
           <div class="edit-item field-wrapper">
             <!-- <select class="form-ctrl" name="" [(ngModel)]="editrecord.time_to">
               <option value="">Time To*</option>
@@ -89,6 +94,7 @@
                 </option>
               </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.exam_end_time!=''"><span>{{errorsObj.exam_end_time}}</span></div>
           <div class="edit-item field-wrapper">
             <select class="form-ctrl" name="" [(ngModel)]="editrecord.class_room_id">
               <option value="-1">Room</option>
@@ -98,6 +104,7 @@
               </option>
             </select>
           </div>
+          <div class="errorDiv" *ngIf="errorsObj.room_no_id!=''"><span>{{errorsObj.room_no_id}}</span></div>
         </div>
       </div>
       <div class="modal-footer">

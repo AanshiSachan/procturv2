@@ -1,0 +1,79 @@
+
+ <div class="page-content">
+  <div class="head_padding">
+    <div class="w98 display">
+      <div class="page_heading">
+        <p>Hourly Template</p>
+      </div>
+      <div>
+        <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy.svg" title="Send Report to email"></a> -->
+        <a class="mr10" (click)="downloadPdf()"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a>
+        <a (click)="downloaExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Print Report"></a>
+        <!-- <a  class="mr10"><img src="../../../assets/img1/print.svg" title="Print Report"></a> -->
+
+      </div>
+    </div>
+  </div>
+  <div class="w98">
+      <div class="pt15">
+          <label for="serach">Search:&nbsp;</label>
+        <input type="text" class="input wid240 mr10" [(ngModel)]="searchInput" (keyup)="searchFun(search)" name="" placeholder="search" #search>
+          <button class="blue_button" (click)="addHourly()">Add Hourly Template</button>
+      </div>
+      <div class="leave_cat">
+          <div class="table_heading">
+            <div>
+             #
+            </div>
+            <div>Hourly Grades </div>
+            <div>Hourly Rate</div>
+            <div>Action</div>
+          </div>
+          <div class="table_body" *ngFor="let item of hourlyDataList;let i=index;">
+            <div>
+              {{i+1}}
+            </div>
+            <div>
+              {{item.hourly_grade}}
+            </div>
+           <div>{{item.hourly_rate}}</div>
+           <div>
+              <a  class="mr10" (click)="onEdit(item.template_id)"><img src="../../../assets/img1/edit.svg" title="Edit" class="group18"></a>
+              <a (click)="deleteHourly(item.template_id)"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a>
+            </div>
+          </div>
+       </div>
+  </div>
+      
+  
+ 
+
+
+<div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+<div class="c-lg-12 c-md-12 c-sm-12 align-right">
+  <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+    [pagesToShow]="10" [page]="varJson.pageOffset" [perPage]="varJson.pageSize"  [sizeArr]="varJson.sizeArr"
+    (sizeChange)="updateTableBatchSize($event)"  [count]="varJson.total_item">
+  </pagination>
+</div>
+</div> 
+
+
+
+<div class="modal" id="deleteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" >you are about to delete a record. This cannot be undone. are you sure?</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="pt10 h10">
+          <button class="white_button" data-dismiss="modal">Cancel</button>
+          <button class="blue_button right" (click)="deleteHourly()">Delete</button>
+        </div>
+      </div>        
+    </div>
+  </div>
+</div> 
+<div *ngIf="hourlyDataList.length == '0'">No Record Found</div>

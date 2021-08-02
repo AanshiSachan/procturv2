@@ -1,3 +1,5 @@
+
+@import "../asset-management.component.scss";
 *{
   margin: 0px;
 }
@@ -8,23 +10,24 @@ body{
   display: flex;
 }
 .title-model{
-  width: 94px;
   height: 18px;
   left: 41px;
   top: 30px;
-  
+  text-align: center;
   font-family: Open Sans;
   font-style: normal;
   font-weight: 600;
   font-size: 13px;
   line-height: 18px;
+  margin-bottom: 13px;
   /* identical to box height */
   
   letter-spacing: 0.01em;
   
   color: #444141;
-
-}
+  
+  }
+  
 .btns{
   margin-top: 15px;
   margin-left: 10px;
@@ -70,7 +73,8 @@ body{
     border: 1px solid #D5D0D0;
     box-sizing: border-box;
     border-radius: 4px;
-    margin-top:20px;
+    margin-top:5px;
+    margin-bottom: 10px;
   }
   textarea{
     width: 330px;
@@ -82,7 +86,8 @@ body{
     border: 1px solid #D5D0D0;
     box-sizing: border-box;
     border-radius: 4px;
-    margin-top:20px;
+    margin-top:5px;
+margin-bottom: 10px;
   }
   select{
     width: 330px;
@@ -94,7 +99,8 @@ background: #FFFFFF;
 border: 1px solid #D5D0D0;
 box-sizing: border-box;
 border-radius: 4px;
-margin-top:20px;
+margin-top:5px;
+margin-bottom: 10px;
   }
   .modal-content{
     position: relative;
@@ -151,7 +157,7 @@ margin-top:20px;
 }
 .modal {
   // float: left;
-  left: 30%;
+  left: 35%;
   top: 8%;
   //transform: translate(-50%, -50%);
   height: auto;
@@ -165,16 +171,7 @@ color: red;
 margin-bottom: 0%;
 text-align: center;
 }
-.multiselect{
-  width: 330px;
-height: 35px;
-left: 30px;
-top: 63px;
-background: #FFFFFF;
-box-sizing: border-box;
-border-radius: 4px;
-margin-top:20px;
-}
+
 .errormsg{
   height:10px;
 }
@@ -192,6 +189,60 @@ margin-top:20px;
     font-weight: 500;
     height: 35px;
 }
+.scrollable-menu {
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+.multiselect-dropdown{
+  display: inline-block;
+    border: 1px solid #adadad;
+    width: 100%;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.52857143;
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+.multiselect{
+  margin-bottom: 31px;
+}
 
 
-
+.display{
+  display: flex;
+justify-content: space-between;
+}
+.top33{
+  position: relative;
+  top: 10px;
+}
+.searches{
+  padding: 7px 20px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-weight: 500;
+    height:35px;
+    width:200px;
+  }
+.mr10{
+margin-right:10px;
+}
+.magnifying-glass{
+  background-image: url('/assets/images/assets/Vector.svg');
+  background-repeat: no-repeat;
+  background-position:left center;
+  text-indent: 10px;
+}
+#deletesModal{
+  position: absolute;
+  left:40%;
+  top:20%;
+}

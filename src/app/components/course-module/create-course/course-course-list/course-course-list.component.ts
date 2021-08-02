@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { role } from '../../../../model/role_features';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CourseListService } from '../../../../services/course-services/course-list.service';
@@ -44,6 +45,7 @@ export class CourseCourseListComponent implements OnInit {
     isShowAddCourse: false
   }
   schoolModel: boolean = false;
+  role_feature = role.features;
 
   constructor(
     private apiService: CourseListService,
@@ -87,7 +89,7 @@ export class CourseCourseListComponent implements OnInit {
     }
     else {
       if (permissionArray != undefined) {
-        if (permissionArray.indexOf('505') != -1) {
+        if (this.role_feature.CLASSES_COURSES) {
           // MASTER-Course - 505 has all access
           this.jsonFlags.isShowAddCourse = true;
           this.jsonFlags.isShowAddStudent = true;
@@ -181,11 +183,14 @@ export class CourseCourseListComponent implements OnInit {
     this.selectedRow = i;
   }
 
-  addStudentToBatch(rowDetails) {
+  addStudentToBatch(rowDetails, std_obj) {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
     console.log("courseDetails", rowDetails);
-    // this.getAllStudentList();
+    if(this.schoolModel) {
+      this.searchFilter.standard_id = std_obj.standard_id;
+      this.getAllStudentList();
+    }
     this.getAllFeeTemplate();
     // this.onRadioButtonChange();
   }
@@ -305,7 +310,8 @@ export class CourseCourseListComponent implements OnInit {
         }
       }
       if (!checkFlag) {
-        this.alertBox = false;
+        // this.alertBox = false;.
+        this.unassign_course();
         // if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
         //   this.apiToAllocateAndDeallocate();
         // }
@@ -363,7 +369,7 @@ export class CourseCourseListComponent implements OnInit {
     // console.log(dataToSend)
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
-        this.messageToast('success', '', 'Student\'(s) added successfully');
+        this.messageToast('success', '', 'Student\'(s) updated successfully');
         this.studentList = [];
         this.addStudentPopUp = false;
         this.auth.hideLoader();
@@ -486,16 +492,19 @@ export class CourseCourseListComponent implements OnInit {
   checkTabSelection() {
     setTimeout(() => {
       this.hideAllTabs();
-      document.getElementById('liManageBatch').classList.add('active');
+      if(document.getElementById('liManageBatch')) {
+        document.getElementById('liManageBatch').classList.add('active');
+      }
     }, 200)
   }
 
-  hideAllTabs() {
-    document.getElementById('liStandard').classList.remove('active');
-    document.getElementById('liSubject').classList.remove('active');
-    document.getElementById('liManageBatch').classList.remove('active');
-    // document.getElementById('liExam').classList.add('hide');
-    document.getElementById('liClass').classList.remove('active');
+  hideAllTabs() {    
+    let lists =['liStandard','liSubject','liManageBatch','liExam'];
+    lists.forEach((object)=>{
+      if(this[object]) {
+        this[object].nativeElement.classList.remove('active');
+      }
+    })
   }
 
 }

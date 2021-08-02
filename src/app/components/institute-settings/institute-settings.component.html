@@ -21,7 +21,7 @@
         <li id="liExceptioneport" class="menu-item" style="cursor: pointer;"
           (click)="changeView('liExceptioneport', 'divExceptioneport')">
           <span>
-            <a class="">Faculty / Admin Reports
+            <a class="">Teacher / Admin Reports
             </a>
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
@@ -69,7 +69,7 @@
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
-        <li id="liLive" class="menu-item" style="cursor: pointer" (click)="changeView('liLive','divLiveClassContent')">
+        <li id="liLive" *ngIf="isShowLiveclass == 'true'" class="menu-item" style="cursor: pointer" (click)="changeView('liLive','divLiveClassContent')">
           <span>
             <a class="">Live Class</a>
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
@@ -83,7 +83,7 @@
           </span>
         </li>
         <!-- Added By Ashwini Gupta Ticket 826 -->
-        <li id="lieStore" class="menu-item" style="cursor: pointer" (click)="changeView('lieStore','diveStoreContent')">
+        <li id="lieStore" *ngIf="!schoolModel" class="menu-item" style="cursor: pointer" (click)="changeView('lieStore','diveStoreContent')">
           <span>
             <a class="">eStore</a>
             <i class="fas fa-line-chart" style="font-family: FontAwesome"></i>
@@ -181,7 +181,7 @@
                         GUARDIAN
                       </td>
                       <td>
-                        FACULTY
+                        Teacher
                       </td>
                       <td>
                         ADMIN
@@ -226,7 +226,7 @@
                       <td>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel">
                       <td>
 
                         Topics Covered in Class
@@ -424,7 +424,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Extra Class Notification
                         <!--<div class="questionInfo inline-relative">
@@ -521,7 +521,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Regular Class Notification
                         <!--<div class="questionInfo inline-relative">
@@ -624,7 +624,7 @@
                         </div>
                       </td>
                     </tr> -->
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Exam Schedule Notification
                         <!-- <div class="questionInfo inline-relative">
@@ -672,7 +672,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Exam Marks Notification
                         <!--<div class="questionInfo inline-relative">
@@ -1040,7 +1040,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Homework Assginment Notification
                         <!--<div class="questionInfo inline-relative">
@@ -1162,7 +1162,7 @@
                     </tr>
                     <tr>
                       <td>
-                        New Faculty Registration
+                        New Teacher Registration
                         <!--<div class="questionInfo inline-relative">
                           <span class="qInfoIcon i-class">i</span>
                           <div class="tooltip-box-field">
@@ -1193,7 +1193,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         Homework Reminder to Students
                         <div class="questionInfo inline-relative">
@@ -1249,10 +1249,10 @@
                   <tbody>
                     <tr style="height: 45px; background-color: #efefef">
                       <td class="tableHeader" colspan="6">
-                        FACULTY / ADMIN NOTIFICATIONS / REPORTS
+                        Teacher / ADMIN NOTIFICATIONS / REPORTS
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3>Exam Attendance Not Marked (Post 2 hours of Exam Completion)
@@ -1273,7 +1273,7 @@
                               <input type="checkbox" value="" name="ch303" class="form-checkbox"
                                 [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification.teacher"
                                 id="ch303">
-                              <label for="ch303">Faculty</label>
+                              <label for="ch303">Teacher</label>
                             </div>
                             <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch292" class="form-checkbox"
@@ -1313,7 +1313,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3>Exam Marks Not Updated (Within 5 days of Exam Completion)
@@ -1323,7 +1323,7 @@
                               <input type="checkbox" value="" name="ch313" class="form-checkbox"
                                 [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification.teacher"
                                 id="ch313">
-                              <label for="ch313">Faculty</label>
+                              <label for="ch313">Teacher</label>
                             </div>
                             <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch323" class="form-checkbox"
@@ -1351,7 +1351,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3> Exam Attendance Not Marked (Daily Reminder Until Marked)
@@ -1361,7 +1361,7 @@
                               <input type="checkbox" value="" name="ch031" class="form-checkbox"
                                 [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_daily_notification.teacher"
                                 id="ch031">
-                              <label for="ch031">Faculty</label>
+                              <label for="ch031">Teacher</label>
                             </div>
                             <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch354" class="form-checkbox"
@@ -1389,7 +1389,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3> Class Attendance Not Marked (Post 2 hours of Class Completion)
@@ -1399,7 +1399,7 @@
                               <input type="checkbox" name="ch353" class="form-checkbox"
                                 [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification.teacher"
                                 id="ch353">
-                              <label for="ch353">Faculty</label>
+                              <label for="ch353">Teacher</label>
                             </div>
                             <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" name="ch363" class="form-checkbox"
@@ -1427,7 +1427,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row" style="margin: 0;">
                           <h3> Class Attendance Not Marked (Daily Reminder Until Marked)
@@ -1448,7 +1448,7 @@
                               <input type="checkbox" value="" name="ch373" class="form-checkbox"
                                 [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_daily_notification.teacher"
                                 id="ch373">
-                              <label for="ch373">Faculty</label>
+                              <label for="ch373">Teacher</label>
                             </div>
                             <div class="field-checkbox-wrapper" style="width: 30%;">
                               <input type="checkbox" value="" name="ch383" class="form-checkbox"
@@ -1476,7 +1476,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row m-0" style="margin-top:10px">
                           <h3>Student Absenteeism Report</h3>
@@ -1626,7 +1626,7 @@
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="teacher_monthly_report" class="form-checkbox"
                                 [(ngModel)]="instituteSettingDet.teacher_monthly_report" id="teacher_monthly_report">
-                              <label for="teacher_monthly_report">Monthly Faculty Activity Report
+                              <label for="teacher_monthly_report">Monthly Teacher Activity Report
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
@@ -1646,7 +1646,7 @@
                             </div>
                           </div> -->
                         </div>
-                        <div class="row m-0 webkitBox" style="margin-top: 10px !important;">
+                        <div class="row m-0 webkitBox" *ngIf="!schoolModel"  style="margin-top: 10px !important;">
 
                           <div class="c-sm-9 c-lg-9 c-md-9" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
@@ -1693,7 +1693,7 @@
                             </div>
                           </div>
                         </div> -->
-                        <div class="row m-0">
+                        <div *ngIf="!schoolModel" class="row m-0">
                           <div class="c-sm-5 c-md-5 c-lg-5 field-wrapper"
                             [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
                             <label for="instenquiry">Email-ids to receive report (comman seperated)
@@ -1761,7 +1761,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="!schoolModel" >
                       <td>
                         <div class="row m-0">
                           <h3>Student Rank in Exam SMS </h3>
@@ -1811,7 +1811,7 @@
                     </tr>
                     <tr>
                       <td>
-                        <div class="row m-0">
+                        <div class="row m-0" *ngIf="!schoolModel" >
                           <h3>Grading System (Instead of Marks)</h3>
                           <div class="field-checkbox-wrapper checkbox-bundle-wrapper"
                             style="width: 100%;margin-top: 20px;">
@@ -1895,7 +1895,7 @@
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field xl">
                                     Weedend Setting: Select Days for weekends
-                                    <br>for yearly Schedule, On Weekends class 
+                                    <br>for yearly Schedule, On Weekends class
                                     <br>scheduling can not be done.
                                   </div>
                                 </div>
@@ -1913,10 +1913,11 @@
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field xl">
                                     Section / Day wise Attendance : Day/Section wise
-                                     <br>Attendace will help you to mark attendance 
-                                     <br>Section wise and day wise.
-                                     <br>Subject wise attendance: Select setting this to
-                                    <br> mark attendance Subject wise from the dashboard.                                  </div>
+                                    <br>Attendace will help you to mark attendance
+                                    <br>Section wise and day wise.
+                                    <br>Subject wise attendance: Select setting this to
+                                    <br> mark attendance Subject wise from the dashboard.
+                                  </div>
                                 </div>
                               </label>
                               <select id="mark_attendance_subject_wise" class="form-ctrl"
@@ -2194,24 +2195,25 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="c-lg-5" style="margin-top:15px">
-                          <div class="field-checkbox-wrapper" style="width: 100%">
-                            <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox"
-                              [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis" id="taxPayEnable">
-                            <label for="taxPayEnable">Tax payable on reverse charge basis (For Fee Receipt)
-                              <!-- <div class="questionInfo inline-relative">
-                                  <span class="qInfoIcon i-class">i</span>
-                                  <div class="tooltip-box-field">
-
-                                    Used in Fee
-                                    <br> Receipt Generation
-                                  </div>
-                                </div>-->
-                            </label>
+                        <div class="row m-0 webkitBox">
+                          <div class="c-lg-5" style="margin-top:15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox"
+                                [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis" id="taxPayEnable">
+                              <label for="taxPayEnable">Tax payable on reverse charge basis (For Fee Receipt)
+                              </label>
+                            </div>
+                          </div>
+                            <div class="c-lg-5" style="margin-top:15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox"
+                                [(ngModel)]="instituteSettingDet.is_fee_struct_link_with_cour_or_stand"
+                                id="fee_struct_link_with_cour_or_stand" (click)="isFeeStructureLikedWithStudent()">
+                              <label for="taxPayEnable" (click)="isFeeStructureLikedWithStudent()">Link Fee Structure With Standard/Course
+                              </label>
+                            </div>
                           </div>
                         </div>
-
                       </td>
                     </tr>
                     <tr>
@@ -2817,7 +2819,7 @@
                         GUARDIAN
                       </td>
                       <td>
-                        FACULTY
+                        Teacher
                       </td>
                       <td>
                         ADMIN
@@ -3068,7 +3070,7 @@
                         GUARDIAN
                       </td>
                       <td>
-                        FACULTY
+                        Teacher
                       </td>
                       <td>
                         ADMIN
@@ -3323,7 +3325,7 @@
 
       <!-- LIVE CLASS SETTING -->
 
-      <section id="divLiveClassContent" class="sectionDevideContainer">
+      <section id="divLiveClassContent" *ngIf="isShowLiveclass == 'true'" class="sectionDevideContainer">
         <div class="row m-0" style="width:100%">
           <div class="sms-setting-wrapper" style="margin-right: 0;">
             <div class="table-scroll-wrapper">
@@ -3349,7 +3351,7 @@
                         GUARDIAN
                       </td>
                       <td>
-                        FACULTY
+                        Teacher
                       </td>
                       <td>
                         ADMIN
@@ -3638,7 +3640,7 @@
       </section>
 
       <!-- Added by ashwini kumar gupta Ticket 826 -->
-      <section id="diveStoreContent" class="fee-content-wrapper sectionDevideContainer">
+      <section id="diveStoreContent" *ngIf="!schoolModel" class="fee-content-wrapper sectionDevideContainer">
         <div class="row m-0">
           <div class="fee-table-wrapper">
             <div class="table-scroll-wrapper">
@@ -3733,7 +3735,7 @@
                                 <input type="checkbox" class="form-checkbox"
                                   [(ngModel)]="instituteSettingDet.vimeo_video_download_visibility_filemanager.teacher"
                                   name="filemanager_teacher" id="filemanager_teacher">
-                                <label for="filemanager_teacher" style="transform: none;">Faculty</label>
+                                <label for="filemanager_teacher" style="transform: none;">Teacher</label>
                               </div>
                               <div class="field-checkbox-wrapper c-md-2" style="width: 20%;"
                                 [ngClass]="{'has-value':instituteSettingDet.vimeo_video_download_visibility_filemanager.admin != ''}">
@@ -4114,7 +4116,7 @@
                                 [(ngModel)]="instituteSettingDet.student_study_material_visibility"
                                 id="student_study_material_visibility">
                               <label for="student_study_material_visibility">Enable to Give Automatic Access of Study
-                                Material to Students for Assigned Courses</label>
+                                Material to Students for Assigned {{schoolModel ? 'Section' : 'Courses'}}</label>
                             </div>
                           </div>
 
@@ -4173,7 +4175,7 @@
                       </td>
                     </tr>
 
-                    <tr>
+                    <tr *ngIf="!schoolModel">
                       <td>
                         <h3>Student Expiry Notification (If date specified in student details)</h3>
                         <div class="row webkitBox">
@@ -4235,7 +4237,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="!schoolModel" >
                           <div class="c-sm-5 c-lg-5 c-md-5" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="isHomeWorkFeatureEnable" class="form-checkbox"
@@ -4247,7 +4249,7 @@
                           </div>
                         </div>
                         <div class="row"></div>
-                        <div class="field-checkbox-wrapper" style="margin-left: 10px;margin-top: 0;">
+                        <div *ngIf="!schoolModel" class="field-checkbox-wrapper" style="margin-left: 10px;margin-top: 0;">
                           <input type="checkbox" id="sendNotifctnBeforeExpiry"
                             [(ngModel)]="instituteSettingDet.course_or_batch_expiry_notification"
                             class="form-checkbox" />

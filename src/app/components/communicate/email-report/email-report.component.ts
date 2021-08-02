@@ -4,6 +4,8 @@ import { AppComponent } from '../../../app.component';
 import { getEmailService } from '../../../services/report-services/get-email.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { AuthenticatorService } from './../../../services/authenticator.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-email-report',
@@ -22,6 +24,7 @@ export class EmailReportComponent {
   searchData = [];
   searchflag: boolean = false;
   dataStatus: boolean = true;
+  isProfessional:boolean=false
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
@@ -42,7 +45,8 @@ export class EmailReportComponent {
   constructor(
     private apiService: getEmailService,
     private appC: AppComponent,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private router: Router
   ) {
     this.switchActiveView('email');
   }
@@ -68,8 +72,15 @@ export class EmailReportComponent {
         visibility: true
       },
       {
-        primary_key: 'message',
+        primary_key: 'subject',
         value: "Subject",
+        charactLimit: 60,
+        sorting: false,
+        visibility: true
+      },
+      {
+        primary_key: 'message',
+        value: "Message",
         charactLimit: 60,
         sorting: false,
         visibility: true
@@ -120,29 +131,42 @@ export class EmailReportComponent {
         textAlign: "left"
       },
       {
-        width: "17%",
-        textAlign: "left"
-      },
-      {
-        width: "33%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
-        textAlign: "left"
-      },
-      {
-        width: "10%",
+        width: "15%",
         textAlign: "left"
       },
       {
         width: "15%",
         textAlign: "left"
       },
+      {
+        width: "25%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
+      {
+        width: "10%",
+        textAlign: "left"
+      },
 
     ]
   }
   ngOnInit() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.pageIndex = 1;
     this.setTableData();
     this.getAllEmailMessages();
@@ -299,6 +323,10 @@ export class EmailReportComponent {
         }
       )
     }
+  }
+  sendNotifyPage(){
+   
+    this.router.navigateByUrl('/view/dashboard/send-notification')
   }
 }
 

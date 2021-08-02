@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
+declare var $;
 
 @Component({
     selector: 'student-batch-list',
@@ -83,6 +84,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
           )
 
         this.countryList = JSON.parse(sessionStorage.getItem('country_data'));
+        $('#batchListModal').modal('show');
     }
 
     ngOnInit() {
@@ -95,11 +97,13 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 this.cd.markForCheck();
                 this.filter(model);
             })
+            $('#batchListModal').modal('show');
     }
 
     ngOnChanges() {
         this.batchList = [];
         this.is_country_disabled = false;
+        $('#batchListModal').modal('show');
         this.getSettingsTemplateCountry();
         this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
@@ -154,6 +158,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     closeBatchAssign() {
         this.batchList = [];
+        $('#batchListModal').modal('hide');
         this.closeBatch.emit(false);
     }
 
@@ -170,7 +175,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     if (this.isProfessional) {
                         assignedBatches.push(this.dataList[i].data.batch_id.toString());
                         batchJoiningDates.push(moment(this.dataList[i].assignDate).format('YYYY-MM-DD'));
-                        assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
+                        // assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
                         batchString.push(this.dataList[i].data.batch_name);
                         if (this.dataList[i].data.academic_year_id == null || this.dataList[i].data.academic_year_id == undefined) {
                             assignedBatchescademicYearArray.push(this.defaultAcadYear);
@@ -185,7 +190,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     else {
                         assignedBatches.push(this.dataList[i].data.course_id.toString());
                         batchJoiningDates.push(moment(this.dataList[i].assignDate).format('YYYY-MM-DD'));
-                        assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
+                        // assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id.toString());
                         batchString.push(this.dataList[i].data.course_name);
                         if (this.dataList[i].data.academic_year_id == null || this.dataList[i].data.academic_year_id == undefined) {
                             assignedBatchescademicYearArray.push(this.defaultAcadYear);
@@ -230,6 +235,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules,
                 optional_subject_id: this.selectedSubList
             }
+            $('#batchListModal').modal('hide');
             this.assignList.emit(obj);
         }
         else {
@@ -244,11 +250,23 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules,
                 optional_subject_id: this.selectedSubList
             }
+            $('#batchListModal').modal('hide');
             this.assignList.emit(obj);
         }
     }
 
     batchChangeAlert(value, batch) {
+        let data=this.batchList;
+        if (this.checkForAssignSingleSection(value, batch.data.course_id)) {
+            for(let i=0;i<this.batchList.length;i++){
+                if(this.batchList[i].data.course_id==batch.data.course_id){
+                    this.batchList[i].isSelected=false;
+                    (document.getElementById('checkbox-' + i) as HTMLInputElement).checked = false;
+                    return ;
+                }
+            }
+            return;
+        }
         for (let i = 0; i < this.dataList.length; i++) {
             if (!this.isProfessional) {
                 if (this.dataList[i].data.course_id == batch.data.course_id) {
@@ -265,7 +283,34 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             }
         }
     }
+    checkForAssignSingleSection(value: boolean, course_id: number) {
+        if (this.schoolModel && value) {
+            let isValid = false;
+            for (let data of this.dataList) {
+                if (data.isSelected && data.data.course_id != course_id) {
+                    isValid = true;
+                    break;
+                }
+            }
+            if (isValid) {
+                for (let i = 0; i < this.dataList.length; i++) {
+                    if (this.dataList[i].data.course_id == course_id) {
+                        this.dataList[i].isSelected = false;
+                        let obj = {
+                            type: 'error',
+                            title: "You can not assign multiple section to student!",
+                            body: ""
+                        }
+                        this.appC.popToast(obj);
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                        return true;
+                    }
+                }
 
+            }
+        }
+    }
     assginTemplate(batch) {
         batch.data.feeTemplateList.map((template) => {
             if (batch.data.selected_fee_template_id == template.template_id) {
@@ -283,7 +328,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.dataList[index].isSelected = value;
             let todaysDate = new Date();
                 if(!(todaysDate <= new Date(this.dataList[index].data.end_date))){
-                    let msg = 'This course is already expired';
+                    let msg = this.schoolModel ? 'This section is already expired' : 'This course is already expired';
                     if(this.isProfessional) {
                         msg = 'This batch is already expired';
                     }
@@ -328,7 +373,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
                 /* if index is not null */
                 if (ind != null) {
-                    this.alertBox = false;
+                    // this.alertBox = false;
+                    this.unassign_course();
                     this.unselected_checkbox_id = index;
                     // if (confirm("If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?")) {
                     //     this.dataList[index].isSelected = false;

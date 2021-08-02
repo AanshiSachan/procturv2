@@ -13,7 +13,7 @@ import { HttpService } from '../../../services/http.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonApiCallService } from '../../../services/common-api-call.service';
-
+import CommonUtils from '../../../utils/commonUtils'
 
 @Component({
   selector: 'app-enquiry-add',
@@ -251,10 +251,10 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
-    if (this.schoolModel) {
       commonApiCallService.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
+      if (this.schoolModel) {
       commonApiCallService.getAllFinancialYear().subscribe(data => {
         this.instAcademicYrList = data
       })
@@ -429,10 +429,16 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     let data = JSON.parse(encryptedData);
     if (data.length > 0) {
       this.countryDetails = data;
-      this.newEnqData.country_id = this.countryDetails[0].id;
-      this.instituteCountryDetObj = this.countryDetails[0];
-      this.maxlength = this.countryDetails[0].country_phone_number_length;
-      this.country_id = this.countryDetails[0].id;
+      let defacult_Country = this.countryDetails.filter((country) => {
+        return country.is_default == 'Y';
+      })
+
+      if (this.newEnqData.country_id == "") {
+        this.newEnqData.country_id = defacult_Country[0].id;
+        this.instituteCountryDetObj = defacult_Country[0];
+        this.maxlength = defacult_Country[0].country_phone_number_length;
+        this.country_id = defacult_Country[0].id;
+      }
     }
   }
 
@@ -479,6 +485,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList() {
+    if(this.newEnqData.state_id != '') {
     const url = `/api/v1/country/city?state_ids=${this.newEnqData.state_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -493,9 +500,11 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   getAreaList() {
+    if (this.newEnqData.city_id != "" && this.newEnqData.city_id != "-1") {
     const url = `/api/v1/cityArea/area/${this.createSource.inst_id}?city_ids=${this.newEnqData.city_id}`
     this.auth.showLoader();
     this.httpService.getData(url).subscribe(
@@ -510,11 +519,13 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         this.showErrorMessage('error', '', err);
       }
     )
+    }
   }
 
   toggleAddArea() {
     if (this.addArea) {
       this.addArea = false;
+      this.getAreaList();
     }
     else {
       this.addArea = true;
@@ -1138,6 +1149,23 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
           this.newEnqData.is_follow_up_time_notification = 0;
         }
 
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.email)) {
+          this.showErrorMessage('error', '', "Please enter valid email id");
+          return;
+        }
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.email2)) {
+          this.showErrorMessage('error', '', "Please enter valid alternate email ID");
+          return;
+        }
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.parent_email)) {
+          this.showErrorMessage('error', '', "Please enter valid parent email ID");
+          return;
+        }
+        if (CommonUtils.isOptionalValidEmailId(this.newEnqData.guardian_email)) {
+          this.showErrorMessage('error', '', "Please enter valid guardian email ID");
+          return;
+        }
+  
         if (!this.isProfessional && (this.isEnquirySubmit)) {
           this.isEnquirySubmit = false;
           let obj: any = {
@@ -1154,7 +1182,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             demo_by_id: this.newEnqData.demo_by_id,
             discount_offered: this.newEnqData.discount_offered,
             dob: this.newEnqData.dob,
-            email: this.newEnqData.email,
+            email: this.newEnqData.email.trim(),
             email2: this.newEnqData.email2,
             enqCustomLi: this.newEnqData.enqCustomLi,
             enquiry: this.newEnqData.enquiry,
@@ -1206,6 +1234,9 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
             address: this.newEnqData.address
 
           }
+          this.newEnqData.parent_email = (this.newEnqData.parent_email) ? this.newEnqData.parent_email.trim() : '';
+          this.newEnqData.guardian_email = (this.newEnqData.guardian_email) ? this.newEnqData.guardian_email.trim() : '';
+          this.newEnqData.email2 = (this.newEnqData.email2) ? this.newEnqData.email2.trim() : '';
           if (this.convertEnquiry) {
             obj.user_id = this.newEnqData.user_id
           }
@@ -1303,7 +1334,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       phone: this.newEnqData.phone,
       email: this.newEnqData.email,
       gender: this.newEnqData.gender,
-      dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+      dob: this.fetchDate(this.newEnqData.dob),
       parent_email: this.newEnqData.parent_email,
       school_name: this.newEnqData.school_id,
       standard_id: this.newEnqData.standard_id,
@@ -1313,9 +1344,29 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
       institute_enquiry_id: instituteEnqId,
       school_id: this.newEnqData.school_id,
       curr_address: this.newEnqData.curr_address,
-      country_id: this.newEnqData.country_id
+      country_id: this.newEnqData.country_id,
+      assigned_to: this.newEnqData.assigned_to,
+      state_id: this.newEnqData.state_id,
+      area_id: this.newEnqData.area_id,
+      city_id: this.newEnqData.city_id,
+      comments: this.newEnqData.enquiry,
     }
-    console.log(obj);
+        obj.birth_place = this.newEnqData.birth_place,
+        obj.blood_group = this.newEnqData.blood_group,
+        obj.category = this.newEnqData.category,
+        obj.nationality = this.newEnqData.nationality,
+        obj.student_adhar_no = this.newEnqData.student_adhar_no,
+        obj.parent_adhar_no = this.newEnqData.parent_adhar_no,
+        obj.parent_profession = this.newEnqData.parent_profession,
+        obj.mother_tounge = this.newEnqData.mother_tounge,
+        obj.extra_curricular_activities = this.newEnqData.extra_curricular_activities,
+        obj.educational_group = this.newEnqData.educational_group,
+        obj.pin_code = this.newEnqData.pin_code,
+        obj.student_perm_addr = this.newEnqData.address,
+        obj.guardian_name = this.newEnqData.guardian_name,
+        obj.guardian_email = this.newEnqData.guardian_email,
+        obj.guardian_phone = this.newEnqData.guardian_phone,
+        obj.religion = this.newEnqData.religion
     if (!this.isProfessional) {
       obj.standard_id = this.course_standard_id;
     } else {
@@ -1324,6 +1375,7 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
     this.router.navigate(['/view/students/add']);
   }
+
 
   getFollowupTime(): any {
     let hour: any = parseInt(moment(new Date()).format('hh'));
@@ -1345,8 +1397,8 @@ export class EnquiryAddComponent implements OnInit, OnDestroy {
         }
         else {
           hour += 1;
-          let formattedNumber = (hour).slice(-2);
-          hour = formattedNumber.toString();
+          //let formattedNumber = (hour).slice(-2);
+          hour = hour.toString();
         }
       }
     }

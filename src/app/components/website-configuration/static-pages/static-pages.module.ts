@@ -8,6 +8,7 @@ import { AddEditComponent } from './add-edit/add-edit.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { ProductService } from '../../../services/products.service';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ProductService } from '../../../services/products.service';
   imports: [
     CommonModule,
     StaticPagesRoutingModule,
-    SharedModule
+    SharedModule,
+    EditorModule
   ],
   providers: [
     ProductService,

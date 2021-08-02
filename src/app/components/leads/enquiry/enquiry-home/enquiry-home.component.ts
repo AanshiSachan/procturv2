@@ -107,6 +107,7 @@ export class EnquiryHomeComponent implements OnInit {
         smsShowType: 'approvedSms',
         showDownloadSummary: false,
         isFilterApplied: false,
+        institute_email_quota_availabe:0
     };
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
@@ -313,8 +314,7 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'assigned_name', header: 'Assignee Name', priority: 9 },
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
         { primaryKey: 'standard', header: 'STD', priority: 11 },
-        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 },
-        { primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 }
+        { primaryKey: 'referred_by_name', header: 'Referred By', priority: 12 }
     ];
     assignMultipleForm: any = {
         enqLi: [],
@@ -371,6 +371,9 @@ export class EnquiryHomeComponent implements OnInit {
         this.auth.schoolModel.subscribe(data => {
             this.schoolModel = data;
         })
+        if(!this.schoolModel) {
+            this.enquirySettings.push({ primaryKey: 'noOfCoursesAssigned', header: 'No. of Courses Assigned', priority: 12 });
+        }
         this.actRoute.queryParams.subscribe(e => {
             if ((!this._commService.valueCheck(e.id))) {
                 if (this._commService.valueCheck(e.action)) {
@@ -503,7 +506,7 @@ export class EnquiryHomeComponent implements OnInit {
 
         if (sessionStorage.getItem('permissions') == undefined ||
             sessionStorage.getItem('permissions') == ''
-            || sessionStorage.getItem('username') == 'admin') {
+            || sessionStorage.getItem('username') == 'admin' || this.role_feature.LEAD_ENQUIRY_FULL_ACCESS) {
             this.varJson.showDownloadSummary = true;
         }
         this.checkRoleAccess();
@@ -1035,8 +1038,8 @@ export class EnquiryHomeComponent implements OnInit {
                 }
                 else {
                     hour += 1;
-                    let formattedNumber = ("0" + hour).slice(-2);
-                    hour = formattedNumber.toString();
+                    //let formattedNumber = ("0" + hour).slice(-2);
+                    hour = hour.toString();
                 }
             }
         }
@@ -1225,7 +1228,8 @@ export class EnquiryHomeComponent implements OnInit {
                 this.emailSourceApproved = [];
                 this.emailSourceOpen = [];
                 this.varJson.smsDataLength = data.length;
-                this.varJson.availableSMS = data[0].institute_sms_quota_available
+                this.varJson.availableSMS = data[0].institute_sms_quota_available;
+                this.varJson.institute_email_quota_available = data[0].institute_email_quota_available;
                 this.cd.markForCheck();
                 data.forEach(el => {
                     if (el.source === "SMS") {

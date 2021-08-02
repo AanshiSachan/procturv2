@@ -1,4 +1,4 @@
-<div id="addAccountModal" class="modal fade" role="dialog">
+<div id="addAccountModal" class="modal fade" role="dialog" data-backdrop="static">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -15,7 +15,7 @@
             <div class="payee-item field-wrapper">
               <label for="">Payee/Payer<span class="danger">*</span></label>
               <select class="form-ctrl" name="" [(ngModel)]="accountDetails.valuType">
-                <option value="0">Payee</option>
+                 <option value="0">Payee</option>
                 <option value="1">Payer</option>
               </select>
             </div>
@@ -36,14 +36,14 @@
             <div class="payee-item field-wrapper" *ngIf="accountDetails.valuType == '1'">
               <label for="">Payer<span class="danger">*</span></label>
               <select class="form-ctrl" name="" [(ngModel)]="accountDetails.displayPayeeName">
-                <option [value]="payeer.party_id" *ngFor="let payeer of payeerAccount">
+                 <option [value]="payeer.party_id" *ngFor="let payeer of payeerAccount">
                   {{payeer.display_name}}</option>
               </select>
             </div>
 
 
             <div class="payee-item field-wrapper">
-              <label for="">Account Name<span class="danger">*</span></label>
+              <label for="">Account Name <span class="danger">*</span><span class="danger" *ngIf="accountDetails.valuType == '3'">*</span></label>
               <input type="text" name="" value="" [(ngModel)]="accountDetails.accountName"
                 placeholder="Enter Account Name" class="form-ctrl">
             </div>
@@ -56,16 +56,20 @@
               </select>
             </div>
 
-            <div class="payee-item field-wrapper">
-              <label for="">Account Number<span class="danger" *ngIf="accountDetails.valuType == '0'">*</span></label>
+            <div class="payee-item field-wrapper" *ngIf="accountDetails.accountType == '3' || accountDetails.accountType == '0'">
+              <!-- <label for="">Account Number<span class="danger" *ngIf="accountDetails.valuType == '0'">*</span></label> -->
+              <label for="">Account Number</label>
+
               <input type="text" name="" value="" [(ngModel)]="accountDetails.accountNumber"
                 placeholder="Enter Account Number" class="form-ctrl">
             </div>
 
 
 
-            <div class="payee-item field-wrapper" *ngIf="accountDetails.accountType == '0'">
-              <label for="">IFSC Code<span class="danger" *ngIf="accountDetails.valuType !== '1'">*</span></label>
+            <div class="payee-item field-wrapper" *ngIf="accountDetails.accountType == '3' || accountDetails.accountType == '0'">
+              <!-- <label for="">IFSC Code<span class="danger" *ngIf="accountDetails.valuType !== '1'">*</span></label> -->
+              <label for="">IFSC Code</label>
+
               <input type="text" name="" value="" [(ngModel)]="accountDetails.IFSC_Code" placeholder="Enter IFSC Code"
                 class="form-ctrl">
             </div>
@@ -73,7 +77,7 @@
 
 
             <div class="payee-item field-wrapper">
-              <label for="">Description<span class="danger">*</span></label>
+              <label for="">Description</label>
               <input type="text" name="" value="" [(ngModel)]="accountDetails.accountDescription"
                 placeholder="Enter Account Description" class="form-ctrl">
             </div>

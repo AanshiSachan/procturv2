@@ -49,7 +49,7 @@
         </div>
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-wrapper">
-            <label>Faculty Name
+            <label>Teacher Name
               <span class="text-danger">*</span>
             </label>
             <select id="" class="form-ctrl halfwidth" name="row.teacher_id" [(ngModel)]="addNewBatch.teacher_id">
@@ -182,7 +182,7 @@
                   <label style="cursor:pointer;" (click)="sortTable('subject_name')">Course</label>
                 </th>
                 <th>
-                  <label style="cursor:pointer;" (click)="sortTable('teacher_name')">Faculty</label>
+                  <label style="cursor:pointer;" (click)="sortTable('teacher_name')">Teacher</label>
                 </th>
                 <th>
                   <label style="cursor:pointer;" (click)="sortTable('start_date')">Start Date</label>
@@ -479,9 +479,9 @@
                 <th>
                   Academic Year
                 </th>
-                <th>
+                <!-- <th>
                   Fee Template
-                </th>
+                </th> -->
               </tr>
             </thead>
             <tbody>
@@ -524,7 +524,7 @@
                     </select>
                   </div>
                 </td>
-                <td>
+                <!-- <td>
                   <div class="field-wrapper">
                     <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"
                       style="background: transparent">
@@ -535,7 +535,7 @@
                       </option>
                     </select>
                   </div>
-                </td>
+                </td> -->
               </tr>
               <tr *ngIf="(dataTable.length == 0)">
                 <td colspan="8">

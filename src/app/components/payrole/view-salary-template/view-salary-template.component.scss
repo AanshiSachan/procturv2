@@ -1,0 +1,29 @@
+
+.info-box span {
+    width: 50%;
+    display: inline-block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+}
+.box {
+    position: relative;
+    background: #ffffff;
+    margin-bottom: 20px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 100%;
+   
+}
+.table-bordered > tbody > tr > td {
+    border-color: #E2E7EB;
+    font-size: 12px;
+    text-align: initial;
+}
+.box .box-body {
+    padding: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}

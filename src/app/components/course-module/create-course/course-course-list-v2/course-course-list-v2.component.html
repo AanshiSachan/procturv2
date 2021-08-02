@@ -1,0 +1,401 @@
+<div class="tab-content">
+  <div id="one" class="tab-pane active">
+    <div class="w98">
+      <div class="pt15 display" style="justify-content:unset;">
+        <div style="display: flex; width: 40%;">
+
+          <div *ngIf="!schoolModel">
+            <select class="select w200" [(ngModel)]="master_course_id" (ngModelChange)="fetchCourseDetails($event)">
+              <option value="-1">Select Master Course*</option>
+              <option value="{{mc.master_course_id}}" *ngFor="let mc of masterCourseData">{{mc.master_course_name}}
+              </option>
+            </select>
+          </div>
+          <div *ngIf="schoolModel">
+            <select class="select w200" [(ngModel)]="master_course_id" (ngModelChange)="fetchCourseDetails($event)">
+              <option value="-1">Select Standard*</option>
+              <option value="{{mc.standard_id}}" *ngFor="let mc of standardList">{{mc.standard_name}}</option>
+            </select>
+          </div>
+
+          <div style="margin-left: 15px;">
+            <select class="select w200" [(ngModel)]="acad_year_id" (ngModelChange)="fetchCourseDetails($event)">
+              <option value="-1">Select Academic Year*</option>
+              <option value="{{mc.inst_acad_year_id}}" *ngFor="let mc of academicList">{{mc.inst_acad_year}}</option>
+            </select>
+          </div>
+
+          <!-- <div>
+            <div style="width:100px;margin-left: 15px;margin-top: 10px;">
+              <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" id="allow" value="" [(ngModel)]="is_active" (ngModelChange)="fetchCourseDetails(is_active)" name="allow">
+                  <span class="checkbox__control">
+                    <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
+                    </svg>
+                  </span>
+                </span>
+              </label>
+              <span>Is Active</span>
+            </div>
+          </div> -->
+        </div>
+        <div class="searchClass">
+          <div style="margin-right: 10px;">
+            <input type="text" class="select w200" placeholder="Search" [(ngModel)]="Search_criteria">
+          </div>
+          <div class="blue_button" style="margin-right: 15px;" (click)="fetchCourseDetails(Search_criteria)">
+            Go
+          </div>
+          <div class="blue_button" style="margin-right: 15px;" routerLink="../add">
+            <span>Add {{schoolModel? 'Section' : 'Course'}}</span>
+          </div>
+          <!-- <div *ngIf="!schoolModel">
+            <a href="" data-toggle="modal" data-target="#courseModal"> <button class="blue_button">Add Master
+                Course</button></a>
+          </div> -->
+        </div>
+      </div>
+      <!-- <div class="pt15 flex" [ngClass]="{'centerFlex': schoolModel}">
+        <div class="flex" *ngIf="masterCourseObj.master_course_name!='' && !schoolModel">
+          <div class="master_c">
+            Master Course :
+          </div>
+          <div>
+            <span class="mc_name" style="top: -6px;">{{masterCourseObj.master_course_name}}</span><img
+              data-toggle="modal" data-target="#courseModal" src="../../../../assets/img1/edit.svg"
+              (click)="editMasterC=true;createMasterCourseModel=masterCourseObj;" class="pointer">
+          </div>
+        </div>
+        <div class="flex" [ngClass]="{'space_flex': !schoolModel}" *ngIf="masterCourseObj.standard_name!=''">
+          <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+          <div class="std">Standard: {{masterCourseObj.standard_name}}</div>
+          <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+        </div>
+      </div> -->
+      <!-- use image only when page is empty,table body class element will not be present -->
+      <br>
+      <div class="outter_flex" *ngFor="let mc of courseData">
+        <div class="flex mc_class">
+          <div>
+            <span class="mr10">{{mc.master_course_name}}</span>
+            <img data-toggle="modal" *ngIf="!schoolModel" data-target="#courseModal" src="../../../../assets/img1/edit.svg"
+            (click)="editMcFun(mc)" class="pointer">
+        </div>
+          <div class="flex" [ngClass]="{'space_flex': !schoolModel}" *ngIf="mc.course_list && mc.course_list[0].standard_name!=''">
+            <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+            <div class="std">Standard: {{mc.course_list[0].standard_name}}</div>
+            <div class="wline"><img src="../../../../assets/img1/line.svg"></div>
+          </div>
+        </div>
+        <!-- <div class="firstchild" *ngIf="master_course_id!='-1'">
+          <a routerLink="../add" (click)="setAddCourseSession()">
+            <div>
+              <span>
+                <p>+</p>
+                <p>Add {{schoolModel? 'Section' : 'Course'}}</p>
+              </span>
+            </div>
+          </a>
+        </div> -->
+        <div *ngFor="let course of mc.course_list">
+          <div class="display name course_name pbt10">
+            <div class="line0">{{course.course_name}}</div>
+            <div style="line-height: unset;"><a routerLink="../edit/{{course.course_id}}"><img style="width: 30px;height: 20px;"
+                  src="../../../../assets/img1/edit.svg"></a></div>
+          </div>
+          <div class="name1"></div>
+          <!-- <div class="flex">
+            <div class="name2">
+              Start Date :
+            </div>
+            <div class="value2">
+              {{course.start_date}}
+            </div>
+          </div> -->
+          <!-- <div class="flex">
+            <div class="name2">
+              Course Name :
+            </div>
+            <div class="value2">
+              {{course.course_name}}
+            </div>
+          </div> -->
+          <div class="flex">
+            <div class="name2">
+              End Date :
+            </div>
+            <div class="value2" [ngStyle]="{'color':(course.activeDate)?'#222529':'red'}">
+              {{course.end_date}}
+            </div>
+          </div>
+          <!-- <div class="flex">][page`/.,]
+            <div class="name2">
+              Subjects :
+            </div>
+            <div class="value2">
+              {{course.subject_list}}
+            </div>
+          </div> -->
+          <!-- <div class="flex">
+            <div class="name2">
+              Academic Year :
+            </div>
+            <div class="value2">
+              {{course.academic_year}}
+            </div>
+          </div> -->
+          <div class="flex">
+            <div class="name2">
+              Total Students :
+            </div>
+            <div class="value2 display">
+              <div>{{course.total_students}}</div>
+              <div class="add_s" *ngIf="!schoolModel" (click)="addStudentToBatch(course)">Assign /Unassign </div>
+            </div>
+          </div>
+          <!-- <div class="flex">
+            <div class="name2">
+              <div class="add_s"><a routerLink="../edit/{{course.course_id}}">Edit</a>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="outter_flex" style="justify-content: center;" *ngIf="!courseData?.length">
+        <img src="../../../assets/images/course/std_no_data.svg" style="margin-top: 5%;" *ngIf="schoolModel">
+        <img src="../../../assets/images/course/Section_no_data.png" style="margin-top: 5%;" *ngIf="!schoolModel">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =============================================================================== -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="addStudentPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeStudentPopup()">
+        <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet"
+          viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path class="large-icon"
+            d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+            style="fill: currentColor"></path>
+        </svg>
+      </span>
+      <div class="popup-content student-assign-popup">
+        <div class="row popup-title">
+          <h2>{{schoolModel ? 'Section' : 'Course'}} :
+            <span>{{courseDetails.course_name}}</span>
+          </h2>
+        </div>
+
+        <div class="row filter-section">
+          <div class="c-sm-4 c-md-4 c-lg-4 radio-button" *ngIf="!schoolModel">
+            <div class="field-radio-wrapper">
+              <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0"
+                [(ngModel)]="searchFilter.unassignFlag" (ngModelChange)="onRadioButtonChange()">
+              <label for="bothRadio">Both</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio"
+                [(ngModel)]="searchFilter.unassignFlag" (ngModelChange)="onRadioButtonChange()">
+              <label for="assignRadio">Assigned</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio"
+                [(ngModel)]="searchFilter.unassignFlag" (ngModelChange)="onRadioButtonChange()">
+              <label for="unassignStudent">UnAssigned</label>
+            </div>
+          </div>
+          <div class="c-sm-7 c-md-7 c-lg-7" style="float: right;">
+
+            <div class="c-sm-6 c-md-6 c-lg-6">
+              <div class="field-wrapper" *ngIf="!schoolModel">
+                <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard" id="standard">
+                  <option value="-1">Select Standard</option>
+                  <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                    {{opt.standard_name}}
+                  </option>
+                </select>
+
+              </div>
+            </div>
+
+            <div class="c-sm-2 c-md-2 c-lg-2">
+              <button class="btn" *ngIf="!schoolModel" (click)="getAllStudentList()">Go</button>
+            </div>
+
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="search-filter-wrapper">
+                <input #searchVal type="text" style="width: 140px;" class="normal-field" placeholder="Search" id="searchStudent"
+                  name="searchData" [(ngModel)]="searchData">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div *ngIf="showTable">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <th>
+                  <div class="field-checkbox-wrapper">
+                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked"
+                      (click)="selectAllCheckBox(idSelectAll)">
+                    <!-- [attr.disabled] = "searchFilter.unassignFlag == 1 ? 'disabled' : null" -->
+                    <label></label>
+                  </div>
+                </th>
+                <th>
+                  ID
+                </th>
+                <th>
+                  Country
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Contact No.
+                </th>
+                <th>
+                  Standard
+                </th>
+                <!-- <th>
+                  Academic Year
+                </th> -->
+                <!-- <th>
+                  Fee Template
+                </th> -->
+              </thead>
+              <tbody>
+                <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
+                  <td>
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox"
+                        [(ngModel)]="row.assigned"> <!-- [disabled]="row.immutableKey" -->
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>
+                    {{row.student_disp_id}}
+                  </td>
+                  <td [title]="row.country_name">
+                    {{row.country_code}}
+                  </td>
+                  <td>
+                    {{row.student_name}}
+                  </td>
+                  <td>
+                    {{row.student_phone}}
+                  </td>
+                  <td>
+                    {{row.student_class}}
+                  </td>
+                  <!-- <td>
+                    <div class="field-wrapper">
+                      <select class="form-ctrl" [disabled]="true"
+                        [ngStyle]="{'background':courseDetails.academic_year_id? 'lightgrey':'','cursor':courseDetails.academic_year_id ? 'not-allowed':''}"
+                        [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
+                        <option value="-1">Select</option>
+                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                          {{opt.inst_acad_year}}
+                        </option>
+                      </select>
+                    </div>
+                  </td> -->
+                  <!-- <td>
+                    <div class="field-wrapper">
+                      <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"
+                        style="background: transparent">
+                        <option value="-1">Select</option>
+                        <option *ngFor="let opt of setDefaultTemplate(row.country_id,feeTemplateDataSource,row)"
+                          [value]="opt.template_id">
+                          <label title="{{opt.template_name}}">
+                            {{ (opt.template_name.length > 20) ? (opt.template_name | slice:0:20) + '...' :opt.template_name }}
+                          </label>
+                        </option>
+                      </select>
+                    </div>
+                  </td> -->
+                </tr>
+                <tr *ngIf="(studentList.length == 0)">
+                  <td colspan="9">
+                    No Student Details Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row btn-section" style="margin: 10px 10px 0 0;">
+            <button class="btn fullBlue pull-right" (click)="saveChanges()">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section [hidden]="alertBox">
+  <div class="confirmation_popup">
+    <div class="confirm_title">
+      <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: rgba(255,0,0,0.7);"></i> &nbsp;
+      <span>Alert</span>
+    </div>
+    <div class="confirmation_msg_box">
+      <span id="confirm_msg">Do you wish to unassign student from the course?</span>
+    </div>
+    <br>
+    <div class="field-checkbox-wrapper">
+      <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee" class="form-checkbox">
+      <label> Delete unpaid fees installments</label>
+    </div>
+    <div class="confirmation_button_container">
+      <input type="button" value="Yes" class="btn" (click)="unassign_course()">
+      <input type="button" value="No" class="btn" (click)="closeAlert()">
+      <!-- <input type="button" value="Cancel" class="btn" (click)="closeAlert()"> -->
+    </div>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">
+
+</div>
+
+<div class="modal" id="courseModal" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit {{schoolModel ? 'Section' : 'Master Course'}}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="pt10">
+          <input type="text" class="wid100 input" [(ngModel)]="createMasterCourseModel.master_course_name" name=""
+            placeholder="Master Course*">
+        </div>
+        <div class="pt10">
+          <select class="wid100 select" [(ngModel)]="createMasterCourseModel.standard_id" disabled>
+            <option value="-1">Standard Name*</option>
+            <option value="{{std.standard_id}}" *ngFor="let std of standardList">{{std.standard_name}} </option>
+          </select>
+        </div>
+
+        <div class="pt101 display">
+          <div></div>
+          <div>
+
+            <button (click)="saveMasterC()" class="blue_button mr10">{{editMasterC ? 'Update' : 'Add'}}</button>
+            <button data-dismiss="modal" (click)="clearMasterCourse()" class="white_button">Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

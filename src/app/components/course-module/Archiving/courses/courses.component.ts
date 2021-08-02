@@ -181,7 +181,7 @@ export class CoursesComponent implements OnInit {
       }
       else {
         this.sendPayload.archived = false;
-        if (confirm('Are you sure, you want to Archive?')) {
+        if (confirm('Are you sure, you want to Delete?')) {
           this.batch.courses(this.sendPayload).subscribe(
             (data: any) => {
               if (data.status_code == 202) {
@@ -192,7 +192,7 @@ export class CoursesComponent implements OnInit {
                       this.router.navigateByUrl("/view/course/archiving/coursesArchivedReport")
                       let msg = {
                         type: "success",
-                        body: "Course(s) archived successfully"
+                        body: "Course(s) deleted successfully"
                       }
                       this.appc.popToast(msg);
                     },
@@ -207,10 +207,10 @@ export class CoursesComponent implements OnInit {
                 }
               }
               else {
-                this.router.navigateByUrl("/view/activity/archiving/coursesArchivedReport")
+                this.router.navigateByUrl("/view/course/archiving/coursesArchivedReport")
                 let msg = {
                   type: "success",
-                  body: "Course(s) archived successfully"
+                  body: "Course(s) deleted successfully"
                 }
                 this.appc.popToast(msg);
               }
@@ -235,7 +235,7 @@ export class CoursesComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-        if (confirm('Are you sure, you want to Archive?')) {
+        if (confirm('Are you sure, you want to Delete?')) {
           this.batch.batches(this.sendPayloadBatch).subscribe(
             (data: any) => {
               if (data.status_code == 202) {
@@ -243,10 +243,10 @@ export class CoursesComponent implements OnInit {
                   this.sendPayloadBatch.archived = true;
                   this.batch.batches(this.sendPayloadBatch).subscribe(
                     (data: any) => {
-                      this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                      this.router.navigateByUrl("/view/course/archiving/batchesArchivedReport")
                       let msg = {
                         type: "success",
-                        body: "Batch(s) archived successfully"
+                        body: "Batch(s) deleted successfully"
                       }
                       this.appc.popToast(msg);
                     },
@@ -261,10 +261,10 @@ export class CoursesComponent implements OnInit {
                 }
               }
               else {
-                this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                this.router.navigateByUrl("/view/course/archiving/batchesArchivedReport")
                 let msg = {
                   type: "success",
-                  body: "Batch(s) archived successfully"
+                  body: "Batch(s) deleted successfully"
                 }
                 this.appc.popToast(msg);
               }
@@ -275,10 +275,10 @@ export class CoursesComponent implements OnInit {
                   this.sendPayloadBatch.archived = true;
                   this.batch.batches(this.sendPayloadBatch).subscribe(
                     (data: any) => {
-                      this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                      this.router.navigateByUrl("/view/course/archiving/batchesArchivedReport")
                       let msg = {
                         type: "success",
-                        body: "Batch(s) archived successfully"
+                        body: "Batch(s) deleted successfully"
                       }
                       this.appc.popToast(msg);
                     },

@@ -1,0 +1,102 @@
+// .box .box-header > .fa, .box .box-header > .glyphicon, .box .box-header > .ion, .box .box-header .box-title {
+//     display: inline-block;
+//     padding: 15px;
+//     margin: 0;
+//     font-size: 14px;
+//     font-weight: 400;
+//     float: left;
+//     cursor: default;
+//     color: #FFFFFF;
+//     font-family: "OpenSans Regular";
+// }
+// .row {
+//     margin-right: 2px;
+//     margin-left: 0px;
+// }
+// .info-box span {
+//     width: 50%;
+//     display: inline-block;
+// }
+// .box {
+//     position: relative;
+//     background: #ffffff;
+//     margin-bottom: 20px;
+//     -webkit-border-radius: 3px;
+//     -moz-border-radius: 3px;
+//     border-radius: 3px;
+//     width: 100%;
+   
+// }
+// .table-bordered > tbody > tr > td {
+//     border-color: #E2E7EB;
+//     font-size: 12px;
+//     text-align: initial;
+// }
+.box.box-primary {
+    border-top-color: #3c8dbc;
+}
+.box .box-body {
+    padding: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.text-center {
+    text-align: center;
+}
+.text-muted {
+    color: #999;
+}
+.profile-user-img {
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    padding: 3px;
+    border: 3px solid #d2d6de;
+}
+.img-circle {
+    border-radius: 50%;
+}
+.nav-tabs-custom > .tab-content {
+    background: #fff;
+    padding: 10px;
+}
+.tab-content>.active {
+    display: block;
+}
+.box {
+    position: relative;
+    background: #ffffff;
+    margin-bottom: 20px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 100%;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #555;
+     cursor: default;
+     background-color: #fff;
+     border: 1px solid #ddd; 
+    border-bottom-color: transparent;
+}
+.body{
+   
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
+        background-color: #f0f3f5;
+        border: 1px solid #E2E7EB;
+        border-radius: 4px;
+    
+}
+.box-title{
+color: #1a2229;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    padding-top: 2%;
+    margin-left: 11px;
+   
+}

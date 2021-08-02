@@ -4,7 +4,7 @@
     <div>
       <h1 class="pull-left">
         <a routerLink="/view/e-store/home" style="padding:0px; ">
-          eStore
+          Store
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         <span>Registered User</span>
@@ -247,9 +247,9 @@
             {{(data.open_user_status != '-') ? (data.open_user_status) : '-'}}
           </div>
           <div class="table_value_item" style="width: 15%;">
-            <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == '-'" [info]="data"
+            <drop-menu [dropType]="dropType" *ngIf="data.open_user_status == '-' && menuOptions?.length" [info]="data"
               [menuOptions]="menuOptions" (selectedRecord)="optionSelected($event)"></drop-menu>
-            <span *ngIf="data.open_user_status != '-'">
+            <span *ngIf="data.open_user_status != '-' || !menuOptions?.length">
               <button aria-expanded="true" style="cursor: no-drop;opacity: 0.5;" class="d-item dropdown-trigger">
                 <span class="d-item svg-icon-wrap">
                   <span class="visually-hidden"></span>

@@ -61,7 +61,7 @@
 
                                             <div *ngIf="name.invalid && (name.dirty || name.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="name.errors.required">
+                                                <div class="text-danger" *ngIf="name.errors.required">
                                                     name is required.
                                                 </div>
                                             </div>
@@ -146,7 +146,7 @@
 
                                             <div *ngIf="email.invalid && (email.dirty || email.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="email.errors.pattern">
+                                                <div class="text-danger" *ngIf="email.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>
@@ -239,11 +239,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="schoolModel">
+                                <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
                                             <label for="pin_code">Pin code</label>
-                                            <input type="text" value="" id="pin_code" class="form-ctrl"
+                                            <input type="text" value="" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="pin_code" class="form-ctrl"
                                                 [(ngModel)]="newEnqData.pin_code" name="pin_code" #pin_code="ngModel"
                                                 style="border-radius: 4px;width: 20rem;" />
                                         </div>
@@ -306,7 +306,7 @@
 
                                             <div *ngIf="email2.invalid && (email2.dirty || email2.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="email2.errors.pattern">
+                                                <div class="text-danger"*ngIf="email2.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>
@@ -314,7 +314,7 @@
                                     </div>
                                 </div>
                                 <!-- School related new field -->
-                                <div *ngIf="schoolModel">
+                                <div>
                                     <div class="row">
                                         <div class="c-lg-6 c-md-6 c-sm-6">
                                             <div class="field-wrapper">
@@ -336,7 +336,7 @@
                                     <div class="row">
                                         <div class="c-lg-6 c-md-6 c-sm-6">
                                             <div class="field-wrapper">
-                                                <label for="feeCommitted">Mother Tounge</label>
+                                                <label for="feeCommitted">Mother Tongue</label>
                                                 <select id="mother_tounge" class="form-ctrl"
                                                     [(ngModel)]="newEnqData.mother_tounge" name="mother_tounge"
                                                     style="border-radius: 4px;width: 20rem;">
@@ -445,13 +445,13 @@
 
                                             <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="guardianEmail.errors.pattern">
+                                                <div class="text-danger" *ngIf="guardianEmail.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="schoolModel">
+                                    <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
                                             <label for="enquirerLink">Parent profession</label>
                                             <select id="parent_profession" class="form-ctrl"
@@ -465,7 +465,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="schoolModel">
+                                <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
                                             <label for="guardianEmail">Parent Aadhar No.</label>
@@ -484,7 +484,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf="schoolModel">
+                                <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- Phone -->
                                         <div class="field-wrapper">
@@ -517,7 +517,7 @@
                                                 #guardian_email="ngModel" style="border-radius: 4px;width: 20rem;" />
                                                 <div *ngIf="guardian_email.invalid && (guardian_email.dirty || guardianEmail.touched)"
                                                 class="alert invalid-alert">
-                                                <div *ngIf="guardian_email.errors.pattern">
+                                                <div class="text-danger" *ngIf="guardian_email.errors.pattern">
                                                     Enter email in format eg. someone@xyz.com
                                                 </div>
                                             </div>
@@ -575,7 +575,7 @@
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <!-- school -->
                                         <div class="field-wrapper">
-                                            <label for="institutionName">Institution Name</label>
+                                            <label for="institutionName">{{schoolModel ? 'School' : 'Institution'}} Name</label>
                                             <select id="institutionName" class="form-ctrl"
                                                 [(ngModel)]="newEnqData.school_id" name="institutename"
                                                 style="border-radius: 4px;width: 20rem;">
@@ -622,7 +622,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" *ngIf='schoolModel'>
+                                <div class="row">
                                     <div class="c-lg-6 c-md-6 c-sm-6">
                                         <div class="field-wrapper">
                                             <label for="educational_group">Group</label>
@@ -734,7 +734,7 @@
                                                     <label *ngIf="component.is_required == 'Y'"
                                                         for="{{component.id}}">{{component.label}}<span
                                                             class="text-danger">*</span></label>
-                                                    <label *ngIf="component.is_required == 'N'"
+                                                    <label style="margin-top: -7px;" *ngIf="component.is_required == 'N'"
                                                         for="{{component.id}}">{{component.label}}
                                                     </label>
                                                 </div>
@@ -897,7 +897,7 @@
                             <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
                                 <label for="eStatus">Enquiry Status</label>
                                 <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status"
-                                    style="width: 9rem;border-radius: 4px;" disabled>
+                                    style="width: 8rem;border-radius: 4px;" disabled>
                                     <option value="-1"></option>
                                     <option *ngFor="let status of enqstatus" [value]="status.data_key"
                                         [attr.selected]="status.data_value == 'Open' ? '' : null"
@@ -925,7 +925,7 @@
                                 <label for="followUpType">Follow Up Type <span class="text-danger">*</span>
                                 </label>
                                 <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type"
-                                    name="followtype" style="width: 9rem;border-radius: 4px;">
+                                    name="followtype" style="width: 8rem;border-radius: 4px;">
                                     <option value="-1"></option>
                                     <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
                                         {{followUp.data_value}}

@@ -1,1 +1,48 @@
-<router-outlet></router-outlet>
+ <div>
+    <div class="w98 p-15">
+       <div class="display">
+       <div>
+        <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb arr-right">
+                <li style="color: #0084f6;" class="breadcrumb-item ">Fees</li>
+                <li class="breadcrumb-item "><a>Setup</a></li>
+                
+            </ol>
+           
+        </nav>
+       </div>
+       <div>
+       <ul class="right_ul">
+            <li>
+                <div class="tooltip1">Tax Setting {{is_tax_enabled?"Enabled":"Disable"}}
+                    <span class="tooltiptext1">If you want to {{is_tax_enabled?"Enabled":"Disable"}} this setting. Please connect with Proctur Support Team!</span>
+                </div>
+            </li>
+            <li>
+                <div class="tooltip2">Fee Structure{{isFeeStructLinked?" ":" Not "}}Linked With {{schoolModel?"Standard":"Course"}}
+                    <span class="tooltiptext2">If you want to {{is_tax_enabled?"Enabled":"Disable"}} this Setting. Click on Setting Icon->Institute Settings -> Fee -> Link Fee Structure With Standard/Course</span>
+                  </div>
+            </li>
+       </ul>
+     
+       </div>
+       </div>
+        <ul class="nav main-shadow">
+            <li class="nav-item">
+                <a class="nav-link" (click)="toggle('fee_types')" routerLink="/view/fee/data-setup/fee-type"
+                    [ngClass]="(activeSession == 'fee_types') ? 'active' : ''">Fee Types</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="toggle('structure')" routerLink="/view/fee/data-setup/fee-structure"
+                    [ngClass]="(activeSession == 'structure') ? 'active' : ''">Fee Structure</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="toggle('discount')" routerLink="/view/fee/data-setup/discount-reason"
+                    [ngClass]="(activeSession == 'discount') ? 'active' : ''">Discount Reason</a>
+            </li>
+        </ul>
+    </div>
+    
+    
+  </div> 
+  <router-outlet></router-outlet>

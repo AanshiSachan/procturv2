@@ -1,0 +1,1388 @@
+<div class="page-content">
+    <div class="w981 main_div">
+      <div>
+        <div class="settings">
+          <span>
+            <img src="../../../../assets/images/settings.svg">
+            <span class="position">Settings</span>
+          </span>
+        </div>
+        <ul class="menu">
+          <li  (click)="scrollTo('section1')" [ngClass]="{ 'selected': currentSection === 'section1'}"><a>Email Settings</a></li>
+          <li  (click)="scrollTo('section2')" [ngClass]="{ 'selected': currentSection === 'section2'}"><a>Online Payment</a> </li>
+          <li  (click)="scrollTo('section3')" [ngClass]="{ 'selected': currentSection === 'section3'}"><a>Online Fees Collections </a></li>
+          <li  (click)="scrollTo('section4')" [ngClass]="{ 'selected': currentSection === 'section4'}"><a>Tax Setting</a></li>
+          <li  (click)="scrollTo('section5')" [ngClass]="{ 'selected': currentSection === 'section5'}"><a>Receipt Setting </a></li>
+          <li  (click)="scrollTo('section6')" [ngClass]="{ 'selected': currentSection === 'section6'}"><a>Fees Notification Setting</a></li>
+        </ul>
+      </div>
+      <div class="scrool1">
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse">E</span><span class="blue_line"></span>
+          </div>
+          <div>
+            <p class="blue_settings" id="section1">
+              Email Settings
+            </p>
+            <p class="bold_settings">
+              Accounts Email Sender ID
+            </p>
+             <p class="black_settings1">
+              Fees related notifications will recive on specified Email ID.
+             </p>
+             <input type="text" class="input" name="" placeholder="Email Sender ID">
+          </div>
+        
+        </div>
+        <div class="sep_line"></div>
+         <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">E</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+              Specify Email-Ids for Fee Activites / Reports
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+             <input type="text" class="input" name="" placeholder="Email Sender ID">
+          </div>
+        
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">G</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+             Enable PDC Reminder
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+              <p class="black_settings1"  *ngIf="(instituteSettingDet.pdc_reminder_setting == 1)">
+              No of Days before Cheque Date
+             </p>
+             <input type="text" class="input" name="pdc_reminder_setting"  [(ngModel)]="instituteSettingDet.pdc_reminder_setting" id="ch90" placeholder="2">
+          </div>
+          <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section2">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse">O</span><span class="blue_line"></span>
+          </div>
+          <div>
+            <p class="blue_settings">
+            Online Payment
+            </p>
+            <p class="bold_settings">
+             Enable Online Payment
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+             <p class="black_settings1">Institute Online Payment  Account ID</p>
+             <input type="text" class="input" name="" placeholder="2">
+          </div>
+          <div class="toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section3">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse">O</span><span class="blue_line"></span>
+          </div>
+          <div>
+            <p class="blue_settings">
+           Online Fees Collection Setting
+            </p>
+            <p class="bold_settings">
+           Enable Online Fee Collection Email
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+             <p class="black_settings1">Email ID(s) For Online Fee Collection Email</p>
+             <input type="text" class="input" name="" placeholder="">
+          </div>
+          <div class="toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">O</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Enable Online Fee Collection SMS
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+             <p class="black_settings1">Mobile No For Online Fee Collections SMS </p>
+             <input type="text" class="input" name="" placeholder="">
+          </div>
+          <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section4">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse">T</span><span class="blue_line"></span>
+          </div>
+          <div>
+            <p class="blue_settings">
+              Tax Setting
+            </p>
+            <p class="bold_settings">
+             Accounts Email Sender ID
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+             <input type="text" class="input" name="" placeholder="Tax(&)">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+            Enable Tax Applicable (Fee Installments)
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            
+          </div>
+          <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+            Use Fee Templates
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            
+          </div>
+          <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+           GSTIN
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+           CGST (%)
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          SGST (%)
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          GST No For Fee Receipt
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          CIN (Customer identification Number)
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          Service Code (For Fee Receipt)
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Accounting Code (For Fee Receipt)
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+            State Code (For Fee Receipt)
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="Number">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+            Tax Payable on reverse charge basis (For  Fee Receipt)
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section5">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse ">R</span><span class="blue_line "></span>
+          </div>
+          <div>
+           <p class="blue_settings">
+             Receipt Setting
+           </p>
+            <p class="bold_settings">
+            Fee Receipt Invoice No. Prefix
+            </p>
+             <p class="black_settings1">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+           
+            <input type="text" class="input" placeholder="" name="">
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          Enable Fee Receipt Invoice No. (Financial Year Wise)
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Enable Fee Template. (Country Wise)? 
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+           
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+           Fee Logo URL
+            </p>
+           
+            <input type="text" class="input width_large" placeholder="" name="">
+          </div>
+          <div class="flex">
+            <div class="or bold_settings">OR</div>
+            <div>
+              <p class="size">
+                (Size 300X200)
+              </p>
+              <button class="blue_button">Choose File</button>
+            </div>
+          </div>
+       
+        </div>
+        <div class="flex3">
+          <span>Home_banner_01.Jpeg <img src="../../../../assets/img_web_app/close.svg"></span>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <div>
+            <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          </div>
+          <div>
+             <div class="flex2">
+            <div class="w40">
+             
+                <p class="bold_settings">
+                Fee Receipt Starting No.
+                </p>
+                 <p class="black_settings1">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                 </p>
+                 <input type="text" class="input width_small" name="">
+            </div>
+            <div class="w40">
+              
+                <p class="bold_settings">
+                  Contact Number to display on fee Receipt
+                </p>
+                 <p class="black_settings1">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                 </p>
+                 <input type="text" class="input width_small" name="">
+            </div>
+          </div>
+          <div class="flex2">
+              <div class="w40">
+                  
+                <p class="bold_settings">
+                   Pan Card No. (For Fee Receipt)
+                </p>
+                 <p class="black_settings1">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                 </p>
+                 <input type="text" class="input width_small" name="">
+              </div>
+              <div class="w40">
+                  
+                <p class="bold_settings">
+                Contact Number to display on fee Receipt
+                </p>
+                 <p class="black_settings1">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                 </p>
+                 <input type="text" class="input width_small" name="">
+              </div>
+          </div>
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          Enable to Show Fee Details In Student  App 
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          Show Balance Amount In Fee Receipt
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+           
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          Show Discount Amount in Fee Receipt
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+          
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Show Amount in fee due reminder SMS
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+          
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Show Due Date in Fee Receipt
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Show Councellor Name in Fee Receipt
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+           
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+          Show Total Due Amount in fee Receipt
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+           
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Show Master Course in fee receipt
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            
+          </div>
+          <div>
+           
+            <p class="bold_settings">
+         Show Course in fee receipt
+            </p>
+             <p class="black_settings">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+             </p>
+          </div>
+           <div class="toggle s_toggle">
+            <span>
+              <span class="off">OFF</span>
+              <label class="switch">
+                <input type="checkbox" checked="">
+                <span class="slider round"></span>
+              </label>
+              <span class="on">ON</span>
+            </span>
+            
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1" id="section6">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse">F</span><span class="blue_line"></span>
+          </div>
+          <div>
+            <p class="blue_settings">
+            Fees Notification Setting 
+            </p>
+            <p class="bold_settings">
+            Fee Reminder- On Due Date 
+            </p>
+            <div class="flex">
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Student 
+                   </p>
+                 </div>
+               </div>
+                <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Parent
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                   Guardian 
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Faculty  
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                  Admin
+                   </p>
+                 </div>
+               </div>
+             </div>
+          </div>
+           <div class="toggle">
+           
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+            
+            <p class="bold_settings">
+            Fee Reminder- Pre Due Date
+            </p>
+            <div class="flex">
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Student 
+                   </p>
+                 </div>
+               </div>
+                <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Parent
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                   Guardian 
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Faculty  
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                  Admin
+                   </p>
+                 </div>
+               </div>
+             </div>
+          </div>
+           <div class="toggle">
+           
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+            
+            <p class="bold_settings">
+            Fee Reminder- To selected Students
+            </p>
+            <div class="flex">
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Student 
+                   </p>
+                 </div>
+               </div>
+                <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Parent
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                   Guardian 
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Faculty  
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor"  d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                  Admin
+                   </p>
+                 </div>
+               </div>
+             </div>
+          </div>
+           <div class="toggle">
+           
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+            
+            <p class="bold_settings">
+            Fee Payment Confirmation 
+            </p>
+            <div class="flex">
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Student 
+                   </p>
+                 </div>
+               </div>
+                <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Parent
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                   Guardian 
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Faculty  
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                  Admin
+                   </p>
+                 </div>
+               </div>
+             </div>
+          </div>
+           <div class="toggle">
+           
+          </div>
+        </div>
+        <div class="sep_line"></div>
+        <div class="flex1">
+          <!-- main settings -->
+          <div>
+            <span class="ellipse hidden">T</span><span class="blue_line hidden"></span>
+          </div>
+          <div>
+            
+            <p class="bold_settings">
+            Cheque Dishonoured Notification
+            </p>
+            <div class="flex">
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Student 
+                   </p>
+                 </div>
+               </div>
+                <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Parent
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                   Guardian 
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                    Faculty  
+                   </p>
+                 </div>
+               </div>
+               <div class="flex">
+                 <div>
+                   <label class="checkbox">
+                      <span class="checkbox__input">
+                        <input type="checkbox" name="checked" checked="">
+                        <span class="checkbox__control">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="none" stroke="currentColor" d="M1.3 12.91l6.37 6.37L22.79 4.59"></path></svg>
+                        </span>
+                      </span>
+                    </label>
+                 </div>
+                  <div>
+                   <p class="settings_label">
+                  Admin
+                   </p>
+                 </div>
+               </div>
+             </div>
+          </div>
+           <div class="toggle">
+           
+          </div>
+        </div>
+        <div class="sep_line"></div>
+
+
+        <!-- end -->
+      </div>
+    </div>
+    <div class="w98">
+       <div class="bottom">
+          <div class="display">
+            <div>
+              
+            </div>
+            <div>
+              <button class="white_button mr10">Cancel</button>
+              <button class="blue_button mr10">Save</button>
+            </div>
+          </div>
+        </div>
+    </div>
+ </div>  

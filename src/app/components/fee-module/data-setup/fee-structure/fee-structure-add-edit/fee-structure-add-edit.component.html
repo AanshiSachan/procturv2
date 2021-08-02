@@ -1,0 +1,148 @@
+<div class="page-content">
+    <div class="head_padding">
+        <div class="w98">
+            <div class="page_heading">
+                <p>New Structure</p>
+            </div>
+        </div>
+    </div>
+    <div class="w98">
+        <div class="padding1" *ngIf="!isTemplateNotLinkWithCourseAndStandard">
+            <select class="select wid240 mr10" *ngIf="isLangInstitute || schoolModel"
+                [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
+                (ngModelChange)="onMasterCourseSelection()">
+                <option value="-1">{{schoolModel?'Standard':'Master Course'}}</option>
+                <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                    {{opt.standard_name}}
+                </option>
+            </select>
+            <select class="select wid240 mr10" *ngIf="isLangInstitute" [(ngModel)]="addNewTemplate.course_id"
+                name="CourseDdn">
+                <option value="-1">Course</option>
+                <option *ngFor="let opt of CourseList" [value]="opt.subject_id">
+                    {{opt.subject_name}}
+                </option>
+            </select>
+            <select class="select wid240 mr10" *ngIf="!isLangInstitute && !schoolModel"
+                [(ngModel)]="addNewTemplate.master_course_name" name="masterCourseDdn"
+                (ngModelChange)="onMasterCourseSelection()">
+                <option value="-1">Master Course</option>
+                <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
+                    {{opt.master_course}}
+                </option>
+            </select>
+            <select class="select wid240 mr10" *ngIf="!isLangInstitute && !schoolModel"
+                [(ngModel)]="addNewTemplate.course_id" name="CourseDdn">
+                <option value="-1">Course</option>
+                <option *ngFor="let opt of CourseList.coursesList" [value]="opt.course_id">
+                    {{opt.course_name}}
+                </option>
+            </select>
+            <select class="select wid240 mr10" *ngIf="countryDetails.length >1" [(ngModel)]="addNewTemplate.country_id"
+                name="CourseCountry" (ngModelChange)="getCurrencyData($event)">
+                <option value="-1">Country</option>
+                <option [value]="data.id" *ngFor='let data of countryDetails'>
+                    {{data.country_name}}
+                </option>
+            </select>
+            <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
+                placeholder="Fee Structure Name">
+            <span class="right relative">
+                <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax) ':''}}:<span>{{currencySymbol}} {{totalFeeAmount | number}}</span></span>
+                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax | number}}</p>
+            </span>
+        </div>
+        <div class="padding1" *ngIf="isTemplateNotLinkWithCourseAndStandard">
+            <input type="text" class="input wid240 mr10" [(ngModel)]="addNewTemplate.template_name" name="templateName"
+            placeholder="Fee Structure Name">
+            <select class="select wid240 mr10" *ngIf="countryDetails.length >1" [(ngModel)]="addNewTemplate.country_id"
+                name="CourseCountry" (ngModelChange)="getCurrencyData($event)">
+                <option value="-1">Country</option>
+                <option [value]="data.id" *ngFor='let data of countryDetails'>
+                    {{data.country_name}}
+                </option>
+            </select>
+            <span class="right relative">
+                <span class="green_top">Total Amount{{is_tax_enabled?' (Inc. Of Tax)':''}}:<span>{{currencySymbol}} {{totalFeeAmount | number }}</span></span>
+                <p class="itax" *ngIf="is_tax_enabled">Tax: {{currencySymbol}} {{totalTax | number}}</p>
+            </span>
+        </div>
+        <div class="fee_new">
+            <div class="table_heading">
+                <div>#</div>
+                <div>Fee Type </div>
+                <div>{{(schoolModel || isTemplateNotLinkWithCourseAndStandard)?'Day Of Month':'Trigger Date'}}</div>
+                <div>{{(schoolModel || isTemplateNotLinkWithCourseAndStandard)?'Month':'Day/Month'}}</div>
+                <div *ngIf="(schoolModel || isTemplateNotLinkWithCourseAndStandard)">Year</div>
+                <div><span>Total Fees <span class="light">(In {{currencySymbol}})</span></span></div>
+                <div>Action</div>
+            </div>
+            <div *ngFor="let data of feeInstalllmentArr; let i=index;">
+                <div class="table_body">
+                    <div>{{i+1}}</div>
+                    <div>
+                        <select class="input wid80 select1" [(ngModel)]="feeInstalllmentArr[i].fee_type_id"
+                            (ngModelChange)="calculateTotalFee()">
+                            <option value="-1">Fee Type</option>
+                            <option *ngFor="let data of feeTypeList" [value]="data.fee_type_id">
+                                {{data.fee_type | titlecase}}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard">
+                        <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day">
+                            <option value="-1">Day</option>
+                            <option *ngFor="let day of dayOfmonth" [value]="day">{{day}}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
+                        <select style="width: 90%;" class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].day_type"
+                            (ngModelChange)="changesValuesAsPerType($event,i)">
+                            <option value="-1">Trigger Date</option>
+                            <option value="1">Course Assign Date (CAD)</option>
+                            <option value="2">No of days after CAD</option>
+                            <option value="3">No of Month after CAD</option>
+                        </select>
+                    </div>
+                    <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard">
+                        <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].month">
+                            <option value="-1">Month</option>
+                            <option *ngFor="let mon of months" [value]="mon.id">{{mon.value}}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="schoolModel || isTemplateNotLinkWithCourseAndStandard">
+                        <select class="input wid80 select2" [(ngModel)]="feeInstalllmentArr[i].year">
+                            <option value="-1">Year</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="!schoolModel && !isTemplateNotLinkWithCourseAndStandard">
+                        <input type="text" [disabled]="feeInstalllmentArr[i].day_type==1" [(ngModel)]="feeInstalllmentArr[i].day" placeholder="0"
+                            class="input wid80 rrs" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
+                    </div>
+                    <div><input type="text" [(ngModel)]="feeInstalllmentArr[i].fee_amount" placeholder="00"
+                            class="input wid80 rrs" (keyup)="calculateTotalFee()"
+                            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"></div>
+                    <div>
+                        <a (click)="addInstallment(i)" class="mr10"><img src="../../../../../assets/images/add.svg"
+                                class="size22 pointer" title="Add"></a>
+                        <a (click)="deleteInstallment(i)"><img src="../../../../../assets/images/Group321.svg"
+                                class="size22 pointer" title="Delete"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- use image only when page is empty,table body class element will not be present -->
+    </div>
+    <div class="w98">
+        <div class="save">
+            <button class="blue_button" (click)="createFeeStructure()">Save</button>
+        </div>
+    </div>
+</div>

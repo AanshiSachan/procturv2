@@ -117,11 +117,11 @@
                 </select>
               </div> -->
               <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && !assignmentDetails.enable_grade">
-                <label for="state-date" style="font-size: 12px;">Faculty Marks</label>
-                <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Faculty Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
+                <label for="state-date" style="font-size: 12px;">Teacher Marks</label>
+                <input type="text" name="" value="" class="form-ctrl marks-input"  placeholder="Teacher Marks" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  [(ngModel)]="editStatus.evaluation_marks">
               </div>
               <div class="marks-container field-wrapper" *ngIf="editStatus?.evaluation_required == 'Y' && assignmentDetails.enable_grade">
-                <label for="state-date" style="font-size: 12px;">Faculty Grade</label>
+                <label for="state-date" style="font-size: 12px;">Teacher Grade</label>
                 <select name="" class="course-input marks-input form-ctrl" [(ngModel)]="editStatus.grade_id" style="width:78%; margin-top: 5px;">
                   <option value="">Select</option>
                   <option value="{{data.grade_id}}" *ngFor="let data of gradeDetails">{{data.grade}}</option>
@@ -130,8 +130,8 @@
 
               <div class="marks-remarks-container">
                 <div class="remarks-container field-wrapper">
-                  <label for="state-date" style="font-size: 12px;">Faculty Remarks</label>
-                  <textarea name="name" rows="4" cols="40" class="form-ctrl" placeholder="Faculty Remarks"
+                  <label for="state-date" style="font-size: 12px;">Teacher Remarks</label>
+                  <textarea name="name" rows="4" cols="40" class="form-ctrl" placeholder="Teacher Remarks"
                     [(ngModel)]="editStatus.teacher_comment"></textarea>
                 </div>
               </div>
@@ -203,28 +203,33 @@
   <section class="middle-top clearFix bulk-header">
     <div>
       <h1 class="pull-left">
-        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
+        <!-- <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional" style="padding:0px; ">
           Course
         </a>
         <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional" style="padding:0px; ">
           Batch
         </a>
-        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> -->
         <a routerLink="/view/{{jsonFlag.type}}/online-assignment" style="padding:0px; ">
-          Online Assignment
+          Assignments
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         <span>Student Submission Status</span>
       </h1>
     </div>
   </section>
-
+  <div class="stat-item"  *ngIf="assignmentDetails">
+      <span class="stat-heading" style="margin-left: 16px;font-weight: 600;">Assignment Title : </span>
+      <span
+        title="{{assignmentDetails.title}}">{{ (assignmentDetails?.title.length > 70) ? (assignmentDetails.title | slice:0:70) + '...' : assignmentDetails.title }}</span>
+    </div>
   <section class="stats-container" *ngIf="assignmentDetails">
-    <div class="stat-item">
+
+    <!-- <div class="stat-item">
       <span class="stat-heading">Assignment Title : </span>
       <span
-        title="{{assignmentDetails.title}}">{{ (assignmentDetails?.title.length > 20) ? (assignmentDetails.title | slice:0:20) + '...' : assignmentDetails.title }}</span>
-    </div>
+        title="{{assignmentDetails.title}}">{{ (assignmentDetails?.title.length > 70) ? (assignmentDetails.title | slice:0:70) + '...' : assignmentDetails.title }}</span>
+    </div> -->
     <div class="stat-item">
       <span class="stat-heading">Start Date : </span>
       <span>{{assignmentDetails?.start_date}} {{assignmentDetails.start_time}}</span>

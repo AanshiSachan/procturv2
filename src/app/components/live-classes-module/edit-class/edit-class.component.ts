@@ -661,10 +661,10 @@ export class EditClassComponent implements OnInit {
     let temp: any[] = [];
     for (var i = 0; i < userIDs.length; i++) {
       let x = {
-        user_id: '',
+        user_id: 0,
         name: ''
       };
-      x.user_id = userIDs[i];
+      x.user_id = Number(userIDs[i]);
       x.name = userName[i];
       temp.push(x)
     }
@@ -910,7 +910,7 @@ export class EditClassComponent implements OnInit {
       if (this.repeat_session == 1) {
         this.updateOnlineClass.studentIds = this.studentsId;
         this.auth.showLoader();
-        const url = '/api/v1/meeting_manager/create'
+        const url = '/api/v1/meeting_manager/createV2'
         this.http_service.putData(url, this.updateOnlineClass).subscribe(
           (data: any) => {
             this.appC.popToast({ type: "success", body: this.topicName + " " + "created successfully" });

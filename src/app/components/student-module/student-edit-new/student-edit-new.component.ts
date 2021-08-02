@@ -126,7 +126,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   selectedInstallment: number = 0;
   academicYearFilter: any;
   instituteCountryDetObj: any = {};
-  maxlength: number = 10;
+  maxlength: any = 10;
   country_id: number = null;
   selectedFiles: any[] = [];
   customFileArr: any[] = [];
@@ -335,6 +335,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   isSchoolModel: boolean = false;
   masterDataList: any = {};
   showRollNoField: boolean = false;
+  activeSession:any='';
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -354,6 +355,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
     this.getInstType();
     this.getSettings();
     this.student_id = this.route.snapshot.paramMap.get('id');
+    this.activeSession = 'student_details';
     this.auth.schoolModel.subscribe(
       res => {
         this.isSchoolModel = false;
@@ -361,11 +363,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
           this.isSchoolModel = true;
         }
       });
-    if (this.isSchoolModel) {
       this.commonApiCall.fetchMasterData().subscribe(data => {
         this.masterDataList = data;
       })
-    }
     this.fetchCustomeComponents();
   }
 
@@ -380,7 +380,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       this.assignTo = false;
     }
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
-      this.switchToView('feeDetails-icon');
+      // this.switchToView('feeDetails-icon');
+      this.router.navigate(['/view/students']);
     }
     else if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
       this.switchToView('inventory-icon');
@@ -400,11 +401,11 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.showFeeSection = false;
         this.checkBoxGroup.hideReconfigure = false;
       }
-      if (this.role_feature.FEE_MANAGE) {
+      if (this.role_feature.FEE_MENU) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
-      if (this.role_feature.FEE_MANAGE) {  //fee discount
+      if (this.role_feature.FEE_MENU) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
       if (sessionStorage.getItem('permissions') == undefined
@@ -462,7 +463,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
 
   // get city list as per state selection
   getCityList() {
-    if (this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != "") {
+    if (this.studentAddFormData.state_id != "-1" && this.studentAddFormData.state_id != "" && this.studentAddFormData.state_id != null) {
       const url = `/api/v1/country/city?state_ids=${this.studentAddFormData.state_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -484,7 +485,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
 
   getAreaList() {
-    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "") {
+    if (this.studentAddFormData.city_id != "-1" && this.studentAddFormData.city_id != "" && this.studentAddFormData.city_id != null) {
       const url = `/api/v1/cityArea/area/${this.pdcAddForm.institution_id}?city_ids=${this.studentAddFormData.city_id}`
       this.auth.showLoader();
       this.httpService.getData(url).subscribe(
@@ -575,7 +576,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
    */
   navigateTo(text) {
 
-    let classArray = ['li-one', 'li-two', 'li-three'];
+    let classArray = ['li-one', 'li-two'];
     classArray.forEach(function (className) {
       document.getElementById(className).classList.remove('active');
     });
@@ -594,7 +595,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       case "kyc": {
         document.getElementById('li-two').classList.add('active');
         document.getElementById('li-two').classList.add('step_active');
-        this.fetchCustomeComponents();
+        // this.fetchCustomeComponents();
         this.isOtherActive = true;
         break;
       }
@@ -1376,7 +1377,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentQuickAdder(values);
       }
       else {
-        let msg = this.isSchoolModel ? 'Please enter a valid registration number' : 'Please enter a valid roll number';
+        let msg = this.isSchoolModel ? 'Please enter a valid registration number' : 'Please enter a valid Student Id';
         let obj = {
           type: 'error',
           title: '',
@@ -1405,6 +1406,7 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.studentAddFormData.standard_id = data.standard_id;
         this.standard_id = data.standard_id;
         this.studentAddFormData.assigned_to_id = data.assigned_to_id;
+        this.studentAddFormData.roll_no = (data.roll_no == 0) ? '' : data.roll_no;
         this.studentAddFormData.doj = CommonUtils.validateDate(data.doj);
         this.studentAddFormData.dob = CommonUtils.validateDate(data.dob);
         this.studentAddFormData.expiry_date = CommonUtils.validateDate(data.expiry_date);
@@ -1540,42 +1542,38 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
 
   setImage(e) {
-    if (e != null && e != "") {
+    // if (e != null && e != "") {
       this.studentServerImage = e;
       this.thumbnailAvailable = false;
-    }
+    // }
 
   }
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
-
+    if(this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " ") {
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
       if (isNaN(this.studentAddFormData.student_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.student_phone, this.maxlength, this.country_id) == true) {
-        if (this.studentAddFormData.parent_phone != null && this.studentAddFormData.parent_phone != "") {
-          if (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength, this.country_id) == true) {
-            if (this.studentAddFormData.guardian_phone != null && this.studentAddFormData.guardian_phone != "") {
-              if (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength, this.country_id) == true) {
+        if ((this.studentAddFormData.parent_phone == null || this.studentAddFormData.parent_phone == "") || (isNaN(this.studentAddFormData.parent_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.parent_phone, this.maxlength, this.country_id) == true)) {
+            if ((this.studentAddFormData.guardian_phone == null || this.studentAddFormData.guardian_phone == "") || (isNaN(this.studentAddFormData.guardian_phone) == false && this.commonServiceFactory.phonenumberCheck(this.studentAddFormData.guardian_phone, this.maxlength, this.country_id) == true)) {
                 if(!this.isSchoolModel || !this.showRollNoField || this.studentAddFormData.roll_no != '') {
                   return true;
                 } else {
                   this.msgToast.showErrorMessage('error', '', "Please enter Roll No");
-                  return;
+                  return false;
                 }
               } else {
                 this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
                 return false;
               }
-            }
-            return true;
+            
           }
           else {
             this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
             return false;
           }
-        }
-        return true;
+        
       } else {
         this.commonServiceFactory.showErrorMessage('error', '', 'Please enter valid contact number');
         return false;
@@ -1584,14 +1582,19 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       this.commonServiceFactory.showErrorMessage('error', '', 'Please enter contact number');
       return false;
     }
+  } else {
+    this.commonServiceFactory.showErrorMessage('error', '', 'Please enter name');
+    return false;
+  }
 
   }
   studentQuickAdder(form: NgForm) {
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
+    let formValid: boolean = this.formValidator();
     /* Both Form are Valid Else there seems to
         be an error on custom component 
         */
-    if (form.valid && isCustomComponentValid) {
+    if (isCustomComponentValid && formValid) {
 
       if (!this.formValidator()) {
         return false;
@@ -1716,7 +1719,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
               this.router.navigate(['/view/students']);
             }
             else {
-              this.navigateTo('feeDetails');
+              // this.navigateTo('feeDetails');
+              this.router.navigate(['/view/students']);
               this.updateStudentFeeDetails();
             }
 
@@ -1748,13 +1752,9 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       );
     }
     else {
-      let alert = {
-        type: 'error',
-        title: '',
-        body: 'Please fill all the required fields'
+      if (!isCustomComponentValid) {
+        this.msgToast.showErrorMessage('error', '', "Please fill all the required fields on other details section");
       }
-      this.appC.popToast(alert);
-
     }
   }
 
@@ -2024,14 +2024,14 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (this.role_feature.FEE_MANAGE) {
+            if (this.role_feature.FEE_MENU) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
             }
-            if (this.role_feature.FEE_MANAGE) {  //fee discount
+            if (this.role_feature.FEE_MENU) {  //fee discount
               this.checkBoxGroup.feeDiscouting = true;
             }
             if (sessionStorage.getItem('permissions') == undefined
@@ -2972,11 +2972,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
       }
       newxhr.send(formData);
     } else {
-      if (this.selectedFiles.length == 0) {
-        this.appC.popToast({ type: "error", body: "No file selected" })
+        this.appC.popToast({ type: "error", body: "Enter document title!" })
         return
-      }
-
     }
     this.category_id = '';
     (<HTMLInputElement>document.getElementById('uploadFileControl')).value = null;
@@ -3039,6 +3036,8 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
   }
   fetchCourseListByStdId(standard_id) {
     if (this.isSchoolModel) {
+      this.assignedBatchString = '';
+      this.showRollNoField = false;
       if (this.standard_id == standard_id) {
         this.fetchCourseFromMaster(standard_id, this.country_id);
       } else {
@@ -3049,6 +3048,10 @@ export class StudentEditNewComponent implements OnInit, OnDestroy {
         this.updateMasterCourseList(standard_id);
       }
     }
+  }
+
+  scrollFn(el: HTMLElement){
+    el.scrollIntoView();
   }
 
 }

@@ -1,0 +1,106 @@
+<div class="page-content">
+  <div class="w98">
+    <div class="tab-content">
+      <div id="fee_types" class="tab-pane active">
+        <div class="padding1">
+          <input type="" class="input mr10" name="fee_type" [(ngModel)]="addNewFee.fee_type" placeholder="Fee Type*">
+          <input type="" class="input mr10" name="fee_type_desc" [(ngModel)]="addNewFee.fee_type_desc"
+            placeholder="Description">
+          <input type="" class="input mr10" name="fee_type_tax" *ngIf="is_tax_enabled"
+            [(ngModel)]="addNewFee.fee_type_tax" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" placeholder="Tax  (in percentage)">
+          <button class="blue_button" (click)="createFeeType()">Add</button>
+        </div>
+        <div class="fee_types">
+          <div class="table_heading">
+            <div>Fee Type</div>
+            <div>Fee Type Description</div>
+            <div *ngIf="is_tax_enabled">Tax(%) <span title="Enable Tax" class="info">i</span></div> 
+            <div>Action</div>
+          </div>
+          <div class="tableHeight">
+          <div *ngFor="let data of feeTypeList">
+            <div class="table_body">
+              <div>{{data.fee_type | titlecase}}</div>
+              <div>{{(data.fee_type_desc != '') ? data.fee_type_desc : '-'}}</div>
+               <div *ngIf="is_tax_enabled">{{data.fee_type_tax}}</div>
+              <div><a data-toggle="modal" (click)="editFeeTypes(data)" class="pointer"><img src="../../../../../assets/images/edit.svg"
+                    class="size22" title="Edit"></a></div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+        </div>
+  </div>
+ <div class="w98">
+    <!-- <div class="bottom_pagignation flex w98">
+      <div class="w20">
+      </div>
+      <div class="w10">
+      </div>
+      <div class="w40">
+      </div>
+      <div class="w30">
+      </div>
+    </div> -->
+     
+  </div>
+
+</div>
+
+<!-- The Modal -->
+
+<div class="modal" id="feetypesModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Fee Types</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="clearData()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div><input type="" name="fee_type" [(ngModel)]="addNewFee.fee_type" class="input w100" placeholder="Fee*">
+          </div>
+          <div class="padding11"><input type="" name="fee_type_desc" [(ngModel)]="addNewFee.fee_type_desc"
+              class="input w100" placeholder="Fee Type Description"></div>
+          <div class="padding11"><input type="" name="fee_type_tax" *ngIf="is_tax_enabled"
+              [(ngModel)]="addNewFee.fee_type_tax" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input w100" placeholder="Tax(in %)"></div>
+          <div class="padding11 display">
+            <div></div>
+            <div>
+              <button class="white_button mr10" (click)="clearData()">
+                Cancel
+              </button>
+              <button class="blue_button" (click)="updateFeeType()">
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="discountModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Discount Reason</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <textarea placeholder="Reason" class="input"></textarea>
+        <div class="padding1">
+          <span class="right">
+            <button class="white_button mr10">
+              Cancel
+            </button>
+            <button class="blue_button ">
+              Save
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

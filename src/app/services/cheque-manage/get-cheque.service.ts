@@ -49,7 +49,6 @@ export class getCheque {
 
     updatePDCPayment(obj): Observable<any> {
         let url = this.baseUrl +"/api/v1/studentWise/fee/students/" +this.institute_id +"/save";
-
         return this.http.post(url, obj, {headers: this.headers}).pipe(map(
             res => {
                 return res;

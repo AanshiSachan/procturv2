@@ -1,0 +1,148 @@
+*{
+    margin: 0px;
+  }
+  body{
+    font-family: 'Open Sans', sans-serif;
+  }
+  .flex{
+    display: flex;
+  }
+ 
+.blue_button {
+    background-color: #109CF1;
+    color: white;
+    padding: 9px 20px;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    height: 35px;
+  }
+.errormsg{
+    height:8px;
+  }
+  .p_title{
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.01em;
+    color: #444141;
+    margin-bottom:5px;
+    }
+  
+  .stars{
+    color:red;
+    padding-left: 2px;
+  }
+  .action_btn{
+    text-align: right;
+   
+  }
+
+.has-error .control-label{
+  color: black;
+}
+.help-block{
+  color: red;
+  margin-bottom: 0%;
+  text-align: center;
+}
+.cancel{
+    background-color: white;
+      color: #109CF1;
+      padding: 8px 20px;
+      font-size: 12px;
+      border: solid 2px #109CF1;
+      border-radius: 5px;
+      font-weight: 500;
+      height: 35px;
+  }
+  select{
+    width: 330px;
+    height: 35px;
+    left: 30px;
+    top: 63px;
+    
+    background: #FFFFFF;
+    border: 1px solid #D5D0D0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+  .multiselect{
+    width: 330px;
+  height: 35px;
+  left: 30px;
+  top: 63px;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  }
+  .modal-content{
+    position: relative;
+    height:auto;
+    width: 371px;
+   // padding: 20px;
+    background: #FFFFFF;
+    border-radius: 8px;
+      }
+  
+      .modal-body {
+        position: relative;
+        //padding: 15px;
+    }
+    .glass{
+        background-image: url(/assets/images/assets/Vector.svg);
+    background-repeat: no-repeat;
+    background-position: left center;
+    }
+    .white_button {
+      background-color: #fff;
+      color: #109CF1;
+      padding: 0px 20px;
+      font-size: 12px;
+      border:1px solid #109CF1;
+      border-radius: 5px;
+      font-weight: 500;
+      line-height: 35px;
+      cursor: pointer;
+    }
+       .right{
+           float: left;
+           margin: 5px;
+         }
+         .pt101{
+      padding-top: 30px;
+      margin: 0px 30px;
+    }
+     .flex{
+      display: flex;
+    }
+    .center{
+      text-align: center;
+      
+    }
+    .paradel{
+      font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 19px;
+        letter-spacing: 0.01em;
+        margin-top: 20px;
+        color: #858585;
+    }
+    .dels{
+      height: 230px !important;
+    }
+    .display{
+      display: flex;
+      justify-content: space-between;
+    }
+    #deletesModal{
+      position: absolute;
+      top: 20%;
+      left:40%;
+    }

@@ -6,6 +6,8 @@ import { TrainingVideoComponent } from './training-video/training-video.componen
 import { HomePageComponent } from './home-page/home-page.component';
 import { ReportsComponent } from './reports/reports.component';
 
+
+
 @NgModule({
     imports: [
         RouterModule.forChild(
@@ -80,6 +82,19 @@ import { ReportsComponent } from './reports/reports.component';
                             // loadChildren: 'app/components/expense-management/expense-management.module#ExpenseManagementModule',
                             canLoad: [AuthGuard]
                         },
+
+
+
+                        {
+                            path: 'leave',
+                            loadChildren: () => import('./leave/leave.module').then(m => m.LeaveModule),
+                            pathMatch: 'prefix'
+
+                        },
+
+
+
+
                         {
                             path: 'fee',
                             loadChildren: () => import('app/components/fee-module/fee.module').then(m => m.FeeModule),
@@ -180,7 +195,27 @@ import { ReportsComponent } from './reports/reports.component';
                             loadChildren: () => import('../components/asset-management/asset-management.module').then(m => m.AssetManagementModule),
                             pathMatch: 'prefix'
 
+                        },
+                        {
+                            path: 'inventory-management',
+                            loadChildren: () => import('../components/inventory-module/inventory-module.module').then(m => m.InventoryModuleModule),
+                            pathMatch: 'prefix'
+
+                        },
+                        {
+                            path: 'sms-gateway',
+                            loadChildren: () => import('../components/sms-gateway/sms-gateway.module').then(m => m.SmsGatewayModule),
+                            pathMatch: 'prefix'
+
+                        },
+
+                        {
+                            path: 'payrole',
+                            loadChildren: () => import('../components/payrole/payrole.module').then(m => m.PayroleModule),
+                            pathMatch: 'prefix'
+
                         }
+
                     ]
                 },
             ]

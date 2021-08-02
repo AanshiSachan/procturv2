@@ -4,12 +4,16 @@
       <div class="middle-top mb0 clearFix header" style="width: 100%;background:#f4f5f7;">
         <div class="row" style="margin-left: 0;margin-right: 0">
           <h2 style="padding: 16px 0px 3px 10px;" class="pull-left">
-            <a routerLink="/view/course">
-             <!-- {{jsonflag.isProfessional ? 'Batch' : 'Course'}}-->
-             Class/Exam
+            <a>
+             {{jsonflag.isProfessional ? 'Batch' : 'Classes'}}
+             <!-- Classes -->
             </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> E-course Mapping
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Ecourse Mapping
           </h2>
+          <aside class="pull-left" class="btn helpBtn pull-right">
+            <span style="font-weight: 600;">Online E-Course-</span> Used for creating products for online selling on Website / App. <br>
+            <span style="font-weight: 600;">Offline E-Course-</span> Used for assigning study material to offline enrolled students.
+          </aside>
           <a (click)="showAddEcourse()" style="background: white;cursor: pointer;" class="form btnAdd">
             <i class="fa fa-plus"></i> Add E-Course
           </a>
@@ -170,7 +174,7 @@
             <div class="c-lg-3" style="padding: 0;padding-bottom: 15px;">
               <input type="radio" class="form-ctrl radio" name="is_offline_or_online" value="Offline"
                 id="is_offline_or_online" style="-webkit-appearance: radio;" [(ngModel)]="ecourseObject.status"><label style="min-width: 0"
-                class="online_offline_label">Offline111</label>
+                class="online_offline_label">Offline</label>
             </div>
           </div>
         </div>

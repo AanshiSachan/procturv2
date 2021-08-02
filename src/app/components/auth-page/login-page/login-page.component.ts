@@ -99,12 +99,20 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     otp_validate_mode: 1,
     source: "WEB"
   }
+  forgotPasswordObj={
+    institution_id:'',
+    userid:'',
+    temp_id:''
+  }
   // zoom
   zoom_enable: any = false;
   single_login_login_check = false;
   multiWindowLogin: boolean = false;
   isKominaInstitute: boolean = false;
   Role_features: role = new role();
+  passwordType:any='password';
+  passwordClass:any='fa fa-eye';
+  multiLoginForgotPwdData:any = [];
   constructor(
     private login: LoginService,
     private route: Router,
@@ -221,6 +229,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             this.titleService.setTitle(res[0].title + " Login");
             sessionStorage.setItem('institute_title_web', res[0].title + " Login");
           }
+        } else {
+          this.route.navigate(['/authPage/not-configured']);
         }
       },
       err => {
@@ -263,7 +273,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           if (res.data && !this.validInstituteCheck(res)) {
             this.route.navigateByUrl('/authPage');
             //console.log('Institute ID Not Found');
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "There is no access for Open User login in web..Kindly access the same through APP");
             sessionStorage.clear();
             localStorage.clear();
             return
@@ -470,7 +480,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
       //console.log('Institute ID Not Found');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "There is no access for Open User login in web..Kindly access the same through APP");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "There is no access for Open User login in web..Kindly access the same through APP");
       sessionStorage.clear();
       localStorage.clear();
       return
@@ -505,7 +515,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           this.auth.changeAuthenticationKey(Authorization);
         }
       }
-      if (res.data.permission_id_list == undefined || res.data.permission_id_list == undefined || res.data.permission_id_list == null) {
+      if (res.data.permission_id_list == undefined || res.data.permission_id_list == undefined || res.data.permission_id_list == null || res.data.permission_id_list.length == 0) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
         this.Role_features.checkPermissions();
@@ -624,9 +634,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('single_device', institute_data.single_device_login);
       sessionStorage.setItem('enable_library_feature', institute_data.enable_library_feature);
       sessionStorage.setItem('enable_client_website', institute_data.enable_client_website);
+      sessionStorage.setItem('enable_chat_with_parent', institute_data.enable_chat_with_parent);
       sessionStorage.setItem('teacherIDs', res.data.teacherId);
       sessionStorage.setItem('mark_attendance_subject_wise', res.data.mark_attendance_subject_wise);
       sessionStorage.setItem('marks_dist_setting', institute_data.marks_dist_setting);
+      sessionStorage.setItem('is_fee_struct_linked', res.data.is_fee_struct_linked);
 
       //Storing the session value 
       // Added by Ashwini Kumar Gupta
@@ -945,9 +957,22 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       })
   }
 
+  onForgotPwdSelection(event,data) {
+    this.forgotPasswordObj.institution_id = data.institute_id;
+    this.forgotPasswordObj.userid = data.user_id;
+  }
+
+  closePopup() {
+    this.forgotPasswordObj.userid = '';
+    this.forgotPasswordObj.institution_id = '';
+    this.forgotPasswordObj.temp_id = '';
+  }
+
   forgotPassword() {
     let forgotPasswordData = {
-      alternate_email_id: ""
+      alternate_email_id: "",
+      "institution_id": this.forgotPasswordObj.institution_id,
+      "userid":this.forgotPasswordObj.userid
     }
     if (this.loginDataForm.alternate_email_id == "") {
       this.no_email_found = true;
@@ -955,8 +980,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       if (confirm('New password will be sent to your registered number. Click Ok to continue.')) {
         forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
         this.login.forgotPassowrdServiceMethod(forgotPasswordData).subscribe(
-          el => {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.messages.loginMsg.success.body);
+          (el:any) => {
+            console.log(el);
+            this.forgotPasswordObj.userid = '';
+            this.forgotPasswordObj.institution_id = '';
+            this.forgotPasswordObj.temp_id = '';
+            $('#multiLoginForgot').modal('hide');
+            if(el.message == 'OK') {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', this.messages.loginMsg.success.body);
+            } else {
+              this.multiLoginForgotPwdData = el;
+              $('#multiLoginForgot').modal('show');
+            }
           },
           err => {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
@@ -992,7 +1027,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   openGetAdvice() {
-    let url = "https://proctur.com/contact-us";
+    let url = "https://proctur.com/website/contact-us";
     window.open(url);
   }
 
@@ -1005,10 +1040,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             (res: any) => {
               sessionStorage.setItem('manual_student_disp_id', res.is_student_displayId_manual);
               this.login.changeSidenavStatus('authorized');
+              sessionStorage.setItem('showSMSService', 'true');
               this.route.navigateByUrl('/view/home');
             },
             err => {
               this.login.changeSidenavStatus('authorized');
+              sessionStorage.setItem('showSMSService', 'true');
               this.route.navigateByUrl('/view/home');
             }
           );
@@ -1070,6 +1107,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
     else if (test === "web.proctur.com") {
       return "https://web.proctur.com";
+    }
+  }
+
+  togglePassword(){
+    if(this.passwordType == 'password'){
+      this.passwordType = 'text';
+      this.passwordClass = 'fa fa-eye-slash';
+    } else {
+      this.passwordType = 'password';
+      this.passwordClass = 'fa fa-eye';
     }
   }
 

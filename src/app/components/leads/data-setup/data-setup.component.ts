@@ -5,6 +5,8 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { MessageShowService } from '../../../services/message-show.service';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+
 declare var $;
 
 @Component({
@@ -23,9 +25,13 @@ export class DataSetupComponent implements OnInit {
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1];
   dataStatus: boolean = false;
+  schoolModel: boolean = false;
+
   activeSession: any = 'source';
   sourceDetails: any = [];
   referList: any = [];
+  custumFieldList:any=[];
+  componentShell:any[] = [];
   createSource = {
     name: "",
     inst_id: sessionStorage.getItem('institute_id'),
@@ -43,7 +49,7 @@ export class DataSetupComponent implements OnInit {
     city_ids: "-1",
     is_active: true
   };
-
+  isEditcustumfield:string=""
   editrecord: any;
   editAreaName: string = '';
   editIsActiveStatus: boolean = true;
@@ -56,24 +62,61 @@ export class DataSetupComponent implements OnInit {
   tempArealist: any[] = [];
   addArea: boolean = false;
   deleteAreaId: any = '';
+  component_id:any='';
+  isProfessional:boolean = false;
+  isEditCustumFormField:string=''
 
   selectedData = {
     country: '',
     state: '',
     city: ''
   };
-
+  editCustomFormField:any = {
+    comp_length: '',
+    description: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    is_required: "N",
+    is_searchable: "N",
+    label: "",
+    page: 1,
+    prefilled_data: "",
+    sequence_number: "",
+    type: "-1",
+    on_both: "Y",
+    defaultValue: "",
+    is_external: "N"
+  }
   constructor(
     private service: ClosingReasonService,
     private appC: AppComponent,
     private services: MessageShowService,
     private httpService: HttpService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private postData:PostEnquiryDataService
   ) { }
 
   ngOnInit() {
+    this.auth.schoolModel.subscribe(
+      res => {
+        this.schoolModel = false;
+        if (res) {
+          this.schoolModel = true;
+        }
+      }
+    )
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true; // batch module
+        } else {
+          this.isProfessional = false;  //course module
+        }
+      }
+    );
     // this.getAllReasons();
     this.getSourceDetails();
+    this.fetchPrefillData()
   }
 
 
@@ -112,8 +155,11 @@ export class DataSetupComponent implements OnInit {
       this.appC.popToast({ type: 'error', body: "Closing reason can't be empty" })
     }
     else {
-      if (this.isName(row.new_source_name) == true) {
-        this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // if (this.isName(row.new_source_name) == true) {
+      //   this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // }
+      if (row.new_source_name.trim() == '') {
+        this.services.showErrorMessage("error", "", "Please enter closing reason")
       }
 
       else if (this.checkLength(row.new_source_name) == false) {
@@ -147,10 +193,12 @@ export class DataSetupComponent implements OnInit {
     }
 
     else {
-      if (this.isName(this.createNewReasonObj.closing_desc) == true) {
-        this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // if (this.isName(this.createNewReasonObj.closing_desc) == true) {
+      //   this.services.showErrorMessage("error", "", "Please enter alphabets only")
+      // }
+      if (this.createNewReasonObj.closing_desc.trim() == '' ) {
+        this.services.showErrorMessage("error", "", "Please enter closing reason")
       }
-
       else if (this.checkLength(this.createNewReasonObj.closing_desc) == false) {
         this.services.showErrorMessage("error", "", "Limits should not be more than 50")
       }
@@ -344,6 +392,282 @@ export class DataSetupComponent implements OnInit {
       }
     )
   }
+  // =====================custm-frm-field================
+  checkValuetype(value) {
+    this.editCustomFormField.comp_length = value == 1 ? 50 : 0
+  }
+  fetchPrefillData() {
+    this.auth.showLoader();
+    let url ='/api/v1/masterData/type/CUSTOM_COMPONENT_TYPE'
+    this.httpService.getData(url).subscribe(
+      (res: any) => {
+        this.auth.hideLoader();
+        this.componentShell = res;
+        console.log("type value",this.componentShell)
+      }, (err) => {
+        this.auth.hideLoader();
+      }
+    );
+  }
+fetchCustomFild(){
+  this.auth.showLoader();
+  let url ='/api/v1/instCustomComp/getAll/' +sessionStorage.getItem('institute_id') + "?page=1"
+  this.httpService.getData(url).subscribe(
+  res => {
+    this.auth.hideLoader();
+    this.custumFieldList = res;
+    console.log("custom filed data",this.custumFieldList)
+  },
+  err => {
+    this.auth.hideLoader();
+    this.custumFieldList = [];
+  }
+)
+  
+}
+addNewCustomField(){
+
+ //Case 1 Label/Type is not empty and MaxLength and Sequence
+ if (this.editCustomFormField.label.trim() != "-1") {
+  if (this.editCustomFormField.type != "-1") {
+    //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
+    if (this.editCustomFormField.type == "3" ||
+      this.editCustomFormField.type == "4") {
+      /* Validate Prefilled Data */
+      if (this.validateDropDown(this.editCustomFormField.prefilled_data)) {
+        if (this.validateDropdownDefvalue(this.editCustomFormField.prefilled_data, this.editCustomFormField.defaultValue)) {
+          this.auth.showLoader();
+          this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
+            res => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('success', '', 'Form-Field added successfully');
+              this.fetchCustomFild()
+
+              this.cleareForm();
+            },
+            err => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('error', '', 'Label name is already created with the same name');
+            });
+        }
+        else {
+          this.services.showErrorMessage('error', '', 'dropdown default value should be present in prefilled data');
+        }
+      }
+      else {
+        this.services.showErrorMessage('error', '', 'Prefill data has to be unique and non-empty');
+      }
+    }
+    /* Date Custom Component */
+    else if (this.editCustomFormField.type == "5") {
+      /* Date cannot be searchable and does not a default value */
+      if (this.editCustomFormField.is_searchable == "N" && this.editCustomFormField.defaultValue.trim() == "") {
+        this.auth.showLoader();
+        this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
+          res => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('success', '', 'Form-Field added successfully');
+            this.fetchCustomFild()
+
+            this.cleareForm();
+
+          },
+          err => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('error', '', 'There was an error processing your request' + err.error.message);
+          });
+      }
+      else {
+        this.services.showErrorMessage('error', '', 'Date Field Cannot Be Searchable Or have any default value');
+      }
+    }
+    /* Textbox and Checkbox */
+    else if (this.editCustomFormField.type != "3" && this.editCustomFormField.type != "4" && this.editCustomFormField.type != "5") {
+      this.auth.showLoader();
+      this.postData.addNewCustomComponent(this.editCustomFormField).subscribe(
+        res => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('success', '', 'Form-Field added successfully');
+          this.fetchCustomFild()
+
+          this.cleareForm();
+        },
+        err => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('error', '', 'Label name already exists');
+        });
+    }
+  }
+  else {
+    this.services.showErrorMessage('error', '', 'Please mention a type');
+  }
+}
+else {
+  this.services.showErrorMessage('error', '', 'Please mention a Label');
+}
+
+
+}
+  
+
+    onClickeditCustomField(obj){
+      //this.component_id = obj.component_id
+      this.editCustomFormField = obj
+      this.isEditCustumFormField='Edit'
+
+    
+    }
+    onClickAddField(types){
+      this.isEditCustumFormField = types
+    }
+updateCustumField(){
+
+
+  let data = this.editCustomFormField;
+  //Case 1 Label/Type is not empty and MaxLength and Sequence
+  if (data.label.trim() != "" && data.type != "") {
+    //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
+    if (data.type == "3" || data.type == "4") {
+      /* Validate Prefilled Data */
+      if (this.validateDropDown(data.prefilled_data)) {
+        if (this.validateDropdownDefvalue(data.prefilled_data, data.defaultValue)) {
+          this.auth.showLoader();
+          this.postData.updateCustomComponent(data).subscribe(
+            res => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
+              this.cleareForm();
+
+
+            },
+            err => {
+              this.auth.hideLoader();
+              this.services.showErrorMessage('error', '', err.error.message);
+            }
+          );
+        }
+        else {
+          this.services.showErrorMessage('error', 'dropdown default value should be present in prefilled data', '');
+        }
+      }
+      else {
+        this.services.showErrorMessage('error', 'Prefill data has to be unique and non-empty', '');
+      }
+    }
+
+    /* Date Custom Component */
+    else if (data.type == "5") {
+      /* Date cannot be searchable and does not a default value */
+      if (data.is_searchable == "N" && data.defaultValue.trim() == "") {
+        this.auth.showLoader();
+        this.postData.updateCustomComponent(data).subscribe(
+          res => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('success', '', 'Form-Field updated successfully');
+
+            this.cleareForm();
+
+          },
+          err => {
+            this.auth.hideLoader();
+            this.services.showErrorMessage('error', '', err.error.message);
+          }
+        );
+      }
+      else {
+        this.services.showErrorMessage('error', 'Date field cannot be searchable Or have any default value', '');
+      }
+    }
+    /* Textbox and Checkbox */
+    else if (data.type != "3" && data.type != "4" && data.type != "5") {
+      this.auth.showLoader();
+      this.postData.updateCustomComponent(data).subscribe(
+        res => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('success', '', 'Form-Field updated successfully');
+          this.fetchCustomFild()
+          this.cleareForm();
+
+        },
+        err => {
+          this.auth.hideLoader();
+          this.services.showErrorMessage('error', '', err.error.message);
+        }
+      );
+    }
+  }
+  else {
+    this.services.showErrorMessage('error', '', 'Please mention a label/type');
+  }
+}
+  // this.isEditCustumFormField='Edit'
+
+  // let obj =this.editCustomFormField
+  // this.auth.showLoader();
+  // this.postData.updateCustomComponent(obj).subscribe(
+  //   res => {
+  //     this.auth.hideLoader();
+  //     this.services.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
+  //     this.cleareForm()
+  //     $('#customField').modal('hide');
+
+  //   },
+  //   err => {
+  //     this.auth.hideLoader();
+  //     this.services.showErrorMessage('error', '', err.error.message);
+  //   }
+  // );
+
+
+
+selecteCustomformId(obj){
+  this.component_id = obj
+}
+deleteCustumfomField(){
+  let obj = this.component_id
+  this.auth.showLoader();
+  this.postData.deleteCustomComponent(obj).subscribe(
+    res => {
+      this.auth.hideLoader();
+      this.services.showErrorMessage('success', 'Form-field Deleted ', 'requested form-field deleted Successfully');
+     this.fetchCustomFild()
+     $('#deleteModal').modal('hide');
+
+
+     
+    },
+    err => {
+      this.auth.hideLoader();
+      this.services.showErrorMessage('error', '', err.error.message);
+    }
+  );
+}
+cleareForm(){
+  this.isEditCustumFormField =""
+  this.emptyCustomField()
+}
+
+emptyCustomField(){
+  this.editCustomFormField = {
+    comp_length: '',
+    description: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    is_required: "N",
+    is_searchable: "N",
+    label: "",
+    page: 1,
+    prefilled_data: "",
+    sequence_number: "",
+    type: "",
+    on_both: "Y",
+    defaultValue: "",
+    is_external: "N"
+  }
+
+}
+
+
+  // =========================end===============================
 
   updateRefer(obj) {
     let data = {
@@ -564,6 +888,45 @@ export class DataSetupComponent implements OnInit {
       this.selectedData.state = this.filter.state_ids;
       this.selectedData.city = this.filter.city_ids;
     }
+  }
+  toggleNewPopupsVisisbility(type) {
+    this.isEditcustumfield = type;
+    //this.emptyObject();
+  }
+  cancelRow() {
+    
+    this.isEditcustumfield = '';
+   
+  }
+  validateDropDown(data) {
+    let arr: any[] = data.split(',');
+    /* boolean for non empty value */
+    let test1 = arr.every(function checkNonEmpty(el) {
+      return (el != "" && el != " ");
+    });
+    /* convert array to set unique value */
+    this.editCustomFormField.prefilled_data = Array.from(new Set(arr)).join(',');
+    return test1
+  }
+
+  validateDropdownDefvalue(tocheck, tomatch) {
+    let arr = tocheck.split(',');
+    for (let i = 0; i < arr.length; i++) {
+      if (tomatch === arr[i].trim()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  validateDropDownUpdate(data) {
+    let arr: any[] = data.split(',');
+    /* boolean for non empty value */
+    let test1 = arr.every(function checkNonEmpty(el) {
+      return (el != "" && el != " ");
+    });
+    /* convert array to set unique value */
+    return test1
   }
 
 }

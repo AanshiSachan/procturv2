@@ -1,0 +1,144 @@
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Supplier Management</p>
+        </div>
+        <div>
+
+            <button class="blue_button" data-toggle="modal" data-target="#add1Modal">Add Supplier</button>
+            <!-- Two Diffrent Button On Tab Change -->
+        </div>
+      </div>
+      </div>
+      <div class="w98">
+        <div class="pt15 display">
+          <div>
+            <input type="text" class="input wid240 mr10 magnifying-glass" #search [(ngModel)]="searchParams"
+            name="searchParams" (keyup)="searchDatabase()" placeholder="Search">
+          </div>
+          <div >
+                <!-- <a href="" class="mr10"><img src="../../../assets/img1/copy2.svg" title="Copy"></a>
+                <a href="" class="mr10"><img src="../../../assets/img1/csv.svg" title="CSV"></a> -->
+                <a (click)="downloadPdf()" class="mr10"><img src="../../../assets/img1/pdf.svg" title="PDF Preview"></a> 
+                <a (click)="exportToExcel()" class="mr10"><img src="../../../assets/img1/excel.svg" title="Excel Download"></a>
+            </div>
+        </div>
+        <app-basic-table [headers]="headerSetting" [tableSetting]="tableSetting" [displayData]="staticPageData"
+        [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='showConfirm($event)'
+        (viewView)="viewRow($event)">
+        </app-basic-table>
+        
+      </div>
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+      [count]="totalRecords" (sizeChange)="updateTableBatchSize($event)">
+   </pagination>
+   
+            <!-- use image only when page is empty,table body class element will not be present -->
+
+</div> 
+  <div class="modal" id="add1Modal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" *ngIf="!isedit" >Add Supplier</h4>
+          <h4 class="modal-title" *ngIf="isedit">Update Supplier</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form #addVendorForm ="ngForm" autocomplete="off">
+          <div class="flex">
+            <div class="sec1">
+              <div class="pt10"  [class.has-error]="company_name.invalid && company_name.touched">
+                <label class="p_title"> Company<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" id="company_name" (keyup)="maxlenth(model.company_name,30)" name="company_name" placeholder="Enter Company Name"  [(ngModel)]="model.company_name"
+                #company_name="ngModel" required>
+            </div>
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!company_name.valid && company_name.touched">
+              Company  name is mandatory
+           </span></p> -->
+              <div class="pt10">
+                <label class="p_title"> Email Id<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" id="email_id" name="email_id" placeholder=" For Ex. abc@gmail.com"  [(ngModel)]="model.email_id"
+                #email_id="ngModel"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" email> </div>
+               
+             <p  class="errormsg">
+                       <span class="help-block" *ngIf="email_id.errors?.pattern">Please enter a valid email address !</span>
+                       </p>
+             </div>
+            <div class="sec2">
+              <div class="pt10"  [class.has-error]="supplier_name.invalid && supplier_name.touched">
+                <label class="p_title"> Supplier<span class="text-danger">*</span></label>
+                <input type="text" class="input wid100" id="supplier_name" (keyup)="maxlenth(model.supplier_name,30)" name="supplier_name" placeholder="Enter Supplier Name"  [(ngModel)]="model.supplier_name"
+                #supplier_name="ngModel" required>
+            </div>
+            <!-- <p class="errormsg"><span  style="height:10px;" class="help-block" *ngIf="!supplier_name.valid && supplier_name.touched">
+              Supplier  name is mandatory
+           </span></p> -->
+           <div class="pt10" [class.has-error]="phone_no.invalid && phone_no.touched" >
+            <label class="p_title"> Mobile <span class="text-danger">*</span></label>
+           <input type="text" class="input wid100" id="unit_cost" 
+            name="phone_no" placeholder="Enter Mobile Number"  maxlength="10"
+            #phone_no="ngModel" 
+            (change)="validateMobile(this.model.phone_no)"
+            [(ngModel)]="model.phone_no"
+           onkeypress=" return (event.charCode >= 48 && event.charCode <= 57)" 
+            required>
+        </div>
+         <!--  <span class="help-block" *ngIf="!phone_no.valid && phone_no.touched">
+          Mobile number is mandatory
+      </span> -->
+      <p  class="errormsg">
+     <span class="help-block"  *ngIf="phone_no.errors?.minlength">   Please  10 digit mobile number</span>
+    </p>  
+    <!-- <div class="pt10">
+      <label class="p_title"> Item <span class="text-danger">*</span></label>
+     <ng-multiselect-dropdown placeholder="Select Item" [(ngModel)]="model.item_ids"
+        [data]="itemAgainstCata" [settings]="moderatorSettingsforitem" name="item_ids">
+       </ng-multiselect-dropdown>
+      </div>  -->
+       </div>
+          </div>
+          <div class="pt10">
+            <label class="p_title"> Address</label>
+         <input type="text" class="input wid100" name="address" id="address"
+            [(ngModel)]="model.address"  (keyup)="maxlenth(model.address,70)" placeholder="Enter company address">
+          </div>
+          <div class="pt10 display">
+           <div></div>
+           <div>
+            <button class="right blue_button cancel" data-dismiss="modal" (click)="cancel(false)" >Cancel</button>
+              <button class="right blue_button" *ngIf="!isedit" (click)="saveSupplierDetails(model)">Add Supplier</button>
+              <button class="right blue_button"  *ngIf="isedit" (click)="updateSupplierDetails(model)">Update</button></div>
+           </div>
+        </form>
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="deletesModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" (click)="cancel(false)">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="center">
+            <span><img src="../../../assets/img1/alert.svg"></span><span class="alert">Alert</span>
+          </div>
+         <div><p class="center"> Do you want
+           to proceed ?</p>
+          </div> 
+          <div class="pt101 display">
+            <div>
+              <button class="white_button right"data-dismiss="modal" (click)="cancel(false)">Cancel</button>
+            </div>
+            <div>
+              <button class="blue_button right" (click)="deleteRow(tempObj)">Proceed</button>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>

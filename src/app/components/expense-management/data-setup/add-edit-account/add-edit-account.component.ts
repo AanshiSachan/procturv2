@@ -124,10 +124,11 @@ export class AddEditAccountComponent implements OnInit {
     this.accountDetails.accountName = this.editAccountDetails.display_name;
     this.accountDetails.accountType = this.editAccountDetails.type;
     this.accountDetails.accountDescription = this.editAccountDetails.notes;
-    this.accountDetails.accountNumber = this.editAccountDetails.account_number
-    this.accountDetails.IFSC_Code = this.editAccountDetails.ifsc_code
-    this.accountDetails.displayPayeeName = this.editAccountDetails.party_id
-    this.accountDetails.valuType = this.editAccountDetails.party_type
+    this.accountDetails.accountNumber = this.editAccountDetails.account_number;
+    this.accountDetails.IFSC_Code = this.editAccountDetails.ifsc_code;
+    this.accountDetails.displayPayeeName = this.editAccountDetails.party_id;
+    // this.accountDetails.displayPayeerName = this.editAccountDetails.party_id;
+     this.accountDetails.valuType = this.editAccountDetails.party_type;
 
   }
 
@@ -143,7 +144,9 @@ export class AddEditAccountComponent implements OnInit {
         ifsc_code: this.accountDetails.IFSC_Code,
         account_number: this.accountDetails.accountNumber,
         party_id: this.accountDetails.displayPayeeName,
-        party_type: this.accountDetails.valuType,
+        //party_id: this.accountDetails.displayPayeerName,
+
+        // party_type: this.accountDetails.valuType,
         account_id: ''
       };
       const url = `/api/v1/account`;
@@ -153,6 +156,7 @@ export class AddEditAccountComponent implements OnInit {
         this.httpService.putData(url, obj).subscribe(
           (res: any) => {
             this.auth.hideLoader();
+            console.log("post data",obj)
             if (res.statusCode == 200) {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Account updated successfully');
               this.closePopups(false);
@@ -192,23 +196,23 @@ export class AddEditAccountComponent implements OnInit {
       return;
     }
 
-    if (this.accountDetails.accountNumber == '' && this.accountDetails.valuType == '0') {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
-      return
-    }
+    // if (this.accountDetails.accountNumber == '' && this.accountDetails.valuType == '0') {
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Number!');
+    //   return
+    // }
 
-    if (this.accountDetails.valuType == '0' && this.accountDetails.IFSC_Code == '' && this.accountDetails.accountType == '0') {
+    // if (this.accountDetails.valuType == '0' && this.accountDetails.IFSC_Code == '' && this.accountDetails.accountType == '0') {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
-      return
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify IFSC Code!');
+    //   return
 
-    }
+    // }
 
-    if (this.accountDetails.accountDescription.trim() == '') {
+    // if (this.accountDetails.accountDescription.trim() == '') {
 
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
-      return
-    }
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Account Description!');
+    //   return
+    // }
 
 
     if (this.accountDetails.valuType != '0' && this.accountDetails.valuType != '1') {
@@ -222,7 +226,6 @@ export class AddEditAccountComponent implements OnInit {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', 'Please specify Payee/Payer!');
       return
     }
-
 
     return true;
   }

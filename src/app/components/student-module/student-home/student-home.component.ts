@@ -232,6 +232,7 @@ export class StudentHomeComponent implements OnInit {
   stateList: any[] = [];
   cityList: any[] = [];
   attendanceCertificate: boolean = false;
+  selectedFilterData: any=null;
   /* =================================================================================================== */
   constructor(
     private prefill: FetchprefilldataService,
@@ -351,14 +352,14 @@ export class StudentHomeComponent implements OnInit {
           this.downloadStudentAdmissionForm();
         },
       },
-      {
-        label: "Fee Installment",
-        icon: "fa fa-dollar",
-        command: () => {
-          this.studentFeeInstallment(-1); // because fee install ment at multiple student has some issues
-          // this.isShareDetails = true;
-        },
-      },
+      // {
+      //   label: "Fee Installment",
+      //   icon: "fa fa-dollar",
+      //   command: () => {
+      //     this.studentFeeInstallment(-1); // because fee install ment at multiple student has some issues
+      //     // this.isShareDetails = true;
+      //   },
+      // },
       {
         label: "Download ID card",
         icon: "fa fa-download",
@@ -643,6 +644,7 @@ export class StudentHomeComponent implements OnInit {
       obj.master_course_name = "";
     }
     if (this.showQuickFilter && !this.isProfessional) {
+      this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
     } else if (
       this.searchBarData != "" &&
@@ -663,6 +665,7 @@ export class StudentHomeComponent implements OnInit {
       obj.master_course_name = "";
       obj.course_id = "-1";
       obj.standard_id = "-1";
+      this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
     } else if (
       (this.searchBarData == "" ||
@@ -672,7 +675,9 @@ export class StudentHomeComponent implements OnInit {
       !this.isProfessional
     ) {
       this.loadTableDataSource(obj);
+      this.selectedFilterData=obj;
     } else {
+      this.selectedFilterData=this.instituteData;
       this.loadTableDataSource(this.instituteData);
     }
   }
@@ -697,6 +702,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   editStudent(id) {
+    alert(id)
     this.router.navigate(["/view/students/edit/" + id]);
   }
 
@@ -717,9 +723,9 @@ export class StudentHomeComponent implements OnInit {
       this.closeSideBar();
       this.appC.popToast(msg);
       this.closeDeletePopup();
-      this.loadTableDataSource(this.instituteData);
+      this.loadTableDataSource(this.selectedFilterData!=null?this.selectedFilterData:this.instituteData);
     },
-    (err : any) => {
+    (err:any)=>{
       let msg = {
         type: "error",
         title: "",
@@ -1456,6 +1462,7 @@ export class StudentHomeComponent implements OnInit {
         obj.course_id = '-1';
         obj.standard_id = '-1';
       }
+      this.selectedFilterData=obj;
       this.loadTableDataSource(obj);
     } else {
       /* If User has entered an empty value needs to be informed */
@@ -1482,6 +1489,7 @@ export class StudentHomeComponent implements OnInit {
           sorted_by: "",
           order_by: "",
         };
+        this.selectedFilterData=this.instituteData;
         this.loadTableDataSource(this.instituteData);
       } else {
       /* valid input detected, check for type of input */
@@ -1505,6 +1513,7 @@ export class StudentHomeComponent implements OnInit {
             sorted_by: "",
             order_by: "",
           };
+          this.selectedFilterData=this.instituteData;
           this.loadTableDataSource(this.instituteData);
         } /* If not string then use the data as a number*/ else {
           this.instituteData = {
@@ -1524,6 +1533,7 @@ export class StudentHomeComponent implements OnInit {
             sorted_by: "",
             order_by: "",
           };
+          this.selectedFilterData=this.instituteData;
           this.loadTableDataSource(this.instituteData);
         }
       }
@@ -2024,7 +2034,7 @@ export class StudentHomeComponent implements OnInit {
       );
     } else {
     /* For Course Model fetch the Student Courses */
-      this.studentPrefill.fetchStudentCourseDetails(id, "-1").subscribe(
+      this.studentPrefill.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
         (res) => {
           this.studentbatchList = [];
           if (res != null) {
@@ -2216,7 +2226,8 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   editFeePDCDetails(event) {
     sessionStorage.setItem("editPdc", "true");
-    this.router.navigate(["/view/students/edit/" + event]);
+    this.router.navigate(['/view/fee/update-fee/view-fee/'+event]);
+    // this.router.navigate(["/view/students/edit/" + event]);
   }
 
   /* =================================================================================================== */
@@ -2685,6 +2696,7 @@ export class StudentHomeComponent implements OnInit {
       e.deleteCourse_SubjectUnPaidFeeSchedules;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
+    this.studentAddFormData.optional_subject_id = e.optional_subject_id;
     this.updateStudentDataOnServer();
   }
 
@@ -2792,6 +2804,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
   downloadStudentAdmissionForm() {
+    
     let obj: any = {
       studentIds: this.selectedRowGroup.join(","),
     };
@@ -3030,8 +3043,10 @@ export class StudentHomeComponent implements OnInit {
   openQuickFilter() {
     this.isAdvFilter = false;
     this.searchBarData = "";
+    if(!this.schoolModel) {
     document.getElementById("adFilterExit").classList.add("hide");
     document.getElementById("adFilterOpen").classList.remove("hide");
+    }
     // document.getElementById('black-bg').classList.add('hide');
     document.getElementById("advanced-filter-section").classList.add("hide");
     this.showQuickFilter = true;

@@ -25,6 +25,7 @@ import { CustomNamePipe } from './quick-filter/custom-name.pipe';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
 import { BasicTableComponent } from './basic-table/basic-table.component';
+import { BasicTableV2Component } from './basic-table-v2/basic-table-v2.component';
 
 export function getDatepickerConfig(): BsDatepickerConfig {
     return Object.assign(new BsDatepickerConfig(), {
@@ -45,7 +46,7 @@ export function getDatepickerConfig(): BsDatepickerConfig {
     imports: [
         CommonModule,
         FormsModule,
-        TooltipModule.forRoot(),
+        TooltipModule.forRoot() 
         // BsDatepickerModule
     ],
     declarations: [
@@ -70,7 +71,8 @@ export function getDatepickerConfig(): BsDatepickerConfig {
         DataDisplayTableComponent,
         PreferencePopupComponent,
         EnquiryUpdatePopupComponent,
-        BasicTableComponent
+        BasicTableComponent,
+        BasicTableV2Component
 
     ],
     exports: [
@@ -94,7 +96,8 @@ export function getDatepickerConfig(): BsDatepickerConfig {
         DataDisplayTableComponent,
         PreferencePopupComponent,
         EnquiryUpdatePopupComponent,
-        BasicTableComponent
+        BasicTableComponent,
+     
     ],
     entryComponents: [
         DropMenuComponent,

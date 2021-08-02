@@ -124,19 +124,19 @@
                             <div class="c-lg-12 field-checkbox-wrapper">
                                 <input class="form-checkbox" type="checkbox" name="assign_course" id='assign_course'
                                     [(ngModel)]="courseFetchForm.is_AssignedCourseBatchFees" checked>
-                                <label class="text-label" for="assign_course">&nbsp; Active Assigned Course Fee</label>
+                                <label class="text-label" for="assign_course">&nbsp; Active Assigned {{schoolModel ? 'Section' : 'Course'}} Fee</label>
                             </div>
                         </div>
                         <div class="c-lg-3">
                             <div class="c-lg-12 field-checkbox-wrapper">
                                 <input class="form-checkbox" type="checkbox" name="unassign_course" id='unassign_course'
                                     [(ngModel)]="courseFetchForm.is_unAssignedCourseBatchFees">
-                                <label class="text-label" for="unassign_course">&nbsp; Active Unassigned Course
+                                <label class="text-label" for="unassign_course">&nbsp; Active Unassigned {{schoolModel ? 'Section' : 'Course'}}
                                     Fee</label>
                             </div>
                         </div>
                         <div class="c-lg-3 ">
-                            <div class="c-lg-9 field-checkbox-wrapper">
+                            <div class="c-lg-9 field-checkbox-wrapper" *ngIf="!schoolModel">
                                 <input class="form-checkbox" type="checkbox" name="archived_course" id='archived_course'
                                     [(ngModel)]="courseFetchForm.is_archivedCourseBatchFees">
                                 <label class="text-label" for="archived_course">&nbsp; Active Archived Course

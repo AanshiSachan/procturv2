@@ -1,0 +1,32 @@
+@import "../course-course-list-v2.component.scss";
+.field-wrapper {
+    padding-top: 0;
+}
+.field-wrapper.datePickerBox:after {
+    content: "";
+    background: url(/./assets/images/calendar.svg) no-repeat;
+    position: absolute;
+    right: 30px;
+    top: 7px;
+    width: 21px;
+    height: 21px;
+    z-index: 20;
+    border-radius: 4px;
+    orientation: "auto";
+}
+.noShadow {
+    box-shadow: none !important;
+    border: none !important;
+}
+#addUpdateSubjectdialog {
+    .field-wrapper {
+        margin-bottom: 10px;
+    }
+}
+.addMc {
+    font-size: 11px;
+    margin-left: 315px;
+    cursor: pointer;
+    color: #109CF1;
+    font-weight: 600;
+}

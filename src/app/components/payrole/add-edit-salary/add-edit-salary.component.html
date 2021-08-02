@@ -1,0 +1,228 @@
+<!-- <div class="box-header">
+    <h3 class="box-title">Salary Template</h3> -->
+<form class="form-horizontal" role="form"  id="templateDataForm">
+    <section class="middle-top mb0 clearFix">
+       <h1 class="pull-left">
+        <a routerLink="/view/payrole/salary-template">
+          Salary Template
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+       <span *ngIf="!salaryModel.template_id">Add Salary Template</span>
+       <span *ngIf="salaryModel.template_id">Update Salary Template</span>
+
+      </h1>
+    </section>
+    <div class="row" style="margin-left:0px ;">
+        <div class="col-sm-12" style="margin-bottom: 10px;">
+            <div class="form-group">                       
+                 <label for="salary_grades" class="col-sm-3 control-label">
+                    Salary Grades <span class="text-red">*</span>
+                </label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="salary_grades" onpaste="return false" oncopy="return false" placeholder="Enter Salary Grade" maxlength="30" [(ngModel)]="salaryModel.salary_grade" name="salary_grades" autocomplete="off">
+                </div>
+                <span class="col-sm-4 control-label" id="salary_grades_error">
+                 </span>
+            </div>
+
+            <div class="form-group">                       
+                 <label for="basic_salary" class="col-sm-3 control-label">
+                    Basic Salary <span class="text-red">*</span>
+                </label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" maxlength="8" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" onpaste="return false" oncopy="return false" placeholder="Enter Basic Salary" id="basic_salary" [(ngModel)]="salaryModel.basic_salary" (ngModelChange)="calculateGrossSalary()" name="basic_salary" autocomplete="off">
+                </div>
+                <span class="col-sm-4 control-label" id="basic_salary_error">
+              </span>
+            </div>
+
+            <div class="form-group">  
+                 <label for="overtime_rate" class="col-sm-3 control-label">
+                    Overtime Rate (Per Hour)<span class="text-red">*</span>
+                </label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" maxlength="8" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" onpaste="return false" oncopy="return false" placeholder="Enter Overtime Rate" id="overtime_rate" [(ngModel)]="salaryModel.overtime_rate" name="overtime_rate" value="" autocomplete="off">
+                </div>
+                <span class="col-sm-4 control-label" id="overtime_rate_error">
+                  </span>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="box" style="border: 1px solid #eee">
+                <div class="box-header" style="background-color: #fff;border-bottom: 0px solid #eee;color: #000;">
+                    <h3 class="box-title" style="color: #1a2229">Allowances</h3>
+                </div>
+                <div class="box-body" >
+                    <div class="row" >
+                        <div class="col-sm-12" id="allowances" *ngIf="!removeAllownce" >
+                              
+                            <div class="form-group allowancesfield">
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="allowanceslabel1" maxlength="30" [(ngModel)]="salaryModel.allowance" onpaste="return false" oncopy="return false" name="allowanceslabel1"  placeholder="Enter Allowances Label" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control allowancesamount" maxlength="8" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" onpaste="return false" oncopy="return false" id="allowancesamount1" [(ngModel)]="salaryModel.allowance_amount" name="allowancesamount1" placeholder="Enter Allowances Value" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-2" style="padding: 0px;">
+                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" >
+                                        <i class="fa fa-plus"></i>
+
+                                    </button>
+                                    <!-- <a (click)="removeAllownce = true;" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18"  style="margin-bottom: -6px;"></a> -->
+                                </div>
+
+                                <span class="col-sm-12 errorpointallowances" id="allowanceserror1">
+                                                                            </span>
+                            </div>
+                            
+                        </div>
+                        <!-- ===========itrate-Allownce-div=============== -->
+                        <div *ngFor="let record of addedListAllownc; let i=index">
+                            <div class="col-sm-12" id="allowance">
+
+                             <div class="form-group allowancesfield">
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" [id]="'allowanceslabel1'+i" onpaste="return false" oncopy="return false" maxlength="30" [(ngModel)]="record.allowance" [name]="'allowanceslabel1'+i" placeholder="Enter Allowances Label" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control allowancesamount" onpaste="return false" oncopy="return false" maxlength="8" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'allowancesamount1'+i" [(ngModel)]="record.allowance_amount" [name]="'allowancesamount1'+i" placeholder="Enter Allowances Value" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-2">
+                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-allowances-add" (click)="addAllowonceDeduction('A')" id="salary-btn-allowances-add" *ngIf="removeAllownce">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                    <!-- <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" ></a> -->
+
+                                      
+                                    <a (click)="removeList(i)" *ngIf="addedListAllownc.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18"  style="margin-bottom: -6px;"></a>
+
+                                 </div>
+
+                                <span class="col-sm-12 errorpointallowances" id="allowanceserror1">
+                                </span>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- ==============end========== -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="box" style="border: 1px solid #eee;">
+                <div class="box-header" style="background-color: #fff;border-bottom: 0px solid #eee;color: #000;">
+                    <h3 class="box-title" style="color: #1a2229">Deduction</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12" id="deductions" *ngIf="!remove">
+                            <div class="form-group deductionsfield">
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="deductionslabel1" onpaste="return false" oncopy="return false" maxlength="30" name="deductionslabel1" [(ngModel)]="salaryModel.deduction" placeholder="Enter Deductions Label" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control deductionsamount" onpaste="return false" oncopy="return false" maxlength="8" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="deductionsamount1"  [(ngModel)]="salaryModel.deduction_amount" name="deductionsamount1"  placeholder="Enter Deductions Value" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-2" style="padding: 0px;">
+                                    <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-deductions-add" (click)="dedutAllown('D')" id="salary-btn-deductions-add">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                     <!-- <a (click)="remove = true;" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" style="margin-bottom: -6px;"></a> -->
+                                </div>
+
+                                <span class="col-sm-12 errorpointdeductions" id="deductionserror1">
+                                                                            </span>
+                            </div>
+                        </div>
+                        <!-- ==========deduction-itrate============= -->
+                        <div *ngFor="let deduct of addedListDeduct; let i=index" >
+                        <div class="col-sm-12" id="deductions">
+                            <div class="form-group deductionsfield">
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" [id]="'deductionslabel1'+i" onpaste="return false" oncopy="return false" maxlength="30" [name]="'deductionslabel1'+i" [(ngModel)]="deduct.deduction" placeholder="Enter Deductions Label">
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <input type="number" class="form-control deductionsamount" onpaste="return false" oncopy="return false" maxlength="8" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [id]="'deductionsamount1'+i"  [(ngModel)]="deduct.deduction_amount" [name]="'deductionsamount1'+i" placeholder="Enter Deductions Value" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-2">
+
+                                     <button type="button" class="btn btn-success btn-xs salary-btn salary-btn-deductions-add" (click)="dedutAllown('D')" id="salary-btn-deductions-add" *ngIf="remove">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                    
+                                    <a (click)="removeListDeduct(i)" *ngIf="addedListDeduct.length !=0"><img src="../../../assets/img1/delete.svg" title="Delete" class="group18" style="margin-bottom: -6px;"></a>
+
+                                </div>
+
+                                <span class="col-sm-12 errorpointdeductions" id="deductionserror1">
+                                                                            </span>
+                            </div>
+                        </div>
+
+                        </div>
+                        <!-- =========end============= -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8 col-sm-offset-4" style="padding-right: 0px;">
+            <div class="box" style="border: 0px solid #eee;">
+                <div class="box-header" style="background-color: #fff;border-bottom: 1px solid #eee;color: #000;">
+                    <h3 class="box-title" style="color: #1a2229">Total Salary Details</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered">
+                                <tbody><tr>
+                                    <td class="col-sm-8" style="line-height: 36px">Gross Salary</td>
+
+                                    <td class="col-sm-4"><input class="form-control" id="gross_salary" type="number" disabled="disabled" name="gross_salary" [(ngModel)]="salaryModel.gross_salary"></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="col-sm-8" style="line-height: 36px">Total Deduction</td>
+
+                                    <td class="col-sm-4"><input class="form-control" id="total_deduction" type="number" disabled="disabled" name="total_deduction" [(ngModel)]="salaryModel.total_deduction" ></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="col-sm-8" style="line-height: 36px">Net Salary</td>
+
+                                    <td class="col-sm-4"><input class="form-control" id="net_salary" type="number" disabled="disabled" name="net_salary" [(ngModel)]="salaryModel.net_salary"></td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!salaryModel.template_id">
+            <input class="blue_button pull-right" type="button" id="addSalaryTemplate" (click)="createSalary()" value="Add Salary Template">
+        </div>
+        <div *ngIf="salaryModel.template_id">
+            <input class="blue_button pull-right" type="button" id="updateSalaryTemplate" (click)="updateSalary()" value="Update Salary Template">
+        </div>
+<!-- ===back======== -->
+<!-- <div>
+    <input class="blue_button1 pull-left" type="button" id="updateSalaryTemplate" (click)="back()" value="Back">
+</div> -->
+<!-- ============ -->
+</div>
+
+</form>

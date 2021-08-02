@@ -9,6 +9,7 @@ import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { getSMSService } from '../../../../services/report-services/get-sms.service';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transctional-sms',
@@ -59,7 +60,8 @@ export class TransctionalSmsComponent implements OnInit {
     private getSms: getSMSService,
     private auth: AuthenticatorService,
     private _excelService: ExcelService,
-    private _pdfService: ExportToPdfService,) {
+    private _pdfService: ExportToPdfService,
+    private router: Router) {
     this.switchActiveView('sms');
   }
 
@@ -307,9 +309,9 @@ export class TransctionalSmsComponent implements OnInit {
           ele.message,
           ele.sentDateTime,
           ele.role,
-          ele.sms_type,
           ele.func_type,
-          ele.sentStatus,
+          // ele.func_type,
+          // ele.sentStatus,
         ]
         arr.push(json);
       })
@@ -381,6 +383,9 @@ export class TransctionalSmsComponent implements OnInit {
     this.displayBatchSize = event;
     this.fetchTableDataByPage(this.PageIndex);
   }
-
+  sendNotifyPage(){
+   
+    this.router.navigateByUrl('/view/dashboard/send-notification')
+  }
 
 }

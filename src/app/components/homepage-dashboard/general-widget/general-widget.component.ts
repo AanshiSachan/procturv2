@@ -76,6 +76,7 @@ export class GeneralWidgetComponent implements OnInit {
 
 
     generatePlan() {
+        
         this.cd.markForCheck();
         this.planListArr.forEach(e => {
             if (e.id === this.instituteSetting.plan_id) {
@@ -86,6 +87,17 @@ export class GeneralWidgetComponent implements OnInit {
         })
         this.genralStats.student_limit = this.instituteSetting.active_student_allocation;
         this.genralStats.total = this.instituteSetting.total_students;
+// ===============for Add-SendNotification==================
+        let transactionalSms =this.instituteSetting.institute_sms_quota_available
+        sessionStorage.setItem('smsTransaction',JSON.stringify(transactionalSms))
+        console.log("transactional",transactionalSms)
+
+        let smsPramotional = this.instituteSetting.institute_campaign_sms_quota_available
+        sessionStorage.setItem('pramotionValu',JSON.stringify(smsPramotional))
+        let emailQuoat_balence =this.instituteSetting.institute_email_quota - this.instituteSetting.institute_email_quota_used
+        sessionStorage.setItem('email_quoat_balence',JSON.stringify(emailQuoat_balence))
+
+
     }
 
 

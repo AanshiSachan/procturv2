@@ -1,0 +1,234 @@
+
+<div class="page-content">
+    <div class="head_padding">
+      <div class="w98 display">
+        <div class="page_heading">
+          <p>Apply Leave</p>
+        </div>
+        <div>
+          <!-- <a href="" class="mr10"><img src="../../../assets/img/email.svg" title="Send Report to email"></a> -->
+          <a  class="mr10" (click)="downloadPdf()"><img src="../../../assets/img/pdf.svg" title="PDF Preview"></a>
+          <!-- <a href="" class="mr10"><img src="../../../assets/img/print.svg" title="Print Report"></a> -->
+        </div>
+      </div>
+    </div>
+    <div class="w98">
+       <div class="pt15">
+        <button class="blue_button" data-toggle="modal" data-target="#addModal">Apply For Leave</button>
+      </div>
+      <div class="leave_app">
+            <div class="table_heading">
+              <div>
+               #
+              </div>
+              <div>Application to </div>
+              <div>Category</div>
+              <div>Date Applied</div>
+              <div>From</div>
+              <div>To</div>
+              <div>Days</div>
+              <div>Status</div>
+              <div>Action</div>
+            </div>
+            <div class="table_body" *ngFor="let array of leaveApplicationList ; let i=index">
+              <div>
+                {{i+1}}
+              </div>
+              <div  title="{{array?.applied_to_name}}">
+              <!-- <span *ngIf="array.show_data">   -->
+                {{ (!array.applied_to_name) ? '-' : (array.applied_to_name.length > 20) ?
+              (array.applied_to_name | slice:0:20) + '...' : array.applied_to_name}}
+            <!-- </span> -->
+              </div>
+              <div title="{{array?.type.name}}">
+                {{ (!array.type.name) ? '-' : (array.type.name.length > 20) ?
+                (array.type.name | slice:0:20) + '...' : array.type.name}}
+              </div>
+             <div title="{{array?.applied_on}}">
+               {{array.applied_on}}
+             </div>
+             <div title="{{array?.from}}">
+              {{array.from}}
+            </div>
+             <div title="{{array?.to}}">{{array.to}}</div>
+             <div title="{{array?.no_of_days}}">
+              {{array.no_of_days}}
+              <!-- {{calculateDiff(array.no_of_days)}} -->
+             </div>
+             <div>
+    
+      <!-- <span class="pending" [ngClass]="{'denied': array.status=='CANCELLED'}">{{array.status == 'CANCELLED'  ?  'Withdraw' : array.status}}</span> -->
+      <span  [ngClass]="{'denied' : array.status == 'CANCELLED','pending' : array.status == 'PENDING', 'approved' : array.status == 'APPROVED'}">{{array.status == 'CANCELLED'  ?  'Withdraw' : array.status}}</span>
+
+             </div>
+              <div>
+                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"  (click)="editLeaveRow(array)"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+                <a href="" data-toggle="modal" data-target="#withdrawModal" (click)="deleteRow(array.id)"><img src="../../../assets/img/withdraw.svg" title="Withdraw" class="group18" ></a>
+              </div>
+            </div>
+            <!-- <div class="table_body">
+              <div>
+                2
+              </div>
+              <div>
+                Admin
+              </div>
+              <div>
+                Sick Leave
+              </div>
+             <div>
+               01-02-2020
+             </div>
+             <div>
+               01-02-2020 
+             </div>
+             <div>02-02-2020</div>
+             <div>
+               2
+             </div>
+             <div>
+               <span class="approved">Approved</span>
+             </div>
+              <div>
+                <a href="" class="mr10" data-toggle="modal" data-target="#editModal"><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a>
+                <a href="" data-toggle="modal" data-target="#withdrawModal"><img src="../../../assets/img/withdraw.svg" title="Withdraw" class="group18" ></a>
+              </div> -->
+            <!-- </div> -->
+            </div>
+          </div>
+          <!-- use image only when page is empty,table body class element will not be present -->
+    </div>
+    <!-- <div class="white bottom_button bottom_pagignation">
+      <div class="w98">
+      <div class=" flex">
+        <div class="w20">
+          <p>Showing <span>1</span> to <span>100</span> of <span>831</span></p>
+        </div>
+        <div class="w10">
+          <p>Total <span>9</span> Pages</p>
+        </div>
+        <div class="w40">
+          <p>Records per Page  
+            <select>
+            <option>9</option>
+            </select>
+          </p>
+        </div>
+        <div class="w30" >
+         <span> <p>Previous <a><span class="active_circle number" >1</span></a> <a><span class="number">2</span></a> <a><span class="number">3</span></a> <a><span class="next">Next</span></a></p></span>
+        </div>
+      </div>
+    </div> -->
+  
+
+<!-- </div> -->
+<div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+  <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="leaveApllicationmodel.pageOffset" [perPage]="leaveApllicationmodel.pageSize"  [sizeArr]="varJson.sizeArr"
+      (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_item">
+    </pagination>
+  </div>
+</div>
+ <div class="modal" id="addModal" data-backdrop="static" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Apply For Leave</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="clear()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="pt10">
+            <!-- dropdown with search -->
+            <select class="select wid100" name="userType" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)">
+              <option value="">Role*</option>
+              <option value="3,9">Teacher</option>
+              <option value="0">Staff</option>
+
+            </select>
+          </div>
+          <div class="pt10">
+            <select class="select wid100" name="applicatioName" [(ngModel)]="leaveApllicationmodel.applicatioName">
+              <option value="" >Application To*</option>
+              <option  [value]="list.user_id" *ngFor="let list of toApplicationList">{{list.name}}</option>
+            </select>
+          </div>
+          <div class="pt10">
+            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.categoryName">
+              <option value="">Category*</option>
+               <option [value]="item.id" *ngFor="let item of leaveTypeList">{{item.name}}</option>
+            </select>
+          </div>
+          <div class="pt10">
+            <input type="date" name="" [(ngModel)]="leaveApllicationmodel.from" class="wid100 input" placeholder="From*">
+          </div>
+       
+          <div class="pt10">
+            <input type="date" name="" [(ngModel)]="leaveApllicationmodel.to" class="wid100 input"  placeholder="To*">
+          </div>
+          <div class="pt10 h10">
+            <button class="blue_button right" (click)="createLeaveApplication()">Apply</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+ <div class="modal" id="editModal" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" >Edit Leave Application</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="clear()">&times;</button>
+        </div>
+        <div class="modal-body">
+         <div class="pt10">
+            <!-- dropdown with search -->
+            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.userType" (ngModelChange)="getApplicationToList($event)" >
+              <option>Role*</option>
+              <option value="3,9">Teacher</option>
+              <option value="0">Staff</option>
+
+            </select>
+          </div>
+          <div class="pt10">
+            <select class="select wid100" name="applicatioName" id="applicatioName"  [(ngModel)]="leaveApllicationmodel.applicatioName">
+              <option value="">Application To*</option>
+              <option  [value]="list.user_id" *ngFor="let list of toApplicationList">{{list.name}}</option>
+            </select>
+          </div>
+          <div class="pt10">
+            <select class="select wid100" [(ngModel)]="leaveApllicationmodel.categoryName">
+              <option value="">Category*</option>
+
+              <option [value]="item.id" *ngFor="let item of leaveTypeList">{{item.name}}</option>
+            </select>
+          </div>
+          <div class="pt10">
+            <input type="date" id="from" name="from" [(ngModel)]="leaveApllicationmodel.from" class="wid100 input" placeholder="From">
+          </div>
+          <div class="pt10">
+            <input type="date" id="to" name="to" [(ngModel)]="leaveApllicationmodel.to" class="wid100 input" placeholder="To">
+          </div>
+          <div class="pt10 h10">
+            <button class="blue_button right" (click)="editLeaveApplication()">Edit</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div> 
+  <div class="modal" id="withdrawModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"> Withdraw Leave Application: #{{leaveApllicationmodel.id}}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="pt10">
+            <button class="white_button" data-dismiss="modal">Cancel</button>
+            <button class="blue_button right" (click)="withdrowLeave()">Withdraw</button>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div> 

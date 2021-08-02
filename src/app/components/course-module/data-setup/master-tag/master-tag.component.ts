@@ -147,15 +147,15 @@ export class MasterTagComponent {
 
     createMasterTag(){        
         if(this.tagName == ''){
-            this.msgSrvc.showErrorMessage('info','',"Enter tag name");
+            this.msgSrvc.showErrorMessage('error','',"Enter tag name");
             return false;
         }
         if(this.tagName.length > 100){
-            this.msgSrvc.showErrorMessage('info','',"Tag name cannot be so long");
+            this.msgSrvc.showErrorMessage('error','',"Tag name cannot be so long");
             return false;
         }
         if(this.tagDescription.length > 500){
-            this.msgSrvc.showErrorMessage('info','',"Description cannot be so long");
+            this.msgSrvc.showErrorMessage('error','',"Description cannot be so long");
             return false;
         }
        // else {

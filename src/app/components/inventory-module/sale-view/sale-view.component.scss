@@ -1,0 +1,101 @@
+@import "../inventory-module.component.scss";
+@import "../inventory-module.component.scss";
+@media print {
+
+  .header, .hide { visibility: hidden }
+    .name2{
+    
+  color: #8B817E !important;
+    
+    
+      }
+      .created{
+      -webkit-print-color-adjust: exact; 
+       // background:url(/assets/img1/teal_rec.svg) !important;
+      // background-color: cadetblue !important;
+       //border-top-left-radius:80% ;
+      // border-bottom-left-radius:80% ;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        width: 194px !important;
+        font-weight: 400 !important;
+        font-size: 13px !important;
+        line-height: 30px !important;
+        letter-spacing: 0.01em !important;
+        color: #110f0f !important;
+        text-align: center !important;
+      
+      }
+      .thead{
+        -webkit-print-color-adjust: exact; 
+        background: #DFE5F0 !important;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1) !important;
+        border-radius: 5px;
+        line-height: 40px;
+        display: flex;
+      }
+      .tbody{
+        border-bottom:1px solid #DFE5F0 !important;
+      }
+      .tbody>div{
+        text-align: center !important;
+        font-weight: normal !important;
+        font-size: 13px !important;
+        line-height: 60px !important;
+        letter-spacing: 0.01em !important;
+        color: #323C47 !important;
+      }
+      .totalss{
+        background: #D4FFF2 !important;
+        //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1) !important;
+        border-radius: 5px !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        letter-spacing: 0.01em !important;
+        color: #323C47 !important;
+      }
+      .totalss>div{
+        text-align: center !important;
+        line-height: 60px !important;
+       
+      }
+      .value2{
+        width: 66%;
+        font-weight: 400;
+      font-size: 13px;
+      
+      letter-spacing: 0.01em;
+      color: #4C555E;
+      
+      }
+
+     
+      .val{
+        padding-left: 30px;
+      }
+      @page :footer {
+        display: none;
+    }
+
+    @page :header {
+        display: none;
+    }
+// .backbtn{
+//   display: none;
+// }
+    }
+    .tabletotal>div{
+      line-height: 45px;
+    }
+    .tablebody>div{
+      line-height: 45px; 
+    }
+  //   @media print {
+  //     @page :footer {
+  //         display: none;
+  //     }
+  
+  //     @page :header {
+  //         display: none;
+  //     }
+  // }

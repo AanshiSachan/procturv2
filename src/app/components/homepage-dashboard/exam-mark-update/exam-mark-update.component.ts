@@ -55,6 +55,9 @@ export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     sessionStorage.removeItem('exam_info');
+    sessionStorage.removeItem('fromClassAttendace');
+    sessionStorage.removeItem('classAttendance');
+    sessionStorage.removeItem('exam_marks');
   }
 
   checkForCoursePlannerRoute(){
@@ -65,9 +68,9 @@ export class ExamMarkUpdateComponent implements OnInit, OnDestroy {
     let encryptedData = sessionStorage.getItem('exam_info');
     let data = atob(encryptedData);
     this.exam_info = JSON.parse(data);
-    if(this.coursePlannerStatus){
-      this.exam_info.data.is_exam_grad_feature = this.examGradeFeature
-    }
+    // if(this.coursePlannerStatus){
+    //   this.exam_info.data.is_exam_grad_feature = this.examGradeFeature
+    // }
     let data1 = this.exam_info.data;
     this.examMarksUpdateCourse(data1);
   }

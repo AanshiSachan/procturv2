@@ -252,9 +252,11 @@ export class ClassComponent implements OnInit {
 
     sessionStorage.setItem('isFromCoursePlanner', String(false));
     sessionStorage.setItem('coursePlannerFilter', '');
-    setTimeout(() => {
-      this.getData();
-    }, 2000);
+    if(this.coursePlannerFilters.master_course_name!='-1' || this.coursePlannerFilters.standard_id!='-1') {
+      setTimeout(() => {
+        this.getData();
+      }, 2000);
+    }
   }
 
 
@@ -609,6 +611,8 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.auth.hideLoader();
+          this.coursePlannerData = [];
+          this.totalCount = 0;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       );
@@ -1102,7 +1106,8 @@ export class ClassComponent implements OnInit {
 
   redirect() {
     this.storeSession();
-    this.router.navigate(['/view/course/create/class/add']);
+    let url = this.schoolModel ? '/view/course/create/routine/create' : '/view/course/create/class/add';
+    this.router.navigate([url]);
   }
 
   storeSession() {  // Set all course planner filter values in session

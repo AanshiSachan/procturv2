@@ -328,7 +328,7 @@ export class TemplateHomeComponent implements OnInit {
       this.isHeaderEdit = false
     }
     else {
-      this.commonService.showErrorMessage('error', 'Fee Template Name is Mandatory', 'Please enter a valid fee template name');
+      this.commonService.showErrorMessage('error', '', 'Please enter a valid fee structure name!');
     }
   }
 
@@ -669,22 +669,21 @@ export class TemplateHomeComponent implements OnInit {
       this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
         res => {
           this.auth.hideLoader();
-          this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
+          this.commonService.showErrorMessage('success', '', 'Fee Structure Deleted Successfully');
           this.getFeeStructures();
           this.searchText = "";
           this.searchDataFlag = false;
         },
         err => {
           this.auth.hideLoader();
-
           if (err.error.message.includes("Fee template(s) are assigned to student(s).")) {
-            if (confirm('Fee template(s) are assigned to student(s). Do you wish to delete it ?')) {
+            if (confirm('Fee Structure already assigned to student(s). Do you wish to delete it ?')) {
               is_archived = "Y";
               this.auth.showLoader();
               this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
                 res => {
                   this.auth.hideLoader();
-                  this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
+                  this.commonService.showErrorMessage('success', '', 'Fee Structure Deleted Successfully');
                   this.getFeeStructures();
                 },
                 err => {

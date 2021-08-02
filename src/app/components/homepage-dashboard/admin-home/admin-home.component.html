@@ -18,13 +18,23 @@
 
                     <div class="pull-right act-right-sec">
                         <button class="btn hide add_send_noti"
-                            [ngClass]="{hide : checkIfUserHadAccess(role_feature.COMMUNICATE_ADD_SEND)}"
-                            (click)="addSendNotification()">
+                            [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_MENU)}"
+                            (click)="addSendNotification()" *ngIf="isProfessional">
 
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             &nbsp;
                             Add/Send Notification
                         </button>
+
+                        <button class="btn hide add_send_noti"
+                        [ngClass]="{hide : checkIfUserHadAccess(role_feature.DASHBOARD_MENU)}"
+                        (click)="sendNotifyPage()"  *ngIf="!isProfessional">
+
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        &nbsp;
+                        Send SMS/Email/Push
+                    </button>
+
                     </div>
                 </div>
 
@@ -149,7 +159,7 @@
                                                 <li class="course-name" style="width: 21%;">
                                                     Course</li>
                                                 <li class="subject">Subject</li>
-                                                <li class="faculty-name">Faculty</li>
+                                                <li class="faculty-name">Teacher</li>
                                                 <li class="topic-link">Linked Topic</li>
                                                 <li class="action pull-right" style="text-align: center;">Action</li>
                                             </ul>
@@ -160,7 +170,7 @@
                                                 <li class="course-name" style="width: 21%;">
                                                     Section</li>
                                                 <li class="batch">Subject</li>
-                                                <li class="batch">Faculty</li>
+                                                <li class="batch">Teacher</li>
                                                 <li class="action" style="text-align: center;">Action</li>
                                             </ul>
                                             <ul class="sche-head"
@@ -188,7 +198,7 @@
                                                 <li class="cls-type">Class Type</li>
                                                 <li class="batch">Batch</li>
                                                 <li class="class_room">Linked Topic</li>
-                                                <li class="faculty">Faculty</li>
+                                                <li class="faculty">Teacher</li>
                                                 <li class="action" style="text-align: center;">Action</li>
                                             </ul>
                                             <div class="schedule-scroller"
@@ -217,8 +227,8 @@
                             </li> -->
                                                         <li class="subject">
                                                             <div title="{{class.subject_name}}">
-                                                                {{(class.subject_name?.length > 5)? (class.subject_name
-                                                                | slice:0:5)+'..':(class.subject_name) }}
+                                                                {{(class.subject_name?.length > 15)? (class.subject_name
+                                                                | slice:0:15)+'..':(class.subject_name) }}
                                                                 <span *ngIf="class.is_optional_subject">(Optional)</span>
                                                             </div>
                                                         </li>
@@ -290,8 +300,8 @@
 
                                                         <li class="batch">
                                                             <div title="{{class.subject_name}}">
-                                                                {{(class.subject_name?.length > 10)? (class.subject_name
-                                                                | slice:0:10)+'..':(class.subject_name) }}
+                                                                {{(class.subject_name?.length > 20)? (class.subject_name
+                                                                | slice:0:20)+'..':(class.subject_name) }}
                                                                 <span *ngIf="class.is_optional_subject">(Optional)</span>
                                                             </div>
                                                         </li>
@@ -801,10 +811,10 @@
 
                         <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: -10px">
                             <div class="field-wrapper" [ngClass]="{ 'has-value': teacher_id !='' }">
-                                <label for="feeType" style="color:#4191da"> Faculty </label>
+                                <label for="feeType" style="color:#4191da"> Teacher </label>
                                 <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id" style="background: transparent;
                   border-bottom: 1px solid #4191da">
-                                    <option value='-1'>Select Faculty</option>
+                                    <option value='-1'>Select Teacher</option>
                                     <option [value]="teacher.teacher_id" *ngFor="let teacher of teacherListArr">
                                         {{teacher.teacher_name}}
                                     </option>
@@ -1535,7 +1545,7 @@
                                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
                                     <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)"
                                         class="form-checkbox" id="chkBoxTutorSelection">
-                                    <label for="tutorName" style=" margin-left: 10px;">All Faculty</label>
+                                    <label for="tutorName" style=" margin-left: 10px;">All Teacher</label>
                                 </div>
 
                                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3" style="width: 20%;">
@@ -1719,7 +1729,7 @@
                                         </tr>
                                         <tr *ngIf="studentList.length == 0">
                                             <td colspan="5">
-                                                No Faculty Found
+                                                No Teacher Found
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1835,7 +1845,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody *ngIf="!showEmailSubject">
-                                                <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                                                <tr *ngFor="let row of messageList; let i = index; trackBy : i;">
                                                     <td>
                                                         <div class="field-checkbox-wrapper">
                                                             <input type="checkbox" class="form-checkbox"
@@ -2094,7 +2104,7 @@
                             <th>Subject</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th>Faculty</th>
+                            <th>Teacher</th>
                             <th>Description</th>
                             <th>Room No</th>
                             <th *ngIf="!schoolModel">Class Type</th>
@@ -2178,7 +2188,7 @@
                             <th>Subject</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th>Faculty</th>
+                            <th>Teacher</th>
                             <th>Description</th>
                             <th>Room No</th>
                             <th *ngIf="!schoolModel">Class Type</th>
@@ -2868,10 +2878,10 @@
 
             <div class="details row">
                 <div class="c-sm-6 c-md-6 c-lg-6">
-                    <h6>Master Course : {{courseTempData.master_course}} </h6>
+                    <h6 style="font-size:14px">Master Course : {{courseTempData.master_course}} </h6>
                 </div>
                 <div class="c-sm-6 c-md-6 c-lg-6" style="text-align:right;">
-                    <h6>Exam Schedule Date : {{courseTempData.course_exam_date | date: 'dd MMM yyyy'}} </h6>
+                    <h6 style="font-size:14px">Exam Schedule Date : {{courseTempData.course_exam_date | date: 'dd MMM yyyy'}} </h6>
                 </div>
             </div>
 
@@ -2879,7 +2889,7 @@
             <div class="content-wraper">
                 <div class="row button-Section">
                     <div class="c-sm-4 c-md-4 c-lg-4">
-                        <h6>Course : {{courseTempData.course_name}}</h6>
+                        <h6 style="font-size:14px">Course : {{courseTempData.course_name}}</h6>
                     </div>
 
                 </div>

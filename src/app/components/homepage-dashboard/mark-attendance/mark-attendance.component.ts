@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckableSettings, TreeItemLookup } from '@progress/kendo-angular-treeview';
@@ -17,7 +17,7 @@ import { WidgetService } from '../../../services/widget.service';
   styleUrls: ['./mark-attendance.component.scss'],
   // encapsulation: ViewEncapsulation.Emulated
 })
-export class MarkAttendanceComponent implements OnInit {
+export class MarkAttendanceComponent implements OnInit, OnDestroy {
 
   permissionArray = sessionStorage.getItem('permissions');
 
@@ -67,7 +67,7 @@ export class MarkAttendanceComponent implements OnInit {
   notify_remark: boolean = true;
   topicsList : any = [];
   totalTopicsList: any = [];
-
+  schoolModel:boolean = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -94,6 +94,7 @@ export class MarkAttendanceComponent implements OnInit {
     if(sessionStorage.getItem('isSubjectView') == 'true') {
     this.isSubjectView = true;
     }
+    this.schoolModel = this.auth.schoolModel.value;
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -105,6 +106,12 @@ export class MarkAttendanceComponent implements OnInit {
     )
     this.fetchWidgetPrefill();
     this.getAttendanceDetails();
+  }
+
+  ngOnDestroy() {
+    sessionStorage.removeItem('fromClassAttendace');
+    sessionStorage.removeItem('classAttendance');
+    sessionStorage.removeItem('exam_marks');
   }
 
   fetchWidgetPrefill() {
@@ -438,6 +445,7 @@ closeTopicModal(){
           res => {
             // this.subject_id = res.
             console.log(res);
+            if(res && res.length) {
             res.forEach(e => {
               e.attendance_note = "";
               e.date = "";
@@ -459,14 +467,16 @@ closeTopicModal(){
             this.auth.hideLoader();
             this.attendanceNote = res[0].dateLi[0].attendance_note;
             this.homework = res[0].dateLi[0].homework_assigned;
+          }
             this.getCountOfAbsentPresentLeave(res);
           },
           err => {
+            let msg = (this.schoolModel) ? 'No student(s) found in the class.' : 'No student(s) in the batch';
             this.auth.hideLoader();
             let obj = {
               type: 'info',
               title: '',
-              body: "No student(s) in the batch"
+              body: msg
             }
             this.appC.popToast(obj);
           }
@@ -691,7 +701,8 @@ closeTopicModal(){
     let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner');
     let fromClassAttendace = sessionStorage.getItem('fromClassAttendace');
     if(coursePlannerStatus=='true'){
-      this.router.navigate(['/view/course/coursePlanner/class']);
+      let url = this.isSubjectView ? '/view/course/coursePlanner/class' : '/view/course/coursePlanner/exam'
+      this.router.navigate([url]);
     } else if(fromClassAttendace == 'true') {
       let url = (sessionStorage.getItem('classAttendance') == 'true') ? '/view/course/class-attendance' : '/view/course/exam-attendance';
       this.router.navigate([url]);

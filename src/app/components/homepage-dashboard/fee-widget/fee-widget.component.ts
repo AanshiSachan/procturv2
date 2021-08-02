@@ -33,6 +33,7 @@ export class FeeWidgetComponent implements OnInit {
         private cd: ChangeDetectorRef) {
         this.feeDate[0] = new Date();
         this.feeDate[1] = new Date();
+        this.updateFeeByDate(this.feeDate)
     }
 
     ngOnInit() {

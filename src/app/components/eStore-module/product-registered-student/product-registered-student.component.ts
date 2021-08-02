@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import * as moment from 'moment';
 import { ExcelService } from '../../../services/excel.service';
+import { role } from '../../../model/role_features';
 
 @Component({
   selector: 'app-registered-student',
@@ -58,6 +59,7 @@ export class RegisteredStudentComponent implements OnInit {
   smsNotification: any = true;
   pushNotification: any = true;
   messageCount: any = 0;
+  role_feature = role.features;
 
   menuOptions: DropData[] = [
     {
@@ -102,6 +104,18 @@ export class RegisteredStudentComponent implements OnInit {
   ngOnInit() {
     this.getProductList();
     this.getEcourseList();
+    let userType = sessionStorage.getItem('userType');
+    let username = sessionStorage.getItem('username');
+    if (sessionStorage.getItem('permissions') != '' && userType == '0' && username != 'admin') {
+    for(let i=0;i<this.menuOptions.length;i++){
+      if(!this.role_feature.STUDENT_ADD_UPLOAD && this.menuOptions[i].key == 'student') {
+        this.menuOptions.splice(i,1);
+      }
+      if(!this.role_feature.LEAD_MENU_ITEM  && this.menuOptions[i].key == 'enquiry') {
+        this.menuOptions.splice(i,1);
+      }
+    }
+  }
   }
 
   getProductList() {
@@ -217,6 +231,7 @@ export class RegisteredStudentComponent implements OnInit {
 
   performAction(action) {
     if (action == 'Convert to Admission') {
+      this.selectedRecord.institute_enquiry_id = 0;
       sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRecord));
       this.router.navigate(['/view/students/add']);
     }

@@ -1,80 +1,163 @@
-<section class="clearFix" style="padding: 2%;padding-top: 2px;">
-  <div class="content-container">
-    <section class="middle-top mb0 clearFix ">
-      <div class="header">
-        <h2 class="pull-left">
-          <a routerLink="/view/manage/role">
-            Role
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-          <span *ngIf="roleId == '-1'">Add Role</span>
-          <span *ngIf="roleId != '-1'">Edit Role</span>
-        </h2>
-      </div>
-    </section>
-
-    <div class="addEditRole">
-      <div class="row" *ngIf="roleId == '-1'">
-        <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="field-wrapper">
-            <label for="role_name">Role Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-ctrl" [(ngModel)]="roleName" id="role_name" name="role_name">
-          </div>
-        </div>
-        <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="field-wrapper">
-            <label for="role_name">Role Description</label>
-            <input type="text" class="form-ctrl" [(ngModel)]="roleDesc" id="role_desc" name="role_desc">
-          </div>
-        </div>
-      </div>
-
-      <div class="row" *ngIf="roleId != '-1'">
-        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 30px;">
-          <span><b>Role Name : <span class="text-danger">*</span></b> {{userData.role_name}}</span>
-        </div>
-        <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="field-wrapper">
-            <label for="role_name">Role Description</label>
-            <input type="text" class="form-ctrl" [(ngModel)]="userData.role_desc" id="role_desc" name="role_desc">
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- <div class="picklist-wrapper">
-      <p-pickList [source]="cloneFeatureArray" [target]="targetFeatures" [showSourceControls]="false" [showTargetControls]="false"
-        [responsive]="true" filterBy="feature_name,description" dragdrop="true">
-        <ng-template let-car pTemplate="item">
-          <div class="ui-helper-clearfix">
-            <div>{{car.feature_name}}</div>
-          </div>
-        </ng-template>
-      </p-pickList>
-    </div> -->
-
-    <div class="role-container">
-      <div style="margin-bottom: 10px;">
-        <span style="font-weight: 600;">Role List</span>
-        <span style="float: right;margin-right: 1%;">Selected Roles : {{selectedRoleLength}} </span>
-      </div>
-      <div class="role-list-container">
-        <div *ngFor="let item of cloneFeatureArray;let i=index" class="role-data-container">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" [(ngModel)]="item.isChecked" (change)="checkLengthofRole($event.target.checked)"
-              [checked]="item.isChecked" class="form-checkbox" [id]="'checkbox-'+i">
-            <label [for]="'checkbox-'+i">{{item.feature_name}}</label>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="btn-section pull-right">
-      <button routerLink='/view/manage/role' class="btn">Cancel</button>
-      <button class="btn fullBlue" *ngIf="roleId == '-1'" (click)="createNewRole()">Save</button>
-      <button class="btn fullBlue" *ngIf="roleId != '-1'" (click)="updateRole()">Update</button>
-    </div>
-
+<main class="page-content">
+  <div class="bshadow">
+     <div class="w98 ">
+     <div class="page_heading ">
+       <p>Role Permissions</p>
+     </div> 
+     </div>
   </div>
-</section>
+     <div class="w98">
+     <div class="row mt15 g-0" >
+       <div class="col-lg-8 pl0 webkit" *ngIf="roleId == '-1'">
+         <!-- <a href="#" data-toggle="modal" data-target="#rolemyModal"><span class="add_role">Add Role</span></a>
+         <select id="selector" class="select" [(ngModel)]="roleId" (ngModelChange)="getRolesOfUser($event)">
+           <option value="-1">Select</option>
+           <option *ngFor="let data of existingRolesData" value="{{data.role_id}}">{{data.role_name}}</option>
+         </select> -->
+         <div class="col-lg-4 pl0">
+          <label for="role_name" class="role_name">Role Name <span class="text-danger">*</span></label>
+           <input type="" name="roleName" [(ngModel)]="roleName" class="input w100" placeholder="Role"></div>
+         <div class="col-lg-4 pl0">
+          <label for="role_name" class="role_name">Role Description</label>
+           <input type="" name="roleDesc" [(ngModel)]="roleDesc" class="input w100" placeholder="Role Description"></div>
+       </div>
+       <div class="col-lg-8 pl0 webkit" *ngIf="roleId != '-1'">
+        <!-- <a href="#" data-toggle="modal" data-target="#rolemyModal"><span class="add_role">Add Role</span></a>
+        <select id="selector" class="select" [(ngModel)]="roleId" (ngModelChange)="getRolesOfUser($event)">
+          <option value="-1">Select</option>
+          <option *ngFor="let data of existingRolesData" value="{{data.role_id}}">{{data.role_name}}</option>
+        </select> -->
+        <div class="col-lg-4 pl0"><span><b>Role Name : <span class="text-danger">*</span></b> {{userData.role_name}}</span></div>
+        <div class="col-lg-4 pl0">
+          <label for="role_name" class="role_name">Role Description</label>
+          <input type="" name="roleDesc" [(ngModel)]="userData.role_desc" class="input w100" placeholder="Role Description"></div>
+      </div>
+       <div class="col-lg-4 g-0">
+         <span class="right"><p class="select_no">No. of Selections: <span>{{selectedRoleLength}}</span></p></span>
+       </div>
+     </div>
+     <br>
+     <div class="global">
+                <!--  Global -->
+            <div class="head_border" *ngFor="let roleTitle of procturRoles;let j=index">
+               <div class="section_heading">
+                  <label class="switch">
+                     <input type="checkbox" [(ngModel)]="roleTitle.isToggleChecked" (ngModelChange)="sliderChanges(roleTitle)">
+                     <span class="slider round"></span>
+                   </label>
+                   <p>{{roleTitle.category_name}}</p>
+             </div >
+             <div class="section border-brown">
+               <div *ngFor="let feature of roleTitle.feature_list;let i=index">
+                 <div  class="field-checkbox-wrapper">
+                       <label class="checkbox">
+                           <span class="checkbox__input">
+                             <input type="checkbox" name="checked" [id]="'checkbox-'+i+j" [disabled]="!roleTitle.isToggleChecked" [checked]="feature.isChecked" [(ngModel)]="feature.isChecked" (change)="checkLengthofRole($event.target.checked)">
+                             <span class="checkbox__control" [ngStyle]="{'cursor':!roleTitle.isToggleChecked ? 'no-drop' : 'pointer'}">
+                              <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                                 <path fill='none' stroke='currentColor'  d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                             </span>
+                           </span>
+                         </label>
+                         <label for="'checkbox-'+i+j" class="label1">{{feature.feature_unique_name}}</label>
+                         <div class="tooltip-box-field">
+                          " This section is used to manage the location at which the management stores its assets."
+                       </div>
+                       <div *ngIf="feature.help_msg!='' && feature.help_msg!=null" class="questionInfo inline-relative">
+                        <span data-toggle="tooltip" class="helpIcon" data-placement="right"><img src="../../../assets/images/InfoIcon.svg"></span>
+                        <div class="tooltip-box-field">
+                           {{feature.help_msg}}
+                        </div>
+                    </div>
+                 </div>
+               </div>
+             </div>
+            </div>
+            <br>
+             <!-- Exam Desk Settings --> 
+             <div *ngIf="isShoweOnlineExam">
+             <div class="flex1">
+              <p class="form_heading"><span>Exam Desk Settings (Online Exam)</span></p>
+              <div class="borderbottom"></div>
+             </div>
+            
+             <div class="head_border" *ngFor="let roleTitle of examDeskRoles;let j=index">
+              <div class="section_heading">
+                 <label class="switch">
+                    <input type="checkbox" [(ngModel)]="roleTitle.isToggleChecked">
+                    <span class="slider round"></span>
+                  </label>
+                  <p>{{roleTitle.category_name}}</p>
+            </div >
+            <div class="section border-brown">
+              <div *ngFor="let feature of roleTitle.feature_list;let i=index">
+                <div  class="field-checkbox-wrapper">
+                      <label class="checkbox">
+                          <span class="checkbox__input" [ngStyle]="{'cursor':!roleTitle.isToggleChecked ? 'no-drop' : 'pointer'}">
+                            <input type="checkbox" name="checked" [id]="'checkboxe-'+i+j" [disabled]="!roleTitle.isToggleChecked" [checked]="feature.isChecked" [(ngModel)]="feature.isChecked" (change)="checkLengthofRole($event.target.checked)">
+                            <span class="checkbox__control">
+                             <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                                <path fill='none' stroke='currentColor'  d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                            </span>
+                          </span>
+                        </label>
+                        <label for="'checkboxe-'+i+j" class="label1">{{feature.feature_unique_name}}</label>
+                        <div *ngIf="feature.help_msg!='' && feature.help_msg!=null" class="questionInfo inline-relative">
+                          <span data-toggle="tooltip" class="helpIcon" data-placement="right"><img src="../../../assets/images/InfoIcon.svg"></span>
+                          <div class="tooltip-box-field">
+                             {{feature.help_msg}}
+                          </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+           </div>
+          </div>
+     </div>
+   </div>
+   <div class="white bottom_button">
+     <div class="w98">
+        <button class="white_button mr10"  routerLink='/view/manage/role'>Back</button>
+             
+                 <button class="blue_button right" *ngIf="roleId == '-1'" (click)="createNewRole()">
+                  Save
+                </button>
+                <button class="blue_button right" *ngIf="roleId != '-1'" (click)="updateRole()">
+                 Update
+               </button>
+            
+     </div>
+ </div>
+ </main>
+ <!-- The Modal -->
+ <div class="modal" id="rolemyModal" style="top: 10%;">
+   <div class="modal-dialog ">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" >Add Role</h4>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+       </div>
+       <div class="modal-body">
+        <div>
+           <div ><input type="" name="roleName" [(ngModel)]="roleName" class="input w100" placeholder="Role*"></div>
+           <div class="padding20"><input type="" name="roleDesc" [(ngModel)]="roleDesc" class="input w100" placeholder="Role Description*"></div>
+           <div class="padding20">
+             <span class="right">
+              
+               <button class="white_button mr10" data-dismiss="modal">
+                 Cancel
+               </button>
+                <button class="blue_button " *ngIf="roleId == '-1'" (click)="createNewRole()">
+                 Save
+               </button>
+               <button class="blue_button " *ngIf="roleId != '-1'" (click)="updateRole()">
+                Update
+              </button>
+             </span>
+           </div>
+         </div>
+        
+       </div>        
+     </div>
+   </div>
+ </div>  

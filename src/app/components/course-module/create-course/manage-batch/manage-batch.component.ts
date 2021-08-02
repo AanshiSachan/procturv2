@@ -341,7 +341,7 @@ export class ManageBatchComponent implements OnInit {
             return;
           }
         } else {
-          this.messageToast('error', '', 'Provide  faculty name');
+          this.messageToast('error', '', 'Provide  Teacher name');
           return;
         }
       }
@@ -384,7 +384,7 @@ export class ManageBatchComponent implements OnInit {
       return;
     }
     if (rowDetails.teacher_id == 0 || rowDetails.teacher_id == null || rowDetails.teacher_id == "") {
-      this.messageToast('error', '', 'Please enter the faculty for the batch.');
+      this.messageToast('error', '', 'Please enter the teacher for the batch.');
       return;
     }
     this.auth.showLoader();
@@ -515,7 +515,8 @@ export class ManageBatchComponent implements OnInit {
   saveChanges() {
     let studentUnAssigned = this.checkIfStudentUnassigned();
     if (studentUnAssigned) {
-      this.alertBox = false;
+      // this.alertBox = false;
+      this.unassign_course();
       // if (confirm("If you unassign the student from batch then corresponding unpaid fee instalments might be deleted.")) {
       //   this.saveStudentListToServer();
       // }
@@ -717,7 +718,7 @@ export class ManageBatchComponent implements OnInit {
       if (permissionArray == "" || permissionArray == null) {
         return false;
       }
-      else if (this.role_feature.SETUP_MENU) {
+      else if (this.role_feature.CLASS_MENU) {
         return false;
       }
       else {

@@ -233,9 +233,11 @@ export class ExamComponent implements OnInit {
 
     sessionStorage.setItem('isFromCoursePlanner', String(false));
     sessionStorage.setItem('coursePlannerFilter', '');
-    setTimeout(() => {
-      this.getData();
-    }, 2000);
+    if(this.coursePlannerFilters.master_course_name!='-1' || this.coursePlannerFilters.standard_id!='-1') {
+      setTimeout(() => {
+        this.getData();
+      }, 2000);
+    }
   }
 
 
@@ -547,6 +549,8 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.auth.hideLoader();
+          this.coursePlannerData = [];
+          this.totalCount = 0;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       );
