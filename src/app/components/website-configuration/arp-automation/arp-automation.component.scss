@@ -1,4 +1,5 @@
 @import "../../../../assets/css/common/variables.scss";
+
 .mattoolbar{
     position: fixed;
     // z-index: 9999999999;
@@ -34,17 +35,54 @@
     .logo-div{
         padding-top: 5%;
         margin-left: 2%;
-        .logi-content{
-        ul.lists {
-            // list-style-type: none;
-            margin: 0;
-            padding: 0;
-          }
-        }
-    }
-   
-}
+        .logo-content{
+      background: white;
+      padding-left: 1%;
+      padding-top: 1%;
+      overflow-y: auto;
+       height: 80vh;
 
+      .app-icon {
+        display: flex;
+        text-align: center;
+        padding: .6em;
+        cursor: pointer;
+     }
+     .app-icon .select-icon {
+        pointer-events: none;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        border: 1px dashed #ccc;
+        padding: .8em 1.5em;
+        border-radius: 4px;
+     }
+     svg {
+        overflow: hidden;
+        vertical-align: middle;
+     }
+     .d-none {
+        display: none!important;
+     }
+     .d-flex {
+        display: -ms-flexbox!important;
+        display: flex!important;
+    }
+    b, strong {
+        font-weight: bolder;
+    }
+    .btn-primary {
+        color: #fff;
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+        }
+    // ==================apk-generate===================
+    
+       
+    }
+      
 .activeSession {
     color: #528ff0;
     border-bottom: 5px solid #528ff0;
@@ -59,4 +97,9 @@
     padding-left: 0;
     text-align: center;
 }
-
+.apk-div{
+    padding-top: 5%;
+    margin-left: 2%;
+    margin-right: 18%; 
+}
+}  

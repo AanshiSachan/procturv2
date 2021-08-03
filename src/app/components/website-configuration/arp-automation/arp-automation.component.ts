@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { MessageShowService } from '../../../services/message-show.service';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-arp-automation',
@@ -6,15 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./arp-automation.component.scss']
 })
 export class ArpAutomationComponent implements OnInit {
-appLogos:boolean=false
+appLogos:boolean=true
 generateApk:boolean=false
 headerSetting: any;
   tableSetting: any;
   rowColumns: any;
-  constructor() { }
+  private token : string 
+  constructor(private auth:AuthenticatorService,
+    private _http: HttpService,private msgService: MessageShowService,
+    ) {
+     
+     }
 
   ngOnInit(): void {
     this.setTableData()
+   // this.currentStatusofClient()
+    this.token = sessionStorage.getItem('token')
+    console.log("tokennnnnnnnnnn",this.token)
   }
   toggler(){
     this.appLogos = true
@@ -78,22 +89,51 @@ headerSetting: any;
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "25%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "25%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "25%",
         textAlign: "left"
       },
       {
-        width: "20%",
+        width: "25%",
         textAlign: "left"
       },
 
     ]
+  }
+  fileData: any;
+
+  onclickTab(id){
+    document.getElementById(id).click();
+
+  }
+  currentStatusofClient(){
+    let obj={
+      Params:{
+      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+
+
+      }
+    }
+    this.auth.showLoader();
+let url ='/api/v1/client/requestStatus'
+this._http.postData(obj,url).subscribe(
+  (res:any)=>{
+    console.log("resssssss",res)
+    this.auth.hideLoader();
+  },
+  err => {
+    this.auth.hideLoader();
+
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+
+  }
+)
   }
 }
