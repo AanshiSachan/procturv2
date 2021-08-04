@@ -11,9 +11,9 @@ import { HttpService } from '../../../services/http.service';
 export class ArpAutomationComponent implements OnInit {
 appLogos:boolean=true
 generateApk:boolean=false
-headerSetting: any;
-  tableSetting: any;
-  rowColumns: any;
+bagColor:any=''
+fileToUpload: any;
+imageName:any
   private token : string 
   constructor(private auth:AuthenticatorService,
     private _http: HttpService,private msgService: MessageShowService,
@@ -22,7 +22,7 @@ headerSetting: any;
      }
 
   ngOnInit(): void {
-    this.setTableData()
+  
    // this.currentStatusofClient()
     this.token = sessionStorage.getItem('token')
     console.log("tokennnnnnnnnnn",this.token)
@@ -35,94 +35,108 @@ headerSetting: any;
     this.generateApk = true
     this.appLogos = false
   }
-  setTableData() {
-    this.headerSetting = [
-      {
-        primary_key: 'Sr.No',
-        value: "Sr.No",
-        charactLimit: 10,
-        sorting: true,
-        visibility: true
-      },
-      {
-        primary_key: 'Version',
-        value: "Version",
-        charactLimit: 25,
-        sorting: true,
-        visibility: true
-      },
-      {
-        primary_key: 'Package Name',
-        value: "Package Name",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'Request Time',
-        value: "Request Time",
-        charactLimit: 25,
-        sorting: false,
-        visibility: true
-      },
-      {
-        primary_key: 'action',
-        value: "Download",
-        charactLimit: 10,
-        sorting: false,
-        visibility: true,
-        edit: true,
-        delete: true,
-        // editCondition: 'converted == 0',
-        // deleteCondition: 'converted == 0'
-      },
-    ]
-
-    this.tableSetting = {
-      width: "100%",
-      height: "58vh"
-    }
-
-    this.rowColumns = [
-      {
-        width: "15%",
-        textAlign: "left"
-      },
-      {
-        width: "25%",
-        textAlign: "left"
-      },
-      {
-        width: "25%",
-        textAlign: "left"
-      },
-      {
-        width: "25%",
-        textAlign: "left"
-      },
-      {
-        width: "25%",
-        textAlign: "left"
-      },
-
-    ]
-  }
+ 
   fileData: any;
 
   onclickTab(id){
     document.getElementById(id).click();
 
   }
+  uploadImage(file: FileList){
+    this.fileToUpload = file.item(0);
+    let reader = new FileReader();
+
+    reader.onload= (event: any) => {
+     this. imageName = event.target.result;
+      console.log("imageeeeeeee",this.bagColor)
+      this.bagColor
+    }
+    reader.readAsDataURL(this.fileToUpload);
+  }
+postImage(){
+  let obj={
+    
+    token:this.token,
+    url_column:this.imageName,
+    file :this.bagColor
+
+
+    
+  }
+  this.auth.showLoader()
+  let url ='/api/v1/client/uploadResourceAPI'+this.token
+  this._http.postData(obj,url).subscribe(
+  (res:any)=>{
+    console.log("resssssss",res)
+    this.auth.hideLoader();
+    console.log("object",obj)
+  },
+  err => {
+    this.auth.hideLoader();
+  
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+  
+  }
+  )
+  }
+  getAllImageResourse(){
+    let obj={
+      Params:{
+      token:this.token
+  
+  
+      }
+    }
+    this.auth.showLoader();
+    let url ='/api/v1/client/getResources'+this.token
+    this._http.postData(obj,url).subscribe(
+    (res:any)=>{
+      console.log("resssssss",res)
+      this.auth.hideLoader();
+    },
+    err => {
+      this.auth.hideLoader();
+    
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+    
+    }
+    )
+
+  }
+reuestBuildApk(){
+  let obj={
+    Params:{
+    token:this.token
+
+
+    }
+  }
+  this.auth.showLoader();
+let url ='/api/v1/release/requestBuild'+this.token
+this._http.postData(obj,url).subscribe(
+(res:any)=>{
+  console.log("resssssss",res)
+  this.auth.hideLoader();
+},
+err => {
+  this.auth.hideLoader();
+
+  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+
+}
+)
+}
+
   currentStatusofClient(){
     let obj={
       Params:{
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+      token:this.token
 
 
       }
     }
     this.auth.showLoader();
-let url ='/api/v1/client/requestStatus'
+let url ='/api/v1/client/requestStatus'+this.token
 this._http.postData(obj,url).subscribe(
   (res:any)=>{
     console.log("resssssss",res)
