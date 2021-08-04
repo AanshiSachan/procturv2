@@ -11,10 +11,9 @@ import { HttpService } from '../../../services/http.service';
 export class ArpAutomationComponent implements OnInit {
 appLogos:boolean=true
 generateApk:boolean=false
-bagColor:any=''
 fileToUpload: any;
 imageName:any
-  private token : string 
+  tokens : any = '';
   constructor(private auth:AuthenticatorService,
     private _http: HttpService,private msgService: MessageShowService,
     ) {
@@ -22,10 +21,9 @@ imageName:any
      }
 
   ngOnInit(): void {
+  this.getToken()
+
   
-   // this.currentStatusofClient()
-    this.token = sessionStorage.getItem('token')
-    console.log("tokennnnnnnnnnn",this.token)
   }
   toggler(){
     this.appLogos = true
@@ -42,30 +40,73 @@ imageName:any
     document.getElementById(id).click();
 
   }
+  getToken(){
+    let url ='/api/v2/user/examdesk/SSO?source=ARP'
+    this.auth.showLoader()
+  this._http.getData(url).subscribe(
+  (res:any)=>{
+    // console.log
+    this.tokens =res.result;
+    this.currentStatusofClient()
+    console.log("tokennnnnnnnnnnnnn",this.tokens)
+
+    this.auth.hideLoader();
+
+  },
+  err => {
+    this.auth.hideLoader();
+  
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+  
+  }
+  )
+  }
+  currentStatusofClient(){
+      let Params={
+    
+        // token:this.tokens
+        Params : { 'token': this.tokens }
+     
+     
+   }
+    this.auth.showLoader();
+let url ='client/requestStatus'
+  
+this._http.postARPData(url,Params).subscribe(
+  (res:any)=>{
+    console.log("resssssss",res)
+    this.auth.hideLoader();
+  },
+  err => {
+    this.auth.hideLoader();
+
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+
+  }
+)
+  }
   uploadImage(file: FileList){
     this.fileToUpload = file.item(0);
     let reader = new FileReader();
 
     reader.onload= (event: any) => {
      this. imageName = event.target.result;
-      console.log("imageeeeeeee",this.bagColor)
-      this.bagColor
+      
     }
     reader.readAsDataURL(this.fileToUpload);
   }
 postImage(){
   let obj={
     
-    token:this.token,
-    url_column:this.imageName,
-    file :this.bagColor
+    token:this.tokens,
+  
 
 
     
   }
   this.auth.showLoader()
-  let url ='/api/v1/client/uploadResourceAPI'+this.token
-  this._http.postData(obj,url).subscribe(
+  let url ='/api/v1/client/uploadResourceAPI'
+  this._http.postData(url,obj).subscribe(
   (res:any)=>{
     console.log("resssssss",res)
     this.auth.hideLoader();
@@ -82,14 +123,14 @@ postImage(){
   getAllImageResourse(){
     let obj={
       Params:{
-      token:this.token
+      token:this.tokens
   
   
       }
     }
     this.auth.showLoader();
-    let url ='/api/v1/client/getResources'+this.token
-    this._http.postData(obj,url).subscribe(
+    let url ='/api/v1/client/getResources'
+    this._http.postData(url,obj).subscribe(
     (res:any)=>{
       console.log("resssssss",res)
       this.auth.hideLoader();
@@ -106,14 +147,14 @@ postImage(){
 reuestBuildApk(){
   let obj={
     Params:{
-    token:this.token
+    token:this.tokens
 
 
     }
   }
   this.auth.showLoader();
-let url ='/api/v1/release/requestBuild'+this.token
-this._http.postData(obj,url).subscribe(
+let url ='/api/v1/release/requestBuild'
+this._http.postData(url,obj).subscribe(
 (res:any)=>{
   console.log("resssssss",res)
   this.auth.hideLoader();
@@ -127,27 +168,5 @@ err => {
 )
 }
 
-  currentStatusofClient(){
-    let obj={
-      Params:{
-      token:this.token
-
-
-      }
-    }
-    this.auth.showLoader();
-let url ='/api/v1/client/requestStatus'+this.token
-this._http.postData(obj,url).subscribe(
-  (res:any)=>{
-    console.log("resssssss",res)
-    this.auth.hideLoader();
-  },
-  err => {
-    this.auth.hideLoader();
-
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
-
-  }
-)
-  }
+  
 }
