@@ -123,9 +123,15 @@ uploadHandler(){
   formData.append('imageName', this.imageName);
   formData.append('image', this.selectedFile)
 
-   
+  const max_height = this.imgData.height;
+  const max_width = this.imgData.width;
+  const reader = new FileReader();
+  // reader.readAsDataURL(files[0]);
+  reader.onloadend = (e: any) => {
+    const image = new Image();
+    image.src = e.target.result;
 
-
+  }
   let obj={
     
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg",
