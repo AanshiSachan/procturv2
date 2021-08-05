@@ -9,19 +9,36 @@ import { HttpService } from '../../../services/http.service';
   styleUrls: ['./arp-automation.component.scss']
 })
 export class ArpAutomationComponent implements OnInit {
+  imgvarible={
+    imgName:''
+
+  }
+  imgData:any=''
+  uploadedImg: any = '';
+  requestForBuil:any='';
+invalidEntry:any=''
 appLogos:boolean=true
 generateApk:boolean=false
 fileToUpload: any;
 imageName:any
-  tokens : any = '';
+selectedFile = null;
+image: File;
+
+buttonVariable:any
+currentStatusData:any=[]=[]
   constructor(private auth:AuthenticatorService,
     private _http: HttpService,private msgService: MessageShowService,
     ) {
-     
+     //this.tokens =JSON.parse(sessionStorage.getItem('token'))
      }
 
   ngOnInit(): void {
-  this.getToken()
+ //this.getToken()
+  this.currentStatusofClient()
+ // this.getAllImageResourse()
+  // this.reuestBuildApk()
+  this.togglerImg('logoImage', '200', '50',  this.imgData.logo_url);
+
 
   
   }
@@ -46,9 +63,9 @@ imageName:any
   this._http.getData(url).subscribe(
   (res:any)=>{
     // console.log
-    this.tokens =res.result;
+    //this.tokens =res.result;
     this.currentStatusofClient()
-    console.log("tokennnnnnnnnnnnnn",this.tokens)
+  // sessionStorage.setItem('token',JSON.stringify(this.tokens))
 
     this.auth.hideLoader();
 
@@ -62,19 +79,23 @@ imageName:any
   )
   }
   currentStatusofClient(){
-      let Params={
+     let Params={
     
         // token:this.tokens
-        Params : { 'token': this.tokens }
+       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
      
-     
-   }
+  }
+   
     this.auth.showLoader();
 let url ='client/requestStatus'
   
 this._http.postARPData(url,Params).subscribe(
   (res:any)=>{
+    this.currentStatusData = res.releaseDetails
+    this.buttonVariable = res.underRelease
+    this.requestForBuil = res.underRelease
     console.log("resssssss",res)
+   
     this.auth.hideLoader();
   },
   err => {
@@ -85,28 +106,52 @@ this._http.postARPData(url,Params).subscribe(
   }
 )
   }
-  uploadImage(file: FileList){
-    this.fileToUpload = file.item(0);
-    let reader = new FileReader();
-
-    reader.onload= (event: any) => {
-     this. imageName = event.target.result;
-      
-    }
-    reader.readAsDataURL(this.fileToUpload);
+  
+  togglerImg(width, height, name, img){
+    this.imgData.width = width;
+    this.imgData.height = height;
+    this.imgData.name = name;
+    this.uploadedImg = img;
   }
-postImage(){
+ onImageSelect(event){
+this.selectedFile = event.target.file[0]
+ }
+
+uploadHandler(){
+  
+  const formData = new FormData();
+  formData.append('imageName', this.imageName);
+  formData.append('image', this.selectedFile)
+
+   
+
+
   let obj={
     
-    token:this.tokens,
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg",
   
-
+  
+      
+    
 
     
   }
   this.auth.showLoader()
-  let url ='/api/v1/client/uploadResourceAPI'
-  this._http.postData(url,obj).subscribe(
+  let url ='client/uploadResourceAPI'
+  // let newxhr = new XMLHttpRequest();
+  // newxhr.onreadystatechange = () => {
+  //   this.auth.hideLoader();
+  //     if (newxhr.status == 200 ) {
+  //       let msg = this.imgvarible.imgName.concat(' image uploaded successfully');
+  //       this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', msg);
+        
+  //       this.getAllImageResourse();
+  //     } else {
+  //       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+  //     }
+    
+  // }
+  this._http.postARPData(url,obj).subscribe(
   (res:any)=>{
     console.log("resssssss",res)
     this.auth.hideLoader();
@@ -122,17 +167,22 @@ postImage(){
   }
   getAllImageResourse(){
     let obj={
-      Params:{
-      token:this.tokens
+     
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
   
   
-      }
+      
     }
     this.auth.showLoader();
-    let url ='/api/v1/client/getResources'
-    this._http.postData(url,obj).subscribe(
+    let url ='client/getResources'
+    this._http.postARPData(url,obj).subscribe(
     (res:any)=>{
-      console.log("resssssss",res)
+      this.imgData=res
+      console.log("resssssss imageeeeee", this.imgData)
+     if(this.imgvarible.imgName == 'icon_48_filename'){
+       this.imgData.imgFileName  = res.icon_48_filename
+     }
+
       this.auth.hideLoader();
     },
     err => {
@@ -146,17 +196,20 @@ postImage(){
   }
 reuestBuildApk(){
   let obj={
-    Params:{
-    token:this.tokens
+  
+    token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
 
 
     }
-  }
+  
   this.auth.showLoader();
-let url ='/api/v1/release/requestBuild'
-this._http.postData(url,obj).subscribe(
+let url ='release/requestBuild'
+this._http.postARPData(url,obj).subscribe(
 (res:any)=>{
-  console.log("resssssss",res)
+  console.log("resssssss build",res)
+  if(res.status==400){
+    this.invalidEntry ='no-entery'
+        }
   this.auth.hideLoader();
 },
 err => {
