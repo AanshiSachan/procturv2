@@ -321,9 +321,9 @@ if(sessionStorage.getItem('userType') =='0' && sessionStorage.getItem('username'
 }else{
   this.jsonFlags.isAdminforPayroll = false;
 }
-if(sessionStorage.getItem('showSMSService') == 'true' && !this.isProfessional) {
-  $('#releaseNote').modal('show');
-}
+// if(sessionStorage.getItem('showSMSService') == 'true' && !this.isProfessional) {
+//   $('#releaseNote').modal('show');
+// }
 $('#modalapp1').modal('show');
 // ============end==============
 }
@@ -337,7 +337,7 @@ $('#modalapp1').modal('show');
   }
 
   ngOnDestroy() {
-    sessionStorage.removeItem('showSMSService');
+    // sessionStorage.removeItem('showSMSService');
   }
 
   mouseenter(cond) {
