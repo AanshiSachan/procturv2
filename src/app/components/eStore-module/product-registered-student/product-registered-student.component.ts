@@ -78,6 +78,7 @@ export class RegisteredStudentComponent implements OnInit {
       { primaryKey: 'phone', header: 'Phone' },
       { primaryKey: 'email_id', header: 'Email ID' },
       { primaryKey: 'registered_date', header: 'Registered Date' },
+      { primaryKey: 'ecourse_list', header: 'Ecourse'},
       { primaryKey: 'open_user_status', header: 'Status' },
     ]
   };
@@ -528,6 +529,7 @@ export class RegisteredStudentComponent implements OnInit {
               if (element.open_user_status == 'No Action') {
                 element.open_user_status = '-';
               }
+              element.ecourse_list = element.ecourse_list.join();
             });
           }
           let Excelarr = [];
