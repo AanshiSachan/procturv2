@@ -296,7 +296,7 @@ data-backdrop="static" aria-hidden="true">
             <span class="text-danger">*</span>
           </label>
           <div class="dropdown-div">
-            <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
+            <select id="masterCourse" class="form-ctrl" [disabled]="!isNewSubjectAdd" [(ngModel)]="newSubjectDetails.standard_id">
               <option value="-1"> Select {{isLangInstitue ? 'Master Course Name' : 'Standard'}}</option>
               <option *ngFor="let opt of standardList" [value]="opt.standard_id">
                 {{ (opt.standard_name?.length > 70) ? (opt.standard_name | slice:0:70) + '...' : opt.standard_name }}

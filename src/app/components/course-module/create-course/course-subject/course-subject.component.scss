@@ -823,3 +823,6 @@ $color-highlight: lighten($color-base, 7%);
 }
 
   }
+  select:disabled {
+    cursor: no-drop;
+  }
