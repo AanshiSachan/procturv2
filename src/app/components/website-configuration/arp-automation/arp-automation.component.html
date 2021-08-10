@@ -30,11 +30,11 @@
       </ul><br>
       <div>
         <h2>Input Image</h2>
-    <input type="file" name="image" (change)="onImageSelect($event)">
+    <input type="file" [(ngModel)]="image" (change)="onImageSelect($event)" accept="image/png">
       </div><br><br>
       <div>
         <h5 style="font-size: 1.25rem;">App Icons</h5>
-        <div style="display: flex; flex-wrap: wrap; margin-left: -0.6em;" (click)="onclickTab('logo48')">
+        <div style="display: flex; flex-wrap: wrap; margin-left: -0.6em;">
         <div class="app-icon">
           <div id="icon_48_loader" class="select-icon">
           <span class="icon-thumbnail"><svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g></svg></span><span class="mt-2">48 x 48</span>
@@ -67,7 +67,7 @@
                
                  <h5 style="font-size: 1.25rem;"> Login Page Logo (1800 x 900)</h5>
                  <div style="display: flex; flex-wrap: wrap; margin-left: -0.6em;">
-                <div class="app-icon" (click)="onclickTab('logo1800')">
+                <div class="app-icon" >
                   <div id="icon_1800_loader" class="select-icon">
                      <span class="icon-thumbnail"><svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g></svg></span><span class="mt-2">1800 x 900</span>
                     </div>
@@ -79,9 +79,7 @@
                        <h5 style="font-size: 1.25rem;">Splash Screen</h5>
                        <p>It is better to provide transparent background images for "logo only" splash-screen</p>
                        
-                       <!-- <div  class="mb-2"><input checked="" id="splash_center" name="splash_mode" type="radio">
-                        <label  for="splash_center">&nbsp;Logo Only (420 x 420)</label> -->
-                        
+                  
                         
                        <div class="mb-2">
                         <div class="field-radio-wrapper" >
@@ -90,14 +88,11 @@
                       </div>
                    
                         <br><br>
-                        <!-- <br ><label  class="mt-2 text-sm text-black"><b >Background Color</b></label><br > -->
-                        <!-- <div  class="d-flex">
-                          <input class="form-control" name="color" style="width: 100px;" type="text" value="#FFFFFF"><input  class="form-control" style="width: 48px; padding: 0px; background: rgb(255, 255, 255); border-radius: 0px;" type="color" [(ngModel)]="bagColor" value="#FFFFFF">
-                        </div><br > -->
+                      
                         <input  id="splash_full" name="splash_mode" type="radio">
                        <label  for="splash_full">&nbsp;Full Screen (1100 x 1920)</label><br>
                        <div style="display: flex; flex-wrap: wrap; margin-left: -0.6em;">
-                        <div class="app-icon" (click)="onclickTab('logo110')">
+                        <div class="app-icon" >
                           <div id="icon_1100_loader" class="select-icon">
                              <span class="icon-thumbnail"><svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g></svg></span><span class="mt-2">1800 x 900</span>
                             </div>
@@ -112,15 +107,11 @@
                         </div>
  <!-- =========================================generate-apk-UI==============================================                        -->
       <div class="apk-div" *ngIf="generateApk">
-         <!-- <app-basic-table [headers]="headerSetting" [displayData]="staticPageData" [tableSetting]="tableSetting"
-        [rowColumnSetting]="rowColumns" (editView)='editRow($event)' (deleteView)='deleteRow($event)'>
-      </app-basic-table > -->
-     
     
  <div class="page-content">
  
   <div class="w98">
-    <div style="padding-top: 2%; margin-left: 1%;display: flex;justify-content: center;flex-wrap: wrap;" *ngIf="buttonVariable==1">
+    <div style="padding-top: 2%; margin-left: 1%;display: flex;justify-content: center;flex-wrap: wrap;" *ngIf="buttonVariable == 'some entry'">
       <div style="display: flex;flex-direction: column;align-items: center;">
         <img src="../../../../assets/images/ARP imges/003-alarm-clock.png" style="width: 20%;"><br><br>
 
@@ -128,22 +119,30 @@
       <p style="font-size: 16px;">your request for the build of your application is under process.</p>&nbsp;
        <p style="font-size: 16px;"> it may take upto 2 hourse 30 mins you will be notified once your app is build successfully.</p>
       </div>
+      </div>
       
-      <div *ngIf="requestForBuil==0">
-        <div style="display: flex;flex-direction: column;align-items: center;">
-          <img src="../../../../assets/images/ARP imges/play.png" style="width: 20%;"><br><br>
+      <div *ngIf="requestForBuil == 'no entry'">
+        <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
+          <img src="../../../../assets/images/ARP imges/play.png" style="width: 14%;"><br><br>
   
         <p style="font-size: 30px;">REQUEST FOR BUILD</p><br><br>
         <p style="font-size: 16px;">you can request for the build of your application.</p>&nbsp;
-         <p style="font-size: 16px;"> Press<b>BUID NOW</b>button to proceed further.</p>
+         <p style="font-size: 16px;"> Press&nbsp;&nbsp;<b>BUID NOW</b>&nbsp; button to proceed further.</p><br><br>
+         <input type="submit" style="background: #528ff0; color: white;border: none;"  class="mt-3 btn btn-primary pl-4 pr-4" value="BUILD NOW" (click)="reuestBuildApk()">
+
         </div>
-      <input type="submit" style="background: #528ff0; color: white;"  class="mt-3 btn btn-primary pl-4 pr-4" value="BUILD NOW" (click)="reuestBuildApk()">
       </div>
-</div>
+      <div *ngIf="invalidEntry =='no-entery'">
+        <div style="display: flex;flex-direction: column;align-items: center;">
+      
+        <img src="../../../../assets/images/ARP imges/002-error.png">
+      <p style="font-size: 30px;">UNABLE TO PROCESS ENTERY</p>
+      <p style="font-size: 16px;">It seems your account is created our ARP RELEASE PLATFORM,so you are not eligible to generate the application.please contact the administration fpr your entery.</p>
+      </div>
+      </div>
       <div class="pt15">
         
-        <!-- <input type="text" class="input wid240 mr10" [(ngModel)]="leaveSearchInput" name="leaveSearchInput" (keyup)="searchInput(search)" placeholder="Category Name *" #search>
-          <button class="blue_button"  data-toggle="modal" data-target="#addModal">Add Category</button> -->
+    
       </div>
       <div class="leave_cat">
           <div class="table_heading">
@@ -153,7 +152,7 @@
            
             <div>Version </div>
             <div>Remark</div>
-            <div>Created Date Time</div>
+            <div>Created At Time</div>
             <div>Download</div>
           </div>
           <!-- ===========blank-image================ -->
@@ -171,30 +170,16 @@
             <div>
               <a style="color: blue;" target="_blank" href="https://proctur.s3.ap-southeast-1.amazonaws.com/application-release/apk-files/apk_com.proctur.aproduction100126_v0.2.apk" class="p-0 text-link text-sm"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"></path></g></svg> APK</a>&nbsp;
 
-              <!-- <a href=""  class="mr10" ><img src="../../../assets/img/edit.svg" title="Edit" class="group18"></a> -->
-              <!-- <a href="" ><img src="../../../assets/img/delete.svg" title="Delete" class="group18" ></a> -->
+           
               <a style="color: blue;"  target="_blank" href="https://proctur.s3.ap-southeast-1.amazonaws.com/application-release/bundle-files/bundle_com.proctur.aproduction100126_v0.2.aab" class="p-0 text-sm"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"></path></g></svg> Bundle File</a>
             </div>
           </div>
        </div>
   </div>
       
-        <!-- use image only when page is empty,table body class element will not be present -->
-  
-  <!-- <div class="white bottom_button bottom_pagignation">
-      <div class="w98">
-   
-      </div>
-  </div> -->
+      
 
-<div *ngIF="invalidEntry =='no-entery'">
-  <div style="display: flex;flex-direction: column;align-items: center;">
 
-  <img src="../../../../assets/images/ARP imges/002-error.png">
-<p style="font-size: 30px;">UNABLE TO PROCESS ENTERY</p>
-<p style="font-size: 16px;">It seems your account is created our ARP RELEASE PLATFORM,so you are not eligible to generate the application.please contact the administration fpr your entery.</p>
-</div>
-</div>
 
 </div>
 
@@ -206,3 +191,4 @@
         </div>
       </div>
       </mat-toolbar>
+    
