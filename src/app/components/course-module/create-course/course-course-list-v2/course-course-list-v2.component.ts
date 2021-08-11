@@ -303,7 +303,9 @@ export class CourseCourseListV2Component implements OnInit {
   selectAllCheckBox(element) {
     let val = element.checked;
     for (let i = 0; i < this.studentList.length; i++) {
-      this.studentList[i].assigned = val;
+      if(!this.studentList[i].assigned_in_other_section) {
+        this.studentList[i].assigned = val;
+      }
     }
   }
 
@@ -458,6 +460,12 @@ export class CourseCourseListV2Component implements OnInit {
       "is_active": "Y",
       "standard_id": '-1',
       "standard_name": ''
+    }
+  }
+
+  changeAssignStatus(obj) {
+    if(this.schoolModel && !obj.assigned) {
+      obj.assigned_in_other_section = false;
     }
   }
 

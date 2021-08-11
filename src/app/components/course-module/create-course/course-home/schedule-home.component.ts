@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import 'rxjs/Rx';
+import CommonUtils from '../../../../utils/commonUtils';
 import { AppComponent } from '../../../../app.component';
 import { role } from '../../../../model/role_features';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -141,6 +142,14 @@ export class ScheduleHomeComponent implements OnInit {
         body: msg
       }
       this.toastCtrl.popToast(data);
+    } else if(!CommonUtils.validateSpecialCharacters(this.newStandardDetails.standard_name)) {
+      let msg = (this.isLangInstitue != true) ? 'Special characters are not allowed in Standard Name' : 'Special characters are not allowed in Master Course';
+      let data = {
+        type: "error",
+        title: '',
+        body: msg
+      }
+      this.toastCtrl.popToast(data);
     } else {
       this.auth.showLoader();
       if (this.newStandardDetails.is_active == true || this.newStandardDetails.is_active == "Y") {
@@ -230,6 +239,14 @@ export class ScheduleHomeComponent implements OnInit {
     if (this.newStandardDetails.standard_name == "") {
       this.no_standard_name = true;
       let msg = (this.isLangInstitue != true) ? 'Please enter valid Standard Name' : 'Please enter valid Master Course';
+      let data = {
+        type: "error",
+        title: '',
+        body: msg
+      }
+      this.toastCtrl.popToast(data);
+    } else if(!CommonUtils.validateSpecialCharacters(this.newStandardDetails.standard_name)) {
+      let msg = (this.isLangInstitue != true) ? 'Special characters are not allowed in Standard Name' : 'Special characters are not allowed in Master Course';
       let data = {
         type: "error",
         title: '',

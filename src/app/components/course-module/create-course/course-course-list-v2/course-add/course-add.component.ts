@@ -298,6 +298,11 @@ export class CourseAddComponent implements OnInit {
           this._msgService.showErrorMessage('error', '', 'Please Select Academic Year!');
           return
         }
+        if(!CommonUtils.validateSpecialCharacters(this.courseDetails.course_name)) {
+          let msg = this.schoolModel ? 'Special characters are not allowed in section Name' : 'Special characters are not allowed in course Name';
+          this._msgService.showErrorMessage('error', '', msg);
+          return
+        }
         let obj: any = {};
         obj.course_name = this.courseDetails.course_name;
         obj.start_Date = moment(this.courseDetails.start_Date).format("YYYY-MM-DD");
@@ -468,6 +473,9 @@ export class CourseAddComponent implements OnInit {
     if (CommonUtils.isEmpty(this.newSubjectDetails.subject_name)) {
       this._msgService.showErrorMessage('error', '', "Please enter subject name!");
       return false;
+    } else if (!CommonUtils.validateSpecialCharacters(this.newSubjectDetails.subject_name)) {
+      this._msgService.showErrorMessage('error', '', 'Special characters are not allowed in subject Name');
+      return
     }
     if (!this.isLangInstitue && CommonUtils.isEmpty(this.newSubjectDetails.subject_code)) {
       this._msgService.showErrorMessage('error', '', "Please enter subject code!");
