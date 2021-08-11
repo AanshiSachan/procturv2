@@ -90,6 +90,7 @@ export class UsersComponent implements OnInit {
   role_feature = role.features;
   schoolModel: boolean = false;
   fullResponse: any = [];
+  delivery_mode:any=0;
 
   constructor(
     private apiService: UserService,
@@ -955,7 +956,7 @@ changeSelectPush(obj){
   sendLoginCredentials(type) {
     let studentID = this.getListOfIds('user_id');
     let obj = {
-      delivery_mode: 0,
+      delivery_mode: this.delivery_mode,
       user_ids: studentID,
       configuredMessage: false,
       message_id: this.selectedMsg.message_id,
@@ -964,8 +965,10 @@ changeSelectPush(obj){
       app_sms_type: type,
       user_role: 0
     };
-    let msgType = '';
-    msgType = (type == '4') ? 'Send Login Credentials' : 'Send App Link';
+    let msgType = 'Send App Link';
+    if(type == '4') {
+      msgType = (this.delivery_mode == 0) ? 'Send Login Credentials via SMS' : 'Send Login Credentials via Email';
+    }
     if (confirm('Are you sure you want to ' + msgType + ' to selected users?')) {
       this.auth.showLoader();
       this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
