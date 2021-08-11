@@ -498,32 +498,6 @@
 
 
                         </div>
-                        <div class="row" *ngIf="isSchoolModel">
-                            <div class="col-lg-2">
-                                <span class="label ">
-                                    Group
-                                </span>
-                            </div>
-                            <div class="col-lg-4" [ngClass]="{'has-value': studentAddFormData.educational_group != ''}">
-                                <input type="text" value="" id="educational_group" class="input"
-                                    placeholder="Enter group" [(ngModel)]="studentAddFormData.educational_group"
-                                    name="educational_group" #cardId="ngModel" />
-                            </div>
-
-                            <div class="col-lg-2">
-                                <span class="label">
-                                    Extra Curricular<br>Activities
-                                </span>
-                            </div>
-                            <div class="col-lg-4"
-                                [ngClass]="{'has-value': studentAddFormData.extra_curricular_activities != ''}">
-                                <input type="text" value="" id="extra_curricular_activities" class="input"
-                                    placeholder="Enter Curricular Activities"
-                                    [(ngModel)]="studentAddFormData.extra_curricular_activities"
-                                    name="extra_curricular_activities" #cardId="ngModel" />
-                            </div>
-
-                        </div>
                         <div class="row">
                             <div class="col-lg-2 ">
                                 <span class="label ">
@@ -2455,6 +2429,19 @@
                     [(ngModel)]="studentAddFormData.student_adhar_no" name="student_adhar_no" #cardId="ngModel" />
                   
                 </div>
+
+                <div>
+                    <label>Group</label>
+                    <input type="text" value="" id="educational_group" class="input" placeholder="Enter group"
+                      [(ngModel)]="studentAddFormData.educational_group" name="educational_group" #cardId="ngModel" />
+                  </div>
+    
+                <div>
+                    <label> Extra Curricular Activities</label>
+                    <input type="text" value="" id="extra_curricular_activities" class="input"
+                      placeholder="Enter Curricular Activities" [(ngModel)]="studentAddFormData.extra_curricular_activities"
+                      name="extra_curricular_activities" #cardId="ngModel" />
+                </div>
                
              </div>
           
@@ -2626,22 +2613,6 @@
              <input type="text" value="" id="pin_code" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="input" placeholder="Enter pin code"
              [(ngModel)]="studentAddFormData.pin_code" name="pin_code" #cardId="ngModel" />
                
-            </div>
-             <div>
-                <label>Group</label>
-              
-                   
-                <input type="text" value="" id="educational_group" placeholder="Enter group"
-                [(ngModel)]="studentAddFormData.educational_group" name="educational_group" #cardId="ngModel" />
-               
-              </div>
-               <div>
-              <label>Extra Curricular Activities</label>
-              
-                   
-              <input type="text" value="" id="extra_curricular_activities"
-              placeholder="Enter Activities" [(ngModel)]="studentAddFormData.extra_curricular_activities"
-              name="extra_curricular_activities" #cardId="ngModel" />
             </div>
           </div>
            <div class="label_box1">
