@@ -974,7 +974,8 @@ changeSelectPush(obj){
       this.httpService.postData('/api/v1/alerts/config', obj).subscribe(
         (res: any) => {
           this.auth.hideLoader();
-          this.messageNotifier('success', '', 'Message sent successfully');
+          msgType = (this.delivery_mode == 0) ? 'Message sent successfully' : 'Email sent successfully';
+          this.messageNotifier('success', '', msgType);
         },
         err => {
           this.auth.hideLoader();
