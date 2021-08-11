@@ -31,7 +31,8 @@ selectedFile = null;
 image: File;
 imageModel:any
 buttonVariable:string=''
-currentStatusData:any=[]=[]
+currentStatusData:any=[]=[];
+currentStatusTime:any=[]=[];
   constructor(private auth:AuthenticatorService,
     private _http: HttpService,private msgService: MessageShowService,
     ) {
@@ -39,8 +40,9 @@ currentStatusData:any=[]=[]
      }
 
   ngOnInit(): void {
- this.getToken()
-  //this.currentStatusofClient()
+ //this.getToken()
+  this.currentStatusofClient()
+  this.getAllImageResourse()
 
 
   
@@ -66,7 +68,7 @@ currentStatusData:any=[]=[]
     this.newToken=res.result;
     //sessionStorage.setItem('token',JSON.stringify(this.newToken))
     this.currentStatusofClient()
-    //this.getAllImageResourse()
+    this.getAllImageResourse()
 console.log("tokennnnnnnnnn",this.tokens)
     this.auth.hideLoader();
 
@@ -83,19 +85,25 @@ console.log("tokennnnnnnnnn",this.tokens)
 
      let Params={
 
-     // token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
-     token : this.newToken
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+    
   }
     this.auth.showLoader();
 let url ='client/requestStatus'
 this._http.postARPData(url,Params).subscribe(
   (res:any)=>{
+    this.currentStatusTime=res
     this.currentStatusData = res.releaseDetails
     if(res.underRelease == 1){
     this.buttonVariable = 'some entry'
     }
-    if(res.entry == 0){
+    if(res.underRelease == 0 && res.entry == 1){
       this.requestForBuil = 'no entry'
+    }
+    if(res.entry==0 ){
+      this.invalidEntry ='no-entery-inARP'
+    }if(res.entry == 1 && res.resources == 0){
+      this.invalidEntry = 'no-image-upload'
     }
     console.log("resssssss",res)
    
@@ -126,9 +134,8 @@ console.log("image data",this.selectedFile)
 
 
 uploadHandler(){
-if(this.imagVladifation()){
+//if(this.imagVladifation()){
   let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
-
   const formData = new FormData();
  
   formData.append('token',token);
@@ -163,7 +170,7 @@ newxhr.send(formData);
   }
   
   }
-}
+//}
   getAllImageResourse(){
     let obj={
      
@@ -194,7 +201,8 @@ newxhr.send(formData);
 reuestBuildApk(){
   let obj={
   
-    token:this.newToken
+    //token:this.newToken
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
 
 
     }
@@ -204,10 +212,11 @@ let url ='release/requestBuild'
 this._http.postARPData(url,obj).subscribe(
 (res:any)=>{
   console.log("resssssss build",res)
-  if(res.status==400){
-    this.invalidEntry ='no-entery'
-        }
-  this.auth.hideLoader();
+    this.auth.hideLoader();
+    if (res.status == 200 ) {
+      this.msgService.showErrorMessage('success', '', 'your request for the build of your application is successfully proceed')
+      this.currentStatusofClient()
+}
 },
 err => {
   this.auth.hideLoader();
@@ -218,12 +227,11 @@ err => {
 )
 }
 imagVladifation(){
- 
-if(this.selectedFile.max_height !=900 || this.selectedFile.max_width != 900){
+if(this.selectedFile.max_height <= 900 || this.selectedFile.max_width <= 900){
   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
  return;
 }
-return true;
+return true; 
 }
 }
 
