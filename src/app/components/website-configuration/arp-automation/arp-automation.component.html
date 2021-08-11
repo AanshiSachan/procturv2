@@ -44,7 +44,7 @@
             <img  [src]="imgData.icon_48_url" >
           </div>
           <!-- <div > -->
-            <svg *ngIf="imgData.icon_48_url == ''" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+            <svg *ngIf="!imgData.icon_48_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
           </svg>
         <!-- </div> -->
         </span><span class="mt-2">48 x 48</span>
@@ -57,10 +57,10 @@
                 <div *ngIf="imgData.icon_96_url != ''">
                 <img  [src]="imgData.icon_96_url" >
               </div>
-              <div *ngIf="imgData.icon_96_url == ''">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+              
+                <svg *ngIf="!imgData.icon_96_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
                 </svg>
-                </div>
+               
               </span><span class="mt-2">96 x 96</span>
             </div>
             <input type="file" accept="image/x-png,image/png" class="d-none" >
@@ -71,10 +71,10 @@
                  <div *ngIf="imgData.icon_144_url != ''">
                 <img  [src]="imgData.icon_144_url" >
                </div>
-               <div *ngIf="imgData.icon_144_url == ''">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+              
+                 <svg *ngIf="!imgData.icon_144_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
                 </svg>
-                </div>
+                
               </span><span class="mt-2">144 x 144</span>
               </div>
               <input type="file" accept="image/x-png,image/png" class="d-none">
@@ -85,10 +85,9 @@
                      <div *ngIf="imgData.icon_192_url != ''">
                     <img  [src]="imgData.icon_192_url" >
                   </div>
-                  <div *ngIf="imgData.icon_192_url == ''">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                 
+                     <svg *ngIf="!imgData.icon_192_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
                     </svg>
-                    </div>
                   </span><span class="mt-2">192 x 192</span>
                 </div>
                   <input type="file" accept="image/x-png,image/png" class="d-none">
@@ -99,10 +98,10 @@
                          <div *ngIf="imgData.icon_512_url != ''">
                         <img  [src]="imgData.icon_512_url" >
                        </div>
-                       <div *ngIf="imgData.icon_512_url == ''">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                       
+                         <svg *ngIf="!imgData.icon_512_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
                         </svg>
-                        </div>
+                        
                       </span><span class="mt-2">512 x 512</span>
                       </div>
                       <input type="file" accept="image/x-png,image/png" class="d-none">
@@ -118,10 +117,9 @@
                        <div *ngIf="imgData.logo_1800_url != ''">
                       <img  [src]="imgData.logo_1800_url" >
                       </div>
-                      <div *ngIf="imgData.logo_1800_url == ''">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                     
+                       <svg *ngIf="!imgData.logo_1800_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
                       </svg>
-                      </div>
                     </span><span class="mt-2">1800 x 900</span>
                     </div>
                     <input type="file" accept="image/x-png,image/png" class="d-none" id="logo1800">
@@ -151,10 +149,9 @@
                                <div *ngIf="imgData.splash_url != ''">
                               <img  [src]="imgData.splash_url" >
                               </div>
-                              <div *ngIf="imgData.splash_url == ''">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                             
+                               <svg *ngIf="!imgData.splash_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
                               </svg>
-                              </div>
                             </span><span class="mt-2">420 x 420</span>
                             </div>
                             <input type="file" accept="image/x-png,image/png" class="d-none" id="logo110">
@@ -174,21 +171,21 @@
   <div class="w98">
     <div style="padding-top: 2%; margin-left: 1%;display: flex;justify-content: center;flex-wrap: wrap;" *ngIf="buttonVariable == 'some entry'">
       <div style="display: flex;flex-direction: column;align-items: center;">
-        <img src="../../../../assets/images/ARP imges/003-alarm-clock.png" style="width: 20%;"><br><br>
+        <img src="../../../../assets/images/ARP imges/003-alarm-clock.png" style="width: 16%;"><br>
 
-      <p style="font-size: 30px;">APP UNDER PROCESS</p><br><br>
-      <p style="font-size: 16px;">your request for the build of your application is under process.</p>&nbsp;
-       <p style="font-size: 16px;"> It may take upto {{currentStatusTime.hours}} hours {{currentStatusTime.minutes}} mins.You will be notified once your app is build successfully.</p>
+      <p style="font-size: 26px;">APP UNDER PROCESS</p><br>
+      <p style="font-size: 16px;">Your request for the build of Android application is under process.</p>
+       <p style="font-size: 16px;"> It may take upto {{currentStatusTime.hours}} hours {{currentStatusTime.minutes}} mins. You will be notified once your app is build successfully.</p>
       </div>
       </div>
       
       <div *ngIf="requestForBuil == 'no entry'">
         <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
-          <img src="../../../../assets/images/ARP imges/play.png" style="width: 14%;"><br><br>
+          <img src="../../../../assets/images/ARP imges/play.png" style="width: 12%;"><br>
   
-        <p style="font-size: 30px;">REQUEST FOR BUILD</p><br><br>
-        <p style="font-size: 16px;">you can request for the build of your application.</p>&nbsp;
-         <p style="font-size: 16px;"> Press&nbsp;&nbsp;<b>BUID NOW</b>&nbsp; button to proceed further.</p><br><br>
+        <p style="font-size: 21px;">REQUEST FOR BUILD</p><br>
+        <p style="font-size: 14px;">You can request for the build of your application.</p>
+         <p style="font-size: 14px;"> Press&nbsp;&nbsp;<b>BUID NOW</b>&nbsp; button to proceed further.</p><br><br>
          <input type="submit" style="background: #528ff0; color: white;border: none;"  class="mt-3 btn btn-primary pl-4 pr-4" value="BUILD NOW" (click)="reuestBuildApk()">
 
         </div>
@@ -197,24 +194,24 @@
         <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
       
         <img src="../../../../assets/images/ARP imges/002-error.png" style="width: 12%;"><br>
-      <p style="font-size: 19px;">UNABLE TO PROCESS ENTERY</p>
+      <p style="font-size: 19px;">UNABLE TO PROCESS ENTERY</p><br>
       <p style="font-size: 14px;">It seems your account is created our ARP RELEASE PLATFORM,so you are not eligible to generate the application.</p>
-        <p style="font-size: 14px;">Please contact the administration fpr your entery.</p>
+        <p style="font-size: 14px;">Please contact the administration for your entery.</p>
       </div>
       </div>
       <div *ngIf="invalidEntry =='no-image-upload'">
         <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
       
-        <img src="../../../../assets/images/ARP imges/001-warning.png">
-      <p style="font-size: 30px;">INCOMPLETE RESOURCES</p>
-      <p style="font-size: 16px;">You have not uploaded all the resources.Please update logo image as per expected size and try again later.</p>
+        <img src="../../../../assets/images/ARP imges/001-warning.png" style="width: 12%;"><br>
+      <p style="font-size: 19px;">INCOMPLETE RESOURCES</p><br>
+      <p style="font-size: 14px;">You have not uploaded all the resources.Please update logo image as per expected size and try again later.</p>
       </div>
       </div>
       <div class="pt15">
         
     
       </div>
-      <div class="leave_cat">
+      <div class="leave_cat" >
           <div class="table_heading">
             <div>
              #

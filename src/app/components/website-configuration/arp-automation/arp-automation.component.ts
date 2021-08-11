@@ -44,7 +44,6 @@ currentStatusTime:any=[]=[];
   this.currentStatusofClient()
   this.getAllImageResourse()
 
-
   
   }
   toggler(){
@@ -85,8 +84,8 @@ console.log("tokennnnnnnnnn",this.tokens)
 
      let Params={
 
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
-    
+     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+    //token:this.newToken
   }
     this.auth.showLoader();
 let url ='client/requestStatus'
@@ -94,19 +93,28 @@ this._http.postARPData(url,Params).subscribe(
   (res:any)=>{
     this.currentStatusTime=res
     this.currentStatusData = res.releaseDetails
-    if(res.underRelease == 1){
-    this.buttonVariable = 'some entry'
-    }
-    if(res.underRelease == 0 && res.entry == 1){
-      this.requestForBuil = 'no entry'
-    }
+
     if(res.entry==0 ){
       this.invalidEntry ='no-entery-inARP'
-    }if(res.entry == 1 && res.resources == 0){
+
+    }else if( res.resources == 0)
+    {
       this.invalidEntry = 'no-image-upload'
+
+
     }
-    console.log("resssssss",res)
+    else if( res.underRelease == 0 )
+    {
+      this.requestForBuil = 'no entry'
+
+    }else{
+
    
+    this.buttonVariable = 'some entry'
+    
+  }
+    
+ 
     this.auth.hideLoader();
   },
   err => {
@@ -134,7 +142,7 @@ console.log("image data",this.selectedFile)
 
 
 uploadHandler(){
-//if(this.imagVladifation()){
+  // if(this.imagVladifun()){
   let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
   const formData = new FormData();
  
@@ -157,6 +165,7 @@ newxhr.onreadystatechange = () => {
   this.auth.hideLoader();
   if (newxhr.status == 200 ) {
          this.msgService.showErrorMessage('success', '', 'image uploaded successfully')
+         this.selectedFile=''
          this.getAllImageResourse()
   }
 }
@@ -168,14 +177,14 @@ newxhr.send(formData);
     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
   
   }
+}
   
-  }
 //}
   getAllImageResourse(){
     let obj={
      
       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
-  
+      //token:this.newToken
   
       
     }
@@ -213,9 +222,11 @@ this._http.postARPData(url,obj).subscribe(
 (res:any)=>{
   console.log("resssssss build",res)
     this.auth.hideLoader();
-    if (res.status == 200 ) {
+    if (res.success == true ) {
+      this.requestForBuil = ''
+
       this.msgService.showErrorMessage('success', '', 'your request for the build of your application is successfully proceed')
-      this.currentStatusofClient()
+      this.currentStatusofClient();
 }
 },
 err => {
@@ -226,12 +237,34 @@ err => {
 }
 )
 }
-imagVladifation(){
-if(this.selectedFile.max_height <= 900 || this.selectedFile.max_width <= 900){
-  this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
- return;
-}
+imagVladifun(){
+  console.log("hjkhjkhjk",this.selectedFile)
+  const max_height = this.imgvarible.height;
+  const max_width = this.imgvarible.width;
+  const reader = new FileReader();
+  reader.readAsDataURL(this.selectedFile);
+  this.selectedFile.onload = rs => {
+    const img_height = rs.currentTarget['height'];
+    const img_width = rs.currentTarget['width'];
+    alert(img_width)
+
+    if ((img_height != max_height && img_width != max_width) || ( img_height <= 900 && img_width <= 900)) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
+      return false;
+    }
+  }
+
+  if(this.selectedFile ==''){
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select image");
+return false;
+  }
+// if(this.selectedFile.max_width <= 900 || this.selectedFile.max_height <= 900){
+//   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
+//  return false;
+// }
 return true; 
 }
 }
+
+
 
