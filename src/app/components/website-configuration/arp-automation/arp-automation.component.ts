@@ -11,13 +11,7 @@ import * as _ from 'lodash';
   styleUrls: ['./arp-automation.component.scss']
 })
 export class ArpAutomationComponent implements OnInit {
-  imgvarible={
-    imgName:'',
-    height:0,
-    width:0
-  
-
-  }
+ 
   imgData:any=''
 uploadedImg: any = '';
  requestForBuil:string='';
@@ -142,7 +136,19 @@ console.log("image data",this.selectedFile)
 
 
 uploadHandler(){
-  // if(this.imagVladifun()){
+    const reader = new FileReader();
+    reader.readAsDataURL(this.selectedFile);
+    reader.onloadend = (e: any) => {
+      const image = new Image();
+      image.src = e.target.result;
+      image.onload = rs => {
+        const img_height = rs.currentTarget['height'];
+        const img_width = rs.currentTarget['width'];
+      if ( !(img_height >= 900 && img_width >= 900)) {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
+        return false;
+      }else{
+
   let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
   const formData = new FormData();
  
@@ -176,10 +182,11 @@ newxhr.send(formData);
   
     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
   
-  }
+  };
+};
+      }
 }
-  
-//}
+}
   getAllImageResourse(){
     let obj={
      
@@ -237,33 +244,7 @@ err => {
 }
 )
 }
-imagVladifun(){
-  console.log("hjkhjkhjk",this.selectedFile)
-  const max_height = this.imgvarible.height;
-  const max_width = this.imgvarible.width;
-  const reader = new FileReader();
-  reader.readAsDataURL(this.selectedFile);
-  this.selectedFile.onload = rs => {
-    const img_height = rs.currentTarget['height'];
-    const img_width = rs.currentTarget['width'];
-    alert(img_width)
 
-    if ((img_height != max_height && img_width != max_width) || ( img_height <= 900 && img_width <= 900)) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
-      return false;
-    }
-  }
-
-  if(this.selectedFile ==''){
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please select image");
-return false;
-  }
-// if(this.selectedFile.max_width <= 900 || this.selectedFile.max_height <= 900){
-//   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
-//  return false;
-// }
-return true; 
-}
 }
 
 
