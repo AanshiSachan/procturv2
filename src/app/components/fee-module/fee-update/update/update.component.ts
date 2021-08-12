@@ -457,4 +457,8 @@ export class UpdateComponent implements OnInit {
     }
   }
 
+  setAcadYear() {
+    sessionStorage.setItem('selected_acad_yr', String(this.model.academic_yr_id));
+  }
+
 }

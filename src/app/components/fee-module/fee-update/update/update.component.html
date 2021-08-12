@@ -78,7 +78,7 @@
                   <div>{{data.total_paid_amount}}</div>
                   <div>{{data.total_unpaid_amount}}</div>
                   <div>
-                    <a [routerLink]="['/view/fee/update-fee/view-fee/'+data.student_id]" class="mr10"><img src="../../../../../assets/img/view.svg" title="View" ></a>
+                    <a [routerLink]="['/view/fee/update-fee/view-fee/'+data.student_id]" (click)="setAcadYear()" class="mr10"><img src="../../../../../assets/img/view.svg" title="View" ></a>
                   </div>
                 </div>
               </div>
