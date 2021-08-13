@@ -273,7 +273,7 @@
                 </th> -->
               </thead>
               <tbody>
-                <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
+                <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;" [ngClass]="{'disabledStu': (schoolModel && !row.assigned && row.assigned_in_other_section)}">
                   <td>
                     <div class="field-checkbox-wrapper">
                       <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox"
