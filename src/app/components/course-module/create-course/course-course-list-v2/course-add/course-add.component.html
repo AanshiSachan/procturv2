@@ -29,7 +29,7 @@
         </div>
         <div class="pt15 table_body" [ngClass]="{'noShadow': !selectedCourseID}" style="margin-bottom: 0;">
           <input type="text" style="float: left;" name="masterCourse" id="masterCourse"
-            [(ngModel)]="courseDetails.course_name" placeholder="{{schoolModel ? 'Section' : 'Course'}} Name*"
+            [(ngModel)]="courseDetails.course_name" maxlength="90" placeholder="{{schoolModel ? 'Section' : 'Course'}} Name*"
             class="input mr10 wid217">
           <select class="select mr10 wid180" *ngIf="!schoolModel" [(ngModel)]="courseDetails.master_course_id"
             (ngModelChange)="getSubjects()">
