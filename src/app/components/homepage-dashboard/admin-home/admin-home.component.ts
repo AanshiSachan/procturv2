@@ -257,7 +257,11 @@ export class AdminHomeComponent implements OnInit {
         this.daysLeftForSubscriptionExpiry = loginResp.no_of_days_left;
       }
     }
-    this.onChanged('subject');
+    if(this.mark_attendance_subject_wise) {
+      this.onChanged('subject');
+    } else {
+      this.onChanged('course');
+    }
     this.checkForSubjectWiseView();
 
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');

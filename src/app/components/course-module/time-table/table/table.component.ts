@@ -17,12 +17,14 @@ export class tableComponent {
   x: number = 0;
   isProfessional: boolean;
   today: string = moment(Date.now()).format("DD-MM-YYYY");
+  schoolModel: boolean = false;
 
 
   constructor(
     private auth: AuthenticatorService
     )
     {
+    this.schoolModel = this.auth.schoolModel.getValue();
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
