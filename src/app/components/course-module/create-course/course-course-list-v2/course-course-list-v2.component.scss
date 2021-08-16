@@ -708,6 +708,7 @@ background-color:transparent;
           text-align: left;
           padding: 10px;
           font-size: 12px;
+          color: black;
           .field-wrapper {
               .form-ctrl {
                   padding: 5px;
@@ -955,4 +956,7 @@ input{
 .disabledStu {
   color: gray;
   cursor: no-drop;
+  td {
+    color: #b5b0b0!important;
+  }
 }
