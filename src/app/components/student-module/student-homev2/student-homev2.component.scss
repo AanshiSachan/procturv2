@@ -41,7 +41,7 @@ body{
 }
 
 .magnifying-glass{
-  background-image: url('/assets/img1/Vector1.svg');
+  background-image: url('/assets/img1/Vector.svg');
   background-repeat: no-repeat;
   background-position:1% center;
   text-indent: 5px;
@@ -199,7 +199,7 @@ margin-left: 8px;
   display: none;
   position: absolute;
   background-color: #fff;
-  min-width: 150px;
+  min-width: 172px;
   right: 0px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   font-weight: 400;
@@ -851,18 +851,12 @@ transform: scale(1);
   .wid230{
     width: 230px;
   }
-  .custCompFilter {
-      input {
-        width: 270px;
-      }
-    }
   // ================================================certificate-popups===================================
   .certificate{
     //margin: 0px;
     color: #403e40;
     font-size: 15px;
     text-transform: uppercase;
-  
   .modal-header h4{
     text-align: center;
      font-weight: 500;
@@ -922,12 +916,6 @@ color: #5AA3CF;
   width: 400px;
 
 }
-// .certificate{
-// 	margin: 0px;
-// 	color: #403e40;
-// 	font-size: 15px;
-// 	text-transform: uppercase;
-// }
 .gradient{
 	background: linear-gradient(90deg, #04498A 19.01%, #52C8E6 94.66%);
 }
@@ -994,7 +982,17 @@ margin: 10px 20px;
 .dated{
 	margin-bottom: 100px;
 }
+}
 // =====================end===========================================
+.pdfgen{
+    width: 576px;
+    height: 478px;
+}
+  .custCompFilter {
+      input {
+        width: 270px;
+      }
+  }
 .header-text{
   width: 70%;
     display: flex;
@@ -1008,7 +1006,6 @@ margin: 10px 20px;
     display: flex;
     font-size: 13px;
 }
-  }
   .modal-dialog-slideout{
 width:100%;
   }
