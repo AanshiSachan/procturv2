@@ -176,7 +176,7 @@ export class EditClassComponent implements OnInit {
 
   setMultiSelectSetting() {
     this.facultySettings = {
-      singleSelection: false,
+      singleSelection: this.singleSelectionOfFaculty,
       idField: 'teacher_id',
       textField: 'teacher_name',
       itemsShowLimit: 2,
