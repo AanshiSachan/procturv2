@@ -762,9 +762,9 @@
               <!-- <div>
                      <span class="top"> Amount</span>
                     </div> -->
-              <div *ngIf="tax">
+              <!-- <div *ngIf="tax=='true'">
                 Tax
-              </div>
+              </div> -->
               <!-- <div>
                       Discount<br>Amount
                     </div> -->
@@ -800,15 +800,15 @@
               <!-- <div>
                       {{data.initial_amount==null?'0':data.initial_amount}}
                     </div> -->
-              <div *ngIf="tax">
-                {{data.tax_amount==null?'0':data.tax_amount}}
-              </div>
+              <!-- <div *ngIf="tax">
+                {{currencySymbol}}   {{data.tax_amount==null?'0':data.tax_amount}}
+              </div> -->
               <!-- <div>
                       {{data.disc_amount==null?'0':data.disc_amount}}
                     </div> -->
               <!-- <div>{{data.t_amount}}</div> -->
               <div>
-                {{data.p_amount | number}}
+                {{currencySymbol}}  {{data.p_amount | number}}
               </div>
               <!-- <div>
                       {{data.d_amount==null?'0':data.d_amount}}
@@ -834,7 +834,7 @@
           </div>
 
           <div class="past_due">
-            <div class="table_heading">
+            <div class="table_heading" [ngClass]="{'table_heading1':tax!='true'}">
               <div>
                 Installment<br>No
               </div>
@@ -845,23 +845,24 @@
                 <span class="top"> Due Date</span>
               </div>
               <div>
-                <span class="top"> Amount</span>
+                Total<br> Amount
               </div>
               <div *ngIf="tax">Tax</div>
               <div>
                 Discount<br>Amount
               </div>
-              <div>
+              <!-- <div>
                 Total<br>Amount
-              </div>
+              </div> -->
               <div>
                 Amount<br>Paid
               </div>
               <div>
                 Amount<br>Due
+                <!-- Amount<br>Balance -->
               </div>
             </div>
-            <div class="table_body" *ngFor="let data of pastFee">
+            <div class="table_body"  [ngClass]="{'table_body1':tax!='true'}" *ngFor="let data of pastFee">
               <div>
                 {{data.install_no}}
               </div>
@@ -872,22 +873,36 @@
                 {{data.d_date |date:'dd-MM-yyyy'}}
               </div>
               <div>
-                {{data.t_amount | number}}
+             
+                <div class="tooltip1"> {{currencySymbol}} {{data.t_amount | number}}
+                  <span *ngIf="tax" class="tooltiptext"><span
+                          class="blue">Amount</span>
+                      {{data.initial_amount | number}} <span class="blue">+Tax
+                      </span>{{data.tax_amount | number}} <span class="blue">-Discount</span>
+                      {{data.disc_amount | number}}
+                  </span>
+                  <span *ngIf="!tax" class="tooltiptext"><span
+                          class="blue">Amount</span>
+                      {{data.initial_amount | number}} <span class="blue">-Discount</span>
+                      {{data.disc_amount | number}}
+                  </span>
+              </div>
               </div>
               <div *ngIf="tax">
-                {{data.tax_amount}}
+                {{currencySymbol}} {{data.tax_amount}}
               </div>
               <div>
-                {{data.disc_amount | number}}
+                {{currencySymbol}} {{data.disc_amount | number}}
+              </div>
+              <!-- <div>
+                {{currencySymbol}}  {{data.t_amount | number}}
+              </div> -->
+              <div>
+                {{currencySymbol}}  {{data.p_amount | number}}
               </div>
               <div>
-                {{data.t_amount | number}}
-              </div>
-              <div>
-                {{data.p_amount | number}}
-              </div>
-              <div>
-                {{   data.t_amount -(data.p_amount-data.disc_amount)  }}
+           
+                {{currencySymbol}} {{ data.d_amount  }}
               </div>
             </div>
             <div class="nodata" *ngIf="pastFee.length == 0">
@@ -913,7 +928,7 @@
                 <span class="top"> Due Date</span>
               </div>
               <div>
-                <span class="top"> Amount</span>
+              Total<br> Amount
               </div>
               <div *ngIf="tax">
                 <span class="top"> Tax</span>
@@ -921,9 +936,9 @@
               <div>
                 Discount<br>Amount
               </div>
-              <div>
+              <!-- <div>
                 Total<br>Amount
-              </div>
+              </div> -->
               <div>
                 Amount<br>Paid
               </div>
@@ -942,22 +957,34 @@
                 {{data.d_date |date:'dd-MM-yyyy'}}
               </div>
               <div>
-                {{data.t_amount | number}}
+                <div class="tooltip1"> {{currencySymbol}} {{data.t_amount | number}}
+                  <span *ngIf="tax" class="tooltiptext"><span
+                          class="blue">Amount</span>
+                      {{data.initial_amount | number}} <span class="blue">+Tax
+                      </span>{{data.tax_amount | number}} <span class="blue">-Discount</span>
+                      {{data.disc_amount | number}}
+                  </span>
+                  <span *ngIf="!tax" class="tooltiptext"><span
+                          class="blue">Amount</span>
+                      {{data.initial_amount | number}} <span class="blue">-Discount</span>
+                      {{data.disc_amount | number}}
+                  </span>
+              </div>
               </div>
               <div *ngIf="tax">
-                {{data.tax_amount}}
+                {{currencySymbol}}  {{data.tax_amount}}
               </div>
               <div>
-                {{data.disc_amount}}
+                {{currencySymbol}}   {{data.disc_amount}}
+              </div>
+              <!-- <div>
+                {{currencySymbol}} {{data.t_amount | number}}
+              </div> -->
+              <div>
+                {{currencySymbol}}   {{data.p_amount | number}}
               </div>
               <div>
-                {{data.t_amount | number}}
-              </div>
-              <div>
-                {{data.p_amount | number}}
-              </div>
-              <div>
-                {{data.t_amount -(data.p_amount-data.disc_amount)}}
+                {{currencySymbol}}  {{data.d_amount}}
               </div>
             </div>
             <div class="nodata" *ngIf="futureFees.length == 0">
@@ -1422,7 +1449,7 @@
             <div>Rank</div>
             <div></div>
           </div>
-          <div id="outerTableTr{{i}}" *ngFor="let data of courseLevelExamList; let i = index;">
+          <div id="outerTableTr{{i}}" *ngFor="let data of studentReportInfo.pastCourseExamSchdJson; let i = index;">
             <div class="table_body1 collapsible">
               <div title="{{data.master_course_name}}"> {{ (data.master_course_name?.length
                 > 20) ? (data.master_course_name| slice:0:20) + '...' : data.master_course_name }} </div>

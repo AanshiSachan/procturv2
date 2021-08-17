@@ -39,12 +39,14 @@ export class ViewReportCardV2Component implements OnInit {
 
   ) {
     this.student_id = this.route.snapshot.paramMap.get('id');
-
+    this.tax = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1';
+   
   }
   feesAllData: any = [];
   academicYrList: any = [];
   timeTableDet: any = [];
   timeTableSchedule: any = [];
+  currencySymbol: String = ""
   timetablePayLoad: any = {
     batch_id: -1,
     standard_id: -1,
@@ -105,7 +107,8 @@ export class ViewReportCardV2Component implements OnInit {
   //tax=sessionStorage.getItem('enable_tax_applicable_fee_installments');
   ngOnInit(): void {
 
-    this.tax = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1';
+   
+   
     //check for school model
     this.schoolModel = this.auth.schoolModel.getValue();
     this.auth.institute_type.subscribe(
@@ -362,6 +365,7 @@ export class ViewReportCardV2Component implements OnInit {
     this.httpService.getData(url).subscribe(
       (res: any) => {
         this.feesAllData = res.result;
+        this.currencySymbol = this.feesAllData.currency_code;
         this.payementHistory = res.result.p_install_li;
         this.pastFeesDetails = res.result.a_install_li;
         this.getPastFeeDetails();
