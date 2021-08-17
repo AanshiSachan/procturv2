@@ -562,6 +562,9 @@ export class StudentHomev2Component implements OnInit {
             //  this._commService.contactNoPatternChange(res);
             this.contactNoPatternChange(res);
             this.studentDataSource = res;
+            this.studentDataSource.forEach((data)=>{
+              data.thumbnail_url = data.thumbnail_url  + '?' + Math.random().toFixed(2);
+            }) 
            // console.log(this.studentDataSource)
           } else {
             let alert = {
@@ -916,6 +919,9 @@ export class StudentHomev2Component implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openAdFilter() {
+    if(this.advancedFilterForm.is_active_status =='-1'){
+      this.advancedFilterForm.is_active_status='3';
+    }
     this.instituteData.master_course_name="-1"
     //$('#exampleModal2').modal('show');
     // this.isAdvFilter = true;
@@ -1449,7 +1455,12 @@ export class StudentHomev2Component implements OnInit {
       }
     });
   }
-
+  ngOnChanges() {
+  
+    this.studentDataSource.forEach((data)=>{
+        data.thumbnail_url = data.thumbnail_url  + '?' + Math.random().toFixed(2);
+      }) 
+}
   /* When user select the master course or standard then fetch the sub or sub course for them */
   /* =================================================================================================== */
   /* =================================================================================================== */
@@ -1490,7 +1501,7 @@ export class StudentHomev2Component implements OnInit {
       standard_id: -1,
       batch_id: -1,
       name: "",
-      is_active_status: "-1,",
+      is_active_status: "3",
       mobile: "",
       language_inst_status: -1,
       subject_id: -1,
@@ -3528,6 +3539,7 @@ closePopups(){
   $('#migrationCertificate').modal('hide');
 
 }
+
 
 }
 
