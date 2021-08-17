@@ -83,7 +83,7 @@
       </div>
       <div class="master_course_container" >
         <div class="course_header_item">
-          <span>Master Course (Course) </span>
+          <span>{{schoolModel ? 'Standard (Section)' : 'Master Course (Course)'}}</span>
         </div>
         <div class="course_item" *ngFor="let temp  of recordInput">
           <span *ngIf="temp.data[i] && isProfessional">{{temp.data[i].standard_name}} &nbsp;({{temp.data[i].subject_name}})</span>
