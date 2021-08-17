@@ -357,8 +357,14 @@ display: flex;
 .next_due .table_heading>div, .past_due .table_heading>div{
    width: calc(100% / 8);
 }
+.next_due .table_heading>div, .past_due .table_heading1>div{
+  width: calc(100% / 7);
+}
 .next_due .table_body>div, .past_due .table_body>div{
    width: calc(100% / 8);
+}
+.next_due .table_body>div, .past_due .table_body1>div{
+  width: calc(100% / 7);
 }
 .add_doc{
   width: 100%;
@@ -1202,4 +1208,29 @@ border-radius: 4px;
 .overflows{
   overflow-y: auto;
 height: 64vh;
+}
+  
+.tooltip1{
+  cursor: pointer;
+}
+.tooltip1 .tooltiptext {
+  visibility: hidden;
+  background-color: #fff;
+  text-align: center;
+  padding: 2px 4px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 100;
+ font-weight: 600;
+font-size: 11px;
+line-height: 15px;
+margin-top: 25px;
+margin-left: -11%;
+border: 1px solid #F1F3F6;
+}
+.tooltip1 .tooltiptext .blue{
+  color: #109CF1;
+}
+.tooltip1:hover .tooltiptext {
+  visibility: visible;
 }
