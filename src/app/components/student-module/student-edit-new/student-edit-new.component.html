@@ -2722,13 +2722,19 @@
                     </select>
                   </div>
               </div>
-              <div class="label_box" *ngIf="!isSchoolModel">
-                <div class="field-wrapper2 dateWrapper datePickerBox">
+              <div class="label_box">
+                <div class="field-wrapper2 dateWrapper datePickerBox" *ngIf="!isSchoolModel">
                   <label>Course Expiry Date of Student</label>
                   <input type="text" value="" id="studexpDate" class="input bsDatepicker" bsDatepicker name="studexpDate"
                       readonly="true" [(ngModel)]="studentAddFormData.expiry_date" />
                   
                 </div>
+                <div class="field-wrapper" *ngIf="enableBiometric == '1'">
+                    <label style="margin-top: 15px;" for="cardId">Attendance Card ID</label>
+  
+                    <input type="text" value="" id="cardId" class="form-ctrl"
+                      [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard" #cardId="ngModel" />
+                  </div>
               </div>
               <div #custom_components></div>
               <div *ngIf="quickAddStudent" class="display">
