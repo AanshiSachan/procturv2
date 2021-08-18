@@ -34,9 +34,9 @@ currentStatusTime:any=[]=[];
      }
 
   ngOnInit(): void {
- //this.getToken()
-  this.currentStatusofClient()
-  this.getAllImageResourse()
+ this.getToken()
+  // this.currentStatusofClient()
+  // this.getAllImageResourse()
 
   
   }
@@ -68,7 +68,7 @@ console.log("tokennnnnnnnnn",this.tokens)
   },
   err => {
     this.auth.hideLoader();
-  
+ 
     this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
   
   }
@@ -78,8 +78,8 @@ console.log("tokennnnnnnnnn",this.tokens)
 
      let Params={
 
-     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
-    //token:this.newToken
+    // token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+    token:this.newToken
   }
     this.auth.showLoader();
 let url ='client/requestStatus'
@@ -114,7 +114,7 @@ this._http.postARPData(url,Params).subscribe(
   err => {
     this.auth.hideLoader();
 
-    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+    // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
 
   }
 )
@@ -148,8 +148,8 @@ uploadHandler(){
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Please upload file of size 900 * 900 px ");
         return false;
       }else{
-
-  let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+let token = this.newToken
+  // let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
   const formData = new FormData();
  
   formData.append('token',token);
@@ -190,8 +190,8 @@ newxhr.send(formData);
   getAllImageResourse(){
     let obj={
      
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
-      //token:this.newToken
+      //token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+      token:this.newToken
   
       
     }
@@ -208,7 +208,7 @@ newxhr.send(formData);
     err => {
       this.auth.hideLoader();
     
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+      // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
     
     }
     )
@@ -217,8 +217,8 @@ newxhr.send(formData);
 reuestBuildApk(){
   let obj={
   
-    //token:this.newToken
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
+    token:this.newToken
+    //token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
 
 
     }
