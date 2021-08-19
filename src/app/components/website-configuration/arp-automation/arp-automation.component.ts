@@ -158,7 +158,7 @@ let token = this.newToken
     formData.append('file', this.selectedFile);
  
 }
-  let urlPostXlsDocument = 'http://arp3-api.proctur.com/v1/client/uploadResourceAPI'
+  let urlPostXlsDocument = '//arp3-api.proctur.com/v1/client/uploadResourceAPI'
 
   let newxhr = new XMLHttpRequest();
  newxhr.open("POST", urlPostXlsDocument, true);
