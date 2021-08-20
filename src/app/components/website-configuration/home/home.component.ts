@@ -9,14 +9,18 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   menus = [
+
+    // {
+    //   title : "Generate App",
+    //   routerLink: 'view/website-configuration/arp-automation'
+    // },
+
+
     {
       title : "Images",
       routerLink: 'view/website-configuration/images'
     },
-    {
-      title : "App Logos",
-      routerLink: 'view/website-configuration/arp-automation'
-    },
+    
     {
       title : "Static Page (More)",
       routerLink: 'view/website-configuration/static-pages/list'

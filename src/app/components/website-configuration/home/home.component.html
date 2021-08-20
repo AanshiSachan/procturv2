@@ -1,5 +1,10 @@
 <div class="menu">
+   
     <ul>
+        <div>
+            <a routerLink='/view/website-configuration/arp-automation/' >Generate APP</a>
+        </div>
+        <hr style="border-width: 2px;background-color: #528ff0;">
         <li (click)="toggler(menu.title)" *ngFor="let menu of menus">
             <a (click)="navigateToLink(menu.routerLink)" style="font-size: 12px;">
                 <span [ngClass]="activeSession === menu.title ? ' abc' : ' NavLink'">{{menu.title}}</span>
