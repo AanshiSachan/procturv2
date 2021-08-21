@@ -24,6 +24,9 @@ generateApk:boolean=false
 selectedFile = null;
 image: File;
 imageModel:any
+logo_Upload:string="upload-logo";
+generate_Apk:string="";
+bublish_Application:string="";
 buttonVariable:string=''
 currentStatusData:any=[]=[];
 currentStatusTime:any=[]=[];
@@ -244,6 +247,7 @@ err => {
 }
 )
 }
+// =================header-function===============================
 
 }
 

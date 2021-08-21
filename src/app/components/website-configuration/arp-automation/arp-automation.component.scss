@@ -433,8 +433,190 @@ b{
   font-weight: 600;
 }
 } 
+
+.conatainer{
+  background: lightgrey;
+  padding-top: 2%;
+  height: 99vh;
+}
+
+
+
 .upload-logo{
 margin-left: 2%;
-padding: 2%;
+//padding: 2%;
 background: white;
+box-shadow: 0px 0px 6px;
+width: 97%;
+margin-top: -18px;
 } 
+.blue_button {
+  background-color: #109CF1;
+  color: white;
+  padding: 9px 20px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+p{
+  font-size: 15px;
+}
+b{
+  font-weight: 600;
+}
+.under-release{
+  margin-left: 2%;
+  //padding: 2%;
+  background: white;
+  box-shadow: 0px 0px 6px;
+  width: 97%;
+  //margin-top: -18px;
+}
+.request-build{
+  margin-left: 2%;
+  //padding: 2%;
+  background: white;
+  box-shadow: 0px 0px 6px;
+  width: 97%;
+  height: 55%;
+  margin-top: -18px;
+
+}
+.no-imageUpload{
+  margin-left: 2%;
+  //padding: 2%;
+  background: white;
+  box-shadow: 0px 0px 6px;
+  width: 97%;
+  height: 50%;
+}
+.table-data{
+  margin-left: 2%;
+  //padding: 2%;
+  background: white;
+  box-shadow: 0px 0px 6px;
+  width: 97%;
+  height: 80%;
+  //margin-top: -18px;
+
+  
+.table_head{
+  background: #EFF0F5;
+border-radius: 2px;
+height: 40px;
+font-weight: 600;
+font-size: 12px;
+line-height: 40px;
+/* identical to box height */
+display: flex;
+letter-spacing: 0.01em;
+/* table_black */
+color: #323C47;
+justify-content: space-between;
+}
+.table_body{
+padding:10px 0px;
+display: flex;
+font-weight:400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height */
+letter-spacing: 0.01em;
+background: #FFFFFF;
+box-shadow: inset 0px -1px 0px #EFF0F5;
+/* table_black */
+color: #323C47;
+justify-content: space-between;
+}
+.table_head>div:first-child, .table_body>div:first-child{
+  width: 18%;
+  justify-content: center;
+display: flex;
+}
+.table_head>div:nth-child(2), .table_body>div:nth-child(2){
+  width: 10%;
+  padding-left: 10px;
+}
+.table_head>div:last-child, .table_body>div:last-child{
+  width:17%;
+  padding-left: 10px;
+}
+
+.scrool{
+  height: 300px;
+  margin-bottom:5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#two .scrool{
+  height: calc(300px - 45px);
+}
+/* width */
+.scrool::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+.scrool::-webkit-scrollbar-track {
+  background: #EFF0F5;
+}
+
+/* Handle */
+.scrool::-webkit-scrollbar-thumb {
+  background: #0097F9;
+}
+
+.scrool{
+  scrollbar-color: #0097F9 #EFF0F5;
+  scrollbar-width: thin;
+}
+}
+// ===================header=============================
+.navbar {
+  overflow: hidden;
+  background-color:#109CF1;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  border-radius: 0px;
+  // width: 97%;
+  // margin-left: 2%;
+}
+
+/* Style the navigation bar links */
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+ 
+}
+
+
+/* Right-aligned link */
+.navbar a.right {
+  float: right;
+}
+
+/* Change color on hover */
+// .navbar a:hover {
+//   background-color: #ddd;
+//   color: black;
+// }
+
+/* Active/current link */
+.navbar a.active {
+  background-color: #666;
+  color: white;
+}
+
+// ================my-header=====================
+.tab{
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
