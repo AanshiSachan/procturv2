@@ -166,7 +166,8 @@ export class ViewComponent implements OnInit {
     this.http.getData(url).subscribe(
       (res: any) => {
         this.academicYrList = res;
-        this.fetchDefaultAY();
+        this.academic_yr_id = Number(sessionStorage.getItem('selected_acad_yr'));
+        // this.fetchDefaultAY();
         this.fetchStdFeeData(this.academic_yr_id);
         this.auth.hideLoader();
       },

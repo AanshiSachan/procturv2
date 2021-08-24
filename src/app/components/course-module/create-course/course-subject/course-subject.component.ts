@@ -187,7 +187,7 @@ export class CourseSubjectComponent implements OnInit {
     )
   }
   updateSubject() {
-    if (this.validateSchoolModelField()) {
+    if (this.validateUserInput()) {
       this.auth.showLoader();
       this.apiService.updateSubjectRowData(this.preparedSubjectRequestPayload(), this.subject_id).subscribe(
         data => {
@@ -296,6 +296,14 @@ export class CourseSubjectComponent implements OnInit {
         type: "error",
         title: "",
         body: "Please enter subject name!"
+      }
+      this.toastCtrl.popToast(data);
+      return false;
+    } else if (!CommonUtils.validateSpecialCharacters(this.newSubjectDetails.subject_name)) {
+      let data = {
+        type: "error",
+        title: "",
+        body: "Special characters are not allowed in subject Name"
       }
       this.toastCtrl.popToast(data);
       return false;

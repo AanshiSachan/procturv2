@@ -152,7 +152,7 @@
             </div>
             <div class="value2 display">
               <div>{{course.total_students}}</div>
-              <div class="add_s" *ngIf="!schoolModel" (click)="addStudentToBatch(course)">Assign /Unassign </div>
+              <div class="add_s" (click)="addStudentToBatch(course)">Assign /Unassign </div>
             </div>
           </div>
           <!-- <div class="flex">
@@ -273,11 +273,11 @@
                 </th> -->
               </thead>
               <tbody>
-                <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
+                <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;" [ngClass]="{'disabledStu': (schoolModel && !row.assigned && row.assigned_in_other_section)}">
                   <td>
                     <div class="field-checkbox-wrapper">
                       <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox"
-                        [(ngModel)]="row.assigned"> <!-- [disabled]="row.immutableKey" -->
+                        [(ngModel)]="row.assigned" (ngModelChange)="changeAssignStatus(row)" [disabled]="schoolModel && !row.assigned && row.assigned_in_other_section"> <!-- [disabled]="row.immutableKey" -->
                       <label></label>
                     </div>
                   </td>

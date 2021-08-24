@@ -198,5 +198,14 @@ if(this.isEmpty(field) ||field.length<mnlen || field.length> mxlen)  {
     // UPPERCASE
     return this.lowerCase(str).replace(/(^\w)|\.\s+(\w)/gm, this.upperCase);
   }
+
+  public static validateSpecialCharacters(str) {
+    let regex = /[^ a-zA-Z0-9_.,-]/g;
+    if (str.match(regex) == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   
 }

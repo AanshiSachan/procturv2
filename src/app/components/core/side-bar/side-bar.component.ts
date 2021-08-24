@@ -1642,6 +1642,7 @@ mouseleave() {
     }
     else {
       this.showExpenses = true;
+      this.showExpenseToDo = true;
     }
     this.closeMenu();
   }
