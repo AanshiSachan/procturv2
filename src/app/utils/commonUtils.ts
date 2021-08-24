@@ -200,12 +200,13 @@ if(this.isEmpty(field) ||field.length<mnlen || field.length> mxlen)  {
   }
 
   public static validateSpecialCharacters(str) {
-    let regex = /[^ a-zA-Z0-9_.,-]/g;
-    if (str.match(regex) == null) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
+    // let regex = /[^ a-zA-Z0-9_.,-]/g;
+    // if (str.match(regex) == null) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
   
 }

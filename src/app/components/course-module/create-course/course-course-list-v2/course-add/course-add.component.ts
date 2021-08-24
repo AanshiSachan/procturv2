@@ -187,29 +187,29 @@ export class CourseAddComponent implements OnInit {
           this.subjectList[i].allowedTeacher = [];
           let is_teacher_exit: boolean = true;
           if (!this.selectedCourseID) {
-            let is_more_option_exit: boolean = true;
             this.activeTeachers.filter(teacher => {
               if (teacher.standard_subject_list && teacher.standard_subject_list.length) {
                 is_teacher_exit = false;
                 this.subjectList[i].allowedTeacher.push(teacher);
+                let is_more_option_exit: boolean = true;
                 for (let data of this.subjectList[i].allowedTeacher) {
                   if (data.teacher_id == 'more') {
                     is_more_option_exit = false
                     break;
                   }
                 }
+                if (is_more_option_exit) {
+                  this.subjectList[i].allowedTeacher.push({
+                    "is_active": "Y",
+                    "standard_subject_list": [],
+                    "teacher_email": null,
+                    "teacher_id": "more",
+                    "teacher_name": "Click Here to view more faculties",
+                    "teacher_phone": "7503959545"
+                  })
+                }
               }
             })
-            if (is_more_option_exit) {
-              this.subjectList[i].allowedTeacher.push({
-                "is_active": "Y",
-                "standard_subject_list": [],
-                "teacher_email": null,
-                "teacher_id": "more",
-                "teacher_name": "Click Here to view more faculties",
-                "teacher_phone": "7503959545"
-              })
-            }
             if (is_teacher_exit) {
               this.subjectList[i].allowedTeacher.push({
                 "is_active": "Y",
