@@ -720,7 +720,7 @@
            <!-- [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]"-->
         <a    [routerLink]="isProfessional ?['reportcard', data.student_id]:['reportcardV2', data.student_id]" ><img src="/assets/img2/visit.svg" class="pl-10"></a>
         <a   style="cursor: pointer;" *ngIf="allowEdit" (click)="editStudent(data.student_id)"><img src="/assets/img2/edit.svg" class="pl-10"></a>
-        <a   style="cursor: pointer;" *ngIf="schoolModel" data-toggle="modal" data-target="#myModal1"  (click)="fetchStudId(data.student_id)"><img src="../../../../assets/images/students/Download Certificate.svg" class="pl-10" style="cursor: pointer;" title="Download Certificates"></a>
+        <!-- <a   style="cursor: pointer;" *ngIf="schoolModel" data-toggle="modal" data-target="#myModal1"  (click)="fetchStudId(data.student_id)"><img src="../../../../assets/images/students/Download Certificate.svg" class="pl-10" style="cursor: pointer;" title="Download Certificates"></a> -->
         <a (click)="deleteStudentOpen(data)"><img src="/assets/img2/delete.svg" class="pl-10"></a>
 
       </div>
