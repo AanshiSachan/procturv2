@@ -628,3 +628,11 @@ display: flex;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
 }
+input[type=text] {
+  width: 32%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid lightgrey;
+}

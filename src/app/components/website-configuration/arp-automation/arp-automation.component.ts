@@ -16,9 +16,11 @@ export class ArpAutomationComponent implements OnInit {
 uploadedImg: any = '';
  requestForBuil:string='';
 invalidEntry:any=''
+appName:any=""
 tokens:any=''
 newToken:any=''
 Authtokens:any=''
+keystore_url:string=''
 appLogos:boolean=true
 generateApk:boolean=false
 selectedFile = null;
@@ -62,10 +64,8 @@ currentStatusTime:any=[]=[];
   (res:any)=>{
     this.tokens =res;
     this.newToken=res.result;
-    //sessionStorage.setItem('token',JSON.stringify(this.newToken))
     this.currentStatusofClient()
     this.getAllImageResourse()
-console.log("tokennnnnnnnnn",this.tokens)
     this.auth.hideLoader();
 
   },
@@ -81,7 +81,6 @@ console.log("tokennnnnnnnnn",this.tokens)
 
      let Params={
 
-    // token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
     token:this.newToken
   }
     this.auth.showLoader();
@@ -117,7 +116,6 @@ this._http.postARPData(url,Params).subscribe(
   err => {
     this.auth.hideLoader();
 
-    // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
 
   }
 )
@@ -193,7 +191,6 @@ newxhr.send(formData);
   getAllImageResourse(){
     let obj={
      
-      //token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
       token:this.newToken
   
       
@@ -202,7 +199,9 @@ newxhr.send(formData);
     let url ='client/getResources'
     this._http.postARPData(url,obj).subscribe(
     (res:any)=>{
-      this.imgData=res
+      this.imgData=res;
+      this.appName =res.app_name;
+      this.keystore_url=res.keystore_url;
       console.log("resssssss imageeeeee", this.imgData)
    
 
@@ -211,7 +210,6 @@ newxhr.send(formData);
     err => {
       this.auth.hideLoader();
     
-      // this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
     
     }
     )
@@ -221,7 +219,6 @@ reuestBuildApk(){
   let obj={
   
     token:this.newToken
-    //token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGVfaWQiOjEwMDEyNiwiaWF0IjoxNjI2OTUzMjY0fQ.k2Ngi8Fvy9BXc5107Gifzv0Bf-lZkiKybRQ5tOUcpMg"
 
 
     }
@@ -247,9 +244,37 @@ err => {
 }
 )
 }
-// =================header-function===============================
+updateAppName(){
+  let obj={
+     
+    token:this.newToken,
+    app_name:this.appName   
+  }
+  this.auth.showLoader();
+  let url ='client/updateAppClientName'
+  this._http.postARPData(url,obj).subscribe(
+  (res:any)=>{
+   if(res.success == true){
+    this.msgService.showErrorMessage('success', '', 'app name updated successfully')
+
+   }
+
+    this.auth.hideLoader();
+  },
+  err => {
+    this.auth.hideLoader();
+  
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err);
+
+  
+  }
+
+  )
 
 }
+}
+
+
 
 
 

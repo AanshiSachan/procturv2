@@ -293,6 +293,13 @@
         </div>
       </div><br>
     <input type="button" class="blue_button" value="Upload Logo" (click)="uploadHandler()">
+   <div><br>
+  <p style="font-weight: 700;font-size: 15px;">App Name</p>
+  <p>This name will be the title of your Application.Maximum 12 character are allowed for App Name</p>
+    <input type="text" placeholder="App name" [(ngModel)]="appName" name="appName">
+      </div>
+      <input type="button" class="blue_button" value="Update App Name" (click)="updateAppName()">
+
      </div><br>
      </div>
      <!-- ==========no-upload-image========================= -->
@@ -358,7 +365,7 @@
    <p> You will find APK and AAP File link below which can be used for testing and publishing on Play Store respectively.</p>
    <p>One Keystore file will also be required for publishing the application on Play store.</p>
    <p>Click the <b>DOWNLOAD KEYSTORE</b> button below for downloading your keystore file.</p>
-   <input type="button" class="blue_button" value="DOWNLOAD KEYSTORE">
+   <a href="{{keystore_url}}"> <input type="button" class="blue_button"  value="DOWNLOAD KEYSTORE"></a>
 
    </div><br>
 
