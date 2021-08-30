@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+showArpMenu:any="";
   menus = [
 
     // {
@@ -67,6 +67,13 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if(sessionStorage.getItem('institute_id') == '100058' || sessionStorage.getItem('institute_id') == '100127'){
+      this.showArpMenu ='show';
+      this.activeSession ="";
+    }else{
+      this.showArpMenu ='hide';
+    }
+    
     this.setActiveClass();
   }
 

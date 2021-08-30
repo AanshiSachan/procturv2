@@ -289,16 +289,20 @@
            <svg *ngIf="!imgData.icon_512_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
           </svg>
           </span>
-          
+              
         </div>
       </div><br>
     <input type="button" class="blue_button" value="Upload Logo" (click)="uploadHandler()">
-   <div><br>
+   <div><br><br><br>
   <p style="font-weight: 700;font-size: 15px;">App Name</p>
   <p>This name will be the title of your Application.Maximum 12 character are allowed for App Name</p>
-    <input type="text" placeholder="App name" [(ngModel)]="appName" name="appName">
+  
+    <input type="text" placeholder="App name" [(ngModel)]="appName" [disabled]="editAction == 'notEdit'" name="appName">
+    
+    <img src="../../../../assets/images/edit.svg" (click)="editAppName()" style="cursor: pointer;" title="Edit">
+    
       </div>
-      <input type="button" class="blue_button" value="Update App Name" (click)="updateAppName()">
+      <input type="button" class="blue_button" [disabled]="editAction == 'notEdit'" value="Update App Name" (click)="updateAppName()">
 
      </div><br>
      </div>
@@ -317,7 +321,7 @@
   <p >You have not uploaded your Logo Image in <b>Step 1</b>. </p>
    <p>It is required to upload your logo image for Application generation. Please upload your Logo image and try <b>Step 2 </b> again.</p>
   </div>
-</div>&nbsp;&nbsp;
+</div>&nbsp;
 
  <div class="under-release" *ngIf="buttonVariable == 'some entry'">
   <div class="navbar">
@@ -334,7 +338,7 @@
            <p>APK file can be used for the testing purpose and AAB file is an optimized format which can be used for publishing on play store.
         </p>
         </div>
-      </div><br><br>
+      </div>
 
      
       <div class="request-build" *ngIf="requestForBuil == 'no entry'">
@@ -356,7 +360,7 @@
      
       <!-- ==============table========================= -->
      
- <div class="table-data" >
+ <div class="table-data" *ngIf="invalidEntry !='no-image-upload'">
   <div class="navbar">
     <a>Step 3:&nbsp;&nbsp;Test or Publish your Application</a>
     </div>

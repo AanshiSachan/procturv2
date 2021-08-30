@@ -30,6 +30,7 @@ logo_Upload:string="upload-logo";
 generate_Apk:string="";
 bublish_Application:string="";
 buttonVariable:string=''
+editAction:any="notEdit";
 currentStatusData:any=[]=[];
 currentStatusTime:any=[]=[];
   constructor(private auth:AuthenticatorService,
@@ -202,7 +203,6 @@ newxhr.send(formData);
       this.imgData=res;
       this.appName =res.app_name;
       this.keystore_url=res.keystore_url;
-      console.log("resssssss imageeeeee", this.imgData)
    
 
       this.auth.hideLoader();
@@ -227,7 +227,6 @@ reuestBuildApk(){
 let url ='release/requestBuild'
 this._http.postARPData(url,obj).subscribe(
 (res:any)=>{
-  console.log("resssssss build",res)
     this.auth.hideLoader();
     if (res.success == true ) {
       this.requestForBuil = ''
@@ -271,6 +270,9 @@ updateAppName(){
 
   )
 
+}
+editAppName(){
+this.editAction = 'canEdit';
 }
 }
 

@@ -1,8 +1,8 @@
 <div class="menu">
    
     <ul>
-        <div >
-            <a routerLink='/view/website-configuration/arp-automation/' style="margin-left: 8%;">Generate APP</a>
+        <div *ngIf="showArpMenu == 'show'">
+            <a routerLink='/view/website-configuration/arp-automation/' style="margin-left: 8%;" >Generate APP</a>
         </div>
         <hr style="border-width: 2px;background-color: #528ff0;">
         <li (click)="toggler(menu.title)" *ngFor="let menu of menus">
