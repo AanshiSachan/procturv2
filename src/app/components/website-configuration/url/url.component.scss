@@ -64,7 +64,8 @@
 
 // ========================new-UI======================
 .page-content{
-  margin-left: 2%;
+  
+  background: lightgrey;
 
 }
 .blue_button {
@@ -134,6 +135,37 @@
     padding: 18px 0px;
     /* margin-right: 1.25%; */
     margin-bottom: 20px;
+  }
+  .previewDiv{
+    background: white;
+    width: 97%;
+    margin-left: 2%;
+  }
+  .white_box{
+    width: 97%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    margin-left: 2%;
+  }
+  .webstCre{
+    background: white;
+    width: 97%;
+    margin-left: 2%;
+  }
+  .domainNote{
+    width: 97%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    margin-left: 2%;
+  }
+  p{
+    padding-left: 2%;font-weight: normal;font-size: 13px;
+  }
+  .domainCret{
+    background: white;width: 97%;
+    margin-left: 2%;
   }
   
 @import url(../website-configuration.component.scss);

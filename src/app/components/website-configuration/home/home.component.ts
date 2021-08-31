@@ -7,8 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+showMenu:any="";
   menus = [
+
+    // {
+    //   title : "Domain",
+    //   routerLink: 'view/website-configuration/url'
+    // },
     {
       title : "Images",
       routerLink: 'view/website-configuration/images'
@@ -44,11 +49,8 @@ export class HomeComponent implements OnInit {
     {
       title : "Testimonial",
       routerLink: 'view/website-configuration/testimonial/list'
-    },
-    {
-      title : "URL",
-      routerLink: 'view/website-configuration/url'
     }
+    
   ]
   activeSession: any = 'Images';
 
@@ -58,6 +60,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.setActiveClass();
+    if(sessionStorage.getItem('institute_id') == '100058' || sessionStorage.getItem('institute_id') == '100127'){
+    // this.showMenu = 'show';
+     this.menus.push({
+      title : "Domain",
+      routerLink: 'view/website-configuration/url'});
+    }
   }
 
   setActiveClass() {
@@ -82,7 +90,7 @@ export class HomeComponent implements OnInit {
       'theme': 'Text colour',
       'faq': 'FAQs',
       'testimonial': 'Testimonial',
-      'url': 'URL'
+      'url': 'Domain'
     };
       this.activeSession = routesData[pathLastURL];
       console.log(this.activeSession);
