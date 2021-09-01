@@ -13,16 +13,17 @@ import { MessageShowService } from '../../../services/message-show.service';
 })
 export class UrlComponent implements OnInit {
   pageModel: any = '';
-  subDomainSystem:string='systemSubDomain';
+  subDomainSystem:string='';
   domain:string='';
   checkAvailable:string="";
   editString:string="";
-  addNewDomain:string="";
+  addNewDomain:any="";
   addNewSubDomain:string="";
   showPreview:string="";
   domainModel={
     subDomain_name:'proctur.com',
-    domain_name:''
+    domain_name:'',
+    editSubDomain_name:''
 
   
   }
@@ -36,6 +37,7 @@ availabiltyCheckData:any=[]=[]
 
   ngOnInit(): void {
     this.getData();
+    
   }
 
   getData() {
@@ -50,24 +52,17 @@ availabiltyCheckData:any=[]=[]
       }
 // =====================new-added============================
         if(this.pageModel.subdomain_name != '' && this.pageModel.subdomain_name.includes('proctur.com')){
-          this. addNewDomain ='Add-New-domains';
-          this.subDomainSystem = 'systemSubDomain'
+         this.domainModel.editSubDomain_name =this.pageModel.subdomain_name;
+         this.subDomainSystem = "systemSubDomain";
 
-          this.domain=""
-
-        }else{
-          //this. domain =='Add-New-domains';
-          this.addNewSubDomain  = 'Add-New-SubDomain'
-          this.domain = 'domains'
-          this.subDomainSystem =""
-
+         }
+        else{
+          
+          this. addNewDomain = this.pageModel.subdomain_name;
+          this.domain="domains";
         }
-        
-      //   else if(this.pageModel.subdomain_name != '' && !this.pageModel.subdomain_name.includes('proctur.com')){
-      //    this. domain =='domains';
-        
-      // }
-      console.log("domain",this.pageModel)
+      
+      console.log("domain", this. addNewDomain)
       },
       err => {
         this.auth.hideLoader();
@@ -186,9 +181,11 @@ updateDomain(){
 onclickEdit(obj){
   this.editString='edit-url'
   this.domainModel.subDomain_name=obj
-console.log("ediiiiiii",this.domainModel.subDomain_name)
 }
-
+editDomain(obj){
+  this.editString = 'domain-edit'
+this.domainModel.domain_name = obj
+}
 onclickSubDomain(){
 this.subDomainSystem = "systemSubDomain";
 this.domain=''
@@ -196,7 +193,6 @@ this.domain=''
 onclickDomain(){
   this.domain="domains";
   this.subDomainSystem='';
-this.addNewDomain ='Add-New-domains'
 this.editString=""
 
 }

@@ -66,6 +66,7 @@
 .page-content{
   
   background: lightgrey;
+  height: 100vh;
 
 }
 .blue_button {
@@ -166,6 +167,7 @@
   .domainCret{
     background: white;width: 97%;
     margin-left: 2%;
+    height: 25vh;
   }
   
 @import url(../website-configuration.component.scss);
