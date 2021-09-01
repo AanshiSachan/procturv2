@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 showMenu:any="";
+showArpMenu:any="";
   menus = [
 
     // {
