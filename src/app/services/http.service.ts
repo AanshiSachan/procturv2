@@ -126,4 +126,16 @@ export class HttpService {
     ))
   }
 
+  postARPData(objecturl, obj) {
+    let url = 'https://arp3-api.proctur.com/v1/' + objecturl;
+    return this.http.post(url, obj, { headers: this.headers }).pipe(map(
+      data => {
+        return data;
+      },
+      err => {
+        return err;
+      }
+    ))
+  }
+
 }

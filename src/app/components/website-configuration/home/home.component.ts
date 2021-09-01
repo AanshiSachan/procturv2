@@ -7,12 +7,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+showArpMenu:any="";
   menus = [
+
+    // {
+    //   title : "Generate App",
+    //   routerLink: 'view/website-configuration/arp-automation'
+    // },
+
+
     {
       title : "Images",
       routerLink: 'view/website-configuration/images'
     },
+    
     {
       title : "Static Page (More)",
       routerLink: 'view/website-configuration/static-pages/list'
@@ -49,6 +57,8 @@ export class HomeComponent implements OnInit {
       title : "URL",
       routerLink: 'view/website-configuration/url'
     }
+   
+
   ]
   activeSession: any = 'Images';
 
@@ -57,6 +67,13 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if(sessionStorage.getItem('institute_id') == '100058' || sessionStorage.getItem('institute_id') == '100127'){
+      this.showArpMenu ='show';
+      this.activeSession ="";
+    }else{
+      this.showArpMenu ='hide';
+    }
+    
     this.setActiveClass();
   }
 
@@ -82,7 +99,8 @@ export class HomeComponent implements OnInit {
       'theme': 'Text colour',
       'faq': 'FAQs',
       'testimonial': 'Testimonial',
-      'url': 'URL'
+      'url': 'URL',
+      'arp-automation':'App Logos'
     };
       this.activeSession = routesData[pathLastURL];
       console.log(this.activeSession);

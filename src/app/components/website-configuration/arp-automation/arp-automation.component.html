@@ -1,0 +1,426 @@
+<!-- <mat-toolbar class="tool mattoolbar" id="topMenu"> -->
+    <!-- <div> -->
+      <!-- <div class="buttonDiv" (click)="toggler()"
+        [ngClass]="{'activeSession' : appLogos}">
+        <div>
+          <a mat-button>
+            <span>Logo</span>
+          </a>
+        
+        </div>
+        
+      </div> -->
+
+  
+      <!-- <div class="buttonDiv" (click)="toggler2()"
+        [ngClass]="{'activeSession' : generateApk}">
+        <a mat-button>
+          <span>Generate Apk</span>
+        </a>
+      </div> -->
+     <!-- <div class="logo-div" *ngIf="appLogos">
+         <div class="logo-content">
+     <h1>Logo Makers</h1>
+     <p>In case you do not have icons in different sizes, please use this feature to generate different sizes from one image.</p>
+     <h2>Input image should met following criteria,</h2>
+     <ul style="list-style-type: disc;padding-left: 2%;">
+        <li>must be in PNG format only</li>
+        <li>must be transparent</li>
+        <li>must be greater than 900 pixels in width.</li>
+      </ul><br>
+      <div>
+        <h2>Input Image</h2>
+    <input type="file" (change)="onImageSelect($event)" accept="image/png"><br><br>
+    <input type="submit" class="mt-3 btn btn-primary pl-4 pr-4" value="Upload Logo" (click)="uploadHandler()">
+
+      </div><br><br>
+      <div>
+        <h5 style="font-size: 1.25rem;">App Icons</h5>
+        <div style="display: flex; flex-wrap: wrap; margin-left: -0.6em;">
+        <div class="app-icon">
+          <div id="icon_48_loader" class="select-icon">
+          <span class="icon-thumbnail">
+            <div *ngIf="imgData.icon_48_url != ''">
+            <img  [src]="imgData.icon_48_url" >
+          </div>
+       
+            <svg *ngIf="!imgData.icon_48_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+          </svg>
+        
+        </span><span class="mt-2">48 x 48</span>
+        </div>
+        <input type="file" accept="image/x-png,image/png" class="d-none" id="logo48">
+      </div>
+      <div class="app-icon">
+        <div id="icon_96_loader" class="select-icon">
+              <span class="icon-thumbnail">
+                <div *ngIf="imgData.icon_96_url != ''">
+                <img  [src]="imgData.icon_96_url" >
+              </div>
+              
+                <svg *ngIf="!imgData.icon_96_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                </svg>
+               
+              </span><span class="mt-2">96 x 96</span>
+            </div>
+            <input type="file" accept="image/x-png,image/png" class="d-none" >
+          </div>
+          <div class="app-icon">
+            <div id="icon_144_loader" class="select-icon">
+               <span class="icon-thumbnail">
+                 <div *ngIf="imgData.icon_144_url != ''">
+                <img  [src]="imgData.icon_144_url" >
+               </div>
+              
+                 <svg *ngIf="!imgData.icon_144_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                </svg>
+                
+              </span><span class="mt-2">144 x 144</span>
+              </div>
+              <input type="file" accept="image/x-png,image/png" class="d-none">
+            </div>
+            <div class="app-icon">
+              <div id="icon_192_loader" class="select-icon">
+                   <span class="icon-thumbnail">
+                     <div *ngIf="imgData.icon_192_url != ''">
+                    <img  [src]="imgData.icon_192_url" >
+                  </div>
+                 
+                     <svg *ngIf="!imgData.icon_192_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                    </svg>
+                  </span><span class="mt-2">192 x 192</span>
+                </div>
+                  <input type="file" accept="image/x-png,image/png" class="d-none">
+                  </div>
+                  <div class="app-icon">
+                    <div id="icon_512_loader" class="select-icon">
+                       <span class="icon-thumbnail">
+                         <div *ngIf="imgData.icon_512_url != ''">
+                        <img  [src]="imgData.icon_512_url" >
+                       </div>
+                       
+                         <svg *ngIf="!imgData.icon_512_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                        </svg>
+                        
+                      </span><span class="mt-2">512 x 512</span>
+                      </div>
+                      <input type="file" accept="image/x-png,image/png" class="d-none">
+                    </div>
+                  </div><br><br>
+                </div>
+               
+                 <h5 style="font-size: 1.25rem;"> Login Page Logo (1800 x 900)</h5>
+                 <div style="display: flex; flex-wrap: wrap; margin-left: -0.6em;">
+                <div class="app-icon" >
+                  <div id="icon_1800_loader" class="select-icon">
+                     <span class="icon-thumbnail">
+                       <div *ngIf="imgData.logo_1800_url != ''">
+                      <img  [src]="imgData.logo_1800_url" >
+                      </div>
+                     
+                       <svg *ngIf="!imgData.logo_1800_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                      </svg>
+                    </span><span class="mt-2">1800 x 900</span>
+                    </div>
+                    <input type="file" accept="image/x-png,image/png" class="d-none" id="logo1800">
+                  </div>
+                </div>
+                       <br><br>
+                       <div>
+                       <h5 style="font-size: 1.25rem;">Splash Screen</h5>
+                        <div class="mb-2">
+                        <input  id="splash_full" name="splash_mode" type="radio">
+                       <label  for="splash_full">&nbsp;Full Screen</label><br>
+                       <div style="display: flex; flex-wrap: wrap; margin-left: -0.6em;">
+                        <div class="app-icon" >
+                          <div id="icon_1100_loader" class="select-icon">
+                             <span class="icon-thumbnail">
+                               <div *ngIf="imgData.splash_url != ''">
+                              <img  [src]="imgData.splash_url" >
+                              </div>
+                             
+                               <svg *ngIf="!imgData.splash_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+                              </svg>
+                            </span><span class="mt-2">420 x 420</span>
+                            </div>
+                            <input type="file" accept="image/x-png,image/png" class="d-none" id="logo110">
+                          </div>
+                        </div>
+                      </div>
+                       </div>
+                        </div>
+        
+                        </div> -->
+ <!-- =========================================generate-apk-UI==============================================                        -->
+ <!-- <div class="apk-div" *ngIf="generateApk"> -->
+    
+ <!-- <div class="page-content">
+ 
+  <div class="w98">
+    <div style="padding-top: 2%; margin-left: 1%;display: flex;justify-content: center;flex-wrap: wrap;" *ngIf="buttonVariable == 'some entry'">
+      <div style="display: flex;flex-direction: column;align-items: center;">
+        <img src="../../../../assets/images/ARP imges/003-alarm-clock.png" style="width: 16%;"><br>
+
+      <p style="font-size: 26px;">APP UNDER PROCESS</p><br>
+      <p style="font-size: 16px;">Your request for the build of Android application is under process.</p>
+       <p style="font-size: 16px;"> It may take upto {{currentStatusTime.hours}} hours {{currentStatusTime.minutes}} mins. You will be notified once your app is build successfully.</p>
+      </div>
+      </div>
+      
+      <div *ngIf="requestForBuil == 'no entry'">
+        <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
+          <img src="../../../../assets/images/ARP imges/play.png" style="width: 12%;"><br>
+  
+        <p style="font-size: 21px;">REQUEST FOR BUILD</p><br>
+        <p style="font-size: 14px;">You can request for the build of your application.</p>
+         <p style="font-size: 14px;"> Press&nbsp;&nbsp;<b>BUID NOW</b>&nbsp; button to proceed further.</p><br><br>
+         <input type="submit" style="background: #528ff0; color: white;border: none;"  class="mt-3 btn btn-primary pl-4 pr-4" value="BUILD NOW" (click)="reuestBuildApk()">
+
+        </div>
+      </div>
+      <div *ngIf="invalidEntry =='no-entery-inARP'">
+        <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
+      
+        <img src="../../../../assets/images/ARP imges/002-error.png" style="width: 12%;"><br>
+      <p style="font-size: 19px;">UNABLE TO PROCESS ENTERY</p><br>
+      <p style="font-size: 14px;">It seems your account is created our ARP RELEASE PLATFORM,so you are not eligible to generate the application.</p>
+        <p style="font-size: 14px;">Please contact the administration for your entery.</p>
+      </div>
+      </div>
+      <div *ngIf="invalidEntry =='no-image-upload'">
+        <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
+      
+        <img src="../../../../assets/images/ARP imges/001-warning.png" style="width: 12%;"><br>
+      <p style="font-size: 19px;">INCOMPLETE RESOURCES</p><br>
+      <p style="font-size: 14px;">You have not uploaded all the resources.Please update logo image as per expected size and try again later.</p>
+      </div>
+      </div>
+      <div class="pt15">
+     </div>
+      <div class="leave_cat" >
+          <div class="table_heading">
+            <div>
+             #
+            </div>
+           
+            <div>Version </div>
+            <div>Remark</div>
+            <div>Created At Time</div>
+            <div>Download</div>
+          </div> -->
+          <!-- ===========blank-image================ -->
+         
+
+          <!-- <div class="table_body" *ngFor="let item of currentStatusData;let i=index">
+            <div>
+              {{i+1}}
+            </div>
+            <div>
+              {{item.version}}
+            </div>
+           <div>{{item.remarks}}</div>
+           <div>{{item.created_at}}</div>
+            <div>
+              <a style="color: blue;" target="_blank" href="{{item.apk_s3_url}}" class="p-0 text-link text-sm"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"></path></g></svg> APK</a>&nbsp;
+
+           
+              <a style="color: blue;"  target="_blank" href="{{item.bundle_s3_url}}" class="p-0 text-sm"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"></path></g></svg> Bundle File</a>
+            </div>
+          </div>
+       </div>
+  </div>
+</div>
+    </div>
+      </div> -->
+      <!-- </mat-toolbar> -->
+      <div >
+        <div *ngIf="invalidEntry =='no-entery-inARP'">
+          <div style="display: flex;flex-direction: column;align-items: center;padding-top: 2%;">
+        
+          <img src="../../../../assets/images/ARP imges/002-error.png" style="width: 12%;"><br>
+        <p style="font-size: 19px;">APPLICATION ACCOUNT NOT FOUND</p>
+        <p >Your account is not updated on Proctur for Android Application Generation.</p>
+          <p >Please contact our support for the creation of your account. Once your account is created, You’ll be able to generate your application here.</p>
+        </div>
+        </div>
+      </div>
+
+      <div class="conatainer" *ngIf="invalidEntry != 'no-entery-inARP'">
+    <div class="content">
+      <div class="para">
+      <h2 style="font-size: 20px;">Generate App</h2>
+      <p>Generate App option can be used to create your Android Application and you can use the same for testing or publishing on Google Play Store.</p>
+      <p>It's a simple 3 step process.</p>
+      <p>Step-1. Logo Upload </p>
+      <p>Step-2. Generate Application </p>
+      <p>Step-3. Test or Publish your Application.</p>
+       
+       
+        </div><br>
+    </div>
+        
+
+      <div class="upload-logo" >
+        <div class="navbar">
+          <a>Step 1:&nbsp;&nbsp;Logo Upload</a>
+          </div>
+          <div style="padding-left: 2%;">
+      <p>The uploaded logo will be used for the Android Application launcher icon, Welcome Screen and Login Screen of the Application.</p>
+     <p>Following properties will be required for the image you are uploading for the application.
+      .</p>
+     <ol  style="padding-left: 2%;list-style: decimal;">
+        <li>Logo should be in PNG Format only.</li>
+        <li>Logo should be a transparent image.</li>
+        <li>Width of the image should be greater than 900px.</li>
+      </ol><br>
+
+      <div>
+        <h2>Upload Logo Image</h2>
+    <input type="file" (change)="onImageSelect($event)" accept="image/png"><br><br>
+
+
+    <div class="app-icon">
+      <div id="icon_512_loader" class="select-icon">
+         <span class="icon-thumbnail">
+           <div *ngIf="imgData.icon_512_url != ''">
+          <img  [src]="imgData.icon_512_url" style="width: 20%;">
+         </div>
+         
+           <svg *ngIf="!imgData.icon_512_url" xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 24 24" version="1.1"><title>Photo</title><g id="Photo" stroke="#d0d0d0" stroke-width="1" fill="none" fill-rule="evenodd"><rect id="Rectangle-16" x="2.5" y="2.5" width="19" height="19" rx="2"></rect><path id="Path-9" stroke-linejoin="round" d="M4.868 19l3.766-9.048 4.23 7.436 2.404-4.007L19.062 19z"></path><circle id="Oval" cx="16" cy="7.13333333" r="2.13333333"></circle></g>
+          </svg>
+          </span>
+              
+        </div>
+      </div><br>
+    <input type="button" class="blue_button" value="Upload Logo" (click)="uploadHandler()">
+   <div><br><br><br>
+  <p style="font-weight: 700;font-size: 15px;">App Name</p>
+  <p>This name will be the title of your Application.Maximum 12 character are allowed for App Name</p>
+  
+    <input type="text" placeholder="App name" [(ngModel)]="appName" [disabled]="editAction == 'notEdit'" name="appName">
+    
+    <img src="../../../../assets/images/edit.svg" (click)="editAppName()" style="cursor: pointer;" title="Edit">
+    
+      </div>
+      <input type="button" class="blue_button" [disabled]="editAction == 'notEdit'" value="Update App Name" (click)="updateAppName()">
+
+     </div><br>
+     </div>
+     <!-- ==========no-upload-image========================= -->
+     </div>&nbsp;&nbsp;
+
+
+<div class="no-imageUpload" *ngIf="invalidEntry =='no-image-upload'"> 
+  <div class="navbar">
+    <a  ></a>
+    </div>
+  <div style="display: flex;flex-direction: column;align-items: center;">
+
+    <img src="../../../../assets/images/ARP imges/001-warning.png" style="width: 9%;padding-top: 2%;"><br>
+  <p style="font-size: 19px;">LOGO IMAGE NOT UPLOADED</p>
+  <p >You have not uploaded your Logo Image in <b>Step 1</b>. </p>
+   <p>It is required to upload your logo image for Application generation. Please upload your Logo image and try <b>Step 2 </b> again.</p>
+  </div>
+</div>&nbsp;
+
+ <div class="under-release" *ngIf="buttonVariable == 'some entry'">
+  <div class="navbar">
+    <a>Step 2:&nbsp;&nbsp;Generate Application</a>
+    </div>
+  <div style="display: flex;flex-direction: column;align-items: center;" >
+          <img src="../../../../assets/images/ARP imges/003-alarm-clock.png" style="width: 8%;"><br>
+  
+        <p style="font-size: 26px;">APPLICATION UNDER RELEASE IN QUEUE</p>
+        <p >You have already requested for the Application generation.</p>
+         <p> It will take upto {{currentStatusTime.hours}} hours {{currentStatusTime.minutes}} mins for the generation.</p>
+           <p>Once generated you will be notified on your registered Email ID along with APK and AAB file links.</p>
+          <p>You can also download these file formats from <b>Step 3</b> any time. </p>
+           <p>APK file can be used for the testing purpose and AAB file is an optimized format which can be used for publishing on play store.
+        </p>
+        </div>
+      </div>
+
+     
+      <div class="request-build" *ngIf="requestForBuil == 'no entry'">
+        <div class="navbar" >
+          <a>Step 2:&nbsp;&nbsp;Generate Application</a>
+          </div>
+        <div style="display: flex;flex-direction: column;align-items: center;" *ngIf="requestForBuil == 'no entry'">
+          <img src="../../../../assets/images/ARP imges/play.png" style="width: 6%;padding-top: 2%;"><br>
+  
+        <p style="font-size: 21px;">REQUEST FOR APPLICATION GENERATION</p>
+        <p >You are eligible for the Application Generation.</p>
+         <p >Click on the&nbsp;&nbsp;<b>GENERATE APPLICATION NOW</b>&nbsp; button given below for requesting your application.</p>
+         <p>Once requested you will be provided estimated time for the generation.</p>
+         <input type="button"   class="blue_button" value="GENERATE APPLICATION NOW" (click)="reuestBuildApk()"><br>
+
+        </div>
+        </div>&nbsp;&nbsp;
+   
+     
+      <!-- ==============table========================= -->
+     
+ <div class="table-data" *ngIf="invalidEntry !='no-image-upload'">
+  <div class="navbar">
+    <a>Step 3:&nbsp;&nbsp;Test or Publish your Application</a>
+    </div>
+   <div style="margin-left: 2%;">
+   <p>You will find all the requested Application data here.</p>
+   <p> You will find APK and AAP File link below which can be used for testing and publishing on Play Store respectively.</p>
+   <p>One Keystore file will also be required for publishing the application on Play store.</p>
+   <p>Click the <b>DOWNLOAD KEYSTORE</b> button below for downloading your keystore file.</p>
+   <a href="{{keystore_url}}"> <input type="button" class="blue_button"  value="DOWNLOAD KEYSTORE"></a>
+
+   </div><br>
+
+  <div class="tab-content" *ngIf="currentStatusData.length != 0">
+    <div id="one" class="tab-pane active" >
+      <div class="table_head">
+        <div>
+          #
+        </div>
+        <div>
+         Version
+        </div>
+        <div>
+          Date Time
+        </div>
+        <div>
+          Download
+        </div>
+      </div>
+      </div>
+  <div class="scrool">
+    <div class="table_body" *ngFor="let item of currentStatusData;let i=index">
+      
+      <div>
+        {{i+1}}
+      </div>
+      <div>
+        {{item.version}}
+      </div>
+     
+      <div>{{item.created_at}}
+
+      </div>
+      <div>
+  <a style="color: blue;" target="_blank" href="{{item.apk_s3_url}}" class="p-0 text-link text-sm"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"></path></g></svg> APK</a>&nbsp;
+
+           
+  <a style="color: blue;"  target="_blank" href="{{item.bundle_s3_url}}" class="p-0 text-sm"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"></path></g></svg> AAB</a> 
+</div>
+    </div>
+   </div>
+
+
+  
+ </div>
+   
+</div>
+
+
+
+      
+     
+      
+    
