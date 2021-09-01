@@ -7,15 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-showArpMenu:any="";
+showMenu:any="";
   menus = [
 
     // {
-    //   title : "Generate App",
-    //   routerLink: 'view/website-configuration/arp-automation'
+    //   title : "Domain",
+    //   routerLink: 'view/website-configuration/url'
     // },
-
-
     {
       title : "Images",
       routerLink: 'view/website-configuration/images'
@@ -52,10 +50,6 @@ showArpMenu:any="";
     {
       title : "Testimonial",
       routerLink: 'view/website-configuration/testimonial/list'
-    },
-    {
-      title : "URL",
-      routerLink: 'view/website-configuration/url'
     }
    
 
@@ -75,6 +69,12 @@ showArpMenu:any="";
     }
     
     this.setActiveClass();
+    if(sessionStorage.getItem('institute_id') == '100058' || sessionStorage.getItem('institute_id') == '100127'){
+    // this.showMenu = 'show';
+     this.menus.push({
+      title : "Domain",
+      routerLink: 'view/website-configuration/url'});
+    }
   }
 
   setActiveClass() {
@@ -99,8 +99,7 @@ showArpMenu:any="";
       'theme': 'Text colour',
       'faq': 'FAQs',
       'testimonial': 'Testimonial',
-      'url': 'URL',
-      'arp-automation':'App Logos'
+      'url': 'Domain'
     };
       this.activeSession = routesData[pathLastURL];
       console.log(this.activeSession);

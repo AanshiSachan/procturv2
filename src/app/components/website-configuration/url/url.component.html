@@ -1,4 +1,4 @@
-<div class="container-fluid product-wrapper p-0" style="padding-top: 0px;">
+<!-- <div class="container-fluid product-wrapper p-0" style="padding-top: 0px;">
     <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
       <div class="col-md-8" style="padding-left: 0;">
         <section class="middle-top clearFix bulk-header">
@@ -29,4 +29,148 @@
         <button type="button" name="button" class="fullBlue gobtn" (click)="previewSite()">Preview</button>
       </div>
     </div>
+  </div> -->
+ 
+<!-- ================================================new-UI=========================== -->
+<div class="page-content">
+  <div>
+    <div class="flex center space1" style="padding-top: 1%; display: flex;margin-left: 2%;">
+      <div class="field-radio-wrapper mr16">
+        <input type="radio" class="form-radio" name="subDomainSystem" [(ngModel)]="subDomainSystem" value="systemSubDomain" (click)="onclickSubDomain()" (ngModelChange)="clearSubdomainDiv($event)">
+        <label>System Subdomain</label>
+      </div>&nbsp;&nbsp;
+      <div class="field-radio-wrapper mr16">
+        <input type="radio" class="form-radio" name="domain" [(ngModel)]="domain" value="domains" (click)="onclickDomain()" (ngModelChange)="clearDomain($event)">
+        <label>Custom&nbsp;Domain</label>
+      </div>
+    </div>  
+  </div>&nbsp;
+  <div *ngIf="subDomainSystem == 'systemSubDomain' ">
+    <div  class="white_box" >
+     <p style="padding-left: 2%;font-weight: 600;padding-top: 2%;">You can create your own website using subdomain within few minitues with the given below steps.</p>
+   
+    <p style="padding-left: 2%;font-weight: normal;">1. Enter Your desired Website name below and click on Check Availability.</p>
+    <p style="padding-left: 2%;font-weight: normal;">2. If website name is available then click on Submit.</p>
+    <p style="padding-left: 2%;font-weight: normal;">3. If your website is ready you can check the working with the help of Preview button.</p>
+
+    </div>&nbsp;&nbsp;
+    
+ 
+
+  <div class="webstCre" *ngIf="editString == 'edit-url' || domainModel.editSubDomain_name == ''">
+ 
+    <div style="display: flex;flex-direction: column;">
+      <p style="font-weight: 600;padding-left: 2%;padding-top: 2%;">Enter Your Desired Website Name</p> 
+     <div style="margin-left: 2%;">
+       <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;" name="subDomain_name2" [(ngModel)]="domainModel.subDomain_name2" placeholder="Subdomain" >
+       <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;width: 16%;" name="subDomain_name" [(ngModel)]="domainModel.subDomain_name" disabled>
+
+       </div>
+       <span><p style="color: grey;padding-left: 2%;margin-top: -10px;">Only Alphabets(a-z),Number (0,9) and hyphen (-) are allowed</p></span>
+       
+    </div>
+    <div style="padding-left: 1%;display: flex;padding-bottom: 1%;" >
+      <div>
+    <button class="blue_button" (click)="checkAvailability()" >Check Availability</button>
+   </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div>
+    <h2 style="color: green;display: flex;font-weight: normal;padding-top: 1%;" *ngIf="checkAvailable == 'available'">
+      <img src="../../../../assets/images/Frame.svg">&nbsp;&nbsp;Domain name available.</h2>
+    <h2 style="color: red;display: flex;font-weight: normal;padding-top: 1%;" *ngIf="checkAvailable == 'not-available'"><img src="../../../../assets/images/Frame-1.svg">&nbsp;&nbsp;Domain has already taken.Try another domain name.</h2>
+
+    </div>
+</div>
+  </div><br>
+
+
+   <div class="previewDiv" *ngIf="domainModel.editSubDomain_name != '' ">
+ 
+    <div style="display: flex;flex-direction: column;">
+      <p style="font-weight: 600;padding-left: 2%;padding-top: 2%;">Your Website&nbsp;&nbsp;&nbsp;<img src="../../../../assets/images/edit.svg" (click)="onclickEdit(pageModel.subdomain_name)"></p>  
+       <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;" disabled [(ngModel)]="domainModel.editSubDomain_name" placeholder="Enter your website URL here">
+    </div>
+    <div style="padding-left: 2%;padding: 1%;margin-top: -1%;">
+    <button class="blue_button" (click)="previewSite()" >Preview</button>
+</div> 
+  
+
+</div> <br>
+
+  <div class="white"  *ngIf="editString == 'edit-url' ||  domainModel.editSubDomain_name  == ''">
+    <div style="display: flex;justify-content: flex-end;">
+      <div>
+
+      </div>
+      <div style="margin-right: 10px;">
+        <button data-dismiss="modal" class="mr10 white_button"  (click)="onclickCancel()">Cancel</button>&nbsp;
+        <button class="blue_button" (click)="updateSubdomain()" >Submit</button>
+      </div>
+    </div>
+  </div>&nbsp;&nbsp;
+</div>
+
+<!-- ==============================Custom-domain-UI============================== -->
+<div *ngIf="domain =='domains'">
+<div class="white_box" *ngIf="pageModel.enable_use_of_custom_domain == 0 ">
+  <div style="width: 100%;display: flex;flex-direction: column;" >
+   <p style="padding-left: 2%;">To start your custom domain,please folow the below step.</p>
+ 
+  <p style="padding-left: 2%;font-weight: normal;">1. Click on the Chat icon present at the right-hand corner and rise a ticket or get in touch with our team at <a href="support@proctur.com" style="color: blue;">support@proctur.com</a>, call us at 9971839153.</p>
+  <p style="padding-left: 2%;font-weight: normal;">2. Our expert will guide you and will process your request for the Activation of the Custome Domain.</p>
+  <p style="padding-left: 2%;font-weight: normal;">3. After the Activation you can enter your domain name in the given area & click on submit.</p>
+
   </div>
+  
+</div>
+
+<div *ngIf="pageModel.enable_use_of_custom_domain == 1">
+<div class="domainNote"  >
+  <p style="padding-left: 2%;font-weight: 600;padding-top: 2%;font-size: 13px;">Some important points before proceeding.</p>
+
+ <p>1. Please ensure to add IP <b>Address 13,228,138,77</b>to<b>A Record</b>of your DNA setting before entering the domain.</p>
+ <p >2. If website name is available then click on Submit.</p>
+ <p >3. It is not recommended to change domain name multiple times to avoid technical issues.</p>
+
+ </div>&nbsp;&nbsp;
+ <div class="domainCret"  *ngIf="  addNewDomain == '' || editString == 'domain-edit'">
+ 
+  <div style="display: flex;flex-direction: column;">
+    <p style="font-weight: 600;padding-top: 1%;">Please Enter Your Domain Name below</p>     
+     <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;" name="domain_name" [(ngModel)]="domainModel.domain_name" placeholder="Enter  here">
+     <span><p style="color: gray;margin-top: -10px;padding-left: 2%;" disabled>Exp.www.proctur.com(Do not enter https://)</p></span>
+  </div>
+
+
+
+</div> &nbsp;&nbsp;
+
+<!-- ===================for-edit======================== -->
+<div class="domainNote" *ngIf=" addNewDomain !=''">
+ 
+  <div style="display: flex;flex-direction: column;">
+    <p style="font-weight: 600;padding-left: 2%;padding-top: 2%;">Your Website&nbsp;&nbsp;&nbsp;<img src="../../../../assets/images/edit.svg" (click)="editDomain(pageModel.subdomain_name)"></p>  
+     <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;" disabled [(ngModel)]="addNewDomain" placeholder="Enter your website URL here">
+  </div>
+  <div style="padding-left: 2%;padding: 1%;margin-top: -1%;">
+  <button class="blue_button" (click)="previewSite()" >Preview</button>
+</div> 
+
+
+</div> <br>
+<!-- ========================end===================================== -->
+
+
+
+<div class="white" >
+  <div style="display: flex;justify-content: flex-end;">
+    <div>
+
+    </div>
+    <div *ngIf="pageModel.enable_use_of_custom_domain == 1 " style="margin-right: 10px;">
+      <button data-dismiss="modal" class="mr10 white_button" (click)="onclickCancel()" >Cancel</button>&nbsp;
+      <button class="blue_button" (click)="updateDomain()" >Submit</button>
+    </div>
+  </div>
+ </div>
+ </div>
+</div>
