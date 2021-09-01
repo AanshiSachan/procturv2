@@ -21,10 +21,10 @@ export class UrlComponent implements OnInit {
   addNewSubDomain:string="";
   showPreview:string="";
   domainModel={
-    subDomain_name:'proctur.com',
+    subDomain_name:'.proctur.com',
     domain_name:'',
-    editSubDomain_name:''
-
+    editSubDomain_name:'',
+    subDomain_name2:''
   
   }
 availabiltyCheckData:any=[]=[]
@@ -79,11 +79,12 @@ availabiltyCheckData:any=[]=[]
 
 // =====================new-UI-functionality===========================
 checkAvailability(){
-  if(!this.domainModel.subDomain_name.includes('https://')){
+  if(this.domainModel.subDomain_name2.trim() != ''){
+  if(!this.domainModel.subDomain_name2.includes('https://')){
   let com = this.pageModel.subdomain_name.slice(8)
-    if(this.domainModel.subDomain_name != com){
+    if(this.domainModel.subDomain_name2 != com){
   this.auth.showLoader();
-  let url='/api/v1/institutes/subdomain/validate?name='+this.domainModel.subDomain_name+'&instituteId='+ sessionStorage.getItem('institute_id');
+  let url='/api/v1/institutes/subdomain/validate?name='+this.domainModel.subDomain_name2+this.domainModel.subDomain_name+'&instituteId='+ sessionStorage.getItem('institute_id');
   this._http.getData(url).subscribe(
   (res: any) => {
     this.auth.hideLoader();
@@ -91,10 +92,7 @@ checkAvailability(){
     if(res.validate == true ){
       this.checkAvailable ="available"
     }
-    // if(res.result == false){
-    //   this.msgService.showErrorMessage('error','','Updated url already assigned to another client!');
-  
-    //  }
+   
   },
   err => {
     this.auth.hideLoader();
@@ -102,10 +100,7 @@ checkAvailability(){
     if(err.error.validate == false){
     this.checkAvailable ='not-available'
     }
-    // if(err.error.result == false){
-    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
-  
-    // }
+   
     console.log("error",err)
   }
 );
@@ -115,13 +110,18 @@ checkAvailability(){
     }
   }else{
     this.msgService.showErrorMessage('error', '', 'Please enter valid url');
+  }
+  }else{
+    this.msgService.showErrorMessage('error', '', 'Please enter  url');
 
   }
 }
 updateSubdomain(){
+  //  this.domainModel.subDomain_name =this.domainModel.subDomain_name2 
+
   let obj={
   old_domain:this.pageModel.subdomain_name !='' ? this.pageModel.subdomain_name.replace("https://",""):null,
-  updated_domain:this.domainModel.subDomain_name
+  updated_domain:this.domainModel.subDomain_name2 + this.domainModel.subDomain_name
 
   }
   this.auth.showLoader();
@@ -180,7 +180,7 @@ updateDomain(){
 }
 onclickEdit(obj){
   this.editString='edit-url'
-  this.domainModel.subDomain_name=obj
+  this.domainModel.subDomain_name2=obj
 }
 editDomain(obj){
   this.editString = 'domain-edit'
