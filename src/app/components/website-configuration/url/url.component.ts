@@ -121,7 +121,7 @@ updateSubdomain(){
 
   let obj={
   old_domain:this.pageModel.subdomain_name !='' ? this.pageModel.subdomain_name.replace("https://",""):null,
-  updated_domain:this.domainModel.subDomain_name2 + this.domainModel.subDomain_name
+  updated_domain: this.editString == 'edit-url' ? this.domainModel.subDomain_name2 :this.domainModel.subDomain_name2 + this.domainModel.subDomain_name
 
   }
   this.auth.showLoader();
