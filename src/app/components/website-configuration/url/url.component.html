@@ -63,7 +63,7 @@
       <p style="font-weight: 600;padding-left: 2%;padding-top: 2%;">Enter Your Desired Website Name</p> 
      <div style="margin-left: 2%;">
        <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;" name="subDomain_name2" [(ngModel)]="domainModel.subDomain_name2" placeholder="Subdomain" >
-       <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;width: 16%;" name="subDomain_name" [(ngModel)]="domainModel.subDomain_name" disabled>
+       <input class="input" type="text" style="border: none;border-bottom: 1px solid #E6E6E6;width: 16%;" name="subDomain_name" [(ngModel)]="domainModel.subDomain_name" disabled *ngIf="editString != 'edit-url'">
 
        </div>
        <span><p style="color: grey;padding-left: 2%;margin-top: -10px;">Only Alphabets(a-z),Number (0,9) and hyphen (-) are allowed</p></span>
@@ -112,8 +112,8 @@
 <!-- ==============================Custom-domain-UI============================== -->
 <div *ngIf="domain =='domains'">
 <div class="white_box" *ngIf="pageModel.enable_use_of_custom_domain == 0 ">
-  <div style="width: 100%;display: flex;flex-direction: column;" >
-   <p style="padding-left: 2%;">To start your custom domain,please folow the below step.</p>
+  <div style="width: 100%;display: flex;flex-direction: column;padding-top: 2%;" >
+   <p style="padding-left: 2%;font-weight: 600;">To start your custom domain,please follow the below steps.</p>
  
   <p style="padding-left: 2%;font-weight: normal;">1. Click on the Chat icon present at the right-hand corner and rise a ticket or get in touch with our team at <a href="support@proctur.com" style="color: blue;">support@proctur.com</a>, call us at 9971839153.</p>
   <p style="padding-left: 2%;font-weight: normal;">2. Our expert will guide you and will process your request for the Activation of the Custome Domain.</p>
