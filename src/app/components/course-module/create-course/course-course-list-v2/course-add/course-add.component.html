@@ -31,13 +31,13 @@
           <input type="text" style="float: left;" name="masterCourse" id="masterCourse"
             [(ngModel)]="courseDetails.course_name" maxlength="90" placeholder="{{schoolModel ? 'Section' : 'Course'}} Name*"
             class="input mr10 wid217">
-          <select class="select mr10 wid180" *ngIf="!schoolModel" [(ngModel)]="courseDetails.master_course_id"
+          <select class="select mr10 wid180" *ngIf="!schoolModel" [disabled]="selectedCourseID" [(ngModel)]="courseDetails.master_course_id"
             (ngModelChange)="getSubjects()">
             <option value="">Select Master Course*</option>
             <option value="{{mc.master_course_id}}" *ngFor="let mc of masterCourseData">{{mc.master_course_name}}
             </option>
           </select>
-          <select class="select mr10 wid180" *ngIf="schoolModel" [(ngModel)]="courseDetails.standard_id"
+          <select class="select mr10 wid180" *ngIf="schoolModel" [disabled]="selectedCourseID" [(ngModel)]="courseDetails.standard_id"
             (ngModelChange)="getSubjects()">
             <option value="">Select Standard*</option>
             <option value="{{mc.standard_id}}" *ngFor="let mc of standardList">{{mc.standard_name}}</option>
@@ -50,7 +50,7 @@
             </option>
           </select>
           <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
-            <input type="text" class="form-ctrl bsDatepicker input mr10 wid180" [(ngModel)]="courseDetails.start_Date"
+            <input type="text" class="form-ctrl bsDatepicker input mr10 wid180" [disabled]="selectedCourseID" [(ngModel)]="courseDetails.start_Date"
               autocomplete="off" name="startDate" id="startDate" bsDatepicker placeholder="Start date*">
           </div>
           <div *ngIf="!schoolModel" class="field-wrapper datePickerBox" style="float: left;">
