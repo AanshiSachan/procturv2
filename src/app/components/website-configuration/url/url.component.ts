@@ -20,6 +20,7 @@ export class UrlComponent implements OnInit {
   addNewDomain:any="";
   addNewSubDomain:string="";
   showPreview:string="";
+  showOldUI = true;
   domainModel={
     subDomain_name:'.proctur.com',
     domain_name:'',
@@ -36,8 +37,10 @@ availabiltyCheckData:any=[]=[]
   ) { }
 
   ngOnInit(): void {
-    this.getData();
-    
+    if(sessionStorage.getItem('institute_id') == '100058' || sessionStorage.getItem('institute_id') == '100127'){
+      this.showOldUI = false;
+    }
+      this.getData();
   }
 
   getData() {
@@ -51,6 +54,7 @@ availabiltyCheckData:any=[]=[]
           this.pageModel.subdomain_name = temp;
       }
 // =====================new-added============================
+      if(!this.showOldUI) {
         if(this.pageModel.subdomain_name != '' && this.pageModel.subdomain_name.includes('proctur.com')){
          this.domainModel.editSubDomain_name =this.pageModel.subdomain_name;
          this.subDomainSystem = "systemSubDomain";
@@ -61,8 +65,7 @@ availabiltyCheckData:any=[]=[]
           this. addNewDomain = this.pageModel.subdomain_name;
           this.domain="domains";
         }
-      
-      console.log("domain", this. addNewDomain)
+      }
       },
       err => {
         this.auth.hideLoader();

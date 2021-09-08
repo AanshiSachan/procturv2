@@ -1,4 +1,4 @@
-<!-- <div class="container-fluid product-wrapper p-0" style="padding-top: 0px;">
+ <div class="container-fluid product-wrapper p-0 oldUI" style="padding-top: 0px;" *ngIf="showOldUI">
     <div class="row m-0 pt-3 pb-3" style="margin-bottom: 20px;border-bottom: 1px solid #ccc;">
       <div class="col-md-8" style="padding-left: 0;">
         <section class="middle-top clearFix bulk-header">
@@ -29,10 +29,10 @@
         <button type="button" name="button" class="fullBlue gobtn" (click)="previewSite()">Preview</button>
       </div>
     </div>
-  </div> -->
+  </div>
  
 <!-- ================================================new-UI=========================== -->
-<div class="page-content">
+<div class="page-content newUI" *ngIf="!showOldUI">
   <div>
     <div class="flex center space1" style="padding-top: 1%; display: flex;margin-left: 2%;">
       <div class="field-radio-wrapper mr16">
@@ -173,4 +173,5 @@
   </div>
  </div>
  </div>
+</div>
 </div>
