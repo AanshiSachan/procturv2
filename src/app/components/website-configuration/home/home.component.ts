@@ -75,6 +75,10 @@ showArpMenu:any="";
      this.menus.push({
       title : "Domain",
       routerLink: 'view/website-configuration/url'});
+    } else {
+      this.menus.push({
+        title : "URL",
+        routerLink: 'view/website-configuration/url'});
     }
   }
 
