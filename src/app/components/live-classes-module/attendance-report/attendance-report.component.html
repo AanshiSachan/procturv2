@@ -159,7 +159,7 @@
               <span *ngIf="record.attendance_status == 'Present'" class="present">{{record.attendance_status}}</span>
               <span *ngIf="record.attendance_status == 'Partially Present'"
                 class="partially">{{record.attendance_status}}</span>
-                <i style="margin-left: 10px;font-size: 16px;cursor: pointer;" title="Mark Attendance" (click)="record.showMenu = true" class="fa fa-angle-down" aria-hidden="true"></i>
+                <i style="margin-left: 10px;font-size: 16px;cursor: pointer;" *ngIf="!isZoom" title="Mark Attendance" (click)="record.showMenu = true" class="fa fa-angle-down" aria-hidden="true"></i>
                 <div class="d-item dd-list-container" *ngIf="record.showMenu" (mouseleave)="record.showMenu = false">
                   <div class="d-item dropdown-list">
                       <div class="d-item dd-list-inner">

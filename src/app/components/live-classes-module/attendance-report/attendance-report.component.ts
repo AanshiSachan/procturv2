@@ -23,6 +23,7 @@ export class AttendanceReportComponent implements OnInit, OnDestroy {
   temp_attendance_list: any[] = [];
   session_data: any;
   searchInput: any = '';
+  isZoom:boolean = false;
   tableSetting: any = {
     keys: [
       { primaryKey: 'display_id', header: 'Id' },
@@ -82,6 +83,7 @@ export class AttendanceReportComponent implements OnInit, OnDestroy {
     }
     if(sessionStorage.getItem('live_meeting_with') == 'Zoom') {
       obj.zoom_live_class = true;
+      this.isZoom = true;
     }
     this.auth.showLoader();
 
