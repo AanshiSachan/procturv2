@@ -399,7 +399,7 @@ export class CourseAddComponent implements OnInit {
         return false;
       }
 
-      if (moment(obj.start_date).valueOf() >= moment(obj.end_date).valueOf()) {
+      if (moment(obj.start_date).valueOf() > moment(obj.end_date).valueOf()) {
         this._msgService.showErrorMessage('error', '', 'End date cannot be lesser than start date');
         return false;
       }
