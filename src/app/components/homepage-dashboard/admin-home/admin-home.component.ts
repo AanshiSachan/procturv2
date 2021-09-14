@@ -3439,7 +3439,6 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       (res: any) => {
         let dataArray: any = [];
-        this.courseLevelSchedule = [];
         res.map(ele => {
           if (ele.batchExamSchdList != null) {
             if (ele.batchExamSchdList.length > 0) {
