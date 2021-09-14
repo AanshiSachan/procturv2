@@ -18,6 +18,7 @@ export class UrlComponent implements OnInit {
   checkAvailable:string="";
   editString:string="";
   addNewDomain:any="";
+  showPreviewTab:string="hide";
   addNewSubDomain:string="";
   showPreview:string="";
   domainModel={
@@ -54,6 +55,7 @@ availabiltyCheckData:any=[]=[]
         if(this.pageModel.subdomain_name != '' && this.pageModel.subdomain_name.includes('proctur.com')){
          this.domainModel.editSubDomain_name =this.pageModel.subdomain_name;
          this.subDomainSystem = "systemSubDomain";
+         
 
          }
         else{
@@ -131,10 +133,12 @@ updateSubdomain(){
     (res: any) => {
       this.auth.hideLoader();
       this.msgService.showErrorMessage('success', '', "Url updated successfully");
-      this.domainModel.subDomain_name="proctur.com"
-      this.checkAvailable=""
-      this.editString=""
       this.getData();
+      this.domainModel.subDomain_name=".proctur.com";
+      this.checkAvailable=""
+     // this.editString=""
+      this.addNewDomain=""
+     
 
     
   },
@@ -160,9 +164,16 @@ updateDomain(){
       (res: any) => {
         this.auth.hideLoader();
         this.msgService.showErrorMessage('success', '', "Domain updated successfully");
-        this.domainModel.domain_name=""
-        this.editString=""
         this.getData();
+        this.domainModel.domain_name="";
+        this.domainModel.subDomain_name=".proctur.com";
+        this.domainModel.editSubDomain_name ="";
+        
+       
+        this.editString=""
+        this.domainModel.subDomain_name2="";
+        
+       
   
       
     },
@@ -179,21 +190,39 @@ updateDomain(){
   }
 }
 onclickEdit(obj){
+  let str = obj.slice(8)
   this.editString='edit-url'
-  this.domainModel.subDomain_name2=obj
+  this.domainModel.subDomain_name2=str
+
+  this.showPreviewTab ='';
 }
 editDomain(obj){
+  
+  let str = obj.slice(8)
+  
   this.editString = 'domain-edit'
-this.domainModel.domain_name = obj
+this.domainModel.domain_name = str
+this.showPreviewTab ='';
+
 }
 onclickSubDomain(){
 this.subDomainSystem = "systemSubDomain";
 this.domain=''
+this.domainModel.subDomain_name2 ="";
+  
+
+
+
+
+
 }
 onclickDomain(){
   this.domain="domains";
   this.subDomainSystem='';
-this.editString=""
+  
+  this.domainModel.subDomain_name2 ="";
+  
+
 
 }
 clearSubdomainDiv(){
@@ -203,11 +232,13 @@ clearSubdomainDiv(){
 clearDomain(){
   this.subDomainSystem='';
   this.editString=""
+ 
 }
 onclickCancel(){
   this.domainModel.domain_name=""
   this.domainModel.subDomain_name=""
   this.editString=""
+  this.showPreviewTab ='hide';
 
 }
 }
