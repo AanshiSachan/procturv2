@@ -138,9 +138,11 @@ updateSubdomain(){
       this.msgService.showErrorMessage('success', '', "Url updated successfully");
       this.getData();
       this.domainModel.subDomain_name=".proctur.com";
-      this.checkAvailable=""
-     // this.editString=""
-      this.addNewDomain=""
+      this.checkAvailable="";
+      this.showPreviewTab ='hide';
+      this.addNewDomain="";
+     this.editString ="";
+     this.domainModel.domain_name="";
      
 
     
@@ -171,11 +173,10 @@ updateDomain(){
         this.domainModel.domain_name="";
         this.domainModel.subDomain_name=".proctur.com";
         this.domainModel.editSubDomain_name ="";
-        
+        this.showPreviewTab ='hide';
        
         this.editString=""
-        this.domainModel.subDomain_name2="";
-        
+    
        
   
       
@@ -238,8 +239,8 @@ clearDomain(){
  
 }
 onclickCancel(){
-  this.domainModel.domain_name=""
-  this.domainModel.subDomain_name=""
+  this.domainModel.domain_name="";
+  this.domainModel.subDomain_name=".proctur.com";
   this.editString=""
   this.showPreviewTab ='hide';
 
