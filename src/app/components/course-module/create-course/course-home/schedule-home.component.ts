@@ -26,7 +26,12 @@ export class ScheduleHomeComponent implements OnInit {
   createNewStandard: boolean = false;
   newStandardDetails: any = {
     is_active: "Y",
-    standard_name: ""
+    institute_id: sessionStorage.getItem('institute_id'),
+    standard_name: "",
+    is_popular:true,
+    long_description: '',
+    short_description: '',
+    thumbnail_url: null
   }
   totalRow: number;
   searchedData: any = [];

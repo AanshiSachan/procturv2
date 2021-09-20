@@ -244,8 +244,8 @@
         </div>
     </div>
     <div class="modal fade" id="standardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
-       <div class="modal-dialog" role="document">
-         <div class="modal-content">
+       <div class="modal-dialog " role="document">
+         <div class="modal-content modal-width">
            <div class="modal-header">
              <h5 class="modal-title" style="float: left;" id="exampleModalLabel">{{isEdit ? 'Update' : 'Add'}} {{(isLangInstitue != true ) ? 'Standard' : 'Master Course'}}</h5>
              <button type="button" style="float: right;" class="close" (click)="closePopup()" aria-label="Close">
@@ -253,14 +253,75 @@
              </button>
            </div>
            <div class="modal-body">
-           <div>
-             <p>{{(isLangInstitue != true ) ? 'Standard' : 'Master Course'}} Name <span class="red">*</span></p>
-             <input type="text" placeholder="{{(isLangInstitue != true ) ? 'Add Standard' : 'Add Master Course'}} " [(ngModel)]="newStandardDetails.standard_name" name="standard_name" class="input">
-            <div class="display">
-             <div></div>
-             <div> <span class="info">* Example X XII, B.Com</span></div>
+             <div class="row">
+               <div class="col-md-6">
+                <div class="field-wrapper">
+                  <label>{{(isLangInstitue != true ) ? 'Standard' : 'Master Course'}} Name <span class="red">*</span></label>
+                  <input type="text" placeholder="{{(isLangInstitue != true ) ? 'Add Standard' : 'Add Master Course'}} " [(ngModel)]="newStandardDetails.standard_name" name="standard_name" class="input box-shadow">
+                 <div class="display">
+                  <div> <span class="info">* Example X XII, B.Com</span></div>
+                 </div>
+                </div>
+               </div>  
+               <div class="col-md-6">
+                <div class="field-wrapper">
+                  <label for="label">Short Description</label>
+                <input type="text" class="wid100 input box-shadow" placeholder="Enter Description Here" name="short_description" id="short_description"
+                [(ngModel)]="newStandardDetails.short_description">
+                </div>
+              </div>
+             </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="field-wrapper" style="margin-top: 9px;">
+                <label for="label" style="padding-bottom: 5px;">Long Description</label>
+                <textarea class="form-control wid100 " placeholder="Enter Description Here" id="exampleFormControlTextarea1" rows="3"  name="long_description" id="long_description"
+                [(ngModel)]="newStandardDetails.long_description"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+              <div class="c-lg-6" style="margin-top: 10px;">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" id="is_popular" name="is_popular"
+                   class="form-checkbox"  [(ngModel)]="newStandardDetails.is_popular">
+                  <label for="is_popular">Set as Popular</label>
+                </div>
+              </div>
+            </div>
+          </div>
+           <hr />
+           <div Class="row">
+            <div class="col-md-12" style="margin-bottom: 15px;"  *ngIf="newStandardDetails.thumbnail_url!='' && newStandardDetails.thumbnail_url!=null && jsonflag.isUpadted">
+              <div class="c-md-12" style="padding: 0;margin-top: 1%;margin-right: 5px;">
+                <label class="text-bold" style="font-size: 12px;"> Uploaded Image</label>
+                <img style="width: 120px;vertical-align: middle;margin-left: 25px;height: 80px;" src="{{newStandardDetails.thumbnail_url}}">
+              </div>                
             </div>
            </div>
+           <div class="row">
+            <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+            <div style="margin-left:15px;font-size: 12px;">Select Default Thumbnail
+              <span style="float: right;color: red;margin-right: 15px;cursor: pointer;">Clear Selection</span></div>
+            <div class="c-lg-3" style="margin-top: 10px;">
+              <div class="field-radio-wrapper">
+                <input type="radio" name="thumbnail_url{{i}}" id="thumbnail_url{{i}}" name="thumbnail_url">
+                <label for="thumbnail_url{{i}}">
+                  <!-- <img src="{{data.data_value}}" (click)="setThumbnailUrl(data)" > -->
+                </label>
+              </div>
+            </div>
+            </div>
+          </div>
+            <div class="row">
+            <div class="c-lg-12" style="margin-bottom: 10px; margin-top: 10px;">
+            <label style="margin-bottom: 10px;" class="course_type" for="fileupload">Upload Image</label>
+            <input class="input-box" type="file" id="fileAdd" name="fileupload"
+              accept="image/*">
+            <p>File Format : jpg/jpeg/bmp/gif/png</p>
+            </div>
+          </div>
            <div class="flexc" *ngIf="isEdit">
             <div>
               <label class="checkbox">

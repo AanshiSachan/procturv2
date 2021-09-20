@@ -48,7 +48,11 @@ export class CourseAddComponent implements OnInit {
     "institute_id": sessionStorage.getItem('institute_id'),
     "is_active": "Y",
     "standard_id": '-1',
-    "standard_name": ''
+    "standard_name": '', 
+    "is_popular": false,
+    "long_description": '',
+    "short_description": '',
+    "thumbnail_url": null
   }
 
   constructor(

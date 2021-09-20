@@ -238,15 +238,91 @@
 </div>
 
 <div class="modal" id="courseModal" data-backdrop="static">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-width">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">{{editMasterC ? 'Edit' : 'Add'}} Master Course</h4>
+        <h4 class="modal-title">{{editMasterC ? 'Edit' : 'Add'}} Category/Course</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-
-        <div class="pt10">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="field-wrapper" style="margin-top: 9px;">
+              <label for="label" style="padding-bottom: 5px;">Category/Course Name
+              </label>
+            <input type="text" class="wid100 input" [(ngModel)]="createMasterCourseModel.master_course_name" name=""
+            placeholder="Enter Here">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="field-wrapper" style="margin-top: 9px;">
+              <label for="label" style="padding-bottom: 5px;">Select Standard</label>
+              <select class="wid100 select" [(ngModel)]="createMasterCourseModel.standard_id">
+                <option value="-1">Select</option>
+                <option value="{{std.standard_id}}" *ngFor="let std of standardList">{{std.standard_name}} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="field-wrapper" style="margin-top: 9px;">
+              <label for="label" style="padding-bottom: 5px;">Short Description</label>
+            <input type="text" class="wid100 input" placeholder="Enter Description Here">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="field-wrapper" style="margin-top: 9px;">
+              <label for="label" style="padding-bottom: 5px;">Long Description</label>
+              <textarea class="form-control wid100 " placeholder="Enter Description Here" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+            <div class="c-lg-6" style="margin-top: 10px;">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" id="is_popular" name="is_popular"
+                 class="form-checkbox">
+                <label for="is_popular">Set as Popular</label>
+              </div>
+            </div>
+          </div>
+        </div>
+         <hr />
+         <div Class="row">
+          <div class="col-md-12" style="margin-bottom: 15px;">
+            <div class="c-md-12" style="padding: 0;margin-top: 1%;margin-right: 5px;">
+              <label class="text-bold" style="font-size: 12px;"> Uploaded Image</label>
+              <img style="width: 120px;vertical-align: middle;margin-left: 25px;height: 80px;" src="">
+            </div>                
+          </div>
+         </div>
+         <div class="row">
+          <div class="c-lg-12" style="margin-bottom: 10px;padding: 0;">
+          <div style="margin-left:15px;font-size: 12px;">Select Default Thumbnail
+            <span style="float: right;color: red;margin-right: 15px;cursor: pointer;">Clear Selection</span></div>
+          <div class="c-lg-3" style="margin-top: 10px;">
+            <div class="field-radio-wrapper">
+              <input type="radio" name="thumbnail_url{{i}}" id="thumbnail_url{{i}}" name="thumbnail_url">
+              <label for="thumbnail_url{{i}}">
+                <!-- <img src="{{data.data_value}}" (click)="setThumbnailUrl(data)" > -->
+              </label>
+            </div>
+          </div>
+          </div>
+        </div>
+          <div class="row">
+          <div class="c-lg-12" style="margin-bottom: 10px; margin-top: 10px;">
+          <label style="margin-bottom: 10px;" class="course_type" for="fileupload">Upload Image</label>
+          <input class="input-box" type="file" id="fileAdd" name="fileupload"
+            accept="image/*">
+          <p>File Format : jpg/jpeg/bmp/gif/png</p>
+          </div>
+        </div>
+        <!-- <div class="pt10">
           <input type="text" class="wid100 input" [(ngModel)]="createMasterCourseModel.master_course_name" name=""
             placeholder="Master Course*">
         </div>
@@ -255,7 +331,7 @@
             <option value="-1">Standard Name*</option>
             <option value="{{std.standard_id}}" *ngFor="let std of standardList">{{std.standard_name}} </option>
           </select>
-        </div>
+        </div> -->
 
         <div class="pt101 display">
           <div></div>
